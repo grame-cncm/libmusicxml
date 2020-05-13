@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-model href="http://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.music-encoding.org/ns/mei"
+  meiversion="4.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title>Example of encoding several works</title>
+        <composer>
+          <persName role="creator">Peter Tschaikovsky</persName>
+        </composer>
+        <respStmt>
+          <persName role="encoder">Maja Hartwig</persName>
+        </respStmt>
+      </titleStmt>
+      <pubStmt>
+        <publisher>
+          <corpName role="publisher">Musikwissenschaftliches Seminar
+            &lt;<geogName>Detmold</geogName>&gt;</corpName>
+        </publisher>
+        <address>
+          <addrLine>Gartenstrasse 20</addrLine>
+          <addrLine>32756 <geogName>Detmold</geogName> </addrLine>
+          <addrLine>
+            <geogName>Germany</geogName>
+          </addrLine>
+        </address>
+        <date>2011</date>
+        <availability>
+          <useRestrict>This encoding is in the public domain. However, the sources used to create it
+            may be under copyright. We believe their use by the MEI project for educational and
+            research purposes is covered by the Fair Use doctrine. However, we will remove any
+            material from the project archive when requested to do so by the copyright
+            owner.</useRestrict>
+        </availability>
+      </pubStmt>
+      <seriesStmt>
+        <title>MEI Sample Collection</title>
+        <funder>
+          <corpName role="funder">German Research Foundation <address> <addrLine>Kennedyallee
+            40</addrLine> <addrLine>53175 <geogName>Bonn</geogName> </addrLine> <addrLine>
+            <geogName>Germany</geogName> </addrLine> </address> </corpName>
+        </funder>
+        <funder>
+          <corpName role="funder">National Endowment for the Humanities <address> <addrLine>1100
+            Pennsylvania Avenue N.W.</addrLine> <addrLine> <geogName>Washington, DC</geogName>
+            20004</addrLine> <addrLine> <geogName>United States</geogName> </addrLine> </address>
+          </corpName>
+        </funder>
+        <respStmt>
+          <corpName role="publisher">MEI Project</corpName>
+        </respStmt>
+        <identifier>
+          <ref target="http://music-encoding.org/Support/MEI_Sample_Collection"/>
+        </identifier>
+      </seriesStmt>
+    </fileDesc>
+    <encodingDesc>
+      <appInfo>
+        <application version="v1.0_beta" xml:id="app_20192132341896">
+          <name>mei30To40.xsl</name>
+        </application>
+      </appInfo>
+      <editorialDecl>
+        <p>The encoding contains the first measure of each movement. It should demonstrate the
+          structure of several encoded works in workDesc and mdivs in music to represent the
+          movements of a symphony.</p>
+      </editorialDecl>
+      <classDecls>
+        <taxonomy>
+          <bibl xml:id="OCLC_DDC"
+            target="http://www.oclc.org/dewey/resources/summaries/default.htm#700">OCLC_DDC</bibl>
+          <category xml:id="_784">
+            <altId>784</altId>
+            <label>Instruments &amp; instrumental ensembles</label>
+          </category>
+        </taxonomy>
+        <taxonomy>
+          <bibl xml:id="OSWD" target="http://www.bsz-bw.de/cgi-bin/oswd-suche.pl">OSWD</bibl>
+          <category xml:id="_4129951-6">
+            <altId>4129951-6</altId>
+            <label>Instrumentalmusik</label>
+          </category>
+          <category xml:id="_4131523-6">
+            <altId>4131523-6</altId>
+            <label>Orchestermusik</label>
+          </category>
+          <category xml:id="_4055087-4">
+            <altId>4055087-4</altId>
+            <label>Sinfonie</label>
+          </category>
+        </taxonomy>
+      </classDecls>
+    </encodingDesc>
+    <workList>
+      <work n="movement_1" xml:id="mov1">
+        <title>Andante - Allegro con anima</title>
+        <composer>
+          <persName role="composer">Pyotr Tschaikovsky</persName>
+        </composer>
+        <key pname="e" mode="minor">E-Moll</key>
+        <tempo>Andante</tempo>
+        <meter count="4" unit="4" sym="common"/>
+        <incip>
+          <incipCode form="parsons" n="Klarinetten_in_A">*rruddudurruddud</incipCode>
+        </incip>
+        <creation>
+          <date>1888</date>
+        </creation>
+        <perfMedium>
+          <perfResList>
+            <perfResList n="1">
+              <perfRes>Flöten I II</perfRes>
+              <perfRes>Flöte III (Piccolo)</perfRes>
+              <perfRes>Oboen I II</perfRes>
+              <perfRes>Klarinetten in A I II</perfRes>
+              <perfRes>Fagotte I II</perfRes>
+            </perfResList>
+            <perfResList n="2">
+              <perfRes>Hörner in F I II III IV</perfRes>
+              <perfRes>Trompeten in A I II</perfRes>
+              <perfRes>Posaunen I II</perfRes>
+              <perfRes>Posaune III, Tuba</perfRes>
+              <perfRes>Pauken in G, D, E</perfRes>
+            </perfResList>
+            <perfResList n="3">
+              <perfRes>Violine 1</perfRes>
+              <perfRes>Violine II</perfRes>
+              <perfRes>Viola</perfRes>
+              <perfRes>Violoncell</perfRes>
+              <perfRes>Kontrabaß</perfRes>
+            </perfResList>
+          </perfResList>
+        </perfMedium>
+        <classification>
+          <termList>
+            <term class="#_4055087-4">Sinfonie</term>
+            <term class="#_4129951-6">Instrumentalmusik</term>
+            <term class="#_4131523-6">Orchestermusik</term>
+            <term class="#_784">Instruments &amp; instrumental ensembles</term>
+          </termList>
+        </classification>
+      </work>
+      <work n="movement_2" xml:id="mov2">
+        <title>Andante cantabile con alcuna licenza</title>
+        <composer>
+          <persName role="composer">Pyotr Tschaikovsky</persName>
+        </composer>
+        <key pname="d" mode="major">D-Dur</key>
+        <tempo>Andante</tempo>
+        <meter count="12" unit="8"/>
+        <incip>
+          <incipCode form="parsons" n="Hörner_in_F">*ddudduuudruuurrrrrrd</incipCode>
+        </incip>
+        <creation>
+          <date>1888</date>
+        </creation>
+        <perfMedium>
+          <perfResList>
+            <perfResList n="1">
+              <perfRes>Flöten I II</perfRes>
+              <perfRes>Flöte III (Piccolo)</perfRes>
+              <perfRes>Oboen I II</perfRes>
+              <perfRes>Klarinetten in A I II</perfRes>
+              <perfRes>Fagotte I II</perfRes>
+            </perfResList>
+            <perfResList n="2">
+              <perfRes>Hörner in F I II III IV</perfRes>
+              <perfRes>Trompeten in A I II</perfRes>
+              <perfRes>Posaunen I II</perfRes>
+              <perfRes>Posaune III, Tuba</perfRes>
+              <perfRes>Pauken in G, D, E</perfRes>
+            </perfResList>
+            <perfResList n="3">
+              <perfRes>Violine 1</perfRes>
+              <perfRes>Violine II</perfRes>
+              <perfRes>Viola</perfRes>
+              <perfRes>Violoncell</perfRes>
+              <perfRes>Kontrabaß</perfRes>
+            </perfResList>
+          </perfResList>
+        </perfMedium>
+        <classification>
+          <termList>
+            <term>Instruments &amp; instrumental ensembles</term>
+          </termList>
+        </classification>
+      </work>
+      <work n="movement_3" xml:id="mov3">
+        <title> Valse. Allegro moderato</title>
+        <composer>
+          <persName role="composer">Pyotr Tschaikovsky</persName>
+        </composer>
+        <key pname="a" mode="major">A-Dur</key>
+        <tempo>Allegro</tempo>
+        <meter count="3" unit="4"/>
+        <incip>
+          <incipCode form="parsons" n="Violine_I">*ddddduuududuuuud</incipCode>
+        </incip>
+        <creation>
+          <date>1888</date>
+        </creation>
+        <perfMedium>
+          <perfResList>
+            <perfResList n="1">
+              <perfRes>Flöten I II</perfRes>
+              <perfRes>Flöte III (Piccolo)</perfRes>
+              <perfRes>Oboen I II</perfRes>
+              <perfRes>Klarinetten in A I II</perfRes>
+              <perfRes>Fagotte I II</perfRes>
+            </perfResList>
+            <perfResList n="2">
+              <perfRes>Hörner in F I II III IV</perfRes>
+              <perfRes>Trompeten in A I II</perfRes>
+              <perfRes>Posaunen I II</perfRes>
+              <perfRes>Posaune III, Tuba</perfRes>
+              <perfRes>Pauken in G, D, E</perfRes>
+            </perfResList>
+            <perfResList n="3">
+              <perfRes>Violine 1</perfRes>
+              <perfRes>Violine II</perfRes>
+              <perfRes>Viola</perfRes>
+              <perfRes>Violoncell</perfRes>
+              <perfRes>Kontrabaß</perfRes>
+            </perfResList>
+          </perfResList>
+        </perfMedium>
+        <classification>
+          <termList>
+            <term>Instruments &amp; instrumental ensembles</term>
+          </termList>
+        </classification>
+      </work>
+      <work n="movement_4" xml:id="mov4">
+        <title> Finale. Andante maestoso - Allegro vivace</title>
+        <composer>
+          <persName role="composer">Pyotr Tschaikovsky</persName>
+        </composer>
+        <key pname="e" mode="major">E-Dur</key>
+        <tempo>Andante</tempo>
+        <meter count="4" unit="4" sym="common"/>
+        <incip>
+          <incipCode form="parsons" n="Violine_I">*rrudduurruddu</incipCode>
+        </incip>
+        <creation>
+          <date>1888</date>
+        </creation>
+        <perfMedium>
+          <perfResList>
+            <perfResList n="1">
+              <perfRes>Flöten I II</perfRes>
+              <perfRes>Flöte III (Piccolo)</perfRes>
+              <perfRes>Oboen I II</perfRes>
+              <perfRes>Klarinetten in A I II</perfRes>
+              <perfRes>Fagotte I II</perfRes>
+            </perfResList>
+            <perfResList n="2">
+              <perfRes>Hörner in F I II III IV</perfRes>
+              <perfRes>Trompeten in A I II</perfRes>
+              <perfRes>Posaunen I II</perfRes>
+              <perfRes>Posaune III, Tuba</perfRes>
+              <perfRes>Pauken in G, D, E</perfRes>
+            </perfResList>
+            <perfResList n="3">
+              <perfRes>Violine 1</perfRes>
+              <perfRes>Violine II</perfRes>
+              <perfRes>Viola</perfRes>
+              <perfRes>Violoncell</perfRes>
+              <perfRes>Kontrabaß</perfRes>
+            </perfResList>
+          </perfResList>
+        </perfMedium>
+        <classification>
+          <termList>
+            <term>Instruments &amp; instrumental ensembles</term>
+          </termList>
+        </classification>
+      </work>
+    </workList>
+    <manifestationList>
+      <manifestation>
+        <titleStmt>
+          <title>Symphony No. 5</title>
+          <title type="opus">op. 64</title>
+          <title type="catalog_number">TH 29, CW 26</title>
+          <respStmt>
+            <persName role="composer">Pyotr Tschaikovsky</persName>
+            <persName role="dedicatee">Theodor Avé-Lallement</persName>
+          </respStmt>
+        </titleStmt>
+        <pubStmt>
+          <identifier type="URI" auth.uri="imslp.org/wiki/Symphony_No.5,_Op.64_(Tchaikovsky,_Pyotr)"
+            >imslp.org/wiki/Symphony_No.5,_Op.64_(Tchaikovsky,_Pyotr)</identifier>
+          <respStmt>
+            <corpName role="publisher">IMSLP</corpName>
+          </respStmt>
+          <availability>
+            <useRestrict>Public Domain</useRestrict>
+          </availability>
+          <date>1888</date>
+        </pubStmt>
+        <contents>
+          <contentItem>1. Andante -- Allegro con anima</contentItem>
+          <contentItem>2. Andante cantabile con alcuna licenza</contentItem>
+          <contentItem>3. Valse. Allegro moderato</contentItem>
+          <contentItem>4. Finale. Andante maestoso -- Allegro Vivace</contentItem>
+        </contents>
+      </manifestation>
+    </manifestationList>
+    <revisionDesc>
+      <change n="1">
+        <respStmt>
+          <persName>Maja Hartwig</persName>
+        </respStmt>
+        <changeDesc>
+          <p>Encoding of the file</p>
+        </changeDesc>
+        <date isodate="2013-01-22"/>
+      </change>
+      <change n="2">
+        <changeDesc>
+          <p>Converted to version 3.0.0 using mei21To30.xsl, version 1.0 beta</p>
+        </changeDesc>
+        <date isodate="2015-10-16"/>
+      </change>
+      <change n="3" resp="#app_20192132341896">
+        <changeDesc>
+          <p>Converted to MEI version 4.0.0 using mei30To40.xsl, version 1.0 beta</p>
+        </changeDesc>
+        <date isodate="2019-01-02"/>
+      </change>
+    </revisionDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv n="movment_1" xml:id="movement_1">
+        <score>
+          <scoreDef meter.count="4" meter.unit="4" meter.sym="common">
+            <staffGrp n="1">
+              <staffGrp n="woodwinds" bar.thru="true">
+                <staffDef n="1" lines="5" clef.shape="G" clef.line="2" key.sig="1s">
+                  <label>Flöten I, II</label>
+                </staffDef>
+                <staffDef n="2" lines="5" clef.line="2" clef.shape="G" key.sig="1s">
+                  <label>Flöte III</label>
+                </staffDef>
+                <staffDef n="3" lines="5" clef.line="2" clef.shape="G" key.sig="1s">
+                  <label> Oboen I, II</label>
+                </staffDef>
+                <staffDef n="4" lines="5" clef.line="2" clef.shape="G" key.sig="2f">
+                  <label>Klarinetten in A I, II</label>
+                </staffDef>
+                <staffDef n="5" lines="5" clef.line="4" clef.shape="F" key.sig="1s">
+                  <label>Fagotte I, II</label>
+                </staffDef>
+                <staffDef n="6" lines="5" clef.shape="G" clef.line="2" key.sig="0">
+                  <label>Hörner in F I, II, III, IV</label>
+                </staffDef>
+              </staffGrp>
+              <staffGrp n="brass" bar.thru="true">
+                <staffDef n="7" lines="5" key.sig="0" clef.line="2" clef.shape="G">
+                  <label>Trompeten in A I, II</label>
+                </staffDef>
+                <staffDef n="8" lines="5" key.sig="1s" clef.shape="C" clef.line="3">
+                  <label>Posaunen I, II</label>
+                </staffDef>
+                <staffDef n="9" lines="5" key.sig="1s" clef.line="4" clef.shape="F">
+                  <label>Posaune III</label>
+                </staffDef>
+                <staffDef n="10" lines="5" clef.line="4" clef.shape="F" key.sig="0">
+                  <label>Pauken in G, D, E</label>
+                </staffDef>
+              </staffGrp>
+              <staffGrp n="strings" bar.thru="true">
+                <staffDef n="11" lines="5" clef.shape="G" clef.line="2" key.sig="1s">
+                  <label>Violine I</label>
+                </staffDef>
+                <staffDef n="12" lines="5" clef.line="2" clef.shape="G" key.sig="1s">
+                  <label>Violine II</label>
+                </staffDef>
+                <staffDef n="13" lines="5" clef.shape="C" clef.line="3" key.sig="1s">
+                  <label>Viola</label>
+                </staffDef>
+                <staffDef n="14" lines="5" clef.line="4" clef.shape="F" key.sig="1s">
+                  <label>Violoncell</label>
+                </staffDef>
+                <staffDef n="15" lines="5" clef.shape="F" clef.line="4" key.sig="1s">
+                  <label>Kontrabass</label>
+                </staffDef>
+              </staffGrp>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="2">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="3">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="4">
+                <layer>
+                  <note pname="b" dur="4" dots="1" oct="3" stem.dir="up"/>
+                  <beam>
+                    <note pname="b" oct="3" dur="16" stem.dir="up"/>
+                    <note pname="b" oct="3" dur="16" stem.dir="up"/>
+                  </beam>
+                  <note pname="c" oct="4" dur="4" stem.dir="up" dots="1" slur="i1"/>
+                  <beam>
+                    <note pname="b" oct="3" dur="16" stem.dir="up" artic="stacc" slur="t1"/>
+                    <note pname="a" oct="3" dur="16" stem.dir="up" artic="stacc"/>
+                  </beam>
+                </layer>
+              </staff>
+              <staff n="5">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="6">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="7">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="8">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="9">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="10">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="11">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="12">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="13">
+                <layer>
+                  <note pname="e" oct="4" dur="4" stem.dir="up"/>
+                  <rest dur="4"/>
+                  <note pname="e" oct="4" dur="4" stem.dir="up"/>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <staff n="14">
+                <layer>
+                  <note pname="b" oct="2" dur="4" stem.dir="up"/>
+                  <rest dur="4"/>
+                  <note pname="c" oct="3" dur="4" stem.dir="up"/>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <staff n="15">
+                <layer>
+                  <note pname="e" oct="3" dur="4" stem.dir="down"/>
+                  <rest dur="4"/>
+                  <note pname="a" oct="3" dur="4" stem.dir="down"/>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <dir staff="1" place="above" tstamp="1">Andante (mm=80) </dir>
+              <dir staff="11" place="above" tstamp="1">Andante (mm=80) </dir>
+              <dir staff="13" place="above" tstamp="1">pesante e tenuto sempre</dir>
+              <dir staff="14" place="above" tstamp="1">pesante e tenuto sempre</dir>
+              <dir staff="15" place="above" tstamp="1">pesante e tenuto sempre</dir>
+              <dynam staff="4" place="below" tstamp="1">p</dynam>
+              <dynam staff="13" place="below" tstamp="1">p</dynam>
+              <dynam staff="14" place="below" tstamp="1">p</dynam>
+              <dynam staff="15" place="below" tstamp="1">p</dynam>
+            </measure>
+            <measure n="2">
+              <staff n="1">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="2">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="3">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="4">
+                <layer>
+                  <note pname="b" dur="4" oct="3" stem.dir="up" slur="i1"/>
+                  <note pname="g" oct="3" dur="2" dots="1" stem.dir="up" slur="t1"/>
+                </layer>
+              </staff>
+              <staff n="5">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="6">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="7">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="8">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="9">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="10">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="11">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="12">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="13">
+                <layer>
+                  <note pname="e" oct="4" dur="4" stem.dir="up"/>
+                  <rest dur="4"/>
+                  <rest dur="2"/>
+                </layer>
+              </staff>
+              <staff n="14">
+                <layer>
+                  <note pname="b" oct="2" dur="4" stem.dir="up"/>
+                  <rest dur="4"/>
+                  <rest dur="2"/>
+                </layer>
+              </staff>
+              <staff n="15">
+                <layer>
+                  <note pname="e" oct="3" dur="4" stem.dir="down"/>
+                  <rest dur="4"/>
+                  <rest dur="2"/>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+      <mdiv n="movement_2" xml:id="movement_2">
+        <score>
+          <scoreDef meter.count="12" meter.unit="8">
+            <staffGrp>
+              <staffGrp n="woodwinds" bar.thru="true">
+                <staffDef n="1" lines="5" clef.shape="G" clef.line="2" key.sig="2s">
+                  <label>Flöten I, II</label>
+                </staffDef>
+                <staffDef n="2" lines="5" clef.line="2" clef.shape="G" key.sig="2s">
+                  <label>Flöte III</label>
+                </staffDef>
+                <staffDef n="3" lines="5" clef.line="2" clef.shape="G" key.sig="2s">
+                  <label>Oboen I, II</label>
+                </staffDef>
+                <staffDef n="4" lines="5" clef.line="2" clef.shape="G" key.sig="1f">
+                  <label>Klarinetten in A I, II</label>
+                </staffDef>
+                <staffDef n="5" lines="5" clef.line="4" clef.shape="F" key.sig="2s">
+                  <label>Fagotte I, II</label>
+                </staffDef>
+                <staffGrp>
+                  <label>Hörner in F</label>
+                  <staffDef n="6" lines="5" clef.line="2" clef.shape="G" key.sig="0">
+                    <label>I, II</label>
+                  </staffDef>
+                  <staffDef n="7" lines="5" clef.shape="G" clef.line="2" key.sig="0">
+                    <label>III, IV</label>
+                  </staffDef>
+                </staffGrp>
+              </staffGrp>
+              <staffGrp n="brass" bar.thru="true">
+                <staffDef n="8" lines="5" key.sig="0" clef.line="2" clef.shape="G">
+                  <label>Trompeten in A I, II</label>
+                </staffDef>
+                <staffDef n="9" lines="5" key.sig="2s" clef.shape="C" clef.line="3">
+                  <label>Posaunen I, II</label>
+                </staffDef>
+                <staffDef n="10" lines="5" key.sig="2s" clef.line="4" clef.shape="F">
+                  <label>Posaune III</label>
+                </staffDef>
+                <staffDef n="11" lines="5" clef.line="4" clef.shape="F" key.sig="0">
+                  <label>Pauken in G, D, E</label>
+                </staffDef>
+              </staffGrp>
+              <staffGrp n="strings" bar.thru="true">
+                <staffDef n="12" lines="5" clef.shape="G" clef.line="2" key.sig="2s">
+                  <label>Violine I</label>
+                </staffDef>
+                <staffDef n="13" lines="5" clef.line="2" clef.shape="G" key.sig="3s">
+                  <label>Violine II</label>
+                </staffDef>
+                <staffDef n="14" lines="5" clef.shape="C" clef.line="3" key.sig="2s">
+                  <label>Viola</label>
+                </staffDef>
+                <staffDef n="15" lines="5" clef.line="4" clef.shape="F" key.sig="2s">
+                  <label>Violoncell</label>
+                </staffDef>
+                <staffDef n="16" lines="5" clef.shape="F" clef.line="4" key.sig="2s">
+                  <label>Kontrabass</label>
+                </staffDef>
+              </staffGrp>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="2">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="3">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="4">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="5">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="6">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="7">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="8">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="9">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="10">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="11">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="12">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="13">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="14">
+                <layer>
+                  <note pname="d" oct="4" dur="2" dots="1" stem.dir="up"/>
+                  <note pname="e" oct="4" dur="2" dots="1" stem.dir="up"/>
+                </layer>
+              </staff>
+              <staff n="15">
+                <layer>
+                  <chord dur="2" dots="1" stem.dir="up">
+                    <note pname="f" oct="2"/>
+                    <note pname="b" oct="2"/>
+                  </chord>
+                  <chord dur="2" stem.dir="up" dots="1">
+                    <note pname="e" oct="2"/>
+                    <note pname="b" oct="2"/>
+                  </chord>
+                </layer>
+              </staff>
+              <staff n="16">
+                <layer>
+                  <note pname="b" oct="2" dur="2" dots="1" stem.dir="up"/>
+                  <note pname="g" oct="2" dur="2" dots="1" stem.dir="up"/>
+                </layer>
+              </staff>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+      <mdiv n="movement_3" xml:id="movement_3">
+        <score>
+          <scoreDef meter.count="3" meter.unit="4">
+            <staffGrp>
+              <staffGrp n="woodwinds" bar.thru="true">
+                <staffDef n="1" clef.shape="G" clef.line="2" key.sig="3s">
+                  <label>Flöten I, II</label>
+                </staffDef>
+                <staffDef n="2" clef.line="2" clef.shape="G" key.sig="3s">
+                  <label>Flöte III</label>
+                </staffDef>
+                <staffDef n="3" clef.line="2" clef.shape="G" key.sig="3s">
+                  <label>Oboen I, II</label>
+                </staffDef>
+                <staffDef n="4" clef.line="2" clef.shape="G" key.sig="0">
+                  <label>Klarinetten in A I, II</label>
+                </staffDef>
+                <staffDef n="5" clef.line="4" clef.shape="F" key.sig="3s">
+                  <label>Fagotte I, II</label>
+                </staffDef>
+                <staffGrp>
+                  <label>Hörner in F</label>
+                  <staffDef n="6" clef.line="2" clef.shape="G" key.sig="0">
+                    <label>I, II</label>
+                  </staffDef>
+                  <staffDef n="7" clef.shape="G" clef.line="2" key.sig="0">
+                    <label>III, IV</label>
+                  </staffDef>
+                </staffGrp>
+              </staffGrp>
+              <staffGrp n="brass" bar.thru="true">
+                <staffDef n="8" key.sig="0" clef.line="2" clef.shape="G">
+                  <label>Trompeten in A I, II</label>
+                </staffDef>
+                <staffDef n="9" clef.line="4" clef.shape="F" key.sig="3s">
+                  <label>Pauken in Fis, Cis</label>
+                </staffDef>
+              </staffGrp>
+              <staffGrp n="strings" bar.thru="true">
+                <staffDef n="10" clef.shape="G" clef.line="2" key.sig="3s">
+                  <label>Violine I</label>
+                </staffDef>
+                <staffDef n="11" clef.line="2" clef.shape="G" key.sig="3s">
+                  <label>Violine II</label>
+                </staffDef>
+                <staffDef n="12" clef.shape="C" clef.line="3" key.sig="3s">
+                  <label>Viola</label>
+                </staffDef>
+                <staffDef n="13" clef.line="4" clef.shape="F" key.sig="3s">
+                  <label>Violoncell</label>
+                </staffDef>
+                <staffDef n="14" clef.shape="F" clef.line="4" key.sig="3s">
+                  <label>Kontrabass</label>
+                </staffDef>
+              </staffGrp>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="2">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="3">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="4">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="5">
+                <layer>
+                  <rest dur="4"/>
+                  <rest dur="4"/>
+                  <chord dur="4" stem.dir="down">
+                    <note pname="a" oct="2"/>
+                    <note pname="a" oct="3"/>
+                  </chord>
+                </layer>
+              </staff>
+              <staff n="6">
+                <layer>
+                  <rest dur="4"/>
+                  <rest dur="4"/>
+                  <note pname="b" oct="4" dur="4" stem.dir="down"/>
+                </layer>
+              </staff>
+              <staff n="7">
+                <layer>
+                  <rest dur="4"/>
+                  <rest dur="4"/>
+                  <chord dur="4" stem.dir="up">
+                    <note pname="b" oct="3"/>
+                    <note pname="g" oct="4" accid="s"/>
+                  </chord>
+                </layer>
+              </staff>
+              <staff n="8">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="9">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="10">
+                <layer>
+                  <note pname="c" oct="5" dur="4" dots="1" stem.dir="down"/>
+                  <beam>
+                    <note pname="b" oct="4" dur="8" stem.dir="up" slur="i1"/>
+                    <note pname="a" oct="4" dur="8" stem.dir="up" slur="m1"/>
+                    <note pname="g" oct="4" dur="8" stem.dir="up" slur="t1"/>
+                  </beam>
+                </layer>
+              </staff>
+              <staff n="11">
+                <layer>
+                  <rest dur="4"/>
+                  <chord dur="4" stem.dir="up" artic="snap">
+                    <note pname="a" oct="3"/>
+                    <note pname="e" oct="4"/>
+                  </chord>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <staff n="12">
+                <layer>
+                  <rest dur="4"/>
+                  <chord dur="4" stem.dir="up" artic="snap">
+                    <note pname="e" oct="4"/>
+                    <note pname="c" oct="5"/>
+                  </chord>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <staff n="13">
+                <layer>
+                  <rest dur="4"/>
+                  <note pname="a" oct="3" dur="4" stem.dir="up" artic="snap"/>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <staff n="14">
+                <layer>
+                  <rest dur="4"/>
+                  <note pname="a" oct="3" dur="4" stem.dir="up" artic="snap"/>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <dir staff="1" tstamp="1" place="above">Vales<lb/>Allegro moderato</dir>
+              <dir staff="10" tstamp="1" place="above">Allegro moderato</dir>
+              <dir staff="10" tstamp="1" place="below">dolce con grazia</dir>
+              <dynam staff="5" tstamp="3" place="below">p</dynam>
+              <dynam staff="6" tstamp="3" place="below">p</dynam>
+              <dynam staff="7" tstamp="3" place="below">p</dynam>
+              <dynam staff="11" tstamp="2" place="below">p</dynam>
+              <dynam staff="12" tstamp="2" place="below">p</dynam>
+              <dynam staff="13" tstamp="2" place="below">p</dynam>
+              <dynam staff="14" tstamp="2" place="below">p</dynam>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+      <mdiv n="movement_4" xml:id="movement_4">
+        <score>
+          <scoreDef meter.count="4" meter.unit="4">
+            <staffGrp>
+              <staffGrp n="woodwinds">
+                <staffDef n="1" lines="5" clef.shape="G" clef.line="2" key.sig="4s"/>
+                <staffDef n="2" lines="5" clef.line="2" clef.shape="G" key.sig="4s">
+                  <label>Flöte III</label>
+                </staffDef>
+                <staffDef n="3" lines="5" clef.line="2" clef.shape="G" key.sig="4s">
+                  <label>Oboen I, II</label>
+                </staffDef>
+                <staffDef n="4" lines="5" clef.line="2" clef.shape="G" key.sig="1s">
+                  <label>Klarinetten in A I, II</label>
+                </staffDef>
+                <staffDef n="5" lines="5" clef.line="4" clef.shape="F" key.sig="4s">
+                  <label>Fagotte I, II</label>
+                </staffDef>
+                <staffGrp>
+                  <label>Hörner in F</label>
+                  <staffDef n="6" lines="5" clef.line="2" clef.shape="G" key.sig="0">
+                    <label>I, II</label>
+                  </staffDef>
+                  <staffDef n="7" lines="5" clef.shape="G" clef.line="2" key.sig="0">
+                    <label>III, IV</label>
+                  </staffDef>
+                </staffGrp>
+              </staffGrp>
+              <staffGrp n="2">
+                <staffDef n="8" lines="5" key.sig="0" clef.line="2" clef.shape="G">
+                  <label>Trompeten in A I, II</label>
+                </staffDef>
+                <staffDef n="9" lines="5" key.sig="4s" clef.shape="C" clef.line="3">
+                  <label>Posaunen I, II</label>
+                </staffDef>
+                <staffDef n="10" lines="5" key.sig="4s" clef.line="4" clef.shape="F">
+                  <label>Posaune III</label>
+                </staffDef>
+                <staffDef n="11" lines="5" clef.line="4" clef.shape="F" key.sig="0">
+                  <label>Pauken in G, C, E</label>
+                </staffDef>
+              </staffGrp>
+              <staffGrp n="3">
+                <staffDef n="12" lines="5" clef.shape="G" clef.line="2" key.sig="4s">
+                  <label>Violine I</label>
+                </staffDef>
+                <staffDef n="13" lines="5" clef.line="2" clef.shape="G" key.sig="4s">
+                  <label>Violine II</label>
+                </staffDef>
+                <staffDef n="14" lines="5" clef.shape="C" clef.line="3" key.sig="4s">
+                  <label>Viola</label>
+                </staffDef>
+                <staffDef n="15" lines="5" clef.line="4" clef.shape="F" key.sig="4s">
+                  <label>Violoncell</label>
+                </staffDef>
+                <staffDef n="16" lines="5" clef.shape="F" clef.line="4" key.sig="4s">
+                  <label>Kontrabass</label>
+                </staffDef>
+              </staffGrp>
+            </staffGrp>
+          </scoreDef>
+          <section>
+            <measure n="1">
+              <staff n="1">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="2">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="3">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="4">
+                <layer>
+                  <note pname="g" oct="3" dur="4" stem.dir="up" tie="i"/>
+                  <note pname="g" oct="3" dur="4" stem.dir="up" tie="t"/>
+                  <rest dur="8"/>
+                  <note pname="g" oct="3" dur="4" stem.dir="up" tie="i"/>
+                  <note pname="g" oct="3" dur="4" stem.dir="up" tie="t"/>
+                  <rest dur="8"/>
+                </layer>
+              </staff>
+              <staff n="5">
+                <layer>
+                  <note pname="b" oct="2" dur="4" stem.dir="up" tie="i"/>
+                  <note pname="b" oct="2" dur="4" stem.dir="up" tie="t"/>
+                  <rest dur="8"/>
+                  <note pname="c" oct="3" dur="4" stem.dir="up" tie="i"/>
+                  <note pname="c" oct="4" dur="4" stem.dir="up" tie="t"/>
+                  <rest dur="8"/>
+                </layer>
+              </staff>
+              <staff n="6">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="7">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="8">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="9">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="10">
+                <layer>
+                  <note pname="e" oct="2" dur="8" stem.dir="up"/>
+                  <rest dur="8"/>
+                  <rest dur="4"/>
+                  <note pname="a" oct="2" dur="8" stem.dir="up"/>
+                  <rest dur="8"/>
+                  <rest dur="4"/>
+                </layer>
+              </staff>
+              <staff n="11">
+                <layer>
+                  <mRest/>
+                </layer>
+              </staff>
+              <staff n="12">
+                <layer>
+                  <note pname="g" oct="3" dur="4" stem.dir="up" dots="1"/>
+                  <beam>
+                    <note pname="g" oct="3" dur="16" stem.dir="up"/>
+                    <note pname="g" oct="3" dur="16" stem.dir="up"/>
+                  </beam>
+                  <note pname="a" oct="3" dur="4" dots="1" stem.dir="up"/>
+                  <beam>
+                    <note pname="g" oct="3" dur="16" stem.dir="up"/>
+                    <note pname="a" accid="ss" oct="3" dur="16" stem.dir="up"/>
+                  </beam>
+                </layer>
+              </staff>
+              <staff n="13">
+                <layer>
+                  <note pname="g" oct="3" dur="4" stem.dir="up" dots="1"/>
+                  <beam>
+                    <note pname="g" oct="3" dur="16" stem.dir="up"/>
+                    <note pname="g" oct="3" dur="16" stem.dir="up"/>
+                  </beam>
+                  <note pname="a" oct="3" dur="4" dots="1" stem.dir="up"/>
+                  <beam>
+                    <note pname="g" oct="3" dur="16" stem.dir="up"/>
+                    <note pname="a" accid="ss" oct="3" dur="16" stem.dir="up"/>
+                  </beam>
+                </layer>
+              </staff>
+              <staff n="14">
+                <layer>
+                  <note pname="e" oct="4" dur="4" stem.dir="up" tie="i"/>
+                  <note pname="e" oct="4" dur="8" stem.dir="up" tie="t"/>
+                  <rest dur="8"/>
+                  <note pname="e" oct="4" dur="4" stem.dir="up" tie="i"/>
+                  <note pname="e" oct="4" dur="8" stem.dir="up" tie="t"/>
+                  <rest dur="8"/>
+                </layer>
+              </staff>
+              <staff n="15">
+                <layer>
+                  <note pname="g" oct="3" dur="4" dots="1" stem.dir="down"/>
+                  <beam>
+                    <note pname="g" oct="3" dur="16" stem.dir="down"/>
+                    <note pname="g" oct="3" dur="16" stem.dir="down"/>
+                  </beam>
+                  <note pname="a" oct="3" dur="4" stem.dir="down" dots="1"/>
+                  <beam>
+                    <note pname="g" oct="3" dur="16" stem.dir="down"/>
+                    <note pname="f" oct="3" dur="16" stem.dir="down" accid="s"/>
+                  </beam>
+                </layer>
+              </staff>
+              <staff n="16">
+                <layer>
+                  <note pname="e" oct="3" dur="4" stem.dir="up" tie="i"/>
+                  <note pname="e" oct="3" dur="8" stem.dir="up" tie="t"/>
+                  <rest dur="8"/>
+                  <note pname="a" oct="3" dur="4" stem.dir="up" tie="i"/>
+                  <note pname="a" oct="3" dur="8" stem.dir="up" tie="t"/>
+                  <rest dur="8"/>
+                </layer>
+              </staff>
+              <dir staff="1" place="above" tstamp="1">Finale Andante maestoso</dir>
+              <dir staff="12" place="above" tstamp="1">Finale Andante maestoso</dir>
+              <dynam staff="4" place="below" tstamp="1">mf</dynam>
+              <dynam staff="5" place="below" tstamp="1">mf</dynam>
+              <dynam staff="10" place="below" tstamp="1">p</dynam>
+              <dynam staff="12" place="below" tstamp="1">mf</dynam>
+              <dynam staff="13" place="below" tstamp="1">mf</dynam>
+              <dynam staff="14" place="below" tstamp="1">mf</dynam>
+              <dynam staff="15" place="below" tstamp="1">mf</dynam>
+            </measure>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>

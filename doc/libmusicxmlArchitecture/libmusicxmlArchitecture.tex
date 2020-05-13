@@ -434,12 +434,12 @@ edge node {\rotatebox{82.5}{15}}
 (MusicXMLTree);
 
 % MEI <-> MEITree
-\path [->, sloped, bend right=\bendAngle, above, thick, \arcsColor] 
+\path [->, sloped, bend right=\bendAngle, above, thick, loosely dashed, \arcsColor] 
 (MEI) 
 edge node {\rotatebox{-30}{13}} 
 (MEITree);
 
-\path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
+\path [->, sloped, bend right=\bendAngle, below, thick, loosely dashed, \arcsColor] 
 (MEITree) 
 edge node {\rotatebox{-20}{14}} 
 (MEI);
@@ -868,10 +868,10 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 \texttt{13} & reads \mei\ data from a file or from standard input is '-' is supplied as the file name, and creates an meielement tree containg the same data;
 \tabularnewline
 
-\texttt{14} & converts an meielement tree into \mei\ data. This is a mere 'print()' operation;
+\texttt{\textcolor{gray}{14}} & converts an meielement tree into \mei\ data. This is a mere 'print()' operation;
 \tabularnewline
 
-\texttt{15} & converts an MSR representation into an xmlelement tree -- ongoing work;
+\texttt{\textcolor{gray}{15}} & converts an MSR representation into an xmlelement tree -- ongoing work;
 \tabularnewline
 
 \texttt{\textcolor{gray}{16}} & converts an meielement tree into MSR data -- in design phase;

@@ -13,7 +13,7 @@
 //======================================================================
 // DON'T MODIFY THIS FILE!
 // It is automatically generated from the MusicXML schema.
-// (see the schema folder) 
+// (see the schema folder)
 //======================================================================
 
 #ifdef WIN32
@@ -21,17 +21,18 @@
 #endif
 
 #include <iostream>
+
 #include "elements.h"
 #include "factory.h"
 #include "types.h"
 
-using namespace std; 
+using namespace std;
 
 // libmxmllineno is outside of name space MusicXML2
 extern int libmxmllineno;
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 
@@ -39,14 +40,14 @@ template<int elt>
 class newElementFunctor : public functor<Sxmlelement>
 {
   public:
-  
+
     Sxmlelement operator ()()
         { return musicxml<elt>::new_musicxml (libmxmllineno); }
 };
 
 
 Sxmlelement factory::create (const string& eltname) const
-{ 
+{
 	map<std::string, functor<Sxmlelement>*>::const_iterator i = fMap.find (eltname);
 	if (i != fMap.end()) {
 		functor<Sxmlelement>* f = i->second;
@@ -61,7 +62,7 @@ Sxmlelement factory::create (const string& eltname) const
 }
 
 Sxmlelement factory::create(int type) const
-{ 
+{
 	map<int, const char*>::const_iterator i = fType2Name.find (type);
 	if (i != fType2Name.end()) {
 		return create (i->second);
@@ -71,7 +72,7 @@ Sxmlelement factory::create(int type) const
 }
 
 
-factory::factory() 
+factory::factory()
 {
 	fMap["comment"] 		= new newElementFunctor<kComment>;
 	fMap["pi"] 				= new newElementFunctor<kProcessingInstruction>;

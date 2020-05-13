@@ -135,5 +135,87 @@ void displayLpsrScore (
     endClock);
 }
 
+//_______________________________________________________________________________
+void displayLpsrScore_OptionalPass (
+  S_lpsrScore lpScore,
+  S_msrOah    msrOpts,
+  S_lpsrOah   lpsrOpts)
+{
+  // display it
+  displayLpsrScore (
+    lpScore,
+    msrOpts,
+    lpsrOpts,
+    gLogOstream);
+
+  if (gIndenter != 0) {
+    if (! gGeneralOah->fQuiet) {
+      stringstream s;
+
+      s <<
+        "gIndenter value after LPSR score display: "<<
+        gIndenter.getIndent ();
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+}
+
+//_______________________________________________________________________________
+S_lpsrScore convertMsrScoreToLpsrScore (
+  S_msrScore mScore,
+  string     passNumber)
+{
+  S_lpsrScore lpScore;
+
+  if (gLilypondOah->fNoLilypondCode) {
+    gLogOstream <<
+      "Option '-nolpc, -no-lilypond-code' is set, no LPSR is created" <<
+      endl <<
+      endl;
+  }
+  else {
+    lpScore =
+      buildLpsrScoreFromMsrScore (
+        mScore,
+        gMsrOah,
+        gLpsrOah,
+        gLogOstream);
+  }
+
+  if (gIndenter != 0) {
+    if (! gGeneralOah->fQuiet) {
+      stringstream s;
+
+      s <<
+        "gIndenter value after pass 3: "<<
+        gIndenter.getIndent ();
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+
+  if (! lpScore && ! gLilypondOah->fNoLilypondCode) {
+    gLogOstream <<
+      "### Conversion from MSR to LPSR failed ###" <<
+      endl <<
+      endl;
+
+    exit (2);
+  }
+
+  return lpScore;
+}
+
 
 }

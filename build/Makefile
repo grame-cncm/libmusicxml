@@ -681,6 +681,726 @@ Users/menu/libmusicxml-git/samples/xmlversion.s:
 .PHONY : Users/menu/libmusicxml-git/samples/xmlversion.s
 
 # target to build an object file
+Users/menu/libmusicxml-git/src/braille/brailleOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/brailleOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/brailleOah.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/brailleOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/brailleOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/brailleOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/brailleOah.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/brailleOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/brailleOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/brailleOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/brailleOah.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/brailleOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.o
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.i
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.s
+.PHONY : Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsr.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsr.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsr.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsr.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsr.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsr.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsr.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsr.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsr.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsr.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsr.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsr.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrBarlines.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrBarlines.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrBarlines.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrBarlines.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrBarlines.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrBarlines.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrBarlines.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrBarlines.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrBarlines.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrBarlines.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrBarlines.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrBarlines.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrClefs.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrClefs.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrClefs.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrClefs.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrClefs.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrClefs.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrClefs.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrClefs.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrClefs.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrClefs.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrClefs.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrClefs.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrDynamics.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrDynamics.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrDynamics.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrDynamics.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrDynamics.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrDynamics.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrDynamics.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrDynamics.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrDynamics.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrDynamics.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrDynamics.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrDynamics.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrElements.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrElements.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrElements.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrKeys.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrKeys.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrKeys.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrKeys.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrKeys.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrKeys.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrKeys.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrKeys.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrKeys.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrKeys.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrKeys.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrKeys.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrLineElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrLineElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrLineElements.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrLineElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrLineElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrLineElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrLineElements.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrLineElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrLineElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrLineElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrLineElements.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrLineElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrLines.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrLines.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrLines.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrLines.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrLines.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrLines.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrLines.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrLines.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrLines.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrLines.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrLines.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrLines.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrMeasures.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrMeasures.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrMeasures.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrMeasures.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrMeasures.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrMeasures.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrMeasures.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrMeasures.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrMeasures.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrMeasures.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrMeasures.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrMeasures.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrNotes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrNotes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrNotes.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrNotes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrNotes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrNotes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrNotes.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrNotes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrNotes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrNotes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrNotes.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrNotes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrNumbers.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrNumbers.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrNumbers.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrNumbers.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrNumbers.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrNumbers.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrNumbers.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrNumbers.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrNumbers.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrNumbers.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrNumbers.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrNumbers.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrPageElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageElements.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPageElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrPageElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageElements.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPageElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrPageElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageElements.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPageElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrPages.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPages.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPages.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPages.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrPages.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPages.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPages.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPages.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrPages.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPages.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPages.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPages.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrPaginations.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPaginations.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPaginations.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPaginations.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrPaginations.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPaginations.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPaginations.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPaginations.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrPaginations.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrPaginations.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrPaginations.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrPaginations.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrParallels.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrParallels.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrParallels.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrParallels.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrParallels.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrParallels.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrParallels.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrParallels.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrParallels.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrParallels.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrParallels.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrParallels.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrScores.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrScores.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrScores.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrScores.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrScores.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrScores.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrScores.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrScores.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrScores.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrScores.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrScores.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrScores.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrSpaces.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrSpaces.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrSpaces.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrSpaces.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrSpaces.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrSpaces.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrSpaces.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrSpaces.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrSpaces.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrSpaces.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrSpaces.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrSpaces.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrTempos.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTempos.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTempos.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTempos.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrTempos.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTempos.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTempos.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTempos.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrTempos.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTempos.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTempos.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTempos.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrTimes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTimes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTimes.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTimes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrTimes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTimes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTimes.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTimes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrTimes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTimes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTimes.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTimes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/bsr/bsrWords.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrWords.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrWords.o
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrWords.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/bsr/bsrWords.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrWords.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrWords.i
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrWords.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/bsr/bsrWords.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/bsr/bsrWords.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/bsr/bsrWords.s
+.PHONY : Users/menu/libmusicxml-git/src/bsr/bsrWords.s
+
+# target to build an object file
 Users/menu/libmusicxml-git/src/elements/unrolled_xml_tree_browser.o:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/elements/unrolled_xml_tree_browser.o
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/elements/unrolled_xml_tree_browser.o
@@ -897,6 +1617,78 @@ Users/menu/libmusicxml-git/src/guido/xmlpart2guido.s:
 .PHONY : Users/menu/libmusicxml-git/src/guido/xmlpart2guido.s
 
 # target to build an object file
+Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.s
+
+# target to build an object file
 Users/menu/libmusicxml-git/src/interface/libmusicxml.o:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/libmusicxml.o
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/libmusicxml.o
@@ -913,42 +1705,6 @@ Users/menu/libmusicxml-git/src/interface/libmusicxml.s:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/libmusicxml.s
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/libmusicxml.s
 .PHONY : Users/menu/libmusicxml-git/src/interface/libmusicxml.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.s
 
 # target to build an object file
 Users/menu/libmusicxml-git/src/interface/lilypond/lpsr2lilypond/lpsr2LilypondInterface.o:
@@ -969,42 +1725,6 @@ Users/menu/libmusicxml-git/src/interface/lilypond/lpsr2lilypond/lpsr2LilypondInt
 .PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/lpsr2lilypond/lpsr2LilypondInterface.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.s
-
-# target to build an object file
 Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.o:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.o
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.o
@@ -1021,42 +1741,6 @@ Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.s:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.s
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.s
 .PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.s
 
 # target to build an object file
 Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.o:
@@ -1077,58 +1761,76 @@ Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.s:
 .PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
+Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.i
+Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.s
+Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o
+Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i
+Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s
+Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o
+Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i
+Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s
-.PHONY : Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s
+Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s
+.PHONY : Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s
 
 # target to build an object file
 Users/menu/libmusicxml-git/src/interface/musicxml2guido.o:
@@ -1185,1048 +1887,40 @@ Users/menu/libmusicxml-git/src/lib/rational.s:
 .PHONY : Users/menu/libmusicxml-git/src/lib/rational.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.o
+Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o
+.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.i
+Users/menu/libmusicxml-git/src/lilypond/lilypondOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.i
+.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypondOah.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.s
+Users/menu/libmusicxml-git/src/lilypond/lilypondOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah.s
+.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypondOah.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.o
+Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.i
+Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.s
+Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.s
 
 # target to build an object file
 Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.o:
@@ -2265,1320 +1959,6 @@ Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.s:
 .PHONY : Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/messagesHandling.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/messagesHandling.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/messagesHandling.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/messagesHandling.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/messagesHandling.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/messagesHandling.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/messagesHandling.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/messagesHandling.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/messagesHandling.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/messagesHandling.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/messagesHandling.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/messagesHandling.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.s
-
-# target to build an object file
 Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o
@@ -3613,474 +1993,6 @@ Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.s:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.s
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.s
 .PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/utilities.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/utilities.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/utilities.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/utilities.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/utilities.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/utilities.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/utilities.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/utilities.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/utilities.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/utilities.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/utilities.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/utilities.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/version.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/version.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/version.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/version.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/version.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/version.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/version.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/version.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/version.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/version.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/version.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/version.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.s
-
-# target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.o
-
-# target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.i
-
-# target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.s
 
 # target to build an object file
 Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.o:
@@ -4155,76 +2067,2110 @@ Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.s:
 .PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.o
+Users/menu/libmusicxml-git/src/lpsr/lpsr.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsr.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.i
+Users/menu/libmusicxml-git/src/lpsr/lpsr.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsr.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.s
+Users/menu/libmusicxml-git/src/lpsr/lpsr.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsr.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsr.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.o
+Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.i
+Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.s
+Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.o
+Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.i
+Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.s
+Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.s
 
 # target to build an object file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.o:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.o
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.o
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.o
+Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o
 
 # target to preprocess a source file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.i:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.i
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.i
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.i
+Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.i
 
 # target to generate assembly for a file
-Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.s:
-	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.s
-	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.s
-.PHONY : Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.s
+Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrComments.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrComments.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrComments.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrComments.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrComments.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrElements.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrParts.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrParts.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrParts.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrParts.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrParts.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrScores.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrScores.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrScores.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrScores.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrScores.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.i
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.s
+.PHONY : Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msr.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msr.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msr.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msr2Names.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr2Names.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msr2Names.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr2Names.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msr2Names.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Names.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr2Names.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msr2Summary.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr2Summary.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msr2Summary.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr2Summary.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msr2Summary.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msr2Summary.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msr2Summary.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrArticulations.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrArticulations.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrArticulations.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrArticulations.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrArticulations.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrArticulations.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrArticulations.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrBars.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBars.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBars.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrBars.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBars.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBars.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrBars.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBars.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBars.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBars.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrBasicTypes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBasicTypes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrBasicTypes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBasicTypes.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBasicTypes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrBeams.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBeams.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrBeams.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBeams.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrBeams.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeams.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBeams.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrBreaks.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBreaks.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrBreaks.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBreaks.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrBreaks.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrBreaks.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrBreaks.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrChords.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrChords.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrChords.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrChords.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrChords.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrChords.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrChords.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrChords.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrChords.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrChords.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrClefs.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrClefs.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrClefs.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrClefs.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrClefs.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrClefs.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrClefs.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrCredits.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrCredits.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrCredits.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrCredits.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrCredits.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrCredits.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrCredits.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrDivisions.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDivisions.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrDivisions.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDivisions.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrDivisions.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDivisions.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDivisions.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrDynamics.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDynamics.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrDynamics.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDynamics.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrDynamics.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrDynamics.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrDynamics.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrElements.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrGlissandos.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrGlissandos.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrGlissandos.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrGlissandos.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrGlissandos.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGlissandos.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrGlissandos.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrGraceNotes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrGraceNotes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrGraceNotes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrGraceNotes.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrGraceNotes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrHarmonies.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrHarmonies.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrHarmonies.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrHarmonies.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrHarmonies.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrHarmonies.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrHarmonies.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrIdentification.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrIdentification.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrIdentification.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrIdentification.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrIdentification.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrIdentification.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrIdentification.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrInstruments.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrInstruments.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrInstruments.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrInstruments.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrInstruments.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrInstruments.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrInstruments.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrKeys.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrKeys.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrKeys.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrKeys.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrKeys.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrKeys.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrKeys.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrLigatures.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrLigatures.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrLigatures.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrLigatures.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrLigatures.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrLigatures.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrLigatures.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrMeasureElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasureElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrMeasureElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasureElements.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasureElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrMeasures.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasures.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrMeasures.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasures.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrMeasures.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasures.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasures.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrMidi.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMidi.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrMidi.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMidi.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrMidi.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMidi.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMidi.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrNotes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrNotes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrNotes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrNotes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrNotes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrNotes.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrNotes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrOrnaments.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOrnaments.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrOrnaments.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOrnaments.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrOrnaments.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrOrnaments.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrOrnaments.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrPartGroups.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartGroups.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrPartGroups.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartGroups.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrPartGroups.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartGroups.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartGroups.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrParts.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrParts.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrParts.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrParts.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrParts.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrParts.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrParts.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrParts.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrParts.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrParts.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrRehearsals.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRehearsals.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrRehearsals.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRehearsals.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrRehearsals.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRehearsals.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRehearsals.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrRepeats.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRepeats.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrRepeats.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRepeats.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrRepeats.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRepeats.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRepeats.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrRestMeasures.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRestMeasures.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrRestMeasures.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrRestMeasures.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrRestMeasures.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrScaling.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrScaling.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrScaling.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrScaling.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrScaling.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScaling.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrScaling.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrScores.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrScores.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrScores.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrScores.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrScores.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrScores.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrScores.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrScores.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrScores.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrScores.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrSegments.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSegments.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrSegments.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSegments.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrSegments.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegments.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSegments.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrSlashes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlashes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrSlashes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlashes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrSlashes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlashes.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlashes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrSlides.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlides.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrSlides.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlides.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrSlides.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlides.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlides.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrSlurs.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlurs.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrSlurs.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlurs.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrSlurs.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSlurs.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSlurs.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrSpanners.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSpanners.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrSpanners.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSpanners.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrSpanners.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSpanners.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSpanners.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrStanzas.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStanzas.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrStanzas.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStanzas.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrStanzas.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStanzas.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStanzas.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrStaves.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStaves.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrStaves.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStaves.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrStaves.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStaves.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStaves.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrStavesDetails.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStavesDetails.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrStavesDetails.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStavesDetails.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStavesDetails.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrStems.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStems.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStems.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrStems.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStems.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStems.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrStems.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrStems.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrStems.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrStems.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrSyllables.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSyllables.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrSyllables.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSyllables.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrSyllables.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrSyllables.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrSyllables.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrTablatures.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTablatures.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrTablatures.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTablatures.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrTablatures.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTablatures.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTablatures.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrTechnicals.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTechnicals.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrTechnicals.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTechnicals.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrTechnicals.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTechnicals.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTechnicals.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrTempos.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTempos.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrTempos.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTempos.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrTempos.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTempos.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTempos.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrTies.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTies.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTies.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrTies.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTies.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTies.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrTies.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTies.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTies.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTies.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrTimes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTimes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrTimes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTimes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrTimes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTimes.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTimes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrTranspositions.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTranspositions.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrTranspositions.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTranspositions.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrTranspositions.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTranspositions.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTranspositions.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrTupletElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTupletElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrTupletElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTupletElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrTupletElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTupletElements.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTupletElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrTuplets.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTuplets.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrTuplets.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTuplets.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrTuplets.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrTuplets.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrTuplets.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrVoiceElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoiceElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrVoiceElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoiceElements.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoiceElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrVoices.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoices.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrVoices.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoices.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrVoices.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrVoices.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrVoices.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/msr/msrWords.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrWords.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.o
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrWords.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/msr/msrWords.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrWords.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.i
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrWords.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/msr/msrWords.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/msr/msrWords.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/msr/msrWords.s
+.PHONY : Users/menu/libmusicxml-git/src/msr/msrWords.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.i
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.s
+.PHONY : Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/extraOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/extraOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/extraOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/extraOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/extraOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/extraOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/extraOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/extraOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/extraOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/generalOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/generalOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/generalOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/generalOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/generalOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/generalOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/generalOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/generalOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/generalOah.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/generalOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/oahBasicTypes.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahBasicTypes.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/oahBasicTypes.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahBasicTypes.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahBasicTypes.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/oahElements.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahElements.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahElements.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/oahElements.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahElements.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahElements.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/oahElements.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahElements.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahElements.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahElements.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/oahOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/oahOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/oahOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahOah.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/oahVisitor.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahVisitor.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/oahVisitor.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahVisitor.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/oahVisitor.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/oahVisitor.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/oahVisitor.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/oah/traceOah.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/traceOah.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.o
+.PHONY : Users/menu/libmusicxml-git/src/oah/traceOah.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/oah/traceOah.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/traceOah.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.i
+.PHONY : Users/menu/libmusicxml-git/src/oah/traceOah.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/oah/traceOah.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/oah/traceOah.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/oah/traceOah.s
+.PHONY : Users/menu/libmusicxml-git/src/oah/traceOah.s
 
 # target to build an object file
 Users/menu/libmusicxml-git/src/operations/musicxmlquery.o:
@@ -4279,6 +4225,60 @@ Users/menu/libmusicxml-git/src/parser/xmlparse.s:
 	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.s
 	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/parser/xmlparse.s
 .PHONY : Users/menu/libmusicxml-git/src/parser/xmlparse.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/utilities/messagesHandling.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.o
+.PHONY : Users/menu/libmusicxml-git/src/utilities/messagesHandling.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/utilities/messagesHandling.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.i
+.PHONY : Users/menu/libmusicxml-git/src/utilities/messagesHandling.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/utilities/messagesHandling.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/messagesHandling.s
+.PHONY : Users/menu/libmusicxml-git/src/utilities/messagesHandling.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/utilities/utilities.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/utilities.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.o
+.PHONY : Users/menu/libmusicxml-git/src/utilities/utilities.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/utilities/utilities.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/utilities.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.i
+.PHONY : Users/menu/libmusicxml-git/src/utilities/utilities.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/utilities/utilities.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/utilities.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/utilities.s
+.PHONY : Users/menu/libmusicxml-git/src/utilities/utilities.s
+
+# target to build an object file
+Users/menu/libmusicxml-git/src/utilities/version.o:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/version.o
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.o
+.PHONY : Users/menu/libmusicxml-git/src/utilities/version.o
+
+# target to preprocess a source file
+Users/menu/libmusicxml-git/src/utilities/version.i:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/version.i
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.i
+.PHONY : Users/menu/libmusicxml-git/src/utilities/version.i
+
+# target to generate assembly for a file
+Users/menu/libmusicxml-git/src/utilities/version.s:
+	$(MAKE) -f CMakeFiles/musicxml2.dir/build.make CMakeFiles/musicxml2.dir/Users/menu/libmusicxml-git/src/utilities/version.s
+	$(MAKE) -f CMakeFiles/musicxml2static.dir/build.make CMakeFiles/musicxml2static.dir/Users/menu/libmusicxml-git/src/utilities/version.s
+.PHONY : Users/menu/libmusicxml-git/src/utilities/version.s
 
 # target to build an object file
 Users/menu/libmusicxml-git/src/visitors/clefvisitor.o:
@@ -4598,6 +4598,126 @@ help:
 	@echo "... Users/menu/libmusicxml-git/samples/xmlversion.o"
 	@echo "... Users/menu/libmusicxml-git/samples/xmlversion.i"
 	@echo "... Users/menu/libmusicxml-git/samples/xmlversion.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/brailleOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/brailleOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/brailleOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/brailleOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsr2braille/bsr2BrailleTranslator.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/bsrBrailleCodeGenerators.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/msr2bsr/msr2BsrTranslator.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlManPageOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.o"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.i"
+	@echo "... Users/menu/libmusicxml-git/src/braille/xml2brl/xml2brlOahTypes.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsr.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsr.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsr.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsr2BsrFinalizer.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrBarlines.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrBarlines.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrBarlines.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrBasicTypes.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrCellsLists.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrClefs.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrClefs.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrClefs.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrDynamics.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrDynamics.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrDynamics.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrFootNotes.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrKeys.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrKeys.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrKeys.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrLineElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrLineElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrLineElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrLines.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrLines.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrLines.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrMeasures.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrMeasures.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrMeasures.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrMusicHeadings.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrNotes.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrNotes.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrNotes.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrNumbers.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrNumbers.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrNumbers.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPageElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPageElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPageElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPageHeadings.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPages.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPages.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPages.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPaginations.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPaginations.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrPaginations.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrParallels.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrParallels.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrParallels.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrScores.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrScores.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrScores.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrSpaces.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrSpaces.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrSpaces.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTempos.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTempos.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTempos.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTimes.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTimes.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTimes.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrTranscriptionNotes.s"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrWords.o"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrWords.i"
+	@echo "... Users/menu/libmusicxml-git/src/bsr/bsrWords.s"
 	@echo "... Users/menu/libmusicxml-git/src/elements/unrolled_xml_tree_browser.o"
 	@echo "... Users/menu/libmusicxml-git/src/elements/unrolled_xml_tree_browser.i"
 	@echo "... Users/menu/libmusicxml-git/src/elements/unrolled_xml_tree_browser.s"
@@ -4634,45 +4754,42 @@ help:
 	@echo "... Users/menu/libmusicxml-git/src/guido/xmlpart2guido.o"
 	@echo "... Users/menu/libmusicxml-git/src/guido/xmlpart2guido.i"
 	@echo "... Users/menu/libmusicxml-git/src/guido/xmlpart2guido.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/bsr2braille/bsr2BrailleTranslatorInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/bsr2bsr/bsr2BsrFinalizerInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/msr2bsr/msr2BsrInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/braille/musicxml2braille.s"
 	@echo "... Users/menu/libmusicxml-git/src/interface/libmusicxml.o"
 	@echo "... Users/menu/libmusicxml-git/src/interface/libmusicxml.i"
 	@echo "... Users/menu/libmusicxml-git/src/interface/libmusicxml.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/bsr/bsr2BsrFinalizerInterface.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/bsr2braille/bsr2BrailleTranslatorInterface.s"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/lpsr2lilypond/lpsr2LilypondInterface.o"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/lpsr2lilypond/lpsr2LilypondInterface.i"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/lpsr2lilypond/lpsr2LilypondInterface.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr/msrVoice2MasterInterface.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2bsr/msr2BsrInterface.s"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.o"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.i"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2lpsr/msr2LpsrInterface.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/msr2mxmltree/msr2MxmltreeInterface.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2braille.s"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.o"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.i"
 	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2lilypond.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/musicxml2mxmltree/musicXML2MxmlTreeInterface.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i"
-	@echo "... Users/menu/libmusicxml-git/src/interface/lilypond/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/msr2mxmltree/msr2MxmltreeInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/musicxml2mxmltree/musicXML2MxmlTreeInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilderInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.o"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.i"
+	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml/mxmltree2msr/mxmlTree2MsrTranslatorInterface.s"
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml2guido.o"
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml2guido.i"
 	@echo "... Users/menu/libmusicxml-git/src/interface/musicxml2guido.s"
@@ -4682,489 +4799,24 @@ help:
 	@echo "... Users/menu/libmusicxml-git/src/lib/rational.o"
 	@echo "... Users/menu/libmusicxml-git/src/lib/rational.i"
 	@echo "... Users/menu/libmusicxml-git/src/lib/rational.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/brailleOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/braille/bsrBrailleCodeGenerators.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsr.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsr2BsrFinalizer.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBarlines.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrBasicTypes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrCellsLists.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrClefs.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrDynamics.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrFootNotes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrKeys.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLineElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrLines.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMeasures.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrMusicHeadings.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNotes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrNumbers.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPageHeadings.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPages.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrPaginations.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrParallels.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrScores.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrSpaces.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTempos.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTimes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrTranscriptionNotes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr/bsrWords.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/bsr2braille/bsr2BrailleTranslator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypond/lilypondOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsr.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBarNumbers.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBasicTypes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrBookBlockElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrComments.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrContexts.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrHeaders.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLayouts.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrLyrics.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPapers.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParallelMusic.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrPartGroups.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrParts.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScheme.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrScores.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrStaves.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVarValAssocs.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVariables.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr/lpsrVoices.s"
+	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypondOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypondOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypondOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/lilypond/lilypondOah2ManPageGenerator.s"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.o"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.i"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondOah.s"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.o"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.i"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/lpsr2lilypond/lpsr2LilypondTranslator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/messagesHandling.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/messagesHandling.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/messagesHandling.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr2Names.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msr2Summary.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrAfterGraceNotes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrArpeggiatos.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrArticulations.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBars.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBasicTypes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBeams.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBeatsRepeats.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrBreaks.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrChords.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrClefs.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrCredits.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDivisions.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDoubleTremolos.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrDynamics.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrFiguredBasses.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrGlissandos.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrGraceNotes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrHarmonies.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrIdentification.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrInstruments.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrKeys.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrLigatures.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasureElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasures.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMeasuresRepeats.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMidi.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrMusicXMLSpecifics.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrNotes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrOrnaments.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroupElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartGroups.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrPartNamesDisplays.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrParts.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRehearsals.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeatCodas.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRepeats.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrRestMeasures.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrScaling.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrScores.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSegments.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSegnosAndCodas.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSingleTremolos.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlashes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlides.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSlurs.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSpanners.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStanzas.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStaves.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStavesDetails.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrStems.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrSyllables.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTablatures.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTechnicals.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTempos.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTies.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTimes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTranspositions.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTupletElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrTuplets.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVarValAssocs.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoice2MasterVoiceCreator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoiceElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrVoices.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr/msrWords.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2bsr/msr2BsrTranslator.s"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.o"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.i"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrOah.s"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.o"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.i"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2lpsr/msr2LpsrTranslator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/msr2mxmltree/msr2MxmltreeTranslator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/musicxml/musicxmlOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/musicxml2mxmltree/musicxml2MxmlTreeOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTree.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree/mxmlTreeOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/mxmltree2msr/mxmlTree2MsrTranslator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/extraOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/generalOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahBasicTypes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahElements.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/oahVisitor.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah/traceOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/basicOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/extraOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oah2ManPageGenerators.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/oah2manpage/oahOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/utilities.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/utilities.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/utilities.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/version.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/version.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/version.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlManPageOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2brl/xml2brlOahTypes.s"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.o"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.i"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyManPageOah.s"
@@ -5177,18 +4829,357 @@ help:
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.o"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.i"
 	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2ly/xml2lyOahTypes.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlManPageOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOah2ManPageGenerator.s"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.o"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.i"
-	@echo "... Users/menu/libmusicxml-git/src/lilypond/xml2xml/xml2xmlOahTypes.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsr.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsr.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsr.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBarNumbers.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBasicTypes.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrBookBlockElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrComments.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrComments.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrComments.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrContexts.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrHeaders.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrLayouts.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrLyrics.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrPapers.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrParallelMusic.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrPartGroups.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrParts.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrParts.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrParts.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrScheme.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrScores.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrScores.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrScores.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrStaves.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVarValAssocs.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVariables.s"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.o"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.i"
+	@echo "... Users/menu/libmusicxml-git/src/lpsr/lpsrVoices.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr2Names.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr2Names.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr2Names.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr2Summary.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr2Summary.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msr2Summary.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrAfterGraceNotes.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrArpeggiatos.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrArticulations.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrArticulations.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrArticulations.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBars.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBars.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBars.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBasicTypes.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBasicTypes.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBasicTypes.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBeams.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBeams.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBeams.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBeatsRepeats.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBreaks.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBreaks.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrBreaks.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrChords.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrChords.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrChords.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrClefs.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrClefs.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrClefs.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrCredits.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrCredits.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrCredits.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDivisions.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDivisions.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDivisions.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDoubleTremolos.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDynamics.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDynamics.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrDynamics.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrFiguredBasses.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrGlissandos.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrGlissandos.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrGlissandos.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrGraceNotes.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrGraceNotes.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrGraceNotes.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrHarmonies.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrHarmonies.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrHarmonies.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrIdentification.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrIdentification.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrIdentification.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrInstruments.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrInstruments.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrInstruments.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrKeys.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrKeys.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrKeys.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrLigatures.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrLigatures.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrLigatures.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasureElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasureElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasureElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasures.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasures.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasures.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMeasuresRepeats.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMidi.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMidi.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMidi.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrMusicXMLSpecifics.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrNotes.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrNotes.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrNotes.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOrnaments.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOrnaments.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrOrnaments.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartGroupElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartGroups.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartGroups.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartGroups.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrPartNamesDisplays.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrParts.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrParts.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrParts.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRehearsals.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRehearsals.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRehearsals.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRepeatCodas.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRepeats.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRepeats.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRepeats.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRestMeasures.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRestMeasures.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrRestMeasures.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrScaling.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrScaling.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrScaling.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrScores.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrScores.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrScores.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSegments.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSegments.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSegments.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSegnosAndCodas.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSingleTremolos.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlashes.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlashes.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlashes.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlides.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlides.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlides.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlurs.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlurs.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSlurs.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSpanners.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSpanners.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSpanners.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStanzas.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStanzas.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStanzas.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStaves.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStaves.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStaves.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStavesDetails.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStavesDetails.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStavesDetails.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStems.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStems.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrStems.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSyllables.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSyllables.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrSyllables.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTablatures.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTablatures.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTablatures.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTechnicals.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTechnicals.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTechnicals.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTempos.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTempos.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTempos.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTies.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTies.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTies.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTimes.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTimes.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTimes.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTranspositions.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTranspositions.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTranspositions.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTupletElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTupletElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTupletElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTuplets.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTuplets.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrTuplets.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVarValAssocs.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoice2MasterInterface.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoice2MasterVoiceCreator.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoiceElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoiceElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoiceElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoices.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoices.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrVoices.s"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrWords.o"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrWords.i"
+	@echo "... Users/menu/libmusicxml-git/src/msr/msrWords.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/msr2mxmltree/msr2MxmltreeTranslator.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/musicxml2mxmltree/musicxml2MxmlTreeOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/musicxmlOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTree.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree/mxmlTreeOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrSkeletonBuilder.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/mxmltree2msr/mxmlTree2MsrTranslator.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlManPageOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.o"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.i"
+	@echo "... Users/menu/libmusicxml-git/src/musicxml/xml2xml/xml2xmlOahTypes.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/basicOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/extraOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/extraOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/extraOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/extraOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/generalOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/generalOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/generalOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oah2ManPageGenerators.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahBasicTypes.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahBasicTypes.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahBasicTypes.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahElements.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahElements.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahElements.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahOah.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahOah2ManPageGenerator.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahVisitor.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahVisitor.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/oahVisitor.s"
+	@echo "... Users/menu/libmusicxml-git/src/oah/traceOah.o"
+	@echo "... Users/menu/libmusicxml-git/src/oah/traceOah.i"
+	@echo "... Users/menu/libmusicxml-git/src/oah/traceOah.s"
 	@echo "... Users/menu/libmusicxml-git/src/operations/musicxmlquery.o"
 	@echo "... Users/menu/libmusicxml-git/src/operations/musicxmlquery.i"
 	@echo "... Users/menu/libmusicxml-git/src/operations/musicxmlquery.s"
@@ -5198,6 +5189,15 @@ help:
 	@echo "... Users/menu/libmusicxml-git/src/parser/xmlparse.o"
 	@echo "... Users/menu/libmusicxml-git/src/parser/xmlparse.i"
 	@echo "... Users/menu/libmusicxml-git/src/parser/xmlparse.s"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/messagesHandling.o"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/messagesHandling.i"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/messagesHandling.s"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/utilities.o"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/utilities.i"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/utilities.s"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/version.o"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/version.i"
+	@echo "... Users/menu/libmusicxml-git/src/utilities/version.s"
 	@echo "... Users/menu/libmusicxml-git/src/visitors/clefvisitor.o"
 	@echo "... Users/menu/libmusicxml-git/src/visitors/clefvisitor.i"
 	@echo "... Users/menu/libmusicxml-git/src/visitors/clefvisitor.s"

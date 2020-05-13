@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN"
+			"http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+    <!-- ===== Created by xml2ly 0.93 on Monday 2020-03-30 @ 10:11:41 CEST from chords/Chords.xml ===== -->
+    <work-title>Chords</work-title>
+    <identification>
+        <encoding>
+            <software>xml2ly 0.93, https://github.com/dfober/libmusicxml/tree/lilypond</software>
+            <encoding-date>2020-03-30</encoding-date>
+            <software>Frescobaldi 2.18.1</software>
+        </encoding>
+    </identification>
+    <defaults>
+        <scaling>
+            <millimeters>-1</millimeters>
+            <tenths>-1</tenths>
+        </scaling>
+        <system-layout>
+            <system-margins/>
+        </system-layout>
+    </defaults>
+    <part-list>
+        <score-part id="P1">
+            <part-name/>
+        </score-part>
+    </part-list>
+    <!-- ============================ PART "P1", line 0 ============================= -->
+    <part id="P1">
+        <!-- ==================== Segment 1 START, line 20 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 20 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>2</divisions>
+                <time symbol="common">
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <!-- ===== Chord start , chordSoundingWholeNotes: 1/8, 4 elements, line 39 ===== -->
+            <direction>
+                <direction-type>
+                    <dynamics>
+                        <p/>
+                    </dynamics>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>C</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>1</duration>
+                <type>eighth</type>
+                <notations>
+                    <staccatissimo/>
+                </notations>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>G</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>1</duration>
+                <type>eighth</type>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>1</duration>
+                <type>eighth</type>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>B</step>
+                    <alter>-1</alter>
+                    <octave>5</octave>
+                </pitch>
+                <duration>1</duration>
+                <type>eighth</type>
+                <accidental>flat</accidental>
+            </note>
+            <!-- ===== Chord end , chordSoundingWholeNotes: 1/8, 4 elements, line 39 ===== -->
+            <note>
+                <rest/>
+                <duration>1</duration>
+            </note>
+            <note>
+                <rest/>
+                <duration>6</duration>
+                <dot/>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 99 ===== -->
+        <measure number="2">
+            <!-- ===== Chord start , chordSoundingWholeNotes: 1/2, 4 elements, line 107 ===== -->
+            <direction>
+                <direction-type>
+                    <dynamics>
+                        <f/>
+                    </dynamics>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>half</type>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>C</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>half</type>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>half</type>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>A</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>half</type>
+            </note>
+            <!-- ===== Chord end , chordSoundingWholeNotes: 1/2, 4 elements, line 107 ===== -->
+            <!-- ===== Chord start , chordSoundingWholeNotes: 1/2, 3 elements, line 146 ===== -->
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>half</type>
+                <notations>
+                    <staccato/>
+                    <detached-legato/>
+                </notations>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>D</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>half</type>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>F</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>half</type>
+            </note>
+            <!-- ===== Chord end , chordSoundingWholeNotes: 1/2, 3 elements, line 146 ===== -->
+        </measure>
+        <!-- ==================== Segment 1 END, line 20 ==================== -->
+    </part>
+</score-partwise>

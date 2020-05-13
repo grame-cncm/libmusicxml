@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-model href="http://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://music-encoding.org/schema/4.0.0/mei-all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<mei xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.music-encoding.org/ns/mei"
+  meiversion="4.0.0">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title>Example of a Minimal header</title>
+        <title>Der Abendstern: an electronic transcription</title>
+        <composer>
+          <persName role="creator" codedval="118611666" auth="GND" auth.uri="http://d-nb.info/gnd/"
+            >Robert Schumann</persName>
+        </composer>
+        <respStmt>
+          <persName role="encoder">John Doe</persName>
+        </respStmt>
+      </titleStmt>
+      <pubStmt>
+        <unpub>Incomplete!</unpub>
+      </pubStmt>
+    </fileDesc>
+  </meiHead>
+  <music/>
+</mei>

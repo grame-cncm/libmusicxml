@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN"
+			"http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+  <!-- ===== Created by xml2ly 0.93 on Wednesday 2020-04-29 @ 18:55:09 CEST from forward/ForwarInTheMiddleOfMeasure.xml ===== -->
+  <!-- ===== Identification ===== -->
+  <identification>
+    <encoding>
+      <software>xml2ly 0.93, https://github.com/dfober/libmusicxml/tree/lilypond</software>
+      <encoding-date>2020-04-29</encoding-date>
+      <software>IMUTUS Score Editor module</software>
+    </encoding>
+  </identification>
+  <!-- ===== PART-LIST ===== -->
+  <part-list>
+    <score-part id="P1">
+      <part-name/>
+    </score-part>
+  </part-list>
+  <!-- ============================ PART "P1", line 0 ============================= -->
+  <part id="P1">
+    <!-- ==================== Segment 1 START, line 23 ==================== -->
+    <!-- ===== MEASURE ordinal number: 1, line 23 ===== -->
+    <measure number="1">
+      <!-- ===== Attributes  ===== -->
+      <attributes>
+        <divisions>1</divisions>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <time>
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <!-- ===== Direction ===== -->
+      <direction>
+        <direction-type>
+          <metronome>
+            <beat-unit>half</beat-unit>
+            <per-minute>120</per-minute>
+          </metronome>
+        </direction-type>
+      </direction>
+      <!-- ===== Note, staff: 1, voice: 1, position: 0/1, sounding: 1/4, line 47 ===== -->
+      <note>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>quarter</type>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 1/4, sounding: 1/4, line 55 ===== -->
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>quarter</type>
+      </note>
+      <!-- ===== Forward, duration: 1, in staff: 1, in voice: 1, line 66 ===== -->
+      <forward>
+        <duration>1</duration>
+        <voice>1</voice>
+        <staff>1</staff>
+      </forward>
+      <!-- ===== Note, staff: 1, voice: 1, position: 3/4, sounding: 1/4, line 66 ===== -->
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>quarter</type>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+    <!-- ==================== Segment 1 END, line 23 ==================== -->
+  </part>
+</score-partwise>

@@ -24,20 +24,6 @@
 
 namespace MusicXML2
 {
-
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
-
-/*!
-\addtogroup Converting MSR to LPSR format
-
-The library includes a high level API to convert
-  from the MusicXML format to the MSR
-  (Music Score Representation) format.
-@{
-*/
-
 //______________________________________________________________________________
 EXP S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
@@ -52,11 +38,17 @@ EXP void displayLpsrScore (
   S_lpsrOah         lpsrOpts,
   indentedOstream&  logOstream);
 
-/*! @} */
+//_______________________________________________________________________________
+void displayLpsrScore_OptionalPass (
+  S_lpsrScore lpScore,
+  S_msrOah    msrOpts,
+  S_lpsrOah   lpsrOpts);
 
-//#ifdef __cplusplus
-//}
-//#endif
+//_______________________________________________________________________________
+S_lpsrScore convertMsrScoreToLpsrScore (
+  S_msrScore mScore,
+  string     passNumber);
+
 
 } // namespace MusicXML2
 

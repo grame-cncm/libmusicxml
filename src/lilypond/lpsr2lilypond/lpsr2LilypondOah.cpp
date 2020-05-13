@@ -12,8 +12,6 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-#include <regex>
-
 #include "version.h"
 #include "utilities.h"
 
