@@ -236,10 +236,11 @@ int main (int argc, char *argv[])
   // do the translation
   // ------------------------------------------------------
 
-/* JMI ???
+//* JMI ???
   if (convertMusicXMLBackToMusicXML (inputSourceName, outputFileName) != kNoErr) {
     return 1;
   }
+  /*
   convertMusicXMLBackToMusicXML (
     inputSourceName,
     outputFileName);
