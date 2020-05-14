@@ -8,6 +8,13 @@ if(CMAKE_CONFIGURATION_TYPES)
 endif()
 
 #######################################
+# prevent execution in build folder
+if (EXISTS .nocmake)
+	message (FATAL_ERROR "Can't execute cmake in build folder")
+endif()
+
+
+#######################################
 # versions management
 set (XMLVERSION 3.1)
 
