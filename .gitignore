@@ -13,6 +13,9 @@ build/iosdir
 build/libdir
 build/bin
 build/lib
+build/CMakeFiles
+build/CMakeCache.txt
+
 packages/libmusicxml-*
 packages/libmusicxml2-*
 doc/html
