@@ -245,27 +245,20 @@ namespace MusicXML2
             tag = guidotag::create(autoHideTiedAccidentals);
             add(tag);
                         
-            //// Add staffFormat if needed
+            /// Add staffFormat if needed
+            // We do not infer default staff distance from musicXML since no software seem to be able to control it!
             int stafflines = elt->getIntValue(k_staff_lines, 0);
-            if (stafflines||defaultGuidoStaffDistance)
+            if (stafflines)
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
-                if (defaultGuidoStaffDistance) {
-                    stringstream s;
-                    s << "distance="<< defaultGuidoStaffDistance;
-                    tag2->add (guidoparam::create(s.str().c_str(), false));
-                }
                 if (stafflines>0)
                 {
-                    Sguidoelement tag2 = guidotag::create("staffFormat");
                     stringstream staffstyle;
                     staffstyle << "style=\"" << stafflines<<"-line\"";
                     tag2->add (guidoparam::create(staffstyle.str(),false));
                 }
                 add (tag2);
-                // TODO: It seems like in MusicXML the default Staff Distance is reapplied to every new system (?) in case of staff distance change in the middle of a score.
             }
-            ////
             
             flushHeader (fHeader);
             flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);

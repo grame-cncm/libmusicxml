@@ -317,9 +317,6 @@ namespace MusicXML2
                 int xmlStaffDistance = sLayout->getIntValue(k_staff_distance, 0);
                 Sguidoelement tag2 = guidotag::create("staffFormat");
                 float HalfSpaceDistance = ((float)(xmlStaffDistance) / 10) * 2 ;
-                if (HalfSpaceDistance < xml2guidovisitor::defaultGuidoStaffDistance) {
-                    HalfSpaceDistance = xml2guidovisitor::defaultGuidoStaffDistance;
-                }
                 stringstream s;
                 s << "distance="<< HalfSpaceDistance;
                 tag2->add (guidoparam::create(s.str().c_str(), false));
