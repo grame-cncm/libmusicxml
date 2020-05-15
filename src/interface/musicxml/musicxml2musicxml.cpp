@@ -148,7 +148,7 @@ void convertMsrScoreToMusicXMLScore (
 
   // create the MusicXML data
 	SXMLFile xmlFile = createXMLFile ();
-	/*
+	/ *
 	SXMLFile xmlFile = TXMLFile::create ();
 
   TXMLDecl * xmlDecl = new TXMLDecl ("1.0", "UTF-8", TXMLDecl::kNo);

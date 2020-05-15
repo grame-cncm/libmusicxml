@@ -27,7 +27,7 @@
 #include "mxmlTreeOah.h"
 #include "msr2LpsrOah.h"
 
-#include "xml2lyOah.h"
+#include "xml2lyWithOptionsVectorOah.h"
 
 #include "musicXML2MxmlTreeInterface.h"
 
@@ -117,20 +117,26 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2lyOahHandler
+  S_xml2lyWithOptionsVectorOahHandler
     handler =
-      xml2lyOahHandler::create (
+      xml2lyWithOptionsVectorOahHandler::create (
         argv [0],
         gOutputOstream);
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
 
+  optionsVector theOptionsVector = {
+    make_pair ("-tpasses", ""),
+    make_pair ("-global-staff-size", "33.333333")
+  };
+
   vector<string>
     argumentsVector =
       handler->
-        applyOptionsAndArgumentsFromArgcAndArgv (
-          argc, argv);
+        applyOptionsFromOptionsVector (
+          argv [0],
+          theOptionsVector);
 
   string
     inputSourceName =
@@ -138,7 +144,7 @@ int main (int argc, char *argv[])
 
   string
     outputFileName =
-      gXml2lyOah->fLilyPondOutputFileName;
+      gXml2lyWithOptionsVectorOah->fLilyPondOutputFileName;
 
   int
     outputFileNameSize =
@@ -171,7 +177,7 @@ int main (int argc, char *argv[])
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePasses) {
     gLogOstream <<
-      "This is xml2ly " << currentVersionNumber () <<
+      "This is xml2lyWithOptionsVector " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 

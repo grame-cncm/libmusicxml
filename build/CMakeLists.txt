@@ -131,7 +131,7 @@ if (MSR)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond lilypond/msr2lpsr lilypond/lpsr2lilypond interface/lilypond/msr2lpsr interface/lilypond/lpsr2lilypond lilypond/xml2ly)
+	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond lilypond/msr2lpsr lilypond/lpsr2lilypond interface/lilypond/msr2lpsr interface/lilypond/lpsr2lilypond lilypond/xml2ly lilypond/xml2lyWithOptionsVector)
 endif()
 
 if (BRAILLE)
