@@ -45,143 +45,35 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-EXP xmlErr convertMusicXMLToLilypond (
-  string inputSourceName,
-  string outputFileName)
+static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, ostream& out, const char* file)
 {
-  // create the mxmlTree from MusicXML contents (pass 1)
-  // ------------------------------------------------------
+	Sxmlelement st = xmlfile->elements();
 
-  Sxmlelement
-    mxmlTree =
-      convertMusicXMLToMxmlTree (
-        inputSourceName,
-        "Pass 1");
+	if (st) {
+		if (st->getName() == "score-timewise") return kUnsupported;
 
-  // create the MSR skeleton from the mxmlTree (pass 2a)
-  // ------------------------------------------------------
+/*
+		xml2guidovisitor v(true, true, generateBars, partFilter);
 
-  S_msrScore
-    mScore =
-      convertMxmlTreeToMsrScoreSkeleton (
-        mxmlTree,
-        "Pass 2a");
+		Sguidoelement gmn = v.convert(st);
+*/
 
-  if (gMsr2LpsrOah->fExit2a) {
-    gLogOstream <<
-      endl <<
-      "Existing after pass 2a as requested" <<
-      endl;
+		if (file) {
+			out << "(*\n  gmn code converted from '" << file << "'"
+				<< "\n  using libmusicxml v." << musicxmllibVersionStr();
+		}
+		else out << "(*\n  gmn code converted using libmusicxml v." << musicxmllibVersionStr();
+		out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
+			<< "\n*)" << endl;
 
-    return kNoErr;
-  }
+//		out << gmn << endl;
 
-  // populate the MSR from MusicXML contents (pass 2b)
-  // ------------------------------------------------------
+		return kNoErr;
+	}
 
-  populateMsrSkeletonFromMxmlTree (
-    mxmlTree,
-    mScore,
-    gLogOstream,
-    "Pass 2b");
-
-  if (gMsr2LpsrOah->fExit2b) {
-    gLogOstream <<
-      endl <<
-      "Existing after pass 2b as requested" <<
-      endl;
-
-    return kNoErr;
-  }
-
-  // display the MSR score summary if requested
-  // ------------------------------------------------------
-
-  if (gMsrOah->fDisplayMsr) {
-    displayMsrScore_OptionalPass (
-      mScore,
-      gMsrOah);
-  }
-
-  // display the score summary if requested
-  // ------------------------------------------------------
-
-  if (gMsrOah->fDisplayMsrSummary) {
-    // display the score summary
-    displayMSRPopulatedScoreSummary (
-      gMsrOah,
-      mScore,
-      gLogOstream);
-
-    return kNoErr;
-  }
-
-  // display the score names if requested
-  // ------------------------------------------------------
-
-  if (gMsrOah->fDisplayMsrNames) {
-    // display the score name
-    displayMSRPopulatedScoreNames (
-      gMsrOah,
-      mScore,
-      gLogOstream);
-
-    return kNoErr;
-  }
-
-  // create the LPSR from the MSR (pass 3)
-  // ------------------------------------------------------
-
-  S_lpsrScore
-    lpScore =
-      convertMsrScoreToLpsrScore (
-        mScore,
-        "Pass 3");
-
-  if (gLpsrOah->fExit3) {
-    gLogOstream <<
-      endl <<
-      "Existing after pass 3 as requested" <<
-      endl;
-
-    return kNoErr;
-  }
-
-  // display the LPSR score if requested
-  // ------------------------------------------------------
-
-  if (gLpsrOah->fDisplayLpsr) {
-    displayLpsrScore_OptionalPass (
-      lpScore,
-      gMsrOah,
-      gLpsrOah);
-  }
-
-  // generate LilyPond code from the LPSR (pass 4)
-  // ------------------------------------------------------
-
-  convertLpsrScoreToLilypondCode (
-    outputFileName,
-    lpScore,
-    "Pass 4");
-
-  // create MusicXML back from the MSR if requested
-  // ------------------------------------------------------
-  if (gXml2lyOah->fLoopBackToMusicXML) {
-    convertMsrScoreToMusicXMLScore_Loop (
-      mScore,
-      regex_replace (
-        outputFileName,
-        regex (".ly"),
-        "_LOOP.xml"));
-  }
-
-  return kNoErr;
+	return kInvalidFile;
 }
 
-//_______________________________________________________________________________
-static xmlErr musicxmlfile2lilypond (const optionsVector& options, ostream& out)
-{
 /*
   // create the options handler
   // ------------------------------------------------------
@@ -347,36 +239,182 @@ static xmlErr musicxmlfile2lilypond (const optionsVector& options, ostream& out)
   }
 */
 
-//  return 0;
-	return kInvalidFile;
-}
-
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfile2lilypond (const char *file, const optionsVector& options, ostream& out)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(file);
 	if (xmlfile) {
-		return xml2lilypond (xmlfile, generateBars, 0, out, file);
+		return xml2lilypond (xmlfile, options, out, file);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfd2lilypond (FILE * fd, const optionsVector& options, ostream& out)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(fd);
+
 	if (xmlfile) {
-		return xml2lilypond (xmlfile, generateBars, 0, out, 0);
+		return xml2lilypond (xmlfile, options, out, 0);
 	}
-	*/
+
 	return kInvalidFile;
+}
+
+//_______________________________________________________________________________
+EXP xmlErr musicxmlstring2lilypond(const char *buffer, const optionsVector& options, std::ostream& out)
+{
+	xmlreader r;
+	SXMLFile  xmlfile;
+
+	xmlfile = r.readbuff (buffer);
+
+	if (xmlfile) {
+		return xml2lilypond (xmlfile, options, out, 0);
+	}
+
+	return kInvalidFile;
+}
+
+//_______________________________________________________________________________
+EXP xmlErr convertMusicXMLToLilypond (
+  string inputSourceName,
+  string outputFileName)
+{
+  // create the mxmlTree from MusicXML contents (pass 1)
+  // ------------------------------------------------------
+
+  Sxmlelement
+    mxmlTree =
+      convertMusicXMLToMxmlTree (
+        inputSourceName,
+        "Pass 1");
+
+  // create the MSR skeleton from the mxmlTree (pass 2a)
+  // ------------------------------------------------------
+
+  S_msrScore
+    mScore =
+      convertMxmlTreeToMsrScoreSkeleton (
+        mxmlTree,
+        "Pass 2a");
+
+  if (gMsr2LpsrOah->fExit2a) {
+    gLogOstream <<
+      endl <<
+      "Existing after pass 2a as requested" <<
+      endl;
+
+    return kNoErr;
+  }
+
+  // populate the MSR from MusicXML contents (pass 2b)
+  // ------------------------------------------------------
+
+  populateMsrSkeletonFromMxmlTree (
+    mxmlTree,
+    mScore,
+    gLogOstream,
+    "Pass 2b");
+
+  if (gMsr2LpsrOah->fExit2b) {
+    gLogOstream <<
+      endl <<
+      "Existing after pass 2b as requested" <<
+      endl;
+
+    return kNoErr;
+  }
+
+  // display the MSR score summary if requested
+  // ------------------------------------------------------
+
+  if (gMsrOah->fDisplayMsr) {
+    displayMsrScore_OptionalPass (
+      mScore,
+      gMsrOah);
+  }
+
+  // display the score summary if requested
+  // ------------------------------------------------------
+
+  if (gMsrOah->fDisplayMsrSummary) {
+    // display the score summary
+    displayMSRPopulatedScoreSummary (
+      gMsrOah,
+      mScore,
+      gLogOstream);
+
+    return kNoErr;
+  }
+
+  // display the score names if requested
+  // ------------------------------------------------------
+
+  if (gMsrOah->fDisplayMsrNames) {
+    // display the score name
+    displayMSRPopulatedScoreNames (
+      gMsrOah,
+      mScore,
+      gLogOstream);
+
+    return kNoErr;
+  }
+
+  // create the LPSR from the MSR (pass 3)
+  // ------------------------------------------------------
+
+  S_lpsrScore
+    lpScore =
+      convertMsrScoreToLpsrScore (
+        mScore,
+        "Pass 3");
+
+  if (gLpsrOah->fExit3) {
+    gLogOstream <<
+      endl <<
+      "Existing after pass 3 as requested" <<
+      endl;
+
+    return kNoErr;
+  }
+
+  // display the LPSR score if requested
+  // ------------------------------------------------------
+
+  if (gLpsrOah->fDisplayLpsr) {
+    displayLpsrScore_OptionalPass (
+      lpScore,
+      gMsrOah,
+      gLpsrOah);
+  }
+
+  // generate LilyPond code from the LPSR (pass 4)
+  // ------------------------------------------------------
+
+  convertLpsrScoreToLilypondCode (
+    outputFileName,
+    lpScore,
+    "Pass 4");
+
+  // create MusicXML back from the MSR if requested
+  // ------------------------------------------------------
+  if (gXml2lyOah->fLoopBackToMusicXML) {
+    convertMsrScoreToMusicXMLScore_Loop (
+      mScore,
+      regex_replace (
+        outputFileName,
+        regex (".ly"),
+        "_LOOP.xml"));
+  }
+
+  return kNoErr;
 }
 
 

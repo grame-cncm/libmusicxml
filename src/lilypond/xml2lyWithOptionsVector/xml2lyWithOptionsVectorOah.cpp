@@ -798,11 +798,7 @@ void initializeXml2lyWithOptionsVectorOah (
   // ------------------------------------------------------
 
   enlistVersion (
-    "Initial", "early 2016",
-    "Start as xml2lilypond, a clone of xml2guido");
-
-  enlistVersion (
-    musicxml2lilypondVersionStr (), "October 2018",
+    musicxml2lilypondVersionStr (), "May 2020",
     "First draft version");
 
   // create the options variables

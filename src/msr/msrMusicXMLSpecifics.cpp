@@ -696,8 +696,11 @@ void msrStaffLayout::print (ostream& os) const
   // staff distance
   os << left <<
     setw (fieldWidth) <<
-    "staffDistance" << " : " << fStaffDistance <<
-    endl;
+    "staffDistance" << " : ";
+  if (fStaffDistance) {
+    os << fStaffDistance;
+  }
+  os << endl;
 
   gIndenter--;
 }

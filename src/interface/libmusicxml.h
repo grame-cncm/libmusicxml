@@ -152,12 +152,12 @@ EXP xmlErr      musicxmlfd2musicxml  (FILE* fd, const optionsVector& options, st
 
 /*!
   \brief Converts a MusicXML representation to the MusicXML format.
-  \param buff a string containing MusicXML code
+  \param buffer a string containing MusicXML code
   \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2musicxml(const char *buff, const optionsVector& options, std::ostream& out);
+EXP xmlErr      musicxmlstring2musicxml(const char *buffer, const optionsVector& options, std::ostream& out);
 
 /*!
   \brief Converts MusicXML data back to MusicXML data.
@@ -199,12 +199,12 @@ EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, const optionsVector& options, st
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
-  \param buff a string containing MusicXML code
+  \param buffer a string containing MusicXML code
   \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2lilypond(const char *buff, const optionsVector& options, std::ostream& out);
+EXP xmlErr      musicxmlstring2lilypond(const char *buffer, const optionsVector& options, std::ostream& out);
 
 /*!
   \brief Converts MusicXML data to the LilyPond format.
@@ -246,12 +246,12 @@ EXP xmlErr      musicxmlfd2braille(FILE *fd, const optionsVector& options, std::
 
 /*!
   \brief Converts a MusicXML representation to the Braille music format.
-  \param buff a string containing MusicXML code
+  \param buffer a string containing MusicXML code
   \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2braille(const char *buffer, const optionsVector& options, std::ostream&           out);
+EXP xmlErr      musicxmlstring2braille(const char *bufferer, const optionsVector& options, std::ostream&           out);
 
 /*!
   \brief Converts MusicXML data to the Braille music format.
@@ -304,12 +304,12 @@ EXP xmlErr      musicxmlfd2antescofo  (FILE* fd, bool generateBars, std::ostream
 
 /*!
   \brief Converts a MusicXML representation to the Antescofo format.
-  \param buff a string containing MusicXML code
+  \param buffer a string containing MusicXML code
   \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2antescofo(const char *buff, bool generateBars, std::ostream& out);
+EXP xmlErr      musicxmlstring2antescofo(const char *buffer, bool generateBars, std::ostream& out);
 /*! @} */
 
 //_______________________________________________________________________________

@@ -789,11 +789,13 @@ void msrBarline::print (ostream& os) const
     fBarlineTimes <<
     endl <<
 
+/* JMI
     setw (fieldWidth) <<
     "barlineCategoryKind" << " : " <<
     barlineCategoryKindAsString (
       fBarlineCategoryKind) <<
     endl <<
+*/
 
     setw (fieldWidth) <<
     "barlineHasSegnoKind" << " : " <<

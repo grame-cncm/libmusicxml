@@ -15327,8 +15327,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         case msrBarline::kBarlineHasCodaNo:
           break;
       } // switch
-      break;
 */
+      break;
 
     case msrBarline::kBarlineCategoryRepeatStart:
   // JMI    if (gLilypondOah->fKeepRepeatBarlines) {

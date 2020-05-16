@@ -8640,7 +8640,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
   }
 
   else if (fOnGoingBarline) {
-    fCurrentBarlineHasCodaKind = msrBarline::kBarlineHasCodaYes;
+    fCurrentBarlineHasCodaKind =
+      msrBarline::kBarlineHasCodaYes;
   }
 
   else {
