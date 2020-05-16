@@ -118,9 +118,22 @@ void msrMidiTempo::acceptOut (basevisitor* v)
 void msrMidiTempo::browseData (basevisitor* v)
 {}
 
+string msrMidiTempo::asString () const
+{
+  stringstream s;
+
+  s <<
+    "MidiTempo" <<
+    ", midiTempoDuration = \"" << fMidiTempoDuration << "\"" <<
+    ", midiTempoPerSecond = " << fMidiTempoPerSecond <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
 void msrMidiTempo::print (ostream& os) const
 {
-  os << "Midi" << endl;
+  os << "MidiTempo" << endl;
 
   gIndenter++;
 
@@ -128,10 +141,10 @@ void msrMidiTempo::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "MidiTempoDuration" << " = " << fMidiTempoDuration <<
+    "midiTempoDuration" << " = " << fMidiTempoDuration <<
     endl <<
     setw (fieldWidth) <<
-    "MidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
+    "midiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
     endl <<
     endl;
 

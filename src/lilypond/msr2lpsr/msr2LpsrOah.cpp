@@ -1834,7 +1834,7 @@ R"()",
 
   // single line staves
 
-  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
+  fCreateSingleLineStavesAsRythmic = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (

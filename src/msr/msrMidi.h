@@ -84,6 +84,8 @@ class msrMidiTempo : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
