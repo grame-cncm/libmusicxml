@@ -35,27 +35,31 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_oahAtom oahAtom::create (
-  string shortName,
-  string longName,
-  string description)
+  string                      shortName,
+  string                      longName,
+  string                      description,
+  oahElementValueExpectedKind atomValueExpectedKind)
 {
   oahAtom* o = new
     oahAtom (
       shortName,
       longName,
-      description);
+      description,
+      atomValueExpectedKind);
   assert(o!=0);
   return o;
 }
 
 oahAtom::oahAtom (
-  string shortName,
-  string longName,
-  string description)
+  string                      shortName,
+  string                      longName,
+  string                      description,
+  oahElementValueExpectedKind atomValueExpectedKind)
   : oahElement (
       shortName,
       longName,
       description,
+      atomValueExpectedKind,
       kElementVisibilityAlways)
 {}
 
@@ -81,6 +85,17 @@ void oahAtom::registerAtomInHandler (
     registerElementInHandler (this);
 
   fHandlerUpLink = handler;
+}
+
+void oahAtom::registerAtomAsBeingUsed ()
+{
+  fSubGroupUpLink->incrementNumberOfUserChoseAtomsInThisSubGroup ();
+
+  S_oahGroup
+    atomGroup =
+      fSubGroupUpLink-> getGroupUpLink ();
+
+  atomGroup->incrementNumberOfUserChoseAtomsInThisGroup ();
 }
 
 void oahAtom::acceptIn (basevisitor* v)
@@ -235,7 +250,8 @@ oahAtomSynonym::oahAtomSynonym (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      originalOahAtom->getElementValueExpectedKind ())
 {
   // sanity check
   msrAssert (
@@ -375,7 +391,8 @@ oahOptionsUsageAtom::oahOptionsUsageAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 oahOptionsUsageAtom::~oahOptionsUsageAtom ()
@@ -596,7 +613,8 @@ oahOptionsSummaryAtom::oahOptionsSummaryAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 oahOptionsSummaryAtom::~oahOptionsSummaryAtom ()
@@ -751,7 +769,8 @@ oahAtomWithVariableName::oahAtomWithVariableName (
   : oahAtom (
       shortName,
       longName,
-      description),
+      description,
+      kElementValueExpectedNo),
     fVariableName (
       variableName)
 {}
@@ -2090,7 +2109,8 @@ oahMultiplexBooleansAtom::oahMultiplexBooleansAtom (
         // should be a unique shortName
       "unusedLongName_" + longSuffixDescriptor + "_" + description,
         // should be a unique longName
-      description),
+      description,
+      kElementValueExpectedNo),
     fShortNamesPrefix (
       shortNamesPrefix),
     fLongNamesPrefix (
@@ -2687,30 +2707,6 @@ S_oahValuedAtom oahValuedAtom::create (
 }
 */
 
-oahValuedAtom::oahValuedAtom (
-  string shortName,
-  string longName,
-  string description,
-  string valueSpecification,
-  string variableName)
-  : oahAtomWithVariableName (
-      shortName,
-      longName,
-      description,
-      variableName)
-{
-  fValueSpecification = valueSpecification;
-
-  fValueIsOptional = false;
-}
-
-oahValuedAtom::~oahValuedAtom ()
-{}
-
-void oahValuedAtom::setValueIsOptional ()
-{
-  fValueIsOptional = true;
-
 /* JMI
   // a valued atom with an optional value
   // should not have the same name as a prefix
@@ -2733,8 +2729,27 @@ void oahValuedAtom::setValueIsOptional ()
 
     oahError (s.str ());
   }
-  */
+*/
+
+oahValuedAtom::oahValuedAtom (
+  string shortName,
+  string longName,
+  string description,
+  string valueSpecification,
+  string variableName)
+  : oahAtomWithVariableName (
+      shortName,
+      longName,
+      description,
+      variableName)
+{
+  fValueSpecification = valueSpecification;
+
+  this->setElementValueExpectedKind (kElementValueExpectedYes);
 }
+
+oahValuedAtom::~oahValuedAtom ()
+{}
 
 void oahValuedAtom::handleDefaultValue ()
 {}
@@ -2831,12 +2846,12 @@ void oahValuedAtom::printValuedAtomEssentials (
 
   os << left <<
     setw (fieldWidth) <<
-    "fValueSpecification" << " : " <<
+    "valueSpecification" << " : " <<
     fValueSpecification <<
     endl <<
     setw (fieldWidth) <<
-    "fValueIsOptional" << " : " <<
-    booleanAsString (fValueIsOptional) <<
+    "elementValueExpectedKind" << " : " <<
+    elementValueExpectedKindAsString (fElementValueExpectedKind) <<
     endl;
 }
 
@@ -2866,23 +2881,25 @@ void oahValuedAtom::printHelp (ostream& os)
       fHandlerUpLink->
         getHandlerOptionalValuesStyleKind ();
 
-
-if (fValueIsOptional) {
-    switch (optionalValuesStyleKind) {
-      case kOptionalValuesStyleGNU: // default value
-        os <<
-          "[=" << fValueSpecification << "]";
-        break;
-      case kOptionalValuesStyleOAH:
-        os <<
-          " " << fValueSpecification;
-    } // switch
-  }
-  else {
-    os <<
-      " " << fValueSpecification;
-  }
-
+  switch (fElementValueExpectedKind) {
+    case kElementValueExpectedYes:
+    case kElementValueExpectedNo:
+      os <<
+        " " << fValueSpecification;
+      break;
+    case kElementValueExpectedOptional:
+      switch (optionalValuesStyleKind) {
+        case kOptionalValuesStyleGNU: // default value
+          os <<
+            "[=" << fValueSpecification << "]";
+          break;
+        case kOptionalValuesStyleOAH:
+          os <<
+            " " << fValueSpecification;
+          break;
+      } // switch
+      break;
+  } // switch
   os << endl;
 
   if (fDescription.size ()) {
@@ -3985,7 +4002,8 @@ oahMonoplexStringAtom::oahMonoplexStringAtom (
         // should be a unique shortName
       "unusedLongName_" + atomNameDescriptor + "_" + description,
         // should be a unique longName
-      description),
+      description,
+      kElementValueExpectedNo),
     fAtomNameDescriptor (
       atomNameDescriptor),
     fStringValueDescriptor (
@@ -4396,7 +4414,7 @@ oahStringWithDefaultValueAtom::oahStringWithDefaultValueAtom (
     fDefaultStringValue (
       defaultStringValue)
 {
-  setValueIsOptional ();
+  this->setElementValueExpectedKind (kElementValueExpectedOptional);
 }
 
 oahStringWithDefaultValueAtom::~oahStringWithDefaultValueAtom ()
@@ -7727,7 +7745,9 @@ oahOptionNameHelpAtom::oahOptionNameHelpAtom (
       variableName,
       stringVariable,
       defaultOptionName)
-{}
+{
+  this->setElementValueExpectedKind (kElementValueExpectedOptional);
+}
 
 oahOptionNameHelpAtom::~oahOptionNameHelpAtom ()
 {}
@@ -7918,11 +7938,14 @@ oahSubGroup::oahSubGroup (
       shortName,
       longName,
       description,
+      kElementValueExpectedNo,
       optionVisibilityKind)
 {
   fGroupUpLink = groupUpLink;
 
   fSubGroupHeader = subGroupHeader;
+
+  fNumberOfUserChoseAtomsInThisSubGroup = 0;
 }
 
 oahSubGroup::~oahSubGroup ()
@@ -8105,7 +8128,7 @@ void oahSubGroup::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "fElementVisibilityKind" << " : " <<
-      optionVisibilityKindAsString (
+      elementVisibilityKindAsString (
         fElementVisibilityKind) <<
     endl <<
     endl;
@@ -8499,7 +8522,14 @@ void oahSubGroup::printSubGroupOptionsValues (
   os <<
     fSubGroupHeader <<
     " " <<
-    fetchNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses ();
+  if (fNumberOfUserChoseAtomsInThisSubGroup > 0) {
+    os <<
+      ", " <<
+      singularOrPlural (
+        fNumberOfUserChoseAtomsInThisSubGroup, "atom chosen", "atoms chosen");
+  }
+  os <<
     ":" <<
     endl;
 
@@ -8565,11 +8595,14 @@ oahGroup::oahGroup (
       shortName,
       longName,
       description,
+      kElementValueExpectedNo,
       optionVisibilityKind)
 {
   fHandlerUpLink = groupHandlerUpLink;
 
   fGroupHeader = header;
+
+  fNumberOfUserChoseAtomsInThisGroup = 0;
 }
 
 oahGroup::~oahGroup ()
@@ -9183,7 +9216,14 @@ void oahGroup::printGroupOptionsValues (
   os <<
     fGroupHeader <<
     " " <<
-    fetchNamesBetweenParentheses () <<
+    fetchNamesBetweenParentheses ();
+  if (fNumberOfUserChoseAtomsInThisGroup > 0) {
+    os <<
+      ", " <<
+      singularOrPlural (
+        fNumberOfUserChoseAtomsInThisGroup, "atom chosen", "atoms chosen");
+  }
+  os <<
     ":" <<
     endl;
 
@@ -9263,6 +9303,7 @@ oahHandler::oahHandler (
       handlerShortName,
       handlerLongName,
       handlerDescription,
+      kElementValueExpectedNo,
       kElementVisibilityAlways),
     fHandlerLogOstream (
       handlerLogOstream)
@@ -10571,49 +10612,58 @@ void oahHandler::checkMissingPendingValuedAtomValue (
     switch (fHandlerOptionalValuesStyleKind) {
       case kOptionalValuesStyleGNU:
         // handle the valued atom using the default value
-        if (fPendingValuedAtom->getValueIsOptional ()) {
-          fPendingValuedAtom->
-            handleDefaultValue ();
-        }
+        switch (fElementValueExpectedKind) {
+          case kElementValueExpectedYes:
+          case kElementValueExpectedNo:
+            /* JMI
+              stringstream s;
 
-        else {
-        /* JMI
-          stringstream s;
+              s <<
+                "option name '" << atomName <<
+                "' takes an optional value: it should be used with a '=' in GNU optional values style";
 
-          s <<
-            "option name '" << atomName <<
-            "' takes an optional value: it should be used with a '=' in GNU optional values style";
-
-          oahError (s.str ());
-       //   oahWarning (s.str ()); // JMI
-       */
-        }
+              oahError (s.str ());
+             //   oahWarning (s.str ()); // JMI
+            */
+            break;
+          case kElementValueExpectedOptional:
+            fPendingValuedAtom->
+              handleDefaultValue ();
+            break;
+        } // switch
         break;
 
       case kOptionalValuesStyleOAH:
         // handle the valued atom using the default value
-        if (fPendingValuedAtom->getValueIsOptional ()) {
-          fPendingValuedAtom->
-            handleDefaultValue ();
-        }
+        switch (fElementValueExpectedKind) {
+          case kElementValueExpectedYes:
+            {
+              // an option requiring a value is expecting it,
+              // but another option, an argument or the end of the command line
+              // has been found instead
+              stringstream s;
 
-        else {
-          // an option requiring a value is expecting it,
-          // but another option, an argument or the end of the command line
-          // has been found instead
-          stringstream s;
+              s <<
+                "checkMissingPendingValuedAtomValue(): option " <<
+               fPendingValuedAtom->asString () <<
+               " expects a value" <<
+               " (" << context << ")";
 
-          s <<
-            "option " <<
-           fPendingValuedAtom->asString () <<
-           " expects a value" <<
-           " (" << context << ")";
-
-          oahError (s.str ());
-        }
+              oahError (s.str ());
+            }
+            break;
+          case kElementValueExpectedNo:
+            // JMI
+            break;
+          case kElementValueExpectedOptional:
+            fPendingValuedAtom->
+              handleDefaultValue ();
+            break;
+        } // switch
         break;
     } // switch
 
+    // forget about this pending valued atom
     fPendingValuedAtom = nullptr;
   }
 }
@@ -11209,31 +11259,282 @@ const vector<string> oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
   return fHandlerArgumentsVector;
 }
 
-const vector<string> oahHandler::applyOptionsFromOptionsVector (
+void oahHandler::decipherOptionAndValue (
+  string optionName,
+  string optionValue)
+{
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gOutputOstream <<
+      "deciphering optionName '" << optionName << "'" <<
+      " and optionValue '" << optionValue << "'" <<
+      endl;
+  }
+#endif
+
+  string currentOptionName;
+
+  string optionTrailer =
+    optionName.substr (1, string::npos);
+
+  /* JMI
+  gOutputOstream <<
+    "optionTrailer '" << optionTrailer << "' is preceded by a dash" <<
+    endl;
+  */
+
+  // here, optionTrailer.size () >= 1
+
+  if (optionTrailer [0] == '-') {
+    // this is a double-dashed option, '--' has been found
+
+    if (optionTrailer.size () == 1) {
+      // optionTrailer is '--' alone, that marks the end of the options
+      fNowEverythingIsAnArgument = true;
+    }
+
+    else {
+      // optionTrailer is a double-dashed option
+      currentOptionName =
+        optionTrailer.substr (1, string::npos);
+
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceOah) {
+        gOutputOstream <<
+          "'" << currentOptionName << "' is a double-dashed option" <<
+          endl;
+      }
+#endif
+    }
+  }
+
+  else {
+    // it is a single-dashed option
+    currentOptionName =
+      optionTrailer;
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        "'" << currentOptionName << "' is a single-dashed option" <<
+        endl;
+    }
+#endif
+  }
+
+  // does currentOptionName contain an equal sign?
+  size_t equalsSignPosition =
+    currentOptionName.find ("=");
+
+  if (equalsSignPosition != string::npos) {
+    // yes, there's an equal sign
+    decipherOptionContainingEqualSign ( // JMI
+      currentOptionName,
+      equalsSignPosition);
+  }
+
+  else {
+    // no, there's no equal sign
+    // handle the current option name and its value
+    handleOptionNameAndValue (
+      currentOptionName,
+      optionValue);
+  }
+}
+
+const vector<string> oahHandler::hangleOptionsFromOptionsVector (
   string               fakeExecutableName,
   const optionsVector& theOptionsVector)
 {
+//  gTraceOah->fTraceOah = true; // TEMP JMI
+//  gOahOah->fDisplayOahValues = false; // TEMP JMI
 
-  // append the fake executable name to fHandlerArgumentsVector
-  fHandlerArgumentsVector.push_back (fakeExecutableName);
+  // register executable name
+  fHandlerExecutableName = fakeExecutableName;
 
-  // append the options and arguments to fakeArgv
-  optionsVector::const_iterator i;
+  fCommandLineAsSupplied = fHandlerExecutableName;
 
-  for (i=theOptionsVector.begin (); i!=theOptionsVector.end (); i++) {
-    string optionName  = (*i).first;
-    string optionValue = (*i).second;
+  // decipher the command options and arguments
+  string lastOptionNameFound;
+
+  for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
+    string optionName  = theOptionsVector [i].first;
+    string optionValue = theOptionsVector [i].second;
+
+    fCommandLineAsSupplied +=
+      " " + optionName;
+    if (optionValue.size ()) {
+      fCommandLineAsSupplied +=
+        " " + quoteStringIfNonAlpha (optionValue);
+    }
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        "commandLineAsSupplied: " << fCommandLineAsSupplied <<
+        endl;
+
+      // print current option
+      gOutputOstream <<
+        "Options vector element " << i <<
+        ": " << optionName;
+
+      if (optionValue.size ()) {
+        gOutputOstream <<
+          " \"" << optionValue << "\"";
+      }
+      gOutputOstream << endl;
+    }
+#endif
+
+    // handle current option
+    if (optionName [0] == '-') {
+      // stdin or option?
+
+      if (optionName.size () == 1) {
+        // this is the stdin indicator
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceOah) {
+          gOutputOstream <<
+            "'" << optionName <<
+              "' is the '-' stdin indicator" <<
+            endl;
+        }
+#endif
+
+        fHandlerArgumentsVector.push_back (optionName);
+      }
+
+      else {
+        // this is an option, first '-' has been found
+        // and optionName.size () >= 2
+
+        decipherOptionAndValue (
+          optionName,
+          optionValue);
+      }
+    }
+
+    else {
+      // optionName is no oahElement:
+      // it is an argument
+      fHandlerArgumentsVector.push_back (optionName);
+//      handleOptionValueOrArgument (optionName);
+    }
 
   } // for
 
-  // return the result
-  /*
-  return
-    applyOptionsAndArgumentsFromArgcAndArgv (
-      fakeArgc, fakeArgv);
-*/
+  // is a pending valued atom value missing?
+  checkMissingPendingValuedAtomValue (
+    lastOptionNameFound,
+    "last option in command line");
 
-  return fHandlerArgumentsVector; // JMI
+  unsigned int argumentsVectorSize =
+    fHandlerArgumentsVector.size ();
+
+#ifdef TRACE_OAH
+  // display theOptionsVector only now, to wait for the options to have been handled
+  if (gTraceOah->fTraceOah || gOahOah->fShowOptionsAndArguments) {
+    gOutputOstream <<
+      "theOptionsVector: " << theOptionsVector.size () << " elements:" <<
+      endl;
+
+    gIndenter++;
+
+    for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
+      string optionName  = theOptionsVector [i].first;
+      string optionValue = theOptionsVector [i].second;
+
+      gOutputOstream <<
+        "theOptionsVector [" << i << "]: " << optionName << " " << optionValue <<
+        endl;
+    } // for
+
+    gIndenter--;
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahDetails) {
+    printKnownPrefixes ();
+    printKnownSingleCharacterOptions ();
+    printKnownOptions ();
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    // print the arguments vector
+    gOutputOstream <<
+      "Arguments vector (" <<
+      argumentsVectorSize <<
+      " elements):" <<
+      endl;
+
+    if (argumentsVectorSize) {
+      gIndenter++;
+      for (unsigned int i = 0; i < argumentsVectorSize; i++) {
+        gOutputOstream <<
+          fHandlerArgumentsVector [i] <<
+          endl;
+      } // for
+      gIndenter--;
+    }
+  }
+#endif
+
+  // print the chosen options if so chosen
+  // ------------------------------------------------------
+
+#ifdef TRACE_OAH
+  if (gOahOah->fDisplayOahValues) {
+    printAllOahCommandLineValues (
+      gOutputOstream);
+
+    gOutputOstream << endl;
+  }
+#endif
+
+  // was this run a 'pure help' one?
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gOutputOstream <<
+      "The value of fHandlerFoundAHelpOption is: " <<
+      booleanAsString (fHandlerFoundAHelpOption) <<
+      endl;
+  }
+#endif
+
+  if (fHandlerFoundAHelpOption) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        "==> fHandlerFoundAHelpOption is true, exiting" <<
+        endl;
+    }
+#endif
+
+    exit (0);
+  }
+
+  // check the consistency of the options
+  checkHandlerGroupsOptionsConsistency ();
+
+  // check the options and arguments
+  checkOptionsAndArguments ();
+
+  // store the command line with options in gOahOah
+  // for whoever need them
+  gOahOah->fCommandLineAsSupplied =
+      commandLineAsSuppliedAsString ();
+  gOahOah->fCommandLineWithShortOptionsNames =
+      commandLineWithShortNamesAsString ();
+  gOahOah->fCommandLineWithLongOptionsNames =
+      commandLineWithLongNamesAsString ();
+
+  // return the result
+  return fHandlerArgumentsVector;
 }
 
 void oahHandler::handleHandlerName (
@@ -11369,22 +11670,50 @@ void oahHandler::handleAtomName (
   }
 #endif
 
-    this->handleAtomName (
-      originalOahAtom,
-      atomSynonym->getShortName ());
+    this->
+      handleAtomName (
+        originalOahAtom,
+        atomSynonym->getShortName ());
   }
 
   else {
     // atom is a plain atom
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gOutputOstream <<
-      "==> option '" << atomName << "' is a plain atom '" <<
-      "'" <<
-      endl;
-  }
+    if (gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        "==> option '" << atomName << "' is a plain atom '" <<
+        "'" <<
+        endl;
+    }
 #endif
+
+    // sanity check
+    switch (atom->getElementValueExpectedKind ()) {
+      case kElementValueExpectedYes:
+        if (! fPendingValuedAtom) {
+          stringstream s;
+
+          s <<
+            "handleAtomName(): option '-" << atomName << "' expects a value";
+
+          oahError (s.str ());
+        }
+        break;
+      case kElementValueExpectedNo:
+        if (fPendingValuedAtom) {
+          stringstream s;
+
+          s <<
+            "option '-" << atomName << "' doesn't expect a value";
+
+          oahError (s.str ());
+        }
+        break;
+      case kElementValueExpectedOptional:
+        // JMI ???
+        break;
+    } // switch
 
     // is the value for a pending valued atom missing?
     string context =
@@ -11394,12 +11723,117 @@ void oahHandler::handleAtomName (
       atomName,
       context);
 
+    // register this atom as being used
+    atom->registerAtomAsBeingUsed ();
+
     // delegate the handling to the atom
     fPendingValuedAtom =
       atom->
         handleOptionUnderName (
           atomName,
           gOutputOstream);
+  }
+}
+
+void oahHandler::handleAtomNameAndValue (
+  S_oahAtom atom,
+  string    atomName,
+  string    value)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gOutputOstream <<
+      "==> oahHandler: handling atomName '" << atomName <<
+      "', atom: "<<
+      atom->asString () <<
+      "' with value \"" << value << "\"" <<
+      endl;
+  }
+#endif
+
+  if (
+    // atom synonym?
+    S_oahAtomSynonym
+      atomSynonym =
+        dynamic_cast<oahAtomSynonym*>(&(*atom))
+  ) {
+    // yes, use the original atom instead
+
+    S_oahAtom
+      originalOahAtom =
+        atomSynonym->getOriginalOahAtom ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gOutputOstream <<
+      "==> option '" << atomName << "' is a synonym for '" <<
+      originalOahAtom->asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
+    this->
+      handleAtomNameAndValue (
+        originalOahAtom,
+        atomSynonym->getShortName (),
+        value);
+  }
+
+  else {
+    // atom is a plain atom
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        "==> option '" << atomName << "' is a plain atom '" <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // sanity check
+    switch (atom->getElementValueExpectedKind ()) {
+      case kElementValueExpectedYes:
+        // fine, we have the value available
+        break;
+      case kElementValueExpectedNo:
+        if (value.size ()) {
+          stringstream s;
+
+          s <<
+            "option '-" << atomName << "' doesn't expect a value";
+
+          oahError (s.str ());
+        }
+        break;
+      case kElementValueExpectedOptional:
+        // JMI ???
+        break;
+    } // switch
+
+    // register this atom as being used
+    atom->registerAtomAsBeingUsed ();
+
+    // delegate the handling of the value to the atom
+    if (
+      // valued atom?
+      S_oahValuedAtom
+        valuedAtom =
+          dynamic_cast<oahValuedAtom*>(&(*atom))
+    ) {
+      // yes
+      valuedAtom->handleValue (
+        value,
+        gOutputOstream);
+    }
+    else {
+      // no
+      atom->
+        handleOptionUnderName (
+          atomName,
+          gOutputOstream);
+    }
   }
 }
 
@@ -11574,6 +12008,182 @@ void oahHandler::handleOptionName (
   }
 }
 
+void oahHandler::handleOptionNameAndValue (
+  string name,
+  string value)
+{
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        endl <<
+        "==> oahHandler::handleOptionNameAndValue(), handling name \"" <<
+        name <<
+        "\"" <<
+        " and value \"" << value << "\"" <<
+        endl;
+    }
+#endif
+
+  // is name known in options map?
+  S_oahElement
+    element =
+      fetchElementFromMap (name);
+
+  if (! element) {
+    // name is unknown
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        endl <<
+        "==> oahHandler::handleOptionNameAndValue (), name = \"" <<
+        name <<
+        "\" is not known" <<
+        endl;
+    }
+#endif
+
+    if (
+      // is it a single-character options cluster?
+      name.size () > 1
+        &&
+      optionNameIsASingleCharacterOptionsCluster (name)
+    ) {
+      // the options contained in name have just been handled,
+      // do nothing more
+    }
+
+    else {
+      // name is unknown to this OAH handler
+
+      stringstream s;
+
+      s <<
+        "option name '" << name << "' is unknown";
+
+      oahError (s.str ());
+    }
+  }
+
+  else {
+    // name is a known element, let's handle it
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        endl <<
+        "==> oahHandler::handleOptionNameAndValue (), name = \"" <<
+        name <<
+        "\" is described by option:" <<
+        endl;
+      gIndenter++;
+      element->print (gOutputOstream);
+      gIndenter--;
+    }
+#endif
+
+    // is this element already present in the commande line?
+    multiset<S_oahElement, compareOahElements>::const_iterator
+      it =
+        fHandlerCommandLineElementsMultiset.find (
+          element);
+
+    if (it != fHandlerCommandLineElementsMultiset.end ()) {
+      // yes, element is known in the list
+      if (! element->getMultipleOccurrencesAllowed ()) {
+        stringstream s;
+
+        s <<
+          "element '" <<
+          element->fetchNames () <<
+          "' is already present in the command line";
+
+        oahWarning (s.str ());
+      }
+    }
+
+    // remember this element as occurring in the command line
+    fHandlerCommandLineElementsList.push_back (element);
+    fHandlerCommandLineElementsMultiset.insert (element);
+
+    // determine element short and long names to be used,
+    // in case one of them (short or long) is empty
+    string
+      shortName =
+        element->getShortName (),
+      longName =
+        element->getLongName ();
+
+    string
+      shortNameToBeUsed = shortName,
+      longNameToBeUsed = longName;
+
+    // replace empty element name if any by the other one,
+    // since they can't both be empty
+    if (! shortNameToBeUsed.size ()) {
+      shortNameToBeUsed = longNameToBeUsed;
+    }
+    if (! longNameToBeUsed.size ()) {
+      longNameToBeUsed = shortNameToBeUsed;
+    }
+
+    // handle the option
+    if (
+      // options handler?
+      S_oahHandler
+        handler =
+          dynamic_cast<oahHandler*>(&(*element))
+    ) {
+        handleHandlerName (
+          handler,
+          name);
+    }
+
+    else if (
+      // options group?
+      S_oahGroup
+        group =
+          dynamic_cast<oahGroup*>(&(*element))
+    ) {
+      handleGroupName (
+        group,
+        name);
+    }
+
+    else if (
+      // options subgroup?
+      S_oahSubGroup
+        subGroup =
+          dynamic_cast<oahSubGroup*>(&(*element))
+    ) {
+      handleSubGroupName (
+        subGroup,
+        name);
+    }
+
+    else if (
+      // atom?
+      S_oahAtom
+        atom =
+          dynamic_cast<oahAtom*>(&(*element))
+    ) {
+      handleAtomNameAndValue (
+        atom,
+        name,
+        value);
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "INTERNAL ERROR: option name '" << name <<
+        "' with value \"" << value << "\"" <<
+        " cannot be handled";
+
+      oahError (s.str ());
+    }
+  }
+}
+
 void oahHandler::handleOptionValueOrArgument (
   string theString)
 {
@@ -11626,6 +12236,7 @@ void oahHandler::handleOptionValueOrArgument (
       theString,
       gOutputOstream);
 
+    // forget about this pending valued atom
     fPendingValuedAtom = nullptr;
   }
 

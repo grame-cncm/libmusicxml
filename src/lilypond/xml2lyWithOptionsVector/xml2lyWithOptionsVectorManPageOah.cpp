@@ -57,7 +57,8 @@ xml2lyWithOptionsVectorManPageGenerateAtom::xml2lyWithOptionsVectorManPageGenera
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {
   fOahVisitor = theOahVisitor;
 }

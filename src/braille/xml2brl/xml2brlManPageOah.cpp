@@ -57,7 +57,8 @@ xml2brlManPageGenerateAtom::xml2brlManPageGenerateAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {
   fOahVisitor = theOahVisitor;
 }

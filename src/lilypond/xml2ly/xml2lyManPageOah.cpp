@@ -57,7 +57,8 @@ xml2lyManPageGenerateAtom::xml2lyManPageGenerateAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {
   fOahVisitor = theOahVisitor;
 }

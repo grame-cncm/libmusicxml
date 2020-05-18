@@ -88,26 +88,12 @@ void msr2MxmltreeOah::initializeCodeGenerationOptions (
     subGroup =
       oahSubGroup::create (
         "Code generation",
-        "hlpcg", "help-lilypond-code-generation",
+        "hmxmlcg", "help-musicxml-code-generation",
 R"()",
       kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
-
-/* useful??? JMI
-  // infos
-
-  fXml2lyInfos = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "xi", "xml2ly-infos",
-R"(Generate initial comments showing the compilation date and lilypond.)",
-        "xml2lyInfos",
-        fXml2lyInfos));
-*/
 
   // comments
 

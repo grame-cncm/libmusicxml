@@ -248,9 +248,9 @@ int main (int argc, char *argv[])
   // do the translation
   // ------------------------------------------------------
 
-  convertMusicXMLToLilypond (
-    inputSourceName,
-    outputFileName);
+  if (convertMusicXMLToLilypond (inputSourceName, outputFileName) != kNoErr) {
+    return 1;
+  }
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

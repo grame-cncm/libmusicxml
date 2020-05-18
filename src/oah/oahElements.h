@@ -39,26 +39,37 @@ typedef SMARTP<oahHandler> S_oahHandler;
 // data types
 // ------------------------------------------------------
 
+enum oahElementValueExpectedKind {
+  kElementValueExpectedYes,
+  kElementValueExpectedNo,
+  kElementValueExpectedOptional };
+
+string elementValueExpectedKindAsString (
+  oahElementValueExpectedKind elementValueExpectedKind);
+
 enum oahElementVisibilityKind {
   kElementVisibilityAlways,
   kElementVisibilityHiddenByDefault };
 
-string optionVisibilityKindAsString (
-  oahElementVisibilityKind optionVisibilityKind);
+string elementVisibilityKindAsString (
+  oahElementVisibilityKind elementVisibilityKind);
 
 //______________________________________________________________________________
 class oahElement : public smartable
 {
   public:
 
+/* JMI
     // creation
     // ------------------------------------------------------
 
     static SMARTP<oahElement> create (
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementVisibilityKind optionVisibilityKind);
+      string                      shortName,
+      string                      longName,
+      string                      description,
+      oahElementValueExpectedKind elementValueExpectedKind,
+      oahElementVisibilityKind    elementVisibilityKind);
+*/
 
   protected:
 
@@ -66,10 +77,11 @@ class oahElement : public smartable
     // ------------------------------------------------------
 
     oahElement (
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementVisibilityKind optionVisibilityKind);
+      string                      shortName,
+      string                      longName,
+      string                      description,
+      oahElementValueExpectedKind elementValueExpectedKind,
+      oahElementVisibilityKind    elementVisibilityKind);
 
     virtual ~oahElement ();
 
@@ -94,6 +106,18 @@ class oahElement : public smartable
 
     string                getDescription () const
                               { return fDescription; }
+
+    void                  setElementValueExpectedKind (
+                            oahElementValueExpectedKind elementValueExpectedKind)
+                              { fElementValueExpectedKind = elementValueExpectedKind; }
+
+    oahElementValueExpectedKind
+                          getElementValueExpectedKind () const
+                              { return fElementValueExpectedKind; }
+
+    void                  setElementVisibilityKind (
+                            oahElementVisibilityKind elementVisibilityKind)
+                              { fElementVisibilityKind = elementVisibilityKind; }
 
     oahElementVisibilityKind
                           getElementVisibilityKind () const
@@ -186,6 +210,9 @@ class oahElement : public smartable
     string                fShortName;
     string                fLongName;
     string                fDescription;
+
+    oahElementValueExpectedKind
+                          fElementValueExpectedKind;
 
     oahElementVisibilityKind
                           fElementVisibilityKind;

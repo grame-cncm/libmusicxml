@@ -201,9 +201,9 @@ int main (int argc, char *argv[])
   // do the translation
   // ------------------------------------------------------
 
-  convertMusicXMLToBraille (
-    inputSourceName,
-    outputFileName);
+  if (convertMusicXMLToBraille (inputSourceName, outputFileName) != kNoErr) {
+    return 1;
+  }
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

@@ -351,9 +351,6 @@ OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
         fOptionName,
         defaultOptionName);
 
-  optionNameHelpAtom->
-    setValueIsOptional ();
-
   subGroup->
     appendAtomToSubGroup (
       optionNameHelpAtom);

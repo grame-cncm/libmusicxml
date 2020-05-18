@@ -403,6 +403,7 @@ EXP xmlErr convertMusicXMLToLilypond (
     lpScore,
     "Pass 4");
 
+/* JMI
   // create MusicXML back from the MSR if requested
   // ------------------------------------------------------
   if (gXml2lyOah->fLoopBackToMusicXML) {
@@ -413,6 +414,7 @@ EXP xmlErr convertMusicXMLToLilypond (
         regex (".ly"),
         "_LOOP.xml"));
   }
+*/
 
   return kNoErr;
 }

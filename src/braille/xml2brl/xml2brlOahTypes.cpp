@@ -49,7 +49,8 @@ xml2brlVersionOahAtom::xml2brlVersionOahAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 xml2brlVersionOahAtom::~xml2brlVersionOahAtom ()
@@ -214,7 +215,8 @@ xml2brlAboutOahAtom::xml2brlAboutOahAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 xml2brlAboutOahAtom::~xml2brlAboutOahAtom ()
@@ -397,7 +399,8 @@ xml2brlContactOahAtom::xml2brlContactOahAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 xml2brlContactOahAtom::~xml2brlContactOahAtom ()

@@ -49,7 +49,8 @@ xml2lyWithOptionsVectorVersionOahAtom::xml2lyWithOptionsVectorVersionOahAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 xml2lyWithOptionsVectorVersionOahAtom::~xml2lyWithOptionsVectorVersionOahAtom ()
@@ -214,7 +215,8 @@ xml2lyWithOptionsVectorAboutOahAtom::xml2lyWithOptionsVectorAboutOahAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 xml2lyWithOptionsVectorAboutOahAtom::~xml2lyWithOptionsVectorAboutOahAtom ()
@@ -391,7 +393,8 @@ xml2lyWithOptionsVectorContactOahAtom::xml2lyWithOptionsVectorContactOahAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 xml2lyWithOptionsVectorContactOahAtom::~xml2lyWithOptionsVectorContactOahAtom ()

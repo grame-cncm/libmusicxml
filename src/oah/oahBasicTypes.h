@@ -65,9 +65,10 @@ class oahAtom : public oahElement
     // ------------------------------------------------------
 
     static SMARTP<oahAtom> create (
-      string shortName,
-      string longName,
-      string description);
+      string                      shortName,
+      string                      longName,
+      string                      description,
+      oahElementValueExpectedKind atomValueExpectedKind);
 
   protected:
 
@@ -75,9 +76,10 @@ class oahAtom : public oahElement
     // ------------------------------------------------------
 
     oahAtom (
-      string shortName,
-      string longName,
-      string description);
+      string                      shortName,
+      string                      longName,
+      string                      description,
+      oahElementValueExpectedKind atomValueExpectedKind);
 
     virtual ~oahAtom ();
 
@@ -99,6 +101,8 @@ class oahAtom : public oahElement
 
     void                  registerAtomInHandler (
                             S_oahHandler handler);
+
+    void                  registerAtomAsBeingUsed ();
 
   public:
 
@@ -1013,11 +1017,6 @@ class oahValuedAtom : public oahAtomWithVariableName
     string                getValueSpecification () const
                               { return fValueSpecification; }
 
-    void                  setValueIsOptional ();
-
-    bool                  getValueIsOptional () const
-                              { return fValueIsOptional; }
-
   public:
 
     // services
@@ -1028,7 +1027,8 @@ class oahValuedAtom : public oahAtomWithVariableName
                             ostream& os) = 0;
 
     virtual void          handleDefaultValue ();
-                            // used only if fValueIsOptional is true
+                            // used only if fElementValueExpectedKind
+                            // is equal to kElementValueExpectedOptional
 
   public:
 
@@ -1065,8 +1065,6 @@ class oahValuedAtom : public oahAtomWithVariableName
     oahValuedAtomKind     fValuedAtomKind; // JMI
 
     string                fValueSpecification;
-
-    bool                  fValueIsOptional;
 };
 typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
 EXP ostream& operator<< (ostream& os, const S_oahValuedAtom& elt);
@@ -2773,6 +2771,12 @@ class oahSubGroup : public oahElement
     string                getSubGroupHeader () const
                               { return fSubGroupHeader; }
 
+    void                  incrementNumberOfUserChoseAtomsInThisSubGroup ()
+                              { fNumberOfUserChoseAtomsInThisSubGroup += 1; }
+
+    int                   getNumberOfUserChoseAtomsInThisSubGroup () const
+                              { return fNumberOfUserChoseAtomsInThisSubGroup; }
+
   public:
 
     // consistency check
@@ -2855,6 +2859,11 @@ class oahSubGroup : public oahElement
     string                fSubGroupHeader;
 
     list<S_oahAtom>       fAtomsList;
+
+    // protected work fields
+    // ------------------------------------------------------
+
+    int                   fNumberOfUserChoseAtomsInThisSubGroup;
 };
 typedef SMARTP<oahSubGroup> S_oahSubGroup;
 EXP ostream& operator<< (ostream& os, const S_oahSubGroup& elt);
@@ -2901,6 +2910,12 @@ class oahGroup : public oahElement
     const list<S_oahSubGroup>&
                           getSubGroupsList () const
                               { return fSubGroupsList; }
+
+    void                  incrementNumberOfUserChoseAtomsInThisGroup ()
+                              { fNumberOfUserChoseAtomsInThisGroup += 1; }
+
+    int                   getNumberOfUserChoseAtomsInThisGroup () const
+                              { return fNumberOfUserChoseAtomsInThisGroup; }
 
   public:
 
@@ -2984,6 +2999,13 @@ class oahGroup : public oahElement
     string                fGroupHeader;
 
     list<S_oahSubGroup>   fSubGroupsList;
+
+  protected:
+
+    // protected work fields
+    // ------------------------------------------------------
+
+    int                   fNumberOfUserChoseAtomsInThisGroup;
 };
 typedef SMARTP<oahGroup> S_oahGroup;
 EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
@@ -3137,7 +3159,7 @@ class EXP oahHandler : public oahElement
                             int   argc,
                             char* argv[]);
 
-    const vector<string>  applyOptionsFromOptionsVector (
+    const vector<string>  hangleOptionsFromOptionsVector (
                             string               fakeExecutableName,
                             const optionsVector& theOptionsVector);
 
@@ -3147,6 +3169,10 @@ class EXP oahHandler : public oahElement
     void                  decipherOptionContainingEqualSign (
                             string currentOptionName,
                             size_t equalsSignPosition);
+
+    void                  decipherOptionAndValue (
+                            string optionName,
+                            string optionValue);
 
   public:
 
@@ -3213,6 +3239,10 @@ class EXP oahHandler : public oahElement
     void                  handleOptionName (
                             string name);
 
+    void                  handleOptionNameAndValue (
+                            string name,
+                            string value);
+
     void                  handleHandlerName (
                             S_oahHandler handler,
                             string       name);
@@ -3228,6 +3258,11 @@ class EXP oahHandler : public oahElement
     void                  handleAtomName (
                             S_oahAtom atom,
                             string    atomName);
+
+    void                  handleAtomNameAndValue (
+                            S_oahAtom atom,
+                            string    atomName,
+                            string    value);
 
     void                  handleOptionValueOrArgument (
                             string theString);

@@ -57,7 +57,8 @@ extraShowAllChordsStructuresAtom::extraShowAllChordsStructuresAtom (
   : oahAtom (
       shortName,
       longName,
-      description)
+      description,
+      kElementValueExpectedNo)
 {}
 
 extraShowAllChordsStructuresAtom::~extraShowAllChordsStructuresAtom ()

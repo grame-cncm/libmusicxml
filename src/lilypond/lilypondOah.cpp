@@ -1430,21 +1430,23 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
     "fStringsPairListVariable" << " : '" <<
     endl;
 
-  gIndenter++;
+  if (fStringsPairListVariable.size ()) {
+    gIndenter++;
 
-  list<pair<string, string> >::const_iterator
-    iBegin = fStringsPairListVariable.begin (),
-    iEnd   = fStringsPairListVariable.end (),
-    i      = iBegin;
-  for ( ; ; ) {
-    os <<
-      (*i).first << " --> " << (*i).second <<
-      endl;
-    if (++i == iEnd) break;
-// JMI    os << endl;
-  } // for
+    list<pair<string, string> >::const_iterator
+      iBegin = fStringsPairListVariable.begin (),
+      iEnd   = fStringsPairListVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        (*i).first << " --> " << (*i).second <<
+        endl;
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
 
-  gIndenter--;
+    gIndenter--;
+  }
 
   gIndenter--;
 }

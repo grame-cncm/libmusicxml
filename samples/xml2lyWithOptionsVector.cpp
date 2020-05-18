@@ -78,32 +78,33 @@ static void catchsigs()	{}
 #endif
 
 //_______________________________________________________________________________
-void displayMsrScore_OptionalPass (
-  S_msrScore mScore,
-  S_msrOah   msrOpts)
+const string kGlobalStaffSize = "33.5";
+
+//_______________________________________________________________________________
+void showUsageAndHelp (string executableName)
 {
-  // display the MSR
-  displayMSRPopulatedScore (
-    msrOpts,
-    mScore,
-    gLogOstream);
-
-  if (gIndenter != 0) {
-    if (! gGeneralOah->fQuiet) {
-      stringstream s;
-
-      s <<
-        "gIndenter value after MSR score display: "<<
-        gIndenter.getIndent ();
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        1, // JMI inputLineNumber,
-        s.str ());
-    }
-
-    gIndenter.resetToZero ();
-  }
+  gOutputOstream <<
+    "About: " <<
+      endl <<
+    gTab << executableName << " demonstrates the use of optionsVector." <<
+      endl <<
+    gTab << "It converts MusicXML data to LilyPond code, with a global staff size of "  <<
+      kGlobalStaffSize <<
+      endl <<
+    "Usage: " <<
+      endl <<
+    gTab << executableName <<
+      " (-h | -help)" <<
+      endl <<
+    gTab << executableName <<
+      " <inputFileName> [<outputFileName>]" <<
+      endl <<
+    gTab << gTab <<
+      "('-' as input file name means standard input)" <<
+      endl <<
+    gTab << gTab <<
+      "(by default, the LilyPond code goes to standard output)" <<
+      endl;
 }
 
 //_______________________________________________________________________________
@@ -114,54 +115,107 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+  // create and populate theOptionsVector
+  // ------------------------------------------------------
+
+  optionsVector theOptionsVector = {
+    make_pair ("-global-staff-size", kGlobalStaffSize)
+  };
+
+  // analyze the command line options and arguments
+  // ------------------------------------------------------
+
+  string executableName = argv [0];
+
+  string inputSourceName;
+  string outputFileName;
+
+  switch (argc) {
+    case 1:
+      showUsageAndHelp (executableName);
+      exit (1);
+      break;
+
+    case 2:
+      {
+        string argument = argv [1];
+
+        if (argument == "-h" || argument == "-help") {
+          showUsageAndHelp (executableName);
+          exit (1);
+        }
+        else {
+          // set the input file name
+          inputSourceName = argument;
+          // an empty outputFileName means the LilyPond code goes to standard output
+        }
+      }
+      break;
+
+    case 3:
+      // set the input file name
+      inputSourceName = argv [1];
+      // set the output file name
+      outputFileName = argv [2];
+      break;
+
+    default:
+    /* JMI
+      // accept a limited set of options
+      for (int i = 3; i < argc; i++) {
+        string element = argv [i];
+
+        if (element == "-aofn" or element == "-auto-output-file-name") {
+          theOptionsVector.push_back (
+            make_pair (element, ""));
+        }
+        else {
+          showUsage (executableName);
+        }
+      } // for
+      */
+      showUsageAndHelp (executableName);
+      exit (1);
+  } // switch
+
   // create the options handler
   // ------------------------------------------------------
 
   S_xml2lyWithOptionsVectorOahHandler
     handler =
       xml2lyWithOptionsVectorOahHandler::create (
-        argv [0],
+        executableName,
         gOutputOstream);
 
-  // analyze the command line options and arguments
-  // ------------------------------------------------------
-
-  optionsVector theOptionsVector = {
-    make_pair ("-tpasses", ""),
-    make_pair ("-global-staff-size", "33.333333")
-  };
-
-  vector<string>
-    argumentsVector =
-      handler->
-        applyOptionsFromOptionsVector (
-          argv [0],
-          theOptionsVector);
-
-  string
-    inputSourceName =
-      gOahOah->fInputSourceName;
-
-  string
-    outputFileName =
-      gXml2lyWithOptionsVectorOah->fLilyPondOutputFileName;
+  gOahOah->fInputSourceName = inputSourceName;
 
   int
     outputFileNameSize =
       outputFileName.size ();
 
+  gXml2lyWithOptionsVectorOah->fLilyPondOutputFileName = outputFileName;
 
-  if (true) { // JMI, TEST
-  /*
-    xml2lilypond (
-      argc,
-      argv,
-      cout,
-      inputSourceName);
+#ifdef TRACE_OAH
+  // only now, so that gTraceOah has been set
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> executableName: '" << executableName << "'" <<
+      "==> inputSourceName: '" << inputSourceName << "'" <<
+      "==> outputFileName: '" << outputFileName << "'" <<
+      endl;
   }
+#endif
 
-  else {
-  */
+  // handle theOptionsVector
+  // ------------------------------------------------------
+
+  vector<string>
+    argumentsVector =
+      handler->
+        hangleOptionsFromOptionsVector (
+          executableName,
+          theOptionsVector);
+
   // has quiet mode been requested?
   // ------------------------------------------------------
 
@@ -292,7 +346,6 @@ int main (int argc, char *argv[])
 
     return 1;
   }
-}
 
   return 0;
 }

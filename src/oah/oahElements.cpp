@@ -27,12 +27,32 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-string optionVisibilityKindAsString (
-  oahElementVisibilityKind optionVisibilityKind)
+string elementValueExpectedKindAsString (
+  oahElementValueExpectedKind elementValueExpectedKind)
 {
   string result;
 
-  switch (optionVisibilityKind) {
+  switch (elementValueExpectedKind) {
+    case kElementValueExpectedYes:
+      result = "elementValueExpectedYes";
+      break;
+    case kElementValueExpectedNo:
+      result = "elementValueExpectedNo";
+      break;
+    case kElementValueExpectedOptional:
+      result = "elementValueExpectedOptional";
+      break;
+  } // switch
+
+  return result;
+}
+
+string elementVisibilityKindAsString (
+  oahElementVisibilityKind elementVisibilityKind)
+{
+  string result;
+
+  switch (elementVisibilityKind) {
     case kElementVisibilityAlways:
       result = "elementVisibilityAlways";
       break;
@@ -46,33 +66,40 @@ string optionVisibilityKindAsString (
 }
 
 //______________________________________________________________________________
+/* JMI
 S_oahElement oahElement::create (
-  string                   shortName,
-  string                   longName,
-  string                   description,
-  oahElementVisibilityKind optionVisibilityKind)
+  string                      shortName,
+  string                      longName,
+  string                      description,
+  oahElementValueExpectedKind elementValueExpectedKind,
+  oahElementVisibilityKind    elementVisibilityKind)
 {
   oahElement* o = new
     oahElement (
       shortName,
       longName,
       description,
-      optionVisibilityKind);
+      elementValueExpectedKind,
+      elementVisibilityKind);
   assert(o!=0);
   return o;
 }
+*/
 
 oahElement::oahElement (
-  string                   shortName,
-  string                   longName,
-  string                   description,
-  oahElementVisibilityKind optionVisibilityKind)
+  string                      shortName,
+  string                      longName,
+  string                      description,
+  oahElementValueExpectedKind elementValueExpectedKind,
+  oahElementVisibilityKind    elementVisibilityKind)
 {
   fShortName   = shortName;
   fLongName    = longName;
   fDescription = description;
 
-  fElementVisibilityKind = optionVisibilityKind;
+  fElementValueExpectedKind = elementValueExpectedKind;
+
+  fElementVisibilityKind = elementVisibilityKind;
 
   fIsHidden = false;
 

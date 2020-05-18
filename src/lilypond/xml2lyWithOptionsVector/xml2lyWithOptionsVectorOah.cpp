@@ -288,6 +288,7 @@ void xml2lyWithOptionsVectorOahHandler::checkOptionsAndArguments ()
   }
 #endif
 
+/* JMI
   // input source name
   // ------------------------------------------------------
 
@@ -295,7 +296,7 @@ void xml2lyWithOptionsVectorOahHandler::checkOptionsAndArguments ()
     case 0:
       fHandlerLogOstream <<
         endl <<
-        "Input file name or '-' for standard input expected" <<
+        "xml2lyWithOptionsVectorOahHandler(): Input file name or '-' for standard input expected" <<
         endl <<
         endl;
 
@@ -322,6 +323,7 @@ void xml2lyWithOptionsVectorOahHandler::checkOptionsAndArguments ()
         fHandlerArgumentsVector [0];
       break;
   } //  switch
+*/
 
   // build potential output file name
   // ------------------------------------------------------
