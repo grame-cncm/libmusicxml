@@ -128,7 +128,6 @@ namespace MusicXML2
     
     void xml2guidovisitor::flushPartGroup (std::string partID)
     {
-        //cerr<< "Entering flushPartGroup with ID "<<partID<<endl;
         /// Add groupings (accolade and barformat)
         // search if this part ID exists in any grouping
         // Guido Limitation: One \accol tag per staff ONLY (for nested definitions)
@@ -138,19 +137,24 @@ namespace MusicXML2
         if (partGroupIt != NULL && partGroupIt->guidoRange.size()>0)
         {
             /// something was found. Generate Accolades and BarFormat if any
+            int rangeStart = fCurrentStaffIndex ;
+            int rangeEnd = rangeStart + (partGroupIt->guidoRangeStop - partGroupIt->guidoRangeStart);
+            std::stringstream rangeFixed;
+            rangeFixed << " range=\""<< rangeStart <<"-"<<rangeEnd<<"\"";
             
             if (partGroupIt->bracket)
             {
-                std::string accolParams = "id=1, range="+partGroupIt->guidoRange;
+                std::stringstream accolParams;
+                accolParams << "id=1, "<< rangeFixed.str();
                 
                 Sguidoelement tag3 = guidotag::create("accol");
-                tag3->add (guidoparam::create(accolParams, false));
+                tag3->add (guidoparam::create(accolParams.str(), false));
                 add (tag3);
             }
             
             if (partGroupIt->barlineGrouping)
             {
-                std::string barformatParams = "style= \"system\", range="+partGroupIt->guidoRange;
+                std::string barformatParams = "style= \"system\", "+rangeFixed.str();
                 
                 Sguidoelement tag4 = guidotag::create("barFormat");
                 tag4->add (guidoparam::create(barformatParams, false));
