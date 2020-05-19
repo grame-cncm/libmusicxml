@@ -67,10 +67,10 @@ namespace MusicXML2
         std::vector<int>::iterator rangeBegin = std::min_element(staves.begin(), staves.begin());
         
         stringstream rangeStream;
-        rangeStream << "\"" << (*rangeBegin) << "-" << (*rangeEnd) << "\"";
+        rangeStream << "\"" << (*rangeBegin)+1 << "-" << (*rangeEnd)+1 << "\"";
         pGroup.guidoRange = rangeStream.str();
-        pGroup.guidoRangeStart = *rangeBegin;
-        pGroup.guidoRangeStop = *rangeEnd;
+        pGroup.guidoRangeStart = *rangeBegin +1;
+        pGroup.guidoRangeStop = *rangeEnd +1;
     }
     
     bool partlistvisitor::checkLonelyBarFormat(int staffID)
