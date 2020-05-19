@@ -127,15 +127,15 @@ if (XML)
 endif()
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml msr musicxml/musicxml2mxmltree musicxml/mxmltree musicxml/mxmltree2msr musicxml/msr2mxmltree interface/musicxml interface/musicxml/musicxml2mxmltree  interface/musicxml/mxmltree2msr interface/musicxml/msr2mxmltree musicxml/xml2xml)
+	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml msr musicxml2mxmltree mxmltree mxmltree2msr msr2mxmltree xml2xml)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond lilypond/msr2lpsr lilypond/lpsr2lilypond interface/lilypond/msr2lpsr interface/lilypond/lpsr2lilypond lilypond/xml2ly lilypond/xml2lyWithOptionsVector)
+	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond msr2lpsr lpsr2lilypond xml2ly xml2lyWithOptionsVector)
 endif()
 
 if (BRAILLE)
-	set (SRCFOLDERS ${SRCFOLDERS} bsr braille braille/msr2bsr braille/bsr2braille interface/braille/msr2bsr interface/braille/bsr2bsr interface/braille/bsr2braille braille/xml2brl)
+	set (SRCFOLDERS ${SRCFOLDERS} bsr braille msr2bsr bsr2bsr bsr2braille xml2brl)
 endif()
 
 foreach(folder ${SRCFOLDERS})
@@ -148,11 +148,11 @@ endforeach()
 
 
 if (LILY)
-	set(SRC ${SRC}  "${SRCDIR}/interface/lilypond/musicxml2lilypond.cpp")
+	set(SRC ${SRC}  "${SRCDIR}/xml2ly/musicxml2lilypond.cpp")
 endif()
 
 if (BRAILLE)
-	set(SRC ${SRC}  "${SRCDIR}/interface/braille/musicxml2braille.cpp")
+	set(SRC ${SRC}  "${SRCDIR}/interface/xml2brl.cpp")
 endif()
 
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})

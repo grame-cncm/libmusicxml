@@ -167,6 +167,7 @@ EXP xmlErr      musicxmlstring2musicxml(const char *buffer, const optionsVector&
 */
 EXP xmlErr       convertMusicXMLBackToMusicXML(std::string inputSourceName, std::string outputFileName);
 
+
 //_______________________________________________________________________________
 /*!
   \brief Gives the LilyPond converter version number.
@@ -210,9 +211,10 @@ EXP xmlErr      musicxmlstring2lilypond(const char *buffer, const optionsVector&
   \brief Converts MusicXML data to the LilyPond format.
   \param inputSourceName is the name of the file to be converted
   \param outputFileName is the name of the file to be generated
+  \param loopBackToMusicXML used by 'xml2ly -loop'
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      convertMusicXMLToLilypond(std::string inputSourceName, std::string outputFileName);
+EXP xmlErr      convertMusicXMLToLilypond(std::string inputSourceName, std::string outputFileName, bool loopBackToMusicXML = false);
 
 //_______________________________________________________________________________
 /*!

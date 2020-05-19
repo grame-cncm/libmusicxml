@@ -354,10 +354,7 @@ class msrChord : public msrTupletElement
                               }
 
     // stems
-    void                  appendStemToChord (S_msrStem stem)
-                              {
-                                fChordStems.push_back (stem);
-                              }
+    void                  appendStemToChord (S_msrStem stem);
 
     // beams
     void                  appendBeamToChord (S_msrBeam beam);

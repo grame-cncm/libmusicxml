@@ -78,35 +78,6 @@ static void catchsigs()	{}
 #endif
 
 //_______________________________________________________________________________
-void displayMsrScore_OptionalPass (
-  S_msrScore mScore,
-  S_msrOah   msrOpts)
-{
-  // display the MSR
-  displayMSRPopulatedScore (
-    msrOpts,
-    mScore,
-    gLogOstream);
-
-  if (gIndenter != 0) {
-    if (! gGeneralOah->fQuiet) {
-      stringstream s;
-
-      s <<
-        "gIndenter value after MSR score display: "<<
-        gIndenter.getIndent ();
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        1, // JMI inputLineNumber,
-        s.str ());
-    }
-
-    gIndenter.resetToZero ();
-  }
-}
-
-//_______________________________________________________________________________
 int main (int argc, char *argv[])
 {
   // create the signals

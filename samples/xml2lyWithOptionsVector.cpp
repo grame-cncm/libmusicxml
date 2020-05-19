@@ -90,6 +90,7 @@ void showUsageAndHelp (string executableName)
       endl <<
     gTab << "It converts MusicXML data to LilyPond code, with a global staff size of "  <<
       kGlobalStaffSize <<
+      "." <<
       endl <<
     "Usage: " <<
       endl <<

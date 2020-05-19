@@ -55,7 +55,7 @@ S_msrPartGroup msrPartGroup::create (
       partGroupAbbreviation,
       partGroupSymbolKind,
       partGroupSymbolDefaultX,
-      msrPartGroup::kPartGroupImplicitNo,
+      partGroupImplicitKind,
       partGroupBarlineKind,
       partGroupPartGroupUpLink,
       partGroupScoreUpLink);

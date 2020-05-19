@@ -620,6 +620,34 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
   fChordSlides.push_back (slide);
 }
 
+void msrChord::appendStemToChord (S_msrStem stem)
+{
+  // sanity check
+  for (
+    list<S_msrStem>::const_iterator i = fChordStems.begin ();
+    i != fChordStems.end ();
+    i++
+  ) {
+    // is stem's stem kind consistent with the other ones' for this chord?
+    if (stem->getStemKind () != (*i)->getStemKind ()) {
+      stringstream s;
+
+      s <<
+        "stem " << stem->asString () <<
+        " and " << (*i)->asString () <<
+        " don't have the same kind, but are in one and the same chord";
+
+      msrInternalError ( // not internal actually JMI
+        gOahOah->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  } // for
+
+  fChordStems.push_back (stem);
+}
+
 void msrChord::appendBeamToChord (S_msrBeam beam)
 {
 #ifdef TRACE_OAH
@@ -709,16 +737,39 @@ void msrChord::browseData (basevisitor* v)
   for (
     vector<S_msrNote>::const_iterator i = fChordNotesVector.begin ();
     i != fChordNotesVector.end ();
-    i++ ) {
+    i++
+  ) {
     // browse chord note
     msrBrowser<msrNote> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+
+  for (
+    list<S_msrStem>::const_iterator i = fChordStems.begin ();
+    i != fChordStems.end ();
+    i++
+  ) {
+    // browse chord stems
+    msrBrowser<msrStem> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrBeam>::const_iterator i = fChordBeams.begin ();
+    i != fChordBeams.end ();
+    i++
+  ) {
+    // browse chord beams
+    msrBrowser<msrBeam> browser (v);
     browser.browse (*(*i));
   } // for
 
   for (
     list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
     i != fChordArticulations.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the articulation
     msrBrowser<msrArticulation> browser (v);
     browser.browse (*(*i));
@@ -727,7 +778,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSpanner>::const_iterator i = fChordSpanners.begin ();
     i != fChordSpanners.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the spanner
     msrBrowser<msrSpanner> browser (v);
     browser.browse (*(*i));
@@ -736,7 +788,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrTechnical>::const_iterator i = fChordTechnicals.begin ();
     i != fChordTechnicals.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the technical
     msrBrowser<msrTechnical> browser (v);
     browser.browse (*(*i));
@@ -745,7 +798,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin ();
     i != fChordOrnaments.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the ornament
     msrBrowser<msrOrnament> browser (v);
     browser.browse (*(*i));
@@ -754,7 +808,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrGlissando>::const_iterator i = fChordGlissandos.begin ();
     i != fChordGlissandos.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the glissando
     msrBrowser<msrGlissando> browser (v);
     browser.browse (*(*i));
@@ -763,7 +818,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSlide>::const_iterator i = fChordSlides.begin ();
     i != fChordSlides.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the slide
     msrBrowser<msrSlide> browser (v);
     browser.browse (*(*i));
@@ -772,7 +828,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrDynamics>::const_iterator i = fChordDynamics.begin ();
     i != fChordDynamics.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the dynamics
     msrBrowser<msrDynamics> browser (v);
     browser.browse (*(*i));
@@ -781,7 +838,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrOtherDynamics>::const_iterator i = fChordOtherDynamics.begin ();
     i != fChordOtherDynamics.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the other dynamics
     msrBrowser<msrOtherDynamics> browser (v);
     browser.browse (*(*i));
@@ -790,7 +848,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrWords>::const_iterator i = fChordWords.begin ();
     i != fChordWords.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the words
     msrBrowser<msrWords> browser (v);
     browser.browse (*(*i));
@@ -799,7 +858,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrTie>::const_iterator i = fChordTies.begin ();
     i != fChordTies.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the tie
     msrBrowser<msrTie> browser (v);
     browser.browse (*(*i));
@@ -808,7 +868,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSlur>::const_iterator i = fChordSlurs.begin ();
     i != fChordSlurs.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the slur
     msrBrowser<msrSlur> browser (v);
     browser.browse (*(*i));
@@ -817,7 +878,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrLigature>::const_iterator i = fChordLigatures.begin ();
     i != fChordLigatures.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the ligature
     msrBrowser<msrLigature> browser (v);
     browser.browse (*(*i));
@@ -826,7 +888,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSlash>::const_iterator i = fChordSlashes.begin ();
     i != fChordSlashes.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the slash
     msrBrowser<msrSlash> browser (v);
     browser.browse (*(*i));
@@ -835,7 +898,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrWedge>::const_iterator i = fChordWedges.begin ();
     i != fChordWedges.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the wedge
     msrBrowser<msrWedge> browser (v);
     browser.browse (*(*i));
@@ -844,7 +908,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSegno>::const_iterator i = fChordSegnos.begin ();
     i != fChordSegnos.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the segno
     msrBrowser<msrSegno> browser (v);
     browser.browse (*(*i));
@@ -853,7 +918,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrDalSegno>::const_iterator i = fChordDalSegnos.begin ();
     i != fChordDalSegnos.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the dal segno
     msrBrowser<msrDalSegno> browser (v);
     browser.browse (*(*i));
@@ -862,7 +928,8 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrCoda>::const_iterator i = fChordCodas.begin ();
     i != fChordCodas.end ();
-    i++ ) {
+    i++
+  ) {
     // browse the coda
     msrBrowser<msrCoda> browser (v);
     browser.browse (*(*i));

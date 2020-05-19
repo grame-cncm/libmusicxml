@@ -9,6 +9,8 @@
 
 #include <iomanip>      // setw()), set::precision(), ...
 
+#include <regex>
+
 #ifndef WIN32
 #include <signal.h>
 #endif
@@ -41,6 +43,8 @@
 #include "msr2MxmltreeInterface.h"
 
 #include "mxmlTree.h"
+
+//#include "msr.h"
 
 
 using namespace std;
@@ -76,35 +80,6 @@ static void catchsigs()
 #else
 static void catchsigs()	{}
 #endif
-
-//_______________________________________________________________________________
-void displayMsrScore_OptionalPass (
-  S_msrScore mScore,
-  S_msrOah   msrOpts)
-{
-  // display the MSR
-  displayMSRPopulatedScore (
-    msrOpts,
-    mScore,
-    gLogOstream);
-
-  if (gIndenter != 0) {
-    if (! gGeneralOah->fQuiet) {
-      stringstream s;
-
-      s <<
-        "gIndenter value after MSR score display: "<<
-        gIndenter.getIndent ();
-
-      msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
-        1, // JMI inputLineNumber,
-        s.str ());
-    }
-
-    gIndenter.resetToZero ();
-  }
-}
 
 //_______________________________________________________________________________
 int main (int argc, char *argv[])
@@ -245,10 +220,17 @@ int main (int argc, char *argv[])
   }
 #endif
 
-  // do the translation
+  // do the translation, creating MusicXML back from the MSR if requested
   // ------------------------------------------------------
 
-  if (convertMusicXMLToLilypond (inputSourceName, outputFileName) != kNoErr) {
+  if (
+    convertMusicXMLToLilypond (
+      inputSourceName,
+      outputFileName,
+      gXml2lyOah->fLoopBackToMusicXML)
+      !=
+    kNoErr
+  ) {
     return 1;
   }
 

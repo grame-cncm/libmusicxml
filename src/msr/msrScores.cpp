@@ -794,7 +794,8 @@ void msrScore::printSummary (ostream& os)
   // print the scaling if any
   if (fScaling) {
     os <<
-      fScaling;
+      fScaling <<
+      endl;
   }
 
   // print the credits if any
