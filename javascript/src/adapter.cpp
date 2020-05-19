@@ -15,7 +15,6 @@
 #include <string>
 
 #include "adapter.h"
-#include "libmusicxml.h"
 #include "xml.h"
 #include "xmlreader.h"
 #include "xml_tree_browser.h"
@@ -30,6 +29,12 @@ string 	libMusicXMLAdapter::libVersionStr()		{ return ::musicxmllibVersionStr();
 
 float 	libMusicXMLAdapter::musicxml2guidoVersion()		{ return ::musicxml2guidoVersion(); }
 string 	libMusicXMLAdapter::musicxml2guidoVersionStr()	{ return ::musicxml2guidoVersionStr(); }
+
+float 	libMusicXMLAdapter::musicxml2lilypondVersion()		{ return ::musicxml2lilypondVersion(); }
+string 	libMusicXMLAdapter::musicxml2lilypondVersionStr()	{ return ::musicxml2lilypondVersionStr(); }
+
+float 	libMusicXMLAdapter::musicxml2brailleVersion()		{ return ::musicxml2brailleVersion(); }
+string 	libMusicXMLAdapter::musicxml2brailleVersionStr()	{ return ::musicxml2brailleVersionStr(); }
 
 
 string	libMusicXMLAdapter::string2guido(const std::string& buff, bool generateBars)
@@ -51,3 +56,18 @@ string	libMusicXMLAdapter::xmlStringTranspose(const std::string& buff, int inter
     xmlfile->print(oss2);
     return oss2.str();
 }
+
+
+string	libMusicXMLAdapter::string2lily(const std::string& buff, const optionsVector& options)
+{
+	stringstream sstr;
+	return ::musicxmlstring2lilypond (buff.c_str(), options, sstr) ? "" : sstr.str();
+}
+
+
+string	libMusicXMLAdapter::string2braille(const std::string& buff, const optionsVector& options)
+{
+	stringstream sstr;
+	return ::musicxmlstring2braille (buff.c_str(), options, sstr) ? "" : sstr.str();
+}
+

@@ -10,6 +10,7 @@
   research@grame.fr
 */
 
+#include "libmusicxml.h"
 
 class libMusicXMLAdapter
 {
@@ -22,8 +23,14 @@ class libMusicXMLAdapter
 
 		float			musicxml2guidoVersion();
 		std::string		musicxml2guidoVersionStr();
+		float			musicxml2lilypondVersion();
+		std::string		musicxml2lilypondVersionStr();
+		float			musicxml2brailleVersion();
+		std::string		musicxml2brailleVersionStr();
 
 		std::string		string2guido(const std::string& buff, bool generateBars);
+		std::string		string2lily(const std::string& buff, const MusicXML2::optionsVector& options);
+		std::string		string2braille(const std::string& buff, const MusicXML2::optionsVector& options);
 
 		std::string		xmlStringTranspose(const std::string& buff, int interval);
 };
