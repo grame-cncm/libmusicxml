@@ -14,6 +14,7 @@
 #endif
 
 #include "libmusicxml.h"
+
 #include "version.h"
 
 #include "utilities.h"
@@ -42,11 +43,12 @@
 
 #include "mxmlTree.h"
 
+#include "musicxml2lilypond.h"
+
 
 using namespace std;
 
 using namespace MusicXML2;
-
 
 //_______________________________________________________________________________
 #ifndef WIN32
