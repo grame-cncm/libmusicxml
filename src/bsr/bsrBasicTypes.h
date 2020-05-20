@@ -272,7 +272,7 @@ EXP ostream& operator<< (ostream& os, const wstring& wstr);
 
 // warnings and errors
 //______________________________________________________________________________
-EXP void bsrMusicXMLWarning (
+EXP void bsrWarning (
   std::string inputSourceName,
   int         inputLineNumber,
   std::string message);

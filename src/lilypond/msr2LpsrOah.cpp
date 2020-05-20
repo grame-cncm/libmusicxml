@@ -2123,6 +2123,21 @@ R"()",
     appendAtomToSubGroup (
       slurAllGraceNotesAtom);
 
+  // beam all grace notes
+
+  fBeamAllGraceNotes = false;
+
+  S_oahBooleanAtom
+    beamAllGraceNotesAtom =
+      oahBooleanAtom::create (
+        "beamagn", "beam-all-grace-notes ",
+R"()",
+        "beamAllGraceNotes",
+        fBeamAllGraceNotes);
+  subGroup->
+    appendAtomToSubGroup (
+      beamAllGraceNotesAtom);
+
   // omit articulations
 
   fOmitArticulations = false;
@@ -2531,6 +2546,8 @@ S_msr2LpsrOah msr2LpsrOah::createCloneWithDetailedTrace ()
     fSlashAllGraceNotes;
   clone->fSlurAllGraceNotes =
     fSlurAllGraceNotes;
+  clone->fBeamAllGraceNotes =
+    fBeamAllGraceNotes;
 
   clone->fOmitArticulations =
     fOmitArticulations;
@@ -2966,6 +2983,9 @@ void msr2LpsrOah::printMsr2LpsrOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "slurAllGraceNotes" << " : " <<
     booleanAsString (fSlurAllGraceNotes) <<
+    endl <<
+    setw (fieldWidth) << "beamAllGraceNotes" << " : " <<
+    booleanAsString (fBeamAllGraceNotes) <<
     endl;
 
   gIndenter--;

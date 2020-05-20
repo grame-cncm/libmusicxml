@@ -20,6 +20,7 @@
 #endif
 
 #include "lpsrOah.h"
+#include "lpsr2LilypondOah.h"
 
 
 using namespace std;
@@ -43,78 +44,78 @@ lpsrHeader::lpsrHeader (
     : lpsrElement (inputLineNumber)
 {
   // grab values from the LilyPond options if any
-  if (gLilypondOah->fDedication.size ()) {
+  if (gLpsr2LilypondOah->fDedication.size ()) {
     setLilypondDedication (
       inputLineNumber,
-      gLilypondOah->fDedication,
+      gLpsr2LilypondOah->fDedication,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOah->fPiece.size ()) {
+  if (gLpsr2LilypondOah->fPiece.size ()) {
     setLilypondPiece (
       inputLineNumber,
-      gLilypondOah->fPiece,
+      gLpsr2LilypondOah->fPiece,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOah->fOpus.size ()) {
+  if (gLpsr2LilypondOah->fOpus.size ()) {
     setLilypondOpus (
       inputLineNumber,
-      gLilypondOah->fOpus,
+      gLpsr2LilypondOah->fOpus,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOah->fTitle.size ()) {
+  if (gLpsr2LilypondOah->fTitle.size ()) {
     setLilypondTitle (
       inputLineNumber,
-      gLilypondOah->fTitle,
+      gLpsr2LilypondOah->fTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLilypondOah->fSubTitle.size ()) {
+  if (gLpsr2LilypondOah->fSubTitle.size ()) {
     setLilypondSubTitle (
       inputLineNumber,
-      gLilypondOah->fSubTitle,
+      gLpsr2LilypondOah->fSubTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLilypondOah->fSubSubTitle.size ()) {
+  if (gLpsr2LilypondOah->fSubSubTitle.size ()) {
     setLilypondSubSubTitle (
       inputLineNumber,
-      gLilypondOah->fSubSubTitle,
+      gLpsr2LilypondOah->fSubSubTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOah->fInstrument.size ()) {
+  if (gLpsr2LilypondOah->fInstrument.size ()) {
     setLilypondInstrument (
       inputLineNumber,
-      gLilypondOah->fInstrument,
+      gLpsr2LilypondOah->fInstrument,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLilypondOah->fMeter.size ()) {
+  if (gLpsr2LilypondOah->fMeter.size ()) {
     setLilypondMeter (
       inputLineNumber,
-      gLilypondOah->fMeter,
+      gLpsr2LilypondOah->fMeter,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLilypondOah->fCopyright.size ()) {
+  if (gLpsr2LilypondOah->fCopyright.size ()) {
     setLilypondCopyright (
       inputLineNumber,
-      gLilypondOah->fCopyright,
+      gLpsr2LilypondOah->fCopyright,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLilypondOah->fTagline.size ()) {
+  if (gLpsr2LilypondOah->fTagline.size ()) {
     setLilypondTagline (
       inputLineNumber,
-      gLilypondOah->fTagline,
+      gLpsr2LilypondOah->fTagline,
       kFontStyleNone,
       kFontWeightNone);
   }

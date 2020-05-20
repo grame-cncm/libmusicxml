@@ -25,6 +25,8 @@
   #include "traceOah.h"
 #endif
 
+#include "lpsr2LilypondOah.h"
+
 #include "msr2LpsrInterface.h"
 
 #include "msr2LpsrTranslator.h"
@@ -173,7 +175,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
 {
   S_lpsrScore lpScore;
 
-  if (gLilypondOah->fNoLilypondCode) {
+  if (gLpsr2LilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "Option '-nolpc, -no-lilypond-code' is set, no LPSR is created" <<
       endl <<
@@ -205,7 +207,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
     gIndenter.resetToZero ();
   }
 
-  if (! lpScore && ! gLilypondOah->fNoLilypondCode) {
+  if (! lpScore && ! gLpsr2LilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "### Conversion from MSR to LPSR failed ###" <<
       endl <<

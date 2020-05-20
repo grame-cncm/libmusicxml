@@ -7891,7 +7891,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       gGeneralOah  = gGeneralOahWithDetailedTrace;
       gMsrOah      = gMsrOahWithDetailedTrace;
       gLpsrOah     = gLpsrOahWithDetailedTrace;
-      gLilypondOah = gLilypondOahWithDetailedTrace;
+      gLpsr2LilypondOah = gLilypondOahWithDetailedTrace;
     }
   }
 #endif
@@ -8074,7 +8074,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   gGeneralOah  = gGeneralOahUserChoices;
   gMsrOah      = gMsrOahUserChoices;
   gLpsrOah     = gLpsrOahUserChoices;
-  gLilypondOah = gLilypondOahUserChoices;
+  gLpsr2LilypondOah = gLilypondOahUserChoices;
   */
 }
 
@@ -14726,6 +14726,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
     fCurrentGraceIsSlashed = true;
   }
 
+  // should all grace notes be beamed?
+  if (gMsr2LpsrOah->fBeamAllGraceNotes) {
+    fCurrentGraceIsBeamed = true;
+  }
+
   fCurrentStealTimeFollowing =
     elt->getAttributeValue ("steal-time-following");
 
@@ -20533,6 +20538,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
           inputLineNumber,
           msrGraceNotesGroup::kGraceNotesGroupBefore, // default value
           fCurrentGraceIsSlashed,
+          fCurrentGraceIsBeamed,
           currentVoice);
 
       // should all grace notes be slurred?

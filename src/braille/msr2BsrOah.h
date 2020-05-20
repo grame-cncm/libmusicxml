@@ -73,7 +73,7 @@ class msr2BsrOah : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    void                  setAllMusicXMLTraceOah (
+    void                  setAllMsr2BsrTraceOah (
                             bool boolOptionsInitialValue);
 
   public:

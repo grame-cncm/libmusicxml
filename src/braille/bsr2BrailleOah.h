@@ -312,7 +312,7 @@ class bsr2BrailleOah : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    void                  setAllMusicXMLTraceOah (
+    void                  setAllBsr2BrailleTraceOah (
                             bool boolOptionsInitialValue);
 
   public:
@@ -326,7 +326,7 @@ class bsr2BrailleOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeMusicXMLTraceOah (
+    void                  initializeBsr2BrailleTraceOah (
                             bool boolOptionsInitialValue);
 #endif
 

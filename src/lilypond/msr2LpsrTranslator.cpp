@@ -28,6 +28,7 @@
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
 #include "msr2LpsrOah.h"
+#include "lpsr2LilypondOah.h"
 
 
 using namespace std;
@@ -554,171 +555,178 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
     fLpsrScore-> getScoreHeader();
 
   // is there a rights option?
-  if (gLilypondOah->fRights.size ()) {
+  if (gLpsr2LilypondOah->fRights.size ()) {
     // define rights
     fCurrentLpsrScoreHeader->
       addRights (
         inputLineNumber,
-        gLilypondOah->fRights);
+        gLpsr2LilypondOah->fRights);
   }
 
   // is there a composer option?
-  if (gLilypondOah->fComposer.size ()) {
+  if (gLpsr2LilypondOah->fComposer.size ()) {
     // define composer
     fCurrentLpsrScoreHeader->
       addComposer (
         inputLineNumber,
-        gLilypondOah->fComposer);
+        gLpsr2LilypondOah->fComposer);
   }
 
   // is there an arranger option?
-  if (gLilypondOah->fArranger.size ()) {
+  if (gLpsr2LilypondOah->fArranger.size ()) {
     // define arranger
     fCurrentLpsrScoreHeader->
       addArranger (
         inputLineNumber,
-        gLilypondOah->fArranger);
+        gLpsr2LilypondOah->fArranger);
   }
 
   // is there a poet option?
-  if (gLilypondOah->fPoet.size ()) {
+  if (gLpsr2LilypondOah->fPoet.size ()) {
     // define poet
     fCurrentLpsrScoreHeader->
       addPoet (
         inputLineNumber,
-        gLilypondOah->fPoet);
+        gLpsr2LilypondOah->fPoet);
   }
 
   // is there a lyricist option?
-  if (gLilypondOah->fLyricist.size ()) {
+  if (gLpsr2LilypondOah->fLyricist.size ()) {
     // define lyricist
     fCurrentLpsrScoreHeader->
       addLyricist (
         inputLineNumber,
-        gLilypondOah->fLyricist);
+        gLpsr2LilypondOah->fLyricist);
   }
 
   // is there a software option?
-  if (gLilypondOah->fSoftware.size ()) {
+  if (gLpsr2LilypondOah->fSoftware.size ()) {
     // define software
 
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fSoftware);
+        gLpsr2LilypondOah->fSoftware);
   }
 
   // is there a dedication?
-  if (gLilypondOah->fDedication.size ()) {
+  if (gLpsr2LilypondOah->fDedication.size ()) {
     // define dedication
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fDedication);
+        gLpsr2LilypondOah->fDedication);
   }
 
   // is there a piece?
-  if (gLilypondOah->fPiece.size ()) {
+  if (gLpsr2LilypondOah->fPiece.size ()) {
     // define piece
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fPiece);
+        gLpsr2LilypondOah->fPiece);
   }
 
   // is there an opus?
-  if (gLilypondOah->fOpus.size ()) {
+  if (gLpsr2LilypondOah->fOpus.size ()) {
     // define opus
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fOpus);
+        gLpsr2LilypondOah->fOpus);
   }
 
   // is there a title?
-  if (gLilypondOah->fTitle.size ()) {
+  if (gLpsr2LilypondOah->fTitle.size ()) {
     // define title
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fTitle);
+        gLpsr2LilypondOah->fTitle);
   }
 
   // is there a subtitle?
-  if (gLilypondOah->fSubTitle.size ()) {
+  if (gLpsr2LilypondOah->fSubTitle.size ()) {
     // define subtitle
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fSubTitle);
+        gLpsr2LilypondOah->fSubTitle);
   }
 
   // is there a subsubtitle?
-  if (gLilypondOah->fSubSubTitle.size ()) {
+  if (gLpsr2LilypondOah->fSubSubTitle.size ()) {
     // define subsubtitle
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fSubSubTitle);
+        gLpsr2LilypondOah->fSubSubTitle);
   }
 
   // is there a meter?
-  if (gLilypondOah->fMeter.size ()) {
+  if (gLpsr2LilypondOah->fMeter.size ()) {
     // define meter
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fMeter);
+        gLpsr2LilypondOah->fMeter);
   }
 
   // is there a tagline?
-  if (gLilypondOah->fTagline.size ()) {
+  if (gLpsr2LilypondOah->fTagline.size ()) {
     // define tagline
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fTagline);
+        gLpsr2LilypondOah->fTagline);
   }
 
   // is there a copyright?
-  if (gLilypondOah->fCopyright.size ()) {
+  if (gLpsr2LilypondOah->fCopyright.size ()) {
     // define copyright
     fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fCopyright);
+        gLpsr2LilypondOah->fCopyright);
+  }
+
+  // are the rests to be merged?
+  if (gLpsr2LilypondOah->fMergeRests) {
+    fLpsrScore->
+      // this score needs the 'merge rests' Scheme functions
+      setMergeRestsIsNeeded ();
   }
 
   // is the LilyPond macro 'boxAroundNextBarNumber' to be generated?
-  if (gLilypondOah->fBoxAroundBarNumberSet.size ()) {
+  if (gLpsr2LilypondOah->fBoxAroundBarNumberSet.size ()) {
     fLpsrScore->
       // this score needs the 'boxAroundNextBarNumber' Scheme function
       setBoxAroundNextBarNumberIsNeeded ();
   }
 
   // is the Scheme function 'whiteNoteHeads' to be generated?
-  if (gLilypondOah->fWhiteNoteHeads) {
+  if (gLpsr2LilypondOah->fWhiteNoteHeads) {
     fLpsrScore->
       // this score needs the 'whiteNoteHeads' Scheme function
       setWhiteNoteHeadsIsNeeded ();
   }
 
   // is the Scheme function 'jazzChordsDisplay' to be generated?
-  if (gLilypondOah->fJazzChordsDisplay) {
+  if (gLpsr2LilypondOah->fJazzChordsDisplay) {
     fLpsrScore->
       // this score needs the 'jazzChordsDisplay' Scheme function
       setJazzChordsDisplayIsNeeded ();
   }
 
   // is Jianpu notation to be generated?
-  if (gLilypondOah->fJianpu) {
+  if (gLpsr2LilypondOah->fJianpu) {
     fLpsrScore->
       // this score needs the 'jianpu file include' Scheme function
       setJianpuFileIncludeIsNeeded ();
   }
 
   // are colored ledger lines to be generated?
-  if (! gLilypondOah->fLedgerLinesRGBColor.isEmpty ()) {
+  if (! gLpsr2LilypondOah->fLedgerLinesRGBColor.isEmpty ()) {
     fLpsrScore->
       // this score needs the 'colored ledger lines' Scheme function
       setColoredLedgerLinesIsNeeded ();
@@ -2412,7 +2420,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
     // yes
 
     // should we compress full measures rests?
-    if (gLilypondOah->fCompressFullMeasureRests) {
+    if (gLpsr2LilypondOah->fCompressFullMeasureRests) {
       // yes
 
       if (! fCurrentRestMeasure) {
@@ -2597,7 +2605,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     // no
 
     // should we compress full measures rests?
-    if (gLilypondOah->fCompressFullMeasureRests) {
+    if (gLpsr2LilypondOah->fCompressFullMeasureRests) {
       // yes
 
       if (fCurrentRestMeasures) {

@@ -193,7 +193,7 @@ void xml2lyWithOptionsVectorOahHandler::initializeXml2lyWithOptionsVectorOptions
   initializeLpsrOahHandling (
     this);
 
-  initializeLpsr2LilyPondOahHandling (
+  initializeLpsr2LilypondOahHandling (
     this);
 
   initializeLilypondOahHandling (
@@ -403,7 +403,7 @@ void xml2lyWithOptionsVectorOahHandler::enforceOahHandlerQuietness ()
   gLpsrOah->
     enforceQuietness ();
 
-  gLilypondOah->
+  gLpsr2LilypondOah->
     enforceQuietness ();
 
 #ifdef EXTRA_OAH

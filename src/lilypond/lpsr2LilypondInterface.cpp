@@ -21,6 +21,8 @@
   #include "traceOah.h"
 #endif
 
+#include "lpsr2LilypondOah.h"
+
 #include "lpsr2LilypondTranslator.h"
 
 #include "lpsr2LilypondInterface.h"
@@ -95,7 +97,7 @@ void convertLpsrScoreToLilypondCode (
 {
   int outputFileNameSize = outputFileName.size ();
 
-  if (gLilypondOah->fNoLilypondCode) {
+  if (gLpsr2LilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "Option '-nolpc -no-lilypond-code' is set, no LilyPond code is created" <<
       endl <<

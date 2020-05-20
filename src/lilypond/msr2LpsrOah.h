@@ -663,6 +663,7 @@ class msr2LpsrOah : public oahGroup
 
     bool                  fSlashAllGraceNotes;
     bool                  fSlurAllGraceNotes;
+    bool                  fBeamAllGraceNotes;
 
     // articulations
     // --------------------------------------

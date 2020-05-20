@@ -271,6 +271,15 @@ class lpsrScore : public lpsrElement
                                   fHiddenMeasureAndBarlineIsNeeded;
                               }
 
+    // merge rests
+    void                  setMergeRestsIsNeeded ();
+
+    bool                  getMergeRestsIsNeeded () const
+                              {
+                                return
+                                  fMergeRestsIsNeeded;
+                              }
+
   public:
 
     // public services
@@ -348,6 +357,10 @@ class lpsrScore : public lpsrElement
     // hidden measure and barline
 
     void                  addHiddenMeasureAndBarlineToScore ();
+
+    // merge rests
+
+    void                  addMergeRestsToScore ();
 
   public:
 
@@ -446,6 +459,10 @@ class lpsrScore : public lpsrElement
     // hidden measure and barline
     bool                  fHiddenMeasureAndBarlineIsNeeded;
 
+    // merge rests
+    bool                  fMergeRestsIsNeeded;
+
+    // the Scheme functions map
     map<string, S_lpsrSchemeFunction>
                           fScoreSchemeFunctionsMap;
 };

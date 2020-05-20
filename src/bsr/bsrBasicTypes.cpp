@@ -414,7 +414,7 @@ ostream& operator<< (ostream& os, const wstring& wstr)
 */
 
 //______________________________________________________________________________
-void bsrMusicXMLWarning (
+void bsrWarning (
   string inputSourceName,
   int    inputLineNumber,
   string message)

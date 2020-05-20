@@ -290,7 +290,7 @@ S_msr2BsrOah msr2BsrOah::createCloneWithDetailedTrace ()
 }
 
 //______________________________________________________________________________
-void msr2BsrOah::setAllMusicXMLTraceOah (
+void msr2BsrOah::setAllMsr2BsrTraceOah (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OAH
@@ -374,7 +374,7 @@ void msr2BsrOah::browseData (basevisitor* v)
 void msr2BsrOah::printMsr2BsrOahValues (int fieldWidth)
 {
   gLogOstream <<
-    "The MusicXML options are:" <<
+    "The Msr2Bsr options are:" <<
     endl;
 
   gIndenter++;
@@ -460,12 +460,12 @@ void initializeMsr2BsrOahHandling (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
-      "Initializing MusicXML options handling" <<
+      "Initializing Msr2Bsr options handling" <<
       endl;
   }
 #endif
 
-  // create the MusicXML options
+  // create the Msr2Bsr options
   // ------------------------------------------------------
 
   gMsr2BsrOahUserChoices = msr2BsrOah::create (

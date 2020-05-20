@@ -3745,7 +3745,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
         if (
           timeSymbolKind == msrTime::kTimeSymbolNone
             ||
-          gLilypondOah->fNumericalTime) {
+          gLpsr2LilypondOah->fNumericalTime) {
           fLilypondCodeOstream <<
             "\\numericTimeSignature ";
         }
