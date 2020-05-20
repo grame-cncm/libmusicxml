@@ -127,15 +127,15 @@ if (XML)
 endif()
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml msr musicxml2mxmltree mxmltree mxmltree2msr msr2mxmltree xml2xml)
+	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml msr)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond msr2lpsr lpsr2lilypond xml2ly xml2lyWithOptionsVector)
+	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond)
 endif()
 
 if (BRAILLE)
-	set (SRCFOLDERS ${SRCFOLDERS} bsr braille msr2bsr bsr2bsr bsr2braille xml2brl)
+	set (SRCFOLDERS ${SRCFOLDERS} bsr braille)
 endif()
 
 foreach(folder ${SRCFOLDERS})
