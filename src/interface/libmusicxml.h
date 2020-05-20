@@ -135,38 +135,26 @@ EXP const char*   musicxml2musicxmlVersionStr();
 /*!
   \brief Converts a MusicXML representation to the MusicXML format.
   \param file a file name
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2musicxml  (const char *file, const optionsVector& options, std::ostream& out);
+EXP xmlErr      musicxmlfile2musicxml  (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the MusicXML format.
   \param fd a file descriptor
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2musicxml  (FILE* fd, const optionsVector& options, std::ostream& out);
+EXP xmlErr      musicxmlfd2musicxml  (FILE* fd, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the MusicXML format.
   \param buffer a string containing MusicXML code
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2musicxml(const char *buffer, const optionsVector& options, std::ostream& out);
-
-/*!
-  \brief Converts MusicXML data back to MusicXML data.
-  \param inputSourceName is the name of the file to be converted
-  \param outputFileName is the name of the file to be generated
-  \return an error code (\c kNoErr when success)
-*/
-EXP xmlErr       convertMusicXMLBackToMusicXML(std::string inputSourceName, std::string outputFileName);
-
+EXP xmlErr      musicxmlstring2musicxml(const char *buffer, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 //_______________________________________________________________________________
 /*!
@@ -183,38 +171,26 @@ EXP const char*   musicxml2lilypondVersionStr();
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param file a file name
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2lilypond  (const char *file, const optionsVector& options, std::ostream& out);
+EXP xmlErr      musicxmlfile2lilypond  (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param fd a file descriptor
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, const optionsVector& options, std::ostream& out);
+EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
   \param buffer a string containing MusicXML code
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2lilypond(const char *buffer, const optionsVector& options, std::ostream& out);
-
-/*!
-  \brief Converts MusicXML data to the LilyPond format.
-  \param inputSourceName is the name of the file to be converted
-  \param outputFileName is the name of the file to be generated
-  \param loopBackToMusicXML used by 'xml2ly -loop'
-  \return an error code (\c kNoErr when success)
-*/
-EXP xmlErr      convertMusicXMLToLilypond(std::string inputSourceName, std::string outputFileName, bool loopBackToMusicXML = false);
+EXP xmlErr      musicxmlstring2lilypond(const char *buffer, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 //_______________________________________________________________________________
 /*!
@@ -231,7 +207,6 @@ EXP const char*   musicxml2brailleVersionStr();
 /*!
   \brief Converts a MusicXML representation to the Braille music format.
   \param file a file name
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
@@ -240,28 +215,18 @@ EXP xmlErr      musicxmlfile2braille(const char *file, const optionsVector& opti
 /*!
   \brief Converts a MusicXML representation to the Braille music format.
   \param fd a file descriptor
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2braille(FILE *fd, const optionsVector& options, std::ostream& out);
+EXP xmlErr      musicxmlfd2braille(FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the Braille music format.
   \param buffer a string containing MusicXML code
-  \param generateBars a boolean to force barlines generation
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
 EXP xmlErr      musicxmlstring2braille(const char *bufferer, const optionsVector& options, std::ostream&           out);
-
-/*!
-  \brief Converts MusicXML data to the Braille music format.
-  \param inputSourceName is the name of the file to be converted
-  \param outputFileName is the name of the file to be generated
-  \return an error code (\c kNoErr when success)
-*/
-EXP xmlErr      convertMusicXMLToBraille(std::string inputSourceName, std::string outputFileName);
 
 //_______________________________________________________________________________
 

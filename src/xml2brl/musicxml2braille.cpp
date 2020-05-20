@@ -46,7 +46,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, ostream& out, const char* file)
+static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
 /*
 	Sxmlelement st = xmlfile->elements();
@@ -77,21 +77,21 @@ EXP xmlErr musicxmlfile2braille (const char *file, const optionsVector& options,
 	SXMLFile xmlfile;
 	xmlfile = r.read(file);
 	if (xmlfile) {
-		return xml2braille (xmlfile, generateBars, 0, out, file);
+		return xml2braille (xmlfile, generateBars, 0, out, err, file);
 	}
 	*/
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2braille (FILE *fd, const optionsVector& options, ostream& out)
+EXP xmlErr musicxmlfd2braille (FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 /*
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(fd);
 	if (xmlfile) {
-		return xml2braille (xmlfile, generateBars, 0, out, 0);
+		return xml2braille (xmlfile, generateBars, 0, out, err, 0);
 	}
 	*/
 	return kInvalidFile;
@@ -105,7 +105,7 @@ EXP xmlErr musicxmlstring2braille (const char *buffer, const optionsVector& opti
 	SXMLFile xmlfile;
 	xmlfile = r.readbuff(buffer);
 	if (xmlfile) {
-		return xml2braille (xmlfile, generateBars, partFilter, out, 0);
+		return xml2braille (xmlfile, generateBars, partFilter, out, err, 0);
 	}
 	*/
 	return kInvalidFile;
