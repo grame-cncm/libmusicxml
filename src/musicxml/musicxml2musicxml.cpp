@@ -201,7 +201,7 @@ void convertMsrScoreToMusicXMLScore (
 }
 
 //_______________________________________________________________________________
-void convertMusicXMLBackToMusicXML (
+EXP void convertMusicXMLBackToMusicXML (
   string inputSourceName,
   string outputFileName)
 {

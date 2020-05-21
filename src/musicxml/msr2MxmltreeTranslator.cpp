@@ -47,8 +47,8 @@ namespace MusicXML2
 {
 //________________________________________________________________________
 msr2MxmltreeTranslator::msr2MxmltreeTranslator (
-  indentedOstream& ios,
-  S_msrScore       mScore)
+  ostream&   ios,
+  S_msrScore mScore)
     : fLogOutputStream (ios)
 {
   // the MSR score we're visiting

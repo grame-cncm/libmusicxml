@@ -112,8 +112,8 @@ class msrVoice2MasterVoiceCreator :
   public:
 
     msrVoice2MasterVoiceCreator (
-      indentedOstream& ios,
-      S_msrVoice       mVoice);
+      ostream&   ios,
+      S_msrVoice mVoice);
 
     virtual ~msrVoice2MasterVoiceCreator ();
 
@@ -208,7 +208,7 @@ class msrVoice2MasterVoiceCreator :
 
   private:
 
-    indentedOstream&          fLogOutputStream;
+    ostream&                  fLogOutputStream;
 
 
     // the MSR voice we're visiting

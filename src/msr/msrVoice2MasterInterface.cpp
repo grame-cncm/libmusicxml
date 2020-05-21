@@ -38,7 +38,7 @@ namespace MusicXML2
 S_msrVoice buildMsrMasterFromMsrVoice (
   const S_msrVoice mVoice,
   S_msrOah         msrOpts,
-  indentedOstream& logOstream)
+  ostream&         logOstream)
 {
   // sanity check
   msrAssert (
@@ -98,7 +98,7 @@ S_msrVoice buildMsrMasterFromMsrVoice (
 void displayMsrMasterVoice (
   const S_msrVoice masterVoice,
   S_msrOah         msrOpts,
-  indentedOstream& logOstream)
+  ostream&         logOstream)
 {
   // sanity check
   msrAssert (

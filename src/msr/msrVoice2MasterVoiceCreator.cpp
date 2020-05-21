@@ -37,8 +37,8 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msrVoice2MasterVoiceCreator::msrVoice2MasterVoiceCreator (
-  indentedOstream& ios,
-  S_msrVoice       mVoice)
+  ostream&   ios,
+  S_msrVoice mVoice)
     : fLogOutputStream (ios)
 {
   // the MSR score we're visiting

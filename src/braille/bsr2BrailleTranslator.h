@@ -64,10 +64,10 @@ class bsr2BrailleTranslator :
   public:
 
     bsr2BrailleTranslator (
-      S_bsrScore       bsrScore,
-      S_bsrOah&        bsrOpts,
-      indentedOstream& logOstream,
-      ostream&         brailleCodeOutputStream);
+      S_bsrScore bsrScore,
+      S_bsrOah&  bsrOpts,
+      ostream&   logOstream,
+      ostream&   brailleCodeOutputStream);
 
     virtual ~bsr2BrailleTranslator ();
 
@@ -138,9 +138,9 @@ class bsr2BrailleTranslator :
 
     S_bsrScore            fVisitedBsrScore;
 
-    S_bsrOah          fBsrOah;
+    S_bsrOah              fBsrOah;
 
-    indentedOstream&      fLogOutputStream;
+    ostream&              fLogOutputStream;
 
     S_bsrBrailleGenerator fBrailleGenerator;
 };

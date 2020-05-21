@@ -46,8 +46,8 @@ namespace MusicXML2
 
 //________________________________________________________________________
 mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
-  S_msrScore       scoreSkeleton,
-  indentedOstream& ios)
+  S_msrScore scoreSkeleton,
+  ostream&   ios)
   : fLogOutputStream (ios)
 {
   // initialize note data to a neutral state

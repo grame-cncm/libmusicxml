@@ -111,7 +111,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
           "Pass 2a");
 
     if (gMsr2LpsrOah->fExit2a) {
-      gLogOstream <<
+      err <<
         endl <<
         "Existing after pass 2a as requested" <<
         endl;
@@ -125,11 +125,11 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     populateMsrSkeletonFromMxmlTree (
       mxmlTree,
       mScore,
-      gLogOstream,
+      err,
       "Pass 2b");
 
     if (gMsr2LpsrOah->fExit2b) {
-      gLogOstream <<
+      err <<
         endl <<
         "Existing after pass 2b as requested" <<
         endl;
@@ -154,7 +154,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       displayMSRPopulatedScoreSummary (
         gMsrOah,
         mScore,
-        gLogOstream);
+        err);
 
       return kNoErr;
     }
@@ -167,7 +167,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       displayMSRPopulatedScoreNames (
         gMsrOah,
         mScore,
-        gLogOstream);
+        err);
 
       return kNoErr;
     }
@@ -182,7 +182,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
           "Pass 3");
 
     if (gLpsrOah->fExit3) {
-      gLogOstream <<
+      err <<
         endl <<
         "Existing after pass 3 as requested" <<
         endl;
@@ -211,18 +211,6 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       out,
       "Pass 4");
 
-    // create MusicXML back from the MSR if requested
-    // ------------------------------------------------------
-    if (gXml2lyOah->fLoopBackToMusicXML) {
-      convertMsrScoreToMusicXMLScore (
-        mScore,
-        regex_replace (
-          file,
-          regex (".ly"),
-          "_LOOP.xml"),
-        "Pass 5");
-    }
-
     // over!
     // ------------------------------------------------------
 
@@ -234,16 +222,6 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
       return kInvalidFile;
     }
-
-		if (file) {
-			out << "(*\n  LilyPond code converted from '" << file << "'"
-				<< "\n  using libmusicxml v." << musicxmllibVersionStr();
-		}
-		else out << "(*\n  LilyPond code converted using libmusicxml v." << musicxmllibVersionStr();
-		out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
-			<< "\n*)" << endl;
-
-//		out << LilyPond << endl;
 
 		return kNoErr;
 	}

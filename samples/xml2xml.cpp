@@ -195,11 +195,9 @@ int main (int argc, char *argv[])
   // do the translation
   // ------------------------------------------------------
 
-/* JMI
   convertMusicXMLBackToMusicXML (
     inputSourceName,
     outputFileName);
-*/
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

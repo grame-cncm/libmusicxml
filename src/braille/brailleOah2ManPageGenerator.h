@@ -35,7 +35,7 @@ class brailleOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     brailleOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~brailleOah2ManPageGenerator ();

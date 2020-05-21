@@ -249,7 +249,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
 
     mxmlTree2MsrSkeletonBuilder (
-      indentedOstream& ios);
+      ostream& ios);
 
     virtual ~mxmlTree2MsrSkeletonBuilder ();
 
@@ -408,7 +408,7 @@ class mxmlTree2MsrSkeletonBuilder :
 
   private:
 
-    indentedOstream&          fLogOutputStream;
+    ostream&                  fLogOutputStream;
 
 
     // the MSR score we're building

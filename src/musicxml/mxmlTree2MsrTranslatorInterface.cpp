@@ -68,10 +68,10 @@ void displayMsrScore_OptionalPass (
 
 //_______________________________________________________________________________
 void populateMsrSkeletonFromMxmlTree (
-  Sxmlelement      mxmlTree,
-  S_msrScore       scoreSkeleton,
-  indentedOstream& logOstream,
-  string           passNumber)
+  Sxmlelement mxmlTree,
+  S_msrScore  scoreSkeleton,
+  ostream&    logOstream,
+  string      passNumber)
 {
   // sanity check
   msrAssert (
@@ -127,9 +127,9 @@ void populateMsrSkeletonFromMxmlTree (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScore (
-  S_msrOah&        msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream)
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream)
 {
   // sanity check
   msrAssert (
@@ -166,9 +166,9 @@ void displayMSRPopulatedScore (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScoreSummary (
-  S_msrOah&        msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream)
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream)
 {
   // sanity check
   msrAssert (
@@ -217,9 +217,9 @@ void displayMSRPopulatedScoreSummary (
 
 //_______________________________________________________________________________
 void displayMSRPopulatedScoreNames (
-  S_msrOah&        msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream)
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream)
 {
   // sanity check
   msrAssert (

@@ -34,7 +34,7 @@ namespace MusicXML2
 //________________________________________________________________________
 msrOah2ManPageGenerator::msrOah2ManPageGenerator (
   const S_oahHandler handler,
-  indentedOstream&   logOstream,
+  ostream&           logOstream,
   ostream&           manPageOutputStream)
     : oah2ManPageGenerator (
         handler,

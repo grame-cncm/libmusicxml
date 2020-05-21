@@ -204,7 +204,7 @@ class msrTuplet : public msrTupletElement
 
     virtual void          print (ostream& os) const;
 
-    virtual void          printShort (indentedOstream& os);
+    virtual void          printShort (ostream& os);
 
   private:
 

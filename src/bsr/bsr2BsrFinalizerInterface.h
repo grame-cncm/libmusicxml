@@ -35,13 +35,13 @@ EXP void displayFinalizedBsrScore (
   const S_bsrScore bScore,
   S_msrOah         msrOpts,
   S_bsrOah         bsrOpts,
-  indentedOstream& logOstream);
+  ostream&         logOstream);
 
 //_______________________________________________________________________________
 EXP S_bsrScore generateFinalizedBsrScoreFromBsrScore (
   const S_bsrScore bScore,
   S_bsrOah         bsrOpts,
-  indentedOstream& logOstream,
+  ostream&         logOstream,
   string           passNumber);
 
 //_______________________________________________________________________________

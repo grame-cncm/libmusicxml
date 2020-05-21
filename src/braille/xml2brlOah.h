@@ -32,8 +32,8 @@ class EXP xml2brlOahHandler : public oahHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOahHandler> create (
-      string           executableName,
-      indentedOstream& ios);
+      string   executableName,
+      ostream& ios);
 
   protected:
 
@@ -41,8 +41,8 @@ class EXP xml2brlOahHandler : public oahHandler
     // ------------------------------------------------------
 
     xml2brlOahHandler (
-      string           executableName,
-      indentedOstream& ios);
+      string   executableName,
+      ostream& ios);
 
     virtual ~xml2brlOahHandler ();
 

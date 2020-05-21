@@ -28,7 +28,7 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator
 
     lilypondOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~lilypondOah2ManPageGenerator ();

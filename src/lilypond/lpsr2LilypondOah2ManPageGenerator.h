@@ -45,7 +45,7 @@ class lpsr2lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     lpsr2lilypondOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~lpsr2lilypondOah2ManPageGenerator ();

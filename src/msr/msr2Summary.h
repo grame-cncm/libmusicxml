@@ -85,8 +85,8 @@ class msr2SummaryVisitor :
   public:
 
     msr2SummaryVisitor (
-      S_msrOah&    msrOpts,
-      indentedOstream& ios);
+      S_msrOah& msrOpts,
+      ostream&  ios);
 
     virtual ~msr2SummaryVisitor ();
 
@@ -189,9 +189,9 @@ class msr2SummaryVisitor :
 
   private:
 
-    S_msrOah          fMsrOah;
+    S_msrOah              fMsrOah;
 
-    indentedOstream&      fMsrSummaryOutputStream;
+    ostream&              fMsrSummaryOutputStream;
 
     // score
     // ------------------------------------------------------

@@ -41,7 +41,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
   const S_msrScore mScore,
   S_msrOah         msrOpts,
   S_bsrOah         bsrOpts,
-  indentedOstream& logOstream)
+  ostream&         logOstream)
 {
   // sanity check
   msrAssert (

@@ -28,7 +28,7 @@ class oah2ManPageGenerator : public oahVisitor
 
     oah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~oah2ManPageGenerator ();
@@ -37,7 +37,7 @@ class oah2ManPageGenerator : public oahVisitor
 
   protected:
 
-    indentedOstream&      fOah2ManPageLogOstream;
+    ostream&              fOah2ManPageLogOstream;
     ostream&              fOah2ManPageOutputStream;
 };
 typedef SMARTP<oah2ManPageGenerator> S_oah2ManPageGenerator;

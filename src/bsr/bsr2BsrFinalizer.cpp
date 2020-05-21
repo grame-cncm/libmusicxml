@@ -27,9 +27,9 @@ namespace MusicXML2
 
 //________________________________________________________________________
 bsr2BsrFinalizer::bsr2BsrFinalizer (
-  S_bsrOah&    bsrOpts,
-  indentedOstream& logOstream,
-  S_bsrScore       bScore)
+  S_bsrOah&  bsrOpts,
+  ostream&   logOstream,
+  S_bsrScore bScore)
     : fLogOutputStream (
         logOstream)
 {
@@ -37,18 +37,18 @@ bsr2BsrFinalizer::bsr2BsrFinalizer (
 
   // the MSR score we're relying on
   fBaseMsrScore = bScore->getMsrScore ();
-  
+
   // the BSR score we're visiting
   fVisitedBsrScore = bScore;
 };
-  
+
 bsr2BsrFinalizer::~bsr2BsrFinalizer ()
 {}
 
 //________________________________________________________________________
 void bsr2BsrFinalizer::generateFinalizedBsrScoreFromBsrScore ()
 {
-  if (fVisitedBsrScore) {    
+  if (fVisitedBsrScore) {
     // browse a bsrScore browser
     bsrBrowser<bsrScore> browser (this);
     browser.browse (*fVisitedBsrScore);
@@ -201,7 +201,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrPage& elt)
 #endif
 
   fCurrentPage = elt->createPageNewbornClone ();
-  
+
   fBsrScore->
     appendPageToScore (fCurrentPage);
 }
@@ -237,7 +237,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrPageHeading& elt)
  // JMI fCurrentPageHeading = elt->createPageHeadingNewbornClone ();
 
   fCurrentPageHeading = elt;
-  
+
   fCurrentPage->
     appendPageHeadingToPage (fCurrentPageHeading);
 }
@@ -275,7 +275,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrMusicHeading& elt)
  // JMI fCurrentPageHeading = elt->createPageHeadingNewbornClone ();
 
   fCurrentMusicHeading = elt;
-  
+
   fCurrentPage->
     appendMusicHeadingToPage (fCurrentMusicHeading);
 }
@@ -313,7 +313,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrFootNotes& elt)
  // JMI fCurrentPageHeading = elt->createPageHeadingNewbornClone ();
 
   fCurrentFootNotes = elt;
-  
+
   fCurrentPage->
     appendFootNotesToPage (fCurrentFootNotes);
 }
@@ -349,7 +349,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrLine& elt)
 #endif
 
   fCurrentLine = elt->createLineNewbornClone ();
-  
+
   fCurrentPage->
     appendLineToPage (fCurrentLine);
 }
@@ -384,7 +384,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrLineContents& elt)
 
 /* JMI ???
   fCurrentLine = elt->createLineNewbornClone ();
-  
+
   fCurrentPage->
     appendLineToPage (fCurrentLine);
     */
@@ -420,7 +420,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrMeasure& elt)
 
   fCurrentMeasure =
     elt->createMeasureNewbornClone ();
-  
+
   fCurrentLine->
     appendMeasureToLine (fCurrentMeasure);
 }

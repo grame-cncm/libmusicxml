@@ -41,7 +41,7 @@ namespace MusicXML2
 Sxmlelement buildMxmltreeFromMsrScore (
   const S_msrScore mScore,
   S_msrOah         msrOpts,
-  indentedOstream& logOstream)
+  ostream&         logOstream)
 {
   // sanity check
   msrAssert (
@@ -99,7 +99,7 @@ Sxmlelement buildMxmltreeFromMsrScore (
 void displayMxmltreeScore ( // unused JMI
   const Sxmlelement mxmlTree,
   S_msrOah          msrOpts,
-  indentedOstream&  logOstream)
+  ostream&          logOstream)
 {
   // sanity check
   msrAssert (

@@ -136,7 +136,7 @@ ostream& operator<< (ostream& os, const S_mxmlPartGroupDescr& elt)
 
 //_______________________________________________________________________________
 mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
-  indentedOstream& ios)
+  ostream& ios)
   : fLogOutputStream (ios)
 {
   // the MSR score we're building

@@ -52,7 +52,7 @@ class xml2brlOah2ManPageGenerator :
 
     static SMARTP<xml2brlOah2ManPageGenerator> create (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
   public:
@@ -62,7 +62,7 @@ class xml2brlOah2ManPageGenerator :
 
     xml2brlOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~xml2brlOah2ManPageGenerator ();

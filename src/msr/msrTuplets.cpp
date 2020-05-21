@@ -1062,7 +1062,7 @@ void msrTuplet::print (ostream& os) const
     endl;
 }
 
-void msrTuplet::printShort (indentedOstream& os)
+void msrTuplet::printShort (ostream& os)
 {
   os <<
     "Tuplet " <<

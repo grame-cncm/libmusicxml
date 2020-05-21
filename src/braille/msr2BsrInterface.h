@@ -30,14 +30,14 @@ EXP S_bsrScore buildBsrScoreFromMsrScore (
   const S_msrScore mScore,
   S_msrOah         msrOpts,
   S_bsrOah         bsrOpts,
-  indentedOstream& logOstream);
+  ostream&         logOstream);
 
 //_______________________________________________________________________________
 EXP void displayFirstBsrScore (
   const S_bsrScore bScore,
   S_msrOah         msrOpts,
   S_bsrOah         bsrOpts,
-  indentedOstream& logOstream);
+  ostream&         logOstream);
 
 //_______________________________________________________________________________
 S_bsrScore convertMsrScoreToBsrScore (

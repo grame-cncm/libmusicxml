@@ -26,12 +26,12 @@ void convertMsrScoreToMusicXMLScore (
   string     outputFileName,
   string     passNumber);
 
-}
-
 //_______________________________________________________________________________
-void convertMusicXMLBackToMusicXML (
+EXP void convertMusicXMLBackToMusicXML (
   string inputSourceName,
   string outputFileName);
+
+}
 
 #endif
 

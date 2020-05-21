@@ -28,7 +28,7 @@ namespace MusicXML2
 EXP void generateBrailleCodeFromBsrScore (
   const S_bsrScore bScore,
   S_bsrOah         bsrOpts,
-  indentedOstream& logOstream,
+  ostream&         logOstream,
   ostream&         brailleCodeOutputStream,
   string           passNumber);
 

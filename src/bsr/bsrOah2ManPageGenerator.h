@@ -33,7 +33,7 @@ class bsrOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     bsrOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~bsrOah2ManPageGenerator ();

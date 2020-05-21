@@ -493,8 +493,8 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     mxmlTree2MsrTranslator (
-      S_msrScore       scoreSkeleton,
-      indentedOstream& ios);
+      S_msrScore scoreSkeleton,
+      ostream&   ios);
 
     virtual ~mxmlTree2MsrTranslator ();
 
@@ -1052,7 +1052,7 @@ class mxmlTree2MsrTranslator :
     // the log output stream
     // ------------------------------------------------------
 
-    indentedOstream&          fLogOutputStream;
+    ostream&                  fLogOutputStream;
 
     // divisions per quarter note
     // ------------------------------------------------------
