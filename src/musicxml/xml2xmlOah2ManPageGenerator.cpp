@@ -33,7 +33,7 @@ namespace MusicXML2
 //________________________________________________________________________
 S_xml2xmlOah2ManPageGenerator xml2xmlOah2ManPageGenerator::create (
   const S_oahHandler handler,
-  indentedOstream&   logOstream,
+  ostream&           logOstream,
   ostream&           manPageOutputStream)
 {
   xml2xmlOah2ManPageGenerator* o = new
@@ -47,7 +47,7 @@ S_xml2xmlOah2ManPageGenerator xml2xmlOah2ManPageGenerator::create (
 
 xml2xmlOah2ManPageGenerator::xml2xmlOah2ManPageGenerator (
   const S_oahHandler handler,
-  indentedOstream&   logOstream,
+  ostream&           logOstream,
   ostream&           manPageOutputStream)
     : oah2ManPageGenerator (
         handler,

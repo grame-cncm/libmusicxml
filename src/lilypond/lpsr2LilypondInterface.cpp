@@ -38,8 +38,8 @@ void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOah          msrOpts,
   S_lpsrOah         lpsrOpts,
-  indentedOstream&  logOstream,
-  indentedOstream&  lilypondCodeOstream,
+  ostream&  logOstream,
+  ostream&  lilypondCodeOstream,
   string            passNumber)
 {
   // sanity check

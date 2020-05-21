@@ -15,8 +15,6 @@
 #include "setTraceOahIfDesired.h"
 #include "traceOah.h"
 
-#include "libmusicxml.h"
-
 #include "msr.h"
 #include "bsr.h"
 
@@ -46,8 +44,8 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2brlOahHandler xml2brlOahHandler::create (
-  string           executableName,
-  indentedOstream& ios)
+  string   executableName,
+  ostream& ios)
 {
   xml2brlOahHandler* o = new
     xml2brlOahHandler (
@@ -58,8 +56,8 @@ S_xml2brlOahHandler xml2brlOahHandler::create (
 }
 
 xml2brlOahHandler::xml2brlOahHandler (
-  string           executableName,
-  indentedOstream& ios)
+  string   executableName,
+  ostream& ios)
   : oahHandler (
     executableName + " available options",
     "Options values",

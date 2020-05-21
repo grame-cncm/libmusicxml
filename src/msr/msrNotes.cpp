@@ -4050,8 +4050,7 @@ void msrNote::print (ostream& os) const
       setw (fieldWidth) <<
       "noteTrillOrnament" <<
       " : " <<
-      booleanAsString (
-        fNoteTrillOrnament) <<
+      fNoteTrillOrnament-> asString () <<
       endl;
   }
 
@@ -4060,8 +4059,7 @@ void msrNote::print (ostream& os) const
       setw (fieldWidth) <<
       "noteDashesOrnament" <<
       " : " <<
-      booleanAsString (
-        fNoteDashesOrnament) <<
+      fNoteDashesOrnament-> asString () <<
       endl;
   }
 
@@ -4070,8 +4068,7 @@ void msrNote::print (ostream& os) const
       setw (fieldWidth) <<
       "noteDelayedTurnOrnament" <<
       " : " <<
-      booleanAsString (
-        fNoteDelayedTurnOrnament) <<
+      fNoteDelayedTurnOrnament-> asString () <<
       endl;
   }
   if (fNoteDelayedInvertedTurnOrnament || gMsrOah->fDisplayMsrDetails) {
@@ -4079,8 +4076,7 @@ void msrNote::print (ostream& os) const
       setw (fieldWidth) <<
       "noteDelayedInvertedTurnOrnament" <<
       " : " <<
-      booleanAsString (
-        fNoteDelayedInvertedTurnOrnament) <<
+      fNoteDelayedInvertedTurnOrnament-> asString () <<
       endl;
   }
 

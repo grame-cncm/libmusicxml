@@ -255,8 +255,8 @@ class msr2MxmltreeTranslator :
   public:
 
     msr2MxmltreeTranslator (
-      indentedOstream& ios,
-      S_msrScore       mScore);
+      ostream&   ios,
+      S_msrScore mScore);
 
     virtual ~msr2MxmltreeTranslator ();
 
@@ -519,7 +519,7 @@ class msr2MxmltreeTranslator :
 
   private:
 
-    indentedOstream&          fLogOutputStream;
+    ostream&                  fLogOutputStream;
 
 
     // the MSR score we're visiting

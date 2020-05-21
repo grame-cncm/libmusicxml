@@ -33,18 +33,13 @@ namespace MusicXML2
 EXP Sxmlelement buildMxmltreeFromMsrScore (
   const S_msrScore mScore,
   S_msrOah         msrOpts,
-  indentedOstream& logOstream);
+  ostream&         logOstream);
 
 //_______________________________________________________________________________
 EXP void displayMxmltreeScore (
   const Sxmlelement mxmlTree,
   S_msrOah          msrOpts,
-  indentedOstream&  logOstream);
-
-//_______________________________________________________________________________
-void convertMsrScoreToMusicXMLScore_Loop (
-  S_msrScore mScore,
-  string     outputFileName);
+  ostream&          logOstream);
 
 
 } // namespace MusicXML2

@@ -37,7 +37,7 @@ class extraOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     extraOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~extraOah2ManPageGenerator ();

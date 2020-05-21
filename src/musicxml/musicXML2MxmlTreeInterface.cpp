@@ -43,8 +43,8 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 void displayXMLDeclaration (
-  TXMLDecl*        xmlDeclaration,
-  indentedOstream& logOstream)
+  TXMLDecl* xmlDeclaration,
+  ostream&  logOstream)
 {
   string xmlVersion    = xmlDeclaration->getVersion ();
   string xmlEncoding   = xmlDeclaration->getEncoding ();
@@ -75,8 +75,8 @@ void displayXMLDeclaration (
 
 //_______________________________________________________________________________
 void displayDocumentType (
-  TDocType*        documentType,
-  indentedOstream& logOstream)
+  TDocType* documentType,
+  ostream&  logOstream)
 {
   const int fieldWidth = 16;
 
@@ -111,8 +111,8 @@ void displayDocumentType (
 
 //_______________________________________________________________________________
 string uncompressMXLFile (
-  string           mxlFileName,
-  indentedOstream& logOstream)
+  string   mxlFileName,
+  ostream& logOstream)
 {
   string fileBaseName = baseName (mxlFileName);
 
@@ -405,10 +405,10 @@ string uncompressMXLFile (
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFile2mxmlTree (
-  const char*      fileName,
-  S_mxmlTreeOah    mxmlOpts,
-  indentedOstream& logOstream,
-  string           passNumber)
+  const char*   fileName,
+  S_mxmlTreeOah mxmlOpts,
+  ostream&      logOstream,
+  string        passNumber)
 {
   clock_t startClock = clock ();
 
@@ -597,10 +597,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFd2mxmlTree (
-  FILE*            fd,
-  S_mxmlTreeOah    mxmlOpts,
-  indentedOstream& logOstream,
-  string           passNumber)
+  FILE*         fd,
+  S_mxmlTreeOah mxmlOpts,
+  ostream&      logOstream,
+  string        passNumber)
 {
   clock_t startClock = clock ();
 
@@ -723,10 +723,10 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLString2mxmlTree (
-  const char*      buffer,
-  S_mxmlTreeOah    mxmlOpts,
-  indentedOstream& logOstream,
-  string           passNumber)
+  const char*   buffer,
+  S_mxmlTreeOah mxmlOpts,
+  ostream&      logOstream,
+  string        passNumber)
 {
   clock_t startClock = clock ();
 

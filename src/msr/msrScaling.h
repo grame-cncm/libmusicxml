@@ -56,13 +56,9 @@ class msrScaling : public msrElement
     // ------------------------------------------------------
 
     // relative to absolute lengths conversion
- // JMI   void                  setMillimeters (float val)
-//                              { fMillimeters = val; }
     float                 getMillimeters () const
                               { return fMillimeters; }
 
-// JMI   void                  setTenths (int val)
-//                              { fTenths = val; }
     float                 getTenths () const
                               { return float(fTenths); }
 
@@ -98,7 +94,7 @@ class msrScaling : public msrElement
 
     // relative to absolute lengths conversion
     float                 fMillimeters;
-    int                   fTenths;
+    float                 fTenths;
 };
 typedef SMARTP<msrScaling> S_msrScaling;
 EXP ostream& operator<< (ostream& os, const S_msrScaling& elt);

@@ -33,7 +33,7 @@ namespace MusicXML2
 //________________________________________________________________________
 lilypondOah2ManPageGenerator::lilypondOah2ManPageGenerator (
   const S_oahHandler handler,
-  indentedOstream&   logOstream,
+  ostream&           logOstream,
   ostream&           manPageOutputStream)
     : oah2ManPageGenerator (
         handler,

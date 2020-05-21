@@ -37,28 +37,28 @@ void displayMsrScore_OptionalPass (
 
 //______________________________________________________________________________
 EXP void populateMsrSkeletonFromMxmlTree (
-  Sxmlelement      mxmlTree,
-  S_msrScore       scoreSkeleton,
-  indentedOstream& logOstream,
+  Sxmlelement mxmlTree,
+  S_msrScore  scoreSkeleton,
+  ostream&    logOstream,
   string           passNumber);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScore (
-  S_msrOah&        msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream);
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScoreSummary (
-  S_msrOah&        msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream);
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream);
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScoreNames (
-  S_msrOah&       msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream);
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream);
 
 
 } // namespace MusicXML2

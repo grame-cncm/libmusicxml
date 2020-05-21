@@ -210,7 +210,7 @@ EXP const char*   musicxml2brailleVersionStr();
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2braille(const char *file, const optionsVector& options, std::ostream&                out);
+EXP xmlErr      musicxmlfile2braille(const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the Braille music format.
@@ -226,7 +226,7 @@ EXP xmlErr      musicxmlfd2braille(FILE *fd, const optionsVector& options, std::
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2braille(const char *bufferer, const optionsVector& options, std::ostream&           out);
+EXP xmlErr      musicxmlstring2braille(const char *bufferer, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 //_______________________________________________________________________________
 

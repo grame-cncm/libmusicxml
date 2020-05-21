@@ -60,9 +60,9 @@ class bsr2BsrFinalizer :
   public:
 
     bsr2BsrFinalizer (
-      S_bsrOah&    bsrOpts,
-      indentedOstream& logOstream,
-      S_bsrScore       bScore);
+      S_bsrOah&  bsrOpts,
+      ostream&   logOstream,
+      S_bsrScore bScore);
 
     virtual ~bsr2BsrFinalizer ();
 
@@ -166,12 +166,12 @@ class bsr2BsrFinalizer :
     // options
     // ------------------------------------------------------
 
-    S_bsrOah          fBsrOah;
+    S_bsrOah              fBsrOah;
 
     // log output stream
     // ------------------------------------------------------
 
-    indentedOstream&      fLogOutputStream;
+    ostream&              fLogOutputStream;
 };
 
 

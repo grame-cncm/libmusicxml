@@ -42,13 +42,13 @@ The library includes a high level API to convert
 EXP S_msrVoice buildMsrMasterFromMsrVoice (
   const S_msrVoice mVoice,
   S_msrOah         msrOpts,
-  indentedOstream& logOstream);
+  ostream&         logOstream);
 
 //_______________________________________________________________________________
 EXP void displayMsrMasterVoice (
   const S_msrVoice masterVoice,
   S_msrOah         msrOpts,
-  indentedOstream& logOstream);
+  ostream&         logOstream);
 
 /*! @} */
 

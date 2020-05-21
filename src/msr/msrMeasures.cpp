@@ -5911,7 +5911,7 @@ void msrMeasure::shortPrint (ostream& os) const
 
     setw (fieldWidth) <<
     "measureImplicitKind" << " : " <<
-    booleanAsString (
+    measureImplicitKindAsString (
       fMeasureImplicitKind) <<
     endl <<
 

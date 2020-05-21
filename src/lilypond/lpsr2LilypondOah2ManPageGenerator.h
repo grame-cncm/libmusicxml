@@ -13,7 +13,7 @@
 #ifndef ___lpsr2lilypondOah2ManPageGenerator___
 #define ___lpsr2lilypondOah2ManPageGenerator___
 
-#include "lpsr2lilypondOah.h"
+#include "lpsr2LilypondOah.h"
 
 #include "oah2ManPageGenerators.h"
 
@@ -45,7 +45,7 @@ class lpsr2lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     lpsr2lilypondOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~lpsr2lilypondOah2ManPageGenerator ();

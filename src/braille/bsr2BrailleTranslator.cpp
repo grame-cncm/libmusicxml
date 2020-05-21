@@ -28,10 +28,10 @@ namespace MusicXML2
 
 //________________________________________________________________________
 bsr2BrailleTranslator::bsr2BrailleTranslator (
-  S_bsrScore       bsrScore,
-  S_bsrOah&        bsrOpts,
-  indentedOstream& logOstream,
-  ostream&         brailleCodeOutputStream)
+  S_bsrScore bsrScore,
+  S_bsrOah&  bsrOpts,
+  ostream&   logOstream,
+  ostream&   brailleCodeOutputStream)
     : fLogOutputStream (
         logOstream)
 {

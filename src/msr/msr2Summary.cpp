@@ -24,8 +24,8 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msr2SummaryVisitor::msr2SummaryVisitor (
-  S_msrOah&    msrOpts,
-  indentedOstream& ios)
+  S_msrOah& msrOpts,
+  ostream&  ios)
     : fMsrSummaryOutputStream (ios)
 {
   fMsrOah = msrOpts;

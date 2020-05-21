@@ -4011,10 +4011,10 @@ oahMonoplexStringAtom::oahMonoplexStringAtom (
 {
   // sanity checks
   msrAssert (
-    stringValueDescriptor.size (),
+    stringValueDescriptor.size () > 0,
     "stringValueDescriptor is empty");
   msrAssert (
-    stringValueDescriptor.size (),
+    stringValueDescriptor.size () > 0,
     "stringValueDescriptor is empty");
 }
 
@@ -9269,7 +9269,7 @@ S_oahHandler oahHandler::create (
   string           handlerPreamble,
   string           handlerUsage,
   string           handlerDescription,
-  indentedOstream& handlerLogOstream)
+  ostream& handlerLogOstream)
 {
   oahHandler* o = new
     oahHandler (
@@ -9298,7 +9298,7 @@ oahHandler::oahHandler (
   string           handlerPreamble,
   string           handlerUsage,
   string           handlerDescription,
-  indentedOstream& handlerLogOstream)
+  ostream& handlerLogOstream)
   : oahElement (
       handlerShortName,
       handlerLongName,

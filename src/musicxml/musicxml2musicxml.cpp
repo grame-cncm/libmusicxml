@@ -15,17 +15,33 @@
 #endif
 
 #include <iostream>
+#include <fstream>      // ofstream, ofstream::open(), ofstream::close()
 
-#include "libmusicxml.h"
+#include <regex>
+
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
+#include "libmusicxml.h"
 
-//#include "libmusicxml.h"
+#include "utilities.h"
 
-#include "msr.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
 
-#include "musicxml2lilypond.h"
+#include "msrOah.h"
+#include "msr2LpsrOah.h"
+
+#include "musicXML2MxmlTreeInterface.h"
+#include "mxmlTree2MsrSkeletonBuilderInterface.h"
+#include "mxmlTree2MsrTranslatorInterface.h"
+#include "msr2MxmltreeInterface.h"
+
+#include "mxmlTree.h"
+
+#include "musicxml2musicxml.h"
 
 
 using namespace std;
@@ -36,11 +52,12 @@ namespace MusicXML2
 //_______________________________________________________________________________
 static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
-/*
 	Sxmlelement st = xmlfile->elements();
+
 	if (st) {
 		if (st->getName() == "score-timewise") return kUnsupported;
 
+/*
 		xml2guidovisitor v(true, true, optionsVector, partFilter);
 		Sguidoelement gmn = v.convert(st);
 		if (file) {
@@ -51,51 +68,56 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 		out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
 			<< "\n*)" << endl;
 		out << gmn << endl;
+		*/
+
 		return kNoErr;
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfile2musicxml (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(file);
+
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, 0, out, err, file);
+		return xml2musicxml(xmlfile, options, out, err, file);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfd2musicxml (FILE * fd, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(fd);
+
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, 0, out, err, 0);
+		return xml2musicxml(xmlfile, options, out, err, 0);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.readbuff(buffer);
+
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, partFilter, out, err, 0);
+		return xml2musicxml(xmlfile, options, out, err, 0);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
@@ -105,7 +127,6 @@ void convertMsrScoreToMusicXMLScore (
   string     outputFileName,
   string     passNumber)
 {
-/*
   // open output file if need be
   // ------------------------------------------------------
 
@@ -150,7 +171,7 @@ void convertMsrScoreToMusicXMLScore (
 
   // create the MusicXML data
 	SXMLFile xmlFile = createXMLFile ();
-	/ *
+/* JMI
 	SXMLFile xmlFile = TXMLFile::create ();
 
   TXMLDecl * xmlDecl = new TXMLDecl ("1.0", "UTF-8", TXMLDecl::kNo);
@@ -158,7 +179,7 @@ void convertMsrScoreToMusicXMLScore (
 
 	TDocType * docType = new TDocType ("score-partwise");
 	xmlFile->set (docType);
-* /
+*/
 
 	// insert the mxmlTree into it
   xmlFile->set (mxmltree);
@@ -177,15 +198,13 @@ void convertMsrScoreToMusicXMLScore (
 #endif
 
   outFileStream.close ();
-  */
 }
 
 //_______________________________________________________________________________
-EXP xmlErr convertMusicXMLBackToMusicXML (
+EXP void convertMusicXMLBackToMusicXML (
   string inputSourceName,
   string outputFileName)
 {
-/*
   // create the mxmlTree from MusicXML contents (pass 1)
   // ------------------------------------------------------
 
@@ -210,7 +229,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       "Existing after pass 2a as requested" <<
       endl;
 
-    return kNoErr;
+    return;
   }
 
   // populate the MSR from MusicXML contents (pass 2b)
@@ -219,6 +238,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   populateMsrSkeletonFromMxmlTree (
     mxmlTree,
     mScore,
+    gLogOstream,
     "Pass 2b");
 
   if (gMsr2LpsrOah->fExit2b) {
@@ -227,7 +247,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       "Existing after pass 2b as requested" <<
       endl;
 
-    return kNoErr;
+    return;
   }
 
   // display the MSR score summary if requested
@@ -248,8 +268,6 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       gMsrOah,
       mScore,
       gLogOstream);
-
-    return kNoErr;
   }
 
   // display the score names if requested
@@ -261,8 +279,6 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       gMsrOah,
       mScore,
       gLogOstream);
-
-    return kNoErr;
   }
 
   // create MusicXML back from the MSR
@@ -274,9 +290,6 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       regex (".ly"),
       "_LOOP.xml"),
       "Pass 3");
-*/
-
-  return kNoErr;
 }
 
 

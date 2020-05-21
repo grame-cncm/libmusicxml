@@ -19,6 +19,7 @@
 #include "version.h"
 
 #include "utilities.h"
+#include "messagesHandling.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
@@ -26,26 +27,10 @@
 #endif
 
 #include "generalOah.h"
-#include "mxmlTreeOah.h"
-#include "msr2LpsrOah.h"
-
 #include "xml2lyOah.h"
 
-#include "musicXML2MxmlTreeInterface.h"
-
-#include "mxmlTree2MsrSkeletonBuilderInterface.h"
-#include "mxmlTree2MsrTranslatorInterface.h"
-
-#include "msr2LpsrInterface.h"
-
-#include "lpsr2LilypondInterface.h"
-
-#include "msr2MxmltreeInterface.h"
-
-#include "mxmlTree.h"
-
 #include "musicxml2lilypond.h"
-
+#include "musicxml2musicxml.h"
 
 using namespace std;
 
@@ -224,7 +209,8 @@ int main (int argc, char *argv[])
 
   convertMusicXMLToLilypond (
     inputSourceName,
-    outputFileName);
+    outputFileName,
+    gXml2lyOah->fLoopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

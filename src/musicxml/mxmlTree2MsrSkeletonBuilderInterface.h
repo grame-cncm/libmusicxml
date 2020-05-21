@@ -33,24 +33,24 @@ The library includes a high level API to convert
 
 //_____________________________________________@__________________________________
 EXP S_msrScore buildMsrSkeletonFromElementsTree (
-  S_msrOah&        msrOpts,
-  Sxmlelement      mxmlTree,
-  indentedOstream& logOstream,
-  string           passNumber);
+  S_msrOah&   msrOpts,
+  Sxmlelement mxmlTree,
+  ostream&    logOstream,
+  string      passNumber);
 
 //_______________________________________________________________________________
 EXP void displayMsrSkeleton (
-  S_msrOah&        msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream,
-  string           passNumber);
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream,
+  string     passNumber);
 
 //_______________________________________________________________________________
 /* JMI
 EXP void displayMsrSkeletonSummary (
-  S_msrOah&    msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream);
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream);
 */
 
 //_______________________________________________________________________________

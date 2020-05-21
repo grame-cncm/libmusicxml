@@ -24,40 +24,40 @@ namespace MusicXML2
 class msr2NamesVisitor :
 
   public visitor<S_msrScore>,
-  
+
   // parts & part groups
 
   public visitor<S_msrPartGroup>,
-  
+
   public visitor<S_msrPart>,
-  
+
   // staves
 
   public visitor<S_msrStaff>,
 
   // voices
-  
+
   public visitor<S_msrVoice>,
 
   // varValAssocs
-  
+
   public visitor<S_msrVarValAssoc>,
   public visitor<S_msrVarValsListAssoc>
 
 {
   public:
-  
+
     msr2NamesVisitor (
-      S_msrOah&    msrOpts,
-      indentedOstream& ios);
-        
+      S_msrOah& msrOpts,
+      ostream&  ios);
+
     virtual ~msr2NamesVisitor ();
 
     void printNamesFromMsrScore (
       const S_msrScore& score);
-    
+
   protected:
-      
+
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
@@ -79,35 +79,35 @@ class msr2NamesVisitor :
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
   private:
-                     
-    S_msrOah          fMsrOah;
-    
-    indentedOstream&      fMsrNamesOutputStream;
+
+    S_msrOah              fMsrOah;
+
+    ostream&              fMsrNamesOutputStream;
 
     // score
     // ------------------------------------------------------
-    
+
     // part groups
     // ------------------------------------------------------
-    
+
     int                   fPartGroupsCounter;
 
     // parts
     // ------------------------------------------------------
-    
+
     int                   fPartsCounter;
 
     // staves
     // ------------------------------------------------------
-    
+
     int                   fStavesCounter;
-    
+
     // prevent clef, key and time from being handled twice
     bool                  fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
-    
+
     int                   fVoicesCounter;
 };
 

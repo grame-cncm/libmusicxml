@@ -37,8 +37,8 @@ class lpsrOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     lpsrOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream& logOstream,
-      ostream&         manPageOutputStream);
+      ostream&           logOstream,
+      ostream&           manPageOutputStream);
 
     virtual ~lpsrOah2ManPageGenerator ();
 

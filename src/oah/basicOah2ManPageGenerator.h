@@ -79,7 +79,7 @@ class basicOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     basicOah2ManPageGenerator (
       const S_oahHandler handler,
-      indentedOstream&   logOstream,
+      ostream&           logOstream,
       ostream&           manPageOutputStream);
 
     virtual ~basicOah2ManPageGenerator ();

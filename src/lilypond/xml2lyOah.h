@@ -33,7 +33,7 @@ class EXP xml2lyOahHandler : public oahHandler
 
     static SMARTP<xml2lyOahHandler> create (
       string           executableName,
-      indentedOstream& ios);
+      ostream& ios);
 
   protected:
 
@@ -42,7 +42,7 @@ class EXP xml2lyOahHandler : public oahHandler
 
     xml2lyOahHandler (
       string           executableName,
-      indentedOstream& ios);
+      ostream& ios);
 
     virtual ~xml2lyOahHandler ();
 

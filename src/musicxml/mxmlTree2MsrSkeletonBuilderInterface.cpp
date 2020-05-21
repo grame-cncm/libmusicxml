@@ -40,10 +40,10 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 S_msrScore buildMsrSkeletonFromElementsTree (
-  S_msrOah&        msrOpts,
-  Sxmlelement      mxmlTree,
-  indentedOstream& logOstream,
-  string           passNumber)
+  S_msrOah&   msrOpts,
+  Sxmlelement mxmlTree,
+  ostream&    logOstream,
+  string      passNumber)
 {
   // sanity check
   msrAssert (
@@ -110,10 +110,10 @@ S_msrScore buildMsrSkeletonFromElementsTree (
 
 //_______________________________________________________________________________
 void displayMsrSkeleton (
-  S_msrOah&        msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream,
-  string           passNumber)
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream,
+  string     passNumber)
 {
   // sanity check
   msrAssert (
@@ -151,9 +151,9 @@ void displayMsrSkeleton (
 /* JMI
 //_______________________________________________________________________________
 void displayMsrSkeletonSummary (
-  S_msrOah&    msrOpts,
-  S_msrScore       mScore,
-  indentedOstream& logOstream)
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream)
 {
   // sanity check
   msrAssert (

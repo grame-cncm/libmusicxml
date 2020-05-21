@@ -17,18 +17,19 @@
 #include <iostream>
 #include <regex>
 
-#include "libmusicxml.h"
-
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
+#include "version.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
 #endif
 
+#include "msrOah.h"
 #include "msr2LpsrOah.h"
+#include "lpsrOah.h"
 #include "xml2lyOah.h"
 
 #include "msr.h"
@@ -39,6 +40,10 @@
 #include "msr2MxmltreeInterface.h"
 #include "msr2LpsrInterface.h"
 #include "lpsr2LilypondInterface.h"
+
+#include "musicxml2lilypond.h"
+#include "musicxml2musicxml.h"
+
 
 using namespace std;
 
@@ -53,21 +58,170 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 	if (st) {
 		if (st->getName() == "score-timewise") return kUnsupported;
 
-/*
-		xml2guidovisitor v(true, true, generateBars, partFilter);
+    // the fake executable name
+    string fakeExecutableName = "xml2lilypond";
 
-		Sguidoelement gmn = v.convert(st);
+    // create the options handler
+    // ------------------------------------------------------
+
+    S_xml2lyOahHandler
+      handler =
+        xml2lyOahHandler::create (
+          fakeExecutableName,
+          out);
+
+    // analyze the coptions vector
+    // ------------------------------------------------------
+
+    vector<string>
+      argumentsVector =
+        handler->
+          hangleOptionsFromOptionsVector (
+            fakeExecutableName,
+            options);
+
+    // has quiet mode been requested?
+    // ------------------------------------------------------
+
+    if (gGeneralOah->fQuiet) {
+      // disable all trace and display options
+      handler->
+        enforceOahHandlerQuietness ();
+    }
+
+    // do the translation
+    // ------------------------------------------------------
+
+    Sxmlelement
+      mxmlTree =
+        xmlfile->elements ();
+/* JMI
+        convertMusicXMLToMxmlTree (
+          inputSourceName,
+          "Pass 1");
 */
 
-		if (file) {
-			out << "(*\n  gmn code converted from '" << file << "'"
-				<< "\n  using libmusicxml v." << musicxmllibVersionStr();
-		}
-		else out << "(*\n  gmn code converted using libmusicxml v." << musicxmllibVersionStr();
-		out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
-			<< "\n*)" << endl;
+    // create the MSR skeleton from the mxmlTree (pass 2a)
+    // ------------------------------------------------------
 
-//		out << gmn << endl;
+    S_msrScore
+      mScore =
+        convertMxmlTreeToMsrScoreSkeleton (
+          mxmlTree,
+          "Pass 2a");
+
+    if (gMsr2LpsrOah->fExit2a) {
+      err <<
+        endl <<
+        "Existing after pass 2a as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
+    // populate the MSR from MusicXML contents (pass 2b)
+    // ------------------------------------------------------
+
+    populateMsrSkeletonFromMxmlTree (
+      mxmlTree,
+      mScore,
+      err,
+      "Pass 2b");
+
+    if (gMsr2LpsrOah->fExit2b) {
+      err <<
+        endl <<
+        "Existing after pass 2b as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
+    // display the MSR score summary if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsr) {
+      displayMsrScore_OptionalPass (
+        mScore,
+        gMsrOah);
+    }
+
+    // display the score summary if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsrSummary) {
+      // display the score summary
+      displayMSRPopulatedScoreSummary (
+        gMsrOah,
+        mScore,
+        err);
+
+      return kNoErr;
+    }
+
+    // display the score names if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsrNames) {
+      // display the score name
+      displayMSRPopulatedScoreNames (
+        gMsrOah,
+        mScore,
+        err);
+
+      return kNoErr;
+    }
+
+    // create the LPSR from the MSR (pass 3)
+    // ------------------------------------------------------
+
+    S_lpsrScore
+      lpScore =
+        convertMsrScoreToLpsrScore (
+          mScore,
+          "Pass 3");
+
+    if (gLpsrOah->fExit3) {
+      err <<
+        endl <<
+        "Existing after pass 3 as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
+    // display the LPSR score if requested
+    // ------------------------------------------------------
+
+    if (gLpsrOah->fDisplayLpsr) {
+      displayLpsrScore_OptionalPass (
+        lpScore,
+        gMsrOah,
+        gLpsrOah);
+    }
+
+    // generate LilyPond code from the LPSR (pass 4)
+    // ------------------------------------------------------
+
+    generateLilypondCodeFromLpsrScore (
+      lpScore,
+      gMsrOah,
+      gLpsrOah,
+      err,
+      out,
+      "Pass 4");
+
+    // over!
+    // ------------------------------------------------------
+
+    if (! true) { // JMI
+      err <<
+        "### Conversion from LPSR to LilyPond code failed ###" <<
+        endl <<
+        endl;
+
+      return kInvalidFile;
+    }
 
 		return kNoErr;
 	}
@@ -75,177 +229,14 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 	return kInvalidFile;
 }
 
-/*
-  // create the options handler
-  // ------------------------------------------------------
-
-  S_xml2lyOahHandler
-    handler =
-      xml2lyOahHandler::create (
-        argv [0],
-        gOutputOstream);
-
-  // analyze the command line options and arguments
-  // ------------------------------------------------------
-
-  vector<string>
-    argumentsVector =
-      handleOptionsAndArguments (
-        handler,
-        argc, argv,
-        gOutputOstream);
-  //      gLogOstream);
-
-  string
-    inputSourceName =
-      gOahOah->fInputSourceName;
-
-  string
-    outputFileName =
-      gXml2lyOah->fLilyPondOutputFileName;
-
-  int
-    outputFileNameSize =
-      outputFileName.size ();
-
-  // has quiet mode been requested?
-  // ------------------------------------------------------
-
-  if (gGeneralOah->fQuiet) {
-    // disable all trace and display options
-    handler->
-      enforceOahHandlerQuietness ();
-  }
-
-  // welcome message
-  // ------------------------------------------------------
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
-    gLogOstream <<
-      "This is xml2ly " << currentVersionNumber () <<
-      " from libmusicxml2 v" << musicxmllibVersionStr () <<
-      endl;
-
-    gLogOstream <<
-      "Launching conversion of ";
-
-    if (inputSourceName == "-")
-      gLogOstream <<
-        "standard input";
-    else
-      gLogOstream <<
-        "\"" << inputSourceName << "\"";
-
-    gLogOstream <<
-      " to LilyPond" <<
-      endl;
-
-    gLogOstream <<
-      "Time is " << gGeneralOah->fTranslationDateFull <<
-      endl;
-
-    gLogOstream <<
-      "LilyPond code will be written to ";
-    if (outputFileNameSize) {
-      gLogOstream <<
-        outputFileName;
-    }
-    else {
-      gLogOstream <<
-        "standard output";
-    }
-    gLogOstream <<
-      endl <<
-      endl;
-
-    gLogOstream <<
-      "The command line is:" <<
-      endl;
-
-    gIndenter++;
-
-    gLogOstream <<
-      handler->
-        commandLineWithShortNamesAsString () <<
-      endl;
-
-    gIndenter--;
-    gLogOstream <<
-      "or:" <<
-      endl;
-    gIndenter++;
-
-    gLogOstream <<
-      handler->
-        commandLineWithLongNamesAsString () <<
-      endl <<
-      endl;
-
-    gIndenter--;
-  }
-#endif
-
-  // acknoledge end of command line analysis
-  // ------------------------------------------------------
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
-    gLogOstream <<
-      "The command line options and arguments have been analyzed" <<
-      endl;
-  }
-#endif
-
-  // do the translation
-  // ------------------------------------------------------
-
-  convertMusicXMLToLilypond (
-    inputSourceName,
-    outputFileName);
-
-  // display the input line numbers for which messages have been issued
-  // ------------------------------------------------------
-
-  displayWarningsAndErrorsInputLineNumbers ();
-
-  // print timing information
-  // ------------------------------------------------------
-
-  if (gGeneralOah->fDisplayCPUusage)
-    timing::gTiming.print (
-      gLogOstream);
-
-  // check indentation
-  // ------------------------------------------------------
-  if (gIndenter != 0) {
-    gLogOstream <<
-      "### gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
-
-    // JMI abort ();
-  }
-
-  // over!
-  // ------------------------------------------------------
-
-  if (! true) { // JMI
-    gLogOstream <<
-      "### Conversion from LPSR to LilyPond code failed ###" <<
-      endl <<
-      endl;
-
-    return 1;
-  }
-*/
-
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfile2lilypond (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(file);
+
 	if (xmlfile) {
 		return xml2lilypond (xmlfile, options, out, err, file);
 	}
@@ -287,7 +278,7 @@ EXP xmlErr musicxmlstring2lilypond(const char *buffer, const optionsVector& opti
 EXP void convertMusicXMLToLilypond (
   string inputSourceName,
   string outputFileName,
-  bool   loopBackToMusicXML)
+  bool   loopBackToMusicXML) // loopBackToMusicXML is used by 'xml2ly -loop'
 {
   // create the mxmlTree from MusicXML contents (pass 1)
   // ------------------------------------------------------
@@ -408,12 +399,13 @@ EXP void convertMusicXMLToLilypond (
   // create MusicXML back from the MSR if requested
   // ------------------------------------------------------
   if (loopBackToMusicXML) {
-    convertMsrScoreToMusicXMLScore_Loop (
+    convertMsrScoreToMusicXMLScore (
       mScore,
       regex_replace (
         outputFileName,
         regex (".ly"),
-        "_LOOP.xml"));
+        "_LOOP.xml"),
+      "Pass 5");
   }
 }
 

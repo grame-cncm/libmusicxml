@@ -14,7 +14,7 @@
 //#include <cmath>
 //#include <string>
 
-#include "lpsr2lilypondOah2ManPageGenerator.h"
+#include "lpsr2LilypondOah2ManPageGenerator.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
@@ -33,7 +33,7 @@ namespace MusicXML2
 //________________________________________________________________________
 lpsr2lilypondOah2ManPageGenerator::lpsr2lilypondOah2ManPageGenerator (
   const S_oahHandler handler,
-  indentedOstream&   logOstream,
+  ostream&           logOstream,
   ostream&           manPageOutputStream)
     : oah2ManPageGenerator (
         handler,

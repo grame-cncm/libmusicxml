@@ -103,9 +103,9 @@ void timing::print (ostream& os) const
     secondsPrecision  =  6;
 
   clock_t
-    totalClock          = 0.0,
-    totalMandatoryClock = 0.0,
-    totalOptionalClock  = 0.0;
+    totalClock          = 0,
+    totalMandatoryClock = 0,
+    totalOptionalClock  = 0;
 
   os << endl << "Timing information:" << endl << endl <<
     setw (activityWidth) << "Activity" << "  " <<

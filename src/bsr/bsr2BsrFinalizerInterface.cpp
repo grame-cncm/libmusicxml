@@ -36,7 +36,7 @@ void displayFirstBsrScore (
   const S_bsrScore bScore,
   S_msrOah         msrOpts,
   S_bsrOah         bsrOpts,
-  indentedOstream& logOstream)
+  ostream&         logOstream)
 {
   // sanity check
   msrAssert (
@@ -139,7 +139,7 @@ void displayFinalizedBsrScore_OptionalPass (
 S_bsrScore generateFinalizedBsrScoreFromBsrScore (
   const S_bsrScore bScore,
   S_bsrOah         bsrOpts,
-  indentedOstream& logOstream,
+  ostream&         logOstream,
   string           passNumber)
 {
   // sanity check
@@ -198,9 +198,9 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
 //_______________________________________________________________________________
 void displayFinalizedBsrScore (
   const S_bsrScore bScore,
-  S_msrOah     msrOpts,
-  S_bsrOah     bsrOpts,
-  indentedOstream& logOstream)
+  S_msrOah         msrOpts,
+  S_bsrOah         bsrOpts,
+  ostream&         logOstream)
 {
   // sanity check
   msrAssert (

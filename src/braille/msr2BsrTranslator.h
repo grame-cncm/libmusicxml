@@ -76,8 +76,8 @@ class msr2BsrTranslator :
   public:
 
     msr2BsrTranslator (
-      indentedOstream& ios,
-      S_msrScore       mScore);
+      ostream&   ios,
+      S_msrScore mScore);
 
     virtual ~msr2BsrTranslator ();
 
@@ -160,7 +160,7 @@ class msr2BsrTranslator :
 
   private:
 
-    indentedOstream&          fLogOutputStream;
+    ostream&                  fLogOutputStream;
 
     // messages
     // ------------------------------------------------------

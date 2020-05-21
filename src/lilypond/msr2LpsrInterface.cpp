@@ -41,7 +41,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
   S_msrOah         msrOpts,
   S_lpsrOah        lpsrOpts,
-  indentedOstream& logOstream)
+  ostream&         logOstream)
 {
   // sanity check
   msrAssert (
@@ -100,7 +100,7 @@ void displayLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOah          msrOpts,
   S_lpsrOah         lpsrOpts,
-  indentedOstream&  logOstream)
+  ostream&          logOstream)
 {
   // sanity check
   msrAssert (

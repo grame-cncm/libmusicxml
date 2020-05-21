@@ -140,11 +140,11 @@ void lpsr2LilypondTranslator::setCurrentOctaveEntryReferenceFromTheLilypondOah (
 
 //________________________________________________________________________
 lpsr2LilypondTranslator::lpsr2LilypondTranslator (
-  S_lpsrScore      lpsrScore,
-  S_msrOah&        msrOpts,
-  S_lpsrOah&       lpsrOpts,
-  indentedOstream& logOstream,
-  indentedOstream& lilypondCodeOstream)
+  S_lpsrScore lpsrScore,
+  S_msrOah&   msrOpts,
+  S_lpsrOah&  lpsrOpts,
+  ostream&    logOstream,
+  ostream&    lilypondCodeOstream)
     : fLogOutputStream (
         logOstream),
       fLilypondCodeOstream (

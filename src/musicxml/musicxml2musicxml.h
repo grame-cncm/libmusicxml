@@ -10,8 +10,10 @@
   research@grame.fr
 */
 
-#ifndef __musicxml2lilypond__
-#define __musicxml2lilypond__
+#ifndef __musicxml2musicxml__
+#define __musicxml2musicxml__
+
+#include "msrScores.h"
 
 using namespace std;
 
@@ -19,11 +21,17 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-EXP void convertMusicXMLToLilypond (
+void convertMsrScoreToMusicXMLScore (
+  S_msrScore mScore,
+  string     outputFileName,
+  string     passNumber);
+
+//_______________________________________________________________________________
+EXP void convertMusicXMLBackToMusicXML (
   string inputSourceName,
-  string outputFileName,
-  bool   loopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
+  string outputFileName);
 
 }
 
 #endif
+

@@ -15,8 +15,6 @@
 #include "setTraceOahIfDesired.h"
 #include "traceOah.h"
 
-#include "libmusicxml.h"
-
 #include "msr.h"
 //#include "lpsr.h" // JMI only if pass5 msr2lpsr is run
 
@@ -46,8 +44,8 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2xmlOahHandler xml2xmlOahHandler::create (
-  string           executableName,
-  indentedOstream& ios)
+  string   executableName,
+  ostream& ios)
 {
   xml2xmlOahHandler* o = new
     xml2xmlOahHandler (
@@ -58,8 +56,8 @@ S_xml2xmlOahHandler xml2xmlOahHandler::create (
 }
 
 xml2xmlOahHandler::xml2xmlOahHandler (
-  string           executableName,
-  indentedOstream& ios)
+  string   executableName,
+  ostream& ios)
   : oahHandler (
     executableName + " available options",
     "Options values",

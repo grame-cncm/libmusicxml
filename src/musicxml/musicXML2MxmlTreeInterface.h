@@ -32,9 +32,9 @@ namespace MusicXML2
   \return an error code (\c kNoErr when success)
 */
 EXP Sxmlelement musicXMLFile2mxmlTree (
-  const char*      fileName,
-  S_mxmlTreeOah    mxmlOpts,
-  indentedOstream& logOstream);
+  const char*   fileName,
+  S_mxmlTreeOah mxmlOpts,
+  ostream&      logOstream);
 
 //______________________________________________________________________________
 /*!
@@ -46,9 +46,9 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 */
 
 EXP Sxmlelement musicXMLFd2mxmlTree (
-  FILE*            fd,
-  S_mxmlTreeOah    mxmlOpts,
-  indentedOstream& logOstream);
+  FILE*         fd,
+  S_mxmlTreeOah mxmlOpts,
+  ostream&      logOstream);
 
 //______________________________________________________________________________
 /*!
@@ -59,10 +59,10 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   \return an error code (\c kNoErr when success)
 */
 EXP Sxmlelement musicXMLString2mxmlTree (
-  const char*      buffer,
-  S_mxmlTreeOah    mxmlOpts,
-  indentedOstream& logOstream,
-  string           passNumber);
+  const char*   buffer,
+  S_mxmlTreeOah mxmlOpts,
+  ostream&      logOstream,
+  string        passNumber);
 
 //_______________________________________________________________________________
 Sxmlelement convertMusicXMLToMxmlTree (

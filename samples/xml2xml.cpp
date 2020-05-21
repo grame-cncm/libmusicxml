@@ -13,10 +13,12 @@
 #include <signal.h>
 #endif
 
-#include "libmusicxml.h"
+#include <regex>
+
 #include "version.h"
 
 #include "utilities.h"
+#include "messagesHandling.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
@@ -24,23 +26,9 @@
 #endif
 
 #include "generalOah.h"
-#include "mxmlTreeOah.h"
-#include "msr2LpsrOah.h"
-
 #include "xml2xmlOah.h"
 
-#include "musicXML2MxmlTreeInterface.h"
-
-#include "mxmlTree2MsrSkeletonBuilderInterface.h"
-#include "mxmlTree2MsrTranslatorInterface.h"
-
-#include "msr2LpsrInterface.h"
-
-#include "lpsr2LilypondInterface.h"
-
-#include "msr2MxmltreeInterface.h"
-
-#include "mxmlTree.h"
+#include "musicxml2musicxml.h"
 
 
 using namespace std;
@@ -207,9 +195,9 @@ int main (int argc, char *argv[])
   // do the translation
   // ------------------------------------------------------
 
-  if (convertMusicXMLBackToMusicXML (inputSourceName, outputFileName) != kNoErr) {
-    return 1;
-  }
+  convertMusicXMLBackToMusicXML (
+    inputSourceName,
+    outputFileName);
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

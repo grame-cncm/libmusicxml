@@ -95,8 +95,8 @@ ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarlineDescr& elt)
 
 //________________________________________________________________________
 msr2LpsrTranslator::msr2LpsrTranslator (
-  indentedOstream& ios,
-  S_msrScore       mScore)
+  ostream&   ios,
+  S_msrScore mScore)
     : fLogOutputStream (ios)
 {
   // the MSR score we're visiting

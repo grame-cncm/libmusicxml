@@ -36,7 +36,7 @@ namespace MusicXML2
 //________________________________________________________________________
 brailleOah2ManPageGenerator::brailleOah2ManPageGenerator (
   const S_oahHandler handler,
-  indentedOstream&   logOstream,
+  ostream&           logOstream,
   ostream&           manPageOutputStream)
     : oah2ManPageGenerator (
         handler,
