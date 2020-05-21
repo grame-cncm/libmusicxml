@@ -30,7 +30,7 @@ function lilyconvert (xml, lib, log )
 {
 	log( "MusicXML -> Lilypond :");
 	log ("  string2lily  :");
-	log (lib.string2lily (xml, "-help"));
+	log (lib.string2lily (xml, ""));
 }
 
 function brailleconvert (xml, lib, log )
@@ -48,8 +48,8 @@ function run (engine, log, xml) {
 		gmnconvert (xml, engine, log );
 		log( "<br /><hr />\n");
 		lilyconvert (xml, engine, log );
-		log( "<br /><hr />\n");
-		brailleconvert (xml, engine, log );
+		// log( "<br /><hr />\n");
+		// brailleconvert (xml, engine, log );
 	}
 }
 
