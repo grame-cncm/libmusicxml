@@ -121,7 +121,7 @@ string	libMusicXMLAdapter::string2braille(const string& buff, const string& args
 		return "";
 	}
 cerr << "libMusicXMLAdapter::musicxmlstring2braille options: " << options.size() << ": " << options2String(options)  << endl;
-	return ::musicxmlstring2braille (buff.c_str(), options, sstr) ? "" : sstr.str();
+	return ::musicxmlstring2braille (buff.c_str(), options, sstr, cerr) ? "" : sstr.str();
 }
 
 string	libMusicXMLAdapter::xmlStringTranspose(const string& buff, int interval)
