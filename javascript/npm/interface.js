@@ -46,7 +46,16 @@ class libmusicxml {
 	musicxml2guidoVersion ()			{ return this.fLibrary.musicxml2guidoVersion (); }
 	musicxml2guidoVersionStr ()			{ return this.fLibrary.musicxml2guidoVersionStr (); }
 
+	musicxml2lilypondVersion ()			{ return this.fLibrary.musicxml2lilypondVersion (); }
+	musicxml2lilypondVersionStr ()		{ return this.fLibrary.musicxml2lilypondVersionStr (); }
+
+	musicxml2brailleVersion ()			{ return this.fLibrary.musicxml2brailleVersion (); }
+	musicxml2brailleVersionStr ()		{ return this.fLibrary.musicxml2brailleVersionStr (); }
+
 	string2guido (xml, genBars)			{ return this.fLibrary.string2guido (xml, genBars); }
+	string2lily (xml, options)			{ return this.fLibrary.string2lily (xml, options); }
+	string2braille (xml, options)		{ return this.fLibrary.string2braille (xml, options); }
+
 	xmlStringTranspose (xml, interval)	{ return this.fLibrary.xmlStringTranspose (xml, interval); }
 }
 

@@ -43,8 +43,5 @@ EMSCRIPTEN_BINDINGS(EngineAdapter) {
 			.function("string2braille", &libMusicXMLAdapter::string2braille)
 
 			.function("xmlStringTranspose", select_overload<std::string (const std::string&, int)>(&libMusicXMLAdapter::xmlStringTranspose));
-
-	register_vector<std::pair<std::string, std::string> >	("vector<std::pair<std::string, std::string> >");
-
 }
 
