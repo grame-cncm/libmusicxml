@@ -18,6 +18,7 @@
 #include <regex>
 
 #include "libmusicxml.h"
+
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
@@ -45,7 +46,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, ostream& out, const char* file)
+static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
 	Sxmlelement st = xmlfile->elements();
 
@@ -240,20 +241,20 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, ost
 */
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2lilypond (const char *file, const optionsVector& options, ostream& out)
+EXP xmlErr musicxmlfile2lilypond (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(file);
 	if (xmlfile) {
-		return xml2lilypond (xmlfile, options, out, file);
+		return xml2lilypond (xmlfile, options, out, err, file);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2lilypond (FILE * fd, const optionsVector& options, ostream& out)
+EXP xmlErr musicxmlfd2lilypond (FILE * fd, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -261,14 +262,14 @@ EXP xmlErr musicxmlfd2lilypond (FILE * fd, const optionsVector& options, ostream
 	xmlfile = r.read(fd);
 
 	if (xmlfile) {
-		return xml2lilypond (xmlfile, options, out, 0);
+		return xml2lilypond (xmlfile, options, out, err, 0);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlstring2lilypond(const char *buffer, const optionsVector& options, std::ostream& out)
+EXP xmlErr musicxmlstring2lilypond(const char *buffer, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile  xmlfile;
@@ -276,14 +277,14 @@ EXP xmlErr musicxmlstring2lilypond(const char *buffer, const optionsVector& opti
 	xmlfile = r.readbuff (buffer);
 
 	if (xmlfile) {
-		return xml2lilypond (xmlfile, options, out, 0);
+		return xml2lilypond (xmlfile, options, out, err, 0);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr convertMusicXMLToLilypond (
+EXP void convertMusicXMLToLilypond (
   string inputSourceName,
   string outputFileName,
   bool   loopBackToMusicXML)
@@ -312,7 +313,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       "Existing after pass 2a as requested" <<
       endl;
 
-    return kNoErr;
+    return;
   }
 
   // populate the MSR from MusicXML contents (pass 2b)
@@ -330,7 +331,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       "Existing after pass 2b as requested" <<
       endl;
 
-    return kNoErr;
+    return;
   }
 
   // display the MSR score summary if requested
@@ -352,7 +353,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
-    return kNoErr;
+    return;
   }
 
   // display the score names if requested
@@ -365,7 +366,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
-    return kNoErr;
+    return;
   }
 
   // create the LPSR from the MSR (pass 3)
@@ -383,7 +384,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       "Existing after pass 3 as requested" <<
       endl;
 
-    return kNoErr;
+    return;
   }
 
   // display the LPSR score if requested
@@ -414,8 +415,6 @@ EXP xmlErr convertMusicXMLToLilypond (
         regex (".ly"),
         "_LOOP.xml"));
   }
-
-  return kNoErr;
 }
 
 

@@ -1835,6 +1835,8 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     bool                      fCurrentGraceIsSlashed;
+    bool                      fCurrentGraceIsBeamed;
+
     S_msrGraceNotesGroup      fPendingGraceNotesGroup;
 
     // articulations handling

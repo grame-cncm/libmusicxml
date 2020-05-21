@@ -149,6 +149,7 @@ endforeach()
 
 if (LILY)
 	set(SRC ${SRC}  "${SRCDIR}/xml2ly/musicxml2lilypond.cpp")
+  set(HEADERS ${HEADERS} "${SRCDIR}/xml2ly/musicxml2lilypond.h")    # add header files
 endif()
 
 if (BRAILLE)

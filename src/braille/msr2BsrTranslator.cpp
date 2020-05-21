@@ -115,7 +115,7 @@ void msr2BsrTranslator::notSupportedMessage (
   string message)
 {
   // issue a warning message to the output log stream
-  bsrMusicXMLWarning (
+  bsrWarning (
     gOahOah->fInputSourceName,
     inputLineNumber,
     message);
@@ -343,74 +343,74 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
     fBsrScore-> getHeader();
 
   // is there a rights option?
-  if (gLilypondOah->fRights.size ()) {
+  if (gLpsr2LilypondOah->fRights.size ()) {
     // define rights
 
     fBsrScoreHeader->
       addRights (
         inputLineNumber,
-        gLilypondOah->fRights);
+        gLpsr2LilypondOah->fRights);
   }
 
   // is there a composer option?
-  if (gLilypondOah->fComposer.size ()) {
+  if (gLpsr2LilypondOah->fComposer.size ()) {
     // define composer
 
     fBsrScoreHeader->
       addComposer (
         inputLineNumber,
-        gLilypondOah->fComposer);
+        gLpsr2LilypondOah->fComposer);
   }
 
   // is there an arranger option?
-  if (gLilypondOah->fArranger.size ()) {
+  if (gLpsr2LilypondOah->fArranger.size ()) {
     // define arranger
 
     fBsrScoreHeader->
       addArranger (
         inputLineNumber,
-        gLilypondOah->fArranger);
+        gLpsr2LilypondOah->fArranger);
   }
 
   // is there a poet option?
-  if (gLilypondOah->fPoet.size ()) {
+  if (gLpsr2LilypondOah->fPoet.size ()) {
     // define poet
 
     fBsrScoreHeader->
       addPoet (
         inputLineNumber,
-        gLilypondOah->fPoet);
+        gLpsr2LilypondOah->fPoet);
   }
 
   // is there a lyricist option?
-  if (gLilypondOah->fLyricist.size ()) {
+  if (gLpsr2LilypondOah->fLyricist.size ()) {
     // define lyricist
 
     fBsrScoreHeader->
       addLyricist (
         inputLineNumber,
-        gLilypondOah->fLyricist);
+        gLpsr2LilypondOah->fLyricist);
   }
 
   // is there a software option?
-  if (gLilypondOah->fSoftware.size ()) {
+  if (gLpsr2LilypondOah->fSoftware.size ()) {
     // define software
 
     fBsrScoreHeader->
       addSoftware (
         inputLineNumber,
-        gLilypondOah->fSoftware);
+        gLpsr2LilypondOah->fSoftware);
   }
 
   // is the Scheme function 'whiteNoteHeads' to be generated?
-  if (gLilypondOah->fWhiteNoteHeads) {
+  if (gLpsr2LilypondOah->fWhiteNoteHeads) {
     fBsrScore->
       // this score needs the 'whiteNoteHeads' Scheme function
       setWhiteNoteHeadsIsNeeded ();
   }
 
   // is Jianpu notation to be generated?
-  if (gLilypondOah->fJianpu) {
+  if (gLpsr2LilypondOah->fJianpu) {
     fBsrScore->
       // this score needs the 'jianpu file include' Scheme function
       setJianpuFileIncludeIsNeeded ();

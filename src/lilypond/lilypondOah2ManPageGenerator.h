@@ -22,24 +22,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
-
-  public visitor<S_lilypondScoreOutputKindAtom>,
-
-  public visitor<S_lilypondAbsoluteOctaveEntryAtom>,
-
-  public visitor<S_lilypondRelativeOctaveEntryAtom>,
-
-  public visitor<S_lilypondFixedOctaveEntryAtom>,
-
-  public visitor<S_lilypondAccidentalStyleKindAtom>,
-
-  public visitor<S_lilypondChordsDisplayAtom>,
-
-  public visitor<S_lilypondLyricsDurationsKindAtom>,
-
-  public visitor<S_oahMidiTempoAtom>
-
+class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator
 {
   public:
 
@@ -52,29 +35,6 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   protected:
 
-    virtual void visitStart (S_lilypondScoreOutputKindAtom& elt);
-    virtual void visitEnd   (S_lilypondScoreOutputKindAtom& elt);
-
-    virtual void visitStart (S_lilypondAbsoluteOctaveEntryAtom& elt);
-    virtual void visitEnd   (S_lilypondAbsoluteOctaveEntryAtom& elt);
-
-    virtual void visitStart (S_lilypondRelativeOctaveEntryAtom& elt);
-    virtual void visitEnd   (S_lilypondRelativeOctaveEntryAtom& elt);
-
-    virtual void visitStart (S_lilypondFixedOctaveEntryAtom& elt);
-    virtual void visitEnd   (S_lilypondFixedOctaveEntryAtom& elt);
-
-    virtual void visitStart (S_lilypondAccidentalStyleKindAtom& elt);
-    virtual void visitEnd   (S_lilypondAccidentalStyleKindAtom& elt);
-
-    virtual void visitStart (S_lilypondChordsDisplayAtom& elt);
-    virtual void visitEnd   (S_lilypondChordsDisplayAtom& elt);
-
-    virtual void visitStart (S_lilypondLyricsDurationsKindAtom& elt);
-    virtual void visitEnd   (S_lilypondLyricsDurationsKindAtom& elt);
-
-    virtual void visitStart (S_oahMidiTempoAtom& elt);
-    virtual void visitEnd   (S_oahMidiTempoAtom& elt);
 };
 typedef SMARTP<lilypondOah2ManPageGenerator> S_lilypondOah2ManPageGenerator;
 

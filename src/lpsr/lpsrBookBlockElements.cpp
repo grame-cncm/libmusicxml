@@ -21,6 +21,7 @@
   #include "traceOah.h"
 #endif
 
+#include "lpsr2LilypondOah.h"
 
 using namespace std;
 
@@ -178,8 +179,8 @@ lpsrScoreBlock::lpsrScoreBlock (
 
   /*
   // create the score block midi tempo
-  string midiTempoDuration  = gLilypondOah->fMidiTempo.first; // BLARK JMI ???
-  int    midiTempoPerSecond = gLilypondOah->fMidiTempo.second;
+  string midiTempoDuration  = gLpsr2LilypondOah->fMidiTempo.first; // BLARK JMI ???
+  int    midiTempoPerSecond = gLpsr2LilypondOah->fMidiTempo.second;
 
   fScoreBlockMidiTempo =
     msrMidiTempo::create (
@@ -189,7 +190,7 @@ lpsrScoreBlock::lpsrScoreBlock (
       */
   // create the score block midi tempo
   fScoreBlockMidiTempo =
-    gLilypondOah->fMidiTempo.createMsrMidiTempoNewbornClone ();
+    gLpsr2LilypondOah->fMidiTempo.createMsrMidiTempoNewbornClone ();
 }
 
 lpsrScoreBlock::~lpsrScoreBlock ()

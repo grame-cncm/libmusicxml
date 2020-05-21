@@ -491,7 +491,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         bTimeBeatValue <<
                         "' is not supported in Braille music";
 
-                      bsrMusicXMLWarning (
+                      bsrWarning (
                         gOahOah->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
@@ -620,7 +620,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         bTimeBeatValue <<
                         "' is not supported in Braille music";
 
-                      bsrMusicXMLWarning (
+                      bsrWarning (
                         gOahOah->fInputSourceName,
                         fInputLineNumber,
                         s.str ());

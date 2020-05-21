@@ -44,13 +44,12 @@
 
 #include "mxmlTree.h"
 
-//#include "msr.h"
+#include "musicxml2lilypond.h"
 
 
 using namespace std;
 
 using namespace MusicXML2;
-
 
 //_______________________________________________________________________________
 #ifndef WIN32
@@ -223,16 +222,9 @@ int main (int argc, char *argv[])
   // do the translation, creating MusicXML back from the MSR if requested
   // ------------------------------------------------------
 
-  if (
-    convertMusicXMLToLilypond (
-      inputSourceName,
-      outputFileName,
-      gXml2lyOah->fLoopBackToMusicXML)
-      !=
-    kNoErr
-  ) {
-    return 1;
-  }
+  convertMusicXMLToLilypond (
+    inputSourceName,
+    outputFileName);
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

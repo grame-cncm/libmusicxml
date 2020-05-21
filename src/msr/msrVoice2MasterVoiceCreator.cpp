@@ -27,7 +27,7 @@
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
-#include "lilypondOah.h" // JMI ???
+#include "lpsr2LilypondOah.h"
 
 
 using namespace std;
@@ -468,7 +468,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasure& elt)
     // yes
 
     // should we compress full measures rests?
-    if (gLilypondOah->fCompressFullMeasureRests) {
+    if (gLpsr2LilypondOah->fCompressFullMeasureRests) {
       // yes
 
       if (! fCurrentRestMeasure) {
@@ -641,7 +641,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
     // no
 
     // should we compress full measures rests?
-    if (gLilypondOah->fCompressFullMeasureRests) {
+    if (gLpsr2LilypondOah->fCompressFullMeasureRests) {
       // yes
 
       if (fCurrentRestMeasures) {

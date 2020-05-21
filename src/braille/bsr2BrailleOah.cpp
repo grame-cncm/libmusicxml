@@ -732,7 +732,7 @@ bsr2BrailleOah::~bsr2BrailleOah ()
 {}
 
 #ifdef TRACE_OAH
-void bsr2BrailleOah::initializeMusicXMLTraceOah (
+void bsr2BrailleOah::initializeBsr2BrailleTraceOah (
   bool boolOptionsInitialValue)
 {}
 #endif
@@ -957,7 +957,7 @@ void bsr2BrailleOah::initializeBsr2BrailleOah (
 #ifdef TRACE_OAH
   // trace
   // --------------------------------------
-  initializeMusicXMLTraceOah (
+  initializeBsr2BrailleTraceOah (
     boolOptionsInitialValue);
 #endif
 
@@ -1011,7 +1011,7 @@ S_bsr2BrailleOah bsr2BrailleOah::createCloneWithDetailedTrace ()
 }
 
 //______________________________________________________________________________
-void bsr2BrailleOah::setAllMusicXMLTraceOah (
+void bsr2BrailleOah::setAllBsr2BrailleTraceOah (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OAH
@@ -1096,7 +1096,7 @@ void bsr2BrailleOah::browseData (basevisitor* v)
 void bsr2BrailleOah::printBsr2BrailleOahValues (int fieldWidth)
 {
   gLogOstream <<
-    "The MusicXML options are:" <<
+    "The Bsr2Braille options are:" <<
     endl;
 
   gIndenter++;
@@ -1159,12 +1159,12 @@ void initializeBsr2BrailleOahHandling (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     gLogOstream <<
-      "Initializing MusicXML options handling" <<
+      "Initializing Bsr2Braille options handling" <<
       endl;
   }
 #endif
 
-  // create the MusicXML options
+  // create the Bsr2Braille options
   // ------------------------------------------------------
 
   gBsr2BrailleOahUserChoices = bsr2BrailleOah::create (

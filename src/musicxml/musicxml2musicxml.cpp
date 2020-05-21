@@ -21,9 +21,11 @@
 #include "xmlfile.h"
 #include "xmlreader.h"
 
-#include "libmusicxml.h"
+//#include "libmusicxml.h"
 
 #include "msr.h"
+
+#include "musicxml2lilypond.h"
 
 
 using namespace std;
@@ -32,7 +34,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, ostream& out, const char* file)
+static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
 /*
 	Sxmlelement st = xmlfile->elements();
@@ -56,42 +58,42 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, ost
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2musicxml (const char *file, const optionsVector& options, ostream& out)
+EXP xmlErr musicxmlfile2musicxml (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 /*
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(file);
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, 0, out, file);
+		return xml2musicxml(xmlfile, optionsVector, 0, out, err, file);
 	}
 	*/
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2musicxml (FILE * fd, const optionsVector& options, ostream& out)
+EXP xmlErr musicxmlfd2musicxml (FILE * fd, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 /*
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(fd);
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, 0, out, 0);
+		return xml2musicxml(xmlfile, optionsVector, 0, out, err, 0);
 	}
 	*/
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& options, ostream& out)
+EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 /*
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.readbuff(buffer);
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, partFilter, out, 0);
+		return xml2musicxml(xmlfile, optionsVector, partFilter, out, err, 0);
 	}
 	*/
 	return kInvalidFile;

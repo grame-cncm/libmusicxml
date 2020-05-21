@@ -30,6 +30,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::create (
   int                    inputLineNumber,
   msrGraceNotesGroupKind graceNotesGroupKind,
   bool                   graceNotesGroupIsSlashed,
+  bool                   graceNotesGroupIsBeamed,
   S_msrVoice             graceNotesGroupVoiceUpLink)
 {
   msrGraceNotesGroup* o =
@@ -37,6 +38,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::create (
       inputLineNumber,
       graceNotesGroupKind,
       graceNotesGroupIsSlashed,
+      graceNotesGroupIsBeamed,
       graceNotesGroupVoiceUpLink);
   assert(o!=0);
 
@@ -47,6 +49,7 @@ msrGraceNotesGroup::msrGraceNotesGroup (
   int                    inputLineNumber,
   msrGraceNotesGroupKind graceNotesGroupKind,
   bool                   graceNotesGroupIsSlashed,
+  bool                   graceNotesGroupIsBeamed,
   S_msrVoice             graceNotesGroupVoiceUpLink)
     : msrElement (inputLineNumber)
 {
@@ -60,9 +63,10 @@ msrGraceNotesGroup::msrGraceNotesGroup (
 
   fGraceNotesGroupKind = graceNotesGroupKind;
 
-  fGraceNotesGroupIsSlashed = graceNotesGroupIsSlashed;
-
   fGraceNotesGroupIsTied = false;
+
+  fGraceNotesGroupIsSlashed = graceNotesGroupIsSlashed;
+  fGraceNotesGroupIsBeamed = graceNotesGroupIsBeamed;
 
   // grace notes are followed by notes
   // unless they are last in a measure
@@ -96,6 +100,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
         fInputLineNumber,
         fGraceNotesGroupKind,
         fGraceNotesGroupIsSlashed,
+        fGraceNotesGroupIsBeamed,
         containingVoice);
 
   newbornClone->fGraceNotesGroupIsTied =
@@ -156,6 +161,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
         fInputLineNumber,
         fGraceNotesGroupKind,
         fGraceNotesGroupIsSlashed,
+        fGraceNotesGroupIsBeamed,
         containingVoice);
 
   clone->fGraceNotesGroupIsTied =
@@ -495,13 +501,13 @@ void msrGraceNotesGroup::print (ostream& os) const
     endl <<
 
     setw (fieldWidth) <<
-    "graceNotesGroupIsSlashed" << " : " <<
-    booleanAsString (fGraceNotesGroupIsSlashed) <<
+    "graceNotesGroupIsTied" << " : " <<
+    booleanAsString (fGraceNotesGroupIsTied) <<
     endl <<
 
     setw (fieldWidth) <<
-    "graceNotesGroupIsTied" << " : " <<
-    booleanAsString (fGraceNotesGroupIsTied) <<
+    "graceNotesGroupIsBeamed" << " : " <<
+    booleanAsString (fGraceNotesGroupIsBeamed) <<
     endl <<
 
     setw (fieldWidth) <<
