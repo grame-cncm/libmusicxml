@@ -256,7 +256,9 @@ EXP xmlErr musicxmlfile2lilypond (const char *file, const optionsVector& options
 {
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(file);
+
 	if (xmlfile) {
 		return xml2lilypond (xmlfile, options, out, err, file);
 	}
@@ -295,7 +297,7 @@ EXP xmlErr musicxmlstring2lilypond(const char *buffer, const optionsVector& opti
 }
 
 //_______________________________________________________________________________
-void convertMusicXMLToLilypond (
+EXP void convertMusicXMLToLilypond (
   string inputSourceName,
   string outputFileName,
   bool   loopBackToMusicXML) // loopBackToMusicXML is used by 'xml2ly -loop'

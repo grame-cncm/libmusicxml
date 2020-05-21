@@ -52,11 +52,12 @@ namespace MusicXML2
 //_______________________________________________________________________________
 static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
-/*
 	Sxmlelement st = xmlfile->elements();
+
 	if (st) {
 		if (st->getName() == "score-timewise") return kUnsupported;
 
+/*
 		xml2guidovisitor v(true, true, optionsVector, partFilter);
 		Sguidoelement gmn = v.convert(st);
 		if (file) {
@@ -67,51 +68,56 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 		out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
 			<< "\n*)" << endl;
 		out << gmn << endl;
+		*/
+
 		return kNoErr;
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfile2musicxml (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(file);
+
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, 0, out, err, file);
+		return xml2musicxml(xmlfile, options, out, err, file);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfd2musicxml (FILE * fd, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(fd);
+
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, 0, out, err, 0);
+		return xml2musicxml(xmlfile, options, out, err, 0);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.readbuff(buffer);
+
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, optionsVector, partFilter, out, err, 0);
+		return xml2musicxml(xmlfile, options, out, err, 0);
 	}
-	*/
+
 	return kInvalidFile;
 }
 

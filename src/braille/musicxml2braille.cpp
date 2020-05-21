@@ -50,11 +50,12 @@ namespace MusicXML2
 //_______________________________________________________________________________
 static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
-/*
 	Sxmlelement st = xmlfile->elements();
+
 	if (st) {
 		if (st->getName() == "score-timewise") return kUnsupported;
 
+/*
 		xml2braillevisitor v(true, true, generateBars, partFilter);
 		Sbrailleelement gmn = v.convert(st);
 		if (file) {
@@ -65,51 +66,56 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
 		out << "\n  and the embedded xml2braille converter v." << musicxml2brailleVersionStr()
 			<< "\n*)" << endl;
 		out << gmn << endl;
+		*/
+
 		return kNoErr;
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2braille (const char *file, const optionsVector& options, ostream&                out)
+EXP xmlErr musicxmlfile2braille (const char *file, const optionsVector& options, ostream&                out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(file);
+
 	if (xmlfile) {
-		return xml2braille (xmlfile, generateBars, 0, out, err, file);
+		return xml2braille (xmlfile, options, out, err, file);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlfd2braille (FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.read(fd);
+
 	if (xmlfile) {
-		return xml2braille (xmlfile, generateBars, 0, out, err, 0);
+		return xml2braille (xmlfile, options, out, err, 0);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlstring2braille (const char *buffer, const optionsVector& options, std::ostream&           out)
+EXP xmlErr musicxmlstring2braille (const char *buffer, const optionsVector& options, std::ostream&           out, std::ostream& err)
 {
-/*
 	xmlreader r;
 	SXMLFile xmlfile;
+
 	xmlfile = r.readbuff(buffer);
+
 	if (xmlfile) {
-		return xml2braille (xmlfile, generateBars, partFilter, out, err, 0);
+		return xml2braille (xmlfile, options, out, err, 0);
 	}
-	*/
+
 	return kInvalidFile;
 }
 
