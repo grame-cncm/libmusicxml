@@ -43,7 +43,7 @@ string	libMusicXMLAdapter::string2guido(const string& buff, bool generateBars)
 	return ::musicxmlstring2guido (buff.c_str(), generateBars, sstr) ? "" : sstr.str();
 }
 
-static void string2StringV (const string& args, vector<string> strings)
+static void string2StringsV (const string& args, vector<string>& strings)
 {
 	string str = args;
 	while (true) {
@@ -52,12 +52,13 @@ static void string2StringV (const string& args, vector<string> strings)
 		if (pos > 1) strings.push_back(str.substr(0, pos));
 		str = str.substr(pos+1, string::npos);
 	}
+	if (str.size()) strings.push_back(str);
 }
 
 static bool args2Options (const string& argsStr, optionsVector& options)
 {
 	vector<string> args;
-	string2StringV (argsStr, args);
+	string2StringsV (argsStr, args);
 cerr << "args2Options: vstring size: " << args.size() << endl;
 	string curOption;
 	for (auto str: args) {
@@ -68,15 +69,17 @@ cerr << "args2Options: vstring size: " << args.size() << endl;
 		else {
 			if (str[0] == '-') {
 				// option without value
-				options.push_back (make_pair(curOption, ""));
+				options.push_back (make_pair (curOption, ""));
 				curOption = str;
 			}
 			else {
 				options.push_back (make_pair(curOption, str));
-				curOption.clear();
+				curOption = "";
 			}
 		}
 	}
+	if (curOption.size())
+		options.push_back (make_pair (curOption, ""));
 	return true;
 }
 
@@ -92,7 +95,7 @@ static string options2String (const optionsVector& options)
 {
 	stringstream sstr;
 	for (auto p: options)
-		sstr << p.first << " " << p.second << " ";
+		sstr << "'" << p.first << "': '" << p.second << "' ";
 	return sstr.str();
 }
 
@@ -106,7 +109,7 @@ cerr << "libMusicXMLAdapter::string2lily args: " << args << endl;
 		return "";
 	}
 cerr << "libMusicXMLAdapter::string2lily options: " << options.size() << ": " << options2String(options) << endl;
-	return ::musicxmlstring2lilypond (buff.c_str(), options, sstr) ? "" : sstr.str();
+	return ::musicxmlstring2lilypond (buff.c_str(), options, sstr, cerr) ? "" : sstr.str();
 }
 
 string	libMusicXMLAdapter::string2braille(const string& buff, const string& args)
