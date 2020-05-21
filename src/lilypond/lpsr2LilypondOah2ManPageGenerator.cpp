@@ -14,7 +14,7 @@
 //#include <cmath>
 //#include <string>
 
-#include "lpsr2lilypondOah2ManPageGenerator.h"
+#include "lpsr2LilypondOah2ManPageGenerator.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH

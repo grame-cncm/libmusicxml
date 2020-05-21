@@ -3038,7 +3038,7 @@ class EXP oahHandler : public oahElement
       string           handlerPreamble,
       string           handlerUsage,
       string           handlerDescription,
-      indentedOstream& handlerLogOstream);
+      ostream& handlerLogOstream);
 */
 
   protected:
@@ -3056,7 +3056,7 @@ class EXP oahHandler : public oahElement
       string           handlerPreamble,
       string           handlerUsage,
       string           handlerDescription,
-      indentedOstream& handlerLogOstream);
+      ostream& handlerLogOstream);
 
     virtual ~oahHandler ();
 

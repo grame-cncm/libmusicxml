@@ -15,8 +15,6 @@
 #include "setTraceOahIfDesired.h"
 #include "traceOah.h"
 
-#include "libmusicxml.h"
-
 #include "msr.h"
 #include "lpsr.h"
 
@@ -47,7 +45,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2lyOahHandler xml2lyOahHandler::create (
   string           executableName,
-  indentedOstream& ios)
+  ostream& ios)
 {
   xml2lyOahHandler* o = new
     xml2lyOahHandler (
@@ -59,12 +57,12 @@ S_xml2lyOahHandler xml2lyOahHandler::create (
 
 xml2lyOahHandler::xml2lyOahHandler (
   string           executableName,
-  indentedOstream& ios)
+  ostream& ios)
   : oahHandler (
-    executableName + " available options",
-    "Options values",
-    "h", "help",
-    "hs", "helpSummary",
+      executableName + " available options",
+      "Options values",
+      "h", "help",
+      "hs","helpSummary",
 R"(                      Welcome to xml2ly,
               the MusicXML to LilyPond translator
           delivered as part of the libmusicxml2 library.

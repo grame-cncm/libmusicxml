@@ -15,8 +15,6 @@
 #include "setTraceOahIfDesired.h"
 #include "traceOah.h"
 
-#include "libmusicxml.h"
-
 #include "msr.h"
 #include "bsr.h"
 

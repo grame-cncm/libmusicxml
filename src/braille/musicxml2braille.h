@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __musicxml2lilypond__
-#define __musicxml2lilypond__
+#ifndef __musicxml2braille__
+#define __musicxml2braille__
 
 using namespace std;
 
@@ -19,10 +19,9 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-void convertMusicXMLToLilypond (
+EXP void convertMusicXMLToBraille (
   string inputSourceName,
-  string outputFileName,
-  bool   loopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
+  string outputFileName);
 
 }
 

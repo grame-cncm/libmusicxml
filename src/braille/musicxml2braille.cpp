@@ -15,7 +15,7 @@
 #endif
 
 #include <iostream>
-#include "libmusicxml.h"
+
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
@@ -38,6 +38,8 @@
 #include "msr2BsrInterface.h"
 #include "bsr2BsrFinalizerInterface.h"
 #include "bsr2BrailleTranslatorInterface.h"
+
+#include "musicxml2braille.h"
 
 
 using namespace std;
@@ -112,7 +114,7 @@ EXP xmlErr musicxmlstring2braille (const char *buffer, const optionsVector& opti
 }
 
 //_______________________________________________________________________________
-EXP xmlErr convertMusicXMLToBraille (
+EXP void convertMusicXMLToBraille (
   std::string inputSourceName,
   std::string outputFileName)
 {
@@ -139,8 +141,6 @@ EXP xmlErr convertMusicXMLToBraille (
       endl <<
       "Existing after pass 2a as requested" <<
       endl;
-
-    return kNoErr;
   }
 
   // populate the MSR from MusicXML contents (pass 2b)
@@ -157,8 +157,6 @@ EXP xmlErr convertMusicXMLToBraille (
       endl <<
       "Existing after pass 2b as requested" <<
       endl;
-
-    return kNoErr;
   }
 
   // display the MSR score summary if requested
@@ -179,8 +177,6 @@ EXP xmlErr convertMusicXMLToBraille (
       gMsrOah,
       mScore,
       gLogOstream);
-
-    return kNoErr;
   }
 
   // display the score names if requested
@@ -192,8 +188,6 @@ EXP xmlErr convertMusicXMLToBraille (
       gMsrOah,
       mScore,
       gLogOstream);
-
-    return kNoErr;
   }
 
   // create the BSR from the MSR (pass 3a)
@@ -211,7 +205,7 @@ EXP xmlErr convertMusicXMLToBraille (
       "Existing after pass 3a as requested" <<
       endl;
 
-    return kNoErr;
+    return;
   }
 
   // display the first BSR score if requested
@@ -239,7 +233,7 @@ EXP xmlErr convertMusicXMLToBraille (
       "Existing after pass 3b as requested" <<
       endl;
 
-    return kNoErr;
+    return;
   }
 
   // display the finalized BSR score if requested
@@ -259,8 +253,6 @@ EXP xmlErr convertMusicXMLToBraille (
     outputFileName,
     finalizedBsrScore,
     "Pass 4");
-
-  return kNoErr;
 }
 
 

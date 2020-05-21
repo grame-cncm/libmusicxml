@@ -13,10 +13,10 @@
 #include <signal.h>
 #endif
 
-#include "libmusicxml.h"
 #include "version.h"
 
 #include "utilities.h"
+#include "messagesHandling.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
@@ -24,21 +24,10 @@
 #endif
 
 #include "generalOah.h"
-#include "mxmlTreeOah.h"
-#include "msr2BsrOah.h"
-#include "bsr2BrailleOah.h"
-
 #include "xml2brlOah.h"
 
-#include "musicXML2MxmlTreeInterface.h"
+#include "musicxml2braille.h"
 
-#include "mxmlTree2MsrSkeletonBuilderInterface.h"
-#include "mxmlTree2MsrTranslatorInterface.h"
-
-#include "msr2BsrInterface.h"
-#include "bsr2BsrFinalizerInterface.h"
-
-#include "bsr2BrailleTranslatorInterface.h"
 
 using namespace std;
 
@@ -201,9 +190,9 @@ int main (int argc, char *argv[])
   // do the translation
   // ------------------------------------------------------
 
-  if (convertMusicXMLToBraille (inputSourceName, outputFileName) != kNoErr) {
-    return 1;
-  }
+  convertMusicXMLToBraille (
+    inputSourceName,
+    outputFileName);
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

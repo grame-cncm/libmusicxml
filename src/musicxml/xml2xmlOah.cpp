@@ -15,8 +15,6 @@
 #include "setTraceOahIfDesired.h"
 #include "traceOah.h"
 
-#include "libmusicxml.h"
-
 #include "msr.h"
 //#include "lpsr.h" // JMI only if pass5 msr2lpsr is run
 

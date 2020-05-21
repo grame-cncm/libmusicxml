@@ -41,11 +41,6 @@ EXP void displayMxmltreeScore (
   S_msrOah          msrOpts,
   indentedOstream&  logOstream);
 
-//_______________________________________________________________________________
-void convertMsrScoreToMusicXMLScore_Loop (
-  S_msrScore mScore,
-  string     outputFileName);
-
 
 } // namespace MusicXML2
 
