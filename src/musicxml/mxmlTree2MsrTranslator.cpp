@@ -715,7 +715,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenths& elt )
       endl;
   }
 
-  fCurrentTenths = (int)(*elt);
+  fCurrentTenths = (float)(*elt);
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_scaling& elt)

@@ -362,11 +362,11 @@ class lpsr2LilypondTranslator :
   public:
 
     lpsr2LilypondTranslator (
-      S_lpsrScore      lpsrScore,
-      S_msrOah&        msrOpts,
-      S_lpsrOah&       lpsrOpts,
-      indentedOstream& logOstream,
-      indentedOstream& lilypondCodeOstream);
+      S_lpsrScore lpsrScore,
+      S_msrOah&   msrOpts,
+      S_lpsrOah&  lpsrOpts,
+      ostream&    logOstream,
+      ostream&    lilypondCodeOstream);
 
     virtual ~lpsr2LilypondTranslator ();
 
@@ -889,8 +889,8 @@ class lpsr2LilypondTranslator :
     S_msrOah              fMsrOah;
     S_lpsrOah             fLpsrOah;
 
-    indentedOstream&      fLogOutputStream;
-    indentedOstream&      fLilypondCodeOstream;
+    ostream&              fLogOutputStream;
+    ostream&              fLilypondCodeOstream;
 
     // the LPSR score we're visiting
     // ------------------------------------------------------

@@ -27,7 +27,9 @@
   #include "traceOah.h"
 #endif
 
+#include "msrOah.h"
 #include "msr2LpsrOah.h"
+#include "lpsrOah.h"
 #include "xml2lyOah.h"
 
 #include "msr.h"
@@ -87,15 +89,139 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
         enforceOahHandlerQuietness ();
     }
 
-/* JMI
     // do the translation
     // ------------------------------------------------------
 
-    convertMusicXMLToLilypond (
-      inputSourceName,
-      outputFileName);
-
+    Sxmlelement
+      mxmlTree =
+        xmlfile->elements ();
+/* JMI
+        convertMusicXMLToMxmlTree (
+          inputSourceName,
+          "Pass 1");
 */
+
+    // create the MSR skeleton from the mxmlTree (pass 2a)
+    // ------------------------------------------------------
+
+    S_msrScore
+      mScore =
+        convertMxmlTreeToMsrScoreSkeleton (
+          mxmlTree,
+          "Pass 2a");
+
+    if (gMsr2LpsrOah->fExit2a) {
+      gLogOstream <<
+        endl <<
+        "Existing after pass 2a as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
+    // populate the MSR from MusicXML contents (pass 2b)
+    // ------------------------------------------------------
+
+    populateMsrSkeletonFromMxmlTree (
+      mxmlTree,
+      mScore,
+      gLogOstream,
+      "Pass 2b");
+
+    if (gMsr2LpsrOah->fExit2b) {
+      gLogOstream <<
+        endl <<
+        "Existing after pass 2b as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
+    // display the MSR score summary if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsr) {
+      displayMsrScore_OptionalPass (
+        mScore,
+        gMsrOah);
+    }
+
+    // display the score summary if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsrSummary) {
+      // display the score summary
+      displayMSRPopulatedScoreSummary (
+        gMsrOah,
+        mScore,
+        gLogOstream);
+
+      return kNoErr;
+    }
+
+    // display the score names if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsrNames) {
+      // display the score name
+      displayMSRPopulatedScoreNames (
+        gMsrOah,
+        mScore,
+        gLogOstream);
+
+      return kNoErr;
+    }
+
+    // create the LPSR from the MSR (pass 3)
+    // ------------------------------------------------------
+
+    S_lpsrScore
+      lpScore =
+        convertMsrScoreToLpsrScore (
+          mScore,
+          "Pass 3");
+
+    if (gLpsrOah->fExit3) {
+      gLogOstream <<
+        endl <<
+        "Existing after pass 3 as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
+    // display the LPSR score if requested
+    // ------------------------------------------------------
+
+    if (gLpsrOah->fDisplayLpsr) {
+      displayLpsrScore_OptionalPass (
+        lpScore,
+        gMsrOah,
+        gLpsrOah);
+    }
+
+    // generate LilyPond code from the LPSR (pass 4)
+    // ------------------------------------------------------
+
+    generateLilypondCodeFromLpsrScore (
+      lpScore,
+      gMsrOah,
+      gLpsrOah,
+      err,
+      out,
+      "Pass 4");
+
+    // create MusicXML back from the MSR if requested
+    // ------------------------------------------------------
+    if (gXml2lyOah->fLoopBackToMusicXML) {
+      convertMsrScoreToMusicXMLScore (
+        mScore,
+        regex_replace (
+          file,
+          regex (".ly"),
+          "_LOOP.xml"),
+        "Pass 5");
+    }
 
     // over!
     // ------------------------------------------------------

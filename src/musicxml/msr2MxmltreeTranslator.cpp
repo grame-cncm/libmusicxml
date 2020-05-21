@@ -104,10 +104,10 @@ string msr2MxmltreeTranslator::msrLengthAsTenths (
   // convert lengthValue to millimeters
   switch (length.getLengthUnitKind ()) {
     case kInchUnit:
-      lengthValue *= 25.4;
+      lengthValue *= 25.4f;
       break;
     case kCentimeterUnit:
-      lengthValue *= 10;
+      lengthValue *= 10.0f;
       break;
     case kMillimeterUnit:
       break;
