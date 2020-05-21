@@ -1869,7 +1869,7 @@ R"()",
   // global staff size
 
   fStaffGlobalSizeDefaultValue = 20; // LilyPond default
-  fGlobalStaffSize = rational (fStaffGlobalSizeDefaultValue, 1);
+  fGlobalStaffSize = fStaffGlobalSizeDefaultValue;
   fStaffGlobalSizeHasBeenSet = false;
 
   subGroup->

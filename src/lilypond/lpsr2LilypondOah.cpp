@@ -2498,7 +2498,7 @@ which is handy in popular folk dances and tunes.)",
         "breakLinesAtIncompleteRightMeasures",
         fBreakLinesAtIncompleteRightMeasures));
 
-  fSeparatorLineEveryNMeasures         = -1;
+  fSeparatorLineEveryNMeasures = -1;
 
   subGroup->
     appendAtomToSubGroup (
@@ -3934,7 +3934,7 @@ void lpsr2LilypondOah::printAtomOptionsValues (
       endl <<
 
     setw (valueFieldWidth) << "separatorLineEveryNMeasures" << " : " <<
-      booleanAsString (fSeparatorLineEveryNMeasures) <<
+      fSeparatorLineEveryNMeasures <<
       endl;
 
   gIndenter--;
@@ -4479,7 +4479,7 @@ void lpsr2LilypondOah::printLpsr2LilypondOahValues (int fieldWidth)
       endl <<
 
     setw (fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
-      booleanAsString (fSeparatorLineEveryNMeasures) <<
+      fSeparatorLineEveryNMeasures <<
       endl;
 
   gIndenter--;

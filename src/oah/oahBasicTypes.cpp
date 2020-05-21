@@ -4011,10 +4011,10 @@ oahMonoplexStringAtom::oahMonoplexStringAtom (
 {
   // sanity checks
   msrAssert (
-    stringValueDescriptor.size (),
+    stringValueDescriptor.size () > 0,
     "stringValueDescriptor is empty");
   msrAssert (
-    stringValueDescriptor.size (),
+    stringValueDescriptor.size () > 0,
     "stringValueDescriptor is empty");
 }
 

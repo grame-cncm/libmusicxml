@@ -1064,7 +1064,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     float                     fCurrentMillimeters;
-    int                       fCurrentTenths;
+    float                     fCurrentTenths;
 
 
     // page layout handling

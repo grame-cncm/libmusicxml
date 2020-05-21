@@ -416,7 +416,7 @@ void msr2BsrOah::printMsr2BsrOahValues (int fieldWidth)
       endl <<
 
     setw (fieldWidth) << "facSimileKind" << " : " <<
-      booleanAsString (fFacSimileKind) <<
+      bsrFacSimileKindAsString (fFacSimileKind) <<
       endl <<
 
     setw (fieldWidth) << "includeClefs" << " : " <<
