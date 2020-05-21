@@ -4,6 +4,8 @@ xcode/
 *.o
 *.so
 *.wasm
+*.ly
+*.log
 
 
 build/libmusicxml2*
