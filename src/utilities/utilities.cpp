@@ -1263,25 +1263,6 @@ string singularOrPluralWithoutNumber (
 }
 
 //______________________________________________________________________________
-void oahWarning (string warningMessage)
-{
-  gLogOstream <<
-    "*** WARNING in the options and help: " <<
-    warningMessage <<
-    endl;
-}
-
-void oahError (string errorMessage)
-{
-  gLogOstream <<
-    "### ERROR in the options and help: " <<
-    errorMessage <<
-    endl;
-
-  exit (33);
-}
-
-//______________________________________________________________________________
 string escapeDoubleQuotes (string s)
 {
   string result;

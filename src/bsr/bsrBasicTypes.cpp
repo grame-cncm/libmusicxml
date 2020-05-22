@@ -414,38 +414,6 @@ ostream& operator<< (ostream& os, const wstring& wstr)
 */
 
 //______________________________________________________________________________
-void bsrWarning (
-  string inputSourceName,
-  int    inputLineNumber,
-  string message)
-{
-  msrWarning (
-    "BSR",
-    inputSourceName,
-    inputLineNumber,
-    message);
-}
-
-//______________________________________________________________________________
-void bsrInternalError (
-  string inputSourceName,
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string message)
-{
-  msrError (
-    "BSR INTERNAL",
-    inputSourceName,
-    inputLineNumber,
-    sourceCodeFileName,
-    sourceCodeLineNumber,
-    message);
-
-  abort ();
-}
-
-//______________________________________________________________________________
 void initializeBSRBasicTypes ()
 {
 #ifdef TRACE_OAH

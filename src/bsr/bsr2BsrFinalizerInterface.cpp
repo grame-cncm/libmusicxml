@@ -270,12 +270,15 @@ S_bsrScore convertBsrScoreToFinalizedBsrScore (
   }
 
   if (! finalizedBsrScore) {
+    string message =
+      "### Conversion from first BSR to finalized BSR failed ###";
+
     gLogOstream <<
-      "### Conversion from first BSR to finalized BSR failed ###" <<
+      message <<
       endl <<
       endl;
 
-    exit (2);
+    throw bsrScoreToFinalizedBsrScoreException (message);
   }
 
   return finalizedBsrScore;

@@ -73,12 +73,18 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // analyze the coptions vector
     // ------------------------------------------------------
 
-    vector<string>
-      argumentsVector =
-        handler->
-          hangleOptionsFromOptionsVector (
-            fakeExecutableName,
-            options);
+    try {
+      handler->
+        hangleOptionsFromOptionsVector (
+          fakeExecutableName,
+          options);
+    }
+    catch (msrOahException& e) {
+      return kInvalidOption;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     // has quiet mode been requested?
     // ------------------------------------------------------
@@ -89,7 +95,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
         enforceOahHandlerQuietness ();
     }
 
-    // do the translation
+    // get the mxmlTree
     // ------------------------------------------------------
 
     Sxmlelement
@@ -275,7 +281,7 @@ EXP xmlErr musicxmlstring2lilypond(const char *buffer, const optionsVector& opti
 }
 
 //_______________________________________________________________________________
-EXP void convertMusicXMLToLilypond (
+EXP xmlErr convertMusicXMLToLilypond (
   string inputSourceName,
   string outputFileName,
   bool   loopBackToMusicXML) // loopBackToMusicXML is used by 'xml2ly -loop'
@@ -304,7 +310,7 @@ EXP void convertMusicXMLToLilypond (
       "Existing after pass 2a as requested" <<
       endl;
 
-    return;
+    return kNoErr;
   }
 
   // populate the MSR from MusicXML contents (pass 2b)
@@ -322,7 +328,7 @@ EXP void convertMusicXMLToLilypond (
       "Existing after pass 2b as requested" <<
       endl;
 
-    return;
+    return kNoErr;
   }
 
   // display the MSR score summary if requested
@@ -344,7 +350,7 @@ EXP void convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
-    return;
+    return kNoErr;
   }
 
   // display the score names if requested
@@ -357,7 +363,7 @@ EXP void convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
-    return;
+    return kNoErr;
   }
 
   // create the LPSR from the MSR (pass 3)
@@ -375,7 +381,7 @@ EXP void convertMusicXMLToLilypond (
       "Existing after pass 3 as requested" <<
       endl;
 
-    return;
+    return kNoErr;
   }
 
   // display the LPSR score if requested
@@ -407,6 +413,8 @@ EXP void convertMusicXMLToLilypond (
         "_LOOP.xml"),
       "Pass 5");
   }
+
+  return kNoErr;
 }
 
 

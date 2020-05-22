@@ -447,11 +447,6 @@ std::string singularOrPluralWithoutNumber (
   int number, std::string singularName, std::string pluralName);
 
 //______________________________________________________________________________
-void oahWarning (std::string warningMessage);
-
-void oahError (std::string errorMessage);
-
-//______________________________________________________________________________
 std::string escapeDoubleQuotes (std::string s);
 
 //______________________________________________________________________________

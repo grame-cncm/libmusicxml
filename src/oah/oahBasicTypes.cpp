@@ -11104,8 +11104,10 @@ const vector<string> oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
     if (gTraceOah->fTraceOah) {
       // print current option
       gOutputOstream <<
-        "Command line option " << n <<
-        ": " << currentString << " "<<
+        endl <<
+        "----------------------------------------------------------" <<
+        endl <<
+        "Command line option " << n << ": " << currentString <<
         endl;
     }
 #endif
@@ -11228,7 +11230,7 @@ const vector<string> oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
   }
 #endif
 
-  if (fHandlerFoundAHelpOption) {
+  if (false && fHandlerFoundAHelpOption) { // JMI
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       gOutputOstream <<
@@ -11237,7 +11239,7 @@ const vector<string> oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
     }
 #endif
 
-    exit (0);
+//    exit (0);
   }
 
   // check the consistency of the options
@@ -11343,7 +11345,7 @@ void oahHandler::decipherOptionAndValue (
   }
 }
 
-const vector<string> oahHandler::hangleOptionsFromOptionsVector (
+void oahHandler::hangleOptionsFromOptionsVector (
   string               fakeExecutableName,
   const optionsVector& theOptionsVector)
 {
@@ -11377,8 +11379,10 @@ const vector<string> oahHandler::hangleOptionsFromOptionsVector (
 
       // print current option
       gOutputOstream <<
-        "Options vector element " << i <<
-        ": " << optionName;
+        endl <<
+        "----------------------------------------------------------" <<
+        endl <<
+        "Options vector element " << i << ": " << optionName;
 
       if (optionValue.size ()) {
         gOutputOstream <<
@@ -11506,7 +11510,7 @@ const vector<string> oahHandler::hangleOptionsFromOptionsVector (
   }
 #endif
 
-  if (fHandlerFoundAHelpOption) {
+  if (false && fHandlerFoundAHelpOption) { // JMI
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       gOutputOstream <<
@@ -11515,14 +11519,14 @@ const vector<string> oahHandler::hangleOptionsFromOptionsVector (
     }
 #endif
 
-    exit (0);
+//   exit (0); JMI
   }
 
   // check the consistency of the options
   checkHandlerGroupsOptionsConsistency ();
 
   // check the options and arguments
-  checkOptionsAndArguments ();
+// JMI  checkOptionsAndArguments ();
 
   // store the command line with options in gOahOah
   // for whoever need them
@@ -11532,9 +11536,6 @@ const vector<string> oahHandler::hangleOptionsFromOptionsVector (
       commandLineWithShortNamesAsString ();
   gOahOah->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
-
-  // return the result
-  return fHandlerArgumentsVector;
 }
 
 void oahHandler::handleHandlerName (

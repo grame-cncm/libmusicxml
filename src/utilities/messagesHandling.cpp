@@ -33,7 +33,64 @@ void msrAssert (
       ", aborting." <<
       endl;
 
-    abort ();
+    throw msrAssertException (messageIfFalse);
+  }
+}
+
+//______________________________________________________________________________
+void oahWarning (string warningMessage)
+{
+  gLogOstream <<
+    "*** WARNING in the options and help: " <<
+    warningMessage <<
+    endl;
+}
+
+void oahError (string errorMessage)
+{
+  gLogOstream <<
+    "### ERROR in the options and help: " <<
+    errorMessage <<
+    endl;
+
+  throw msrOahException (errorMessage);
+}
+
+//______________________________________________________________________________
+void msrMusicXMLWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msrWarning (
+    "MusicXML",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+void msrMusicXMLError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msrError (
+    "MusicXML",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  if (! gGeneralOah->fDontShowErrors) {
+    if (! gGeneralOah->fDontAbortOnErrors) { // JMI
+      throw msrMusicXMLException (message);
+    }
+    else {
+      throw msrMusicXMLException (message);
+    }
   }
 }
 
@@ -54,33 +111,6 @@ void msrWarning (
   }
 }
 
-//______________________________________________________________________________
-void lpsrMusicXMLWarning (
-  string inputSourceName,
-  int    inputLineNumber,
-  string message)
-{
-  msrWarning (
-    "LPSR",
-    inputSourceName,
-    inputLineNumber,
-    message);
-}
-
-//______________________________________________________________________________
-void msrMusicXMLWarning (
-  string inputSourceName,
-  int    inputLineNumber,
-  string message)
-{
-  msrWarning (
-    "MusicXML",
-    inputSourceName,
-    inputLineNumber,
-    message);
-}
-
-//______________________________________________________________________________
 void msrInternalWarning (
   string inputSourceName,
   int    inputLineNumber,
@@ -93,7 +123,6 @@ void msrInternalWarning (
     message);
 }
 
-//______________________________________________________________________________
 void msrError (
   string context,
   string inputSourceName,
@@ -118,56 +147,10 @@ void msrError (
       gErrorsInputLineNumbers.insert (inputLineNumber);
     }
   }
+
+  throw msrMsrException (message);
 }
 
-//______________________________________________________________________________
-void msrMusicXMLError (
-  string inputSourceName,
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string message)
-{
-  msrError (
-    "MusicXML",
-    inputSourceName,
-    inputLineNumber,
-    sourceCodeFileName,
-    sourceCodeLineNumber,
-    message);
-
-  if (! gGeneralOah->fDontShowErrors) {
-    if (! gGeneralOah->fDontAbortOnErrors) {
-      abort ();
-    }
-    else {
-      exit (15);
-    }
-  }
-}
-
-//______________________________________________________________________________
-void lpsrMusicXMLError (
-  string inputSourceName,
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string message)
-{
-  msrError (
-    "LPSR",
-    inputSourceName,
-    inputLineNumber,
-    sourceCodeFileName,
-    sourceCodeLineNumber,
-    message);
-
-  if (! gGeneralOah->fDontShowErrors) {
-    exit (16);
-  }
-}
-
-//______________________________________________________________________________
 void msrInternalError (
   string inputSourceName,
   int    inputLineNumber,
@@ -183,10 +166,10 @@ void msrInternalError (
     sourceCodeLineNumber,
     message);
 
-  abort ();
+  throw msrMsrInternalException (message);
 }
 
-void msrLimitation (
+void msrUnsupported (
   string inputSourceName,
   int    inputLineNumber,
   string sourceCodeFileName,
@@ -204,34 +187,80 @@ void msrLimitation (
       "### MSR LIMITATION ### " <<
       inputSourceName << ":" << inputLineNumber << ": " << message <<
       endl;
-
-    abort ();
   }
+
+  throw msrMsrUnsupportedException (message);
 }
 
 //______________________________________________________________________________
-void msrStreamsError (
+void lpsrMusicXMLWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msrWarning (
+    "LPSR",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+void lpsrMusicXMLError (
+  string inputSourceName,
   int    inputLineNumber,
   string sourceCodeFileName,
   int    sourceCodeLineNumber,
-  string  message)
+  string message)
 {
-  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
-    if (gGeneralOah->fDisplaySourceCodePosition) {
-      gLogOstream <<
-        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-        " ";
-    }
+  msrError (
+    "LPSR",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
 
-    gLogOstream <<
-      "### " << "MSR STREAMS" << " ERROR ### " <<
-      "fake line number" << ":" << inputLineNumber << ": " << message <<
-      endl;
+  if (! gGeneralOah->fDontShowErrors) { // JMI
+    throw lpsrMusicXMLException (message);
   }
 
-  abort ();
+  throw lpsrMusicXMLException (message);
 }
 
+//______________________________________________________________________________
+void bsrWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msrWarning (
+    "BSR",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+//______________________________________________________________________________
+void bsrInternalError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msrError (
+    "BSR INTERNAL",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  throw bsrInternalException (message);
+}
+
+//______________________________________________________________________________
+/*
 void msrStreamsWarning (
   int    inputLineNumber,
   string sourceCodeFileName,
@@ -251,9 +280,30 @@ void msrStreamsWarning (
       "fake line number" << ":" << inputLineNumber << ": " << message <<
       endl;
   }
-
-  abort ();
 }
+
+void msrStreamsError (
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string  message)
+{
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
+    if (gGeneralOah->fDisplaySourceCodePosition) {
+      gLogOstream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
+    gLogOstream <<
+      "### " << "MSR STREAMS" << " ERROR ### " <<
+      "fake line number" << ":" << inputLineNumber << ": " << message <<
+      endl;
+  }
+
+  throw msrStreamsException (message);
+}
+*/
 
 //______________________________________________________________________________
 std::set<int> gWarningsInputLineNumbers;
@@ -308,5 +358,6 @@ void displayWarningsAndErrorsInputLineNumbers ()
     gLogOstream << endl;
   }
 }
+
 
 }

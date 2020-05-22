@@ -19,7 +19,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-EXP void convertMusicXMLToLilypond (
+EXP xmlErr convertMusicXMLToLilypond (
   string inputSourceName,
   string outputFileName,
   bool   loopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'

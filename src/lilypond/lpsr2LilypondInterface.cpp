@@ -123,13 +123,20 @@ void convertLpsrScoreToLilypondCode (
         ofstream::out);
 
       if (! outFileStream.is_open ()) {
-        gLogOstream <<
+        stringstream s;
+
+        s <<
           "Could not open LilyPond output file \"" <<
           outputFileName <<
-          "\" for writing, exiting" <<
+          "\" for writing, exiting";
+
+        string message = s.str ();
+
+        gLogOstream <<
+          message <<
           endl;
 
-        exit (9);
+        throw lpsrScoreToLilypondException (message);
       }
 
       // create an indented output stream for the LilyPond code

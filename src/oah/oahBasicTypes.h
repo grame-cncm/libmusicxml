@@ -3159,7 +3159,7 @@ class EXP oahHandler : public oahElement
                             int   argc,
                             char* argv[]);
 
-    const vector<string>  hangleOptionsFromOptionsVector (
+    void                  hangleOptionsFromOptionsVector (
                             string               fakeExecutableName,
                             const optionsVector& theOptionsVector);
 

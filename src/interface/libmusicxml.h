@@ -23,7 +23,7 @@
 
 namespace MusicXML2
 {
-enum xmlErr { kNoErr, kInvalidFile, kUnsupported };
+enum xmlErr { kNoErr, kInvalidFile, kInvalidOption, kUnsupported };
 
 #ifdef __cplusplus
 extern "C" {

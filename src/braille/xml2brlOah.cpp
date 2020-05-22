@@ -276,13 +276,18 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
 
   switch (argumentsNumber) {
     case 0:
-      fHandlerLogOstream <<
-        endl <<
-        "Input file name or '-' for standard input expected" <<
-        endl <<
-        endl;
+      {
+        string message =
+          "Input file name or '-' for standard input expected";
 
-      exit (1);
+        fHandlerLogOstream <<
+          endl <<
+          message <<
+          endl <<
+          endl;
+
+        throw msrOahException (message);
+      }
       break;
 
     case 1:

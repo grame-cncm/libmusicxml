@@ -31,6 +31,9 @@
 
 #include "msr2LpsrTranslator.h"
 
+#include "messagesHandling.h"
+
+
 using namespace std;
 
 namespace MusicXML2
@@ -208,12 +211,15 @@ S_lpsrScore convertMsrScoreToLpsrScore (
   }
 
   if (! lpScore && ! gLpsr2LilypondOah->fNoLilypondCode) {
+    string message =
+      "### Conversion from MSR to LPSR failed ###";
+
     gLogOstream <<
-      "### Conversion from MSR to LPSR failed ###" <<
+      message <<
       endl <<
       endl;
 
-    exit (2);
+    throw msrScoreToLpsrScoreException (message);
   }
 
   return lpScore;
