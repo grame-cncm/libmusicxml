@@ -28,6 +28,9 @@ class msrException: public exception
 {
   public:
 
+    // constructors/destructor
+    // ------------------------------------------------------
+
     msrException (
       string const& exceptionDescription = "",
       int           exceptionNumber = 0,
@@ -38,7 +41,26 @@ class msrException: public exception
         fExceptionLevel (exceptionLevel)
     {}
 
-    virtual const char* what () const throw ()
+    virtual ~msrException () throw ()
+      {}
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getExceptionNumber () const throw ()
+                              { return fExceptionNumber; }
+
+    int                   getExceptionLevel () const throw ()
+                              { return fExceptionLevel; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    virtual const char*   what () const throw ()
       {
         stringstream s;
 
@@ -48,15 +70,6 @@ class msrException: public exception
 
         return s.str().c_str ();
       }
-
-    int getExceptionNumber () const throw ()
-      { return fExceptionNumber; }
-
-    int getExceptionLevel () const throw ()
-      { return fExceptionLevel; }
-
-    virtual ~msrException () throw ()
-      {}
 
   private:
 
@@ -70,7 +83,6 @@ class msrException: public exception
 class msrAssertException: public msrException
 {
   public:
-
     msrAssertException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -80,7 +92,6 @@ class msrAssertException: public msrException
 class msrOahException: public msrException
 {
   public:
-
     msrOahException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -90,8 +101,16 @@ class msrOahException: public msrException
 class msrMusicXMLException: public msrException
 {
   public:
-
     msrMusicXMLException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+//______________________________________________________________________________
+class mxmlTreeToMsrException: public msrException
+{
+  public:
+    mxmlTreeToMsrException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };
@@ -100,7 +119,6 @@ class msrMusicXMLException: public msrException
 class msrMsrException: public msrException
 {
   public:
-
     msrMsrException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -109,7 +127,6 @@ class msrMsrException: public msrException
 class msrMsrInternalException: public msrException
 {
   public:
-
     msrMsrInternalException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -118,7 +135,6 @@ class msrMsrInternalException: public msrException
 class msrMsrUnsupportedException: public msrException
 {
   public:
-
     msrMsrUnsupportedException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -128,7 +144,6 @@ class msrMsrUnsupportedException: public msrException
 class lpsrMusicXMLException: public msrException
 {
   public:
-
     lpsrMusicXMLException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -138,8 +153,25 @@ class lpsrMusicXMLException: public msrException
 class msrScoreToLpsrScoreException: public msrException
 {
   public:
-
     msrScoreToLpsrScoreException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+//______________________________________________________________________________
+class lpsrScoreToLilypondException : public msrException
+{
+  public:
+    lpsrScoreToLilypondException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+//______________________________________________________________________________
+class msrScoreToMusicXMLScoreException : public msrException
+{
+  public:
+    msrScoreToMusicXMLScoreException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };
@@ -148,7 +180,6 @@ class msrScoreToLpsrScoreException: public msrException
 class msrScoreToBsrScoreException: public msrException
 {
   public:
-
     msrScoreToBsrScoreException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -158,7 +189,6 @@ class msrScoreToBsrScoreException: public msrException
 class bsrInternalException: public msrException
 {
   public:
-
     bsrInternalException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -168,18 +198,7 @@ class bsrInternalException: public msrException
 class bsrScoreToFinalizedBsrScoreException : public msrException
 {
   public:
-
     bsrScoreToFinalizedBsrScoreException (string const& exceptionDescription) throw ()
-      : msrException (exceptionDescription)
-    {}
-};
-
-//______________________________________________________________________________
-class lpsrScoreToLilypondException : public msrException
-{
-  public:
-
-    lpsrScoreToLilypondException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };
@@ -188,7 +207,6 @@ class lpsrScoreToLilypondException : public msrException
 class musicXMLFile2mxmlTreeException : public msrException
 {
   public:
-
     musicXMLFile2mxmlTreeException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -198,7 +216,6 @@ class musicXMLFile2mxmlTreeException : public msrException
 class bsrScoreToBrailleTextException : public msrException
 {
   public:
-
     bsrScoreToBrailleTextException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
@@ -209,7 +226,6 @@ class bsrScoreToBrailleTextException : public msrException
 class msrStreamsException: public msrException
 {
   public:
-
     msrStreamsException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}

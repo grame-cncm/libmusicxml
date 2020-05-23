@@ -108,14 +108,23 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // create the MSR skeleton from the mxmlTree (pass 2a)
     // ------------------------------------------------------
 
-    S_msrScore
+    S_msrScore mScore;
+
+    try {
       mScore =
         convertMxmlTreeToMsrScoreSkeleton (
           mxmlTree,
           "Pass 2a");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     if (gMsr2LpsrOah->fExit2a) {
-      gLogOstream <<
+      err <<
         endl <<
         "Existing after pass 2a as requested" <<
         endl;
@@ -126,14 +135,22 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // populate the MSR from MusicXML contents (pass 2b)
     // ------------------------------------------------------
 
-    populateMsrSkeletonFromMxmlTree (
-      mxmlTree,
-      mScore,
-      gLogOstream,
-      "Pass 2b");
+    try {
+      populateMsrSkeletonFromMxmlTree (
+        mxmlTree,
+        mScore,
+        err,
+        "Pass 2b");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     if (gMsr2LpsrOah->fExit2b) {
-      gLogOstream <<
+      err <<
         endl <<
         "Existing after pass 2b as requested" <<
         endl;
@@ -175,14 +192,23 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // create the BSR from the MSR (pass 3a)
     // ------------------------------------------------------
 
-    S_bsrScore
+    S_bsrScore firstBsrScore;
+
+    try {
       firstBsrScore =
         convertMsrScoreToBsrScore (
           mScore,
           "Pass 3a");
+    }
+    catch (msrScoreToBsrScoreException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     if (gMsr2BsrOah->fExit3a) {
-      gLogOstream <<
+      err <<
         endl <<
         "Existing after pass 3a as requested" <<
         endl;
@@ -203,14 +229,23 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // create the finalized BSR from the first BSR (pass 3b)
     // ------------------------------------------------------
 
-    S_bsrScore
+    S_bsrScore finalizedBsrScore;
+
+    try {
       finalizedBsrScore =
         convertBsrScoreToFinalizedBsrScore (
           firstBsrScore,
           "Pass 3b");
+    }
+    catch (bsrScoreToFinalizedBsrScoreException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     if (gMsr2BsrOah->fExit3b) {
-      gLogOstream <<
+      err <<
         endl <<
         "Existing after pass 3b as requested" <<
         endl;
@@ -231,10 +266,18 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // generate Braille music text from the BSR (pass 4)
     // ------------------------------------------------------
 
-    convertBsrScoreToBrailleText (
-      file,
-      finalizedBsrScore,
-      "Pass 4");
+    try {
+      convertBsrScoreToBrailleText (
+        file,
+        finalizedBsrScore,
+        "Pass 4");
+    }
+    catch (bsrScoreToBrailleTextException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
 		return kNoErr;
 	}

@@ -11689,33 +11689,6 @@ void oahHandler::handleAtomName (
     }
 #endif
 
-    // sanity check
-    switch (atom->getElementValueExpectedKind ()) {
-      case kElementValueExpectedYes:
-        if (! fPendingValuedAtom) {
-          stringstream s;
-
-          s <<
-            "handleAtomName(): option '-" << atomName << "' expects a value";
-
-          oahError (s.str ());
-        }
-        break;
-      case kElementValueExpectedNo:
-        if (fPendingValuedAtom) {
-          stringstream s;
-
-          s <<
-            "option '-" << atomName << "' doesn't expect a value";
-
-          oahError (s.str ());
-        }
-        break;
-      case kElementValueExpectedOptional:
-        // JMI ???
-        break;
-    } // switch
-
     // is the value for a pending valued atom missing?
     string context =
       "before option " + atom->asString ();
@@ -11905,6 +11878,7 @@ void oahHandler::handleOptionName (
       gIndenter++;
       element->print (gOutputOstream);
       gIndenter--;
+      gOutputOstream << endl;
     }
 #endif
 

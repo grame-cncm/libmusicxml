@@ -44,7 +44,7 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2lyOahHandler xml2lyOahHandler::create (
-  string           executableName,
+  string   executableName,
   ostream& ios)
 {
   xml2lyOahHandler* o = new
@@ -56,7 +56,7 @@ S_xml2lyOahHandler xml2lyOahHandler::create (
 }
 
 xml2lyOahHandler::xml2lyOahHandler (
-  string           executableName,
+  string   executableName,
   ostream& ios)
   : oahHandler (
       executableName + " available options",

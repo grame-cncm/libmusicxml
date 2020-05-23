@@ -113,11 +113,21 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // create the MSR skeleton from the mxmlTree (pass 2a)
     // ------------------------------------------------------
 
-    S_msrScore
+    S_msrScore mScore;
+
+    try {
       mScore =
         convertMxmlTreeToMsrScoreSkeleton (
           mxmlTree,
           "Pass 2a");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
+
 
     if (gMsr2LpsrOah->fExit2a) {
       gLogOstream <<
@@ -131,11 +141,19 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // populate the MSR from MusicXML contents (pass 2b)
     // ------------------------------------------------------
 
-    populateMsrSkeletonFromMxmlTree (
-      mxmlTree,
-      mScore,
-      gLogOstream,
-      "Pass 2b");
+    try {
+      populateMsrSkeletonFromMxmlTree (
+        mxmlTree,
+        mScore,
+        err,
+        "Pass 2b");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     if (gMsr2LpsrOah->fExit2b) {
       gLogOstream <<
@@ -179,7 +197,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 
     // create MusicXML back from the MSR
     // ------------------------------------------------------
-    xmlErr err =
+    try {
       convertMsrScoreToMusicXMLScore (
         mScore,
         regex_replace (
@@ -187,9 +205,12 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
           regex (".ly"),
           "_LOOP.xml"),
           "Pass 3");
-
-    if (err != kNoErr) {
-      return err;
+    }
+    catch (msrScoreToMusicXMLScoreException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
     }
 
 		return kNoErr;
