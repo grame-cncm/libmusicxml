@@ -1436,8 +1436,6 @@ void msrNote::setNotePositionInMeasure (
   }
 #endif
 
- // JMI if (positionInMeasure.getNumerator () == 60) abort ();
-
   positionInMeasure.rationalise (); // TEMP ? JMI
 
   msrMeasureElement::setMeasureElementPositionInMeasure (

@@ -73,12 +73,18 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // analyze the coptions vector
     // ------------------------------------------------------
 
-    vector<string>
-      argumentsVector =
-        handler->
-          hangleOptionsFromOptionsVector (
-            fakeExecutableName,
-            options);
+    try {
+      handler->
+        hangleOptionsFromOptionsVector (
+          fakeExecutableName,
+          options);
+    }
+    catch (msrOahException& e) {
+      return kInvalidOption;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     // has quiet mode been requested?
     // ------------------------------------------------------
@@ -89,7 +95,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
         enforceOahHandlerQuietness ();
     }
 
-    // do the translation
+    // get the mxmlTree
     // ------------------------------------------------------
 
     Sxmlelement
@@ -104,11 +110,20 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // create the MSR skeleton from the mxmlTree (pass 2a)
     // ------------------------------------------------------
 
-    S_msrScore
+    S_msrScore mScore;
+
+    try {
       mScore =
         convertMxmlTreeToMsrScoreSkeleton (
           mxmlTree,
           "Pass 2a");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     if (gMsr2LpsrOah->fExit2a) {
       err <<
@@ -122,11 +137,19 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // populate the MSR from MusicXML contents (pass 2b)
     // ------------------------------------------------------
 
-    populateMsrSkeletonFromMxmlTree (
-      mxmlTree,
-      mScore,
-      err,
-      "Pass 2b");
+    try {
+      populateMsrSkeletonFromMxmlTree (
+        mxmlTree,
+        mScore,
+        err,
+        "Pass 2b");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     if (gMsr2LpsrOah->fExit2b) {
       err <<
@@ -146,7 +169,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
         gMsrOah);
     }
 
-    // display the score summary if requested
+    // display the MSR score summary if requested
     // ------------------------------------------------------
 
     if (gMsrOah->fDisplayMsrSummary) {
@@ -175,11 +198,20 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // create the LPSR from the MSR (pass 3)
     // ------------------------------------------------------
 
-    S_lpsrScore
+    S_lpsrScore lpScore;
+
+    try {
       lpScore =
         convertMsrScoreToLpsrScore (
           mScore,
           "Pass 3");
+    }
+    catch (msrScoreToLpsrScoreException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
     if (gLpsrOah->fExit3) {
       err <<
@@ -203,23 +235,19 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // generate LilyPond code from the LPSR (pass 4)
     // ------------------------------------------------------
 
-    generateLilypondCodeFromLpsrScore (
-      lpScore,
-      gMsrOah,
-      gLpsrOah,
-      err,
-      out,
-      "Pass 4");
-
-    // over!
-    // ------------------------------------------------------
-
-    if (! true) { // JMI
-      err <<
-        "### Conversion from LPSR to LilyPond code failed ###" <<
-        endl <<
-        endl;
-
+    try {
+      generateLilypondCodeFromLpsrScore (
+        lpScore,
+        gMsrOah,
+        gLpsrOah,
+        err,
+        out,
+        "Pass 4");
+    }
+    catch (lpsrScoreToLilypondException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
       return kInvalidFile;
     }
 
@@ -275,7 +303,7 @@ EXP xmlErr musicxmlstring2lilypond(const char *buffer, const optionsVector& opti
 }
 
 //_______________________________________________________________________________
-EXP void convertMusicXMLToLilypond (
+EXP xmlErr convertMusicXMLToLilypond (
   string inputSourceName,
   string outputFileName,
   bool   loopBackToMusicXML) // loopBackToMusicXML is used by 'xml2ly -loop'
@@ -304,7 +332,7 @@ EXP void convertMusicXMLToLilypond (
       "Existing after pass 2a as requested" <<
       endl;
 
-    return;
+    return kNoErr;
   }
 
   // populate the MSR from MusicXML contents (pass 2b)
@@ -322,7 +350,7 @@ EXP void convertMusicXMLToLilypond (
       "Existing after pass 2b as requested" <<
       endl;
 
-    return;
+    return kNoErr;
   }
 
   // display the MSR score summary if requested
@@ -344,7 +372,7 @@ EXP void convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
-    return;
+    return kNoErr;
   }
 
   // display the score names if requested
@@ -357,7 +385,7 @@ EXP void convertMusicXMLToLilypond (
       mScore,
       gLogOstream);
 
-    return;
+    return kNoErr;
   }
 
   // create the LPSR from the MSR (pass 3)
@@ -375,7 +403,7 @@ EXP void convertMusicXMLToLilypond (
       "Existing after pass 3 as requested" <<
       endl;
 
-    return;
+    return kNoErr;
   }
 
   // display the LPSR score if requested
@@ -407,6 +435,8 @@ EXP void convertMusicXMLToLilypond (
         "_LOOP.xml"),
       "Pass 5");
   }
+
+  return kNoErr;
 }
 
 

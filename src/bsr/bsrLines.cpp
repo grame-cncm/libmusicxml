@@ -26,6 +26,8 @@
 #include "msr2BsrOah.h"
 #include "brailleOah.h"
 
+#include "messagesHandling.h"
+
 
 using namespace std;
 

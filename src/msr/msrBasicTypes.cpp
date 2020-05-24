@@ -853,7 +853,7 @@ string wholeNotesAsMsrString (
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
-abort ();
+
     return "???";
   }
 
@@ -5714,7 +5714,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           "' is not supported"
           ", line = " << inputLineNumber;
 
-        msrLimitation (
+        msrUnsupported (
           gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
@@ -8605,7 +8605,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           "' is not supported"
           ", line = " << inputLineNumber;
 
-        msrLimitation (
+        msrUnsupported (
           gOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
@@ -18920,7 +18920,7 @@ S_msrChordInterval msrChordStructure::bassChordIntervalForChordInversion (
       msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
       "', line " << inputLineNumber;
 
-    msrLimitation (
+    msrInternalError (
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
@@ -19466,7 +19466,7 @@ msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion 
       msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
       "', line " << inputLineNumber;
 
-    msrLimitation (
+    msrInternalError (
       gOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,

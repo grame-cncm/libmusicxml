@@ -81,25 +81,6 @@ void msrSegment::initializeSegment ()
       endl;
   }
 #endif
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceSegments) {
-    if (false && fSegmentDebugNumber == 3) { // JMI
-      gLogOstream <<
-        endl <<
-        "======================= initializeSegment()" <<
-        endl <<
-
-        fSegmentVoiceUpLink <<
-
-        "=======================" <<
-        endl <<
-        endl;
-
-      abort ();
-    }
-  }
-#endif
 }
 
 S_msrSegment msrSegment::createSegmentNewbornClone (
@@ -2121,8 +2102,6 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     gIndenter--;
   }
 #endif
-
-  // JMI for tests abort ();
 
   fSegmentMeasuresList.pop_back ();
 

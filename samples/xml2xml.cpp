@@ -195,9 +195,10 @@ int main (int argc, char *argv[])
   // do the translation
   // ------------------------------------------------------
 
-  convertMusicXMLBackToMusicXML (
-    inputSourceName,
-    outputFileName);
+  xmlErr err =
+    convertMusicXMLBackToMusicXML (
+      inputSourceName,
+      outputFileName);
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------
@@ -218,14 +219,12 @@ int main (int argc, char *argv[])
       "### gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
       endl <<
       endl;
-
-    // JMI abort ();
   }
 
   // over!
   // ------------------------------------------------------
 
-  if (! true) { // JMI
+  if (err != kNoErr) {
     gLogOstream <<
       "### Conversion from LPSR to LilyPond code failed ###" <<
       endl <<

@@ -456,15 +456,24 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     stringstream s;
 
     s <<
-      "you should uncompress this file prior to running xml2ly";
+      "you should uncompress file " <<
+      fileNameAsString <<
+      " prior to running xml2ly";
+
+    string message = s.str ();
 
     msrMusicXMLError (
       gOahOah->fInputSourceName,
       1, // inputLineNumber,
       __FILE__, __LINE__,
-      s.str ());
+      message);
 
-    exit (38);
+    gLogOstream <<
+      message <<
+      endl <<
+      endl;
+
+    throw musicXMLFile2mxmlTreeException (message);
   }
 
   // read the input MusicXML data from the file

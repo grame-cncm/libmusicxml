@@ -21,13 +21,13 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-void convertMsrScoreToMusicXMLScore (
+EXP xmlErr convertMsrScoreToMusicXMLScore (
   S_msrScore mScore,
   string     outputFileName,
   string     passNumber);
 
 //_______________________________________________________________________________
-EXP void convertMusicXMLBackToMusicXML (
+EXP xmlErr convertMusicXMLBackToMusicXML (
   string inputSourceName,
   string outputFileName);
 

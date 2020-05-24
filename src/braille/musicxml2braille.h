@@ -19,7 +19,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-EXP void convertMusicXMLToBraille (
+EXP xmlErr convertMusicXMLToBraille (
   string inputSourceName,
   string outputFileName);
 

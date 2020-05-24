@@ -44,7 +44,7 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2lyOahHandler xml2lyOahHandler::create (
-  string           executableName,
+  string   executableName,
   ostream& ios)
 {
   xml2lyOahHandler* o = new
@@ -56,7 +56,7 @@ S_xml2lyOahHandler xml2lyOahHandler::create (
 }
 
 xml2lyOahHandler::xml2lyOahHandler (
-  string           executableName,
+  string   executableName,
   ostream& ios)
   : oahHandler (
       executableName + " available options",
@@ -291,13 +291,18 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
 
   switch (argumentsNumber) {
     case 0:
-      fHandlerLogOstream <<
-        endl <<
-        "Input file name or '-' for standard input expected" <<
-        endl <<
-        endl;
+      {
+        string message =
+          "Input file name or '-' for standard input expected";
 
-      exit (1);
+        fHandlerLogOstream <<
+          endl <<
+          message <<
+          endl <<
+          endl;
+
+        throw msrOahException (message);
+      }
       break;
 
     case 1:

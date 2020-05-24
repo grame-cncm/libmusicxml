@@ -231,12 +231,15 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
   }
 
   if (! mScore) {
+    string message =
+      "### Conversion from mxmlTree to an MSR skeleton failed ###";
+
     gLogOstream <<
-      "### Conversion from MusicCML to an MSR skeleton failed ###" <<
+      message <<
       endl <<
       endl;
 
-    exit (1);
+    throw msrScoreToBsrScoreException (message);
   }
 
   return mScore;

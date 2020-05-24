@@ -115,13 +115,20 @@ void convertBsrScoreToBrailleText (
         ofstream::out);
 
       if (! brailleCodeFileOutputStream.is_open ()) {
-        gLogOstream <<
+        stringstream s;
+
+        s <<
           "Could not open braille music output file \"" <<
           outputFileName <<
-          "\" for writing, exiting" <<
+          "\" for writing, exiting";
+
+        string message = s.str ();
+
+        gLogOstream <<
+          message <<
           endl;
 
-        exit (9);
+        throw bsrScoreToBrailleTextException (message);
       }
 
       // convert the BSR score to Braille music

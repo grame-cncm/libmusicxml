@@ -18,8 +18,10 @@
 
 #include "exports.h"
 
+#include "exceptions.h"
 
-namespace MusicXML2 
+
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -28,11 +30,9 @@ EXP void msrAssert (
   std::string messageIfFalse);
 
 //______________________________________________________________________________
-EXP void msrWarning (
-  std::string context,
-  std::string inputSourceName,
-  int         inputLineNumber,
-  std::string message);
+EXP void oahWarning (std::string warningMessage);
+
+EXP void oahError (std::string errorMessage);
 
 //______________________________________________________________________________
 EXP void msrMusicXMLWarning (
@@ -40,28 +40,6 @@ EXP void msrMusicXMLWarning (
   int         inputLineNumber,
   std::string message);
 
-//______________________________________________________________________________
-EXP void lpsrMusicXMLWarning (
-  std::string inputSourceName,
-  int         inputLineNumber,
-  std::string message);
-
-//______________________________________________________________________________
-EXP void msrInternalWarning (
-  std::string inputSourceName,
-  int         inputLineNumber,
-  std::string message);
-
-//______________________________________________________________________________
-EXP void msrError (
-  std::string context,
-  std::string inputSourceName,
-  int    inputLineNumber,
-  std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  std::string message);
-
-//______________________________________________________________________________
 EXP void msrMusicXMLError (
   std::string inputSourceName,
   int    inputLineNumber,
@@ -70,6 +48,45 @@ EXP void msrMusicXMLError (
   std::string message);
 
 //______________________________________________________________________________
+EXP void msrWarning (
+  std::string context,
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+EXP void msrInternalWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+EXP void msrError (
+  std::string context,
+  std::string inputSourceName,
+  int    inputLineNumber,
+  std::string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  std::string message);
+
+EXP void msrInternalError (
+  std::string inputSourceName,
+  int    inputLineNumber,
+  std::string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  std::string message);
+
+EXP void msrUnsupported (
+  std::string inputSourceName,
+  int    inputLineNumber,
+  std::string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
+EXP void lpsrMusicXMLWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
 EXP void lpsrMusicXMLError (
   std::string inputSourceName,
   int    inputLineNumber,
@@ -78,15 +95,12 @@ EXP void lpsrMusicXMLError (
   std::string message);
 
 //______________________________________________________________________________
-EXP void msrInternalError (
+EXP void bsrWarning (
   std::string inputSourceName,
-  int    inputLineNumber,
-  std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
+  int         inputLineNumber,
   std::string message);
 
-//______________________________________________________________________________  
-EXP void msrLimitation (
+EXP void bsrInternalError (
   std::string inputSourceName,
   int    inputLineNumber,
   std::string sourceCodeFileName,
@@ -94,6 +108,7 @@ EXP void msrLimitation (
   std::string message);
 
 //______________________________________________________________________________
+/*
 EXP void msrStreamsError (
   int         inputLineNumber,
   std::string sourceCodeFileName,
@@ -105,6 +120,7 @@ EXP void msrStreamsWarning (
   std::string sourceCodeFileName,
   int         sourceCodeLineNumber,
   std::string message);
+*/
 
 //______________________________________________________________________________
 EXP extern std::set<int> gWarningsInputLineNumbers;

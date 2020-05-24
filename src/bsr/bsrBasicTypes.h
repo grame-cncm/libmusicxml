@@ -270,20 +270,6 @@ void write_wstring (ostream& os, wstring wstr );
 EXP ostream& operator<< (ostream& os, const wstring& wstr);
 */
 
-// warnings and errors
-//______________________________________________________________________________
-EXP void bsrWarning (
-  std::string inputSourceName,
-  int         inputLineNumber,
-  std::string message);
-
-EXP void bsrInternalError (
-  std::string inputSourceName,
-  int    inputLineNumber,
-  std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  std::string message);
-
 // initialization
 //______________________________________________________________________________
 void initializeBSRBasicTypes ();

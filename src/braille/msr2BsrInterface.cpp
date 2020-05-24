@@ -130,12 +130,15 @@ S_bsrScore convertMsrScoreToBsrScore (
   }
 
   if (! bScore) {
+    string message =
+      "### Conversion from MSR to BSR failed ###";
+
     gLogOstream <<
-      "### Conversion from MSR to BSR failed ###" <<
+      message <<
       endl <<
       endl;
 
-    exit (2);
+    throw msrScoreToBsrScoreException (message);
   }
 
   return bScore;

@@ -33,6 +33,10 @@
 
 #include "msrOah.h"
 #include "msr2LpsrOah.h"
+#include "musicxmlOah.h"
+#include "xml2xmlOah.h"
+
+#include "msr.h"
 
 #include "musicXML2MxmlTreeInterface.h"
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"
@@ -57,18 +61,157 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 	if (st) {
 		if (st->getName() == "score-timewise") return kUnsupported;
 
-/*
-		xml2guidovisitor v(true, true, optionsVector, partFilter);
-		Sguidoelement gmn = v.convert(st);
-		if (file) {
-			out << "(*\n  gmn code converted from '" << file << "'"
-				<< "\n  using libmusicxml v." << musicxmllibVersionStr();
-		}
-		else out << "(*\n  gmn code converted using libmusicxml v." << musicxmllibVersionStr();
-		out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
-			<< "\n*)" << endl;
-		out << gmn << endl;
-		*/
+    // the fake executable name
+    string fakeExecutableName = "xml2musicxml";
+
+    // create the options handler
+    // ------------------------------------------------------
+
+    S_xml2xmlOahHandler
+      handler =
+        xml2xmlOahHandler::create (
+          fakeExecutableName,
+          out);
+
+    // analyze the coptions vector
+    // ------------------------------------------------------
+
+    try {
+      handler->
+        hangleOptionsFromOptionsVector (
+          fakeExecutableName,
+          options);
+    }
+    catch (msrOahException& e) {
+      return kInvalidOption;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
+
+    // has quiet mode been requested?
+    // ------------------------------------------------------
+
+    if (gGeneralOah->fQuiet) {
+      // disable all trace and display options
+      handler->
+        enforceOahHandlerQuietness ();
+    }
+
+    // get the mxmlTree
+    // ------------------------------------------------------
+
+    Sxmlelement
+      mxmlTree =
+        xmlfile->elements ();
+/* JMI
+        convertMusicXMLToMxmlTree (
+          inputSourceName,
+          "Pass 1");
+*/
+
+    // create the MSR skeleton from the mxmlTree (pass 2a)
+    // ------------------------------------------------------
+
+    S_msrScore mScore;
+
+    try {
+      mScore =
+        convertMxmlTreeToMsrScoreSkeleton (
+          mxmlTree,
+          "Pass 2a");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
+
+
+    if (gMsr2LpsrOah->fExit2a) {
+      gLogOstream <<
+        endl <<
+        "Existing after pass 2a as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
+    // populate the MSR from MusicXML contents (pass 2b)
+    // ------------------------------------------------------
+
+    try {
+      populateMsrSkeletonFromMxmlTree (
+        mxmlTree,
+        mScore,
+        err,
+        "Pass 2b");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
+
+    if (gMsr2LpsrOah->fExit2b) {
+      gLogOstream <<
+        endl <<
+        "Existing after pass 2b as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
+    // display the MSR score summary if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsr) {
+      displayMsrScore_OptionalPass (
+        mScore,
+        gMsrOah);
+    }
+
+    // display the score summary if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsrSummary) {
+      // display the score summary
+      displayMSRPopulatedScoreSummary (
+        gMsrOah,
+        mScore,
+        gLogOstream);
+    }
+
+    // display the score names if requested
+    // ------------------------------------------------------
+
+    if (gMsrOah->fDisplayMsrNames) {
+      // display the score name
+      displayMSRPopulatedScoreNames (
+        gMsrOah,
+        mScore,
+        gLogOstream);
+    }
+
+    // create MusicXML back from the MSR
+    // ------------------------------------------------------
+    try {
+      convertMsrScoreToMusicXMLScore (
+        mScore,
+        regex_replace (
+          file,
+          regex (".ly"),
+          "_LOOP.xml"),
+          "Pass 3");
+    }
+    catch (msrScoreToMusicXMLScoreException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
 		return kNoErr;
 	}
@@ -122,7 +265,7 @@ EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& op
 }
 
 //_______________________________________________________________________________
-void convertMsrScoreToMusicXMLScore (
+EXP xmlErr convertMsrScoreToMusicXMLScore (
   S_msrScore mScore,
   string     outputFileName,
   string     passNumber)
@@ -151,7 +294,7 @@ void convertMsrScoreToMusicXMLScore (
       "\" for writing, exiting" <<
       endl;
 
-    exit (9);
+    return kInvalidFile;
   }
 
   // create an indented output stream for the LilyPond code
@@ -198,10 +341,12 @@ void convertMsrScoreToMusicXMLScore (
 #endif
 
   outFileStream.close ();
+
+  return kNoErr;
 }
 
 //_______________________________________________________________________________
-EXP void convertMusicXMLBackToMusicXML (
+EXP xmlErr convertMusicXMLBackToMusicXML (
   string inputSourceName,
   string outputFileName)
 {
@@ -229,7 +374,7 @@ EXP void convertMusicXMLBackToMusicXML (
       "Existing after pass 2a as requested" <<
       endl;
 
-    return;
+    return kNoErr;
   }
 
   // populate the MSR from MusicXML contents (pass 2b)
@@ -247,7 +392,7 @@ EXP void convertMusicXMLBackToMusicXML (
       "Existing after pass 2b as requested" <<
       endl;
 
-    return;
+    return kNoErr;
   }
 
   // display the MSR score summary if requested
@@ -283,13 +428,21 @@ EXP void convertMusicXMLBackToMusicXML (
 
   // create MusicXML back from the MSR
   // ------------------------------------------------------
-  convertMsrScoreToMusicXMLScore (
-    mScore,
-    regex_replace (
-      outputFileName,
-      regex (".ly"),
-      "_LOOP.xml"),
-      "Pass 3");
+
+  xmlErr err =
+    convertMsrScoreToMusicXMLScore (
+      mScore,
+      regex_replace (
+        outputFileName,
+        regex (".ly"),
+        "_LOOP.xml"),
+        "Pass 3");
+
+  if (err != kNoErr) {
+    return err;
+  }
+
+  return kNoErr;
 }
 
 

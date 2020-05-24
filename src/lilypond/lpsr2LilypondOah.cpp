@@ -28,6 +28,8 @@
 #include "lpsrOah.h"
 #include "lpsr2LilypondOah.h"
 
+#include "messagesHandling.h"
+
 
 using namespace std;
 
@@ -509,7 +511,6 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
     gIndenter--;
 
     oahError (s.str ());
-    abort ();
   }
 */
 

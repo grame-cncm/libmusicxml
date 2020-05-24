@@ -98,26 +98,6 @@ void msrMeasure::initializeMeasure ()
   }
 #endif
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
-    if (false && fMeasureDebugNumber == 3) { // JMI
-      gLogOstream <<
-        endl <<
-        "======================= initializeMeasure()" <<
-        endl <<
-
-        fMeasureSegmentUpLink->
-          getSegmentVoiceUpLink () <<
-
-        "=======================" <<
-        endl <<
-        endl;
-
-      abort ();
-    }
-  }
-#endif
-
   // measure kind
   fMeasureKind = kMeasureKindUnknown;
 
@@ -1147,8 +1127,6 @@ void msrMeasure::setCurrentMeasureWholeNotesDuration (
       endl;
   }
 #endif
-
-//  if (rationalisedCurrentMeasureWholeNotesDuration.getNumerator () == 29) abort (); // JMI
 
   // set measure whole notes
   fCurrentMeasureWholeNotesDuration =
@@ -5098,8 +5076,6 @@ void msrMeasure::finalizeMeasure (
       gOahOah->fInputSourceName,
       fInputLineNumber,
       s.str ());
-
-//      abort (); // JMI
   }
 
   else {

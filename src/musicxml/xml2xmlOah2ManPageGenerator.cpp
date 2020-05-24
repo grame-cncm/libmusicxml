@@ -25,6 +25,9 @@
 
 #include "version.h"
 
+#include "messagesHandling.h"
+
+
 using namespace std;
 
 namespace MusicXML2
