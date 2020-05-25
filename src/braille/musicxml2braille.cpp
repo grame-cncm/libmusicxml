@@ -123,7 +123,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
       return kInvalidFile;
     }
 
-    if (gMsr2LpsrOah->fExit2a) {
+    if (gXml2brlOah->fExit2a) {
       err <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -149,7 +149,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
       return kInvalidFile;
     }
 
-    if (gMsr2LpsrOah->fExit2b) {
+    if (gXml2brlOah->fExit2b) {
       err <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -353,7 +353,7 @@ EXP xmlErr convertMusicXMLToBraille (
         mxmlTree,
         "Pass 2a");
 
-  if (gMsr2LpsrOah->fExit2a) {
+  if (gXml2brlOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -371,7 +371,7 @@ EXP xmlErr convertMusicXMLToBraille (
     gLogOstream,
     "Pass 2b");
 
-  if (gMsr2LpsrOah->fExit2b) {
+  if (gXml2brlOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<

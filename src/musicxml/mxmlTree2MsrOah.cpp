@@ -757,7 +757,7 @@ mxmlTree2MsrOah::~mxmlTree2MsrOah ()
 {}
 
 #ifdef TRACE_OAH
-void mxmlTree2MsrOah::initializeMxmlTreeTraceOah (
+void mxmlTree2MsrOah::initializeMxmlTree2MsrTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -817,7 +817,7 @@ R"()",
 }
 #endif
 
-void mxmlTree2MsrOah::initializeMxmlTreeHeaderOptions (
+void mxmlTree2MsrOah::initializeMxmlTree2MsrHeaderOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -832,6 +832,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // file name as work title
+  // --------------------------------------
 
   fUseFilenameAsWorkTitle = false;
 
@@ -845,6 +846,7 @@ Standard input (-) becomes 'Standard input' in that case.)",
         fUseFilenameAsWorkTitle));
 
   // lyricists as poets
+  // --------------------------------------
 
   fUseLyricistsAsPoets = false;
 
@@ -858,7 +860,7 @@ This is useful because LilyPond doesn't feature a 'lyricist' variable.)",
         fUseLyricistsAsPoets));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTreeClefsKeysTimesOptions (
+void mxmlTree2MsrOah::initializeMxmlTree2MsrClefsKeysTimesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -873,6 +875,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // replace clef
+  // --------------------------------------
 
   subGroup->
     appendAtomToSubGroup (
@@ -900,6 +903,7 @@ There can be several occurrences of this option.)",
         fReplaceClefMapVariable));
 
   // the 'ir' prefix
+  // --------------------------------------
 
   S_oahPrefix
     shortIgnoreRedundantPrefix =
@@ -911,6 +915,7 @@ There can be several occurrences of this option.)",
     appendPrefixToHandler (shortIgnoreRedundantPrefix);
 
   // the 'ignore-redundant' prefix
+  // --------------------------------------
 
   S_oahPrefix
     longIgnoreRedundantPrefix =
@@ -922,6 +927,7 @@ There can be several occurrences of this option.)",
     appendPrefixToHandler (longIgnoreRedundantPrefix);
 
   // the 'ignore redundant' multiplex booleans atom
+  // --------------------------------------
 
   S_oahMultiplexBooleansAtom
     ignoreRedundantMultiplexBooleansAtom =
@@ -937,6 +943,7 @@ There can be several occurrences of this option.)",
       ignoreRedundantMultiplexBooleansAtom);
 
   // redundant clefs
+  // --------------------------------------
 
   fIgnoreRedundantClefs = boolOptionsInitialValue;
 
@@ -954,6 +961,7 @@ R"(Ignore clefs that are the same as the current one.)",
       fIgnoreRedundantClefsAtom);
 
   // redundant keys
+  // --------------------------------------
 
   fIgnoreRedundantKeys  = boolOptionsInitialValue;
 
@@ -971,6 +979,7 @@ R"(Ignore keys that are the same as the current one.)",
       fIgnoreRedundantKeysAtom);
 
   // redundant times
+  // --------------------------------------
 
   fIgnoreRedundantTimes = boolOptionsInitialValue;
 
@@ -988,7 +997,7 @@ R"(Ignore times that are the same as the current one.)",
       fIgnoreRedundantTimesAtom);
 }
 
-void mxmlTree2MsrOah::initializeMxmlTreeMeasuresOptions (
+void mxmlTree2MsrOah::initializeMxmlTree2MsrMeasuresOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1003,6 +1012,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // add empty measures
+  // --------------------------------------
 
   subGroup->
     appendAtomToSubGroup (
@@ -1022,7 +1032,174 @@ This option can be used any number of times.)###",
         fAddEmptyMeasuresStringToIntMap));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTreeWordsOptions (
+void mxmlTree2MsrOah::initializeMxmlTree2MsrNotesOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup subGroup =
+    oahSubGroup::create (
+      "Notes",
+      "hmsrn", "help-msr-notes",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // omit articulations
+  // --------------------------------------
+
+  fOmitArticulations = false;
+
+  S_oahBooleanAtom
+    omitArticulationsAtom =
+      oahBooleanAtom::create (
+        "oarts", "omit-articulations",
+R"('<word/>' in MusicXML, '<!' in LilyPond)",
+        "omitArticulations",
+        fOmitArticulations);
+  subGroup->
+    appendAtomToSubGroup (
+      omitArticulationsAtom);
+
+  // omit ornaments
+  // --------------------------------------
+
+  fOmitOrnaments = false;
+
+  S_oahBooleanAtom
+    omitOrnamentsAtom =
+      oahBooleanAtom::create (
+        "oorns", "omit-ornaments",
+R"('<trill-mark/>' in MusicXML, '<!' in LilyPond)",
+        "omitOrnaments",
+        fOmitOrnaments);
+  subGroup->
+    appendAtomToSubGroup (
+      omitOrnamentsAtom);
+
+  // omit words
+  // --------------------------------------
+
+  fOmitWords = false;
+
+  S_oahBooleanAtom
+    omitWordsAtom =
+      oahBooleanAtom::create (
+        "owords", "omit-words",
+R"('<word/>' in MusicXML, '<!' in LilyPond)",
+        "omitWords",
+        fOmitWords);
+  subGroup->
+    appendAtomToSubGroup (
+      omitWordsAtom);
+
+  // omit ties
+  // --------------------------------------
+
+  fOmitTies = false;
+
+  S_oahBooleanAtom
+    omitTiesAtom =
+      oahBooleanAtom::create (
+        "oties", "omit-ties",
+R"()",
+        "omitTies",
+        fOmitTies);
+  subGroup->
+    appendAtomToSubGroup (
+      omitTiesAtom);
+
+  // omit dynamics
+  // --------------------------------------
+
+  fOmitDynamics = false;
+
+  S_oahBooleanAtom
+    omitDynamicsAtom =
+      oahBooleanAtom::create (
+        "odyns", "omit-dynamics",
+R"()",
+        "omitDynamics",
+        fOmitDynamics);
+  subGroup->
+    appendAtomToSubGroup (
+      omitDynamicsAtom);
+
+  // omit slurs
+  // --------------------------------------
+
+  fOmitSlurs = false;
+
+  S_oahBooleanAtom
+    omitSlursAtom =
+      oahBooleanAtom::create (
+        "oslurs", "omit-slurs",
+R"()",
+        "omitSlurs",
+        fOmitSlurs);
+  subGroup->
+    appendAtomToSubGroup (
+      omitSlursAtom);
+
+  // omit wedges
+  // --------------------------------------
+
+  fOmitWedges = false;
+
+  S_oahBooleanAtom
+    omitWedgesAtom =
+      oahBooleanAtom::create (
+        "owedges", "omit-wedges",
+R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
+        "omitWedges",
+        fOmitWedges);
+  subGroup->
+    appendAtomToSubGroup (
+      omitWedgesAtom);
+
+  // omit lyrics
+  // --------------------------------------
+
+  fOmitLyrics = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "olyrics", "omit-lyrics",
+R"(Don't create lyrics in the MSR.)",
+        "omitLyrics",
+        fOmitLyrics));
+
+
+  // omit harmonies
+  // --------------------------------------
+
+  fOmitHarmonies = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "oharms", "omit-harmonies",
+R"(Don't create harmonies in the MSR.)",
+        "omitHarmonies",
+        fOmitHarmonies));
+
+
+  // omit figured basses
+  // --------------------------------------
+
+  fOmitFiguredBasses = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "ofigbasses", "omit-figured-basses",
+R"(Don't create figured basses in the MSR.)",
+        "omitFiguredBasses",
+        fOmitFiguredBasses));
+}
+
+void mxmlTree2MsrOah::initializeMxmlTree2MsrWordsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1037,6 +1214,8 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // convert words to dal segno
+  // --------------------------------------
+
   subGroup->
     appendAtomToSubGroup (
       msrDalSegnoAtom::create (
@@ -1047,7 +1226,7 @@ R"(Convert words elements STRING to an MSR 'dal segno' element'.)",
         fConvertWordsToDalSegno));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTreeDynamicsAndWedgesOptions (
+void mxmlTree2MsrOah::initializeMxmlTree2MsrDynamicsAndWedgesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1062,6 +1241,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // dynamics
+  // --------------------------------------
 
   fAllDynamicsBelow = false;
 
@@ -1074,6 +1254,7 @@ R"(Ignore dynamics placement and set it to 'below'.)",
         fAllDynamicsBelow));
 
   // wedges
+  // --------------------------------------
 
   fAllWedgesBelow = false;
 
@@ -1086,7 +1267,7 @@ R"(Ignore wedges placement and set it to 'below'.)",
         fAllWedgesBelow));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTreeCombinedOptionsOptions (
+void mxmlTree2MsrOah::initializeMxmlTree2MsrCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1101,6 +1282,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // cubase
+  // --------------------------------------
 
   fCubase = false;
 
@@ -1140,39 +1322,44 @@ void mxmlTree2MsrOah::initializeMxmlTree2Msr (
 /* not used as of may 2020 JMI
   // trace
   // --------------------------------------
-  initializeMxmlTreeTraceOah (
+  initializeMxmlTree2MsrTraceOah (
     boolOptionsInitialValue);
 */
 #endif
 
   // header
   // --------------------------------------
-  initializeMxmlTreeHeaderOptions (
+  initializeMxmlTree2MsrHeaderOptions (
     boolOptionsInitialValue);
 
   // clefs, keys, times
   // --------------------------------------
-  initializeMxmlTreeClefsKeysTimesOptions (
+  initializeMxmlTree2MsrClefsKeysTimesOptions (
     boolOptionsInitialValue);
 
   // measures
   // --------------------------------------
-  initializeMxmlTreeMeasuresOptions (
+  initializeMxmlTree2MsrMeasuresOptions (
     boolOptionsInitialValue);
 
-  // words
+  // notes
   // --------------------------------------
-  initializeMxmlTreeWordsOptions (
+  initializeMxmlTree2MsrNotesOptions (
     boolOptionsInitialValue);
 
   // dynamics and wedges
   // --------------------------------------
-  initializeMxmlTreeDynamicsAndWedgesOptions (
+  initializeMxmlTree2MsrDynamicsAndWedgesOptions (
+    boolOptionsInitialValue);
+
+  // words
+  // --------------------------------------
+  initializeMxmlTree2MsrWordsOptions (
     boolOptionsInitialValue);
 
   // combined options
   // --------------------------------------
-  initializeMxmlTreeCombinedOptionsOptions (
+  initializeMxmlTree2MsrCombinedOptionsOptions (
     boolOptionsInitialValue);
 }
 
@@ -1206,6 +1393,48 @@ S_mxmlTree2MsrOah mxmlTree2MsrOah::createCloneWithDetailedTrace ()
   clone->fIgnoreRedundantTimes =
     fIgnoreRedundantTimes;
 
+  // articulations
+  // --------------------------------------
+
+  clone->fOmitArticulations =
+    fOmitArticulations;
+
+  // ornaments
+  // --------------------------------------
+
+  clone->fOmitOrnaments =
+    fOmitOrnaments;
+
+  // words
+  // --------------------------------------
+
+  clone->fOmitWords =
+    fOmitWords;
+
+  // ties
+  // --------------------------------------
+
+  clone->fOmitTies =
+    fOmitTies;
+
+  // dynamics
+  // --------------------------------------
+
+  clone->fOmitDynamics =
+    fOmitDynamics;
+
+  // slurs
+  // --------------------------------------
+
+  clone->fOmitSlurs =
+    fOmitSlurs;
+
+  // wedges
+  // --------------------------------------
+
+  clone->fOmitWedges =
+    fOmitWedges;
+
   // dynamics and wedges
   // --------------------------------------
 
@@ -1213,6 +1442,24 @@ S_mxmlTree2MsrOah mxmlTree2MsrOah::createCloneWithDetailedTrace ()
     fAllDynamicsBelow;
   clone->fAllWedgesBelow =
     fAllWedgesBelow;
+
+  // lyrics
+  // --------------------------------------
+
+  clone->fOmitLyrics =
+    fOmitLyrics;
+
+  // harmonies
+  // --------------------------------------
+
+  clone->fOmitHarmonies =
+    fOmitHarmonies;
+
+  // figured bass
+  // --------------------------------------
+
+  clone->fOmitFiguredBasses =
+    fOmitFiguredBasses;
 
   // combined options, cubase
   // --------------------------------------
@@ -1319,7 +1566,7 @@ void mxmlTree2MsrOah::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrOah::printMxmlTree2MsrValues (int fieldWidth)
+void mxmlTree2MsrOah::printMxmlTree2MsrValues (int valueFieldWidth)
 {
   gLogOstream <<
     "The MusicXML options are:" <<
@@ -1338,10 +1585,10 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "useFilenameAsWorkTitle" << " : " <<
+    setw (valueFieldWidth) << "useFilenameAsWorkTitle" << " : " <<
       booleanAsString (fUseFilenameAsWorkTitle) <<
       endl <<
-    setw (fieldWidth) << "useLyricistsAsPoets" << " : " <<
+    setw (valueFieldWidth) << "useLyricistsAsPoets" << " : " <<
       booleanAsString (fUseLyricistsAsPoets) <<
       endl;
 
@@ -1357,15 +1604,15 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "ignoreRedundantClefs" << " : " <<
+    setw (valueFieldWidth) << "ignoreRedundantClefs" << " : " <<
     booleanAsString (fIgnoreRedundantClefs) <<
     endl <<
 
-    setw (fieldWidth) << "ignoreRedundantKeys" << " : " <<
+    setw (valueFieldWidth) << "ignoreRedundantKeys" << " : " <<
     booleanAsString (fIgnoreRedundantKeys) <<
     endl <<
 
-    setw (fieldWidth) << "ignoreRedundantTimes" << " : " <<
+    setw (valueFieldWidth) << "ignoreRedundantTimes" << " : " <<
     booleanAsString (fIgnoreRedundantTimes) <<
     endl;
 
@@ -1384,18 +1631,178 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int fieldWidth)
 
 /* JMI
   gLogOstream << left <<
-    setw (fieldWidth) << "ignoreRedundantClefs" << " : " <<
+    setw (valueFieldWidth) << "ignoreRedundantClefs" << " : " <<
     booleanAsString (fIgnoreRedundantClefs) <<
     endl <<
 
-    setw (fieldWidth) << "ignoreRedundantKeys" << " : " <<
+    setw (valueFieldWidth) << "ignoreRedundantKeys" << " : " <<
     booleanAsString (fIgnoreRedundantKeys) <<
     endl <<
 
-    setw (fieldWidth) << "ignoreRedundantTimes" << " : " <<
+    setw (valueFieldWidth) << "ignoreRedundantTimes" << " : " <<
     booleanAsString (fIgnoreRedundantTimes) <<
     endl;
 */
+  gIndenter--;
+
+  // articulations
+  // --------------------------------------
+
+  gLogOstream <<
+     "Articulations:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "omitArticulations" << " : " <<
+    booleanAsString (fOmitArticulations) <<
+    endl;
+
+  gIndenter--;
+
+  // ornaments
+  // --------------------------------------
+
+  gLogOstream <<
+     "Ornaments:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "omitOrnaments" << " : " <<
+    booleanAsString (fOmitOrnaments) <<
+    endl;
+
+  gIndenter--;
+
+  // words
+  // --------------------------------------
+
+  gLogOstream <<
+     "Words:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "omitWords" << " : " <<
+    booleanAsString (fOmitWords) <<
+    endl;
+
+  gIndenter--;
+
+  // ties
+  // --------------------------------------
+
+  gLogOstream <<
+     "Ties:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "omitTies" << " : " <<
+    booleanAsString (fOmitTies) <<
+    endl;
+
+  gIndenter--;
+
+  // dynamics
+  // --------------------------------------
+
+  gLogOstream <<
+     "Dynamics:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "omitDynamics" << " : " <<
+    booleanAsString (fOmitDynamics) <<
+    endl;
+
+  gIndenter--;
+
+  // slurs
+  // --------------------------------------
+
+  gLogOstream <<
+     "Slurs:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "mitSlurs" << " : " <<
+    booleanAsString (fOmitSlurs) <<
+    endl;
+
+  gIndenter--;
+
+  // wedges
+  // --------------------------------------
+
+  gLogOstream <<
+     "Wedges:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "omitWedges" << " : " <<
+    booleanAsString (fOmitWedges) <<
+    endl;
+
+  gIndenter--;
+
+  // lyrics
+  // --------------------------------------
+
+  gLogOstream <<
+    "Lyrics:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream <<
+    setw (valueFieldWidth) << "omitLyrics" << " : " <<
+    booleanAsString (fOmitLyrics) <<
+    endl;
+
+  gIndenter--;
+
+  // harmonies
+  // --------------------------------------
+
+  gLogOstream <<
+    "Harmonies:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "omitHarmonies" << " : " <<
+    booleanAsString (fOmitHarmonies) <<
+    endl;
+
+  gIndenter--;
+
+  // figured bass
+  // --------------------------------------
+
+  gLogOstream <<
+    "Figured bass:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "omitFiguredBasses" << " : " <<
+    booleanAsString (fOmitFiguredBasses) <<
+    endl;
+
   gIndenter--;
 
   // dynamics and wedges
@@ -1408,10 +1815,10 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "allDynamicsBelow" << " : " <<
+    setw (valueFieldWidth) << "allDynamicsBelow" << " : " <<
     booleanAsString (fAllDynamicsBelow) <<
     endl <<
-    setw (fieldWidth) << "allWedgesBelow" << " : " <<
+    setw (valueFieldWidth) << "allWedgesBelow" << " : " <<
     booleanAsString (fAllWedgesBelow) <<
     endl;
 
@@ -1427,7 +1834,7 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "cubase" << " : " <<
+    setw (valueFieldWidth) << "cubase" << " : " <<
     booleanAsString (fCubase) <<
     endl;
 

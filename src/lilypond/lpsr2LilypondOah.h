@@ -105,6 +105,110 @@ typedef SMARTP<lilypondScoreOutputKindAtom> S_lilypondScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
+class lilypondTransposePartAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lilypondTransposePartAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      map<string, S_msrSemiTonesPitchAndOctave>&
+                         stringMsrSemiTonesPitchAndOctaveVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lilypondTransposePartAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      map<string, S_msrSemiTonesPitchAndOctave>&
+                         stringMsrSemiTonesPitchAndOctaveVariable);
+
+    virtual ~lilypondTransposePartAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setStringMsrSemiTonesPitchAndOctaveVariable (
+                            string  partName,
+                            S_msrSemiTonesPitchAndOctave
+                                    semiTonesPitchAndOctave)
+                              {
+                                fStringMsrSemiTonesPitchAndOctaveVariable [
+                                  partName
+                                ] =
+                                  semiTonesPitchAndOctave;
+                              }
+
+    const map<string, S_msrSemiTonesPitchAndOctave>&
+                          getStringMsrSemiTonesPitchAndOctaveVariable ()
+                              {
+                                return
+                                  fStringMsrSemiTonesPitchAndOctaveVariable;
+                              }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<string, S_msrSemiTonesPitchAndOctave>&
+                          fStringMsrSemiTonesPitchAndOctaveVariable;
+};
+typedef SMARTP<lilypondTransposePartAtom> S_lilypondTransposePartAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondTransposePartAtom& elt);
+
+//______________________________________________________________________________
 class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
 {
   public:
@@ -724,6 +828,9 @@ class lpsr2LilypondOah : public oahGroup
     void                  initializeIdentificationOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializePartsOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeEngraversOptions (
                             bool boolOptionsInitialValue);
 
@@ -828,6 +935,13 @@ class lpsr2LilypondOah : public oahGroup
     string                fMeter;
     string                fTagline;
     string                fCopyright;
+
+
+    // parts
+    // --------------------------------------
+
+    map<string, S_msrSemiTonesPitchAndOctave>
+                          fPartsTranspositionMap;
 
 
     // names
@@ -998,8 +1112,11 @@ class lpsr2LilypondOah : public oahGroup
     bool                  fJianpu;
 
 
-    // lyrics alignment
+
+    // lyrics
     // --------------------------------------
+
+    bool                  fAddStanzasNumbers;
 
     lpsrLyricsDurationsKind
                           fLyricsDurationsKind;

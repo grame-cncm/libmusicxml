@@ -283,6 +283,362 @@ ostream& operator<< (ostream& os, const S_msrPitchesLanguageAtom& elt)
   return os;
 }
 
+//______________________________________________________________________________
+S_msrRenamePartAtom msrRenamePartAtom::create (
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  map<string, string>& stringStringMapVariable)
+{
+  msrRenamePartAtom* o = new
+    msrRenamePartAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringStringMapVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrRenamePartAtom::msrRenamePartAtom (
+  string               shortName,
+  string               longName,
+  string               description,
+  string               valueSpecification,
+  string               variableName,
+  map<string, string>& stringStringMapVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringStringMapVariable (
+      stringStringMapVariable)
+{
+  fMultipleOccurrencesAllowed = true;
+}
+
+msrRenamePartAtom::~msrRenamePartAtom ()
+{}
+
+S_oahValuedAtom msrRenamePartAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a msrRenamePartAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void msrRenamePartAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msrRenamePartAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the part rename specification
+  // decipher it to extract the old and new part names
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'msrRenamePartAtom'" <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*([^[:space:]]*)[[:space:]]*"
+    "="
+    "[[:space:]]*([^[:space:]]*)[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for part rename string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  if (smSize == 3) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      for (unsigned i = 0; i < smSize; ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+      os << endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-msrPartRename argument '" << theString <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    oldPartName = sm [1],
+    newPartName = sm [2];
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> oldPartName = \"" << oldPartName << "\", " <<
+      "--> newPartName = \"" << newPartName << "\"" <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  map<string, string>::iterator
+    it =
+      fStringStringMapVariable.find (oldPartName);
+
+  if (it != fStringStringMapVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Part \"" << oldPartName << "\" occurs more that once" <<
+      "in the '--rename-part' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringStringMapVariable [oldPartName] = newPartName;
+  }
+}
+
+void msrRenamePartAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrRenamePartAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrRenamePartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrRenamePartAtom>*> (v)) {
+        S_msrRenamePartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching msrRenamePartAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void msrRenamePartAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrRenamePartAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_msrRenamePartAtom>*
+    p =
+      dynamic_cast<visitor<S_msrRenamePartAtom>*> (v)) {
+        S_msrRenamePartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching msrRenamePartAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void msrRenamePartAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> msrRenamePartAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string msrRenamePartAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " ";
+
+  if (! fStringStringMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, string>::const_iterator
+      iBegin = fStringStringMapVariable.begin (),
+      iEnd   = fStringStringMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+string msrRenamePartAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " ";
+
+  if (! fStringStringMapVariable.size ()) {
+    s << "none";
+  }
+  else {
+    map<string, string>::const_iterator
+      iBegin = fStringStringMapVariable.begin (),
+      iEnd   = fStringStringMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first << "=" << (*i).second;
+      if (++i == iEnd) break;
+      s << ",";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void msrRenamePartAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "msrRenamePartAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringStringMapVariable" << " : " <<
+    endl;
+
+  if (! fStringStringMapVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, string>::const_iterator
+      iBegin = fStringStringMapVariable.begin (),
+      iEnd   = fStringStringMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void msrRenamePartAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringStringMapVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+    gIndenter++;
+
+    map<string, string>::const_iterator
+      iBegin = fStringStringMapVariable.begin (),
+      iEnd   = fStringStringMapVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_msrRenamePartAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 S_msrOah gMsrOah;
 S_msrOah gMsrOahUserChoices;
@@ -502,6 +858,157 @@ The default is 'DEFAULT_VALUE'.)",
         fMsrQuarterTonesPitchesLanguageKind));
 }
 
+void msrOah::initializeMsrPartsOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup subGroup =
+    oahSubGroup::create (
+      "Parts",
+      "hmsrp", "help-msr-parts",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // MSR rename part
+
+  subGroup->
+    appendAtomToSubGroup (
+      msrRenamePartAtom::create (
+        "mrp", "msr-rename-part",
+        regex_replace (
+R"(Rename part ORIGINAL_NAME to NEW_NAME, for example after displaying
+the names in the score or a summary of the latter in a first run with options
+'-dmnames, -display-msr-names' or 'dmsum, -display-msr-summary'.
+PART_RENAME_SPEC can be:
+'ORIGINAL_NAME = NEW_NAME'
+or
+"ORIGINAL_NAME = NEW_NAME"
+The single or double quotes are used to allow spaces in the names
+and around the '=' sign, otherwise they can be dispensed with.
+Using double quotes allows for shell variables substitutions, as in:
+DESSUS="Cor anglais"
+EXECUTABLE -msr-rename-part "P1 = ${DESSUS}" .
+There can be several occurrences of this option.)",
+         regex ("EXECUTABLE"),
+          gOahOah->fHandlerExecutableName),
+        "PART_RENAME_SPEC",
+        "partsRenamingMap",
+        fPartsRenamingMap));
+}
+
+void msrOah::initializeMsrStavesOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup subGroup =
+    oahSubGroup::create (
+      "Staves",
+      "hmsrs", "help-msr-staves",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // single line staves
+
+  fCreateSingleLineStavesAsRythmic = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "cslsar", "create-single-line-staves-as-rythmic",
+R"(Create staves with a single line as rythmic staves.
+By default, drum staves are created in this case.)",
+        "createSingleLineStavesAsRythmic",
+        fCreateSingleLineStavesAsRythmic));
+}
+
+void msrOah::initializeMsrVoicesOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup subGroup =
+    oahSubGroup::create (
+      "Voices",
+      "hmsrv", "help-msr-voices",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // staff relative numbers
+
+  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "cvsrvn", "create-voices-staff-relative-numbers",
+R"(Generate voices names with numbers relative to their staff.
+By default, the voice numbers found are used,
+which may be global to the score.)",
+        "createVoicesStaffRelativeNumbers",
+        fCreateVoicesStaffRelativeNumbers));
+}
+
+void msrOah::initializeMsrHarmoniesOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup subGroup =
+    oahSubGroup::create (
+      "Harmonies",
+      "hmsrh", "help-msr-harmonies",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // show harmony voices
+  // --------------------------------------
+
+  fShowHarmonyVoices = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "shv", "show-harmony-voices",
+R"(Show the parts harmony voices in the MSR data
+even though it does not contain music.)",
+        "showHarmonyVoices",
+        fShowHarmonyVoices));
+}
+
+void msrOah::initializeMsrFiguredBassOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup subGroup =
+    oahSubGroup::create (
+      "Figured bass",
+      "hmsrfb", "help-msr-figured-bass",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // show figured bass voices
+  // --------------------------------------
+
+  fShowFiguredBassVoices = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "sfbv", "show-figured-bass-voices",
+R"(Show the figured bass harmony voices in the MSR data
+even though they do not contain music.)",
+        "showFiguredBassVoices",
+        fShowFiguredBassVoices));
+}
+
 void msrOah::initializeMsrOah (
   bool boolOptionsInitialValue)
 {
@@ -520,6 +1027,34 @@ void msrOah::initializeMsrOah (
   // languages
   // --------------------------------------
   initializeMsrLanguagesOptions (
+    boolOptionsInitialValue);
+
+  // parts
+  // --------------------------------------
+
+  initializeMsrPartsOptions (
+    boolOptionsInitialValue);
+
+  // staves
+  // --------------------------------------
+  initializeMsrStavesOptions (
+    boolOptionsInitialValue);
+
+  // voices
+  // --------------------------------------
+  initializeMsrVoicesOptions (
+    boolOptionsInitialValue);
+
+  // harmonies
+  // --------------------------------------
+
+  initializeMsrHarmoniesOptions (
+    boolOptionsInitialValue);
+
+  // figured bass
+  // --------------------------------------
+
+  initializeMsrFiguredBassOptions (
     boolOptionsInitialValue);
 }
 
@@ -561,6 +1096,36 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
 
   clone->fMsrQuarterTonesPitchesLanguageKind =
     fMsrQuarterTonesPitchesLanguageKind;
+
+  // parts
+  // --------------------------------------
+
+  clone->fPartsRenamingMap =
+    fPartsRenamingMap;
+
+  // staves
+  // --------------------------------------
+
+  clone->fCreateSingleLineStavesAsRythmic =
+    fCreateSingleLineStavesAsRythmic;
+
+  // voices
+  // --------------------------------------
+
+  clone->fCreateVoicesStaffRelativeNumbers =
+    fCreateVoicesStaffRelativeNumbers;
+
+  // harmonies
+  // --------------------------------------
+
+  clone->fShowHarmonyVoices =
+    fShowHarmonyVoices;
+
+  // figured bass
+  // --------------------------------------
+
+  clone->fShowFiguredBassVoices =
+    fShowFiguredBassVoices;
 
   return clone;
 }
@@ -664,7 +1229,7 @@ void msrOah::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void msrOah::printMsrOahValues (int fieldWidth)
+void msrOah::printMsrOahValues (int valueFieldWidth)
 {
   gLogOstream <<
     "The MSR options are:" <<
@@ -682,30 +1247,30 @@ void msrOah::printMsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "traceMsr" << " : " <<
+    setw (valueFieldWidth) << "traceMsr" << " : " <<
     booleanAsString (fTraceMsr) <<
     endl <<
 
-    setw (fieldWidth) << "traceMsrVisitors" << " : " <<
+    setw (valueFieldWidth) << "traceMsrVisitors" << " : " <<
     booleanAsString (fTraceMsrVisitors) <<
     endl <<
 
-    setw (fieldWidth) << "displayPartGroups" << " : " <<
+    setw (valueFieldWidth) << "displayPartGroups" << " : " <<
     booleanAsString (fDisplayPartGroups) <<
     endl <<
 
-    setw (fieldWidth) << "displayMsr" << " : " <<
+    setw (valueFieldWidth) << "displayMsr" << " : " <<
     booleanAsString (fDisplayMsr) <<
     endl <<
-    setw (fieldWidth) << "displayMsrDetails" << " : " <<
+    setw (valueFieldWidth) << "displayMsrDetails" << " : " <<
     booleanAsString (fDisplayMsrDetails) <<
     endl <<
 
-    setw (fieldWidth) << "displayMsrNames" << " : " <<
+    setw (valueFieldWidth) << "displayMsrNames" << " : " <<
     booleanAsString (fDisplayMsrNames) <<
     endl <<
 
-    setw (fieldWidth) << "displayMsrSummary" << " : " <<
+    setw (valueFieldWidth) << "displayMsrSummary" << " : " <<
     booleanAsString (fDisplayMsrSummary) <<
     endl;
 
@@ -721,10 +1286,110 @@ void msrOah::printMsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
+    setw (valueFieldWidth) << "msrPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKind) <<
       "\"" <<
+    endl;
+
+  gIndenter--;
+
+  // parts
+  // --------------------------------------
+
+  gLogOstream <<
+     "Parts:" <<
+    endl;
+
+  gIndenter++;
+
+  // parts renaming
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "parts renaming" << " : ";
+
+  if (! fPartsRenamingMap.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      map<string, string>::const_iterator i =
+        fPartsRenamingMap.begin ();
+      i != fPartsRenamingMap.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << ((*i).first) << "\" -> \"" << ((*i).second) << "\"";
+    } // for
+  }
+
+  gLogOstream << endl;
+
+  gIndenter--;
+
+  // staves
+  // --------------------------------------
+
+  gLogOstream <<
+    "Staves:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) <<
+    "createSingleLineStavesAsRythmic" << " : " <<
+    booleanAsString (fCreateSingleLineStavesAsRythmic) <<
+    endl;
+
+  gIndenter--;
+
+  // voices
+  // --------------------------------------
+
+  gLogOstream <<
+    "Voices:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) <<
+    "createVoicesStaffRelativeNumbers" << " : " <<
+    booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
+    endl;
+
+  gIndenter--;
+
+  // harmonies
+  // --------------------------------------
+
+  gLogOstream <<
+    "Harmonies:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "showHarmonyVoices" << " : " <<
+    booleanAsString (fShowHarmonyVoices) <<
+    endl;
+
+  gIndenter--;
+
+  // figured bass
+  // --------------------------------------
+
+  gLogOstream <<
+    "Figured bass:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "showFiguredBassVoices" << " : " <<
+    booleanAsString (fShowFiguredBassVoices) <<
     endl;
 
   gIndenter--;

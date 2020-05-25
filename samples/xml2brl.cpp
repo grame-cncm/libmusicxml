@@ -71,20 +71,35 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2brlOahHandler
+  S_xml2brlOahHandler handler;
+
+  try {
     handler =
       xml2brlOahHandler::create (
         argv [0],
         gOutputOstream);
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
 
-  vector<string>
-    argumentsVector =
-      handler->
-        applyOptionsAndArgumentsFromArgcAndArgv (
-          argc, argv);
+  try {
+    handler->
+      applyOptionsAndArgumentsFromArgcAndArgv (
+        argc, argv);
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
 
   string
     inputSourceName =

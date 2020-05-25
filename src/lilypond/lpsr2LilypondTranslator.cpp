@@ -22,7 +22,6 @@
 #endif
 
 #include "mxmlTree2MsrOah.h"
-#include "msr2LpsrOah.h"
 #include "lpsr2LilypondOah.h"
 
 #include "lpsr2LilypondTranslator.h"
@@ -6929,14 +6928,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
     }
 #endif
 
-    if (gMsr2LpsrOah->fPartsTranspositionMap.size ()) {
+    if (gLpsr2LilypondOah->fPartsTranspositionMap.size ()) {
       // should we transpose fCurrentPart?
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
         it =
-          gMsr2LpsrOah->fPartsTranspositionMap.find (
+          gLpsr2LilypondOah->fPartsTranspositionMap.find (
             partName);
 
-      if (it != gMsr2LpsrOah->fPartsTranspositionMap.end ()) {
+      if (it != gLpsr2LilypondOah->fPartsTranspositionMap.end ()) {
         // partName is present in the map,
         // fetch the semitones pitch and octave
         S_msrSemiTonesPitchAndOctave
@@ -7023,7 +7022,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "\\with {" <<
       endl;
 
-    if (gMsr2LpsrOah->fAddStanzasNumbers) {
+    if (gLpsr2LilypondOah->fAddStanzasNumbers) {
       fLilypondCodeOstream <<
         gTab << "stanza = \"" <<
         stanza->getStanzaNumber () <<

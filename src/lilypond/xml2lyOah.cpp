@@ -704,42 +704,90 @@ or adding '.ly' if none is present.)",
   }
 
   // loop back to MusicXML
-  initializeXml2lyLoopOptions (false);
-}
+  // --------------------------------------
 
-void xml2lyOah::initializeXml2lyLoopOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Loop",
-        "hxml2lylo", "help-xml2ly-loopback-options",
-R"()",
+  {
+    S_oahSubGroup
+      subGroup =
+        oahSubGroup::create (
+          "Loop",
+          "hxml2lylo", "help-xml2ly-loopback-options",
+  R"()",
+          kElementVisibilityAlways,
+          this);
+
+    appendSubGroupToGroup (subGroup);
+
+    // '-loop' is hidden...
+
+    fLoopBackToMusicXML = false;
+
+    S_oahBooleanAtom
+      loopOptionsBooleanAtom =
+        oahBooleanAtom::create (
+          "loop", "loop-back-to-musicxml",
+  R"(Close the loop, generating a MusicXML file from the MSR.
+  The file name receives a '_LOOP.xml' suffix.
+  This is equivalent to using xml2xml)",
+          "loopBackToMusicXML",
+          fLoopBackToMusicXML);
+    loopOptionsBooleanAtom->
+      setIsHidden ();
+
+    subGroup->
+      appendAtomToSubGroup (
+        loopOptionsBooleanAtom);
+  }
+
+  // exit after some passes
+  // --------------------------------------
+
+  {
+    S_oahSubGroup
+      exitAfterSomePassesSubGroup =
+        oahSubGroup::create (
+          "Exit after some passes",
+          "hmexit", "help-msr-exit",
+  R"()",
         kElementVisibilityAlways,
         this);
 
-  appendSubGroupToGroup (subGroup);
+    appendSubGroupToGroup (exitAfterSomePassesSubGroup);
 
-  // '-loop' is hidden...
+    // exit after pass 2a
 
-  fLoopBackToMusicXML = boolOptionsInitialValue;
+    fExit2a = false;
 
-  S_oahBooleanAtom
-    loopOptionsBooleanAtom =
-      oahBooleanAtom::create (
-        "loop", "loop-back-to-musicxml",
-R"(Close the loop, generating a MusicXML file from the MSR.
-The file name receives a '_LOOP.xml' suffix.
-This is equivalent to using xml2xml)",
-        "loopBackToMusicXML",
-        fLoopBackToMusicXML);
-  loopOptionsBooleanAtom->
-    setIsHidden ();
+    S_oahBooleanAtom
+      exit2aOahBooleanAtom =
+        oahBooleanAtom::create (
+          "e2a", "exit-2a",
+  R"(Exit after pass 2a, i.e. after conversion
+  of the MusicXML tree to an MSR skeleton.)",
+          "exit2a",
+          fExit2a);
 
-  subGroup->
-    appendAtomToSubGroup (
-      loopOptionsBooleanAtom);
+    exitAfterSomePassesSubGroup->
+      appendAtomToSubGroup (
+        exit2aOahBooleanAtom);
+
+    // exit after pass 2b
+
+    fExit2b = false;
+
+    S_oahBooleanAtom
+      exit2bOahBooleanAtom =
+        oahBooleanAtom::create (
+          "e2b", "exit-2b",
+  R"(Exit after pass 2b, i.e. after conversion
+  of the MusicXML tree to MSR.)",
+          "exit2b",
+          fExit2b);
+
+    exitAfterSomePassesSubGroup->
+      appendAtomToSubGroup (
+        exit2bOahBooleanAtom);
+  }
 }
 
 //______________________________________________________________________________
@@ -764,6 +812,10 @@ void xml2lyOah::printXml2lyOahValues (int fieldWidth)
     setw (fieldWidth) << "lilyPondOutputFileName" << " : \"" <<
     fLilyPondOutputFileName <<
     "\"" <<
+    endl <<
+    setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
+    booleanAsString (fAutoOutputFileName) <<
+    "\"" <<
     endl;
 
   gIndenter--;
@@ -780,6 +832,25 @@ void xml2lyOah::printXml2lyOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "loopToMusicXML" << " : " <<
     booleanAsString (fLoopBackToMusicXML) <<
+    endl;
+
+  gIndenter--;
+
+  // exit after some passes
+  // --------------------------------------
+
+  gLogOstream <<
+    "Exit after some passes:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "exit2a" << " : " <<
+    booleanAsString (fExit2a) <<
+    endl <<
+    setw (fieldWidth) << "exit2b" << " : " <<
+    booleanAsString (fExit2b) <<
     endl;
 
   gIndenter--;

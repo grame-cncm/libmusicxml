@@ -349,38 +349,6 @@ void xml2xmlOahHandler::checkOptionsAndArguments ()
     // keep potentialOutputFileName
     gXml2xmlOah->fMusicXMLOutputFileName = potentialOutputFileName;
   }
-
-  // check auto output file option usage
-  // ------------------------------------------------------
-
-  if (gXml2xmlOah->fAutoOutputFileName) {
-    if (gXml2xmlOah->fMusicXMLOutputFileName.size ()) {
-      stringstream s;
-
-      s <<
-        "options '-aofn, -auto-output-file-name' and '-o, -output-file-name'"  <<
-        endl <<
-        "cannot be chosen simultaneously";
-
-      oahError (s.str ());
-    }
-
-    else if (gOahOah->fInputSourceName == "-") {
-      stringstream s;
-
-      s <<
-        "option '-aofn, -auto-output-file-name'"  <<
-        endl <<
-        "cannot be used when reading from standard input";
-
-      oahError (s.str ());
-    }
-
-    else {
-      gXml2xmlOah->fMusicXMLOutputFileName =
-        potentialOutputFileName;
-    }
-  }
 }
 
 //______________________________________________________________________________
@@ -673,6 +641,8 @@ R"()",
 
     // output filename
 
+    fMusicXMLOutputFileName = "foo.xml"; // JMI TEMP
+
     outputFileSubGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
@@ -681,23 +651,56 @@ R"(Write MusicXML code to file FILENAME instead of standard output.)",
           "FILENAME",
           "musicXMLOutputFileName",
           fMusicXMLOutputFileName));
+  }
 
-    // auto output filename
+  // exit after some passes
+  // --------------------------------------
 
-    fAutoOutputFileName = false;
+  {
+    S_oahSubGroup
+      exitAfterSomePassesSubGroup =
+        oahSubGroup::create (
+          "Exit after some passes",
+          "hmexit", "help-msr-exit",
+  R"()",
+        kElementVisibilityAlways,
+        this);
 
-    outputFileSubGroup->
-      appendAtomToSubGroup (
+    appendSubGroupToGroup (exitAfterSomePassesSubGroup);
+
+    // exit after pass 2a
+
+    fExit2a = false;
+
+    S_oahBooleanAtom
+      exit2aOahBooleanAtom =
         oahBooleanAtom::create (
-          "aofn", "auto-output-file-name",
-R"(This option can only be used when reading from a file.
-Write MusicXML code to a file in the current working directory.
-The file name is derived from that of the input file,
-adding '_LOOP' to the file name and
-replacing any suffix after the the '.' by 'xml'
-or adding '.xml' if none is present.)",
-          "autoOutputFileName",
-          fAutoOutputFileName));
+          "e2a", "exit-2a",
+  R"(Exit after pass 2a, i.e. after conversion
+  of the MusicXML tree to an MSR skeleton.)",
+          "exit2a",
+          fExit2a);
+
+    exitAfterSomePassesSubGroup->
+      appendAtomToSubGroup (
+        exit2aOahBooleanAtom);
+
+    // exit after pass 2b
+
+    fExit2b = false;
+
+    S_oahBooleanAtom
+      exit2bOahBooleanAtom =
+        oahBooleanAtom::create (
+          "e2b", "exit-2b",
+  R"(Exit after pass 2b, i.e. after conversion
+  of the MusicXML tree to MSR.)",
+          "exit2b",
+          fExit2b);
+
+    exitAfterSomePassesSubGroup->
+      appendAtomToSubGroup (
+        exit2bOahBooleanAtom);
   }
 }
 

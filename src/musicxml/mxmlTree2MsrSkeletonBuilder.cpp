@@ -3573,7 +3573,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 
   // are there harmonies attached to the current note?
   if (fThereAreHarmoniesToBeAttachedToCurrentNote) {
-    if (gMsr2LpsrOah->fOmitHarmonies) {
+    if (gMxmlTree2MsrOah->fOmitHarmonies) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceHarmonies) {
         fLogOutputStream <<
@@ -3607,7 +3607,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
 
   // are there figured bass attached to the current note?
   if (fThereAreFiguredBassToBeAttachedToCurrentNote) {
-    if (gMsr2LpsrOah->fOmitFiguredBasses) {
+    if (gMxmlTree2MsrOah->fOmitFiguredBasses) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceFiguredBasses) {
         fLogOutputStream <<
@@ -3778,7 +3778,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
   }
 #endif
 
-  if (! gMsr2LpsrOah->fOmitLyrics) {
+  if (! gMxmlTree2MsrOah->fOmitLyrics) {
     // create current voice if need be
     S_msrVoice
       currentVoice =

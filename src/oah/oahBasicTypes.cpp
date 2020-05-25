@@ -9260,15 +9260,15 @@ ostream& operator<< (ostream& os, const S_oahGroup& elt)
 //______________________________________________________________________________
 /* JMI
 S_oahHandler oahHandler::create (
-  string           handlerHeader,
-  string           handlerValuesHeader,
-  string           handlerShortName,
-  string           handlerLongName,
-  string           handlerSummaryShortName,
-  string           handlerSummaryLongName,
-  string           handlerPreamble,
-  string           handlerUsage,
-  string           handlerDescription,
+  string   handlerHeader,
+  string   handlerValuesHeader,
+  string   handlerShortName,
+  string   handlerLongName,
+  string   handlerSummaryShortName,
+  string   handlerSummaryLongName,
+  string   handlerPreamble,
+  string   handlerUsage,
+  string   handlerDescription,
   ostream& handlerLogOstream)
 {
   oahHandler* o = new
@@ -9289,15 +9289,15 @@ S_oahHandler oahHandler::create (
 */
 
 oahHandler::oahHandler (
-  string           handlerHeader,
-  string           handlerValuesHeader,
-  string           handlerShortName,
-  string           handlerLongName,
-  string           handlerSummaryShortName,
-  string           handlerSummaryLongName,
-  string           handlerPreamble,
-  string           handlerUsage,
-  string           handlerDescription,
+  string   handlerHeader,
+  string   handlerValuesHeader,
+  string   handlerShortName,
+  string   handlerLongName,
+  string   handlerSummaryShortName,
+  string   handlerSummaryLongName,
+  string   handlerPreamble,
+  string   handlerUsage,
+  string   handlerDescription,
   ostream& handlerLogOstream)
   : oahElement (
       handlerShortName,
@@ -11061,7 +11061,7 @@ string oahHandler::decipherOption (
   return currentOptionName;
 }
 
-const vector<string> oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
+void oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
   int   argc,
   char* argv[])
 {
@@ -11256,9 +11256,6 @@ const vector<string> oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
       commandLineWithShortNamesAsString ();
   gOahOah->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
-
-  // return arguments vector for handling by caller
-  return fHandlerArgumentsVector;
 }
 
 void oahHandler::decipherOptionAndValue (

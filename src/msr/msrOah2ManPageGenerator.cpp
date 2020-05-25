@@ -90,50 +90,6 @@ void msrOah2ManPageGenerator::visitEnd (S_msrRenamePartAtom& elt)
 }
 
 //________________________________________________________________________
-void msrOah2ManPageGenerator::visitStart (S_msrTransposePartAtom& elt)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    fOah2ManPageLogOstream <<
-      endl <<
-      ".\\\" --> Start visiting msrTransposePartAtom" <<
-      " \"" << elt->fetchNames () << "\"" <<
-      endl;
-  }
-#endif
-/*
-  fOah2ManPageOutputStream <<
-    ".HP" <<
-    endl <<
-    "\\fB\\-" <<
-    regex_replace (elt->getShortName (), "-", "\\-") <<
-    "\\fR, " <<
-    "\\fB\\-" <<
-    regex_replace (elt->getLongName (), "-", "\\-") <<
-    "\\fR, " <<
-    endl <<
-
-    ".IP" <<
-    endl <<
-    elt->getDescription () <<
-    endl;
-    */
-}
-
-void msrOah2ManPageGenerator::visitEnd (S_msrTransposePartAtom& elt)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    fOah2ManPageLogOstream <<
-      endl <<
-      ".\\\" --> End visiting msrTransposePartAtom" <<
-      " \"" << elt->fetchNames () << "\"" <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
 void msrOah2ManPageGenerator::visitStart (S_msrOmitPartAtom& elt)
 {
 #ifdef TRACE_OAH
