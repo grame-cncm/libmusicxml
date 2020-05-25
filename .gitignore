@@ -6,7 +6,8 @@ xcode/
 *.wasm
 *.ly
 *.log
-
+*.mid
+*.midi
 
 build/libmusicxml2*
 build/android/libs
