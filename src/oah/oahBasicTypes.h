@@ -3011,33 +3011,24 @@ typedef SMARTP<oahGroup> S_oahGroup;
 EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
 
 //_______________________________________________________________________________
-class EXP oahGroupsList : public oahElement
+class EXP oahGroupsList : public smartable
 {
     // data types
     // ------------------------------------------------------
 
-    enum oahOptionsDefaultValuesStyle {
-        kGNUStyle,
-        kOAHStyle };
+    enum oahGroupsListKind {
+        kUser,
+        kInternal };
 
-    static string optionsDefaultValuesStyleAsString (
-      oahOptionsDefaultValuesStyle optionsDefaultValuesStyle);
+    static string groupsListKindAsString (
+      oahGroupsListKind groupsListKind);
 
   public:
 
     // creation
     // ------------------------------------------------------
     static SMARTP<oahGroupsList> create (
-      string   handlerHeader,
-      string   handlerValuesHeader,
-      string   optionHoahHandlerandlerHelpShortName,
-      string   handlerLongName,
-      string   handlerSummaryShortName,
-      string   handlerSummaryLongName,
-      string   handlerPreamble,
-      string   handlerUsage,
-      string   handlerDescription,
-      ostream& handlerLogOstream);
+      oahGroupsListKind groupsListKind);
 
   protected:
 
@@ -3045,16 +3036,7 @@ class EXP oahGroupsList : public oahElement
     // ------------------------------------------------------
 
     oahGroupsList (
-      string   handlerHeader,
-      string   handlerValuesHeader,
-      string   handlerShortName,
-      string   handlerLongName,
-      string   handlerSummaryShortName,
-      string   handlerSummaryLongName,
-      string   handlerPreamble,
-      string   handlerUsage,
-      string   handlerDescription,
-      ostream& handlerLogOstream);
+      oahGroupsListKind groupsListKind);
 
     virtual ~oahGroupsList ();
 
@@ -3068,10 +3050,14 @@ class EXP oahGroupsList : public oahElement
     // print
     // ------------------------------------------------------
 
+    void                  print (ostream& os) const;
+
   private:
 
     // fields
     // ------------------------------------------------------
+
+    oahGroupsListKind     fGroupsListKind;
 
     list<S_oahGroup>      fGroupsList;
 

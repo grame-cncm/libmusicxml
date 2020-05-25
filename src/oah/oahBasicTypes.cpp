@@ -9258,6 +9258,86 @@ ostream& operator<< (ostream& os, const S_oahGroup& elt)
 }
 
 //______________________________________________________________________________
+string oahGroupsList::groupsListKindAsString (
+  oahGroupsListKind groupsListKind)
+{
+  string result;
+
+  switch (groupsListKind) {
+    case oahGroupsList::kUser:
+      result = "user";
+      break;
+    case oahGroupsList::kInternal:
+      result = "internal";
+      break;
+  } // switch
+
+  return result;
+}
+
+S_oahGroupsList oahGroupsList::create (
+  oahGroupsListKind groupsListKind)
+{
+  oahGroupsList* o = new
+    oahGroupsList (
+      groupsListKind);
+  assert(o!=0);
+  return o;
+}
+
+oahGroupsList::oahGroupsList (
+  oahGroupsListKind groupsListKind)
+{
+  fGroupsListKind = groupsListKind;
+}
+
+oahGroupsList::~oahGroupsList ()
+{}
+
+void oahGroupsList::print (ostream& os) const
+{
+  os <<
+    "GroupsList:" <<
+    endl;
+
+  gIndenter++;
+
+  os <<
+    "GroupsList (" <<
+    singularOrPlural (
+      fGroupsList.size (), "element",  "elements") <<
+    "):" <<
+    endl;
+
+  if (fGroupsList.size ()) {
+    os << endl;
+
+    gIndenter++;
+
+    list<S_oahGroup>::const_iterator
+      iBegin = fGroupsList.begin (),
+      iEnd   = fGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options subgroup
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_oahGroupsList& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 /* JMI
 S_oahHandler oahHandler::create (
   string   handlerHeader,
