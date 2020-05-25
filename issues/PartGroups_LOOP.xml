@@ -1,0 +1,1135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN"
+			"http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+    <!-- ===== Created by xml2ly 0.93 on Tuesday 2020-03-24 @ 08:45:26 CET from partgroups/PartGroups.xml ===== -->
+    <movement-title>Prelude to a Tragedy</movement-title>
+    <identification>
+        <rights>© 2004 Polygames.     All Rights Reserved.</rights>
+        <encoding>
+            <software>xml2ly 0.93, https://github.com/dfober/libmusicxml/tree/lilypond</software>
+            <encoding-date>2020-03-24</encoding-date>
+            <software>Finale 2005 for Windows</software>
+            <software>Dolet 4.0 Beta 4 for Finale</software>
+        </encoding>
+    </identification>
+    <defaults>
+        <scaling>
+            <millimeters>3.9956</millimeters>
+            <tenths>40</tenths>
+        </scaling>
+        <page-layout>
+            <page-height>3560</page-height>
+            <page-width>2797</page-width>
+            <page-margins type="odd">
+                <left-margin>177</left-margin>
+                <right-margin>79</right-margin>
+                <top-margin>127</top-margin>
+                <bottom-margin>45</bottom-margin>
+            </page-margins>
+            <page-margins type="even">
+                <left-margin>141</left-margin>
+                <right-margin>115</right-margin>
+                <top-margin>127</top-margin>
+                <bottom-margin>45</bottom-margin>
+            </page-margins>
+        </page-layout>
+        <system-layout>
+            <system-margins>
+                <left-margin>150</left-margin>
+                <right-margin>0</right-margin>
+            </system-margins>
+        </system-layout>
+    </defaults>
+    <credit page="1">
+        <credit-words font-size="20" justify="center" valign="top" xml:lang="it">Prelude to a Tragedy</credit-words>
+    </credit>
+    <credit page="1">
+        <credit-words font-size="7.8" justify="right" valign="top" xml:lang="it">Lee Actor (2003)</credit-words>
+    </credit>
+    <credit page="1">
+        <credit-words font-size="7.8" justify="center" valign="bottom" xml:lang="it">© 2004 Polygames.     All Rights Reserved.</credit-words>
+    </credit>
+    <part-list>
+        <!-- ========== PartGroup_2 ('1', partGroupName "") START, line 76 ========== -->
+        <part-group number="1" type="start">
+            <group-symbol default-x="-7">bracket</group-symbol>
+            <group-barline>yes</group-barline>
+        </part-group>
+        <score-part id="P1">
+            <part-name>Piccolo</part-name>
+            <part-abbreviation>Picc.</part-abbreviation>
+        </score-part>
+        <!-- ========== PartGroup_3 ('2', partGroupName "1
+2") START, line 91 ========== -->
+        <part-group number="2" type="start">
+            <group-name>1
+2</group-name>
+            <group-barline>yes</group-barline>
+        </part-group>
+        <score-part id="P2">
+            <part-name>Flutes</part-name>
+            <part-abbreviation>Fl.</part-abbreviation>
+        </score-part>
+        <!-- ========== PartGroup_3 ('2', partGroupName "1
+2") END, line 91 ========== -->
+        <part-group number="2" type="stop"/>
+        <!-- ========== PartGroup_4 ('2', partGroupName "1
+2") START, line 108 ========== -->
+        <part-group number="2" type="start">
+            <group-name>1
+2</group-name>
+            <group-barline>yes</group-barline>
+        </part-group>
+        <score-part id="P3">
+            <part-name>Oboes</part-name>
+            <part-abbreviation>Ob.</part-abbreviation>
+        </score-part>
+        <!-- ========== PartGroup_4 ('2', partGroupName "1
+2") END, line 108 ========== -->
+        <part-group number="2" type="stop"/>
+        <score-part id="P4">
+            <part-name>English Horn</part-name>
+            <part-abbreviation>E. H.</part-abbreviation>
+        </score-part>
+        <!-- ========== PartGroup_5 ('2', partGroupName "1
+2") START, line 136 ========== -->
+        <part-group number="2" type="start">
+            <group-name>1
+2</group-name>
+            <group-barline>yes</group-barline>
+        </part-group>
+        <score-part id="P5">
+            <part-name>Clarinets in Bb</part-name>
+            <part-abbreviation>Cl.</part-abbreviation>
+        </score-part>
+        <!-- ========== PartGroup_5 ('2', partGroupName "1
+2") END, line 136 ========== -->
+        <part-group number="2" type="stop"/>
+        <score-part id="P6">
+            <part-name>Bass Clarinet in Bb</part-name>
+            <part-abbreviation>B. Cl.</part-abbreviation>
+        </score-part>
+        <!-- ========== PartGroup_6 ('2', partGroupName "1
+2") START, line 164 ========== -->
+        <part-group number="2" type="start">
+            <group-name>1
+2</group-name>
+            <group-barline>yes</group-barline>
+        </part-group>
+        <score-part id="P7">
+            <part-name>Bassoons</part-name>
+            <part-abbreviation>Bsn.</part-abbreviation>
+        </score-part>
+        <!-- ========== PartGroup_6 ('2', partGroupName "1
+2") END, line 164 ========== -->
+        <part-group number="2" type="stop"/>
+        <!-- ========== PartGroup_2 ('1', partGroupName "") END, line 76 ========== -->
+        <part-group number="1" type="stop"/>
+    </part-list>
+    <!-- ============================ PART "P1", line 0 ============================= -->
+    <part id="P1">
+        <!-- ==================== Segment 1 START, line 185 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 185 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <direction placement="above">
+                <direction-type>
+                    <metronome parentheses="yes">
+                        <beat-unit>quarter</beat-unit>
+                        <per-minute>85</per-minute>
+                    </metronome>
+                </direction-type>
+            </direction>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 250 ===== -->
+        <measure number="2">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 264 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 4, line 272 ===== -->
+        <measure number="4">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 5, line 286 ===== -->
+        <measure number="5">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 6, line 300 ===== -->
+        <measure number="6">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 7, line 314 ===== -->
+        <measure number="7">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <direction>
+                <direction-type>
+                    <dynamics>
+                        <p/>
+                    </dynamics>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>3</duration>
+                <type>half</type>
+                <dot/>
+                <stem>down</stem>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 8, line 342 ===== -->
+        <measure number="8">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>half</type>
+                <stem>down</stem>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+            </note>
+        </measure>
+        <!-- ==================== Segment 1 END, line 185 ==================== -->
+    </part>
+    <!-- ============================ PART "P2", line 0 ============================= -->
+    <part id="P2">
+        <!-- ==================== Segment 2 START, line 370 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 370 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 401 ===== -->
+        <measure number="2">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 415 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 4, line 423 ===== -->
+        <measure number="4">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 5, line 437 ===== -->
+        <measure number="5">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 6, line 451 ===== -->
+        <measure number="6">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 7, line 465 ===== -->
+        <measure number="7">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <direction>
+                <direction-type>
+                    <dynamics>
+                        <p/>
+                    </dynamics>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>3</duration>
+                <type>half</type>
+                <dot/>
+                <stem>down</stem>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>6</octave>
+                </pitch>
+                <duration>3</duration>
+                <type>half</type>
+                <dot/>
+                <accidental>sharp</accidental>
+                <stem>down</stem>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 8, line 517 ===== -->
+        <measure number="8">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <direction placement="below">
+                <direction-type>
+                    <wedge type="crescendo"/>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>half</type>
+                <stem>down</stem>
+                <notations>
+                    <tied type="stop"/>
+                </notations>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>6</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>half</type>
+                <stem>down</stem>
+                <notations>
+                    <tied type="stop"/>
+                </notations>
+            </note>
+        </measure>
+        <!-- ==================== Segment 2 END, line 370 ==================== -->
+    </part>
+    <!-- ============================ PART "P3", line 0 ============================= -->
+    <part id="P3">
+        <!-- ==================== Segment 3 START, line 565 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 565 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <direction>
+                <direction-type>
+                    <wedge type="stop"/>
+                </direction-type>
+            </direction>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 596 ===== -->
+        <measure number="2">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 610 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 4, line 618 ===== -->
+        <measure number="4">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 5, line 632 ===== -->
+        <measure number="5">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 6, line 646 ===== -->
+        <measure number="6">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 7, line 660 ===== -->
+        <measure number="7">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <direction>
+                <direction-type>
+                    <dynamics>
+                        <p/>
+                    </dynamics>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>3</duration>
+                <type>half</type>
+                <dot/>
+                <stem>down</stem>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>D</step>
+                    <octave>6</octave>
+                </pitch>
+                <duration>3</duration>
+                <type>half</type>
+                <dot/>
+                <stem>down</stem>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 8, line 710 ===== -->
+        <measure number="8">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <direction placement="below">
+                <direction-type>
+                    <wedge type="crescendo"/>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>half</type>
+                <stem>down</stem>
+                <notations>
+                    <tied type="stop"/>
+                </notations>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>D</step>
+                    <octave>6</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>half</type>
+                <stem>down</stem>
+                <notations>
+                    <tied type="stop"/>
+                </notations>
+            </note>
+        </measure>
+        <!-- ==================== Segment 3 END, line 565 ==================== -->
+    </part>
+    <!-- ============================ PART "P4", line 0 ============================= -->
+    <part id="P4">
+        <!-- ==================== Segment 4 START, line 757 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 757 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <direction>
+                <direction-type>
+                    <wedge type="stop"/>
+                </direction-type>
+            </direction>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 792 ===== -->
+        <measure number="2">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 806 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 4, line 814 ===== -->
+        <measure number="4">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 5, line 828 ===== -->
+        <measure number="5">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 6, line 842 ===== -->
+        <measure number="6">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 7, line 856 ===== -->
+        <measure number="7">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 8, line 870 ===== -->
+        <measure number="8">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ==================== Segment 4 END, line 757 ==================== -->
+    </part>
+    <!-- ============================ PART "P5", line 0 ============================= -->
+    <part id="P5">
+        <!-- ==================== Segment 5 START, line 887 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 887 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 917 ===== -->
+        <measure number="2">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 931 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 4, line 939 ===== -->
+        <measure number="4">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 5, line 953 ===== -->
+        <measure number="5">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 6, line 967 ===== -->
+        <measure number="6">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 7, line 981 ===== -->
+        <measure number="7">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <direction>
+                <direction-type>
+                    <dynamics>
+                        <p/>
+                    </dynamics>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>C</step>
+                    <alter>1</alter>
+                    <octave>6</octave>
+                </pitch>
+                <duration>3</duration>
+                <type>half</type>
+                <dot/>
+                <accidental>sharp</accidental>
+                <stem>down</stem>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>E</step>
+                    <octave>6</octave>
+                </pitch>
+                <duration>3</duration>
+                <type>half</type>
+                <dot/>
+                <stem>down</stem>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 8, line 1033 ===== -->
+        <measure number="8">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <direction placement="below">
+                <direction-type>
+                    <wedge type="crescendo"/>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>C</step>
+                    <alter>1</alter>
+                    <octave>6</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>half</type>
+                <stem>down</stem>
+                <notations>
+                    <tied type="stop"/>
+                </notations>
+            </note>
+            <note>
+                <chord/>
+                <pitch>
+                    <step>E</step>
+                    <octave>6</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>half</type>
+                <stem>down</stem>
+                <notations>
+                    <tied type="stop"/>
+                </notations>
+            </note>
+        </measure>
+        <!-- ==================== Segment 5 END, line 887 ==================== -->
+    </part>
+    <!-- ============================ PART "P6", line 0 ============================= -->
+    <part id="P6">
+        <!-- ==================== Segment 6 START, line 1081 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 1081 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <direction>
+                <direction-type>
+                    <wedge type="stop"/>
+                </direction-type>
+            </direction>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 1117 ===== -->
+        <measure number="2">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 1131 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 4, line 1139 ===== -->
+        <measure number="4">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 5, line 1153 ===== -->
+        <measure number="5">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 6, line 1167 ===== -->
+        <measure number="6">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 7, line 1181 ===== -->
+        <measure number="7">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 8, line 1195 ===== -->
+        <measure number="8">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ==================== Segment 6 END, line 1081 ==================== -->
+    </part>
+    <!-- ============================ PART "P7", line 0 ============================= -->
+    <part id="P7">
+        <!-- ==================== Segment 7 START, line 1212 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 1212 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>F</sign>
+                    <line>4</line>
+                </clef>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 1238 ===== -->
+        <measure number="2">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 1252 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 4, line 1260 ===== -->
+        <measure number="4">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 5, line 1274 ===== -->
+        <measure number="5">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 6, line 1288 ===== -->
+        <measure number="6">
+            <attributes>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 7, line 1302 ===== -->
+        <measure number="7">
+            <attributes>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>3</duration>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 8, line 1316 ===== -->
+        <measure number="8">
+            <attributes>
+                <time>
+                    <beats>2</beats>
+                    <beat-type>4</beat-type>
+                </time>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>2</duration>
+            </note>
+        </measure>
+        <!-- ==================== Segment 7 END, line 1212 ==================== -->
+    </part>
+</score-partwise>
