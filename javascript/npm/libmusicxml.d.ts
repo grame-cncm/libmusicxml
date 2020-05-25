@@ -24,6 +24,7 @@ interface libMusicXMLAdapter {
     musicxml2brailleVersionStr(): string;
 
 	string2guido (xml: string, generateBars: boolean): 	string;
+	xmlStringTranspose (xml: string, interval: number): string;
 	string2lily (xml: string, options: string): 	string;
 	string2braille (xml: string, options: string): 	string;
 }
