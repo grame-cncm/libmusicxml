@@ -146,16 +146,6 @@ foreach(folder ${SRCFOLDERS})
   set(HEADERS ${HEADERS} "${SRCDIR}/${folder}/*.h")    # add header files
 endforeach()
 
-
-if (LILY)
-	set(SRC ${SRC}  "${SRCDIR}/xml2ly/musicxml2lilypond.cpp")
-  set(HEADERS ${HEADERS} "${SRCDIR}/xml2ly/musicxml2lilypond.h")    # add header files
-endif()
-
-if (BRAILLE)
-	set(SRC ${SRC}  "${SRCDIR}/interface/xml2brl.cpp")
-endif()
-
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 

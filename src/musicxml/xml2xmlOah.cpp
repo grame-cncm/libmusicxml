@@ -386,7 +386,25 @@ void xml2xmlOah::enforceQuietness ()
 
 //______________________________________________________________________________
 void xml2xmlOah::checkOptionsConsistency ()
-{}
+{
+  if (! fMusicXMLOutputFileName.size ()) {
+    stringstream s;
+
+    s <<
+      "xml2xmlOah: a MusicXML output file name must be chosen with '-o, -output-file-name";
+
+    oahError (s.str ());
+  }
+
+  else if (fMusicXMLOutputFileName == gOahOah->fInputSourceName) {
+    stringstream s;
+
+    s <<
+      "\"" << fMusicXMLOutputFileName << "\" is both the input and output file name";
+
+    oahError (s.str ());
+  }
+}
 
 //______________________________________________________________________________
 void xml2xmlOah::acceptIn (basevisitor* v)
@@ -641,7 +659,7 @@ R"()",
 
     // output filename
 
-    fMusicXMLOutputFileName = "foo.xml"; // JMI TEMP
+ //   fMusicXMLOutputFileName = "foo.xml"; // JMI TEMP
 
     outputFileSubGroup->
       appendAtomToSubGroup (

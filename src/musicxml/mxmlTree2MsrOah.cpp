@@ -757,7 +757,7 @@ mxmlTree2MsrOah::~mxmlTree2MsrOah ()
 {}
 
 #ifdef TRACE_OAH
-void mxmlTree2MsrOah::initializeMxmlTree2MsrTraceOah (
+void mxmlTree2MsrOah::initializeTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -817,7 +817,7 @@ R"()",
 }
 #endif
 
-void mxmlTree2MsrOah::initializeMxmlTree2MsrHeaderOptions (
+void mxmlTree2MsrOah::initializeHeaderOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -860,7 +860,93 @@ This is useful because LilyPond doesn't feature a 'lyricist' variable.)",
         fUseLyricistsAsPoets));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTree2MsrClefsKeysTimesOptions (
+void mxmlTree2MsrOah::initializePartsOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup subGroup =
+    oahSubGroup::create (
+      "Parts",
+      "hm2p", "help-msr-to-lpsr-parts",
+R"()",
+    kElementVisibilityAlways,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // MSR omit part ID
+  // --------------------------------------
+
+  fOmitPartIDAtom =
+    oahStringSetAtom::create (
+      "mopi", "msr-omit-part-id",
+R"(Omit part with ID PART_ID.
+There can be several occurrences of this option.
+All the parts not omitted are kept.
+This option is incompatible with '-mkpi, -msr-keep-part-id'.)",
+      "PART_ID",
+      "partsOmitIDSet",
+      fPartsOmitIDSet);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fOmitPartIDAtom);
+
+  // MSR omit part name
+  // --------------------------------------
+
+  fOmitPartNameAtom =
+    oahStringSetAtom::create (
+      "mopn", "msr-omit-part-name",
+R"(Omit part named PART_NAME.
+There can be several occurrences of this option.
+All the parts not omitted are kept.
+This option is incompatible with '-mkpn, -msr-keep-part-name'.)",
+      "PART_NAME",
+      "partsOmitNameSet",
+      fPartsOmitNameSet);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fOmitPartNameAtom);
+
+  // MSR keep part ID
+  // --------------------------------------
+
+  fKeepPartIDAtom =
+    oahStringSetAtom::create (
+      "mkpi", "msr-keep-part-id",
+R"(Keep part with ID PART_ID.
+There can be several occurrences of this option.
+All the parts not kept are omitted.
+This option is incompatible with '-mopi, -msr-omit-part-id'.)",
+      "PART_ID",
+      "partsKeepIDSet",
+      fPartsKeepIDSet);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fKeepPartIDAtom);
+
+  // MSR keep part name
+  // --------------------------------------
+
+  fKeepPartNameAtom =
+    oahStringSetAtom::create (
+      "mkpn", "msr-keep-part-name",
+R"(Keep part named PART_NAME.
+There can be several occurrences of this option.
+All the parts not kept are omitted.
+This option is incompatible with '-mopn, -msr-omit-part-name'.)",
+      "PART_NAME",
+      "partsKeepNameSet",
+      fPartsKeepNameSet);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fKeepPartNameAtom);
+}
+
+void mxmlTree2MsrOah::initializeClefsKeysTimesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -997,7 +1083,7 @@ R"(Ignore times that are the same as the current one.)",
       fIgnoreRedundantTimesAtom);
 }
 
-void mxmlTree2MsrOah::initializeMxmlTree2MsrMeasuresOptions (
+void mxmlTree2MsrOah::initializeMeasuresOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1032,7 +1118,7 @@ This option can be used any number of times.)###",
         fAddEmptyMeasuresStringToIntMap));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTree2MsrNotesOptions (
+void mxmlTree2MsrOah::initializeNotesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1199,7 +1285,7 @@ R"(Don't create figured basses in the MSR.)",
         fOmitFiguredBasses));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTree2MsrWordsOptions (
+void mxmlTree2MsrOah::initializeWordsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1226,7 +1312,7 @@ R"(Convert words elements STRING to an MSR 'dal segno' element'.)",
         fConvertWordsToDalSegno));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTree2MsrDynamicsAndWedgesOptions (
+void mxmlTree2MsrOah::initializeDynamicsAndWedgesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1267,7 +1353,7 @@ R"(Ignore wedges placement and set it to 'below'.)",
         fAllWedgesBelow));
 }
 
-void mxmlTree2MsrOah::initializeMxmlTree2MsrCombinedOptionsOptions (
+void mxmlTree2MsrOah::initializeCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1319,47 +1405,50 @@ void mxmlTree2MsrOah::initializeMxmlTree2Msr (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OAH
-/* not used as of may 2020 JMI
   // trace
   // --------------------------------------
-  initializeMxmlTree2MsrTraceOah (
+  initializeTraceOah (
     boolOptionsInitialValue);
-*/
 #endif
 
   // header
   // --------------------------------------
-  initializeMxmlTree2MsrHeaderOptions (
+  initializeHeaderOptions (
+    boolOptionsInitialValue);
+
+  // parts
+  // --------------------------------------
+  initializePartsOptions (
     boolOptionsInitialValue);
 
   // clefs, keys, times
   // --------------------------------------
-  initializeMxmlTree2MsrClefsKeysTimesOptions (
+  initializeClefsKeysTimesOptions (
     boolOptionsInitialValue);
 
   // measures
   // --------------------------------------
-  initializeMxmlTree2MsrMeasuresOptions (
+  initializeMeasuresOptions (
     boolOptionsInitialValue);
 
   // notes
   // --------------------------------------
-  initializeMxmlTree2MsrNotesOptions (
+  initializeNotesOptions (
     boolOptionsInitialValue);
 
   // dynamics and wedges
   // --------------------------------------
-  initializeMxmlTree2MsrDynamicsAndWedgesOptions (
+  initializeDynamicsAndWedgesOptions (
     boolOptionsInitialValue);
 
   // words
   // --------------------------------------
-  initializeMxmlTree2MsrWordsOptions (
+  initializeWordsOptions (
     boolOptionsInitialValue);
 
   // combined options
   // --------------------------------------
-  initializeMxmlTree2MsrCombinedOptionsOptions (
+  initializeCombinedOptionsOptions (
     boolOptionsInitialValue);
 }
 
@@ -1382,6 +1471,19 @@ S_mxmlTree2MsrOah mxmlTree2MsrOah::createCloneWithDetailedTrace ()
 
   clone->fUseLyricistsAsPoets =
     fUseLyricistsAsPoets;
+
+  // parts
+  // --------------------------------------
+
+  clone->fPartsOmitIDSet =
+    fPartsOmitIDSet;
+  clone->fPartsKeepIDSet =
+    fPartsKeepIDSet;
+
+  clone->fPartsOmitNameSet =
+    fPartsOmitNameSet;
+  clone->fPartsKeepNameSet =
+    fPartsKeepNameSet;
 
   // clefs, keys, times
   // --------------------------------------
@@ -1498,7 +1600,43 @@ void mxmlTree2MsrOah::enforceQuietness ()
 //______________________________________________________________________________
 void mxmlTree2MsrOah::checkOptionsConsistency ()
 {
-  // JMI
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "Checking the consistency of mxmlTree2MsrOah group \"" <<
+      fGroupHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // JMI and if mixed ID and name options are used?
+
+  if (fPartsOmitIDSet.size () > 0 && fPartsKeepIDSet.size () > 0) {
+    stringstream s;
+
+    s <<
+      "options '" <<
+      fOmitPartIDAtom->fetchNames () <<
+      "' and '" <<
+      fKeepPartIDAtom->fetchNames () <<
+      "' are incompatible";
+
+    oahError (s.str ());
+  }
+
+  if (fPartsOmitNameSet.size () > 0 && fPartsKeepNameSet.size () > 0) {
+    stringstream s;
+
+    s <<
+      "options '" <<
+      fOmitPartNameAtom->fetchNames () <<
+      "' and '" <<
+      fKeepPartNameAtom->fetchNames () <<
+      "' are incompatible";
+
+    oahError (s.str ());
+  }
 }
 
 //______________________________________________________________________________
@@ -1591,6 +1729,100 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int valueFieldWidth)
     setw (valueFieldWidth) << "useLyricistsAsPoets" << " : " <<
       booleanAsString (fUseLyricistsAsPoets) <<
       endl;
+
+  gIndenter--;
+
+  // parts
+  // --------------------------------------
+
+  // parts
+  // --------------------------------------
+
+  // parts omitted IDs
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "parts omitted IDs" << " : ";
+
+  if (! fPartsOmitIDSet.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      set<string> ::const_iterator i =
+        fPartsOmitIDSet.begin ();
+      i != fPartsOmitIDSet.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << (*i) << "\" ";
+    } // for
+  }
+
+  // parts kept IDs
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "parts kept IDs" << " : ";
+
+  if (! fPartsKeepIDSet.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      set<string> ::const_iterator i =
+        fPartsKeepIDSet.begin ();
+      i != fPartsKeepIDSet.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << (*i) << "\" ";
+    } // for
+  }
+
+  // parts omitted names
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "parts omitted names" << " : ";
+
+  if (! fPartsOmitNameSet.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      set<string> ::const_iterator i =
+        fPartsOmitNameSet.begin ();
+      i != fPartsOmitNameSet.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << (*i) << "\" ";
+    } // for
+  }
+
+  // parts kept names
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "parts kept names" << " : ";
+
+  if (! fPartsKeepNameSet.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      set<string> ::const_iterator i =
+        fPartsKeepNameSet.begin ();
+      i != fPartsKeepNameSet.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << (*i) << "\" ";
+    } // for
+  }
+
+  gLogOstream << endl;
 
   gIndenter--;
 

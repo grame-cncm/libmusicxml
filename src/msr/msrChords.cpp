@@ -672,15 +672,13 @@ void msrChord::finalizeChord (
       "Finalizing chord '" <<
       asString () <<
       "', line " << inputLineNumber <<
+      endl <<
+      "fMeasureElementPositionInMeasure = " <<
+      endl <<
+      fMeasureElementPositionInMeasure <<
       endl;
   }
 #endif
-
-  gLogOstream <<
-    "fMeasureElementPositionInMeasure = " <<
-    endl <<
-    fMeasureElementPositionInMeasure <<
-    endl;
 
   // we can now set the position in measures for all the chord members
   setChordMembersPositionInMeasure (

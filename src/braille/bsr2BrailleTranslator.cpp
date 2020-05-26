@@ -14,7 +14,11 @@
 #include <cmath>
 #include <string>
 
+#include "messagesHandling.h"
+
 #include "bsr2BrailleTranslator.h"
+
+#include "oahOah.h"
 
 #include "mxmlTreeOah.h"
 #include "bsrOah.h"
@@ -64,7 +68,21 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
     case kBrailleOutputUTF16:
       switch (gBsr2BrailleOah->fByteOrderingKind) {
         case kByteOrderingNone:
-          // JMI ???
+          {
+            stringstream s;
+
+            s << "bsr2BrailleTranslator: " ;
+
+            string message = s.str ();
+
+            bsrInternalError (
+              gOahOah->fInputSourceName,
+              1, // JMI ???
+              __FILE__, __LINE__,
+              message);
+
+            throw msrScoreToBsrScoreException (message);
+          }
           break;
 
         case kByteOrderingBigEndian:
