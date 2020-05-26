@@ -2,23 +2,19 @@
 # Makefile for testing the libmusicxml library
 #
 
-system := $(shell uname -s)
-system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
-
 version ?= $(shell cat libmusicxmlversion.txt)
 
 xmlfiles                  = $(shell find ../files -name "*.xml")
-xmlfilesforlilyignored = $(shell find ../files -name "*.xml" | grep lilypond-ignored)
+xmllily                   = $(shell find ../files -name "*.xml" | grep -v lilypending)
 xmlfilesforlilyjianpu     = $(shell find ../files -name "*.xml" | grep jianpu)
 jianpuincludefilename     = "jianpu10a.ly"
 jianpuinclude             = $(shell find ../files -name $(jianpuincludefilename)")
 xmlfilesforbrl     		  = $(shell find ../files -name "*.xml" | grep braille)
 
-readout           := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
-gmnout            := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
-guidosvg          := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
-lilyignoredout    := $(patsubst ../%.xml, $(version)/lilyignored/%.ly, $(xmlfilesforlilyignored))
-lilyout           := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
+readout           := $(xmlfiles:../%.xml=$(version)/read/%.xml)
+gmnout            := $(xmlfiles:../%.xml=$(version)/gmn/%.gmn)
+guidosvg          := $(xmlfiles:../%.xml=$(version)/guidosvg/%.svg)
+lilyout           := $(xmllily:../%.xml=$(version)/lilypond/%.ly)
 lilypdf           := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(xmlfiles))
 lilypng           := $(patsubst ../%.xml, $(version)/lilypng/%.png, $(xmlfiles))
 lilymidi          := $(patsubst ../%.xml, $(version)/lilypdf/%.midi, $(xmlfiles))
@@ -27,15 +23,10 @@ lilyjianpupdf     := $(patsubst ../%.xml, $(version)/lilyjianpupdf/%.pdf, $(xmlf
 lilyjianpumidi    := $(patsubst ../%.xml, $(version)/lilyjianpupdf/%.midi, $(xmlfilesforlilyjianpu))
 brlout            := $(patsubst ../%.xml, $(version)/braille/%.brl, $(xmlfilesforbrl))
 
-validxml 	          = $(patsubst %.xml, %.outxml, $(readout))
-validgmn 	          = $(patsubst %.gmn, %.outgmn, $(gmnout))
-validlilyignored    = $(patsubst %.ly, %.outlilyignored, $(lilyignoredout))
+validxml 	        = $(patsubst %.xml, %.outxml, $(readout))
+validgmn 	        = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validlily 	        = $(patsubst %.ly, %.outly, $(lilyout))
-validguidosvg       = $(patsubst %.svg, %.outsvg, $(guidosvg))
-validlilypdf      	= $(patsubst %.pdf, %.outpdf, $(lilypdf))
-validlilypng      	= $(patsubst %.png, %.outpng, $(lilypng))
 validlilyjianpu     = $(patsubst %.ly, %.outlilyjianpu, $(lilyjianpuout))
-validlilyjianpupdf  = $(patsubst %.ly, %.outlilyjianpupdf, $(lilyjianpupdf))
 validbrl            = $(patsubst %.brl, %.outbrl, $(brlout))
 
 XML2GUIDO ?= xml2guido
@@ -50,12 +41,7 @@ MAKE      ?= make
 all:
 	$(MAKE) read
 	$(MAKE) guido
-	$(MAKE) lilyignored
 	$(MAKE) lily
-	$(MAKE) lilypdf
-	$(MAKE) lilypng
-	$(MAKE) lilyjianpu
-	$(MAKE) lilyjianpupdf
 #	$(MAKE) brl
 
 clean:
@@ -72,7 +58,7 @@ travis:
 	$(MAKE) guido
 
 trace:
-	@echo $(validxml)
+	@echo $(readout)
 
 help:
 	@echo "Makefile for testing the libmusicxml library output."
@@ -125,19 +111,6 @@ guidosvg:
 	$(MAKE) doguidosvg
 
 doguidosvg: $(guidosvg)
-
-#########################################################################
-lilyignored:
-	@echo "xmlfilesforlilyignored: " $(xmlfilesforlilyignored)
-	@echo "lilyignoredout: " $(lilyignoredout)
-	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
-	$(MAKE) dolilyignored
-
-dolilyignored: $(lilyignoredout)
-
-#########################################################################
-lilyignoredclean:
-	rm $(lilyignoredout)
 
 #########################################################################
 lily:
@@ -231,7 +204,6 @@ validate:
 	@echo Validating version $(version) with $(VERSION) $(tmp)
 	$(MAKE) validxml
 	$(MAKE) validgmn
-	$(MAKE) validlilyignored
 	$(MAKE) validlily
 	$(MAKE) validlilyjianpu
 #	$(MAKE) validbrl
@@ -239,8 +211,6 @@ validate:
 validxml: $(validxml)
 
 validgmn: $(validgmn)
-
-validlilyignored: $(validlilyignored)
 
 validlily: $(validlily)
 
