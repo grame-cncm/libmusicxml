@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN"
+			"http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+  <!-- ===== Created by xml2ly 0.93 on Thursday 2020-04-30 @ 06:30:52 CEST from backup/SimpleBackup.xml ===== -->
+  <movement-title>Backup not to 0 in second voice</movement-title>
+  <!-- ===== Identification ===== -->
+  <identification>
+    <encoding>
+      <software>xml2ly 0.93, https://github.com/dfober/libmusicxml/tree/lilypond</software>
+      <encoding-date>2020-04-30</encoding-date>
+    </encoding>
+  </identification>
+  <!-- ===== PART-LIST ===== -->
+  <part-list>
+    <score-part id="P1">
+      <part-name/>
+    </score-part>
+  </part-list>
+  <!-- ============================ PART "P1", line 0 ============================= -->
+  <part id="P1">
+    <!-- ==================== Segment 1 START, line 12 ==================== -->
+    <!-- ===== MEASURE ordinal number: 1, line 12 ===== -->
+    <measure number="1">
+      <!-- ===== Attributes  ===== -->
+      <attributes>
+        <divisions>1</divisions>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <time symbol="common">
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <!-- ===== Note, staff: 1, voice: 1, position: 0/1, sounding: 1/4, line 27 ===== -->
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>quarter</type>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 1/4, sounding: 1/4, line 36 ===== -->
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>quarter</type>
+      </note>
+      <!-- ===== Attributes  ===== -->
+      <attributes>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <time symbol="common">
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <!-- ===== Backup, backupDurationDivisions: 1, from staff: 1, to staff: 1, line 52 ===== -->
+      <backup>
+        <duration>1</duration>
+      </backup>
+      <!-- ===== Forward, forwardDurationDivisions: 1, in staff: 1, in voice: 2, line 52 ===== -->
+      <forward>
+        <duration>1</duration>
+        <voice>2</voice>
+        <staff>1</staff>
+      </forward>
+      <!-- ===== Note, staff: 1, voice: 2, position: 1/4, sounding: 1/4, line 52 ===== -->
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 2, position: 1/2, sounding: 1/4, line 61 ===== -->
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>2</voice>
+        <type>quarter</type>
+      </note>
+    </measure>
+    <!-- ==================== Segment 1 END, line 12 ==================== -->
+    <!-- ==================== Segment 2 START, line 12 ==================== -->
+    <!-- ==================== Segment 2 END, line 12 ==================== -->
+  </part>
+</score-partwise>

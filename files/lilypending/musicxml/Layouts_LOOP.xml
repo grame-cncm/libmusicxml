@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN"
+			"http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+  <!-- ===== Created by xml2ly 0.93 on Thursday 2020-04-23 @ 08:43:14 CEST from layouts/Layouts.xml ===== -->
+  <movement-title>越後獅子</movement-title>
+  <!-- ===== Identification ===== -->
+  <identification>
+    <rights>Transcription donated to the public domain, 2005 by Tom Potter</rights>
+    <encoding>
+      <software>xml2ly 0.93, https://github.com/dfober/libmusicxml/tree/lilypond</software>
+      <encoding-date>2020-04-23</encoding-date>
+      <software>Finale 2005 for Windows</software>
+      <software>Dolet 4.0 Beta 4 for Finale</software>
+    </encoding>
+  </identification>
+  <!-- ===== Defaults ===== -->
+  <defaults>
+    <scaling>
+      <millimeters>7.2319</millimeters>
+      <tenths>40</tenths>
+    </scaling>
+    <page-layout>
+      <page-height>1545</page-height>
+      <page-width>1194</page-width>
+      <page-margins type="both">
+        <left-margin>105</left-margin>
+        <right-margin>70</right-margin>
+        <top-margin>10</top-margin>
+        <bottom-margin>70</bottom-margin>
+      </page-margins>
+    </page-layout>
+    <system-layout>
+      <system-margins>
+        <left-margin>10</left-margin>
+        <right-margin>0</right-margin>
+      </system-margins>
+      <system-distance>93</system-distance>
+      <top-system-distance>93</top-system-distance>
+    </system-layout>
+    <appearance>
+      <line-width type="stemLineWidth">1.2457</line-width>
+      <line-width type="beam">4.2708</line-width>
+      <line-width type="staff">1.2457</line-width>
+      <line-width type="lightBarLineLineWidth">1.2457</line-width>
+      <line-width type="heavyBarLine">4.2708</line-width>
+      <line-width type="leger">1.2457</line-width>
+      <line-width type="ending">1.2457</line-width>
+      <line-width type="wedge">1.2457</line-width>
+      <line-width type="enclosure">1.2457</line-width>
+      <line-width type="tupletBracket">1.2457</line-width>
+      <note-size type="grace">60</note-size>
+      <note-size type="cue">60</note-size>
+      <distance type="hyphen">60</distance>
+      <distance type="beam">8</distance>
+      <glyph type="percussion-clef">unpitchedPercussionClef1</glyph>
+    </appearance>
+  </defaults>
+  <!-- ===== 5 Credits ===== -->
+  <credit page="1">
+    <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1124" default-y="1345" font-size="12" font-weight="bold" justify="right" valign="top" xml:lang="it">Arr. Y. Nagai , K. Kobatake</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="602" default-y="73" font-size="9" halign="center" valign="bottom" xml:lang="it">Transcription donated to the public domain, 2005 by Tom Potter</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="129" default-y="244" font-size="11" valign="top" xml:lang="it">Source: "Japanese Popular Music: a collection of the popular music of Japan rendered in to the
+staff notation", by Y. Nagai and K. Kobatake, 2nd ed., Osaka, S. Miki &amp; Co., 1892, pp. 96-97.
+
+Transcribed into Finale music notation by Tom Potter, 2005.  See http://www.daisyfield.com/music/
+Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.com/</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="607" default-y="1395" font-size="24" font-weight="bold" halign="center" valign="top" xml:lang="it">Echigo-Jishi</credit-words>
+  </credit>
+  <!-- ===== PART-LIST ===== -->
+  <part-list>
+    <score-part id="P1">
+      <part-name>MusicXML Part</part-name>
+    </score-part>
+  </part-list>
+  <!-- ============================ PART "P1", line 0 ============================= -->
+  <part id="P1">
+    <!-- ==================== Segment 1 START, line 96 ==================== -->
+    <!-- ===== MEASURE ordinal number: 1, line 96 ===== -->
+    <measure number="1">
+      <!-- ===== Print, line 96 ===== -->
+      <print>
+        <system-layout>
+          <system-margins>
+            <left-margin>69</left-margin>
+            <right-margin>0</right-margin>
+          </system-margins>
+          <top-system-distance>265</top-system-distance>
+        </system-layout>
+      </print>
+      <!-- ===== Attributes  ===== -->
+      <attributes>
+        <divisions>2</divisions>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <time>
+          <beats>2</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <!-- ===== Direction ===== -->
+      <direction placement="below">
+        <direction-type>
+          <metronome>
+            <beat-unit>quarter</beat-unit>
+            <per-minute>92</per-minute>
+          </metronome>
+        </direction-type>
+      </direction>
+      <!-- ===== Note, staff: 1, voice: 1, position: 0/1, sounding: 1/8, line 128 ===== -->
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 1/8, sounding: 1/8, line 139 ===== -->
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 1/4, sounding: 1/8, line 150 ===== -->
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 3/8, sounding: 1/8, line 161 ===== -->
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">end</beam>
+      </note>
+    </measure>
+    <!-- ===== MEASURE ordinal number: 2, line 174 ===== -->
+    <measure number="2">
+      <!-- ===== Note, staff: 1, voice: 1, position: 0/1, sounding: 1/4, line 175 ===== -->
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>2</duration>
+        <type>quarter</type>
+        <stem>down</stem>
+        <lyric number="1">
+          <syllabic>single</syllabic>
+          <text>Ahh</text>
+          <extend/>
+        </lyric>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 1/4, sounding: 1/8, line 190 ===== -->
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 3/8, sounding: 1/8, line 201 ===== -->
+      <note>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+    </measure>
+    <!-- ===== MEASURE ordinal number: 3, line 214 ===== -->
+    <measure number="3">
+      <!-- ===== Note, staff: 1, voice: 1, position: 0/1, sounding: 1/8, line 215 ===== -->
+      <note>
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <accidental>sharp</accidental>
+        <stem>down</stem>
+        <lyric number="1">
+          <syllabic>single</syllabic>
+          <text>　</text>
+        </lyric>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 1/8, sounding: 1/4, line 231 ===== -->
+      <note>
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>2</duration>
+        <type>quarter</type>
+        <stem>down</stem>
+        <lyric number="1">
+          <syllabic>single</syllabic>
+          <text>ニ</text>
+          <extend/>
+        </lyric>
+      </note>
+      <!-- ===== Note, staff: 1, voice: 1, position: 3/8, sounding: 1/8, line 247 ===== -->
+      <note>
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <type>eighth</type>
+        <stem>down</stem>
+      </note>
+    </measure>
+    <!-- ==================== Segment 1 END, line 96 ==================== -->
+  </part>
+</score-partwise>

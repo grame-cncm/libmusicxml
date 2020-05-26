@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN"
+			"http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+    <!-- ===== Created on Sunday 2020-03-01 @ 08:57:46 CET from basic/Anacrusis.xml ===== -->
+    <work>
+        <work-title>Anacrusis</work-title>
+    </work>
+    <identification>
+        <encoding>
+            <software>xml2ly 0.93, https://github.com/dfober/libmusicxml/tree/lilypond</software>
+            <encoding-date>2020-03-01</encoding-date>
+        </encoding>
+    </identification>
+    <part-list>
+        <score-part id="P1">
+            <part-name>Voice</part-name>
+        </score-part>
+    </part-list>
+    <!-- ============================ PART "P1" ============================= -->
+    <part id="P1">
+        <!-- ==================== Segment 1 START ==================== -->
+        <!-- ===== MEASURE ordinal number: 1 ===== -->
+        <measure number="0">
+            <attributes>
+                <divisions>2</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>3</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1</duration>
+                <type>eighth</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1</duration>
+                <type>eighth</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>2</divisions>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>quarter</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>quarter</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>C</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>quarter</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3 ===== -->
+        <measure number="2">
+            <attributes>
+                <divisions>2</divisions>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>C</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>half</type>
+            </note>
+            <note>
+                <rest/>
+                <duration>2</duration>
+                <type>quarter</type>
+            </note>
+            <barline location="right">
+                <bar-style>light-heavy</bar-style>
+            </barline>
+        </measure>
+        <!-- ==================== Segment 1 END ==================== -->
+    </part>
+</score-partwise>

@@ -59,7 +59,7 @@ static bool args2Options (const string& argsStr, optionsVector& options)
 {
 	vector<string> args;
 	string2StringsV (argsStr, args);
-cerr << "args2Options: vstring size: " << args.size() << endl;
+//cerr << "args2Options: vstring size: " << args.size() << endl;
 	string curOption;
 	for (auto str: args) {
 		if (curOption.empty()) {	// wait for option
@@ -101,14 +101,14 @@ static string options2String (const optionsVector& options)
 
 string	libMusicXMLAdapter::string2lily(const string& buff, const string& args)
 {
-cerr << "libMusicXMLAdapter::string2lily args: " << args << endl;
+//cerr << "libMusicXMLAdapter::string2lily args: " << args << endl;
 	stringstream sstr;
 	optionsVector options;
 	if (!args2Options (args, options)) {
 		cerr << "musicxmlstring2braille: bad option sequence: " << args << endl;
 		return "";
 	}
-cerr << "libMusicXMLAdapter::string2lily options: " << options.size() << ": " << options2String(options) << endl;
+//cerr << "libMusicXMLAdapter::string2lily options: " << options.size() << ": " << options2String(options) << endl;
 	return ::musicxmlstring2lilypond (buff.c_str(), options, sstr, cerr) ? "" : sstr.str();
 }
 
@@ -120,7 +120,7 @@ string	libMusicXMLAdapter::string2braille(const string& buff, const string& args
 		cerr << "musicxmlstring2braille: bad option sequence: " << args << endl;
 		return "";
 	}
-cerr << "libMusicXMLAdapter::musicxmlstring2braille options: " << options.size() << ": " << options2String(options)  << endl;
+//cerr << "libMusicXMLAdapter::musicxmlstring2braille options: " << options.size() << ": " << options2String(options)  << endl;
 	return ::musicxmlstring2braille (buff.c_str(), options, sstr, cerr) ? "" : sstr.str();
 }
 

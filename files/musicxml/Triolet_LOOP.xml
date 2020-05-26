@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN"
+			"http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+    <!-- ===== Created by xml2ly 0.93 on Thursday 2020-04-02 @ 08:55:07 CEST from tuplets/Triolet.xml ===== -->
+    <identification>
+        <encoding>
+            <software>xml2ly 0.93, https://github.com/dfober/libmusicxml/tree/lilypond</software>
+            <encoding-date>2020-04-02</encoding-date>
+            <software>Frescobaldi 2.18.1</software>
+        </encoding>
+    </identification>
+    <part-list>
+        <score-part id="P1">
+            <part-name/>
+        </score-part>
+    </part-list>
+    <!-- ============================ PART "P1", line 0 ============================= -->
+    <part id="P1">
+        <!-- ==================== Segment 1 START, line 17 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 17 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>3</divisions>
+                <time symbol="common">
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <!-- ===== Tuplet start , tupletFactor: 3/2, 3 elements, line 29 ===== -->
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet number="1" type="start"/>
+                </notations>
+            </note>
+            <note>
+                <rest/>
+                <duration>2</duration>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+            </note>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>2</duration>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet number="1" type="stop"/>
+                </notations>
+            </note>
+            <!-- ===== Tuplet end , tupletFactor: 3/2, tupletElementsList: 3 elements, line 29 ===== -->
+        </measure>
+        <!-- ==================== Segment 1 END, line 17 ==================== -->
+    </part>
+</score-partwise>
