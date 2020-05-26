@@ -917,12 +917,12 @@ msr2LpsrOah::~msr2LpsrOah ()
 {}
 
 #ifdef TRACE_OAH
-void msr2LpsrOah::initializeMsr2LpsrTraceOah (
+void msr2LpsrOah::initializeTraceOah (
   bool boolOptionsInitialValue)
 {}
 #endif
 
-void msr2LpsrOah::initializeMsr2LpsrScoreOutputOptions (
+void msr2LpsrOah::initializeScoreOutputOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -971,93 +971,7 @@ The default is 'DEFAULT_VALUE'.)",
         fScoreOutputKind));
 }
 
-void msr2LpsrOah::initializeMsr2LpsrPartsOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup subGroup =
-    oahSubGroup::create (
-      "Parts",
-      "hm2p", "help-msr-to-lpsr-parts",
-R"()",
-    kElementVisibilityAlways,
-    this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // MSR omit part ID
-  // --------------------------------------
-
-  fOmitPartIDAtom =
-    oahStringSetAtom::create (
-      "mopi", "msr-omit-part-id",
-R"(Omit part with ID PART_ID.
-There can be several occurrences of this option.
-All the parts not omitted are kept.
-This option is incompatible with '-mkpi, -msr-keep-part-id'.)",
-      "PART_ID",
-      "partsOmitIDSet",
-      fPartsOmitIDSet);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fOmitPartIDAtom);
-
-  // MSR omit part name
-  // --------------------------------------
-
-  fOmitPartNameAtom =
-    oahStringSetAtom::create (
-      "mopn", "msr-omit-part-name",
-R"(Omit part named PART_NAME.
-There can be several occurrences of this option.
-All the parts not omitted are kept.
-This option is incompatible with '-mkpn, -msr-keep-part-name'.)",
-      "PART_NAME",
-      "partsOmitNameSet",
-      fPartsOmitNameSet);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fOmitPartNameAtom);
-
-  // MSR keep part ID
-  // --------------------------------------
-
-  fKeepPartIDAtom =
-    oahStringSetAtom::create (
-      "mkpi", "msr-keep-part-id",
-R"(Keep part with ID PART_ID.
-There can be several occurrences of this option.
-All the parts not kept are omitted.
-This option is incompatible with '-mopi, -msr-omit-part-id'.)",
-      "PART_ID",
-      "partsKeepIDSet",
-      fPartsKeepIDSet);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fKeepPartIDAtom);
-
-  // MSR keep part name
-  // --------------------------------------
-
-  fKeepPartNameAtom =
-    oahStringSetAtom::create (
-      "mkpn", "msr-keep-part-name",
-R"(Keep part named PART_NAME.
-There can be several occurrences of this option.
-All the parts not kept are omitted.
-This option is incompatible with '-mopn, -msr-omit-part-name'.)",
-      "PART_NAME",
-      "partsKeepNameSet",
-      fPartsKeepNameSet);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fKeepPartNameAtom);
-}
-
-void msr2LpsrOah::initializeMsr2LpsrRepeatsOptions (
+void msr2LpsrOah::initializeRepeatsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1086,7 +1000,7 @@ By default, no such barline is added.)",
         fCreateImplicitInitialRepeatBarline));
 }
 
-void msr2LpsrOah::initializeMsr2LpsrNotesOptions (
+void msr2LpsrOah::initializeNotesOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1337,7 +1251,7 @@ R"(Add a beam to all grace notes)",
       beamAllGraceNotesAtom);
 }
 
-void msr2LpsrOah::initializeMsr2LpsrLyricsOptions (
+void msr2LpsrOah::initializeLyricsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup subGroup =
@@ -1358,33 +1272,28 @@ void msr2LpsrOah::initializeMsr2LpsrOah (
 #ifdef TRACE_OAH
   // trace
   // --------------------------------------
-  initializeMsr2LpsrTraceOah (
+  initializeTraceOah (
     boolOptionsInitialValue);
 #endif
 
   // score output kind
   // --------------------------------------
-  initializeMsr2LpsrScoreOutputOptions (
-    boolOptionsInitialValue);
-
-  // parts
-  // --------------------------------------
-  initializeMsr2LpsrPartsOptions (
+  initializeScoreOutputOptions (
     boolOptionsInitialValue);
 
   // repeats
   // --------------------------------------
-  initializeMsr2LpsrRepeatsOptions (
+  initializeRepeatsOptions (
     boolOptionsInitialValue);
 
   // notes
   // --------------------------------------
-  initializeMsr2LpsrNotesOptions (
+  initializeNotesOptions (
     boolOptionsInitialValue);
 
   // lyrics
   // --------------------------------------
-  initializeMsr2LpsrLyricsOptions (
+  initializeLyricsOptions (
     boolOptionsInitialValue);
 }
 
@@ -1404,19 +1313,6 @@ S_msr2LpsrOah msr2LpsrOah::createCloneWithDetailedTrace ()
 
   clone->fScoreOutputKind =
     fScoreOutputKind;
-
-  // parts
-  // --------------------------------------
-
-  clone->fPartsOmitIDSet =
-    fPartsOmitIDSet;
-  clone->fPartsKeepIDSet =
-    fPartsKeepIDSet;
-
-  clone->fPartsOmitNameSet =
-    fPartsOmitNameSet;
-  clone->fPartsKeepNameSet =
-    fPartsKeepNameSet;
 
   // repeats
   // --------------------------------------
@@ -1468,45 +1364,7 @@ void msr2LpsrOah::enforceQuietness ()
 
 //______________________________________________________________________________
 void msr2LpsrOah::checkOptionsConsistency ()
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "Checking the consistency of OAH group \"" <<
-      fGroupHeader <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  // JMI and if mixed ID and name options are used?
-
-  if (fPartsOmitIDSet.size () > 0 && fPartsKeepIDSet.size () > 0) {
-    stringstream s;
-
-    s <<
-      "options '" <<
-      fOmitPartIDAtom->fetchNames () <<
-      "' and '" <<
-      fKeepPartIDAtom->fetchNames () <<
-      "' are incompatible";
-
-    oahError (s.str ());
-  }
-
-  if (fPartsOmitNameSet.size () > 0 && fPartsKeepNameSet.size () > 0) {
-    stringstream s;
-
-    s <<
-      "options '" <<
-      fOmitPartNameAtom->fetchNames () <<
-      "' and '" <<
-      fKeepPartNameAtom->fetchNames () <<
-      "' are incompatible";
-
-    oahError (s.str ());
-  }
-}
+{}
 
 //______________________________________________________________________________
 void msr2LpsrOah::acceptIn (basevisitor* v)
@@ -1573,7 +1431,7 @@ void msr2LpsrOah::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void msr2LpsrOah::printMsr2LpsrOahValues (int fieldWidth)
+void msr2LpsrOah::printMsr2LpsrOahValues (int valueFieldWidth)
 {
   gLogOstream <<
     "The MusicXML options are:" <<
@@ -1591,100 +1449,9 @@ void msr2LpsrOah::printMsr2LpsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "scoreOutputKind" << " : " <<
+    setw (valueFieldWidth) << "scoreOutputKind" << " : " <<
     lpsrScoreOutputKindAsString (fScoreOutputKind) <<
     endl;
-
-  gIndenter--;
-
-  // parts
-  // --------------------------------------
-
-  // parts omitted IDs
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "parts omitted IDs" << " : ";
-
-  if (! fPartsOmitIDSet.size ()) {
-    gLogOstream <<
-      "none";
-  }
-  else {
-    for (
-      set<string> ::const_iterator i =
-        fPartsOmitIDSet.begin ();
-      i != fPartsOmitIDSet.end ();
-      i++
-  ) {
-        gLogOstream <<
-          "\"" << (*i) << "\" ";
-    } // for
-  }
-
-  // parts kept IDs
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "parts kept IDs" << " : ";
-
-  if (! fPartsKeepIDSet.size ()) {
-    gLogOstream <<
-      "none";
-  }
-  else {
-    for (
-      set<string> ::const_iterator i =
-        fPartsKeepIDSet.begin ();
-      i != fPartsKeepIDSet.end ();
-      i++
-  ) {
-        gLogOstream <<
-          "\"" << (*i) << "\" ";
-    } // for
-  }
-
-  // parts omitted names
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "parts omitted names" << " : ";
-
-  if (! fPartsOmitNameSet.size ()) {
-    gLogOstream <<
-      "none";
-  }
-  else {
-    for (
-      set<string> ::const_iterator i =
-        fPartsOmitNameSet.begin ();
-      i != fPartsOmitNameSet.end ();
-      i++
-  ) {
-        gLogOstream <<
-          "\"" << (*i) << "\" ";
-    } // for
-  }
-
-  // parts kept names
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "parts kept names" << " : ";
-
-  if (! fPartsKeepNameSet.size ()) {
-    gLogOstream <<
-      "none";
-  }
-  else {
-    for (
-      set<string> ::const_iterator i =
-        fPartsKeepNameSet.begin ();
-      i != fPartsKeepNameSet.end ();
-      i++
-  ) {
-        gLogOstream <<
-          "\"" << (*i) << "\" ";
-    } // for
-  }
-
-  gLogOstream << endl;
 
   gIndenter--;
 
@@ -1698,7 +1465,7 @@ void msr2LpsrOah::printMsr2LpsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) <<
+    setw (valueFieldWidth) <<
     "createImplicitInitialRepeatBarline" << " : " <<
     booleanAsString (fCreateImplicitInitialRepeatBarline) <<
     endl;
@@ -1715,41 +1482,41 @@ void msr2LpsrOah::printMsr2LpsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "delayRestsDynamics" << " : " <<
+    setw (valueFieldWidth) << "delayRestsDynamics" << " : " <<
     booleanAsString (fDelayRestsDynamics) <<
     endl <<
 
-    setw (fieldWidth) << "delayRestsWords" << " : " <<
+    setw (valueFieldWidth) << "delayRestsWords" << " : " <<
     booleanAsString (fDelayRestsWords) <<
     endl <<
 
-    setw (fieldWidth) << "delayRestsSlurs" << " : " <<
+    setw (valueFieldWidth) << "delayRestsSlurs" << " : " <<
     booleanAsString (fDelayRestsSlurs) <<
     endl <<
 
-    setw (fieldWidth) << "delayRestsLigatures" << " : " <<
+    setw (valueFieldWidth) << "delayRestsLigatures" << " : " <<
     booleanAsString (fDelayRestsLigatures) <<
     endl <<
 
-    setw (fieldWidth) << "delayRestsPedals" << " : " <<
+    setw (valueFieldWidth) << "delayRestsPedals" << " : " <<
     booleanAsString (fDelayRestsPedals) <<
     endl <<
 
-    setw (fieldWidth) << "delayRestsSlashes" << " : " <<
+    setw (valueFieldWidth) << "delayRestsSlashes" << " : " <<
     booleanAsString (fDelayRestsSlashes) <<
     endl <<
 
-    setw (fieldWidth) << "delayRestsWedges" << " : " <<
+    setw (valueFieldWidth) << "delayRestsWedges" << " : " <<
     booleanAsString (fDelayRestsWedges) <<
     endl <<
 
-    setw (fieldWidth) << "slashAllGraceNotes" << " : " <<
+    setw (valueFieldWidth) << "slashAllGraceNotes" << " : " <<
     booleanAsString (fSlashAllGraceNotes) <<
     endl <<
-    setw (fieldWidth) << "slurAllGraceNotes" << " : " <<
+    setw (valueFieldWidth) << "slurAllGraceNotes" << " : " <<
     booleanAsString (fSlurAllGraceNotes) <<
     endl <<
-    setw (fieldWidth) << "beamAllGraceNotes" << " : " <<
+    setw (valueFieldWidth) << "beamAllGraceNotes" << " : " <<
     booleanAsString (fBeamAllGraceNotes) <<
     endl;
 

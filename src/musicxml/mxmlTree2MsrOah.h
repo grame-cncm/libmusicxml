@@ -268,29 +268,32 @@ class mxmlTree2MsrOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeMxmlTree2MsrTraceOah (
+    void                  initializeTraceOah (
                             bool boolOptionsInitialValue);
 #endif
 
-    void                  initializeMxmlTree2MsrHeaderOptions (
+    void                  initializeHeaderOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTree2MsrClefsKeysTimesOptions (
+    void                  initializePartsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTree2MsrMeasuresOptions (
+    void                  initializeClefsKeysTimesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTree2MsrNotesOptions (
+    void                  initializeMeasuresOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTree2MsrDynamicsAndWedgesOptions (
+    void                  initializeNotesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTree2MsrWordsOptions (
+    void                  initializeDynamicsAndWedgesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTree2MsrCombinedOptionsOptions (
+    void                  initializeWordsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeCombinedOptionsOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -323,6 +326,22 @@ class mxmlTree2MsrOah : public oahGroup
     bool                  fUseFilenameAsWorkTitle;
 
     bool                  fUseLyricistsAsPoets; // lyricist is unknown to LilyPond
+
+    // parts
+    // --------------------------------------
+
+    set<string>           fPartsOmitIDSet;
+    set<string>           fPartsKeepIDSet;
+
+    set<string>           fPartsOmitNameSet;
+    set<string>           fPartsKeepNameSet;
+
+    // for checkOptionsConsistency()
+    S_oahStringSetAtom    fOmitPartIDAtom;
+    S_oahStringSetAtom    fKeepPartIDAtom;
+
+    S_oahStringSetAtom    fOmitPartNameAtom;
+    S_oahStringSetAtom    fKeepPartNameAtom;
 
     // clefs, keys, times
     // --------------------------------------

@@ -207,6 +207,17 @@ int main (int argc, char *argv[])
   }
 #endif
 
+  // sanity check
+  // ------------------------------------------------------
+
+  if (inputSourceName == outputFileName) {
+    gLogOstream <<
+      "\"" << inputSourceName << "\" is both the input and output file name" <<
+      endl;
+
+    return 1;
+  }
+
   // do the translation
   // ------------------------------------------------------
 

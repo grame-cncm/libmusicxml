@@ -2184,14 +2184,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
       inputLineNumber);
 
   // is this part name in the parts omit IDs set?
-  if (gMsr2LpsrOah->fPartsOmitIDSet.size ()) {
+  if (gMxmlTree2MsrOah->fPartsOmitIDSet.size ()) {
     set<string>::iterator
       it =
-        gMsr2LpsrOah->fPartsOmitIDSet.find (
+        gMxmlTree2MsrOah->fPartsOmitIDSet.find (
           fCurrentPart->
             getPartID ());
 
-    if (it != gMsr2LpsrOah->fPartsOmitIDSet.end ()) {
+    if (it != gMxmlTree2MsrOah->fPartsOmitIDSet.end ()) {
       // the simplest way to omit this part
       // is to remove it from its part-group
       // now that is has been completely built and populated
@@ -2204,14 +2204,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
   }
 
   // is this part name in the parts keep IDs set?
-  if (gMsr2LpsrOah->fPartsKeepIDSet.size ()) {
+  if (gMxmlTree2MsrOah->fPartsKeepIDSet.size ()) {
     set<string>::iterator
       it =
-        gMsr2LpsrOah->fPartsKeepIDSet.find (
+        gMxmlTree2MsrOah->fPartsKeepIDSet.find (
           fCurrentPart->
             getPartID ());
 
-    if (it == gMsr2LpsrOah->fPartsKeepIDSet.end ()) {
+    if (it == gMxmlTree2MsrOah->fPartsKeepIDSet.end ()) {
       // the simplest way not to keep this part
       // is to remove it from its part-group
       // now that is has been completely built and populated
@@ -2224,14 +2224,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
   }
 
   // is this part name in the parts omit names set?
-  if (gMsr2LpsrOah->fPartsOmitNameSet.size ()) {
+  if (gMxmlTree2MsrOah->fPartsOmitNameSet.size ()) {
     set<string>::iterator
       it =
-        gMsr2LpsrOah->fPartsOmitNameSet.find (
+        gMxmlTree2MsrOah->fPartsOmitNameSet.find (
           fCurrentPart->
             getPartName ());
 
-    if (it != gMsr2LpsrOah->fPartsOmitNameSet.end ()) {
+    if (it != gMxmlTree2MsrOah->fPartsOmitNameSet.end ()) {
       // the simplest way to omit this part
       // is to remove it from its part-group
       // now that is has been completely built and populated
@@ -2244,14 +2244,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
   }
 
   // is this part name in the parts keep names set?
-  if (gMsr2LpsrOah->fPartsKeepNameSet.size ()) {
+  if (gMxmlTree2MsrOah->fPartsKeepNameSet.size ()) {
     set<string>::iterator
       it =
-        gMsr2LpsrOah->fPartsKeepNameSet.find (
+        gMxmlTree2MsrOah->fPartsKeepNameSet.find (
           fCurrentPart->
             getPartName ());
 
-    if (it == gMsr2LpsrOah->fPartsKeepNameSet.end ()) {
+    if (it == gMxmlTree2MsrOah->fPartsKeepNameSet.end ()) {
       // the simplest way not to keep this part
       // is to remove it from its part-group
       // now that is has been completely built and populated

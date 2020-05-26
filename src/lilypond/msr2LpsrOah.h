@@ -355,23 +355,20 @@ class msr2LpsrOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeMsr2LpsrTraceOah (
+    void                  initializeTraceOah (
                             bool boolOptionsInitialValue);
 #endif
 
-    void                  initializeMsr2LpsrScoreOutputOptions (
+    void                  initializeScoreOutputOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsr2LpsrPartsOptions (
+    void                  initializeRepeatsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsr2LpsrRepeatsOptions (
+    void                  initializeNotesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsr2LpsrNotesOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMsr2LpsrLyricsOptions (
+    void                  initializeLyricsOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -391,7 +388,7 @@ class msr2LpsrOah : public oahGroup
 
     void                  printMsr2LpsrOahHelp ();
 
-    void                  printMsr2LpsrOahValues (int fieldWidth);
+    void                  printMsr2LpsrOahValues (int valueFieldWidth);
 
   public:
 
@@ -402,22 +399,6 @@ class msr2LpsrOah : public oahGroup
     // --------------------------------------
 
     lpsrScoreOutputKind   fScoreOutputKind;
-
-    // parts
-    // --------------------------------------
-
-    set<string>           fPartsOmitIDSet;
-    set<string>           fPartsKeepIDSet;
-
-    set<string>           fPartsOmitNameSet;
-    set<string>           fPartsKeepNameSet;
-
-    // for checkOptionsConsistency()
-    S_oahStringSetAtom    fOmitPartIDAtom;
-    S_oahStringSetAtom    fKeepPartIDAtom;
-
-    S_oahStringSetAtom    fOmitPartNameAtom;
-    S_oahStringSetAtom    fKeepPartNameAtom;
 
     // repeats
     // --------------------------------------
