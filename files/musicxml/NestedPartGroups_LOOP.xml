@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN"
+			"http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+    <!-- ===== Created by xml2ly 0.93 on Tuesday 2020-03-24 @ 18:30:04 CET from partgroups/NestedPartGroups.xml ===== -->
+    <movement-title>Nested part groups</movement-title>
+    <identification>
+        <encoding>
+            <software>xml2ly 0.93, https://github.com/dfober/libmusicxml/tree/lilypond</software>
+            <encoding-date>2020-03-24</encoding-date>
+        </encoding>
+        <miscellaneous>
+            <miscellaneous-field name="description"/>
+        </miscellaneous>
+    </identification>
+    <defaults>
+        <scaling>
+            <millimeters>3.9956</millimeters>
+            <tenths>40</tenths>
+        </scaling>
+        <page-layout>
+            <page-height>3560</page-height>
+            <page-width>2797</page-width>
+            <page-margins type="odd">
+                <left-margin>177</left-margin>
+                <right-margin>79</right-margin>
+                <top-margin>127</top-margin>
+                <bottom-margin>45</bottom-margin>
+            </page-margins>
+            <page-margins type="even">
+                <left-margin>141</left-margin>
+                <right-margin>115</right-margin>
+                <top-margin>127</top-margin>
+                <bottom-margin>45</bottom-margin>
+            </page-margins>
+        </page-layout>
+        <system-layout>
+            <system-margins>
+                <left-margin>0</left-margin>
+                <right-margin>0</right-margin>
+            </system-margins>
+            <system-distance>39</system-distance>
+            <top-system-distance>39</top-system-distance>
+        </system-layout>
+    </defaults>
+    <part-list>
+        <score-part id="P1">
+            <part-name>Violin</part-name>
+        </score-part>
+        <!-- ========== PartGroup_2 ('1', partGroupName "") START, line 64 ========== -->
+        <part-group number="1" type="start">
+            <group-symbol default-x="0">line</group-symbol>
+            <group-barline>yes</group-barline>
+        </part-group>
+        <score-part id="P2">
+            <part-name>Flute</part-name>
+        </score-part>
+        <!-- ========== PartGroup_3 ('2', partGroupName "") START, line 71 ========== -->
+        <part-group number="2" type="start">
+            <group-symbol default-x="0">bracket</group-symbol>
+            <group-barline>yes</group-barline>
+        </part-group>
+        <score-part id="P3">
+            <part-name>Oboe I</part-name>
+        </score-part>
+        <score-part id="P4">
+            <part-name>Oboe II</part-name>
+        </score-part>
+        <!-- ========== PartGroup_3 ('2', partGroupName "") END, line 71 ========== -->
+        <part-group number="2" type="stop"/>
+        <!-- ========== PartGroup_2 ('1', partGroupName "") END, line 64 ========== -->
+        <part-group number="1" type="stop"/>
+        <score-part id="P5">
+            <part-name>English horn</part-name>
+        </score-part>
+    </part-list>
+    <!-- ============================ PART "P1", line 0 ============================= -->
+    <part id="P1">
+        <!-- ==================== Segment 1 START, line 89 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 89 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time symbol="common">
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 116 ===== -->
+        <measure number="2">
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 128 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+            <barline location="right">
+                <bar-style>light-heavy</bar-style>
+            </barline>
+        </measure>
+        <!-- ==================== Segment 1 END, line 89 ==================== -->
+    </part>
+    <!-- ============================ PART "P2", line 0 ============================= -->
+    <part id="P2">
+        <!-- ==================== Segment 2 START, line 141 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 141 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time symbol="common">
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 168 ===== -->
+        <measure number="2">
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 180 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+            <barline location="right">
+                <bar-style>light-heavy</bar-style>
+            </barline>
+        </measure>
+        <!-- ==================== Segment 2 END, line 141 ==================== -->
+    </part>
+    <!-- ============================ PART "P3", line 0 ============================= -->
+    <part id="P3">
+        <!-- ==================== Segment 3 START, line 193 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 193 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time symbol="common">
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 220 ===== -->
+        <measure number="2">
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 232 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+            <barline location="right">
+                <bar-style>light-heavy</bar-style>
+            </barline>
+        </measure>
+        <!-- ==================== Segment 3 END, line 193 ==================== -->
+    </part>
+    <!-- ============================ PART "P4", line 0 ============================= -->
+    <part id="P4">
+        <!-- ==================== Segment 4 START, line 245 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 245 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time symbol="common">
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 272 ===== -->
+        <measure number="2">
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 284 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+            <barline location="right">
+                <bar-style>light-heavy</bar-style>
+            </barline>
+        </measure>
+        <!-- ==================== Segment 4 END, line 245 ==================== -->
+    </part>
+    <!-- ============================ PART "P5", line 0 ============================= -->
+    <part id="P5">
+        <!-- ==================== Segment 5 START, line 297 ==================== -->
+        <!-- ===== MEASURE ordinal number: 1, line 297 ===== -->
+        <measure number="1">
+            <attributes>
+                <divisions>1</divisions>
+                <key>
+                    <fifths>0</fifths>
+                    <mode>major</mode>
+                </key>
+                <time symbol="common">
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 2, line 324 ===== -->
+        <measure number="2">
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>4</duration>
+                <type>whole</type>
+            </note>
+        </measure>
+        <!-- ===== MEASURE ordinal number: 3, line 336 ===== -->
+        <measure number="3">
+            <note>
+                <rest/>
+                <duration>4</duration>
+            </note>
+            <barline location="right">
+                <bar-style>light-heavy</bar-style>
+            </barline>
+        </measure>
+        <!-- ==================== Segment 5 END, line 297 ==================== -->
+    </part>
+</score-partwise>
