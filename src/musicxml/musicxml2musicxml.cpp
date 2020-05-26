@@ -77,10 +77,21 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // ------------------------------------------------------
 
     try {
-      handler->
-        hangleOptionsFromOptionsVector (
-          fakeExecutableName,
-          options);
+      oahHandler::oahHelpOptionsHaveBeenUsedKind
+        helpOptionsHaveBeenUsedKind =
+          handler->
+            hangleOptionsFromOptionsVector (
+              fakeExecutableName,
+              options);
+
+      switch (helpOptionsHaveBeenUsedKind) {
+        case oahHandler::kHelpOptionsHaveBeenUsedYes:
+          return kNoErr;
+          break;
+        case oahHandler::kHelpOptionsHaveBeenUsedNo:
+          // let's go ahead!
+          break;
+      } // switch
     }
     catch (msrOahException& e) {
       return kInvalidOption;

@@ -25,6 +25,7 @@
   #include "traceOah.h"
 #endif
 
+#include "oahBasicTypes.h"
 #include "generalOah.h"
 #include "xml2xmlOah.h"
 
@@ -95,9 +96,20 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   try {
-    handler->
-      applyOptionsAndArgumentsFromArgcAndArgv (
-        argc, argv);
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+      helpOptionsHaveBeenUsedKind =
+        handler->
+          applyOptionsAndArgumentsFromArgcAndArgv (
+            argc, argv);
+
+    switch (helpOptionsHaveBeenUsedKind) {
+      case oahHandler::kHelpOptionsHaveBeenUsedYes:
+        return kNoErr;
+        break;
+      case oahHandler::kHelpOptionsHaveBeenUsedNo:
+        // let's go ahead!
+        break;
+    } // switch
   }
   catch (msrOahException& e) {
     return kInvalidOption;

@@ -3068,8 +3068,17 @@ EXP ostream& operator<< (ostream& os, const S_oahGroupsList& elt);
 //_______________________________________________________________________________
 class EXP oahHandler : public oahElement
 {
+  public:
+
     // data types
     // ------------------------------------------------------
+
+    enum oahHelpOptionsHaveBeenUsedKind {
+        kHelpOptionsHaveBeenUsedYes,
+        kHelpOptionsHaveBeenUsedNo };
+
+    static string helpOptionsHaveBeenUsedKindAsString (
+      oahHelpOptionsHaveBeenUsedKind helpOptionsHaveBeenUsedKind);
 
     enum oahOptionsDefaultValuesStyle {
         kGNUStyle,
@@ -3210,11 +3219,13 @@ class EXP oahHandler : public oahElement
     bool                  optionNameIsASingleCharacterOptionsCluster (
                             string optionName);
 
-    void                  applyOptionsAndArgumentsFromArgcAndArgv (
+    oahHelpOptionsHaveBeenUsedKind
+                          applyOptionsAndArgumentsFromArgcAndArgv (
                             int   argc,
                             char* argv[]);
 
-    void                  hangleOptionsFromOptionsVector (
+    oahHelpOptionsHaveBeenUsedKind
+                          hangleOptionsFromOptionsVector (
                             string               fakeExecutableName,
                             const optionsVector& theOptionsVector);
 
