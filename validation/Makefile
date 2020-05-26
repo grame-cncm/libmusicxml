@@ -56,6 +56,7 @@ clean:
 travis:
 	$(MAKE) read
 	$(MAKE) guido
+	$(MAKE) lily
 
 trace:
 	@echo $(readout)
