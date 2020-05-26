@@ -129,7 +129,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     }
 
 
-    if (gMsr2LpsrOah->fExit2a) {
+    if (gXml2xmlOah->fExit2a) {
       gLogOstream <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -155,7 +155,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
       return kInvalidFile;
     }
 
-    if (gMsr2LpsrOah->fExit2b) {
+    if (gXml2xmlOah->fExit2b) {
       gLogOstream <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -350,6 +350,17 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   string inputSourceName,
   string outputFileName)
 {
+  // sanity check
+  // ------------------------------------------------------
+
+  if (inputSourceName == outputFileName) {
+    gLogOstream <<
+      "\"" << inputSourceName << "\" is both the input and output file name" <<
+      endl;
+
+    return kInvalidOption;
+  }
+
   // create the mxmlTree from MusicXML contents (pass 1)
   // ------------------------------------------------------
 
@@ -368,7 +379,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
         mxmlTree,
         "Pass 2a");
 
-  if (gMsr2LpsrOah->fExit2a) {
+  if (gXml2xmlOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -386,7 +397,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
     gLogOstream,
     "Pass 2b");
 
-  if (gMsr2LpsrOah->fExit2b) {
+  if (gXml2xmlOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<

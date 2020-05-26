@@ -27,8 +27,6 @@ class msrOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_msrRenamePartAtom>,
 
-  public visitor<S_msrTransposePartAtom>,
-
   public visitor<S_msrOmitPartAtom>,
 
   public visitor<S_msrKeepPartAtom>,
@@ -49,9 +47,6 @@ class msrOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     virtual void visitStart (S_msrRenamePartAtom& elt);
     virtual void visitEnd   (S_msrRenamePartAtom& elt);
-
-    virtual void visitStart (S_msrTransposePartAtom& elt);
-    virtual void visitEnd   (S_msrTransposePartAtom& elt);
 
     virtual void visitStart (S_msrOmitPartAtom& elt);
     virtual void visitEnd   (S_msrOmitPartAtom& elt);

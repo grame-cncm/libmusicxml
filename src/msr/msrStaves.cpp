@@ -19,7 +19,6 @@
 
 #include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
-#include "msr2LpsrOah.h"
 
 
 using namespace std;
@@ -2213,7 +2212,7 @@ void msrStaff::appendStaffDetailsToStaff (
   // set staff kind accordingly if relevant
   switch (staffDetails->getStaffLinesNumber ()) {
     case 1:
-      if (gMsr2LpsrOah->fCreateSingleLineStavesAsRythmic) {
+      if (gMsrOah->fCreateSingleLineStavesAsRythmic) {
         fStaffKind = msrStaff::kStaffRythmic;
       }
       else {

@@ -4437,7 +4437,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
         inputLineNumber,
         wordsXMLLangString);
 
-  if (! gMsr2LpsrOah->fOmitWords) {
+  if (! gMxmlTree2MsrOah->fOmitWords) {
     bool wordsHasBeenHandled = false;
 
     if (gMxmlTree2MsrOah->fConvertWordsToDalSegno.size ()) {
@@ -6317,7 +6317,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
   // color JMI
 
   if (fCurrentTieKind != msrTie::kTieNone) {
-    if (! gMsr2LpsrOah->fOmitTies) {
+    if (! gMxmlTree2MsrOah->fOmitTies) {
       fCurrentTie =
         msrTie::create (
           inputLineNumber,
@@ -6656,7 +6656,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     }
 #endif
 
-    if (! gMsr2LpsrOah->fOmitSlurs) {
+    if (! gMxmlTree2MsrOah->fOmitSlurs) {
       S_msrSlur
         slur =
           msrSlur::create (
@@ -7087,7 +7087,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
     fCurrentDirectionPlacementKind = kPlacementBelow;
   }
 
-  if (! gMsr2LpsrOah->fOmitWedges) {
+  if (! gMxmlTree2MsrOah->fOmitWedges) {
     S_msrWedge
       wedge =
         msrWedge::create (
@@ -7638,7 +7638,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   }
 #endif
 
-  if (! gMsr2LpsrOah->fOmitLyrics) {
+  if (! gMxmlTree2MsrOah->fOmitLyrics) {
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -10616,7 +10616,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
         msrArticulation::kAccent,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10653,7 +10653,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
         msrArticulation::kBreathMark,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10690,7 +10690,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
         msrArticulation::kCaesura,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10727,7 +10727,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
         msrArticulation::kSpiccato,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10764,7 +10764,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
         msrArticulation::kStaccato,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10801,7 +10801,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
         msrArticulation::kStaccatissimo,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10838,7 +10838,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
         msrArticulation::kStress,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10873,7 +10873,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
         msrArticulation::kUnstress,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10908,7 +10908,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
         msrArticulation::kDetachedLegato,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10946,7 +10946,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
         msrArticulation::kStrongAccent,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -10985,7 +10985,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
         msrArticulation::kTenuto,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -11022,7 +11022,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
         msrArticulation::kDoit,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -11059,7 +11059,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
         msrArticulation::kFalloff,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -11096,7 +11096,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
         msrArticulation::kPlop,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -11133,7 +11133,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
         msrArticulation::kScoop,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitArticulations) {
+  if (! gMxmlTree2MsrOah->fOmitArticulations) {
     fCurrentArticulations.push_back (articulation);
   }
 }
@@ -12759,7 +12759,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
         msrOrnament::kOrnamentTrill,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -12982,7 +12982,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
         msrOrnament::kOrnamentTurn,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13019,7 +13019,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
         msrOrnament::kOrnamentInvertedTurn,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13056,7 +13056,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
         msrOrnament::kOrnamentDelayedTurn,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13093,7 +13093,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
         msrOrnament::kOrnamentDelayedInvertedTurn,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13130,7 +13130,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
         msrOrnament::kOrnamentVerticalTurn,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13167,7 +13167,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
         msrOrnament::kOrnamentMordent,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13204,7 +13204,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
         msrOrnament::kOrnamentInvertedMordent,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13241,7 +13241,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
         msrOrnament::kOrnamentSchleifer,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13278,7 +13278,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
         msrOrnament::kOrnamentShake,
         placementKind);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13491,7 +13491,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     setOrnamentAccidentalMarkKind (
       currentOrnamentAccidentalMark);
 
-  if (! gMsr2LpsrOah->fOmitOrnaments) {
+  if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
   }
 }
@@ -13539,7 +13539,7 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13580,7 +13580,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13621,7 +13621,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13662,7 +13662,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13703,7 +13703,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13744,7 +13744,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13786,7 +13786,7 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13827,7 +13827,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13868,7 +13868,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13909,7 +13909,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13950,7 +13950,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -13991,7 +13991,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14034,7 +14034,7 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14075,7 +14075,7 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14117,7 +14117,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14158,7 +14158,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14200,7 +14200,7 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14242,7 +14242,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14284,7 +14284,7 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14326,7 +14326,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14368,7 +14368,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14410,7 +14410,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14450,7 +14450,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
   }
 
   // create the dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrDynamics
       dynamics =
         msrDynamics::create (
@@ -14494,7 +14494,7 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
   }
 
   // create the other dynamics
-  if (! gMsr2LpsrOah->fOmitDynamics) {
+  if (! gMxmlTree2MsrOah->fOmitDynamics) {
     S_msrOtherDynamics
       otherDynamics =
         msrOtherDynamics::create (
@@ -23217,7 +23217,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       k_NoQuarterTonesPitch_QTP;
   }
 
-  if (gMsr2LpsrOah->fOmitHarmonies) {
+  if (gMxmlTree2MsrOah->fOmitHarmonies) {
  #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies) {
       fLogOutputStream <<

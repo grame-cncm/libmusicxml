@@ -112,197 +112,6 @@ typedef SMARTP<msr2LpsrScoreOutputKindAtom> S_msr2LpsrScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_msr2LpsrScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class msrRenamePartAtom : public oahValuedAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<msrRenamePartAtom> create (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      map<string, string>& stringStringMapVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrRenamePartAtom (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      map<string, string>& stringStringMapVariable);
-
-    virtual ~msrRenamePartAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    const map<string, string>&
-                          getStringStringMapVariable ()
-                              { return fStringStringMapVariable; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-    void                  handleValue (
-                            string   theString,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
-
-    void                  print (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    map<string, string>&  fStringStringMapVariable;
-};
-typedef SMARTP<msrRenamePartAtom> S_msrRenamePartAtom;
-EXP ostream& operator<< (ostream& os, const S_msrRenamePartAtom& elt);
-
-//______________________________________________________________________________
-class msrTransposePartAtom : public oahValuedAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<msrTransposePartAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      map<string, S_msrSemiTonesPitchAndOctave>&
-                         stringMsrSemiTonesPitchAndOctaveVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrTransposePartAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      map<string, S_msrSemiTonesPitchAndOctave>&
-                         stringMsrSemiTonesPitchAndOctaveVariable);
-
-    virtual ~msrTransposePartAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    void                  setStringMsrSemiTonesPitchAndOctaveVariable (
-                            string  partName,
-                            S_msrSemiTonesPitchAndOctave
-                                    semiTonesPitchAndOctave)
-                              {
-                                fStringMsrSemiTonesPitchAndOctaveVariable [
-                                  partName
-                                ] =
-                                  semiTonesPitchAndOctave;
-                              }
-
-    const map<string, S_msrSemiTonesPitchAndOctave>&
-                          getStringMsrSemiTonesPitchAndOctaveVariable ()
-                              {
-                                return
-                                  fStringMsrSemiTonesPitchAndOctaveVariable;
-                              }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-    void                  handleValue (
-                            string   theString,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
-
-    void                  print (ostream& os) const;
-
-    void                  printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    map<string, S_msrSemiTonesPitchAndOctave>&
-                          fStringMsrSemiTonesPitchAndOctaveVariable;
-};
-typedef SMARTP<msrTransposePartAtom> S_msrTransposePartAtom;
-EXP ostream& operator<< (ostream& os, const S_msrTransposePartAtom& elt);
-
-//______________________________________________________________________________
 class msrOmitPartAtom : public oahValuedAtom
 {
   public:
@@ -556,12 +365,6 @@ class msr2LpsrOah : public oahGroup
     void                  initializeMsr2LpsrPartsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMsr2LpsrStavesOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMsr2LpsrVoicesOptions (
-                            bool boolOptionsInitialValue);
-
     void                  initializeMsr2LpsrRepeatsOptions (
                             bool boolOptionsInitialValue);
 
@@ -569,15 +372,6 @@ class msr2LpsrOah : public oahGroup
                             bool boolOptionsInitialValue);
 
     void                  initializeMsr2LpsrLyricsOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMsr2LpsrHarmoniesOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMsr2LpsrFiguredBassOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeMsr2LpsrExitAfterSomePassesOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -612,11 +406,6 @@ class msr2LpsrOah : public oahGroup
     // parts
     // --------------------------------------
 
-    map<string, string>   fPartsRenamingMap;
-
-    map<string, S_msrSemiTonesPitchAndOctave>
-                          fPartsTranspositionMap;
-
     set<string>           fPartsOmitIDSet;
     set<string>           fPartsKeepIDSet;
 
@@ -630,24 +419,10 @@ class msr2LpsrOah : public oahGroup
     S_oahStringSetAtom    fOmitPartNameAtom;
     S_oahStringSetAtom    fKeepPartNameAtom;
 
-
-    // staves
-    // --------------------------------------
-
-    bool                  fCreateSingleLineStavesAsRythmic;
-
-
-    // voices
-    // --------------------------------------
-
-    bool                  fCreateVoicesStaffRelativeNumbers;
-
-
     // repeats
     // --------------------------------------
 
     bool                  fCreateImplicitInitialRepeatBarline;
-
 
     // notes
     // --------------------------------------
@@ -664,73 +439,6 @@ class msr2LpsrOah : public oahGroup
     bool                  fSlashAllGraceNotes;
     bool                  fSlurAllGraceNotes;
     bool                  fBeamAllGraceNotes;
-
-    // articulations
-    // --------------------------------------
-
-    bool                  fOmitArticulations;
-
-
-    // ornaments
-    // --------------------------------------
-
-
-    bool                  fOmitOrnaments;
-
-    // words
-    // --------------------------------------
-
-    bool                  fOmitWords;
-
-    // ties
-    // --------------------------------------
-
-    bool                  fOmitTies;
-
-    // dynamics
-    // --------------------------------------
-
-    bool                  fOmitDynamics;
-
-    // slurs
-    // --------------------------------------
-
-    bool                  fOmitSlurs;
-
-    // wedges
-    // --------------------------------------
-
-    bool                  fOmitWedges;
-
-    // lyrics
-    // --------------------------------------
-
-    bool                  fAddStanzasNumbers; // LPSR ??? JMI
-
-    bool                  fOmitLyrics;
-
-
-    // harmonies
-    // --------------------------------------
-
-    bool                  fShowHarmonyVoices;
-
-    bool                  fOmitHarmonies;
-
-
-    // figured bass
-    // --------------------------------------
-
-    bool                  fShowFiguredBassVoices;
-
-    bool                  fOmitFiguredBasses;
-
-
-    // exit after some passes
-    // --------------------------------------
-
-    bool                  fExit2a;
-    bool                  fExit2b;
 };
 typedef SMARTP<msr2LpsrOah> S_msr2LpsrOah;
 EXP ostream& operator<< (ostream& os, const S_msr2LpsrOah& elt);

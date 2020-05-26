@@ -201,9 +201,9 @@ ostream& operator<< (ostream& os, const S_xml2xmlManPageGenerateAtom& elt)
 }
 
 //_______________________________________________________________________________
-S_xml2xmlManPageOah gxml2xmlManPageOah;
-S_xml2xmlManPageOah gxml2xmlManPageOahUserChoices;
-S_xml2xmlManPageOah gxml2xmlManPageOahWithDetailedTrace;
+S_xml2xmlManPageOah gXml2xmlManPageOah;
+S_xml2xmlManPageOah gXml2xmlManPageOahUserChoices;
+S_xml2xmlManPageOah gXml2xmlManPageOahWithDetailedTrace;
 
 S_xml2xmlManPageOah xml2xmlManPageOah::create (
   S_oahHandler           handlerUpLink,
@@ -460,19 +460,19 @@ void initializeXml2xmlManPageOahHandling (
   // create the bsr variables
   // ------------------------------------------------------
 
-  gxml2xmlManPageOahUserChoices = xml2xmlManPageOah::create (
+  gXml2xmlManPageOahUserChoices = xml2xmlManPageOah::create (
     handler,
     theOah2ManPageGenerator);
-  assert(gxml2xmlManPageOahUserChoices != 0);
+  assert(gXml2xmlManPageOahUserChoices != 0);
 
-  gxml2xmlManPageOah =
-    gxml2xmlManPageOahUserChoices;
+  gXml2xmlManPageOah =
+    gXml2xmlManPageOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 /* JMI
-  gxml2xmlManPageOahWithDetailedTrace =
-    gxml2xmlManPageOah->
+  gXml2xmlManPageOahWithDetailedTrace =
+    gXml2xmlManPageOah->
       createCloneWithDetailedTrace ();
       */
 }

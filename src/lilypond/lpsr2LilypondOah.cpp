@@ -25,6 +25,8 @@
 #endif
 
 #include "generalOah.h"
+
+#include "msrOah.h"
 #include "lpsrOah.h"
 #include "lpsr2LilypondOah.h"
 
@@ -234,6 +236,365 @@ void lilypondScoreOutputKindAtom::printAtomOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_lilypondTransposePartAtom lilypondTransposePartAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  map<string, S_msrSemiTonesPitchAndOctave>&
+                     stringMsrSemiTonesPitchAndOctaveVariable)
+{
+  lilypondTransposePartAtom* o = new
+    lilypondTransposePartAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringMsrSemiTonesPitchAndOctaveVariable);
+  assert(o!=0);
+  return o;
+}
+
+lilypondTransposePartAtom::lilypondTransposePartAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  map<string, S_msrSemiTonesPitchAndOctave>&
+                     stringMsrSemiTonesPitchAndOctaveVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringMsrSemiTonesPitchAndOctaveVariable (
+      stringMsrSemiTonesPitchAndOctaveVariable)
+{}
+
+lilypondTransposePartAtom::~lilypondTransposePartAtom ()
+{}
+
+S_oahValuedAtom lilypondTransposePartAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondTransposePartAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void lilypondTransposePartAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondTransposePartAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the part transpose specification
+  // decipher it to extract the old and new part names
+
+  string regularExpression (
+    "(.*)"
+    "="
+    "(.*)");
+//    "[[:space:]]*(.*)[[:space:]]*" JMI
+//    "="
+//    "[[:space:]]*(.*)[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for part transpose string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  if (smSize == 3) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      for (unsigned i = 0; i < smSize; ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+      os << endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-marTransposePart argument '" << theString <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    originalPitchName    = sm [1],
+    destinationPitchName = sm [2];
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> originalPitchName = \"" << originalPitchName << "\", " <<
+      "--> destinationPitchName = \"" << destinationPitchName << "\"" <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  map<string, S_msrSemiTonesPitchAndOctave>::iterator
+    it =
+      fStringMsrSemiTonesPitchAndOctaveVariable.find (originalPitchName);
+
+  if (it != fStringMsrSemiTonesPitchAndOctaveVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Part \"" << originalPitchName << "\" occurs more that once" <<
+      "in the '--transpose-part' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringMsrSemiTonesPitchAndOctaveVariable [originalPitchName] =
+      msrSemiTonesPitchAndOctave::createFromString (
+        K_NO_INPUT_LINE_NUMBER,
+        destinationPitchName);
+  }
+}
+
+void lilypondTransposePartAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondTransposePartAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondTransposePartAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondTransposePartAtom>*> (v)) {
+        S_lilypondTransposePartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lilypondTransposePartAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondTransposePartAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondTransposePartAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondTransposePartAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondTransposePartAtom>*> (v)) {
+        S_lilypondTransposePartAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lilypondTransposePartAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondTransposePartAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondTransposePartAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string lilypondTransposePartAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  if (fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    s <<
+      "-" << fShortName << " \"";
+
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s <<
+        (*i).first << "=" <<
+        msrSemiTonesPitchAndOctaveAsLilypondString (
+          gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+          (*i).second);
+      if (++i == iEnd) break;
+    } // for
+
+    s << "\"";
+  }
+
+  return s.str ();
+}
+
+string lilypondTransposePartAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  if (fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    s <<
+      "-" << fShortName << " \"";
+
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s <<
+        (*i).first << "=" <<
+        msrSemiTonesPitchAndOctaveAsLilypondString (
+          gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+          (*i).second);
+      if (++i == iEnd) break;
+    } // for
+
+    s << "\"";
+  }
+
+  return s.str ();
+}
+
+void lilypondTransposePartAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "lilypondTransposePartAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringMsrSemiTonesPitchAndOctaveVariable" << " : " <<
+    endl;
+
+  if (! fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os << endl;
+}
+
+void lilypondTransposePartAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+
+    gIndenter++;
+
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_lilypondTransposePartAtom& elt)
 {
   elt->print (os);
   return os;
@@ -1790,6 +2151,7 @@ thus overriding the ones that may be present in the MSR data.)",
   appendSubGroupToGroup (subGroup);
 
   // the 'identification' monoplex string atom
+  // --------------------------------------
 
   S_oahMonoplexStringAtom
     identificationMonoplexStringAtom =
@@ -1803,6 +2165,7 @@ thus overriding the ones that may be present in the MSR data.)",
       identificationMonoplexStringAtom);
 
   // MusicXML informations
+  // --------------------------------------
 
   S_oahStringAtom
     rightsAtom =
@@ -2047,6 +2410,48 @@ R"(Set 'copyright' to STRING in the LilyPond code \header.)",
       copyrightAtom);
 }
 
+void lpsr2LilypondOah::initializePartsOptions (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Parts",
+        "hlpp", "help-lilypond-parts",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // parts transposition
+  // --------------------------------------
+
+  subGroup->
+    appendAtomToSubGroup (
+      lilypondTransposePartAtom::create (
+        "lilytp", "lilypond-transpose-part",
+R"(Transpose part ORIGINAL_NAME using TRANSPOSITION to tranpose in the MSR data.
+PART_TRANSPOSITION_SPEC can be:
+'ORIGINAL_NAME = TRANSPOSITION'
+or
+"ORIGINAL_NAME = TRANSPOSITION"
+The single or double quotes are used to allow spaces in the names
+and around the '=' sign, otherwise they can be dispensed with.
+TRANSPOSITION should contain a diatonic pitch, followed if needed
+by a sequence of ',' or '\'' octave indications.
+Such indications cannot be mixed, and they are relative to c\', i.e. middle C.
+For example, 'a', 'f' and 'bes,' can be used respectively
+for instruments in 'a', 'f' and B flat respectively.
+Using double quotes allows for shell variables substitutions, as in:
+SAXOPHONE="bes,"
+EXECUTABLE -msr-transpose-part "P1 ${SAXOPHONE}" .
+There can be several occurrences of this option.)",
+        "PART_TRANSPOSITION_SPEC",
+        "partsTranspositionMap",
+        fPartsTranspositionMap));
+}
+
 void lpsr2LilypondOah::initializeEngraversOptions (
   bool boolOptionsInitialValue)
 {
@@ -2062,6 +2467,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // ambitus engraver
+  // --------------------------------------
 
   fAmbitusEngraver = boolOptionsInitialValue;
 
@@ -2074,6 +2480,7 @@ R"(Generate an ambitus range at the beginning of the staves/voices.)",
         fAmbitusEngraver));
 
   // custos engraver
+  // --------------------------------------
 
   fCustosEngraver = boolOptionsInitialValue;
 
@@ -2101,6 +2508,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // clefs
+  // --------------------------------------
 
   fCommentClefChanges = boolOptionsInitialValue;
 
@@ -2114,8 +2522,10 @@ They won't show up in the score, but the information is not lost.)",
         fCommentClefChanges));
 
   // keys
+  // --------------------------------------
 
   // times
+  // --------------------------------------
 
   fNumericalTime = boolOptionsInitialValue;
 
@@ -2143,6 +2553,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // octave entry
+  // --------------------------------------
 
   lpsrOctaveEntryKind
     octaveEntryKindDefaultValue =
@@ -2198,6 +2609,7 @@ It should be placed between double quotes if it contains single quotes, such as:
         fFixedOctaveEntrySemiTonesPitchAndOctave));
 
   // durations
+  // --------------------------------------
 
   fAllDurations = boolOptionsInitialValue;
 
@@ -2212,6 +2624,7 @@ is omitted for code conciseness.)",
         fAllDurations));
 
   // stems
+  // --------------------------------------
 
   fStems = boolOptionsInitialValue;
 
@@ -2225,6 +2638,7 @@ By default, LilyPond will take care of that by itself.)",
         fStems));
 
   // beaming
+  // --------------------------------------
 
   fNoAutoBeaming  = boolOptionsInitialValue;
 
@@ -2249,6 +2663,7 @@ This is handy when the MusicXML data contains beam in vocal voices)",
         fNoBeams));
 
   // string numbers
+  // --------------------------------------
 
   fRomanStringNumbers = boolOptionsInitialValue;
 
@@ -2262,6 +2677,7 @@ for LilyPond to generate roman instead of arabic string numbers.)",
         fRomanStringNumbers));
 
   // open strings
+  // --------------------------------------
 
   fAvoidOpenStrings    = boolOptionsInitialValue;
 
@@ -2275,6 +2691,7 @@ to prevent LilyPond from using open strings.)",
         fAvoidOpenStrings));
 
   // accidentals
+  // --------------------------------------
 
   const lpsrAccidentalStyleKind
     lpsrAccidentalStyleKindDefaultValue =
@@ -2304,6 +2721,7 @@ The default is 'DEFAULT_VALUE'.)",
         fAccidentalStyleKind));
 
   // rest measures
+  // --------------------------------------
 
   fCompressFullMeasureRests = boolOptionsInitialValue;
 
@@ -2316,6 +2734,7 @@ R"(Compress full measure rests instead of generating successive empty measures.)
         fCompressFullMeasureRests));
 
   // merge rests
+  // --------------------------------------
 
   fMergeRests = boolOptionsInitialValue;
 
@@ -2332,6 +2751,7 @@ and does not handle multi-measure/whole-measure rests
         fMergeRests));
 
   // input line numbers
+  // --------------------------------------
 
   fInputLineNumbers = boolOptionsInitialValue;
 
@@ -2349,6 +2769,7 @@ This is useful when debugging EXECUTABLE.)",
         fInputLineNumbers));
 
   // original measure numbers
+  // --------------------------------------
 
   fOriginalMeasureNumbers = boolOptionsInitialValue;
 
@@ -2366,6 +2787,7 @@ This is useful for adding line breaks and page breaks, and when debugging EXECUT
         fOriginalMeasureNumbers));
 
   // positions in the measures
+  // --------------------------------------
 
   fPositionsInMeasures = boolOptionsInitialValue;
 
@@ -2398,6 +2820,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // all bar numbers
+  // --------------------------------------
 
   fShowAllBarNumbers = boolOptionsInitialValue;
 
@@ -2413,6 +2836,7 @@ R"(Generate LilyPond code to show all bar numbers.)",
     appendAtomToSubGroup (allBarNumbersAtom);
 
   // all measure numbers
+  // --------------------------------------
 
   subGroup->
     appendAtomToSubGroup (
@@ -2445,6 +2869,7 @@ There can be several occurrences of this option.)",
         fResetMeasureElementMeasureNumberMap));
 
   // generate box around bar number
+  // --------------------------------------
 
   S_oahIntSetAtom
     generateBoxAroundBarNumber =
@@ -2477,6 +2902,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // lines
+  // --------------------------------------
 
   fIgnoreMusicXMLLineBreaks = boolOptionsInitialValue;
 
@@ -2542,6 +2968,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // pages
+  // --------------------------------------
 
   fIgnoreMusicXMLPageBreaks = boolOptionsInitialValue;
 
@@ -2554,6 +2981,7 @@ R"(Ignore the page breaks from the MusicXML input - let LilyPond decide about th
         fIgnoreMusicXMLPageBreaks));
 
   // break page after measure number
+  // --------------------------------------
 
 /* JMI
   subGroup->
@@ -2585,6 +3013,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // tabs
+  // --------------------------------------
 
   fModernTab = boolOptionsInitialValue;
 
@@ -2607,6 +3036,7 @@ R"(Generate '\tabFullNotation' to obtain more complete tab notation, including n
         fTabFullNotation));
 
   // staves
+  // --------------------------------------
 
   fKeepStaffSize = boolOptionsInitialValue;
 
@@ -2619,6 +3049,7 @@ R"(Use the staff size value found in the MusicXML data.)",
         fKeepStaffSize));
 
   // ledger lines
+  // --------------------------------------
 
   fKeepStaffSize = boolOptionsInitialValue;
 
@@ -2650,6 +3081,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // arpeggios
+  // --------------------------------------
 
   fConnectArpeggios = boolOptionsInitialValue;
 
@@ -2677,6 +3109,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // tuplets
+  // --------------------------------------
 
   fIndentTuplets = boolOptionsInitialValue;
 
@@ -2705,6 +3138,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // repeats
+  // --------------------------------------
 
   fKeepRepeatBarlines = boolOptionsInitialValue;
 
@@ -2754,6 +3188,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // ornaments
+  // --------------------------------------
 
   fDelayedOrnamentsFraction = rational (1, 2);
 
@@ -2792,6 +3227,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // chords
+  // --------------------------------------
 
   subGroup->
     appendAtomToSubGroup (
@@ -2862,7 +3298,21 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // lyrics alignment
+  // add stanzas mumbers
+  // --------------------------------------
+
+  fAddStanzasNumbers = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "asn", "add-stanzas-numbers",
+R"(Add stanzas numbers to lyrics.)",
+        "addStanzasNumbers",
+        fAddStanzasNumbers));
+
+  // lyrics durations
+  // --------------------------------------
 
   const lpsrLyricsDurationsKind
     lpsrLyricsDurationsKindDefaultValue =
@@ -2909,6 +3359,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // fonts
+  // --------------------------------------
 
   fJazzFonts = boolOptionsInitialValue;
 
@@ -2939,6 +3390,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // infos
+  // --------------------------------------
 
   fXml2lyInfos = boolOptionsInitialValue;
 
@@ -2951,6 +3403,7 @@ R"(Generate initial comments showing the compilation date and lilypond.)",
         fXml2lyInfos));
 
   // comments
+  // --------------------------------------
 
   fLilyPondComments = boolOptionsInitialValue;
 
@@ -2964,6 +3417,7 @@ such as '% part P_POne (P1).)",
         fLilyPondComments));
 
   // global
+  // --------------------------------------
 
   fGlobal = boolOptionsInitialValue;
 
@@ -2977,6 +3431,7 @@ at the beginning of all voices.)",
         fGlobal));
 
   // display music
+  // --------------------------------------
 
   fDisplayMusic = boolOptionsInitialValue;
 
@@ -2990,6 +3445,7 @@ for LilyPond to show its internal representation of the music.)",
         fDisplayMusic));
 
   // LilyPond code
+  // --------------------------------------
 
   fNoLilypondCode = boolOptionsInitialValue;
 
@@ -3003,6 +3459,7 @@ That can be useful if only a summary of the score is needed.)",
         fNoLilypondCode));
 
   // LilyPond lyrics
+  // --------------------------------------
 
   fNoLilypondLyrics = boolOptionsInitialValue;
 
@@ -3015,6 +3472,7 @@ R"(Don't generate any lyrics in the LilyPond code.)",
         fNoLilypondLyrics));
 
   // compile date
+  // --------------------------------------
 
   fLilypondCompileDate = boolOptionsInitialValue;
 
@@ -3028,6 +3486,7 @@ when LilyPond creates the score.)",
         fLilypondCompileDate));
 
   // draft mode
+  // --------------------------------------
 
   fDraftMode = boolOptionsInitialValue;
 
@@ -3047,6 +3506,7 @@ to get only an overview in the resulting PDF file.)",
       draftOahBooleanAtom);
 
   // point and click
+  // --------------------------------------
 
   fPointAndClickOff = boolOptionsInitialValue;
 
@@ -3060,6 +3520,7 @@ to reduce the size of the resulting PDF file.)",
         fPointAndClickOff));
 
   // white note heads
+  // --------------------------------------
 
   fWhiteNoteHeads = boolOptionsInitialValue;
 
@@ -3088,6 +3549,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // score notation
+  // --------------------------------------
 
 //  fScoreNotationKind =  lpsr2LilypondOah::kWesternNotation;
     // default value
@@ -3121,6 +3583,7 @@ R"()",
   appendSubGroupToGroup (subGroup);
 
   // midiTempo
+  // --------------------------------------
 
   string midiTempoDuration  = "4";
   int    midiTempoPerSecond = 90;
@@ -3158,6 +3621,7 @@ The default is 'DEFAULT_VALUE'.)",
         fMidiTempo));
 
   // noMidi
+  // --------------------------------------
 
   fNoMidi = boolOptionsInitialValue;
 
@@ -3176,6 +3640,11 @@ void lpsr2LilypondOah::initializeLpsr2LilypondOah (
   // identification
   // --------------------------------------
   initializeIdentificationOptions (
+    boolOptionsInitialValue);
+
+  // parts
+  // --------------------------------------
+  initializePartsOptions (
     boolOptionsInitialValue);
 
   // engravers
@@ -3314,6 +3783,11 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   clone->fCopyright =
     fCopyright;
 
+  // parts
+  // --------------------------------------
+
+  clone->fPartsTranspositionMap =
+    fPartsTranspositionMap;
 
   // engravers
   // --------------------------------------
@@ -3323,20 +3797,17 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   clone->fCustosEngraver =
     fCustosEngraver;
 
-
   // clefs
   // --------------------------------------
 
   clone->fCommentClefChanges =
     fCommentClefChanges;
 
-
   // times
   // --------------------------------------
 
   clone->fNumericalTime =
     fNumericalTime;
-
 
   // notes
   // --------------------------------------
@@ -3375,7 +3846,6 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   clone->fPositionsInMeasures =
     true;
 
-
   // bars and measures
   // --------------------------------------
 
@@ -3384,7 +3854,6 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
 
   clone->fBoxAroundBarNumberSet =
     fBoxAroundBarNumberSet;
-
 
   // line breaks
   // --------------------------------------
@@ -3398,13 +3867,11 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   clone->fSeparatorLineEveryNMeasures =
     fSeparatorLineEveryNMeasures;
 
-
   // page breaks
   // --------------------------------------
 
   clone->fIgnoreMusicXMLPageBreaks =
     fIgnoreMusicXMLPageBreaks;
-
 
   // staves
   // --------------------------------------
@@ -3415,20 +3882,17 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   clone->fTabFullNotation =
     fTabFullNotation;
 
-
   // chords
   // --------------------------------------
 
   clone->fConnectArpeggios =
     fConnectArpeggios;
 
-
   // tuplets
   // --------------------------------------
 
   clone->fIndentTuplets =
     fIndentTuplets;
-
 
   // repeats
   // --------------------------------------
@@ -3440,13 +3904,19 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   clone->fIgnoreRepeatNumbers =
     fIgnoreRepeatNumbers;
 
-
   // ornaments
   // --------------------------------------
 
   clone->fDelayedOrnamentsFraction =
     fDelayedOrnamentsFraction;
 
+  // lyrics
+  // --------------------------------------
+
+  clone->fAddStanzasNumbers =
+    fAddStanzasNumbers;
+  clone->fLyricsDurationsKind =
+    fLyricsDurationsKind;
 
   // chords display
   // --------------------------------------
@@ -3456,13 +3926,11 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   clone->fJazzChordsDisplayLilypondcode =
     fJazzChordsDisplayLilypondcode;
 
-
   // fonts
   // --------------------------------------
 
   clone->fJazzFonts =
     fJazzFonts;
-
 
   // code generation
   // --------------------------------------
@@ -3497,20 +3965,11 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   clone->fWhiteNoteHeads =
     fWhiteNoteHeads;
 
-
   // score notation
   // --------------------------------------
 
   clone->fJianpu =
     fJianpu;
-
-
-  // lyrics
-  // --------------------------------------
-
-  clone->fLyricsDurationsKind =
-    fLyricsDurationsKind;
-
 
   // midi
   // --------------------------------------
@@ -3724,6 +4183,33 @@ void lpsr2LilypondOah::printAtomOptionsValues (
 
   gIndenter--;
 
+
+  // parts
+  // --------------------------------------
+
+  // parts transposition
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "parts transposition" << " : ";
+
+  if (! fPartsTranspositionMap.size ()) {
+    gLogOstream <<
+      "none";
+  }
+  else {
+    for (
+      map<string, S_msrSemiTonesPitchAndOctave>::const_iterator i =
+        fPartsTranspositionMap.begin ();
+      i != fPartsTranspositionMap.end ();
+      i++
+  ) {
+        gLogOstream <<
+          "\"" << ((*i).first) <<
+          " = " <<
+          ((*i).second->asString ()) <<
+          "\" ";
+    } // for
+  }
 
   // engravers
   // --------------------------------------
@@ -4036,6 +4522,22 @@ void lpsr2LilypondOah::printAtomOptionsValues (
 
   gIndenter--;
 
+
+  // lyrics
+  // --------------------------------------
+
+  gLogOstream <<
+    "Lyrics:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream <<
+    setw (valueFieldWidth) << "addStanzasNumbers" << " : " <<
+    booleanAsString (fAddStanzasNumbers) <<
+    endl;
+
+  gIndenter--;
 
   // ornaments
   // --------------------------------------

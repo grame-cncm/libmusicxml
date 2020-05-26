@@ -114,6 +114,93 @@ typedef SMARTP<msrPitchesLanguageAtom> S_msrPitchesLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_msrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
+class msrRenamePartAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrRenamePartAtom> create (
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      map<string, string>& stringStringMapVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRenamePartAtom (
+      string               shortName,
+      string               longName,
+      string               description,
+      string               valueSpecification,
+      string               variableName,
+      map<string, string>& stringStringMapVariable);
+
+    virtual ~msrRenamePartAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const map<string, string>&
+                          getStringStringMapVariable ()
+                              { return fStringStringMapVariable; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<string, string>&  fStringStringMapVariable;
+};
+typedef SMARTP<msrRenamePartAtom> S_msrRenamePartAtom;
+EXP ostream& operator<< (ostream& os, const S_msrRenamePartAtom& elt);
+
+//______________________________________________________________________________
 class msrOah : public oahGroup
 {
   public:
@@ -182,6 +269,21 @@ class msrOah : public oahGroup
     void                  initializeMsrLanguagesOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeMsrPartsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrStavesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrVoicesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrHarmoniesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrFiguredBassOptions (
+                            bool boolOptionsInitialValue);
+
   public:
 
     // visitors
@@ -199,7 +301,7 @@ class msrOah : public oahGroup
 
     void                  printMsrOahHelp ();
 
-    void                  printMsrOahValues (int fieldWidth);
+    void                  printMsrOahValues (int valueFieldWidth);
 
   public:
 
@@ -228,6 +330,30 @@ class msrOah : public oahGroup
     msrQuarterTonesPitchesLanguageKind
                           fMsrQuarterTonesPitchesLanguageKind;
 
+    // parts
+    // --------------------------------------
+
+    map<string, string>   fPartsRenamingMap;
+
+    // staves
+    // --------------------------------------
+
+    bool                  fCreateSingleLineStavesAsRythmic;
+
+    // voices
+    // --------------------------------------
+
+    bool                  fCreateVoicesStaffRelativeNumbers;
+
+    // harmonies
+    // --------------------------------------
+
+    bool                  fShowHarmonyVoices;
+
+    // figured bass
+    // --------------------------------------
+
+    bool                  fShowFiguredBassVoices;
 };
 typedef SMARTP<msrOah> S_msrOah;
 EXP ostream& operator<< (ostream& os, const S_msrOah& elt);

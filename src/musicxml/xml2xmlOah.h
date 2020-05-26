@@ -159,7 +159,12 @@ class xml2xmlOah : public oahGroup
     // --------------------------------------
 
     string                fMusicXMLOutputFileName;
-    bool                  fAutoOutputFileName;
+
+    // exit after some passes
+    // --------------------------------------
+
+    bool                  fExit2a;
+    bool                  fExit2b;
 };
 typedef SMARTP<xml2xmlOah> S_xml2xmlOah;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlOah& elt);

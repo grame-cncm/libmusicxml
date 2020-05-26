@@ -399,7 +399,7 @@ void xml2brlOahHandler::checkOptionsAndArguments ()
   // check auto output file option usage
   // ------------------------------------------------------
 
-  if (gXml2brlOah->fAutoOutputFile) {
+  if (gXml2brlOah->fAutoOutputFileName) {
     if (gXml2brlOah->fBrailleMusicOutputFileName.size ()) {
       stringstream s;
 
@@ -748,7 +748,7 @@ R"(Write Braille music to file FILENAME instead of standard output.)",
 
     // auto output filename
 
-    fAutoOutputFile = false;
+    fAutoOutputFileName = false;
 
     outputFileSubGroup->
       appendAtomToSubGroup (
@@ -760,7 +760,57 @@ The file name is derived from that of the input file,
 replacing any suffix after the the '.' by 'brl'
 or adding '.brl' if none is present.)",
           "autoOutputFileName",
-          fAutoOutputFile));
+          fAutoOutputFileName));
+  }
+
+  // exit after some passes
+  // --------------------------------------
+
+  {
+    S_oahSubGroup
+      exitAfterSomePassesSubGroup =
+        oahSubGroup::create (
+          "Exit after some passes",
+          "hmexit", "help-msr-exit",
+  R"()",
+        kElementVisibilityAlways,
+        this);
+
+    appendSubGroupToGroup (exitAfterSomePassesSubGroup);
+
+    // exit after pass 2a
+
+    fExit2a = false;
+
+    S_oahBooleanAtom
+      exit2aOahBooleanAtom =
+        oahBooleanAtom::create (
+          "e2a", "exit-2a",
+  R"(Exit after pass 2a, i.e. after conversion
+  of the MusicXML tree to an MSR skeleton.)",
+          "exit2a",
+          fExit2a);
+
+    exitAfterSomePassesSubGroup->
+      appendAtomToSubGroup (
+        exit2aOahBooleanAtom);
+
+    // exit after pass 2b
+
+    fExit2b = false;
+
+    S_oahBooleanAtom
+      exit2bOahBooleanAtom =
+        oahBooleanAtom::create (
+          "e2b", "exit-2b",
+  R"(Exit after pass 2b, i.e. after conversion
+  of the MusicXML tree to MSR.)",
+          "exit2b",
+          fExit2b);
+
+    exitAfterSomePassesSubGroup->
+      appendAtomToSubGroup (
+        exit2bOahBooleanAtom);
   }
 }
 
@@ -852,7 +902,32 @@ void xml2brlOah::printXml2brlOahValues (int fieldWidth)
     setw (fieldWidth) << "brailleMusicOutputFileName" << " : \"" <<
     fBrailleMusicOutputFileName <<
     "\"" <<
+    endl <<
+    setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
+    booleanAsString (fAutoOutputFileName) <<
+    "\"" <<
     endl;
+
+  gIndenter--;
+
+  // exit after some passes
+  // --------------------------------------
+
+  gLogOstream <<
+    "Exit after some passes:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (fieldWidth) << "exit2a" << " : " <<
+    booleanAsString (fExit2a) <<
+    endl <<
+    setw (fieldWidth) << "exit2b" << " : " <<
+    booleanAsString (fExit2b) <<
+    endl;
+
+  gIndenter--;
 
   gIndenter--;
 }

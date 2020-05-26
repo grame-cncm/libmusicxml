@@ -3011,6 +3011,61 @@ typedef SMARTP<oahGroup> S_oahGroup;
 EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
 
 //_______________________________________________________________________________
+class EXP oahGroupsList : public smartable
+{
+    // data types
+    // ------------------------------------------------------
+
+    enum oahGroupsListKind {
+        kUser,
+        kInternal };
+
+    static string groupsListKindAsString (
+      oahGroupsListKind groupsListKind);
+
+  public:
+
+    // creation
+    // ------------------------------------------------------
+    static SMARTP<oahGroupsList> create (
+      oahGroupsListKind groupsListKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahGroupsList (
+      oahGroupsListKind groupsListKind);
+
+    virtual ~oahGroupsList ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    oahGroupsListKind     fGroupsListKind;
+
+    list<S_oahGroup>      fGroupsList;
+
+};
+typedef SMARTP<oahGroupsList> S_oahGroupsList;
+EXP ostream& operator<< (ostream& os, const S_oahGroupsList& elt);
+
+//_______________________________________________________________________________
 class EXP oahHandler : public oahElement
 {
     // data types
@@ -3029,15 +3084,15 @@ class EXP oahHandler : public oahElement
     // ------------------------------------------------------
 /* JMI this a pure virtual class
     static SMARTP<oahHandler> create (
-      string           handlerHeader,
-      string           handlerValuesHeader,
-      string           optionHoahHandlerandlerHelpShortName,
-      string           handlerLongName,
-      string           handlerSummaryShortName,
-      string           handlerSummaryLongName,
-      string           handlerPreamble,
-      string           handlerUsage,
-      string           handlerDescription,
+      string   handlerHeader,
+      string   handlerValuesHeader,
+      string   optionHoahHandlerandlerHelpShortName,
+      string   handlerLongName,
+      string   handlerSummaryShortName,
+      string   handlerSummaryLongName,
+      string   handlerPreamble,
+      string   handlerUsage,
+      string   handlerDescription,
       ostream& handlerLogOstream);
 */
 
@@ -3047,15 +3102,15 @@ class EXP oahHandler : public oahElement
     // ------------------------------------------------------
 
     oahHandler (
-      string           handlerHeader,
-      string           handlerValuesHeader,
-      string           handlerShortName,
-      string           handlerLongName,
-      string           handlerSummaryShortName,
-      string           handlerSummaryLongName,
-      string           handlerPreamble,
-      string           handlerUsage,
-      string           handlerDescription,
+      string   handlerHeader,
+      string   handlerValuesHeader,
+      string   handlerShortName,
+      string   handlerLongName,
+      string   handlerSummaryShortName,
+      string   handlerSummaryLongName,
+      string   handlerPreamble,
+      string   handlerUsage,
+      string   handlerDescription,
       ostream& handlerLogOstream);
 
     virtual ~oahHandler ();
@@ -3155,7 +3210,7 @@ class EXP oahHandler : public oahElement
     bool                  optionNameIsASingleCharacterOptionsCluster (
                             string optionName);
 
-    const vector<string>  applyOptionsAndArgumentsFromArgcAndArgv (
+    void                  applyOptionsAndArgumentsFromArgcAndArgv (
                             int   argc,
                             char* argv[]);
 

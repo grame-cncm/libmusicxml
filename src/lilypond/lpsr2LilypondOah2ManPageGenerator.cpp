@@ -89,6 +89,50 @@ void lpsr2lilypondOah2ManPageGenerator::visitEnd (S_lilypondScoreOutputKindAtom&
 }
 
 //________________________________________________________________________
+void lpsr2lilypondOah2ManPageGenerator::visitStart (S_lilypondTransposePartAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> Start visiting lilypondTransposePartAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+/*
+  fOah2ManPageOutputStream <<
+    ".HP" <<
+    endl <<
+    "\\fB\\-" <<
+    regex_replace (elt->getShortName (), "-", "\\-") <<
+    "\\fR, " <<
+    "\\fB\\-" <<
+    regex_replace (elt->getLongName (), "-", "\\-") <<
+    "\\fR, " <<
+    endl <<
+
+    ".IP" <<
+    endl <<
+    elt->getDescription () <<
+    endl;
+    */
+}
+
+void lpsr2lilypondOah2ManPageGenerator::visitEnd (S_lilypondTransposePartAtom& elt)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    fOah2ManPageLogOstream <<
+      endl <<
+      ".\\\" --> End visiting lilypondTransposePartAtom" <<
+      " \"" << elt->fetchNames () << "\"" <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 void lpsr2lilypondOah2ManPageGenerator::visitStart (S_lilypondAbsoluteOctaveEntryAtom& elt)
 {
 #ifdef TRACE_OAH

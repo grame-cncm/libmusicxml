@@ -268,26 +268,29 @@ class mxmlTree2MsrOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeMxmlTreeTraceOah (
+    void                  initializeMxmlTree2MsrTraceOah (
                             bool boolOptionsInitialValue);
 #endif
 
-    void                  initializeMxmlTreeHeaderOptions (
+    void                  initializeMxmlTree2MsrHeaderOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTreeClefsKeysTimesOptions (
+    void                  initializeMxmlTree2MsrClefsKeysTimesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTreeMeasuresOptions (
+    void                  initializeMxmlTree2MsrMeasuresOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTreeWordsOptions (
+    void                  initializeMxmlTree2MsrNotesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTreeDynamicsAndWedgesOptions (
+    void                  initializeMxmlTree2MsrDynamicsAndWedgesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeMxmlTreeCombinedOptionsOptions (
+    void                  initializeMxmlTree2MsrWordsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMxmlTree2MsrCombinedOptionsOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -307,7 +310,7 @@ class mxmlTree2MsrOah : public oahGroup
 
     void                  printMxmlTree2MsrHelp ();
 
-    void                  printMxmlTree2MsrValues (int fieldWidth);
+    void                  printMxmlTree2MsrValues (int valueFieldWidth);
 
   public:
 
@@ -340,18 +343,68 @@ class mxmlTree2MsrOah : public oahGroup
 
     map<string,int>       fAddEmptyMeasuresStringToIntMap;
 
+    // articulations
+    // --------------------------------------
+
+    bool                  fOmitArticulations;
+
+    // ornaments
+    // --------------------------------------
+
+
+    bool                  fOmitOrnaments;
+
     // words
     // --------------------------------------
 
-    // convert words to dal segno
-    map<string, msrDalSegno::msrDalSegnoKind>
-                          fConvertWordsToDalSegno;
+    bool                  fOmitWords;
+
+    // ties
+    // --------------------------------------
+
+    bool                  fOmitTies;
+
+    // dynamics
+    // --------------------------------------
+
+    bool                  fOmitDynamics;
+
+    // slurs
+    // --------------------------------------
+
+    bool                  fOmitSlurs;
+
+    // wedges
+    // --------------------------------------
+
+    bool                  fOmitWedges;
+
+    // lyrics
+    // --------------------------------------
+
+    bool                  fOmitLyrics;
+
+    // harmonies
+    // --------------------------------------
+
+    bool                  fOmitHarmonies;
+
+    // figured bass
+    // --------------------------------------
+
+    bool                  fOmitFiguredBasses;
 
     // dynamics and wedges
     // --------------------------------------
 
     bool                  fAllDynamicsBelow;
     bool                  fAllWedgesBelow;
+
+    // convert words to dal segno
+    // --------------------------------------
+
+    map<string, msrDalSegno::msrDalSegnoKind>
+                          fConvertWordsToDalSegno;
 
     // combined options, cubase
     // --------------------------------------

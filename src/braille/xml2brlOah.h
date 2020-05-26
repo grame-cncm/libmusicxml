@@ -167,7 +167,13 @@ class xml2brlOah : public oahGroup
     // --------------------------------------
 
     string                fBrailleMusicOutputFileName;
-    bool                  fAutoOutputFile;
+    bool                  fAutoOutputFileName;
+
+    // exit after some passes
+    // --------------------------------------
+
+    bool                  fExit2a;
+    bool                  fExit2b;
 };
 typedef SMARTP<xml2brlOah> S_xml2brlOah;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOah& elt);

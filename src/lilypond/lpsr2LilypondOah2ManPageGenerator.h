@@ -26,6 +26,8 @@ class lpsr2lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   public visitor<S_lilypondScoreOutputKindAtom>,
 
+  public visitor<S_lilypondTransposePartAtom>,
+
   public visitor<S_lilypondAbsoluteOctaveEntryAtom>,
 
   public visitor<S_lilypondRelativeOctaveEntryAtom>,
@@ -54,6 +56,9 @@ class lpsr2lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
     virtual void visitStart (S_lilypondScoreOutputKindAtom& elt);
     virtual void visitEnd   (S_lilypondScoreOutputKindAtom& elt);
+
+    virtual void visitStart (S_lilypondTransposePartAtom& elt);
+    virtual void visitEnd   (S_lilypondTransposePartAtom& elt);
 
     virtual void visitStart (S_lilypondAbsoluteOctaveEntryAtom& elt);
     virtual void visitEnd   (S_lilypondAbsoluteOctaveEntryAtom& elt);
