@@ -10495,6 +10495,23 @@ void oahHandler::printKnownSingleCharacterOptions () const
     endl;
 }
 
+string oahHandler::helpOptionsHaveBeenUsedKindAsString (
+  oahHelpOptionsHaveBeenUsedKind helpOptionsHaveBeenUsedKind)
+{
+  string result;
+
+  switch (helpOptionsHaveBeenUsedKind) {
+    case oahHandler::kHelpOptionsHaveBeenUsedYes:
+      result = "helpOptionsHaveBeenUsedYes";
+      break;
+    case oahHandler::kHelpOptionsHaveBeenUsedNo:
+      result = "helpOptionsHaveBeenUsedNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 string oahHandler::optionsDefaultValuesStyleAsString (
   oahOptionsDefaultValuesStyle optionsDefaultValuesStyle)
 {
@@ -11141,7 +11158,7 @@ string oahHandler::decipherOption (
   return currentOptionName;
 }
 
-void oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
+oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
   int   argc,
   char* argv[])
 {
@@ -11310,16 +11327,16 @@ void oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
   }
 #endif
 
-  if (false && fHandlerFoundAHelpOption) { // JMI
+  if (fHandlerFoundAHelpOption) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       gOutputOstream <<
-        "==> fHandlerFoundAHelpOption is true, exiting" <<
+        "==> fHandlerFoundAHelpOption is true" <<
         endl;
     }
 #endif
 
-//    exit (0);
+    return kHelpOptionsHaveBeenUsedYes;
   }
 
   // check the consistency of the options
@@ -11336,6 +11353,8 @@ void oahHandler::applyOptionsAndArgumentsFromArgcAndArgv (
       commandLineWithShortNamesAsString ();
   gOahOah->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
+
+  return kHelpOptionsHaveBeenUsedYes;
 }
 
 void oahHandler::decipherOptionAndValue (
@@ -11422,7 +11441,7 @@ void oahHandler::decipherOptionAndValue (
   }
 }
 
-void oahHandler::hangleOptionsFromOptionsVector (
+oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsVector (
   string               fakeExecutableName,
   const optionsVector& theOptionsVector)
 {
@@ -11587,16 +11606,16 @@ void oahHandler::hangleOptionsFromOptionsVector (
   }
 #endif
 
-  if (false && fHandlerFoundAHelpOption) { // JMI
+  if (fHandlerFoundAHelpOption) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       gOutputOstream <<
-        "==> fHandlerFoundAHelpOption is true, exiting" <<
+        "==> fHandlerFoundAHelpOption is true" <<
         endl;
     }
 #endif
 
-//   exit (0); JMI
+    return kHelpOptionsHaveBeenUsedYes;
   }
 
   // check the consistency of the options
@@ -11613,6 +11632,8 @@ void oahHandler::hangleOptionsFromOptionsVector (
       commandLineWithShortNamesAsString ();
   gOahOah->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
+
+  return kHelpOptionsHaveBeenUsedYes;
 }
 
 void oahHandler::handleHandlerName (

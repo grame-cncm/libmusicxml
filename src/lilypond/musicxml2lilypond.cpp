@@ -27,6 +27,7 @@
   #include "traceOah.h"
 #endif
 
+#include "oahBasicTypes.h"
 #include "msrOah.h"
 #include "msr2LpsrOah.h"
 #include "lpsrOah.h"
@@ -74,10 +75,21 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // ------------------------------------------------------
 
     try {
-      handler->
-        hangleOptionsFromOptionsVector (
-          fakeExecutableName,
-          options);
+      oahHandler::oahHelpOptionsHaveBeenUsedKind
+        helpOptionsHaveBeenUsedKind =
+          handler->
+            hangleOptionsFromOptionsVector (
+              fakeExecutableName,
+              options);
+
+      switch (helpOptionsHaveBeenUsedKind) {
+        case oahHandler::kHelpOptionsHaveBeenUsedYes:
+          return kNoErr;
+          break;
+        case oahHandler::kHelpOptionsHaveBeenUsedNo:
+          // let's go ahead!
+          break;
+      } // switch
     }
     catch (msrOahException& e) {
       return kInvalidOption;
