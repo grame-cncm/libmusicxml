@@ -59,6 +59,7 @@ tslibs: $(TSLIB)
 libs: $(DIST)/lib
 	cp node_modules/jquery/dist/jquery.min.js $(DIST)/lib
 	cp node_modules/bootstrap/dist/js/bootstrap.min.js $(DIST)/lib
+	cp node_modules/node-forge/dist/forge.min.js $(DIST)/lib
 	cp $(LXMLNODE)/libmusicxml.js 		$(DIST)/lib
 	cp $(LXMLNODE)/libmusicxml.wasm 	$(DIST)/lib
 

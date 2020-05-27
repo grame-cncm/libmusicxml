@@ -27,7 +27,9 @@
     "@grame/libmusicxml": "^3.19.1",
     "@types/jquery": "^3.3.36",
     "@types/node": "^13.13.4",
+    "@types/node-forge": "^0.9.3",
     "bootstrap": "^3.4.0",
-    "jquery": "^3.5.0"
+    "jquery": "^3.5.0",
+    "node-forge": "^0.9.1"
   }
 }
