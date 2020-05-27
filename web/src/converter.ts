@@ -6,6 +6,9 @@ const kGuidoMode 	= "1";
 const kLilyMode 	= "2";
 const kBrailleMode 	= "3";
 
+declare var forge: any;
+interface UrlOption  { option: string; value: string; }
+
 //----------------------------------------------------------------------------
 // this is the editor part, currently using CodeMirror
 //----------------------------------------------------------------------------
@@ -25,8 +28,58 @@ class XMLConverter {
 			dragover: function() 	{ return false;},
 			drop: function() 		{ return false;}
 		});
+		// this.scanOptions();
 	}
 
+
+// 	//------------------------------------------------------------------------
+// 	// scan the current location to detect parameters
+// 	scanUrl() : Array<UrlOption>	{
+// 		let result = new Array<UrlOption>();
+// 		let arg = window.location.search.substring(1);
+// 		let n = arg.indexOf("=");
+// 		while (n > 0) {
+// 			let option  = arg.substr(0,n);
+// 			let remain = arg.substr(n+1);
+// 			let next = remain.indexOf("?");
+// 			if (next > 0) {
+// 				let value = remain.substr(0,next);
+// 				result.push ( {option: option, value: value} );
+// 				arg = remain.substr(next + 1);
+// 				n = arg.indexOf("=");
+// 			}
+// 			else {
+// 				result.push ( {option: option, value: remain} );
+// 				break;
+// 			}
+// 		}
+// 		return result;
+// 	}
+
+// 	//------------------------------------------------------------------------
+// 	// scan the current location to detect parameters
+// 	scanOptions() : void	{
+// console.log ("lxml scan options: " + window.location);
+// 		let options = this.scanUrl();
+// 		for (let i=0; i<options.length; i++) {
+// 			let option = options[i].option;
+// 			let value = options[i].value;
+// 			switch (option) {
+// 				case "s":
+// console.log ("lxml receive s request id: " + value);
+// 				let gmn = localStorage.getItem(value);
+// 					if (gmn) {
+// console.log ("lxml send id: " + value);
+// 						var oReq = new XMLHttpRequest();
+// 						oReq.open("put", "http://localhost:8000", true);
+// 						oReq.send("<div id=\"gmn\">" + gmn + "</div>");
+// 					}
+// 					break;
+// 			}
+// 		}
+// 	}
+
+	//------------------------------------------------------------------------
 	capture(event: DragEvent) {
 		event.stopImmediatePropagation();
 		event.preventDefault();
@@ -73,40 +126,41 @@ class XMLConverter {
 		$("#gmnbars").change 			( (event) => { this.convert(this.fXmlContent, this.fFileName+".xml"); } );
 		$("#transpose").change 			( (event) => { this.convert(this.fXmlContent, this.fFileName+".xml"); } );
 		$("#guidotry").click			( (event) => { this.tryGuido(); } );
+		$("#lilyhelp").click			( (event) => { this.lilyHelp(); } );
 		$("#clearlog").click			( (event) => { $("#logs").html(""); } );
 
 		this.changeMode(<string>$("input[name='output']:checked").val());
 		let logs = document.getElementById ("logs");
+
+		$('#lilyopt').on	('blur', (event) =>  { this.convert(this.fXmlContent, this.fFileName+".xml"); });
 		// $("#log-font").click		( () => { logs.style.fontFamily = <string>$("#log-font").val(); });
 		// $("#log-size").click		( () => { logs.style.fontSize = $("#log-size").val() + "px"; });
 		// logs.style.fontFamily = <string>$("#log-font").val();
 		// logs.style.fontSize = $("#log-size").val() + "px";
 	}
 
-	tryGuido () {
-		let gmn = $("#code").text();
-		if (gmn.length && (gmn.length < 2000))
-			window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
-		else {
-			alert("Sorry!\nThe content size exceeds the url size limit to be sent to the online editor.\n\nWe're looking for a solution...");
-			// const xhr = new XMLHttpRequest();
-			// xhr.open('POST', 'http://localhost:8000/');
-			// xhr.setRequestHeader('Access-Control-Allow-Origin', 'true');
-			// xhr.setRequestHeader('Content-Type', 'text/plain');
-			// // xhr.onreadystatechange = handler;
-			// xhr.send (gmn); 
-
-			// $.post("https://guidoeditor.grame.fr", gmn, function(result: string){
-			// 					console.log("post result: " + result );
-			// 			}, "text");
- 		}
+	lilyHelp () { 
+		this.fXmlEngine.string2lily ("", "-help");
+		$("#lognav").click();
 	}
 
-	// tryGuido () {
-	// 	let gmn = $("#code").text();
-	// 	if (gmn.length)
-	// 		window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
-	// }
+	tryGuido () {
+			let gmn = $("#code").text();
+		if (gmn.length) {
+			if (gmn.length < 2000)
+		 		window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
+			else {
+				var md = forge.md.sha256.create();
+				md.update(gmn);
+				let id = md.digest().toHex();
+				console.log("id: " + id);
+				localStorage.setItem(id, gmn);
+				// window.open("https://guidoeditor.grame.fr/?s=" + id, '_blank');
+				window.open("http://localhost:8000/?s=" + id, '_blank');
+				// alert("Sorry!\nThe content size exceeds the url size limit to be sent to the online editor.\n\nWe're looking for a solution...");
+			}
+		}
+	}
 
 	save () : void {
 		if (this.fXmlContent.length) {
@@ -134,8 +188,8 @@ class XMLConverter {
 	cversion () : string		{ 
 		switch (this.fMode) {
 			case kGuidoMode: return this.fXmlEngine.musicxml2guidoVersionStr();
-			case kLilyMode : return "0.1";
-			case kBrailleMode: return "0.1";
+			case kLilyMode : return this.fXmlEngine.musicxml2lilypondVersionStr();
+			case kBrailleMode: return this.fXmlEngine.musicxml2brailleVersionStr();
 		}
 		return "";
 	}
@@ -172,15 +226,18 @@ class XMLConverter {
 		this.fXmlContent = script;
 		this.fFileName = path.substring(0, path.lastIndexOf('.'));
 		let code = "";
+		let transpose = this.getTranspose();
+		if (transpose) script = this.fXmlEngine.xmlStringTranspose(script, transpose);
 		switch (this.fMode) {
 			case kGuidoMode:
-				let transpose = this.getTranspose();
-				if (transpose) script = this.fXmlEngine.xmlStringTranspose(script, transpose);
+				// let transpose = this.getTranspose();
+				// if (transpose) script = this.fXmlEngine.xmlStringTranspose(script, transpose);
 				code = this.fXmlEngine.string2guido(script, $("#gmnbars").is(":checked"));
 				this.changeGuidoTryStatus();
 				break;
 			case kLilyMode:
-				code = "not yet available";
+				code = this.fXmlEngine.string2lily(script, <string>$("#lilyopt").val());
+				// code = "not yet available";
 				break;
 			case kBrailleMode:
 				code = "not yet available";
