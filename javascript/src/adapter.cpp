@@ -105,7 +105,7 @@ string	libMusicXMLAdapter::string2lily(const string& buff, const string& args)
 	stringstream sstr;
 	optionsVector options;
 	if (!args2Options (args, options)) {
-		cerr << "musicxmlstring2braille: bad option sequence: " << args << endl;
+		cerr << "musicxmlstring2lilypond: bad option sequence: " << args << endl;
 		return "";
 	}
 //cerr << "libMusicXMLAdapter::string2lily options: " << options.size() << ": " << options2String(options) << endl;
