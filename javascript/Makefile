@@ -18,6 +18,7 @@ MSR     := no
 srcdir  := ../src
 binddir := ./src
 npmdir  := ./npm
+distdir := $(npmdir)/dist
 
 ifeq ($(LILY), yes)
 	MSR = yes
@@ -83,11 +84,11 @@ npm: $(npmdir)/$(library).js
 test: $(npmdir)/$(library).js
 	cd npm && npm run test
 
-npmlib: $(npmdir)/$(library).js
+npmlib: $(distdir)/$(library).js
 
-$(npmdir)/$(library).js : $(library).js
-	cp $(library).js   $(npmdir)
-	cp $(library).wasm $(npmdir)
+$(distdir)/$(library).js : $(library).js
+	cp $(library).js   $(distdir)
+	cp $(library).wasm $(distdir)
 
 
 ##############################################################
