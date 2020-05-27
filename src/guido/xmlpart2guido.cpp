@@ -771,57 +771,59 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xmlpart2guido::visitStart ( S_wedge& elt )
-    {
-        if (fSkipDirection) return;
+void xmlpart2guido::visitStart ( S_wedge& elt )
+{
+    if (fSkipDirection) return;
+    
+    //        bool wedgeStart = false;
+    
+    string type = elt->getAttributeValue("type");
+    Sguidoelement tag;
+    if (type == "crescendo") {
+        tag = guidotag::create("crescBegin");
+        fCrescPending = true;
+        //            wedgeStart = true;
+    }
+    else if (type == "diminuendo") {
+        tag = guidotag::create("dimBegin");
+        fCrescPending = false;
+        //            wedgeStart = true;
+    }
+    else if (type == "stop") {
+        if (fIgnoreWedgeWithOffset) {
+            fIgnoreWedgeWithOffset = false;
+            return; // FIXME: Ignore Offset Wedge à la Verovio
+        }
         
-//        bool wedgeStart = false;
-		
-        string type = elt->getAttributeValue("type");
-        Sguidoelement tag;
-        if (type == "crescendo") {
-            tag = guidotag::create("crescBegin");
-            fCrescPending = true;
-//            wedgeStart = true;
-        }
-        else if (type == "diminuendo") {
-            tag = guidotag::create("dimBegin");
-            fCrescPending = false;
-//            wedgeStart = true;
-        }
-        else if (type == "stop") {
-            if (fIgnoreWedgeWithOffset) {
-                fIgnoreWedgeWithOffset = false;
-                return; // FIXME: Ignore Offset Wedge à la Verovio
+        tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
+    }
+    
+    if (tag) {
+        //// Also add SPREAD values (in mXML tenths - conversion: (X / 10) * 2)
+        //// Spread is present right away for a diminuendo, it'll be present for crescendo at its STOP type
+        if (type == "diminuendo") {
+            float spreadValue = elt->getAttributeFloatValue("spread", 15.0);
+            if (spreadValue != 15.0) {
+                stringstream s;
+                s << "deltaY=" << (spreadValue/10)*2 << "hs";
+                tag->add (guidoparam::create(s.str(), false));
             }
             
-            tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
-        }
-        
-        if (tag) {
-            //// Also add SPREAD values (in mXML tenths - conversion: (X / 10) * 2)
-            //// Spread is present right away for a diminuendo, it'll be present for crescendo at its STOP type
-            if (type == "diminuendo") {
-                float spreadValue = elt->getAttributeFloatValue("spread", 15.0);
-                if (spreadValue != 15.0) {
-                    stringstream s;
-                    s << "deltaY=" << (spreadValue/10)*2 << "hs";
-                    tag->add (guidoparam::create(s.str(), false));
-                }
-                
-                /*stringstream s;
-                 s << "autopos=\"on\"";
-                 tag->add (guidoparam::create(s.str(), false));*/
-                
-            }else if (type == "crescendo")
-            {
-                ctree<xmlelement>::iterator wedgeBegin= find(fCurrentPart->begin(), fCurrentPart->end(), elt);
-                int crescendoNumber = elt->getAttributeIntValue("number", 1);   // default is 1 for wedge!
-                ctree<xmlelement>::iterator nextevent  = wedgeBegin;
-                nextevent++;    // advance one step
-                
-                // find next S_direction in measure
-                ctree<xmlelement>::iterator nextWedge = fCurrentMeasure->find(k_wedge, nextevent);
+            /*stringstream s;
+             s << "autopos=\"on\"";
+             tag->add (guidoparam::create(s.str(), false));*/
+            
+        }else if (type == "crescendo")
+        {
+            ctree<xmlelement>::iterator wedgeBegin= find(fCurrentPart->begin(), fCurrentPart->end(), elt);
+            int crescendoNumber = elt->getAttributeIntValue("number", 1);   // default is 1 for wedge!
+            ctree<xmlelement>::iterator nextevent  = wedgeBegin;
+            nextevent++;    // advance one step
+            
+            // find next S_direction in measure
+            ctree<xmlelement>::iterator nextWedge = fCurrentPart->find(k_wedge, nextevent);
+            
+            if (nextWedge != fCurrentPart->end()) {
                 
                 while ( ( nextWedge->getAttributeIntValue("number", 1) != crescendoNumber)
                        &&
@@ -897,21 +899,21 @@ namespace MusicXML2
                  s << "autopos=\"on\"";
                  tag->add (guidoparam::create(s.str(), false));*/
             }
-            
-            stringstream s;
-            s << "dy=" << xml2guidovisitor::getYposition(elt, 13, true) << "hs";
-            tag->add (guidoparam::create(s.str(), false));
-            //xml2guidovisitor::addPosY(elt, tag, -2, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
-            
-            if (fCurrentOffset) {
-                addDelayed(tag, fCurrentOffset);
-            }
-            else {
-                add (tag);
-            }
         }
         
+        stringstream s;
+        s << "dy=" << xml2guidovisitor::getYposition(elt, 13, true) << "hs";
+        tag->add (guidoparam::create(s.str(), false));
+        //xml2guidovisitor::addPosY(elt, tag, -2, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
+        
+        if (fCurrentOffset) {
+            addDelayed(tag, fCurrentOffset);
+        }
+        else {
+            add (tag);
+        }
     }
+}
     
 
 std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
