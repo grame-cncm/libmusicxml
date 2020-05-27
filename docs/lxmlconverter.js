@@ -68,8 +68,14 @@ var libmusicxml = /** @class */ (function () {
     libmusicxml.prototype.libVersionStr = function () { return this.fLibrary.libVersionStr(); };
     libmusicxml.prototype.musicxml2guidoVersion = function () { return this.fLibrary.musicxml2guidoVersion(); };
     libmusicxml.prototype.musicxml2guidoVersionStr = function () { return this.fLibrary.musicxml2guidoVersionStr(); };
+    libmusicxml.prototype.musicxml2lilypondVersion = function () { return this.fLibrary.musicxml2lilypondVersion(); };
+    libmusicxml.prototype.musicxml2lilypondVersionStr = function () { return this.fLibrary.musicxml2lilypondVersionStr(); };
+    libmusicxml.prototype.musicxml2brailleVersion = function () { return this.fLibrary.musicxml2brailleVersion(); };
+    libmusicxml.prototype.musicxml2brailleVersionStr = function () { return this.fLibrary.musicxml2brailleVersionStr(); };
     libmusicxml.prototype.string2guido = function (xml, genBars) { return this.fLibrary.string2guido(xml, genBars); };
     libmusicxml.prototype.xmlStringTranspose = function (xml, interval) { return this.fLibrary.xmlStringTranspose(xml, interval); };
+    libmusicxml.prototype.string2lily = function (xml, options) { return this.fLibrary.string2lily(xml, options); };
+    libmusicxml.prototype.string2braille = function (xml, options) { return this.fLibrary.string2braille(xml, options); };
     return libmusicxml;
 }());
 //----------------------------------------------------------------------------
@@ -112,7 +118,54 @@ var XMLConverter = /** @class */ (function () {
             dragover: function () { return false; },
             drop: function () { return false; }
         });
+        // this.scanOptions();
     }
+    // 	//------------------------------------------------------------------------
+    // 	// scan the current location to detect parameters
+    // 	scanUrl() : Array<UrlOption>	{
+    // 		let result = new Array<UrlOption>();
+    // 		let arg = window.location.search.substring(1);
+    // 		let n = arg.indexOf("=");
+    // 		while (n > 0) {
+    // 			let option  = arg.substr(0,n);
+    // 			let remain = arg.substr(n+1);
+    // 			let next = remain.indexOf("?");
+    // 			if (next > 0) {
+    // 				let value = remain.substr(0,next);
+    // 				result.push ( {option: option, value: value} );
+    // 				arg = remain.substr(next + 1);
+    // 				n = arg.indexOf("=");
+    // 			}
+    // 			else {
+    // 				result.push ( {option: option, value: remain} );
+    // 				break;
+    // 			}
+    // 		}
+    // 		return result;
+    // 	}
+    // 	//------------------------------------------------------------------------
+    // 	// scan the current location to detect parameters
+    // 	scanOptions() : void	{
+    // console.log ("lxml scan options: " + window.location);
+    // 		let options = this.scanUrl();
+    // 		for (let i=0; i<options.length; i++) {
+    // 			let option = options[i].option;
+    // 			let value = options[i].value;
+    // 			switch (option) {
+    // 				case "s":
+    // console.log ("lxml receive s request id: " + value);
+    // 				let gmn = localStorage.getItem(value);
+    // 					if (gmn) {
+    // console.log ("lxml send id: " + value);
+    // 						var oReq = new XMLHttpRequest();
+    // 						oReq.open("put", "http://localhost:8000", true);
+    // 						oReq.send("<div id=\"gmn\">" + gmn + "</div>");
+    // 					}
+    // 					break;
+    // 			}
+    // 		}
+    // 	}
+    //------------------------------------------------------------------------
     XMLConverter.prototype.capture = function (event) {
         event.stopImmediatePropagation();
         event.preventDefault();
@@ -156,36 +209,37 @@ var XMLConverter = /** @class */ (function () {
         $("#gmnbars").change(function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
         $("#transpose").change(function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
         $("#guidotry").click(function (event) { _this.tryGuido(); });
+        $("#lilyhelp").click(function (event) { _this.lilyHelp(); });
         $("#clearlog").click(function (event) { $("#logs").html(""); });
         this.changeMode($("input[name='output']:checked").val());
         var logs = document.getElementById("logs");
+        $('#lilyopt').on('blur', function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
         // $("#log-font").click		( () => { logs.style.fontFamily = <string>$("#log-font").val(); });
         // $("#log-size").click		( () => { logs.style.fontSize = $("#log-size").val() + "px"; });
         // logs.style.fontFamily = <string>$("#log-font").val();
         // logs.style.fontSize = $("#log-size").val() + "px";
     };
+    XMLConverter.prototype.lilyHelp = function () {
+        this.fXmlEngine.string2lily("", "-help");
+        $("#lognav").click();
+    };
     XMLConverter.prototype.tryGuido = function () {
         var gmn = $("#code").text();
-        if (gmn.length && (gmn.length < 2000))
-            window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
-        else {
-            alert("Sorry!\nThe content size exceeds the url size limit to be sent to the online editor.\n\nWe're looking for a solution...");
-            // const xhr = new XMLHttpRequest();
-            // xhr.open('POST', 'http://localhost:8000/');
-            // xhr.setRequestHeader('Access-Control-Allow-Origin', 'true');
-            // xhr.setRequestHeader('Content-Type', 'text/plain');
-            // // xhr.onreadystatechange = handler;
-            // xhr.send (gmn); 
-            // $.post("https://guidoeditor.grame.fr", gmn, function(result: string){
-            // 					console.log("post result: " + result );
-            // 			}, "text");
+        if (gmn.length) {
+            if (gmn.length < 2000)
+                window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
+            else {
+                var md = forge.md.sha256.create();
+                md.update(gmn);
+                var id = md.digest().toHex();
+                console.log("id: " + id);
+                localStorage.setItem(id, gmn);
+                // window.open("https://guidoeditor.grame.fr/?s=" + id, '_blank');
+                window.open("http://localhost:8000/?s=" + id, '_blank');
+                // alert("Sorry!\nThe content size exceeds the url size limit to be sent to the online editor.\n\nWe're looking for a solution...");
+            }
         }
     };
-    // tryGuido () {
-    // 	let gmn = $("#code").text();
-    // 	if (gmn.length)
-    // 		window.open("https://guidoeditor.grame.fr/?code=" + btoa(gmn), '_blank');
-    // }
     XMLConverter.prototype.save = function () {
         if (this.fXmlContent.length) {
             var content = this.fCode.innerText;
@@ -210,8 +264,8 @@ var XMLConverter = /** @class */ (function () {
     XMLConverter.prototype.cversion = function () {
         switch (this.fMode) {
             case kGuidoMode: return this.fXmlEngine.musicxml2guidoVersionStr();
-            case kLilyMode: return "0.1";
-            case kBrailleMode: return "0.1";
+            case kLilyMode: return this.fXmlEngine.musicxml2lilypondVersionStr();
+            case kBrailleMode: return this.fXmlEngine.musicxml2brailleVersionStr();
         }
         return "";
     };
@@ -251,16 +305,19 @@ var XMLConverter = /** @class */ (function () {
         this.fXmlContent = script;
         this.fFileName = path.substring(0, path.lastIndexOf('.'));
         var code = "";
+        var transpose = this.getTranspose();
+        if (transpose)
+            script = this.fXmlEngine.xmlStringTranspose(script, transpose);
         switch (this.fMode) {
             case kGuidoMode:
-                var transpose = this.getTranspose();
-                if (transpose)
-                    script = this.fXmlEngine.xmlStringTranspose(script, transpose);
+                // let transpose = this.getTranspose();
+                // if (transpose) script = this.fXmlEngine.xmlStringTranspose(script, transpose);
                 code = this.fXmlEngine.string2guido(script, $("#gmnbars").is(":checked"));
                 this.changeGuidoTryStatus();
                 break;
             case kLilyMode:
-                code = "not yet available";
+                code = this.fXmlEngine.string2lily(script, $("#lilyopt").val());
+                // code = "not yet available";
                 break;
             case kBrailleMode:
                 code = "not yet available";
@@ -305,9 +362,12 @@ function xmlversion(lxml) {
     console.log("LibMusicXML version " + lxml.libVersionStr());
     $("#lxmlversion").html(lxml.libVersionStr());
     console.log("MusicXML to GMN converter version " + lxml.musicxml2guidoVersionStr());
+    console.log("MusicXML to Lilypond converter version " + lxml.musicxml2lilypondVersionStr());
+    // 	console.log( "MusicXML to Braille converter version " + lxml.musicxml2brailleVersionStr());
     $("#version").html(lxml.libVersionStr());
-    $("#xml2guidoversion").html(lxml.musicxml2guidoVersionStr());
     $("#guidoversion").html(lxml.musicxml2guidoVersionStr());
+    $("#lilyversion").html(lxml.musicxml2lilypondVersionStr());
+    // $("#brailleversion").html (lxml.musicxml2brailleVersionStr());
 }
 var lxml = new libmusicxml();
 var converter = new XMLConverter();
@@ -315,3 +375,17 @@ lxml.initialise().then(function () {
     xmlversion(lxml);
     converter.initialize(lxml);
 });
+// const domains = [
+// 	"http://localhost:8080",
+// 	"https://guidoeditor.grame.fr"
+// ];
+// window.addEventListener("message", messageHandler, false);
+// function messageHandler(event : MessageEvent) {
+// console.log ("got message from " + event.origin);
+// 	if (!domains.includes(event.origin))
+// 	  return;
+// 	const { action, key } = event.data
+// 	if (action == 'get') {
+// 		window.postMessage( { action: 'data', data: localStorage.getItem(key) }, event.origin);
+// 	}
+// }

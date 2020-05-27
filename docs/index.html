@@ -10,6 +10,7 @@
 
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/forge.min.js"></script>
 
 	<title>libMusicXML</title>
 </head>
@@ -111,13 +112,14 @@
 			Converter version: <span id=convVersion></span>
 			<hr>
 			<div>
+				<label><input type="number" id="transpose" min="-24" max="24" value="0" style="width: 45px">&nbsp;Transpose</label>
+				<hr>
 				<h4>Options</h4>
 				<!-- guido options -->
 				<div id=guidoOptions class="options"> 
 					<div class="checkbox">
 						<label><input type="checkbox" checked id="gmnbars">Generate bars</label>
 					</div>
-					<label></label><input type="number" id="transpose" min="-12" max="12" value="0" style="width: 45px">&nbsp;Transpose</label>
 					<br/>
 					<br/>
 					<button id="guidotry" type="button" class="btn btn-success">Try it online</button>
@@ -125,7 +127,8 @@
 
 				<!-- lily options -->
 				<div id=lilyOptions class="options"> 
-					Not yet available
+					<textarea id="lilyopt" class="lilyoptions" rows="5" cols="45" placeholder="type your options here"></textarea> <br />
+					<button id="lilyhelp" type="button" class="btn btn-success">Help</button>
 				</div>
 
 				<!-- braille options -->

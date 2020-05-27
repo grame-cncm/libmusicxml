@@ -72,7 +72,15 @@ html, body {
 .vtable {
 	text-align: left;
     margin-left: auto;
-    margin-right: auto;
+	margin-right: auto;
+}
+.vtable td {
+	padding-left: 15px !important;
+}
+
+.lilyoptions {
+	margin-bottom: 20px;
+	padding: 4px;
 }
 
 .info {
