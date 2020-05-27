@@ -774,20 +774,16 @@ namespace MusicXML2
 void xmlpart2guido::visitStart ( S_wedge& elt )
 {
     if (fSkipDirection) return;
-    
-    //        bool wedgeStart = false;
-    
+        
     string type = elt->getAttributeValue("type");
     Sguidoelement tag;
     if (type == "crescendo") {
         tag = guidotag::create("crescBegin");
         fCrescPending = true;
-        //            wedgeStart = true;
     }
     else if (type == "diminuendo") {
         tag = guidotag::create("dimBegin");
         fCrescPending = false;
-        //            wedgeStart = true;
     }
     else if (type == "stop") {
         if (fIgnoreWedgeWithOffset) {
@@ -799,8 +795,8 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
     }
     
     if (tag) {
-        //// Also add SPREAD values (in mXML tenths - conversion: (X / 10) * 2)
-        //// Spread is present right away for a diminuendo, it'll be present for crescendo at its STOP type
+        /// Also add SPREAD values (in mXML tenths - conversion: (X / 10) * 2)
+        /// Spread is present right away for a diminuendo, it'll be present for crescendo at its STOP type
         if (type == "diminuendo") {
             float spreadValue = elt->getAttributeFloatValue("spread", 15.0);
             if (spreadValue != 15.0) {
@@ -904,7 +900,6 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
         stringstream s;
         s << "dy=" << xml2guidovisitor::getYposition(elt, 13, true) << "hs";
         tag->add (guidoparam::create(s.str(), false));
-        //xml2guidovisitor::addPosY(elt, tag, -2, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
         
         if (fCurrentOffset) {
             addDelayed(tag, fCurrentOffset);
