@@ -6,10 +6,11 @@ version ?= $(shell cat libmusicxmlversion.txt)
 
 xmlfiles                  = $(shell find ../files -name "*.xml")
 xmllily                   = $(shell find ../files -name "*.xml" | grep -v lilypending)
+xmlbraille                = $(shell find ../files -name "*.xml" | grep -v braillepending)
 xmlfilesforlilyjianpu     = $(shell find ../files -name "*.xml" | grep jianpu)
 jianpuincludefilename     = "jianpu10a.ly"
 jianpuinclude             = $(shell find ../files -name $(jianpuincludefilename)")
-xmlfilesforbrl     		  = $(shell find ../files -name "*.xml" | grep braille)
+xmlfilesforbrl     		  = $(shell find ../files -name "*.xml" | grep braille | grep -v braillepending)
 
 readout           := $(xmlfiles:../%.xml=$(version)/read/%.xml)
 gmnout            := $(xmlfiles:../%.xml=$(version)/gmn/%.gmn)
@@ -42,7 +43,7 @@ all:
 	$(MAKE) read
 	$(MAKE) guido
 	$(MAKE) lily
-#	$(MAKE) brl
+#	$(MAKE) braille
 
 clean:
 	$(MAKE) lilyignoredclean
@@ -76,7 +77,7 @@ help:
 	@echo "  'lilyjianpu'     : converts the a subset of xml files to lilypond code using $(jianpuinclude)"
 	@echo "  'lilyjianpupdf ' : converts the output of 'lilyjianpu' target to pdf"
 	@echo "  'lilyjianpupng'  : converts the output of 'lilyjianpu' target to png"
-#	@echo "  'brl'            : converts a subset of xml files to BRF (Braille Ready Format) music"
+	@echo "  'braille'        : converts a subset of xml files to BRF (Braille Ready Format) music"
 	@echo "Output files are written to the $(version) folder, "
 	@echo "where $(version) is taken from the libmusicxmlversion.txt file that you can freely change."
 	@echo
@@ -87,7 +88,7 @@ help:
 	@echo "Options:"
 	@echo "  'XML2GUIDO=/path/to/xml2guido"
 	@echo "  'XML2LY=/path/to/xml2ly"
-#	@echo "  'XML2BRL=/path/to/xml2brl"
+	@echo "  'XML2BRL=/path/to/xml2brl"
 	@echo "  'XMLREAD=/path/to/xmlread"
 	@echo "when the above variables are not specified, the tools are taken from the current PATH env."
 
@@ -187,9 +188,7 @@ lilyjianpupdfclean:
 	rm $(lilyjianpumidi)
 
 #########################################################################
-brl:
-	@echo "xmlfilesforbrl: " $(xmlfilesforbrl)
-	@echo "brlout: " $(brlout)
+braille:
 	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
 	$(MAKE) dobrl
 
@@ -206,7 +205,7 @@ validate:
 	$(MAKE) validxml
 	$(MAKE) validgmn
 	$(MAKE) validlily
-	$(MAKE) validlilyjianpu
+#	$(MAKE) validlilyjianpu
 #	$(MAKE) validbrl
 
 validxml: $(validxml)
