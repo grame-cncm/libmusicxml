@@ -274,6 +274,13 @@ namespace MusicXML2
                 
                 add (tag);
             }
+        }else {
+            // Create a HIDDEN Bar in case of fPendingBar equal to false.
+            // This is the case for "bar-style" equal to "none" or "implicit" measures
+            Sguidoelement tag = guidotag::create("bar");
+            std::string hidden = "hidden=\"true\"";
+            tag->add(guidoparam::create(hidden.c_str(), false));
+            add(tag);
         }
         fCurrentMeasure = elt;
         fMeasNum++;
