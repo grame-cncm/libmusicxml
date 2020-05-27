@@ -11354,7 +11354,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
   gOahOah->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
 
-  return kHelpOptionsHaveBeenUsedYes;
+  return kHelpOptionsHaveBeenUsedNo;
 }
 
 void oahHandler::decipherOptionAndValue (
@@ -11622,7 +11622,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
   checkHandlerGroupsOptionsConsistency ();
 
   // check the options and arguments
-// JMI  checkOptionsAndArguments ();
+  // JMI checkOptionsAndArguments ();
 
   // store the command line with options in gOahOah
   // for whoever need them
@@ -11633,7 +11633,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
   gOahOah->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
 
-  return kHelpOptionsHaveBeenUsedYes;
+  return kHelpOptionsHaveBeenUsedNo;
 }
 
 void oahHandler::handleHandlerName (

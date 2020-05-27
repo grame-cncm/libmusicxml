@@ -351,6 +351,23 @@ void xml2lyOahHandler::checkOptionsAndArguments ()
         potentialOutputFileName.size () - posInString,
         ".ly");
     }
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      if (argumentsNumber > 0) {
+        fHandlerLogOstream <<
+          singularOrPluralWithoutNumber (
+            argumentsNumber, "There is", "There are") <<
+          " " <<
+          argumentsNumber <<
+          " " <<
+          singularOrPluralWithoutNumber (
+            argumentsNumber, "argument", "arguments") <<
+          ":" <<
+          endl;
+      }
+    }
+#endif
   }
 
   // check auto output file option usage
