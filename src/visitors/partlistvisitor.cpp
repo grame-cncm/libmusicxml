@@ -69,8 +69,8 @@ namespace MusicXML2
         stringstream rangeStream;
         rangeStream << "\"" << (*rangeBegin) << "-" << (*rangeEnd) << "\"";
         pGroup.guidoRange = rangeStream.str();
-        pGroup.guidoRangeStart = *rangeBegin;
-        pGroup.guidoRangeStop = *rangeEnd;
+        pGroup.guidoRangeStart = *rangeBegin ;
+        pGroup.guidoRangeStop = *rangeEnd ;
     }
     
     bool partlistvisitor::checkLonelyBarFormat(int staffID)
