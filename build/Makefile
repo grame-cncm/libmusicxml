@@ -40,7 +40,7 @@ MSVC64 := $(MSVC) Win64
 JOBS ?= 6
 
 CMAKEOPT ?= 
-TOOLS := xml2midi xmlread xml2guido xml2ly xmlversion
+TOOLS := xml2midi xmlread xml2guido xml2ly xmlversion xml2brl
 
 all :
 	git submodule update --init
