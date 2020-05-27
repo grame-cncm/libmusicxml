@@ -155,8 +155,8 @@ class XMLConverter {
 				let id = md.digest().toHex();
 				console.log("id: " + id);
 				localStorage.setItem(id, gmn);
-				// window.open("https://guidoeditor.grame.fr/?s=" + id, '_blank');
-				window.open("http://localhost:8000/?s=" + id, '_blank');
+				window.open("https://guidoeditor.grame.fr/?s=" + id, '_blank');
+				// window.open("http://localhost:8000/?s=" + id, '_blank');
 				// alert("Sorry!\nThe content size exceeds the url size limit to be sent to the online editor.\n\nWe're looking for a solution...");
 			}
 		}
