@@ -376,6 +376,7 @@ lxml.initialise().then(function () {
     xmlversion(lxml);
     converter.initialize(lxml);
 });
+document.domain = "grame.fr";
 // const domains = [
 // 	"http://localhost:8080",
 // 	"https://guidoeditor.grame.fr"

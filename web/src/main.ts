@@ -25,6 +25,8 @@ lxml.initialise ().then (
 	}
 );
 
+document.domain = "grame.fr";
+
 // const domains = [
 // 	"http://localhost:8080",
 // 	"https://guidoeditor.grame.fr"
