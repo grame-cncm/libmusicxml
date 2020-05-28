@@ -38,6 +38,7 @@ console.log ("lxml code receive s request id: " + value);
 console.log ("lxml code put id: " + value);
                 var div = document.getElementById("code");
                 div.innerHTML =  gmn;
+				window.postMessage(gmn, "https://guidoeditor.grame.fr");
                 // document.body.innerText = gmn;
             }
             break;
