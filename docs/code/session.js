@@ -36,8 +36,9 @@ console.log ("lxml code receive s request id: " + value);
             let gmn = localStorage.getItem(value);
             if (gmn) {
 console.log ("lxml code send id: " + value);
-                var div = document.getElementById("code");
-                div.innerHTML =  gmn;
+                // var div = document.getElementById("code");
+                // div.innerHTML =  gmn;
+                document.body.innerText = gmn;
             }
             break;
         }
