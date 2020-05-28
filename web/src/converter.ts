@@ -104,7 +104,6 @@ class XMLConverter {
 				var md = forge.md.sha256.create();
 				md.update(gmn);
 				let id = md.digest().toHex();
-				console.log("id: " + id);
 				localStorage.setItem(id, gmn);
 				window.open("https://guidoeditor.grame.fr/?s=" + id, '_blank');
 			}
