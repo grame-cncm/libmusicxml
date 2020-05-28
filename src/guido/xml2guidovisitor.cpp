@@ -27,14 +27,17 @@
 
 using namespace std;
 
+
 namespace MusicXML2
 {
+    int xml2guidovisitor::defaultGuidoStaffDistance = 0;
+    int xml2guidovisitor::defaultStaffDistance = 0;
     
     //______________________________________________________________________________
     xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum) :
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
-    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum), defaultStaffDistance(0), defaultGuidoStaffDistance(1)
+    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum)
     {
         timePositions.clear();
     }
@@ -125,7 +128,6 @@ namespace MusicXML2
     
     void xml2guidovisitor::flushPartGroup (std::string partID)
     {
-        //cerr<< "Entering flushPartGroup with ID "<<partID<<endl;
         /// Add groupings (accolade and barformat)
         // search if this part ID exists in any grouping
         // Guido Limitation: One \accol tag per staff ONLY (for nested definitions)
@@ -135,19 +137,24 @@ namespace MusicXML2
         if (partGroupIt != NULL && partGroupIt->guidoRange.size()>0)
         {
             /// something was found. Generate Accolades and BarFormat if any
+            int rangeStart = fCurrentStaffIndex ;
+            int rangeEnd = rangeStart + (partGroupIt->guidoRangeStop - partGroupIt->guidoRangeStart);
+            std::stringstream rangeFixed;
+            rangeFixed << " range=\""<< rangeStart <<"-"<<rangeEnd<<"\"";
             
             if (partGroupIt->bracket)
             {
-                std::string accolParams = "id=1, range="+partGroupIt->guidoRange;
+                std::stringstream accolParams;
+                accolParams << "id=1, "<< rangeFixed.str();
                 
                 Sguidoelement tag3 = guidotag::create("accol");
-                tag3->add (guidoparam::create(accolParams, false));
+                tag3->add (guidoparam::create(accolParams.str(), false));
                 add (tag3);
             }
             
             if (partGroupIt->barlineGrouping)
             {
-                std::string barformatParams = "style= \"system\", range="+partGroupIt->guidoRange;
+                std::string barformatParams = "style= \"system\", "+rangeFixed.str();
                 
                 Sguidoelement tag4 = guidotag::create("barFormat");
                 tag4->add (guidoparam::create(barformatParams, false));
@@ -168,19 +175,19 @@ namespace MusicXML2
     
     void xml2guidovisitor::visitStart( S_defaults& elt)
     {
-        defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
+        xml2guidovisitor::defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
         
         // Convert to HS
-        /// Guido's default staff-distance seems to be 10HS or 50 tenths
+        /// Guido's default staff-distance seems to be 8 or 80 tenths
         if (defaultStaffDistance > 0) {
-            float xmlDistance = defaultStaffDistance - 50.0;
-            float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
-            if (HalfSpaceDistance < 0.0) {
-                defaultGuidoStaffDistance = HalfSpaceDistance;
+            float xmlDistance = xml2guidovisitor::defaultStaffDistance;
+            float HalfSpaceDistance = (xmlDistance / 10) * 2 ; // (pos/10)*2
+            if (HalfSpaceDistance > 0.0) {
+                xml2guidovisitor::defaultGuidoStaffDistance = HalfSpaceDistance;
             }else
-                defaultGuidoStaffDistance = 0;
+                xml2guidovisitor::defaultGuidoStaffDistance = 0;
         }else {
-            defaultGuidoStaffDistance = 0;
+            xml2guidovisitor::defaultGuidoStaffDistance = 0;
         }
     }
     
@@ -242,32 +249,12 @@ namespace MusicXML2
             tag = guidotag::create(autoHideTiedAccidentals);
             add(tag);
                         
-            //// Add staffFormat if needed
-            // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
+            /// Add staffFormat if needed
+            // We do not infer default staff distance from musicXML since no software seem to be able to control it!
             int stafflines = elt->getIntValue(k_staff_lines, 0);
-            
-            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance||ps.fStaffDistances.size())
+            if (stafflines)
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
-                if (previousStaffHasLyrics)
-                {
-                    tag2->add (guidoparam::create("dy=-5", false));
-                }else if (ps.fStaffDistances.size()> size_t(targetStaff-1)) {
-                    
-                    if (ps.fStaffDistances[targetStaff-1] > 0) {
-                        float xmlDistance = ps.fStaffDistances[targetStaff-1] - 50.0;
-                        float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
-                    
-                        stringstream s;
-                        s << "dy="<< HalfSpaceDistance;
-                        tag2->add (guidoparam::create(s.str().c_str(), false));
-                    }
-                }else if (defaultGuidoStaffDistance) {
-                    stringstream s;
-                    s << "dy="<< defaultGuidoStaffDistance;
-                    tag2->add (guidoparam::create(s.str().c_str(), false));
-                }
-                
                 if (stafflines>0)
                 {
                     stringstream staffstyle;
@@ -276,7 +263,6 @@ namespace MusicXML2
                 }
                 add (tag2);
             }
-            ////
             
             flushHeader (fHeader);
             flushPartHeader (fPartHeaders[elt->getAttributeValue("id")]);
@@ -419,6 +405,17 @@ namespace MusicXML2
             tag->add (guidoparam::create(s.str(), false));
         }
     }
+
+void xml2guidovisitor::addRelativeX(Sxmlelement elt, Sguidoelement& tag, float xoffset){
+    float posx = elt->getAttributeFloatValue("relative-x", 0);
+    posx = (posx / 10) * 2;   // convert to half spaces
+    posx += xoffset;
+    
+    stringstream s;
+    s << "dx=" << posx << "hs";
+    tag->add (guidoparam::create(s.str(), false));
+    
+}
     
     void xml2guidovisitor::addPlacement	( Sxmlelement elt, Sguidoelement& tag)
     {

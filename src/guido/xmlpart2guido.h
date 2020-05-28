@@ -75,16 +75,15 @@ class EXP xmlpart2guido :
 	vector<delayedElement>	fDelayed;
 	// fields to controls the guido output generation
 	bool fGenerateComments, fGenerateBars, fGeneratePositions, fGenerateAutoMeasureNum, fLyricsManualSpacing;
-//	bool fGenerateStem;
 
 	// internal parsing state
-    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress;
+    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fBeamGrouping, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress, fShouldStopOctava;
     
     int fTextTagOpen;
     int fTupletOpen;    // Number of opened Tuplets
+    std::queue<int> fTiedOpen;      // Number of ongoing opened Tied
         
     std::queue<int> fDirectionEraserStack;        // To skip already visited Directions when looking ahead because of grace notes
-    std::stack< std::pair<int, int> > fBeamStack; // first int: Internal num, 2nd int: XML num
     std::vector< std::pair<int, int> > fSlurStack; // first int: Internal num, 2nd int: XML num
 
     Sguidoelement fLyricOpened;
@@ -109,7 +108,6 @@ class EXP xmlpart2guido :
 	rational fCurrentTimeSign;		// the current time signature
 	int		fMeasNum;
 
-    int		fCurrentBeamNumber;		// number attribute of the current beam
 	int		fCurrentStemDirection;	// the current stems direction, used for stem direction changes
 	int		fPendingPops;			// elements to be popped at chord exit (like fermata, articulations...)
 
@@ -129,11 +127,11 @@ class EXP xmlpart2guido :
 
     int  checkChordOrnaments ( const notevisitor& note );			// returns the count of articulations pushed on the stack
     
-    std::vector<Sxmlelement>  getChord ( const S_note& note );    // build a chord vector
+    deque<notevisitor>  getChord ( const S_note& note );    // build a chord vector
 	std::vector<Sxmlelement>  getChord ( const Sxmlelement& note );	// build a chord vector
 	void checkStaff		 (int staff );					// check for staff change
 	void checkStem		 ( const S_stem& stem );
-	void checkBeamBegin	 ( const std::vector<S_beam>& beams );
+	void checkBeamBegin	 ( const std::vector<S_beam>& beams, const S_note& elt );
     void checkBeamEnd	 ( const std::vector<S_beam>& beams );
     void checkTupletBegin( const std::vector<S_tuplet>& tuplets,
                           const notevisitor& nv,
@@ -155,7 +153,9 @@ class EXP xmlpart2guido :
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
-	void newNote		 ( const notevisitor& nv, rational posInMeasure, const S_note& elt);
+    void checkOctavaEnd();
+	void newNote		 ( const notevisitor& nv, rational posInMeasure, const std::vector<Sxmlelement>& fingerings);
+    void newChord   (const deque<notevisitor>& nvs, rational posInMeasure);
     
     int checkTremolo(const notevisitor& note, const S_note& elt);
     
@@ -207,7 +207,7 @@ class EXP xmlpart2guido :
     
     std::string parseMetronome ( metronomevisitor &mv );
     
-    bool findNextNote(const S_note& elt, ctree<xmlelement>::iterator &nextnote);
+    bool findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelement>::iterator &nextnote);
     float getNoteDistanceFromStaffTop(const notevisitor& nv);
     
     rational durationInCue;
