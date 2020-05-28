@@ -5,8 +5,8 @@
 version ?= $(shell cat libmusicxmlversion.txt)
 
 xmlfiles                  = $(shell find ../files -name "*.xml")
-xmllily                   = $(shell find ../files -name "*.xml" | grep -v lilypending)
-xmlbraille                = $(shell find ../files -name "*.xml" | grep -v braillepending)
+xmllily                   = $(shell find ../files -name "*.xml" | grep -v -f lilypending.txt)
+xmlbraille                = $(shell find ../files -name "*.xml" | grep -v -f braillepending.txt)
 xmlfilesforlilyjianpu     = $(shell find ../files -name "*.xml" | grep jianpu)
 jianpuincludefilename     = "jianpu10a.ly"
 jianpuinclude             = $(shell find ../files -name $(jianpuincludefilename)")
