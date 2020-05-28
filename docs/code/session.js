@@ -25,22 +25,16 @@ function scanUrl()	{
 //------------------------------------------------------------------------
 // scan the current location to detect parameters
 function scanOptions()	{
-console.log ("lxml code scan options: " + window.location);
     let options = this.scanUrl();
     for (let i=0; i<options.length; i++) {
         let option = options[i].option;
         let value = options[i].value;
         switch (option) {
             case "s":
-console.log ("lxml code receive s request id: " + value);
             let gmn = localStorage.getItem(value);
             if (gmn) {
-console.log ("lxml code put id: " + value);
                 var div = document.getElementById("code");
                 div.innerHTML =  gmn;
-				// window.postMessage(gmn, "https://guidoeditor.grame.fr");
-				// window.postMessage(gmn, "*");
-                // document.body.innerText = gmn;
             }
             break;
         }

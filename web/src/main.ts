@@ -26,20 +26,3 @@ lxml.initialise ().then (
 );
 
 document.domain = "grame.fr";
-
-// const domains = [
-// 	"http://localhost:8080",
-// 	"https://guidoeditor.grame.fr"
-// ];
-
-// window.addEventListener("message", messageHandler, false);
-// function messageHandler(event : MessageEvent) {
-// console.log ("got message from " + event.origin);
-// 	if (!domains.includes(event.origin))
-// 	  return;
-
-// 	const { action, key } = event.data
-// 	if (action == 'get') {
-// 		window.postMessage( { action: 'data', data: localStorage.getItem(key) }, event.origin);
-// 	}
-// }
