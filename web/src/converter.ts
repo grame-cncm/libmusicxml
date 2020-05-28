@@ -28,56 +28,7 @@ class XMLConverter {
 			dragover: function() 	{ return false;},
 			drop: function() 		{ return false;}
 		});
-		// this.scanOptions();
 	}
-
-
-// 	//------------------------------------------------------------------------
-// 	// scan the current location to detect parameters
-// 	scanUrl() : Array<UrlOption>	{
-// 		let result = new Array<UrlOption>();
-// 		let arg = window.location.search.substring(1);
-// 		let n = arg.indexOf("=");
-// 		while (n > 0) {
-// 			let option  = arg.substr(0,n);
-// 			let remain = arg.substr(n+1);
-// 			let next = remain.indexOf("?");
-// 			if (next > 0) {
-// 				let value = remain.substr(0,next);
-// 				result.push ( {option: option, value: value} );
-// 				arg = remain.substr(next + 1);
-// 				n = arg.indexOf("=");
-// 			}
-// 			else {
-// 				result.push ( {option: option, value: remain} );
-// 				break;
-// 			}
-// 		}
-// 		return result;
-// 	}
-
-// 	//------------------------------------------------------------------------
-// 	// scan the current location to detect parameters
-// 	scanOptions() : void	{
-// console.log ("lxml scan options: " + window.location);
-// 		let options = this.scanUrl();
-// 		for (let i=0; i<options.length; i++) {
-// 			let option = options[i].option;
-// 			let value = options[i].value;
-// 			switch (option) {
-// 				case "s":
-// console.log ("lxml receive s request id: " + value);
-// 				let gmn = localStorage.getItem(value);
-// 					if (gmn) {
-// console.log ("lxml send id: " + value);
-// 						var oReq = new XMLHttpRequest();
-// 						oReq.open("put", "http://localhost:8000", true);
-// 						oReq.send("<div id=\"gmn\">" + gmn + "</div>");
-// 					}
-// 					break;
-// 			}
-// 		}
-// 	}
 
 	//------------------------------------------------------------------------
 	capture(event: DragEvent) {
@@ -156,9 +107,6 @@ class XMLConverter {
 				console.log("id: " + id);
 				localStorage.setItem(id, gmn);
 				window.open("https://guidoeditor.grame.fr/?s=" + id, '_blank');
-				// window.postMessage(gmn, "https://guidoeditor.grame.fr");
-				// window.open("http://localhost:8000/?s=" + id, '_blank');
-				// alert("Sorry!\nThe content size exceeds the url size limit to be sent to the online editor.\n\nWe're looking for a solution...");
 			}
 		}
 	}
@@ -231,14 +179,11 @@ class XMLConverter {
 		if (transpose) script = this.fXmlEngine.xmlStringTranspose(script, transpose);
 		switch (this.fMode) {
 			case kGuidoMode:
-				// let transpose = this.getTranspose();
-				// if (transpose) script = this.fXmlEngine.xmlStringTranspose(script, transpose);
 				code = this.fXmlEngine.string2guido(script, $("#gmnbars").is(":checked"));
 				this.changeGuidoTryStatus();
 				break;
 			case kLilyMode:
 				code = this.fXmlEngine.string2lily(script, <string>$("#lilyopt").val());
-				// code = "not yet available";
 				break;
 			case kBrailleMode:
 				code = "not yet available";
