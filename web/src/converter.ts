@@ -80,11 +80,13 @@ class XMLConverter {
 		$("#lilyhelp").click			( (event) => { this.lilyHelp(); } );
 		$("#clearlog").click			( (event) => { $("#logs").html(""); } );
 		$("#save").click				( (event) => { this.save(); });
+		$("#font-size").click			( (event) => { this.fontSize ( <number>$("#font-size").val()); });
+		this.fontSize ( <number>$("#font-size").val());
 
 		this.changeMode(<string>$("input[name='output']:checked").val());
-		let logs = document.getElementById ("logs");
 
 		$('#lilyopt').on	('blur', (event) =>  { this.convert(this.fXmlContent, this.fFileName+".xml"); });
+		// let logs = document.getElementById ("logs");
 		// $("#log-font").click		( () => { logs.style.fontFamily = <string>$("#log-font").val(); });
 		// $("#log-size").click		( () => { logs.style.fontSize = $("#log-size").val() + "px"; });
 		// logs.style.fontFamily = <string>$("#log-font").val();
@@ -108,6 +110,15 @@ class XMLConverter {
 				localStorage.setItem(id, gmn);
 				window.open("https://guidoeditor.grame.fr/?s=" + id, '_blank');
 			}
+		}
+	}
+
+	fontSize(val: number) : void {
+		let pre = document.getElementsByTagName("pre");
+		let i = 0;
+		let px = val + "px"; 
+		while (i < pre.length) {
+			pre[i++].style.fontSize = px;
 		}
 	}
 
