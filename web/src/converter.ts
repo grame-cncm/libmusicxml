@@ -80,7 +80,7 @@ class XMLConverter {
 		$("#lilyhelp").click			( (event) => { this.lilyHelp(); } );
 		$("#clearlog").click			( (event) => { $("#logs").html(""); } );
 		$("#save").click				( (event) => { this.save(); });
-		$("#font-size").click			( (event) => { this.fontSize ( <number>$("#font-size").val()); });
+		$("#font-size").change			( (event) => { this.fontSize ( <number>$("#font-size").val()); });
 		this.fontSize ( <number>$("#font-size").val());
 
 		this.changeMode(<string>$("input[name='output']:checked").val());
