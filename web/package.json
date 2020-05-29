@@ -25,11 +25,11 @@
   "homepage": "https://libmusicxml.grame.fr",
   "dependencies": {
     "@grame/libmusicxml": "^3.19.1",
-    "@types/jquery": "^3.3.36",
-    "@types/node": "^13.13.4",
+    "@types/jquery": "^3.3.38",
+    "@types/node": "^13.13.9",
     "@types/node-forge": "^0.9.3",
     "bootstrap": "^3.4.0",
-    "jquery": "^3.5.0",
+    "jquery": "^3.5.1",
     "node-forge": "^0.9.1"
   }
 }
