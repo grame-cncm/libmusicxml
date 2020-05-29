@@ -165,6 +165,7 @@ var XMLConverter = /** @class */ (function () {
         $("#guidotry").click(function (event) { _this.tryGuido(); });
         $("#lilyhelp").click(function (event) { _this.lilyHelp(); });
         $("#clearlog").click(function (event) { $("#logs").html(""); });
+        $("#save").click(function (event) { _this.save(); });
         this.changeMode($("input[name='output']:checked").val());
         var logs = document.getElementById("logs");
         $('#lilyopt').on('blur', function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });

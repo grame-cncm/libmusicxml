@@ -79,6 +79,7 @@ class XMLConverter {
 		$("#guidotry").click			( (event) => { this.tryGuido(); } );
 		$("#lilyhelp").click			( (event) => { this.lilyHelp(); } );
 		$("#clearlog").click			( (event) => { $("#logs").html(""); } );
+		$("#save").click				( (event) => { this.save(); });
 
 		this.changeMode(<string>$("input[name='output']:checked").val());
 		let logs = document.getElementById ("logs");
