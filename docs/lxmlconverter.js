@@ -166,7 +166,7 @@ var XMLConverter = /** @class */ (function () {
         $("#lilyhelp").click(function (event) { _this.lilyHelp(); });
         $("#clearlog").click(function (event) { $("#logs").html(""); });
         $("#save").click(function (event) { _this.save(); });
-        $("#font-size").click(function (event) { _this.fontSize($("#font-size").val()); });
+        $("#font-size").change(function (event) { _this.fontSize($("#font-size").val()); });
         this.fontSize($("#font-size").val());
         this.changeMode($("input[name='output']:checked").val());
         $('#lilyopt').on('blur', function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
