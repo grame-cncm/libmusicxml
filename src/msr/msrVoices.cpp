@@ -3854,11 +3854,20 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
       if (lastMeasureElementsList.size ()) {
         // the last measure is not empty
 
+        rational
+          currentMeasureWholeNotesDuration =
+            lastMeasureInLastSegment->getCurrentMeasureWholeNotesDuration ();
+        rational
+          fullMeasureWholeNotesDuration =
+            lastMeasureInLastSegment->getFullMeasureWholeNotesDuration ();
+
         // is there a measure splitting?
-        if (
-          lastMeasureInLastSegment->getCurrentMeasureWholeNotesDuration ()
-            == // JMI SURE ???
-          lastMeasureInLastSegment->getFullMeasureWholeNotesDuration ()
+        if ( // JMI better criterion???
+          currentMeasureWholeNotesDuration.getNumerator () > 0
+            &&
+          currentMeasureWholeNotesDuration
+            <
+          fullMeasureWholeNotesDuration
         ) {
           // yes this measure is not yet complete and should be split
 #ifdef TRACE_OAH
@@ -3866,9 +3875,13 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
             gLogOstream <<
               "Splitting measure '" <<
               lastMeasureInLastSegment->asShortString () <<
-              "' upon a repeat end in voice \"" <<
+              "' upon a repeat start in voice \"" <<
               getVoiceName () <<
               "\"" <<
+              ", currentMeasureWholeNotesDuration: " <<
+              currentMeasureWholeNotesDuration <<
+              ", fullMeasureWholeNotesDuration: " <<
+              fullMeasureWholeNotesDuration <<
               ", line " << inputLineNumber <<
               endl;
           }
@@ -3984,7 +3997,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceRepeats) {
     gLogOstream <<
-      "Creating a repeat common part upon its end in voice \"" <<
+      "Creating a repeat common part upon its start in voice \"" <<
       getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber <<
@@ -9893,6 +9906,7 @@ void msrVoice::print (ostream& os) const
 
     gIndenter--;
   }
+  os << endl;
 
   /* JMI
   // sanity check
@@ -9920,6 +9934,7 @@ void msrVoice::print (ostream& os) const
       "*** voiceLastSegment is null ***" << // JMI
       endl;
   }
+  os << endl;
 
   // print the stanzas if any
   if (fVoiceStanzasMap.size ()) {

@@ -3,7 +3,7 @@ MusicXML Library
 
 ----------------------------------------------------------------------------------------------------
 Version 3.20
-- xml2guido v.3.1: 
+- xml2guido v.3.1:
 	- Fix Accolade and barformat inference
 	- Removes default staffFormat distance inference as MusicXML is not consistent
 	- Adds Font-size and Sound element conditions to infer Tempo Markup
@@ -17,7 +17,14 @@ Version 3.20
 	- Fixed ordering of grace notte tag creation
 	- Ability tto parse nested Ties with correct sequencing in Guido
 - xml2ly:
-
+  - added interface for general library usage
+- xml2brl:
+  - added interface for general library usage
+- xml2xml:
+  - new, creates MusicXML data back from MusicXML, option allow changes in the data
+  - includes interface for general library usage
+- oah:
+  - added optionsVector handling for general library usage, in complement to argc/argv handling
 
 ----------------------------------------------------------------------------------------------------
 Version 3.19
@@ -80,14 +87,14 @@ Version 1.10
 - lexer change to correctly handle " and ' as quotes
 
 Version 1.09
-- correct bug in wavy-line parsing  
+- correct bug in wavy-line parsing
 
-Version 1.08 
+Version 1.08
 - bug in offsets management (<direction> elements) corrected
 - XML2Guido visitor modified to generate positions (default)
   controled via generatePositions (bool state)
 
-Version 1.07 
+Version 1.07
 - Bug in TUnrolledVisitor fixed (no section to add when "repeat" on the first bar)
 - crescendo and dimunuendo tags exported to guido
 - \clef \key \meter \repeatBegin tags order enforced by the XML2Guido visitor
@@ -99,14 +106,14 @@ Version 1.06
 - parser modified to accept PI (processing instructions)
 
 Version 1.05
-- bug in musicxml to guido conversion corrected (introduced by v1.04): crash 
+- bug in musicxml to guido conversion corrected (introduced by v1.04): crash
   with single measure scores.
 
 Version 1.04
-- bug in musicxml to guido conversion corrected: occured when the last last 
-  duration of a voice (or part) was equal to the first duration of the next 
-  voice, provided that this duration was not the guido default 1/4 duration. In 
-  this case first next voice duration was incorrectly set to the default 1/4 
+- bug in musicxml to guido conversion corrected: occured when the last last
+  duration of a voice (or part) was equal to the first duration of the next
+  voice, provided that this duration was not the guido default 1/4 duration. In
+  this case first next voice duration was incorrectly set to the default 1/4
   duration.
 
 Version 1.03
@@ -115,8 +122,8 @@ Version 1.03
 Version 1.02
 - new TTransposeVisitor for dynamic score transposition
 - add a getDuration method in TMidiContextVisitor
-- correct TUnrolledVisitor in GetEndingNum and GetRepeatTimes 
-- modification of musicxml to guido conversion: 
+- correct TUnrolledVisitor in GetEndingNum and GetRepeatTimes
+- modification of musicxml to guido conversion:
 	incomplete measures are not any more filled with "empty"
 	barlines generation corrected (inhibited before a repeat begin)
 
@@ -132,12 +139,12 @@ Version 1.00
 - correct parser for elements with type attribute
 
 Version 0.96
-- Add an empty constructor in TMidiContextVisitor: when there is no "tpq" value, the value in 
-the XML file will be used.  
-- MusicXML elements implementation: grouping, features 
+- Add an empty constructor in TMidiContextVisitor: when there is no "tpq" value, the value in
+the XML file will be used.
+- MusicXML elements implementation: grouping, features
 - Parsing of rehearsal, pedal, damp, damp-all, eyeglasses, other-direction, print, glissando,
 slide, arpeggiate, non-arpeggiate, other-articulation, lyric.
-- sound element supports version 1 attributes 
+- sound element supports version 1 attributes
 - MusicXML version changed to 1.0 in MusicXML header
 
 Version 0.94
@@ -145,8 +152,8 @@ Version 0.94
 - bug corrected in TUnrolledVisitor when a repeat sign occurs at the last measure
 - bug corrected in TUnrolledVisitor when computing sections for mapping
 - trill-start, trill-step and two-notes-turn supported via conversion objects TrillStart and TrillStep
-- MusicXML elements implementation (to be completed): staff-details, measure-style, rehearsal, pedal, 
-  damp, damp-all, eyeglasses, other-direction, print, glissando, slide, technical,arpeggiate, 
+- MusicXML elements implementation (to be completed): staff-details, measure-style, rehearsal, pedal,
+  damp, damp-all, eyeglasses, other-direction, print, glissando, slide, technical,arpeggiate,
   non-arpeggiate, other-notation, other-articulation, lyric, figured-bass
 
 Version 0.93

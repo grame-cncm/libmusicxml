@@ -9,7 +9,7 @@ xmllily                   = $(shell find ../files -name "*.xml" | grep -v -f lil
 xmlbraille                = $(shell find ../files -name "*.xml" | grep -v -f braillepending.txt)
 xmlfilesforlilyjianpu     = $(shell find ../files -name "*.xml" | grep jianpu)
 jianpuincludefilename     = "jianpu10a.ly"
-jianpuinclude             = $(shell find ../files -name $(jianpuincludefilename)")
+jianpuinclude             = $(shell find ../files -name "$(jianpuincludefilename)")
 xmlfilesforbrl     		  = $(shell find ../files -name "*.xml" | grep braille | grep -v braillepending)
 
 readout           := $(xmlfiles:../%.xml=$(version)/read/%.xml)

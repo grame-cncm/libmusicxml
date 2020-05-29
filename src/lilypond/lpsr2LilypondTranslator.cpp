@@ -15345,14 +15345,23 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       break;
 
     case msrBarline::kBarlineCategoryRepeatStart:
-  // JMI    if (gLpsr2LilypondOah->fKeepRepeatBarlines) {
-        fLilypondCodeOstream << "\\bar \".|:\" ";
-  //    }
+      if (gLpsr2LilypondOah->fKeepRepeatBarlines) {
+        if (gLpsr2LilypondOah->fRepeatBrackets) {
+          fLilypondCodeOstream << "\\bar \"[|:\" ";
+        }
+        else {
+          fLilypondCodeOstream << "\\bar \".|:\" ";
+        }
+      }
       break;
     case msrBarline::kBarlineCategoryRepeatEnd:
       if (gLpsr2LilypondOah->fKeepRepeatBarlines) {
-   // JMI     fLilypondCodeOstream << "\\bar \":|.|:\" ";
-        fLilypondCodeOstream << "FOOLISH \\bar \":|.|:\" ";
+        if (gLpsr2LilypondOah->fRepeatBrackets) {
+          fLilypondCodeOstream << "\\bar \":|]\" ";
+        }
+        else {
+          fLilypondCodeOstream << "\\bar \":|.\" ";
+        }
       }
       break;
 

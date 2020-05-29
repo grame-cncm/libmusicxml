@@ -201,6 +201,9 @@ void msrNote::initializeNote ()
   fNoteBelongsToATuplet = false;
   fNoteOccupiesAFullMeasure = false;
 
+  fNoteBelongsToARestMeasures = false;
+  fNoteRestMeasuresSequenceNumber = -1;
+
   // note lyrics
   // ------------------------------------------------------
 
