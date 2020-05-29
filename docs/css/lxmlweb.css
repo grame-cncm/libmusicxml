@@ -49,7 +49,7 @@ html, body {
   }
 
 #codepane    	{ height: 100%; }
-#code    		{ height: 98%; }
+#code    		{ height: 99%; }
 #logs    		{ height: 100%; font-size: 90%;}
 #logpane    	{ height: 98%; }
 #about			{ 
@@ -83,6 +83,10 @@ html, body {
 	padding: 4px;
 }
 
+.fsize-menu {
+	width: 80px;
+}
+
 .info {
 	display: block;
 	margin: auto;
@@ -93,13 +97,13 @@ html, body {
 }
 .clearbtn {
 	position: absolute;
-	top: calc(100% - 130px); 
+	top: calc(100% - 150px); 
 	/* color: rgb(83, 82, 82);  */
 	font-size: 95%;
 }
 .filename {
 	position: absolute;
-	top: calc(100% - 90px); 
+	top: calc(100% - 110px); 
 	color: rgb(83, 82, 82); 
 	font-size: 95%;
 	padding-left: 15px;
@@ -113,7 +117,7 @@ html, body {
 .warning 	{ font-weight: bold; font-size: 105%; }
 .error 		{ font-weight: bold; font-size: 105%; color: red;}
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 768px) {
 	html, body {
 		padding : 0px;
 		margin-right : 5px;
@@ -122,13 +126,13 @@ html, body {
 	}
 
  	li > .dropdown-menu { font-size: 100%; }
-	.navbar  	{ font-size: 120%; }
+	.navbar  	{ font-size: 120%; z-index: 100;}
 	.tab-pane  	{ font-size: 120%; }
 	.nav-tabs  	{ font-size: 110%; }
 	.grid-container {
 	  display: grid;
 	  grid-template-columns: 100%;
-	  grid-template-rows: 50px 55% 40% auto;
+	  grid-template-rows: 50px 50% auto auto;
 	  grid-template-areas:
 		'header'
 		'left '

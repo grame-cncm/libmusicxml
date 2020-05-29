@@ -166,9 +166,11 @@ var XMLConverter = /** @class */ (function () {
         $("#lilyhelp").click(function (event) { _this.lilyHelp(); });
         $("#clearlog").click(function (event) { $("#logs").html(""); });
         $("#save").click(function (event) { _this.save(); });
+        $("#font-size").click(function (event) { _this.fontSize($("#font-size").val()); });
+        this.fontSize($("#font-size").val());
         this.changeMode($("input[name='output']:checked").val());
-        var logs = document.getElementById("logs");
         $('#lilyopt').on('blur', function (event) { _this.convert(_this.fXmlContent, _this.fFileName + ".xml"); });
+        // let logs = document.getElementById ("logs");
         // $("#log-font").click		( () => { logs.style.fontFamily = <string>$("#log-font").val(); });
         // $("#log-size").click		( () => { logs.style.fontSize = $("#log-size").val() + "px"; });
         // logs.style.fontFamily = <string>$("#log-font").val();
@@ -190,6 +192,14 @@ var XMLConverter = /** @class */ (function () {
                 localStorage.setItem(id, gmn);
                 window.open("https://guidoeditor.grame.fr/?s=" + id, '_blank');
             }
+        }
+    };
+    XMLConverter.prototype.fontSize = function (val) {
+        var pre = document.getElementsByTagName("pre");
+        var i = 0;
+        var px = val + "px";
+        while (i < pre.length) {
+            pre[i++].style.fontSize = px;
         }
     };
     XMLConverter.prototype.save = function () {
