@@ -31,6 +31,8 @@ function lilyconvert (xml, lib, log )
 	log( "MusicXML -> Lilypond :");
 	log ("  string2lily  :");
 	log (lib.string2lily (xml, ""));
+	log ("  string2lily help :");
+	log (lib.string2lily ("", "-help"));
 }
 
 function brailleconvert (xml, lib, log )
