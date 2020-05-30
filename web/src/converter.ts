@@ -188,21 +188,27 @@ class XMLConverter {
 		let code = "";
 		let transpose = this.getTranspose();
 		if (transpose) script = this.fXmlEngine.xmlStringTranspose(script, transpose);
-		switch (this.fMode) {
-			case kGuidoMode:
-				code = this.fXmlEngine.string2guido(script, $("#gmnbars").is(":checked"));
-				this.changeGuidoTryStatus();
-				break;
-			case kLilyMode:
-				code = this.fXmlEngine.string2lily(script, <string>$("#lilyopt").val());
-				break;
-			case kBrailleMode:
-				code = "not yet available";
-				break;
+		try {
+			switch (this.fMode) {
+				case kGuidoMode:
+					code = this.fXmlEngine.string2guido(script, $("#gmnbars").is(":checked"));
+					this.changeGuidoTryStatus();
+					break;
+				case kLilyMode:
+					code = this.fXmlEngine.string2lily(script, <string>$("#lilyopt").val());
+					break;
+				case kBrailleMode:
+					code = "not yet available";
+					break;
+			}
+			if (code.length)
+				$("#code").text(code);
+			else
+				$("#lognav").click();
 		}
-		if (code.length)
-			$("#code").text(code);
-		else
+		catch {
+			console.error ("Exception raised while converting " + path);
 			$("#lognav").click();
+		}
 	} 
 }
