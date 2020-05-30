@@ -773,6 +773,9 @@ class lpsr2LilypondTranslator :
     void                  generateNoteStem (S_msrNote note);
     void                  generateNoteHead (S_msrNote note);
 
+    void                  generateSegno (S_msrSegno segno);
+    void                  generateCoda (S_msrCoda coda);
+
     void                  generateCodeRightBeforeNote (S_msrNote note);
     void                  generateCodeForNote (S_msrNote note);
     void                  generateCodeRightAfterNote (S_msrNote note);

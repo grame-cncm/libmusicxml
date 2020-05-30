@@ -109,6 +109,10 @@ class EXP indenter
     indenter (std::string spacer = "  ");
     virtual ~indenter ();
 
+    // set the indent
+    void                  setIndent (int indent)
+                              { fIndent = indent; }
+
     // get the indent
     int                   getIndent () const
                               { return fIndent; }

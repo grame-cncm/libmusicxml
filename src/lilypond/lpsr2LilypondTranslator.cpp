@@ -1627,8 +1627,32 @@ void lpsr2LilypondTranslator::generateNoteHead (
   }
 }
 
-void lpsr2LilypondTranslator::generateCodeRightBeforeNote (
-  S_msrNote note)
+void lpsr2LilypondTranslator::generateCoda (S_msrCoda coda)
+{
+  switch (coda->getCodaKind ()) {
+    case msrCoda::kCodaFirst:
+      // generate the coda
+      fLilypondCodeOstream <<
+        "\\mark \\markup { \\musicglyph #\"scripts.coda\" }%{first%}";
+      break;
+    case msrCoda::kCodaSecond:
+      // generate the coda
+      fLilypondCodeOstream <<
+        "\\mark \\markup { \\musicglyph #\"scripts.coda\" }%{second%}";
+      break;
+  } // switch
+  fLilypondCodeOstream << endl;
+}
+
+void lpsr2LilypondTranslator::generateSegno (S_msrSegno segno)
+{
+  // generate the segno
+  fLilypondCodeOstream <<
+    "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
+    endl;
+}
+
+void lpsr2LilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
 {
   if (! fOnGoingChord) {
     // generate the note codas if any
@@ -1639,10 +1663,17 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeNote (
     if (noteCodas.size ()) {
       list<S_msrCoda>::const_iterator i;
       for (i=noteCodas.begin (); i!=noteCodas.end (); i++) {
-        // generate the coda
-        fLilypondCodeOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
-          endl;
+        S_msrCoda coda = (*i);
+
+        // generate only the second coda before the note
+        switch (coda->getCodaKind ()) {
+          case msrCoda::kCodaFirst:
+            break;
+          case msrCoda::kCodaSecond:
+            // generate the coda
+            generateCoda (coda);
+            break;
+        } // switch
       } // for
     }
 
@@ -1654,10 +1685,6 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeNote (
     if (noteSegnos.size ()) {
       list<S_msrSegno>::const_iterator i;
       for (i=noteSegnos.begin (); i!=noteSegnos.end (); i++) {
-        // generate the segno
-        fLilypondCodeOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
-          endl;
       } // for
     }
   }
@@ -2269,6 +2296,28 @@ void lpsr2LilypondTranslator::generateCodeRightAfterNote (
   S_msrNote note)
 {
   if (! fOnGoingChord) {
+    // generate the note codas if any
+    const list<S_msrCoda>&
+      noteCodas =
+        note->getNoteCodas ();
+
+    if (noteCodas.size ()) {
+      list<S_msrCoda>::const_iterator i;
+      for (i=noteCodas.begin (); i!=noteCodas.end (); i++) {
+        S_msrCoda coda = (*i);
+
+        // generate only the first coda before the note
+        switch (coda->getCodaKind ()) {
+          case msrCoda::kCodaFirst:
+            // generate the coda
+            generateCoda (coda);
+            break;
+          case msrCoda::kCodaSecond:
+            break;
+        } // switch
+      } // for
+    }
+
     // generate the note dal segnos if any
     const list<S_msrDalSegno>&
       noteDalSegnos =
@@ -13817,9 +13866,9 @@ void lpsr2LilypondTranslator::generateCodeAHeadOfChordContents (
     list<S_msrCoda>::const_iterator i;
     for (i=chordCodas.begin (); i!=chordCodas.end (); i++) {
       // generate the coda
-      fLilypondCodeOstream <<
-        "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
-        endl;
+      S_msrCoda coda = (*i);
+
+      generateCoda (coda);
     } // for
   }
 
@@ -13832,9 +13881,7 @@ void lpsr2LilypondTranslator::generateCodeAHeadOfChordContents (
     list<S_msrSegno>::const_iterator i;
     for (i=chordSegnos.begin (); i!=chordSegnos.end (); i++) {
       // generate the segno
-      fLilypondCodeOstream <<
-        "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
-        endl;
+      generateSegno ((*i));
     } // for
   }
 }
@@ -15326,8 +15373,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 /* JMI BOF ???
       switch (elt->getBarlineHasSegnoKind ()) {
         case msrBarline::kBarlineHasSegnoYes:
-          fLilypondCodeOstream <<
-            "\\mark \\markup { \\musicglyph #\"scripts.segno\" } ";
+          // generate the segno
+          generateSegno ((*i));
           break;
         case msrBarline::kBarlineHasSegnoNo:
           break;
@@ -15337,6 +15384,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         case msrBarline::kBarlineHasCodaYes:
           fLilypondCodeOstream <<
             "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
+          if (gLpsr2LilypondOah->fInputLineNumbers) {
+            // print the input line number as a comment
+            fLilypondCodeOstream <<
+              "%{line " << note->getInputLineNumber () << "%} ";
+          }
+          fLilypondCodeOstream << endl;
           break;
         case msrBarline::kBarlineHasCodaNo:
           break;

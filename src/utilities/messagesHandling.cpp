@@ -28,10 +28,16 @@ void msrAssert (
   string messageIfFalse)
 {
   if (! condition) {
+    int saveIndent = gIndenter.getIndent ();
+
+    gIndenter.resetToZero ();
+
     gLogOstream <<
       "#### msrAssert failure: " << messageIfFalse <<
       ", aborting." <<
       endl;
+
+    gIndenter.setIndent (saveIndent);
 
     throw msrAssertException (messageIfFalse);
   }
@@ -40,20 +46,118 @@ void msrAssert (
 //______________________________________________________________________________
 void oahWarning (string warningMessage)
 {
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
   gLogOstream <<
     "*** WARNING in the options and help: " <<
     warningMessage <<
     endl;
+
+  gIndenter.setIndent (saveIndent);
 }
 
 void oahError (string errorMessage)
 {
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
   gLogOstream <<
     "### ERROR in the options and help: " <<
     errorMessage <<
     endl;
 
+  gIndenter.setIndent (saveIndent);
+
   throw msrOahException (errorMessage);
+}
+
+//______________________________________________________________________________
+void msrWarning (
+  string context,
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  if (! gGeneralOah->fQuiet) {
+    int saveIndent = gIndenter.getIndent ();
+
+    gIndenter.resetToZero ();
+
+    gLogOstream <<
+      "*** " << context << " warning *** " <<
+      inputSourceName << ":" << inputLineNumber << ": " <<message <<
+      endl;
+
+    gWarningsInputLineNumbers.insert (inputLineNumber);
+
+    gIndenter.setIndent (saveIndent);
+  }
+}
+
+void msrError (
+  string context,
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  if (! gGeneralOah->fQuiet) {
+    if (gGeneralOah->fDisplaySourceCodePosition) {
+      gLogOstream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
+    if (! gGeneralOah->fDontShowErrors) {
+      int saveIndent = gIndenter.getIndent ();
+
+      gIndenter.resetToZero ();
+
+      gLogOstream <<
+        "### " << context << " ERROR ### " <<
+        inputSourceName << ":" << inputLineNumber << ": " << message <<
+        endl;
+
+      gIndenter.setIndent (saveIndent);
+
+      gErrorsInputLineNumbers.insert (inputLineNumber);
+    }
+  }
+
+  throw msrMsrException (message);
+}
+
+void msrUnsupported (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
+    int saveIndent = gIndenter.getIndent ();
+
+    gIndenter.resetToZero ();
+
+    if (gGeneralOah->fDisplaySourceCodePosition) {
+      gLogOstream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
+    gLogOstream <<
+      "### MSR LIMITATION ### " <<
+      inputSourceName << ":" << inputLineNumber << ": " << message <<
+      endl;
+
+    gIndenter.setIndent (saveIndent);
+  }
+
+  throw msrMsrUnsupportedException (message);
 }
 
 //______________________________________________________________________________
@@ -95,22 +199,6 @@ void msrMusicXMLError (
 }
 
 //______________________________________________________________________________
-void msrWarning (
-  string context,
-  string inputSourceName,
-  int    inputLineNumber,
-  string message)
-{
-  if (! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "*** " << context << " warning *** " <<
-      inputSourceName << ":" << inputLineNumber << ": " <<message <<
-      endl;
-
-    gWarningsInputLineNumbers.insert (inputLineNumber);
-  }
-}
-
 void msrInternalWarning (
   string inputSourceName,
   int    inputLineNumber,
@@ -121,34 +209,6 @@ void msrInternalWarning (
     inputSourceName,
     inputLineNumber,
     message);
-}
-
-void msrError (
-  string context,
-  string inputSourceName,
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string message)
-{
-  if (! gGeneralOah->fQuiet) {
-    if (gGeneralOah->fDisplaySourceCodePosition) {
-      gLogOstream <<
-        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-        " ";
-    }
-
-    if (! gGeneralOah->fDontShowErrors) {
-      gLogOstream <<
-        "### " << context << " ERROR ### " <<
-        inputSourceName << ":" << inputLineNumber << ": " << message <<
-        endl;
-
-      gErrorsInputLineNumbers.insert (inputLineNumber);
-    }
-  }
-
-  throw msrMsrException (message);
 }
 
 void msrInternalError (
@@ -167,29 +227,6 @@ void msrInternalError (
     message);
 
   throw msrMsrInternalException (message);
-}
-
-void msrUnsupported (
-  string inputSourceName,
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string message)
-{
-  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
-    if (gGeneralOah->fDisplaySourceCodePosition) {
-      gLogOstream <<
-        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-        " ";
-    }
-
-    gLogOstream <<
-      "### MSR LIMITATION ### " <<
-      inputSourceName << ":" << inputLineNumber << ": " << message <<
-      endl;
-  }
-
-  throw msrMsrUnsupportedException (message);
 }
 
 //______________________________________________________________________________

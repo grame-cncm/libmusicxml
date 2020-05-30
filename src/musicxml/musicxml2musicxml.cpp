@@ -402,11 +402,19 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
-  populateMsrSkeletonFromMxmlTree (
-    mxmlTree,
-    mScore,
-    gLogOstream,
-    "Pass 2b");
+    try {
+      populateMsrSkeletonFromMxmlTree (
+        mxmlTree,
+        mScore,
+        gLogOstream,
+        "Pass 2b");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
   if (gXml2xmlOah->fExit2b) {
     gLogOstream <<

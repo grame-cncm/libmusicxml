@@ -1340,6 +1340,8 @@ class mxmlTree2MsrTranslator :
     // may occur when no current voice exists
     list<S_msrCoda>           fPendingCodasList;
 
+    int                       fCodasCounter;
+
     void                      attachPendingCodasToNote (
                                 S_msrNote note);
 

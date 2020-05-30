@@ -212,6 +212,13 @@
 				<stem>down</stem>
 				<staff>1</staff>
 			</note>
+			<direction placement="above">
+				<direction-type>
+					<coda font-family="Opus Text Std"/>
+				</direction-type>
+				<offset>-189</offset>
+				<staff>1</staff>
+			</direction>
 			<backup>
 				<duration>3072</duration>
 			</backup>

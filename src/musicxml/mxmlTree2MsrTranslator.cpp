@@ -172,6 +172,9 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   fOnGoingInterchangeable = false;
 
+  // codas handling
+  fCodasCounter = 0;
+
   // measures
   fPartMeasuresCounter = 0;
   fScoreFirstMeasureNumber = "";
@@ -8628,12 +8631,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
 #endif
 
   if (fOnGoingDirectionType) {
+    // account for this coda
+    fCodasCounter++;
+
+    msrCoda::msrCodaKind codaKind = msrCoda::kCodaFirst;
+
+    switch (fCodasCounter) {
+      case 1:
+        codaKind = msrCoda::kCodaFirst;
+        break;
+      case 2:
+        codaKind = msrCoda::kCodaSecond;
+        break;
+      default:
+        {
+          stringstream s;
+
+          s <<
+            "this is <coda /> number " << fCodasCounter <<
+            ", only two are meaningful";
+
+          msrMusicXMLError (
+            gOahOah->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+    } // switch
+
     // create the coda
     S_msrCoda
       coda =
         msrCoda::create (
           inputLineNumber,
-          fCurrentDirectionStaffNumber);
+          fCurrentDirectionStaffNumber,
+          codaKind);
 
     // append it to the pending codas list
     fPendingCodasList.push_back (coda);

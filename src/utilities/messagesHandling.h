@@ -35,6 +35,28 @@ EXP void oahWarning (std::string warningMessage);
 EXP void oahError (std::string errorMessage);
 
 //______________________________________________________________________________
+EXP void msrWarning (
+  std::string context,
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+EXP void msrError (
+  std::string context,
+  std::string inputSourceName,
+  int    inputLineNumber,
+  std::string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  std::string message);
+
+EXP void msrUnsupported (
+  std::string inputSourceName,
+  int    inputLineNumber,
+  std::string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
 EXP void msrMusicXMLWarning (
   std::string inputSourceName,
   int         inputLineNumber,
@@ -48,33 +70,12 @@ EXP void msrMusicXMLError (
   std::string message);
 
 //______________________________________________________________________________
-EXP void msrWarning (
-  std::string context,
-  std::string inputSourceName,
-  int         inputLineNumber,
-  std::string message);
-
 EXP void msrInternalWarning (
   std::string inputSourceName,
   int         inputLineNumber,
   std::string message);
 
-EXP void msrError (
-  std::string context,
-  std::string inputSourceName,
-  int    inputLineNumber,
-  std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  std::string message);
-
 EXP void msrInternalError (
-  std::string inputSourceName,
-  int    inputLineNumber,
-  std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  std::string message);
-
-EXP void msrUnsupported (
   std::string inputSourceName,
   int    inputLineNumber,
   std::string sourceCodeFileName,

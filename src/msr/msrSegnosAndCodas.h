@@ -306,12 +306,20 @@ class msrCoda : public msrMeasureElement
 {
   public:
 
+    enum msrCodaKind {
+      kCodaFirst,
+      kCodaSecond};
+
+    static string codaKindAsString (
+      msrCodaKind codaKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrCoda> create (
-      int inputLineNumber,
-      int staffNumber);
+      int         inputLineNumber,
+      int         staffNumber,
+      msrCodaKind codaKind);
 
   protected:
 
@@ -319,8 +327,9 @@ class msrCoda : public msrMeasureElement
     // ------------------------------------------------------
 
     msrCoda (
-      int inputLineNumber,
-      int staffNumber);
+      int         inputLineNumber,
+      int         staffNumber,
+      msrCodaKind codaKind);
 
     virtual ~msrCoda ();
 
@@ -331,6 +340,9 @@ class msrCoda : public msrMeasureElement
 
     int                   getfStaffNumber () const
                               { return fStaffNumber; }
+
+    msrCodaKind           getCodaKind () const
+                              { return fCodaKind; }
 
   public:
 
@@ -362,6 +374,8 @@ class msrCoda : public msrMeasureElement
     // ------------------------------------------------------
 
     int                   fStaffNumber;
+
+    msrCodaKind           fCodaKind;
 };
 typedef SMARTP<msrCoda> S_msrCoda;
 EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);

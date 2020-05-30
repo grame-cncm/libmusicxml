@@ -401,23 +401,28 @@ ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarline& elt)
 
 //______________________________________________________________________________
 S_msrCoda msrCoda::create (
-  int inputLineNumber,
-  int staffNumber)
+  int         inputLineNumber,
+  int         staffNumber,
+  msrCodaKind codaKind)
 {
   msrCoda* o =
     new msrCoda (
       inputLineNumber,
-      staffNumber);
+      staffNumber,
+      codaKind);
   assert(o!=0);
   return o;
 }
 
 msrCoda::msrCoda (
-  int inputLineNumber,
-  int staffNumber)
+  int         inputLineNumber,
+  int         staffNumber,
+  msrCodaKind codaKind)
     : msrMeasureElement (inputLineNumber)
 {
   fStaffNumber = staffNumber;
+
+  fCodaKind = codaKind;
 }
 
 msrCoda::~msrCoda ()
@@ -470,13 +475,31 @@ void msrCoda::acceptOut (basevisitor* v)
 void msrCoda::browseData (basevisitor* v)
 {}
 
+string msrCoda::codaKindAsString (
+  msrCodaKind codaKind)
+{
+  string result;
+
+  switch (codaKind) {
+    case msrCoda::kCodaFirst:
+      result = "codaFirst";
+      break;
+    case msrCoda::kCodaSecond:
+      result = "codaSecond";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrCoda::asString () const
 {
   stringstream s;
 
   s <<
     "Coda" <<
-    ", staffNumber :" << fStaffNumber <<
+    ", staffNumber: " << fStaffNumber <<
+    ", codaKind: " << codaKindAsString (fCodaKind) <<
     ", line " << fInputLineNumber;
 
   return s.str ();

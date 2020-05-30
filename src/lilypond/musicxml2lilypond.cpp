@@ -350,11 +350,19 @@ EXP xmlErr convertMusicXMLToLilypond (
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
-  populateMsrSkeletonFromMxmlTree (
-    mxmlTree,
-    mScore,
-    gLogOstream,
-    "Pass 2b");
+    try {
+      populateMsrSkeletonFromMxmlTree (
+        mxmlTree,
+        mScore,
+        gLogOstream,
+        "Pass 2b");
+    }
+    catch (mxmlTreeToMsrException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
   if (gXml2lyOah->fExit2b) {
     gLogOstream <<
@@ -403,11 +411,20 @@ EXP xmlErr convertMusicXMLToLilypond (
   // create the LPSR from the MSR (pass 3)
   // ------------------------------------------------------
 
-  S_lpsrScore
-    lpScore =
-      convertMsrScoreToLpsrScore (
-        mScore,
-        "Pass 3");
+    S_lpsrScore lpScore;
+
+    try {
+      lpScore =
+        convertMsrScoreToLpsrScore (
+          mScore,
+          "Pass 3");
+    }
+    catch (msrScoreToLpsrScoreException& e) {
+      return kInvalidFile;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
 
   if (gLpsrOah->fExit3) {
     gLogOstream <<
