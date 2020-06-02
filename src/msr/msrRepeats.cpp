@@ -929,8 +929,6 @@ msrRepeat::msrRepeat (
   S_msrVoice voiceUpLink)
     : msrVoiceElement (inputLineNumber)
 {
-  fRepeatEndingsInternalCounter = 0;
-
   // sanity check
   msrAssert(
     voiceUpLink != nullptr,
@@ -941,6 +939,8 @@ msrRepeat::msrRepeat (
   fRepeatTimes = repeatTimes;
 
   fRepeatExplicitStartKind = kRepeatExplicitStartNo; // default value
+
+  fRepeatEndingsInternalCounter = 0;
 
   // repeat build phase
   fCurrentRepeatBuildPhaseKind =
@@ -1623,9 +1623,25 @@ string msrRepeat::asShortString () const
       fRepeatExplicitStartKind) <<
     ", currentRepeatBuildPhaseKind: " <<
     repeatBuildPhaseKindAsString (
-      fCurrentRepeatBuildPhaseKind) <<
-    ", common part: ";
+      fCurrentRepeatBuildPhaseKind);
 
+  if (fImmediatelyPrecedingRepeat) {
+    s <<
+      ", fImmediatelyPrecedingRepeat: "<<
+      fImmediatelyPrecedingRepeat->asShortString ();
+  }
+/*
+  don't print the following repeat if any,
+  to avoid an infinite loop
+  if (fImmediatelyFollowingRepeat) {
+    s <<
+      ", fImmediatelyFollowingRepeat: "<<
+      fImmediatelyFollowingRepeat->asShortString ();
+  }
+*/
+
+  s <<
+    ", common part: ";
   if (fRepeatCommonPart) {
     s <<
       singularOrPlural (
@@ -1663,9 +1679,21 @@ string msrRepeat::asString () const
       fRepeatExplicitStartKind) <<
     ", currentRepeatBuildPhaseKind: " <<
     repeatBuildPhaseKindAsString (
-      fCurrentRepeatBuildPhaseKind) <<
-    ", common part: ";
+      fCurrentRepeatBuildPhaseKind);
 
+  if (fImmediatelyPrecedingRepeat) {
+    s <<
+      ", fImmediatelyPrecedingRepeat: "<<
+      fImmediatelyPrecedingRepeat->asShortString ();
+  }
+  if (fImmediatelyFollowingRepeat) {
+    s <<
+      ", fImmediatelyFollowingRepeat: "<<
+      fImmediatelyFollowingRepeat->asShortString ();
+  }
+
+  s <<
+    ", common part: ";
   if (fRepeatCommonPart) {
     s <<
       fRepeatCommonPart->asString ();
@@ -1765,6 +1793,31 @@ void msrRepeat::print (ostream& os) const
 #endif
 
   os << endl;
+
+  // print the immediately preceding and following repeats
+  os << left <<
+    setw (fieldWidth) <<
+    "immediatelyPrecedingRepeat" << " : ";
+  if (fImmediatelyPrecedingRepeat) {
+    os <<
+      fImmediatelyPrecedingRepeat->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "immediatelyFollowingRepeat" << " : ";
+  if (fImmediatelyFollowingRepeat) {
+    os <<
+      fImmediatelyFollowingRepeat->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl << endl;
 
   // print the repeat common part
   if (! fRepeatCommonPart) {

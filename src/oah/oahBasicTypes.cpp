@@ -1767,7 +1767,7 @@ void oahCombinedBooleansAtom::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
 void oahCombinedBooleansAtom::printAtomOptionsValues (
@@ -2070,7 +2070,7 @@ void oahPrefix::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
 ostream& operator<< (ostream& os, const S_oahPrefix& elt)
@@ -2669,7 +2669,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
 void oahMultiplexBooleansAtom::printAtomOptionsValues (
@@ -2915,7 +2915,7 @@ void oahValuedAtom::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink // JMI
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
 void oahValuedAtom::printAtomOptionsValues (
@@ -4356,7 +4356,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
 void oahMonoplexStringAtom::printAtomOptionsValues (
@@ -9405,10 +9405,18 @@ oahHandler::oahHandler (
   fHandlerUsage =
     handlerUsage;
 
+  initializeHandler ();
+}
+
+void oahHandler::initializeHandler ()
+{
+  // arguments handling
   fNowEverythingIsAnArgument = false;
 
+  // default values style
   fOahOptionsDefaultValuesStyle = kOAHStyle;
 
+  // sizes and widths
   fMaximumSubGroupsHeadersSize = 1;
 
   fMaximumShortNameWidth   = 1;
@@ -9416,6 +9424,7 @@ oahHandler::oahHandler (
 
   fMaximumVariableNameWidth = 0;
 
+  // has help been requested?
   fHandlerFoundAHelpOption = false;
 
   // initialize the optional values style kinds map
@@ -9590,9 +9599,8 @@ void oahHandler::registerElementNamesInHandler (
     i != fHandlerElementsMap.end ();
     i++
   ) {
-
     // is elementLongName already in the elements names map?
-    if ((*i).first == elementLongName) {
+    if (false && (*i).first == elementLongName) { // JMI TEMP
       stringstream s;
 
       s <<
@@ -9604,7 +9612,7 @@ void oahHandler::registerElementNamesInHandler (
     }
 
     // is elementShortName already in the elements names map?
-    if ((*i).first == elementShortName) {
+    if (false && (*i).first == elementShortName) { // JMI TEMP
       if (elementShortName.size ()) {
         stringstream s;
 
@@ -9985,8 +9993,8 @@ void oahHandler::printHelp (ostream& os)
     gIndenter--;
   }
 
-  // register help print action in options handler upLink
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  // register help print help action has been chosen
+  setOptionsHandlerFoundAHelpOption ();
 }
 
 void oahHandler::printOptionsSummary (ostream& os) const
@@ -10357,36 +10365,36 @@ S_oahPrefix oahHandler::fetchPrefixInMapByItsName (
 }
 
 void oahHandler::appendGroupToHandler (
-  S_oahGroup oahGroup)
+  S_oahGroup group)
 {
   // sanity check
   msrAssert (
-    oahGroup != nullptr,
-    "oahGroup is null");
+    group != nullptr,
+    "group is null");
 
   // append the options group
   fHandlerGroupsList.push_back (
-    oahGroup);
+    group);
 
   // set the upLink
-  oahGroup->
+  group->
     setHandlerUpLink (this);
 }
 
 void oahHandler::prependGroupToHandler (
-  S_oahGroup oahGroup)
+  S_oahGroup group)
 {
   // sanity check
   msrAssert (
-    oahGroup != nullptr,
-    "oahGroup is null");
+    group != nullptr,
+    "group is null");
 
   // prepend the options group
   fHandlerGroupsList.push_front (
-    oahGroup);
+    group);
 
   // set the upLink
-  oahGroup->
+  group->
     setHandlerUpLink (this);
 }
 
@@ -11634,6 +11642,25 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
       commandLineWithLongNamesAsString ();
 
   return kHelpOptionsHaveBeenUsedNo;
+}
+
+void oahHandler::appendSubGroupToInternalAndUserGroups (
+  S_oahSubGroup subGroup,
+  S_oahGroup    internalGroup,
+  S_oahGroup    userGroup)
+{
+/* JMI
+  fHandlerInternalGroupsList->
+    appendGroupToGroupsList (internalGroup);
+
+  fHandlerUserGroupsList->
+    appendGroupToGroupsList (userGroup);
+    */
+  internalGroup->
+    appendSubGroupToGroup (subGroup);
+
+  userGroup->
+    appendSubGroupToGroup (subGroup);
 }
 
 void oahHandler::handleHandlerName (

@@ -37,18 +37,23 @@ const int commentFieldWidth = 30;
 
 //______________________________________________________________________________
 S_lpsrRepeatDescr lpsrRepeatDescr::create (
-  int repeatEndingsNumber)
+  S_msrRepeat repeat,
+  int         repeatEndingsNumber)
 {
   lpsrRepeatDescr* o = new
     lpsrRepeatDescr (
+      repeat,
       repeatEndingsNumber);
   assert(o!=0);
   return o;
 }
 
 lpsrRepeatDescr::lpsrRepeatDescr (
-  int repeatEndingsNumber)
+  S_msrRepeat repeat,
+  int         repeatEndingsNumber)
 {
+  fRepeat = repeat;
+
   fRepeatEndingsNumber  = repeatEndingsNumber;
   fRepeatEndingsCounter = 0;
 
@@ -15399,22 +15404,57 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 
     case msrBarline::kBarlineCategoryRepeatStart:
       if (gLpsr2LilypondOah->fKeepRepeatBarlines) {
+      /*
         if (gLpsr2LilypondOah->fRepeatBrackets) {
+          if (fRepeatDescrsStack.size ()) {
+            S_msrRepeat
+              currentRepeat =
+                fRepeatDescrsStack.back ()->getRepeat (),
+              precedingRepeat =
+                currentRepeat->getImmediatelyPrecedingRepeat ();
+
+            if (precedingRepeat && ! precedingRepeat-> getRepeatEndings ().size ()) {
+              // JMI
+            }
+          }
+          else {
+            // JMI
+          }
           fLilypondCodeOstream << "\\bar \"[|:\" ";
         }
-        else {
-          fLilypondCodeOstream << "\\bar \".|:\" ";
-        }
+      */
+        fLilypondCodeOstream << "\\bar \".|:\" ";
+      }
+      else {
+        // JMI
       }
       break;
+
     case msrBarline::kBarlineCategoryRepeatEnd:
       if (gLpsr2LilypondOah->fKeepRepeatBarlines) {
         if (gLpsr2LilypondOah->fRepeatBrackets) {
-          fLilypondCodeOstream << "\\bar \":|]\" ";
+          if (fRepeatDescrsStack.size ()) {
+            S_msrRepeat
+              currentRepeat =
+                fRepeatDescrsStack.back ()->getRepeat (),
+              followingRepeat =
+                currentRepeat->getImmediatelyPrecedingRepeat ();
+
+      // JMI      if (followingRepeat && ! followingRepeat-> getRepeatEndings ().size ()) {
+            if (followingRepeat) {
+              fLilypondCodeOstream << "\\bar \":|][|:\" ";
+            }
+          }
+          else {
+            fLilypondCodeOstream << "\\bar \":|.\" ";
+          }
         }
         else {
           fLilypondCodeOstream << "\\bar \":|.\" ";
         }
+      }
+      else {
+        // JMI
       }
       break;
 
@@ -15685,6 +15725,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 
   fRepeatDescrsStack.push_back (
     lpsrRepeatDescr::create (
+      elt,
       repeatEndingsNumber));
 
   int

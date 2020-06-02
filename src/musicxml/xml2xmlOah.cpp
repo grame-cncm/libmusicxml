@@ -587,6 +587,14 @@ R"()",
 
     appendSubGroupToGroup (versionSubGroup);
 
+/* JMI
+    fHandlerUpLink->
+      appendSubGroupToInternalAndUserGroups (
+        versionSubGroup,
+        this,
+        fHandlerUpLink->getInformationUserGroup ());
+*/
+
     // version
 
     versionSubGroup->
@@ -771,7 +779,7 @@ void initializeXml2xmlOah (
     "April 2020",
     "First draft version");
 
-  // create the options variables
+  // create the options groups
   // ------------------------------------------------------
 
   gXml2xmlOah = xml2xmlOah::create (

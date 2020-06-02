@@ -35,7 +35,8 @@ struct lpsrRepeatDescr : public smartable
     // ------------------------------------------------------
 
     static SMARTP<lpsrRepeatDescr> create (
-      int repeatEndingsNumber);
+      S_msrRepeat repeat,
+      int         repeatEndingsNumber);
 
   protected:
 
@@ -43,7 +44,8 @@ struct lpsrRepeatDescr : public smartable
     // ------------------------------------------------------
 
     lpsrRepeatDescr (
-      int repeatEndingsNumber);
+      S_msrRepeat repeat,
+      int         repeatEndingsNumber);
 
     virtual ~lpsrRepeatDescr ();
 
@@ -51,6 +53,9 @@ struct lpsrRepeatDescr : public smartable
 
     // set and get
     // ------------------------------------------------------
+
+    S_msrRepeat           getRepeat () const
+                              { return fRepeat; }
 
     int                   getRepeatEndingsNumber () const
                               { return fRepeatEndingsNumber; }
@@ -81,6 +86,8 @@ struct lpsrRepeatDescr : public smartable
 
     // fields
     // ------------------------------------------------------
+
+    S_msrRepeat           fRepeat;
 
     int                   fRepeatEndingsNumber;
     int                   fRepeatEndingsCounter;

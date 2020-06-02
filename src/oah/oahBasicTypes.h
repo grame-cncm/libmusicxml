@@ -2762,8 +2762,8 @@ class oahSubGroup : public oahElement
     // ------------------------------------------------------
 
     void                  setGroupUpLink (
-                            S_oahGroup oahGroup)
-                              { fGroupUpLink = oahGroup; }
+                            S_oahGroup group)
+                              { fGroupUpLink = group; }
 
     S_oahGroup            getGroupUpLink () const
                               { return fGroupUpLink; }
@@ -3013,6 +3013,8 @@ EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
 //_______________________________________________________________________________
 class EXP oahGroupsList : public smartable
 {
+  public:
+
     // data types
     // ------------------------------------------------------
 
@@ -3044,6 +3046,26 @@ class EXP oahGroupsList : public smartable
 
     // set and get
     // ------------------------------------------------------
+
+    oahGroupsListKind     getGroupsListKind () const
+                              { return fGroupsListKind; }
+
+    const list<S_oahGroup>
+                          getGroupsList () const
+                              { return fGroupsList; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    void                  appendGroupToGroupsList (
+                            S_oahGroup group)
+                              { fGroupsList.push_back (group); }
+
+    void                  prependGroupToGroupsList (
+                            S_oahGroup group)
+                              { fGroupsList.push_front (group); }
 
   public:
 
@@ -3153,6 +3175,7 @@ class EXP oahHandler : public oahElement
     ostream&              getHandlerLogOstream ()
                               { return fHandlerLogOstream; }
 
+    // optional values style
     oahOptionalValuesStyleKind&
                           getHandlerOptionalValuesStyleKind ()
                               { return fHandlerOptionalValuesStyleKind; }
@@ -3196,9 +3219,14 @@ class EXP oahHandler : public oahElement
                             string prefixName);
 
     void                  appendGroupToHandler (
-                            S_oahGroup oahGroup);
+                            S_oahGroup group);
     void                  prependGroupToHandler (
-                            S_oahGroup oahGroup);
+                            S_oahGroup group);
+
+    void                  appendSubGroupToInternalAndUserGroups (
+                            S_oahSubGroup subGroup,
+                            S_oahGroup    internalGroup,
+                            S_oahGroup    userGroup);
 
     void                  registerElementInHandler (
                             S_oahElement element);
@@ -3289,6 +3317,8 @@ class EXP oahHandler : public oahElement
     // private services
     // ------------------------------------------------------
 
+    void                  initializeHandler ();
+
     string                handlerOptionNamesBetweenParentheses () const;
 
     void                  registerElementNamesInHandler (
@@ -3346,37 +3376,51 @@ class EXP oahHandler : public oahElement
     // protected fields
     // ------------------------------------------------------
 
+    // command line
     string                fCommandLineAsSupplied;
 
+    // header
     string                fHandlerHeader;
     string                fHandlerValuesHeader;
 
+    // summary
     string                fHandlerSummaryShortName;
     string                fHandlerSummaryLongName;
 
+    // preamble
     string                fHandlerPreamble;
 
+    // usage
     string                fHandlerUsage;
 
+    // prefixes
     map<string, S_oahPrefix>
                           fHandlerPrefixesMap;
 
+    // single character short names
     set<string>           fSingleCharacterShortNamesSet;
 
+    // groups lists
     list<S_oahGroup>      fHandlerGroupsList;
 
+    // elements map
     map<string, S_oahElement>
                           fHandlerElementsMap;
 
+    // argument vector
     vector<string>        fHandlerArgumentsVector;
 
+    // executable name
     string                fHandlerExecutableName;
 
+    // optional values style
     oahOptionalValuesStyleKind
                           fHandlerOptionalValuesStyleKind;
 
+    // log stream
     ostream&              fHandlerLogOstream;
 
+    // has help been requested?
     // this is needed to exit if the executable is launched
     // with one or more help options,
     // i.e. options that are only used to display help to the user
@@ -3403,11 +3447,14 @@ class EXP oahHandler : public oahElement
     multiset<S_oahElement, compareOahElements>
                           fHandlerCommandLineElementsMultiset;
 
+    // arguments handling
     bool                  fNowEverythingIsAnArgument;
 
+    // default values style
     oahOptionsDefaultValuesStyle
                           fOahOptionsDefaultValuesStyle;
 
+    // sizes and widths
     int                   fMaximumSubGroupsHeadersSize;
 
     int                   fMaximumShortNameWidth;
@@ -3415,6 +3462,7 @@ class EXP oahHandler : public oahElement
 
     int                   fMaximumVariableNameWidth;
 
+    // atoms waiting for a value
     S_oahValuedAtom       fPendingValuedAtom;
 };
 typedef SMARTP<oahHandler> S_oahHandler;

@@ -699,7 +699,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 
       if (
         S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(*(*i)))
-        ) {
+      ) {
           /* JMI ???
         // create the repeat deep copy
         elementDeepCopy =
@@ -711,7 +711,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       else if (
         // create the segment deep copy
         S_msrSegment segment = dynamic_cast<msrSegment*>(&(*(*i)))
-        ) {
+      ) {
         elementDeepCopy =
           segment->createSegmentDeepCopy (
             voiceDeepCopy);
@@ -3620,6 +3620,29 @@ void msrVoice::appendRepeatToInitialVoiceElements (
   }
 #endif
 
+  // is the previous element in the voice elements list a repeat?
+  S_msrVoiceElement previousElement;
+
+  if (fInitialVoiceElementsList.size ()) {
+    previousElement =
+      fInitialVoiceElementsList.back ();
+  }
+
+  if (previousElement) {
+    if (
+      S_msrRepeat previousRepeat = dynamic_cast<msrRepeat*>(&(*previousElement))
+    ) {
+      // set the respective immediately preceding and following repeats
+      previousRepeat->
+        setImmediatelyFollowingRepeat (
+          repeat);
+      repeat->
+        setImmediatelyPrecedingRepeat (
+          previousRepeat);
+    }
+  }
+
+  // do append the repeat
   fInitialVoiceElementsList.push_back (
     repeat);
 }

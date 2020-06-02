@@ -4,121 +4,6 @@
 */
 
 //______________________________________________________________________________
-/* JMI
-class msrRepeatElement : public msrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrRepeatElement> create (
-      int          inputLineNumber,
-      S_msrRepeat  repeatUpLink);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrRepeatElement (
-      int          inputLineNumber,
-      S_msrRepeat  repeatUpLink);
-
-    virtual ~msrRepeatElement ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    // upLinks
-    S_msrRepeat           getRepeatElementRepeatUpLink () const
-                              { return fRepeatElementRepeatUpLink; }
-
-    // elements
-    const list<S_msrVoiceElement>&
-                          getRepeatElementElementsList ()
-                              { return fRepeatElementElementsList; }
-
-  public:
-
-    // public services
-    // ------------------------------------------------------
-
-    void                  appendSegmentToRepeatElementsList (
-                            int          inputLineNumber,
-                            S_msrSegment segment,
-                            string       context);
-
-    void                  appendRepeatToRepeatElementsList (
-                            int          inputLineNumber,
-                            S_msrRepeat  repeat,
-                            string       context);
-
-    void                  appendMeasuresRepeatToRepeatElementsList (
-                            int                 inputLineNumber,
-                            S_msrMeasuresRepeat measuresRepeat,
-                            string              context);
-
-    void                  appendRestMeasuresToRepeatElementsList (
-                            int                 inputLineNumber,
-                            S_msrMeasuresRepeat measuresRepeat,
-                            string              context);
-
-    S_msrNote             fetchRepeatElementFirstNonGraceNote () const;
-
-    void                  collectRepeatElementMeasuresIntoFlatList (
-                            int inputLineNumber);
-
-  private:
-
-    // private services
-    // ------------------------------------------------------
-
-    void                  appendVoiceElementToRepeatElementsList ( // JMI
-                            int               inputLineNumber,
-                            S_msrVoiceElement voiceElement,
-                            string            context);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asString () const;
-
-    virtual void          print (ostream& os) const;
-
-    virtual void          shortPrint (ostream& os) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    // upLinks
-    S_msrRepeat           fRepeatElementRepeatUpLink;
-
-    // elements list
-    list<S_msrVoiceElement>
-                          fRepeatElementElementsList;
-};
-typedef SMARTP<msrRepeatElement> S_msrRepeatElement;
-EXP ostream& operator<< (ostream& os, const S_msrRepeatElement& elt);
-*/
-
-//______________________________________________________________________________
 class msrRepeatCommonPart : public msrElement
 {
   public:
@@ -439,7 +324,7 @@ class msrRepeat : public msrVoiceElement
     void                  setRepeatTimes (int repeatTimes) // JMI
                               { fRepeatTimes = repeatTimes; }
 
-    // implicit start?
+    // explicit start?
     void                  setRepeatExplicitStartKind (
                             msrRepeatExplicitStartKind repeatExplicitStartKind)
                               {
@@ -462,6 +347,21 @@ class msrRepeat : public msrVoiceElement
     const vector<S_msrRepeatEnding>&
                           getRepeatEndings () const
                               { return fRepeatEndings; }
+
+    // immediately preceding and following repeats
+    void                  setImmediatelyPrecedingRepeat (
+                            S_msrRepeat precedingRepeat)
+                              { fImmediatelyPrecedingRepeat = precedingRepeat; }
+
+    S_msrRepeat           getImmediatelyPrecedingRepeat () const
+                              { return fImmediatelyPrecedingRepeat; }
+
+    void                  setImmediatelyFollowingRepeat (
+                            S_msrRepeat followingRepeat)
+                              { fImmediatelyFollowingRepeat = followingRepeat; }
+
+    S_msrRepeat           getImmediatelyFollowingRepeat () const
+                              { return fImmediatelyFollowingRepeat; }
 
   public:
 
@@ -546,6 +446,12 @@ class msrRepeat : public msrVoiceElement
                           fRepeatEndings;
     int                   fRepeatEndingsInternalCounter;
 
+    // immediately preceding and following repeats
+    // detecting several repeats in a row helps LilyPond code generation
+    // depending on the options JMI
+    S_msrRepeat           fImmediatelyPrecedingRepeat;
+    S_msrRepeat           fImmediatelyFollowingRepeat;
+
   public:
 
     // public work services
@@ -573,7 +479,7 @@ class msrRepeat : public msrVoiceElement
     // work fields
     // ------------------------------------------------------
 
-    // repeat build phase, used when building the repeat
+    // repeat build phase, used when building the repeat JMI ???
     msrRepeatBuildPhaseKind
                           fCurrentRepeatBuildPhaseKind;
 };
@@ -647,4 +553,120 @@ struct msrRepeatDescr : public smartable
 };
 typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt);
+
+
+//______________________________________________________________________________
+/* JMI
+class msrRepeatElement : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatElement> create (
+      int          inputLineNumber,
+      S_msrRepeat  repeatUpLink);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRepeatElement (
+      int          inputLineNumber,
+      S_msrRepeat  repeatUpLink);
+
+    virtual ~msrRepeatElement ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // upLinks
+    S_msrRepeat           getRepeatElementRepeatUpLink () const
+                              { return fRepeatElementRepeatUpLink; }
+
+    // elements
+    const list<S_msrVoiceElement>&
+                          getRepeatElementElementsList ()
+                              { return fRepeatElementElementsList; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  appendSegmentToRepeatElementsList (
+                            int          inputLineNumber,
+                            S_msrSegment segment,
+                            string       context);
+
+    void                  appendRepeatToRepeatElementsList (
+                            int          inputLineNumber,
+                            S_msrRepeat  repeat,
+                            string       context);
+
+    void                  appendMeasuresRepeatToRepeatElementsList (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat,
+                            string              context);
+
+    void                  appendRestMeasuresToRepeatElementsList (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat,
+                            string              context);
+
+    S_msrNote             fetchRepeatElementFirstNonGraceNote () const;
+
+    void                  collectRepeatElementMeasuresIntoFlatList (
+                            int inputLineNumber);
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  appendVoiceElementToRepeatElementsList ( // JMI
+                            int               inputLineNumber,
+                            S_msrVoiceElement voiceElement,
+                            string            context);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+    virtual void          shortPrint (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // upLinks
+    S_msrRepeat           fRepeatElementRepeatUpLink;
+
+    // elements list
+    list<S_msrVoiceElement>
+                          fRepeatElementElementsList;
+};
+typedef SMARTP<msrRepeatElement> S_msrRepeatElement;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatElement& elt);
+*/
 
