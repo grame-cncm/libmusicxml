@@ -2070,7 +2070,7 @@ void oahPrefix::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+// JMI  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
 }
 
 ostream& operator<< (ostream& os, const S_oahPrefix& elt)
