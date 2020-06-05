@@ -131,7 +131,7 @@ if (MSR)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond)
+	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond testjm)
 endif()
 
 if (BRAILLE)

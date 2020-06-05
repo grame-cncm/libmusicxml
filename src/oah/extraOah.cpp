@@ -346,7 +346,7 @@ void extraShowAllChordsContentsAtom::handleValue (
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
+        setOahHandlerFoundAHelpOption ();
 }
 
 void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
@@ -684,7 +684,7 @@ void extraShowChordDetailsAtom::handleValue (
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
+        setOahHandlerFoundAHelpOption ();
 }
 
 void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
@@ -1041,7 +1041,7 @@ void extraShowChordAnalysisAtom::handleValue (
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
+        setOahHandlerFoundAHelpOption ();
 }
 
 void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)

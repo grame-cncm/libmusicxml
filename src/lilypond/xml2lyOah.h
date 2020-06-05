@@ -51,7 +51,7 @@ class EXP xml2lyOahHandler : public oahHandler
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeXml2lyOptionsHandler (
+    void                  initializeXml2lyOahHandler (
                             string executableName,
                             S_xml2lyOah2ManPageGenerator
                                    theOah2ManPageGenerator);

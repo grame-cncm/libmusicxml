@@ -217,10 +217,17 @@ int main (int argc, char *argv[])
   // do the translation
   // ------------------------------------------------------
 
-  xmlErr err =
-    convertMusicXMLToBraille (
-      inputSourceName,
-      outputFileName);
+  xmlErr err;
+
+  try {
+    err =
+      convertMusicXMLToBraille (
+        inputSourceName,
+        outputFileName);
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

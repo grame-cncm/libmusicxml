@@ -234,11 +234,18 @@ int main (int argc, char *argv[])
   // do the translation, creating MusicXML back from the MSR if requested
   // ------------------------------------------------------
 
-  xmlErr err =
-    convertMusicXMLToLilypond (
-      inputSourceName,
-      outputFileName,
-      gXml2lyOah->fLoopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
+  xmlErr err;
+
+  try {
+    err =
+      convertMusicXMLToLilypond (
+        inputSourceName,
+        outputFileName,
+        gXml2lyOah->fLoopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------

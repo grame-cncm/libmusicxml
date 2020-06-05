@@ -31,6 +31,8 @@
 
 #include "musicxml2musicxml.h"
 
+#include "xml2xmlOahDualHandler.h"
+
 
 using namespace std;
 
@@ -74,7 +76,7 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
-  // create the options handler
+  // create the OAH handler
   // ------------------------------------------------------
 
   S_xml2xmlOahHandler handler;
@@ -92,6 +94,29 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
+  // create the OAH dual handler
+  // ------------------------------------------------------
+if (false) {
+  S_xml2xmlOahDualHandler dualHandler;
+
+  try {
+    dualHandler =
+      xml2xmlOahDualHandler::create (
+        argv [0],
+        gOutputOstream);
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  dualHandler->
+    printHelp (gOutputOstream);
+
+  return kNoErr; // TEMP JMI
+}
   // analyze the command line options and arguments
   // ------------------------------------------------------
 

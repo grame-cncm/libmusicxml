@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___optionsBasicTypes___
-#define ___optionsBasicTypes___
+#ifndef ___oahBasicTypes___
+#define ___oahBasicTypes___
 
 #include "list"
 #include "vector"
@@ -2777,6 +2777,10 @@ class oahSubGroup : public oahElement
     int                   getNumberOfUserChoseAtomsInThisSubGroup () const
                               { return fNumberOfUserChoseAtomsInThisSubGroup; }
 
+    const list<S_oahAtom>&
+                          getAtomsList () const
+                              { return fAtomsList; }
+
   public:
 
     // consistency check
@@ -3011,83 +3015,6 @@ typedef SMARTP<oahGroup> S_oahGroup;
 EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
 
 //_______________________________________________________________________________
-class EXP oahGroupsList : public smartable
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum oahGroupsListKind {
-        kUser,
-        kInternal };
-
-    static string groupsListKindAsString (
-      oahGroupsListKind groupsListKind);
-
-  public:
-
-    // creation
-    // ------------------------------------------------------
-    static SMARTP<oahGroupsList> create (
-      oahGroupsListKind groupsListKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    oahGroupsList (
-      oahGroupsListKind groupsListKind);
-
-    virtual ~oahGroupsList ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    oahGroupsListKind     getGroupsListKind () const
-                              { return fGroupsListKind; }
-
-    const list<S_oahGroup>
-                          getGroupsList () const
-                              { return fGroupsList; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    void                  appendGroupToGroupsList (
-                            S_oahGroup group)
-                              { fGroupsList.push_back (group); }
-
-    void                  prependGroupToGroupsList (
-                            S_oahGroup group)
-                              { fGroupsList.push_front (group); }
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    oahGroupsListKind     fGroupsListKind;
-
-    list<S_oahGroup>      fGroupsList;
-
-};
-typedef SMARTP<oahGroupsList> S_oahGroupsList;
-EXP ostream& operator<< (ostream& os, const S_oahGroupsList& elt);
-
-//_______________________________________________________________________________
 class EXP oahHandler : public oahElement
 {
   public:
@@ -3113,7 +3040,6 @@ class EXP oahHandler : public oahElement
 
     // creation
     // ------------------------------------------------------
-/* JMI this a pure virtual class
     static SMARTP<oahHandler> create (
       string   handlerHeader,
       string   handlerValuesHeader,
@@ -3125,7 +3051,6 @@ class EXP oahHandler : public oahElement
       string   handlerUsage,
       string   handlerDescription,
       ostream& handlerLogOstream);
-*/
 
   protected:
 
@@ -3154,7 +3079,7 @@ class EXP oahHandler : public oahElement
     string                getHandlerHeader () const
                               { return fHandlerHeader; }
 
-    string                getOptionsHandlerValuesHeader () const
+    string                getOahHandlerValuesHeader () const
                               { return fHandlerValuesHeader; }
 
     string                getHandlerSummaryShortName () const
@@ -3174,6 +3099,11 @@ class EXP oahHandler : public oahElement
 
     ostream&              getHandlerLogOstream ()
                               { return fHandlerLogOstream; }
+
+    // groups lists
+    const list<S_oahGroup>&
+                          getHandlerGroupsList () const
+                              { return fHandlerGroupsList; }
 
     // optional values style
     oahOptionalValuesStyleKind&
@@ -3306,10 +3236,10 @@ class EXP oahHandler : public oahElement
     void                  printAllOahCommandLineValues (
                             ostream& os) const;
 
-    void                  setOptionsHandlerFoundAHelpOption ()
+    void                  setOahHandlerFoundAHelpOption ()
                               { fHandlerFoundAHelpOption = true; }
 
-    bool                  getOptionsHandlerFoundAHelpOption () const
+    bool                  getOahHandlerFoundAHelpOption () const
                               { return fHandlerFoundAHelpOption; }
 
   private:
@@ -3367,7 +3297,7 @@ class EXP oahHandler : public oahElement
                             string atomName,
                             string context);
 
-    virtual void          checkOptionsAndArguments () = 0;
+    virtual void          checkOptionsAndArguments ();
 
     void                  checkHandlerGroupsOptionsConsistency ();
 
@@ -3473,4 +3403,83 @@ EXP ostream& operator<< (ostream& os, const S_oahHandler& elt);
 
 
 #endif
+
+/*
+//_______________________________________________________________________________
+class EXP oahGroupsList : public smartable
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum oahGroupsListKind {
+        kUser,
+        kInternal };
+
+    static string groupsListKindAsString (
+      oahGroupsListKind groupsListKind);
+
+  public:
+
+    // creation
+    // ------------------------------------------------------
+    static SMARTP<oahGroupsList> create (
+      oahGroupsListKind groupsListKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahGroupsList (
+      oahGroupsListKind groupsListKind);
+
+    virtual ~oahGroupsList ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    oahGroupsListKind     getGroupsListKind () const
+                              { return fGroupsListKind; }
+
+    const list<S_oahGroup>
+                          getGroupsList () const
+                              { return fGroupsList; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    void                  appendGroupToGroupsList (
+                            S_oahGroup group)
+                              { fGroupsList.push_back (group); }
+
+    void                  prependGroupToGroupsList (
+                            S_oahGroup group)
+                              { fGroupsList.push_front (group); }
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    oahGroupsListKind     fGroupsListKind;
+
+    list<S_oahGroup>      fGroupsList;
+
+};
+typedef SMARTP<oahGroupsList> S_oahGroupsList;
+EXP ostream& operator<< (ostream& os, const S_oahGroupsList& elt);
+*/
 

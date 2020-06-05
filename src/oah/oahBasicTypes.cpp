@@ -1767,7 +1767,7 @@ void oahCombinedBooleansAtom::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 void oahCombinedBooleansAtom::printAtomOptionsValues (
@@ -2070,7 +2070,7 @@ void oahPrefix::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-// JMI  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+// JMI  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 ostream& operator<< (ostream& os, const S_oahPrefix& elt)
@@ -2669,7 +2669,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 void oahMultiplexBooleansAtom::printAtomOptionsValues (
@@ -2915,7 +2915,7 @@ void oahValuedAtom::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink // JMI
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 void oahValuedAtom::printAtomOptionsValues (
@@ -4356,7 +4356,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 void oahMonoplexStringAtom::printAtomOptionsValues (
@@ -7782,7 +7782,7 @@ void oahOptionNameHelpAtom::handleValue (
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
+        setOahHandlerFoundAHelpOption ();
 }
 
 void oahOptionNameHelpAtom::handleDefaultValue ()
@@ -8268,7 +8268,7 @@ void oahSubGroup::printHelp (ostream& os)
   // register help print action in options groups's options handler upLink
   fGroupUpLink->
     getHandlerUpLink ()->
-      setOptionsHandlerFoundAHelpOption ();
+      setOahHandlerFoundAHelpOption ();
 }
 
 void oahSubGroup::printHelpWithHeaderWidth (
@@ -8329,7 +8329,7 @@ void oahSubGroup::printHelpWithHeaderWidth (
   // register help print action in options groups's options handler upLink
   fGroupUpLink->
     getHandlerUpLink ()->
-      setOptionsHandlerFoundAHelpOption ();
+      setOahHandlerFoundAHelpOption ();
 }
 
 void oahSubGroup::printSubGroupHelp (ostream& os) const
@@ -8371,7 +8371,7 @@ void oahSubGroup::printSubGroupHelp (ostream& os) const
   // register help print action in options groups's options handler upLink
   fGroupUpLink->
     getHandlerUpLink ()->
-      setOptionsHandlerFoundAHelpOption ();
+      setOahHandlerFoundAHelpOption ();
 
 }
 
@@ -8441,7 +8441,7 @@ void oahSubGroup::printOptionsSummary (
   // register help print action in options groups's options handler upLink
   fGroupUpLink->
     getHandlerUpLink ()->
-      setOptionsHandlerFoundAHelpOption ();
+      setOahHandlerFoundAHelpOption ();
 }
 
 void oahSubGroup::printSubGroupSpecificHelpOrOptionsSummary (
@@ -8511,7 +8511,7 @@ void oahSubGroup::printSubGroupAndAtomHelp (
   // register help print action in options groups's options handler upLink
   fGroupUpLink->
     getHandlerUpLink ()->
-      setOptionsHandlerFoundAHelpOption ();
+      setOahHandlerFoundAHelpOption ();
 }
 
 void oahSubGroup::printSubGroupOptionsValues (
@@ -8965,7 +8965,7 @@ void oahGroup::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 void oahGroup::printGroupAndSubGroupHelp (
@@ -9083,7 +9083,7 @@ void oahGroup::printGroupAndSubGroupAndAtomHelp (
   }
 
   // register help print action in options handler upLink
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 S_oahValuedAtom oahGroup::handleOptionUnderName (
@@ -9147,7 +9147,7 @@ void oahGroup::printOptionsSummary (ostream& os) const
   }
 
   // register help print action in options handler upLink
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 void oahGroup::printGroupAndSubGroupSpecificHelp (
@@ -9205,7 +9205,7 @@ void oahGroup::printGroupAndSubGroupSpecificHelp (
   }
 
   // register help print action in options handler upLink
-  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 void oahGroup::printGroupOptionsValues (
@@ -9258,87 +9258,6 @@ ostream& operator<< (ostream& os, const S_oahGroup& elt)
 }
 
 //______________________________________________________________________________
-string oahGroupsList::groupsListKindAsString (
-  oahGroupsListKind groupsListKind)
-{
-  string result;
-
-  switch (groupsListKind) {
-    case oahGroupsList::kUser:
-      result = "user";
-      break;
-    case oahGroupsList::kInternal:
-      result = "internal";
-      break;
-  } // switch
-
-  return result;
-}
-
-S_oahGroupsList oahGroupsList::create (
-  oahGroupsListKind groupsListKind)
-{
-  oahGroupsList* o = new
-    oahGroupsList (
-      groupsListKind);
-  assert(o!=0);
-  return o;
-}
-
-oahGroupsList::oahGroupsList (
-  oahGroupsListKind groupsListKind)
-{
-  fGroupsListKind = groupsListKind;
-}
-
-oahGroupsList::~oahGroupsList ()
-{}
-
-void oahGroupsList::print (ostream& os) const
-{
-  os <<
-    "GroupsList:" <<
-    endl;
-
-  gIndenter++;
-
-  os <<
-    "GroupsList (" <<
-    singularOrPlural (
-      fGroupsList.size (), "element",  "elements") <<
-    "):" <<
-    endl;
-
-  if (fGroupsList.size ()) {
-    os << endl;
-
-    gIndenter++;
-
-    list<S_oahGroup>::const_iterator
-      iBegin = fGroupsList.begin (),
-      iEnd   = fGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the options subgroup
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-
-    gIndenter--;
-  }
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_oahGroupsList& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-/* JMI
 S_oahHandler oahHandler::create (
   string   handlerHeader,
   string   handlerValuesHeader,
@@ -9366,7 +9285,6 @@ S_oahHandler oahHandler::create (
   assert(o!=0);
   return o;
 }
-*/
 
 oahHandler::oahHandler (
   string   handlerHeader,
@@ -9600,7 +9518,7 @@ void oahHandler::registerElementNamesInHandler (
     i++
   ) {
     // is elementLongName already in the elements names map?
-    if (false && (*i).first == elementLongName) { // JMI TEMP
+    if ((*i).first == elementLongName) { // JMI TEMP
       stringstream s;
 
       s <<
@@ -9612,7 +9530,7 @@ void oahHandler::registerElementNamesInHandler (
     }
 
     // is elementShortName already in the elements names map?
-    if (false && (*i).first == elementShortName) { // JMI TEMP
+    if ((*i).first == elementShortName) { // JMI TEMP
       if (elementShortName.size ()) {
         stringstream s;
 
@@ -9695,6 +9613,11 @@ void oahHandler::registerElementInHandler (
         subHeaderSize;
     }
   }
+}
+
+void oahHandler::checkOptionsAndArguments ()
+{
+  // JMI
 }
 
 void oahHandler::checkOptionsConsistency ()
@@ -9994,7 +9917,7 @@ void oahHandler::printHelp (ostream& os)
   }
 
   // register help print help action has been chosen
-  setOptionsHandlerFoundAHelpOption ();
+  setOahHandlerFoundAHelpOption ();
 }
 
 void oahHandler::printOptionsSummary (ostream& os) const
@@ -12358,3 +12281,86 @@ void oahHandler::handleOptionValueOrArgument (
 
 
 }
+
+/*
+//______________________________________________________________________________
+string oahGroupsList::groupsListKindAsString (
+  oahGroupsListKind groupsListKind)
+{
+  string result;
+
+  switch (groupsListKind) {
+    case oahGroupsList::kUser:
+      result = "user";
+      break;
+    case oahGroupsList::kInternal:
+      result = "internal";
+      break;
+  } // switch
+
+  return result;
+}
+
+S_oahGroupsList oahGroupsList::create (
+  oahGroupsListKind groupsListKind)
+{
+  oahGroupsList* o = new
+    oahGroupsList (
+      groupsListKind);
+  assert(o!=0);
+  return o;
+}
+
+oahGroupsList::oahGroupsList (
+  oahGroupsListKind groupsListKind)
+{
+  fGroupsListKind = groupsListKind;
+}
+
+oahGroupsList::~oahGroupsList ()
+{}
+
+void oahGroupsList::print (ostream& os) const
+{
+  os <<
+    "GroupsList:" <<
+    endl;
+
+  gIndenter++;
+
+  os <<
+    "GroupsList (" <<
+    singularOrPlural (
+      fGroupsList.size (), "element",  "elements") <<
+    "):" <<
+    endl;
+
+  if (fGroupsList.size ()) {
+    os << endl;
+
+    gIndenter++;
+
+    list<S_oahGroup>::const_iterator
+      iBegin = fGroupsList.begin (),
+      iEnd   = fGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options subgroup
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_oahGroupsList& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+*/

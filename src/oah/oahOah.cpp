@@ -372,15 +372,15 @@ This option is best placed early in the command line)",
 
   // options handler
 
-  fDisplayOptionsHandler = boolOptionsInitialValue;
+  fDisplayOahHandler = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "doh", "display-options-handler",
 R"(Write the contents of the options handler to standard error.)",
-        "displayOptionsHandler",
-        fDisplayOptionsHandler));
+        "displayOahHandler",
+        fDisplayOahHandler));
 }
 
 void oahOah::initializeOahOahAndArgumentsOptions (
@@ -540,8 +540,8 @@ S_oahOah oahOah::createCloneWithTrueValues ()
 
   clone->fDisplayOahValues =
     fDisplayOahValues;
-  clone->fDisplayOptionsHandler =
-    fDisplayOptionsHandler;
+  clone->fDisplayOahHandler =
+    fDisplayOahHandler;
 
   // trace
   // --------------------------------------
@@ -690,8 +690,8 @@ void oahOah::printOahOahValues (int valueFieldWidth)
     setw (valueFieldWidth) << "displayOptionsValues" << " : " <<
     booleanAsString (fDisplayOahValues) <<
     endl <<
-    setw (valueFieldWidth) << "displayOptionsHandler" << " : " <<
-    booleanAsString (fDisplayOptionsHandler) <<
+    setw (valueFieldWidth) << "displayOahHandler" << " : " <<
+    booleanAsString (fDisplayOahHandler) <<
     endl <<
 
     setw (valueFieldWidth) << "traceOahVisitors" << " : " <<

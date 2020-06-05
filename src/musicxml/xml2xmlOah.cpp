@@ -136,7 +136,7 @@ Option '-h, -help' prints the full help,
         gOutputOstream);
 
   // initialize the handler only now, since it may use prefixes
-  initializeXml2xmlOptionsHandler (
+  initializeXml2xmlOahHandler (
     executableName,
     generator);
 }
@@ -144,7 +144,7 @@ Option '-h, -help' prints the full help,
 xml2xmlOahHandler::~xml2xmlOahHandler ()
 {}
 
-void xml2xmlOahHandler::initializeXml2xmlOptionsHandler (
+void xml2xmlOahHandler::initializeXml2xmlOahHandler (
   string executableName,
   S_xml2xmlOah2ManPageGenerator
          theOah2ManPageGenerator)

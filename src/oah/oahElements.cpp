@@ -394,7 +394,7 @@ void oahElement::printHelp (ostream& os)
   }
 
   // register help print action in options handler upLink JMI ???
-//  fHandlerUpLink->setOptionsHandlerFoundAHelpOption ();
+//  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 ostream& operator<< (ostream& os, const S_oahElement& elt)

@@ -14,7 +14,7 @@
 #define ___setExtraOahIfDesired___
 
 
-// comment the following definition if no trace options are wanted
+// comment the following definition if no extra options are wanted
 #define EXTRA_OAH
 
 
