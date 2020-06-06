@@ -607,206 +607,210 @@ xml2lyOah::~xml2lyOah ()
 
 void xml2lyOah::initializeXml2lyOah ()
 {
-  // version
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      versionSubGroup =
-        oahSubGroup::create (
-          "Version",
-          "hxv", "help-xml2ly-version",
-R"()",
-        kElementVisibilityAlways,
-        this);
-
-    appendSubGroupToGroup (versionSubGroup);
-
+  if (! initializeXml2lyOahHasBeenRun) {
     // version
+    // --------------------------------------
 
-    versionSubGroup->
-      appendAtomToSubGroup (
-        xml2lyVersionOahAtom::create (
-          "v", "version",
-R"(Display xml2ly's version number and history.)"));
-  }
-
-  // about
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      aboutSubGroup =
-        oahSubGroup::create (
-          "About",
-          "hxa", "help-xml2ly-about",
-R"()",
-        kElementVisibilityAlways,
-        this);
-
-    appendSubGroupToGroup (aboutSubGroup);
-
-    // about
-
-    aboutSubGroup->
-      appendAtomToSubGroup (
-        xml2lyAboutOahAtom::create (
-          "a", "about",
-R"(Display information about xml2ly.)"));
-  }
-
-  // contact
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      contactSubGroup =
-        oahSubGroup::create (
-          "Contact",
-          "hxc", "help-xml2ly-contact",
-R"()",
-        kElementVisibilityAlways,
-        this);
-
-    appendSubGroupToGroup (contactSubGroup);
-
-    // contact
-
-    contactSubGroup->
-      appendAtomToSubGroup (
-        xml2lyContactOahAtom::create (
-          "c", "contact",
-R"(Display information about how to contacct xml2ly maintainers.)"));
-  }
-
-  // output file
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      outputFileSubGroup =
-        oahSubGroup::create (
-          "Output file",
-          "hxof", "help-xml2ly-output-file",
-R"()",
-        kElementVisibilityAlways,
-        this);
-
-    appendSubGroupToGroup (outputFileSubGroup);
-
-    // output filename
-
-    outputFileSubGroup->
-      appendAtomToSubGroup (
-        oahStringAtom::create (
-          "o", "output-file-name",
-R"(Write LilyPond code to file FILENAME instead of standard output.)",
-          "FILENAME",
-          "lilyPondOutputFileName",
-          fLilyPondOutputFileName));
-
-    // auto output filename
-
-    fAutoOutputFileName = false;
-
-    outputFileSubGroup->
-      appendAtomToSubGroup (
-        oahBooleanAtom::create (
-          "aofn", "auto-output-file-name",
-R"(This option can only be used when reading from a file.
-Write LilyPond code to a file in the current working directory.
-The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'ly'
-or adding '.ly' if none is present.)",
-          "autoOutputFileName",
-          fAutoOutputFileName));
-  }
-
-  // loop back to MusicXML
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "Loop",
-          "hxml2lylo", "help-xml2ly-loopback-options",
+    {
+      S_oahSubGroup
+        versionSubGroup =
+          oahSubGroup::create (
+            "Version",
+            "hxv", "help-xml2ly-version",
   R"()",
           kElementVisibilityAlways,
           this);
 
-    appendSubGroupToGroup (subGroup);
+      appendSubGroupToGroup (versionSubGroup);
 
-    // '-loop' is hidden...
+      // version
 
-    fLoopBackToMusicXML = false;
+      versionSubGroup->
+        appendAtomToSubGroup (
+          xml2lyVersionOahAtom::create (
+            "v", "version",
+  R"(Display xml2ly's version number and history.)"));
+    }
 
-    S_oahBooleanAtom
-      loopOptionsBooleanAtom =
-        oahBooleanAtom::create (
-          "loop", "loop-back-to-musicxml",
-  R"(Close the loop, generating a MusicXML file from the MSR.
-  The file name receives a '_LOOP.xml' suffix.
-  This is equivalent to using xml2xml)",
-          "loopBackToMusicXML",
-          fLoopBackToMusicXML);
-    loopOptionsBooleanAtom->
-      setIsHidden ();
+    // about
+    // --------------------------------------
 
-    subGroup->
-      appendAtomToSubGroup (
-        loopOptionsBooleanAtom);
-  }
-
-  // exit after some passes
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      exitAfterSomePassesSubGroup =
-        oahSubGroup::create (
-          "Exit after some passes",
-          "hmexit", "help-msr-exit",
+    {
+      S_oahSubGroup
+        aboutSubGroup =
+          oahSubGroup::create (
+            "About",
+            "hxa", "help-xml2ly-about",
   R"()",
-        kElementVisibilityAlways,
-        this);
+          kElementVisibilityAlways,
+          this);
 
-    appendSubGroupToGroup (exitAfterSomePassesSubGroup);
+      appendSubGroupToGroup (aboutSubGroup);
 
-    // exit after pass 2a
+      // about
 
-    fExit2a = false;
+      aboutSubGroup->
+        appendAtomToSubGroup (
+          xml2lyAboutOahAtom::create (
+            "a", "about",
+  R"(Display information about xml2ly.)"));
+    }
 
-    S_oahBooleanAtom
-      exit2aOahBooleanAtom =
-        oahBooleanAtom::create (
-          "e2a", "exit-2a",
-  R"(Exit after pass 2a, i.e. after conversion
-  of the MusicXML tree to an MSR skeleton.)",
-          "exit2a",
-          fExit2a);
+    // contact
+    // --------------------------------------
 
-    exitAfterSomePassesSubGroup->
-      appendAtomToSubGroup (
-        exit2aOahBooleanAtom);
+    {
+      S_oahSubGroup
+        contactSubGroup =
+          oahSubGroup::create (
+            "Contact",
+            "hxc", "help-xml2ly-contact",
+  R"()",
+          kElementVisibilityAlways,
+          this);
 
-    // exit after pass 2b
+      appendSubGroupToGroup (contactSubGroup);
 
-    fExit2b = false;
+      // contact
 
-    S_oahBooleanAtom
-      exit2bOahBooleanAtom =
-        oahBooleanAtom::create (
-          "e2b", "exit-2b",
-  R"(Exit after pass 2b, i.e. after conversion
-  of the MusicXML tree to MSR.)",
-          "exit2b",
-          fExit2b);
+      contactSubGroup->
+        appendAtomToSubGroup (
+          xml2lyContactOahAtom::create (
+            "c", "contact",
+  R"(Display information about how to contacct xml2ly maintainers.)"));
+    }
 
-    exitAfterSomePassesSubGroup->
-      appendAtomToSubGroup (
-        exit2bOahBooleanAtom);
+    // output file
+    // --------------------------------------
+
+    {
+      S_oahSubGroup
+        outputFileSubGroup =
+          oahSubGroup::create (
+            "Output file",
+            "hxof", "help-xml2ly-output-file",
+  R"()",
+          kElementVisibilityAlways,
+          this);
+
+      appendSubGroupToGroup (outputFileSubGroup);
+
+      // output filename
+
+      outputFileSubGroup->
+        appendAtomToSubGroup (
+          oahStringAtom::create (
+            "o", "output-file-name",
+  R"(Write LilyPond code to file FILENAME instead of standard output.)",
+            "FILENAME",
+            "lilyPondOutputFileName",
+            fLilyPondOutputFileName));
+
+      // auto output filename
+
+      fAutoOutputFileName = false;
+
+      outputFileSubGroup->
+        appendAtomToSubGroup (
+          oahBooleanAtom::create (
+            "aofn", "auto-output-file-name",
+  R"(This option can only be used when reading from a file.
+  Write LilyPond code to a file in the current working directory.
+  The file name is derived from that of the input file,
+  replacing any suffix after the the '.' by 'ly'
+  or adding '.ly' if none is present.)",
+            "autoOutputFileName",
+            fAutoOutputFileName));
+    }
+
+    // loop back to MusicXML
+    // --------------------------------------
+
+    {
+      S_oahSubGroup
+        subGroup =
+          oahSubGroup::create (
+            "Loop",
+            "hxml2lylo", "help-xml2ly-loopback-options",
+    R"()",
+            kElementVisibilityAlways,
+            this);
+
+      appendSubGroupToGroup (subGroup);
+
+      // '-loop' is hidden...
+
+      fLoopBackToMusicXML = false;
+
+      S_oahBooleanAtom
+        loopOptionsBooleanAtom =
+          oahBooleanAtom::create (
+            "loop", "loop-back-to-musicxml",
+    R"(Close the loop, generating a MusicXML file from the MSR.
+    The file name receives a '_LOOP.xml' suffix.
+    This is equivalent to using xml2xml)",
+            "loopBackToMusicXML",
+            fLoopBackToMusicXML);
+      loopOptionsBooleanAtom->
+        setIsHidden ();
+
+      subGroup->
+        appendAtomToSubGroup (
+          loopOptionsBooleanAtom);
+    }
+
+    // exit after some passes
+    // --------------------------------------
+
+    {
+      S_oahSubGroup
+        exitAfterSomePassesSubGroup =
+          oahSubGroup::create (
+            "Exit after some passes",
+            "hmexit", "help-msr-exit",
+    R"()",
+          kElementVisibilityAlways,
+          this);
+
+      appendSubGroupToGroup (exitAfterSomePassesSubGroup);
+
+      // exit after pass 2a
+
+      fExit2a = false;
+
+      S_oahBooleanAtom
+        exit2aOahBooleanAtom =
+          oahBooleanAtom::create (
+            "e2a", "exit-2a",
+    R"(Exit after pass 2a, i.e. after conversion
+    of the MusicXML tree to an MSR skeleton.)",
+            "exit2a",
+            fExit2a);
+
+      exitAfterSomePassesSubGroup->
+        appendAtomToSubGroup (
+          exit2aOahBooleanAtom);
+
+      // exit after pass 2b
+
+      fExit2b = false;
+
+      S_oahBooleanAtom
+        exit2bOahBooleanAtom =
+          oahBooleanAtom::create (
+            "e2b", "exit-2b",
+    R"(Exit after pass 2b, i.e. after conversion
+    of the MusicXML tree to MSR.)",
+            "exit2b",
+            fExit2b);
+
+      exitAfterSomePassesSubGroup->
+        appendAtomToSubGroup (
+          exit2bOahBooleanAtom);
+    }
   }
+
+  initializeXml2lyOahHasBeenRun = true;
 }
 
 //______________________________________________________________________________

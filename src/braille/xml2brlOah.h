@@ -181,6 +181,8 @@ EXP ostream& operator<< (ostream& os, const S_xml2brlOah& elt);
 EXP extern S_xml2brlOah gXml2brlOah;
 
 //______________________________________________________________________________
+static bool initializeXml2brlOahHasBeenRun = false;
+
 void initializeXml2brlOah (
   S_oahHandler handler);
 

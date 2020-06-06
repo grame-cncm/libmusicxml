@@ -713,18 +713,23 @@ string lpsrScoreOutputKindAsString (
 
 void initializeLpsrScoreOutputKindsMap ()
 {
-  // register the LilyPond score output kinds
-  // --------------------------------------
+  // protect library against multiple initializations
+  static bool initializeLpsrScoreOutputKindsMapHasBeenRun = false;
 
-  // no CamelCase here, these strings are used in the command line options
+  if (! initializeLpsrScoreOutputKindsMapHasBeenRun) {
+    // register the LilyPond score output kinds
+    // --------------------------------------
 
-  gLpsrScoreOutputKindsMap ["score-only"] = kScoreOnly;
-  gLpsrScoreOutputKindsMap ["score-and-parts"] = kScoreAndParts;
-  gLpsrScoreOutputKindsMap ["parts-and-score"] = kPartsAndScore;
-  gLpsrScoreOutputKindsMap ["parts-only"] = kPartsOnly;
-  gLpsrScoreOutputKindsMap ["score-and-parts-one-file"] = kScoreAndPartsOneFile;
-  gLpsrScoreOutputKindsMap ["parts-and-score-one-file"] = kPartsAndScoreOneFile;
-  gLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
+    // no CamelCase here, these strings are used in the command line options
+
+    gLpsrScoreOutputKindsMap ["score-only"] = kScoreOnly;
+    gLpsrScoreOutputKindsMap ["score-and-parts"] = kScoreAndParts;
+    gLpsrScoreOutputKindsMap ["parts-and-score"] = kPartsAndScore;
+    gLpsrScoreOutputKindsMap ["parts-only"] = kPartsOnly;
+    gLpsrScoreOutputKindsMap ["score-and-parts-one-file"] = kScoreAndPartsOneFile;
+    gLpsrScoreOutputKindsMap ["parts-and-score-one-file"] = kPartsAndScoreOneFile;
+    gLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
+  }
 }
 
 string existingLpsrScoreOutputKinds (int namesListMaxLength)
@@ -803,14 +808,21 @@ string lpsrOctaveEntryKindAsString (
 
 void initializeLpsrOctaveEntryKindsMap ()
 {
-  // register the LilyPond score output kinds
-  // --------------------------------------
+  // protect library against multiple initializations
+  static bool initializeLpsrOctaveEntryKindsMapHasBeenRun = false;
 
-  // no CamelCase here, these strings are used in the command line options
+  if (! initializeLpsrOctaveEntryKindsMapHasBeenRun) {
+    // register the LilyPond score output kinds
+    // --------------------------------------
 
-  gLpsrOctaveEntryKindsMap ["relative"] = kOctaveEntryRelative;
-  gLpsrOctaveEntryKindsMap ["absolute"] = kOctaveEntryAbsolute;
-  gLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
+    // no CamelCase here, these strings are used in the command line options
+
+    gLpsrOctaveEntryKindsMap ["relative"] = kOctaveEntryRelative;
+    gLpsrOctaveEntryKindsMap ["absolute"] = kOctaveEntryAbsolute;
+    gLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
+
+    initializeLpsrOctaveEntryKindsMapHasBeenRun = true;
+  }
 }
 
 string existingLpsrOctaveEntryKinds (int namesListMaxLength)
@@ -997,27 +1009,34 @@ string lpsrAccidentalStyleKindAsLilypondString (
 
 void initializeLpsrAccidentalStyleKindsMap ()
 {
-  // register the LilyPond accidental styles
-  // --------------------------------------
+  // protect library against multiple initializations
+  static bool initializeLpsrAccidentalStyleKindsMapHasBeenRun = false;
 
-  gLpsrAccidentalStyleKindsMap ["default"] = kDefault;
-  gLpsrAccidentalStyleKindsMap ["voice"] = kVoice;
-  gLpsrAccidentalStyleKindsMap ["modern"] = kModern;
-  gLpsrAccidentalStyleKindsMap ["modern-cautionary"] = kModernCautionary;
-  gLpsrAccidentalStyleKindsMap ["modern-voice"] = kModernVoice;
-  gLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = kModernVoiceCautionary;
-  gLpsrAccidentalStyleKindsMap ["piano"] = kPiano;
-  gLpsrAccidentalStyleKindsMap ["piano-cautionary"] = kPianoCautionary;
-  gLpsrAccidentalStyleKindsMap ["neo-modern"] = kNeoModern;
-  gLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = kNeoModernCautionary;
-  gLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = kNeoModernVoice;
-  gLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionary;
-  gLpsrAccidentalStyleKindsMap ["dodecaphonic"] = kDodecaphonic;
-  gLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeat;
-  gLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = kDodecaphonicFirst;
-  gLpsrAccidentalStyleKindsMap ["teaching"] = kTeaching;
-  gLpsrAccidentalStyleKindsMap ["no-reset"] = kNoReset;
-  gLpsrAccidentalStyleKindsMap ["forget"] = kForget;
+  if (! initializeLpsrAccidentalStyleKindsMapHasBeenRun) {
+    // register the LilyPond accidental styles
+    // --------------------------------------
+
+    gLpsrAccidentalStyleKindsMap ["default"] = kDefault;
+    gLpsrAccidentalStyleKindsMap ["voice"] = kVoice;
+    gLpsrAccidentalStyleKindsMap ["modern"] = kModern;
+    gLpsrAccidentalStyleKindsMap ["modern-cautionary"] = kModernCautionary;
+    gLpsrAccidentalStyleKindsMap ["modern-voice"] = kModernVoice;
+    gLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = kModernVoiceCautionary;
+    gLpsrAccidentalStyleKindsMap ["piano"] = kPiano;
+    gLpsrAccidentalStyleKindsMap ["piano-cautionary"] = kPianoCautionary;
+    gLpsrAccidentalStyleKindsMap ["neo-modern"] = kNeoModern;
+    gLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = kNeoModernCautionary;
+    gLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = kNeoModernVoice;
+    gLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionary;
+    gLpsrAccidentalStyleKindsMap ["dodecaphonic"] = kDodecaphonic;
+    gLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeat;
+    gLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = kDodecaphonicFirst;
+    gLpsrAccidentalStyleKindsMap ["teaching"] = kTeaching;
+    gLpsrAccidentalStyleKindsMap ["no-reset"] = kNoReset;
+    gLpsrAccidentalStyleKindsMap ["forget"] = kForget;
+
+    initializeLpsrAccidentalStyleKindsMapHasBeenRun = true;
+  }
 }
 
 string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
@@ -1074,11 +1093,18 @@ map<string, lpsrChordsLanguageKind>
 
 void initializeLpsrChordsLanguageKindsMap ()
 {
-  gLpsrChordsLanguageKindsMap ["ignatzek"]   = k_IgnatzekChords; // default
-  gLpsrChordsLanguageKindsMap ["german"]     = k_GermanChords;
-  gLpsrChordsLanguageKindsMap ["semiGerman"] = k_SemiGermanChords;
-  gLpsrChordsLanguageKindsMap ["italian"]    = k_ItalianChords;
-  gLpsrChordsLanguageKindsMap ["french"]     = k_FrenchChords;
+  // protect library against multiple initializations
+  static bool initializeLpsrChordsLanguageKindsMapHasBeenRun = false;
+
+  if (! initializeLpsrChordsLanguageKindsMapHasBeenRun) {
+    gLpsrChordsLanguageKindsMap ["ignatzek"]   = k_IgnatzekChords; // default
+    gLpsrChordsLanguageKindsMap ["german"]     = k_GermanChords;
+    gLpsrChordsLanguageKindsMap ["semiGerman"] = k_SemiGermanChords;
+    gLpsrChordsLanguageKindsMap ["italian"]    = k_ItalianChords;
+    gLpsrChordsLanguageKindsMap ["french"]     = k_FrenchChords;
+
+    initializeLpsrChordsLanguageKindsMapHasBeenRun = true;
+  }
 }
 
 string lpsrChordsLanguageKindAsString (
@@ -1345,13 +1371,20 @@ string lpsrLyricsDurationsKindAsString (
 
 void initializeLpsrLyricsDurationsKindsMap ()
 {
-  // register the LilyPond score output kinds
-  // --------------------------------------
+  // protect library against multiple initializations
+  static bool initializeLpsrLyricsDurationsKindsMapHasBeenRun = false;
 
-  // no CamelCase here, these strings are used in the command line options
+  if (! initializeLpsrLyricsDurationsKindsMapHasBeenRun) {
+    // register the LilyPond score output kinds
+    // --------------------------------------
 
-  gLpsrLyricsDurationsKindsMap ["implicit"] = kLyricsDurationsImplicit;
-  gLpsrLyricsDurationsKindsMap ["explicit"] = kLyricsDurationsExplicit;
+    // no CamelCase here, these strings are used in the command line options
+
+    gLpsrLyricsDurationsKindsMap ["implicit"] = kLyricsDurationsImplicit;
+    gLpsrLyricsDurationsKindsMap ["explicit"] = kLyricsDurationsExplicit;
+
+    initializeLpsrLyricsDurationsKindsMapHasBeenRun = true;
+  }
 }
 
 string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
@@ -1402,39 +1435,45 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ()
 {
+  // protect library against multiple initializations
+  static bool initializeLPSRBasicTypesHasBeenRun = false;
+
+  if (! initializeLPSRBasicTypesHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing LPSR basic types handling" <<
-      endl;
-  }
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing LPSR basic types handling" <<
+        endl;
+    }
 #endif
 
-  // LPSR score output handling
-  // ------------------------------------------------------
+    // LPSR score output handling
+    // ------------------------------------------------------
 
-  initializeLpsrScoreOutputKindsMap ();
+    initializeLpsrScoreOutputKindsMap ();
 
-  // LPSR octave entry handling
-  // ------------------------------------------------------
+    // LPSR octave entry handling
+    // ------------------------------------------------------
 
-  initializeLpsrOctaveEntryKindsMap ();
+    initializeLpsrOctaveEntryKindsMap ();
 
-  // LPSR accidental styles handling
-  // ------------------------------------------------------
+    // LPSR accidental styles handling
+    // ------------------------------------------------------
 
-  initializeLpsrAccidentalStyleKindsMap ();
+    initializeLpsrAccidentalStyleKindsMap ();
 
-  // LPSR chords languages handling
-  // ------------------------------------------------------
+    // LPSR chords languages handling
+    // ------------------------------------------------------
 
-  initializeLpsrChordsLanguageKindsMap ();
+    initializeLpsrChordsLanguageKindsMap ();
 
+    // LPSR lyrics durations kinds handling
+    // ------------------------------------------------------
 
-  // LPSR lyrics durations kinds handling
-  // ------------------------------------------------------
+    initializeLpsrLyricsDurationsKindsMap ();
 
-  initializeLpsrLyricsDurationsKindsMap ();
+    initializeLPSRBasicTypesHasBeenRun = true;
+  }
 }
 
 

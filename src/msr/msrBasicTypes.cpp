@@ -9324,54 +9324,61 @@ msrClefKind clefKindFromString (
 
 void initializeClefKinds ()
 {
-//  gClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
+  // protect library against multiple initializations
+  static bool initializeClefKindsHasBeenRun = false;
 
-  gClefKindsNamesList.push_back ("treble");
-  gClefKindsMap ["treble"] = kTrebleClef;
-  gClefKindsNamesList.push_back ("soprano");
-  gClefKindsMap ["soprano"] = kSopranoClef;
-  gClefKindsNamesList.push_back ("mezzosoprano");
-  gClefKindsMap ["mezzosoprano"] = kMezzoSopranoClef;
-  gClefKindsNamesList.push_back ("alto");
-  gClefKindsMap ["alto"] = kAltoClef;
-  gClefKindsNamesList.push_back ("tenor");
-  gClefKindsMap ["tenor"] = kTenorClef;
-  gClefKindsNamesList.push_back ("baritone");
-  gClefKindsMap ["baritone"] = kBaritoneClef;
-  gClefKindsNamesList.push_back ("bass");
-  gClefKindsMap ["bass"] = kBassClef;
-  gClefKindsNamesList.push_back ("treble1");
-  gClefKindsMap ["treble1"] = kTrebleLine1Clef;
-  gClefKindsNamesList.push_back ("treble-15");
-  gClefKindsMap ["treble-15"] = kTrebleMinus15Clef;
-  gClefKindsNamesList.push_back ("treble-8");
-  gClefKindsMap ["treble-8"] = kTrebleMinus8Clef;
-  gClefKindsNamesList.push_back ("treble+8");
-  gClefKindsMap ["treble+8"] = kTreblePlus8Clef;
-  gClefKindsNamesList.push_back ("treble+15");
-  gClefKindsMap ["treble+15"] = kTreblePlus15Clef;
-  gClefKindsNamesList.push_back ("bass-15");
-  gClefKindsMap ["bass-15"] = kBassMinus15Clef;
-  gClefKindsNamesList.push_back ("bass-8");
-  gClefKindsMap ["bass-8"] = kBassMinus8Clef;
-  gClefKindsNamesList.push_back ("bass+8");
-  gClefKindsMap ["bass+8"] = kBassPlus8Clef;
-  gClefKindsNamesList.push_back ("bass+15");
-  gClefKindsMap ["bass+15"] = kBassPlus15Clef;
-  gClefKindsNamesList.push_back ("varbaritone");
-  gClefKindsMap ["varbaritone"] = kVarbaritoneClef;
-  gClefKindsNamesList.push_back ("tab4");
-  gClefKindsMap ["tab4"] = kTablature4Clef;
-  gClefKindsNamesList.push_back ("tab5");
-  gClefKindsMap ["tab5"] = kTablature5Clef;
-  gClefKindsNamesList.push_back ("tab6");
-  gClefKindsMap ["tab6"] = kTablature6Clef;
-  gClefKindsNamesList.push_back ("tab7");
-  gClefKindsMap ["tab7"] = kTablature7Clef;
-  gClefKindsNamesList.push_back ("percussion");
-  gClefKindsMap ["percussion"] = kPercussionClef;
-  gClefKindsNamesList.push_back ("jianpu");
-  gClefKindsMap ["jianpu"] = kJianpuClef;
+  if (! initializeClefKindsHasBeenRun) {
+  //  gClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
+
+    gClefKindsNamesList.push_back ("treble");
+    gClefKindsMap ["treble"] = kTrebleClef;
+    gClefKindsNamesList.push_back ("soprano");
+    gClefKindsMap ["soprano"] = kSopranoClef;
+    gClefKindsNamesList.push_back ("mezzosoprano");
+    gClefKindsMap ["mezzosoprano"] = kMezzoSopranoClef;
+    gClefKindsNamesList.push_back ("alto");
+    gClefKindsMap ["alto"] = kAltoClef;
+    gClefKindsNamesList.push_back ("tenor");
+    gClefKindsMap ["tenor"] = kTenorClef;
+    gClefKindsNamesList.push_back ("baritone");
+    gClefKindsMap ["baritone"] = kBaritoneClef;
+    gClefKindsNamesList.push_back ("bass");
+    gClefKindsMap ["bass"] = kBassClef;
+    gClefKindsNamesList.push_back ("treble1");
+    gClefKindsMap ["treble1"] = kTrebleLine1Clef;
+    gClefKindsNamesList.push_back ("treble-15");
+    gClefKindsMap ["treble-15"] = kTrebleMinus15Clef;
+    gClefKindsNamesList.push_back ("treble-8");
+    gClefKindsMap ["treble-8"] = kTrebleMinus8Clef;
+    gClefKindsNamesList.push_back ("treble+8");
+    gClefKindsMap ["treble+8"] = kTreblePlus8Clef;
+    gClefKindsNamesList.push_back ("treble+15");
+    gClefKindsMap ["treble+15"] = kTreblePlus15Clef;
+    gClefKindsNamesList.push_back ("bass-15");
+    gClefKindsMap ["bass-15"] = kBassMinus15Clef;
+    gClefKindsNamesList.push_back ("bass-8");
+    gClefKindsMap ["bass-8"] = kBassMinus8Clef;
+    gClefKindsNamesList.push_back ("bass+8");
+    gClefKindsMap ["bass+8"] = kBassPlus8Clef;
+    gClefKindsNamesList.push_back ("bass+15");
+    gClefKindsMap ["bass+15"] = kBassPlus15Clef;
+    gClefKindsNamesList.push_back ("varbaritone");
+    gClefKindsMap ["varbaritone"] = kVarbaritoneClef;
+    gClefKindsNamesList.push_back ("tab4");
+    gClefKindsMap ["tab4"] = kTablature4Clef;
+    gClefKindsNamesList.push_back ("tab5");
+    gClefKindsMap ["tab5"] = kTablature5Clef;
+    gClefKindsNamesList.push_back ("tab6");
+    gClefKindsMap ["tab6"] = kTablature6Clef;
+    gClefKindsNamesList.push_back ("tab7");
+    gClefKindsMap ["tab7"] = kTablature7Clef;
+    gClefKindsNamesList.push_back ("percussion");
+    gClefKindsMap ["percussion"] = kPercussionClef;
+    gClefKindsNamesList.push_back ("jianpu");
+    gClefKindsMap ["jianpu"] = kJianpuClef;
+
+    initializeClefKindsHasBeenRun = true;
+  }
 }
 
 string existingClefKinds (int namesListMaxLength)
@@ -10075,51 +10082,58 @@ list<string>
 
 void initializeHarmonyKinds ()
 {
-  // MusicXML chords
+  // protect library against multiple initializations
+  static bool initializeHarmonyKindsHasBeenRun = false;
 
-  gHarmonyKindsNamesList.push_back ("maj");
-  gHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = kMajorHarmony;
-  gHarmonyKindsMap ["min"] = kMinorHarmony;
-  gHarmonyKindsMap ["aug"] = kAugmentedHarmony;
-  gHarmonyKindsMap ["dim"] = kDiminishedHarmony;
-  gHarmonyKindsMap ["dom"] = kDominantHarmony;
-  gHarmonyKindsMap ["maj7"] = kMajorSeventhHarmony;
-  gHarmonyKindsMap ["min7"] = kMinorSeventhHarmony;
-  gHarmonyKindsMap ["dim7"] = kDiminishedSeventhHarmony;
-  gHarmonyKindsMap ["aug7"] = kAugmentedSeventhHarmony;
-  gHarmonyKindsMap ["halfdim"] = kHalfDiminishedHarmony;
-  gHarmonyKindsMap ["minmaj7"] = kMinorMajorSeventhHarmony;
-  gHarmonyKindsMap ["maj6"] = kMajorSixthHarmony;
-  gHarmonyKindsMap ["min6"] = kMinorSixthHarmony;
-  gHarmonyKindsMap ["dom9"] = kDominantNinthHarmony;
-  gHarmonyKindsMap ["maj9"] = kMajorNinthHarmony;
-  gHarmonyKindsMap ["min9"] = kMinorNinthHarmony;
-  gHarmonyKindsMap ["dom11"] = kDominantEleventhHarmony;
-  gHarmonyKindsMap ["maj11"] = kMajorEleventhHarmony;
-  gHarmonyKindsMap ["min11"] = kMinorEleventhHarmony;
-  gHarmonyKindsMap ["dom13"] = kDominantThirteenthHarmony;
-  gHarmonyKindsMap ["maj13"] = kMajorThirteenthHarmony;
-  gHarmonyKindsMap ["min13"] = kMinorThirteenthHarmony;
-  gHarmonyKindsMap ["sus2"] = kSuspendedSecondHarmony;
-  gHarmonyKindsMap ["sus4"] = kSuspendedFourthHarmony;
-  gHarmonyKindsMap ["neapolitan"] = kNeapolitanHarmony;
-  gHarmonyKindsMap ["italian"] = kItalianHarmony;
-  gHarmonyKindsMap ["french"] = kFrenchHarmony;
-  gHarmonyKindsMap ["german"] = kGermanHarmony;
-  gHarmonyKindsMap ["pedal"] = kPedalHarmony;
-  gHarmonyKindsMap ["power"] = kPowerHarmony;
-  gHarmonyKindsMap ["tristan"] = kTristanHarmony;
+  if (! initializeHarmonyKindsHasBeenRun) {
+    // MusicXML chords
 
-  // jazz-specific chords
+    gHarmonyKindsNamesList.push_back ("maj"); // JMI
+    gHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = kMajorHarmony;
+    gHarmonyKindsMap ["min"] = kMinorHarmony;
+    gHarmonyKindsMap ["aug"] = kAugmentedHarmony;
+    gHarmonyKindsMap ["dim"] = kDiminishedHarmony;
+    gHarmonyKindsMap ["dom"] = kDominantHarmony;
+    gHarmonyKindsMap ["maj7"] = kMajorSeventhHarmony;
+    gHarmonyKindsMap ["min7"] = kMinorSeventhHarmony;
+    gHarmonyKindsMap ["dim7"] = kDiminishedSeventhHarmony;
+    gHarmonyKindsMap ["aug7"] = kAugmentedSeventhHarmony;
+    gHarmonyKindsMap ["halfdim"] = kHalfDiminishedHarmony;
+    gHarmonyKindsMap ["minmaj7"] = kMinorMajorSeventhHarmony;
+    gHarmonyKindsMap ["maj6"] = kMajorSixthHarmony;
+    gHarmonyKindsMap ["min6"] = kMinorSixthHarmony;
+    gHarmonyKindsMap ["dom9"] = kDominantNinthHarmony;
+    gHarmonyKindsMap ["maj9"] = kMajorNinthHarmony;
+    gHarmonyKindsMap ["min9"] = kMinorNinthHarmony;
+    gHarmonyKindsMap ["dom11"] = kDominantEleventhHarmony;
+    gHarmonyKindsMap ["maj11"] = kMajorEleventhHarmony;
+    gHarmonyKindsMap ["min11"] = kMinorEleventhHarmony;
+    gHarmonyKindsMap ["dom13"] = kDominantThirteenthHarmony;
+    gHarmonyKindsMap ["maj13"] = kMajorThirteenthHarmony;
+    gHarmonyKindsMap ["min13"] = kMinorThirteenthHarmony;
+    gHarmonyKindsMap ["sus2"] = kSuspendedSecondHarmony;
+    gHarmonyKindsMap ["sus4"] = kSuspendedFourthHarmony;
+    gHarmonyKindsMap ["neapolitan"] = kNeapolitanHarmony;
+    gHarmonyKindsMap ["italian"] = kItalianHarmony;
+    gHarmonyKindsMap ["french"] = kFrenchHarmony;
+    gHarmonyKindsMap ["german"] = kGermanHarmony;
+    gHarmonyKindsMap ["pedal"] = kPedalHarmony;
+    gHarmonyKindsMap ["power"] = kPowerHarmony;
+    gHarmonyKindsMap ["tristan"] = kTristanHarmony;
 
-  gHarmonyKindsMap ["minmaj9"] = kMinorMajorNinth;
-  gHarmonyKindsMap ["domsus4"] = kDominantSuspendedFourthHarmony;
-  gHarmonyKindsMap ["domaug5"] = kDominantAugmentedFifthHarmony;
-  gHarmonyKindsMap ["dommin9"] = kDominantMinorNinthHarmony;
-  gHarmonyKindsMap ["domaug9dim5"] = kDominantAugmentedNinthDiminishedFifthHarmony;
-  gHarmonyKindsMap ["domaug9aug5"] = kDominantAugmentedNinthAugmentedFifthHarmony;
-  gHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
-  gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
+    // jazz-specific chords
+
+    gHarmonyKindsMap ["minmaj9"] = kMinorMajorNinth;
+    gHarmonyKindsMap ["domsus4"] = kDominantSuspendedFourthHarmony;
+    gHarmonyKindsMap ["domaug5"] = kDominantAugmentedFifthHarmony;
+    gHarmonyKindsMap ["dommin9"] = kDominantMinorNinthHarmony;
+    gHarmonyKindsMap ["domaug9dim5"] = kDominantAugmentedNinthDiminishedFifthHarmony;
+    gHarmonyKindsMap ["domaug9aug5"] = kDominantAugmentedNinthAugmentedFifthHarmony;
+    gHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
+    gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
+
+    initializeHarmonyKindsHasBeenRun = true;
+  }
 }
 
 string existingHarmonyKinds (int namesListMaxLength)
@@ -10216,21 +10230,28 @@ string existingHarmonyKindsNames (int namesListMaxLength)
 
 void initializeChordStructuresMap ()
 {
-  for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
-    msrHarmonyKind
-      harmonyKind =
-        msrHarmonyKind (i);
+  // protect library against multiple initializations
+  static bool initializeChordStructuresMapHasBeenRun = false;
 
-    // create the chord structure
-    S_msrChordStructure
-      chordStructure =
-        msrChordStructure::create (
-          harmonyKind);
+  if (! initializeChordStructuresMapHasBeenRun) {
+    for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
+      msrHarmonyKind
+        harmonyKind =
+          msrHarmonyKind (i);
 
-    // register it in the map
-    gChordStructuresMap [harmonyKind] =
-      chordStructure;
-  } // for
+      // create the chord structure
+      S_msrChordStructure
+        chordStructure =
+          msrChordStructure::create (
+            harmonyKind);
+
+      // register it in the map
+      gChordStructuresMap [harmonyKind] =
+        chordStructure;
+    } // for
+
+    initializeChordStructuresMapHasBeenRun = true;
+  }
 }
 
 void printChordStructuresMap ()
@@ -10300,19 +10321,42 @@ map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ()
 {
-  gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
-  gQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
-  gQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
-  gQuarterTonesPitchesLanguageKindsMap ["english"]    = kEnglish;
-  gQuarterTonesPitchesLanguageKindsMap ["espanol"]    = kEspanol;
-  gQuarterTonesPitchesLanguageKindsMap ["italiano"]   = kItaliano;
-  gQuarterTonesPitchesLanguageKindsMap ["francais"]   = kFrancais;
-  gQuarterTonesPitchesLanguageKindsMap ["norsk"]      = kNorsk;
-  gQuarterTonesPitchesLanguageKindsMap ["portugues"]  = kPortugues;
-  gQuarterTonesPitchesLanguageKindsMap ["suomi"]      = kSuomi;
-  gQuarterTonesPitchesLanguageKindsMap ["svenska"]    = kSvenska;
-  gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
+  // protect library against multiple initializations
+  static bool initializeQuarterTonesPitchesLanguageKindsHasBeenRun = false;
 
+  if (! initializeQuarterTonesPitchesLanguageKindsHasBeenRun) {
+    gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
+    gQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
+    gQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
+    gQuarterTonesPitchesLanguageKindsMap ["english"]    = kEnglish;
+    gQuarterTonesPitchesLanguageKindsMap ["espanol"]    = kEspanol;
+    gQuarterTonesPitchesLanguageKindsMap ["italiano"]   = kItaliano;
+    gQuarterTonesPitchesLanguageKindsMap ["francais"]   = kFrancais;
+    gQuarterTonesPitchesLanguageKindsMap ["norsk"]      = kNorsk;
+    gQuarterTonesPitchesLanguageKindsMap ["portugues"]  = kPortugues;
+    gQuarterTonesPitchesLanguageKindsMap ["suomi"]      = kSuomi;
+    gQuarterTonesPitchesLanguageKindsMap ["svenska"]    = kSvenska;
+    gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
+
+    initializeNederlandsPitchNamesMap ();
+    initializeCatalanPitchNamesMap ();
+    initializeDeutschPitchNamesMap ();
+    initializeEnglishPitchNamesMap ();
+    initializeEspanolPitchNamesMap ();
+    initializeFrancaisPitchNamesMap ();
+    initializeItalianoPitchNamesMap ();
+    initializeNorskPitchNamesMap ();
+    initializePortuguesPitchNamesMap ();
+    initializeSuomiPitchNamesMap ();
+    initializeSvenskaPitchNamesMap ();
+    initializeVlaamsPitchNamesMap ();
+
+    initializeQuarterTonesPitchesLanguageKindsHasBeenRun = true;
+  }
+}
+
+void initializeNederlandsPitchNamesMap ()
+{
   // nederlands
   gNederlandsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gNederlandsPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10386,7 +10430,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchNamesMap [kG_Sharp_QTP]       = "gis";
   gNederlandsPitchNamesMap [kG_SesquiSharp_QTP] = "gisih";
   gNederlandsPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+}
 
+void initializeCatalanPitchNamesMap ()
+{
   // catalan
   gCatalanPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gCatalanPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10460,7 +10507,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchNamesMap [kG_Sharp_QTP]       = "sold";
   gCatalanPitchNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
   gCatalanPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+}
 
+void initializeDeutschPitchNamesMap ()
+{
   // deutsch
   gDeutschPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gDeutschPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10534,7 +10584,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchNamesMap [kG_Sharp_QTP]       = "gis";
   gDeutschPitchNamesMap [kG_SesquiSharp_QTP] = "gisih";
   gDeutschPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+}
 
+void initializeEnglishPitchNamesMap ()
+{
   // english
   gEnglishPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gEnglishPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10608,7 +10661,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchNamesMap [kG_Sharp_QTP]       = "gs";
   gEnglishPitchNamesMap [kG_SesquiSharp_QTP] = "gtqs";
   gEnglishPitchNamesMap [kG_DoubleSharp_QTP] = "gx";
+}
 
+void initializeEspanolPitchNamesMap ()
+{
   // espanol
   gEspanolPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gEspanolPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10682,7 +10738,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchNamesMap [kG_Sharp_QTP]       = "sols";
   gEspanolPitchNamesMap [kG_SesquiSharp_QTP] = "soltcs";
   gEspanolPitchNamesMap [kG_DoubleSharp_QTP] = "solx";
+}
 
+void initializeFrancaisPitchNamesMap ()
+{
   // francais
   gFrancaisPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gFrancaisPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10756,7 +10815,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchNamesMap [kG_Sharp_QTP]       = "sold";
   gFrancaisPitchNamesMap [kG_SesquiSharp_QTP] = "solstqt";
   gFrancaisPitchNamesMap [kG_DoubleSharp_QTP] = "solss";
+}
 
+void initializeItalianoPitchNamesMap ()
+{
   // italiano
   gItalianoPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gItalianoPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10830,7 +10892,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchNamesMap [kG_Sharp_QTP]       = "sold";
   gItalianoPitchNamesMap [kG_SesquiSharp_QTP] = "soldsd";
   gItalianoPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+}
 
+void initializeNorskPitchNamesMap ()
+{
   // norsk
   gNorskPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gNorskPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10904,7 +10969,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchNamesMap [kG_Sharp_QTP]       = "gis";
   gNorskPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
   gNorskPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+}
 
+void initializePortuguesPitchNamesMap ()
+{
   // portugues
   gPortuguesPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gPortuguesPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10978,7 +11046,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchNamesMap [kG_Sharp_QTP]       = "sold";
   gPortuguesPitchNamesMap [kG_SesquiSharp_QTP] = "soldsd";
   gPortuguesPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+}
 
+void initializeSuomiPitchNamesMap ()
+{
   // suomi
   gSuomiPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gSuomiPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -11052,7 +11123,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchNamesMap [kG_Sharp_QTP]       = "gis";
   gSuomiPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
   gSuomiPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+}
 
+void initializeSvenskaPitchNamesMap ()
+{
   // svenska
   gSvenskaPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gSvenskaPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -11126,7 +11200,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchNamesMap [kG_Sharp_QTP]       = "giss";
   gSvenskaPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
   gSvenskaPitchNamesMap [kG_DoubleSharp_QTP] = "gississ";
+}
 
+void initializeVlaamsPitchNamesMap ()
+{
   // vlaams
   gVlaamsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gVlaamsPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -13950,14 +14027,21 @@ string msrLengthUnitKindAsString (
 
 void initializeMsrLengthUnitKindsMap ()
 {
-  // register the LilyPond score output kinds
-  // --------------------------------------
+  // protect library against multiple initializations
+  static bool initializeMsrLengthUnitKindsMapHasBeenRun = false;
 
-  // no CamelCase here, these strings are used in the command line options
+  if (! initializeMsrLengthUnitKindsMapHasBeenRun) {
+    // register the LilyPond score output kinds
+    // --------------------------------------
 
-  gMsrLengthUnitKindsMap ["in"] = kInchUnit;
-  gMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
-  gMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
+    // no CamelCase here, these strings are used in the command line options
+
+    gMsrLengthUnitKindsMap ["in"] = kInchUnit;
+    gMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
+    gMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
+
+    initializeMsrLengthUnitKindsMapHasBeenRun = true;
+  }
 }
 
 string existingMsrLengthUnitKinds (int namesListMaxLength)
@@ -14144,14 +14228,21 @@ string msrMarginTypeKindAsString (
 
 void initializeMsrMarginTypeKindsMap ()
 {
-  // register the LilyPond score output kinds
-  // --------------------------------------
+  // protect library against multiple initializations
+  static bool initializeMsrMarginTypeKindsMapHasBeenRun = false;
 
-  // no CamelCase here, these strings are used in the command line options
+  if (! initializeMsrMarginTypeKindsMapHasBeenRun) {
+    // register the LilyPond score output kinds
+    // --------------------------------------
 
-  gMsrMarginTypeKindsMap ["odd"] = kOddMargin;
-  gMsrMarginTypeKindsMap ["even"] = kEvenMargin;
-  gMsrMarginTypeKindsMap ["both"] = kBothMargins;
+    // no CamelCase here, these strings are used in the command line options
+
+    gMsrMarginTypeKindsMap ["odd"] = kOddMargin;
+    gMsrMarginTypeKindsMap ["even"] = kEvenMargin;
+    gMsrMarginTypeKindsMap ["both"] = kBothMargins;
+
+    initializeMsrMarginTypeKindsMapHasBeenRun = true;
+  }
 }
 
 string existingMsrMarginTypeKinds (int namesListMaxLength)
@@ -20448,43 +20539,50 @@ string msrScoreNotationKindAsString (
 //______________________________________________________________________________
 void initializeMSRBasicTypes ()
 {
+  // protect library against multiple initializations
+  static bool initializeMSRBasicTypesHasBeenRun = false;
+
+  if (! initializeMSRBasicTypesHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing MSR basic types handling" <<
-      endl;
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing MSR basic types handling" <<
+        endl;
   }
 #endif
 
-  // languages handling
-  // ------------------------------------------------------
+    // languages handling
+    // ------------------------------------------------------
 
-  initializeQuarterTonesPitchesLanguageKinds ();
+    initializeQuarterTonesPitchesLanguageKinds ();
 
-  // clefs handling
-  // ------------------------------------------------------
+    // clefs handling
+    // ------------------------------------------------------
 
-  initializeClefKinds ();
+    initializeClefKinds ();
 
-  // harmonies handling
-  // ------------------------------------------------------
+    // harmonies handling
+    // ------------------------------------------------------
 
-  initializeHarmonyKinds ();
+    initializeHarmonyKinds ();
 
-  // chord structures handling
-  // ------------------------------------------------------
+    // chord structures handling
+    // ------------------------------------------------------
 
-  initializeChordStructuresMap ();
+    initializeChordStructuresMap ();
 
-  // MSR lengths handling
-  // ------------------------------------------------------
+    // MSR lengths handling
+    // ------------------------------------------------------
 
-  initializeMsrLengthUnitKindsMap ();
+    initializeMsrLengthUnitKindsMap ();
 
-  // MSR margins types handling
-  // ------------------------------------------------------
+    // MSR margins types handling
+    // ------------------------------------------------------
 
-  initializeMsrMarginTypeKindsMap ();
+    initializeMsrMarginTypeKindsMap ();
+
+    initializeMSRBasicTypesHasBeenRun = true;
+  }
 }
 
 

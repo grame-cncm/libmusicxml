@@ -1773,6 +1773,19 @@ extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ();
 
+void initializeNederlandsPitchNamesMap ();
+void initializeCatalanPitchNamesMap ();
+void initializeDeutschPitchNamesMap ();
+void initializeEnglishPitchNamesMap ();
+void initializeEspanolPitchNamesMap ();
+void initializeFrancaisPitchNamesMap ();
+void initializeItalianoPitchNamesMap ();
+void initializeNorskPitchNamesMap ();
+void initializePortuguesPitchNamesMap ();
+void initializeSuomiPitchNamesMap ();
+void initializeSvenskaPitchNamesMap ();
+void initializeVlaamsPitchNamesMap ();
+
 string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength);
 
 // initialization

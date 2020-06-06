@@ -763,28 +763,32 @@ void xml2xmlOah::printXml2xmlOahValues (int fieldWidth)
 void initializeXml2xmlOah (
   S_oahHandler handler)
 {
+  if (! initializeXml2xmlOahHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing xml2xml options handling" <<
-      endl;
-  }
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing xml2xml options handling" <<
+        endl;
+    }
 #endif
 
-  // enlist versions information
-  // ------------------------------------------------------
+    // enlist versions information
+    // ------------------------------------------------------
 
-  enlistVersion (
-    musicxml2musicxmlVersionStr (),
-    "April 2020",
-    "First draft version");
+    enlistVersion (
+      musicxml2musicxmlVersionStr (),
+      "April 2020",
+      "First draft version");
 
-  // create the options groups
-  // ------------------------------------------------------
+    // create the options groups
+    // ------------------------------------------------------
 
-  gXml2xmlOah = xml2xmlOah::create (
-    handler);
-  assert (gXml2xmlOah != 0);
+    gXml2xmlOah = xml2xmlOah::create (
+      handler);
+    assert (gXml2xmlOah != 0);
+  }
+
+  initializeXml2xmlOahHasBeenRun = true;
 }
 
 
