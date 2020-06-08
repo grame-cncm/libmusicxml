@@ -269,8 +269,14 @@ namespace MusicXML2
                 // Check bar-style if doubleBar
                 if (fDoubleBar)
                     tag = guidotag::create("doubleBar");
-                else
+                else {
                     tag = guidotag::create("bar");
+                    stringstream parameters;
+                    std::string measNum = elt->getAttributeValue("number");
+                    if (!measNum.empty())
+                        parameters << "measNum="<< measNum;
+                    tag->add(guidoparam::create(parameters.str(), false));
+                }
                 
                 add (tag);
             }
@@ -278,12 +284,24 @@ namespace MusicXML2
             // Create a HIDDEN Bar in case of fPendingBar equal to false.
             // This is the case for "bar-style" equal to "none" or "implicit" measures
             Sguidoelement tag = guidotag::create("bar");
-            std::string hidden = "hidden=\"true\"";
-            tag->add(guidoparam::create(hidden.c_str(), false));
+            stringstream parameters;
+            std::string measNum = elt->getAttributeValue("number");
+            if (!measNum.empty()) {
+                parameters << "measNum="<< measNum<<", ";
+            }
+            parameters << "hidden=\"true\"";
+            tag->add(guidoparam::create(parameters.str(), false));
             add(tag);
         }
         fCurrentMeasure = elt;
-        fMeasNum++;
+        
+
+        std::string measNum = elt->getAttributeValue("number");
+        try {
+            fMeasNum = std::stoi(measNum);
+        } catch(...) {
+            fMeasNum++;
+        }
         fCurrentMeasureLength.set  (0, 1);
         fCurrentMeasurePosition.set(0, 1);
         fCurrentVoicePosition.set  (0, 1);
