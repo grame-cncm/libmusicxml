@@ -33,11 +33,12 @@ namespace MusicXML2
 {
     
     //______________________________________________________________________________
-    xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool generateBar) :
+    xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool generateBar, int startMeasure, int endMeasure) :
     fGenerateComments(generateComments), //fGenerateStem(generateStem),
     fGenerateBars(generateBar),
     fNotesOnly(false), fCurrentStaffIndex(0), fCurrentStaff(0),
-    fTargetStaff(0), fTargetVoice(0)
+    fTargetStaff(0), fTargetVoice(0),
+    fStartMeasure(startMeasure), fEndMeasure(endMeasure)
     {
         fGeneratePositions = true;
         fGenerateAutoMeasureNum = true;
@@ -170,6 +171,18 @@ namespace MusicXML2
             add (tag);
         }
     }
+
+/// Check if measure number is in range for Partial Rendering
+bool xmlpart2guido::checkMeasureRange() {
+    if (!fCurrentMeasure) return true;
+    int currentXmlMeasure = atoi(fCurrentMeasure->getAttributeValue("number").c_str());
+    //cerr<<"\t <<< checkMeasureRange "<< currentXmlMeasure<< "|"<<fStartMeasure<<" "<<fEndMeasure<<endl;
+    if ((currentXmlMeasure < fStartMeasure)) return false;
+     
+    if ((fEndMeasure>0) && (currentXmlMeasure > fEndMeasure)) return false;
+    
+    return true;
+}
     
     //______________________________________________________________________________
     void xmlpart2guido::moveMeasureTime (int duration, bool moveVoiceToo, int x_default)
@@ -256,6 +269,37 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::visitStart ( S_measure& elt )
     {
+        fCurrentMeasure = elt;
+        
+        std::string measNum = elt->getAttributeValue("number");
+        try {
+            fMeasNum = std::stoi(measNum);
+        } catch(...) {
+            fMeasNum++;
+        }
+        
+        bool isFirstPartialMeasure = (fStartMeasure>0) && (fMeasNum == fStartMeasure);
+
+        if (!checkMeasureRange()) {
+            return;
+        } else {
+            // Flush Attributes (key, clef, meter) in case of initial entry
+            if ( isFirstPartialMeasure ) {
+                if (!fNotesOnly) {
+                    add(lastMeter);
+                    add(lastKey);
+                    
+                    // Add last clef
+                    std::string lastClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+                    if (!lastClef.empty()) {
+                        Sguidoelement tag = guidotag::create("clef");
+                        tag->add (guidoparam::create(lastClef));
+                        add(tag);
+                    }
+                }
+            }
+        }
+
         const string& implicit = elt->getAttributeValue ("implicit");
         if (implicit == "yes") fPendingBar = false;
         if (fPendingBar) {
@@ -278,7 +322,8 @@ namespace MusicXML2
                     tag->add(guidoparam::create(parameters.str(), false));
                 }
                 
-                add (tag);
+                if (!isFirstPartialMeasure)
+                    add (tag);
             }
         }else {
             // Create a HIDDEN Bar in case of fPendingBar equal to false.
@@ -293,15 +338,7 @@ namespace MusicXML2
             tag->add(guidoparam::create(parameters.str(), false));
             add(tag);
         }
-        fCurrentMeasure = elt;
-        
 
-        std::string measNum = elt->getAttributeValue("number");
-        try {
-            fMeasNum = std::stoi(measNum);
-        } catch(...) {
-            fMeasNum++;
-        }
         fCurrentMeasureLength.set  (0, 1);
         fCurrentMeasurePosition.set(0, 1);
         fCurrentVoicePosition.set  (0, 1);
@@ -1132,30 +1169,6 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
     void xmlpart2guido::visitStart ( S_attributes& elt )
     {
         // get clef, key, division, staves, time and key in order!
-        /* Example:
-         <divisions>2</divisions>
-         <key>
-         <fifths>1</fifths>
-         <mode>major</mode>
-         </key>
-         <time>
-         <beats>3</beats>
-         <beat-type>2</beat-type>
-         </time>
-         <staves>2</staves>
-         <clef number="1">
-         <sign>G</sign>
-         <line>2</line>
-         </clef>
-         <clef number="2">
-         <sign>F</sign>
-         <line>4</line>
-         <transpose>
-         <diatonic>-1</diatonic>
-         <chromatic>-2</chromatic>
-         </transpose>
-         </clef>
-         *****/
         
         ctree<xmlelement>::iterator iter = elt->begin();
         
@@ -1206,7 +1219,9 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             Sguidoelement tag = guidotag::create("clef");
             checkStaff (staffnum);
             tag->add (guidoparam::create(param));
-            add(tag);
+            
+            if (checkMeasureRange())
+                add(tag);
             
             std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
             staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
@@ -1220,99 +1235,112 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
         
         // Generate key
         iter = elt->find(k_key);
-        if ((iter != elt->end())&&(!fNotesOnly))
-        {
-            string keymode = iter->getValue(k_mode);
-            int keyfifths = iter->getIntValue(k_fifths, 0);
-            Sguidoelement tag = guidotag::create("key");
-            tag->add (guidoparam::create(keyfifths, false));
-            add (tag);
+        if ((iter != elt->end())&&(!fNotesOnly)) {
+            parseKey(iter);
         }
         
         // Generate Time Signature info and METER info
         iter = elt->find(k_time);
-        if ((iter != elt->end())&&(!fNotesOnly))
-        {
-            //int timebeat_type = iter->getIntValue(k_beat_type, 0);
-            //int timebeats = iter->getIntValue(k_beats, 0);
-            bool senzamesura = (iter->find(k_senza_misura) != iter->end());
-            string timesymbol = iter->getAttributeValue("symbol");
-            std::vector<std::pair<std::string,std::string> > fTimeSignInternal ;
-            
-            // IOSEPRAC-185: Get all pairs for Composite Time Signatures
-            ctree<xmlelement>::iterator iter_beat = iter->find(k_beats);
-            ctree<xmlelement>::iterator iter_beatType = iter->find(k_beat_type);
-            
-            while (iter_beat != iter->end())
-            {
-                //                fTimeSignInternal.push_back(make_pair(iter_beat->getValue(k_beats), iter2->getValue(k_beat_type)));
-                fTimeSignInternal.push_back(make_pair(iter_beat->getValue(),
-                                                      iter_beatType->getValue()));
-                iter_beat = iter->find(k_beats, iter_beat++);
-                iter_beatType = iter->find(k_beat_type, iter_beatType++);
-            }
-            
-            //// Actions:
-            string timesign;
-            if (!senzamesura) {
-                if (timesymbol == "common") {
-                    // simulation of timesignvisitor::timesign function
-                    //rational ts = timesignvisitor::timesign(0);
-                    size_t index = 0;
-                    rational ts(0,1);
-                    if (index < fTimeSignInternal.size()) {
-                        const pair<string,string>& tss = fTimeSignInternal[index];
-                        long num = strtol (tss.first.c_str(), 0, 10);
-                        long denum = strtol (tss.second.c_str(), 0, 10);
-                        if (num && denum) ts.set(num, denum);
-                    }
-                    ///
-                    if ((ts.getDenominator() == 2) && (ts.getNumerator() == 2))
-                        timesign = "C/";
-                    else if ((ts.getDenominator() == 4) && (ts.getNumerator() == 4))
-                        timesign = "C";
-                    else
-                        timesign = string(ts);
-                    fCurrentTimeSign = ts;
-                }
-                else if (timesymbol == "cut") {
-                    timesign = "C/";
-                    fCurrentTimeSign = rational(2,2);
-                }
-                else {
-                    
-                    stringstream s; string sep ="";
-                    fCurrentTimeSign.set(0,1);
-                    for (unsigned int i = 0; i < fTimeSignInternal.size(); i++) {
-                        s << sep << fTimeSignInternal[i].first << "/" << fTimeSignInternal[i].second;
-                        sep = "+";
-                        //fCurrentTimeSign += timesignvisitor::timesign(i);
-                        // simulation of timesignvisitor::timesign function
-                        //rational ts = timesignvisitor::timesign(i);
-                        size_t index = i;
-                        rational ts(0,1);
-                        if (index < fTimeSignInternal.size()) {
-                            const pair<string,string>& tss = fTimeSignInternal[index];
-                            long num = strtol (tss.first.c_str(), 0, 10);
-                            long denum = strtol (tss.second.c_str(), 0, 10);
-                            if (num && denum) ts.set(num, denum);
-                        }
-                        ///
-                        fCurrentTimeSign += ts;
-                    }
-                    s >> timesign;
-                }
-                
-            }
-            
-            Sguidoelement tag = guidotag::create("meter");
-            tag->add (guidoparam::create(timesign));
-            if (fGenerateBars) tag->add (guidoparam::create("autoBarlines=\"off\"", false));
-            if (fGenerateAutoMeasureNum) tag->add (guidoparam::create("autoMeasuresNum=\"system\"", false));
-            if (iter->getAttributeValue("print-object")!="no")
-                add(tag);
+        if ((iter != elt->end())&&(!fNotesOnly)) {
+            parseTime(iter);
         }
     }
+
+void xmlpart2guido::parseKey(ctree<xmlelement>::iterator &iter) {
+    string keymode = iter->getValue(k_mode);
+    int keyfifths = iter->getIntValue(k_fifths, 0);
+    Sguidoelement tag = guidotag::create("key");
+    tag->add (guidoparam::create(keyfifths, false));
+    
+    lastKey = tag;
+    if (checkMeasureRange())
+        add (tag);
+}
+
+void xmlpart2guido::parseTime(ctree<xmlelement>::iterator &iter) {
+    //int timebeat_type = iter->getIntValue(k_beat_type, 0);
+    //int timebeats = iter->getIntValue(k_beats, 0);
+    bool senzamesura = (iter->find(k_senza_misura) != iter->end());
+    string timesymbol = iter->getAttributeValue("symbol");
+    std::vector<std::pair<std::string,std::string> > fTimeSignInternal ;
+    
+    // IOSEPRAC-185: Get all pairs for Composite Time Signatures
+    ctree<xmlelement>::iterator iter_beat = iter->find(k_beats);
+    ctree<xmlelement>::iterator iter_beatType = iter->find(k_beat_type);
+    
+    while (iter_beat != iter->end())
+    {
+        fTimeSignInternal.push_back(make_pair(iter_beat->getValue(),
+                                              iter_beatType->getValue()));
+        iter_beat = iter->find(k_beats, iter_beat++);
+        iter_beatType = iter->find(k_beat_type, iter_beatType++);
+    }
+    
+    /// Actions:
+    string timesign;
+    if (!senzamesura) {
+        if (timesymbol == "common") {
+            // simulation of timesignvisitor::timesign function
+            //rational ts = timesignvisitor::timesign(0);
+            size_t index = 0;
+            rational ts(0,1);
+            if (index < fTimeSignInternal.size()) {
+                const pair<string,string>& tss = fTimeSignInternal[index];
+                long num = strtol (tss.first.c_str(), 0, 10);
+                long denum = strtol (tss.second.c_str(), 0, 10);
+                if (num && denum) ts.set(num, denum);
+            }
+            ///
+            if ((ts.getDenominator() == 2) && (ts.getNumerator() == 2))
+                timesign = "C/";
+            else if ((ts.getDenominator() == 4) && (ts.getNumerator() == 4))
+                timesign = "C";
+            else
+                timesign = string(ts);
+            fCurrentTimeSign = ts;
+        }
+        else if (timesymbol == "cut") {
+            timesign = "C/";
+            fCurrentTimeSign = rational(2,2);
+        }
+        else {
+            
+            stringstream s; string sep ="";
+            fCurrentTimeSign.set(0,1);
+            for (unsigned int i = 0; i < fTimeSignInternal.size(); i++) {
+                s << sep << fTimeSignInternal[i].first << "/" << fTimeSignInternal[i].second;
+                sep = "+";
+                //fCurrentTimeSign += timesignvisitor::timesign(i);
+                // simulation of timesignvisitor::timesign function
+                //rational ts = timesignvisitor::timesign(i);
+                size_t index = i;
+                rational ts(0,1);
+                if (index < fTimeSignInternal.size()) {
+                    const pair<string,string>& tss = fTimeSignInternal[index];
+                    long num = strtol (tss.first.c_str(), 0, 10);
+                    long denum = strtol (tss.second.c_str(), 0, 10);
+                    if (num && denum) ts.set(num, denum);
+                }
+                ///
+                fCurrentTimeSign += ts;
+            }
+            s >> timesign;
+        }
+    }
+    
+    Sguidoelement tag = guidotag::create("meter");
+    tag->add (guidoparam::create(timesign));
+    if (fGenerateBars)
+        tag->add (guidoparam::create("autoBarlines=\"off\"", false));
+    if (fGenerateAutoMeasureNum)
+        tag->add (guidoparam::create("autoMeasuresNum=\"system\"", false));
+    
+    if (iter->getAttributeValue("print-object")!="no") {
+        lastMeter = tag;
+        if (checkMeasureRange())
+            add(tag);
+    }
+}
     
     //______________________________________________________________________________
     // tools and methods for converting notes
@@ -2816,11 +2844,10 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
-            //////// Track all voice default-x parameters, as positions in measures
+            ///Track all voice default-x parameters, as positions in measures
             
             if (true) {     // had fNotesOnly
-                int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
-                auto timePos4measure = timePositions.find(measureNum);
+                auto timePos4measure = timePositions.find(fMeasNum);
                 if (notevisitor::x_default != -1) {
                     if ( timePos4measure !=  timePositions.end())
                     {
@@ -2837,7 +2864,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                     }else {
                         std::map<rational, std::vector<int> > inner;
                         inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
-                        timePositions.insert(std::make_pair(measureNum, inner));
+                        timePositions.insert(std::make_pair(fMeasNum, inner));
                     }
                 }
             }

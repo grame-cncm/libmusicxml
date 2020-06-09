@@ -1,14 +1,14 @@
 /*
-  MusicXML Library
-  Copyright (C) Grame 2006-2013
-
-  This Source Code Form is subject to the terms of the Mozilla Public
-  License, v. 2.0. If a copy of the MPL was not distributed with this
-  file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
-  Grame Research Laboratory, 11, cours de Verdun Gensoul 69002 Lyon - France
-  research@grame.fr
-*/
+ MusicXML Library
+ Copyright (C) Grame 2006-2013
+ 
+ This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+ Grame Research Laboratory, 11, cours de Verdun Gensoul 69002 Lyon - France
+ research@grame.fr
+ */
 
 #ifndef __xml2guidovisitor__
 #define __xml2guidovisitor__
@@ -33,109 +33,111 @@ namespace MusicXML2
 {
 
 /*!
-\ingroup visitors guido
-@{
-*/
+ \ingroup visitors guido
+ @{
+ */
 
 //______________________________________________________________________________
 typedef struct {
-	S_movement_title		fTitle;
-	std::vector<S_creator>	fCreators;
+    S_movement_title		fTitle;
+    std::vector<S_creator>	fCreators;
 } scoreHeader;
 
-    /*
-typedef struct {
-	S_part_name		fPartName;
-} partHeader;
-typedef std::map<std::string, partHeader> partHeaderMap;
-*/
+/*
+ typedef struct {
+ S_part_name		fPartName;
+ } partHeader;
+ typedef std::map<std::string, partHeader> partHeaderMap;
+ */
 
 /*!
-\brief A score visitor to produce a Guido representation.
-*/
+ \brief A score visitor to produce a Guido representation.
+ */
 //______________________________________________________________________________
 class EXP xml2guidovisitor :
-    public partlistvisitor,
-	public visitor<S_score_partwise>,
-	public visitor<S_movement_title>,
-	public visitor<S_creator>,
-	public visitor<S_defaults>,
-	public visitor<S_part>
+public partlistvisitor,
+public visitor<S_score_partwise>,
+public visitor<S_movement_title>,
+public visitor<S_creator>,
+public visitor<S_defaults>,
+public visitor<S_part>
 {
-	// the guido elements stack
-	std::stack<Sguidoelement>	fStack;
-	bool	fGenerateComments, fGenerateStem, fGenerateBars, fGeneratePositions;
-	
-	scoreHeader		fHeader;		// musicxml header elements (should be flushed at the beginning of the first voice)
-	//partHeaderMap	fPartHeaders;	// musicxml score-part elements (should be flushed at the beginning of each part)
-	std::string		fCurrentPartID;
-	int				fCurrentStaffIndex;		// the index of the current guido staff
-
-	void start (Sguidoelement& elt)		{ fStack.push(elt); }
-	void add (Sguidoelement& elt)		{ if (fStack.size()) fStack.top()->add(elt); }
-	void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }
-	void pop ()	{
+    // the guido elements stack
+    std::stack<Sguidoelement>	fStack;
+    bool	fGenerateComments, fGenerateStem, fGenerateBars, fGeneratePositions;
+    
+    scoreHeader		fHeader;		// musicxml header elements (should be flushed at the beginning of the first voice)
+    std::string		fCurrentPartID;
+    int				fCurrentStaffIndex;		// the index of the current guido staff
+    
+    void start (Sguidoelement& elt)		{ fStack.push(elt); }
+    void add (Sguidoelement& elt)		{ if (fStack.size()) fStack.top()->add(elt); }
+    void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }
+    void pop ()	{
         if (fStack.size())
             fStack.pop();
         else
             cerr<<"xml2guido: Pop() called while EMPTY! Please REPORT!"<<endl;
     }
-
-	void flushHeader	 ( scoreHeader& header );
-	void flushPartHeader ( partHeader& header );
-    void flushPartGroup (std::string partID);
-
-	protected:
-
-		virtual void visitStart( S_score_partwise& elt);
-		virtual void visitStart( S_movement_title& elt);
-		virtual void visitStart( S_creator& elt);
-		//virtual void visitStart( S_score_part& elt);
-		virtual void visitStart( S_defaults& elt);
-		virtual void visitStart( S_part& elt);
-
-		Sguidoelement& current ()				{ return fStack.top(); }
     
-        bool previousStaffHasLyrics;
+    void flushHeader	 ( scoreHeader& header );
+    void flushPartHeader ( partHeader& header );
+    void flushPartGroup (std::string partID);
+    
+protected:
+    
+    virtual void visitStart( S_score_partwise& elt);
+    virtual void visitStart( S_movement_title& elt);
+    virtual void visitStart( S_creator& elt);
+    //virtual void visitStart( S_score_part& elt);
+    virtual void visitStart( S_defaults& elt);
+    virtual void visitStart( S_part& elt);
+    
+    Sguidoelement& current ()				{ return fStack.top(); }
+    
+    bool previousStaffHasLyrics;
     
     int  fCurrentAccoladeIndex;
     
     int  fPartNum;  // 0 (default) to parse all score-parts. 1 for "P1" only, etc.
+    
+    int fBeginMeasure;      // Number of measure to begin parsing, used for partial conversion. (default = 0)
+    int fEndMeasure;        // Measure Number where parsing ends, used for partial conversion. (default = 0 meaning go to the end)
     
     static int defaultStaffDistance;   // xml staff-distance value in defaults
     
     /// multimap containing <staff-num, measureNum, position, clef type>
     //std::multimap<int, std::pair< rational, string > > staffClefMap;
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
-
+    
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
-
-
-    public:
-				 xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true, int partNum = 0);
-		virtual ~xml2guidovisitor() {}
-
-		Sguidoelement convert (const Sxmlelement& xml);
-
-		// this is to control exact positionning of elements when information is present
-		// ie converts relative-x/-y into dx/dy attributes
-		void generatePositions (bool state)		{ fGeneratePositions = state; }
+    
+    
+public:
+    xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true, int partNum = 0, int beginMeasure = 0, int endMeasure = 10000);
+    virtual ~xml2guidovisitor() {}
+    
+    Sguidoelement convert (const Sxmlelement& xml);
+    
+    // this is to control exact positionning of elements when information is present
+    // ie converts relative-x/-y into dx/dy attributes
+    void generatePositions (bool state)		{ fGeneratePositions = state; }
     
     /// Shared default derived from MusicXML
     static int defaultGuidoStaffDistance;  // the above converted to Guido value
-
+    
     static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset);
-	static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset, float xoffset);
+    static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset, float xoffset);
     static void addPosY	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float ymultiplier);
     static void addPosX    ( Sxmlelement elt, Sguidoelement& tag, float xoffset);
     static void addRelativeX(Sxmlelement elt, Sguidoelement& tag, float xoffset);
     static void addPlacement    ( Sxmlelement elt, Sguidoelement& tag);
     static float getYposition    ( Sxmlelement elt, float yoffset, bool useDefault);
     static float getXposition	( Sxmlelement elt, float xoffset);
-
+    
     static void addDirection( Sxmlelement elt, Sguidoelement& tag);
-
+    
 };
 
 

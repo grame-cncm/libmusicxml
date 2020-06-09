@@ -34,10 +34,11 @@ namespace MusicXML2
     int xml2guidovisitor::defaultStaffDistance = 0;
     
     //______________________________________________________________________________
-    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum) :
+    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum, int beginMeasure, int endMeasure) :
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
-    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum)
+    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum),
+    fBeginMeasure(beginMeasure), fEndMeasure(endMeasure)
     {
         timePositions.clear();
     }
@@ -305,7 +306,7 @@ namespace MusicXML2
             ////
             
             //// Browse XML and convert
-            xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars);
+            xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars, fBeginMeasure, fEndMeasure);
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);

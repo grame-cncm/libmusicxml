@@ -101,7 +101,7 @@ EXP const char*   musicxml2brailleVersionStr();
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2guido  (const char *file, bool generateBars, std::ostream& out);
+EXP xmlErr      musicxmlfile2guido  (const char *file, bool generateBars, int beginMeasure, int endMeasure, std::ostream& out);
 
 /*!
   \brief Converts a MusicXML representation to the Guido format.
@@ -110,7 +110,7 @@ EXP xmlErr      musicxmlfile2guido  (const char *file, bool generateBars, std::o
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2guido  (FILE* fd, bool generateBars, std::ostream& out);
+EXP xmlErr      musicxmlfd2guido  (FILE* fd, bool generateBars, int beginMeasure, int endMeasure, std::ostream& out);
 
 /*!
   \brief Converts a MusicXML representation to the Guido format.
@@ -128,10 +128,32 @@ EXP xmlErr      musicxmlstring2guido(const char *buff, bool generateBars, std::o
  
  \param buff a string containing MusicXML code
  \param generateBars a boolean to force barlines generation
+ \param partFilter 0 for all parts. Part number only otherwise.
  \param out the output stream
  \return an error code (\c kNoErr when success)
  */
 EXP xmlErr      musicxmlstring2guidoOnPart(const char * buffer, bool generateBars, int partFilter, std::ostream& out);
+
+/*!
+ \brief Partial Conversion of MusicXML representation to the Guido format ONLY on asked Part number ID and asked Measure Numbers (begin/end)
+ 
+ Courtesy of Antescofo
+ 
+ \param buff a string containing MusicXML code
+ \param generateBars a boolean to force barlines generation
+ \param partFilter 0 for all parts. Part number only otherwise.
+ \param beginMeasure Beginning measure number
+ \param endMeausre Ending measure number
+ \param out the output stream
+ \return an error code (\c kNoErr when success)
+ */
+EXP xmlErr      musicxmlstring2guidoPartial(const char * buffer,
+                                     bool generateBars,
+                                     int partFilter,
+                                     int beginMeasure,
+                                     int endMeasure,
+                                     std::ostream& out);
+
 
 /*! @} */
 
