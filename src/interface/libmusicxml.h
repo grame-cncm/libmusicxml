@@ -98,19 +98,25 @@ EXP const char*   musicxml2brailleVersionStr();
   \brief Converts a MusicXML representation to the Guido format.
   \param file a file name 
   \param generateBars a boolean to force barlines generation
+  \param beginMeasure for Partial conversion: start measure number (default: 0)
+  \param endMeasure for Partial conversion: end measure number (default: infinite)
+  \param partFilter Part number to convert or 0 for all (default: 0)
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2guido  (const char *file, bool generateBars, int beginMeasure, int endMeasure, std::ostream& out);
+EXP xmlErr      musicxmlfile2guido  (const char *file, bool generateBars, int beginMeasure, int endMeasure, int partFilter, std::ostream& out);
 
 /*!
   \brief Converts a MusicXML representation to the Guido format.
   \param fd a file descriptor 
   \param generateBars a boolean to force barlines generation
+  \param beginMeasure for Partial conversion: start measure number (default: 0)
+  \param endMeasure for Partial conversion: end measure number (default: infinite)
+  \param partFilter Part number to convert or 0 for all (default: 0)
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2guido  (FILE* fd, bool generateBars, int beginMeasure, int endMeasure, std::ostream& out);
+EXP xmlErr      musicxmlfd2guido  (FILE* fd, bool generateBars, int beginMeasure, int endMeasure, int partFilter, std::ostream& out);
 
 /*!
   \brief Converts a MusicXML representation to the Guido format.
@@ -128,7 +134,7 @@ EXP xmlErr      musicxmlstring2guido(const char *buff, bool generateBars, std::o
  
  \param buff a string containing MusicXML code
  \param generateBars a boolean to force barlines generation
- \param partFilter 0 for all parts. Part number only otherwise.
+ \param partFilter 0 for all parts. Part number only otherwise (default:0).
  \param out the output stream
  \return an error code (\c kNoErr when success)
  */
