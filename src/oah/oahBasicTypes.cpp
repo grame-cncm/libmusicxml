@@ -12279,6 +12279,466 @@ void oahHandler::handleOptionValueOrArgument (
   }
 }
 
+//______________________________________________________________________________
+S_oahDualHandler oahDualHandler::create (
+  S_oahHandler insiderOahHandler,
+  S_oahHandler userOahHandler)
+{
+  oahDualHandler* o = new
+    oahDualHandler (
+      insiderOahHandler,
+      userOahHandler);
+  assert(o!=0);
+  return o;
+}
+
+oahDualHandler::oahDualHandler (
+  S_oahHandler insiderOahHandler,
+  S_oahHandler userOahHandler)
+{
+  fInsiderAtomShortName = "insider";
+  fInsiderAtomLongName  = "insider-options";
+
+  fInsiderOahHandler = insiderOahHandler;
+  fUserOahHandler    = userOahHandler;
+
+  // the default is to use 'user' oahHandler
+  fOahHandlerToBeUsed = fUserOahHandler;
+}
+
+oahDualHandler::~oahDualHandler ()
+{}
+
+void oahDualHandler::switchToInsiderView ()
+{
+  fOahHandlerToBeUsed = fInsiderOahHandler;
+}
+
+void oahDualHandler::populateUserGroupsFromInsiderGroups ()
+{
+  const list<S_oahGroup>
+    insiderOahHandlerGroupsList =
+      fInsiderOahHandler->getHandlerGroupsList ();
+
+  if (insiderOahHandlerGroupsList.size ()) {
+    list<S_oahGroup>::const_iterator
+      iBegin = insiderOahHandlerGroupsList.begin (),
+      iEnd   = insiderOahHandlerGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // handle the group
+      S_oahGroup group = (*i);
+
+      const list<S_oahSubGroup>
+        groupSubGroupsList =
+          group->getSubGroupsList ();
+
+      if (groupSubGroupsList.size ()) {
+        list<S_oahSubGroup>::const_iterator
+          iBegin = groupSubGroupsList.begin (),
+          iEnd   = groupSubGroupsList.end (),
+          i      = iBegin;
+        for ( ; ; ) {
+          // handle the subgroup
+          S_oahSubGroup subGroup = (*i);
+
+          string subGroupShortName = subGroup->getShortName ();
+          string subGroupLongName  = subGroup->getLongName ();
+
+          string
+            subGroupNameToUse =
+              subGroupLongName.size ()
+                ? subGroupLongName
+                : subGroupShortName;
+
+         // cout << "subGroupNameToUse = " << subGroupNameToUse << endl;
+
+          // is nameToUse known in fSubGroupNamesToUserGroupsMap?
+          map<string, S_oahGroup>::const_iterator
+            it =
+              fSubGroupNamesToUserGroupsMap.find (
+                subGroupNameToUse);
+
+          if (it != fSubGroupNamesToUserGroupsMap.end ()) {
+            // subGroupNameToUse is known in the map
+            S_oahGroup group = (*it).second;
+
+            // append subgroup to user group
+            // cout << "+++ adding subgroup \"" << subGroupNameToUse << "\" to group \"" << group->getGroupHeader () << "\"" << endl;
+
+            group->
+              appendSubGroupToGroup (subGroup);
+
+            // remove subGroupNameToUse from the map
+            it = fSubGroupNamesToUserGroupsMap.erase (it);
+          }
+          else {
+            // subGroupNameToUse is not known in the map
+
+            // are there atoms from this subgroup in fAtomNamesToUserSubGroupsMap?
+
+            const list<S_oahAtom>&
+              subGroupAtomsList =
+                subGroup->getAtomsList ();
+
+            if (subGroupAtomsList.size ()) {
+              list<S_oahAtom>::const_iterator
+                iBegin = subGroupAtomsList.begin (),
+                iEnd   = subGroupAtomsList.end (),
+                i      = iBegin;
+              for ( ; ; ) {
+                S_oahAtom atom = (*i);
+
+                // handle the atom
+
+                string atomShortName = atom->getShortName ();
+                string atomLongName  = atom->getLongName ();
+
+                string
+                  atomNameToUse =
+                    atomLongName.size ()
+                      ? atomLongName
+                      : atomShortName;
+
+                // cout << "atomNameToUse = " << atomNameToUse << endl;
+
+                // is nameToUse known in fSubGroupNamesToUserGroupsMap?
+                map<string, S_oahSubGroup>::const_iterator
+                  it =
+                    fAtomNamesToUserSubGroupsMap.find (
+                      atomNameToUse);
+
+                if (it != fAtomNamesToUserSubGroupsMap.end ()) {
+                  // atomNameToUse is known in the map
+                  S_oahSubGroup subGroup = (*it).second;
+
+                  // append atom to user subgroup
+                  // cout << "+++ adding atom \"" << atomNameToUse << "\" to subgroup \"" << subGroup->getSubGroupHeader () << "\"" << endl;
+
+                  subGroup->
+                    appendAtomToSubGroup (atom);
+
+                  // remove atomNameToUse from the map
+                  it = fAtomNamesToUserSubGroupsMap.erase (it);
+                }
+                else {
+                  // atomNameToUse is not known in the map
+                  // place it in the 'insider' user subgroup
+
+                  // cout << "--- adding atom \"" << atomNameToUse << "\" to subgroup \"" << fInsiderUserSubGroup->getSubGroupHeader () << "\"" << endl;
+
+                  fInsiderUserSubGroup->
+                    appendAtomToSubGroup (atom);
+                }
+
+                if (++i == iEnd) break;
+              } // for
+            }
+          }
+
+          if (++i == iEnd) break;
+        } // for
+      }
+
+      if (++i == iEnd) break;
+    } // for
+  }
+
+  // have all the mappings been used?
+  int subGroupNamesToUserGroupsMapSize =
+    fSubGroupNamesToUserGroupsMap.size ();
+
+  if (subGroupNamesToUserGroupsMapSize) {
+    stringstream s;
+
+    s <<
+      "The following " <<
+      singularOrPlural (
+        subGroupNamesToUserGroupsMapSize, "subgroup name", "subgroup names") <<
+      " have not been mapped to user groups: ";
+
+    map<string, S_oahGroup>::const_iterator
+      iBegin = fSubGroupNamesToUserGroupsMap.begin (),
+      iEnd   = fSubGroupNamesToUserGroupsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // handle the name
+      s <<
+         "\"" << (*i).first << "\"";
+
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+
+    cout << s.str () << endl;
+//    oahError (s.str ());
+  }
+
+  int atomNamesToUserGroupsMapSize =
+    fAtomNamesToUserSubGroupsMap.size ();
+
+  if (atomNamesToUserGroupsMapSize) {
+    stringstream s;
+
+    s <<
+      "The following " <<
+      singularOrPlural (
+        atomNamesToUserGroupsMapSize, "atom name", "atom names") <<
+      " have not been mapped to user subgroups: ";
+
+    map<string, S_oahSubGroup>::const_iterator
+      iBegin = fAtomNamesToUserSubGroupsMap.begin (),
+      iEnd   = fAtomNamesToUserSubGroupsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // handle the name
+      s <<
+         "\"" << (*i).first << "\"";
+
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+
+    cout << s.str () << endl;
+//    oahError (s.str ());
+  }
+}
+
+oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv (
+  int   argc,
+  char* argv[])
+{
+  // should the insider or user oahHandler be used?
+  if (
+    argc >= 2
+      &&
+    (
+      argv [1] == fInsiderAtomShortName
+        ||
+      argv [1] == fInsiderAtomLongName
+    )
+  ) {
+    switchToInsiderView ();
+  }
+
+  return
+    fOahHandlerToBeUsed->
+      applyOptionsAndArgumentsFromArgcAndArgv (
+        argc,
+        argv);
+}
+
+oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::hangleOptionsFromOptionsVector (
+  string               fakeExecutableName,
+  const optionsVector& theOptionsVector)
+{
+  // should the insider or user oahHandler be used?
+  if (
+    theOptionsVector.size () >= 1
+      &&
+    (
+      theOptionsVector [0].first == fInsiderAtomShortName
+        ||
+      theOptionsVector [0].first == fInsiderAtomLongName
+    )
+  ) {
+    switchToInsiderView ();
+  }
+
+  return
+    fOahHandlerToBeUsed->
+      hangleOptionsFromOptionsVector (
+        fakeExecutableName,
+        theOptionsVector);
+}
+
+void oahDualHandler::enforceOahHandlerQuietness ()
+{}
+
+string oahDualHandler::asString () const
+{
+  return "oahDualHandlerInsiderAtom";
+}
+
+void oahDualHandler::print (ostream& os) const
+{
+  os << asString () << endl;
+}
+
+//______________________________________________________________________________
+S_oahDualHandlerInsiderAtom oahDualHandlerInsiderAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  S_oahDualHandler&  oahDualHandlerVariable)
+{
+  oahDualHandlerInsiderAtom* o = new
+    oahDualHandlerInsiderAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      oahDualHandlerVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahDualHandlerInsiderAtom::oahDualHandlerInsiderAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  S_oahDualHandler&  oahDualHandlerVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fOahDualHandlerVariable (
+      oahDualHandlerVariable)
+{}
+
+oahDualHandlerInsiderAtom::~oahDualHandlerInsiderAtom ()
+{}
+
+S_oahValuedAtom oahDualHandlerInsiderAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a oahDualHandlerInsiderAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void oahDualHandlerInsiderAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahDualHandlerInsiderAtom'" <<
+      endl;
+  }
+#endif
+
+  fOahDualHandlerVariable->
+    switchToInsiderView ();
+}
+
+void oahDualHandlerInsiderAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahDualHandlerInsiderAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahDualHandlerInsiderAtom>*
+    p =
+      dynamic_cast<visitor<S_oahDualHandlerInsiderAtom>*> (v)) {
+        S_oahDualHandlerInsiderAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahDualHandlerInsiderAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahDualHandlerInsiderAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahDualHandlerInsiderAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahDualHandlerInsiderAtom>*
+    p =
+      dynamic_cast<visitor<S_oahDualHandlerInsiderAtom>*> (v)) {
+        S_oahDualHandlerInsiderAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahDualHandlerInsiderAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahDualHandlerInsiderAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahDualHandlerInsiderAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahDualHandlerInsiderAtom::asString () const
+{
+  return "oahDualHandlerInsiderAtom";
+}
+
+void oahDualHandlerInsiderAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "DualHandlerInsiderAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "oahDualHandlerVariable" << " : \"" <<
+    fOahDualHandlerVariable->asString () <<
+    "\"" <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_oahDualHandlerInsiderAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 
 }
 

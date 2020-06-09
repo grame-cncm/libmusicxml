@@ -41,6 +41,7 @@ using namespace std;
 
 namespace MusicXML2
 {
+/*
 //_______________________________________________________________________________
 // data types
 enum oahDualHandlerViewKind {
@@ -49,9 +50,9 @@ enum oahDualHandlerViewKind {
 
 static string oahDualHandlerViewKindAsString (
   oahDualHandlerViewKind dualHandlerViewKind);
-
+*/
 //_______________________________________________________________________________
-class EXP xml2xmlOahDualHandler : public smartable
+class EXP xml2xmlOahDualHandler : public oahDualHandler
 {
   public:
 
@@ -77,9 +78,9 @@ class EXP xml2xmlOahDualHandler : public smartable
     // set and get
     // ------------------------------------------------------
 
-    oahDualHandlerViewKind
-                          getOahHandlerViewKind () const
-                              { return fOahHandlerViewKind; }
+//    oahDualHandlerViewKind
+//                          getOahHandlerViewKind () const
+//                              { return fOahHandlerViewKind; }
 
     // oahHandlers
     S_oahHandler          getInsiderOahHandler () const
@@ -93,16 +94,6 @@ class EXP xml2xmlOahDualHandler : public smartable
     // public services
     // ------------------------------------------------------
 
-    oahHandler::oahHelpOptionsHaveBeenUsedKind
-                          applyOptionsAndArgumentsFromArgcAndArgv (
-                            int   argc,
-                            char* argv[]);
-
-    oahHandler::oahHelpOptionsHaveBeenUsedKind
-                          hangleOptionsFromOptionsVector (
-                            string               fakeExecutableName,
-                            const optionsVector& theOptionsVector);
-
     void                  enforceOahHandlerQuietness ();
 
   public:
@@ -113,6 +104,8 @@ class EXP xml2xmlOahDualHandler : public smartable
     string                commandLineAsSuppliedAsString () const;
     string                commandLineWithShortNamesAsString () const;
     string                commandLineWithLongNamesAsString () const;
+
+    string                asString () const;
 
     void                  print (ostream& os) const;
 
@@ -127,13 +120,16 @@ class EXP xml2xmlOahDualHandler : public smartable
                             string   executableName,
                             ostream& ios);
 
+    void                  virtual createTheUserGroups (
+                            ostream& ios);
+
+    void                  createFilesUserGroup (
+                            ostream& ios);
+
     void                  createInformationsUserGroup (
                             ostream& ios);
 
     void                  createWarningAndErrorsUserGroup (
-                            ostream& ios);
-
-    void                  createFilesUserGroup (
                             ostream& ios);
 
     void                  createPresentationUserGroup (
@@ -208,17 +204,10 @@ class EXP xml2xmlOahDualHandler : public smartable
     void                  createInsiderUserGroup (
                             ostream& ios);
 
-    void                  populateUserGroupsFromInsiderGroups ();
-
   protected:
 
     // fields
     // ------------------------------------------------------
-
-    // oahHandlers
-
-    oahDualHandlerViewKind
-                          fOahHandlerViewKind;
 
     // the insider handler provides the options used internally by the translator
     S_oahHandler          fInsiderOahHandler;
@@ -247,98 +236,10 @@ class EXP xml2xmlOahDualHandler : public smartable
     // work fields
     // ------------------------------------------------------
 
-//    S_oahHandler          fOahHandlerToBeUsed; // according to oahOahHandlerKind
+    S_oahHandler          fOahHandlerToBeUsed; // according to '-insider'
 };
 typedef SMARTP<xml2xmlOahDualHandler> S_xml2xmlOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlOahDualHandler& elt);
-
-//______________________________________________________________________________
-class oahDualHandlerViewKindAtom : public oahValuedAtom
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<oahDualHandlerViewKindAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      oahDualHandlerViewKind&
-                         oahDualHandlerViewKindVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    oahDualHandlerViewKindAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      oahDualHandlerViewKind&
-                         oahDualHandlerViewKindVariable);
-
-    virtual ~oahDualHandlerViewKindAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    void                  setoahDualHandlerViewKindVariable (
-                            oahDualHandlerViewKind value)
-                              {
-                                foahDualHandlerViewKindVariable = value;
-                              }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-    void                  handleValue (
-                            string   theString,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
-
-    void                  print (ostream& os) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    oahDualHandlerViewKind&
-                          foahDualHandlerViewKindVariable;
-};
-typedef SMARTP<oahDualHandlerViewKindAtom> S_oahDualHandlerViewKindAtom;
-EXP ostream& operator<< (ostream& os, const S_oahDualHandlerViewKindAtom& elt);
 
 
 }

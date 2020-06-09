@@ -28,7 +28,7 @@ using namespace std;
 
 namespace MusicXML2
 {
-
+/*
 //______________________________________________________________________________
 string oahDualHandlerViewKindAsString (
   oahDualHandlerViewKind dualHandlerViewKind)
@@ -46,7 +46,7 @@ string oahDualHandlerViewKindAsString (
 
   return result;
 }
-
+*/
 //______________________________________________________________________________
 S_xml2xmlOahDualHandler xml2xmlOahDualHandler::create (
   string   executableName,
@@ -63,10 +63,22 @@ S_xml2xmlOahDualHandler xml2xmlOahDualHandler::create (
 xml2xmlOahDualHandler::xml2xmlOahDualHandler (
   string   executableName,
   ostream& ios)
+  : oahDualHandler (
+      xml2xmlOahHandler::create (
+        executableName,
+        ios),
+      oahHandler::create (
+        "xml2xml user handler",
+        "xml2xml user handler values",
+        "xml2xml user handler help short name",
+        "xml2xml user handler header long name",
+        "xml2xml user handler summary short name",
+        "xml2xml user handler summary long name",
+        "xml2xml user handler user handlerPreamble",
+        "xml2xml user handler handlerUsage",
+        "xml2xml user handler handlerDescription",
+        ios))
 {
-  fInsiderAtomShortName = "insider";
-  fInsiderAtomLongName  = "insider-options";
-
   initializeXml2xmlOahDualHandler (
     executableName,
     ios);
@@ -79,35 +91,25 @@ void xml2xmlOahDualHandler::initializeXml2xmlOahDualHandler (
   string   executableName,
   ostream& ios)
 {
-  // create the two oahHandlers
-  fInsiderOahHandler =
-    xml2xmlOahHandler::create (
-      executableName,
-      ios);
-
-  fUserOahHandler =
-    oahHandler::create (
-      "xml2xml user handler",
-      "xml2xml user handler values",
-      "xml2xml user handler help short name",
-      "xml2xml user handler header long name",
-      "xml2xml user handler summary short name",
-      "xml2xml user handler summary long name",
-      "xml2xml user handler user handlerPreamble",
-      "xml2xml user handler handlerUsage",
-      "xml2xml user handler handlerDescription",
-      ios);
-
   // create the user groups
+  createTheUserGroups (ios);
+
+  // populate the user groups from the internal groups
+  populateUserGroupsFromInsiderGroups ();
+}
+
+void xml2xmlOahDualHandler::createTheUserGroups (
+  ostream& ios)
+{
   createInsiderUserGroup (ios);
+
+  createFilesUserGroup (ios);
 
   createInformationsUserGroup (ios);
 
   createWarningAndErrorsUserGroup (ios);
 
   createPresentationUserGroup (ios);
-
-  createFilesUserGroup (ios);
 
   createPartsUserGroup (ios);
   createStavesUserGroup (ios);
@@ -147,9 +149,6 @@ void xml2xmlOahDualHandler::initializeXml2xmlOahDualHandler (
   createFiguredBassesUserGroup (ios);
 
   createOutputGenerationUserGroup (ios);
-
-  // populate the user groups from the internal groups
-  populateUserGroupsFromInsiderGroups ();
 }
 
 void xml2xmlOahDualHandler::createInsiderUserGroup (
@@ -165,8 +164,10 @@ void xml2xmlOahDualHandler::createInsiderUserGroup (
       "",
       kElementVisibilityAlways,
       fUserOahHandler);
+if (false) {
   fUserOahHandler->
     appendGroupToHandler (fInsiderUserGroup);
+}
   // this group is hidden in user view
   fInsiderUserGroup->
     setIsHidden ();
@@ -339,7 +340,7 @@ void xml2xmlOahDualHandler::createFilesUserGroup (
 
   fAtomNamesToUserSubGroupsMap ["output-file-name"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["auto-output-file-name"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["loop"] = subGroup;
+//  fAtomNamesToUserSubGroupsMap ["loop"] = subGroup;
 }
 
 void xml2xmlOahDualHandler::createPartsUserGroup (
@@ -638,7 +639,7 @@ void xml2xmlOahDualHandler::createRepeatsUserGroup (
   // atoms
 
   fAtomNamesToUserSubGroupsMap ["create-implicit-initial-repeat-barline"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["keep-repeat-barlines"] = subGroup;
+//  fAtomNamesToUserSubGroupsMap ["keep-repeat-barlines"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["repeat-brackets"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["ignore-repeat-numbers"] = subGroup;
 }
@@ -1026,11 +1027,9 @@ void xml2xmlOahDualHandler::createTupletsUserGroup (
   // atoms
 
   fAtomNamesToUserSubGroupsMap ["trace-tuplets"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["add-words-from-the-tuplets"] = subGroup;
+//  fAtomNamesToUserSubGroupsMap ["add-words-from-the-tuplets"] = subGroup;
 
   fAtomNamesToUserSubGroupsMap ["lpsr-tuplets-language"] = subGroup;
-
-  fAtomNamesToUserSubGroupsMap ["lpsr-pitches-language"] = subGroup;
 }
 
 void xml2xmlOahDualHandler::createHarmoniesUserGroup (
@@ -1194,254 +1193,6 @@ void xml2xmlOahDualHandler::createOutputGenerationUserGroup (
   fAtomNamesToUserSubGroupsMap ["lpsr-Languages-language"] = subGroup;
 }
 
-void xml2xmlOahDualHandler::populateUserGroupsFromInsiderGroups ()
-{
-  const list<S_oahGroup>
-    insiderOahHandlerGroupsList =
-      fInsiderOahHandler->getHandlerGroupsList ();
-
-  if (insiderOahHandlerGroupsList.size ()) {
-    list<S_oahGroup>::const_iterator
-      iBegin = insiderOahHandlerGroupsList.begin (),
-      iEnd   = insiderOahHandlerGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // handle the group
-      S_oahGroup group = (*i);
-
-      const list<S_oahSubGroup>
-        groupSubGroupsList =
-          group->getSubGroupsList ();
-
-      if (groupSubGroupsList.size ()) {
-        list<S_oahSubGroup>::const_iterator
-          iBegin = groupSubGroupsList.begin (),
-          iEnd   = groupSubGroupsList.end (),
-          i      = iBegin;
-        for ( ; ; ) {
-          // handle the subgroup
-          S_oahSubGroup subGroup = (*i);
-
-          string subGroupShortName = subGroup->getShortName ();
-          string subGroupLongName  = subGroup->getLongName ();
-
-          string
-            subGroupNameToUse =
-              subGroupLongName.size ()
-                ? subGroupLongName
-                : subGroupShortName;
-
-         // cout << "subGroupNameToUse = " << subGroupNameToUse << endl;
-
-          // is nameToUse known in fSubGroupNamesToUserGroupsMap?
-          map<string, S_oahGroup>::const_iterator
-            it =
-              fSubGroupNamesToUserGroupsMap.find (
-                subGroupNameToUse);
-
-          if (it != fSubGroupNamesToUserGroupsMap.end ()) {
-            // subGroupNameToUse is known in the map
-            S_oahGroup group = (*it).second;
-
-            // append subgroup to user group
-            // cout << "+++ adding subgroup \"" << subGroupNameToUse << "\" to group \"" << group->getGroupHeader () << "\"" << endl;
-
-            group->
-              appendSubGroupToGroup (subGroup);
-
-            // remove subGroupNameToUse from the map
-            it = fSubGroupNamesToUserGroupsMap.erase (it);
-          }
-          else {
-            // subGroupNameToUse is not known in the map
-
-            // are there atoms from this subgroup in fAtomNamesToUserSubGroupsMap?
-
-            const list<S_oahAtom>&
-              subGroupAtomsList =
-                subGroup->getAtomsList ();
-
-            if (subGroupAtomsList.size ()) {
-              list<S_oahAtom>::const_iterator
-                iBegin = subGroupAtomsList.begin (),
-                iEnd   = subGroupAtomsList.end (),
-                i      = iBegin;
-              for ( ; ; ) {
-                S_oahAtom atom = (*i);
-
-                // handle the atom
-
-                string atomShortName = atom->getShortName ();
-                string atomLongName  = atom->getLongName ();
-
-                string
-                  atomNameToUse =
-                    atomLongName.size ()
-                      ? atomLongName
-                      : atomShortName;
-
-                // cout << "atomNameToUse = " << atomNameToUse << endl;
-
-                // is nameToUse known in fSubGroupNamesToUserGroupsMap?
-                map<string, S_oahSubGroup>::const_iterator
-                  it =
-                    fAtomNamesToUserSubGroupsMap.find (
-                      atomNameToUse);
-
-                if (it != fAtomNamesToUserSubGroupsMap.end ()) {
-                  // atomNameToUse is known in the map
-                  S_oahSubGroup subGroup = (*it).second;
-
-                  // append atom to user subgroup
-                  // cout << "+++ adding atom \"" << atomNameToUse << "\" to subgroup \"" << subGroup->getSubGroupHeader () << "\"" << endl;
-
-                  subGroup->
-                    appendAtomToSubGroup (atom);
-
-                  // remove atomNameToUse from the map
-                  it = fAtomNamesToUserSubGroupsMap.erase (it);
-                }
-                else {
-                  // atomNameToUse is not known in the map
-                  // place it in the 'insider' user subgroup
-
-                  // cout << "--- adding atom \"" << atomNameToUse << "\" to subgroup \"" << fInsiderUserSubGroup->getSubGroupHeader () << "\"" << endl;
-
-                  fInsiderUserSubGroup->
-                    appendAtomToSubGroup (atom);
-                }
-
-                if (++i == iEnd) break;
-              } // for
-            }
-          }
-
-          if (++i == iEnd) break;
-        } // for
-      }
-
-      if (++i == iEnd) break;
-    } // for
-  }
-
-  // have all the mappings been used?
-  int subGroupNamesToUserGroupsMapSize =
-    fSubGroupNamesToUserGroupsMap.size ();
-
-  if (subGroupNamesToUserGroupsMapSize) {
-    stringstream s;
-
-    s <<
-      "The following " <<
-      singularOrPlural (
-        subGroupNamesToUserGroupsMapSize, "subgroup name", "subgroup names") <<
-      " have not been mapped to user groups: ";
-
-    map<string, S_oahGroup>::const_iterator
-      iBegin = fSubGroupNamesToUserGroupsMap.begin (),
-      iEnd   = fSubGroupNamesToUserGroupsMap.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // handle the name
-      s <<
-         "\"" << (*i).first << "\"";
-
-      if (++i == iEnd) break;
-      s << ", ";
-    } // for
-
-    cout << s.str () << endl;
-//    oahError (s.str ());
-  }
-
-  int atomNamesToUserGroupsMapSize =
-    fAtomNamesToUserSubGroupsMap.size ();
-
-  if (atomNamesToUserGroupsMapSize) {
-    stringstream s;
-
-    s <<
-      "The following " <<
-      singularOrPlural (
-        atomNamesToUserGroupsMapSize, "atom name", "atom names") <<
-      " have not been mapped to user subgroups: ";
-
-    map<string, S_oahSubGroup>::const_iterator
-      iBegin = fAtomNamesToUserSubGroupsMap.begin (),
-      iEnd   = fAtomNamesToUserSubGroupsMap.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // handle the name
-      s <<
-         "\"" << (*i).first << "\"";
-
-      if (++i == iEnd) break;
-      s << ", ";
-    } // for
-
-    cout << s.str () << endl;
-//    oahError (s.str ());
-  }
-}
-
-oahHandler::oahHelpOptionsHaveBeenUsedKind xml2xmlOahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv (
-  int   argc,
-  char* argv[])
-{
-  // should the insider or user oahHandler be used?
-  if (
-    argc >= 2
-      &&
-    (
-      argv [1] == fInsiderAtomShortName
-        ||
-      argv [1] == fInsiderAtomLongName
-    )
-  ) {
-    return
-      fInsiderOahHandler->
-        applyOptionsAndArgumentsFromArgcAndArgv (
-          argc,
-          argv);
-  }
-  else {
-    return
-      fUserOahHandler->
-        applyOptionsAndArgumentsFromArgcAndArgv (
-          argc,
-          argv);
-  }
-}
-
-oahHandler::oahHelpOptionsHaveBeenUsedKind xml2xmlOahDualHandler::hangleOptionsFromOptionsVector (
-  string               fakeExecutableName,
-  const optionsVector& theOptionsVector)
-{
-  // should the insider or user oahHandler be used?
-  if (
-    theOptionsVector.size () >= 1
-      &&
-    (
-      theOptionsVector [0].first == fInsiderAtomShortName
-        ||
-      theOptionsVector [0].first == fInsiderAtomLongName
-    )
-  ) {
-    return
-      fInsiderOahHandler->
-        hangleOptionsFromOptionsVector (
-          fakeExecutableName,
-          theOptionsVector);
-  }
-  else {
-    return
-      fUserOahHandler->
-        hangleOptionsFromOptionsVector (
-          fakeExecutableName,
-          theOptionsVector);
-  }
-}
-
 void xml2xmlOahDualHandler::enforceOahHandlerQuietness ()
 {
   // fInsiderOahHandler->enforceOahHandlerQuietness (); // JMI ???
@@ -1466,6 +1217,11 @@ string xml2xmlOahDualHandler::commandLineWithLongNamesAsString () const
   return
     fInsiderOahHandler->
       commandLineWithLongNamesAsString ();
+}
+
+string xml2xmlOahDualHandler::asString () const
+{
+  return "xml2xmlOahDualHandler";
 }
 
 void xml2xmlOahDualHandler::print (ostream& os) const
@@ -1616,87 +1372,33 @@ ostream& operator<< (ostream& os, const S_xml2xmlOahDualHandler& elt)
   return os;
 }
 
-//______________________________________________________________________________
-S_oahDualHandlerViewKindAtom oahDualHandlerViewKindAtom::create (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  oahDualHandlerViewKind&
-                     oahDualHandlerViewKindVariable)
+/*
+string xml2xmlDualHandlerInsiderAtom::asShortNamedOptionString () const
 {
-  oahDualHandlerViewKindAtom* o = new
-    oahDualHandlerViewKindAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName,
-      oahDualHandlerViewKindVariable);
-  assert(o!=0);
-  return o;
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    S_xml2xmlOahDualHandlerAsString (fXml2xmlOahDualHandlerVariable);
+
+  return s.str ();
 }
 
-oahDualHandlerViewKindAtom::oahDualHandlerViewKindAtom (
-  string             shortName,
-  string             longName,
-  string             description,
-  string             valueSpecification,
-  string             variableName,
-  oahDualHandlerViewKind&
-                     oahDualHandlerViewKindVariable)
-  : oahValuedAtom (
-      shortName,
-      longName,
-      description,
-      valueSpecification,
-      variableName),
-    foahDualHandlerViewKindVariable (
-      oahDualHandlerViewKindVariable)
-{}
-
-oahDualHandlerViewKindAtom::~oahDualHandlerViewKindAtom ()
-{}
-
-S_oahValuedAtom oahDualHandlerViewKindAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
+string xml2xmlDualHandlerInsiderAtom::asActualLongNamedOptionString () const
 {
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a oahDualHandlerViewKindAtom" <<
-      endl;
-  }
-#endif
+  stringstream s;
 
-  // an option value is needed
-  return this;
+  s <<
+    "-" << fLongName << " " <<
+    S_xml2xmlOahDualHandlerAsString (fXml2xmlOahDualHandlerVariable);
+
+  return s.str ();
+}
+*/
+
+
 }
 
-void oahDualHandlerViewKindAtom::handleValue (
-  string   theString,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'oahDualHandlerViewKindAtom'" <<
-      endl;
-  }
-#endif
-
-  // theString contains the language name:
-  // is it in the optional values style kinds map?
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    os <<
-      "==> oahAtom is of type 'oahDualHandlerViewKindAtom'" <<
-      endl;
-  }
-#endif
 
 /*
   map<string, oahDualHandlerViewKind>::const_iterator
@@ -1730,126 +1432,3 @@ void oahDualHandlerViewKindAtom::handleValue (
   setoahDualHandlerViewKindVariable (
     (*it).second);
     */
-}
-
-void oahDualHandlerViewKindAtom::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahDualHandlerViewKindAtom::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahDualHandlerViewKindAtom>*
-    p =
-      dynamic_cast<visitor<S_oahDualHandlerViewKindAtom>*> (v)) {
-        S_oahDualHandlerViewKindAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching oahDualHandlerViewKindAtom::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void oahDualHandlerViewKindAtom::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahDualHandlerViewKindAtom::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahDualHandlerViewKindAtom>*
-    p =
-      dynamic_cast<visitor<S_oahDualHandlerViewKindAtom>*> (v)) {
-        S_oahDualHandlerViewKindAtom elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching oahDualHandlerViewKindAtom::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void oahDualHandlerViewKindAtom::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahDualHandlerViewKindAtom::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-string oahDualHandlerViewKindAtom::asShortNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fShortName << " " <<
-    oahDualHandlerViewKindAsString (foahDualHandlerViewKindVariable);
-
-  return s.str ();
-}
-
-string oahDualHandlerViewKindAtom::asActualLongNamedOptionString () const
-{
-  stringstream s;
-
-  s <<
-    "-" << fLongName << " " <<
-    oahDualHandlerViewKindAsString (foahDualHandlerViewKindVariable);
-
-  return s.str ();
-}
-
-void oahDualHandlerViewKindAtom::print (ostream& os) const
-{
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
-
-  os <<
-    "OptionsOptionalValuesStyleKindAtom:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedAtomEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fVariableName" << " : " <<
-    fVariableName <<
-    endl <<
-    setw (fieldWidth) <<
-    "foahDualHandlerViewKindVariable" << " : \"" <<
-    oahDualHandlerViewKindAsString (
-      foahDualHandlerViewKindVariable) <<
-    "\"" <<
-    endl;
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_oahDualHandlerViewKindAtom& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-
-}

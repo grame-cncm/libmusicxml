@@ -3398,6 +3398,204 @@ class EXP oahHandler : public oahElement
 typedef SMARTP<oahHandler> S_oahHandler;
 EXP ostream& operator<< (ostream& os, const S_oahHandler& elt);
 
+//_______________________________________________________________________________
+class EXP oahDualHandler : public smartable
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+    static SMARTP<oahDualHandler> create (
+      S_oahHandler insiderOahHandler,
+      S_oahHandler userOahHandler);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahDualHandler (
+      S_oahHandler insiderOahHandler,
+      S_oahHandler userOahHandler);
+
+    virtual ~oahDualHandler ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+//    oahDualHandlerViewKind
+//                          getOahHandlerViewKind () const
+//                              { return fOahHandlerViewKind; }
+
+    // oahHandlers
+    S_oahHandler          getInsiderOahHandler () const
+                              { return fInsiderOahHandler; }
+
+    S_oahHandler          getUserOahHandler () const
+                              { return fUserOahHandler; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  switchToInsiderView ();
+
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+                          applyOptionsAndArgumentsFromArgcAndArgv (
+                            int   argc,
+                            char* argv[]);
+
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+                          hangleOptionsFromOptionsVector (
+                            string               fakeExecutableName,
+                            const optionsVector& theOptionsVector);
+
+    virtual void          enforceOahHandlerQuietness ();
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                commandLineAsSuppliedAsString () const;
+    string                commandLineWithShortNamesAsString () const;
+    string                commandLineWithLongNamesAsString () const;
+
+    string                asString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printHelp (ostream& os) const;
+
+  protected:
+
+    // protected services
+    // ------------------------------------------------------
+
+    void                  populateUserGroupsFromInsiderGroups ();
+
+  protected:
+
+    // fields
+    // ------------------------------------------------------
+
+    // the insider handler provides the options used internally by the translator
+    S_oahHandler          fInsiderOahHandler;
+
+    // the user handler provides a user view of the options, organized by topics
+    S_oahHandler          fUserOahHandler;
+
+    // the 'insider' option names
+    string                fInsiderAtomShortName;
+    string                fInsiderAtomLongName;
+
+    // the 'insider' user group is not shown
+    S_oahGroup            fInsiderUserGroup;
+
+    // the 'insider' user subgroup is a catchall
+    S_oahSubGroup         fInsiderUserSubGroup;
+
+    // the mappings
+    map<string, S_oahGroup>
+                          fSubGroupNamesToUserGroupsMap;
+    map<string, S_oahSubGroup>
+                          fAtomNamesToUserSubGroupsMap;
+
+  private:
+
+    // work fields
+    // ------------------------------------------------------
+
+    S_oahHandler          fOahHandlerToBeUsed; // according to '-insider'
+};
+typedef SMARTP<oahDualHandler> S_oahDualHandler;
+EXP ostream& operator<< (ostream& os, const S_oahDualHandler& elt);
+
+//______________________________________________________________________________
+class oahDualHandlerInsiderAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahDualHandlerInsiderAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      S_oahDualHandler&  oahDualHandlerVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahDualHandlerInsiderAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      S_oahDualHandler&  oahDualHandlerVariable);
+
+    virtual ~oahDualHandlerInsiderAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setOahDualHandlerVariable (
+                            S_oahDualHandler value)
+                              { fOahDualHandlerVariable = value; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual string        asString () const;
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_oahDualHandler&     fOahDualHandlerVariable;
+};
+typedef SMARTP<oahDualHandlerInsiderAtom> S_oahDualHandlerInsiderAtom;
+EXP ostream& operator<< (ostream& os, const S_oahDualHandlerInsiderAtom& elt);
+
 
 }
 
