@@ -64,7 +64,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
   // the fake executable name
   // ------------------------------------------------------
 
-  string fakeExecutableName = "xml2braille";
+  string fakeExecutableName = "xml2brl";
 
   // create the options handler
   // ------------------------------------------------------

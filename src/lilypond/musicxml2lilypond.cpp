@@ -67,7 +67,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   // the fake executable name
   // ------------------------------------------------------
 
-  string fakeExecutableName = "xml2lilypond";
+  string fakeExecutableName = "xml2ly";
 
   // create the options handler
   // ------------------------------------------------------

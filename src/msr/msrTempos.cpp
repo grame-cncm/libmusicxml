@@ -400,7 +400,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       ++i) {
       if ((*i) == tempoNote) {
         // found note, erase it
-        fTempoTupletElements.erase (i);
+        i = fTempoTupletElements.erase (i);
 
         // account for note duration
         fTempoTupletDisplayWholeNotes -= // JMI

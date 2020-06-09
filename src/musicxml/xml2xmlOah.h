@@ -172,8 +172,6 @@ EXP ostream& operator<< (ostream& os, const S_xml2xmlOah& elt);
 EXP extern S_xml2xmlOah gXml2xmlOah;
 
 //______________________________________________________________________________
-static bool initializeXml2xmlOahHasBeenRun = false;
-
 void initializeXml2xmlOah (
   S_oahHandler handler);
 

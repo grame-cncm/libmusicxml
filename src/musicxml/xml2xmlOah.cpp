@@ -763,7 +763,10 @@ void xml2xmlOah::printXml2xmlOahValues (int fieldWidth)
 void initializeXml2xmlOah (
   S_oahHandler handler)
 {
-  if (! initializeXml2xmlOahHasBeenRun) {
+  // protect library against multiple initializations
+  static bool initializeXml2xmlOahBeenRun = false;
+
+  if (! initializeXml2xmlOahBeenRun) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
       gLogOstream <<
@@ -788,7 +791,7 @@ void initializeXml2xmlOah (
     assert (gXml2xmlOah != 0);
   }
 
-  initializeXml2xmlOahHasBeenRun = true;
+  initializeXml2xmlOahBeenRun = true;
 }
 
 

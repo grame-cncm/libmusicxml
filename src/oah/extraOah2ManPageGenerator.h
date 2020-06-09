@@ -24,13 +24,13 @@ namespace MusicXML2
 //________________________________________________________________________
 class extraOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
-  public visitor<S_extraShowAllChordsStructuresAtom>,
+  public visitor<S_extraShowAllHarmoniesStructuresAtom>,
 
-  public visitor<S_extraShowAllChordsContentsAtom>,
+  public visitor<S_extraShowAllHarmoniesContentsAtom>,
 
-  public visitor<S_extraShowChordDetailsAtom>,
+  public visitor<S_extraShowHarmonyDetailsAtom>,
 
-  public visitor<S_extraShowChordAnalysisAtom>
+  public visitor<S_extraShowHarmonyAnalysisAtom>
 
 {
   public:
@@ -44,17 +44,17 @@ class extraOah2ManPageGenerator : virtual public oah2ManPageGenerator,
 
   protected:
 
-    virtual void visitStart (S_extraShowAllChordsStructuresAtom& elt);
-    virtual void visitEnd   (S_extraShowAllChordsStructuresAtom& elt);
+    virtual void visitStart (S_extraShowAllHarmoniesStructuresAtom& elt);
+    virtual void visitEnd   (S_extraShowAllHarmoniesStructuresAtom& elt);
 
-    virtual void visitStart (S_extraShowAllChordsContentsAtom& elt);
-    virtual void visitEnd   (S_extraShowAllChordsContentsAtom& elt);
+    virtual void visitStart (S_extraShowAllHarmoniesContentsAtom& elt);
+    virtual void visitEnd   (S_extraShowAllHarmoniesContentsAtom& elt);
 
-    virtual void visitStart (S_extraShowChordDetailsAtom& elt);
-    virtual void visitEnd   (S_extraShowChordDetailsAtom& elt);
+    virtual void visitStart (S_extraShowHarmonyDetailsAtom& elt);
+    virtual void visitEnd   (S_extraShowHarmonyDetailsAtom& elt);
 
-    virtual void visitStart (S_extraShowChordAnalysisAtom& elt);
-    virtual void visitEnd   (S_extraShowChordAnalysisAtom& elt);
+    virtual void visitStart (S_extraShowHarmonyAnalysisAtom& elt);
+    virtual void visitEnd   (S_extraShowHarmonyAnalysisAtom& elt);
 };
 typedef SMARTP<extraOah2ManPageGenerator> S_extraOah2ManPageGenerator;
 

@@ -28,14 +28,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class extraShowAllChordsStructuresAtom : public oahAtom
+class extraShowAllHarmoniesStructuresAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<extraShowAllChordsStructuresAtom> create (
+    static SMARTP<extraShowAllHarmoniesStructuresAtom> create (
       string shortName,
       string longName,
       string description);
@@ -45,12 +45,12 @@ class extraShowAllChordsStructuresAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    extraShowAllChordsStructuresAtom (
+    extraShowAllHarmoniesStructuresAtom (
       string shortName,
       string longName,
       string description);
 
-    virtual ~extraShowAllChordsStructuresAtom ();
+    virtual ~extraShowAllHarmoniesStructuresAtom ();
 
   public:
 
@@ -83,7 +83,7 @@ class extraShowAllChordsStructuresAtom : public oahAtom
 
     void                  print (ostream& os) const;
 
-    void                  printAllChordsStructures (ostream& os) const;
+    void                  printAllHarmoniesStructures (ostream& os) const;
 
     void                  printAtomOptionsValues (
                             ostream& os,
@@ -94,18 +94,18 @@ class extraShowAllChordsStructuresAtom : public oahAtom
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<extraShowAllChordsStructuresAtom> S_extraShowAllChordsStructuresAtom;
-EXP ostream& operator<< (ostream& os, const S_extraShowAllChordsStructuresAtom& elt);
+typedef SMARTP<extraShowAllHarmoniesStructuresAtom> S_extraShowAllHarmoniesStructuresAtom;
+EXP ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesStructuresAtom& elt);
 
 //______________________________________________________________________________
-class extraShowAllChordsContentsAtom : public oahValuedAtom
+class extraShowAllHarmoniesContentsAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<extraShowAllChordsContentsAtom> create (
+    static SMARTP<extraShowAllHarmoniesContentsAtom> create (
       string  shortName,
       string  longName,
       string  description,
@@ -118,7 +118,7 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    extraShowAllChordsContentsAtom (
+    extraShowAllHarmoniesContentsAtom (
       string  shortName,
       string  longName,
       string  description,
@@ -126,7 +126,7 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
       string  variableName,
       string& stringVariable);
 
-    virtual ~extraShowAllChordsContentsAtom ();
+    virtual ~extraShowAllHarmoniesContentsAtom ();
 
   public:
 
@@ -167,7 +167,7 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
 
     void                  print (ostream& os) const;
 
-    void                  printAllChordsContents (
+    void                  printAllHarmoniesContents (
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind) const;
 
@@ -182,18 +182,18 @@ class extraShowAllChordsContentsAtom : public oahValuedAtom
 
     string&               fStringVariable;
 };
-typedef SMARTP<extraShowAllChordsContentsAtom> S_extraShowAllChordsContentsAtom;
-EXP ostream& operator<< (ostream& os, const S_extraShowAllChordsContentsAtom& elt);
+typedef SMARTP<extraShowAllHarmoniesContentsAtom> S_extraShowAllHarmoniesContentsAtom;
+EXP ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesContentsAtom& elt);
 
 //______________________________________________________________________________
-class extraShowChordDetailsAtom : public oahValuedAtom
+class extraShowHarmonyDetailsAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<extraShowChordDetailsAtom> create (
+    static SMARTP<extraShowHarmonyDetailsAtom> create (
       string  shortName,
       string  longName,
       string  description,
@@ -206,7 +206,7 @@ class extraShowChordDetailsAtom : public oahValuedAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    extraShowChordDetailsAtom (
+    extraShowHarmonyDetailsAtom (
       string  shortName,
       string  longName,
       string  description,
@@ -214,14 +214,14 @@ class extraShowChordDetailsAtom : public oahValuedAtom
       string  variableName,
       string& stringVariable);
 
-    virtual ~extraShowChordDetailsAtom ();
+    virtual ~extraShowHarmonyDetailsAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setShowChordDetailsVariableValue (
+    void                  setShowHarmonyDetailsVariableValue (
                             string value)
                               {  fStringVariable = value; }
 
@@ -266,18 +266,18 @@ class extraShowChordDetailsAtom : public oahValuedAtom
 
     string&               fStringVariable;
 };
-typedef SMARTP<extraShowChordDetailsAtom> S_extraShowChordDetailsAtom;
-EXP ostream& operator<< (ostream& os, const S_extraShowChordDetailsAtom& elt);
+typedef SMARTP<extraShowHarmonyDetailsAtom> S_extraShowHarmonyDetailsAtom;
+EXP ostream& operator<< (ostream& os, const S_extraShowHarmonyDetailsAtom& elt);
 
 //______________________________________________________________________________
-class extraShowChordAnalysisAtom : public oahValuedAtom
+class extraShowHarmonyAnalysisAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<extraShowChordAnalysisAtom> create (
+    static SMARTP<extraShowHarmonyAnalysisAtom> create (
       string  shortName,
       string  longName,
       string  description,
@@ -290,7 +290,7 @@ class extraShowChordAnalysisAtom : public oahValuedAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    extraShowChordAnalysisAtom (
+    extraShowHarmonyAnalysisAtom (
       string  shortName,
       string  longName,
       string  description,
@@ -298,14 +298,14 @@ class extraShowChordAnalysisAtom : public oahValuedAtom
       string  variableName,
       string& stringVariable);
 
-    virtual ~extraShowChordAnalysisAtom ();
+    virtual ~extraShowHarmonyAnalysisAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  setShowChordAnalysisVariableValue (
+    void                  setShowHarmonyAnalysisVariableValue (
                             string value)
                               { fStringVariable = value; }
 
@@ -350,8 +350,8 @@ class extraShowChordAnalysisAtom : public oahValuedAtom
 
     string&               fStringVariable;
 };
-typedef SMARTP<extraShowChordAnalysisAtom> S_extraShowChordAnalysisAtom;
-EXP ostream& operator<< (ostream& os, const S_extraShowChordAnalysisAtom& elt);
+typedef SMARTP<extraShowHarmonyAnalysisAtom> S_extraShowHarmonyAnalysisAtom;
+EXP ostream& operator<< (ostream& os, const S_extraShowHarmonyAnalysisAtom& elt);
 
 //______________________________________________________________________________
 class extraOah : public oahGroup
@@ -408,16 +408,16 @@ class extraOah : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  initializeExtraShowAllChordsStructuresOptions (
+    void                  initializeExtraShowAllHarmoniesStructuresOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeExtraShowAllChordsContentsOptions (
+    void                  initializeExtraShowAllHarmoniesContentsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeExtraShowChordDetailsOptions (
+    void                  initializeExtraShowHarmonyDetailsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeExtraShowChordAnalysisOptions (
+    void                  initializeExtraShowHarmonyAnalysisOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -444,7 +444,7 @@ class extraOah : public oahGroup
     // fields
     // ------------------------------------------------------
 
-    string                fChordsRootAsString; // JMI
+    string                fHarmoniesRootAsString; // JMI
 };
 typedef SMARTP<extraOah> S_extraOah;
 EXP ostream& operator<< (ostream& os, const S_extraOah& elt);

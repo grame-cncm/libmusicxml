@@ -3145,37 +3145,21 @@ class EXP oahHandler : public oahElement
     void                  appendPrefixToHandler (
                             S_oahPrefix prefix);
 
-    S_oahPrefix           fetchPrefixInMapByItsName (
-                            string prefixName);
+    void                  registerHandlerInItself ();
 
     void                  appendGroupToHandler (
                             S_oahGroup group);
     void                  prependGroupToHandler (
                             S_oahGroup group);
 
-    void                  appendSubGroupToInternalAndUserGroups (
-                            S_oahSubGroup subGroup,
-                            S_oahGroup    internalGroup,
-                            S_oahGroup    userGroup);
-
     void                  registerElementInHandler (
                             S_oahElement element);
 
-    void                  registerHandlerInItself ();
+    S_oahPrefix           fetchPrefixNameInPrefixesMap (
+                            string prefixName);
 
-    S_oahPrefix           fetchPrefixFromMap (
+    S_oahElement          fetchNameInElementsMap (
                             string name) const;
-
-    S_oahElement          fetchElementFromMap (
-                            string name) const;
-
-    void                  handlePrefixName (
-                            string prefixName,
-                            size_t equalsSignPosition,
-                            string stringAfterEqualsSign);
-
-    bool                  optionNameIsASingleCharacterOptionsCluster (
-                            string optionName);
 
     oahHelpOptionsHaveBeenUsedKind
                           applyOptionsAndArgumentsFromArgcAndArgv (
@@ -3186,17 +3170,6 @@ class EXP oahHandler : public oahElement
                           hangleOptionsFromOptionsVector (
                             string               fakeExecutableName,
                             const optionsVector& theOptionsVector);
-
-    string                decipherOption (
-                            string currentString);
-
-    void                  decipherOptionContainingEqualSign (
-                            string currentOptionName,
-                            size_t equalsSignPosition);
-
-    void                  decipherOptionAndValue (
-                            string optionName,
-                            string optionValue);
 
   public:
 
@@ -3253,6 +3226,33 @@ class EXP oahHandler : public oahElement
 
     void                  registerElementNamesInHandler (
                             S_oahElement element);
+
+    void                  appendSubGroupToInternalAndUserGroups (
+                            S_oahSubGroup subGroup,
+                            S_oahGroup    internalGroup,
+                            S_oahGroup    userGroup);
+
+    S_oahPrefix           fetchNameInPrefixesMap (
+                            string name) const;
+
+    void                  handlePrefixName (
+                            string prefixName,
+                            size_t equalsSignPosition,
+                            string stringAfterEqualsSign);
+
+    bool                  optionNameIsASingleCharacterOptionsCluster (
+                            string optionName);
+
+    string                decipherOption (
+                            string currentString);
+
+    void                  decipherOptionContainingEqualSign (
+                            string currentOptionName,
+                            size_t equalsSignPosition);
+
+    void                  decipherOptionAndValue (
+                            string optionName,
+                            string optionValue);
 
     void                  printKnownPrefixes () const;
     void                  printKnownSingleCharacterOptions () const;

@@ -1498,7 +1498,7 @@ void oahCombinedBooleansAtom::addBooleanAtomByName (
   S_oahElement
     element =
       handler->
-        fetchElementFromMap (name);
+        fetchNameInElementsMap (name);
 
   if (! element) {
     // no, name is unknown in the map
@@ -2307,7 +2307,7 @@ void oahMultiplexBooleansAtom::addBooleanAtomByName (
   S_oahElement
     element =
       handler->
-        fetchElementFromMap (name);
+        fetchNameInElementsMap (name);
 
   if (! element) {
     // no, name is unknown in the map
@@ -2711,7 +2711,7 @@ S_oahValuedAtom oahValuedAtom::create (
   // a valued atom with an optional value
   // should not have the same name as a prefix
   // since this would create an ambiguity
-  if (fetchPrefixInMapByItsName (fShortName)) {
+  if (fetchPrefixNameInPrefixesMap (fShortName)) {
     stringstream s;
 
     s <<
@@ -2720,7 +2720,7 @@ S_oahValuedAtom oahValuedAtom::create (
 
     oahError (s.str ());
   }
-  if (fetchPrefixInMapByItsName (fLongName)) {
+  if (fetchPrefixNameInPrefixesMap (fLongName)) {
     stringstream s;
 
     s <<
@@ -4096,7 +4096,7 @@ void oahMonoplexStringAtom::addStringAtomByName (
   S_oahElement
     element =
       handler->
-        fetchElementFromMap (name);
+        fetchNameInElementsMap (name);
 
   if (! element) {
     // no, name is unknown in the map
@@ -9383,7 +9383,7 @@ void oahHandler::registerHandlerInItself ()
  // */
 }
 
-S_oahPrefix oahHandler::fetchPrefixFromMap (
+S_oahPrefix oahHandler::fetchNameInPrefixesMap (
   string name) const
 {
   S_oahPrefix result;
@@ -9402,7 +9402,7 @@ S_oahPrefix oahHandler::fetchPrefixFromMap (
   return result;
 }
 
-S_oahElement oahHandler::fetchElementFromMap (
+S_oahElement oahHandler::fetchNameInElementsMap (
   string name) const
 {
   S_oahElement result;
@@ -10017,7 +10017,7 @@ void oahHandler::printOptionNameIntrospectiveHelp (
   // is name known in options map?
   S_oahElement
     element =
-      fetchElementFromMap (name);
+      fetchNameInElementsMap (name);
 
   if (! element) {
     // name is not well handled by this options handler
@@ -10268,7 +10268,7 @@ void oahHandler::appendPrefixToHandler (
     prefix;
 }
 
-S_oahPrefix oahHandler::fetchPrefixInMapByItsName (
+S_oahPrefix oahHandler::fetchPrefixNameInPrefixesMap (
   string prefixName)
 {
   S_oahPrefix result;
@@ -10756,7 +10756,7 @@ void oahHandler::handlePrefixName (
 
   S_oahPrefix
     prefix =
-      fetchPrefixFromMap (prefixName);
+      fetchNameInPrefixesMap (prefixName);
 
   if (prefix) {
     if (chunksListSize) {
@@ -10919,7 +10919,7 @@ void oahHandler::decipherOptionContainingEqualSign (
   // prefixes have precedence over options with optional values
   S_oahPrefix
     prefix =
-      fetchPrefixFromMap (name);
+      fetchNameInPrefixesMap (name);
 
   if (prefix) {
     // handle prefix name
@@ -11876,7 +11876,7 @@ void oahHandler::handleOptionName (
   // is name known in options map?
   S_oahElement
     element =
-      fetchElementFromMap (name);
+      fetchNameInElementsMap (name);
 
   if (! element) {
     // name is unknown
@@ -12050,7 +12050,7 @@ void oahHandler::handleOptionNameAndValue (
   // is name known in options map?
   S_oahElement
     element =
-      fetchElementFromMap (name);
+      fetchNameInElementsMap (name);
 
   if (! element) {
     // name is unknown

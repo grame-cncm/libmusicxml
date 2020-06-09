@@ -42,19 +42,17 @@ using namespace std;
 namespace MusicXML2
 {
 //_______________________________________________________________________________
+// data types
+enum oahDualHandlerViewKind {
+  kViewInsider,
+  kViewUser };
+
+static string oahDualHandlerViewKindAsString (
+  oahDualHandlerViewKind dualHandlerViewKind);
+
+//_______________________________________________________________________________
 class EXP xml2xmlOahDualHandler : public smartable
 {
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum oahDualHandlerKind {
-        kUser,
-        kInternal };
-
-    static string OahHandlerKindAsString ();
-
   public:
 
     // creation
@@ -79,41 +77,42 @@ class EXP xml2xmlOahDualHandler : public smartable
     // set and get
     // ------------------------------------------------------
 
-    oahDualHandlerKind    getOahHandlerKind () const
-                              { return fOahHandlerKind; }
+    oahDualHandlerViewKind
+                          getOahHandlerViewKind () const
+                              { return fOahHandlerViewKind; }
 
     // oahHandlers
-    S_oahHandler          getInternalOahHandler () const
-                              { return fInternalOahHandler; }
+    S_oahHandler          getInsiderOahHandler () const
+                              { return fInsiderOahHandler; }
 
     S_oahHandler          getUserOahHandler () const
                               { return fUserOahHandler; }
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    void                  initializeXml2xmlOahDualHandler (
-                            string   executableName,
-                            ostream& ios);
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+                          applyOptionsAndArgumentsFromArgcAndArgv (
+                            int   argc,
+                            char* argv[]);
 
-    void                  createUserGroups (
-                            ostream& ios);
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+                          hangleOptionsFromOptionsVector (
+                            string               fakeExecutableName,
+                            const optionsVector& theOptionsVector);
 
-    void                  createSubGroupNamesToUserGroupsMap ();
-
-    void                  createUserSubGroups (
-                            ostream& ios);
-
-    void                  createAtomNamesToUserSubGroupsMap ();
-
-    void                  populateUserGroupsFromInteralGroups ();
+    void                  enforceOahHandlerQuietness ();
 
   public:
 
     // print
     // ------------------------------------------------------
+
+    string                commandLineAsSuppliedAsString () const;
+    string                commandLineWithShortNamesAsString () const;
+    string                commandLineWithLongNamesAsString () const;
 
     void                  print (ostream& os) const;
 
@@ -121,77 +120,225 @@ class EXP xml2xmlOahDualHandler : public smartable
 
   private:
 
+    // private services
+    // ------------------------------------------------------
+
+    void                  initializeXml2xmlOahDualHandler (
+                            string   executableName,
+                            ostream& ios);
+
+    void                  createInformationsUserGroup (
+                            ostream& ios);
+
+    void                  createWarningAndErrorsUserGroup (
+                            ostream& ios);
+
+    void                  createFilesUserGroup (
+                            ostream& ios);
+
+    void                  createPresentationUserGroup (
+                            ostream& ios);
+
+    void                  createPartsUserGroup (
+                            ostream& ios);
+
+    void                  createStavesUserGroup (
+                            ostream& ios);
+
+    void                  createVoicesUserGroup (
+                            ostream& ios);
+
+    void                  createTranspositionsUserGroup (
+                            ostream& ios);
+
+    void                  createClefsUserGroup (
+                            ostream& ios);
+
+    void                  createKeysUserGroup (
+                            ostream& ios);
+
+    void                  createTimesUserGroup (
+                            ostream& ios);
+
+    void                  createRepeatsUserGroup (
+                            ostream& ios);
+
+    void                  createMeasuresUserGroup (
+                            ostream& ios);
+
+    void                  createRestsUserGroup (
+                            ostream& ios);
+
+    void                  createNotesUserGroup (
+                            ostream& ios);
+
+    void                  createArticulationsUserGroup (
+                            ostream& ios);
+
+    void                  createOrnamentsUserGroup (
+                            ostream& ios);
+
+    void                  createGraceNotesUserGroup (
+                            ostream& ios);
+
+    void                  createChordsUserGroup (
+                            ostream& ios);
+
+    void                  createTiesAndSlursUserGroup (
+                            ostream& ios);
+
+    void                  createDynamicsAndWedgesUserGroup (
+                            ostream& ios);
+
+    void                  createTupletsUserGroup (
+                            ostream& ios);
+
+    void                  createLyricsUserGroup (
+                            ostream& ios);
+
+    void                  createHarmoniesUserGroup (
+                            ostream& ios);
+
+    void                  createFiguredBassesUserGroup (
+                            ostream& ios);
+
+    void                  createOutputGenerationUserGroup (
+                            ostream& ios);
+
+    void                  createInsiderUserGroup (
+                            ostream& ios);
+
+    void                  populateUserGroupsFromInsiderGroups ();
+
+  protected:
+
     // fields
     // ------------------------------------------------------
 
     // oahHandlers
-    oahDualHandlerKind    fOahHandlerKind;
 
-    S_oahHandler          fInternalOahHandler;
+    oahDualHandlerViewKind
+                          fOahHandlerViewKind;
+
+    // the insider handler provides the options used internally by the translator
+    S_oahHandler          fInsiderOahHandler;
+
+    // the user handler provides a user view of the options, organized by topics
     S_oahHandler          fUserOahHandler;
 
-    S_oahHandler          fOahHandlerToBeUsed; // according to oahOahHandlerKind
+    // the 'insider' option names
+    string                fInsiderAtomShortName;
+    string                fInsiderAtomLongName;
 
-    // user groups
-    S_oahGroup            fApplicationUserGroup;
+    // the 'insider' user group is not shown
+    S_oahGroup            fInsiderUserGroup;
 
-    S_oahGroup            fDocumentationUserGroup;
+    // the 'insider' user subgroup is a catchall
+    S_oahSubGroup         fInsiderUserSubGroup;
 
-    S_oahGroup            fFilesUserGroup;
-
-    S_oahGroup            fTraceUserGroup;
-    S_oahGroup            fDisplayUserGroup;
-
-    S_oahGroup            fLayoutUserGroup;
-
-    S_oahGroup            fLanguagesUserGroup;
-
-    S_oahGroup            fPartGroupsAndPartsUserGroup;
-    S_oahGroup            fStavesUserGroup;
-    S_oahGroup            fVoicesUserGroup;
-    S_oahGroup            fMeasuresUserGroup;
-
-    S_oahGroup            fClefsKeysAndTimesUserGroup;
-
-    S_oahGroup            fNotesUserGroup;
-
-    S_oahGroup            fDynamicsAndWedgesUserGroup;
-
-    S_oahGroup            fChordsUserGroup;
-    S_oahGroup            fTupletsUserGroup;
-
-    S_oahGroup            fTranspositionUserGroup;
-
-    S_oahGroup            fLyricsUserGroup;
-
-    S_oahGroup            fHarmoniesUserGroup;
-    S_oahGroup            fFiguredBassesUserGroup;
-
-    S_oahGroup            fMidiUserGroup;
-
-    S_oahGroup            fExitUserGroup;
-
-    S_oahGroup            fExtraUserGroup;
-
-    S_oahGroup            fOtherUserGroup; // should be empty JMI
-
+    // the mappings
     map<string, S_oahGroup>
                           fSubGroupNamesToUserGroupsMap;
-
-    // user subgroups
-
-    S_oahSubGroup         fInformationUserSubGroup;
-    S_oahSubGroup         fExitUserSubGroup;
-
-    S_oahSubGroup         fFilesUserSubGroup;
-
-    S_oahSubGroup         fOtherUserSubGroup; // should be empty JMI
-
     map<string, S_oahSubGroup>
                           fAtomNamesToUserSubGroupsMap;
+
+  private:
+
+    // work fields
+    // ------------------------------------------------------
+
+//    S_oahHandler          fOahHandlerToBeUsed; // according to oahOahHandlerKind
 };
 typedef SMARTP<xml2xmlOahDualHandler> S_xml2xmlOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlOahDualHandler& elt);
+
+//______________________________________________________________________________
+class oahDualHandlerViewKindAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahDualHandlerViewKindAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      oahDualHandlerViewKind&
+                         oahDualHandlerViewKindVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahDualHandlerViewKindAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      oahDualHandlerViewKind&
+                         oahDualHandlerViewKindVariable);
+
+    virtual ~oahDualHandlerViewKindAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setoahDualHandlerViewKindVariable (
+                            oahDualHandlerViewKind value)
+                              {
+                                foahDualHandlerViewKindVariable = value;
+                              }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    oahDualHandlerViewKind&
+                          foahDualHandlerViewKindVariable;
+};
+typedef SMARTP<oahDualHandlerViewKindAtom> S_oahDualHandlerViewKindAtom;
+EXP ostream& operator<< (ostream& os, const S_oahDualHandlerViewKindAtom& elt);
 
 
 }

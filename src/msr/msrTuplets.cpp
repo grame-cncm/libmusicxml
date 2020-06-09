@@ -500,7 +500,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       ++i) {
       if ((*i) == note) {
         // found note, erase it
-        fTupletElementsList.erase (i);
+        i = fTupletElementsList.erase (i);
 
         // account for note duration
         fMeasureElementSoundingWholeNotes -=

@@ -374,7 +374,7 @@ void initializeClefKinds ();
 enum msrHarmonyKind {
   k_NoHarmony,
 
-  // MusicXML chords
+  // MusicXML harmonies
 
   kMajorHarmony, kMinorHarmony,
   kAugmentedHarmony, kDiminishedHarmony,
@@ -400,7 +400,7 @@ enum msrHarmonyKind {
 
   kPedalHarmony, kPowerHarmony, kTristanHarmony,
 
-  // jazz-specific chords
+  // jazz-specific harmonies
 
   kMinorMajorNinth,                              // -maj9, minmaj9
 
@@ -1307,82 +1307,82 @@ class msrTupletFactor
 };
 EXP ostream& operator<< (ostream& os, const msrTupletFactor& elt);
 
-// chords intervals
+// harmonies intervals
 //______________________________________________________________________________
-class msrChordInterval;
-typedef SMARTP<msrChordInterval> S_msrChordInterval;
+class msrHarmonyInterval;
+typedef SMARTP<msrHarmonyInterval> S_msrHarmonyInterval;
 
-class msrChordInterval : public smartable
+class msrHarmonyInterval : public smartable
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrChordInterval> create (
-      msrIntervalKind chordIntervalIntervalKind,
-      int             chordIntervalRelativeOctave = 0);
+    static SMARTP<msrHarmonyInterval> create (
+      msrIntervalKind harmonyIntervalIntervalKind,
+      int             harmonyIntervalRelativeOctave = 0);
                         // 0: up to the thirteenth,
                         // no relative octave is needed
 
-    SMARTP<msrChordInterval> createChordIntervalNewbornClone ();
+    SMARTP<msrHarmonyInterval> createHarmonyIntervalNewbornClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordInterval (
-      msrIntervalKind chordIntervalIntervalKind,
-      int             chordIntervalRelativeOctave);
+    msrHarmonyInterval (
+      msrIntervalKind harmonyIntervalIntervalKind,
+      int             harmonyIntervalRelativeOctave);
 
-    virtual ~msrChordInterval ();
+    virtual ~msrHarmonyInterval ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrIntervalKind       getChordIntervalIntervalKind () const
-                              { return fChordIntervalIntervalKind; }
+    msrIntervalKind       getHarmonyIntervalIntervalKind () const
+                              { return fHarmonyIntervalIntervalKind; }
 
-    void                  incrementChordIntervalRelativeOctave ()
-                              { fChordIntervalRelativeOctave++; }
+    void                  incrementHarmonyIntervalRelativeOctave ()
+                              { fHarmonyIntervalRelativeOctave++; }
 
-    void                  decrementChordIntervalRelativeOctave ()
-                              { fChordIntervalRelativeOctave--; }
+    void                  decrementHarmonyIntervalRelativeOctave ()
+                              { fHarmonyIntervalRelativeOctave--; }
 
-    int                   getChordIntervalRelativeOctave () const
-                              { return fChordIntervalRelativeOctave; }
+    int                   getHarmonyIntervalRelativeOctave () const
+                              { return fHarmonyIntervalRelativeOctave; }
 
     // services
     // ------------------------------------------------------
 
-    int                   chordIntervalAsSemitones () const
+    int                   harmonyIntervalAsSemitones () const
                               {
                                 return
                                   msrIntervalKindAsSemiTones (
-                                    fChordIntervalIntervalKind);
+                                    fHarmonyIntervalIntervalKind);
                               }
 
-    string                chordIntervalIntervalKindAsString () const;
-    string                chordIntervalIntervalKindAsShortString () const;
+    string                harmonyIntervalIntervalKindAsString () const;
+    string                harmonyIntervalIntervalKindAsShortString () const;
 
-    string                chordIntervalAsString () const;
-    string                chordIntervalAsShortString () const;
+    string                harmonyIntervalAsString () const;
+    string                harmonyIntervalAsShortString () const;
 
     /*
-      we handle intervals up to the thirteenth in chords,
+      we handle intervals up to the thirteenth in harmonies,
       but operations on intervals are easier to compute
       in a normal form limited to an octave, hence:
     */
     void                  normalizeInterval ();
     void                  deNormalizeInterval ();
 
-    S_msrChordInterval    intervalDifference (
-                            S_msrChordInterval otherChordInterval);
-    S_msrChordInterval    intervalSum (
-                            S_msrChordInterval otherChordInterval);
+    S_msrHarmonyInterval    intervalDifference (
+                            S_msrHarmonyInterval otherHarmonyInterval);
+    S_msrHarmonyInterval    intervalSum (
+                            S_msrHarmonyInterval otherHarmonyInterval);
 
     string                asString () const;
     string                asShortString () const;
@@ -1410,42 +1410,42 @@ class msrChordInterval : public smartable
     // fields
     // ------------------------------------------------------
 
-    msrIntervalKind       fChordIntervalIntervalKind;
+    msrIntervalKind       fHarmonyIntervalIntervalKind;
 
-    int                   fChordIntervalRelativeOctave;
+    int                   fHarmonyIntervalRelativeOctave;
 };
-typedef SMARTP<msrChordInterval> S_msrChordInterval;
-EXP ostream& operator<< (ostream& os, const S_msrChordInterval& elt);
+typedef SMARTP<msrHarmonyInterval> S_msrHarmonyInterval;
+EXP ostream& operator<< (ostream& os, const S_msrHarmonyInterval& elt);
 
-// chords structure
+// harmonies structure
 //______________________________________________________________________________
-class msrChordStructure;
-typedef SMARTP<msrChordStructure> S_msrChordStructure;
+class msrHarmonyStructure;
+typedef SMARTP<msrHarmonyStructure> S_msrHarmonyStructure;
 
-class msrChordStructure : public smartable
+class msrHarmonyStructure : public smartable
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrChordStructure> createBare (
-      msrHarmonyKind chordStructureHarmonyKind);
+    static SMARTP<msrHarmonyStructure> createBare (
+      msrHarmonyKind harmonyStructureHarmonyKind);
 
-    static SMARTP<msrChordStructure> create (
-      msrHarmonyKind chordStructureHarmonyKind);
+    static SMARTP<msrHarmonyStructure> create (
+      msrHarmonyKind harmonyStructureHarmonyKind);
 
-    SMARTP<msrChordStructure> createChordStructureNewbornClone ();
+    SMARTP<msrHarmonyStructure> createHarmonyStructureNewbornClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordStructure (
-      msrHarmonyKind chordStructureHarmonyKind);
+    msrHarmonyStructure (
+      msrHarmonyKind harmonyStructureHarmonyKind);
 
-    virtual ~msrChordStructure ();
+    virtual ~msrHarmonyStructure ();
 
   private:
 
@@ -1457,31 +1457,31 @@ class msrChordStructure : public smartable
     // set and get
     // ------------------------------------------------------
 
-    msrHarmonyKind        getChordStructureHarmonyKind () const
-                              { return fChordStructureHarmonyKind; }
+    msrHarmonyKind        getHarmonyStructureHarmonyKind () const
+                              { return fHarmonyStructureHarmonyKind; }
 
-    const vector <S_msrChordInterval>&
-                          getChordStructureIntervals () const
-                              { return fChordStructureIntervals; }
+    const vector <S_msrHarmonyInterval>&
+                          getHarmonyStructureIntervals () const
+                              { return fHarmonyStructureIntervals; }
 
     // services
     // ------------------------------------------------------
 
-    void                  appendChordIntervalToChordStructure (
-                            S_msrChordInterval chordInterval);
+    void                  appendHarmonyIntervalToHarmonyStructure (
+                            S_msrHarmonyInterval harmonyInterval);
 
-    void                  populateChordStructure ();
+    void                  populateHarmonyStructure ();
 
-    string                chordStructureAsString () const;
-    string                chordStructureAsShortString () const;
+    string                harmonyStructureAsString () const;
+    string                harmonyStructureAsShortString () const;
 
-    S_msrChordInterval    bassChordIntervalForChordInversion (
+    S_msrHarmonyInterval    bassHarmonyIntervalForHarmonyInversion (
                             int inputLineNumber,
                             int inversionNumber);
 
-    S_msrChordStructure   invertChordStructure (int inversion);
+    S_msrHarmonyStructure   invertHarmonyStructure (int inversion);
 
-    static void           printAllChordsStructures (ostream& os);
+    static void           printAllHarmoniesStructures (ostream& os);
 
   public:
 
@@ -1505,38 +1505,38 @@ class msrChordStructure : public smartable
     // fields
     // ------------------------------------------------------
 
-    msrHarmonyKind        fChordStructureHarmonyKind;
-    vector<S_msrChordInterval>
-                          fChordStructureIntervals;
+    msrHarmonyKind        fHarmonyStructureHarmonyKind;
+    vector<S_msrHarmonyInterval>
+                          fHarmonyStructureIntervals;
 };
-typedef SMARTP<msrChordStructure> S_msrChordStructure;
-EXP ostream& operator<< (ostream& os, const S_msrChordStructure& elt);
+typedef SMARTP<msrHarmonyStructure> S_msrHarmonyStructure;
+EXP ostream& operator<< (ostream& os, const S_msrHarmonyStructure& elt);
 
-// chords contents
+// harmonies contents
 //______________________________________________________________________________
-class msrChordContents : public smartable
+class msrHarmonyContents : public smartable
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrChordContents> create (
+    static SMARTP<msrHarmonyContents> create (
  // JMI     int                   inputLineNumber,
-      msrSemiTonesPitchKind chordContentsRootNote,
-      msrHarmonyKind        chordContentsHarmonyKind);
+      msrSemiTonesPitchKind harmonyContentsRootNote,
+      msrHarmonyKind        harmonyContentsHarmonyKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordContents (
+    msrHarmonyContents (
  // JMI     int                   inputLineNumber,
-      msrSemiTonesPitchKind chordContentsRootNote,
-      msrHarmonyKind        chordContentsHarmonyKind);
+      msrSemiTonesPitchKind harmonyContentsRootNote,
+      msrHarmonyKind        harmonyContentsHarmonyKind);
 
-    virtual ~msrChordContents ();
+    virtual ~msrHarmonyContents ();
 
   public:
 
@@ -1544,27 +1544,27 @@ class msrChordContents : public smartable
     // ------------------------------------------------------
 
     msrSemiTonesPitchKind
-                          getChordContentsRootNote () const
-                              { return fChordContentsRootNote; }
+                          getHarmonyContentsRootNote () const
+                              { return fHarmonyContentsRootNote; }
 
-    msrHarmonyKind        getChordContentsHarmonyKind () const
-                              { return fChordContentsHarmonyKind; }
+    msrHarmonyKind        getHarmonyContentsHarmonyKind () const
+                              { return fHarmonyContentsHarmonyKind; }
 
     const vector<S_msrSemiTonesPitchAndOctave>&
-                          getChordElementsVector () const
-                              { return fChordElementsVector; }
+                          getHarmonyElementsVector () const
+                              { return fHarmonyElementsVector; }
 
     // services
     // ------------------------------------------------------
 
-    string                chordContentsAsString () const;
-    string                chordContentsAsShortString () const;
+    string                harmonyContentsAsString () const;
+    string                harmonyContentsAsShortString () const;
 
-    msrSemiTonesPitchKind bassSemiTonesPitchKindForChordInversion (
+    msrSemiTonesPitchKind bassSemiTonesPitchKindForHarmonyInversion (
                             int inputLineNumber,
                             int inversionNumber);
 
-    static void           printAllChordsContents (
+    static void           printAllHarmoniesContents (
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind);
 
@@ -1590,23 +1590,23 @@ class msrChordContents : public smartable
     // fields
     // ------------------------------------------------------
 
-    msrSemiTonesPitchKind fChordContentsRootNote;
-    msrHarmonyKind        fChordContentsHarmonyKind;
+    msrSemiTonesPitchKind fHarmonyContentsRootNote;
+    msrHarmonyKind        fHarmonyContentsHarmonyKind;
 
     vector<S_msrSemiTonesPitchAndOctave>
-                          fChordElementsVector;
+                          fHarmonyElementsVector;
 };
-typedef SMARTP<msrChordContents> S_msrChordContents;
-EXP ostream& operator<< (ostream& os, const S_msrChordContents& elt);
+typedef SMARTP<msrHarmonyContents> S_msrHarmonyContents;
+EXP ostream& operator<< (ostream& os, const S_msrHarmonyContents& elt);
 
-// chords details and analysis
+// harmonies details and analysis
 //______________________________________________________________________________
-void printChordDetails (
+void printHarmonyDetails (
   ostream&              os,
   msrSemiTonesPitchKind rootSemiTonesPitchKind,
   msrHarmonyKind        harmonyKind);
 
-void printChordAnalysis (
+void printHarmonyAnalysis (
   ostream&              os,
   msrSemiTonesPitchKind rootSemiTonesPitchKind,
   msrHarmonyKind        harmonyKind,
@@ -1748,12 +1748,12 @@ string msrScoreNotationKindAsString (
 
 // global variables
 //______________________________________________________________________________
-extern map<msrHarmonyKind, S_msrChordStructure>
-  gChordStructuresMap;
+extern map<msrHarmonyKind, S_msrHarmonyStructure>
+  gHarmonyStructuresMap;
 
-void initializeChordStructuresMap ();
+void initializeHarmonyStructuresMap ();
 
-void printChordStructuresMap ();
+void printHarmonyStructuresMap ();
 
 extern map<string, msrQuarterTonesPitchesLanguageKind>
   gQuarterTonesPitchesLanguageKindsMap;

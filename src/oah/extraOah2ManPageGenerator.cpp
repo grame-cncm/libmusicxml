@@ -45,13 +45,13 @@ extraOah2ManPageGenerator::~extraOah2ManPageGenerator ()
 {}
 
 //________________________________________________________________________
-void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsStructuresAtom& elt)
+void extraOah2ManPageGenerator::visitStart (S_extraShowAllHarmoniesStructuresAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> Start visiting extraShowAllChordsStructuresAtom" <<
+      ".\\\" --> Start visiting extraShowAllHarmoniesStructuresAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -75,13 +75,13 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsStructuresAtom& 
     */
 }
 
-void extraOah2ManPageGenerator::visitEnd (S_extraShowAllChordsStructuresAtom& elt)
+void extraOah2ManPageGenerator::visitEnd (S_extraShowAllHarmoniesStructuresAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> End visiting extraShowAllChordsStructuresAtom" <<
+      ".\\\" --> End visiting extraShowAllHarmoniesStructuresAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -89,13 +89,13 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowAllChordsStructuresAtom& el
 }
 
 //________________________________________________________________________
-void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsContentsAtom& elt)
+void extraOah2ManPageGenerator::visitStart (S_extraShowAllHarmoniesContentsAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> Start visiting extraShowAllChordsContentsAtom" <<
+      ".\\\" --> Start visiting extraShowAllHarmoniesContentsAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -119,13 +119,13 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllChordsContentsAtom& el
 */
 }
 
-void extraOah2ManPageGenerator::visitEnd (S_extraShowAllChordsContentsAtom& elt)
+void extraOah2ManPageGenerator::visitEnd (S_extraShowAllHarmoniesContentsAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> End visiting extraShowAllChordsContentsAtom" <<
+      ".\\\" --> End visiting extraShowAllHarmoniesContentsAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -133,13 +133,13 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowAllChordsContentsAtom& elt)
 }
 
 //________________________________________________________________________
-void extraOah2ManPageGenerator::visitStart (S_extraShowChordDetailsAtom& elt)
+void extraOah2ManPageGenerator::visitStart (S_extraShowHarmonyDetailsAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> Start visiting extraShowChordDetailsAtom" <<
+      ".\\\" --> Start visiting extraShowHarmonyDetailsAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -163,13 +163,13 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordDetailsAtom& elt)
     */
 }
 
-void extraOah2ManPageGenerator::visitEnd (S_extraShowChordDetailsAtom& elt)
+void extraOah2ManPageGenerator::visitEnd (S_extraShowHarmonyDetailsAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> End visiting extraShowChordDetailsAtom" <<
+      ".\\\" --> End visiting extraShowHarmonyDetailsAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -177,13 +177,13 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowChordDetailsAtom& elt)
 }
 
 //________________________________________________________________________
-void extraOah2ManPageGenerator::visitStart (S_extraShowChordAnalysisAtom& elt)
+void extraOah2ManPageGenerator::visitStart (S_extraShowHarmonyAnalysisAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> Start visiting extraShowChordAnalysisAtom" <<
+      ".\\\" --> Start visiting extraShowHarmonyAnalysisAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -207,13 +207,13 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowChordAnalysisAtom& elt)
     */
 }
 
-void extraOah2ManPageGenerator::visitEnd (S_extraShowChordAnalysisAtom& elt)
+void extraOah2ManPageGenerator::visitEnd (S_extraShowHarmonyAnalysisAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> End visiting extraShowChordAnalysisAtom" <<
+      ".\\\" --> End visiting extraShowHarmonyAnalysisAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }

@@ -2165,7 +2165,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
         cubaseOption =
           gMxmlTreeOah->
             getHandlerUpLink ()->
-              fetchElementFromMap ("cubase");
+              fetchNameInElementsMap ("cubase");
 
       if (
         // combined booleans atom?

@@ -38,13 +38,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_extraShowAllChordsStructuresAtom extraShowAllChordsStructuresAtom::create (
+S_extraShowAllHarmoniesStructuresAtom extraShowAllHarmoniesStructuresAtom::create (
   string shortName,
   string longName,
   string description)
 {
-  extraShowAllChordsStructuresAtom* o = new
-    extraShowAllChordsStructuresAtom (
+  extraShowAllHarmoniesStructuresAtom* o = new
+    extraShowAllHarmoniesStructuresAtom (
       shortName,
       longName,
       description);
@@ -52,7 +52,7 @@ S_extraShowAllChordsStructuresAtom extraShowAllChordsStructuresAtom::create (
   return o;
 }
 
-extraShowAllChordsStructuresAtom::extraShowAllChordsStructuresAtom (
+extraShowAllHarmoniesStructuresAtom::extraShowAllHarmoniesStructuresAtom (
   string shortName,
   string longName,
   string description)
@@ -63,47 +63,47 @@ extraShowAllChordsStructuresAtom::extraShowAllChordsStructuresAtom (
       kElementValueExpectedNo)
 {}
 
-extraShowAllChordsStructuresAtom::~extraShowAllChordsStructuresAtom ()
+extraShowAllHarmoniesStructuresAtom::~extraShowAllHarmoniesStructuresAtom ()
 {}
 
-S_oahValuedAtom extraShowAllChordsStructuresAtom::handleOptionUnderName (
+S_oahValuedAtom extraShowAllHarmoniesStructuresAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> option '" << optionName << "' is a extraShowAllChordsStructuresAtom" <<
+      "==> option '" << optionName << "' is a extraShowAllHarmoniesStructuresAtom" <<
       endl;
   }
 #endif
 
   // handle it at once
-  printAllChordsStructures (os);
+  printAllHarmoniesStructures (os);
 
   // no option value is needed
   return nullptr;
 }
 
-void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
+void extraShowAllHarmoniesStructuresAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowAllChordsStructuresAtom::acceptIn ()" <<
+      ".\\\" ==> extraShowAllHarmoniesStructuresAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraShowAllChordsStructuresAtom>*
+  if (visitor<S_extraShowAllHarmoniesStructuresAtom>*
     p =
-      dynamic_cast<visitor<S_extraShowAllChordsStructuresAtom>*> (v)) {
-        S_extraShowAllChordsStructuresAtom elem = this;
+      dynamic_cast<visitor<S_extraShowAllHarmoniesStructuresAtom>*> (v)) {
+        S_extraShowAllHarmoniesStructuresAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching extraShowAllChordsStructuresAtom::visitStart ()" <<
+            ".\\\" ==> Launching extraShowAllHarmoniesStructuresAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -111,25 +111,25 @@ void extraShowAllChordsStructuresAtom::acceptIn (basevisitor* v)
   }
 }
 
-void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
+void extraShowAllHarmoniesStructuresAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowAllChordsStructuresAtom::acceptOut ()" <<
+      ".\\\" ==> extraShowAllHarmoniesStructuresAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraShowAllChordsStructuresAtom>*
+  if (visitor<S_extraShowAllHarmoniesStructuresAtom>*
     p =
-      dynamic_cast<visitor<S_extraShowAllChordsStructuresAtom>*> (v)) {
-        S_extraShowAllChordsStructuresAtom elem = this;
+      dynamic_cast<visitor<S_extraShowAllHarmoniesStructuresAtom>*> (v)) {
+        S_extraShowAllHarmoniesStructuresAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching extraShowAllChordsStructuresAtom::visitEnd ()" <<
+            ".\\\" ==> Launching extraShowAllHarmoniesStructuresAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -137,23 +137,23 @@ void extraShowAllChordsStructuresAtom::acceptOut (basevisitor* v)
   }
 }
 
-void extraShowAllChordsStructuresAtom::browseData (basevisitor* v)
+void extraShowAllHarmoniesStructuresAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowAllChordsStructuresAtom::browseData ()" <<
+      ".\\\" ==> extraShowAllHarmoniesStructuresAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void extraShowAllChordsStructuresAtom::print (ostream& os) const
+void extraShowAllHarmoniesStructuresAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsShowAllChordsStructuresAtom:" <<
+    "OptionsShowAllHarmoniesStructuresAtom:" <<
     endl;
 
   gIndenter++;
@@ -171,52 +171,52 @@ void extraShowAllChordsStructuresAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void extraShowAllChordsStructuresAtom::printAllChordsStructures (ostream& os) const
+void extraShowAllHarmoniesStructuresAtom::printAllHarmoniesStructures (ostream& os) const
 {
-  msrChordStructure::printAllChordsStructures (os);
+  msrHarmonyStructure::printAllHarmoniesStructures (os);
 }
 
-void extraShowAllChordsStructuresAtom::printAtomOptionsValues (
+void extraShowAllHarmoniesStructuresAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_extraShowAllChordsStructuresAtom& elt)
+ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesStructuresAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_extraShowAllChordsContentsAtom extraShowAllChordsContentsAtom::create (
+S_extraShowAllHarmoniesContentsAtom extraShowAllHarmoniesContentsAtom::create (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
   string  variableName,
-  string& extraShowAllChordsContentsVariable)
+  string& extraShowAllHarmoniesContentsVariable)
 {
-  extraShowAllChordsContentsAtom* o = new
-    extraShowAllChordsContentsAtom (
+  extraShowAllHarmoniesContentsAtom* o = new
+    extraShowAllHarmoniesContentsAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      extraShowAllChordsContentsVariable);
+      extraShowAllHarmoniesContentsVariable);
   assert(o!=0);
   return o;
 }
 
-extraShowAllChordsContentsAtom::extraShowAllChordsContentsAtom (
+extraShowAllHarmoniesContentsAtom::extraShowAllHarmoniesContentsAtom (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
   string  variableName,
-  string& extraShowAllChordsContentsVariable)
+  string& extraShowAllHarmoniesContentsVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -224,20 +224,20 @@ extraShowAllChordsContentsAtom::extraShowAllChordsContentsAtom (
       valueSpecification,
       variableName),
     fStringVariable (
-      extraShowAllChordsContentsVariable)
+      extraShowAllHarmoniesContentsVariable)
 {}
 
-extraShowAllChordsContentsAtom::~extraShowAllChordsContentsAtom ()
+extraShowAllHarmoniesContentsAtom::~extraShowAllHarmoniesContentsAtom ()
 {}
 
-S_oahValuedAtom extraShowAllChordsContentsAtom::handleOptionUnderName (
+S_oahValuedAtom extraShowAllHarmoniesContentsAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> option '" << optionName << "' is a extraShowAllChordsContentsAtom" <<
+      "==> option '" << optionName << "' is a extraShowAllHarmoniesContentsAtom" <<
       endl;
   }
 #endif
@@ -246,14 +246,14 @@ S_oahValuedAtom extraShowAllChordsContentsAtom::handleOptionUnderName (
   return this;
 }
 
-void extraShowAllChordsContentsAtom::handleValue (
+void extraShowAllHarmoniesContentsAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'extraShowAllChordsContentsAtom'" <<
+      "==> oahAtom is of type 'extraShowAllHarmoniesContentsAtom'" <<
       endl;
   }
 #endif
@@ -264,7 +264,7 @@ void extraShowAllChordsContentsAtom::handleValue (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'extraShowAllChordsContentsAtom'" <<
+      "==> oahAtom is of type 'extraShowAllHarmoniesContentsAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -337,37 +337,37 @@ void extraShowAllChordsContentsAtom::handleValue (
       }
   } // switch
 
-  // print all the chords notes
-  printAllChordsContents (
+  // print all the harmonies notes
+  printAllHarmoniesContents (
     os,
     semiTonesPitchKind);
 
-  // register 'show all chords contents' action in options groups's options handler upLink
+  // register 'show all harmonies contents' action in options groups's options handler upLink
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
         setOahHandlerFoundAHelpOption ();
 }
 
-void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
+void extraShowAllHarmoniesContentsAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowAllChordsContentsAtom::acceptIn ()" <<
+      ".\\\" ==> extraShowAllHarmoniesContentsAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraShowAllChordsContentsAtom>*
+  if (visitor<S_extraShowAllHarmoniesContentsAtom>*
     p =
-      dynamic_cast<visitor<S_extraShowAllChordsContentsAtom>*> (v)) {
-        S_extraShowAllChordsContentsAtom elem = this;
+      dynamic_cast<visitor<S_extraShowAllHarmoniesContentsAtom>*> (v)) {
+        S_extraShowAllHarmoniesContentsAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching extraShowAllChordsContentsAtom::visitStart ()" <<
+            ".\\\" ==> Launching extraShowAllHarmoniesContentsAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -375,25 +375,25 @@ void extraShowAllChordsContentsAtom::acceptIn (basevisitor* v)
   }
 }
 
-void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
+void extraShowAllHarmoniesContentsAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowAllChordsContentsAtom::acceptOut ()" <<
+      ".\\\" ==> extraShowAllHarmoniesContentsAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraShowAllChordsContentsAtom>*
+  if (visitor<S_extraShowAllHarmoniesContentsAtom>*
     p =
-      dynamic_cast<visitor<S_extraShowAllChordsContentsAtom>*> (v)) {
-        S_extraShowAllChordsContentsAtom elem = this;
+      dynamic_cast<visitor<S_extraShowAllHarmoniesContentsAtom>*> (v)) {
+        S_extraShowAllHarmoniesContentsAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching extraShowAllChordsContentsAtom::visitEnd ()" <<
+            ".\\\" ==> Launching extraShowAllHarmoniesContentsAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -401,23 +401,23 @@ void extraShowAllChordsContentsAtom::acceptOut (basevisitor* v)
   }
 }
 
-void extraShowAllChordsContentsAtom::browseData (basevisitor* v)
+void extraShowAllHarmoniesContentsAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowAllChordsContentsAtom::browseData ()" <<
+      ".\\\" ==> extraShowAllHarmoniesContentsAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void extraShowAllChordsContentsAtom::print (ostream& os) const
+void extraShowAllHarmoniesContentsAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "extraShowAllChordsContentsAtom:" <<
+    "extraShowAllHarmoniesContentsAtom:" <<
     endl;
 
   gIndenter++;
@@ -435,56 +435,56 @@ void extraShowAllChordsContentsAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void extraShowAllChordsContentsAtom::printAllChordsContents (
+void extraShowAllHarmoniesContentsAtom::printAllHarmoniesContents (
   ostream&              os,
   msrSemiTonesPitchKind semiTonesPitchKind) const
 {
-  msrChordContents::printAllChordsContents (
+  msrHarmonyContents::printAllHarmoniesContents (
     os,
     semiTonesPitchKind);
 }
 
-void extraShowAllChordsContentsAtom::printAtomOptionsValues (
+void extraShowAllHarmoniesContentsAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_extraShowAllChordsContentsAtom& elt)
+ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesContentsAtom& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_extraShowChordDetailsAtom extraShowChordDetailsAtom::create (
+S_extraShowHarmonyDetailsAtom extraShowHarmonyDetailsAtom::create (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
   string  variableName,
-  string& extraShowChordDetailsVariable)
+  string& extraShowHarmonyDetailsVariable)
 {
-  extraShowChordDetailsAtom* o = new
-    extraShowChordDetailsAtom (
+  extraShowHarmonyDetailsAtom* o = new
+    extraShowHarmonyDetailsAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      extraShowChordDetailsVariable);
+      extraShowHarmonyDetailsVariable);
   assert(o!=0);
   return o;
 }
 
-extraShowChordDetailsAtom::extraShowChordDetailsAtom (
+extraShowHarmonyDetailsAtom::extraShowHarmonyDetailsAtom (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
   string  variableName,
-  string& extraShowChordDetailsVariable)
+  string& extraShowHarmonyDetailsVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -492,20 +492,20 @@ extraShowChordDetailsAtom::extraShowChordDetailsAtom (
       valueSpecification,
       variableName),
     fStringVariable (
-      extraShowChordDetailsVariable)
+      extraShowHarmonyDetailsVariable)
 {}
 
-extraShowChordDetailsAtom::~extraShowChordDetailsAtom ()
+extraShowHarmonyDetailsAtom::~extraShowHarmonyDetailsAtom ()
 {}
 
-S_oahValuedAtom extraShowChordDetailsAtom::handleOptionUnderName (
+S_oahValuedAtom extraShowHarmonyDetailsAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> option '" << optionName << "' is a extraShowChordDetailsAtom" <<
+      "==> option '" << optionName << "' is a extraShowHarmonyDetailsAtom" <<
       endl;
   }
 #endif
@@ -514,14 +514,14 @@ S_oahValuedAtom extraShowChordDetailsAtom::handleOptionUnderName (
   return this;
 }
 
-void extraShowChordDetailsAtom::handleValue (
+void extraShowHarmonyDetailsAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'extraShowChordDetailsAtom'" <<
+      "==> oahAtom is of type 'extraShowHarmonyDetailsAtom'" <<
       endl;
   }
 #endif
@@ -531,7 +531,7 @@ void extraShowChordDetailsAtom::handleValue (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'extraShowChordDetailsAtom'" <<
+      "==> oahAtom is of type 'extraShowHarmonyDetailsAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -556,7 +556,7 @@ void extraShowChordDetailsAtom::handleValue (
   if (gTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
-      " for chord details string '" << theString <<
+      " for Harmony details string '" << theString <<
       "' with regex '" << regularExpression <<
       "'" <<
       endl;
@@ -582,7 +582,7 @@ void extraShowChordDetailsAtom::handleValue (
     stringstream s;
 
     s <<
-      "-chord details argument '" << theString <<
+      "-Harmony details argument '" << theString <<
       "' is ill-formed";
 
     oahError (s.str ());
@@ -674,38 +674,38 @@ void extraShowChordDetailsAtom::handleValue (
       msrHarmonyKindFromString (
         harmonyName);
 
-  // print the chord details
-  printChordDetails (
+  // print the Harmony details
+  printHarmonyDetails (
     os,
     semiTonesPitchKind,
     harmonyKind);
 
-  // register 'show all chords contents' action in options groups's options handler upLink
+  // register 'show all harmonies contents' action in options groups's options handler upLink
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
         setOahHandlerFoundAHelpOption ();
 }
 
-void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
+void extraShowHarmonyDetailsAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowChordDetailsAtom::acceptIn ()" <<
+      ".\\\" ==> extraShowHarmonyDetailsAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraShowChordDetailsAtom>*
+  if (visitor<S_extraShowHarmonyDetailsAtom>*
     p =
-      dynamic_cast<visitor<S_extraShowChordDetailsAtom>*> (v)) {
-        S_extraShowChordDetailsAtom elem = this;
+      dynamic_cast<visitor<S_extraShowHarmonyDetailsAtom>*> (v)) {
+        S_extraShowHarmonyDetailsAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching extraShowChordDetailsAtom::visitStart ()" <<
+            ".\\\" ==> Launching extraShowHarmonyDetailsAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -713,25 +713,25 @@ void extraShowChordDetailsAtom::acceptIn (basevisitor* v)
   }
 }
 
-void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
+void extraShowHarmonyDetailsAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowChordDetailsAtom::acceptOut ()" <<
+      ".\\\" ==> extraShowHarmonyDetailsAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraShowChordDetailsAtom>*
+  if (visitor<S_extraShowHarmonyDetailsAtom>*
     p =
-      dynamic_cast<visitor<S_extraShowChordDetailsAtom>*> (v)) {
-        S_extraShowChordDetailsAtom elem = this;
+      dynamic_cast<visitor<S_extraShowHarmonyDetailsAtom>*> (v)) {
+        S_extraShowHarmonyDetailsAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching extraShowChordDetailsAtom::visitEnd ()" <<
+            ".\\\" ==> Launching extraShowHarmonyDetailsAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -739,23 +739,23 @@ void extraShowChordDetailsAtom::acceptOut (basevisitor* v)
   }
 }
 
-void extraShowChordDetailsAtom::browseData (basevisitor* v)
+void extraShowHarmonyDetailsAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowChordDetailsAtom::browseData ()" <<
+      ".\\\" ==> extraShowHarmonyDetailsAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void extraShowChordDetailsAtom::print (ostream& os) const
+void extraShowHarmonyDetailsAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "extraShowChordDetailsAtom:" <<
+    "extraShowHarmonyDetailsAtom:" <<
     endl;
 
   gIndenter++;
@@ -773,7 +773,7 @@ void extraShowChordDetailsAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void extraShowChordDetailsAtom::printAtomOptionsValues (
+void extraShowHarmonyDetailsAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -781,33 +781,33 @@ void extraShowChordDetailsAtom::printAtomOptionsValues (
 }
 
 //______________________________________________________________________________
-S_extraShowChordAnalysisAtom extraShowChordAnalysisAtom::create (
+S_extraShowHarmonyAnalysisAtom extraShowHarmonyAnalysisAtom::create (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
   string  variableName,
-  string& extraShowChordAnalysisVariable)
+  string& extraShowHarmonyAnalysisVariable)
 {
-  extraShowChordAnalysisAtom* o = new
-    extraShowChordAnalysisAtom (
+  extraShowHarmonyAnalysisAtom* o = new
+    extraShowHarmonyAnalysisAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      extraShowChordAnalysisVariable);
+      extraShowHarmonyAnalysisVariable);
   assert(o!=0);
   return o;
 }
 
-extraShowChordAnalysisAtom::extraShowChordAnalysisAtom (
+extraShowHarmonyAnalysisAtom::extraShowHarmonyAnalysisAtom (
   string  shortName,
   string  longName,
   string  description,
   string  valueSpecification,
   string  variableName,
-  string& extraShowChordAnalysisVariable)
+  string& extraShowHarmonyAnalysisVariable)
   : oahValuedAtom (
       shortName,
       longName,
@@ -815,20 +815,20 @@ extraShowChordAnalysisAtom::extraShowChordAnalysisAtom (
       valueSpecification,
       variableName),
     fStringVariable (
-      extraShowChordAnalysisVariable)
+      extraShowHarmonyAnalysisVariable)
 {}
 
-extraShowChordAnalysisAtom::~extraShowChordAnalysisAtom ()
+extraShowHarmonyAnalysisAtom::~extraShowHarmonyAnalysisAtom ()
 {}
 
-S_oahValuedAtom extraShowChordAnalysisAtom::handleOptionUnderName (
+S_oahValuedAtom extraShowHarmonyAnalysisAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> option '" << optionName << "' is a extraShowChordAnalysisAtom" <<
+      "==> option '" << optionName << "' is a extraShowHarmonyAnalysisAtom" <<
       endl;
   }
 #endif
@@ -837,14 +837,14 @@ S_oahValuedAtom extraShowChordAnalysisAtom::handleOptionUnderName (
   return this;
 }
 
-void extraShowChordAnalysisAtom::handleValue (
+void extraShowHarmonyAnalysisAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'extraShowChordAnalysisAtom'" <<
+      "==> oahAtom is of type 'extraShowHarmonyAnalysisAtom'" <<
       endl;
   }
 #endif
@@ -855,7 +855,7 @@ void extraShowChordAnalysisAtom::handleValue (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'extraShowChordAnalysisAtom'" <<
+      "==> oahAtom is of type 'extraShowHarmonyAnalysisAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
   }
@@ -882,7 +882,7 @@ void extraShowChordAnalysisAtom::handleValue (
   if (gTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
-      " for chord analysis string '" << theString <<
+      " for Harmony analysis string '" << theString <<
       "' with regex '" << regularExpression <<
       "'" <<
       endl;
@@ -907,7 +907,7 @@ void extraShowChordAnalysisAtom::handleValue (
     stringstream s;
 
     s <<
-      "chord analysis argument '" << theString <<
+      "Harmony analysis argument '" << theString <<
       "' is ill-formed";
 
     oahError (s.str ());
@@ -915,7 +915,7 @@ void extraShowChordAnalysisAtom::handleValue (
 /* JMI ??? should work...
     printSubGroupSpecificHelp (
       os,
-      showChordAnalysisAtom->
+      showHarmonyAnalysisAtom->
         getSubGroupUpLink ());
 */
   }
@@ -1030,39 +1030,39 @@ void extraShowChordAnalysisAtom::handleValue (
     oahError (s.str ());
   }
 
-  // print the chord analysis
-  printChordAnalysis (
+  // print the Harmony analysis
+  printHarmonyAnalysis (
     os,
     semiTonesPitchKind,
     harmonyKind,
     inversion);
 
-  // register 'show all chords contents' action in options groups's options handler upLink
+  // register 'show all harmonies contents' action in options groups's options handler upLink
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
         setOahHandlerFoundAHelpOption ();
 }
 
-void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
+void extraShowHarmonyAnalysisAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowChordAnalysisAtom::acceptIn ()" <<
+      ".\\\" ==> extraShowHarmonyAnalysisAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraShowChordAnalysisAtom>*
+  if (visitor<S_extraShowHarmonyAnalysisAtom>*
     p =
-      dynamic_cast<visitor<S_extraShowChordAnalysisAtom>*> (v)) {
-        S_extraShowChordAnalysisAtom elem = this;
+      dynamic_cast<visitor<S_extraShowHarmonyAnalysisAtom>*> (v)) {
+        S_extraShowHarmonyAnalysisAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching extraShowChordAnalysisAtom::visitStart ()" <<
+            ".\\\" ==> Launching extraShowHarmonyAnalysisAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -1070,25 +1070,25 @@ void extraShowChordAnalysisAtom::acceptIn (basevisitor* v)
   }
 }
 
-void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
+void extraShowHarmonyAnalysisAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowChordAnalysisAtom::acceptOut ()" <<
+      ".\\\" ==> extraShowHarmonyAnalysisAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraShowChordAnalysisAtom>*
+  if (visitor<S_extraShowHarmonyAnalysisAtom>*
     p =
-      dynamic_cast<visitor<S_extraShowChordAnalysisAtom>*> (v)) {
-        S_extraShowChordAnalysisAtom elem = this;
+      dynamic_cast<visitor<S_extraShowHarmonyAnalysisAtom>*> (v)) {
+        S_extraShowHarmonyAnalysisAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching extraShowChordAnalysisAtom::visitEnd ()" <<
+            ".\\\" ==> Launching extraShowHarmonyAnalysisAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1096,23 +1096,23 @@ void extraShowChordAnalysisAtom::acceptOut (basevisitor* v)
   }
 }
 
-void extraShowChordAnalysisAtom::browseData (basevisitor* v)
+void extraShowHarmonyAnalysisAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> extraShowChordAnalysisAtom::browseData ()" <<
+      ".\\\" ==> extraShowHarmonyAnalysisAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void extraShowChordAnalysisAtom::print (ostream& os) const
+void extraShowHarmonyAnalysisAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "extraShowChordAnalysisAtom:" <<
+    "extraShowHarmonyAnalysisAtom:" <<
     endl;
 
   gIndenter++;
@@ -1130,7 +1130,7 @@ void extraShowChordAnalysisAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void extraShowChordAnalysisAtom::printAtomOptionsValues (
+void extraShowHarmonyAnalysisAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1161,15 +1161,15 @@ R"(These extra provide features not related to translation from MusicXML to othe
 In the text below:
   - ROOT_DIATONIC_PITCH should belong to the names available in
     the selected MSR pitches language, "nederlands" by default;
-  - other languages can be chosen with the '-mpl, -msrPitchesLanguage' option;
+  - other languages can be chosen with the '-mpl, -msr-pitches-language' option;
   - HARMONY_NAME should be one of:
-      MusicXML chords:
+      MusicXML harmonies:
         "maj", "min", "aug", "dim", "dom",
         "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
         "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
         "dom13", "maj13", "min13", "sus2", "sus4",
         "neapolitan", "italian", "french", "german"
-      Jazz-specific chords:
+      Jazz-specific harmonies:
         "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
         "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
 The single or double quotes are used to allow spaces in the names
@@ -1191,14 +1191,14 @@ and around the '=' sign, otherwise they can be dispensed with.)",
 extraOah::~extraOah ()
 {}
 
-void extraOah::initializeExtraShowAllChordsStructuresOptions (
+void extraOah::initializeExtraShowAllHarmoniesStructuresOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Chords structures",
-        "hecs", "help-extra-chord-structures",
+        "Harmonies structures",
+        "hecs", "help-extra-harmonies-structures",
 R"()",
         kElementVisibilityAlways,
         this);
@@ -1207,19 +1207,19 @@ R"()",
 
   subGroup->
     appendAtomToSubGroup (
-      extraShowAllChordsStructuresAtom::create (
-        "scs", "show-chords-structures",
-R"(Write all known chords structures to standard output.)"));
+      extraShowAllHarmoniesStructuresAtom::create (
+        "scs", "show-harmonies-structures",
+R"(Write all known harmonies structures to standard output.)"));
 }
 
-void extraOah::initializeExtraShowAllChordsContentsOptions (
+void extraOah::initializeExtraShowAllHarmoniesContentsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Chords contents",
-        "hecc", "help-extra-chords-contents",
+        "Harmonies contents",
+        "hecc", "help-extra-harmonies-contents",
 //          regex_replace (
 //            regex ("HARMONY_KINDS"),
 //            existingHarmonyKindsNames ()
@@ -1232,23 +1232,23 @@ R"()",
 
   subGroup->
     appendAtomToSubGroup (
-      extraShowAllChordsContentsAtom::create (
-        "sacc", "show-all-chords-contents",
-R"(Write all chords contents for the given diatonic (semitones) PITCH,
+      extraShowAllHarmoniesContentsAtom::create (
+        "sacc", "show-all-harmonies-contents",
+R"(Write all harmonies contents for the given diatonic (semitones) PITCH,
 supplied in the current language to standard output.)",
         "PITCH",
         "diatonic (semitones) pitch",
-        fChordsRootAsString));
+        fHarmoniesRootAsString));
 }
 
-void extraOah::initializeExtraShowChordDetailsOptions (
+void extraOah::initializeExtraShowHarmonyDetailsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Chord details",
-        "hecd", "help-extra-chords-details",
+        "Harmony details",
+        "hecd", "help-extra-harmony-details",
 R"()",
         kElementVisibilityAlways,
         this);
@@ -1257,33 +1257,33 @@ R"()",
 
   subGroup->
     appendAtomToSubGroup (
-      extraShowChordDetailsAtom::create (
-        "scd", "show-chord-details",
+      extraShowHarmonyDetailsAtom::create (
+        "scd", "show-harmony-details",
         regex_replace (
-R"(Write the details of the chord for the given diatonic (semitones) pitch
+R"(Write the details of the harmony for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
-CHORD_SPEC can be:
+HARMONY_SPEC can be:
 'ROOT_DIATONIC_PITCH HARMONY_NAME'
 or
 "ROOT_DIATONIC_PITCH = HARMONY_NAME"
 Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
-EXECUTABLE -show-chord-details "bes ${HARMONY}")",
+EXECUTABLE -show-harmony-details "bes ${HARMONY}")",
          regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
-        "CHORD_SPEC",
+        "HARMONY_SPEC",
         "diatonic (semitones) pitch",
-        fChordsRootAsString));
+        fHarmoniesRootAsString));
 }
 
-void extraOah::initializeExtraShowChordAnalysisOptions (
+void extraOah::initializeExtraShowHarmonyAnalysisOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Chord analysis",
-        "heca", "help-extra-chords-analysis",
+        "Harmony analysis",
+        "heca", "help-extra-harmony-analysis",
 R"()",
         kElementVisibilityAlways,
         this);
@@ -1292,47 +1292,47 @@ R"()",
 
   subGroup->
     appendAtomToSubGroup (
-      extraShowChordAnalysisAtom::create (
-        "sca", "show-chord-analysis", // -sca "c dommin9 0"
+      extraShowHarmonyAnalysisAtom::create (
+        "sca", "show-harmony-analysis", // -sca "c dommin9 0"
         regex_replace (
-R"(Write an analysis of the chord for the given diatonic (semitones) pitch
+R"(Write an analysis of the harmony for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
-CHORD_SPEC can be:
+HARMONY_SPEC can be:
 'ROOT_DIATONIC_PITCH HARMONY_NAME INVERSION'
 or
 "ROOT_DIATONIC_PITCH = HARMONY_NAME INVERSION"
 Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 INVERSION=2
-EXECUTABLE -show-chord-analysis "bes ${HARMONY} ${INVERSION}")",
+EXECUTABLE -show-harmony-analysis "bes ${HARMONY} ${INVERSION}")",
           regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
-        "CHORD_SPEC",
+        "HARMONY_SPEC",
         "diatonic (semitones) pitch",
-        fChordsRootAsString));
+        fHarmoniesRootAsString));
 }
 
 void extraOah::initializeExtraOah (
   bool boolOptionsInitialValue)
 {
-  // show all chords structures
+  // show all harmonies structures
   // --------------------------------------
-  initializeExtraShowAllChordsStructuresOptions (
+  initializeExtraShowAllHarmoniesStructuresOptions (
     boolOptionsInitialValue);
 
-  // show all chords contents
+  // show all harmonies contents
   // --------------------------------------
-  initializeExtraShowAllChordsContentsOptions (
+  initializeExtraShowAllHarmoniesContentsOptions (
     boolOptionsInitialValue);
 
-  // show chord details
+  // show harmony details
   // --------------------------------------
-  initializeExtraShowChordDetailsOptions (
+  initializeExtraShowHarmonyDetailsOptions (
     boolOptionsInitialValue);
 
-  // show chord analysis
+  // show harmony analysis
   // --------------------------------------
-  initializeExtraShowChordAnalysisOptions (
+  initializeExtraShowHarmonyAnalysisOptions (
     boolOptionsInitialValue);
 }
 
@@ -1348,11 +1348,15 @@ S_extraOah extraOah::createCloneWithDetailedTrace ()
     fHandlerUpLink;
 
 
-  // chord intervals
+  // harmony intervals
   // --------------------------------------
 
-  // chord notes
+  // JMI
+
+  // harmony notes
   // --------------------------------------
+
+  // JMI
 
   return clone;
 }
@@ -1441,10 +1445,10 @@ void extraOah::printExtraOahValues (int fieldWidth)
 
   gIndenter++;
 
-  // chord intervals
+  // harmony intervals
   // --------------------------------------
 
-  // chord notes
+  // harmony notes
   // --------------------------------------
 
   gIndenter--;

@@ -2431,7 +2431,7 @@ R"()",
     appendAtomToSubGroup (
       lilypondTransposePartAtom::create (
         "lilytp", "lilypond-transpose-part",
-R"(Transpose part ORIGINAL_NAME using TRANSPOSITION to tranpose in the MSR data.
+R"(Transpose part ORIGINAL_NAME using TRANSPOSITION to tranpose in the LilyPond code.
 PART_TRANSPOSITION_SPEC can be:
 'ORIGINAL_NAME = TRANSPOSITION'
 or
@@ -2445,7 +2445,7 @@ For example, 'a', 'f' and 'bes,' can be used respectively
 for instruments in 'a', 'f' and B flat respectively.
 Using double quotes allows for shell variables substitutions, as in:
 SAXOPHONE="bes,"
-EXECUTABLE -msr-transpose-part "P1 ${SAXOPHONE}" .
+EXECUTABLE -lilypond-transpose-part "P1 ${SAXOPHONE}" .
 There can be several occurrences of this option.)",
         "PART_TRANSPOSITION_SPEC",
         "partsTranspositionMap",
@@ -3304,7 +3304,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "asn", "add-stanzas-numbers",
+        "asn", "add-stanzas-numbers-to-lyrics",
 R"(Add stanzas numbers to lyrics.)",
         "addStanzasNumbers",
         fAddStanzasNumbers));

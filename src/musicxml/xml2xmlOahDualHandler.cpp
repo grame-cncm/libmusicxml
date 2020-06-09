@@ -12,39 +12,40 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-/* JMI
 #include "setTraceOahIfDesired.h"
-#include "traceOah.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
 
-#include "msr.h"
-//#include "lpsr.h" // JMI only if pass5 msr2lpsr is run
-
-#include "oahOah.h"
-
-#include "generalOah.h"
-
-#include "musicxmlOah.h"
-#include "mxmlTreeOah.h"
-#include "msr2MxmltreeOah.h"
-#include "msrOah.h"
-#include "msr2MxmltreeOah.h"
-#include "mxmlTree2MsrOah.h"
-#include "msr2LpsrOah.h" // JMI ???
-//#include "lpsrOah.h" // JMI only if pass5 msr2lpsr is run
-
-#include "version.h"
-
-#include "xml2xmlManPageOah.h"
-*/
+#include "messagesHandling.h"
 
 #include "xml2xmlOah.h"
 
 #include "xml2xmlOahDualHandler.h"
 
+
 using namespace std;
 
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+string oahDualHandlerViewKindAsString (
+  oahDualHandlerViewKind dualHandlerViewKind)
+{
+  string result;
+
+  switch (dualHandlerViewKind) {
+    case kViewInsider:
+      return "kViewInsider";
+      break;
+    case kViewUser:
+      return "kViewUser";
+      break;
+  }
+
+  return result;
+}
 
 //______________________________________________________________________________
 S_xml2xmlOahDualHandler xml2xmlOahDualHandler::create (
@@ -63,6 +64,9 @@ xml2xmlOahDualHandler::xml2xmlOahDualHandler (
   string   executableName,
   ostream& ios)
 {
+  fInsiderAtomShortName = "insider";
+  fInsiderAtomLongName  = "insider-options";
+
   initializeXml2xmlOahDualHandler (
     executableName,
     ios);
@@ -76,7 +80,7 @@ void xml2xmlOahDualHandler::initializeXml2xmlOahDualHandler (
   ostream& ios)
 {
   // create the two oahHandlers
-  fInternalOahHandler =
+  fInsiderOahHandler =
     xml2xmlOahHandler::create (
       executableName,
       ios);
@@ -94,409 +98,1112 @@ void xml2xmlOahDualHandler::initializeXml2xmlOahDualHandler (
       "xml2xml user handler handlerDescription",
       ios);
 
-  createUserGroups (ios);
-  createUserSubGroups (ios);
+  // create the user groups
+  createInsiderUserGroup (ios);
 
-  createSubGroupNamesToUserGroupsMap ();
-  createAtomNamesToUserSubGroupsMap ();
+  createInformationsUserGroup (ios);
 
-  populateUserGroupsFromInteralGroups ();
+  createWarningAndErrorsUserGroup (ios);
+
+  createPresentationUserGroup (ios);
+
+  createFilesUserGroup (ios);
+
+  createPartsUserGroup (ios);
+  createStavesUserGroup (ios);
+  createVoicesUserGroup (ios);
+
+  createTranspositionsUserGroup (ios);
+
+  createClefsUserGroup (ios);
+  createKeysUserGroup (ios);
+  createTimesUserGroup (ios);
+
+  createRepeatsUserGroup (ios);
+
+  createMeasuresUserGroup (ios);
+
+  createRestsUserGroup (ios);
+  createNotesUserGroup (ios);
+
+  createArticulationsUserGroup (ios);
+
+  createOrnamentsUserGroup (ios);
+
+  createGraceNotesUserGroup (ios);
+
+  createChordsUserGroup (ios);
+
+  createTiesAndSlursUserGroup (ios);
+
+  createDynamicsAndWedgesUserGroup (ios);
+
+  createTupletsUserGroup (ios);
+
+  createLyricsUserGroup (ios);
+
+  createHarmoniesUserGroup (ios);
+
+  createFiguredBassesUserGroup (ios);
+
+  createOutputGenerationUserGroup (ios);
+
+  // populate the user groups from the internal groups
+  populateUserGroupsFromInsiderGroups ();
 }
 
-void xml2xmlOahDualHandler::createUserGroups (
+void xml2xmlOahDualHandler::createInsiderUserGroup (
   ostream& ios)
 {
-  // populate the user groups list with empty groups
-/*
-    static SMARTP<oahGroup> create (
-      string                  header,
-      string                  shortName,
-      string                  longName,
-      string                  description,
-      oahElementVisibilityKind optionVisibilityKind,
-      S_oahHandler            groupHandlerUpLink);
-*/
+  // group
 
-  // application
-  fApplicationUserGroup =
+  fInsiderUserGroup =
     oahGroup::create (
-      "xml2xml",
-      "app",
-      "application",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fApplicationUserGroup);
-
-  // documentation
-  fDocumentationUserGroup =
-    oahGroup::create (
-      "Documentation",
-      "doc",
+      "Insider group",
+      "insider-group",
       "",
       "",
       kElementVisibilityAlways,
       fUserOahHandler);
   fUserOahHandler->
-    appendGroupToHandler (fDocumentationUserGroup);
+    appendGroupToHandler (fInsiderUserGroup);
+  // this group is hidden in user view
+  fInsiderUserGroup->
+    setIsHidden ();
 
-  // files
-  fFilesUserGroup =
-    oahGroup::create (
-      "Files",
-      "files",
+  // subgroup, to be populated later
+
+  fInsiderUserSubGroup =
+    oahSubGroup::create (
+      "Insider",
+      "insider",
       "",
       "",
       kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fFilesUserGroup);
-
-  // trace
-  fTraceUserGroup =
-    oahGroup::create (
-      "Trace",
-      "trace",
-      "",
-      "",
-      kElementVisibilityHiddenByDefault,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fTraceUserGroup);
-
-  // display
-  fDisplayUserGroup =
-    oahGroup::create (
-      "Display",
-      "display",
-      "",
-      "",
-      kElementVisibilityHiddenByDefault,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fDisplayUserGroup);
-
-  // layout
-  fLayoutUserGroup =
-    oahGroup::create (
-      "Layout",
-      "layout",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fLayoutUserGroup);
-
-  // languages
-  fLanguagesUserGroup =
-    oahGroup::create (
-      "Languages",
-      "langs",
-      "languages",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fLanguagesUserGroup);
-
-  // part groups and parts
-  fPartGroupsAndPartsUserGroup =
-    oahGroup::create (
-      "Part groups & parts",
-      "parts",
-      "partgroups-and-parts",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fPartGroupsAndPartsUserGroup);
-
-  // staves
-  fStavesUserGroup =
-    oahGroup::create (
-      "Staves",
-      "staves",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fStavesUserGroup);
-
-  // voices
-  fVoicesUserGroup =
-    oahGroup::create (
-      "Voices",
-      "voices",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fVoicesUserGroup);
-
-  // measures
-  fMeasuresUserGroup =
-    oahGroup::create (
-      "Measures",
-      "measures",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fMeasuresUserGroup);
-
-  // clefs, keys and times
-  fClefsKeysAndTimesUserGroup =
-    oahGroup::create (
-      "Clefs, keys & times",
-      "ckat",
-      "clefs-keys-and-times",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fClefsKeysAndTimesUserGroup);
-
-  // notes
-  fNotesUserGroup =
-    oahGroup::create (
-      "Notes",
-      "notes",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fNotesUserGroup);
-
-  // dynamics and wedges
-  fDynamicsAndWedgesUserGroup =
-    oahGroup::create (
-      "Dynamics & wedges",
-      "dynwed",
-      "dynamics-and-wedges",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fDynamicsAndWedgesUserGroup);
-
-  // chords
-  fChordsUserGroup =
-    oahGroup::create (
-      "Chords",
-      "chords",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fChordsUserGroup);
-
-  // tuplets
-  fTupletsUserGroup =
-    oahGroup::create (
-      "Tuplets",
-      "tuplets",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fTupletsUserGroup);
-
-  // transposition
-  fTranspositionUserGroup =
-    oahGroup::create (
-      "Transposition",
-      "transp",
-      "transposition",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fTranspositionUserGroup);
-
-  // lyrics
-  fLyricsUserGroup =
-    oahGroup::create (
-      "Lyrics",
-      "lyrics",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fLyricsUserGroup);
-
-  // harmonies
-  fHarmoniesUserGroup =
-    oahGroup::create (
-      "Harmonies",
-      "harms",
-      "harmonies",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fHarmoniesUserGroup);
-
-  // figured basses
-  fFiguredBassesUserGroup =
-    oahGroup::create (
-      "Figured basses",
-      "fgs",
-      "figured-basses",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fFiguredBassesUserGroup);
-
-  // midi
-  fMidiUserGroup =
-    oahGroup::create (
-      "Midi",
-      "midi",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fMidiUserGroup);
-
-  // exit
-  fExitUserGroup =
-    oahGroup::create (
-      "Exit",
-      "exit",
-      "",
-      "",
-      kElementVisibilityHiddenByDefault,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fExitUserGroup);
-
-  // extra
-  fExtraUserGroup =
-    oahGroup::create (
-      "Extra",
-      "extra",
-      "",
-      "",
-      kElementVisibilityHiddenByDefault,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fExtraUserGroup);
-
-  // other
-  fOtherUserGroup =
-    oahGroup::create (
-      "Other",
-      "other",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-  fUserOahHandler->
-    appendGroupToHandler (fOtherUserGroup);
-
-  // set the groups list to be used
-  fOahHandlerToBeUsed = fUserOahHandler; // default value
+      fInsiderUserGroup);
+  fInsiderUserGroup->
+    appendSubGroupToGroup (fInsiderUserSubGroup);
 }
 
-void xml2xmlOahDualHandler::createSubGroupNamesToUserGroupsMap ()
-{
-//  fSubGroupNamesToUserGroupsMap ["help-xml2mxml"] = fDocumentationUserGroup;
-
-//  fSubGroupNamesToUserGroupsMap ["help-general"] = fDocumentationUserGroup;
-}
-
-void xml2xmlOahDualHandler::createUserSubGroups (
+void xml2xmlOahDualHandler::createInformationsUserGroup (
   ostream& ios)
 {
-  // populate the user groups with empty subgroups
-/*
-    oahSubGroup (
-      string                  subGroupHeader,
-      string                  shortName,
-      string                  longName,
-      string                  description,
-      oahElementVisibilityKind optionVisibilityKind,
-      S_oahGroup              groupUpLink);
-*/
+  // group
 
-  fInformationUserSubGroup =
-    oahSubGroup::create (
-      "Information",
-      "info",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fApplicationUserGroup);
-  fApplicationUserGroup->
-    appendSubGroupToGroup (fInformationUserSubGroup);
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Informations group",
+        "informations-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
 
-  fExitUserSubGroup =
-    oahSubGroup::create (
-      "Exit",
-      "exit",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fApplicationUserGroup);
-  fApplicationUserGroup->
-    appendSubGroupToGroup (fExitUserSubGroup);
+  // subgroup
 
-  fFilesUserSubGroup =
-    oahSubGroup::create (
-      "Files",
-      "files",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fApplicationUserGroup);
-  fFilesUserGroup->
-    appendSubGroupToGroup (fFilesUserSubGroup);
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Informations",
+        "informations",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
 
-  fOtherUserSubGroup =
-    oahSubGroup::create (
-      "Other",
-      "other",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fOtherUserGroup);
-  fOtherUserGroup->
-    appendSubGroupToGroup (fOtherUserSubGroup);
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["version"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["about"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["contact"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["help-options"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["option-name-help"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["display-options-values"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["show-options-and-arguments"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["display-cpu-usage"] = subGroup;
 }
 
-void xml2xmlOahDualHandler::createAtomNamesToUserSubGroupsMap ()
+void xml2xmlOahDualHandler::createWarningAndErrorsUserGroup (
+  ostream& ios)
 {
-  fAtomNamesToUserSubGroupsMap ["version"] = fInformationUserSubGroup;
-  fAtomNamesToUserSubGroupsMap ["about"] = fInformationUserSubGroup;
-  fAtomNamesToUserSubGroupsMap ["contact"] = fInformationUserSubGroup;
+  // group
 
-  fAtomNamesToUserSubGroupsMap ["exit-2a"] = fExitUserSubGroup;
-  fAtomNamesToUserSubGroupsMap ["exit-2b"] = fExitUserSubGroup;
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Warning and errors group",
+        "warning-and-errors-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
 
-  fAtomNamesToUserSubGroupsMap ["output-file-name"] = fFilesUserSubGroup;
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Warning and errors",
+        "warning-and-errors",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["quiet"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["dont-show-errors"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["dont-abort-on-errors"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["display-source-code-position"] = subGroup;
 }
 
-void xml2xmlOahDualHandler::populateUserGroupsFromInteralGroups ()
+void xml2xmlOahDualHandler::createPresentationUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Presentation group",
+        "presentation-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Presentation",
+        "presentation",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["use-filename-as-work-title"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["use-lyricists-as-poets"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createFilesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Files group",
+        "files-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Files",
+        "files",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["output-file-name"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["auto-output-file-name"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["loop"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createPartsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Parts group",
+        "parts-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Parts",
+        "parts",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["msr-omit-part-id"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["msr-omit-part-name"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["msr-keep-part-id"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["msr-keep-part-name"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["msr-rename-part"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createStavesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Staves group",
+        "staves-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Staves",
+        "staves",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["create-voices-staff-relative-numbers"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createVoicesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Voices group",
+        "voices-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Voices",
+        "voices",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["create-single-line-staves-as-rythmic"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["connect-arpeggios"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createTranspositionsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Transpositions group",
+        "transpositions-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Transpositions",
+        "transpositions",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["lpsr-transpose"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["lilypond-transpose-part"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createClefsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Clefs group",
+        "clefs-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Clefs",
+        "clefs",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["msr-replace-clef"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["ignore-redundant-clefs"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["comment-clef-changes"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createKeysUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Keys group",
+        "keys-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Keys",
+        "keys",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["msr-replace-keys"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["ignore-redundant-keys"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createTimesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Times group",
+        "times-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Times",
+        "times",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["ignore-redundant-times"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["numerical-time"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createRepeatsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Repeats group",
+        "repeats-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Repeats",
+        "repeats",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["create-implicit-initial-repeat-barline"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["keep-repeat-barlines"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["repeat-brackets"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["ignore-repeat-numbers"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createMeasuresUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Measures group",
+        "measures-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Measures",
+        "measures",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["add-empty-measures"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["replicate-empty-measure"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createRestsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Rests group",
+        "rests-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Rests",
+        "rests",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["delay-rests"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["delay-rests-slashes"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["compress-full-measure-rests"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["merges-rests"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createNotesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Notes group",
+        "notes-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Notes",
+        "notes",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["msr-pitches-language"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["delay-rests-slashes"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["compress-full-measure-rests"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["merges-rests"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createArticulationsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Articulations group",
+        "articulations-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Articulations",
+        "articulations",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-articulations"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createOrnamentsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Ornaments group",
+        "ornaments-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Ornaments",
+        "ornaments",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-ornaments"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["delayed-ornaments-fraction"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createGraceNotesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Grace notes group",
+        "grace-notes-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Grace notes",
+        "grace-notes",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["slash-all-grace-notes"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["slur-all-grace-notes"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["beam-all-grace-notes"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createChordsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Chords group",
+        "chords-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Chords",
+        "chords",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["trace-chords"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["add-words-from-the-chords"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["lpsr-chords-language"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["lpsr-pitches-language"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createTiesAndSlursUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Ties and slurs group",
+        "ties-and-slurs-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Ties and slurs",
+        "ties-and-slurs",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-ties"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["omit-slurs"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["delay-slurs"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createDynamicsAndWedgesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Dynamics and wedges group",
+        "dynamics-and-wedges group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Dynamics and wedges",
+        "dynamics-and-wedges",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-dynamics"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["omit-wedges"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["all-dynamics-below"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["all-wedges-below"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["delay-dynamics"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createTupletsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Tuplets group",
+        "tuplets-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Tuplets",
+        "tuplets",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["trace-tuplets"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["add-words-from-the-tuplets"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["lpsr-tuplets-language"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["lpsr-pitches-language"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createHarmoniesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Harmonies group",
+        "harmonies-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Harmonies",
+        "harmonies",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-harmonies"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["show-harmony-voices"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["harmonies-display"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["jazz-harmonies-display"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["show-harmonies-structures"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["show-all-harmonies-contents"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["show-harmony-details"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["show-harmony-analysis"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createFiguredBassesUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Figured basses group",
+        "figured-basses-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Figured basses",
+        "figured-basses",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-figured-basses"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["show-figured-bass-voices"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createLyricsUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Lyrics group",
+        "lyrics-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Lyrics",
+        "lyrics",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-lyrics"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["add-words-from-the-lyrics"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["no-lilypond-lyrics"] =subGroup;
+  fAtomNamesToUserSubGroupsMap ["lyrics-durations"] =subGroup;
+  fAtomNamesToUserSubGroupsMap ["add-stanzas-numbers-to-lyrics"] =subGroup;
+  fAtomNamesToUserSubGroupsMap ["lyrics-durations"] =subGroup;
+}
+
+void xml2xmlOahDualHandler::createOutputGenerationUserGroup (
+  ostream& ios)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Ouptut generation group",
+        "ouptut-generation-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Ouptut generation",
+        "ouptut-generation",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["msr2lpsr-score-output-kind"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["lpsr-Languages-language"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::populateUserGroupsFromInsiderGroups ()
 {
   const list<S_oahGroup>
-    internalOahHandlerGroupsList =
-      fInternalOahHandler->getHandlerGroupsList ();
+    insiderOahHandlerGroupsList =
+      fInsiderOahHandler->getHandlerGroupsList ();
 
-  if (internalOahHandlerGroupsList.size ()) {
+  if (insiderOahHandlerGroupsList.size ()) {
     list<S_oahGroup>::const_iterator
-      iBegin = internalOahHandlerGroupsList.begin (),
-      iEnd   = internalOahHandlerGroupsList.end (),
+      iBegin = insiderOahHandlerGroupsList.begin (),
+      iEnd   = insiderOahHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // handle the group
@@ -534,13 +1241,21 @@ void xml2xmlOahDualHandler::populateUserGroupsFromInteralGroups ()
 
           if (it != fSubGroupNamesToUserGroupsMap.end ()) {
             // subGroupNameToUse is known in the map
-            (*it).second->
+            S_oahGroup group = (*it).second;
+
+            // append subgroup to user group
+            // cout << "+++ adding subgroup \"" << subGroupNameToUse << "\" to group \"" << group->getGroupHeader () << "\"" << endl;
+
+            group->
               appendSubGroupToGroup (subGroup);
+
+            // remove subGroupNameToUse from the map
+            it = fSubGroupNamesToUserGroupsMap.erase (it);
           }
           else {
             // subGroupNameToUse is not known in the map
 
-            // are there atom in this subgroup in fAtomNamesToUserSubGroupsMap?
+            // are there atoms from this subgroup in fAtomNamesToUserSubGroupsMap?
 
             const list<S_oahAtom>&
               subGroupAtomsList =
@@ -575,12 +1290,24 @@ void xml2xmlOahDualHandler::populateUserGroupsFromInteralGroups ()
 
                 if (it != fAtomNamesToUserSubGroupsMap.end ()) {
                   // atomNameToUse is known in the map
-                  (*it).second->
+                  S_oahSubGroup subGroup = (*it).second;
+
+                  // append atom to user subgroup
+                  // cout << "+++ adding atom \"" << atomNameToUse << "\" to subgroup \"" << subGroup->getSubGroupHeader () << "\"" << endl;
+
+                  subGroup->
                     appendAtomToSubGroup (atom);
+
+                  // remove atomNameToUse from the map
+                  it = fAtomNamesToUserSubGroupsMap.erase (it);
                 }
                 else {
-                  // place it in the 'other' user subgroup
-                  fOtherUserSubGroup->
+                  // atomNameToUse is not known in the map
+                  // place it in the 'insider' user subgroup
+
+                  // cout << "--- adding atom \"" << atomNameToUse << "\" to subgroup \"" << fInsiderUserSubGroup->getSubGroupHeader () << "\"" << endl;
+
+                  fInsiderUserSubGroup->
                     appendAtomToSubGroup (atom);
                 }
 
@@ -596,6 +1323,149 @@ void xml2xmlOahDualHandler::populateUserGroupsFromInteralGroups ()
       if (++i == iEnd) break;
     } // for
   }
+
+  // have all the mappings been used?
+  int subGroupNamesToUserGroupsMapSize =
+    fSubGroupNamesToUserGroupsMap.size ();
+
+  if (subGroupNamesToUserGroupsMapSize) {
+    stringstream s;
+
+    s <<
+      "The following " <<
+      singularOrPlural (
+        subGroupNamesToUserGroupsMapSize, "subgroup name", "subgroup names") <<
+      " have not been mapped to user groups: ";
+
+    map<string, S_oahGroup>::const_iterator
+      iBegin = fSubGroupNamesToUserGroupsMap.begin (),
+      iEnd   = fSubGroupNamesToUserGroupsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // handle the name
+      s <<
+         "\"" << (*i).first << "\"";
+
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+
+    cout << s.str () << endl;
+//    oahError (s.str ());
+  }
+
+  int atomNamesToUserGroupsMapSize =
+    fAtomNamesToUserSubGroupsMap.size ();
+
+  if (atomNamesToUserGroupsMapSize) {
+    stringstream s;
+
+    s <<
+      "The following " <<
+      singularOrPlural (
+        atomNamesToUserGroupsMapSize, "atom name", "atom names") <<
+      " have not been mapped to user subgroups: ";
+
+    map<string, S_oahSubGroup>::const_iterator
+      iBegin = fAtomNamesToUserSubGroupsMap.begin (),
+      iEnd   = fAtomNamesToUserSubGroupsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // handle the name
+      s <<
+         "\"" << (*i).first << "\"";
+
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+
+    cout << s.str () << endl;
+//    oahError (s.str ());
+  }
+}
+
+oahHandler::oahHelpOptionsHaveBeenUsedKind xml2xmlOahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv (
+  int   argc,
+  char* argv[])
+{
+  // should the insider or user oahHandler be used?
+  if (
+    argc >= 2
+      &&
+    (
+      argv [1] == fInsiderAtomShortName
+        ||
+      argv [1] == fInsiderAtomLongName
+    )
+  ) {
+    return
+      fInsiderOahHandler->
+        applyOptionsAndArgumentsFromArgcAndArgv (
+          argc,
+          argv);
+  }
+  else {
+    return
+      fUserOahHandler->
+        applyOptionsAndArgumentsFromArgcAndArgv (
+          argc,
+          argv);
+  }
+}
+
+oahHandler::oahHelpOptionsHaveBeenUsedKind xml2xmlOahDualHandler::hangleOptionsFromOptionsVector (
+  string               fakeExecutableName,
+  const optionsVector& theOptionsVector)
+{
+  // should the insider or user oahHandler be used?
+  if (
+    theOptionsVector.size () >= 1
+      &&
+    (
+      theOptionsVector [0].first == fInsiderAtomShortName
+        ||
+      theOptionsVector [0].first == fInsiderAtomLongName
+    )
+  ) {
+    return
+      fInsiderOahHandler->
+        hangleOptionsFromOptionsVector (
+          fakeExecutableName,
+          theOptionsVector);
+  }
+  else {
+    return
+      fUserOahHandler->
+        hangleOptionsFromOptionsVector (
+          fakeExecutableName,
+          theOptionsVector);
+  }
+}
+
+void xml2xmlOahDualHandler::enforceOahHandlerQuietness ()
+{
+  // fInsiderOahHandler->enforceOahHandlerQuietness (); // JMI ???
+}
+
+string xml2xmlOahDualHandler::commandLineAsSuppliedAsString () const
+{
+  return
+    fInsiderOahHandler->
+      commandLineAsSuppliedAsString ();
+}
+
+string xml2xmlOahDualHandler::commandLineWithShortNamesAsString () const
+{
+  return
+    fInsiderOahHandler->
+      commandLineWithShortNamesAsString ();
+}
+
+string xml2xmlOahDualHandler::commandLineWithLongNamesAsString () const
+{
+  return
+    fInsiderOahHandler->
+      commandLineWithLongNamesAsString ();
 }
 
 void xml2xmlOahDualHandler::print (ostream& os) const
@@ -607,21 +1477,21 @@ void xml2xmlOahDualHandler::print (ostream& os) const
   gIndenter++;
 
   os <<
-    "internalOahHandler" <<
+    "insiderOahHandler" <<
     endl;
 
   gIndenter++;
 
   const list<S_oahGroup>
-    internalOahHandlerGroupsList =
-      fInternalOahHandler->getHandlerGroupsList ();
+    insiderOahHandlerGroupsList =
+      fInsiderOahHandler->getHandlerGroupsList ();
 
-  if (internalOahHandlerGroupsList.size ()) {
+  if (insiderOahHandlerGroupsList.size ()) {
     os << endl;
 
     list<S_oahGroup>::const_iterator
-      iBegin = internalOahHandlerGroupsList.begin (),
-      iEnd   = internalOahHandlerGroupsList.end (),
+      iBegin = insiderOahHandlerGroupsList.begin (),
+      iEnd   = insiderOahHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the group
@@ -674,26 +1544,26 @@ void xml2xmlOahDualHandler::printHelp (ostream& os) const
     endl;
 
   gIndenter++;
-
+if (false) { // JMI
   os <<
     endl <<
     "------------ " <<
-    "internalOahHandler" <<
+    "insiderOahHandler" <<
      " ------------" <<
    endl;
 
   gIndenter++;
 
   const list<S_oahGroup>
-    internalOahHandlerGroupsList =
-      fInternalOahHandler->getHandlerGroupsList ();
+    insiderOahHandlerGroupsList =
+      fInsiderOahHandler->getHandlerGroupsList ();
 
-  if (internalOahHandlerGroupsList.size ()) {
+  if (insiderOahHandlerGroupsList.size ()) {
     os << endl;
 
     list<S_oahGroup>::const_iterator
-      iBegin = internalOahHandlerGroupsList.begin (),
-      iEnd   = internalOahHandlerGroupsList.end (),
+      iBegin = insiderOahHandlerGroupsList.begin (),
+      iEnd   = insiderOahHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the group help
@@ -704,7 +1574,7 @@ void xml2xmlOahDualHandler::printHelp (ostream& os) const
   }
 
   gIndenter--;
-
+}
   os <<
     endl <<
     "------------ " <<
@@ -741,6 +1611,241 @@ void xml2xmlOahDualHandler::printHelp (ostream& os) const
 }
 
 ostream& operator<< (ostream& os, const S_xml2xmlOahDualHandler& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahDualHandlerViewKindAtom oahDualHandlerViewKindAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  oahDualHandlerViewKind&
+                     oahDualHandlerViewKindVariable)
+{
+  oahDualHandlerViewKindAtom* o = new
+    oahDualHandlerViewKindAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      oahDualHandlerViewKindVariable);
+  assert(o!=0);
+  return o;
+}
+
+oahDualHandlerViewKindAtom::oahDualHandlerViewKindAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  oahDualHandlerViewKind&
+                     oahDualHandlerViewKindVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    foahDualHandlerViewKindVariable (
+      oahDualHandlerViewKindVariable)
+{}
+
+oahDualHandlerViewKindAtom::~oahDualHandlerViewKindAtom ()
+{}
+
+S_oahValuedAtom oahDualHandlerViewKindAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a oahDualHandlerViewKindAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void oahDualHandlerViewKindAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahDualHandlerViewKindAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the language name:
+  // is it in the optional values style kinds map?
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'oahDualHandlerViewKindAtom'" <<
+      endl;
+  }
+#endif
+
+/*
+  map<string, oahDualHandlerViewKind>::const_iterator
+    it =
+      goahDualHandlerViewKindsMap.find (
+        theString);
+
+  if (it == goahDualHandlerViewKindsMap.end ()) {
+    // no, optional values style kind is unknown in the map
+    stringstream s;
+
+    s <<
+      "OAH optional values style kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      goahDualHandlerViewKindsMap.size () - 1 <<
+      " known OAH optional values style kind are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingoahDualHandlerViewKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    gIndenter--;
+
+    oahError (s.str ());
+  }
+
+  setoahDualHandlerViewKindVariable (
+    (*it).second);
+    */
+}
+
+void oahDualHandlerViewKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahDualHandlerViewKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahDualHandlerViewKindAtom>*
+    p =
+      dynamic_cast<visitor<S_oahDualHandlerViewKindAtom>*> (v)) {
+        S_oahDualHandlerViewKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahDualHandlerViewKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahDualHandlerViewKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahDualHandlerViewKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahDualHandlerViewKindAtom>*
+    p =
+      dynamic_cast<visitor<S_oahDualHandlerViewKindAtom>*> (v)) {
+        S_oahDualHandlerViewKindAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            "% ==> Launching oahDualHandlerViewKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahDualHandlerViewKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      "% ==> oahDualHandlerViewKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahDualHandlerViewKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    oahDualHandlerViewKindAsString (foahDualHandlerViewKindVariable);
+
+  return s.str ();
+}
+
+string oahDualHandlerViewKindAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    oahDualHandlerViewKindAsString (foahDualHandlerViewKindVariable);
+
+  return s.str ();
+}
+
+void oahDualHandlerViewKindAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "OptionsOptionalValuesStyleKindAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "foahDualHandlerViewKindVariable" << " : \"" <<
+    oahDualHandlerViewKindAsString (
+      foahDualHandlerViewKindVariable) <<
+    "\"" <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_oahDualHandlerViewKindAtom& elt)
 {
   elt->print (os);
   return os;

@@ -79,6 +79,7 @@ int main (int argc, char *argv[])
   // create the OAH handler
   // ------------------------------------------------------
 
+if (false) {
   S_xml2xmlOahHandler handler;
 
   try {
@@ -93,12 +94,13 @@ int main (int argc, char *argv[])
   catch (std::exception& e) {
     return kInvalidFile;
   }
+}
 
   // create the OAH dual handler
   // ------------------------------------------------------
-if (false) {
   S_xml2xmlOahDualHandler dualHandler;
 
+if (true) {
   try {
     dualHandler =
       xml2xmlOahDualHandler::create (
@@ -117,13 +119,14 @@ if (false) {
 
   return kNoErr; // TEMP JMI
 }
+
   // analyze the command line options and arguments
   // ------------------------------------------------------
 
   try {
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
-        handler->
+        dualHandler->
           applyOptionsAndArgumentsFromArgcAndArgv (
             argc, argv);
 
@@ -160,7 +163,7 @@ if (false) {
 
   if (gGeneralOah->fQuiet) {
     // disable all trace and display options
-    handler->
+    dualHandler->
       enforceOahHandlerQuietness ();
   }
 
@@ -213,7 +216,7 @@ if (false) {
     gIndenter++;
 
     gLogOstream <<
-      handler->
+      dualHandler->
         commandLineWithShortNamesAsString () <<
       endl;
 
@@ -224,7 +227,7 @@ if (false) {
     gIndenter++;
 
     gLogOstream <<
-      handler->
+      dualHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;

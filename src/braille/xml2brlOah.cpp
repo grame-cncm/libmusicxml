@@ -938,31 +938,38 @@ void xml2brlOah::printXml2brlOahValues (int fieldWidth)
 void initializeXml2brlOah (
   S_oahHandler handler)
 {
+  // protect library against multiple initializations
+  static bool initializeXml2brlOahHasBeenRun = false;
+
+  if (! initializeXml2brlOahHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing xml2brl options handling" <<
-      endl;
-  }
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing xml2brl options handling" <<
+        endl;
+    }
 #endif
 
-  // enlist versions information
-  // ------------------------------------------------------
+    // enlist versions information
+    // ------------------------------------------------------
 
-  enlistVersion (
-    "Initial", "october 2018",
-    "Derived from xml2ly, with an embryonic BSR");
+    enlistVersion (
+      "Initial", "october 2018",
+      "Derived from xml2ly, with an embryonic BSR");
 
-  enlistVersion (
-    musicxml2brailleVersionStr (), "Nobember 2018",
-    "First draft version");
+    enlistVersion (
+      musicxml2brailleVersionStr (), "Nobember 2018",
+      "First draft version");
 
-  // create the options variables
-  // ------------------------------------------------------
+    // create the options variables
+    // ------------------------------------------------------
 
-  gXml2brlOah = xml2brlOah::create (
-    handler);
-  assert (gXml2brlOah != 0);
+    gXml2brlOah = xml2brlOah::create (
+      handler);
+    assert (gXml2brlOah != 0);
+
+    initializeXml2brlOahHasBeenRun = true;
+  }
 }
 
 

@@ -69,7 +69,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
   // the fake executable name
   // ------------------------------------------------------
 
-  string fakeExecutableName = "xml2musicxml";
+  string fakeExecutableName = "xml2xml";
 
   // create the options handler
   // ------------------------------------------------------
