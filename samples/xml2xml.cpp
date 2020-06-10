@@ -163,8 +163,10 @@ if (true) {
 
   if (gGeneralOah->fQuiet) {
     // disable all trace and display options
+    /* JMI
     dualHandler->
       enforceOahHandlerQuietness ();
+      */
   }
 
   // welcome message

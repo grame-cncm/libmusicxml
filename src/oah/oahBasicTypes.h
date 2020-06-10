@@ -3407,7 +3407,9 @@ class EXP oahDualHandler : public smartable
     // ------------------------------------------------------
     static SMARTP<oahDualHandler> create (
       S_oahHandler insiderOahHandler,
-      S_oahHandler userOahHandler);
+      S_oahHandler userOahHandler,
+      string       insiderAtomShortName,
+      string       insiderAtomLongName);
 
   protected:
 
@@ -3416,7 +3418,9 @@ class EXP oahDualHandler : public smartable
 
     oahDualHandler (
       S_oahHandler insiderOahHandler,
-      S_oahHandler userOahHandler);
+      S_oahHandler userOahHandler,
+      string       insiderAtomShortName,
+      string       insiderAtomLongName);
 
     virtual ~oahDualHandler ();
 
@@ -3441,6 +3445,9 @@ class EXP oahDualHandler : public smartable
     // public services
     // ------------------------------------------------------
 
+    virtual void          createTheUserGroups (
+                            ostream& ios) = 0;
+
     void                  switchToInsiderView ();
 
     oahHandler::oahHelpOptionsHaveBeenUsedKind
@@ -3453,16 +3460,10 @@ class EXP oahDualHandler : public smartable
                             string               fakeExecutableName,
                             const optionsVector& theOptionsVector);
 
-    virtual void          enforceOahHandlerQuietness ();
-
   public:
 
     // print
     // ------------------------------------------------------
-
-    string                commandLineAsSuppliedAsString () const;
-    string                commandLineWithShortNamesAsString () const;
-    string                commandLineWithLongNamesAsString () const;
 
     string                asString () const;
 

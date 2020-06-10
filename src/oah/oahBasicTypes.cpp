@@ -12280,27 +12280,35 @@ void oahHandler::handleOptionValueOrArgument (
 }
 
 //______________________________________________________________________________
+/* pure virtual class
 S_oahDualHandler oahDualHandler::create (
   S_oahHandler insiderOahHandler,
-  S_oahHandler userOahHandler)
+  S_oahHandler userOahHandler,
+  string       insiderAtomShortName,
+  string       insiderAtomLongName)
 {
   oahDualHandler* o = new
     oahDualHandler (
       insiderOahHandler,
-      userOahHandler);
+      userOahHandler,
+      insiderAtomShortName,
+      insiderAtomLongName);
   assert(o!=0);
   return o;
 }
+*/
 
 oahDualHandler::oahDualHandler (
   S_oahHandler insiderOahHandler,
-  S_oahHandler userOahHandler)
+  S_oahHandler userOahHandler,
+  string       insiderAtomShortName,
+  string       insiderAtomLongName)
 {
-  fInsiderAtomShortName = "insider";
-  fInsiderAtomLongName  = "insider-options";
-
   fInsiderOahHandler = insiderOahHandler;
   fUserOahHandler    = userOahHandler;
+
+  fInsiderAtomShortName = insiderAtomShortName;
+  fInsiderAtomLongName  = insiderAtomLongName;
 
   // the default is to use 'user' oahHandler
   fOahHandlerToBeUsed = fUserOahHandler;
@@ -12551,9 +12559,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::hangleOptionsFromOpti
         fakeExecutableName,
         theOptionsVector);
 }
-
-void oahDualHandler::enforceOahHandlerQuietness ()
-{}
 
 string oahDualHandler::asString () const
 {

@@ -77,7 +77,9 @@ xml2xmlOahDualHandler::xml2xmlOahDualHandler (
         "xml2xml user handler user handlerPreamble",
         "xml2xml user handler handlerUsage",
         "xml2xml user handler handlerDescription",
-        ios))
+        ios),
+      "insider",
+      "insider-group")
 {
   initializeXml2xmlOahDualHandler (
     executableName,
@@ -1191,11 +1193,6 @@ void xml2xmlOahDualHandler::createOutputGenerationUserGroup (
 
   fAtomNamesToUserSubGroupsMap ["msr2lpsr-score-output-kind"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["lpsr-Languages-language"] = subGroup;
-}
-
-void xml2xmlOahDualHandler::enforceOahHandlerQuietness ()
-{
-  // fInsiderOahHandler->enforceOahHandlerQuietness (); // JMI ???
 }
 
 string xml2xmlOahDualHandler::commandLineAsSuppliedAsString () const

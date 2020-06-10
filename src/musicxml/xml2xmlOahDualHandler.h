@@ -94,8 +94,6 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     // public services
     // ------------------------------------------------------
 
-    void                  enforceOahHandlerQuietness ();
-
   public:
 
     // print
@@ -120,7 +118,7 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
                             string   executableName,
                             ostream& ios);
 
-    void                  virtual createTheUserGroups (
+    void                  createTheUserGroups (
                             ostream& ios);
 
     void                  createFilesUserGroup (
