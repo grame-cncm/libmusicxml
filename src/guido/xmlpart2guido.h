@@ -125,9 +125,10 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
         if (!checkMeasureRange()) return;
         add(elt); fStack.push(elt);
     }
-    void pop ()							{
+    void pop ()	{
         if (!checkMeasureRange()) return;
-        fStack.pop(); }
+        fStack.pop();
+    }
     
     void moveMeasureTime (int duration, bool moveVoiceToo=false, int x_default = 0);
     void reset ();

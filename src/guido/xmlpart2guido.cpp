@@ -286,8 +286,12 @@ bool xmlpart2guido::checkMeasureRange() {
             // Flush Attributes (key, clef, meter) in case of initial entry
             if ( isFirstPartialMeasure ) {
                 if (!fNotesOnly) {
-                    add(lastMeter);
-                    add(lastKey);
+                    if (lastMeter) {
+                        add(lastMeter);
+                    }
+                    if (lastKey) {
+                        add(lastKey);
+                    }
                     
                     // Add last clef
                     std::string lastClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
@@ -1253,8 +1257,7 @@ void xmlpart2guido::parseKey(ctree<xmlelement>::iterator &iter) {
     tag->add (guidoparam::create(keyfifths, false));
     
     lastKey = tag;
-    if (checkMeasureRange())
-        add (tag);
+    add (tag);
 }
 
 void xmlpart2guido::parseTime(ctree<xmlelement>::iterator &iter) {
@@ -1337,8 +1340,7 @@ void xmlpart2guido::parseTime(ctree<xmlelement>::iterator &iter) {
     
     if (iter->getAttributeValue("print-object")!="no") {
         lastMeter = tag;
-        if (checkMeasureRange())
-            add(tag);
+        add(tag);
     }
 }
     
