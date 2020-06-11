@@ -38,9 +38,7 @@ namespace MusicXML2
      \todo transposing ornaments elements
      */
     class EXP musicxmlQuery :
-    public notevisitor,
     public transposevisitor,
-    public visitor<S_rehearsal>,    // for rehearsal marks
     public visitor<S_part>,
     public visitor<S_staves>,
     public partlistvisitor,
@@ -83,14 +81,8 @@ namespace MusicXML2
         
     protected:
         
-        float beatCum;
-        
-        //        virtual void visitStart ( S_note& elt );
-        //        virtual void visitStart ( S_rehearsal& elt );
-        
-        virtual void visitEnd ( S_note& elt );
-        virtual void visitEnd ( S_rehearsal& elt );
-        
+        rational fCurrentVoicePosition;
+                        
         virtual void visitStart ( S_part& elt);
         virtual void visitStart ( S_staves& elt);
         

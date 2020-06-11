@@ -34,11 +34,11 @@ namespace MusicXML2
     int xml2guidovisitor::defaultStaffDistance = 0;
     
     //______________________________________________________________________________
-    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum, int beginMeasure, int endMeasure) :
+    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum, int beginMeasure, int endMeasure, int endMeasureOffset) :
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
     fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum),
-    fBeginMeasure(beginMeasure), fEndMeasure(endMeasure)
+    fBeginMeasure(beginMeasure), fEndMeasure(endMeasure), fEndMeasureOffset(endMeasureOffset)
     {
         timePositions.clear();
     }
@@ -306,7 +306,7 @@ namespace MusicXML2
             ////
             
             //// Browse XML and convert
-            xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars, fBeginMeasure, fEndMeasure);
+            xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars, fBeginMeasure, fEndMeasure, fEndMeasureOffset);
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
@@ -318,6 +318,8 @@ namespace MusicXML2
             previousStaffHasLyrics = pv.hasLyrics();
             staffClefMap = pv.staffClefMap;
             timePositions = pv.timePositions;
+            fBeginPosition = pv.fStartPosition;
+            fEndPosition = pv.fEndPosition;
         }
     }
     

@@ -33,12 +33,12 @@ namespace MusicXML2
 {
     
     //______________________________________________________________________________
-    xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool generateBar, int startMeasure, int endMeasure) :
+    xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool generateBar, int startMeasure, int endMeasure, int endMeasureOffset) :
     fGenerateComments(generateComments), //fGenerateStem(generateStem),
     fGenerateBars(generateBar),
     fNotesOnly(false), fCurrentStaffIndex(0), fCurrentStaff(0),
     fTargetStaff(0), fTargetVoice(0),
-    fStartMeasure(startMeasure), fEndMeasure(endMeasure)
+    fStartMeasure(startMeasure), fEndMeasure(endMeasure), fEndMeasureOffset(endMeasureOffset)
     {
         fGeneratePositions = true;
         fGenerateAutoMeasureNum = true;
@@ -70,6 +70,7 @@ namespace MusicXML2
         fTupletOpen = 0;
         fTremoloInProgress = false;
         fShouldStopOctava = false;
+        fCurrentScorePosition.set(0, 1);
     }
     
     //______________________________________________________________________________
@@ -179,7 +180,7 @@ bool xmlpart2guido::checkMeasureRange() {
     //cerr<<"\t <<< checkMeasureRange "<< currentXmlMeasure<< "|"<<fStartMeasure<<" "<<fEndMeasure<<endl;
     if ((currentXmlMeasure < fStartMeasure)) return false;
      
-    if ((fEndMeasure>0) && (currentXmlMeasure > fEndMeasure)) return false;
+    if ((fEndMeasure>0) && (currentXmlMeasure > fEndMeasure+fEndMeasureOffset)) return false;
     
     return true;
 }
@@ -217,7 +218,7 @@ bool xmlpart2guido::checkMeasureRange() {
         else if (diff.getNumerator() < 0)
         {
             if (!fInCue)
-                cerr << "warning! checkVoiceTime: measure time behind voice time " << string(diff) << "(measure "<< fMeasNum<<")" << endl;
+                cerr << "warning! checkVoiceTime: measure time behind voice time " << string(diff) << " (measure "<< fMeasNum<<")" << endl;
         }
     }
     
@@ -270,6 +271,8 @@ bool xmlpart2guido::checkMeasureRange() {
     void xmlpart2guido::visitStart ( S_measure& elt )
     {
         fCurrentMeasure = elt;
+        fCurrentScorePosition += fCurrentMeasureLength;
+        fCurrentScorePosition.rationalise();
         
         std::string measNum = elt->getAttributeValue("number");
         try {
@@ -279,27 +282,24 @@ bool xmlpart2guido::checkMeasureRange() {
         }
         
         bool isFirstPartialMeasure = (fStartMeasure>0) && (fMeasNum == fStartMeasure);
+        
+        if ( isFirstPartialMeasure ) {
+            fStartPosition = fCurrentScorePosition;
 
-        if (!checkMeasureRange()) {
-            return;
-        } else {
-            // Flush Attributes (key, clef, meter) in case of initial entry
-            if ( isFirstPartialMeasure ) {
-                if (!fNotesOnly) {
-                    if (lastMeter) {
-                        add(lastMeter);
-                    }
-                    if (lastKey) {
-                        add(lastKey);
-                    }
+            if (!fNotesOnly) {
+                if (lastMeter) {
+                    add(lastMeter);
+                }
+                if (lastKey) {
+                    add(lastKey);
+                }
                     
-                    // Add last clef
-                    std::string lastClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
-                    if (!lastClef.empty()) {
-                        Sguidoelement tag = guidotag::create("clef");
-                        tag->add (guidoparam::create(lastClef));
-                        add(tag);
-                    }
+                // Add last clef
+                std::string lastClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+                if (!lastClef.empty()) {
+                    Sguidoelement tag = guidotag::create("clef");
+                    tag->add (guidoparam::create(lastClef));
+                    add(tag);
                 }
             }
         }
@@ -416,6 +416,10 @@ bool xmlpart2guido::checkMeasureRange() {
             else if (barStyle->getValue() == "light-light")
                 fDoubleBar = true;
             
+        }
+        
+        if ((fEndMeasure>0)&&(fEndMeasure+1 == fMeasNum)) {
+            fEndPosition = fCurrentScorePosition;
         }
     }
     
@@ -1223,9 +1227,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             Sguidoelement tag = guidotag::create("clef");
             checkStaff (staffnum);
             tag->add (guidoparam::create(param));
-            
-            if (checkMeasureRange())
-                add(tag);
+            add(tag);
             
             std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
             staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
@@ -2985,9 +2987,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                     
                     return finalDx;
                 }
-            }//else {
-            //    cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
-            //}
+            }
         }
         return -999;        // This is when the xpos can not be computed
     }

@@ -43,13 +43,6 @@ typedef struct {
     std::vector<S_creator>	fCreators;
 } scoreHeader;
 
-/*
- typedef struct {
- S_part_name		fPartName;
- } partHeader;
- typedef std::map<std::string, partHeader> partHeaderMap;
- */
-
 /*!
  \brief A score visitor to produce a Guido representation.
  */
@@ -103,6 +96,12 @@ protected:
     
     int fBeginMeasure;      // Number of measure to begin parsing, used for partial conversion. (default = 0)
     int fEndMeasure;        // Measure Number where parsing ends, used for partial conversion. (default = 0 meaning go to the end)
+    int fEndMeasureOffset;  // Ending the score conversion at this offset (but giving fEndMeasure for fEndPosition)
+    
+    /// Guido Position corresponding to fBeginMeasure
+    rational fBeginPosition;
+    /// Guido Position corresponding to fEndMeasure (without fEndMeasureOffset)
+    rational fEndPosition;
     
     static int defaultStaffDistance;   // xml staff-distance value in defaults
     
@@ -115,7 +114,7 @@ protected:
     
     
 public:
-    xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true, int partNum = 0, int beginMeasure = 0, int endMeasure = 10000);
+    xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true, int partNum = 0, int beginMeasure = 0, int endMeasure = 0, int endMeasureOffset = 0);
     virtual ~xml2guidovisitor() {}
     
     Sguidoelement convert (const Sxmlelement& xml);
@@ -137,6 +136,14 @@ public:
     static float getXposition	( Sxmlelement elt, float xoffset);
     
     static void addDirection( Sxmlelement elt, Sguidoelement& tag);
+    
+    std::pair<long, long> getStartPosition() {
+        return std::pair<long, long>(fBeginPosition.getNumerator(), fBeginPosition.getDenominator());
+    }
+    
+    std::pair<long, long> getEndPosition() {
+        return std::pair<long, long>(fEndPosition.getNumerator(), fEndPosition.getDenominator());
+    }
     
 };
 

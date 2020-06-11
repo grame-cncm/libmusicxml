@@ -93,7 +93,7 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     S_measure	fCurrentMeasure;
     S_part      fCurrentPart;
     
-    int     fStartMeasure, fEndMeasure;          // Starting and Ending measures for Partial conversion. Default=0 meaning non-partial.
+    int     fStartMeasure, fEndMeasure, fEndMeasureOffset;          // Starting and Ending measures for Partial conversion. Default=0 meaning non-partial.
     
     bool	fNotesOnly;				// a flag to generate notes only (used for several voices on the same staff)
     bool	fSkipDirection;			// a flag to skip direction elements (for notes only mode or due to different staff)
@@ -106,7 +106,8 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     long	fCurrentOffset;			// the current direction offset: represents an element relative displacement in current division unit
     rational fCurrentMeasureLength;	// the current measure length (max of the current measure positions)
     rational fCurrentMeasurePosition;// the current position in the measure
-    rational fCurrentVoicePosition;	// the current position within a voice
+    rational fCurrentVoicePosition;    // the current position within a voice
+    rational fCurrentScorePosition;	// the current position within the parsing score
     rational fCurrentTimeSign;		// the current time signature
     int		fMeasNum;               // Internal Measure Number mapping
     
@@ -232,7 +233,7 @@ protected:
     float xPosFromTimePos(float default_x, float relative_x);           /// Infer X-Position from TimePosition
     
 public:
-    xmlpart2guido(bool generateComments, bool generateStem, bool generateBar = true, int startMeasure = 0, int endMeasure = 0);
+    xmlpart2guido(bool generateComments, bool generateStem, bool generateBar = true, int startMeasure = 0, int endMeasure = 0, int endMeasureOffset = 0);
     virtual ~xmlpart2guido() {}
     
     Sguidoelement& current ()					{ return fStack.top(); }
@@ -244,6 +245,8 @@ public:
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
+    
+    rational fStartPosition, fEndPosition;
     
 private:
     bool fHasLyrics;
