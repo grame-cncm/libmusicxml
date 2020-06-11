@@ -64,45 +64,50 @@ xml2xmlOahDualHandler::xml2xmlOahDualHandler (
   string   executableName,
   ostream& ios)
   : oahDualHandler (
-      xml2xmlOahHandler::create (
-        executableName,
-        ios),
-      oahHandler::create (
-        "xml2xml user handler",
-        "xml2xml user handler values",
-        "xml2xml user handler help short name",
-        "xml2xml user handler header long name",
-        "xml2xml user handler summary short name",
-        "xml2xml user handler summary long name",
-        "xml2xml user handler user handlerPreamble",
-        "xml2xml user handler handlerUsage",
-        "xml2xml user handler handlerDescription",
-        ios),
+      executableName,
       "insider",
-      "insider-group")
-{
-  initializeXml2xmlOahDualHandler (
-    executableName,
-    ios);
-}
+      "insider-group",
+      ios)
+{}
 
 xml2xmlOahDualHandler::~xml2xmlOahDualHandler ()
 {}
 
-void xml2xmlOahDualHandler::initializeXml2xmlOahDualHandler (
-  string   executableName,
+void xml2xmlOahDualHandler::createInsiderHandler (
   ostream& ios)
 {
-  // create the user groups
-  createTheUserGroups (ios);
+  ios << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
 
-  // populate the user groups from the internal groups
-  populateUserGroupsFromInsiderGroups ();
+  fInsiderHandler =
+    xml2xmlOahHandler::create (
+      fExecutableName,
+      ios);
 }
 
-void xml2xmlOahDualHandler::createTheUserGroups (
+void xml2xmlOahDualHandler::createUserHandler (
   ostream& ios)
 {
+  ios << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
+
+  fUserOahHandler =
+    oahHandler::create (
+      "xml2xml user handler",
+      "xml2xml user handler values",
+      "xml2xml user handler help short name",
+      "xml2xml user handler header long name",
+      "xml2xml user handler summary short name",
+      "xml2xml user handler summary long name",
+      "xml2xml user handler user handlerPreamble",
+      "xml2xml user handler handlerUsage",
+      "xml2xml user handler handlerDescription",
+      ios);
+}
+
+void xml2xmlOahDualHandler::createUserHandlerGroups (
+  ostream& ios)
+{
+  ios << "createUserHandlerGroups()" << endl;
+
   createInsiderUserGroup (ios);
 
   createFilesUserGroup (ios);
@@ -1198,21 +1203,21 @@ void xml2xmlOahDualHandler::createOutputGenerationUserGroup (
 string xml2xmlOahDualHandler::commandLineAsSuppliedAsString () const
 {
   return
-    fInsiderOahHandler->
+    fInsiderHandler->
       commandLineAsSuppliedAsString ();
 }
 
 string xml2xmlOahDualHandler::commandLineWithShortNamesAsString () const
 {
   return
-    fInsiderOahHandler->
+    fInsiderHandler->
       commandLineWithShortNamesAsString ();
 }
 
 string xml2xmlOahDualHandler::commandLineWithLongNamesAsString () const
 {
   return
-    fInsiderOahHandler->
+    fInsiderHandler->
       commandLineWithLongNamesAsString ();
 }
 
@@ -1230,21 +1235,21 @@ void xml2xmlOahDualHandler::print (ostream& os) const
   gIndenter++;
 
   os <<
-    "insiderOahHandler" <<
+    "insiderHandler" <<
     endl;
 
   gIndenter++;
 
   const list<S_oahGroup>
-    insiderOahHandlerGroupsList =
-      fInsiderOahHandler->getHandlerGroupsList ();
+    insiderHandlerGroupsList =
+      fInsiderHandler->getHandlerGroupsList ();
 
-  if (insiderOahHandlerGroupsList.size ()) {
+  if (insiderHandlerGroupsList.size ()) {
     os << endl;
 
     list<S_oahGroup>::const_iterator
-      iBegin = insiderOahHandlerGroupsList.begin (),
-      iEnd   = insiderOahHandlerGroupsList.end (),
+      iBegin = insiderHandlerGroupsList.begin (),
+      iEnd   = insiderHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the group
@@ -1301,22 +1306,22 @@ if (false) { // JMI
   os <<
     endl <<
     "------------ " <<
-    "insiderOahHandler" <<
+    "insiderHandler" <<
      " ------------" <<
    endl;
 
   gIndenter++;
 
   const list<S_oahGroup>
-    insiderOahHandlerGroupsList =
-      fInsiderOahHandler->getHandlerGroupsList ();
+    insiderHandlerGroupsList =
+      fInsiderHandler->getHandlerGroupsList ();
 
-  if (insiderOahHandlerGroupsList.size ()) {
+  if (insiderHandlerGroupsList.size ()) {
     os << endl;
 
     list<S_oahGroup>::const_iterator
-      iBegin = insiderOahHandlerGroupsList.begin (),
-      iEnd   = insiderOahHandlerGroupsList.end (),
+      iBegin = insiderHandlerGroupsList.begin (),
+      iEnd   = insiderHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the group help

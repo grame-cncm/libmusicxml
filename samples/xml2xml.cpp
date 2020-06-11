@@ -115,6 +115,9 @@ if (true) {
   }
 
   dualHandler->
+    print (gOutputOstream);
+
+  dualHandler->
     printHelp (gOutputOstream);
 
   return kNoErr; // TEMP JMI

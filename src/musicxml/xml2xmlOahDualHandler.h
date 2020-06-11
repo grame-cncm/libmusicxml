@@ -83,8 +83,8 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
 //                              { return fOahHandlerViewKind; }
 
     // oahHandlers
-    S_oahHandler          getInsiderOahHandler () const
-                              { return fInsiderOahHandler; }
+    S_oahHandler          getInsiderHandler () const
+                              { return fInsiderHandler; }
 
     S_oahHandler          getUserOahHandler () const
                               { return fUserOahHandler; }
@@ -114,11 +114,13 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     // private services
     // ------------------------------------------------------
 
-    void                  initializeXml2xmlOahDualHandler (
-                            string   executableName,
+    void                  createInsiderHandler (
                             ostream& ios);
 
-    void                  createTheUserGroups (
+    void                  createUserHandler (
+                            ostream& ios);
+
+    void                  createUserHandlerGroups (
                             ostream& ios);
 
     void                  createFilesUserGroup (
@@ -208,7 +210,7 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     // ------------------------------------------------------
 
     // the insider handler provides the options used internally by the translator
-    S_oahHandler          fInsiderOahHandler;
+    S_oahHandler          fInsiderHandler;
 
     // the user handler provides a user view of the options, organized by topics
     S_oahHandler          fUserOahHandler;

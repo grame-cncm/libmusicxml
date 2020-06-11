@@ -3406,10 +3406,10 @@ class EXP oahDualHandler : public smartable
     // creation
     // ------------------------------------------------------
     static SMARTP<oahDualHandler> create (
-      S_oahHandler insiderOahHandler,
-      S_oahHandler userOahHandler,
-      string       insiderAtomShortName,
-      string       insiderAtomLongName);
+      string   executableName,
+      string   insiderAtomShortName,
+      string   insiderAtomLongName,
+      ostream& ios);
 
   protected:
 
@@ -3417,10 +3417,10 @@ class EXP oahDualHandler : public smartable
     // ------------------------------------------------------
 
     oahDualHandler (
-      S_oahHandler insiderOahHandler,
-      S_oahHandler userOahHandler,
-      string       insiderAtomShortName,
-      string       insiderAtomLongName);
+      string   executableName,
+      string   insiderAtomShortName,
+      string   insiderAtomLongName,
+      ostream& ios);
 
     virtual ~oahDualHandler ();
 
@@ -3434,8 +3434,8 @@ class EXP oahDualHandler : public smartable
 //                              { return fOahHandlerViewKind; }
 
     // oahHandlers
-    S_oahHandler          getInsiderOahHandler () const
-                              { return fInsiderOahHandler; }
+    S_oahHandler          getInsiderHandler () const
+                              { return fInsiderHandler; }
 
     S_oahHandler          getUserOahHandler () const
                               { return fUserOahHandler; }
@@ -3445,8 +3445,14 @@ class EXP oahDualHandler : public smartable
     // public services
     // ------------------------------------------------------
 
-    virtual void          createTheUserGroups (
-                            ostream& ios) = 0;
+    virtual void          createInsiderHandler (
+                            ostream& ios);
+
+    virtual void          createUserHandler (
+                            ostream& ios) ;
+
+    virtual void          createUserHandlerGroups (
+                            ostream& ios);
 
     void                  switchToInsiderView ();
 
@@ -3476,15 +3482,17 @@ class EXP oahDualHandler : public smartable
     // protected services
     // ------------------------------------------------------
 
-    void                  populateUserGroupsFromInsiderGroups ();
+    void                  populateUserHandlerFromInsiderHandler ();
 
   protected:
 
     // fields
     // ------------------------------------------------------
 
+    string                fExecutableName;
+
     // the insider handler provides the options used internally by the translator
-    S_oahHandler          fInsiderOahHandler;
+    S_oahHandler          fInsiderHandler;
 
     // the user handler provides a user view of the options, organized by topics
     S_oahHandler          fUserOahHandler;

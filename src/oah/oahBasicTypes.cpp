@@ -12280,58 +12280,75 @@ void oahHandler::handleOptionValueOrArgument (
 }
 
 //______________________________________________________________________________
-/* pure virtual class
 S_oahDualHandler oahDualHandler::create (
-  S_oahHandler insiderOahHandler,
-  S_oahHandler userOahHandler,
-  string       insiderAtomShortName,
-  string       insiderAtomLongName)
+  string   executableName,
+  string   insiderAtomShortName,
+  string   insiderAtomLongName,
+  ostream& ios)
 {
   oahDualHandler* o = new
     oahDualHandler (
-      insiderOahHandler,
-      userOahHandler,
+      executableName,
       insiderAtomShortName,
-      insiderAtomLongName);
+      insiderAtomLongName,
+      ios);
   assert(o!=0);
   return o;
 }
-*/
 
 oahDualHandler::oahDualHandler (
-  S_oahHandler insiderOahHandler,
-  S_oahHandler userOahHandler,
-  string       insiderAtomShortName,
-  string       insiderAtomLongName)
+  string   executableName,
+  string   insiderAtomShortName,
+  string   insiderAtomLongName,
+  ostream& ios)
 {
-  fInsiderOahHandler = insiderOahHandler;
-  fUserOahHandler    = userOahHandler;
+  fExecutableName = executableName;
 
   fInsiderAtomShortName = insiderAtomShortName;
   fInsiderAtomLongName  = insiderAtomLongName;
 
-  // the default is to use 'user' oahHandler
+  // create the two handlers
+  createInsiderHandler (ios);
+  createUserHandler (ios);
+
+  // populate the user handler groups
+  createUserHandlerGroups (ios);
+
+  // the default is to use the 'user' oahHandler
   fOahHandlerToBeUsed = fUserOahHandler;
 }
 
 oahDualHandler::~oahDualHandler ()
 {}
 
+void oahDualHandler::createInsiderHandler (
+  ostream& ios)
+{}
+
+void oahDualHandler::createUserHandler (
+  ostream& ios)
+{}
+
+void oahDualHandler::createUserHandlerGroups (
+  ostream& ios)
+{}
+
 void oahDualHandler::switchToInsiderView ()
 {
-  fOahHandlerToBeUsed = fInsiderOahHandler;
+  fOahHandlerToBeUsed = fInsiderHandler;
 }
 
-void oahDualHandler::populateUserGroupsFromInsiderGroups ()
+void oahDualHandler::populateUserHandlerFromInsiderHandler ()
 {
   const list<S_oahGroup>
-    insiderOahHandlerGroupsList =
-      fInsiderOahHandler->getHandlerGroupsList ();
+    insiderHandlerGroupsList =
+      fInsiderHandler->
+        getHandlerGroupsList ();
 
-  if (insiderOahHandlerGroupsList.size ()) {
+  if (insiderHandlerGroupsList.size ()) {
     list<S_oahGroup>::const_iterator
-      iBegin = insiderOahHandlerGroupsList.begin (),
-      iEnd   = insiderOahHandlerGroupsList.end (),
+      iBegin = insiderHandlerGroupsList.begin (),
+      iEnd   = insiderHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // handle the group
@@ -12339,7 +12356,8 @@ void oahDualHandler::populateUserGroupsFromInsiderGroups ()
 
       const list<S_oahSubGroup>
         groupSubGroupsList =
-          group->getSubGroupsList ();
+          group->
+            getSubGroupsList ();
 
       if (groupSubGroupsList.size ()) {
         list<S_oahSubGroup>::const_iterator
@@ -12387,7 +12405,8 @@ void oahDualHandler::populateUserGroupsFromInsiderGroups ()
 
             const list<S_oahAtom>&
               subGroupAtomsList =
-                subGroup->getAtomsList ();
+                subGroup->
+                  getAtomsList ();
 
             if (subGroupAtomsList.size ()) {
               list<S_oahAtom>::const_iterator
@@ -12639,8 +12658,13 @@ void oahDualHandlerInsiderAtom::handleValue (
   }
 #endif
 
-  fOahDualHandlerVariable->
-    switchToInsiderView ();
+  stringstream s;
+
+  s <<
+    "option '" << theString <<
+    "' should be the first one";
+
+  oahError (s.str ());
 }
 
 void oahDualHandlerInsiderAtom::acceptIn (basevisitor* v)
