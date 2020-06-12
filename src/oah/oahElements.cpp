@@ -355,6 +355,10 @@ void oahElement::printOptionEssentials (
     fDescription <<
     endl <<
     setw (fieldWidth) <<
+    "fElementVisibilityKind" << " : " <<
+    elementVisibilityKindAsString (
+      fElementVisibilityKind) <<
+    endl <<
     "fIsHidden" << " : " <<
     booleanAsString (
       fIsHidden) <<

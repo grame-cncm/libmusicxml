@@ -76,31 +76,10 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
-  // create the OAH handler
-  // ------------------------------------------------------
-
-if (false) {
-  S_xml2xmlOahHandler handler;
-
-  try {
-    handler =
-      xml2xmlOahHandler::create (
-        argv [0],
-        gOutputOstream);
-  }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
-  }
-}
-
   // create the OAH dual handler
   // ------------------------------------------------------
   S_xml2xmlOahDualHandler dualHandler;
 
-if (true) {
   try {
     dualHandler =
       xml2xmlOahDualHandler::create (
@@ -113,15 +92,6 @@ if (true) {
   catch (std::exception& e) {
     return kInvalidFile;
   }
-
-  dualHandler->
-    print (gOutputOstream);
-
-  dualHandler->
-    printHelp (gOutputOstream);
-
-  return kNoErr; // TEMP JMI
-}
 
   // analyze the command line options and arguments
   // ------------------------------------------------------

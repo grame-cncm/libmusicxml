@@ -3445,13 +3445,7 @@ class EXP oahDualHandler : public smartable
     // public services
     // ------------------------------------------------------
 
-    virtual void          createInsiderHandler (
-                            ostream& ios);
-
-    virtual void          createUserHandler (
-                            ostream& ios) ;
-
-    virtual void          createUserHandlerGroups (
+    virtual void          initializaOahDualHandler (
                             ostream& ios);
 
     void                  switchToInsiderView ();
@@ -3471,6 +3465,10 @@ class EXP oahDualHandler : public smartable
     // print
     // ------------------------------------------------------
 
+    string                commandLineAsSuppliedAsString () const;
+    string                commandLineWithShortNamesAsString () const;
+    string                commandLineWithLongNamesAsString () const;
+
     string                asString () const;
 
     void                  print (ostream& os) const;
@@ -3481,6 +3479,15 @@ class EXP oahDualHandler : public smartable
 
     // protected services
     // ------------------------------------------------------
+
+    virtual void          createInsiderHandler (
+                            ostream& ios) = 0;
+
+    virtual void          createUserHandler (
+                            ostream& ios) = 0 ;
+
+    virtual void          createUserHandlerGroups (
+                            ostream& ios) = 0;
 
     void                  populateUserHandlerFromInsiderHandler ();
 
@@ -3524,7 +3531,16 @@ typedef SMARTP<oahDualHandler> S_oahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_oahDualHandler& elt);
 
 //______________________________________________________________________________
-class oahDualHandlerInsiderAtom : public oahValuedAtom
+class oahDualHandlerInsiderAtom : public oahAtom
+/*
+  This atom name is trapped very early in:
+    oahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv()
+  and:
+    oahDualHandler::hangleOptionsFromOptionsVector()
+
+  It does nothing on its own, it is created only to show
+  that this option exists
+*/
 {
   public:
 
@@ -3532,12 +3548,9 @@ class oahDualHandlerInsiderAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     static SMARTP<oahDualHandlerInsiderAtom> create (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      S_oahDualHandler&  oahDualHandlerVariable);
+      string shortName,
+      string longName,
+      string description);
 
   protected:
 
@@ -3545,12 +3558,9 @@ class oahDualHandlerInsiderAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     oahDualHandlerInsiderAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      S_oahDualHandler&  oahDualHandlerVariable);
+      string shortName,
+      string longName,
+      string description);
 
     virtual ~oahDualHandlerInsiderAtom ();
 
@@ -3559,10 +3569,6 @@ class oahDualHandlerInsiderAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setOahDualHandlerVariable (
-                            S_oahDualHandler value)
-                              { fOahDualHandlerVariable = value; }
-
   public:
 
     // services
@@ -3570,10 +3576,6 @@ class oahDualHandlerInsiderAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
-
-    void                  handleValue (
-                            string   theString,
                             ostream& os);
 
   public:
@@ -3600,7 +3602,7 @@ class oahDualHandlerInsiderAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    S_oahDualHandler&     fOahDualHandlerVariable;
+    int                   fInsiderOptionsCounter;
 };
 typedef SMARTP<oahDualHandlerInsiderAtom> S_oahDualHandlerInsiderAtom;
 EXP ostream& operator<< (ostream& os, const S_oahDualHandlerInsiderAtom& elt);
@@ -3610,83 +3612,3 @@ EXP ostream& operator<< (ostream& os, const S_oahDualHandlerInsiderAtom& elt);
 
 
 #endif
-
-/*
-//_______________________________________________________________________________
-class EXP oahGroupsList : public smartable
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum oahGroupsListKind {
-        kUser,
-        kInternal };
-
-    static string groupsListKindAsString (
-      oahGroupsListKind groupsListKind);
-
-  public:
-
-    // creation
-    // ------------------------------------------------------
-    static SMARTP<oahGroupsList> create (
-      oahGroupsListKind groupsListKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    oahGroupsList (
-      oahGroupsListKind groupsListKind);
-
-    virtual ~oahGroupsList ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    oahGroupsListKind     getGroupsListKind () const
-                              { return fGroupsListKind; }
-
-    const list<S_oahGroup>
-                          getGroupsList () const
-                              { return fGroupsList; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    void                  appendGroupToGroupsList (
-                            S_oahGroup group)
-                              { fGroupsList.push_back (group); }
-
-    void                  prependGroupToGroupsList (
-                            S_oahGroup group)
-                              { fGroupsList.push_front (group); }
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    oahGroupsListKind     fGroupsListKind;
-
-    list<S_oahGroup>      fGroupsList;
-
-};
-typedef SMARTP<oahGroupsList> S_oahGroupsList;
-EXP ostream& operator<< (ostream& os, const S_oahGroupsList& elt);
-*/
-

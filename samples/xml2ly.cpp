@@ -33,6 +33,9 @@
 #include "musicxml2lilypond.h"
 #include "musicxml2musicxml.h"
 
+#include "xml2lyOahDualHandler.h"
+
+
 using namespace std;
 
 using namespace MusicXML2;
@@ -74,6 +77,80 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+  // create the OAH dual handler
+  // ------------------------------------------------------
+  S_xml2lyOahDualHandler dualHandler;
+
+  try {
+    dualHandler =
+      xml2lyOahDualHandler::create (
+        argv [0],
+        gOutputOstream);
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  // analyze the command line options and arguments
+  // ------------------------------------------------------
+
+  try {
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+      helpOptionsHaveBeenUsedKind =
+        dualHandler->
+          applyOptionsAndArgumentsFromArgcAndArgv (
+            argc, argv);
+
+    switch (helpOptionsHaveBeenUsedKind) {
+      case oahHandler::kHelpOptionsHaveBeenUsedYes:
+        return kNoErr;
+        break;
+      case oahHandler::kHelpOptionsHaveBeenUsedNo:
+        // let's go ahead!
+        break;
+    } // switch
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+#ifdef TRACE_OAH
+  if (true || gTraceOah->fTraceOah) { // JMI
+    dualHandler->
+      printHelp (gOutputOstream);
+  }
+#endif
+
+  string
+    inputSourceName =
+      gOahOah->fInputSourceName;
+
+  string
+    outputFileName =
+      gXml2lyOah->fLilyPondOutputFileName;
+
+  int
+    outputFileNameSize =
+      outputFileName.size ();
+
+  // has quiet mode been requested?
+  // ------------------------------------------------------
+
+  if (gGeneralOah->fQuiet) {
+    // disable all trace and display options
+    /* JMI
+    handler->
+      enforceOahHandlerQuietness ();
+      */
+  }
+
+/* JMI
   // create the options handler
   // ------------------------------------------------------
 
@@ -132,7 +209,7 @@ int main (int argc, char *argv[])
 
 
   if (true) { // JMI, TEST
-  /*
+  / *
     xml2lilypond (
       argc,
       argv,
@@ -141,7 +218,7 @@ int main (int argc, char *argv[])
   }
 
   else {
-  */
+  * /
   // has quiet mode been requested?
   // ------------------------------------------------------
 
@@ -150,6 +227,7 @@ int main (int argc, char *argv[])
     handler->
       enforceOahHandlerQuietness ();
   }
+*/
 
   // welcome message
   // ------------------------------------------------------
@@ -200,7 +278,8 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogOstream <<
-      handler->
+//      handler->
+      dualHandler->
         commandLineWithShortNamesAsString () <<
       endl;
 
@@ -211,7 +290,8 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogOstream <<
-      handler->
+//      handler->
+      dualHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;
@@ -279,7 +359,7 @@ int main (int argc, char *argv[])
 
     return 1;
   }
-}
+// JMI }
 
   return 0;
 }

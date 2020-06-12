@@ -69,7 +69,7 @@ R"(                      Welcome to xml2xml,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-xml2xml [options] [MusicXMLFile|-] [options]
+Usage: xml2xml [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Option '-h, -help' prints the full help,

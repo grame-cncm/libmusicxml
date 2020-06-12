@@ -78,17 +78,6 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     // set and get
     // ------------------------------------------------------
 
-//    oahDualHandlerViewKind
-//                          getOahHandlerViewKind () const
-//                              { return fOahHandlerViewKind; }
-
-    // oahHandlers
-    S_oahHandler          getInsiderHandler () const
-                              { return fInsiderHandler; }
-
-    S_oahHandler          getUserOahHandler () const
-                              { return fUserOahHandler; }
-
   public:
 
     // public services
@@ -98,10 +87,6 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
 
     // print
     // ------------------------------------------------------
-
-    string                commandLineAsSuppliedAsString () const;
-    string                commandLineWithShortNamesAsString () const;
-    string                commandLineWithLongNamesAsString () const;
 
     string                asString () const;
 
@@ -114,12 +99,14 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     // private services
     // ------------------------------------------------------
 
+    // handlers creation
     void                  createInsiderHandler (
                             ostream& ios);
 
     void                  createUserHandler (
                             ostream& ios);
 
+    // user handler groups creation
     void                  createUserHandlerGroups (
                             ostream& ios);
 
@@ -209,34 +196,11 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     // fields
     // ------------------------------------------------------
 
-    // the insider handler provides the options used internally by the translator
-    S_oahHandler          fInsiderHandler;
-
-    // the user handler provides a user view of the options, organized by topics
-    S_oahHandler          fUserOahHandler;
-
-    // the 'insider' option names
-    string                fInsiderAtomShortName;
-    string                fInsiderAtomLongName;
-
-    // the 'insider' user group is not shown
-    S_oahGroup            fInsiderUserGroup;
-
-    // the 'insider' user subgroup is a catchall
-    S_oahSubGroup         fInsiderUserSubGroup;
-
-    // the mappings
-    map<string, S_oahGroup>
-                          fSubGroupNamesToUserGroupsMap;
-    map<string, S_oahSubGroup>
-                          fAtomNamesToUserSubGroupsMap;
-
   private:
 
     // work fields
     // ------------------------------------------------------
 
-    S_oahHandler          fOahHandlerToBeUsed; // according to '-insider'
 };
 typedef SMARTP<xml2xmlOahDualHandler> S_xml2xmlOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlOahDualHandler& elt);

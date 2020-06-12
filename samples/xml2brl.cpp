@@ -29,6 +29,8 @@
 
 #include "musicxml2braille.h"
 
+#include "xml2brlOahDualHandler.h"
+
 
 using namespace std;
 
@@ -69,6 +71,73 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+  // create the OAH dual handler
+  // ------------------------------------------------------
+  S_xml2brlOahDualHandler dualHandler;
+
+  try {
+    dualHandler =
+      xml2brlOahDualHandler::create (
+        argv [0],
+        gOutputOstream);
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  // analyze the command line options and arguments
+  // ------------------------------------------------------
+
+  try {
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+      helpOptionsHaveBeenUsedKind =
+        dualHandler->
+          applyOptionsAndArgumentsFromArgcAndArgv (
+            argc, argv);
+
+    switch (helpOptionsHaveBeenUsedKind) {
+      case oahHandler::kHelpOptionsHaveBeenUsedYes:
+        return kNoErr;
+        break;
+      case oahHandler::kHelpOptionsHaveBeenUsedNo:
+        // let's go ahead!
+        break;
+    } // switch
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  string
+    inputSourceName =
+      gOahOah->fInputSourceName;
+
+  string
+    outputFileName =
+      gXml2brlOah->fBrailleMusicOutputFileName;
+
+  int
+    outputFileNameSize =
+      outputFileName.size ();
+
+  // has quiet mode been requested?
+  // ------------------------------------------------------
+
+  if (gGeneralOah->fQuiet) {
+    // disable all trace and display options
+    /* JMI
+    handler->
+      enforceOahHandlerQuietness ();
+      */
+  }
+
+/* JMI
   // create the options handler
   // ------------------------------------------------------
 
@@ -133,6 +202,7 @@ int main (int argc, char *argv[])
     handler->
       enforceOahHandlerQuietness ();
   }
+*/
 
   // welcome message
   // ------------------------------------------------------
@@ -183,7 +253,8 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogOstream <<
-      handler->
+//      handler->
+      dualHandler->
         commandLineWithShortNamesAsString () <<
       endl;
 
@@ -194,7 +265,8 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogOstream <<
-      handler->
+//      handler->
+      dualHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;

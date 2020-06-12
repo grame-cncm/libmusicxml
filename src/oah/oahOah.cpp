@@ -466,7 +466,7 @@ void oahOah::initializeOahTraceOah (
         "Options visitors trace",
         "htov", "help-trace-options-visitors",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityHiddenByDefault,
     this);
 
   appendSubGroupToGroup (subGroup);

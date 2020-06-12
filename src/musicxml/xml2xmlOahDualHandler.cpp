@@ -68,7 +68,9 @@ xml2xmlOahDualHandler::xml2xmlOahDualHandler (
       "insider",
       "insider-group",
       ios)
-{}
+{
+  initializaOahDualHandler (ios);
+}
 
 xml2xmlOahDualHandler::~xml2xmlOahDualHandler ()
 {}
@@ -76,7 +78,7 @@ xml2xmlOahDualHandler::~xml2xmlOahDualHandler ()
 void xml2xmlOahDualHandler::createInsiderHandler (
   ostream& ios)
 {
-  ios << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
+// JMI ios << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
 
   fInsiderHandler =
     xml2xmlOahHandler::create (
@@ -87,7 +89,7 @@ void xml2xmlOahDualHandler::createInsiderHandler (
 void xml2xmlOahDualHandler::createUserHandler (
   ostream& ios)
 {
-  ios << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
+// JMI ios << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
 
   fUserOahHandler =
     oahHandler::create (
@@ -106,7 +108,7 @@ void xml2xmlOahDualHandler::createUserHandler (
 void xml2xmlOahDualHandler::createUserHandlerGroups (
   ostream& ios)
 {
-  ios << "createUserHandlerGroups()" << endl;
+// JMI ios << "createUserHandlerGroups()" << endl;
 
   createInsiderUserGroup (ios);
 
@@ -1198,27 +1200,6 @@ void xml2xmlOahDualHandler::createOutputGenerationUserGroup (
 
   fAtomNamesToUserSubGroupsMap ["msr2lpsr-score-output-kind"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["lpsr-Languages-language"] = subGroup;
-}
-
-string xml2xmlOahDualHandler::commandLineAsSuppliedAsString () const
-{
-  return
-    fInsiderHandler->
-      commandLineAsSuppliedAsString ();
-}
-
-string xml2xmlOahDualHandler::commandLineWithShortNamesAsString () const
-{
-  return
-    fInsiderHandler->
-      commandLineWithShortNamesAsString ();
-}
-
-string xml2xmlOahDualHandler::commandLineWithLongNamesAsString () const
-{
-  return
-    fInsiderHandler->
-      commandLineWithLongNamesAsString ();
 }
 
 string xml2xmlOahDualHandler::asString () const
