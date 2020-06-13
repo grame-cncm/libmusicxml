@@ -322,7 +322,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahOptionsUsageAtom::create (
-        "ho", "help-options",
+        "hou", "help-options-usage",
 R"(Print options usage help.)"));
 
   // help summary

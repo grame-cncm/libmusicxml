@@ -2793,8 +2793,6 @@ class oahSubGroup : public oahElement
     // services
     // ------------------------------------------------------
 
-    void                  underlineSubGroupHeader (ostream& os) const;
-
     void                  registerSubGroupInHandler (
                             S_oahHandler handler);
 
@@ -2830,6 +2828,8 @@ class oahSubGroup : public oahElement
     void                  printHelpWithHeaderWidth (
                             ostream& os,
                             int      subGroupHeaderWidth);
+
+    void                  underlineSubGroupHeader (ostream& os) const;
 
     void                  printSubGroupHeader (ostream& os) const;
     void                  printSubGroupHeaderWithHeaderWidth (
@@ -2915,6 +2915,12 @@ class oahGroup : public oahElement
                           getSubGroupsList () const
                               { return fSubGroupsList; }
 
+    void                  setGroupHeaderIsToBeWritten (bool value)
+                              { fGroupHeaderIsToBeWritten = value; }
+
+    bool                  getGroupHeaderIsToBeWritten () const
+                              { return fGroupHeaderIsToBeWritten; }
+
     void                  incrementNumberOfUserChoseAtomsInThisGroup ()
                               { fNumberOfUserChoseAtomsInThisGroup += 1; }
 
@@ -2934,8 +2940,6 @@ class oahGroup : public oahElement
 
     // public services
     // ------------------------------------------------------
-
-    void                  underlineGroupHeader (ostream& os) const;
 
     void                  registerGroupInHandler (
                             S_oahHandler handler);
@@ -2976,6 +2980,8 @@ class oahGroup : public oahElement
 
     void                  printHelp (ostream& os);
 
+    void                  underlineGroupHeader (ostream& os) const;
+
     void                  printGroupAndSubGroupHelp (
                             ostream&      os,
                             S_oahSubGroup targetSubGroup) const;
@@ -3003,6 +3009,8 @@ class oahGroup : public oahElement
     string                fGroupHeader;
 
     list<S_oahSubGroup>   fSubGroupsList;
+
+    bool                  fGroupHeaderIsToBeWritten;
 
   protected:
 
@@ -3043,7 +3051,7 @@ class EXP oahHandler : public oahElement
     static SMARTP<oahHandler> create (
       string   handlerHeader,
       string   handlerValuesHeader,
-      string   optionHoahHandlerandlerHelpShortName,
+      string   handlerShortName,
       string   handlerLongName,
       string   handlerSummaryShortName,
       string   handlerSummaryLongName,
@@ -3051,6 +3059,8 @@ class EXP oahHandler : public oahElement
       string   handlerUsage,
       string   handlerDescription,
       ostream& handlerLogOstream);
+
+    SMARTP<oahHandler> createHandlerNewbornClone ();
 
   protected:
 
@@ -3171,6 +3181,11 @@ class EXP oahHandler : public oahElement
                             string               fakeExecutableName,
                             const optionsVector& theOptionsVector);
 
+    void                  printKnownPrefixes (ostream& os) const;
+    void                  printKnownSingleCharacterOptions (ostream& os) const;
+    void                  printOptionsDefaultValuesInformation (ostream& os) const;
+    void                  printKnownOptions (ostream& os) const;
+
   public:
 
     // visitors
@@ -3253,11 +3268,6 @@ class EXP oahHandler : public oahElement
     void                  decipherOptionAndValue (
                             string optionName,
                             string optionValue);
-
-    void                  printKnownPrefixes () const;
-    void                  printKnownSingleCharacterOptions () const;
-    void                  printOptionsDefaultValuesInformation () const;
-    void                  printKnownOptions () const;
 
     S_oahElement          fetchOptionByName (
                             string name);
@@ -3409,7 +3419,7 @@ class EXP oahDualHandler : public smartable
       string   executableName,
       string   insiderAtomShortName,
       string   insiderAtomLongName,
-      ostream& ios);
+      ostream& os);
 
   protected:
 
@@ -3420,7 +3430,7 @@ class EXP oahDualHandler : public smartable
       string   executableName,
       string   insiderAtomShortName,
       string   insiderAtomLongName,
-      ostream& ios);
+      ostream& os);
 
     virtual ~oahDualHandler ();
 
@@ -3446,7 +3456,7 @@ class EXP oahDualHandler : public smartable
     // ------------------------------------------------------
 
     virtual void          initializaOahDualHandler (
-                            ostream& ios);
+                            ostream& os);
 
     void                  switchToInsiderView ();
 
@@ -3481,15 +3491,21 @@ class EXP oahDualHandler : public smartable
     // ------------------------------------------------------
 
     virtual void          createInsiderHandler (
-                            ostream& ios) = 0;
+                            ostream& os) = 0;
 
     virtual void          createUserHandler (
-                            ostream& ios) = 0 ;
+                            ostream& os) = 0 ;
 
     virtual void          createUserHandlerGroups (
-                            ostream& ios) = 0;
+                            ostream& os) = 0;
 
     void                  populateUserHandlerFromInsiderHandler ();
+
+    void                  handleHandlerMapping (S_oahHandler handler);
+    void                  handleSubGroupMapping (S_oahSubGroup subGroup);
+    void                  handleAtomMapping (S_oahAtom atom);
+
+    void                  checkMappingsUse ();
 
   protected:
 

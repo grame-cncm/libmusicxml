@@ -38,9 +38,9 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msr2BsrTranslator::msr2BsrTranslator (
-  ostream&   ios,
+  ostream&   os,
   S_msrScore mScore)
-    : fLogOutputStream (ios)
+    : fLogOutputStream (os)
 {
   // the MSR score we're visiting
   fVisitedMsrScore = mScore;

@@ -45,19 +45,19 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2xmlOahHandler xml2xmlOahHandler::create (
   string   executableName,
-  ostream& ios)
+  ostream& os)
 {
   xml2xmlOahHandler* o = new
     xml2xmlOahHandler (
       executableName,
-      ios);
+      os);
   assert(o!=0);
   return o;
 }
 
 xml2xmlOahHandler::xml2xmlOahHandler (
   string   executableName,
-  ostream& ios)
+  ostream& os)
   : oahHandler (
     executableName + " available options",
     "Options values",
@@ -74,7 +74,7 @@ Usage: xml2xml [options] [MusicXMLFile|-] [options]
 R"(
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
-    ios)
+    os)
 {
   // create and append the help options prefixes
   S_oahPrefix

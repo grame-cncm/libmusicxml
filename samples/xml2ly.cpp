@@ -121,7 +121,7 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACE_OAH
-  if (true || gTraceOah->fTraceOah) { // JMI
+  if (gTraceOah->fTraceOah) {
     dualHandler->
       printHelp (gOutputOstream);
   }

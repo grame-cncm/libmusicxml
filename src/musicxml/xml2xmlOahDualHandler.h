@@ -60,7 +60,7 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     // ------------------------------------------------------
     static SMARTP<xml2xmlOahDualHandler> create (
       string   executableName,
-      ostream& ios);
+      ostream& os);
 
   protected:
 
@@ -69,7 +69,7 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
 
     xml2xmlOahDualHandler (
       string   executableName,
-      ostream& ios);
+      ostream& os);
 
     virtual ~xml2xmlOahDualHandler ();
 
@@ -92,8 +92,6 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
 
     void                  print (ostream& os) const;
 
-    void                  printHelp (ostream& os) const;
-
   private:
 
     // private services
@@ -101,95 +99,95 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
 
     // handlers creation
     void                  createInsiderHandler (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createUserHandler (
-                            ostream& ios);
+                            ostream& os);
 
     // user handler groups creation
     void                  createUserHandlerGroups (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createFilesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createInformationsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createWarningAndErrorsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createPresentationUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createPartsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createStavesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createVoicesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createTranspositionsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createClefsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createKeysUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createTimesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createRepeatsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createMeasuresUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createRestsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createNotesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createArticulationsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createOrnamentsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createGraceNotesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createChordsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createTiesAndSlursUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createDynamicsAndWedgesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createTupletsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createLyricsUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createHarmoniesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
     void                  createFiguredBassesUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
-    void                  createOutputGenerationUserGroup (
-                            ostream& ios);
+    void                  createOutputUserGroup (
+                            ostream& os);
 
     void                  createInsiderUserGroup (
-                            ostream& ios);
+                            ostream& os);
 
   protected:
 

@@ -50,46 +50,46 @@ string oahDualHandlerViewKindAsString (
 //______________________________________________________________________________
 S_xml2xmlOahDualHandler xml2xmlOahDualHandler::create (
   string   executableName,
-  ostream& ios)
+  ostream& os)
 {
   xml2xmlOahDualHandler* o = new
     xml2xmlOahDualHandler (
       executableName,
-      ios);
+      os);
   assert(o!=0);
   return o;
 }
 
 xml2xmlOahDualHandler::xml2xmlOahDualHandler (
   string   executableName,
-  ostream& ios)
+  ostream& os)
   : oahDualHandler (
       executableName,
       "insider",
       "insider-group",
-      ios)
+      os)
 {
-  initializaOahDualHandler (ios);
+  initializaOahDualHandler (os);
 }
 
 xml2xmlOahDualHandler::~xml2xmlOahDualHandler ()
 {}
 
 void xml2xmlOahDualHandler::createInsiderHandler (
-  ostream& ios)
+  ostream& os)
 {
-// JMI ios << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
+// JMI os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
 
   fInsiderHandler =
     xml2xmlOahHandler::create (
       fExecutableName,
-      ios);
+      os);
 }
 
 void xml2xmlOahDualHandler::createUserHandler (
-  ostream& ios)
+  ostream& os)
 {
-// JMI ios << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
+// JMI os << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
 
   fUserOahHandler =
     oahHandler::create (
@@ -102,66 +102,66 @@ void xml2xmlOahDualHandler::createUserHandler (
       "xml2xml user handler user handlerPreamble",
       "xml2xml user handler handlerUsage",
       "xml2xml user handler handlerDescription",
-      ios);
+      os);
 }
 
 void xml2xmlOahDualHandler::createUserHandlerGroups (
-  ostream& ios)
+  ostream& os)
 {
-// JMI ios << "createUserHandlerGroups()" << endl;
+// JMI os << "createUserHandlerGroups()" << endl;
 
-  createInsiderUserGroup (ios);
+  createInsiderUserGroup (os);
 
-  createFilesUserGroup (ios);
+  createFilesUserGroup (os);
 
-  createInformationsUserGroup (ios);
+  createInformationsUserGroup (os);
 
-  createWarningAndErrorsUserGroup (ios);
+  createWarningAndErrorsUserGroup (os);
 
-  createPresentationUserGroup (ios);
+  createPresentationUserGroup (os);
 
-  createPartsUserGroup (ios);
-  createStavesUserGroup (ios);
-  createVoicesUserGroup (ios);
+  createPartsUserGroup (os);
+  createStavesUserGroup (os);
+  createVoicesUserGroup (os);
 
-  createTranspositionsUserGroup (ios);
+  createTranspositionsUserGroup (os);
 
-  createClefsUserGroup (ios);
-  createKeysUserGroup (ios);
-  createTimesUserGroup (ios);
+  createClefsUserGroup (os);
+  createKeysUserGroup (os);
+  createTimesUserGroup (os);
 
-  createRepeatsUserGroup (ios);
+  createRepeatsUserGroup (os);
 
-  createMeasuresUserGroup (ios);
+  createMeasuresUserGroup (os);
 
-  createRestsUserGroup (ios);
-  createNotesUserGroup (ios);
+  createRestsUserGroup (os);
+  createNotesUserGroup (os);
 
-  createArticulationsUserGroup (ios);
+  createArticulationsUserGroup (os);
 
-  createOrnamentsUserGroup (ios);
+  createOrnamentsUserGroup (os);
 
-  createGraceNotesUserGroup (ios);
+  createGraceNotesUserGroup (os);
 
-  createChordsUserGroup (ios);
+  createChordsUserGroup (os);
 
-  createTiesAndSlursUserGroup (ios);
+  createTiesAndSlursUserGroup (os);
 
-  createDynamicsAndWedgesUserGroup (ios);
+  createDynamicsAndWedgesUserGroup (os);
 
-  createTupletsUserGroup (ios);
+  createTupletsUserGroup (os);
 
-  createLyricsUserGroup (ios);
+  createLyricsUserGroup (os);
 
-  createHarmoniesUserGroup (ios);
+  createHarmoniesUserGroup (os);
 
-  createFiguredBassesUserGroup (ios);
+  createFiguredBassesUserGroup (os);
 
-  createOutputGenerationUserGroup (ios);
+  createOutputUserGroup (os);
 }
 
 void xml2xmlOahDualHandler::createInsiderUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -196,7 +196,7 @@ if (false) {
 }
 
 void xml2xmlOahDualHandler::createInformationsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -239,7 +239,7 @@ void xml2xmlOahDualHandler::createInformationsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createWarningAndErrorsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -278,7 +278,7 @@ void xml2xmlOahDualHandler::createWarningAndErrorsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createPresentationUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -315,7 +315,7 @@ void xml2xmlOahDualHandler::createPresentationUserGroup (
 }
 
 void xml2xmlOahDualHandler::createFilesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -353,7 +353,7 @@ void xml2xmlOahDualHandler::createFilesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createPartsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -393,7 +393,7 @@ void xml2xmlOahDualHandler::createPartsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createStavesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -429,7 +429,7 @@ void xml2xmlOahDualHandler::createStavesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createVoicesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -466,7 +466,7 @@ void xml2xmlOahDualHandler::createVoicesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createTranspositionsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -503,7 +503,7 @@ void xml2xmlOahDualHandler::createTranspositionsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createClefsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -541,7 +541,7 @@ void xml2xmlOahDualHandler::createClefsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createKeysUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -578,7 +578,7 @@ void xml2xmlOahDualHandler::createKeysUserGroup (
 }
 
 void xml2xmlOahDualHandler::createTimesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -615,7 +615,7 @@ void xml2xmlOahDualHandler::createTimesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createRepeatsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -654,7 +654,7 @@ void xml2xmlOahDualHandler::createRepeatsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createMeasuresUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -691,7 +691,7 @@ void xml2xmlOahDualHandler::createMeasuresUserGroup (
 }
 
 void xml2xmlOahDualHandler::createRestsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -730,7 +730,7 @@ void xml2xmlOahDualHandler::createRestsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createNotesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -769,7 +769,7 @@ void xml2xmlOahDualHandler::createNotesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createArticulationsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -805,7 +805,7 @@ void xml2xmlOahDualHandler::createArticulationsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createOrnamentsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -843,7 +843,7 @@ void xml2xmlOahDualHandler::createOrnamentsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createGraceNotesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -881,7 +881,7 @@ void xml2xmlOahDualHandler::createGraceNotesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createChordsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -922,7 +922,7 @@ void xml2xmlOahDualHandler::createChordsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createTiesAndSlursUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -961,7 +961,7 @@ void xml2xmlOahDualHandler::createTiesAndSlursUserGroup (
 }
 
 void xml2xmlOahDualHandler::createDynamicsAndWedgesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1003,7 +1003,7 @@ void xml2xmlOahDualHandler::createDynamicsAndWedgesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createTupletsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1042,7 +1042,7 @@ void xml2xmlOahDualHandler::createTupletsUserGroup (
 }
 
 void xml2xmlOahDualHandler::createHarmoniesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1086,7 +1086,7 @@ void xml2xmlOahDualHandler::createHarmoniesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createFiguredBassesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1124,7 +1124,7 @@ void xml2xmlOahDualHandler::createFiguredBassesUserGroup (
 }
 
 void xml2xmlOahDualHandler::createLyricsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1165,16 +1165,16 @@ void xml2xmlOahDualHandler::createLyricsUserGroup (
   fAtomNamesToUserSubGroupsMap ["lyrics-durations"] =subGroup;
 }
 
-void xml2xmlOahDualHandler::createOutputGenerationUserGroup (
-  ostream& ios)
+void xml2xmlOahDualHandler::createOutputUserGroup (
+  ostream& os)
 {
   // group
 
   S_oahGroup
     group =
       oahGroup::create (
-        "Ouptut generation group",
-        "ouptut-generation-group",
+        "Ouptut group",
+        "ouptut-group",
         "",
         "",
         kElementVisibilityAlways,
@@ -1187,8 +1187,8 @@ void xml2xmlOahDualHandler::createOutputGenerationUserGroup (
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Ouptut generation",
-        "ouptut-generation",
+        "Ouptut",
+        "ouptut",
         "",
         "",
         kElementVisibilityAlways,
@@ -1262,81 +1262,6 @@ void xml2xmlOahDualHandler::print (ostream& os) const
     for ( ; ; ) {
       // print the group
       os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  gIndenter--;
-
-  gIndenter--;
-
-  os << endl;
-}
-
-void xml2xmlOahDualHandler::printHelp (ostream& os) const
-{
-  os <<
-    "------------ " <<
-    "xml2xmlOahDualHandler:" <<
-    " ------------" <<
-    endl;
-
-  gIndenter++;
-if (false) { // JMI
-  os <<
-    endl <<
-    "------------ " <<
-    "insiderHandler" <<
-     " ------------" <<
-   endl;
-
-  gIndenter++;
-
-  const list<S_oahGroup>
-    insiderHandlerGroupsList =
-      fInsiderHandler->getHandlerGroupsList ();
-
-  if (insiderHandlerGroupsList.size ()) {
-    os << endl;
-
-    list<S_oahGroup>::const_iterator
-      iBegin = insiderHandlerGroupsList.begin (),
-      iEnd   = insiderHandlerGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the group help
-      (*i)->printHelp (os);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  gIndenter--;
-}
-  os <<
-    endl <<
-    "------------ " <<
-    "userOahHandler" <<
-    " ------------" <<
-    endl;
-
-  gIndenter++;
-
-  const list<S_oahGroup>
-    userOahHandlerGroupsList =
-      fUserOahHandler->getHandlerGroupsList ();
-
-  if (userOahHandlerGroupsList.size ()) {
-    os << endl;
-
-    list<S_oahGroup>::const_iterator
-      iBegin = userOahHandlerGroupsList.begin (),
-      iEnd   = userOahHandlerGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the group help
-      (*i)->printHelp (os);
       if (++i == iEnd) break;
       os << endl;
     } // for

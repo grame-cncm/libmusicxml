@@ -50,47 +50,48 @@ string oahDualHandlerViewKindAsString (
 //______________________________________________________________________________
 S_xml2lyOahDualHandler xml2lyOahDualHandler::create (
   string   executableName,
-  ostream& ios)
+  ostream& os)
 {
   xml2lyOahDualHandler* o = new
     xml2lyOahDualHandler (
       executableName,
-      ios);
+      os);
   assert(o!=0);
   return o;
 }
 
 xml2lyOahDualHandler::xml2lyOahDualHandler (
   string   executableName,
-  ostream& ios)
+  ostream& os)
   : oahDualHandler (
       executableName,
       "insider",
       "insider-group",
-      ios)
+      os)
 {
-  initializaOahDualHandler (ios);
+  initializaOahDualHandler (os);
 }
 
 xml2lyOahDualHandler::~xml2lyOahDualHandler ()
 {}
 
 void xml2lyOahDualHandler::createInsiderHandler (
-  ostream& ios)
+  ostream& os)
 {
-// JMI  ios << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
+// JMI  os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
 
   fInsiderHandler =
     xml2lyOahHandler::create (
       fExecutableName,
-      ios);
+      os);
 }
 
 void xml2lyOahDualHandler::createUserHandler (
-  ostream& ios)
+  ostream& os)
 {
-// JMI  ios << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
+// JMI  os << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
 
+/* JMI
   fUserOahHandler =
     oahHandler::create (
       "xml2ly user handler",
@@ -102,66 +103,78 @@ void xml2lyOahDualHandler::createUserHandler (
       "xml2ly user handler user handlerPreamble",
       "xml2ly user handler handlerUsage",
       "xml2ly user handler handlerDescription",
-      ios);
+      os);
+      */
+
+  fUserOahHandler =
+    fInsiderHandler->
+      createHandlerNewbornClone ();
+
+  // register options handler in itself,
+  // so that the 'global' help options can be handled
+  fUserOahHandler->
+    registerHandlerInItself ();
 }
 
 void xml2lyOahDualHandler::createUserHandlerGroups (
-  ostream& ios)
+  ostream& os)
 {
-// JMI  ios << "createUserHandlerGroups()" << endl;
+// JMI  os << "createUserHandlerGroups()" << endl;
 
-  createInsiderUserGroup (ios);
+  createInsiderUserGroup (os);
 
-  createFilesUserGroup (ios);
+  createOahUserGroup (os);
 
-  createInformationsUserGroup (ios);
+  createFilesUserGroup (os);
 
-  createWarningAndErrorsUserGroup (ios);
+  createInformationsUserGroup (os);
 
-  createPresentationUserGroup (ios);
+  createWarningAndErrorsUserGroup (os);
 
-  createPartsUserGroup (ios);
-  createStavesUserGroup (ios);
-  createVoicesUserGroup (ios);
+  createPresentationUserGroup (os);
 
-  createTranspositionsUserGroup (ios);
+  createPartsUserGroup (os);
+  createStavesUserGroup (os);
+  createVoicesUserGroup (os);
 
-  createClefsUserGroup (ios);
-  createKeysUserGroup (ios);
-  createTimesUserGroup (ios);
+  createTranspositionsUserGroup (os);
 
-  createRepeatsUserGroup (ios);
+  createClefsUserGroup (os);
+  createKeysUserGroup (os);
+  createTimesUserGroup (os);
 
-  createMeasuresUserGroup (ios);
+  createRepeatsUserGroup (os);
 
-  createRestsUserGroup (ios);
-  createNotesUserGroup (ios);
+  createMeasuresUserGroup (os);
 
-  createArticulationsUserGroup (ios);
+  createRestsUserGroup (os);
+  createNotesUserGroup (os);
 
-  createOrnamentsUserGroup (ios);
+  createArticulationsUserGroup (os);
 
-  createGraceNotesUserGroup (ios);
+  createOrnamentsUserGroup (os);
 
-  createChordsUserGroup (ios);
+  createGraceNotesUserGroup (os);
 
-  createTiesAndSlursUserGroup (ios);
+  createChordsUserGroup (os);
 
-  createDynamicsAndWedgesUserGroup (ios);
+  createTiesAndSlursUserGroup (os);
 
-  createTupletsUserGroup (ios);
+  createDynamicsAndWedgesUserGroup (os);
 
-  createLyricsUserGroup (ios);
+  createTupletsUserGroup (os);
 
-  createHarmoniesUserGroup (ios);
+  createLyricsUserGroup (os);
 
-  createFiguredBassesUserGroup (ios);
+  createHarmoniesUserGroup (os);
 
-  createOutputGenerationUserGroup (ios);
+  createFiguredBassesUserGroup (os);
+
+  createOutputUserGroup (os);
 }
 
 void xml2lyOahDualHandler::createInsiderUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -174,6 +187,8 @@ void xml2lyOahDualHandler::createInsiderUserGroup (
       kElementVisibilityAlways,
       fUserOahHandler);
 if (false) {
+  fInsiderUserGroup->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (fInsiderUserGroup);
 }
@@ -196,7 +211,7 @@ if (false) {
 }
 
 void xml2lyOahDualHandler::createInformationsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -209,6 +224,8 @@ void xml2lyOahDualHandler::createInformationsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -239,7 +256,7 @@ void xml2lyOahDualHandler::createInformationsUserGroup (
 }
 
 void xml2lyOahDualHandler::createWarningAndErrorsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -252,6 +269,8 @@ void xml2lyOahDualHandler::createWarningAndErrorsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -278,7 +297,7 @@ void xml2lyOahDualHandler::createWarningAndErrorsUserGroup (
 }
 
 void xml2lyOahDualHandler::createPresentationUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -291,6 +310,8 @@ void xml2lyOahDualHandler::createPresentationUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -314,8 +335,47 @@ void xml2lyOahDualHandler::createPresentationUserGroup (
   fAtomNamesToUserSubGroupsMap ["use-lyricists-as-poets"] = subGroup;
 }
 
+void xml2lyOahDualHandler::createOahUserGroup (
+  ostream& os)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Options and help group",
+        "options-and-help-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
+  fUserOahHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Options and help",
+        "oah",
+        "options-and-help",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["help"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["h"] = subGroup;
+}
+
 void xml2lyOahDualHandler::createFilesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -328,6 +388,8 @@ void xml2lyOahDualHandler::createFilesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -353,7 +415,7 @@ void xml2lyOahDualHandler::createFilesUserGroup (
 }
 
 void xml2lyOahDualHandler::createPartsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -366,6 +428,8 @@ void xml2lyOahDualHandler::createPartsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -393,7 +457,7 @@ void xml2lyOahDualHandler::createPartsUserGroup (
 }
 
 void xml2lyOahDualHandler::createStavesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -406,6 +470,8 @@ void xml2lyOahDualHandler::createStavesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -429,7 +495,7 @@ void xml2lyOahDualHandler::createStavesUserGroup (
 }
 
 void xml2lyOahDualHandler::createVoicesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -442,6 +508,8 @@ void xml2lyOahDualHandler::createVoicesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -466,7 +534,7 @@ void xml2lyOahDualHandler::createVoicesUserGroup (
 }
 
 void xml2lyOahDualHandler::createTranspositionsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -479,6 +547,8 @@ void xml2lyOahDualHandler::createTranspositionsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -503,7 +573,7 @@ void xml2lyOahDualHandler::createTranspositionsUserGroup (
 }
 
 void xml2lyOahDualHandler::createClefsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -516,6 +586,8 @@ void xml2lyOahDualHandler::createClefsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -541,7 +613,7 @@ void xml2lyOahDualHandler::createClefsUserGroup (
 }
 
 void xml2lyOahDualHandler::createKeysUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -554,6 +626,8 @@ void xml2lyOahDualHandler::createKeysUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -578,7 +652,7 @@ void xml2lyOahDualHandler::createKeysUserGroup (
 }
 
 void xml2lyOahDualHandler::createTimesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -591,6 +665,8 @@ void xml2lyOahDualHandler::createTimesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -615,7 +691,7 @@ void xml2lyOahDualHandler::createTimesUserGroup (
 }
 
 void xml2lyOahDualHandler::createRepeatsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -628,6 +704,8 @@ void xml2lyOahDualHandler::createRepeatsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -654,7 +732,7 @@ void xml2lyOahDualHandler::createRepeatsUserGroup (
 }
 
 void xml2lyOahDualHandler::createMeasuresUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -667,6 +745,8 @@ void xml2lyOahDualHandler::createMeasuresUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -691,7 +771,7 @@ void xml2lyOahDualHandler::createMeasuresUserGroup (
 }
 
 void xml2lyOahDualHandler::createRestsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -704,6 +784,8 @@ void xml2lyOahDualHandler::createRestsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -730,7 +812,7 @@ void xml2lyOahDualHandler::createRestsUserGroup (
 }
 
 void xml2lyOahDualHandler::createNotesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -743,6 +825,8 @@ void xml2lyOahDualHandler::createNotesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -769,7 +853,7 @@ void xml2lyOahDualHandler::createNotesUserGroup (
 }
 
 void xml2lyOahDualHandler::createArticulationsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -782,6 +866,8 @@ void xml2lyOahDualHandler::createArticulationsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -805,7 +891,7 @@ void xml2lyOahDualHandler::createArticulationsUserGroup (
 }
 
 void xml2lyOahDualHandler::createOrnamentsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -818,6 +904,8 @@ void xml2lyOahDualHandler::createOrnamentsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -843,7 +931,7 @@ void xml2lyOahDualHandler::createOrnamentsUserGroup (
 }
 
 void xml2lyOahDualHandler::createGraceNotesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -856,6 +944,8 @@ void xml2lyOahDualHandler::createGraceNotesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -881,7 +971,7 @@ void xml2lyOahDualHandler::createGraceNotesUserGroup (
 }
 
 void xml2lyOahDualHandler::createChordsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -894,6 +984,8 @@ void xml2lyOahDualHandler::createChordsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -922,7 +1014,7 @@ void xml2lyOahDualHandler::createChordsUserGroup (
 }
 
 void xml2lyOahDualHandler::createTiesAndSlursUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -935,6 +1027,8 @@ void xml2lyOahDualHandler::createTiesAndSlursUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -961,7 +1055,7 @@ void xml2lyOahDualHandler::createTiesAndSlursUserGroup (
 }
 
 void xml2lyOahDualHandler::createDynamicsAndWedgesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -974,6 +1068,8 @@ void xml2lyOahDualHandler::createDynamicsAndWedgesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -1003,7 +1099,7 @@ void xml2lyOahDualHandler::createDynamicsAndWedgesUserGroup (
 }
 
 void xml2lyOahDualHandler::createTupletsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1016,6 +1112,8 @@ void xml2lyOahDualHandler::createTupletsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -1042,7 +1140,7 @@ void xml2lyOahDualHandler::createTupletsUserGroup (
 }
 
 void xml2lyOahDualHandler::createHarmoniesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1055,6 +1153,8 @@ void xml2lyOahDualHandler::createHarmoniesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -1086,7 +1186,7 @@ void xml2lyOahDualHandler::createHarmoniesUserGroup (
 }
 
 void xml2lyOahDualHandler::createFiguredBassesUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1099,6 +1199,8 @@ void xml2lyOahDualHandler::createFiguredBassesUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -1124,7 +1226,7 @@ void xml2lyOahDualHandler::createFiguredBassesUserGroup (
 }
 
 void xml2lyOahDualHandler::createLyricsUserGroup (
-  ostream& ios)
+  ostream& os)
 {
   // group
 
@@ -1137,6 +1239,8 @@ void xml2lyOahDualHandler::createLyricsUserGroup (
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -1165,20 +1269,22 @@ void xml2lyOahDualHandler::createLyricsUserGroup (
   fAtomNamesToUserSubGroupsMap ["lyrics-durations"] =subGroup;
 }
 
-void xml2lyOahDualHandler::createOutputGenerationUserGroup (
-  ostream& ios)
+void xml2lyOahDualHandler::createOutputUserGroup (
+  ostream& os)
 {
   // group
 
   S_oahGroup
     group =
       oahGroup::create (
-        "Ouptut generation group",
-        "ouptut-generation-group",
+        "Ouptut group",
+        "ouptut-group",
         "",
         "",
         kElementVisibilityAlways,
         fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
     appendGroupToHandler (group);
 
@@ -1187,8 +1293,8 @@ void xml2lyOahDualHandler::createOutputGenerationUserGroup (
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Ouptut generation",
-        "ouptut-generation",
+        "Ouptut",
+        "ouptut",
         "",
         "",
         kElementVisibilityAlways,
@@ -1200,6 +1306,7 @@ void xml2lyOahDualHandler::createOutputGenerationUserGroup (
 
   fAtomNamesToUserSubGroupsMap ["msr2lpsr-score-output-kind"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["lpsr-Languages-language"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["xml2ly-infos"] = subGroup;
 }
 
 string xml2lyOahDualHandler::asString () const
@@ -1262,81 +1369,6 @@ void xml2lyOahDualHandler::print (ostream& os) const
     for ( ; ; ) {
       // print the group
       os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  gIndenter--;
-
-  gIndenter--;
-
-  os << endl;
-}
-
-void xml2lyOahDualHandler::printHelp (ostream& os) const
-{
-  os <<
-    "------------ " <<
-    "xml2lyOahDualHandler:" <<
-    " ------------" <<
-    endl;
-
-  gIndenter++;
-if (false) { // JMI
-  os <<
-    endl <<
-    "------------ " <<
-    "insiderHandler" <<
-     " ------------" <<
-   endl;
-
-  gIndenter++;
-
-  const list<S_oahGroup>
-    insiderHandlerGroupsList =
-      fInsiderHandler->getHandlerGroupsList ();
-
-  if (insiderHandlerGroupsList.size ()) {
-    os << endl;
-
-    list<S_oahGroup>::const_iterator
-      iBegin = insiderHandlerGroupsList.begin (),
-      iEnd   = insiderHandlerGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the group help
-      (*i)->printHelp (os);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  gIndenter--;
-}
-  os <<
-    endl <<
-    "------------ " <<
-    "userOahHandler" <<
-    " ------------" <<
-    endl;
-
-  gIndenter++;
-
-  const list<S_oahGroup>
-    userOahHandlerGroupsList =
-      fUserOahHandler->getHandlerGroupsList ();
-
-  if (userOahHandlerGroupsList.size ()) {
-    os << endl;
-
-    list<S_oahGroup>::const_iterator
-      iBegin = userOahHandlerGroupsList.begin (),
-      iEnd   = userOahHandlerGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the group help
-      (*i)->printHelp (os);
       if (++i == iEnd) break;
       os << endl;
     } // for

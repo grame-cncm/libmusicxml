@@ -86,7 +86,7 @@ class msr2SummaryVisitor :
 
     msr2SummaryVisitor (
       S_msrOah& msrOpts,
-      ostream&  ios);
+      ostream&  os);
 
     virtual ~msr2SummaryVisitor ();
 

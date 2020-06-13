@@ -1969,6 +1969,7 @@ R"()",
   // trace options
 
   fTraceOah = boolOptionsInitialValue;
+//  fTraceOah = true; // JMI TEMP
 
   subGroup->
     appendAtomToSubGroup (
@@ -2172,7 +2173,7 @@ R"()",
 
   // passes
 
-  fTracePasses = boolOptionsInitialValue; // TEMP boolOptionsInitialValue;
+  fTracePasses = boolOptionsInitialValue;
 
   S_oahBooleanAtom
     tracePassesBooleanAtom =
