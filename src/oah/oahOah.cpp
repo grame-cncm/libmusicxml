@@ -412,6 +412,7 @@ R"(Print the options and arguments to EXECUTABLE.)",
         "showOptionsAndArguments",
         fShowOptionsAndArguments));
 
+/* JMI ???
   // optional values style
 
   const oahOptionalValuesStyleKind
@@ -454,6 +455,7 @@ InOAH style:
         "STYLE",
         "optionalValuesStyleKind",
         optionalValuesStyleKind));
+*/
 }
 
 #ifdef TRACE_OAH

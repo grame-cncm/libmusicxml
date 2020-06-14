@@ -2741,7 +2741,7 @@ R"(Compress full measure rests instead of generating successive empty measures.)
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "mr", "merges-rests",
+        "mr", "merge-rests",
 R"(Merge rests to obtain better looking scores.
 This works only when there are 2 voices per staves.
 Limitations: this only handles two voices

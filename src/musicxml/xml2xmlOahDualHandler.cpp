@@ -165,34 +165,37 @@ void xml2xmlOahDualHandler::createInsiderUserGroup (
 {
   // group
 
-  fInsiderUserGroup =
-    oahGroup::create (
-      "Insider group",
-      "insider-group",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fUserOahHandler);
-if (false) {
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Insider group",
+        "insider-group",
+        "",
+        "",
+        kElementVisibilityAlways,
+        fUserOahHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserOahHandler->
-    appendGroupToHandler (fInsiderUserGroup);
-}
-  // this group is hidden in user view
-  fInsiderUserGroup->
-    setIsHidden ();
+    appendGroupToHandler (group);
 
-  // subgroup, to be populated later
+  // this group is hidden in user view JMI
+//  group->
+//    setIsHidden ();
 
-  fInsiderUserSubGroup =
-    oahSubGroup::create (
-      "Insider",
-      "insider",
-      "",
-      "",
-      kElementVisibilityAlways,
-      fInsiderUserGroup);
-  fInsiderUserGroup->
-    appendSubGroupToGroup (fInsiderUserSubGroup);
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Insider",
+        "insider",
+        "",
+        "",
+        kElementVisibilityAlways,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
 }
 
 void xml2xmlOahDualHandler::createInformationsUserGroup (

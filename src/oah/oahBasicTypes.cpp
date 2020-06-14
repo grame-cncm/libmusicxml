@@ -8284,7 +8284,7 @@ void oahSubGroup::printHelpWithHeaderWidth (
     os,
     subGroupHeaderWidth);
 
-  // underline the header if the group is not written
+  // underline the header if the group header is not written
   if (! fGroupUpLink->getGroupHeaderIsToBeWritten ()) {
     underlineSubGroupHeader (os);
   }
@@ -8485,11 +8485,13 @@ void oahSubGroup::printSubGroupAndAtomHelp (
     " " <<
     fetchNamesBetweenParentheses () <<
     ":" <<
-    endl <<
     endl;
 
-  // underline the options subgroup header
-// JMI  underlineSubGroupHeader (os);
+  if (! fGroupUpLink->getGroupHeaderIsToBeWritten ()) {
+    // underline the options subgroup header
+    underlineSubGroupHeader (os);
+  }
+  os << endl;
 
   // print the subgroup atoms
   if (fAtomsList.size ()) {
@@ -9026,28 +9028,30 @@ void oahGroup::printGroupAndSubGroupAndAtomHelp (
   S_oahSubGroup targetSubGroup,
   S_oahAtom     targetAtom) const
 {
-  // print the header and option names
-  os <<
-    fGroupHeader <<
-    " " <<
-    fetchNamesBetweenParentheses () <<
-    ":" <<
-    endl;
-
-  // print the description if any
-  if (fDescription.size ()) {
-    gIndenter++;
+  if (fGroupHeaderIsToBeWritten) {
+    // print the header and option names
     os <<
-      gIndenter.indentMultiLineString (
-        fDescription) <<
+      fGroupHeader <<
+      " " <<
+      fetchNamesBetweenParentheses () <<
+      ":" <<
       endl;
-    gIndenter--;
 
-    os << endl;
+    // print the description if any
+    if (fDescription.size ()) {
+      gIndenter++;
+      os <<
+        gIndenter.indentMultiLineString (
+          fDescription) <<
+        endl;
+      gIndenter--;
+
+      os << endl;
+    }
+
+    // underline the options group header
+    underlineGroupHeader (os);
   }
-
-  // underline the options group header
-  underlineGroupHeader (os);
 
   // print the target options subgroup
   if (fSubGroupsList.size ()) {
@@ -9068,6 +9072,7 @@ void oahGroup::printGroupAndSubGroupAndAtomHelp (
             os,
             targetAtom);
       }
+
       if (++i == iEnd) break;
       if (subGroup == targetSubGroup) {
         os << endl;
@@ -10152,13 +10157,17 @@ void oahHandler::printOptionNameIntrospectiveHelp (
         "' in subgroup \"" <<
         subGroup->
           getSubGroupHeader () <<
-        "\"" <<
-        " of group \"" <<
-        group->
-          getGroupHeader () <<
-        "\" ---" <<
-        endl <<
-        endl;
+        "\"";
+
+      if (group->getGroupHeaderIsToBeWritten ()) {
+        gOutputOstream <<
+          " of group \"" <<
+          group->
+            getGroupHeader () <<
+          "\" ---";
+      }
+
+      gOutputOstream << endl << endl;
 
       group->
         printGroupAndSubGroupAndAtomHelp (
@@ -10840,9 +10849,9 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
     optionName.size () != 0,
     "optionName.size () == 0");
 
-  list<S_oahElement> cluserElementsList;
+  list<S_oahElement> clusterElementsList;
 
-  // collect single-character elements in cluserElementsList
+  // collect single-character elements in clusterElementsList
   for (
     string::const_iterator i = optionName.begin ();
     i != optionName.end ();
@@ -10865,7 +10874,7 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
 
     if (it != fSingleCharacterShortNamesSet.end ()) {
       // yes, singleCharacterString is known in the set
-      cluserElementsList.push_back (
+      clusterElementsList.push_back (
         fetchOptionByName (
           singleCharacterString));
     }
@@ -10876,12 +10885,12 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
     }
   } // for
 
-  if (cluserElementsList.size () == fSingleCharacterShortNamesSet.size ()) {
-    // all the elements in cluserElementsList are single character options,
+  if (clusterElementsList.size () == fSingleCharacterShortNamesSet.size ()) {
+    // all the elements in clusterElementsList are single character options,
     // handle them
     for (
-      list<S_oahElement>::const_iterator i = cluserElementsList.begin ();
-      i != cluserElementsList.end ();
+      list<S_oahElement>::const_iterator i = clusterElementsList.begin ();
+      i != clusterElementsList.end ();
       i++
     ) {
       S_oahElement element = (*i);
@@ -12366,14 +12375,47 @@ void oahDualHandler::switchToInsiderView ()
 
 void oahDualHandler::populateUserHandlerFromInsiderHandler ()
 {
+  /*
+    The relative order of atoms found in the 'insider' view
+    is retained in the 'user' view
+  */
+
   bool saveTraceOah = gTraceOah->fTraceOah;
 //  gTraceOah->fTraceOah = true; // JMI, TEMP
 
+  // create the put aside group
+  fPutAsideInUserViewGroup =
+    oahGroup::create (
+      "Put aside group",
+      "put-aside-group",
+      "",
+      "",
+      kElementVisibilityHiddenByDefault,
+      fUserOahHandler);
+  fPutAsideInUserViewGroup->
+    setGroupHeaderIsToBeWritten (false);
+  fUserOahHandler->
+    appendGroupToHandler (fPutAsideInUserViewGroup);
+
+  // create the put aside subgroup
+  fPutAsideInUserViewSubGroup =
+    oahSubGroup::create (
+      "Put aside",
+      "put-aside",
+      "",
+      "",
+      kElementVisibilityAlways,
+      fPutAsideInUserViewGroup);
+  fPutAsideInUserViewGroup->
+    appendSubGroupToGroup (fPutAsideInUserViewSubGroup);
+
+  // get the insider OAH handler groups list
   const list<S_oahGroup>
     insiderHandlerGroupsList =
       fInsiderHandler->
         getHandlerGroupsList ();
 
+  // handle it
   if (insiderHandlerGroupsList.size ()) {
     list<S_oahGroup>::const_iterator
       iBegin = insiderHandlerGroupsList.begin (),
@@ -12598,7 +12640,7 @@ void oahDualHandler::handleAtomMapping (S_oahAtom atom)
   }
   else {
     // atomNameToUse is not known in the map
-    // place it in the 'insider' user subgroup
+    // place it in the 'put aside' user subgroup
 
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOahDetails) {
@@ -12606,19 +12648,22 @@ void oahDualHandler::handleAtomMapping (S_oahAtom atom)
         "+++ appending atom \"" <<
         atomNameToUse <<
         "\" to subgroup \"" <<
-        fInsiderUserSubGroup->getSubGroupHeader () <<
+        fPutAsideInUserViewSubGroup->getSubGroupHeader () <<
         "\"" <<
         endl;
     }
 #endif
 
-    fInsiderUserSubGroup->
+    fPutAsideInUserViewSubGroup->
       appendAtomToSubGroup (atom);
+    fPutAsideInUserViewAtomNamesList.push_back (
+      atomNameToUse);
   }
 }
 
 void oahDualHandler::checkMappingsUse ()
 {
+  // check subgroups mapping
   int subGroupNamesToUserGroupsMapSize =
     fSubGroupNamesToUserGroupsMap.size ();
 
@@ -12652,6 +12697,7 @@ void oahDualHandler::checkMappingsUse ()
 #endif
   }
 
+  // check atoms mapping
   int atomNamesToUserGroupsMapSize =
     fAtomNamesToUserSubGroupsMap.size ();
 
@@ -12684,6 +12730,178 @@ void oahDualHandler::checkMappingsUse ()
     }
 #endif
   }
+
+  // display the atoms that have been put aside
+  int putAsideInUserViewAtomNamesListSize =
+    fPutAsideInUserViewAtomNamesList.size ();
+
+  if (putAsideInUserViewAtomNamesListSize) {
+#ifdef TRACE_OAH
+    if (true || gTraceOah->fTraceOah) {
+      stringstream s;
+
+      // build the list of atom names to be output
+      list<string> atomNamesToBeOutputList;
+
+      for (
+        list<string>::const_iterator i = fPutAsideInUserViewAtomNamesList.begin ();
+        i != fPutAsideInUserViewAtomNamesList.end ();
+        i++
+      ) {
+        // handle the atom name
+        string atomName = (*i);
+
+        if (
+          atomName.size ()
+            &&
+          atomName.find ("trace") == string::npos
+            &&
+          atomName.find ("help") == string::npos
+            &&
+          atomName.find ("display") == string::npos
+            &&
+          atomName.find ("_") == string::npos
+        ) {
+          atomNamesToBeOutputList.push_back (atomName);
+        }
+      } // for
+
+      // output the retained atom names if any
+      int atomNamesToBeOutputListSize =
+        atomNamesToBeOutputList.size ();
+
+      if (atomNamesToBeOutputListSize) {
+        s <<
+          "The following non-trace nor non-display " <<
+          singularOrPlural (
+            atomNamesToBeOutputListSize, "atom name", "atom names") <<
+          " have been left out of the mapping to user subgroups: ";
+
+        // sort the list for legibility
+        atomNamesToBeOutputList.sort ();
+
+        list<string>::const_iterator
+          iBegin = atomNamesToBeOutputList.begin (),
+          iEnd   = atomNamesToBeOutputList.end (),
+          i      = iBegin;
+        for ( ; ; ) {
+          // handle the name
+          string theString = (*i);
+
+          s <<
+             "\"" << theString << "\"";
+
+          if (++i == iEnd) break;
+          s << ", ";
+        } // for
+
+        gLogOstream << s.str () << endl;
+        //    oahError (s.str ());
+      }
+    }
+#endif
+  }
+
+  // display the empty resulting user subgroups if any
+  const list<S_oahGroup>
+    userOahHandlerGroupsList =
+      fUserOahHandler->getHandlerGroupsList ();
+
+  if (userOahHandlerGroupsList.size ()) {
+#ifdef TRACE_OAH
+    if (true || gTraceOah->fTraceOah) {
+      list<S_oahGroup>::const_iterator
+        iBegin = userOahHandlerGroupsList.begin (),
+        iEnd   = userOahHandlerGroupsList.end (),
+        i      = iBegin;
+
+      stringstream s;;
+
+      for ( ; ; ) {
+        S_oahGroup group = (*i);
+
+        // handle the group
+        const list<S_oahSubGroup>
+          groupSubGroupsList =
+            group->
+              getSubGroupsList ();
+
+        int groupSubGroupsListSize =
+          groupSubGroupsList.size ();
+
+        if (groupSubGroupsListSize) {
+          list<S_oahSubGroup>::const_iterator
+            iBegin = groupSubGroupsList.begin (),
+            iEnd   = groupSubGroupsList.end (),
+            i      = iBegin;
+          for ( ; ; ) {
+            S_oahSubGroup subGroup = (*i);
+
+            // handle the subgroup
+            if (
+              subGroup->getSubGroupHeader ().size ()
+                &&
+              ! subGroup->getAtomsList ().size ()
+            ) {
+              s <<
+                "\"" << subGroup->getSubGroupHeader () << "\"";
+            }
+
+            if (++i == iEnd) break;
+          } // for
+        }
+
+        if (++i == iEnd) break;
+        s << ", ";
+      } // for
+
+      string resultString = s.str ();
+      int    resultStringSize = resultString.size ();
+
+      if (resultStringSize) {
+        gLogOstream <<
+          "The following 'user' view " <<
+          singularOrPlural (
+            resultStringSize, "subgroup", "subgroups") <<
+          " are empty: " <<
+          resultString <<
+          endl;
+      }
+    }
+#endif
+  }
+/*
+  if (putAsideInUserViewAtomNamesListSize) {
+#ifdef TRACE_OAH
+    if (true || gTraceOah->fTraceOah) {
+      stringstream s;
+
+      // build the list of atom names to be output
+      list<string> atomNamesToBeOutputList;
+
+      for (
+        list<string>::const_iterator i = fPutAsideInUserViewAtomNamesList.begin ();
+        i != fPutAsideInUserViewAtomNamesList.end ();
+        i++
+      ) {
+        // handle the atom name
+        string atomName = (*i);
+
+        if (
+          atomName.size ()
+            &&
+          atomName.find ("trace") == string::npos
+            &&
+          atomName.find ("display") == string::npos
+            &&
+          atomName.find ("_") == string::npos
+        ) {
+          atomNamesToBeOutputList.push_back (atomName);
+        }
+      } // for
+    }
+  }
+  */
 }
 
 oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv (

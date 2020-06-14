@@ -121,7 +121,7 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOahDetails) {
     dualHandler->
       printHelp (gOutputOstream);
   }

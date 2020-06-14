@@ -111,16 +111,16 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     void                  createOahUserGroup (
                             ostream& os);
 
-    void                  createFilesUserGroup (
-                            ostream& os);
-
     void                  createInformationsUserGroup (
                             ostream& os);
 
     void                  createWarningAndErrorsUserGroup (
                             ostream& os);
 
-    void                  createPresentationUserGroup (
+    void                  createFilesUserGroup (
+                            ostream& os);
+
+    void                  createInputUserGroup (
                             ostream& os);
 
     void                  createPartsUserGroup (
@@ -156,6 +156,9 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     void                  createNotesUserGroup (
                             ostream& os);
 
+    void                  creatBeamsUserGroup (
+                            ostream& os);
+
     void                  createArticulationsUserGroup (
                             ostream& os);
 
@@ -168,7 +171,7 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     void                  createChordsUserGroup (
                             ostream& os);
 
-    void                  createTiesAndSlursUserGroup (
+    void                  createTiesSlursAndLigaturesUserGroup (
                             ostream& os);
 
     void                  createDynamicsAndWedgesUserGroup (
@@ -180,16 +183,25 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     void                  createLyricsUserGroup (
                             ostream& os);
 
+    void                  createStringsUserGroup (
+                            ostream& os);
+
+    void                  createTablaturesUserGroup (
+                            ostream& os);
+
     void                  createHarmoniesUserGroup (
                             ostream& os);
 
     void                  createFiguredBassesUserGroup (
                             ostream& os);
 
+    void                  createPresentationUserGroup (
+                            ostream& os);
+
     void                  createOutputUserGroup (
                             ostream& os);
 
-    void                  createInsiderUserGroup (
+    void                  createMidiUserGroup (
                             ostream& os);
 
   protected:

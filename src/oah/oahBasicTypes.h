@@ -3524,17 +3524,16 @@ class EXP oahDualHandler : public smartable
     string                fInsiderAtomShortName;
     string                fInsiderAtomLongName;
 
-    // the 'insider' user group is not shown
-    S_oahGroup            fInsiderUserGroup;
-
-    // the 'insider' user subgroup is a catchall
-    S_oahSubGroup         fInsiderUserSubGroup;
-
     // the mappings
     map<string, S_oahGroup>
                           fSubGroupNamesToUserGroupsMap;
     map<string, S_oahSubGroup>
                           fAtomNamesToUserSubGroupsMap;
+
+    // atoms not present in the 'user' view are put aside
+    S_oahGroup            fPutAsideInUserViewGroup;
+    S_oahSubGroup         fPutAsideInUserViewSubGroup;
+    list<string>          fPutAsideInUserViewAtomNamesList;
 
   private:
 
