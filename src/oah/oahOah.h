@@ -236,7 +236,7 @@ class oahOah : public oahGroup
     // --------------------------------------
 
     bool                  fDisplayOahValues;
-    bool                  fDisplayOptionsHandler;
+    bool                  fDisplayOahHandler;
 };
 typedef SMARTP<oahOah> S_oahOah;
 EXP ostream& operator<< (ostream& os, const S_oahOah& elt);

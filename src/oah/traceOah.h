@@ -77,7 +77,10 @@ class traceOah : public oahGroup
     void                  initializeCreditsToWordsTraceOah (
                             bool boolOptionsInitialValue);
 
-    void                  initializeHarmoniesAndFiguredBassesTraceOah (
+    void                  initializeHarmoniesTraceOah (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeFiguredBassesTraceOah (
                             bool boolOptionsInitialValue);
 
     void                  initializeSpannersTraceOah (
@@ -361,9 +364,6 @@ class traceOah : public oahGroup
     // tuplets
     bool                  fTraceTuplets;
     bool                  fTraceTupletsDetails;
-    // extra chords
-    bool                  fTraceExtraChords;
-
 
     // inter-notes
     // --------------------------------------
@@ -372,7 +372,6 @@ class traceOah : public oahGroup
     bool                  fTraceTies;
     // glissandos
     bool                  fTraceGlissandos;
-
 
     // above staff
     // --------------------------------------
@@ -388,15 +387,18 @@ class traceOah : public oahGroup
     // eyeglases
     bool                  fTraceEyeGlasses;
 
-
-    // harmonies and figured basses
+    // harmonies
     // --------------------------------------
 
-    // harmonies
     bool                  fTraceHarmonies;
-    // figured basses
-    bool                  fTraceFiguredBasses;
+    bool                  fTraceHarmoniesDetails;
 
+    bool                  fTraceExtraHarmonies;
+
+    // figured basses
+    // --------------------------------------
+
+    bool                  fTraceFiguredBasses;
 
     // instruments
     // --------------------------------------
@@ -421,7 +423,6 @@ class traceOah : public oahGroup
     bool                  fTraceDampAlls;
     // midi
     bool                  fTraceMidi;
-
 
 /* JMI
     // msrStreams

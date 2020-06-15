@@ -381,33 +381,33 @@ msrHarmony::msrHarmony (
     0 for root position, 1 for first inversion, etc.
   */
   if (fHarmonyInversion > 0) {
-    // fetch the chord intervals
-    S_msrChordStructure
-      chordStructure =
-        msrChordStructure::create (
+    // fetch the harmony intervals
+    S_msrHarmonyStructure
+      harmonyStructure =
+        msrHarmonyStructure::create (
   // JMI        inputLineNumber,
           fHarmonyKind);
 
-    // fetch the bass chord item for the inversion
-    S_msrChordInterval
-      bassChordInterval =
-        chordStructure->
-          bassChordIntervalForChordInversion (
+    // fetch the bass harmony item for the inversion
+    S_msrHarmonyInterval
+      bassHarmonyInterval =
+        harmonyStructure->
+          bassHarmonyIntervalForHarmonyInversion (
             inputLineNumber,
             fHarmonyInversion);
 
-    // fetch the inverted chord bass semitones pitch
+    // fetch the inverted harmony bass semitones pitch
     msrQuarterTonesPitchKind
-      invertedChordBassQuarterTonesPitchKind =
+      invertedHarmonyBassQuarterTonesPitchKind =
         noteAtIntervalFromQuarterTonesPitch (
           inputLineNumber,
-          bassChordInterval->getChordIntervalIntervalKind (),
+          bassHarmonyInterval->getHarmonyIntervalIntervalKind (),
           fHarmonyRootQuarterTonesPitchKind);
 
     // is this compatible with bass quartertones pitch if specified?
     if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
       if (
-        invertedChordBassQuarterTonesPitchKind
+        invertedHarmonyBassQuarterTonesPitchKind
           !=
         fHarmonyBassQuarterTonesPitchKind
         ) {
@@ -432,7 +432,7 @@ msrHarmony::msrHarmony (
 
     // set the bass quartertones pitch according to the inversion
     fHarmonyBassQuarterTonesPitchKind =
-      invertedChordBassQuarterTonesPitchKind;
+      invertedHarmonyBassQuarterTonesPitchKind;
   }
 
 #ifdef TRACE_OAH

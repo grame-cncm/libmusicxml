@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -32,7 +32,7 @@ static xmlErr xml2guido(SXMLFile& xmlfile, bool generateBars, int partFilter, os
 	Sxmlelement st = xmlfile->elements();
 	if (st) {
 		if (st->getName() == "score-timewise") return kUnsupported;
-		
+
 		xml2guidovisitor v(true, true, generateBars, partFilter);
 		Sguidoelement gmn = v.convert(st);
 		if (file) {
@@ -49,7 +49,7 @@ static xmlErr xml2guido(SXMLFile& xmlfile, bool generateBars, int partFilter, os
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2guido(const char *file, bool generateBars, ostream& out) 
+EXP xmlErr musicxmlfile2guido(const char *file, bool generateBars, ostream& out)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -61,7 +61,7 @@ EXP xmlErr musicxmlfile2guido(const char *file, bool generateBars, ostream& out)
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2guido(FILE * fd, bool generateBars, ostream& out) 
+EXP xmlErr musicxmlfd2guido(FILE * fd, bool generateBars, ostream& out)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -75,9 +75,9 @@ EXP xmlErr musicxmlfd2guido(FILE * fd, bool generateBars, ostream& out)
 //_______________________________________________________________________________
     //  partFilter: 0 to get all parts, 1 to get only "P1", etc.
 EXP xmlErr musicxmlstring2guido(const char * buffer, bool generateBars, ostream& out)
-    {
-        return musicxmlstring2guidoOnPart(buffer, generateBars, 0, out);
-    }
+{
+  return musicxmlstring2guidoOnPart(buffer, generateBars, 0, out);
+}
 
 EXP xmlErr musicxmlstring2guidoOnPart(const char * buffer, bool generateBars, int partFilter, std::ostream& out)
 {
@@ -89,6 +89,6 @@ EXP xmlErr musicxmlstring2guidoOnPart(const char * buffer, bool generateBars, in
 	}
 	return kInvalidFile;
 }
-    
+
 
 }

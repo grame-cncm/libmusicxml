@@ -344,7 +344,7 @@ msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
   fOctave            = relativeOctave;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChordsDetails) {
+  if (gTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
       "==> Creating pitch and octave '" <<
       asString () <<
@@ -9324,54 +9324,61 @@ msrClefKind clefKindFromString (
 
 void initializeClefKinds ()
 {
-//  gClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
+  // protect library against multiple initializations
+  static bool initializeClefKindsHasBeenRun = false;
 
-  gClefKindsNamesList.push_back ("treble");
-  gClefKindsMap ["treble"] = kTrebleClef;
-  gClefKindsNamesList.push_back ("soprano");
-  gClefKindsMap ["soprano"] = kSopranoClef;
-  gClefKindsNamesList.push_back ("mezzosoprano");
-  gClefKindsMap ["mezzosoprano"] = kMezzoSopranoClef;
-  gClefKindsNamesList.push_back ("alto");
-  gClefKindsMap ["alto"] = kAltoClef;
-  gClefKindsNamesList.push_back ("tenor");
-  gClefKindsMap ["tenor"] = kTenorClef;
-  gClefKindsNamesList.push_back ("baritone");
-  gClefKindsMap ["baritone"] = kBaritoneClef;
-  gClefKindsNamesList.push_back ("bass");
-  gClefKindsMap ["bass"] = kBassClef;
-  gClefKindsNamesList.push_back ("treble1");
-  gClefKindsMap ["treble1"] = kTrebleLine1Clef;
-  gClefKindsNamesList.push_back ("treble-15");
-  gClefKindsMap ["treble-15"] = kTrebleMinus15Clef;
-  gClefKindsNamesList.push_back ("treble-8");
-  gClefKindsMap ["treble-8"] = kTrebleMinus8Clef;
-  gClefKindsNamesList.push_back ("treble+8");
-  gClefKindsMap ["treble+8"] = kTreblePlus8Clef;
-  gClefKindsNamesList.push_back ("treble+15");
-  gClefKindsMap ["treble+15"] = kTreblePlus15Clef;
-  gClefKindsNamesList.push_back ("bass-15");
-  gClefKindsMap ["bass-15"] = kBassMinus15Clef;
-  gClefKindsNamesList.push_back ("bass-8");
-  gClefKindsMap ["bass-8"] = kBassMinus8Clef;
-  gClefKindsNamesList.push_back ("bass+8");
-  gClefKindsMap ["bass+8"] = kBassPlus8Clef;
-  gClefKindsNamesList.push_back ("bass+15");
-  gClefKindsMap ["bass+15"] = kBassPlus15Clef;
-  gClefKindsNamesList.push_back ("varbaritone");
-  gClefKindsMap ["varbaritone"] = kVarbaritoneClef;
-  gClefKindsNamesList.push_back ("tab4");
-  gClefKindsMap ["tab4"] = kTablature4Clef;
-  gClefKindsNamesList.push_back ("tab5");
-  gClefKindsMap ["tab5"] = kTablature5Clef;
-  gClefKindsNamesList.push_back ("tab6");
-  gClefKindsMap ["tab6"] = kTablature6Clef;
-  gClefKindsNamesList.push_back ("tab7");
-  gClefKindsMap ["tab7"] = kTablature7Clef;
-  gClefKindsNamesList.push_back ("percussion");
-  gClefKindsMap ["percussion"] = kPercussionClef;
-  gClefKindsNamesList.push_back ("jianpu");
-  gClefKindsMap ["jianpu"] = kJianpuClef;
+  if (! initializeClefKindsHasBeenRun) {
+  //  gClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
+
+    gClefKindsNamesList.push_back ("treble");
+    gClefKindsMap ["treble"] = kTrebleClef;
+    gClefKindsNamesList.push_back ("soprano");
+    gClefKindsMap ["soprano"] = kSopranoClef;
+    gClefKindsNamesList.push_back ("mezzosoprano");
+    gClefKindsMap ["mezzosoprano"] = kMezzoSopranoClef;
+    gClefKindsNamesList.push_back ("alto");
+    gClefKindsMap ["alto"] = kAltoClef;
+    gClefKindsNamesList.push_back ("tenor");
+    gClefKindsMap ["tenor"] = kTenorClef;
+    gClefKindsNamesList.push_back ("baritone");
+    gClefKindsMap ["baritone"] = kBaritoneClef;
+    gClefKindsNamesList.push_back ("bass");
+    gClefKindsMap ["bass"] = kBassClef;
+    gClefKindsNamesList.push_back ("treble1");
+    gClefKindsMap ["treble1"] = kTrebleLine1Clef;
+    gClefKindsNamesList.push_back ("treble-15");
+    gClefKindsMap ["treble-15"] = kTrebleMinus15Clef;
+    gClefKindsNamesList.push_back ("treble-8");
+    gClefKindsMap ["treble-8"] = kTrebleMinus8Clef;
+    gClefKindsNamesList.push_back ("treble+8");
+    gClefKindsMap ["treble+8"] = kTreblePlus8Clef;
+    gClefKindsNamesList.push_back ("treble+15");
+    gClefKindsMap ["treble+15"] = kTreblePlus15Clef;
+    gClefKindsNamesList.push_back ("bass-15");
+    gClefKindsMap ["bass-15"] = kBassMinus15Clef;
+    gClefKindsNamesList.push_back ("bass-8");
+    gClefKindsMap ["bass-8"] = kBassMinus8Clef;
+    gClefKindsNamesList.push_back ("bass+8");
+    gClefKindsMap ["bass+8"] = kBassPlus8Clef;
+    gClefKindsNamesList.push_back ("bass+15");
+    gClefKindsMap ["bass+15"] = kBassPlus15Clef;
+    gClefKindsNamesList.push_back ("varbaritone");
+    gClefKindsMap ["varbaritone"] = kVarbaritoneClef;
+    gClefKindsNamesList.push_back ("tab4");
+    gClefKindsMap ["tab4"] = kTablature4Clef;
+    gClefKindsNamesList.push_back ("tab5");
+    gClefKindsMap ["tab5"] = kTablature5Clef;
+    gClefKindsNamesList.push_back ("tab6");
+    gClefKindsMap ["tab6"] = kTablature6Clef;
+    gClefKindsNamesList.push_back ("tab7");
+    gClefKindsMap ["tab7"] = kTablature7Clef;
+    gClefKindsNamesList.push_back ("percussion");
+    gClefKindsMap ["percussion"] = kPercussionClef;
+    gClefKindsNamesList.push_back ("jianpu");
+    gClefKindsMap ["jianpu"] = kJianpuClef;
+
+    initializeClefKindsHasBeenRun = true;
+  }
 }
 
 string existingClefKinds (int namesListMaxLength)
@@ -9478,7 +9485,7 @@ string msrHarmonyKindAsString (
       result = "noHarmony";
       break;
 
-    // MusicXML chords
+    // MusicXML harmonies
 
     case kMajorHarmony:
       result = "major";
@@ -9582,7 +9589,7 @@ string msrHarmonyKindAsString (
       result = "tristan";
       break;
 
-    // jazz-specific chords
+    // jazz-specific Harmonies
 
     case kMinorMajorNinth: // -maj9, minmaj9
       result = "minorMajorNinth";
@@ -9634,7 +9641,7 @@ string msrHarmonyKindAsShortString (
       result = "noHarmony";
       break;
 
-    // MusicXML chords
+    // MusicXML harmonies
 
     case kMajorHarmony:
       result = "M";
@@ -9738,7 +9745,7 @@ string msrHarmonyKindAsShortString (
       result = "Tristan";
       break;
 
-    // jazz-specific chords
+    // jazz-specific Harmonies
 
     case kMinorMajorNinth: // -maj9, minmaj9
       result = "m∆9";
@@ -9790,7 +9797,7 @@ string msrHarmonyKindShortName (
       result = "noHarmony";
       break;
 
-    // MusicXML chords
+    // MusicXML harmonies
 
     case kMajorHarmony:
       result = "maj";
@@ -9894,7 +9901,7 @@ string msrHarmonyKindShortName (
       result = "tristan";
       break;
 
-    // jazz-specific chords
+    // jazz-specific Harmonies
 
     case kMinorMajorNinth: // -maj9, minmaj9
       result = "minmaj9";
@@ -9941,7 +9948,7 @@ msrHarmonyKind msrHarmonyKindFromString (
 {
   msrHarmonyKind result = k_NoHarmony;
 
-  // MusicXML chords
+  // MusicXML harmonies
 
   if (theString == "maj") {
     result = kMajorHarmony;
@@ -10037,7 +10044,7 @@ msrHarmonyKind msrHarmonyKindFromString (
     result = kTristanHarmony;
   }
 
-  // jazz-specific chords
+  // jazz-specific Harmonies
 
   else if (theString == "minmaj9") {
     result = kMinorMajorNinth;                              // -maj9, minmaj9
@@ -10075,51 +10082,58 @@ list<string>
 
 void initializeHarmonyKinds ()
 {
-  // MusicXML chords
+  // protect library against multiple initializations
+  static bool initializeHarmonyKindsHasBeenRun = false;
 
-  gHarmonyKindsNamesList.push_back ("maj");
-  gHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = kMajorHarmony;
-  gHarmonyKindsMap ["min"] = kMinorHarmony;
-  gHarmonyKindsMap ["aug"] = kAugmentedHarmony;
-  gHarmonyKindsMap ["dim"] = kDiminishedHarmony;
-  gHarmonyKindsMap ["dom"] = kDominantHarmony;
-  gHarmonyKindsMap ["maj7"] = kMajorSeventhHarmony;
-  gHarmonyKindsMap ["min7"] = kMinorSeventhHarmony;
-  gHarmonyKindsMap ["dim7"] = kDiminishedSeventhHarmony;
-  gHarmonyKindsMap ["aug7"] = kAugmentedSeventhHarmony;
-  gHarmonyKindsMap ["halfdim"] = kHalfDiminishedHarmony;
-  gHarmonyKindsMap ["minmaj7"] = kMinorMajorSeventhHarmony;
-  gHarmonyKindsMap ["maj6"] = kMajorSixthHarmony;
-  gHarmonyKindsMap ["min6"] = kMinorSixthHarmony;
-  gHarmonyKindsMap ["dom9"] = kDominantNinthHarmony;
-  gHarmonyKindsMap ["maj9"] = kMajorNinthHarmony;
-  gHarmonyKindsMap ["min9"] = kMinorNinthHarmony;
-  gHarmonyKindsMap ["dom11"] = kDominantEleventhHarmony;
-  gHarmonyKindsMap ["maj11"] = kMajorEleventhHarmony;
-  gHarmonyKindsMap ["min11"] = kMinorEleventhHarmony;
-  gHarmonyKindsMap ["dom13"] = kDominantThirteenthHarmony;
-  gHarmonyKindsMap ["maj13"] = kMajorThirteenthHarmony;
-  gHarmonyKindsMap ["min13"] = kMinorThirteenthHarmony;
-  gHarmonyKindsMap ["sus2"] = kSuspendedSecondHarmony;
-  gHarmonyKindsMap ["sus4"] = kSuspendedFourthHarmony;
-  gHarmonyKindsMap ["neapolitan"] = kNeapolitanHarmony;
-  gHarmonyKindsMap ["italian"] = kItalianHarmony;
-  gHarmonyKindsMap ["french"] = kFrenchHarmony;
-  gHarmonyKindsMap ["german"] = kGermanHarmony;
-  gHarmonyKindsMap ["pedal"] = kPedalHarmony;
-  gHarmonyKindsMap ["power"] = kPowerHarmony;
-  gHarmonyKindsMap ["tristan"] = kTristanHarmony;
+  if (! initializeHarmonyKindsHasBeenRun) {
+    // MusicXML harmonies
 
-  // jazz-specific chords
+    gHarmonyKindsNamesList.push_back ("maj"); // JMI
+    gHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = kMajorHarmony;
+    gHarmonyKindsMap ["min"] = kMinorHarmony;
+    gHarmonyKindsMap ["aug"] = kAugmentedHarmony;
+    gHarmonyKindsMap ["dim"] = kDiminishedHarmony;
+    gHarmonyKindsMap ["dom"] = kDominantHarmony;
+    gHarmonyKindsMap ["maj7"] = kMajorSeventhHarmony;
+    gHarmonyKindsMap ["min7"] = kMinorSeventhHarmony;
+    gHarmonyKindsMap ["dim7"] = kDiminishedSeventhHarmony;
+    gHarmonyKindsMap ["aug7"] = kAugmentedSeventhHarmony;
+    gHarmonyKindsMap ["halfdim"] = kHalfDiminishedHarmony;
+    gHarmonyKindsMap ["minmaj7"] = kMinorMajorSeventhHarmony;
+    gHarmonyKindsMap ["maj6"] = kMajorSixthHarmony;
+    gHarmonyKindsMap ["min6"] = kMinorSixthHarmony;
+    gHarmonyKindsMap ["dom9"] = kDominantNinthHarmony;
+    gHarmonyKindsMap ["maj9"] = kMajorNinthHarmony;
+    gHarmonyKindsMap ["min9"] = kMinorNinthHarmony;
+    gHarmonyKindsMap ["dom11"] = kDominantEleventhHarmony;
+    gHarmonyKindsMap ["maj11"] = kMajorEleventhHarmony;
+    gHarmonyKindsMap ["min11"] = kMinorEleventhHarmony;
+    gHarmonyKindsMap ["dom13"] = kDominantThirteenthHarmony;
+    gHarmonyKindsMap ["maj13"] = kMajorThirteenthHarmony;
+    gHarmonyKindsMap ["min13"] = kMinorThirteenthHarmony;
+    gHarmonyKindsMap ["sus2"] = kSuspendedSecondHarmony;
+    gHarmonyKindsMap ["sus4"] = kSuspendedFourthHarmony;
+    gHarmonyKindsMap ["neapolitan"] = kNeapolitanHarmony;
+    gHarmonyKindsMap ["italian"] = kItalianHarmony;
+    gHarmonyKindsMap ["french"] = kFrenchHarmony;
+    gHarmonyKindsMap ["german"] = kGermanHarmony;
+    gHarmonyKindsMap ["pedal"] = kPedalHarmony;
+    gHarmonyKindsMap ["power"] = kPowerHarmony;
+    gHarmonyKindsMap ["tristan"] = kTristanHarmony;
 
-  gHarmonyKindsMap ["minmaj9"] = kMinorMajorNinth;
-  gHarmonyKindsMap ["domsus4"] = kDominantSuspendedFourthHarmony;
-  gHarmonyKindsMap ["domaug5"] = kDominantAugmentedFifthHarmony;
-  gHarmonyKindsMap ["dommin9"] = kDominantMinorNinthHarmony;
-  gHarmonyKindsMap ["domaug9dim5"] = kDominantAugmentedNinthDiminishedFifthHarmony;
-  gHarmonyKindsMap ["domaug9aug5"] = kDominantAugmentedNinthAugmentedFifthHarmony;
-  gHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
-  gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
+    // jazz-specific Harmonies
+
+    gHarmonyKindsMap ["minmaj9"] = kMinorMajorNinth;
+    gHarmonyKindsMap ["domsus4"] = kDominantSuspendedFourthHarmony;
+    gHarmonyKindsMap ["domaug5"] = kDominantAugmentedFifthHarmony;
+    gHarmonyKindsMap ["dommin9"] = kDominantMinorNinthHarmony;
+    gHarmonyKindsMap ["domaug9dim5"] = kDominantAugmentedNinthDiminishedFifthHarmony;
+    gHarmonyKindsMap ["domaug9aug5"] = kDominantAugmentedNinthAugmentedFifthHarmony;
+    gHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
+    gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
+
+    initializeHarmonyKindsHasBeenRun = true;
+  }
 }
 
 string existingHarmonyKinds (int namesListMaxLength)
@@ -10214,30 +10228,37 @@ string existingHarmonyKindsNames (int namesListMaxLength)
   return s.str ();
 }
 
-void initializeChordStructuresMap ()
+void initializeHarmonyStructuresMap ()
 {
-  for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
-    msrHarmonyKind
-      harmonyKind =
-        msrHarmonyKind (i);
+  // protect library against multiple initializations
+  static bool initializeHarmonyStructuresMapHasBeenRun = false;
 
-    // create the chord structure
-    S_msrChordStructure
-      chordStructure =
-        msrChordStructure::create (
-          harmonyKind);
+  if (! initializeHarmonyStructuresMapHasBeenRun) {
+    for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
+      msrHarmonyKind
+        harmonyKind =
+          msrHarmonyKind (i);
 
-    // register it in the map
-    gChordStructuresMap [harmonyKind] =
-      chordStructure;
-  } // for
+      // create the harmony structure
+      S_msrHarmonyStructure
+        harmonyStructure =
+          msrHarmonyStructure::create (
+            harmonyKind);
+
+      // register it in the map
+      gHarmonyStructuresMap [harmonyKind] =
+        harmonyStructure;
+    } // for
+
+    initializeHarmonyStructuresMapHasBeenRun = true;
+  }
 }
 
-void printChordStructuresMap ()
+void printHarmonyStructuresMap ()
 {
   gLogOstream <<
-    "Harmonies chords structures:" <<
-    " (" << gChordStructuresMap.size () << ")" <<
+    "Harmonies harmonies structures:" <<
+    " (" << gHarmonyStructuresMap.size () << ")" <<
     endl;
 
   gIndenter++;
@@ -10254,13 +10275,13 @@ void printChordStructuresMap ()
 
     gIndenter++;
 
-    S_msrChordStructure
-      chordStructure =
-        gChordStructuresMap [harmonyKind];
+    S_msrHarmonyStructure
+      harmonyStructure =
+        gHarmonyStructuresMap [harmonyKind];
 
-    if (chordStructure) {
+    if (harmonyStructure) {
       gLogOstream <<
-        chordStructure <<
+        harmonyStructure <<
         endl;
     }
     else {
@@ -10300,19 +10321,42 @@ map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ()
 {
-  gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
-  gQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
-  gQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
-  gQuarterTonesPitchesLanguageKindsMap ["english"]    = kEnglish;
-  gQuarterTonesPitchesLanguageKindsMap ["espanol"]    = kEspanol;
-  gQuarterTonesPitchesLanguageKindsMap ["italiano"]   = kItaliano;
-  gQuarterTonesPitchesLanguageKindsMap ["francais"]   = kFrancais;
-  gQuarterTonesPitchesLanguageKindsMap ["norsk"]      = kNorsk;
-  gQuarterTonesPitchesLanguageKindsMap ["portugues"]  = kPortugues;
-  gQuarterTonesPitchesLanguageKindsMap ["suomi"]      = kSuomi;
-  gQuarterTonesPitchesLanguageKindsMap ["svenska"]    = kSvenska;
-  gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
+  // protect library against multiple initializations
+  static bool initializeQuarterTonesPitchesLanguageKindsHasBeenRun = false;
 
+  if (! initializeQuarterTonesPitchesLanguageKindsHasBeenRun) {
+    gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
+    gQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
+    gQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
+    gQuarterTonesPitchesLanguageKindsMap ["english"]    = kEnglish;
+    gQuarterTonesPitchesLanguageKindsMap ["espanol"]    = kEspanol;
+    gQuarterTonesPitchesLanguageKindsMap ["italiano"]   = kItaliano;
+    gQuarterTonesPitchesLanguageKindsMap ["francais"]   = kFrancais;
+    gQuarterTonesPitchesLanguageKindsMap ["norsk"]      = kNorsk;
+    gQuarterTonesPitchesLanguageKindsMap ["portugues"]  = kPortugues;
+    gQuarterTonesPitchesLanguageKindsMap ["suomi"]      = kSuomi;
+    gQuarterTonesPitchesLanguageKindsMap ["svenska"]    = kSvenska;
+    gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
+
+    initializeNederlandsPitchNamesMap ();
+    initializeCatalanPitchNamesMap ();
+    initializeDeutschPitchNamesMap ();
+    initializeEnglishPitchNamesMap ();
+    initializeEspanolPitchNamesMap ();
+    initializeFrancaisPitchNamesMap ();
+    initializeItalianoPitchNamesMap ();
+    initializeNorskPitchNamesMap ();
+    initializePortuguesPitchNamesMap ();
+    initializeSuomiPitchNamesMap ();
+    initializeSvenskaPitchNamesMap ();
+    initializeVlaamsPitchNamesMap ();
+
+    initializeQuarterTonesPitchesLanguageKindsHasBeenRun = true;
+  }
+}
+
+void initializeNederlandsPitchNamesMap ()
+{
   // nederlands
   gNederlandsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gNederlandsPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10386,7 +10430,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchNamesMap [kG_Sharp_QTP]       = "gis";
   gNederlandsPitchNamesMap [kG_SesquiSharp_QTP] = "gisih";
   gNederlandsPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+}
 
+void initializeCatalanPitchNamesMap ()
+{
   // catalan
   gCatalanPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gCatalanPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10460,7 +10507,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchNamesMap [kG_Sharp_QTP]       = "sold";
   gCatalanPitchNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
   gCatalanPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+}
 
+void initializeDeutschPitchNamesMap ()
+{
   // deutsch
   gDeutschPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gDeutschPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10534,7 +10584,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchNamesMap [kG_Sharp_QTP]       = "gis";
   gDeutschPitchNamesMap [kG_SesquiSharp_QTP] = "gisih";
   gDeutschPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+}
 
+void initializeEnglishPitchNamesMap ()
+{
   // english
   gEnglishPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gEnglishPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10608,7 +10661,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchNamesMap [kG_Sharp_QTP]       = "gs";
   gEnglishPitchNamesMap [kG_SesquiSharp_QTP] = "gtqs";
   gEnglishPitchNamesMap [kG_DoubleSharp_QTP] = "gx";
+}
 
+void initializeEspanolPitchNamesMap ()
+{
   // espanol
   gEspanolPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gEspanolPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10682,7 +10738,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchNamesMap [kG_Sharp_QTP]       = "sols";
   gEspanolPitchNamesMap [kG_SesquiSharp_QTP] = "soltcs";
   gEspanolPitchNamesMap [kG_DoubleSharp_QTP] = "solx";
+}
 
+void initializeFrancaisPitchNamesMap ()
+{
   // francais
   gFrancaisPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gFrancaisPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10756,7 +10815,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchNamesMap [kG_Sharp_QTP]       = "sold";
   gFrancaisPitchNamesMap [kG_SesquiSharp_QTP] = "solstqt";
   gFrancaisPitchNamesMap [kG_DoubleSharp_QTP] = "solss";
+}
 
+void initializeItalianoPitchNamesMap ()
+{
   // italiano
   gItalianoPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gItalianoPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10830,7 +10892,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchNamesMap [kG_Sharp_QTP]       = "sold";
   gItalianoPitchNamesMap [kG_SesquiSharp_QTP] = "soldsd";
   gItalianoPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+}
 
+void initializeNorskPitchNamesMap ()
+{
   // norsk
   gNorskPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gNorskPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10904,7 +10969,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchNamesMap [kG_Sharp_QTP]       = "gis";
   gNorskPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
   gNorskPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+}
 
+void initializePortuguesPitchNamesMap ()
+{
   // portugues
   gPortuguesPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gPortuguesPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -10978,7 +11046,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchNamesMap [kG_Sharp_QTP]       = "sold";
   gPortuguesPitchNamesMap [kG_SesquiSharp_QTP] = "soldsd";
   gPortuguesPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+}
 
+void initializeSuomiPitchNamesMap ()
+{
   // suomi
   gSuomiPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gSuomiPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -11052,7 +11123,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchNamesMap [kG_Sharp_QTP]       = "gis";
   gSuomiPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
   gSuomiPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+}
 
+void initializeSvenskaPitchNamesMap ()
+{
   // svenska
   gSvenskaPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gSvenskaPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -11126,7 +11200,10 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchNamesMap [kG_Sharp_QTP]       = "giss";
   gSvenskaPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
   gSvenskaPitchNamesMap [kG_DoubleSharp_QTP] = "gississ";
+}
 
+void initializeVlaamsPitchNamesMap ()
+{
   // vlaams
   gVlaamsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gVlaamsPitchNamesMap [k_Rest_QTP]                 = "r";
@@ -13950,14 +14027,21 @@ string msrLengthUnitKindAsString (
 
 void initializeMsrLengthUnitKindsMap ()
 {
-  // register the LilyPond score output kinds
-  // --------------------------------------
+  // protect library against multiple initializations
+  static bool initializeMsrLengthUnitKindsMapHasBeenRun = false;
 
-  // no CamelCase here, these strings are used in the command line options
+  if (! initializeMsrLengthUnitKindsMapHasBeenRun) {
+    // register the LilyPond score output kinds
+    // --------------------------------------
 
-  gMsrLengthUnitKindsMap ["in"] = kInchUnit;
-  gMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
-  gMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
+    // no CamelCase here, these strings are used in the command line options
+
+    gMsrLengthUnitKindsMap ["in"] = kInchUnit;
+    gMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
+    gMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
+
+    initializeMsrLengthUnitKindsMapHasBeenRun = true;
+  }
 }
 
 string existingMsrLengthUnitKinds (int namesListMaxLength)
@@ -14144,14 +14228,21 @@ string msrMarginTypeKindAsString (
 
 void initializeMsrMarginTypeKindsMap ()
 {
-  // register the LilyPond score output kinds
-  // --------------------------------------
+  // protect library against multiple initializations
+  static bool initializeMsrMarginTypeKindsMapHasBeenRun = false;
 
-  // no CamelCase here, these strings are used in the command line options
+  if (! initializeMsrMarginTypeKindsMapHasBeenRun) {
+    // register the LilyPond score output kinds
+    // --------------------------------------
 
-  gMsrMarginTypeKindsMap ["odd"] = kOddMargin;
-  gMsrMarginTypeKindsMap ["even"] = kEvenMargin;
-  gMsrMarginTypeKindsMap ["both"] = kBothMargins;
+    // no CamelCase here, these strings are used in the command line options
+
+    gMsrMarginTypeKindsMap ["odd"] = kOddMargin;
+    gMsrMarginTypeKindsMap ["even"] = kEvenMargin;
+    gMsrMarginTypeKindsMap ["both"] = kBothMargins;
+
+    initializeMsrMarginTypeKindsMapHasBeenRun = true;
+  }
 }
 
 string existingMsrMarginTypeKinds (int namesListMaxLength)
@@ -15261,118 +15352,118 @@ string msrSpannerTypeKindAsString (
 }
 
 //______________________________________________________________________________
-S_msrChordInterval msrChordInterval::create (
+S_msrHarmonyInterval msrHarmonyInterval::create (
 // JMI  int             inputLineNumber,
-  msrIntervalKind chordIntervalIntervalKind,
-  int             chordIntervalRelativeOctave)
+  msrIntervalKind harmonyIntervalIntervalKind,
+  int             harmonyIntervalRelativeOctave)
 {
-  msrChordInterval* o =
-    new msrChordInterval (
+  msrHarmonyInterval* o =
+    new msrHarmonyInterval (
  //     inputLineNumber,
- //     chordIntervalNumber,
-      chordIntervalIntervalKind,
-      chordIntervalRelativeOctave);
+ //     harmonyIntervalNumber,
+      harmonyIntervalIntervalKind,
+      harmonyIntervalRelativeOctave);
   assert(o!=0);
 
   return o;
 }
 
-msrChordInterval::msrChordInterval (
+msrHarmonyInterval::msrHarmonyInterval (
 // JMI  int             inputLineNumber,
-  msrIntervalKind chordIntervalIntervalKind,
-  int             chordIntervalRelativeOctave)
+  msrIntervalKind harmonyIntervalIntervalKind,
+  int             harmonyIntervalRelativeOctave)
   // JMI  : msrElement (inputLineNumber)
 {
-  fChordIntervalIntervalKind = chordIntervalIntervalKind;
+  fHarmonyIntervalIntervalKind = harmonyIntervalIntervalKind;
 
-  fChordIntervalRelativeOctave = chordIntervalRelativeOctave;
+  fHarmonyIntervalRelativeOctave = harmonyIntervalRelativeOctave;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChordsDetails) {
+  if (gTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
-      "==> Creating chord item '" <<
-      chordIntervalAsString () <<
+      "==> Creating harmony item '" <<
+      harmonyIntervalAsString () <<
       "'" <<
       endl;
   }
 #endif
 }
 
-msrChordInterval::~msrChordInterval ()
+msrHarmonyInterval::~msrHarmonyInterval ()
 {}
 
-S_msrChordInterval msrChordInterval::createChordIntervalNewbornClone ()
+S_msrHarmonyInterval msrHarmonyInterval::createHarmonyIntervalNewbornClone ()
 {
-  S_msrChordInterval
+  S_msrHarmonyInterval
     newbornClone =
-      msrChordInterval::create (
-        fChordIntervalIntervalKind,
-        fChordIntervalRelativeOctave);
+      msrHarmonyInterval::create (
+        fHarmonyIntervalIntervalKind,
+        fHarmonyIntervalRelativeOctave);
 
   return newbornClone;
 }
 
-string msrChordInterval::chordIntervalAsString () const
+string msrHarmonyInterval::harmonyIntervalAsString () const
 {
   stringstream s;
 
   const int fieldWidth = 19;
 
   s << left <<
-    "ChordInterval" <<
+    "HarmonyInterval" <<
     ": " <<
     setw (fieldWidth) <<
-    msrIntervalKindAsString (fChordIntervalIntervalKind) <<
-    "chordIntervalRelativeOctave: " << fChordIntervalRelativeOctave;
+    msrIntervalKindAsString (fHarmonyIntervalIntervalKind) <<
+    "harmonyIntervalRelativeOctave: " << fHarmonyIntervalRelativeOctave;
 
   return s.str ();
 }
 
-string msrChordInterval::chordIntervalAsShortString () const
+string msrHarmonyInterval::harmonyIntervalAsShortString () const
 {
   return
-    msrIntervalKindAsString (fChordIntervalIntervalKind);
+    msrIntervalKindAsString (fHarmonyIntervalIntervalKind);
 }
 
 
-void msrChordInterval::normalizeInterval ()
+void msrHarmonyInterval::normalizeInterval ()
 {
   // bring the interval below an octave
-  if (fChordIntervalIntervalKind > kAugmentedSeventh) {
-    fChordIntervalIntervalKind =
+  if (fHarmonyIntervalIntervalKind > kAugmentedSeventh) {
+    fHarmonyIntervalIntervalKind =
       msrIntervalKind (
-        fChordIntervalIntervalKind - kAugmentedSeventh);
+        fHarmonyIntervalIntervalKind - kAugmentedSeventh);
 
-    fChordIntervalRelativeOctave += 1;
+    fHarmonyIntervalRelativeOctave += 1;
   }
 }
 
-void msrChordInterval::deNormalizeInterval ()
+void msrHarmonyInterval::deNormalizeInterval ()
 {
   // bring the interval above the octave if its relative octave is 1
   if (
-    fChordIntervalRelativeOctave == 1
+    fHarmonyIntervalRelativeOctave == 1
       &&
-    fChordIntervalIntervalKind <= kAugmentedSeventh) {
-    fChordIntervalIntervalKind =
+    fHarmonyIntervalIntervalKind <= kAugmentedSeventh) {
+    fHarmonyIntervalIntervalKind =
       msrIntervalKind (
-        fChordIntervalIntervalKind + kAugmentedSeventh);
+        fHarmonyIntervalIntervalKind + kAugmentedSeventh);
 
-    fChordIntervalRelativeOctave -= 1;
+    fHarmonyIntervalRelativeOctave -= 1;
   }
 }
 
-S_msrChordInterval msrChordInterval::intervalDifference (
-  S_msrChordInterval otherChordInterval)
+S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
+  S_msrHarmonyInterval otherHarmonyInterval)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceExtraChords) {
+  if (gTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       endl <<
       "--> computing intervalDifference betwwen '" <<
       asShortString () <<
       "' and '" <<
-      otherChordInterval->asShortString () <<
+      otherHarmonyInterval->asShortString () <<
       "'" <<
       endl;
   }
@@ -15380,11 +15471,11 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
   msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
 
-  S_msrChordInterval
+  S_msrHarmonyInterval
     operand1 =
-      this->createChordIntervalNewbornClone (),
+      this->createHarmonyIntervalNewbornClone (),
     operand2 =
-      otherChordInterval->createChordIntervalNewbornClone ();
+      otherHarmonyInterval->createHarmonyIntervalNewbornClone ();
 
   // normalize both intervals
   operand1->
@@ -15393,7 +15484,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     normalizeInterval ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceExtraChords) {
+  if (gTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       "--> normalized operands are '" <<
       operand1->asShortString () <<
@@ -15406,15 +15497,15 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
   // fetch the relative octaves
   int
-    relativeOctave1 = operand1->fChordIntervalRelativeOctave,
-    relativeOctave2 = operand2->fChordIntervalRelativeOctave;
+    relativeOctave1 = operand1->fHarmonyIntervalRelativeOctave,
+    relativeOctave2 = operand2->fHarmonyIntervalRelativeOctave;
 
   // fetch the interval kind
   msrIntervalKind
     intervalKind1 =
-      operand1->fChordIntervalIntervalKind,
+      operand1->fHarmonyIntervalIntervalKind,
     intervalKind2 =
-      operand2->fChordIntervalIntervalKind;
+      operand2->fHarmonyIntervalIntervalKind;
 
   // order the operands so that
   // relativeOctave1 is greater or equal to relativeOctave2
@@ -15452,7 +15543,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceExtraChords) {
+  if (gTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       "--> permuteRelativeOctaves = " <<
       booleanAsString (permuteRelativeOctaves) <<
@@ -16630,7 +16721,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   } // switch
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceExtraChords) {
+  if (gTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       "--> base resultIntervalKind = '" <<
       msrIntervalKindAsString (resultIntervalKind) <<
@@ -16652,9 +16743,9 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   }
 
   // create the result
-  S_msrChordInterval
+  S_msrHarmonyInterval
     result =
-      msrChordInterval::create (
+      msrHarmonyInterval::create (
         resultIntervalKind,
         resultRelativeOctave);
 
@@ -16663,7 +16754,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   result->deNormalizeInterval ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceExtraChords) {
+  if (gTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       "--> result = '" <<
       result->asShortString () <<
@@ -16677,19 +16768,19 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   return result;
 }
 
-S_msrChordInterval msrChordInterval::intervalSum (
-  S_msrChordInterval otherChordInterval)
+S_msrHarmonyInterval msrHarmonyInterval::intervalSum (
+  S_msrHarmonyInterval otherHarmonyInterval)
 {
   msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
   int             resultRelativeOctave = 0;
 
   msrIntervalKind
-    intervalKind1 = fChordIntervalIntervalKind,
-    intervalKind2 = otherChordInterval->fChordIntervalIntervalKind;
+    intervalKind1 = fHarmonyIntervalIntervalKind,
+    intervalKind2 = otherHarmonyInterval->fHarmonyIntervalIntervalKind;
 
   int
-    relativeOctave1 = fChordIntervalRelativeOctave,
-    relativeOctave2 = otherChordInterval->fChordIntervalRelativeOctave;
+    relativeOctave1 = fHarmonyIntervalRelativeOctave,
+    relativeOctave2 = otherHarmonyInterval->fHarmonyIntervalRelativeOctave;
 
   relativeOctave1 = relativeOctave2; // TEMP, JMI
   relativeOctave2 = relativeOctave1; // TEMP, JMI
@@ -17807,88 +17898,88 @@ S_msrChordInterval msrChordInterval::intervalSum (
   }
 
   return
-    msrChordInterval::create (
+    msrHarmonyInterval::create (
       resultIntervalKind,
       resultRelativeOctave);
 }
 
 /* JMI
-void msrChordInterval::acceptIn (basevisitor* v) {
+void msrHarmonyInterval::acceptIn (basevisitor* v) {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrChordInterval::acceptIn ()" <<
+      "% ==> msrHarmonyInterval::acceptIn ()" <<
       endl;
   }
 
-  if (visitor<S_msrChordInterval>*
+  if (visitor<S_msrHarmonyInterval>*
     p =
-      dynamic_cast<visitor<S_msrChordInterval>*> (v)) {
-        S_msrChordInterval elem = this;
+      dynamic_cast<visitor<S_msrHarmonyInterval>*> (v)) {
+        S_msrHarmonyInterval elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrChordInterval::visitStart ()" <<
+            "% ==> Launching msrHarmonyInterval::visitStart ()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrChordInterval::acceptOut (basevisitor* v) {
+void msrHarmonyInterval::acceptOut (basevisitor* v) {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrChordInterval::acceptOut ()" <<
+      "% ==> msrHarmonyInterval::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrChordInterval>*
+  if (visitor<S_msrHarmonyInterval>*
     p =
-      dynamic_cast<visitor<S_msrChordInterval>*> (v)) {
-        S_msrChordInterval elem = this;
+      dynamic_cast<visitor<S_msrHarmonyInterval>*> (v)) {
+        S_msrHarmonyInterval elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrChordInterval::visitEnd ()" <<
+            "% ==> Launching msrHarmonyInterval::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrChordInterval::browseData (basevisitor* v)
+void msrHarmonyInterval::browseData (basevisitor* v)
 {}
 */
 
-string msrChordInterval::asString () const
+string msrHarmonyInterval::asString () const
 {
   stringstream s;
 
   s <<
-    "ChordInterval '" <<
-    msrIntervalKindAsString (fChordIntervalIntervalKind) <<
+    "HarmonyInterval '" <<
+    msrIntervalKindAsString (fHarmonyIntervalIntervalKind) <<
     ", rel. oct. " <<
-    fChordIntervalRelativeOctave <<
+    fHarmonyIntervalRelativeOctave <<
     "'";
 
   return s.str ();
 }
 
-string msrChordInterval::asShortString () const
+string msrHarmonyInterval::asShortString () const
 {
   stringstream s;
 
   s <<
     "'" <<
-    msrIntervalKindAsString (fChordIntervalIntervalKind) <<
+    msrIntervalKindAsString (fHarmonyIntervalIntervalKind) <<
     ", rel.oct. " <<
-    fChordIntervalRelativeOctave <<
+    fHarmonyIntervalRelativeOctave <<
     "'";
 
   return s.str ();
 }
 
-void msrChordInterval::print (ostream& os) const
+void msrHarmonyInterval::print (ostream& os) const
 {
   os <<
-    "ChordInterval" <<
+    "HarmonyInterval" <<
     endl;
 
   gIndenter++;
@@ -17898,15 +17989,15 @@ void msrChordInterval::print (ostream& os) const
   os << left <<
   /* JMI
     setw (fieldWidth) <<
-    "chordIntervalNumber" << " : " << fChordIntervalNumber <<
+    "harmonyIntervalNumber" << " : " << fHarmonyIntervalNumber <<
     endl <<
     */
     setw (fieldWidth) <<
-    "chordIntervalIntervalKind" << " : " <<
-      msrIntervalKindAsString (fChordIntervalIntervalKind) <<
+    "harmonyIntervalIntervalKind" << " : " <<
+      msrIntervalKindAsString (fHarmonyIntervalIntervalKind) <<
     endl <<
     setw (fieldWidth) <<
-    "chordIntervalRelativeOctave" << " : " << fChordIntervalRelativeOctave <<
+    "harmonyIntervalRelativeOctave" << " : " << fHarmonyIntervalRelativeOctave <<
   /* JMI
     ", line: " << fInputLineNumber <<
     */
@@ -17915,87 +18006,87 @@ void msrChordInterval::print (ostream& os) const
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrChordInterval& elt)
+ostream& operator<< (ostream& os, const S_msrHarmonyInterval& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-map<msrHarmonyKind, S_msrChordStructure>
-  gChordStructuresMap;
+map<msrHarmonyKind, S_msrHarmonyStructure>
+  gHarmonyStructuresMap;
 
-S_msrChordStructure msrChordStructure::createBare (
-  msrHarmonyKind chordStructureHarmonyKind)
+S_msrHarmonyStructure msrHarmonyStructure::createBare (
+  msrHarmonyKind harmonyStructureHarmonyKind)
 {
-  msrChordStructure* o =
-    new msrChordStructure (
-      chordStructureHarmonyKind);
+  msrHarmonyStructure* o =
+    new msrHarmonyStructure (
+      harmonyStructureHarmonyKind);
   assert(o!=0);
 
   return o;
 }
 
-S_msrChordStructure msrChordStructure::create (
-  msrHarmonyKind chordStructureHarmonyKind)
+S_msrHarmonyStructure msrHarmonyStructure::create (
+  msrHarmonyKind harmonyStructureHarmonyKind)
 {
-  S_msrChordStructure o =
+  S_msrHarmonyStructure o =
     createBare (
-      chordStructureHarmonyKind);
+      harmonyStructureHarmonyKind);
 
   o->
-    populateChordStructure ();
+    populateHarmonyStructure ();
 
   return o;
 }
 
-msrChordStructure::msrChordStructure (
-  msrHarmonyKind chordStructureHarmonyKind)
+msrHarmonyStructure::msrHarmonyStructure (
+  msrHarmonyKind harmonyStructureHarmonyKind)
 {
-  fChordStructureHarmonyKind = chordStructureHarmonyKind;
+  fHarmonyStructureHarmonyKind = harmonyStructureHarmonyKind;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChordsDetails) {
+  if (gTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
-      "==> Creating chord intervals '" <<
-      chordStructureAsString () <<
+      "==> Creating harmony intervals '" <<
+      harmonyStructureAsString () <<
       "'" <<
       endl;
   }
 #endif
 }
 
-S_msrChordStructure msrChordStructure::createChordStructureNewbornClone ()
+S_msrHarmonyStructure msrHarmonyStructure::createHarmonyStructureNewbornClone ()
 {
-  S_msrChordStructure
+  S_msrHarmonyStructure
     newbornClone =
       createBare (
-        fChordStructureHarmonyKind);
+        fHarmonyStructureHarmonyKind);
 
   return newbornClone;
 }
 
-void msrChordStructure::populateChordStructure ()
+void msrHarmonyStructure::populateHarmonyStructure ()
 {
-  // append chord items to chord intervals
-  switch (fChordStructureHarmonyKind) {
+  // append harmony items to harmony intervals
+  switch (fHarmonyStructureHarmonyKind) {
     case k_NoHarmony:
       break;
 
-    // MusicXML chords
+    // MusicXML harmonies
 
     case kMajorHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
       }
@@ -18003,16 +18094,16 @@ void msrChordStructure::populateChordStructure ()
 
     case kMinorHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
       }
@@ -18020,16 +18111,16 @@ void msrChordStructure::populateChordStructure ()
 
     case kAugmentedHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedFifth)
           );
       }
@@ -18037,16 +18128,16 @@ void msrChordStructure::populateChordStructure ()
 
     case kDiminishedHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kDiminishedFifth)
           );
       }
@@ -18054,20 +18145,20 @@ void msrChordStructure::populateChordStructure ()
 
     case kDominantHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
       }
@@ -18075,20 +18166,20 @@ void msrChordStructure::populateChordStructure ()
 
     case kMajorSeventhHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSeventh)
           );
       }
@@ -18096,20 +18187,20 @@ void msrChordStructure::populateChordStructure ()
 
      case kMinorSeventhHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
       }
@@ -18117,20 +18208,20 @@ void msrChordStructure::populateChordStructure ()
 
     case kDiminishedSeventhHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kDiminishedFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kDiminishedSeventh)
           );
       }
@@ -18138,20 +18229,20 @@ void msrChordStructure::populateChordStructure ()
 
     case kAugmentedSeventhHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
       }
@@ -18159,20 +18250,20 @@ void msrChordStructure::populateChordStructure ()
 
     case kHalfDiminishedHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kDiminishedFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
       }
@@ -18180,20 +18271,20 @@ void msrChordStructure::populateChordStructure ()
 
      case kMinorMajorSeventhHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSeventh)
           );
       }
@@ -18201,20 +18292,20 @@ void msrChordStructure::populateChordStructure ()
 
     case kMajorSixthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSixth)
           );
       }
@@ -18222,20 +18313,20 @@ void msrChordStructure::populateChordStructure ()
 
     case kMinorSixthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSixth)
           );
       }
@@ -18243,24 +18334,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kDominantNinthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorNinth)
           );
       }
@@ -18268,24 +18359,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kMajorNinthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorNinth)
           );
       }
@@ -18293,24 +18384,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kMinorNinthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorNinth)
           );
       }
@@ -18318,24 +18409,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kDominantEleventhHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectEleventh)
           );
       }
@@ -18343,24 +18434,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kMajorEleventhHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectEleventh)
           );
       }
@@ -18368,24 +18459,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kMinorEleventhHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectEleventh)
           );
       }
@@ -18393,24 +18484,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kDominantThirteenthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThirteenth)
           );
       }
@@ -18418,24 +18509,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kMajorThirteenthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThirteenth)
           );
       }
@@ -18443,24 +18534,24 @@ void msrChordStructure::populateChordStructure ()
 
     case kMinorThirteenthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThirteenth)
           );
       }
@@ -18468,16 +18559,16 @@ void msrChordStructure::populateChordStructure ()
 
     case kSuspendedSecondHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSecond)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
       }
@@ -18485,16 +18576,16 @@ void msrChordStructure::populateChordStructure ()
 
     case kSuspendedFourthHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFourth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
       }
@@ -18505,7 +18596,7 @@ void msrChordStructure::populateChordStructure ()
 *
 * c e g c' -> f f aes des' -> d g d b -> c e g c'
 
-they are three different pre-dominant chords that are taught to American undergrads in a sophomore theory course.
+they are three different pre-dominant harmonies that are taught to American undergrads in a sophomore theory course.
 
 in E major:
 Italian = C E A#
@@ -18513,21 +18604,21 @@ French = C E F# A#
 German = C E G A#
 Tristan = C D# F# A#
 
-in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
+in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan harmony, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
 */
 
     case kNeapolitanHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kDiminishedSixth)
           );
       }
@@ -18535,16 +18626,16 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kItalianHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedSixth)
           );
       }
@@ -18552,20 +18643,20 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kFrenchHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedFourth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedSixth)
           );
       }
@@ -18573,20 +18664,20 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kGermanHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedSixth)
           );
       }
@@ -18597,12 +18688,12 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kPowerHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
       }
@@ -18610,47 +18701,47 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kTristanHarmony:
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedSecond)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedFourth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedSixth)
           );
       }
       break;
 
-    // jazz-specific chords
+    // jazz-specific harmonies
 
     case kMinorMajorNinth: // -maj9, minmaj9
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorNinth)
           );
       }
@@ -18658,20 +18749,20 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFourth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
       }
@@ -18679,20 +18770,20 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kDominantAugmentedFifthHarmony: // 7#5, domaug5
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFourth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
       }
@@ -18700,24 +18791,24 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kDominantMinorNinthHarmony: // 7b9, dommin9
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorNinth)
           );
       }
@@ -18725,24 +18816,24 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kDiminishedFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedNinth)
           );
       }
@@ -18750,24 +18841,24 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorThird)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedNinth)
           );
       }
@@ -18775,24 +18866,24 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFourth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMinorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedEleventh)
           );
       }
@@ -18800,24 +18891,24 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
       {
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectUnison)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFourth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kPerfectFifth)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kMajorSeventh)
           );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
+        appendHarmonyIntervalToHarmonyStructure (
+          msrHarmonyInterval::create (
             kAugmentedEleventh)
           );
       }
@@ -18833,70 +18924,70 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
   } // switch
 
 /* JMI
-  // register chord intervals in map
-  gChordStructuresMap [fChordStructureHarmonyKind] = this;
+  // register harmony intervals in map
+  gHarmonyStructuresMap [fHarmonyStructureHarmonyKind] = this;
   */
 }
 
-msrChordStructure::~msrChordStructure ()
+msrHarmonyStructure::~msrHarmonyStructure ()
 {}
 
-void msrChordStructure::appendChordIntervalToChordStructure (
-  S_msrChordInterval chordInterval)
+void msrHarmonyStructure::appendHarmonyIntervalToHarmonyStructure (
+  S_msrHarmonyInterval harmonyInterval)
 {
-  // set the input line number and chord item number // JMI
+  // set the input line number and harmony item number // JMI
 
-  // append the chord item
-  fChordStructureIntervals.push_back (
-    chordInterval);
+  // append the harmony item
+  fHarmonyStructureIntervals.push_back (
+    harmonyInterval);
 }
 
 /* JMI
-void msrChordStructure::acceptIn (basevisitor* v) {
+void msrHarmonyStructure::acceptIn (basevisitor* v) {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrChordStructure::acceptIn ()" <<
+      "% ==> msrHarmonyStructure::acceptIn ()" <<
       endl;
   }
 
-  if (visitor<S_msrChordStructure>*
+  if (visitor<S_msrHarmonyStructure>*
     p =
-      dynamic_cast<visitor<S_msrChordStructure>*> (v)) {
-        S_msrChordStructure elem = this;
+      dynamic_cast<visitor<S_msrHarmonyStructure>*> (v)) {
+        S_msrHarmonyStructure elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrChordStructure::visitStart ()" <<
+            "% ==> Launching msrHarmonyStructure::visitStart ()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrChordStructure::acceptOut (basevisitor* v) {
+void msrHarmonyStructure::acceptOut (basevisitor* v) {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrChordStructure::acceptOut ()" <<
+      "% ==> msrHarmonyStructure::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrChordStructure>*
+  if (visitor<S_msrHarmonyStructure>*
     p =
-      dynamic_cast<visitor<S_msrChordStructure>*> (v)) {
-        S_msrChordStructure elem = this;
+      dynamic_cast<visitor<S_msrHarmonyStructure>*> (v)) {
+        S_msrHarmonyStructure elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrChordStructure::visitEnd ()" <<
+            "% ==> Launching msrHarmonyStructure::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrChordStructure::browseData (basevisitor* v)
+void msrHarmonyStructure::browseData (basevisitor* v)
 {}
 */
 
-S_msrChordInterval msrChordStructure::bassChordIntervalForChordInversion (
+S_msrHarmonyInterval msrHarmonyStructure::bassHarmonyIntervalForHarmonyInversion (
   int inputLineNumber,
   int inversionNumber)
 {
@@ -18905,19 +18996,19 @@ S_msrChordInterval msrChordStructure::bassChordIntervalForChordInversion (
     0 for root position, 1 for first inversion, etc.
   */
 
-  S_msrChordInterval result;
+  S_msrHarmonyInterval result;
 
   if (
     inversionNumber < 0
       ||
-    inversionNumber > int (fChordStructureIntervals.size ()) - 1 ) {
+    inversionNumber > int (fHarmonyStructureIntervals.size ()) - 1 ) {
     stringstream s;
 
     s <<
       "Sorry, inversion number '" <<
       inversionNumber <<
-      "' does not exist for chord intevals '" <<
-      msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
+      "' does not exist for harmony intervals '" <<
+      msrHarmonyKindAsString (fHarmonyStructureHarmonyKind) <<
       "', line " << inputLineNumber;
 
     msrInternalError (
@@ -18927,63 +19018,63 @@ S_msrChordInterval msrChordStructure::bassChordIntervalForChordInversion (
       s.str ());
   }
 
-  return fChordStructureIntervals [inversionNumber];
+  return fHarmonyStructureIntervals [inversionNumber];
 }
 
-S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
+S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion)
 {
   if (inversion == 0) {
     return this;
   }
 
   // create an empty object
-  S_msrChordStructure
+  S_msrHarmonyStructure
     result =
       this->
-        createChordStructureNewbornClone ();
+        createHarmonyStructureNewbornClone ();
 
   unsigned int
-    chordStructureIntervalsSize =
-      fChordStructureIntervals.size ();
+    harmonyStructureIntervalsSize =
+      fHarmonyStructureIntervals.size ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChordsDetails) {
+  if (gTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
-      "==> invertChordStructure (), inversion = " << inversion <<
-      ", original chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
+      "==> invertHarmonyStructure (), inversion = " << inversion <<
+      ", original harmonyStructureIntervalsSize = " << harmonyStructureIntervalsSize <<
       endl;
   }
 #endif
 
-  if (chordStructureIntervalsSize) {
+  if (harmonyStructureIntervalsSize) {
     // add the first items
-    for (unsigned int i = inversion; i < chordStructureIntervalsSize; i++) {
-      S_msrChordInterval
-        chordIntervalClone =
-          fChordStructureIntervals [i]->
-            createChordIntervalNewbornClone ();
+    for (unsigned int i = inversion; i < harmonyStructureIntervalsSize; i++) {
+      S_msrHarmonyInterval
+        harmonyIntervalClone =
+          fHarmonyStructureIntervals [i]->
+            createHarmonyIntervalNewbornClone ();
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChordsDetails) {
+      if (gTraceOah->fTraceHarmoniesDetails) {
         gLogOstream <<
           "--> adding first item to result:" <<
           endl;
         gIndenter++;
         gLogOstream <<
-          chordIntervalClone <<
+          harmonyIntervalClone <<
           endl;
         gIndenter--;
       }
 #endif
 
       result->
-        appendChordIntervalToChordStructure (
-          chordIntervalClone);
+        appendHarmonyIntervalToHarmonyStructure (
+          harmonyIntervalClone);
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChordsDetails) {
+      if (gTraceOah->fTraceHarmoniesDetails) {
         gLogOstream <<
-          "==> result chord structure after adding first item :" <<
+          "==> result harmony structure after adding first item :" <<
           endl;
 
         gIndenter++;
@@ -18997,35 +19088,35 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
     // add  the octaviate last items
     for (int i = 0; i < inversion; i++) {
-      S_msrChordInterval
-        chordIntervalClone =
-          fChordStructureIntervals [i]->
-            createChordIntervalNewbornClone ();
+      S_msrHarmonyInterval
+        harmonyIntervalClone =
+          fHarmonyStructureIntervals [i]->
+            createHarmonyIntervalNewbornClone ();
 
-      chordIntervalClone->
-        incrementChordIntervalRelativeOctave ();
+      harmonyIntervalClone->
+        incrementHarmonyIntervalRelativeOctave ();
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChordsDetails) {
+      if (gTraceOah->fTraceHarmoniesDetails) {
         gLogOstream <<
           "--> adding last item to resultlast item :" <<
           endl;
         gIndenter++;
         gLogOstream <<
-          chordIntervalClone <<
+          harmonyIntervalClone <<
           endl;
         gIndenter--;
       }
 #endif
 
       result->
-        appendChordIntervalToChordStructure (
-          chordIntervalClone);
+        appendHarmonyIntervalToHarmonyStructure (
+          harmonyIntervalClone);
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChordsDetails) {
+      if (gTraceOah->fTraceHarmoniesDetails) {
         gLogOstream <<
-          "==> result chord structure after  after adding last item:" <<
+          "==> result harmony structure after  after adding last item:" <<
           endl;
 
         gIndenter++;
@@ -19047,52 +19138,52 @@ list<msrSemiTonesPitchKind> buildSemiTonesChord (
 {
   list<msrSemiTonesPitchKind> result;
 
-  // create the chord intervals
-  S_msrChordStructure
-    chordStructure =
-      msrChordStructure::create (
+  // create the harmony intervals
+  S_msrHarmonyStructure
+    harmonyStructure =
+      msrHarmonyStructure::create (
         harmonyKind);
 
-  // add the root to the chord
+  // add the root to the harmony
   result.push_back (rootNote);
 
-  // add the other notes to the chord
-  const vector<S_msrChordInterval>&
-    chordStructureIntervals =
-      chordStructure->
-        getChordStructureIntervals ();
+  // add the other notes to the harmony
+  const vector<S_msrHarmonyInterval>&
+    harmonyStructureIntervals =
+      harmonyStructure->
+        getHarmonyStructureIntervals ();
 
-  for (unsigned int i = 1; i << chordStructureIntervals.size (); i++) {
+  for (unsigned int i = 1; i << harmonyStructureIntervals.size (); i++) {
     result.push_back (rootNote);
   } // for
 
   return result;
 }
 
-string msrChordStructure::chordStructureAsString () const
+string msrHarmonyStructure::harmonyStructureAsString () const
 {
   stringstream s;
 
   s <<
-    "ChordStructure" <<
+    "HarmonyStructure" <<
     ", " <<
-    msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
+    msrHarmonyKindAsString (fHarmonyStructureHarmonyKind) <<
     ", " <<
     singularOrPlural (
-      fChordStructureIntervals.size (), "item", "items");
+      fHarmonyStructureIntervals.size (), "item", "items");
 
   return s.str ();
 }
 
-void msrChordStructure::print (ostream& os) const
+void msrHarmonyStructure::print (ostream& os) const
 {
   os <<
-    "ChordStructure" <<
-    ", chordStructureHarmonyKind: " <<
-    msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
+    "HarmonyStructure" <<
+    ", harmonyStructureHarmonyKind: " <<
+    msrHarmonyKindAsString (fHarmonyStructureHarmonyKind) <<
     ", " <<
     singularOrPlural (
-      fChordStructureIntervals.size (), "interval", "intervals") <<
+      fHarmonyStructureIntervals.size (), "interval", "intervals") <<
   /* JMI
     ", line: " << fInputLineNumber <<
     */
@@ -19100,18 +19191,18 @@ void msrChordStructure::print (ostream& os) const
 
   gIndenter++;
 
-  if (fChordStructureIntervals.size ()) {
-    vector<S_msrChordInterval>::const_reverse_iterator
-      iBegin = fChordStructureIntervals.crbegin (),
-      iEnd   = fChordStructureIntervals.crend (),
+  if (fHarmonyStructureIntervals.size ()) {
+    vector<S_msrHarmonyInterval>::const_reverse_iterator
+      iBegin = fHarmonyStructureIntervals.crbegin (),
+      iEnd   = fHarmonyStructureIntervals.crend (),
       i      = iBegin;
 
     for ( ; ; ) {
-      S_msrChordInterval
-        chordInterval = (*i);
+      S_msrHarmonyInterval
+        harmonyInterval = (*i);
 
       gLogOstream <<
-        chordInterval->chordIntervalAsShortString () <<
+        harmonyInterval->harmonyIntervalAsShortString () <<
         endl;
 
       if (++i == iEnd) break;
@@ -19126,10 +19217,10 @@ void msrChordStructure::print (ostream& os) const
   gIndenter--;
 }
 
-void msrChordStructure::printAllChordsStructures (ostream& os)
+void msrHarmonyStructure::printAllHarmoniesStructures (ostream& os)
 {
   os <<
-    "All the known chords structures are:" <<
+    "All the known harmonies structures are:" <<
     endl <<
     endl;
 
@@ -19139,22 +19230,22 @@ void msrChordStructure::printAllChordsStructures (ostream& os)
     msrHarmonyKind harmonyKind = kMajorHarmony;
     harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
     harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
-    // create the chord intervals
-    S_msrChordStructure
-      chordStructure =
-        msrChordStructure::create (
+    // create the harmony intervals
+    S_msrHarmonyStructure
+      harmonyStructure =
+        msrHarmonyStructure::create (
           harmonyKind);
 
     // print it
     os <<
-      chordStructure <<
+      harmonyStructure <<
       endl;
   } // for
 
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrChordStructure& elt)
+ostream& operator<< (ostream& os, const S_msrHarmonyStructure& elt)
 {
   elt->print (os);
   return os;
@@ -19184,9 +19275,9 @@ msrSemiTonesPitchAndAbsoluteOctave::msrSemiTonesPitchAndAbsoluteOctave (
   fAbsoluteOctave = absoluteOctave;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChordsDetails) {
+  if (gTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
-      "==> Creating chord item '" <<
+      "==> Creating harmony item '" <<
       asString () <<
       "'" <<
       endl;
@@ -19275,9 +19366,9 @@ msrSemiTonesPitchAndRelativeOctave::msrSemiTonesPitchAndRelativeOctave (
   fRelativeOctave = relativeOctave;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChordsDetails) {
+  if (gTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
-      "==> Creating chord item '" <<
+      "==> Creating harmony item '" <<
       asString () <<
       "'" <<
       endl;
@@ -19345,66 +19436,66 @@ ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndRelativeOctave& el
 */
 
 //______________________________________________________________________________
-S_msrChordContents msrChordContents::create (
+S_msrHarmonyContents msrHarmonyContents::create (
 // JMI  int                   inputLineNumber,
-  msrSemiTonesPitchKind chordContentsRootNote,
-  msrHarmonyKind        chordContentsHarmonyKind)
+  msrSemiTonesPitchKind harmonyContentsRootNote,
+  msrHarmonyKind        harmonyContentsHarmonyKind)
 {
-  msrChordContents* o =
-    new msrChordContents (
+  msrHarmonyContents* o =
+    new msrHarmonyContents (
  //     inputLineNumber,
-      chordContentsRootNote,
-      chordContentsHarmonyKind);
+      harmonyContentsRootNote,
+      harmonyContentsHarmonyKind);
   assert(o!=0);
 
   return o;
 }
 
-msrChordContents::msrChordContents (
+msrHarmonyContents::msrHarmonyContents (
 // JMI  int                   inputLineNumber,
-  msrSemiTonesPitchKind chordContentsRootNote,
-  msrHarmonyKind        chordContentsHarmonyKind)
+  msrSemiTonesPitchKind harmonyContentsRootNote,
+  msrHarmonyKind        harmonyContentsHarmonyKind)
 {
-  fChordContentsRootNote    = chordContentsRootNote;
-  fChordContentsHarmonyKind = chordContentsHarmonyKind;
+  fHarmonyContentsRootNote    = harmonyContentsRootNote;
+  fHarmonyContentsHarmonyKind = harmonyContentsHarmonyKind;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChordsDetails) {
+  if (gTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
-      "==> Creating chordContents '" <<
-      chordContentsAsString () <<
+      "==> Creating harmonyContents '" <<
+      harmonyContentsAsString () <<
       "'" <<
       endl;
   }
 #endif
 
-  // create the root chord element
+  // create the root harmony element
   S_msrSemiTonesPitchAndOctave
     rootChordElement =
       msrSemiTonesPitchAndOctave::create (
-        fChordContentsRootNote,
+        fHarmonyContentsRootNote,
         0); // relative octave
 
-  // add it to the chord elements
-  fChordElementsVector.push_back (rootChordElement);
+  // add it to the harmony elements
+  fHarmonyElementsVector.push_back (rootChordElement);
 
-  // add the other notes to the chord elements
-  S_msrChordStructure
-    chordStructure =
-      msrChordStructure::create (
-        fChordContentsHarmonyKind);
+  // add the other notes to the harmony elements
+  S_msrHarmonyStructure
+    harmonyStructure =
+      msrHarmonyStructure::create (
+        fHarmonyContentsHarmonyKind);
 
-  const vector<S_msrChordInterval>&
-    chordIntervals =
-      chordStructure->
-        getChordStructureIntervals ();
+  const vector<S_msrHarmonyInterval>&
+    harmonyIntervals =
+      harmonyStructure->
+        getHarmonyStructureIntervals ();
 
-  for (unsigned int i = 1; i < chordIntervals.size (); i++) {
+  for (unsigned int i = 1; i < harmonyIntervals.size (); i++) {
     // get the interval
     msrIntervalKind
       intervalKind =
-        chordIntervals [i]->
-          getChordIntervalIntervalKind ();
+        harmonyIntervals [i]->
+          getHarmonyIntervalIntervalKind ();
 
     // fetch the semitone pitch
     msrSemiTonesPitchKind
@@ -19412,39 +19503,39 @@ msrChordContents::msrChordContents (
         noteAtIntervalFromSemiTonesPitch (
           0, // ??? JM                   inputLineNumber,
           intervalKind,
-          fChordContentsRootNote);
+          fHarmonyContentsRootNote);
 
-    // create the chord element
+    // create the harmony element
     S_msrSemiTonesPitchAndOctave
-      chordElement =
+      harmonyElement =
         msrSemiTonesPitchAndOctave::create (
           semiTonePitch,
           0); // relative octave
 
-    // add it to the chord elements
-    fChordElementsVector.push_back (chordElement);
+    // add it to the harmony elements
+    fHarmonyElementsVector.push_back (harmonyElement);
   } // for
 }
 
-msrChordContents::~msrChordContents ()
+msrHarmonyContents::~msrHarmonyContents ()
 {}
 
-string msrChordContents::chordContentsAsString () const
+string msrHarmonyContents::harmonyContentsAsString () const
 {
   stringstream s;
 
   s <<
-    "ChordContents" <<
+    "HarmonyContents" <<
     ", " <<
-    msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
+    msrHarmonyKindAsString (fHarmonyContentsHarmonyKind) <<
     ", " <<
     singularOrPlural (
-      fChordElementsVector.size (), "chord element", "chord elements");
+      fHarmonyElementsVector.size (), "harmony element", "harmony elements");
 
   return s.str ();
 }
 
-msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion (
+msrSemiTonesPitchKind msrHarmonyContents::bassSemiTonesPitchKindForHarmonyInversion (
   int inputLineNumber,
   int inversionNumber)
 {
@@ -19456,14 +19547,14 @@ msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion 
   if (
     inversionNumber < 0
       ||
-    inversionNumber > int (fChordElementsVector.size ()) - 1 ) {
+    inversionNumber > int (fHarmonyElementsVector.size ()) - 1 ) {
     stringstream s;
 
     s <<
       "Sorry, inversion number '" <<
       inversionNumber <<
-      "' does not exist for chord notes '" <<
-      msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
+      "' does not exist for harmony notes '" <<
+      msrHarmonyKindAsString (fHarmonyContentsHarmonyKind) <<
       "', line " << inputLineNumber;
 
     msrInternalError (
@@ -19474,11 +19565,11 @@ msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion 
   }
 
   return
-    fChordElementsVector [inversionNumber]->
+    fHarmonyElementsVector [inversionNumber]->
       getSemiTonesPitchKind ();
 }
 
-void msrChordContents::printAllChordsContents (
+void msrHarmonyContents::printAllHarmoniesContents (
   ostream&              os,
   msrSemiTonesPitchKind rootSemiTonesPitchKind)
 {
@@ -19489,7 +19580,7 @@ void msrChordContents::printAllChordsContents (
         rootSemiTonesPitchKind);
 
   os <<
-    "All the known chords contents with diatonic root '" <<
+    "All the known harmonies contents with diatonic root '" <<
     msrQuarterTonesPitchKindAsString (
       gLpsrOah->
         fLpsrQuarterTonesPitchesLanguageKind,
@@ -19522,34 +19613,34 @@ void msrChordContents::printAllChordsContents (
 
     gIndenter++;
 
-    // create the chord intervals
-    S_msrChordStructure
-      chordStructure =
-        msrChordStructure::create (
+    // create the harmony intervals
+    S_msrHarmonyStructure
+      harmonyStructure =
+        msrHarmonyStructure::create (
           harmonyKind);
 
     // fetch the intervals items for these intervals
     // with rootSemiTonesPitchKind as root
-    const vector <S_msrChordInterval>&
-      chordStructureIntervals =
-        chordStructure->
-          getChordStructureIntervals ();
+    const vector <S_msrHarmonyInterval>&
+      harmonyStructureIntervals =
+        harmonyStructure->
+          getHarmonyStructureIntervals ();
 
-    if (chordStructureIntervals.size ()) {
+    if (harmonyStructureIntervals.size ()) {
       // fetch the notes for these intervals
-      vector<S_msrChordInterval>::const_reverse_iterator
-        iBegin = chordStructureIntervals.crbegin (),
-        iEnd   = chordStructureIntervals.crend (),
+      vector<S_msrHarmonyInterval>::const_reverse_iterator
+        iBegin = harmonyStructureIntervals.crbegin (),
+        iEnd   = harmonyStructureIntervals.crend (),
         i      = iBegin;
 
       for ( ; ; ) {
-        S_msrChordInterval
-          chordInterval = (*i);
+        S_msrHarmonyInterval
+          harmonyInterval = (*i);
 
         msrIntervalKind
           intervalKind =
-            chordInterval->
-              getChordIntervalIntervalKind ();
+            harmonyInterval->
+              getHarmonyIntervalIntervalKind ();
 
         // fetch the semitones pitch kind
         msrSemiTonesPitchKind
@@ -19593,54 +19684,54 @@ void msrChordContents::printAllChordsContents (
 }
 
 /* JMI
-void msrChordContents::acceptIn (basevisitor* v) {
+void msrHarmonyContents::acceptIn (basevisitor* v) {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrChordContents::acceptIn ()" <<
+      "% ==> msrHarmonyContents::acceptIn ()" <<
       endl;
   }
 
-  if (visitor<S_msrChordContents>*
+  if (visitor<S_msrHarmonyContents>*
     p =
-      dynamic_cast<visitor<S_msrChordContents>*> (v)) {
-        S_msrChordContents elem = this;
+      dynamic_cast<visitor<S_msrHarmonyContents>*> (v)) {
+        S_msrHarmonyContents elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrChordContents::visitStart ()" <<
+            "% ==> Launching msrHarmonyContents::visitStart ()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrChordContents::acceptOut (basevisitor* v) {
+void msrHarmonyContents::acceptOut (basevisitor* v) {
   if (gMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
-      "% ==> msrChordContents::acceptOut ()" <<
+      "% ==> msrHarmonyContents::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrChordContents>*
+  if (visitor<S_msrHarmonyContents>*
     p =
-      dynamic_cast<visitor<S_msrChordContents>*> (v)) {
-        S_msrChordContents elem = this;
+      dynamic_cast<visitor<S_msrHarmonyContents>*> (v)) {
+        S_msrHarmonyContents elem = this;
 
         if (gMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
-            "% ==> Launching msrChordContents::visitEnd ()" <<
+            "% ==> Launching msrHarmonyContents::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrChordContents::browseData (basevisitor* v)
+void msrHarmonyContents::browseData (basevisitor* v)
 {}
 */
 
-void msrChordContents::print (ostream& os) const
+void msrHarmonyContents::print (ostream& os) const
 {
   os <<
-    "ChordContents" <<
+    "HarmonyContents" <<
   /* JMI
     ", line: " << fInputLineNumber <<
     */
@@ -19652,30 +19743,30 @@ void msrChordContents::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "chordContentsRootNote" << " : " <<
-    msrSemiTonesPitchKindAsString (fChordContentsRootNote) <<
+    "harmonyContentsRootNote" << " : " <<
+    msrSemiTonesPitchKindAsString (fHarmonyContentsRootNote) <<
     endl <<
     setw (fieldWidth) <<
-    "chordContentsHarmonyKind" << " : " <<
-    msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
+    "harmonyContentsHarmonyKind" << " : " <<
+    msrHarmonyKindAsString (fHarmonyContentsHarmonyKind) <<
     endl;
 
-  if (fChordElementsVector.size ()) {
+  if (fHarmonyElementsVector.size ()) {
     os <<
     singularOrPlural (
-      fChordElementsVector.size (), "chord element", "chord elements") <<
+      fHarmonyElementsVector.size (), "harmony element", "harmony elements") <<
     ":" <<
     endl;
 
     gIndenter++;
 
-    for (unsigned int i = 0; i < fChordElementsVector.size (); i++) {
+    for (unsigned int i = 0; i < fHarmonyElementsVector.size (); i++) {
       S_msrSemiTonesPitchAndOctave
-        chordElement =
-          fChordElementsVector [i];
+        harmonyElement =
+          fHarmonyElementsVector [i];
 
       os <<
-        chordElement <<
+        harmonyElement <<
         endl;
     } // for
 
@@ -19690,14 +19781,14 @@ void msrChordContents::print (ostream& os) const
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrChordContents& elt)
+ostream& operator<< (ostream& os, const S_msrHarmonyContents& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void printChordDetails (
+void printHarmonyDetails (
   ostream&              os,
   msrSemiTonesPitchKind rootSemiTonesPitchKind,
   msrHarmonyKind        harmonyKind)
@@ -19722,7 +19813,7 @@ void printChordDetails (
 
   // print the deails
   os <<
-    "The details of chord '" <<
+    "The details of harmony '" <<
     rootQuarterTonesPitchKindAsString <<
     " " <<
     harmonyKindShortName <<
@@ -19732,62 +19823,62 @@ void printChordDetails (
 
   gIndenter++;
 
-  // create the chord intervals
-  S_msrChordStructure
-    chordStructure =
-      msrChordStructure::create (
+  // create the harmony intervals
+  S_msrHarmonyStructure
+    harmonyStructure =
+      msrHarmonyStructure::create (
         harmonyKind);
 
   // fetch the intervals items for these intervals
   // with rootSemiTonesPitchKind as root
-  const vector <S_msrChordInterval>&
-    chordStructureIntervals =
-      chordStructure->
-        getChordStructureIntervals ();
+  const vector <S_msrHarmonyInterval>&
+    harmonyStructureIntervals =
+      harmonyStructure->
+        getHarmonyStructureIntervals ();
 
   // loop on all the inversion
-  int chordStructureIntervalsNumber =
-    chordStructureIntervals.size ();
+  int harmonyStructureIntervalsNumber =
+    harmonyStructureIntervals.size ();
 
-  if (chordStructureIntervalsNumber) {
-    for (int inversion = 0; inversion < chordStructureIntervalsNumber; inversion++) {
-      // invert the chord structure
-      S_msrChordStructure
-        invertedChordStructure =
-          chordStructure->
-            invertChordStructure (inversion);
+  if (harmonyStructureIntervalsNumber) {
+    for (int inversion = 0; inversion < harmonyStructureIntervalsNumber; inversion++) {
+      // invert the harmony structure
+      S_msrHarmonyStructure
+        invertedHarmonyStructure =
+          harmonyStructure->
+            invertHarmonyStructure (inversion);
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChordsDetails) {
+      if (gTraceOah->fTraceHarmoniesDetails) {
         os <<
           "==> inversion = " << inversion <<
-          ", initial invertedChordStructure:" <<
+          ", initial invertedHarmonyStructure:" <<
           endl;
 
         gIndenter++;
         os <<
-          invertedChordStructure <<
+          invertedHarmonyStructure <<
           endl;
         gIndenter--;
       }
 #endif
 
-      // get the inverted chord structure intervals
-      const vector <S_msrChordInterval>&
-        invertedChordStructureIntervals =
-          invertedChordStructure->
-            getChordStructureIntervals ();
+      // get the inverted harmony structure intervals
+      const vector <S_msrHarmonyInterval>&
+        invertedHarmonyStructureIntervals =
+          invertedHarmonyStructure->
+            getHarmonyStructureIntervals ();
 
       // fetch the notes for these intervals
       /* JMI
-      vector<S_msrChordInterval>::const_iterator
-        iBegin = invertedChordStructureIntervals.begin (),
-        iEnd   = invertedChordStructureIntervals.end (),
+      vector<S_msrHarmonyInterval>::const_iterator
+        iBegin = invertedHarmonyStructureIntervals.begin (),
+        iEnd   = invertedHarmonyStructureIntervals.end (),
         i      = iBegin;
         */
-      vector<S_msrChordInterval>::const_reverse_iterator
-        iBegin = invertedChordStructureIntervals.crbegin (),
-        iEnd   = invertedChordStructureIntervals.crend (),
+      vector<S_msrHarmonyInterval>::const_reverse_iterator
+        iBegin = invertedHarmonyStructureIntervals.crbegin (),
+        iEnd   = invertedHarmonyStructureIntervals.crend (),
         i      = iBegin;
 
       os <<
@@ -19808,20 +19899,20 @@ void printChordDetails (
 
       os <<
         " contents, "<<
-        invertedChordStructureIntervals.size () <<
+        invertedHarmonyStructureIntervals.size () <<
         " intervals:" <<
         endl;
 
       gIndenter++;
 
       for ( ; ; ) {
-        S_msrChordInterval
-          chordInterval = (*i);
+        S_msrHarmonyInterval
+          harmonyInterval = (*i);
 
         msrIntervalKind
           intervalKind =
-            chordInterval->
-              getChordIntervalIntervalKind ();
+            harmonyInterval->
+              getHarmonyIntervalIntervalKind ();
 
         const int fieldWidth1 = 17;
 
@@ -19877,7 +19968,7 @@ void printChordDetails (
 }
 
 //______________________________________________________________________________
-void printChordAnalysis (
+void printHarmonyAnalysis (
   ostream&              os,
   msrSemiTonesPitchKind rootSemiTonesPitchKind,
   msrHarmonyKind        harmonyKind,
@@ -19903,7 +19994,7 @@ void printChordAnalysis (
 
   // print the deails
   os <<
-    "The analysis of chord '" <<
+    "The analysis of harmony '" <<
     rootQuarterTonesPitchKindAsString <<
     " " <<
     harmonyKindShortName <<
@@ -19915,56 +20006,56 @@ void printChordAnalysis (
 
   gIndenter++;
 
-  // create the chord intervals
-  S_msrChordStructure
-    chordStructure =
-      msrChordStructure::create (
+  // create the harmony intervals
+  S_msrHarmonyStructure
+    harmonyStructure =
+      msrHarmonyStructure::create (
         harmonyKind);
 
   // fetch the intervals items for these intervals
   // with rootSemiTonesPitchKind as root
-  const vector <S_msrChordInterval>&
-    chordStructureIntervals =
-      chordStructure->
-        getChordStructureIntervals ();
+  const vector <S_msrHarmonyInterval>&
+    harmonyStructureIntervals =
+      harmonyStructure->
+        getHarmonyStructureIntervals ();
 
   // loop on all the inversion
-  int chordStructureIntervalsNumber =
-    chordStructureIntervals.size ();
+  int harmonyStructureIntervalsNumber =
+    harmonyStructureIntervals.size ();
 
-  if (chordStructureIntervalsNumber) {
-    if (inversion < chordStructureIntervalsNumber) {
-      // invert the chord structure
-      S_msrChordStructure
-        invertedChordStructure =
-          chordStructure->
-            invertChordStructure (inversion);
+  if (harmonyStructureIntervalsNumber) {
+    if (inversion < harmonyStructureIntervalsNumber) {
+      // invert the harmony structure
+      S_msrHarmonyStructure
+        invertedHarmonyStructure =
+          harmonyStructure->
+            invertHarmonyStructure (inversion);
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChordsDetails) {
+      if (gTraceOah->fTraceHarmoniesDetails) {
         os <<
           "==> inversion = " << inversion <<
-          ", initial invertedChordStructure:" <<
+          ", initial invertedHarmonyStructure:" <<
           endl;
 
         gIndenter++;
         os <<
-          invertedChordStructure <<
+          invertedHarmonyStructure <<
           endl;
         gIndenter--;
       }
 #endif
 
-      // get the inverted chord structure intervals
-      const vector <S_msrChordInterval>&
-        invertedChordStructureIntervals =
-          invertedChordStructure->
-            getChordStructureIntervals ();
+      // get the inverted harmony structure intervals
+      const vector <S_msrHarmonyInterval>&
+        invertedHarmonyStructureIntervals =
+          invertedHarmonyStructure->
+            getHarmonyStructureIntervals ();
 
-      // print the chord contents
+      // print the harmony contents
       {
         os <<
-          "Chord '" <<
+          "Harmony '" <<
           rootQuarterTonesPitchKindAsString <<
           " " <<
           harmonyKindShortName <<
@@ -19981,25 +20072,25 @@ void printChordAnalysis (
 
         os <<
           " contents, "<<
-          invertedChordStructureIntervals.size () <<
+          invertedHarmonyStructureIntervals.size () <<
           " intervals:" <<
           endl;
 
         gIndenter++;
 
-        vector<S_msrChordInterval>::const_reverse_iterator
-          iBegin = invertedChordStructureIntervals.crbegin (),
-          iEnd   = invertedChordStructureIntervals.crend (),
+        vector<S_msrHarmonyInterval>::const_reverse_iterator
+          iBegin = invertedHarmonyStructureIntervals.crbegin (),
+          iEnd   = invertedHarmonyStructureIntervals.crend (),
           i      = iBegin;
 
         for ( ; ; ) {
-          S_msrChordInterval
-            chordInterval = (*i);
+          S_msrHarmonyInterval
+            harmonyInterval = (*i);
 
           msrIntervalKind
             intervalKind =
-              chordInterval->
-                getChordIntervalIntervalKind ();
+              harmonyInterval->
+                getHarmonyIntervalIntervalKind ();
 
           // fetch the semitones pitch kind
           msrSemiTonesPitchKind
@@ -20038,7 +20129,7 @@ void printChordAnalysis (
         os << endl;
       }
 
-      // print the chord's inner intervals
+      // print the harmony's inner intervals
       {
         os <<
           "Chord '" <<
@@ -20064,19 +20155,19 @@ void printChordAnalysis (
 
         int tritonsCounter = 0;
 
-        vector<S_msrChordInterval>::const_iterator
-          iBegin1 = invertedChordStructureIntervals.begin (),
-          iEnd1   = invertedChordStructureIntervals.end () - 1,
+        vector<S_msrHarmonyInterval>::const_iterator
+          iBegin1 = invertedHarmonyStructureIntervals.begin (),
+          iEnd1   = invertedHarmonyStructureIntervals.end () - 1,
           i1      = iBegin1;
 
         for ( ; ; ) {
-          S_msrChordInterval
-            chordInterval1 = (*i1);
+          S_msrHarmonyInterval
+            harmonyInterval1 = (*i1);
 
           msrIntervalKind
             intervalKind1 =
-              chordInterval1->
-                getChordIntervalIntervalKind ();
+              harmonyInterval1->
+                getHarmonyIntervalIntervalKind ();
 
           // fetch the semitones pitch kind
           msrSemiTonesPitchKind
@@ -20093,19 +20184,19 @@ void printChordAnalysis (
                 noteSemiTonesPitchKind1);
 
           // print the invervals
-          vector<S_msrChordInterval>::const_iterator
+          vector<S_msrHarmonyInterval>::const_iterator
             iBegin2 = i1 + 1,
-            iEnd2   = invertedChordStructureIntervals.end (),
+            iEnd2   = invertedHarmonyStructureIntervals.end (),
             i2      = iBegin2;
 
           for ( ; ; ) {
-            S_msrChordInterval
-              chordInterval2 = (*i2);
+            S_msrHarmonyInterval
+              harmonyInterval2 = (*i2);
 
             msrIntervalKind
               intervalKind2 =
-                chordInterval2->
-                  getChordIntervalIntervalKind ();
+                harmonyInterval2->
+                  getHarmonyIntervalIntervalKind ();
 
             const int fieldWidth1 = 5;
 
@@ -20124,16 +20215,16 @@ void printChordAnalysis (
                   noteSemiTonesPitchKind2);
 
             // compute the inner interval
-            S_msrChordInterval
+            S_msrHarmonyInterval
               interInterval =
-                chordInterval2->
+                harmonyInterval2->
                   intervalDifference (
-                    chordInterval1);
+                    harmonyInterval1);
 
             msrIntervalKind
               innerIntervalKind =
                 interInterval->
-                  getChordIntervalIntervalKind ();
+                  getHarmonyIntervalIntervalKind ();
 
             // is this interval a triton?
             switch (innerIntervalKind) {
@@ -20194,7 +20285,7 @@ void printChordAnalysis (
 
         if (tritonsCounter > 0) {
           os <<
-            "This chord contains " <<
+            "This harmony contains " <<
             singularOrPlural (
               tritonsCounter, "triton", "tritons") <<
             endl;
@@ -20211,7 +20302,7 @@ void printChordAnalysis (
         " " <<
         harmonyKindShortName <<
         "' has only " <<
-        chordStructureIntervalsNumber <<
+        harmonyStructureIntervalsNumber <<
         " intervals, inversion " <<
         inversion <<
         " does not exist" <<
@@ -20448,43 +20539,50 @@ string msrScoreNotationKindAsString (
 //______________________________________________________________________________
 void initializeMSRBasicTypes ()
 {
+  // protect library against multiple initializations
+  static bool initializeMSRBasicTypesHasBeenRun = false;
+
+  if (! initializeMSRBasicTypesHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing MSR basic types handling" <<
-      endl;
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing MSR basic types handling" <<
+        endl;
   }
 #endif
 
-  // languages handling
-  // ------------------------------------------------------
+    // languages handling
+    // ------------------------------------------------------
 
-  initializeQuarterTonesPitchesLanguageKinds ();
+    initializeQuarterTonesPitchesLanguageKinds ();
 
-  // clefs handling
-  // ------------------------------------------------------
+    // clefs handling
+    // ------------------------------------------------------
 
-  initializeClefKinds ();
+    initializeClefKinds ();
 
-  // harmonies handling
-  // ------------------------------------------------------
+    // harmonies handling
+    // ------------------------------------------------------
 
-  initializeHarmonyKinds ();
+    initializeHarmonyKinds ();
 
-  // chord structures handling
-  // ------------------------------------------------------
+    // harmony structures handling
+    // ------------------------------------------------------
 
-  initializeChordStructuresMap ();
+    initializeHarmonyStructuresMap ();
 
-  // MSR lengths handling
-  // ------------------------------------------------------
+    // MSR lengths handling
+    // ------------------------------------------------------
 
-  initializeMsrLengthUnitKindsMap ();
+    initializeMsrLengthUnitKindsMap ();
 
-  // MSR margins types handling
-  // ------------------------------------------------------
+    // MSR margins types handling
+    // ------------------------------------------------------
 
-  initializeMsrMarginTypeKindsMap ();
+    initializeMsrMarginTypeKindsMap ();
+
+    initializeMSRBasicTypesHasBeenRun = true;
+  }
 }
 
 

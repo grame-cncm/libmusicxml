@@ -698,20 +698,21 @@ R"(Ligatures)",
       traceLigaturesAtom);
 }
 
-void traceOah::initializeHarmoniesAndFiguredBassesTraceOah (
+void traceOah::initializeHarmoniesTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Harmonies and figured basses",
-        "hthafb", "help-trace-harmonies-and-figured-basses",
+        "Harmonies",
+        "htharms", "help-trace-harmonies",
 R"()",
       kElementVisibilityAlways,
       this);
 
   appendSubGroupToGroup (subGroup);
 
+/* JMI
   // the 'harmonies and figured basses' multiplex booleans atom
 
   S_oahMultiplexBooleansAtom
@@ -726,6 +727,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       harmoniesAndFiguredBassesMultiplexBooleansAtom);
+*/
 
   // harmonies
 
@@ -748,6 +750,53 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
       traceHarmoniesAtom);
 */
 
+  // harmonies details
+
+  fTraceHarmoniesDetails = boolOptionsInitialValue;
+
+  S_oahTwoBooleansAtom
+    traceHarmoniesDetailsAtom =
+      oahTwoBooleansAtom::create (
+        "tharmsd", "trace-harmonies-details",
+R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
+        "traceHarmoniesDetails",
+        fTraceHarmoniesDetails,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      traceHarmoniesDetailsAtom);
+
+  // extra harmonies
+
+  fTraceExtraHarmonies = boolOptionsInitialValue;
+
+  S_oahTwoBooleansAtom
+    traceExtraHarmoniesAtom =
+      oahTwoBooleansAtom::create (
+        "teharms", "trace-extra-harmonies",
+R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
+        "traceExtraHarmonies",
+        fTraceExtraHarmonies,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      traceExtraHarmoniesAtom);
+}
+
+void traceOah::initializeFiguredBassesTraceOah (
+  bool boolOptionsInitialValue)
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Figured basses",
+        "hthfigbass", "help-trace-figured-basses",
+R"()",
+      kElementVisibilityAlways,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
   // figured basses
 
   fTraceFiguredBasses = boolOptionsInitialValue;
@@ -763,11 +812,6 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
   subGroup->
     appendAtomToSubGroup (
       traceFiguredBasseAtom);
-      /* JMI
-  harmoniesAndFiguredBassesMultiplexBooleansAtom->
-    addBooleanAtom (
-      traceFiguredBasseAtom);
-      */
 }
 
 void traceOah::initializeCreditsToWordsTraceOah (
@@ -789,7 +833,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     creditsToWordsMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
-        "Trace SHORT_NAME/LONG_NAME in credits to words.",
+        "Trace SHORT_NAME/LONG_NAME in 'credits to words'.",
         "SHORT_NAME",
         "LONG_NAME",
         fShortTracePrefix,
@@ -982,25 +1026,6 @@ R"(Tuplets details)",
   chordsAndTupletsMultiplexBooleansAtom->
     addBooleanAtom (
       traceTupletsDetailsBooleanAtom);
-
-  // extra chords
-
-  fTraceExtraChords = boolOptionsInitialValue;
-
-  S_oahTwoBooleansAtom
-    traceExtraChordsBooleanAtom =
-      oahTwoBooleansAtom::create (
-        "tec", "trace-extra-chords",
-R"(Extra chords handling)",
-        "traceExtraChords",
-        fTraceExtraChords,
-        fTracePasses);
-  subGroup->
-    appendAtomToSubGroup (
-      traceExtraChordsBooleanAtom);
-  chordsAndTupletsMultiplexBooleansAtom->
-    addBooleanAtom (
-      traceExtraChordsBooleanAtom);
 }
 
 void traceOah::initializeInstrumentsTraceOah (
@@ -1944,6 +1969,7 @@ R"()",
   // trace options
 
   fTraceOah = boolOptionsInitialValue;
+//  fTraceOah = true; // JMI TEMP
 
   subGroup->
     appendAtomToSubGroup (
@@ -2147,7 +2173,7 @@ R"()",
 
   // passes
 
-  fTracePasses = boolOptionsInitialValue; // TEMP boolOptionsInitialValue;
+  fTracePasses = boolOptionsInitialValue;
 
   S_oahBooleanAtom
     tracePassesBooleanAtom =
@@ -2227,7 +2253,7 @@ void traceOah::initializeTraceOah (
 
   fShortTracePrefix =
     fHandlerUpLink->
-      fetchPrefixInMapByItsName (
+      fetchPrefixNameInPrefixesMap (
         "t");
   msrAssert (
     fShortTracePrefix != nullptr,
@@ -2237,7 +2263,7 @@ void traceOah::initializeTraceOah (
 
   fLongTracePrefix =
     fHandlerUpLink->
-      fetchPrefixInMapByItsName (
+      fetchPrefixNameInPrefixesMap (
         "trace");
   msrAssert (
     fLongTracePrefix != nullptr,
@@ -2283,8 +2309,12 @@ void traceOah::initializeTraceOah (
   initializeCreditsToWordsTraceOah (
     boolOptionsInitialValue);
 
-  // harmonies and figured basses
-  initializeHarmoniesAndFiguredBassesTraceOah (
+  // harmonies
+  initializeHarmoniesTraceOah (
+    boolOptionsInitialValue);
+
+  // figured basses
+  initializeFiguredBassesTraceOah (
     boolOptionsInitialValue);
 
   // spanners
@@ -2498,6 +2528,7 @@ S_traceOah traceOah::createCloneWithTrueValues ()
 
   // harmonies
   clone->fTraceHarmonies = true;
+  clone->fTraceExtraHarmonies = true;
 
   // frames
   clone->fTraceFrames = true;
@@ -2544,8 +2575,8 @@ S_traceOah traceOah::createCloneWithTrueValues ()
   // harp pedals tuning
   clone->fTraceHarpPedalsTunings = true;
 
-  // extra chords
-  clone->fTraceExtraChords = true;
+  // extra harmonies
+  clone->fTraceExtraHarmonies = true;
 
 /* JMI
   // msrStreams
@@ -2727,6 +2758,7 @@ void traceOah::setAllGeneralTraceOah (
 
   // harmonies
   fTraceHarmonies = boolOptionsInitialValue;
+  fTraceExtraHarmonies = boolOptionsInitialValue;
 
   // frames
   fTraceFrames = boolOptionsInitialValue;
@@ -2773,8 +2805,8 @@ void traceOah::setAllGeneralTraceOah (
   // harp pedals tuning
   fTraceHarpPedals = boolOptionsInitialValue;
 
-  // extra chords
-  fTraceExtraChords = boolOptionsInitialValue;
+  // extra harmonies
+  fTraceExtraHarmonies = boolOptionsInitialValue;
 
 / * JMI
   // msrStreams
@@ -3209,6 +3241,9 @@ void traceOah::printAtomOptionsValues (
     setw (valueFieldWidth) << "traceHarmonies" << " : " <<
     booleanAsString (fTraceHarmonies) <<
     endl <<
+    setw (valueFieldWidth) << "traceExtraHarmonies" << " : " <<
+    booleanAsString (fTraceExtraHarmonies) <<
+    endl <<
 
     // frames
     setw (valueFieldWidth) << "traceFrames" << " : " <<
@@ -3285,9 +3320,9 @@ void traceOah::printAtomOptionsValues (
     booleanAsString (fTraceHarpPedalsTunings) <<
     endl <<
 
-    // extra chords
-    setw (valueFieldWidth) << "traceExtraChords" << " : " <<
-    booleanAsString (fTraceExtraChords) <<
+    // extra harmonies
+    setw (valueFieldWidth) << "traceExtraHarmonies" << " : " <<
+    booleanAsString (fTraceExtraHarmonies) <<
     endl <<
 
 /* JMI
@@ -3652,6 +3687,9 @@ void traceOah::printTraceOahValues (int fieldWidth)
     setw (fieldWidth) << "traceHarmonies" << " : " <<
     booleanAsString (fTraceHarmonies) <<
     endl <<
+    setw (fieldWidth) << "traceExtraHarmonies" << " : " <<
+    booleanAsString (fTraceExtraHarmonies) <<
+    endl <<
 
     // frames
     setw (fieldWidth) << "traceFrames" << " : " <<
@@ -3728,9 +3766,9 @@ void traceOah::printTraceOahValues (int fieldWidth)
     booleanAsString (fTraceHarpPedalsTunings) <<
     endl <<
 
-    // extra chords
-    setw (fieldWidth) << "traceExtraChords" << " : " <<
-    booleanAsString (fTraceExtraChords) <<
+    // extra harmonies
+    setw (fieldWidth) << "traceExtraHarmonies" << " : " <<
+    booleanAsString (fTraceExtraHarmonies) <<
     endl <<
 
 /* JMI

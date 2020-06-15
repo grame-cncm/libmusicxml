@@ -2822,10 +2822,11 @@ void msrMeasure::removeNoteFromMeasure (
   for (
     list<S_msrMeasureElement>::iterator i=fMeasureElementsList.begin ();
     i!=fMeasureElementsList.end ();
-    ++i) {
+    ++i
+  ) {
     if ((*i) == note) {
       // found note, erase it
-      fMeasureElementsList.erase (i);
+      i = fMeasureElementsList.erase (i);
 
       // update current measure whole notes
       setCurrentMeasureWholeNotesDuration (
@@ -2930,10 +2931,11 @@ void msrMeasure::removeElementFromMeasure (
   for (
     list<S_msrMeasureElement>::iterator i=fMeasureElementsList.begin ();
     i!=fMeasureElementsList.end ();
-    ++i) {
+    ++i
+  ) {
     if ((*i) == element) {
       // found element, erase it
-      fMeasureElementsList.erase (i);
+      i = fMeasureElementsList.erase (i);
 
       // update current measure whole notes
       setCurrentMeasureWholeNotesDuration (

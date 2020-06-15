@@ -310,7 +310,7 @@ class msr2LpsrTranslator :
   public:
 
     msr2LpsrTranslator (
-      ostream&   ios,
+      ostream&   os,
       S_msrScore mScore);
 
     virtual ~msr2LpsrTranslator ();

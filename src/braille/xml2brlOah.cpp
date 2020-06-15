@@ -45,19 +45,19 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2brlOahHandler xml2brlOahHandler::create (
   string   executableName,
-  ostream& ios)
+  ostream& os)
 {
   xml2brlOahHandler* o = new
     xml2brlOahHandler (
       executableName,
-      ios);
+      os);
   assert(o!=0);
   return o;
 }
 
 xml2brlOahHandler::xml2brlOahHandler (
   string   executableName,
-  ostream& ios)
+  ostream& os)
   : oahHandler (
     executableName + " available options",
     "Options values",
@@ -69,14 +69,14 @@ R"(                      Welcome to xml2brl,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-xml2brl [options] [MusicXMLFile|-] [options]
+Usage: xml2brl [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Options can be written with '-' or '--' at will,
   even though the help information below is presented with '-'.
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
-    ios)
+    os)
 {
   // append the help options prefixes
   S_oahPrefix
@@ -121,7 +121,7 @@ Option '-h, -help' prints the full help,
         gOutputOstream);
 
   // initialize the handler only now, since it may use prefixes
-  initializeXml2brlOptionsHandler (
+  initializeXml2brlOahHandler (
     executableName,
     generator);
 }
@@ -129,7 +129,7 @@ Option '-h, -help' prints the full help,
 xml2brlOahHandler::~xml2brlOahHandler ()
 {}
 
-void xml2brlOahHandler::initializeXml2brlOptionsHandler (
+void xml2brlOahHandler::initializeXml2brlOahHandler (
   string executableName,
   S_xml2brlOah2ManPageGenerator
          theOah2ManPageGenerator)
@@ -655,7 +655,7 @@ void xml2brlOah::initializeXml2brlOah ()
 
   {
     S_oahSubGroup
-      versionSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Version",
           "hxv", "help-xml2brl-version",
@@ -663,11 +663,11 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (versionSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // version
 
-    versionSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2brlVersionOahAtom::create (
           "v", "version",
@@ -679,7 +679,7 @@ R"(Display xml2brl's version number and history.)"));
 
   {
     S_oahSubGroup
-      aboutSubGroup =
+      subGroup =
         oahSubGroup::create (
           "About",
           "hxa", "help-xml2brl-about",
@@ -687,11 +687,11 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (aboutSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // about
 
-    aboutSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2brlAboutOahAtom::create (
           "a", "about",
@@ -703,7 +703,7 @@ R"(Display information about xml2brl.)"));
 
   {
     S_oahSubGroup
-      contactSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Contact",
           "hxc", "help-xml2brl-contact",
@@ -711,11 +711,11 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (contactSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // contact
 
-    contactSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2brlContactOahAtom::create (
           "c", "contact",
@@ -727,7 +727,7 @@ R"(Display information about how to contacct xml2brl maintainers.)"));
 
   {
     S_oahSubGroup
-      outputFileSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Output file",
           "hxof", "help-xml2brl-output-file",
@@ -735,11 +735,11 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (outputFileSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // output filename
 
-    outputFileSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "o", "output-file-name",
@@ -752,7 +752,7 @@ R"(Write Braille music to file FILENAME instead of standard output.)",
 
     fAutoOutputFileName = false;
 
-    outputFileSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "aofn", "auto-output-file-name",
@@ -770,7 +770,7 @@ or adding '.brl' if none is present.)",
 
   {
     S_oahSubGroup
-      exitAfterSomePassesSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Exit after some passes",
           "hmexit", "help-msr-exit",
@@ -778,7 +778,7 @@ or adding '.brl' if none is present.)",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (exitAfterSomePassesSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // exit after pass 2a
 
@@ -793,7 +793,7 @@ or adding '.brl' if none is present.)",
           "exit2a",
           fExit2a);
 
-    exitAfterSomePassesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         exit2aOahBooleanAtom);
 
@@ -810,7 +810,7 @@ or adding '.brl' if none is present.)",
           "exit2b",
           fExit2b);
 
-    exitAfterSomePassesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         exit2bOahBooleanAtom);
   }
@@ -938,31 +938,38 @@ void xml2brlOah::printXml2brlOahValues (int fieldWidth)
 void initializeXml2brlOah (
   S_oahHandler handler)
 {
+  // protect library against multiple initializations
+  static bool initializeXml2brlOahHasBeenRun = false;
+
+  if (! initializeXml2brlOahHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing xml2brl options handling" <<
-      endl;
-  }
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing xml2brl options handling" <<
+        endl;
+    }
 #endif
 
-  // enlist versions information
-  // ------------------------------------------------------
+    // enlist versions information
+    // ------------------------------------------------------
 
-  enlistVersion (
-    "Initial", "october 2018",
-    "Derived from xml2ly, with an embryonic BSR");
+    enlistVersion (
+      "Initial", "october 2018",
+      "Derived from xml2ly, with an embryonic BSR");
 
-  enlistVersion (
-    musicxml2brailleVersionStr (), "Nobember 2018",
-    "First draft version");
+    enlistVersion (
+      musicxml2brailleVersionStr (), "Nobember 2018",
+      "First draft version");
 
-  // create the options variables
-  // ------------------------------------------------------
+    // create the options variables
+    // ------------------------------------------------------
 
-  gXml2brlOah = xml2brlOah::create (
-    handler);
-  assert (gXml2brlOah != 0);
+    gXml2brlOah = xml2brlOah::create (
+      handler);
+    assert (gXml2brlOah != 0);
+
+    initializeXml2brlOahHasBeenRun = true;
+  }
 }
 
 

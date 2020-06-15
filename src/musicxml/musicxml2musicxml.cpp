@@ -56,50 +56,58 @@ namespace MusicXML2
 //_______________________________________________________________________________
 static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
-	Sxmlelement st = xmlfile->elements();
+	Sxmlelement st;
 
-	if (st) {
-		if (st->getName() == "score-timewise") return kUnsupported;
+	if (xmlfile) {
+	  st = xmlfile->elements();
 
-    // the fake executable name
-    string fakeExecutableName = "xml2musicxml";
-
-    // create the options handler
-    // ------------------------------------------------------
-
-    S_xml2xmlOahHandler
-      handler =
-        xml2xmlOahHandler::create (
-          fakeExecutableName,
-          out);
-
-    // analyze the coptions vector
-    // ------------------------------------------------------
-
-    try {
-      oahHandler::oahHelpOptionsHaveBeenUsedKind
-        helpOptionsHaveBeenUsedKind =
-          handler->
-            hangleOptionsFromOptionsVector (
-              fakeExecutableName,
-              options);
-
-      switch (helpOptionsHaveBeenUsedKind) {
-        case oahHandler::kHelpOptionsHaveBeenUsedYes:
-          return kNoErr;
-          break;
-        case oahHandler::kHelpOptionsHaveBeenUsedNo:
-          // let's go ahead!
-          break;
-      } // switch
+    if (st) {
+      if (st->getName() == "score-timewise") return kUnsupported;
     }
-    catch (msrOahException& e) {
-      return kInvalidOption;
-    }
-    catch (std::exception& e) {
-      return kInvalidFile;
-    }
+  }
 
+  // the fake executable name
+  // ------------------------------------------------------
+
+  string fakeExecutableName = "xml2xml";
+
+  // create the options handler
+  // ------------------------------------------------------
+
+  S_xml2xmlOahHandler
+    handler =
+      xml2xmlOahHandler::create (
+        fakeExecutableName,
+        out);
+
+  // analyze the coptions vector
+  // ------------------------------------------------------
+
+  try {
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+      helpOptionsHaveBeenUsedKind =
+        handler->
+          hangleOptionsFromOptionsVector (
+            fakeExecutableName,
+            options);
+
+    switch (helpOptionsHaveBeenUsedKind) {
+      case oahHandler::kHelpOptionsHaveBeenUsedYes:
+        return kNoErr;
+        break;
+      case oahHandler::kHelpOptionsHaveBeenUsedNo:
+        // let's go ahead!
+        break;
+    } // switch
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+	if (xmlfile) {
     // has quiet mode been requested?
     // ------------------------------------------------------
 
@@ -263,14 +271,17 @@ EXP xmlErr musicxmlfd2musicxml (FILE * fd, const optionsVector& options, std::os
 //_______________________________________________________________________________
 EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
-	xmlreader r;
-	SXMLFile xmlfile;
+	SXMLFile  xmlfile;
 
-	xmlfile = r.readbuff(buffer);
+  if (buffer [0] != '\0') {
+  	xmlreader r;
 
-	if (xmlfile) {
-		return xml2musicxml(xmlfile, options, out, err, 0);
-	}
+	  xmlfile = r.readbuff (buffer);
+  }
+
+	// call xml2lilypond() even if xmlfile is null,
+	// to handle the help options if any
+  return xml2musicxml(xmlfile, options, out, err, 0);
 
 	return kInvalidFile;
 }

@@ -1210,7 +1210,7 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
   S_oahBooleanAtom
     slashAllGraceNotesAtom =
       oahBooleanAtom::create (
-        "slashagn", "slash-all-grace-notes ",
+        "slashagn", "slash-all-grace-notes",
 R"(Add a slash to all grace notes)",
         "slashAllGraceNotes",
         fSlashAllGraceNotes);
@@ -1226,7 +1226,7 @@ R"(Add a slash to all grace notes)",
   S_oahBooleanAtom
     slurAllGraceNotesAtom =
       oahBooleanAtom::create (
-        "sluragn", "slur-all-grace-notes ",
+        "sluragn", "slur-all-grace-notes",
 R"(Add a slur to all grace notes)",
         "slurAllGraceNotes",
         fSlurAllGraceNotes);
@@ -1242,7 +1242,7 @@ R"(Add a slur to all grace notes)",
   S_oahBooleanAtom
     beamAllGraceNotesAtom =
       oahBooleanAtom::create (
-        "beamagn", "beam-all-grace-notes ",
+        "beamagn", "beam-all-grace-notes",
 R"(Add a beam to all grace notes)",
         "beamAllGraceNotes",
         fBeamAllGraceNotes);

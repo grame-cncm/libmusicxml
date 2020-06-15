@@ -112,7 +112,7 @@ class msrVoice2MasterVoiceCreator :
   public:
 
     msrVoice2MasterVoiceCreator (
-      ostream&   ios,
+      ostream&   os,
       S_msrVoice mVoice);
 
     virtual ~msrVoice2MasterVoiceCreator ();

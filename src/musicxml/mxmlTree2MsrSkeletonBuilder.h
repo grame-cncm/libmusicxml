@@ -249,7 +249,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
 
     mxmlTree2MsrSkeletonBuilder (
-      ostream& ios);
+      ostream& os);
 
     virtual ~mxmlTree2MsrSkeletonBuilder ();
 

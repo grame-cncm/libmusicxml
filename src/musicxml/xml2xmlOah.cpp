@@ -45,19 +45,19 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2xmlOahHandler xml2xmlOahHandler::create (
   string   executableName,
-  ostream& ios)
+  ostream& os)
 {
   xml2xmlOahHandler* o = new
     xml2xmlOahHandler (
       executableName,
-      ios);
+      os);
   assert(o!=0);
   return o;
 }
 
 xml2xmlOahHandler::xml2xmlOahHandler (
   string   executableName,
-  ostream& ios)
+  ostream& os)
   : oahHandler (
     executableName + " available options",
     "Options values",
@@ -69,12 +69,12 @@ R"(                      Welcome to xml2xml,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-xml2xml [options] [MusicXMLFile|-] [options]
+Usage: xml2xml [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
-    ios)
+    os)
 {
   // create and append the help options prefixes
   S_oahPrefix
@@ -136,7 +136,7 @@ Option '-h, -help' prints the full help,
         gOutputOstream);
 
   // initialize the handler only now, since it may use prefixes
-  initializeXml2xmlOptionsHandler (
+  initializeXml2xmlOahHandler (
     executableName,
     generator);
 }
@@ -144,7 +144,7 @@ Option '-h, -help' prints the full help,
 xml2xmlOahHandler::~xml2xmlOahHandler ()
 {}
 
-void xml2xmlOahHandler::initializeXml2xmlOptionsHandler (
+void xml2xmlOahHandler::initializeXml2xmlOahHandler (
   string executableName,
   S_xml2xmlOah2ManPageGenerator
          theOah2ManPageGenerator)
@@ -763,28 +763,35 @@ void xml2xmlOah::printXml2xmlOahValues (int fieldWidth)
 void initializeXml2xmlOah (
   S_oahHandler handler)
 {
+  // protect library against multiple initializations
+  static bool initializeXml2xmlOahBeenRun = false;
+
+  if (! initializeXml2xmlOahBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing xml2xml options handling" <<
-      endl;
-  }
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing xml2xml options handling" <<
+        endl;
+    }
 #endif
 
-  // enlist versions information
-  // ------------------------------------------------------
+    // enlist versions information
+    // ------------------------------------------------------
 
-  enlistVersion (
-    musicxml2musicxmlVersionStr (),
-    "April 2020",
-    "First draft version");
+    enlistVersion (
+      musicxml2musicxmlVersionStr (),
+      "April 2020",
+      "First draft version");
 
-  // create the options groups
-  // ------------------------------------------------------
+    // create the options groups
+    // ------------------------------------------------------
 
-  gXml2xmlOah = xml2xmlOah::create (
-    handler);
-  assert (gXml2xmlOah != 0);
+    gXml2xmlOah = xml2xmlOah::create (
+      handler);
+    assert (gXml2xmlOah != 0);
+  }
+
+  initializeXml2xmlOahBeenRun = true;
 }
 
 

@@ -33,7 +33,7 @@ class EXP xml2xmlOahHandler : public oahHandler
 
     static SMARTP<xml2xmlOahHandler> create (
       string   executableName,
-      ostream& ios);
+      ostream& os);
 
   protected:
 
@@ -42,7 +42,7 @@ class EXP xml2xmlOahHandler : public oahHandler
 
     xml2xmlOahHandler (
       string   executableName,
-      ostream& ios);
+      ostream& os);
 
     virtual ~xml2xmlOahHandler ();
 
@@ -51,7 +51,7 @@ class EXP xml2xmlOahHandler : public oahHandler
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeXml2xmlOptionsHandler (
+    void                  initializeXml2xmlOahHandler (
                             string executableName,
                             S_xml2xmlOah2ManPageGenerator
                                    theOah2ManPageGenerator);

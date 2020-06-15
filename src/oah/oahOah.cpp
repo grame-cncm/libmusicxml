@@ -322,7 +322,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahOptionsUsageAtom::create (
-        "ho", "help-options",
+        "hou", "help-options-usage",
 R"(Print options usage help.)"));
 
   // help summary
@@ -372,15 +372,15 @@ This option is best placed early in the command line)",
 
   // options handler
 
-  fDisplayOptionsHandler = boolOptionsInitialValue;
+  fDisplayOahHandler = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "doh", "display-options-handler",
 R"(Write the contents of the options handler to standard error.)",
-        "displayOptionsHandler",
-        fDisplayOptionsHandler));
+        "displayOahHandler",
+        fDisplayOahHandler));
 }
 
 void oahOah::initializeOahOahAndArgumentsOptions (
@@ -412,6 +412,7 @@ R"(Print the options and arguments to EXECUTABLE.)",
         "showOptionsAndArguments",
         fShowOptionsAndArguments));
 
+/* JMI ???
   // optional values style
 
   const oahOptionalValuesStyleKind
@@ -454,6 +455,7 @@ InOAH style:
         "STYLE",
         "optionalValuesStyleKind",
         optionalValuesStyleKind));
+*/
 }
 
 #ifdef TRACE_OAH
@@ -466,7 +468,7 @@ void oahOah::initializeOahTraceOah (
         "Options visitors trace",
         "htov", "help-trace-options-visitors",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityHiddenByDefault,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -540,8 +542,8 @@ S_oahOah oahOah::createCloneWithTrueValues ()
 
   clone->fDisplayOahValues =
     fDisplayOahValues;
-  clone->fDisplayOptionsHandler =
-    fDisplayOptionsHandler;
+  clone->fDisplayOahHandler =
+    fDisplayOahHandler;
 
   // trace
   // --------------------------------------
@@ -690,8 +692,8 @@ void oahOah::printOahOahValues (int valueFieldWidth)
     setw (valueFieldWidth) << "displayOptionsValues" << " : " <<
     booleanAsString (fDisplayOahValues) <<
     endl <<
-    setw (valueFieldWidth) << "displayOptionsHandler" << " : " <<
-    booleanAsString (fDisplayOptionsHandler) <<
+    setw (valueFieldWidth) << "displayOahHandler" << " : " <<
+    booleanAsString (fDisplayOahHandler) <<
     endl <<
 
     setw (valueFieldWidth) << "traceOahVisitors" << " : " <<

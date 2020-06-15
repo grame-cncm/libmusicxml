@@ -255,7 +255,7 @@ class msr2MxmltreeTranslator :
   public:
 
     msr2MxmltreeTranslator (
-      ostream&   ios,
+      ostream&   os,
       S_msrScore mScore);
 
     virtual ~msr2MxmltreeTranslator ();

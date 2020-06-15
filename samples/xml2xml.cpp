@@ -31,6 +31,8 @@
 
 #include "musicxml2musicxml.h"
 
+#include "xml2xmlOahDualHandler.h"
+
 
 using namespace std;
 
@@ -74,14 +76,13 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
-  // create the options handler
+  // create the OAH dual handler
   // ------------------------------------------------------
-
-  S_xml2xmlOahHandler handler;
+  S_xml2xmlOahDualHandler dualHandler;
 
   try {
-    handler =
-      xml2xmlOahHandler::create (
+    dualHandler =
+      xml2xmlOahDualHandler::create (
         argv [0],
         gOutputOstream);
   }
@@ -98,7 +99,7 @@ int main (int argc, char *argv[])
   try {
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
-        handler->
+        dualHandler->
           applyOptionsAndArgumentsFromArgcAndArgv (
             argc, argv);
 
@@ -135,8 +136,10 @@ int main (int argc, char *argv[])
 
   if (gGeneralOah->fQuiet) {
     // disable all trace and display options
-    handler->
+    /* JMI
+    dualHandler->
       enforceOahHandlerQuietness ();
+      */
   }
 
   // welcome message
@@ -188,7 +191,7 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogOstream <<
-      handler->
+      dualHandler->
         commandLineWithShortNamesAsString () <<
       endl;
 
@@ -199,7 +202,7 @@ int main (int argc, char *argv[])
     gIndenter++;
 
     gLogOstream <<
-      handler->
+      dualHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;

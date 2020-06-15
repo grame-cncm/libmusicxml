@@ -45,19 +45,19 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2lyOahHandler xml2lyOahHandler::create (
   string   executableName,
-  ostream& ios)
+  ostream& os)
 {
   xml2lyOahHandler* o = new
     xml2lyOahHandler (
       executableName,
-      ios);
+      os);
   assert(o!=0);
   return o;
 }
 
 xml2lyOahHandler::xml2lyOahHandler (
   string   executableName,
-  ostream& ios)
+  ostream& os)
   : oahHandler (
       executableName + " available options",
       "Options values",
@@ -69,12 +69,12 @@ R"(                      Welcome to xml2ly,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-xml2ly [options] [MusicXMLFile|-] [options]
+Usage: xml2ly [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
-    ios)
+    os)
 {
   // create and append the help options prefixes
   S_oahPrefix
@@ -136,7 +136,7 @@ Option '-h, -help' prints the full help,
         gOutputOstream);
 
   // initialize the handler only now, since it may use prefixes
-  initializeXml2lyOptionsHandler (
+  initializeXml2lyOahHandler (
     executableName,
     generator);
 }
@@ -144,7 +144,7 @@ Option '-h, -help' prints the full help,
 xml2lyOahHandler::~xml2lyOahHandler ()
 {}
 
-void xml2lyOahHandler::initializeXml2lyOptionsHandler (
+void xml2lyOahHandler::initializeXml2lyOahHandler (
   string executableName,
   S_xml2lyOah2ManPageGenerator
          theOah2ManPageGenerator)
@@ -607,12 +607,39 @@ xml2lyOah::~xml2lyOah ()
 
 void xml2lyOah::initializeXml2lyOah ()
 {
+  // insider
+  // --------------------------------------
+
+  {
+    S_oahSubGroup
+      subGroup =
+        oahSubGroup::create (
+          "Options and help view",
+          "hoahv", "options-and-help-view",
+R"()",
+        kElementVisibilityAlways,
+        this);
+
+    appendSubGroupToGroup (subGroup);
+
+    subGroup->
+      appendAtomToSubGroup (
+        oahDualHandlerInsiderAtom::create (
+          "insider", "",
+R"(Switch the options and help view to 'insider',
+in which the options are grouped as they are used
+by the various intenal representation and translation passes.
+This unleashes the full set of display and trace options.
+In the default 'user' view, the options are grouped by music scoring topics,
+such a slurs, tuplets and figured bass.)"));
+  }
+
   // version
   // --------------------------------------
 
   {
     S_oahSubGroup
-      versionSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Version",
           "hxv", "help-xml2ly-version",
@@ -620,11 +647,11 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (versionSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // version
 
-    versionSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2lyVersionOahAtom::create (
           "v", "version",
@@ -636,7 +663,7 @@ R"(Display xml2ly's version number and history.)"));
 
   {
     S_oahSubGroup
-      aboutSubGroup =
+      subGroup =
         oahSubGroup::create (
           "About",
           "hxa", "help-xml2ly-about",
@@ -644,11 +671,11 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (aboutSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // about
 
-    aboutSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2lyAboutOahAtom::create (
           "a", "about",
@@ -660,7 +687,7 @@ R"(Display information about xml2ly.)"));
 
   {
     S_oahSubGroup
-      contactSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Contact",
           "hxc", "help-xml2ly-contact",
@@ -668,11 +695,11 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (contactSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // contact
 
-    contactSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2lyContactOahAtom::create (
           "c", "contact",
@@ -684,7 +711,7 @@ R"(Display information about how to contacct xml2ly maintainers.)"));
 
   {
     S_oahSubGroup
-      outputFileSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Output file",
           "hxof", "help-xml2ly-output-file",
@@ -692,11 +719,11 @@ R"()",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (outputFileSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // output filename
 
-    outputFileSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "o", "output-file-name",
@@ -709,7 +736,7 @@ R"(Write LilyPond code to file FILENAME instead of standard output.)",
 
     fAutoOutputFileName = false;
 
-    outputFileSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahBooleanAtom::create (
           "aofn", "auto-output-file-name",
@@ -737,7 +764,7 @@ or adding '.ly' if none is present.)",
 
     appendSubGroupToGroup (subGroup);
 
-    // '-loop' is hidden...
+    // loop
 
     fLoopBackToMusicXML = false;
 
@@ -763,7 +790,7 @@ or adding '.ly' if none is present.)",
 
   {
     S_oahSubGroup
-      exitAfterSomePassesSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Exit after some passes",
           "hmexit", "help-msr-exit",
@@ -771,7 +798,7 @@ or adding '.ly' if none is present.)",
         kElementVisibilityAlways,
         this);
 
-    appendSubGroupToGroup (exitAfterSomePassesSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // exit after pass 2a
 
@@ -786,7 +813,7 @@ or adding '.ly' if none is present.)",
           "exit2a",
           fExit2a);
 
-    exitAfterSomePassesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         exit2aOahBooleanAtom);
 
@@ -803,7 +830,7 @@ or adding '.ly' if none is present.)",
           "exit2b",
           fExit2b);
 
-    exitAfterSomePassesSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         exit2bOahBooleanAtom);
   }
@@ -879,31 +906,38 @@ void xml2lyOah::printXml2lyOahValues (int fieldWidth)
 void initializeXml2lyOah (
   S_oahHandler handler)
 {
+  // protect library against multiple initializations
+  static bool initializeXml2lyOahHasBeenRun = false;
+
+  if (! initializeXml2lyOahHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing xml2ly options handling" <<
-      endl;
-  }
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing xml2ly options handling" <<
+        endl;
+    }
 #endif
 
-  // enlist versions information
-  // ------------------------------------------------------
+    // enlist versions information
+    // ------------------------------------------------------
 
-  enlistVersion (
-    "Initial", "early 2016",
-    "Start as xml2lilypond, a clone of xml2guido");
+    enlistVersion (
+      "Initial", "early 2016",
+      "Start as xml2lilypond, a clone of xml2guido");
 
-  enlistVersion (
-    musicxml2lilypondVersionStr (), "October 2018",
-    "First draft version");
+    enlistVersion (
+      musicxml2lilypondVersionStr (), "October 2018",
+      "First draft version");
 
-  // create the options variables
-  // ------------------------------------------------------
+    // create the options variables
+    // ------------------------------------------------------
 
-  gXml2lyOah = xml2lyOah::create (
-    handler);
-  assert (gXml2lyOah != 0);
+    gXml2lyOah = xml2lyOah::create (
+      handler);
+    assert (gXml2lyOah != 0);
+
+    initializeXml2lyOahHasBeenRun = true;
+  }
 }
 
 

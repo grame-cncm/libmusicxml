@@ -16,13 +16,20 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 void initializeLPSR ()
 {
-  initializeLPSRBasicTypes ();
+  // protect library against multiple initializations
+  static bool initializeLPSRHasBeenRun = false;
+
+  if (! initializeLPSRHasBeenRun) {
+    initializeLPSRBasicTypes ();
+
+    initializeLPSRHasBeenRun = true;
+  }
 }
 
 

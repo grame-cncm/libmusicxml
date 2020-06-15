@@ -17,13 +17,20 @@
 using namespace std;
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 void initializeMSR ()
 {
-  initializeMSRBasicTypes ();
+  // protect library against multiple initializations
+  static bool initializeMSRHasBeenRun = false;
+
+  if (! initializeMSRHasBeenRun) {
+    initializeMSRBasicTypes ();
+
+    initializeMSRHasBeenRun = true;
+  }
 }
 
 

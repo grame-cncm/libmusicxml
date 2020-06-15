@@ -177,7 +177,7 @@ void xml2lyVersionOahAtom::printVersion (ostream& os) const
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
+        setOahHandlerFoundAHelpOption ();
 }
 
 void xml2lyVersionOahAtom::printAtomOptionsValues (
@@ -355,7 +355,7 @@ R"(What xml2ly does:
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
+        setOahHandlerFoundAHelpOption ();
 }
 
 void xml2lyAboutOahAtom::printAtomOptionsValues (
@@ -519,7 +519,7 @@ R"(To contact xml2ly maintainers:
   fSubGroupUpLink->
     getGroupUpLink ()->
       getHandlerUpLink ()->
-        setOptionsHandlerFoundAHelpOption ();
+        setOahHandlerFoundAHelpOption ();
 }
 
 void xml2lyContactOahAtom::printAtomOptionsValues (

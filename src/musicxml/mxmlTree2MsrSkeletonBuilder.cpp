@@ -136,8 +136,8 @@ ostream& operator<< (ostream& os, const S_mxmlPartGroupDescr& elt)
 
 //_______________________________________________________________________________
 mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
-  ostream& ios)
-  : fLogOutputStream (ios)
+  ostream& os)
+  : fLogOutputStream (os)
 {
   // the MSR score we're building
   fMsrScore =
@@ -2165,7 +2165,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
         cubaseOption =
           gMxmlTreeOah->
             getHandlerUpLink ()->
-              fetchElementFromMap ("cubase");
+              fetchNameInElementsMap ("cubase");
 
       if (
         // combined booleans atom?

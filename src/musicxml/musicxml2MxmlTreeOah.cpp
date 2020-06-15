@@ -96,7 +96,7 @@ R"()",
   S_oahPrefix
     shortTracePrefix =
       fHandlerUpLink->
-        fetchPrefixInMapByItsName (
+        fetchPrefixNameInPrefixesMap (
           "t");
 
   msrAssert (
@@ -108,7 +108,7 @@ R"()",
   S_oahPrefix
     longTracePrefix =
       fHandlerUpLink->
-        fetchPrefixInMapByItsName (
+        fetchPrefixNameInPrefixesMap (
           "trace");
 
   msrAssert (

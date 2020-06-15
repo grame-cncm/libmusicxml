@@ -76,7 +76,7 @@ class msr2BsrTranslator :
   public:
 
     msr2BsrTranslator (
-      ostream&   ios,
+      ostream&   os,
       S_msrScore mScore);
 
     virtual ~msr2BsrTranslator ();

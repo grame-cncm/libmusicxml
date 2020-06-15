@@ -494,7 +494,7 @@ class mxmlTree2MsrTranslator :
 
     mxmlTree2MsrTranslator (
       S_msrScore scoreSkeleton,
-      ostream&   ios);
+      ostream&   os);
 
     virtual ~mxmlTree2MsrTranslator ();
 

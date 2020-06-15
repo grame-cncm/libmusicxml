@@ -458,10 +458,10 @@ void msrPartGroup::removePartFromPartGroup (
       S_msrPart
         part =
           dynamic_cast<msrPart*>(&(*element))
-      ) {
+    ) {
       // this is a part
       if (part == partToBeRemoved) {
-        fPartGroupElements.erase (i);
+        i = fPartGroupElements.erase (i);
         break;
       }
     }

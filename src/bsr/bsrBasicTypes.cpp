@@ -211,10 +211,17 @@ map<string, bsrBrailleOutputKind>
 
 void initializeBsrBrailleOutputKindsMap ()
 {
-  gBsrBrailleOutputKindsMap ["ascii"] = kBrailleOutputAscii; // default
-  gBsrBrailleOutputKindsMap ["utf8"]  = kBrailleOutputUTF8;
-  gBsrBrailleOutputKindsMap ["utf8d"] = kBrailleOutputUTF8Debug;
-  gBsrBrailleOutputKindsMap ["utf16"] = kBrailleOutputUTF16;
+  // protect library against multiple initializations
+  static bool initializeBsrBrailleOutputKindsMapHasBeenRun = false;
+
+  if (! initializeBsrBrailleOutputKindsMapHasBeenRun) {
+    gBsrBrailleOutputKindsMap ["ascii"] = kBrailleOutputAscii; // default
+    gBsrBrailleOutputKindsMap ["utf8"]  = kBrailleOutputUTF8;
+    gBsrBrailleOutputKindsMap ["utf8d"] = kBrailleOutputUTF8Debug;
+    gBsrBrailleOutputKindsMap ["utf16"] = kBrailleOutputUTF16;
+
+    initializeBsrBrailleOutputKindsMapHasBeenRun = true;
+  }
 }
 
 string bsrBrailleOutputKindAsString (
@@ -295,10 +302,17 @@ map<string, bsrTextsLanguageKind>
 
 void initializeBsrTextsLanguageKindsMap ()
 {
-  gBsrTextsLanguageKindsMap ["english"] = kTextsEnglish; // default
-  gBsrTextsLanguageKindsMap ["german"]  = kTextsGerman;
-  gBsrTextsLanguageKindsMap ["italian"] = kTextsItalian;
-  gBsrTextsLanguageKindsMap ["french"]  = kTextsFrench;
+  // protect library against multiple initializations
+  static bool initializeBsrTextsLanguageKindsMapHasBeenRun = false;
+
+  if (! initializeBsrTextsLanguageKindsMapHasBeenRun) {
+    gBsrTextsLanguageKindsMap ["english"] = kTextsEnglish; // default
+    gBsrTextsLanguageKindsMap ["german"]  = kTextsGerman;
+    gBsrTextsLanguageKindsMap ["italian"] = kTextsItalian;
+    gBsrTextsLanguageKindsMap ["french"]  = kTextsFrench;
+
+    initializeBsrTextsLanguageKindsMapHasBeenRun= true;
+  }
 }
 
 string bsrTextsLanguageKindAsString (
@@ -416,23 +430,30 @@ ostream& operator<< (ostream& os, const wstring& wstr)
 //______________________________________________________________________________
 void initializeBSRBasicTypes ()
 {
+  // protect library against multiple initializations
+  static bool initializeBSRBasicTypesHasBeenRun = false;
+
+  if (! initializeBSRBasicTypesHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    gLogOstream <<
-      "Initializing BSR basic types handling" <<
-      endl;
-  }
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      gLogOstream <<
+        "Initializing BSR basic types handling" <<
+        endl;
+    }
 #endif
 
-  // BSR braille output kinds handling
-  // ------------------------------------------------------
+    // BSR braille output kinds handling
+    // ------------------------------------------------------
 
-  initializeBsrBrailleOutputKindsMap ();
+    initializeBsrBrailleOutputKindsMap ();
 
-  // BSR texts languages handling
-  // ------------------------------------------------------
+    // BSR texts languages handling
+    // ------------------------------------------------------
 
-  initializeBsrTextsLanguageKindsMap ();
+    initializeBsrTextsLanguageKindsMap ();
+
+    initializeBSRBasicTypesHasBeenRun = true;
+  }
 }
 
 

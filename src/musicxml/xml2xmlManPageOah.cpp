@@ -184,7 +184,7 @@ void xml2xmlManPageGenerateAtom::generateManPageData (ostream& os) const
           getHandlerUpLink ();
 
   handler->
-    setOptionsHandlerFoundAHelpOption ();
+    setOahHandlerFoundAHelpOption ();
 }
 
 void xml2xmlManPageGenerateAtom::printAtomOptionsValues (
