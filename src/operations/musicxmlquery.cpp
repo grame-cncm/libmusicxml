@@ -31,7 +31,7 @@ namespace MusicXML2
     }
     
     void musicxmlQuery::init() {
-        fCurrentVoicePosition.set(0, 1);
+
     }
     
     

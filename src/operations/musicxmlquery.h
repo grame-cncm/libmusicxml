@@ -16,7 +16,6 @@
 
 #include "exports.h"
 #include "typedefs.h"
-#include "notevisitor.h"
 #include "transposevisitor.h"
 #include "partlistvisitor.h"
 #include "partsummary.h"
@@ -80,9 +79,7 @@ namespace MusicXML2
         int getTotalStaves();
         
     protected:
-        
-        rational fCurrentVoicePosition;
-                        
+                                
         virtual void visitStart ( S_part& elt);
         virtual void visitStart ( S_staves& elt);
         

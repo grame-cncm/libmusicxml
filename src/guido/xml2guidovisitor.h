@@ -17,6 +17,7 @@
 #include <stack>
 #include <map>
 #include <string>
+#include <set>
 
 #include "exports.h"
 #include "guido.h"
@@ -27,7 +28,8 @@
 
 
 #include "partlistvisitor.h"
-
+#include "transposevisitor.h"
+#include "clefvisitor.h"
 
 namespace MusicXML2 
 {
@@ -49,12 +51,16 @@ typedef struct {
 //______________________________________________________________________________
 class EXP xml2guidovisitor :
 public partlistvisitor,
+public transposevisitor,
 public visitor<S_score_partwise>,
 public visitor<S_movement_title>,
 public visitor<S_creator>,
 public visitor<S_defaults>,
-public visitor<S_part>
+public visitor<S_part>,
+public visitor<S_staves>,
+public clefvisitor
 {
+private:
     // the guido elements stack
     std::stack<Sguidoelement>	fStack;
     bool	fGenerateComments, fGenerateStem, fGenerateBars, fGeneratePositions;
@@ -85,6 +91,8 @@ protected:
     //virtual void visitStart( S_score_part& elt);
     virtual void visitStart( S_defaults& elt);
     virtual void visitStart( S_part& elt);
+    virtual void visitStart ( S_staves& elt);
+    virtual void visitEnd ( S_clef& elt );
     
     Sguidoelement& current ()				{ return fStack.top(); }
     
@@ -112,6 +120,9 @@ protected:
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
     
+    std::map<std::string, int> stavesInPart;
+    std::map<std::string, std::set<std::string> > clefsInPart;
+    std::string currentPart;
     
 public:
     xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true, int partNum = 0, int beginMeasure = 0, int endMeasure = 0, int endMeasureOffset = 0);
@@ -126,6 +137,8 @@ public:
     /// Shared default derived from MusicXML
     static int defaultGuidoStaffDistance;  // the above converted to Guido value
     
+    /// MARK: Position Helpers
+
     static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset);
     static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, float yoffset, float xoffset);
     static void addPosY	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float ymultiplier);
@@ -136,6 +149,34 @@ public:
     static float getXposition	( Sxmlelement elt, float xoffset);
     
     static void addDirection( Sxmlelement elt, Sguidoelement& tag);
+    
+    /// MARK: Query methods
+    
+    /*! Provides Instrument Transposer of the score in Chromatic Scale
+     
+     The transpose element represents what must be added to the written pitch to get the correct sounding pitch.
+     
+     See (MusicXML Attribute Description)[http://www.musicxml.com/tutorial/the-midi-compatible-part/attributes/]
+     
+     \return steps as Int in chromatic steps count
+     */
+    int  getTransposeInstrumentChromatic ()    ;
+    std::string  getTransposeInstrumentName ();
+    
+    /*!
+     Return the number of staves for the first part
+     */
+    int getStavesForFirstPart();
+    
+    /*!
+     Return the number of staves for the first part
+     */
+    std::vector<std::string> getAllClefsOfFirstPart();
+    
+    /*!
+     Return the total number of staves
+     */
+    int getTotalStaves();
     
     std::pair<long, long> getStartPosition() {
         return std::pair<long, long>(fBeginPosition.getNumerator(), fBeginPosition.getDenominator());
