@@ -16,6 +16,7 @@
 #include <string>
 #include <sstream>
 #include <exception>
+#include <cassert>
 
 
 using namespace std;
