@@ -16,7 +16,9 @@
 #include <string>
 #include <sstream>
 #include <exception>
+
 #include <cassert>
+#include <cstring>
 
 
 using namespace std;
