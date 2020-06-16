@@ -223,7 +223,7 @@ xml2xmlManPageOah::xml2xmlManPageOah (
     "Man page",
     "hmp", "help-man-page",
 R"(These options control the way the man page is generated.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
   // append this man page group to the OAH handler
@@ -253,7 +253,7 @@ void xml2xmlManPageOah::initializeManPageGenerateOptions (
         "Generate",
         "hgmp", "help-generate-man-page",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -296,8 +296,8 @@ void xml2xmlManPageOah::initializeManPageTraceOah (
         "Trace",
         "hmpt", "help-man-page-trace",
 R"(  Note: the options in this group imply '-tmp, -trace-man-page'.)",
-// JMI        kElementVisibilityHiddenByDefault,
-      kElementVisibilityAlways,
+// JMI        kElementVisibilityHeaderOnly,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

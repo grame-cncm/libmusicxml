@@ -10,28 +10,28 @@
   research@grame.fr
 */
 
-#ifndef ___xml2xmlOah___
-#define ___xml2xmlOah___
+#ifndef ___xml2brlOah___
+#define ___xml2brlOah___
 
 //#include "exports.h"
 
-//#include "xml2xmlManPageOah.h"
+//#include "xml2lyManPageOah.h"
 
-#include "xml2xmlOah2ManPageGenerator.h"
+#include "xml2brlOah2ManPageGenerator.h"
 
 
 namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-class EXP xml2xmlOahHandler : public oahHandler
+class EXP xml2brlInsiderOahHandler : public oahHandler
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2xmlOahHandler> create (
+    static SMARTP<xml2brlInsiderOahHandler> create (
       string   executableName,
       ostream& os);
 
@@ -40,20 +40,20 @@ class EXP xml2xmlOahHandler : public oahHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2xmlOahHandler (
+    xml2brlInsiderOahHandler (
       string   executableName,
       ostream& os);
 
-    virtual ~xml2xmlOahHandler ();
+    virtual ~xml2brlInsiderOahHandler ();
 
   private:
 
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeXml2xmlOahHandler (
+    void                  initializeXml2brlInsiderOahHandler (
                             string executableName,
-                            S_xml2xmlOah2ManPageGenerator
+                            S_xml2brlOah2ManPageGenerator
                                    theOah2ManPageGenerator);
 
   public:
@@ -75,6 +75,11 @@ class EXP xml2xmlOahHandler : public oahHandler
     // visitors
     // ------------------------------------------------------
 
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
   public:
 
     // print
@@ -87,15 +92,15 @@ class EXP xml2xmlOahHandler : public oahHandler
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2xmlOahHandler> S_xml2xmlOahHandler;
-EXP ostream& operator<< (ostream& os, const S_xml2xmlOahHandler& elt);
+typedef SMARTP<xml2brlInsiderOahHandler> S_xml2brlInsiderOahHandler;
+EXP ostream& operator<< (ostream& os, const S_xml2brlInsiderOahHandler& elt);
 
 //______________________________________________________________________________
-class xml2xmlOah : public oahGroup
+class xml2brlOah : public oahGroup
 {
   public:
 
-    static SMARTP<xml2xmlOah> create (
+    static SMARTP<xml2brlOah> create (
       S_oahHandler handlerUpLink);
 
   public:
@@ -103,17 +108,17 @@ class xml2xmlOah : public oahGroup
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeXml2xmlOah ();
+    void                  initializeXml2brlOah ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2xmlOah (
+    xml2brlOah (
       S_oahHandler handlerUpLink);
 
-    virtual ~xml2xmlOah ();
+    virtual ~xml2brlOah ();
 
   public:
 
@@ -149,16 +154,20 @@ class xml2xmlOah : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printXml2xmlOahHelp ();
+    void                  printXml2brlOahHelp ();
 
-    void                  printXml2xmlOahValues (int fieldWidth);
+    void                  printXml2brlOahValues (int fieldWidth);
 
   public:
+
+    // input
+    // --------------------------------------
 
     // output file
     // --------------------------------------
 
-    string                fMusicXMLOutputFileName;
+    string                fBrailleMusicOutputFileName;
+    bool                  fAutoOutputFileName;
 
     // exit after some passes
     // --------------------------------------
@@ -166,13 +175,13 @@ class xml2xmlOah : public oahGroup
     bool                  fExit2a;
     bool                  fExit2b;
 };
-typedef SMARTP<xml2xmlOah> S_xml2xmlOah;
-EXP ostream& operator<< (ostream& os, const S_xml2xmlOah& elt);
+typedef SMARTP<xml2brlOah> S_xml2brlOah;
+EXP ostream& operator<< (ostream& os, const S_xml2brlOah& elt);
 
-EXP extern S_xml2xmlOah gXml2xmlOah;
+EXP extern S_xml2brlOah gXml2brlOah;
 
 //______________________________________________________________________________
-void initializeXml2xmlOah (
+void initializeXml2brlOah (
   S_oahHandler handler);
 
 

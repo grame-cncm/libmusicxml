@@ -171,7 +171,13 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     void                  createChordsUserGroup (
                             ostream& os);
 
-    void                  createTiesSlursAndLigaturesUserGroup (
+    void                  createTiesUserGroup (
+                            ostream& os);
+
+    void                  createSlursUserGroup (
+                            ostream& os);
+
+    void                  createLigaturesUserGroup (
                             ostream& os);
 
     void                  createDynamicsAndWedgesUserGroup (
@@ -195,7 +201,13 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     void                  createFiguredBassesUserGroup (
                             ostream& os);
 
-    void                  createPresentationUserGroup (
+    void                  createHeaderUserGroup (
+                            ostream& os);
+
+    void                  createPaperUserGroup (
+                            ostream& os);
+
+    void                  createLayoutUserGroup (
                             ostream& os);
 
     void                  createOutputUserGroup (

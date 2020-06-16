@@ -51,7 +51,7 @@ msr2BsrOah::msr2BsrOah (
     "Msr2Bsr",
     "hmsr2bsr", "help-msr-to-bsr",
 R"(These options control the way MSR data is translated to BSR.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI
@@ -90,7 +90,7 @@ void msr2BsrOah::initializeMsr2BsrMiscellaneousOptions (
         "Miscellaneous",
         "hlpm", "help-miscellaneous",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -216,7 +216,7 @@ void msr2BsrOah::initializeMsr2BsrExitAfterSomePassesOptions (
         "Exit after some passes",
         "hbexit", "help-bsr-exit",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

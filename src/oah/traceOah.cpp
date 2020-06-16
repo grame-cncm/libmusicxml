@@ -50,7 +50,7 @@ showing what's going on in the various translation activities.
 They're provided as a help to the maintainers, as well as for the curious.
 The options in this group can be quite verbose, use them with small input data!
 All of them imply '-tpasses, -trace-passes'.)",
-    kElementVisibilityHiddenByDefault,
+    kElementVisibilityHeaderOnly,
     handlerUpLink)
 {
   // append this options group to the options handler if relevant
@@ -75,7 +75,7 @@ void traceOah::initializePrintLayoutsTraceOah (
         "Print layouts",
         "hpl", "help-print-layouts",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -106,7 +106,7 @@ void traceOah::initializeTranspositionsTraceOah (
         "Transpositions",
         "htt", "help-trace-transpositions",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -155,7 +155,7 @@ void traceOah::initializeAboveStaffTraceOah (
         "Above staff",
         "htas", "help-trace-above-staff",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -280,7 +280,7 @@ void traceOah::initializeBreaksAndBarlinesTraceOah (
         "Breaks and barlines",
         "htbab", "help-trace-breaks-and-barlines",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -427,7 +427,7 @@ void traceOah::initializeClefsToTemposTraceOah (
         "Clefs to tempos",
         "htctt", "help-trace-clefs-to-tempos",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -533,7 +533,7 @@ void traceOah::initializeInterNotesTraceOah (
         "Inter-notes",
         "htin", "help-trace-inter-notes",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -601,7 +601,7 @@ void traceOah::initializeSpannersTraceOah (
         "Spanners",
         "hts", "help-trace-spanners",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -685,7 +685,7 @@ R"(Slurs)",
   S_oahTwoBooleansAtom
     traceLigaturesAtom =
       oahTwoBooleansAtom::create (
-        "tligs", "traceLigatures",
+        "tligs", "trace-ligatures",
 R"(Ligatures)",
         "traceLigatures",
         fTraceLigatures,
@@ -707,7 +707,7 @@ void traceOah::initializeHarmoniesTraceOah (
         "Harmonies",
         "htharms", "help-trace-harmonies",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -792,7 +792,7 @@ void traceOah::initializeFiguredBassesTraceOah (
         "Figured basses",
         "hthfigbass", "help-trace-figured-basses",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -823,7 +823,7 @@ void traceOah::initializeCreditsToWordsTraceOah (
         "Credits to words",
         "htctw", "help-trace-credits-to-words",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -929,7 +929,7 @@ void traceOah::initializeChordsAndTupletsTraceOah (
         "Chords and tuplets",
         "htcat", "help-trace-chords-and-tuplets",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1037,7 +1037,7 @@ void traceOah::initializeInstrumentsTraceOah (
         "Instruments",
         "hti", "help-trace-instruments",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1260,7 +1260,7 @@ void traceOah::initializeNotesAttachmentsTraceOah (
         "Notes attachments",
         "htna", "help-trace-notes-attachments",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1404,7 +1404,7 @@ void traceOah::initializeSegmentsAndMeasuresTraceOah (
         "Segments and measures",
         "htsam", "help-trace-segments-and-measures",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1552,7 +1552,7 @@ void traceOah::initializeScoreToVoicesTraceOah (
         "Score to voices",
         "htstv", "help-trace-score-to-voices",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1757,7 +1757,7 @@ void traceOah::initializeNotesTraceOah (
         "Notes",
         "htn", "help-trace-notes",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1961,7 +1961,7 @@ void traceOah::initializeOptionsTraceAndDisplayOptions (
         "Options handling trace",
         "htoh", "help-trace-options-handling",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -1969,7 +1969,7 @@ R"()",
   // trace options
 
   fTraceOah = boolOptionsInitialValue;
-//  fTraceOah = true; // JMI TEMP
+//  fTraceOah = true; // JMI TESTS
 
   subGroup->
     appendAtomToSubGroup (
@@ -2006,7 +2006,7 @@ void traceOah::initializeRepeatsToSlashesTraceOah (
         "Repeats to slashes",
         "htrts", "help-trace-repeats-to-slashes",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2151,7 +2151,7 @@ void traceOah::initializeOtherTraceOah (
         "Other",
         "hto", "help-trace-other",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3834,7 +3834,7 @@ void initializeTraceOahHandling (
           "Trace and display",
           "htd", "help-trace-and-display",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
     appendSubGroupToGroup (traceAndDisplaySubGroup);

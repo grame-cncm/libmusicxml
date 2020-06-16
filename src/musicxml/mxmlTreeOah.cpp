@@ -52,7 +52,7 @@ mxmlTreeOah::mxmlTreeOah (
     "MxmlTree",
     "hmxmlttr", "help-xmlelement-tree",
 R"(These options control the way xmlelement trees are handled.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI
@@ -86,7 +86,7 @@ void mxmlTreeOah::initializeMxmlTreeTraceOah (
         "Trace",
         "hmxmltt", "help-mxmltree-trace",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

@@ -444,7 +444,7 @@ bsrOah::bsrOah (
     "BSR",
     "hbsr", "help-bsr",
 R"(These bsr control the way BSR data is handled.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
   // append this bsr group to the bsr handler
@@ -470,7 +470,7 @@ void bsrOah::initializeBsrDisplayOptions (
         "Display",
         "hbsrd", "help-bsr-display",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -510,7 +510,7 @@ void bsrOah::initializeBsrLanguagesOptions (
         "Languages",
         "hbsrl", "help-bsr-languages",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -577,8 +577,8 @@ void bsrOah::initializeBsrTraceOah (
         "Trace",
         "hbst", "help-bsr-trace",
 R"(  Note: the options in this subgroup imply '-tbsr, -trace-bsr'.)",
-// JMI        kElementVisibilityHiddenByDefault,
-      kElementVisibilityAlways,
+// JMI        kElementVisibilityHeaderOnly,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

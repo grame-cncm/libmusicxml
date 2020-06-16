@@ -48,8 +48,9 @@ string elementValueExpectedKindAsString (
   oahElementValueExpectedKind elementValueExpectedKind);
 
 enum oahElementVisibilityKind {
-  kElementVisibilityAlways,
-  kElementVisibilityHiddenByDefault };
+  kElementVisibilityWhole,
+  kElementVisibilityHeaderOnly,
+  kElementVisibilityNone };
 
 string elementVisibilityKindAsString (
   oahElementVisibilityKind elementVisibilityKind);
@@ -124,7 +125,7 @@ class oahElement : public smartable
                               { return fElementVisibilityKind; }
 
     void                  setIsHidden ()
-                              { fIsHidden = true; }
+                              { /* JMI fIsHidden = true; */ }
 
     bool                  getIsHidden () const
                               { return fIsHidden; }

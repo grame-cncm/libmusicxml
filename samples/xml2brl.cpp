@@ -25,7 +25,8 @@
 
 #include "oahBasicTypes.h"
 #include "generalOah.h"
-#include "xml2brlOah.h"
+
+#include "xml2brlInsiderOah.h"
 
 #include "musicxml2braille.h"
 
@@ -141,11 +142,11 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2brlOahHandler handler;
+  S_xml2brlInsiderOahHandler handler;
 
   try {
     handler =
-      xml2brlOahHandler::create (
+      xml2brlInsiderOahHandler::create (
         argv [0],
         gOutputOstream);
   }

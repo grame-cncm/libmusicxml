@@ -47,7 +47,7 @@ generalOah::generalOah (
     "General",
     "hg", "help-general",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
   // append this options group to the options handler
@@ -73,7 +73,7 @@ void generalOah::initializeGeneralWarningAndErrorsOptions (
         "Warnings and errors",
         "hwae", "help-warnings-and-errors",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -145,7 +145,7 @@ void generalOah::initializeGeneralCPUUsageOptions (
         "CPU usage",
         "hgcpu", "help-general-cpu-usage",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

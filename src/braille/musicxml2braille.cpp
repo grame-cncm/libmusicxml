@@ -28,7 +28,7 @@
 #include "msrOah.h"
 #include "msr2BsrOah.h"
 #include "bsrOah.h"
-#include "xml2brlOah.h"
+#include "xml2brlInsiderOah.h"
 
 #include "msr.h"
 
@@ -69,9 +69,9 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2brlOahHandler
+  S_xml2brlInsiderOahHandler
     handler =
-      xml2brlOahHandler::create (
+      xml2brlInsiderOahHandler::create (
         fakeExecutableName,
         out);
 

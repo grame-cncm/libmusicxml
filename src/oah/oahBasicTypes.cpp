@@ -60,7 +60,7 @@ oahAtom::oahAtom (
       longName,
       description,
       atomValueExpectedKind,
-      kElementVisibilityAlways)
+      kElementVisibilityWhole)
 {}
 
 oahAtom::~oahAtom ()
@@ -433,7 +433,7 @@ The options are organized in a group-subgroup-atom hierarchy.
 Help can be obtained for groups or subgroups at will,
 as well as for any option with the '-onh, option-name-help' option.
 
-A subgroup can be hidden by default, in which case its description is printed
+A subgroup can be showm as a header only, in which case its description is printed
 only when the corresponding short or long names are used.
 
 Both '-' and '--' can be used to introduce options in the command line,
@@ -446,9 +446,13 @@ Some prefixes allow shortcuts, such as '-t=voices,meas' for '-tvoices, -tmeas')"
     endl <<
     endl;
 
-  fHandlerUpLink->printKnownPrefixes (os);
-  fHandlerUpLink->printKnownSingleCharacterOptions (os);
-  fHandlerUpLink->printKnownOptions (os);
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahDetails) { // JMI ???
+    fHandlerUpLink->printKnownPrefixes (os);
+    fHandlerUpLink->printKnownSingleCharacterOptions (os);
+    fHandlerUpLink->printKnownOptions (os);
+  }
+#endif
 
   gIndenter--;
 
@@ -567,7 +571,7 @@ The options are organized in a group-subgroup-atom hierarchy.
 Help can be obtained for groups or subgroups at will,
 as well as for any option with the '-onh, option-name-help' option.
 
-A subgroup can be hidden by default, in which case its description is printed
+A subgroup can be showm as a header only, in which case its description is printed
 only when the corresponding short or long names are used.
 
 Both '-' and '--' can be used to introduce options in the command line,
@@ -2109,9 +2113,9 @@ oahMultiplexBooleansAtom::oahMultiplexBooleansAtom (
   S_oahPrefix shortNamesPrefix,
   S_oahPrefix longNamesPrefix)
   : oahAtom (
-      "unusedShortName_" + shortSuffixDescriptor + "_" + description,
+      "multiplexBooleansAtom_ShortName_" + shortSuffixDescriptor + "_" + description,
         // should be a unique shortName
-      "unusedLongName_" + longSuffixDescriptor + "_" + description,
+      "multiplexBooleansAtom_LongName_" + longSuffixDescriptor + "_" + description,
         // should be a unique longName
       description,
       kElementValueExpectedNo),
@@ -2507,13 +2511,10 @@ void oahMultiplexBooleansAtom::print (ostream& os) const
   if (! fBooleanAtomsList.size ()) {
     os << "none";
   }
-
   else {
     os << endl;
 
     gIndenter++;
-
-    os << "'";
 
     list<S_oahBooleanAtom>::const_iterator
       iBegin = fBooleanAtomsList.begin (),
@@ -2526,14 +2527,11 @@ void oahMultiplexBooleansAtom::print (ostream& os) const
       os << " ";
     } // for
 
-    os << "'";
-
     gIndenter--;
   }
+  os << endl;
 
   gIndenter--;
-
-  os << endl;
 }
 
 void oahMultiplexBooleansAtom::printHelp (ostream& os)
@@ -2552,6 +2550,8 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
       gIndenter.indentMultiLineString (
         fDescription) <<
       endl;
+
+    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
 
   os <<
@@ -2669,7 +2669,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os)
   }
 
   if (fDescription.size ()) { // ??? JMI
-    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
+// JMI    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
 
   // register help print action in options handler upLink
@@ -5589,7 +5589,7 @@ void oahIntSetAtom::print (ostream& os) const
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "oahIntSetAtom:" <<
+    "IntSetAtom:" <<
     endl;
 
   gIndenter++;
@@ -5884,7 +5884,7 @@ void oahStringSetAtom::print (ostream& os) const
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "oahStringSetAtom:" <<
+    "StringSetAtom:" <<
     endl;
 
   gIndenter++;
@@ -5914,8 +5914,9 @@ void oahStringSetAtom::print (ostream& os) const
       os << endl;
     } // for
   }
-
   os << endl;
+
+  gIndenter--;
 }
 
 void oahStringSetAtom::printAtomOptionsValues (
@@ -7086,7 +7087,7 @@ void oahLengthUnitKindAtom::print (ostream& os) const
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsMsrLengthUnitKindAtom:" <<
+    "LengthUnitKindAtom:" <<
     endl;
 
   gIndenter++;
@@ -7105,6 +7106,8 @@ void oahLengthUnitKindAtom::print (ostream& os) const
       fLengthUnitKindVariable) <<
     "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void oahLengthUnitKindAtom::printAtomOptionsValues (
@@ -7387,7 +7390,7 @@ void oahLengthAtom::print (ostream& os) const
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsMsrLengthAtom:" <<
+    "LengthAtom:" <<
     endl;
 
   gIndenter++;
@@ -7404,6 +7407,8 @@ void oahLengthAtom::print (ostream& os) const
     "fOptionsLengthVariable" << " : " <<
     fLengthVariable.asString () <<
     endl;
+
+  gIndenter--;
 }
 
 void oahLengthAtom::printAtomOptionsValues (
@@ -8177,14 +8182,17 @@ void oahSubGroup::printSubGroupHeader (ostream& os) const
     fetchNamesBetweenParentheses ();
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityAlways:
+    case kElementVisibilityWhole:
       os <<
         ":";
       break;
 
-    case kElementVisibilityHiddenByDefault:
+    case kElementVisibilityHeaderOnly:
       os <<
-        " (hidden by default)";
+        " (use this option to show this subgroup)";
+      break;
+
+    case kElementVisibilityNone:
       break;
   } // switch
 
@@ -8203,14 +8211,17 @@ void oahSubGroup::printSubGroupHeaderWithHeaderWidth (
     fetchNamesBetweenParentheses ();
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityAlways:
+    case kElementVisibilityWhole:
       os <<
         ":";
       break;
 
-    case kElementVisibilityHiddenByDefault:
+    case kElementVisibilityHeaderOnly:
       os <<
-        " (hidden by default)";
+        " (use this option to show this subgroup)";
+      break;
+
+    case kElementVisibilityNone:
       break;
   } // switch
 
@@ -8236,7 +8247,7 @@ void oahSubGroup::printHelp (ostream& os)
 
   // print the options atoms if relevant
   switch (fElementVisibilityKind) {
-    case kElementVisibilityAlways:
+    case kElementVisibilityWhole:
       if (fAtomsList.size ()) {
         gIndenter++;
 
@@ -8265,7 +8276,10 @@ void oahSubGroup::printHelp (ostream& os)
       }
       break;
 
-    case kElementVisibilityHiddenByDefault:
+    case kElementVisibilityHeaderOnly:
+      break;
+
+    case kElementVisibilityNone:
       break;
   } // switch
 
@@ -8302,7 +8316,7 @@ void oahSubGroup::printHelpWithHeaderWidth (
 
   // print the options atoms if relevant
   switch (fElementVisibilityKind) {
-    case kElementVisibilityAlways:
+    case kElementVisibilityWhole:
       if (fAtomsList.size ()) {
         gIndenter++;
 
@@ -8331,7 +8345,10 @@ void oahSubGroup::printHelpWithHeaderWidth (
       }
       break;
 
-    case kElementVisibilityHiddenByDefault:
+    case kElementVisibilityHeaderOnly:
+      break;
+
+    case kElementVisibilityNone:
       break;
   } // switch
 
@@ -8425,12 +8442,15 @@ void oahSubGroup::printOptionsSummary (
       maximumShortNameWidth);
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityAlways:
+    case kElementVisibilityWhole:
       break;
 
-    case kElementVisibilityHiddenByDefault:
+    case kElementVisibilityHeaderOnly:
       os <<
-        " (hidden by default)";
+        " (use this option to show this subgroup)";
+      break;
+
+    case kElementVisibilityNone:
       break;
   } // switch
 
@@ -8883,14 +8903,17 @@ void oahGroup::printGroupHeader (ostream& os) const
     fetchNamesBetweenParentheses ();
 
   switch (fElementVisibilityKind) {
-    case kElementVisibilityAlways:
+    case kElementVisibilityWhole:
       os <<
         ":";
       break;
 
-    case kElementVisibilityHiddenByDefault:
+    case kElementVisibilityHeaderOnly:
       os <<
-        " (hidden by default)";
+        " (use this option to show this group)";
+      break;
+
+    case kElementVisibilityNone:
       break;
   } // switch
 
@@ -9306,7 +9329,7 @@ oahHandler::oahHandler (
       handlerLongName,
       handlerDescription,
       kElementValueExpectedNo,
-      kElementVisibilityAlways),
+      kElementVisibilityWhole),
     fHandlerLogOstream (
       handlerLogOstream)
 {
@@ -9356,7 +9379,7 @@ void oahHandler::initializeHandler ()
   fHandlerOptionalValuesStyleKind = kOptionalValuesStyleGNU; // default value
 }
 
-S_oahHandler oahHandler::createHandlerNewbornClone ()
+S_oahHandler oahHandler::createHandlerNewbornCloneWithoutGroups ()
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceScore) {
@@ -9379,6 +9402,15 @@ S_oahHandler oahHandler::createHandlerNewbornClone ()
         fHandlerUsage,
         fDescription,
         fHandlerLogOstream);
+
+  newbornClone->fHandlerPrefixesMap =
+    fHandlerPrefixesMap;
+
+//  newbornClone->fHandlerElementsMap = // JMI TESTS
+//    fHandlerElementsMap;
+
+//  newbornClone->fSingleCharacterShortNamesSet =
+//    fSingleCharacterShortNamesSet;
 
   return newbornClone;
 }
@@ -9617,6 +9649,18 @@ void oahHandler::registerElementNamesInHandler (
 void oahHandler::registerElementInHandler (
   S_oahElement element)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gOutputOstream <<
+      "Registering element " <<
+      element->fetchNamesBetweenParentheses () <<
+      " in OAH handler \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
   // register the element names in handler
   registerElementNamesInHandler (
     element);
@@ -9814,12 +9858,12 @@ void oahHandler::print (ostream& os) const
     endl <<
 
     setw (fieldWidth) <<
-    "oahHandlerFoundAHelpOption" << " : " <<
+    "handlerFoundAHelpOption" << " : " <<
     fHandlerFoundAHelpOption <<
     endl <<
 
     setw (fieldWidth) <<
-    "oahOptionsDefaultValuesStyle" << " : " <<
+    "optionsDefaultValuesStyle" << " : " <<
     optionsDefaultValuesStyleAsString (
       fOahOptionsDefaultValuesStyle) <<
     endl;
@@ -9886,25 +9930,6 @@ void oahHandler::printHelp (ostream& os)
 
   os << endl << endl;
 
-/* JMI
-  // print the known options prefixes
-  gIndenter++;
-  printKnownPrefixes (os);
-  gIndenter--;
-
-  // print the single-character options
-  gIndenter++;
-  printKnownSingleCharacterOptions (os);
-  gIndenter--;
-
-  // print information about options default values
-  gIndenter++;
-  printOptionsDefaultValuesInformation (os);
-  gIndenter--;
-
-  os << endl;
-*/
-
   // print the options groups help
   if (fHandlerGroupsList.size ()) {
     gIndenter++;
@@ -9922,13 +9947,16 @@ void oahHandler::printHelp (ostream& os)
       if (group->getSubGroupsList ().size ()) {
         // print the options subgroups if relevant
         switch (group->getElementVisibilityKind ()) {
-          case kElementVisibilityAlways:
+          case kElementVisibilityWhole:
             group->printHelp (os);
             break;
 
-          case kElementVisibilityHiddenByDefault:
+          case kElementVisibilityHeaderOnly:
             group->printGroupHeader (os);
             group->underlineGroupHeader(os);
+            break;
+
+          case kElementVisibilityNone:
             break;
         } // switch
       }
@@ -10209,7 +10237,9 @@ void oahHandler::printAllOahCommandLineValues (
     fHandlerElementsMap.size () <<
     " known options names for " <<
     fHandlerRegisteredElementsList.size () <<
-    " registered elements, " <<
+    " registered elements, in " <<
+    fHandlerHeader <<
+    ", " <<
     handlerCommandLineElementsMultisetSize <<
     " of which " <<
     singularOrPluralWithoutNumber (
@@ -10217,23 +10247,13 @@ void oahHandler::printAllOahCommandLineValues (
     " in the command line" <<
     endl;
 
-  if (fSingleCharacterShortNamesSet.size ()) {
-    os <<
-      "The single character short option names are: ";
-
-    set<string>::const_iterator
-      iBegin = fSingleCharacterShortNamesSet.begin (),
-      iEnd   = fSingleCharacterShortNamesSet.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the options group values
-      os << (*i);
-      if (++i == iEnd) break;
-      os << ",";
-    } // for
-
-    os << endl;
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahDetails) { // JMI ???
+    printKnownPrefixes (gOutputOstream);
+    printKnownSingleCharacterOptions (gOutputOstream);
+    printKnownOptions (gOutputOstream);
   }
+#endif
 
   // print the options groups values
   if (fHandlerGroupsList.size ()) {
@@ -10623,9 +10643,9 @@ void oahHandler::printKnownOptions (ostream& os) const
         printOptionHeader (
           os);
 
-      if (++i == iEnd) break;
-
       gIndenter--;
+
+      if (++i == iEnd) break;
     } // for
   }
   else {
@@ -10837,7 +10857,7 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
   bool result = true; // until the contrary is known
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (true || gTraceOah->fTraceOah) {
     gOutputOstream <<
       "Checking whether optionName '" << optionName << "' is a single-character options cluster" <<
       endl;
@@ -10860,7 +10880,7 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
     string singleCharacterString (1, (*i));
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+    if (true || gTraceOah->fTraceOah) {
       gOutputOstream <<
         "Considering single-character '" << singleCharacterString << "'" <<
         endl;
@@ -10885,7 +10905,58 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
     }
   } // for
 
-  if (clusterElementsList.size () == fSingleCharacterShortNamesSet.size ()) {
+  int clusterElementsListSize =
+    clusterElementsList.size ();
+  int singleCharacterShortNamesSetSize =
+    fSingleCharacterShortNamesSet.size ();
+
+#ifdef TRACE_OAH
+    if (true || gTraceOah->fTraceOah) {
+      gOutputOstream <<
+        "clusterElementsListSize = " << clusterElementsListSize <<
+        ", singleCharacterShortNamesSetSize = " << singleCharacterShortNamesSetSize <<
+        endl;
+
+      gOutputOstream <<
+        "clusterElementsList:" <<
+        endl;
+      for (
+        list<S_oahElement>::const_iterator i = clusterElementsList.begin ();
+        i != clusterElementsList.end ();
+        i++
+      ) {
+        S_oahElement element = (*i);
+
+        if (element) { // JMI should not be necessary...
+          gOutputOstream <<
+            element->
+              asLongNamedOptionString () <<
+            endl;
+        }
+      } // for
+
+      gOutputOstream <<
+        "fSingleCharacterShortNamesSet:" <<
+        endl;
+      for (
+        set<string>::const_iterator i = fSingleCharacterShortNamesSet.begin ();
+        i != fSingleCharacterShortNamesSet.end ();
+        i++
+      ) {
+        string element = (*i);
+
+        gOutputOstream <<
+          element <<
+          endl;
+      } // for
+    }
+#endif
+
+  if (
+    clusterElementsListSize
+      &&
+    clusterElementsListSize == singleCharacterShortNamesSetSize
+  ) {
     // all the elements in clusterElementsList are single character options,
     // handle them
     for (
@@ -10898,10 +10969,12 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
       // handle element name
 #ifdef TRACE_OAH
     if (true || gTraceOah->fTraceOah) {
-      gOutputOstream <<
-        "handling single-character options cluster element " <<
-        element->asString () <<
-        endl;
+      if (element) { // JMI should not be necessary...
+        gOutputOstream <<
+          "handling single-character options cluster element " <<
+          element->asString () <<
+          endl;
+      }
     }
 #endif
 
@@ -12358,7 +12431,7 @@ void oahDualHandler::initializaOahDualHandler (
   populateUserHandlerFromInsiderHandler ();
 
   // the default is to use the 'user' oahHandler
-if (false) { // JMI TEMP
+if (false) { // JMI TESTS
   fOahHandlerToBeUsed = fUserOahHandler;
 } else {
   fOahHandlerToBeUsed = fInsiderHandler;
@@ -12390,7 +12463,7 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
       "put-aside-group",
       "",
       "",
-      kElementVisibilityHiddenByDefault,
+      kElementVisibilityNone,
       fUserOahHandler);
   fPutAsideInUserViewGroup->
     setGroupHeaderIsToBeWritten (false);
@@ -12404,7 +12477,7 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
       "put-aside",
       "",
       "",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       fPutAsideInUserViewGroup);
   fPutAsideInUserViewGroup->
     appendSubGroupToGroup (fPutAsideInUserViewSubGroup);
@@ -12625,7 +12698,7 @@ void oahDualHandler::handleAtomMapping (S_oahAtom atom)
       gLogOstream <<
         "+++ appending atom \"" <<
         atomNameToUse <<
-        "\" to subgroup \"" <<
+        "\" to subgroup and registering it in the 'user' handler \"" <<
         subGroup->getSubGroupHeader () <<
         "\"" <<
         endl;
@@ -12634,6 +12707,9 @@ void oahDualHandler::handleAtomMapping (S_oahAtom atom)
 
     subGroup->
       appendAtomToSubGroup (atom);
+
+    atom->
+      registerAtomInHandler (fUserOahHandler);
 
     // remove atomNameToUse from the map
     it = fAtomNamesToUserSubGroupsMap.erase (it);
@@ -12663,13 +12739,21 @@ void oahDualHandler::handleAtomMapping (S_oahAtom atom)
 
 void oahDualHandler::checkMappingsUse ()
 {
+#ifdef TRACE_OAH
+  if (true || gTraceOah->fTraceOah) {
+    // print the known prefixes
+    fUserOahHandler->
+      printKnownPrefixes (gLogOstream);
+  }
+#endif
+
   // check subgroups mapping
   int subGroupNamesToUserGroupsMapSize =
     fSubGroupNamesToUserGroupsMap.size ();
 
   if (subGroupNamesToUserGroupsMapSize) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+    if (true || gTraceOah->fTraceOah) {
       stringstream s;
 
       s <<
@@ -12751,17 +12835,21 @@ void oahDualHandler::checkMappingsUse ()
         // handle the atom name
         string atomName = (*i);
 
-        if (
-          atomName.size ()
-            &&
-          atomName.find ("trace") == string::npos
-            &&
-          atomName.find ("help") == string::npos
-            &&
-          atomName.find ("display") == string::npos
-            &&
-          atomName.find ("_") == string::npos
-        ) {
+        bool
+          shouldTheAtomBeOutput =
+            false // JMI TESTS
+              ? true
+              : atomName.size ()
+                  &&
+                atomName.find ("trace") == string::npos
+                  &&
+                atomName.find ("help") == string::npos
+                  &&
+                atomName.find ("display") == string::npos
+                  &&
+                atomName.find ("_") == string::npos;
+
+        if (shouldTheAtomBeOutput) {
           atomNamesToBeOutputList.push_back (atomName);
         }
       } // for
@@ -12775,7 +12863,8 @@ void oahDualHandler::checkMappingsUse ()
           "The following non-trace nor non-display " <<
           singularOrPlural (
             atomNamesToBeOutputListSize, "atom name", "atom names") <<
-          " have been left out of the mapping to user subgroups: ";
+          " have been left out of the mapping to user subgroups:" <<
+          endl;
 
         // sort the list for legibility
         atomNamesToBeOutputList.sort ();
@@ -12796,12 +12885,12 @@ void oahDualHandler::checkMappingsUse ()
         } // for
 
         gLogOstream << s.str () << endl;
-        //    oahError (s.str ());
       }
     }
 #endif
   }
 
+/* JMI
   // display the empty resulting user subgroups if any
   const list<S_oahGroup>
     userOahHandlerGroupsList =
@@ -12814,8 +12903,6 @@ void oahDualHandler::checkMappingsUse ()
         iBegin = userOahHandlerGroupsList.begin (),
         iEnd   = userOahHandlerGroupsList.end (),
         i      = iBegin;
-
-      stringstream s;;
 
       for ( ; ; ) {
         S_oahGroup group = (*i);
@@ -12837,14 +12924,22 @@ void oahDualHandler::checkMappingsUse ()
           for ( ; ; ) {
             S_oahSubGroup subGroup = (*i);
 
+            s << subGroup << endl; // JMI
+
             // handle the subgroup
-            if (
-              subGroup->getSubGroupHeader ().size ()
-                &&
-              ! subGroup->getAtomsList ().size ()
-            ) {
-              s <<
-                "\"" << subGroup->getSubGroupHeader () << "\"";
+            string subGroupHeader =
+              subGroup->getSubGroupHeader ();
+            int subGroupHeaderSize =
+              subGroup->getSubGroupHeader ().size ();
+
+            if (subGroupHeaderSize) {
+              if (! subGroup->getAtomsList ().size ()) {
+                s <<
+                  "FOO \"" << subGroupHeader << "\"";
+              }
+            }
+            else {
+              s << subGroup << endl; // JMI
             }
 
             if (++i == iEnd) break;
@@ -12863,43 +12958,13 @@ void oahDualHandler::checkMappingsUse ()
           "The following 'user' view " <<
           singularOrPlural (
             resultStringSize, "subgroup", "subgroups") <<
-          " are empty: " <<
+          " are empty:" <<
+          endl <<
           resultString <<
           endl;
       }
     }
 #endif
-  }
-/*
-  if (putAsideInUserViewAtomNamesListSize) {
-#ifdef TRACE_OAH
-    if (true || gTraceOah->fTraceOah) {
-      stringstream s;
-
-      // build the list of atom names to be output
-      list<string> atomNamesToBeOutputList;
-
-      for (
-        list<string>::const_iterator i = fPutAsideInUserViewAtomNamesList.begin ();
-        i != fPutAsideInUserViewAtomNamesList.end ();
-        i++
-      ) {
-        // handle the atom name
-        string atomName = (*i);
-
-        if (
-          atomName.size ()
-            &&
-          atomName.find ("trace") == string::npos
-            &&
-          atomName.find ("display") == string::npos
-            &&
-          atomName.find ("_") == string::npos
-        ) {
-          atomNamesToBeOutputList.push_back (atomName);
-        }
-      } // for
-    }
   }
   */
 }
@@ -13022,78 +13087,156 @@ string oahDualHandler::asString () const
 
 void oahDualHandler::print (ostream& os) const
 {
-  os << asString () << endl;
+  os <<
+    "------------ " <<
+    "DualHandler:" <<
+    " ------------" <<
+    endl;
+
+  gIndenter++;
+
+  {
+    os <<
+      endl <<
+      "------------ " <<
+      "insiderHandler" <<
+       " ------------" <<
+     endl;
+
+    gIndenter++;
+
+    const list<S_oahGroup>
+      insiderHandlerGroupsList =
+        fInsiderHandler->getHandlerGroupsList ();
+
+    if (insiderHandlerGroupsList.size ()) {
+      os << endl;
+
+      list<S_oahGroup>::const_iterator
+        iBegin = insiderHandlerGroupsList.begin (),
+        iEnd   = insiderHandlerGroupsList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        // print the group help
+        (*i)->print (os);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+    }
+
+    gIndenter--;
+  }
+
+  {
+    os <<
+      endl <<
+      "------------ " <<
+      "userOahHandler" <<
+      " ------------" <<
+      endl;
+
+    gIndenter++;
+
+    const list<S_oahGroup>
+      userOahHandlerGroupsList =
+        fUserOahHandler->getHandlerGroupsList ();
+
+    if (userOahHandlerGroupsList.size ()) {
+      os << endl;
+
+      list<S_oahGroup>::const_iterator
+        iBegin = userOahHandlerGroupsList.begin (),
+        iEnd   = userOahHandlerGroupsList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        // print the group help
+        (*i)->print (os);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+    }
+
+    gIndenter--;
+  }
+
+  gIndenter--;
+
+  os << endl;
 }
 
 void oahDualHandler::printHelp (ostream& os) const
 {
   os <<
     "------------ " <<
-    "oahDualHandler:" <<
-    " ------------" <<
-    endl;
-
-  gIndenter++;
-if (true) { // JMI
-  os <<
-    endl <<
-    "------------ " <<
-    "insiderHandler" <<
-     " ------------" <<
-   endl;
-
-  gIndenter++;
-
-  const list<S_oahGroup>
-    insiderHandlerGroupsList =
-      fInsiderHandler->getHandlerGroupsList ();
-
-  if (insiderHandlerGroupsList.size ()) {
-    os << endl;
-
-    list<S_oahGroup>::const_iterator
-      iBegin = insiderHandlerGroupsList.begin (),
-      iEnd   = insiderHandlerGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the group help
-      (*i)->printHelp (os);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-
-  gIndenter--;
-}
-  os <<
-    endl <<
-    "------------ " <<
-    "userOahHandler" <<
+    "DualHandler:" <<
     " ------------" <<
     endl;
 
   gIndenter++;
 
-  const list<S_oahGroup>
-    userOahHandlerGroupsList =
-      fUserOahHandler->getHandlerGroupsList ();
+  if (true) { // JMI
+    os <<
+      endl <<
+      "------------ " <<
+      "insiderHandler" <<
+       " ------------" <<
+     endl;
 
-  if (userOahHandlerGroupsList.size ()) {
-    os << endl;
+    gIndenter++;
 
-    list<S_oahGroup>::const_iterator
-      iBegin = userOahHandlerGroupsList.begin (),
-      iEnd   = userOahHandlerGroupsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the group help
-      (*i)->printHelp (os);
-      if (++i == iEnd) break;
+    const list<S_oahGroup>
+      insiderHandlerGroupsList =
+        fInsiderHandler->getHandlerGroupsList ();
+
+    if (insiderHandlerGroupsList.size ()) {
       os << endl;
-    } // for
+
+      list<S_oahGroup>::const_iterator
+        iBegin = insiderHandlerGroupsList.begin (),
+        iEnd   = insiderHandlerGroupsList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        // print the group help
+        (*i)->printHelp (os);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+    }
+
+    gIndenter--;
   }
 
-  gIndenter--;
+  {
+    os <<
+      endl <<
+      "------------ " <<
+      "userOahHandler" <<
+      " ------------" <<
+      endl;
+
+    gIndenter++;
+
+    const list<S_oahGroup>
+      userOahHandlerGroupsList =
+        fUserOahHandler->getHandlerGroupsList ();
+
+    if (userOahHandlerGroupsList.size ()) {
+      os << endl;
+
+      list<S_oahGroup>::const_iterator
+        iBegin = userOahHandlerGroupsList.begin (),
+        iEnd   = userOahHandlerGroupsList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        // print the group help
+        (*i)->printHelp (os);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+    }
+
+    gIndenter--;
+  }
 
   gIndenter--;
 

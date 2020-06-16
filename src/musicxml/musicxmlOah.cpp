@@ -52,7 +52,7 @@ musicxmlOah::musicxmlOah (
     "MusicXML",
     "hmxml", "help-mxml",
 R"(These options control the way MusicXML data is handled.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI
@@ -86,7 +86,7 @@ void musicxmlOah::initializeMusicxmlTraceOah (
         "Trace",
         "hmxmltr", "help-musicxml-trace",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

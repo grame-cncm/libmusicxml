@@ -28,7 +28,8 @@
 
 #include "oahBasicTypes.h"
 #include "generalOah.h"
-#include "xml2lyOah.h"
+
+#include "xml2lyInsiderOah.h"
 
 #include "musicxml2lilypond.h"
 #include "musicxml2musicxml.h"
@@ -94,6 +95,13 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahDetails) { // JMI TESTS
+    dualHandler->
+      print (gOutputOstream);
+  }
+#endif
+
   // analyze the command line options and arguments
   // ------------------------------------------------------
 
@@ -119,13 +127,6 @@ int main (int argc, char *argv[])
   catch (std::exception& e) {
     return kInvalidFile;
   }
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahDetails) {
-    dualHandler->
-      printHelp (gOutputOstream);
-  }
-#endif
 
   string
     inputSourceName =
@@ -154,11 +155,11 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2lyOahHandler handler;
+  S_xml2lyInsiderOahHandler handler;
 
   try {
     handler =
-      xml2lyOahHandler::create (
+      xml2lyInsiderOahHandler::create (
         argv [0],
         gOutputOstream);
   }

@@ -1174,7 +1174,7 @@ In the text below:
         "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
   // append this extra group to the extra handler
@@ -1200,7 +1200,7 @@ void extraOah::initializeExtraShowAllHarmoniesStructuresOptions (
         "Harmonies structures",
         "hecs", "help-extra-harmonies-structures",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1225,7 +1225,7 @@ void extraOah::initializeExtraShowAllHarmoniesContentsOptions (
 //            existingHarmonyKindsNames ()
 //    HARMONY_KINDS.
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1250,7 +1250,7 @@ void extraOah::initializeExtraShowHarmonyDetailsOptions (
         "Harmony details",
         "hecd", "help-extra-harmony-details",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1285,7 +1285,7 @@ void extraOah::initializeExtraShowHarmonyAnalysisOptions (
         "Harmony analysis",
         "heca", "help-extra-harmony-analysis",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

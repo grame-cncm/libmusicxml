@@ -296,8 +296,9 @@ void msrDalSegnoAtom::print (ostream& os) const
       os << endl;
     } // for
   }
-
   os << endl;
+
+  gIndenter--;
 }
 
 void msrDalSegnoAtom::printAtomOptionsValues (
@@ -666,8 +667,9 @@ void msrReplaceClefAtom::print (ostream& os) const
       os << endl;
     } // for
   }
-
   os << endl;
+
+  gIndenter--;
 }
 
 void msrReplaceClefAtom::printAtomOptionsValues (
@@ -732,7 +734,7 @@ mxmlTree2MsrOah::mxmlTree2MsrOah (
     "Mxmltree2Msr",
     "hmxmlt2msr", "help-mxmltree-to-msr",
 R"(These options control the way xmlelement trees are translated to MSR.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI
@@ -766,7 +768,7 @@ void mxmlTree2MsrOah::initializeTraceOah (
         "Trace",
         "hmxmlt2ot", "help-mxmltree-to-oah-trace",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -826,7 +828,7 @@ void mxmlTree2MsrOah::initializeHeaderOptions (
         "Header",
         "hmxmlh", "help-musicxml-header",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -868,7 +870,7 @@ void mxmlTree2MsrOah::initializePartsOptions (
       "Parts",
       "hm2p", "help-msr-to-lpsr-parts",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -955,7 +957,7 @@ void mxmlTree2MsrOah::initializeClefsKeysTimesOptions (
         "Clefs, keys, times",
         "hmxmlckt", "help-musicxml-clefs-keys-times",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1092,7 +1094,7 @@ void mxmlTree2MsrOah::initializeMeasuresOptions (
         "Measures",
         "hmxmlm", "help-musicxml-measures",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1126,7 +1128,7 @@ void mxmlTree2MsrOah::initializeNotesOptions (
       "Notes",
       "hmsrn", "help-msr-notes",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -1140,7 +1142,7 @@ R"()",
     omitArticulationsAtom =
       oahBooleanAtom::create (
         "oarts", "omit-articulations",
-R"('<word/>' in MusicXML, '<!' in LilyPond)",
+R"(Omit articulations in MusicXML data.)",
         "omitArticulations",
         fOmitArticulations);
   subGroup->
@@ -1156,7 +1158,7 @@ R"('<word/>' in MusicXML, '<!' in LilyPond)",
     omitOrnamentsAtom =
       oahBooleanAtom::create (
         "oorns", "omit-ornaments",
-R"('<trill-mark/>' in MusicXML, '<!' in LilyPond)",
+R"(Omit ornaments in MusicXML data.)",
         "omitOrnaments",
         fOmitOrnaments);
   subGroup->
@@ -1172,7 +1174,7 @@ R"('<trill-mark/>' in MusicXML, '<!' in LilyPond)",
     omitWordsAtom =
       oahBooleanAtom::create (
         "owords", "omit-words",
-R"('<word/>' in MusicXML, '<!' in LilyPond)",
+R"(Omit '<word/>' in MusicXML data.)",
         "omitWords",
         fOmitWords);
   subGroup->
@@ -1188,7 +1190,7 @@ R"('<word/>' in MusicXML, '<!' in LilyPond)",
     omitTiesAtom =
       oahBooleanAtom::create (
         "oties", "omit-ties",
-R"()",
+R"(Omit ties in MusicXML data)",
         "omitTies",
         fOmitTies);
   subGroup->
@@ -1204,7 +1206,7 @@ R"()",
     omitDynamicsAtom =
       oahBooleanAtom::create (
         "odyns", "omit-dynamics",
-R"()",
+R"(Omit dynamics in MusicXML data)",
         "omitDynamics",
         fOmitDynamics);
   subGroup->
@@ -1220,7 +1222,7 @@ R"()",
     omitSlursAtom =
       oahBooleanAtom::create (
         "oslurs", "omit-slurs",
-R"()",
+R"(Omit slurs in MusicXML data.)",
         "omitSlurs",
         fOmitSlurs);
   subGroup->
@@ -1236,7 +1238,7 @@ R"()",
     omitWedgesAtom =
       oahBooleanAtom::create (
         "owedges", "omit-wedges",
-R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
+R"(Omit '<wedge/>' in MusicXML data.)",
         "omitWedges",
         fOmitWedges);
   subGroup->
@@ -1252,7 +1254,7 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "olyrics", "omit-lyrics",
-R"(Don't create lyrics in the MSR.)",
+R"(Omit lyrics in MusicXML data.)",
         "omitLyrics",
         fOmitLyrics));
 
@@ -1266,7 +1268,7 @@ R"(Don't create lyrics in the MSR.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "oharms", "omit-harmonies",
-R"(Don't create harmonies in the MSR.)",
+R"(Omit harmonies in MusicXML data.)",
         "omitHarmonies",
         fOmitHarmonies));
 
@@ -1280,7 +1282,7 @@ R"(Don't create harmonies in the MSR.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ofigbasses", "omit-figured-basses",
-R"(Don't create figured basses in the MSR.)",
+R"(Omit figured basses in MusicXML data.)",
         "omitFiguredBasses",
         fOmitFiguredBasses));
 }
@@ -1293,8 +1295,8 @@ void mxmlTree2MsrOah::initializeWordsOptions (
       oahSubGroup::create (
         "Words",
         "hmxmlw", "help-musicxml-words",
-R"()",
-        kElementVisibilityAlways,
+R"(Omit words in MusicXML data.)",
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1306,7 +1308,7 @@ R"()",
     appendAtomToSubGroup (
       msrDalSegnoAtom::create (
         "ds", "dal-segno",
-R"(Convert words elements STRING to an MSR 'dal segno' element'.)",
+R"(Convert words elements STRING to a 'dal segno'.)",
         "STRING",
         "convertWordsToRehearsalMarks",
         fConvertWordsToDalSegno));
@@ -1321,7 +1323,7 @@ void mxmlTree2MsrOah::initializeDynamicsAndWedgesOptions (
         "Dynamics and wedges",
         "hmxmldaw", "help-musicxml-dynamics-and-wedges",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -1362,7 +1364,7 @@ void mxmlTree2MsrOah::initializeCombinedOptionsOptions (
         "Combined options",
         "hmxmlco", "help-musicxml-combined-options",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

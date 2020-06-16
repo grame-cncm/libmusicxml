@@ -51,7 +51,7 @@ lilypondOah::lilypondOah (
     "LilyPond",
     "hlily", "help-lilypond",
 R"(These options control the way LilyPond data is handled.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI

@@ -552,8 +552,9 @@ void lilypondTransposePartAtom::print (ostream& os) const
       os << endl;
     } // for
   }
-
   os << endl;
+
+  gIndenter--;
 }
 
 void lilypondTransposePartAtom::printAtomOptionsValues (
@@ -2118,7 +2119,7 @@ lpsr2LilypondOah::lpsr2LilypondOah (
       "Lpsr2LilyPond",
       "hlp2lily", "help-lpsr-to-lilypond",
   R"(These options control which LilyPond code is generated.)",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       handlerUpLink)
 {
   // append this lilypond group to the lilypond handler
@@ -2145,7 +2146,7 @@ void lpsr2LilypondOah::initializeIdentificationOptions (
         "hlpi", "help-lilypond-identification",
 R"(These options can be used to enforce values in the generated LilyPond code,
 thus overriding the ones that may be present in the MSR data.)",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2419,7 +2420,7 @@ void lpsr2LilypondOah::initializePartsOptions (
         "Parts",
         "hlpp", "help-lilypond-parts",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2461,7 +2462,7 @@ void lpsr2LilypondOah::initializeEngraversOptions (
         "Engravers",
         "hlpe", "help-lilypond-engravers",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2502,7 +2503,7 @@ void lpsr2LilypondOah::initializeClefsKeysTimesOptions (
         "Clefs, keys, times",
         "hckt", "help-clefs-keys-times",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2547,7 +2548,7 @@ void lpsr2LilypondOah::initializeNotesOptions (
         "Notes",
         "hlpn", "help-lilypond-notes",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2582,7 +2583,8 @@ R"(Use absolute octave entry in the generated LilyPond code.)",
         "rel", "relative",
         regex_replace (
 R"(Use relative octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
-PITCH_AND_OCTAVE is made of a diatonic pitch and an optional sequence of commas or single quotes.
+PITCH_AND_OCTAVE is made of a diatonic pitch and
+an optional sequence of commas or single quotes.
 It should be placed between double quotes if it contains single quotes, such as:
   -rel "c''".
 The default is to use LilyPond's implicit reference 'DEFAULT_VALUE'.)",
@@ -2600,7 +2602,8 @@ The default is to use LilyPond's implicit reference 'DEFAULT_VALUE'.)",
       lilypondFixedOctaveEntryAtom::create (
         "fixed", "",
 R"(Use fixed octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
-PITCH_AND_OCTAVE is made of a diatonic pitch and an optional sequence of commas or single quotes.
+PITCH_AND_OCTAVE is made of a diatonic pitch and
+an optional sequence of commas or single quotes.
 It should be placed between double quotes if it contains single quotes, such as:
   -fixed "c''")",
         "PITCH_AND_OCTAVE",
@@ -2745,8 +2748,7 @@ R"(Compress full measure rests instead of generating successive empty measures.)
 R"(Merge rests to obtain better looking scores.
 This works only when there are 2 voices per staves.
 Limitations: this only handles two voices
-and does not handle multi-measure/whole-measure rests
-)",
+and does not handle multi-measure/whole-measure rests.)",
         "mergeRests",
         fMergeRests));
 
@@ -2814,7 +2816,7 @@ void lpsr2LilypondOah::initializeBarsOptions (
         "Bar numbers",
         "hlpbn", "help-lilypond-bars-numbers",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2858,8 +2860,9 @@ RESET_NUMBER_SPEC can be:
 'OLD = NEW'
 or
 "OLD = NEW" .
-OLD is the MusicXML original measure number (a string), that can be generated
-in the LilyPond code in '| % ...' comments with option '-omn, -original-measure-numbers'.
+OLD is the MusicXML original measure number (a string),
+that can be generated in the LilyPond code in '| % ...' comments
+with option '-omn, -original-measure-numbers'.
 NEW is a LilyPond (integer) measure number.
 This comes in handy when scanning several movements from a single PDF score,
 in which case measure numbers are a single sequence.
@@ -2896,7 +2899,7 @@ void lpsr2LilypondOah::initializeLineBreaksOptions (
         "Line breaks",
         "hlplb", "help-lilypond-line-breaks",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2962,7 +2965,7 @@ void lpsr2LilypondOah::initializePageBreaksOptions (
         "Page breaks",
         "hlppb", "help-lilypond-page-breaks",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3007,7 +3010,7 @@ void lpsr2LilypondOah::initializeStavesOptions (
         "Staves",
         "hlps", "helpLilypondStaves",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3031,7 +3034,8 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "tfn", "tabFullNotation",
-R"(Generate '\tabFullNotation' to obtain more complete tab notation, including note stems.)",
+R"(Generate '\tabFullNotation' to obtain more complete tab notation,
+including note stems.)",
         "tabFullNotation",
         fTabFullNotation));
 
@@ -3075,7 +3079,7 @@ void lpsr2LilypondOah::initializeChordsOptions (
         "Chords",
         "hlpc", "help-lilypond-chordss",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3103,7 +3107,7 @@ void lpsr2LilypondOah::initializeTupletsOptions (
         "Tuplets",
         "hlpt", "help-lilypond-tuplets",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3132,7 +3136,7 @@ void lpsr2LilypondOah::initializeRepeatOptions (
         "Repeats",
         "hlpr", "help-lilypond-repeats",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3180,7 +3184,7 @@ void lpsr2LilypondOah::initializeOrnamentsOptions (
         "Ornaments",
         "hlporns", "help-lilypond-ornaments",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3219,7 +3223,7 @@ void lpsr2LilypondOah::initializeChordsDisplayOptions (
         "Chords display",
         "hchd", "help-chords-display",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3291,7 +3295,7 @@ void lpsr2LilypondOah::initializeLyricsOptions (
         "Lyrics",
         "hlyrics", "help-lyrics",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3351,7 +3355,7 @@ void lpsr2LilypondOah::initializeFontsOptions (
         "Fonts",
         "hfonts", "help-fonts",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3382,7 +3386,7 @@ void lpsr2LilypondOah::initializeCodeGenerationOptions (
         "Code generation",
         "hlpcg", "help-lilypond-code-generation",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3541,7 +3545,7 @@ void lpsr2LilypondOah::initializeScoreNotationOptions (
         "Score notation",
         "hlpsn", "help-lilypond-score-notation",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -3575,7 +3579,7 @@ void lpsr2LilypondOah::initializeMidiOptions (
         "Midi",
         "hlpm", "help-lilypond-midi",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

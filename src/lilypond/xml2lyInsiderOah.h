@@ -24,14 +24,14 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-class EXP xml2lyOahHandler : public oahHandler
+class EXP xml2lyInsiderOahHandler : public oahHandler
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyOahHandler> create (
+    static SMARTP<xml2lyInsiderOahHandler> create (
       string   executableName,
       ostream& os);
 
@@ -40,18 +40,18 @@ class EXP xml2lyOahHandler : public oahHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyOahHandler (
+    xml2lyInsiderOahHandler (
       string   executableName,
       ostream& os);
 
-    virtual ~xml2lyOahHandler ();
+    virtual ~xml2lyInsiderOahHandler ();
 
   private:
 
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeXml2lyOahHandler (
+    void                  initializeXml2lyInsiderOahHandler (
                             string executableName,
                             S_xml2lyOah2ManPageGenerator
                                    theOah2ManPageGenerator);
@@ -87,8 +87,8 @@ class EXP xml2lyOahHandler : public oahHandler
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lyOahHandler> S_xml2lyOahHandler;
-EXP ostream& operator<< (ostream& os, const S_xml2lyOahHandler& elt);
+typedef SMARTP<xml2lyInsiderOahHandler> S_xml2lyInsiderOahHandler;
+EXP ostream& operator<< (ostream& os, const S_xml2lyInsiderOahHandler& elt);
 
 //______________________________________________________________________________
 class xml2lyOah : public oahGroup

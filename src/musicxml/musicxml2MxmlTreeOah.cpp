@@ -52,7 +52,7 @@ musicxml2MxmlTreeOah::musicxml2MxmlTreeOah (
     "Mxmltree2Msr",
     "hmxmlt2msr", "help-mxmltree-to-msr",
 R"(These options control the way xmlelement trees are translated to MSR.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI
@@ -86,7 +86,7 @@ void musicxml2MxmlTreeOah::initializeMxmlTreeTraceOah (
         "Trace",
         "hmxmlt2mxmlgree", "help-mxml-to-mxmltree-trace",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);

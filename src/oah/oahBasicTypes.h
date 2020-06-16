@@ -3060,7 +3060,7 @@ class EXP oahHandler : public oahElement
       string   handlerDescription,
       ostream& handlerLogOstream);
 
-    SMARTP<oahHandler> createHandlerNewbornClone ();
+    SMARTP<oahHandler> createHandlerNewbornCloneWithoutGroups ();
 
   protected:
 

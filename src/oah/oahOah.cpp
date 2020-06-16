@@ -285,7 +285,7 @@ oahOah::oahOah (
     "Options and help",
     "hoah", "help-options-and-help",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink),
     fHandlerExecutableName (executableName)
 {
@@ -312,7 +312,7 @@ void oahOah::initializeOahBasicHelpOptions (
         "Options help",
         "hoh", "help-options-help",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -392,7 +392,7 @@ void oahOah::initializeOahOahAndArgumentsOptions (
         "Options and arguments",
         "oaa", "options-and-arguments",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
@@ -468,7 +468,7 @@ void oahOah::initializeOahTraceOah (
         "Options visitors trace",
         "htov", "help-trace-options-visitors",
 R"()",
-    kElementVisibilityHiddenByDefault,
+    kElementVisibilityHeaderOnly,
     this);
 
   appendSubGroupToGroup (subGroup);

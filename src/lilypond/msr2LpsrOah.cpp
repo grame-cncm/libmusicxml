@@ -257,6 +257,8 @@ void msr2LpsrScoreOutputKindAtom::print (ostream& os) const
       fLpsrScoreOutputKindVariable) <<
     "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void msr2LpsrScoreOutputKindAtom::printAtomOptionsValues (
@@ -892,7 +894,7 @@ msr2LpsrOah::msr2LpsrOah (
     "Msr2LPSR",
     "hmsr2lpsr", "help-msr-to-lpsr",
 R"(These options control the way MSR data is translated to LPSR.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI
@@ -931,7 +933,7 @@ void msr2LpsrOah::initializeScoreOutputOptions (
         "LilyPond score output",
         "hlpso", "help-lilypond-score-output",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -956,7 +958,8 @@ R"(Use OUTPUT_KIND to create the LPSR blocks,
 as well as in the generated LilyPond code.
 The NUMBER LilyPond score output kinds available are:
   OUTPUT_KINDS.
-'-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
+'-one-file' means that LilyPond will produce a single file
+containing all the scores and/or parts.
 Otherwise, one file will be generated for each score and/or part.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
@@ -979,7 +982,7 @@ void msr2LpsrOah::initializeRepeatsOptions (
       "Repeats",
       "hmsrr", "help-msr-repeats",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -1008,7 +1011,7 @@ void msr2LpsrOah::initializeNotesOptions (
       "Notes",
       "hmsr2lpsrn", "help-msr-to-lpsr-notes",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -1259,7 +1262,7 @@ void msr2LpsrOah::initializeLyricsOptions (
       "Lyrics",
       "hmsrlyrd", "help-msr-lyrics",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);

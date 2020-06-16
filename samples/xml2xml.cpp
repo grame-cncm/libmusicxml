@@ -27,7 +27,8 @@
 
 #include "oahBasicTypes.h"
 #include "generalOah.h"
-#include "xml2xmlOah.h"
+
+#include "xml2xmlInsiderOah.h"
 
 #include "musicxml2musicxml.h"
 

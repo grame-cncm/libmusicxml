@@ -34,7 +34,8 @@
 #include "msrOah.h"
 #include "msr2LpsrOah.h"
 #include "musicxmlOah.h"
-#include "xml2xmlOah.h"
+
+#include "xml2xmlInsiderOah.h"
 
 #include "msr.h"
 
@@ -74,9 +75,9 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2xmlOahHandler
+  S_xml2xmlInsiderOahHandler
     handler =
-      xml2xmlOahHandler::create (
+      xml2xmlInsiderOahHandler::create (
         fakeExecutableName,
         out);
 

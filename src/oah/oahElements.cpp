@@ -53,12 +53,16 @@ string elementVisibilityKindAsString (
   string result;
 
   switch (elementVisibilityKind) {
-    case kElementVisibilityAlways:
-      result = "elementVisibilityAlways";
+    case kElementVisibilityWhole:
+      result = "elementVisibilityWhole";
       break;
 
-    case kElementVisibilityHiddenByDefault:
-      result = "elementVisibilityHiddenByDefault";
+    case kElementVisibilityHeaderOnly:
+      result = "elementVisibilityHeaderOnly";
+      break;
+
+    case kElementVisibilityNone:
+      result = "elementVisibilityNone";
       break;
   } // switch
 

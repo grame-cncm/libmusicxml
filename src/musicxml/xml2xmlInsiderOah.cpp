@@ -35,7 +35,7 @@
 
 #include "xml2xmlManPageOah.h"
 
-#include "xml2xmlOah.h"
+#include "xml2xmlInsiderOah.h"
 
 using namespace std;
 
@@ -43,26 +43,26 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_xml2xmlOahHandler xml2xmlOahHandler::create (
+S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::create (
   string   executableName,
   ostream& os)
 {
-  xml2xmlOahHandler* o = new
-    xml2xmlOahHandler (
+  xml2xmlInsiderOahHandler* o = new
+    xml2xmlInsiderOahHandler (
       executableName,
       os);
   assert(o!=0);
   return o;
 }
 
-xml2xmlOahHandler::xml2xmlOahHandler (
+xml2xmlInsiderOahHandler::xml2xmlInsiderOahHandler (
   string   executableName,
   ostream& os)
   : oahHandler (
-    executableName + " available options",
-    "Options values",
-    "h", "help",
-    "hs", "helpSummary",
+      executableName + " available options",
+      executableName + " options values",
+      "h", "help",
+      "hs", "helpSummary",
 R"(                      Welcome to xml2xml,
               the MusicXML to MusicXML translator
           delivered as part of the libmusicxml2 library.
@@ -136,19 +136,25 @@ Option '-h, -help' prints the full help,
         gOutputOstream);
 
   // initialize the handler only now, since it may use prefixes
-  initializeXml2xmlOahHandler (
+  initializeXml2xmlInsiderOahHandler (
     executableName,
     generator);
 }
 
-xml2xmlOahHandler::~xml2xmlOahHandler ()
+xml2xmlInsiderOahHandler::~xml2xmlInsiderOahHandler ()
 {}
 
-void xml2xmlOahHandler::initializeXml2xmlOahHandler (
+void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandler (
   string executableName,
   S_xml2xmlOah2ManPageGenerator
          theOah2ManPageGenerator)
 {
+  /*
+    The order of the initializations below determines
+    the relative order of the atoms in the help output,
+    which is retained in oahDualHandler::populateUserHandlerFromInsiderHandler()
+  */
+
   // initialize options handling, phase 1
   // ------------------------------------------------------
 
@@ -210,7 +216,7 @@ void xml2xmlOahHandler::initializeXml2xmlOahHandler (
   if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     // print the options handler initial state
     fHandlerLogOstream <<
-      "xml2xmlOahHandler has been initialized as:" <<
+      "xml2xmlInsiderOahHandler has been initialized as:" <<
       endl;
 
     gIndenter++;
@@ -233,7 +239,7 @@ void xml2xmlOahHandler::initializeXml2xmlOahHandler (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
     fHandlerLogOstream <<
-      "xml2xmlOahHandler help:" <<
+      "xml2xmlInsiderOahHandler help:" <<
       endl;
 
     this->
@@ -243,7 +249,7 @@ void xml2xmlOahHandler::initializeXml2xmlOahHandler (
 #endif
 }
 
-void xml2xmlOahHandler::checkOptionsAndArguments ()
+void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 {
   unsigned int argumentsNumber =
     fHandlerArgumentsVector.size ();
@@ -354,7 +360,7 @@ void xml2xmlOahHandler::checkOptionsAndArguments ()
 }
 
 //______________________________________________________________________________
-void xml2xmlOahHandler::enforceOahHandlerQuietness ()
+void xml2xmlInsiderOahHandler::enforceOahHandlerQuietness ()
 {
 #ifdef TRACE_OAH
   gGeneralOah->
@@ -475,12 +481,12 @@ void xml2xmlOah::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void xml2xmlOahHandler::print (ostream& os) const
+void xml2xmlInsiderOahHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
 
   os <<
-    "xml2xmlOahHandler:" <<
+    "xml2xmlInsiderOahHandler:" <<
     endl;
 
   gIndenter++;
@@ -528,7 +534,7 @@ void xml2xmlOahHandler::print (ostream& os) const
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_xml2xmlOahHandler& elt)
+ostream& operator<< (ostream& os, const S_xml2xmlInsiderOahHandler& elt)
 {
   elt->print (os);
   return os;
@@ -553,7 +559,7 @@ xml2xmlOah::xml2xmlOah (
     "xml2xml",
     "hxl", "help-xml2xml",
 R"(Options that are used by xml2xml are grouped here.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
   // append this options group to the options handler
@@ -582,7 +588,7 @@ void xml2xmlOah::initializeXml2xmlOah ()
           "Version",
           "hxv", "help-xml2xml-version",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (versionSubGroup);
@@ -614,7 +620,7 @@ R"(Display xml2xml's version number and history.)"));
           "About",
           "hxa", "help-xml2xml-about",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (aboutSubGroup);
@@ -638,7 +644,7 @@ R"(Display information about xml2xml.)"));
           "Contact",
           "hxc", "help-xml2xml-contact",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (contactSubGroup);
@@ -662,7 +668,7 @@ R"(Display information about how to contacct xml2xml maintainers.)"));
           "Output file",
           "hxof", "help-xml2xml-output-file",
 R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (outputFileSubGroup);
@@ -691,7 +697,7 @@ R"(Write MusicXML code to file FILENAME instead of standard output.)",
           "Exit after some passes",
           "hmexit", "help-msr-exit",
   R"()",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         this);
 
     appendSubGroupToGroup (exitAfterSomePassesSubGroup);

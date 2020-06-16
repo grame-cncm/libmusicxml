@@ -51,7 +51,7 @@ msr2MxmltreeOah::msr2MxmltreeOah (
     "Msr2MxmlTree",
     "hmsr2mxmlt", "help-msr-to-mxmltree",
 R"(These options control the way MSR is translated to xmlelement tree.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI
@@ -90,7 +90,7 @@ void msr2MxmltreeOah::initializeCodeGenerationOptions (
         "Code generation",
         "hmxmlcg", "help-musicxml-code-generation",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);

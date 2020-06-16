@@ -68,7 +68,16 @@ class msrException: public exception
           "msrException: " <<
           fExceptionDescription;
 
-        return s.str().c_str ();
+        string theString    = s.str ();
+        int    thetringSize = theString.size ();
+
+        char * result = new char [thetringSize + 1];
+        assert (result != nullptr);
+
+        strcpy (result, theString.c_str ());
+        result [thetringSize] = '\0';
+
+        return result;
       }
 
   private:

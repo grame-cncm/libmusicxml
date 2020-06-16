@@ -31,7 +31,8 @@
 #include "msrOah.h"
 #include "msr2LpsrOah.h"
 #include "lpsrOah.h"
-#include "xml2lyOah.h"
+
+#include "xml2lyInsiderOah.h"
 
 #include "msr.h"
 
@@ -72,9 +73,9 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2lyOahHandler
+  S_xml2lyInsiderOahHandler
     handler =
-      xml2lyOahHandler::create (
+      xml2lyInsiderOahHandler::create (
         fakeExecutableName,
         out);
 

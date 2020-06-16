@@ -261,6 +261,8 @@ void msrPitchesLanguageAtom::print (ostream& os) const
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
       "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void msrPitchesLanguageAtom::printAtomOptionsValues (
@@ -592,8 +594,9 @@ void msrRenamePartAtom::print (ostream& os) const
       os << endl;
     } // for
   }
-
   os << endl;
+
+  gIndenter--;
 }
 
 void msrRenamePartAtom::printAtomOptionsValues (
@@ -659,7 +662,7 @@ msrOah::msrOah (
     "MSR",
     "hmsr", "help-msr",
 R"(These options control the way MSR data is handled.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
   // append this options group to the options handler
@@ -685,7 +688,7 @@ void msrOah::initializeMsrTraceOah (
       "Trace",
       "hmsrt", "help-msr-trace",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -724,7 +727,7 @@ void msrOah::initializeMsrDisplayOptions (
       "Display",
       "hmsrtd", "help-msr-trace-and-display",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -801,7 +804,7 @@ void msrOah::initializeMsrLanguagesOptions (
       "Languages",
       "hmsrlang", "help-msr-languages",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -866,7 +869,7 @@ void msrOah::initializeMsrPartsOptions (
       "Parts",
       "hmsrp", "help-msr-parts",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -906,7 +909,7 @@ void msrOah::initializeMsrStavesOptions (
       "Staves",
       "hmsrs", "help-msr-staves",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -933,7 +936,7 @@ void msrOah::initializeMsrVoicesOptions (
       "Voices",
       "hmsrv", "help-msr-voices",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -961,7 +964,7 @@ void msrOah::initializeMsrHarmoniesOptions (
       "Harmonies",
       "hmsrh", "help-msr-harmonies",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);
@@ -989,7 +992,7 @@ void msrOah::initializeMsrFiguredBassOptions (
       "Figured bass",
       "hmsrfb", "help-msr-figured-bass",
 R"()",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     this);
 
   appendSubGroupToGroup (subGroup);

@@ -19,7 +19,7 @@
 
 #include "messagesHandling.h"
 
-#include "xml2brlOah.h"
+#include "xml2brlInsiderOah.h"
 
 #include "xml2brlOahDualHandler.h"
 
@@ -81,7 +81,7 @@ void xml2brlOahDualHandler::createInsiderHandler (
 // JMI  os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
 
   fInsiderHandler =
-    xml2brlOahHandler::create (
+    xml2brlInsiderOahHandler::create (
       fExecutableName,
       os);
 }
@@ -172,7 +172,7 @@ void xml2brlOahDualHandler::createInsiderUserGroup (
         "insider-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   group->
     setGroupHeaderIsToBeWritten (false);
@@ -192,7 +192,7 @@ void xml2brlOahDualHandler::createInsiderUserGroup (
         "insider",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -210,7 +210,7 @@ void xml2brlOahDualHandler::createInformationsUserGroup (
         "informations-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -224,7 +224,7 @@ void xml2brlOahDualHandler::createInformationsUserGroup (
         "informations",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -253,7 +253,7 @@ void xml2brlOahDualHandler::createWarningAndErrorsUserGroup (
         "warning-and-errors-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -267,7 +267,7 @@ void xml2brlOahDualHandler::createWarningAndErrorsUserGroup (
         "warning-and-errors",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -292,7 +292,7 @@ void xml2brlOahDualHandler::createPresentationUserGroup (
         "presentation-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -306,7 +306,7 @@ void xml2brlOahDualHandler::createPresentationUserGroup (
         "presentation",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -329,7 +329,7 @@ void xml2brlOahDualHandler::createFilesUserGroup (
         "files-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -343,7 +343,7 @@ void xml2brlOahDualHandler::createFilesUserGroup (
         "files",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -367,7 +367,7 @@ void xml2brlOahDualHandler::createPartsUserGroup (
         "parts-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -381,7 +381,7 @@ void xml2brlOahDualHandler::createPartsUserGroup (
         "parts",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -407,7 +407,7 @@ void xml2brlOahDualHandler::createStavesUserGroup (
         "staves-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -421,7 +421,7 @@ void xml2brlOahDualHandler::createStavesUserGroup (
         "staves",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -443,7 +443,7 @@ void xml2brlOahDualHandler::createVoicesUserGroup (
         "voices-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -457,7 +457,7 @@ void xml2brlOahDualHandler::createVoicesUserGroup (
         "voices",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -480,7 +480,7 @@ void xml2brlOahDualHandler::createTranspositionsUserGroup (
         "transpositions-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -494,7 +494,7 @@ void xml2brlOahDualHandler::createTranspositionsUserGroup (
         "transpositions",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -517,7 +517,7 @@ void xml2brlOahDualHandler::createClefsUserGroup (
         "clefs-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -531,7 +531,7 @@ void xml2brlOahDualHandler::createClefsUserGroup (
         "clefs",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -555,7 +555,7 @@ void xml2brlOahDualHandler::createKeysUserGroup (
         "keys-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -569,7 +569,7 @@ void xml2brlOahDualHandler::createKeysUserGroup (
         "keys",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -592,7 +592,7 @@ void xml2brlOahDualHandler::createTimesUserGroup (
         "times-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -606,7 +606,7 @@ void xml2brlOahDualHandler::createTimesUserGroup (
         "times",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -629,7 +629,7 @@ void xml2brlOahDualHandler::createRepeatsUserGroup (
         "repeats-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -643,7 +643,7 @@ void xml2brlOahDualHandler::createRepeatsUserGroup (
         "repeats",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -668,7 +668,7 @@ void xml2brlOahDualHandler::createMeasuresUserGroup (
         "measures-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -682,7 +682,7 @@ void xml2brlOahDualHandler::createMeasuresUserGroup (
         "measures",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -705,7 +705,7 @@ void xml2brlOahDualHandler::createRestsUserGroup (
         "rests-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -719,7 +719,7 @@ void xml2brlOahDualHandler::createRestsUserGroup (
         "rests",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -744,7 +744,7 @@ void xml2brlOahDualHandler::createNotesUserGroup (
         "notes-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -758,7 +758,7 @@ void xml2brlOahDualHandler::createNotesUserGroup (
         "notes",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -783,7 +783,7 @@ void xml2brlOahDualHandler::createArticulationsUserGroup (
         "articulations-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -797,7 +797,7 @@ void xml2brlOahDualHandler::createArticulationsUserGroup (
         "articulations",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -819,7 +819,7 @@ void xml2brlOahDualHandler::createOrnamentsUserGroup (
         "ornaments-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -833,7 +833,7 @@ void xml2brlOahDualHandler::createOrnamentsUserGroup (
         "ornaments",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -857,7 +857,7 @@ void xml2brlOahDualHandler::createGraceNotesUserGroup (
         "grace-notes-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -871,7 +871,7 @@ void xml2brlOahDualHandler::createGraceNotesUserGroup (
         "grace-notes",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -895,7 +895,7 @@ void xml2brlOahDualHandler::createChordsUserGroup (
         "chords-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -909,7 +909,7 @@ void xml2brlOahDualHandler::createChordsUserGroup (
         "chords",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -936,7 +936,7 @@ void xml2brlOahDualHandler::createTiesAndSlursUserGroup (
         "ties-and-slurs-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -950,7 +950,7 @@ void xml2brlOahDualHandler::createTiesAndSlursUserGroup (
         "ties-and-slurs",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -975,7 +975,7 @@ void xml2brlOahDualHandler::createDynamicsAndWedgesUserGroup (
         "dynamics-and-wedges group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -989,7 +989,7 @@ void xml2brlOahDualHandler::createDynamicsAndWedgesUserGroup (
         "dynamics-and-wedges",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1017,7 +1017,7 @@ void xml2brlOahDualHandler::createTupletsUserGroup (
         "tuplets-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -1031,7 +1031,7 @@ void xml2brlOahDualHandler::createTupletsUserGroup (
         "tuplets",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1056,7 +1056,7 @@ void xml2brlOahDualHandler::createHarmoniesUserGroup (
         "harmonies-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -1070,7 +1070,7 @@ void xml2brlOahDualHandler::createHarmoniesUserGroup (
         "harmonies",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1100,7 +1100,7 @@ void xml2brlOahDualHandler::createFiguredBassesUserGroup (
         "figured-basses-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -1114,7 +1114,7 @@ void xml2brlOahDualHandler::createFiguredBassesUserGroup (
         "figured-basses",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1138,7 +1138,7 @@ void xml2brlOahDualHandler::createLyricsUserGroup (
         "lyrics-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -1152,7 +1152,7 @@ void xml2brlOahDualHandler::createLyricsUserGroup (
         "lyrics",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
@@ -1180,7 +1180,7 @@ void xml2brlOahDualHandler::createOutputUserGroup (
         "ouptut-group",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         fUserOahHandler);
   fUserOahHandler->
     appendGroupToHandler (group);
@@ -1194,7 +1194,7 @@ void xml2brlOahDualHandler::createOutputUserGroup (
         "ouptut",
         "",
         "",
-        kElementVisibilityAlways,
+        kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);

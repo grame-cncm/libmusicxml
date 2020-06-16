@@ -241,7 +241,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsLpsrPitchesLanguageAtom:" <<
+    "lpsrPitchesLanguageAtom:" <<
     endl;
 
   gIndenter++;
@@ -260,6 +260,8 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
     "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void lpsrPitchesLanguageAtom::printAtomOptionsValues (
@@ -485,7 +487,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsLpsrChordsLanguageAtom:" <<
+    "lpsrChordsLanguageAtom:" <<
     endl;
 
   gIndenter++;
@@ -503,6 +505,8 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
       fLpsrChordsLanguageKindVariable) <<
     "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void lpsrChordsLanguageAtom::printAtomOptionsValues (
@@ -1699,7 +1703,7 @@ lpsrOah::lpsrOah (
     "LPSR",
     "hlpsr", "help-lpsr",
 R"(These options control the way LPSR data is handled.)",
-    kElementVisibilityAlways,
+    kElementVisibilityWhole,
     handlerUpLink)
 {
   // append this options group to the options handler
@@ -1726,7 +1730,7 @@ void lpsrOah::initializeLpsrTraceOah (
         "Trace",
         "hlpsrtrace", "help-lpsr-trace",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1802,7 +1806,7 @@ void lpsrOah::initializeLpsrDisplayOptions (
         "Display",
         "hlpsrd", "help-lpsr-display",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1829,7 +1833,7 @@ void lpsrOah::initializeLpsrLilypondVersionOptions (
         "LilyPond version",
         "hlpv", "help-lilypond-version",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1863,7 +1867,7 @@ void lpsrOah::initializeLpsrGlobalStaffSizeOptions (
         "Global staff size",
         "hlpsrgss", "help-lpsr-gss",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -1898,7 +1902,7 @@ void lpsrOah::initializeLpsrPaperOptions (
         "Paper",
         "hlpsrpaper", "help-lpsr-paper",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2034,7 +2038,8 @@ The default value is 0.0 mm.)",
     appendAtomToSubGroup (
       oahLengthAtom::create (
         "mssp", "markup-system-spacing.padding",
-R"(Set the LilyPond 'markup-system-spacing.padding' paper variable to PADDING in the LilyPond code.
+R"(Set the LilyPond 'markup-system-spacing.padding' paper variable
+to PADDING in the LilyPond code.
 PADDING should be a floating point or integer number,
 immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
 LilyPond's default value is 0.0 mm.)",
@@ -2149,7 +2154,7 @@ void lpsrOah::initializeLpsrMeasuresOptions (
         "Measures",
         "hlpsrmeasures", "help-lpsr-measures",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2188,7 +2193,7 @@ void lpsrOah::initializeLpsrTemposOptions (
         "Tempos",
         "hlpsrtempos", "help-lpsr-tempos",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2202,7 +2207,8 @@ R"()",
       oahBooleanAtom::create (
         "cttrm", "convert-tempos-to-rehearsal-marks",
 R"(Convert tempos to rehearsal marks.
-This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
+This may come in handy when MusicXML data has been obtained
+from scanned instrumental music images.)",
         "convertTemposToRehearsalMarks",
         fConvertTemposToRehearsalMarks));
 }
@@ -2216,7 +2222,7 @@ void lpsrOah::initializeLpsrWordsOptions (
         "Words",
         "hlpsrwords", "help-lpsr-words",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2230,7 +2236,8 @@ R"()",
       oahBooleanAtom::create (
         "cwtt", "convert-words-to-tempo",
 R"(Convert words to tempo.
-This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
+This may come in handy when MusicXML data has been obtained
+from scanned instrumental music images.)",
         "convertWordsToTempo",
         fConvertWordsToTempo));
 
@@ -2256,7 +2263,8 @@ This may come in handy when MusicXML data has been obtained from scanned images.
       oahBooleanAtom::create (
         "cwtrm", "convert-words-to-rehearsal-marks",
 R"(Convert words to rehearsal marks.
-This may come in handy when MusicXML data has been obtained from scanned instrumental music images.)",
+This may come in handy when MusicXML data has been obtained
+from scanned instrumental music images.)",
         "convertWordsToRehearsalMarks",
         fConvertWordsToRehearsalMarks));
 
@@ -2328,7 +2336,7 @@ void lpsrOah::initializeLpsrLanguagesOptions (
         "Languages",
         "hlpsrl", "help-lpsr-languages",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2432,7 +2440,7 @@ void lpsrOah::initializeLpsrTransposeOptions (
         "Transpose",
         "hlpsrt", "help-lpsr-transpose",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
@@ -2464,7 +2472,7 @@ void lpsrOah::initializeLpsrExitAfterSomePassesOptions (
         "Exit after some passes",
         "hlexit", "help-lpsr-exit",
 R"()",
-      kElementVisibilityAlways,
+      kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
