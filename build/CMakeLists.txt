@@ -219,7 +219,7 @@ set (SAMPLES xmlversion RandomMusic RandomChords MusicAndHarmonies xmlfactory pa
 set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
 if (LILY)
 	set (SAMPLES ${SAMPLES} xml2xml xml2ly libtest)
-	set (TOOLS   ${TOOLS}   xml2xml xml2ly libtest)
+	set (TOOLS   ${TOOLS}   xml2xml xml2ly)
 endif()
 if (BRAILLE)
 	set (SAMPLES ${SAMPLES} xml2brl)
