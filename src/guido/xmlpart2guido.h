@@ -217,7 +217,8 @@ protected:
     virtual void visitEnd  ( S_repeat& elt);
     virtual void visitEnd  ( S_sound& elt);
     virtual void visitEnd  ( S_time& elt);
-    
+    virtual void visitEnd  ( S_part& elt);
+
     std::string parseMetronome ( metronomevisitor &mv );
     
     bool findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelement>::iterator &nextnote);
@@ -247,6 +248,12 @@ public:
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
     
     rational fStartPosition, fEndPosition;
+    
+    int lastMeasureNumber() { return fMeasNum; }
+    
+    std::map<double, int> measurePositionMap;
+    
+    double totalPartDuration() { return fCurrentScorePosition.toDouble(); }
     
 private:
     bool fHasLyrics;

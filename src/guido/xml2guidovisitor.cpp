@@ -30,7 +30,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-    int xml2guidovisitor::defaultGuidoStaffDistance = 0;
     int xml2guidovisitor::defaultStaffDistance = 0;
     
     //______________________________________________________________________________
@@ -38,7 +37,8 @@ namespace MusicXML2
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
     fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum),
-    fBeginMeasure(beginMeasure), fEndMeasure(endMeasure), fEndMeasureOffset(endMeasureOffset)
+    fBeginMeasure(beginMeasure), fEndMeasure(endMeasure), fEndMeasureOffset(endMeasureOffset), fTotalMeasures(0)
+    , fTotalDuration(0.0)
     {
         timePositions.clear();
     }
@@ -177,19 +177,6 @@ namespace MusicXML2
     void xml2guidovisitor::visitStart( S_defaults& elt)
     {
         xml2guidovisitor::defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
-        
-        // Convert to HS
-        /// Guido's default staff-distance seems to be 8 or 80 tenths
-        if (defaultStaffDistance > 0) {
-            float xmlDistance = xml2guidovisitor::defaultStaffDistance;
-            float HalfSpaceDistance = (xmlDistance / 10) * 2 ; // (pos/10)*2
-            if (HalfSpaceDistance > 0.0) {
-                xml2guidovisitor::defaultGuidoStaffDistance = HalfSpaceDistance;
-            }else
-                xml2guidovisitor::defaultGuidoStaffDistance = 0;
-        }else {
-            xml2guidovisitor::defaultGuidoStaffDistance = 0;
-        }
     }
     
     //______________________________________________________________________________
@@ -323,6 +310,15 @@ namespace MusicXML2
             timePositions = pv.timePositions;
             fBeginPosition = pv.fStartPosition;
             fEndPosition = pv.fEndPosition;
+            
+            if (pv.lastMeasureNumber() > fTotalMeasures) {
+                fTotalMeasures = pv.lastMeasureNumber();
+            }
+            measurePositionMap = pv.measurePositionMap;
+            
+            if (pv.totalPartDuration() > fTotalDuration) {
+                fTotalDuration = pv.totalPartDuration();
+            }
         }
     }
     
@@ -553,6 +549,17 @@ int xml2guidovisitor::getTotalStaves() {
     }
     return totalStaves;
 }
+
+int xml2guidovisitor::getTotalMeasures() {
+    return fTotalMeasures;
+}
+
+std::map<double, int> xml2guidovisitor::getMeasureMap() {
+    return measurePositionMap;
+}
     
+double xml2guidovisitor::getTotalDuration() {
+    return fTotalDuration;
+}
 }
 

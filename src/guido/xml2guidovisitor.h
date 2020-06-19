@@ -124,6 +124,14 @@ protected:
     std::map<std::string, std::set<std::string> > clefsInPart;
     std::string currentPart;
     
+    /// Number of total measures in score
+    int fTotalMeasures;
+    
+    /// Map containing measure number and Position (double output of Rational)
+    std::map<double, int> measurePositionMap;
+    
+    double fTotalDuration;
+    
 public:
     xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true, int partNum = 0, int beginMeasure = 0, int endMeasure = 0, int endMeasureOffset = 0);
     virtual ~xml2guidovisitor() {}
@@ -133,9 +141,6 @@ public:
     // this is to control exact positionning of elements when information is present
     // ie converts relative-x/-y into dx/dy attributes
     void generatePositions (bool state)		{ fGeneratePositions = state; }
-    
-    /// Shared default derived from MusicXML
-    static int defaultGuidoStaffDistance;  // the above converted to Guido value
     
     /// MARK: Position Helpers
 
@@ -185,6 +190,13 @@ public:
     std::pair<long, long> getEndPosition() {
         return std::pair<long, long>(fEndPosition.getNumerator(), fEndPosition.getDenominator());
     }
+    
+    int getTotalMeasures();
+    
+    /// Returns a map<double,int> where the first are beat positions and second are measure numbers
+    std::map<double, int> getMeasureMap();
+    
+    double getTotalDuration();
     
 };
 

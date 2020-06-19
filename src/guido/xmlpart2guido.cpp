@@ -71,6 +71,7 @@ namespace MusicXML2
         fTremoloInProgress = false;
         fShouldStopOctava = false;
         fCurrentScorePosition.set(0, 1);
+        measurePositionMap.clear();
     }
     
     //______________________________________________________________________________
@@ -265,6 +266,12 @@ bool xmlpart2guido::checkMeasureRange() {
         }
         fCurrentPart = elt;
     }
+
+    void xmlpart2guido::visitEnd ( S_part& elt )
+    {
+        fCurrentScorePosition += fCurrentMeasureLength;
+        fCurrentScorePosition.rationalise();
+    }
     
     
     //______________________________________________________________________________
@@ -273,13 +280,15 @@ bool xmlpart2guido::checkMeasureRange() {
         fCurrentMeasure = elt;
         fCurrentScorePosition += fCurrentMeasureLength;
         fCurrentScorePosition.rationalise();
-        
+                
         std::string measNum = elt->getAttributeValue("number");
         try {
             fMeasNum = std::stoi(measNum);
         } catch(...) {
             fMeasNum++;
         }
+        
+        measurePositionMap[fCurrentScorePosition.toDouble()] = fMeasNum ;
         
         bool isFirstPartialMeasure = (fStartMeasure>0) && (fMeasNum == fStartMeasure);
         
