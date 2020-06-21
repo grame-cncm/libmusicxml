@@ -10,6 +10,21 @@
   research@grame.fr
 */
 
+/*
+#include <sstream>
+
+#include <climits>      // INT_MIN, INT_MAX
+#include <iomanip>      // setw, setprecision, ...
+
+#include <regex>
+
+
+#include "oahBasicTypes.h"
+
+
+
+*/
+
 #include "utilities.h"
 #include "messagesHandling.h"
 

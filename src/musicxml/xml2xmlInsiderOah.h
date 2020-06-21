@@ -63,7 +63,7 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  createThePrefixesAndInitialize (
@@ -72,6 +72,13 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
     void                  checkOptionsAndArguments ();
 
     void                  checkOptionsConsistency ();
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  determineOutputFileNameFromInputFileName ();
 
   public:
 

@@ -13,6 +13,30 @@
 #ifndef ___oahDualHandlers___
 #define ___oahDualHandlers___
 
+/*
+#include "list"
+#include "vector"
+#include "map"
+#include "set"
+
+#include "smartpointer.h"
+#include "rational.h"
+
+#include "tree_browser.h"
+#include "visitor.h"
+
+#include "libmusicxml.h"  // for optionsVector
+
+#include "msrMidi.h"
+
+#include "utilities.h"
+
+#include "msrBasicTypes.h"
+#include "lpsrBasicTypes.h"
+
+#include "setTraceOahIfDesired.h"
+*/
+
 #include "oahBasicTypes.h"
 
 

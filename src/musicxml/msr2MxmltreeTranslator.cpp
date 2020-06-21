@@ -545,11 +545,11 @@ void msr2MxmltreeTranslator::appendToNoteNotationsArticulations (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  if (! fCurrentNoteNotations) {
-    // create the note articulations element
+  if (! fCurrentNoteNotationsArticulations) {
+    // create the note notations articulations element
     fCurrentNoteNotationsArticulations = createElement (k_articulations, "");
 
-    // append it to fCurrentNoteNotations
+    // append it to fCurrentNoteNotationsArticulations
     appendToNoteNotations (
       fCurrentNoteNotationsArticulations,
       placementKind);
@@ -717,11 +717,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     appendToScoreDefaults (fScoreDefaultsSystemLayoutElement);
   }
 
-  if (fScoreDefaultsAppearanceElement) {
-    // append the appearance element to the score defaults elements
-    appendToScoreDefaults (fScoreDefaultsAppearanceElement);
-  }
-
   // append the staff layout elements if any to the score defaults elements
   for (
     list<Sxmlelement>::const_iterator i =
@@ -733,6 +728,11 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 
     appendToScoreDefaults (staffLayoutElement);
   } // for
+
+  if (fScoreDefaultsAppearanceElement) {
+    // append the appearance element to the score defaults elements
+    appendToScoreDefaults (fScoreDefaultsAppearanceElement);
+  }
 
   // append the score defaults element if any to the score part wise element
   if (fScoreDefaultsElement) {
@@ -5394,7 +5394,7 @@ void msr2MxmltreeTranslator:: appendNoteArticulations (S_msrNote note)
         case msrArticulation::kScoop:
 
         case msrArticulation::kFermata:
-          appendToNoteNotations (
+          appendToNoteNotationsArticulations (
             articulationElement,
             articulation->getArticulationPlacementKind ());
           break;

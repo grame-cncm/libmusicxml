@@ -361,32 +361,84 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
       break;
   } //  switch
 
-  // build potential output file name
+  // determine output file name
   // ------------------------------------------------------
 
-  string potentialOutputFileName;
-
-  if (gOahOah->fInputSourceName != "-") {
-    // determine potential output file name,
-    // may be set differently by '--o, --outputFileName' option
-    potentialOutputFileName =
-      baseName (gOahOah->fInputSourceName) + "_LOOP";
-
-    // set '.xml' suffix
-    size_t
-      posInString =
-        potentialOutputFileName.rfind ('.');
-
-    if (posInString != string::npos) {
-      potentialOutputFileName.replace (
-        posInString,
-        potentialOutputFileName.size () - posInString,
-        ".xml");
+  if (gOahOah->fInputSourceName == "-") {
+    gXml2xmlOah->fMusicXMLOutputFileName =
+      "stdout.xml";
+  }
+  else {
+    if (gXml2xmlOah->fMusicXMLOutputFileName.size ()) {
+      // the '--o, --outputFileName' option has been used,
+      // use the user chosen output file name
+ //     gXml2xmlOah->fMusicXMLOutputFileName =
+ //       gXml2xmlOah->fMusicXMLOutputFileName;
     }
 
-    // keep potentialOutputFileName
-    gXml2xmlOah->fMusicXMLOutputFileName = potentialOutputFileName;
+    else {
+      determineOutputFileNameFromInputFileName ();
+    }
   }
+}
+
+void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    gLogOstream <<
+      "xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName(): " <<
+      endl <<
+      separator <<
+      endl;
+  }
+#endif
+  // get input source base name
+  string inputSourceBaseName =
+    baseName (gOahOah->fInputSourceName);
+
+  // get input source base name prefix
+  string inputSourceBaseNamePrefix;
+
+  size_t
+    posInString =
+      inputSourceBaseName.rfind ('.');
+
+  if (posInString != string::npos) {
+    inputSourceBaseNamePrefix =
+      inputSourceBaseName.substr (0, posInString);
+  }
+  else {
+    inputSourceBaseNamePrefix =
+      inputSourceBaseName;
+  }
+
+  string outputFileName =
+    inputSourceBaseNamePrefix + "_LOOP.xml";
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    gLogOstream <<
+      "xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName(): " <<
+      "gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
+      ", inputSourceBaseName: \"" << inputSourceBaseName << "\"" <<
+      ", inputSourceBaseNamePrefix: \"" << inputSourceBaseNamePrefix << "\"" <<
+      ", outputFileName: \"" << outputFileName << "\"" <<
+      endl <<
+      separator <<
+      endl;
+  }
+#endif
+
+  // use outputFileName
+  gXml2xmlOah->fMusicXMLOutputFileName =
+    outputFileName;
 }
 
 void xml2xmlInsiderOahHandler::checkOptionsConsistency ()
@@ -428,7 +480,7 @@ void xml2xmlOah::enforceQuietness ()
 //______________________________________________________________________________
 void xml2xmlOah::checkOptionsConsistency ()
 {
-  if (! fMusicXMLOutputFileName.size ()) {
+  if (false && ! fMusicXMLOutputFileName.size ()) { // JMI
     stringstream s;
 
     s <<
