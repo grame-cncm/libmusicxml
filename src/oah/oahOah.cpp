@@ -14,14 +14,15 @@
 
 #include <regex>
 
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
 #endif
 
 #include "oahOah.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;

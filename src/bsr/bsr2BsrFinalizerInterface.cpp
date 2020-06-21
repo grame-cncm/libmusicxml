@@ -10,6 +10,7 @@
   research@grame.fr
 */
 
+#include "utilities.h"
 #include "messagesHandling.h"
 
 #include "generalOah.h"

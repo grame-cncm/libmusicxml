@@ -13,6 +13,7 @@
 #ifndef ___xml2xmlOahDualHandlers___
 #define ___xml2xmlOahDualHandlers___
 
+/*
 #include "list"
 #include "vector"
 #include "map"
@@ -34,8 +35,10 @@
 #include "lpsrBasicTypes.h"
 
 #include "setTraceOahIfDesired.h"
+*/
 
-#include "oahElements.h"
+#include "oahDualHandlers.h"
+
 
 using namespace std;
 
@@ -82,7 +85,10 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
 
     // public services
     // ------------------------------------------------------
-
+/*
+    bool                  fetchExit2a () const;
+    bool                  fetchExit2b () const;
+*/
   public:
 
     // print
@@ -199,6 +205,10 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     // work fields
     // ------------------------------------------------------
 
+    S_xml2xmlInsiderOahHandler
+                          fXml2xmlInsiderOahHandler;
+    S_xml2xmlInsiderOahHandler
+                          fXml2xmlUserOahHandler;
 };
 typedef SMARTP<xml2xmlOahDualHandler> S_xml2xmlOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlOahDualHandler& elt);

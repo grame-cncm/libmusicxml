@@ -15,6 +15,7 @@
 
 #include "bsrMutualDependencies.h"
 
+#include "utilities.h"
 #include "messagesHandling.h"
 
 #include "oahOah.h"

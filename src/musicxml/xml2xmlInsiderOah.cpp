@@ -37,6 +37,7 @@
 
 #include "xml2xmlInsiderOah.h"
 
+
 using namespace std;
 
 namespace MusicXML2
@@ -52,6 +53,9 @@ S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::create (
       executableName,
       os);
   assert(o!=0);
+
+  o->createThePrefixesAndInitialize (executableName);
+
   return o;
 }
 
@@ -59,6 +63,7 @@ xml2xmlInsiderOahHandler::xml2xmlInsiderOahHandler (
   string   executableName,
   ostream& os)
   : oahHandler (
+      executableName,
       executableName + " available options",
       executableName + " options values",
       "h", "help",
@@ -75,6 +80,53 @@ R"(
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
     os)
+{}
+
+xml2xmlInsiderOahHandler::~xml2xmlInsiderOahHandler ()
+{}
+
+S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::createHandlerNewbornCloneWithoutGroups ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "Creating a newborn clone of xml2xmlInsiderOahHandler" <<
+      endl;
+  }
+#endif
+
+  S_xml2xmlInsiderOahHandler
+    newbornClone =
+      xml2xmlInsiderOahHandler::create (
+        fExecutableName,
+        fHandlerLogOstream);
+
+  newbornClone->fHandlerHeader =
+    fHandlerHeader + "_clone";
+
+  newbornClone->fShortName =
+    fShortName + "_clone";
+  newbornClone->fLongName =
+    fLongName + "_clone";
+
+  newbornClone->fHandlerPrefixesMap =
+    fHandlerPrefixesMap;
+
+  return newbornClone;
+}
+
+void xml2xmlInsiderOahHandler::createThePrefixesAndInitialize (
+  string executableName)
+{
+  // create the prefixes
+  createThePrefixes ();
+
+  // initialize the insider OAH handling only now, since it may use prefixes
+  initializeXml2xmlInsiderOahHandling (
+    executableName);
+}
+
+void xml2xmlInsiderOahHandler::createThePrefixes ()
 {
   // create and append the help options prefixes
   S_oahPrefix
@@ -126,28 +178,10 @@ Option '-h, -help' prints the full help,
         "o",
         "'-o=abc,wxyz' is equivalent to '-oabc, -owxyz'");
   appendPrefixToHandler (oPrefix);
-
-  // create an xml2xmlOah2ManPageGenerator
-  S_xml2xmlOah2ManPageGenerator
-    generator =
-      xml2xmlOah2ManPageGenerator::create (
-        this,
-        gLogOstream,
-        gOutputOstream);
-
-  // initialize the handler only now, since it may use prefixes
-  initializeXml2xmlInsiderOahHandler (
-    executableName,
-    generator);
 }
 
-xml2xmlInsiderOahHandler::~xml2xmlInsiderOahHandler ()
-{}
-
-void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandler (
-  string executableName,
-  S_xml2xmlOah2ManPageGenerator
-         theOah2ManPageGenerator)
+void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandling (
+  string executableName)
 {
   /*
     The order of the initializations below determines
@@ -204,10 +238,6 @@ void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandler (
   initializeExtraOahHandling (
     this);
 #endif
-
-  initializeXml2xmlManPageOahHandling (
-    this,
-    theOah2ManPageGenerator);
 
   initializeXml2xmlOah (
     this);
@@ -358,6 +388,9 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
     gXml2xmlOah->fMusicXMLOutputFileName = potentialOutputFileName;
   }
 }
+
+void xml2xmlInsiderOahHandler::checkOptionsConsistency ()
+{}
 
 //______________________________________________________________________________
 void xml2xmlInsiderOahHandler::enforceOahHandlerQuietness ()

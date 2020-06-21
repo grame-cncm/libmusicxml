@@ -14,6 +14,8 @@
 //#include <cmath>
 //#include <string>
 
+#include <sstream>
+
 #include "mxmlTree.h"
 
 #include "setTraceOahIfDesired.h"

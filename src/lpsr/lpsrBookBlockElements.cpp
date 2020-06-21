@@ -14,13 +14,14 @@
 
 #include "version.h"
 
-#include "generalOah.h"
-
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
 #endif
 
+#include "generalOah.h"
+
+#include "lpsrOah.h"
 #include "lpsr2LilypondOah.h"
 
 using namespace std;

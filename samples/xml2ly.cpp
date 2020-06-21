@@ -78,6 +78,10 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+//#define USE_DUAL_HANDLE
+
+#ifdef USE_DUAL_HANDLE
+
   // create the OAH dual handler
   // ------------------------------------------------------
   S_xml2lyOahDualHandler dualHandler;
@@ -96,7 +100,7 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahDetails) { // JMI TESTS
+  if (false && gTraceOah->fTraceOahDetails) { // JMI TESTS
     dualHandler->
       print (gOutputOstream);
   }
@@ -128,30 +132,10 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
-  string
-    inputSourceName =
-      gOahOah->fInputSourceName;
+  dualHandler->checkOptionsAndArguments ();
 
-  string
-    outputFileName =
-      gXml2lyOah->fLilyPondOutputFileName;
+#else
 
-  int
-    outputFileNameSize =
-      outputFileName.size ();
-
-  // has quiet mode been requested?
-  // ------------------------------------------------------
-
-  if (gGeneralOah->fQuiet) {
-    // disable all trace and display options
-    /* JMI
-    handler->
-      enforceOahHandlerQuietness ();
-      */
-  }
-
-/* JMI
   // create the options handler
   // ------------------------------------------------------
 
@@ -196,6 +180,8 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
+#endif
+
   string
     inputSourceName =
       gOahOah->fInputSourceName;
@@ -208,27 +194,31 @@ int main (int argc, char *argv[])
     outputFileNameSize =
       outputFileName.size ();
 
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    string separator =
+      "%--------------------------------------------------------------";
 
-  if (true) { // JMI, TEST
-  / *
-    xml2lilypond (
-      argc,
-      argv,
-      cout,
-      inputSourceName);
+    gLogOstream <<
+      "main(): " <<
+      "inputSourceName: \"" << inputSourceName << "\"" <<
+      ", outputFileName: \"" << outputFileName << "\"" <<
+      endl <<
+      separator <<
+      endl;
   }
+#endif
 
-  else {
-  * /
   // has quiet mode been requested?
   // ------------------------------------------------------
 
   if (gGeneralOah->fQuiet) {
     // disable all trace and display options
+    /* JMI
     handler->
       enforceOahHandlerQuietness ();
+      */
   }
-*/
 
   // welcome message
   // ------------------------------------------------------
@@ -278,11 +268,21 @@ int main (int argc, char *argv[])
 
     gIndenter++;
 
+#ifdef USE_DUAL_HANDLE
+
     gLogOstream <<
-//      handler->
       dualHandler->
         commandLineWithShortNamesAsString () <<
       endl;
+
+#else
+
+    gLogOstream <<
+      handler->
+        commandLineWithShortNamesAsString () <<
+      endl;
+
+#endif
 
     gIndenter--;
     gLogOstream <<
@@ -290,12 +290,23 @@ int main (int argc, char *argv[])
       endl;
     gIndenter++;
 
+#ifdef USE_DUAL_HANDLE
+
     gLogOstream <<
-//      handler->
       dualHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;
+
+#else
+
+    gLogOstream <<
+      handler->
+        commandLineWithLongNamesAsString () <<
+      endl <<
+      endl;
+
+#endif
 
     gIndenter--;
   }
@@ -364,4 +375,41 @@ int main (int argc, char *argv[])
 
   return 0;
 }
+
+
+/* JMI
+
+  string
+    inputSourceName =
+      gOahOah->fInputSourceName;
+
+  string
+    outputFileName =
+      dualHandler->fetchLilyPondOutputFileName ();
+
+  int
+    outputFileNameSize =
+      outputFileName.size ();
+
+
+  if (true) { // JMI, TEST
+  / *
+    xml2lilypond (
+      argc,
+      argv,
+      cout,
+      inputSourceName);
+  }
+
+  else {
+  * /
+  // has quiet mode been requested?
+  // ------------------------------------------------------
+
+  if (gGeneralOah->fQuiet) {
+    // disable all trace and display options
+    handler->
+      enforceOahHandlerQuietness ();
+  }
+*/
 

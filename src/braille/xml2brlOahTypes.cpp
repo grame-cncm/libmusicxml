@@ -20,6 +20,7 @@
 #include "xml2brlOahTypes.h"
 
 #include "version.h"
+#include "utilities.h"
 
 
 using namespace std;

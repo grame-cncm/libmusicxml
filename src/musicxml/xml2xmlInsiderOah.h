@@ -13,11 +13,7 @@
 #ifndef ___xml2xmlOah___
 #define ___xml2xmlOah___
 
-//#include "exports.h"
-
-//#include "xml2xmlManPageOah.h"
-
-#include "xml2xmlOah2ManPageGenerator.h"
+#include "oahBasicTypes.h"
 
 
 namespace MusicXML2
@@ -35,6 +31,8 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
       string   executableName,
       ostream& os);
 
+    virtual SMARTP<xml2xmlInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
+
   protected:
 
     // constructors/destructor
@@ -51,10 +49,10 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeXml2xmlInsiderOahHandler (
-                            string executableName,
-                            S_xml2xmlOah2ManPageGenerator
-                                   theOah2ManPageGenerator);
+    void                  createThePrefixes ();
+
+    void                  initializeXml2xmlInsiderOahHandling (
+                            string executableName);
 
   public:
 
@@ -68,7 +66,12 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
     // services
     // ------------------------------------------------------
 
+    void                  createThePrefixesAndInitialize (
+                            string executableName);
+
     void                  checkOptionsAndArguments ();
+
+    void                  checkOptionsConsistency ();
 
   public:
 
@@ -126,6 +129,8 @@ class xml2xmlOah : public oahGroup
 
     // consistency check
     // ------------------------------------------------------
+
+    void                  checkOptionsAndArguments ();
 
     void                  checkOptionsConsistency ();
 

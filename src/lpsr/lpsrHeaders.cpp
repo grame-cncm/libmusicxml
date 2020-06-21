@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+
 #include "lpsrHeaders.h"
 
 #include "setTraceOahIfDesired.h"

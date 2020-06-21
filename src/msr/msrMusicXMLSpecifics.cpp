@@ -14,11 +14,12 @@
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "msrMusicXMLSpecifics.h"
 
 #include "msrOah.h"
-
-#include "messagesHandling.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH

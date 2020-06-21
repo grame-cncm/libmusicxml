@@ -13,6 +13,8 @@
 #include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // for 'setw()'
 
+#include "utilities.h"
+
 #include "bsrMutualDependencies.h"
 
 #include "bsrScores.h"

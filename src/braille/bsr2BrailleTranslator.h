@@ -15,6 +15,11 @@
 
 #include "bsr.h"
 
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
+
 #include "bsrOah.h"
 
 #include "bsrBrailleCodeGenerators.h"
@@ -140,7 +145,7 @@ class bsr2BrailleTranslator :
 
     S_bsrOah              fBsrOah;
 
-    ostream&              fLogOutputStream;
+    ostream&              fLogOutputStream; // unused JMI ???
 
     S_bsrBrailleGenerator fBrailleGenerator;
 };

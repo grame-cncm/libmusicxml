@@ -12,6 +12,9 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "msrSegnosAndCodas.h"
 
 #include "setTraceOahIfDesired.h"
@@ -20,8 +23,6 @@
 #endif
 
 #include "msrOah.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;

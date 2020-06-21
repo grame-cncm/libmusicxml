@@ -749,7 +749,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
       separator <<
       endl <<
       gTab <<
-      passNumber << ": building the xmlelement tree from a buffer" <<
+      passNumber << "building the xmlelement tree from a buffer" <<
       endl <<
       separator <<
       endl;
@@ -781,10 +781,25 @@ Sxmlelement convertMusicXMLToMxmlTree (
   string inputSourceName,
   string passNumber)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    gLogOstream <<
+      "convertMusicXMLToMxmlTree(): " <<
+      "inputSourceName: \"" << inputSourceName << "\"" <<
+      ", passNumber: \"" << passNumber << "\"" <<
+      endl <<
+      separator <<
+      endl;
+  }
+#endif
+
   Sxmlelement mxmlTree;
 
   if (inputSourceName == "-") {
-    // input comes from standard input
+    // MusicXML data comes from standard input
     mxmlTree =
       musicXMLFd2mxmlTree (
         stdin,
@@ -796,7 +811,6 @@ Sxmlelement convertMusicXMLToMxmlTree (
   else {
     // input comes from a file
 
-/* JMI
     // has the input file name a ".mxl" suffix?
     size_t
       posInString =
@@ -814,7 +828,6 @@ Sxmlelement convertMusicXMLToMxmlTree (
         __FILE__, __LINE__,
         s.str ());
     }
-*/
 
     // OK, let's go ahead
     mxmlTree =

@@ -14,6 +14,8 @@
 
 #include <regex>
 
+#include "utilities.h"
+
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
@@ -102,21 +104,21 @@ R"(Don't show errors in the log.)",
         "dontShowErrors",
         fDontShowErrors));
 
-  // do not abort on errors
+  // do not exit on errors
 
-  fDontAbortOnErrors = boolOptionsInitialValue;
+  fDontExitOnErrors = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "daoe", "dont-abort-on-errors",
+        "deoe", "dont-exit-on-errors",
         regex_replace (
-R"(Do not abort execution on errors and go ahead.
+R"(Do not exit execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
           gOahOah->fHandlerExecutableName),
-        "dontAbortOnErrors",
-        fDontAbortOnErrors));
+        "dontExitOnErrors",
+        fDontExitOnErrors));
 
   // display the source code position
 
@@ -214,8 +216,8 @@ S_generalOah generalOah::createCloneWithTrueValues ()
     fQuiet;
   clone->fDontShowErrors =
     fDontShowErrors;
-  clone->fDontAbortOnErrors =
-    fDontAbortOnErrors;
+  clone->fDontExitOnErrors =
+    fDontExitOnErrors;
   clone->fDisplaySourceCodePosition =
     fDisplaySourceCodePosition;
 
@@ -236,7 +238,7 @@ void generalOah::setAllGeneralTraceOah (
 
   fQuiet = boolOptionsInitialValue;
   fDontShowErrors = boolOptionsInitialValue;
-  fDontAbortOnErrors = boolOptionsInitialValue;
+  fDontExitOnErrors = boolOptionsInitialValue;
   fDisplaySourceCodePosition = boolOptionsInitialValue;
 
   // CPU usage
@@ -361,8 +363,8 @@ void generalOah::printGeneralOahValues (int fieldWidth)
     setw (fieldWidth) << "dontShowErrors" << " : " <<
     booleanAsString (fDontShowErrors) <<
     endl <<
-    setw (fieldWidth) << "dontAbortOnErrors" << " : " <<
-    booleanAsString (fDontAbortOnErrors) <<
+    setw (fieldWidth) << "dontExitOnErrors" << " : " <<
+    booleanAsString (fDontExitOnErrors) <<
     endl <<
     setw (fieldWidth) << "displaySourceCodePosition" << " : " <<
     booleanAsString (fDisplaySourceCodePosition) <<

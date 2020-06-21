@@ -14,12 +14,14 @@
 
 #include "messagesHandling.h"
 
-#include "generalOah.h"
-
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
 #endif
+
+#include "generalOah.h"
+
+#include "utilities.h"
 
 #include "bsr2BrailleOah.h"
 
@@ -99,8 +101,6 @@ void convertBsrScoreToBrailleText (
     // open output file if need be
     // ------------------------------------------------------
 
-    ofstream brailleCodeFileOutputStream;
-
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
       if (gTraceOah->fTracePasses) {
@@ -110,9 +110,10 @@ void convertBsrScoreToBrailleText (
       }
 #endif
 
-      brailleCodeFileOutputStream.open (
-        outputFileName.c_str(),
-        ofstream::out);
+      ofstream
+        brailleCodeFileOutputStream (
+          outputFileName.c_str (),
+          ofstream::out);
 
       if (! brailleCodeFileOutputStream.is_open ()) {
         stringstream s;
@@ -138,6 +139,17 @@ void convertBsrScoreToBrailleText (
         gLogOstream,
         brailleCodeFileOutputStream,
         passNumber);
+
+#ifdef TRACE_OAH
+      if (gTraceOah->fTracePasses) {
+        gLogOstream <<
+          endl <<
+          "Closing file '" << outputFileName << "'" <<
+          endl;
+      }
+#endif
+
+      brailleCodeFileOutputStream.close ();
     }
 
     else {
@@ -164,19 +176,6 @@ void convertBsrScoreToBrailleText (
         gLogOstream,
         brailleCodeCoutOutputStream,
         passNumber);
-    }
-
-    if (outputFileNameSize) {
-#ifdef TRACE_OAH
-      if (gTraceOah->fTracePasses) {
-        gLogOstream <<
-          endl <<
-          "Closing file '" << outputFileName << "'" <<
-          endl;
-      }
-#endif
-
-      brailleCodeFileOutputStream.close ();
     }
   }
 

@@ -13,29 +13,8 @@
 #ifndef ___oahDualHandlers___
 #define ___oahDualHandlers___
 
-#include "list"
-#include "vector"
-#include "map"
-#include "set"
+#include "oahBasicTypes.h"
 
-#include "smartpointer.h"
-#include "rational.h"
-
-#include "tree_browser.h"
-#include "visitor.h"
-
-#include "libmusicxml.h"  // for optionsVector
-
-#include "msrMidi.h"
-
-#include "utilities.h"
-
-#include "msrBasicTypes.h"
-#include "lpsrBasicTypes.h"
-
-#include "setTraceOahIfDesired.h"
-
-#include "oahElements.h"
 
 using namespace std;
 
@@ -43,41 +22,30 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-/*
-  The representations and passes have their own option, grouped accordingly.
-  This internal view of the options is rather low-level,
-  and users may prefer one more suited to their tasks.
-
-  A oahDualHandler combines two oahHandlers:
-    - the first provides this internal view of the options groups;
-    - the second one provides the same subgroups in a more 'user, subject-oriented' way.
-*/
-
 class EXP oahDualHandler : public smartable
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum oahDualHandlerKind {
-        kUser,
-        kInternal };
-
-    static string OahHandlerKindAsString ();
-
-  public:
-
     // creation
     // ------------------------------------------------------
-    static SMARTP<oahDualHandler> create ();
+    static SMARTP<oahDualHandler> create (
+      string   dualHandlerName,
+      string   executableName,
+      string   insiderAtomShortName,
+      string   insiderAtomLongName,
+      ostream& os);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahDualHandler ();
+    oahDualHandler (
+      string   dualHandlerName,
+      string   executableName,
+      string   insiderAtomShortName,
+      string   insiderAtomLongName,
+      ostream& os);
 
     virtual ~oahDualHandler ();
 
@@ -86,37 +54,188 @@ class EXP oahDualHandler : public smartable
     // set and get
     // ------------------------------------------------------
 
-    oahDualHandlerKind    getOahHandlerKind () const
-                              { return fOahHandlerKind; }
+//    oahDualHandlerViewKind
+//                          getOahHandlerViewKind () const
+//                              { return fOahHandlerViewKind; }
 
-    const list<S_oahGroup>
-                          getOahHandler () const
-                              { return fOahHandler; }
+    string                getDualHandlerName () const
+                              { return fDualHandlerName; }
 
     // oahHandlers
-    S_oahOahHandler       getInternalOahHandler () const
-                              { return fInternalOahHandler; }
+    void                  setInsiderHandler (
+                            S_oahHandler handler)
+                              { fInsiderHandler = handler; }
 
-    S_oahOahHandler       getUserOahHandler () const
-                              { return fUserOahHandler; }
+    S_oahHandler          getInsiderHandler () const
+                              { return fInsiderHandler; }
+
+    void                  setUserHandler (
+                            S_oahHandler handler)
+                              { fUserHandler = handler; }
+
+    S_oahHandler          getUserHandler () const
+                              { return fUserHandler; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    virtual void          createTheTwoHandlers (
+                            ostream& os);
+
+    void                  switchToInsiderView ();
+
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+                          applyOptionsAndArgumentsFromArgcAndArgv (
+                            int   argc,
+                            char* argv[]);
+
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+                          hangleOptionsFromOptionsVector (
+                            string               fakeExecutableName,
+                            const optionsVector& theOptionsVector);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                commandLineAsSuppliedAsString () const;
+    string                commandLineWithShortNamesAsString () const;
+    string                commandLineWithLongNamesAsString () const;
+
+    string                asString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printHelp (ostream& os) const;
+
+  protected:
+
+    // protected services
+    // ------------------------------------------------------
+
+    virtual void          createInsiderHandler (
+                            ostream& os) = 0;
+
+    virtual void          createUserHandler (
+                            ostream& os) = 0 ;
+
+    virtual void          createUserHandlerGroups (
+                            ostream& os) = 0;
+
+    void                  populateUserHandlerFromInsiderHandler ();
+
+    void                  handleHandlerMapping (S_oahHandler handler);
+    void                  handleSubGroupMapping (S_oahSubGroup subGroup);
+    void                  handleAtomMapping (S_oahAtom atom);
+
+    void                  checkMappingsUse ();
+
+  protected:
+
+    // fields
+    // ------------------------------------------------------
+    string                fDualHandlerName;
+
+    string                fExecutableName;
+
+    // the insider handler provides the options used internally by the translator
+    S_oahHandler          fInsiderHandler;
+
+    // the user handler provides a user view of the options, organized by topics
+    S_oahHandler          fUserHandler;
+
+    // the 'insider' option names
+    string                fInsiderAtomShortName;
+    string                fInsiderAtomLongName;
+
+    // the mappings
+    map<string, S_oahGroup>
+                          fSubGroupNamesToUserGroupsMap;
+    map<string, S_oahSubGroup>
+                          fAtomNamesToUserSubGroupsMap;
+
+    // atoms not present in the 'user' view are put aside
+    S_oahGroup            fPutAsideInUserViewGroup;
+    S_oahSubGroup         fPutAsideInUserViewSubGroup;
+    list<string>          fPutAsideInUserViewAtomNamesList;
+
+  protected:
+
+    // protected work fields
+    // ------------------------------------------------------
+
+    S_oahHandler          fOahHandlerToBeUsed; // according to '-insider'
+};
+typedef SMARTP<oahDualHandler> S_oahDualHandler;
+EXP ostream& operator<< (ostream& os, const S_oahDualHandler& elt);
+
+//______________________________________________________________________________
+class oahDualHandlerInsiderAtom : public oahAtom
+/*
+  This atom name is trapped very early in:
+    oahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv()
+  and:
+    oahDualHandler::hangleOptionsFromOptionsVector()
+
+  It does nothing on its own, it is created only to show
+  that this option exists
+*/
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahDualHandlerInsiderAtom> create (
+      string shortName,
+      string longName,
+      string description);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahDualHandlerInsiderAtom (
+      string shortName,
+      string longName,
+      string description);
+
+    virtual ~oahDualHandlerInsiderAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
 
   public:
 
     // services
     // ------------------------------------------------------
 
-    void                  appendGroupToOahHandler (
-                            S_oahGroup group)
-                              { fOahHandler.push_back (group); }
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
 
-    void                  prependGroupToOahHandler (
-                            S_oahGroup group)
-                              { fOahHandler.push_front (group); }
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
 
   public:
 
     // print
     // ------------------------------------------------------
+
+    virtual string        asString () const;
 
     void                  print (ostream& os) const;
 
@@ -125,14 +244,13 @@ class EXP oahDualHandler : public smartable
     // fields
     // ------------------------------------------------------
 
-    oahDualHandlerKind    fOahHandlerKind;
-
-    S_oahHandler          fInternalOahHandler;
-    S_oahHandler          fUserOahHandler;
-
-    S_oahHandler          fOahHandlerToBeUsed; // according to oahOahHandlerKind
-
+    int                   fInsiderOptionsCounter;
 };
-typedef SMARTP<oahDualHandler> S_oahDualHandler;
-EXP ostream& operator<< (ostream& os, const S_oahDualHandler& elt);
+typedef SMARTP<oahDualHandlerInsiderAtom> S_oahDualHandlerInsiderAtom;
+EXP ostream& operator<< (ostream& os, const S_oahDualHandlerInsiderAtom& elt);
 
+
+}
+
+
+#endif

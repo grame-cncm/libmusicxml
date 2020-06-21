@@ -72,6 +72,10 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+//#define USE_DUAL_HANDLE
+
+#ifdef USE_DUAL_HANDLE
+
   // create the OAH dual handler
   // ------------------------------------------------------
   S_xml2brlOahDualHandler dualHandler;
@@ -88,6 +92,13 @@ int main (int argc, char *argv[])
   catch (std::exception& e) {
     return kInvalidFile;
   }
+
+#ifdef TRACE_OAH
+  if (false && gTraceOah->fTraceOahDetails) { // JMI TESTS
+    dualHandler->
+      print (gOutputOstream);
+  }
+#endif
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
@@ -115,30 +126,10 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
-  string
-    inputSourceName =
-      gOahOah->fInputSourceName;
+  dualHandler->checkOptionsAndArguments ();
 
-  string
-    outputFileName =
-      gXml2brlOah->fBrailleMusicOutputFileName;
+#else
 
-  int
-    outputFileNameSize =
-      outputFileName.size ();
-
-  // has quiet mode been requested?
-  // ------------------------------------------------------
-
-  if (gGeneralOah->fQuiet) {
-    // disable all trace and display options
-    /* JMI
-    handler->
-      enforceOahHandlerQuietness ();
-      */
-  }
-
-/* JMI
   // create the options handler
   // ------------------------------------------------------
 
@@ -183,6 +174,8 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
+#endif
+
   string
     inputSourceName =
       gOahOah->fInputSourceName;
@@ -195,15 +188,31 @@ int main (int argc, char *argv[])
     outputFileNameSize =
       outputFileName.size ();
 
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    gLogOstream <<
+      "main(): " <<
+      "inputSourceName: \"" << inputSourceName << "\"" <<
+      ", outputFileName: \"" << outputFileName << "\"" <<
+      endl <<
+      separator <<
+      endl;
+  }
+#endif
+
   // has quiet mode been requested?
   // ------------------------------------------------------
 
   if (gGeneralOah->fQuiet) {
     // disable all trace and display options
+    /* JMI
     handler->
       enforceOahHandlerQuietness ();
+      */
   }
-*/
 
   // welcome message
   // ------------------------------------------------------
@@ -253,11 +262,21 @@ int main (int argc, char *argv[])
 
     gIndenter++;
 
+#ifdef USE_DUAL_HANDLE
+
     gLogOstream <<
-//      handler->
       dualHandler->
         commandLineWithShortNamesAsString () <<
       endl;
+
+#else
+
+    gLogOstream <<
+      handler->
+        commandLineWithShortNamesAsString () <<
+      endl;
+
+#endif
 
     gIndenter--;
     gLogOstream <<
@@ -265,12 +284,23 @@ int main (int argc, char *argv[])
       endl;
     gIndenter++;
 
+#ifdef USE_DUAL_HANDLE
+
     gLogOstream <<
-//      handler->
       dualHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;
+
+#else
+
+    gLogOstream <<
+      handler->
+        commandLineWithLongNamesAsString () <<
+      endl <<
+      endl;
+
+#endif
 
     gIndenter--;
   }

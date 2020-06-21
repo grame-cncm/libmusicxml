@@ -2144,7 +2144,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 
   string softwareValue = elt->getValue ();
 
-  // convert clef to upper case for analysis
+  // convert clef to lower case for analysis
   string softwareValueToLower = softwareValue;
 
   transform (

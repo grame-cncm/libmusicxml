@@ -14,6 +14,9 @@
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "msrScaling.h"
 
 #include "generalOah.h"
@@ -25,8 +28,6 @@
 
 #include "msrOah.h"
 #include "lpsrOah.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;

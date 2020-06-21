@@ -123,7 +123,7 @@ class generalOah : public oahGroup
 
     bool                  fQuiet;
     bool                  fDontShowErrors;
-    bool                  fDontAbortOnErrors;
+    bool                  fDontExitOnErrors;
     bool                  fDisplaySourceCodePosition;
 
     // CPU usage

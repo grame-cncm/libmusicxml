@@ -10,6 +10,9 @@
   research@grame.fr
 */
 
+#include "version.h"
+#include "utilities.h"
+
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
@@ -18,8 +21,6 @@
 #include "oahOah.h"
 
 #include "xml2xmlOahTypes.h"
-
-#include "version.h"
 
 
 using namespace std;

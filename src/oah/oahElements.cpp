@@ -12,14 +12,15 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
   #include "traceOah.h"
 #endif
 
 #include "oahOah.h"
-
-#include "messagesHandling.h"
 
 #include "oahElements.h"
 
@@ -235,6 +236,46 @@ S_oahValuedAtom oahElement::handleOptionUnderName (
 
   // no option value is needed
   return nullptr;
+}
+
+S_oahElement oahElement::aPropos (string theString)
+{
+  // return this element if its names or description contain theString,
+  // and nullptr otherwise
+
+  S_oahElement result;
+
+  // convert theString to lower case for comparison
+  string theStringToLower = theString;
+
+  transform (
+    theStringToLower.begin (),
+    theStringToLower.end (),
+    theStringToLower.begin (),
+    ::tolower);
+
+  // fShortName and fLongName are always in lower case
+
+  // convert fDescription to lower case for comparison
+  string descriptionToLower = fDescription;
+
+  transform (
+    descriptionToLower.begin (),
+    descriptionToLower.end (),
+    descriptionToLower.begin (),
+    ::tolower);
+
+  if (
+    fShortName.find (theStringToLower) != string::npos
+      &&
+    fLongName.find (theStringToLower) != string::npos
+      &&
+    descriptionToLower.find (theStringToLower) != string::npos
+  ) {
+    result = this;
+  }
+
+  return result;
 }
 
 void oahElement::acceptIn (basevisitor* v)

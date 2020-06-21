@@ -13,6 +13,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "utilities.h"
+
 #include "msrBeams.h"
 
 #include "setTraceOahIfDesired.h"

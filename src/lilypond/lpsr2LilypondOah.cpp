@@ -2626,20 +2626,6 @@ is omitted for code conciseness.)",
         "allDurations",
         fAllDurations));
 
-  // stems
-  // --------------------------------------
-
-  fStems = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "stems", "",
-R"(Generate \stemUp and \stemDown LilyPond commands.
-By default, LilyPond will take care of that by itself.)",
-        "stems",
-        fStems));
-
   // beaming
   // --------------------------------------
 
@@ -3599,7 +3585,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahMidiTempoAtom::create (
-        "mtempo", "midi-tempo",
+        "midtempo", "midi-tempo",
         regex_replace (
           regex_replace (
 R"(Generate a '\tempo' command in the \midi block.
@@ -3819,9 +3805,6 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
 
   clone->fAllDurations =
     fAllDurations;
-
-  clone->fStems =
-    fStems;
 
   clone->fNoAutoBeaming =
     fNoAutoBeaming;
@@ -4303,10 +4286,6 @@ void lpsr2LilypondOah::printAtomOptionsValues (
   os << left <<
     setw (valueFieldWidth) << "allDurations" << " : " <<
       booleanAsString (fAllDurations) <<
-      endl <<
-
-    setw (valueFieldWidth) << "stems" << " : " <<
-      booleanAsString (fStems) <<
       endl <<
 
     setw (valueFieldWidth) << "noAutoBeaming" << " : " <<
@@ -4863,10 +4842,6 @@ void lpsr2LilypondOah::printLpsr2LilypondOahValues (int fieldWidth)
 
     setw (fieldWidth) << "allDurations" << " : " <<
       booleanAsString (fAllDurations) <<
-      endl <<
-
-    setw (fieldWidth) << "stems" << " : " <<
-      booleanAsString (fStems) <<
       endl <<
 
     setw (fieldWidth) << "noAutoBeaming" << " : " <<

@@ -777,7 +777,6 @@ class lpsr2LilypondTranslator :
 
     void                  generateNoteHeadColor (S_msrNote note);
     void                  generateNoteLigatures (S_msrNote note);
-    void                  generateNoteStem (S_msrNote note);
     void                  generateNoteHead (S_msrNote note);
 
     void                  generateSegno (S_msrSegno segno);
@@ -786,6 +785,16 @@ class lpsr2LilypondTranslator :
     void                  generateCodeRightBeforeNote (S_msrNote note);
     void                  generateCodeForNote (S_msrNote note);
     void                  generateCodeRightAfterNote (S_msrNote note);
+
+    // stems
+
+    // stems
+    msrStem::msrStemKind  fCurrentStemKind;
+
+    string                stemAsLilypondString (
+                            msrStem::msrStemKind stemKind);
+
+    void                  generateNoteStemIfNeeded (S_msrStem stem);
 
     // articulations
 
@@ -977,9 +986,6 @@ class lpsr2LilypondTranslator :
     // notes
     // ------------------------------------------------------
     bool                  fOnGoingNote;
-
-    // stems
-    msrStem::msrStemKind  fCurrentStemKind;
 
     // double tremolos
     // ------------------------------------------------------

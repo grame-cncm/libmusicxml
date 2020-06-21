@@ -10120,6 +10120,24 @@ void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
   }
 #endif
 
+/*
+<!--
+	Stems can be down, up, none, or double. For down and up
+	stems, the position attributes can be used to specify
+	stem length. The relative values specify the end of the
+	stem relative to the program default. Default values
+	specify an absolute end stem position. Negative values of
+	relative-y that would flip a stem instead of shortening
+	it are ignored. A stem element associated with a rest
+	refers to a stemlet.
+-->
+<!ELEMENT stem (#PCDATA)>
+<!ATTLIST stem
+    %position;
+    %color;
+>
+*/
+
   string        stem = elt->getValue();
 
   // kind

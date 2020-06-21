@@ -28,6 +28,7 @@
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
 #include "msr2LpsrOah.h"
+#include "lpsrOah.h"
 #include "lpsr2LilypondOah.h"
 
 

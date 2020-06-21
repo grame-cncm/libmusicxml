@@ -17,6 +17,11 @@
 
 #include "bsrBasicTypes.h"
 
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
+
 #include "oahBasicTypes.h"
 
 namespace MusicXML2

@@ -14,28 +14,21 @@
 #define ___oahBasicTypes___
 
 #include "list"
-#include "vector"
 #include "map"
+#include "vector"
 #include "set"
 
 #include "smartpointer.h"
 #include "rational.h"
-
-#include "tree_browser.h"
 #include "visitor.h"
+
+#include "msrBasicTypes.h"
+#include "msrMidi.h"
+
+#include "oahElements.h"
 
 #include "libmusicxml.h"  // for optionsVector
 
-#include "msrMidi.h"
-
-#include "utilities.h"
-
-#include "msrBasicTypes.h"
-#include "lpsrBasicTypes.h"
-
-#include "setTraceOahIfDesired.h"
-
-#include "oahElements.h"
 
 using namespace std;
 
@@ -3046,9 +3039,11 @@ class EXP oahHandler : public oahElement
 
   public:
 
+/* pure virtual class
     // creation
     // ------------------------------------------------------
     static SMARTP<oahHandler> create (
+      string   executableName,
       string   handlerHeader,
       string   handlerValuesHeader,
       string   handlerShortName,
@@ -3059,8 +3054,9 @@ class EXP oahHandler : public oahElement
       string   handlerUsage,
       string   handlerDescription,
       ostream& handlerLogOstream);
+*/
 
-    SMARTP<oahHandler> createHandlerNewbornCloneWithoutGroups ();
+// JMI    virtual SMARTP<oahHandler> createHandlerNewbornCloneWithoutGroups ();
 
   protected:
 
@@ -3068,6 +3064,7 @@ class EXP oahHandler : public oahElement
     // ------------------------------------------------------
 
     oahHandler (
+      string   executableName,
       string   handlerHeader,
       string   handlerValuesHeader,
       string   handlerShortName,
@@ -3145,7 +3142,7 @@ class EXP oahHandler : public oahElement
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency ();
+    virtual void          checkOptionsConsistency () = 0;
 
   public:
 
@@ -3180,6 +3177,8 @@ class EXP oahHandler : public oahElement
                           hangleOptionsFromOptionsVector (
                             string               fakeExecutableName,
                             const optionsVector& theOptionsVector);
+
+    virtual void          checkOptionsAndArguments () = 0;
 
     void                  printKnownPrefixes (ostream& os) const;
     void                  printKnownSingleCharacterOptions (ostream& os) const;
@@ -3307,14 +3306,14 @@ class EXP oahHandler : public oahElement
                             string atomName,
                             string context);
 
-    virtual void          checkOptionsAndArguments ();
-
     void                  checkHandlerGroupsOptionsConsistency ();
 
   protected:
 
     // protected fields
     // ------------------------------------------------------
+
+    string                fExecutableName;
 
     // command line
     string                fCommandLineAsSupplied;
@@ -3407,220 +3406,6 @@ class EXP oahHandler : public oahElement
 };
 typedef SMARTP<oahHandler> S_oahHandler;
 EXP ostream& operator<< (ostream& os, const S_oahHandler& elt);
-
-//_______________________________________________________________________________
-class EXP oahDualHandler : public smartable
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-    static SMARTP<oahDualHandler> create (
-      string   executableName,
-      string   insiderAtomShortName,
-      string   insiderAtomLongName,
-      ostream& os);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    oahDualHandler (
-      string   executableName,
-      string   insiderAtomShortName,
-      string   insiderAtomLongName,
-      ostream& os);
-
-    virtual ~oahDualHandler ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-//    oahDualHandlerViewKind
-//                          getOahHandlerViewKind () const
-//                              { return fOahHandlerViewKind; }
-
-    // oahHandlers
-    S_oahHandler          getInsiderHandler () const
-                              { return fInsiderHandler; }
-
-    S_oahHandler          getUserOahHandler () const
-                              { return fUserOahHandler; }
-
-  public:
-
-    // public services
-    // ------------------------------------------------------
-
-    virtual void          initializaOahDualHandler (
-                            ostream& os);
-
-    void                  switchToInsiderView ();
-
-    oahHandler::oahHelpOptionsHaveBeenUsedKind
-                          applyOptionsAndArgumentsFromArgcAndArgv (
-                            int   argc,
-                            char* argv[]);
-
-    oahHandler::oahHelpOptionsHaveBeenUsedKind
-                          hangleOptionsFromOptionsVector (
-                            string               fakeExecutableName,
-                            const optionsVector& theOptionsVector);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                commandLineAsSuppliedAsString () const;
-    string                commandLineWithShortNamesAsString () const;
-    string                commandLineWithLongNamesAsString () const;
-
-    string                asString () const;
-
-    void                  print (ostream& os) const;
-
-    void                  printHelp (ostream& os) const;
-
-  protected:
-
-    // protected services
-    // ------------------------------------------------------
-
-    virtual void          createInsiderHandler (
-                            ostream& os) = 0;
-
-    virtual void          createUserHandler (
-                            ostream& os) = 0 ;
-
-    virtual void          createUserHandlerGroups (
-                            ostream& os) = 0;
-
-    void                  populateUserHandlerFromInsiderHandler ();
-
-    void                  handleHandlerMapping (S_oahHandler handler);
-    void                  handleSubGroupMapping (S_oahSubGroup subGroup);
-    void                  handleAtomMapping (S_oahAtom atom);
-
-    void                  checkMappingsUse ();
-
-  protected:
-
-    // fields
-    // ------------------------------------------------------
-
-    string                fExecutableName;
-
-    // the insider handler provides the options used internally by the translator
-    S_oahHandler          fInsiderHandler;
-
-    // the user handler provides a user view of the options, organized by topics
-    S_oahHandler          fUserOahHandler;
-
-    // the 'insider' option names
-    string                fInsiderAtomShortName;
-    string                fInsiderAtomLongName;
-
-    // the mappings
-    map<string, S_oahGroup>
-                          fSubGroupNamesToUserGroupsMap;
-    map<string, S_oahSubGroup>
-                          fAtomNamesToUserSubGroupsMap;
-
-    // atoms not present in the 'user' view are put aside
-    S_oahGroup            fPutAsideInUserViewGroup;
-    S_oahSubGroup         fPutAsideInUserViewSubGroup;
-    list<string>          fPutAsideInUserViewAtomNamesList;
-
-  private:
-
-    // work fields
-    // ------------------------------------------------------
-
-    S_oahHandler          fOahHandlerToBeUsed; // according to '-insider'
-};
-typedef SMARTP<oahDualHandler> S_oahDualHandler;
-EXP ostream& operator<< (ostream& os, const S_oahDualHandler& elt);
-
-//______________________________________________________________________________
-class oahDualHandlerInsiderAtom : public oahAtom
-/*
-  This atom name is trapped very early in:
-    oahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv()
-  and:
-    oahDualHandler::hangleOptionsFromOptionsVector()
-
-  It does nothing on its own, it is created only to show
-  that this option exists
-*/
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<oahDualHandlerInsiderAtom> create (
-      string shortName,
-      string longName,
-      string description);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    oahDualHandlerInsiderAtom (
-      string shortName,
-      string longName,
-      string description);
-
-    virtual ~oahDualHandlerInsiderAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual string        asString () const;
-
-    void                  print (ostream& os) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    int                   fInsiderOptionsCounter;
-};
-typedef SMARTP<oahDualHandlerInsiderAtom> S_oahDualHandlerInsiderAtom;
-EXP ostream& operator<< (ostream& os, const S_oahDualHandlerInsiderAtom& elt);
 
 
 }

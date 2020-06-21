@@ -14,6 +14,8 @@
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+
 #include "msrDivisions.h"
 
 #include "generalOah.h"

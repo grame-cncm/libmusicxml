@@ -1315,227 +1315,50 @@ void lpsr2LilypondTranslator::generateNoteLigatures (
   }
 }
 
-void lpsr2LilypondTranslator::generateNoteStem (
-  S_msrNote note)
+string lpsr2LilypondTranslator::stemAsLilypondString (
+  msrStem::msrStemKind stemKind)
 {
-  S_msrStem
-    noteStem =
-      note->getNoteStem ();
+  string result;
 
-  if (noteStem) {
-    msrStem::msrStemKind noteStemKind;
+  switch (stemKind) {
+    case msrStem::kStemNone:
+      result = "\\stemNeutral ";
+      break;
+    case msrStem::kStemUp:
+      result = "\\stemUp ";
+      break;
+    case msrStem::kStemDown:
+      result = "\\stemDown ";
+      break;
+    case msrStem::kStemDouble: // JMI ???
+      break;
+  } // switch
 
-    if (noteStem) {
-      noteStemKind = noteStem->getStemKind ();
+  return result;
+}
+
+void lpsr2LilypondTranslator::generateNoteStemIfNeeded (
+  S_msrStem stem)
+{
+  // the LilyPond \stem* commands have a persistent effect,
+  // hence the use of fCurrentStemKind
+
+  if (stem) {
+    msrStem::msrStemKind
+      stemKind =
+        stem->getStemKind ();
+
+    // should a stem direction command be generated?
+    if (stemKind != fCurrentStemKind) {
+      fLilypondCodeOstream <<
+        stemAsLilypondString (stemKind);
+
+      fCurrentStemKind = stemKind;
     }
-    else {
-      noteStemKind = msrStem::kStemNone;
-    }
+  }
 
-    // handle note stem before printing note itself
-    switch (note->getNoteKind ()) {
-
-      case msrNote::k_NoNoteKind:
-        break;
-
-      case msrNote::kRestNote:
-        break;
-
-      case msrNote::kSkipNote:
-        break;
-
-      case msrNote::kUnpitchedNote:
-        {
-          // is this note in a tab staff?
-          S_msrStaff
-            noteStaff =
-              note->
-                getNoteMeasureUpLink ()->
-                  getMeasureSegmentUpLink ()->
-                    getSegmentVoiceUpLink ()->
-                      getVoiceStaffUpLink ();
-
-          switch (noteStaff->getStaffKind ()) {
-            case msrStaff::kStaffTablature:
-              break;
-            case msrStaff::kStaffHarmony:
-              break;
-            case msrStaff::kStaffFiguredBass:
-              break;
-            case msrStaff::kStaffDrum:
-              break;
-            case msrStaff::kStaffRythmic: // JMI
-              // should the stem be omitted?
-              if (note->getNoteIsStemless ()) {
-                fLilypondCodeOstream <<
-                  endl <<
-                  "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
-
-                fCurrentStemKind = msrStem::kStemNone;
-              }
-
-              // should stem direction be generated?
-              if (noteStemKind != fCurrentStemKind) {
-                switch (noteStemKind) {
-                  case msrStem::kStemNone:
-                    fLilypondCodeOstream << "\\stemNeutral ";
-                    break;
-                  case msrStem::kStemUp:
-                    fLilypondCodeOstream << "\\stemUp ";
-                    break;
-                  case msrStem::kStemDown:
-                    fLilypondCodeOstream << "\\stemDown ";
-                    break;
-                  case msrStem::kStemDouble: // JMI ???
-                    break;
-                } // switch
-
-                fCurrentStemKind = noteStemKind;
-              }
-              break;
-
-            case msrStaff::kStaffRegular:
-              // should the stem be omitted?
-              if (note->getNoteIsStemless ()) {
-                fLilypondCodeOstream <<
-                  endl <<
-                  "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
-
-                fCurrentStemKind = msrStem::kStemNone;
-              }
-
-              // should stem direction be generated?
-              if (gLpsr2LilypondOah->fStems) {
-                if (noteStemKind != fCurrentStemKind) {
-                  switch (noteStemKind) {
-                    case msrStem::kStemNone:
-                      fLilypondCodeOstream << "\\stemNeutral ";
-                      break;
-                    case msrStem::kStemUp:
-                      fLilypondCodeOstream << "\\stemUp ";
-                      break;
-                    case msrStem::kStemDown:
-                      fLilypondCodeOstream << "\\stemDown ";
-                      break;
-                    case msrStem::kStemDouble: // JMI ???
-                      break;
-                  } // switch
-
-                  fCurrentStemKind = noteStemKind;
-                }
-              }
-              break;
-          } // switch
-        }
-        break;
-
-      case msrNote::kRegularNote:
-        {
-          // is this note in a tab staff?
-          S_msrStaff
-            noteStaff =
-              note->
-                getNoteMeasureUpLink ()->
-                  getMeasureSegmentUpLink ()->
-                    getSegmentVoiceUpLink ()->
-                      getVoiceStaffUpLink ();
-
-          switch (noteStaff->getStaffKind ()) {
-            case msrStaff::kStaffTablature:
-              break;
-            case msrStaff::kStaffHarmony:
-              break;
-            case msrStaff::kStaffFiguredBass:
-              break;
-            case msrStaff::kStaffDrum:
-              break;
-            case msrStaff::kStaffRythmic:
-              break;
-
-            case msrStaff::kStaffRegular:
-              // should the stem be omitted?
-              if (note->getNoteIsStemless ()) {
-                fLilypondCodeOstream <<
-                  endl <<
-                  "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
-
-                fCurrentStemKind = msrStem::kStemNone;
-              }
-
-              // should stem direction be generated?
-              if (gLpsr2LilypondOah->fStems) {
-                if (noteStemKind != fCurrentStemKind) {
-                  switch (noteStemKind) {
-                    case msrStem::kStemNone:
-                      fLilypondCodeOstream << "\\stemNeutral ";
-                      break;
-                    case msrStem::kStemUp:
-                      fLilypondCodeOstream << "\\stemUp ";
-                      break;
-                    case msrStem::kStemDown:
-                      fLilypondCodeOstream << "\\stemDown ";
-                      break;
-                    case msrStem::kStemDouble: // JMI ???
-                      break;
-                  } // switch
-
-                  fCurrentStemKind = noteStemKind;
-                }
-              }
-              break;
-          } // switch
-        }
-        break;
-
-      case msrNote::kDoubleTremoloMemberNote:
-        {
-          // should the stem be omitted?
-          if (note->getNoteIsStemless ()) {
-            fLilypondCodeOstream <<
-              endl <<
-              "\\stemNeutral"; // JMI ""\\once\\omit Stem ";
-          }
-
-          // should stem direction be generated?
-          if (gLpsr2LilypondOah->fStems) {
-            if (noteStemKind != fCurrentStemKind) {
-              switch (noteStemKind) {
-                case msrStem::kStemNone:
-                  fLilypondCodeOstream << "\\stemNeutral ";
-                  break;
-                case msrStem::kStemUp:
-                  fLilypondCodeOstream << "\\stemUp ";
-                  break;
-                case msrStem::kStemDown:
-                  fLilypondCodeOstream << "\\stemDown ";
-                  break;
-                  /* JMI
-                case msrStem::kStemNone:
-                  break;
-                  */
-                case msrStem::kStemDouble: // JMI ???
-                  break;
-              } // switch
-
-              fCurrentStemKind = noteStemKind;
-            }
-          }
-        }
-        break;
-
-      case msrNote::kGraceNote:
-      case msrNote::kGraceChordMemberNote:
-        break;
-
-      case msrNote::kChordMemberNote:
-       // don't omit stems for chord member note JMI
-       break;
-
-      case msrNote::kTupletMemberNote:
-      case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletMemberUnpitchedNote:
-        break;
-    } // switch
+  else {
+//    msrStem::msrStemKind noteStemKind = msrStem::kStemNone;  // JMI
   }
 }
 
@@ -1706,13 +1529,13 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
     generateNoteLigatures (note);
   }
 
-  // print note stem kind
-  S_msrStem
-    noteStem =
-      note->getNoteStem ();
+  // print note stem kind if needed
+  if (! fOnGoingChord) {
+    S_msrStem
+      noteStem =
+        note->getNoteStem ();
 
-  if (noteStem) {
-    generateNoteStem (note);
+    generateNoteStemIfNeeded (noteStem);
   }
 
   // handling note head
@@ -14115,7 +13938,7 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
    } // for
   }
 
-  // should stem direction be generated?
+  // should a stem direction command be generated?
   const list<S_msrStem>&
     chordStems =
       chord->getChordStems ();
@@ -14125,21 +13948,10 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
       iBegin = chordStems.begin ();
 
     // only the first stem is used, since they all have the same kind
-    S_msrStem stem = (*iBegin);
+    S_msrStem firstChordStem = (*iBegin);
 
-    switch (stem->getStemKind ()) {
-      case msrStem::kStemNone:
-        fLilypondCodeOstream << "\\stemNeutral ";
-        break;
-      case msrStem::kStemUp:
-        fLilypondCodeOstream << "\\stemUp ";
-        break;
-      case msrStem::kStemDown:
-        fLilypondCodeOstream << "\\stemDown ";
-        break;
-      case msrStem::kStemDouble: // JMI ???
-        break;
-    } // switch
+    generateNoteStemIfNeeded (firstChordStem);
+
     fLilypondCodeOstream <<
       ' ';
   }
@@ -16602,31 +16414,3 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidiTempo& elt)
 
 
 } // namespace
-
-
-        /* dotted-note: JMI
-  \relative {
-  \override Staff.TimeSignature.stencil = #(lambda (grob)
-                                             (grob-interpret-markup grob #{
-                                               \markup\override #'(baseline-skip . 0.5) {
-                                                 \column { \number 2 \tiny\note #"4." #-1 }
-                                                 \vcenter "="
-                                                 \column { \number 6 \tiny\note #"8" #-1 }
-                                                 \vcenter "="
-                                                 \column\number { 6 8 }
-                                               }
-                                               #}))
-                                               *
-     * ou plus simle
-     * #(define-public (format-time-sig-note grob)
-  (let* ((frac (ly:grob-property grob 'fraction))
-  (num (if (pair? frac) (car frac) 4))
-  (den (if (pair? frac) (cdr frac) 4))
-  (m (markup #:override '(baseline-skip . 0.5)
-  #:center-column (#:number (number->string num)
-  #'" "
-  #:override '(style . default)
-  #:note (number->string den) DOWN))))
-  (grob-interpret-markup grob m)))
-
-         */

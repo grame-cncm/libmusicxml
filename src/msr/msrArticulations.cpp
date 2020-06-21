@@ -13,6 +13,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "utilities.h"
+
 #include "msrArticulations.h"
 
 #include "msrOah.h"

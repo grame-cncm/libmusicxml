@@ -17,8 +17,7 @@
 
 #include "oahBasicTypes.h"
 
-
-//#include "msrBasicTypes.h"
+#include "lpsrBasicTypes.h"
 
 
 namespace MusicXML2

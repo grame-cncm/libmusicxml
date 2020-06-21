@@ -160,6 +160,8 @@ class oahElement : public smartable
                             string   optionName,
                             ostream& os);
 
+    S_oahElement          aPropos (string theString);
+
   public:
 
     // visitors

@@ -17,6 +17,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+
 #include "generalOah.h"
 
 #include "messagesHandling.h"

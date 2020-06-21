@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+
 #include "bsrMutualDependencies.h"
 
 #include "bsrOah.h"

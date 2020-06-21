@@ -12,6 +12,8 @@
 
 #include "lpsrBarNumbers.h"
 
+#include "utilities.h"
+
 #include "lpsrOah.h"
 
 

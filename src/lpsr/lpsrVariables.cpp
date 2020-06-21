@@ -10,6 +10,8 @@
   research@grame.fr
 */
 
+#include "utilities.h"
+
 #include "lpsrVariables.h"
 
 #include "lpsrOah.h"

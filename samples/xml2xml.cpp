@@ -77,6 +77,10 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+//#define USE_DUAL_HANDLE
+
+#ifdef USE_DUAL_HANDLE
+
   // create the OAH dual handler
   // ------------------------------------------------------
   S_xml2xmlOahDualHandler dualHandler;
@@ -93,6 +97,13 @@ int main (int argc, char *argv[])
   catch (std::exception& e) {
     return kInvalidFile;
   }
+
+#ifdef TRACE_OAH
+  if (false && gTraceOah->fTraceOahDetails) { // JMI TESTS
+    dualHandler->
+      print (gOutputOstream);
+  }
+#endif
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
@@ -120,6 +131,56 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
+  dualHandler->checkOptionsAndArguments ();
+
+#else
+
+  // create the options handler
+  // ------------------------------------------------------
+
+  S_xml2xmlInsiderOahHandler handler;
+
+  try {
+    handler =
+      xml2xmlInsiderOahHandler::create (
+        argv [0],
+        gOutputOstream);
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  // analyze the command line options and arguments
+  // ------------------------------------------------------
+
+  try {
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+      helpOptionsHaveBeenUsedKind =
+        handler->
+          applyOptionsAndArgumentsFromArgcAndArgv (
+            argc, argv);
+
+    switch (helpOptionsHaveBeenUsedKind) {
+      case oahHandler::kHelpOptionsHaveBeenUsedYes:
+        return kNoErr;
+        break;
+      case oahHandler::kHelpOptionsHaveBeenUsedNo:
+        // let's go ahead!
+        break;
+    } // switch
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+#endif
+
   string
     inputSourceName =
       gOahOah->fInputSourceName;
@@ -131,6 +192,21 @@ int main (int argc, char *argv[])
   int
     outputFileNameSize =
       outputFileName.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    gLogOstream <<
+      "main(): " <<
+      "inputSourceName: \"" << inputSourceName << "\"" <<
+      ", outputFileName: \"" << outputFileName << "\"" <<
+      endl <<
+      separator <<
+      endl;
+  }
+#endif
 
   // has quiet mode been requested?
   // ------------------------------------------------------
@@ -191,10 +267,21 @@ int main (int argc, char *argv[])
 
     gIndenter++;
 
+#ifdef USE_DUAL_HANDLE
+
     gLogOstream <<
       dualHandler->
         commandLineWithShortNamesAsString () <<
       endl;
+
+#else
+
+    gLogOstream <<
+      handler->
+        commandLineWithShortNamesAsString () <<
+      endl;
+
+#endif
 
     gIndenter--;
     gLogOstream <<
@@ -202,11 +289,23 @@ int main (int argc, char *argv[])
       endl;
     gIndenter++;
 
+#ifdef USE_DUAL_HANDLE
+
     gLogOstream <<
       dualHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;
+
+#else
+
+    gLogOstream <<
+      handler->
+        commandLineWithLongNamesAsString () <<
+      endl <<
+      endl;
+
+#endif
 
     gIndenter--;
   }

@@ -32,7 +32,8 @@
 #include "msr2LpsrOah.h"
 #include "lpsrOah.h"
 
-#include "xml2lyInsiderOah.h"
+#include "xml2lyInsiderOah.h" // JMI
+#include "xml2lyOahDualHandler.h"
 
 #include "msr.h"
 
@@ -70,6 +71,61 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
   string fakeExecutableName = "xml2ly";
 
+  // create the OAH dual handler
+  // ------------------------------------------------------
+  S_xml2lyOahDualHandler dualHandler;
+
+{
+  try {
+    dualHandler =
+      xml2lyOahDualHandler::create (
+        fakeExecutableName,
+        gOutputOstream);
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahDetails) { // JMI TESTS
+    dualHandler->
+      print (gOutputOstream);
+  }
+#endif
+
+  // analyze the options vector
+  // ------------------------------------------------------
+
+  try {
+    oahHandler::oahHelpOptionsHaveBeenUsedKind
+      helpOptionsHaveBeenUsedKind =
+        dualHandler->
+          hangleOptionsFromOptionsVector (
+            fakeExecutableName,
+            options);
+
+    switch (helpOptionsHaveBeenUsedKind) {
+      case oahHandler::kHelpOptionsHaveBeenUsedYes:
+        return kNoErr;
+        break;
+      case oahHandler::kHelpOptionsHaveBeenUsedNo:
+        // let's go ahead!
+        break;
+    } // switch
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+}
+
+/*
+{
   // create the options handler
   // ------------------------------------------------------
 
@@ -105,6 +161,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   catch (std::exception& e) {
     return kInvalidFile;
   }
+}
+*/
 
 	if (xmlfile) {
     // has quiet mode been requested?
@@ -112,8 +170,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
     if (gGeneralOah->fQuiet) {
       // disable all trace and display options
-      handler->
-        enforceOahHandlerQuietness ();
+      dualHandler-> // JMI TESTS
+        enforceOahDualHandlerQuietness ();
     }
 
     // get the mxmlTree

@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+
 #include "lpsrScheme.h"
 
 #include "lpsrVarValAssocs.h"

@@ -15,7 +15,10 @@
 
 #include "lpsrBasicTypes.h"
 
-#include "oahBasicTypes.h"
+#include "setTraceOahIfDesired.h"
+#ifdef TRACE_OAH
+  #include "traceOah.h"
+#endif
 
 
 namespace MusicXML2

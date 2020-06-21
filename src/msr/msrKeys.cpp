@@ -13,6 +13,9 @@
 #include <iostream>
 #include <sstream>
 
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "msrKeys.h"
 
 #include "setTraceOahIfDesired.h"
@@ -21,8 +24,6 @@
 #endif
 
 #include "msrOah.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;

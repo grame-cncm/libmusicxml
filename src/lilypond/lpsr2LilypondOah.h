@@ -13,6 +13,8 @@
 #ifndef ___lpsr2lilypondOah___
 #define ___lpsr2lilypondOah___
 
+#include "lpsrBasicTypes.h"
+
 #include "oahBasicTypes.h"
 
 
@@ -979,8 +981,6 @@ class lpsr2LilypondOah : public oahGroup
 
 
     bool                  fAllDurations;
-
-    bool                  fStems;
 
     bool                  fNoAutoBeaming;
     bool                  fNoBeams;

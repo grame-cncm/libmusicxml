@@ -659,7 +659,7 @@ R"()",
 
   // BSR visitors
 
-  fTraceBsrVisitors     = boolOptionsInitialValue;
+  fTraceBsrVisitors = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (

@@ -12,6 +12,9 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "bsrMutualDependencies.h"
 
 #include "oahOah.h"
@@ -25,8 +28,6 @@
 #include "bsrOah.h"
 #include "msr2BsrOah.h"
 #include "brailleOah.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;

@@ -34,7 +34,7 @@ void msrAssert (
 
     gLogOstream <<
       "#### msrAssert failure: " << messageIfFalse <<
-      ", aborting." <<
+      ", exiting." <<
       endl;
 
     gIndenter.setIndent (saveIndent);
@@ -189,7 +189,7 @@ void msrMusicXMLError (
     message);
 
   if (! gGeneralOah->fDontShowErrors) {
-    if (! gGeneralOah->fDontAbortOnErrors) { // JMI
+    if (! gGeneralOah->fDontExitOnErrors) { // JMI
       throw msrMusicXMLException (message);
     }
     else {

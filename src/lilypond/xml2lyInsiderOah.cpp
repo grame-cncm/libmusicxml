@@ -33,9 +33,10 @@
 
 #include "version.h"
 
-#include "xml2lyManPageOah.h"
+#include "xml2lyOahTypes.h"
 
 #include "xml2lyInsiderOah.h"
+
 
 using namespace std;
 
@@ -47,11 +48,15 @@ S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::create (
   string   executableName,
   ostream& os)
 {
+  // create the insider handler
   xml2lyInsiderOahHandler* o = new
     xml2lyInsiderOahHandler (
       executableName,
       os);
   assert(o!=0);
+
+  o->createThePrefixesAndInitialize (executableName);
+
   return o;
 }
 
@@ -59,6 +64,7 @@ xml2lyInsiderOahHandler::xml2lyInsiderOahHandler (
   string   executableName,
   ostream& os)
   : oahHandler (
+      executableName,
       executableName + " insider OAH handler",
       executableName + " options values",
       "h", "help",
@@ -75,6 +81,59 @@ R"(
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
     os)
+{}
+
+xml2lyInsiderOahHandler::~xml2lyInsiderOahHandler ()
+{}
+
+S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::createHandlerNewbornCloneWithoutGroups ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "Creating a newborn clone of xml2lyInsiderOahHandler" <<
+      endl;
+  }
+#endif
+
+  S_xml2lyInsiderOahHandler
+    newbornClone =
+      xml2lyInsiderOahHandler::create (
+        fExecutableName,
+        fHandlerLogOstream);
+
+  newbornClone->fHandlerHeader =
+    fHandlerHeader + "_clone";
+
+  newbornClone->fShortName =
+    fShortName + "_clone";
+  newbornClone->fLongName =
+    fLongName + "_clone";
+
+  newbornClone->fHandlerPrefixesMap =
+    fHandlerPrefixesMap;
+
+//  newbornClone->fHandlerElementsMap = // JMI TESTS
+//    fHandlerElementsMap;
+
+//  newbornClone->fSingleCharacterShortNamesSet =
+//    fSingleCharacterShortNamesSet;
+
+  return newbornClone;
+}
+
+void xml2lyInsiderOahHandler::createThePrefixesAndInitialize (
+  string executableName)
+{
+  // create the prefixes
+  createThePrefixes ();
+
+  // initialize the insider OAH handling only now, since it may use prefixes
+  initializeXml2lyInsiderOahHandling (
+    executableName);
+}
+
+void xml2lyInsiderOahHandler::createThePrefixes ()
 {
   // create and append the help options prefixes
   S_oahPrefix
@@ -127,6 +186,7 @@ Option '-h, -help' prints the full help,
         "'-o=abc,wxyz' is equivalent to '-oabc, -owxyz'");
   appendPrefixToHandler (oPrefix);
 
+/* JMI
   // create an xml2lyOah2ManPageGenerator
   S_xml2lyOah2ManPageGenerator
     generator =
@@ -134,20 +194,16 @@ Option '-h, -help' prints the full help,
         this,
         gLogOstream,
         gOutputOstream);
-
-  // initialize the handler only now, since it may use prefixes
-  initializeXml2lyInsiderOahHandler (
-    executableName,
-    generator);
+        */
 }
 
-xml2lyInsiderOahHandler::~xml2lyInsiderOahHandler ()
-{}
-
-void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandler (
-  string executableName,
+void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
+  string executableName)
+/* JMI
+  ,
   S_xml2lyOah2ManPageGenerator
          theOah2ManPageGenerator)
+         */
 {
   /*
     The order of the initializations below determines
@@ -208,9 +264,11 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandler (
     this);
 #endif
 
+/* JMI
   initializeXml2lyManPageOahHandling (
     this,
     theOah2ManPageGenerator);
+*/
 
   initializeXml2lyOah (
     this);
@@ -254,11 +312,22 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandler (
 
 void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gOutputOstream <<
+      "xml2lyInsiderOahHandler::checkOptionsAndArguments() " <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
   unsigned int argumentsNumber =
     fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+//  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (true) { // JMI TESTS
     if (argumentsNumber > 0) {
       fHandlerLogOstream <<
         singularOrPluralWithoutNumber (
@@ -322,7 +391,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
     default:
       fHandlerLogOstream <<
         endl <<
-        "Several input file name supplied, only the first one, \"" <<
+        "Several input file names supplied, only the first one, \"" <<
         fHandlerArgumentsVector [0] <<
         "\", will be translated" <<
         endl <<
@@ -408,6 +477,9 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
     }
   }
 }
+
+void xml2lyInsiderOahHandler::checkOptionsConsistency ()
+{}
 
 //______________________________________________________________________________
 void xml2lyInsiderOahHandler::enforceOahHandlerQuietness ()
@@ -615,7 +687,7 @@ void xml2lyOah::initializeXml2lyOah ()
 {
   // insider
   // --------------------------------------
-
+/* JMI
   {
     S_oahSubGroup
       subGroup =
@@ -637,8 +709,10 @@ such a slurs, tuplets and figured bass.
 This option switches the options and help view to 'insider',
 in which the options are grouped as they are used by the various
 internal representations and translation passes.
-This unleashes the full set of display and trace options.)"));
+This unleashes the full set of display and trace options.
+This option should be the first one.)"));
   }
+*/
 
   // version
   // --------------------------------------
@@ -783,8 +857,10 @@ or adding '.ly' if none is present.)",
   This is equivalent to using xml2xml)",
           "loopBackToMusicXML",
           fLoopBackToMusicXML);
+    // make this atom imvisible
     loopOptionsBooleanAtom->
-      setIsHidden ();
+      setElementVisibilityKind (
+        kElementVisibilityNone);
 
     subGroup->
       appendAtomToSubGroup (

@@ -13,6 +13,7 @@
 #ifndef ___xml2lyOahDualHandlers___
 #define ___xml2lyOahDualHandlers___
 
+/*
 #include "list"
 #include "vector"
 #include "map"
@@ -34,23 +35,15 @@
 #include "lpsrBasicTypes.h"
 
 #include "setTraceOahIfDesired.h"
+*/
 
-#include "oahElements.h"
+#include "oahDualHandlers.h"
+
 
 using namespace std;
 
 namespace MusicXML2
 {
-/*
-//_______________________________________________________________________________
-// data types
-enum oahDualHandlerViewKind {
-  kViewInsider,
-  kViewUser };
-
-static string oahDualHandlerViewKindAsString (
-  oahDualHandlerViewKind dualHandlerViewKind);
-*/
 //_______________________________________________________________________________
 class EXP xml2lyOahDualHandler : public oahDualHandler
 {
@@ -82,6 +75,10 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
 
     // public services
     // ------------------------------------------------------
+
+    void                  checkOptionsAndArguments ();
+
+    void                  enforceOahDualHandlerQuietness ();
 
   public:
 
@@ -180,7 +177,10 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     void                  createLigaturesUserGroup (
                             ostream& os);
 
-    void                  createDynamicsAndWedgesUserGroup (
+    void                  createDynamicsUserGroup (
+                            ostream& os);
+
+    void                  createWedgesUserGroup (
                             ostream& os);
 
     void                  createTupletsUserGroup (
@@ -226,6 +226,10 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     // work fields
     // ------------------------------------------------------
 
+    S_xml2lyInsiderOahHandler
+                          fXml2lyInsiderHandler;
+    S_xml2lyInsiderOahHandler
+                          fXml2lyUserHandler;
 };
 typedef SMARTP<xml2lyOahDualHandler> S_xml2lyOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOahDualHandler& elt);

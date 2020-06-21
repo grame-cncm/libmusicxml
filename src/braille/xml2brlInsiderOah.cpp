@@ -33,9 +33,10 @@
 
 #include "version.h"
 
-#include "xml2brlManPageOah.h"
+#include "xml2brlOahTypes.h"
 
 #include "xml2brlInsiderOah.h"
+
 
 using namespace std;
 
@@ -52,6 +53,9 @@ S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::create (
       executableName,
       os);
   assert(o!=0);
+
+  o->createThePrefixesAndInitialize (executableName);
+
   return o;
 }
 
@@ -59,6 +63,7 @@ xml2brlInsiderOahHandler::xml2brlInsiderOahHandler (
   string   executableName,
   ostream& os)
   : oahHandler (
+      executableName,
       executableName + "  insider OAH handler",
       executableName + " options values",
       "h", "help",
@@ -77,6 +82,53 @@ Options can be written with '-' or '--' at will,
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
     os)
+{}
+
+xml2brlInsiderOahHandler::~xml2brlInsiderOahHandler ()
+{}
+
+S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::createHandlerNewbornCloneWithoutGroups ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "Creating a newborn clone of xml2brlInsiderOahHandler" <<
+      endl;
+  }
+#endif
+
+  S_xml2brlInsiderOahHandler
+    newbornClone =
+      xml2brlInsiderOahHandler::create (
+        fExecutableName,
+        fHandlerLogOstream);
+
+  newbornClone->fHandlerHeader =
+    fHandlerHeader + "_clone";
+
+  newbornClone->fShortName =
+    fShortName + "_clone";
+  newbornClone->fLongName =
+    fLongName + "_clone";
+
+  newbornClone->fHandlerPrefixesMap =
+    fHandlerPrefixesMap;
+
+  return newbornClone;
+}
+
+void xml2brlInsiderOahHandler::createThePrefixesAndInitialize (
+  string executableName)
+{
+  // create the prefixes
+  createThePrefixes ();
+
+  // initialize the insider OAH handling only now, since it may use prefixes
+  initializeXml2brlInsiderOahHandling (
+    executableName);
+}
+
+void xml2brlInsiderOahHandler::createThePrefixes ()
 {
   // append the help options prefixes
   S_oahPrefix
@@ -111,28 +163,10 @@ Option '-h, -help' prints the full help,
         "t",
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
   appendPrefixToHandler (tPrefix);
-
-  // create an xml2lyOah2ManPageGenerator
-  S_xml2brlOah2ManPageGenerator
-    generator =
-      xml2brlOah2ManPageGenerator::create (
-        this,
-        gLogOstream,
-        gOutputOstream);
-
-  // initialize the handler only now, since it may use prefixes
-  initializeXml2brlInsiderOahHandler (
-    executableName,
-    generator);
 }
 
-xml2brlInsiderOahHandler::~xml2brlInsiderOahHandler ()
-{}
-
-void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandler (
-  string executableName,
-  S_xml2brlOah2ManPageGenerator
-         theOah2ManPageGenerator)
+void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
+  string executableName)
 {
   /*
     The order of the initializations below determines
@@ -192,10 +226,6 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandler (
   initializeExtraOahHandling (
     this);
 #endif
-
-  initializeXml2brlManPageOahHandling (
-    this,
-    theOah2ManPageGenerator);
 
   initializeXml2brlOah (
     this);
@@ -448,6 +478,9 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
 }
 
 //______________________________________________________________________________
+void xml2brlInsiderOahHandler::checkOptionsConsistency ()
+{}
+
 void xml2brlInsiderOahHandler::enforceOahHandlerQuietness ()
 {
 #ifdef TRACE_OAH

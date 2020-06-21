@@ -14,11 +14,12 @@
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "msrLigatures.h"
 
 #include "msrOah.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;

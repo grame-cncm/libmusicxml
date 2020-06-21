@@ -14,6 +14,8 @@
 #include <sstream>
 #include <climits>      // INT_MIN, INT_MAX
 
+#include "utilities.h"
+
 #include "msrElements.h"
 
 #include "msrOah.h"

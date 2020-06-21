@@ -10,6 +10,8 @@
   research@grame.fr
 */
 
+#include "utilities.h"
+
 #include "lpsrComments.h"
 
 #ifdef TRACE_OAH

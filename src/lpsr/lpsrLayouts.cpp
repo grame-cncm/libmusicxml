@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include "utilities.h"
+
 #include "lpsrLayouts.h"
 
 #include "lpsrScheme.h"
