@@ -29,9 +29,10 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
 
     static SMARTP<xml2brlInsiderOahHandler> create (
       string   executableName,
+      string   handlerHeader,
       ostream& os);
 
-    virtual SMARTP<xml2brlInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
+    SMARTP<xml2brlInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
 
   protected:
 
@@ -40,6 +41,7 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
 
     xml2brlInsiderOahHandler (
       string   executableName,
+      string   handlerHeader,
       ostream& os);
 
     virtual ~xml2brlInsiderOahHandler ();

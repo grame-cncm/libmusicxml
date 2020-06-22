@@ -144,6 +144,7 @@ int main (int argc, char *argv[])
     handler =
       xml2xmlInsiderOahHandler::create (
         argv [0],
+        "xml2xml",
         gOutputOstream);
   }
   catch (msrOahException& e) {

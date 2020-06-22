@@ -145,6 +145,7 @@ int main (int argc, char *argv[])
     handler =
       xml2lyInsiderOahHandler::create (
         argv [0],
+        "xml2ly",
         gOutputOstream);
   }
   catch (msrOahException& e) {

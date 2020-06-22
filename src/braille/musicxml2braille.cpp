@@ -73,6 +73,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     handler =
       xml2brlInsiderOahHandler::create (
         fakeExecutableName,
+        "xml2brl",
         out);
 
   // analyze the coptions vector

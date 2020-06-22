@@ -9287,7 +9287,6 @@ ostream& operator<< (ostream& os, const S_oahGroup& elt)
 }
 
 //______________________________________________________________________________
-/* pure virtual class
 S_oahHandler oahHandler::create (
   string   executableName,
   string   handlerHeader,
@@ -9303,6 +9302,7 @@ S_oahHandler oahHandler::create (
 {
   oahHandler* o = new
     oahHandler (
+      executableName,
       handlerHeader,
       handlerValuesHeader,
       handlerShortName,
@@ -9316,7 +9316,6 @@ S_oahHandler oahHandler::create (
   assert(o!=0);
   return o;
 }
-*/
 
 oahHandler::oahHandler (
   string   executableName,
@@ -9367,10 +9366,9 @@ void oahHandler::initializeHandler ()
 #ifdef TRACE_OAH
   if (true) { // JMI
     gLogOstream <<
-      "Initializing \"" <<
-      fExecutableName <<
-      "\" OAH handler \"" <<
-      fHandlerHeader << "\"" <<
+      "Initializing OAH handler " <<
+      "\"" << fHandlerHeader << "\"" <<
+      " for \"" << fExecutableName << "\"" <<
       endl;
   }
 #endif
@@ -9398,44 +9396,6 @@ void oahHandler::initializeHandler ()
   // initialize the optional values style kind
   fHandlerOptionalValuesStyleKind = kOptionalValuesStyleGNU; // default value
 }
-
-/* JMI
-S_oahHandler oahHandler::createHandlerNewbornCloneWithoutGroups ()
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "Creating a newborn clone of OAH handler \"" << fHandlerHeader << "\"" <<
-      endl;
-  }
-#endif
-
-  S_oahHandler
-    newbornClone =
-      oahHandler::create (
-        fHandlerHeader + " clone",
-        fHandlerValuesHeader,
-        fShortName,
-        fLongName,
-        fHandlerSummaryShortName,
-        fHandlerSummaryLongName,
-        fHandlerPreamble,
-        fHandlerUsage,
-        fDescription,
-        fHandlerLogOstream);
-
-  newbornClone->fHandlerPrefixesMap =
-    fHandlerPrefixesMap;
-
-//  newbornClone->fHandlerElementsMap = // JMI TESTS
-//    fHandlerElementsMap;
-
-//  newbornClone->fSingleCharacterShortNamesSet =
-//    fSingleCharacterShortNamesSet;
-
-  return newbornClone;
-}
-*/
 
 oahHandler::~oahHandler ()
 {}
@@ -9714,7 +9674,6 @@ void oahHandler::registerElementInHandler (
   }
 }
 
-/* pure virtual class
 void oahHandler::checkOptionsAndArguments ()
 {
 #ifdef TRACE_OAH
@@ -9734,7 +9693,6 @@ void oahHandler::checkOptionsAndArguments ()
 
 void oahHandler::checkOptionsConsistency ()
 {}
-*/
 
 void oahHandler::checkHandlerGroupsOptionsConsistency ()
 {
@@ -10365,7 +10323,7 @@ void oahHandler::appendPrefixToHandler (
     s <<
       "option prefix name '" << prefixName <<
       "' is already known";
-
+abort();
     oahError (s.str ());
   }
 
@@ -11274,7 +11232,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
 #endif
 
   bool saveTraceOah = gTraceOah->fTraceOah;
-  gTraceOah->fTraceOah = true; // JMI, TESTS
+//  gTraceOah->fTraceOah = true; // JMI, TESTS
 
   // fetch program name
   fHandlerExecutableName = string (argv [0]);
@@ -11371,7 +11329,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
 
 #ifdef TRACE_OAH
   // display arc and argv only now, to wait for the options to have been handled
-  if (gTraceOah->fTraceOah || gOahOah->fShowOptionsAndArguments) {
+  if (gOahOah->fShowOptionsAndArguments) {
     gOutputOstream <<
       "argc: " << argc <<
       endl <<

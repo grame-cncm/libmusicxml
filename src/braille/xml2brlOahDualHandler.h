@@ -13,30 +13,6 @@
 #ifndef ___xml2brlOahDualHandlers___
 #define ___xml2brlOahDualHandlers___
 
-/*
-#include "list"
-#include "vector"
-#include "map"
-#include "set"
-
-#include "smartpointer.h"
-#include "rational.h"
-
-#include "tree_browser.h"
-#include "visitor.h"
-
-#include "libmusicxml.h"  // for optionsVector
-
-#include "msrMidi.h"
-
-#include "utilities.h"
-
-#include "msrBasicTypes.h"
-#include "lpsrBasicTypes.h"
-
-#include "setTraceOahIfDesired.h"
-*/
-
 #include "oahDualHandlers.h"
 
 
@@ -101,10 +77,7 @@ class EXP xml2brlOahDualHandler : public oahDualHandler
     // ------------------------------------------------------
 
     // handlers creation
-    void                  createInsiderHandler (
-                            ostream& os);
-
-    void                  createUserHandler (
+    void                  createTheTwoHandlers (
                             ostream& os);
 
     // user handler groups creation
@@ -202,10 +175,12 @@ class EXP xml2brlOahDualHandler : public oahDualHandler
     // work fields
     // ------------------------------------------------------
 
+    // it would be way too cumbersome for oahDualHandler to be a template class,
+    // so we double its two variable here
     S_xml2brlInsiderOahHandler
-                          fXml2brlInsiderOahHandler;
+                          fXml2brlInsiderHandler;
     S_xml2brlInsiderOahHandler
-                          fXml2brlUserOahHandler;
+                          fXml2brlUserHandler;
 };
 typedef SMARTP<xml2brlOahDualHandler> S_xml2brlOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOahDualHandler& elt);

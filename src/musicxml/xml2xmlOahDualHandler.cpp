@@ -58,6 +58,9 @@ S_xml2xmlOahDualHandler xml2xmlOahDualHandler::create (
       executableName,
       os);
   assert(o!=0);
+
+  o->createTheTwoHandlers (os);
+
   return o;
 }
 
@@ -75,25 +78,49 @@ xml2xmlOahDualHandler::xml2xmlOahDualHandler (
 xml2xmlOahDualHandler::~xml2xmlOahDualHandler ()
 {}
 
-void xml2xmlOahDualHandler::createInsiderHandler (
+void xml2xmlOahDualHandler::createTheTwoHandlers (
   ostream& os)
 {
-// JMI os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
+#ifdef TRACE_OAH
+  if (true) { // JMI
+    gLogOstream <<
+      "Creating the two OAH handlers for \"" << fDualHandlerName << "\"" <<
+      endl;
+  }
+#endif
 
-  fXml2xmlInsiderOahHandler =
+  // create the 'insider' handler
+// JMI  os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
+  fXml2xmlInsiderHandler =
     xml2xmlInsiderOahHandler::create (
       fExecutableName,
+      fDualHandlerName,
       os);
-}
 
-void xml2xmlOahDualHandler::createUserHandler (
-  ostream& os)
-{
-// JMI os << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
+  // propagate it into the base class
+  setInsiderHandler (fXml2xmlInsiderHandler);
 
-  fXml2xmlUserOahHandler =
-    fXml2xmlInsiderOahHandler->
+  // create the 'user' handler
+// JMI  os << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
+  fXml2xmlUserHandler =
+    fXml2xmlInsiderHandler->
       createHandlerNewbornCloneWithoutGroups ();
+
+  // propagate it into the base class
+  setUserHandler (fXml2xmlUserHandler);
+
+  // create the user handler groups
+  createUserHandlerGroups (os);
+
+  // populate the user handler from the insider handler
+  populateUserHandlerFromInsiderHandler ();
+
+  // the default is to use the 'user' oahHandler
+if (true) { // JMI TESTS
+  fOahHandlerToBeUsed = fUserHandler;
+} else {
+  fOahHandlerToBeUsed = fInsiderHandler;
+}
 }
 
 void xml2xmlOahDualHandler::createUserHandlerGroups (

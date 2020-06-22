@@ -29,9 +29,10 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
 
     static SMARTP<xml2xmlInsiderOahHandler> create (
       string   executableName,
+      string   handlerHeader,
       ostream& os);
 
-    virtual SMARTP<xml2xmlInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
+    SMARTP<xml2xmlInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
 
   protected:
 
@@ -40,6 +41,7 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
 
     xml2xmlInsiderOahHandler (
       string   executableName,
+      string   handlerHeader,
       ostream& os);
 
     virtual ~xml2xmlInsiderOahHandler ();
@@ -171,6 +173,7 @@ class xml2xmlOah : public oahGroup
     // --------------------------------------
 
     string                fMusicXMLOutputFileName;
+    bool                  fAutoOutputFileName;
 
     // exit after some passes
     // --------------------------------------

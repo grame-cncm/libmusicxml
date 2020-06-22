@@ -29,9 +29,10 @@ class EXP xml2lyInsiderOahHandler : public oahHandler
 
     static SMARTP<xml2lyInsiderOahHandler> create (
       string   executableName,
+      string   handlerHeader,
       ostream& os);
 
-    virtual SMARTP<xml2lyInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
+    SMARTP<xml2lyInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
 
   protected:
 
@@ -40,6 +41,7 @@ class EXP xml2lyInsiderOahHandler : public oahHandler
 
     xml2lyInsiderOahHandler (
       string   executableName,
+      string   handlerHeader,
       ostream& os);
 
     virtual ~xml2lyInsiderOahHandler ();
@@ -66,7 +68,7 @@ class EXP xml2lyInsiderOahHandler : public oahHandler
     // services
     // ------------------------------------------------------
 
-    void                  createThePrefixesAndInitialize (
+    void                  createThePrefixesAndInitializeOahHandling (
                             string executableName);
 
     void                  checkOptionsAndArguments ();

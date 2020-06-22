@@ -194,9 +194,6 @@ void msrNote::initializeNote ()
   // note context
   // ------------------------------------------------------
 
-  fNoteStaffNumber = 0;
-  fNoteVoiceNumber = 0;
-
   fNoteBelongsToAChord = false;
   fNoteBelongsToATuplet = false;
   fNoteOccupiesAFullMeasure = false;
@@ -356,17 +353,6 @@ void msrNote::initializeNote ()
 
       left <<
         setw (fieldWidth) <<
-        "fStaffNumber" << " = " <<
-        fNoteStaffNumber <<
-        endl <<
-      left <<
-        setw (fieldWidth) <<
-        "fNoteVoiceNumber" << " = " <<
-        fNoteVoiceNumber <<
-        endl <<
-
-      left <<
-        setw (fieldWidth) <<
         "fNoteBelongsToAChord" << " = " <<
          booleanAsString (fNoteBelongsToAChord) <<
         endl <<
@@ -514,16 +500,6 @@ S_msrNote msrNote::createNoteNewbornClone (
 
   newbornClone->fNoteCautionaryAccidentalKind =
     fNoteCautionaryAccidentalKind;
-
-  // staff and voice context
-  // ------------------------------------------------------
-
-  newbornClone->
-    fNoteStaffNumber =
-      fNoteStaffNumber;
-  newbornClone->
-    fNoteVoiceNumber =
-      fNoteVoiceNumber;
 
   // chord member?
   // ------------------------------------------------------
@@ -745,16 +721,6 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   noteDeepCopy->fNoteCautionaryAccidentalKind =
     fNoteCautionaryAccidentalKind;
-
-  // staff and voice context
-  // ------------------------------------------------------
-
-  noteDeepCopy->
-    fNoteStaffNumber =
-      fNoteStaffNumber;
-  noteDeepCopy->
-    fNoteVoiceNumber =
-      fNoteVoiceNumber;
 
   // chord member?
   // ------------------------------------------------------

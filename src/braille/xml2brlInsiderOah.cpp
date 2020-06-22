@@ -46,11 +46,13 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::create (
   string   executableName,
+  string   handlerHeader,
   ostream& os)
 {
   xml2brlInsiderOahHandler* o = new
     xml2brlInsiderOahHandler (
       executableName,
+      handlerHeader,
       os);
   assert(o!=0);
 
@@ -61,10 +63,11 @@ S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::create (
 
 xml2brlInsiderOahHandler::xml2brlInsiderOahHandler (
   string   executableName,
+  string   handlerHeader,
   ostream& os)
   : oahHandler (
       executableName,
-      executableName + "  insider OAH handler",
+      handlerHeader,
       executableName + " options values",
       "h", "help",
       "hs", "helpSummary",
@@ -101,10 +104,8 @@ S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::createHandlerNewbornCloneWi
     newbornClone =
       xml2brlInsiderOahHandler::create (
         fExecutableName,
+        fHandlerHeader + "_clone",
         fHandlerLogOstream);
-
-  newbornClone->fHandlerHeader =
-    fHandlerHeader + "_clone";
 
   newbornClone->fShortName =
     fShortName + "_clone";

@@ -140,6 +140,7 @@ class EXP oahDualHandler : public smartable
     // protected services
     // ------------------------------------------------------
 
+/*
     virtual void          createInsiderHandler (
                             ostream& os) = 0;
 
@@ -148,10 +149,10 @@ class EXP oahDualHandler : public smartable
 
     virtual void          createUserHandlerGroups (
                             ostream& os) = 0;
+*/
 
     void                  populateUserHandlerFromInsiderHandler ();
 
-    void                  handleHandlerMapping (S_oahHandler handler);
     void                  handleSubGroupMapping (S_oahSubGroup subGroup);
     void                  handleAtomMapping (S_oahAtom atom);
 
@@ -166,9 +167,8 @@ class EXP oahDualHandler : public smartable
     string                fExecutableName;
 
     // the insider handler provides the options used internally by the translator
-    S_oahHandler          fInsiderHandler;
-
     // the user handler provides a user view of the options, organized by topics
+    S_oahHandler          fInsiderHandler;
     S_oahHandler          fUserHandler;
 
     // the 'insider' option names

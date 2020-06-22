@@ -79,6 +79,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     handler =
       xml2xmlInsiderOahHandler::create (
         fakeExecutableName,
+        "xml2xml",
         out);
 
   // analyze the coptions vector

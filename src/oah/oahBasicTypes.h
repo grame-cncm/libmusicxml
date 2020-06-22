@@ -3039,7 +3039,6 @@ class EXP oahHandler : public oahElement
 
   public:
 
-/* pure virtual class
     // creation
     // ------------------------------------------------------
     static SMARTP<oahHandler> create (
@@ -3054,9 +3053,6 @@ class EXP oahHandler : public oahElement
       string   handlerUsage,
       string   handlerDescription,
       ostream& handlerLogOstream);
-*/
-
-// JMI    virtual SMARTP<oahHandler> createHandlerNewbornCloneWithoutGroups ();
 
   protected:
 
@@ -3142,7 +3138,7 @@ class EXP oahHandler : public oahElement
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () = 0;
+    virtual void          checkOptionsConsistency ();
 
   public:
 
@@ -3178,7 +3174,7 @@ class EXP oahHandler : public oahElement
                             string               fakeExecutableName,
                             const optionsVector& theOptionsVector);
 
-    virtual void          checkOptionsAndArguments () = 0;
+    virtual void          checkOptionsAndArguments ();
 
     void                  printKnownPrefixes (ostream& os) const;
     void                  printKnownSingleCharacterOptions (ostream& os) const;

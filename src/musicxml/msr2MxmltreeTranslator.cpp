@@ -4613,10 +4613,180 @@ void msr2MxmltreeTranslator:: appendNoteDynamics (S_msrNote note)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator:: appendABackupToMeasure (S_msrNote note)
+{
+  int inputLineNumber =
+     note->getInputLineNumber ();
+
+  // fetch the backup duration divisions
+  rational
+    backupDuration =
+      fPreviousMSRNote->getMeasureElementPositionInMeasure ()
+        +
+      fPreviousMSRNote->getNoteSoundingWholeNotes ()
+        -
+      fPreviousMSRNote->getMeasureElementPositionInMeasure ();
+
+  int
+    backupDurationDivisions =
+      wholeNotesAsDivisions (
+        inputLineNumber,
+        backupDuration);
+
+#ifdef TRACE_OAH
+  if (gMusicxmlOah->fTraceBackup) {
+    fLogOutputStream <<
+      "Creating a backup element, note = " <<
+      note->asShortString () <<
+      ", backupDurationDivisions: " << backupDurationDivisions <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    S_msrVoice
+      noteVoice =
+        note->fetchNoteVoice ();
+
+    int
+      noteStaffNumber =
+        note->fetchNoteStaff ()->getStaffNumber (),
+      previousMSRNoteStaffNumber =
+        fPreviousMSRNoteStaff->getStaffNumber ();
+
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Backup" <<
+      ", backupDurationDivisions: " << backupDurationDivisions <<
+      ", from staff: " << previousMSRNoteStaffNumber <<
+      ", to staff: " << noteStaffNumber <<
+      ", line " << inputLineNumber <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
+
+    // append it to the current measure element
+    appendOtherToMeasure (comment);
+  }
+
+  // create a backup element
+  Sxmlelement backupElement = createElement (k_backup, "");
+
+  // append a duration sub-element to it
+  backupElement->push (
+    createIntegerElement (k_duration, backupDurationDivisions));
+
+  // append it to the current measure element
+  appendOtherToMeasure (backupElement);
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator:: appendAForwardToMeasure (S_msrNote note)
+{
+  int inputLineNumber =
+     note->getInputLineNumber ();
+
+  /*
+    <forward>
+      <duration>16</duration>
+      <voice>1</voice>
+      <staff>1</staff>
+    </forward>
+  */
+
+  // fetch the forward duration divisions
+  int
+    forwardDurationDivisions =
+      wholeNotesAsDivisions (
+        inputLineNumber,
+        fCumulatedSkipDurations);
+
+#ifdef TRACE_OAH
+  if (gMusicxmlOah->fTraceForward) {
+    fLogOutputStream <<
+      "Creating a forward element, note = " <<
+      note->asShortString () <<
+      ", forwardDurationDivisions: " << forwardDurationDivisions <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  int
+    noteStaffNumber =
+      note->fetchNoteStaff ()->getStaffNumber (),
+    noteVoiceNumber =
+      note->fetchNoteVoice ()->getVoiceNumber ();
+
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    int
+      previousMSRNoteStaffNumber =
+        fPreviousMSRNoteStaff->getStaffNumber (),
+      previousMSRNoteVoiceNumber =
+        fPreviousMSRNoteVoice->getVoiceNumber ();
+
+    // create a forward comment
+    S_msrVoice
+      noteVoice =
+        note->fetchNoteVoice ();
+
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Forward" <<
+      ", forwardDurationDivisions: " << forwardDurationDivisions <<
+      ", in staff: " << previousMSRNoteStaffNumber <<
+      ", in voice: " << previousMSRNoteVoiceNumber <<
+      ", line " << inputLineNumber <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
+
+    // append it to the current measure element
+    appendOtherToMeasure (comment);
+  }
+
+  // create a forward element
+  Sxmlelement forwardElement = createElement (k_forward, "");
+
+  // append a duration sub-element to it
+  forwardElement->push (
+    createIntegerElement (k_duration, forwardDurationDivisions));
+
+  // append a voice sub-element to it
+  forwardElement->push (
+    createIntegerElement (k_voice, noteVoiceNumber));
+
+  // append a staff sub-element to it
+  forwardElement->push (
+    createIntegerElement (k_staff, noteStaffNumber));
+
+  // append it to the current measure element
+  appendOtherToMeasure (forwardElement);
+
+  // reset the cumulated skip durations
+  fCumulatedSkipDurations = rational (0, 1);
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
 {
   int inputLineNumber =
      note->getInputLineNumber ();
+
+  int
+    noteStaffNumber =
+      note->fetchNoteStaff ()->getStaffNumber (),
+    noteVoiceNumber =
+      note->fetchNoteVoice ()->getVoiceNumber (),
+    previousMSRNoteStaffNumber =
+      fPreviousMSRNoteStaff
+        ? fPreviousMSRNoteStaff->getStaffNumber ()
+        : 0,
+    previousMSRNoteVoiceNumber =
+      fPreviousMSRNoteVoice
+        ? fPreviousMSRNoteVoice->getVoiceNumber ()
+        : 0;
 
 #ifdef TRACE_OAH
   if (gMusicxmlOah->fTraceBackup || gMusicxmlOah->fTraceForward) {
@@ -4624,6 +4794,10 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
       "--> appendABackupOrForwardIfNeeded, note = " <<
       note->asShortString () <<
       ", fCumulatedSkipDurations: " << fCumulatedSkipDurations <<
+      ", noteStaffNumber: " << noteStaffNumber <<
+      ", noteVoiceNumber: " << noteVoiceNumber <<
+      ", previousMSRNoteStaffNumber: " << previousMSRNoteStaffNumber <<
+      ", previousMSRNoteVoiceNumber: " << previousMSRNoteVoiceNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -4637,155 +4811,26 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
 */
 
   if (fPreviousMSRNote) {
-    int
-      noteStaffNumber =
-        note->fetchNoteStaff ()->getStaffNumber (),
-      noteVoiceNumber =
-        note->fetchNoteVoice ()->getVoiceNumber (),
-      previousMSRNoteStaffNumber =
-        fPreviousMSRNoteStaff->getStaffNumber (),
-      previousMSRNoteVoiceNumber =
-        fPreviousMSRNoteVoice->getVoiceNumber ();
-
     if (noteStaffNumber == previousMSRNoteStaffNumber) {
       if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
         // same staff, same voice
 
         // is a <forward /> element needed?
         if (fCumulatedSkipDurations.getNumerator () != 0) {
-          /*
-            <forward>
-              <duration>16</duration>
-              <voice>1</voice>
-              <staff>1</staff>
-            </forward>
-          */
-
-          // fetch the forward duration divisions
-          int
-            forwardDurationDivisions =
-              wholeNotesAsDivisions (
-                inputLineNumber,
-                fCumulatedSkipDurations);
-
-#ifdef TRACE_OAH
-          if (gMusicxmlOah->fTraceForward) {
-            fLogOutputStream <<
-              "Creating a forward element, note = " <<
-              note->asShortString () <<
-              ", forwardDurationDivisions: " << forwardDurationDivisions <<
-              ", line " << inputLineNumber <<
-              endl;
-          }
-#endif
-
-          if (gMsr2MxmltreeOah->fMusicXMLComments) {
-            // create a forward comment
-            S_msrVoice
-              noteVoice =
-                note->fetchNoteVoice ();
-
-            stringstream s;
-            s <<
-              " ===== " <<
-              "Forward" <<
-              ", forwardDurationDivisions: " << forwardDurationDivisions <<
-              ", in staff: " << previousMSRNoteStaffNumber <<
-              ", in voice: " << previousMSRNoteVoiceNumber <<
-              ", line " << inputLineNumber <<
-              " ===== ";
-            Sxmlelement comment = createElement (kComment, s.str ());
-
-            // append it to the current measure element
-            appendOtherToMeasure (comment);
-          }
-
-          // create a forward element
-          Sxmlelement forwardElement = createElement (k_forward, "");
-
-          // append a duration sub-element to it
-          forwardElement->push (
-            createIntegerElement (k_duration, forwardDurationDivisions));
-
-          // append a voice sub-element to it
-          forwardElement->push (
-            createIntegerElement (k_voice, noteVoiceNumber));
-
-          // append a staff sub-element to it
-          forwardElement->push (
-            createIntegerElement (k_staff, noteStaffNumber));
-
-          // append it to the current measure element
-          appendOtherToMeasure (forwardElement);
-
-          // reset the cumulated skip durations
-          fCumulatedSkipDurations = rational (0, 1);
+          appendAForwardToMeasure (note);
         }
       }
 
       else {
         // same staff, different voice
-
-        // fetch the backup duration divisions
-        rational
-          backupDuration =
-            fPreviousMSRNote->getMeasureElementPositionInMeasure ()
-              +
-            fPreviousMSRNote->getNoteSoundingWholeNotes ()
-              -
-            fPreviousMSRNote->getMeasureElementPositionInMeasure ();
-
-        int
-          backupDurationDivisions =
-            wholeNotesAsDivisions (
-              inputLineNumber,
-              backupDuration);
-
-#ifdef TRACE_OAH
-          if (gMusicxmlOah->fTraceBackup) {
-            fLogOutputStream <<
-              "Creating a backup element, note = " <<
-              note->asShortString () <<
-              ", backupDurationDivisions: " << backupDurationDivisions <<
-              ", line " << inputLineNumber <<
-              endl;
-          }
-#endif
-
-        if (gMsr2MxmltreeOah->fMusicXMLComments) {
-          S_msrVoice
-            noteVoice =
-              note->fetchNoteVoice ();
-
-          stringstream s;
-          s <<
-            " ===== " <<
-            "Backup" <<
-            ", backupDurationDivisions: " << backupDurationDivisions <<
-            ", from staff: " << previousMSRNoteStaffNumber <<
-            ", to staff: " << noteStaffNumber <<
-            ", line " << inputLineNumber <<
-            " ===== ";
-          Sxmlelement comment = createElement (kComment, s.str ());
-
-          // append it to the current measure element
-          appendOtherToMeasure (comment);
-        }
-
-        // create a backup element
-        Sxmlelement backupElement = createElement (k_backup, "");
-
-        // append a duration sub-element to it
-        backupElement->push (
-          createIntegerElement (k_duration, backupDurationDivisions));
-
-        // append it to the current measure element
-        appendOtherToMeasure (backupElement);
+        appendABackupToMeasure (note);
       }
     }
 
     else {
       // there is a staff change
+      appendABackupToMeasure (note);
+
       if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
         // JMI
       }
@@ -5936,6 +5981,115 @@ void msr2MxmltreeTranslator::appendBeamsToNote (S_msrNote note)
 }
 
 //________________________________________________________________________
+void msr2MxmltreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendStaffToNoteIfRelevant(), note = " <<
+      note->asShortString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // fetch the note staff
+  S_msrStaff
+    noteStaff =
+      note->
+        fetchNoteVoice ()->
+          getVoiceStaffUpLink ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      endl <<
+      "--> noteStaff: ";
+    if (noteStaff) {
+      fLogOutputStream <<
+        noteStaff;
+    }
+    else {
+      fLogOutputStream <<
+        "none";
+    }
+  }
+#endif
+
+  // append the voice attribute if relevant
+  if (noteStaff) {
+    int
+      noteStaffNumber =
+        noteStaff->
+          getStaffNumber ();
+
+    if (noteStaffNumber != 1) { // options ? JMI
+      fCurrentNote->push (
+        createIntegerElement (
+          k_staff,
+          noteStaffNumber));
+    }
+  }
+}
+
+//________________________________________________________________________
+void msr2MxmltreeTranslator::appendVoiceToNoteIfRelevant (
+  S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      "--> appendVoiceToNoteIfRelevant(), note = " <<
+      note->asShortString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // fetch the note voice
+  S_msrVoice
+    noteVoice =
+      note->fetchNoteVoice ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceNotes) {
+    fLogOutputStream <<
+      endl <<
+      "--> noteVoice: ";
+    if (noteVoice) {
+      fLogOutputStream <<
+        noteVoice;
+    }
+    else {
+      fLogOutputStream <<
+        "none";
+    }
+  }
+#endif
+
+  // append the voice attribute if relevant
+  if (noteVoice) {
+    int
+      noteVoiceNumber =
+        noteVoice->
+          getVoiceNumber ();
+
+    if (noteVoiceNumber != 1) { // options ? JMI
+      fCurrentNote->push (
+        createIntegerElement (
+          k_voice,
+          noteVoiceNumber));
+    }
+  }
+}
+
+//________________________________________________________________________
 void msr2MxmltreeTranslator:: appendNoteNotationsToNote (S_msrNote note)
 {
 #ifdef TRACE_OAH
@@ -6450,60 +6604,6 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
   }
 }
 
-//________________________________________________________________________
-void msr2MxmltreeTranslator::appendVoiceToNoteIfRelevant (
-  S_msrNote note)
-{
-  int inputLineNumber =
-    note->getInputLineNumber ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes) {
-    fLogOutputStream <<
-      "--> appendVoiceToNoteIfRelevant(), note = " <<
-      note->asShortString () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // fetch the note voice
-  S_msrVoice
-    noteVoice =
-      note->fetchNoteVoice ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes) {
-    fLogOutputStream <<
-      endl <<
-      "--> noteVoice: ";
-    if (noteVoice) {
-      fLogOutputStream <<
-        noteVoice;
-    }
-    else {
-      fLogOutputStream <<
-        "none";
-    }
-  }
-#endif
-
-  // append the voice attribute if relevant
-  if (noteVoice) {
-    int
-      voiceNumber =
-        noteVoice->
-          getVoiceNumber ();
-
-    if (voiceNumber != 1) { // options ? JMI
-      fCurrentNote->push (
-        createIntegerElement (
-          k_voice,
-          voiceNumber));
-    }
-  }
-}
-
 void msr2MxmltreeTranslator::appendTimeModificationToNoteIfRelevant (
   S_msrNote note)
 {
@@ -6756,6 +6856,9 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
 
     // append the beams if any
     appendBeamsToNote (note);
+
+    // append the staff if any
+    appendStaffToNoteIfRelevant (note);
 
     // append the articulations if any
     appendNoteNotationsToNote (note);

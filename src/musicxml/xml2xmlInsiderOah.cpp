@@ -46,11 +46,13 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::create (
   string   executableName,
+  string   handlerHeader,
   ostream& os)
 {
   xml2xmlInsiderOahHandler* o = new
     xml2xmlInsiderOahHandler (
       executableName,
+      handlerHeader,
       os);
   assert(o!=0);
 
@@ -61,10 +63,11 @@ S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::create (
 
 xml2xmlInsiderOahHandler::xml2xmlInsiderOahHandler (
   string   executableName,
+  string   handlerHeader,
   ostream& os)
   : oahHandler (
       executableName,
-      executableName + " available options",
+      handlerHeader,
       executableName + " options values",
       "h", "help",
       "hs", "helpSummary",
@@ -99,10 +102,8 @@ S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::createHandlerNewbornCloneWi
     newbornClone =
       xml2xmlInsiderOahHandler::create (
         fExecutableName,
+        fHandlerHeader + "_clone",
         fHandlerLogOstream);
-
-  newbornClone->fHandlerHeader =
-    fHandlerHeader + "_clone";
 
   newbornClone->fShortName =
     fShortName + "_clone";
@@ -364,20 +365,45 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
   // determine output file name
   // ------------------------------------------------------
 
-  if (gOahOah->fInputSourceName == "-") {
-    gXml2xmlOah->fMusicXMLOutputFileName =
-      "stdout.xml";
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePasses) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    gLogOstream <<
+      "xml2xmlInsiderOahHandler::checkOptionsAndArguments(): " <<
+      "gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
+      ", gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
+      ", gXml2xmlOah->fAutoOutputFileName: \"" << booleanAsString (gXml2xmlOah->fAutoOutputFileName) << "\"" <<
+      ", gXml2xmlOah->fMusicXMLOutputFileName: \"" << gXml2xmlOah->fMusicXMLOutputFileName << "\"" <<
+      endl <<
+      separator <<
+      endl;
   }
+#endif
+
+  if (gXml2xmlOah->fAutoOutputFileName) {
+    if (gOahOah->fInputSourceName == "-") {
+      gXml2xmlOah->fMusicXMLOutputFileName =
+        "stdout.xml";
+    }
+    else {
+      determineOutputFileNameFromInputFileName ();
+    }
+  }
+
   else {
     if (gXml2xmlOah->fMusicXMLOutputFileName.size ()) {
       // the '--o, --outputFileName' option has been used,
       // use the user chosen output file name
- //     gXml2xmlOah->fMusicXMLOutputFileName =
- //       gXml2xmlOah->fMusicXMLOutputFileName;
     }
-
     else {
-      determineOutputFileNameFromInputFileName ();
+      stringstream s;
+
+      s <<
+        "xml2xmlInsiderOahHandler: a MusicXML output file name must be chosen with '-o, -output-file-name";
+
+      oahError (s.str ());
     }
   }
 }
@@ -480,7 +506,8 @@ void xml2xmlOah::enforceQuietness ()
 //______________________________________________________________________________
 void xml2xmlOah::checkOptionsConsistency ()
 {
-  if (false && ! fMusicXMLOutputFileName.size ()) { // JMI
+/* JMI
+  if (! fMusicXMLOutputFileName.size ()) { // JMI
     stringstream s;
 
     s <<
@@ -497,6 +524,7 @@ void xml2xmlOah::checkOptionsConsistency ()
 
     oahError (s.str ());
   }
+  */
 }
 
 //______________________________________________________________________________
@@ -668,7 +696,7 @@ void xml2xmlOah::initializeXml2xmlOah ()
 
   {
     S_oahSubGroup
-      versionSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Version",
           "hxv", "help-xml2xml-version",
@@ -676,19 +704,19 @@ R"()",
         kElementVisibilityWhole,
         this);
 
-    appendSubGroupToGroup (versionSubGroup);
+    appendSubGroupToGroup (subGroup);
 
 /* JMI
     fHandlerUpLink->
       appendSubGroupToInternalAndUserGroups (
-        versionSubGroup,
+        subGroup,
         this,
         fHandlerUpLink->getInformationUserGroup ());
 */
 
     // version
 
-    versionSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2xmlVersionOahAtom::create (
           "v", "version",
@@ -700,7 +728,7 @@ R"(Display xml2xml's version number and history.)"));
 
   {
     S_oahSubGroup
-      aboutSubGroup =
+      subGroup =
         oahSubGroup::create (
           "About",
           "hxa", "help-xml2xml-about",
@@ -708,11 +736,11 @@ R"()",
         kElementVisibilityWhole,
         this);
 
-    appendSubGroupToGroup (aboutSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // about
 
-    aboutSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2xmlAboutOahAtom::create (
           "a", "about",
@@ -724,7 +752,7 @@ R"(Display information about xml2xml.)"));
 
   {
     S_oahSubGroup
-      contactSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Contact",
           "hxc", "help-xml2xml-contact",
@@ -732,11 +760,11 @@ R"()",
         kElementVisibilityWhole,
         this);
 
-    appendSubGroupToGroup (contactSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // contact
 
-    contactSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         xml2xmlContactOahAtom::create (
           "c", "contact",
@@ -748,7 +776,7 @@ R"(Display information about how to contacct xml2xml maintainers.)"));
 
   {
     S_oahSubGroup
-      outputFileSubGroup =
+      subGroup =
         oahSubGroup::create (
           "Output file",
           "hxof", "help-xml2xml-output-file",
@@ -756,13 +784,13 @@ R"()",
         kElementVisibilityWhole,
         this);
 
-    appendSubGroupToGroup (outputFileSubGroup);
+    appendSubGroupToGroup (subGroup);
 
     // output filename
 
  //   fMusicXMLOutputFileName = "foo.xml"; // JMI TEMP
 
-    outputFileSubGroup->
+    subGroup->
       appendAtomToSubGroup (
         oahStringAtom::create (
           "o", "output-file-name",
@@ -770,6 +798,22 @@ R"(Write MusicXML code to file FILENAME instead of standard output.)",
           "FILENAME",
           "musicXMLOutputFileName",
           fMusicXMLOutputFileName));
+
+    // auto output filename
+
+    fAutoOutputFileName = false;
+
+    subGroup->
+      appendAtomToSubGroup (
+        oahBooleanAtom::create (
+          "aofn", "auto-output-file-name",
+R"(This option can only be used when reading from a file.
+Write MusicXML code to a file in the current working directory.
+The file name is derived from that of the input file,
+replacing any suffix after the the '.' by 'xml'
+or adding '.xml' if none is present.)",
+          "autoOutputFileName",
+          fAutoOutputFileName));
   }
 
   // exit after some passes

@@ -46,26 +46,29 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::create (
   string   executableName,
+  string   handlerHeader,
   ostream& os)
 {
   // create the insider handler
   xml2lyInsiderOahHandler* o = new
     xml2lyInsiderOahHandler (
       executableName,
+      handlerHeader,
       os);
   assert(o!=0);
 
-  o->createThePrefixesAndInitialize (executableName);
+  o->createThePrefixesAndInitializeOahHandling (executableName);
 
   return o;
 }
 
 xml2lyInsiderOahHandler::xml2lyInsiderOahHandler (
   string   executableName,
+  string   handlerHeader,
   ostream& os)
   : oahHandler (
       executableName,
-      executableName + " insider OAH handler",
+      handlerHeader,
       executableName + " options values",
       "h", "help",
       "hs","helpSummary",
@@ -89,7 +92,7 @@ xml2lyInsiderOahHandler::~xml2lyInsiderOahHandler ()
 S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::createHandlerNewbornCloneWithoutGroups ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (true || gTraceOah->fTraceOah) { // JMI
     gLogOstream <<
       "Creating a newborn clone of xml2lyInsiderOahHandler" <<
       endl;
@@ -100,10 +103,8 @@ S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::createHandlerNewbornCloneWith
     newbornClone =
       xml2lyInsiderOahHandler::create (
         fExecutableName,
+        fHandlerHeader + "_clone",
         fHandlerLogOstream);
-
-  newbornClone->fHandlerHeader =
-    fHandlerHeader + "_clone";
 
   newbornClone->fShortName =
     fShortName + "_clone";
@@ -113,16 +114,10 @@ S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::createHandlerNewbornCloneWith
   newbornClone->fHandlerPrefixesMap =
     fHandlerPrefixesMap;
 
-//  newbornClone->fHandlerElementsMap = // JMI TESTS
-//    fHandlerElementsMap;
-
-//  newbornClone->fSingleCharacterShortNamesSet =
-//    fSingleCharacterShortNamesSet;
-
   return newbornClone;
 }
 
-void xml2lyInsiderOahHandler::createThePrefixesAndInitialize (
+void xml2lyInsiderOahHandler::createThePrefixesAndInitializeOahHandling (
   string executableName)
 {
   // create the prefixes
@@ -447,6 +442,17 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
 
   // check auto output file option usage
   // ------------------------------------------------------
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    // print the options handler initial state
+    fHandlerLogOstream <<
+      "xml2lyInsiderOahHandler::checkOptionsAndArguments(): " <<
+      "gXml2lyOah->fAutoOutputFileName: " << booleanAsString (gXml2lyOah->fAutoOutputFileName) <<
+      "gXml2lyOah->fLilyPondOutputFileName: " << gXml2lyOah->fLilyPondOutputFileName <<
+      endl;
+  }
+#endif
 
   if (gXml2lyOah->fAutoOutputFileName) {
     if (gXml2lyOah->fLilyPondOutputFileName.size ()) {

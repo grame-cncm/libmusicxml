@@ -2807,7 +2807,10 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
                 msrFontSize::kFontSizeNone), // default value
               kFontWeightNone,               // default value
               kXMLLangIt,                    // default value
-              elt->getSyllableNoteUpLink ()->getNoteStaffNumber ());
+              elt->
+                getSyllableNoteUpLink ()->
+                  fetchNoteStaff ()->
+                    getStaffNumber ());
 
         // append it to the current non-grace note
 #ifdef TRACE_OAH

@@ -40,14 +40,7 @@ S_xml2lyOahDualHandler xml2lyOahDualHandler::create (
       os);
   assert(o!=0);
 
-    /* JMI
-  S_xml2lyOah2ManPageGenerator
-    theXml2lyOah2ManPageGenerator =
-      xml2lyOah2ManPageGenerator::create (
-  const S_oahHandler handler,
-  ostream&           logOstream,
-  ostream&           manPageOutputStream);
-  */
+  o->createTheTwoHandlers (os);
 
   return o;
 }
@@ -66,32 +59,49 @@ xml2lyOahDualHandler::xml2lyOahDualHandler (
 xml2lyOahDualHandler::~xml2lyOahDualHandler ()
 {}
 
-void xml2lyOahDualHandler::createInsiderHandler (
+void xml2lyOahDualHandler::createTheTwoHandlers (
   ostream& os)
 {
-// JMI  os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
+#ifdef TRACE_OAH
+  if (true) { // JMI
+    gLogOstream <<
+      "Creating the two OAH handlers for \"" << fDualHandlerName << "\"" <<
+      endl;
+  }
+#endif
 
+  // create the 'insider' handler
+// JMI  os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
   fXml2lyInsiderHandler =
     xml2lyInsiderOahHandler::create (
       fExecutableName,
+      fDualHandlerName,
       os);
 
+  // propagate it into the base class
   setInsiderHandler (fXml2lyInsiderHandler);
 
-  fXml2lyInsiderHandler->
-    createThePrefixesAndInitialize (fExecutableName);
-}
-
-void xml2lyOahDualHandler::createUserHandler (
-  ostream& os)
-{
+  // create the 'user' handler
 // JMI  os << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
-
   fXml2lyUserHandler =
     fXml2lyInsiderHandler->
       createHandlerNewbornCloneWithoutGroups ();
 
+  // propagate it into the base class
   setUserHandler (fXml2lyUserHandler);
+
+  // create the user handler groups
+  createUserHandlerGroups (os);
+
+  // populate the user handler from the insider handler
+  populateUserHandlerFromInsiderHandler ();
+
+  // the default is to use the 'user' oahHandler
+if (true) { // JMI TESTS
+  fOahHandlerToBeUsed = fUserHandler;
+} else {
+  fOahHandlerToBeUsed = fInsiderHandler;
+}
 }
 
 void xml2lyOahDualHandler::createUserHandlerGroups (

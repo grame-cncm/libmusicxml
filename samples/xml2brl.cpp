@@ -139,6 +139,7 @@ int main (int argc, char *argv[])
     handler =
       xml2brlInsiderOahHandler::create (
         argv [0],
+        "xml2brl",
         gOutputOstream);
   }
   catch (msrOahException& e) {

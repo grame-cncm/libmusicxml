@@ -13,30 +13,6 @@
 #ifndef ___xml2lyOahDualHandlers___
 #define ___xml2lyOahDualHandlers___
 
-/*
-#include "list"
-#include "vector"
-#include "map"
-#include "set"
-
-#include "smartpointer.h"
-#include "rational.h"
-
-#include "tree_browser.h"
-#include "visitor.h"
-
-#include "libmusicxml.h"  // for optionsVector
-
-#include "msrMidi.h"
-
-#include "utilities.h"
-
-#include "msrBasicTypes.h"
-#include "lpsrBasicTypes.h"
-
-#include "setTraceOahIfDesired.h"
-*/
-
 #include "oahDualHandlers.h"
 
 
@@ -95,10 +71,7 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     // ------------------------------------------------------
 
     // handlers creation
-    void                  createInsiderHandler (
-                            ostream& os);
-
-    void                  createUserHandler (
+    void                  createTheTwoHandlers (
                             ostream& os);
 
     // user handler groups creation
@@ -226,6 +199,8 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
     // work fields
     // ------------------------------------------------------
 
+    // it would be way too cumbersome for oahDualHandler to be a template class,
+    // so we double its two variable here
     S_xml2lyInsiderOahHandler
                           fXml2lyInsiderHandler;
     S_xml2lyInsiderOahHandler

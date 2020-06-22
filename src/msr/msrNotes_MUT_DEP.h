@@ -370,14 +370,6 @@ class msrNote : public msrTupletElement
     // note context
     // -------------------------------
 
-    // staff and voice context
-
-    int                   getNoteStaffNumber () const
-                              { return fNoteStaffNumber; }
-
-    int                   getNoteVoiceNumber () const
-                              { return fNoteVoiceNumber; }
-
     // chord members
     void                  setNoteBelongsToAChord ();
 
@@ -879,12 +871,6 @@ class msrNote : public msrTupletElement
                           fNoteEditorialAccidentalKind;
     msrCautionaryAccidentalKind
                           fNoteCautionaryAccidentalKind;
-
-    // staff and voice context
-    // ------------------------------------------------------
-
-    int                   fNoteStaffNumber;
-    int                   fNoteVoiceNumber;
 
     // chord member?
     // ------------------------------------------------------

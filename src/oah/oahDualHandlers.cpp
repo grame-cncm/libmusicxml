@@ -42,13 +42,12 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-/* pure virtual class
 S_oahDualHandler oahDualHandler::create (
   string   dualHandlerName,
   string   executableName,
   string   insiderAtomShortName,
   string   insiderAtomLongName,
-  ostream& ios)
+  ostream& os)
 {
   oahDualHandler* o = new
     oahDualHandler (
@@ -56,25 +55,22 @@ S_oahDualHandler oahDualHandler::create (
       executableName,
       insiderAtomShortName,
       insiderAtomLongName,
-      ios);
+      os);
   assert(o!=0);
+
+// JMI  o->createTheTwoHandlers (os);
+
   return o;
 }
-*/
 
 oahDualHandler::oahDualHandler (
   string   dualHandlerName,
   string   executableName,
   string   insiderAtomShortName,
   string   insiderAtomLongName,
-  ostream& ios)
+  ostream& os)
 {
   fDualHandlerName = dualHandlerName;
-
-  fExecutableName = executableName;
-
-  fInsiderAtomShortName = insiderAtomShortName;
-  fInsiderAtomLongName  = insiderAtomLongName;
 
 #ifdef TRACE_OAH
   if (true) { // JMI
@@ -83,44 +79,58 @@ oahDualHandler::oahDualHandler (
       endl;
   }
 #endif
+
+  fExecutableName = executableName;
+
+  fInsiderAtomShortName = insiderAtomShortName;
+  fInsiderAtomLongName  = insiderAtomLongName;
+
+  // createTheTwoHandlers() will be called in the derived classes 'create()' method JMI
 }
 
 oahDualHandler::~oahDualHandler ()
 {}
 
-void oahDualHandler::createTheTwoHandlers (
-  ostream& ios)
+/* JMI
+S_oahDualHandler oahDualHandler::createHandlerNewbornCloneWithoutGroups ()
 {
 #ifdef TRACE_OAH
-  if (true) { // JMI
+  if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "Creating the two OAH handlers for \"" << fDualHandlerName << "\"" <<
+      "Creating a newborn clone of oahDualHandler" <<
       endl;
   }
 #endif
 
-  /*
-    This can only be done after the constructors have ben run,
-    since it uses pure virtual methods (which need the VMT to exist)
-  */
+  S_oahDualHandler
+    newbornClone =
+      oahDualHandler::create (
+        fExecutableName,
+        fHandlerLogOstream);
 
-  // create the two handlers
-  createInsiderHandler (ios);
-  createUserHandler (ios);
+  newbornClone->fHandlerHeader =
+    fHandlerHeader + "_clone";
 
-  // create the user handler groups
-  createUserHandlerGroups (ios);
+  newbornClone->fShortName =
+    fShortName + "_clone";
+  newbornClone->fLongName =
+    fLongName + "_clone";
 
-  // populate the user handler from the insider handler
-  populateUserHandlerFromInsiderHandler ();
+  newbornClone->fHandlerPrefixesMap =
+    fHandlerPrefixesMap;
 
-  // the default is to use the 'user' oahHandler
-if (true) { // JMI TESTS
-  fOahHandlerToBeUsed = fUserHandler;
-} else {
-  fOahHandlerToBeUsed = fInsiderHandler;
+//  newbornClone->fHandlerElementsMap = // JMI TESTS
+//    fHandlerElementsMap;
+
+//  newbornClone->fSingleCharacterShortNamesSet =
+//    fSingleCharacterShortNamesSet;
+
+  return newbornClone;
 }
-}
+*/
+
+void oahDualHandler::createTheTwoHandlers (ostream& os)
+{}
 
 void oahDualHandler::switchToInsiderView ()
 {
@@ -140,7 +150,7 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
 //  bool saveTraceOah = gTraceOah->fTraceOah;
 //  gTraceOah->fTraceOah = true; // JMI, TESTS
 
-  // create the put aside group
+  // create the 'put aside' group
   fPutAsideInUserViewGroup =
     oahGroup::create (
       "Put aside group",
@@ -154,7 +164,7 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
   fUserHandler->
     appendGroupToHandler (fPutAsideInUserViewGroup);
 
-  // create the put aside subgroup
+  // create the 'put aside' subgroup
   fPutAsideInUserViewSubGroup =
     oahSubGroup::create (
       "Put aside",
@@ -210,78 +220,6 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
   checkMappingsUse ();
 
 //  gTraceOah->fTraceOah = saveTraceOah;
-}
-
-void oahDualHandler::handleHandlerMapping (S_oahHandler handler)
-{
-/* JMI
-  // the handler is treated like an atom
-  string handlerShortName = handler->getShortName ();
-  string handlerLongName  = handler->getLongName ();
-
-  string
-    handlerNameToUse =
-      handlerLongName.size ()
-        ? handlerLongName
-        : handlerShortName;
-
- // gLogOstream << "handlerNameToUse = " << handlerNameToUse << endl;
-
-  // is handlerNameToUse known in fSubGroupNamesToUserGroupsMap?
-  map<string, S_oahSubGroup>::const_iterator
-    it =
-      fSubGroupNamesToUserGroupsMap.find (
-        handlerNameToUse);
-
-  if (it != fSubGroupNamesToUserGroupsMap.end ()) {
-    // handlerNameToUse is known in the map
-    S_oahSubGroup subGroup = (*it).second;
-
-    // append handler to user subgroup
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceOahDetails) {
-      gLogOstream <<
-        "+++ appending handler \"" <<
-        handlerNameToUse <<
-        "\" to group \"" <<
-        group->getGroupHeader () <<
-        "\"" <<
-        endl;
-    }
-#endif
-
-    subGroup->
-      appendAtomToSubGroup (handler);
-
-    // remove handlerNameToUse from the map
-    it = fSubGroupNamesToUserGroupsMap.erase (it);
-  }
-  else {
-    // handlerNameToUse is not known in the map
-
-    // are there atoms from this subgroup in fAtomNamesToUserSubGroupsMap?
-
-    const list<S_oahAtom>&
-      handlerAtomsList =
-        handler->
-          getAtomsList ();
-
-    if (handlerAtomsList.size ()) {
-      list<S_oahAtom>::const_iterator
-        iBegin = handlerAtomsList.begin (),
-        iEnd   = handlerAtomsList.end (),
-        i      = iBegin;
-      for ( ; ; ) {
-        S_oahAtom atom = (*i);
-
-        // handle the atom
-        handleAtomMapping (atom);
-
-        if (++i == iEnd) break;
-      } // for
-    }
-  }
-  */
 }
 
 void oahDualHandler::handleSubGroupMapping (S_oahSubGroup subGroup)
@@ -744,7 +682,8 @@ void oahDualHandler::print (ostream& os) const
 
     const list<S_oahGroup>
       insiderHandlerGroupsList =
-        fInsiderHandler->getHandlerGroupsList ();
+        fInsiderHandler->
+          getHandlerGroupsList ();
 
     if (insiderHandlerGroupsList.size ()) {
       os << endl;
@@ -776,7 +715,8 @@ void oahDualHandler::print (ostream& os) const
 
     const list<S_oahGroup>
       userOahHandlerGroupsList =
-        fUserHandler->getHandlerGroupsList ();
+        fUserHandler->
+          getHandlerGroupsList ();
 
     if (userOahHandlerGroupsList.size ()) {
       os << endl;
@@ -828,7 +768,8 @@ void oahDualHandler::printHelp (ostream& os) const
 
     const list<S_oahGroup>
       insiderHandlerGroupsList =
-        fInsiderHandler->getHandlerGroupsList ();
+        fInsiderHandler->
+          getHandlerGroupsList ();
 
     if (insiderHandlerGroupsList.size ()) {
       os << endl;
@@ -860,7 +801,8 @@ void oahDualHandler::printHelp (ostream& os) const
 
     const list<S_oahGroup>
       userOahHandlerGroupsList =
-        fUserHandler->getHandlerGroupsList ();
+        fUserHandler->
+          getHandlerGroupsList ();
 
     if (userOahHandlerGroupsList.size ()) {
       os << endl;
@@ -1040,7 +982,8 @@ ostream& operator<< (ostream& os, const S_oahDualHandlerInsiderAtom& elt)
   // display the empty resulting user subgroups if any
   const list<S_oahGroup>
     userOahHandlerGroupsList =
-      fUserHandler->getHandlerGroupsList ();
+      fUserHandler->
+        getHandlerGroupsList ();
 
   if (userOahHandlerGroupsList.size ()) {
 #ifdef TRACE_OAH
