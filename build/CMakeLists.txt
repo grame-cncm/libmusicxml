@@ -59,12 +59,14 @@ endif()
 # mac os specific part
 #########################################
 if(APPLE)
+	set (CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
+	set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "gnu++14")
 	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
 		set (CMAKE_OSX_ARCHITECTURES "arm64") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
-		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=11.2")
+		set (CMAKE_OSX_DEPLOYMENT_TARGET "12.3")
 		set (libtype STATIC)
 		set (FMWK "false")
 	elseif( UNIVERSAL )
