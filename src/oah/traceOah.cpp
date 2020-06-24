@@ -3808,15 +3808,22 @@ void initializeTraceOahHandling (
   }
 #endif
 
-  // create the options variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeTraceOahHandlingHasBeenRun = false;
 
-  gTraceOahUserChoices = traceOah::create (
-    handler);
-  assert(gTraceOahUserChoices != 0);
+  if (! initializeTraceOahHandlingHasBeenRun) {
+    // create the options variables
+    // ------------------------------------------------------
 
-  gTraceOah =
-    gTraceOahUserChoices;
+    gTraceOahUserChoices = traceOah::create (
+      handler);
+    assert(gTraceOahUserChoices != 0);
+
+    gTraceOah =
+      gTraceOahUserChoices;
+
+    initializeTraceOahHandlingHasBeenRun = true;
+  }
 }
 
 

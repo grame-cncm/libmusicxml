@@ -457,24 +457,31 @@ void initializeXml2xmlManPageOahHandling (
   }
 #endif
 
-  // create the bsr variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeXml2xmlManPageOahHandlingHasBeenRun = false;
 
-  gXml2xmlManPageOahUserChoices = xml2xmlManPageOah::create (
-    handler,
-    theOah2ManPageGenerator);
-  assert(gXml2xmlManPageOahUserChoices != 0);
+  if (! initializeXml2xmlManPageOahHandlingHasBeenRun) {
+    // create the bsr variables
+    // ------------------------------------------------------
 
-  gXml2xmlManPageOah =
-    gXml2xmlManPageOahUserChoices;
+    gXml2xmlManPageOahUserChoices = xml2xmlManPageOah::create (
+      handler,
+      theOah2ManPageGenerator);
+    assert(gXml2xmlManPageOahUserChoices != 0);
 
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
-/* JMI
-  gXml2xmlManPageOahWithDetailedTrace =
-    gXml2xmlManPageOah->
-      createCloneWithDetailedTrace ();
-      */
+    gXml2xmlManPageOah =
+      gXml2xmlManPageOahUserChoices;
+
+    // prepare for measure detailed trace
+    // ------------------------------------------------------
+  /* JMI
+    gXml2xmlManPageOahWithDetailedTrace =
+      gXml2xmlManPageOah->
+        createCloneWithDetailedTrace ();
+        */
+
+  initializeXml2xmlManPageOahHandlingHasBeenRun = true;
+  }
 }
 
 

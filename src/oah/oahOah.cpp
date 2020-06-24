@@ -717,16 +717,23 @@ void initializeOahOahHandling (
   string       executableName,
   S_oahHandler handler)
 {
-  // create the options variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeOahOahHandlingHasBeenRun = false;
 
-  gOahOahUserChoices = oahOah::create (
-    executableName,
-    handler);
-  assert(gOahOahUserChoices != 0);
+  if (! initializeOahOahHandlingHasBeenRun) {
+    // create the options variables
+    // ------------------------------------------------------
 
-  gOahOah =
-    gOahOahUserChoices;
+    gOahOahUserChoices = oahOah::create (
+      executableName,
+      handler);
+    assert(gOahOahUserChoices != 0);
+
+    gOahOah =
+      gOahOahUserChoices;
+
+    initializeOahOahHandlingHasBeenRun = true;
+  }
 }
 
 

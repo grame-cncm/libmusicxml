@@ -175,6 +175,7 @@ void xml2lyOahDualHandler::createUserHandlerGroups (
 
   // register options handler in itself,
   // so that the 'global' help options can be handled
+
   fUserHandler->
     registerHandlerInItself ();
 }
@@ -1836,11 +1837,13 @@ void xml2lyOahDualHandler::print (ostream& os) const
   gIndenter++;
 
   os <<
-    "insiderHandler" <<
+    "??????????? insiderHandler" <<
     endl;
 
   gIndenter++;
 
+  os << fInsiderHandler << endl;
+  /*
   const list<S_oahGroup>
     insiderHandlerGroupsList =
       fInsiderHandler->getHandlerGroupsList ();
@@ -1859,15 +1862,17 @@ void xml2lyOahDualHandler::print (ostream& os) const
       os << endl;
     } // for
   }
-
+*/
   gIndenter--;
 
   os <<
-    "userOahHandler" <<
+    "??????????? userOahHandler" <<
     endl;
 
   gIndenter++;
 
+  os << fUserHandler << endl;
+  /*
   const list<S_oahGroup>
     userOahHandlerGroupsList =
       fUserHandler->getHandlerGroupsList ();
@@ -1886,7 +1891,7 @@ void xml2lyOahDualHandler::print (ostream& os) const
       os << endl;
     } // for
   }
-
+*/
   gIndenter--;
 
   gIndenter--;

@@ -402,15 +402,22 @@ ostream& operator<< (ostream& os, const S_generalOah& elt)
 void initializeGeneralOahHandling (
   S_oahHandler handler)
 {
-  // create the options variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeExtraOahHandlingHasBeenRun = false;
 
-  gGeneralOahUserChoices = generalOah::create (
-    handler);
-  assert(gGeneralOahUserChoices != 0);
+  if (! initializeExtraOahHandlingHasBeenRun) {
+    // create the options variables
+    // ------------------------------------------------------
 
-  gGeneralOah =
-    gGeneralOahUserChoices;
+    gGeneralOahUserChoices = generalOah::create (
+      handler);
+    assert(gGeneralOahUserChoices != 0);
+
+    gGeneralOah =
+      gGeneralOahUserChoices;
+
+    initializeExtraOahHandlingHasBeenRun = true;
+  }
 }
 
 

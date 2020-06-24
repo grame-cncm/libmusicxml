@@ -175,97 +175,104 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
     which is retained in oahDualHandler::populateUserHandlerFromInsiderHandler()
   */
 
-  // initialize options handling, phase 1
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeXml2brlInsiderOahHandlingHasBeenRun = false;
+
+  if (! initializeXml2brlInsiderOahHandlingHasBeenRun) {
+    // initialize options handling, phase 1
+    // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  initializeTraceOahHandling (
-    this);
+    initializeTraceOahHandling (
+      this);
 #endif
 
-  initializeOahOahHandling (
-    executableName,
-    this);
+    initializeOahOahHandling (
+      executableName,
+      this);
 
-  initializeGeneralOahHandling (
-    this);
+    initializeGeneralOahHandling (
+      this);
 
-  // initialize the library
-  // ------------------------------------------------------
+    // initialize the library
+    // ------------------------------------------------------
 
-  initializeMSR ();
-  initializeBSR ();
+    initializeMSR ();
+    initializeBSR ();
 
-  // initialize options handling, phase 2
-  // ------------------------------------------------------
+    // initialize options handling, phase 2
+    // ------------------------------------------------------
 
-  initializeMusicxmlOahHandling (
-    this);
+    initializeMusicxmlOahHandling (
+      this);
 
-  initializeMxmlTreeOahHandling (
-    this);
+    initializeMxmlTreeOahHandling (
+      this);
 
-  initializeMxmlTree2MsrOahHandling (
-    this);
+    initializeMxmlTree2MsrOahHandling (
+      this);
 
-  initializeMsrOahHandling (
-    this);
+    initializeMsrOahHandling (
+      this);
 
-  initializeMsr2BsrOahHandling (
-    this);
+    initializeMsr2BsrOahHandling (
+      this);
 
-  initializeBsrOahHandling (
-    this);
+    initializeBsrOahHandling (
+      this);
 
-  initializeBsr2BrailleOahHandling (
-    this);
+    initializeBsr2BrailleOahHandling (
+      this);
 
-  initializeBrailleOahHandling (
-    this);
+    initializeBrailleOahHandling (
+      this);
 
 #ifdef EXTRA_OAH
-  initializeExtraOahHandling (
-    this);
+    initializeExtraOahHandling (
+      this);
 #endif
 
-  initializeXml2brlOah (
-    this);
+    initializeXml2brlOah (
+      this);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    // print the options handler initial state
-    fHandlerLogOstream <<
-      "xml2brlInsiderOahHandler has been initialized as:" <<
-      endl;
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      // print the options handler initial state
+      fHandlerLogOstream <<
+        "xml2brlInsiderOahHandler has been initialized as:" <<
+        endl;
 
-    gIndenter++;
+      gIndenter++;
 
-    print (
-      fHandlerLogOstream);
-    fHandlerLogOstream <<
-      endl <<
-      endl;
-
-    gIndenter--;
-  }
-#endif
-
-  // register options handler in itself,
-  // so that the 'global' help options can be handled
-  this->
-    registerHandlerInItself ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    fHandlerLogOstream <<
-      "xml2brlInsiderOahHandler help:" <<
-      endl;
-
-    this->
-      printHelp (
+      print (
         fHandlerLogOstream);
-  }
+      fHandlerLogOstream <<
+        endl <<
+        endl;
+
+      gIndenter--;
+    }
 #endif
+
+    // register options handler in itself,
+    // so that the 'global' help options can be handled
+    this->
+      registerHandlerInItself ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      fHandlerLogOstream <<
+        "xml2brlInsiderOahHandler help:" <<
+        endl;
+
+      this->
+        printHelp (
+          fHandlerLogOstream);
+    }
+#endif
+
+  initializeXml2brlInsiderOahHandlingHasBeenRun = true;
+  }
 }
 
 void xml2brlInsiderOahHandler::checkOptionsAndArguments ()

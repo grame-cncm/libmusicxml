@@ -5221,24 +5221,31 @@ void initializeLpsr2LilypondOahHandling (
   }
 #endif
 
-  // create the lilypond variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializLpsr2LilypondOahHandlingHasBeenRun = false;
 
-  gLpsr2LilypondOahUserChoices = lpsr2LilypondOah::create (
-    handler);
-  assert(gLpsr2LilypondOahUserChoices != 0);
+  if (! initializLpsr2LilypondOahHandlingHasBeenRun) {
+    // create the lilypond variables
+    // ------------------------------------------------------
 
-  gLpsr2LilypondOah =
-    gLpsr2LilypondOahUserChoices;
+    gLpsr2LilypondOahUserChoices = lpsr2LilypondOah::create (
+      handler);
+    assert(gLpsr2LilypondOahUserChoices != 0);
 
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
+    gLpsr2LilypondOah =
+      gLpsr2LilypondOahUserChoices;
 
-/* JMI
-  gLpsr2LilypondOahWithDetailedTrace =
-    gLpsr2LilypondOah->
-      createCloneWithDetailedTrace ();
-      */
+    // prepare for measure detailed trace
+    // ------------------------------------------------------
+
+  /* JMI
+    gLpsr2LilypondOahWithDetailedTrace =
+      gLpsr2LilypondOah->
+        createCloneWithDetailedTrace ();
+        */
+
+    initializLpsr2LilypondOahHandlingHasBeenRun = true;
+  }
 }
 
 

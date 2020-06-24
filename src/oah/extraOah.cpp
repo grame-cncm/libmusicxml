@@ -1472,15 +1472,22 @@ void initializeExtraOahHandling (
   }
 #endif
 
-  // create the extra extra
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeExtraOahHandlingHasBeenRun = false;
 
-  gExtraOahUserChoices = extraOah::create (
-    handler);
-  assert(gExtraOahUserChoices != 0);
+  if (! initializeExtraOahHandlingHasBeenRun) {
+    // create the options variables
+    // ------------------------------------------------------
 
-  gExtraOah =
-    gExtraOahUserChoices;
+    gExtraOahUserChoices = extraOah::create (
+      handler);
+    assert(gExtraOahUserChoices != 0);
+
+    gExtraOah =
+      gExtraOahUserChoices;
+
+    initializeExtraOahHandlingHasBeenRun = true;
+  }
 
   // prepare for measure detailed trace
   // ------------------------------------------------------

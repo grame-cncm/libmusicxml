@@ -311,24 +311,31 @@ void initializeMusicxml2MxmlTreeOahHandling (
   }
 #endif
 
-  // create the Musicxml2MxmlTree options
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeMusicxml2MxmlTreeOahHandlingHasBeenRun = false;
 
-  gMusicxml2MxmlTreeOahUserChoices = musicxml2MxmlTreeOah::create (
-    handler);
-  assert(gMusicxml2MxmlTreeOahUserChoices != 0);
+  if (! initializeMusicxml2MxmlTreeOahHandlingHasBeenRun) {
+    // create the Musicxml2MxmlTree options
+    // ------------------------------------------------------
 
-  gMusicxml2MxmlTreeOah =
-    gMusicxml2MxmlTreeOahUserChoices;
+    gMusicxml2MxmlTreeOahUserChoices = musicxml2MxmlTreeOah::create (
+      handler);
+    assert(gMusicxml2MxmlTreeOahUserChoices != 0);
 
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
+    gMusicxml2MxmlTreeOah =
+      gMusicxml2MxmlTreeOahUserChoices;
 
-/* JMI
-  gMusicxml2MxmlTreeOahWithDetailedTrace =
-    gMusicxml2MxmlTreeOah->
-      createCloneWithDetailedTrace ();
-      */
+    // prepare for measure detailed trace
+    // ------------------------------------------------------
+
+  /* JMI
+    gMusicxml2MxmlTreeOahWithDetailedTrace =
+      gMusicxml2MxmlTreeOah->
+        createCloneWithDetailedTrace ();
+        */
+
+    initializeMusicxml2MxmlTreeOahHandlingHasBeenRun = true;
+  }
 }
 
 

@@ -250,24 +250,31 @@ void initializeMsr2MxmltreeOahHandling (
   }
 #endif
 
-  // create the MusicXML options
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeMsr2MxmltreeOahHandlingHasBeenRun = false;
 
-  gMsr2MxmltreeOahUserChoices = msr2MxmltreeOah::create (
-    handler);
-  assert(gMsr2MxmltreeOahUserChoices != 0);
+  if (! initializeMsr2MxmltreeOahHandlingHasBeenRun) {
+    // create the MusicXML options
+    // ------------------------------------------------------
 
-  gMsr2MxmltreeOah =
-    gMsr2MxmltreeOahUserChoices;
+    gMsr2MxmltreeOahUserChoices = msr2MxmltreeOah::create (
+      handler);
+    assert(gMsr2MxmltreeOahUserChoices != 0);
 
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
+    gMsr2MxmltreeOah =
+      gMsr2MxmltreeOahUserChoices;
 
-/* JMI
-  gMsr2MxmltreeOahWithDetailedTrace =
-    gMsr2MxmltreeOah->
-      createCloneWithDetailedTrace ();
-      */
+    // prepare for measure detailed trace
+    // ------------------------------------------------------
+
+    /* JMI
+      gMsr2MxmltreeOahWithDetailedTrace =
+        gMsr2MxmltreeOah->
+          createCloneWithDetailedTrace ();
+          */
+
+    initializeMsr2MxmltreeOahHandlingHasBeenRun = true;
+  }
 }
 
 

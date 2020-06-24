@@ -10,21 +10,6 @@
   research@grame.fr
 */
 
-/*
-#include <sstream>
-
-#include <climits>      // INT_MIN, INT_MAX
-#include <iomanip>      // setw, setprecision, ...
-
-#include <regex>
-
-
-#include "oahBasicTypes.h"
-
-
-
-*/
-
 #include "utilities.h"
 #include "messagesHandling.h"
 
@@ -36,6 +21,7 @@
 #endif
 
 #include "oahOah.h"
+#include "generalOah.h"
 
 
 namespace MusicXML2
@@ -106,7 +92,7 @@ S_oahDualHandler oahDualHandler::createHandlerNewbornCloneWithoutGroups ()
     newbornClone =
       oahDualHandler::create (
         fExecutableName,
-        fHandlerLogOstream);
+        gLogOstream);
 
   newbornClone->fHandlerHeader =
     fHandlerHeader + "_clone";
@@ -218,6 +204,43 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
 
   // have all the mappings been used?
   checkMappingsUse ();
+
+#ifdef TRACE_OAH
+//  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (true || (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet)) {
+    gLogOstream <<
+      endl << endl <<
+      "*******************************************************************" <<
+      endl << endl;
+
+    gLogOstream <<
+      "xml2lyInsiderOahHandler fInsiderHandler:" <<
+      endl;
+
+    fInsiderHandler->
+      print (
+        gLogOstream);
+
+    gLogOstream <<
+      endl << endl <<
+      "*******************************************************************" <<
+      endl << endl;
+
+    gLogOstream <<
+      "xml2lyInsiderOahHandler fUserHandler:" <<
+      endl;
+
+    fUserHandler->
+      print (
+        gLogOstream);
+
+    gLogOstream <<
+      endl << endl <<
+      "*******************************************************************" <<
+      endl << endl;
+
+  }
+#endif
 
 //  gTraceOah->fTraceOah = saveTraceOah;
 }

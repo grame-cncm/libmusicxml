@@ -3237,11 +3237,6 @@ class EXP oahHandler : public oahElement
     void                  registerElementNamesInHandler (
                             S_oahElement element);
 
-    void                  appendSubGroupToInternalAndUserGroups (
-                            S_oahSubGroup subGroup,
-                            S_oahGroup    internalGroup,
-                            S_oahGroup    userGroup);
-
     S_oahPrefix           fetchNameInPrefixesMap (
                             string name) const;
 

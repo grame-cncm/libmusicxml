@@ -191,7 +191,7 @@ class EXP oahDualHandler : public smartable
     // protected work fields
     // ------------------------------------------------------
 
-    S_oahHandler          fOahHandlerToBeUsed; // according to '-insider'
+    S_oahHandler          fOahHandlerToBeUsed; // according to '-insider' option
 };
 typedef SMARTP<oahDualHandler> S_oahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_oahDualHandler& elt);

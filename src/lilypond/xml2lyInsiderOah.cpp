@@ -111,8 +111,15 @@ S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::createHandlerNewbornCloneWith
   newbornClone->fLongName =
     fLongName + "_clone";
 
-  newbornClone->fHandlerPrefixesMap =
-    fHandlerPrefixesMap;
+/*
+  // register newbornClone handler in itself,
+  // so that the 'global' help options can be handled
+  newbornClone->
+    registerHandlerInItself ();
+
+  newbornClone->
+    registerElementInHandler (newbornClone);
+*/
 
   return newbornClone;
 }
@@ -206,103 +213,120 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
     which is retained in oahDualHandler::populateUserHandlerFromInsiderHandler()
   */
 
-  // initialize options handling, phase 1
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeXml2lyInsiderOahHandlingHasBeenRun = false;
+
+  if (! initializeXml2lyInsiderOahHandlingHasBeenRun) {
+    /* JMI
+  #ifdef TRACE_OAH
+      if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+        gLogOstream <<
+          "Initializing xml2ly insider options handling" <<
+          endl;
+      }
+  #endif
+  */
+
+    // initialize options handling, phase 1
+    // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  initializeTraceOahHandling (
-    this);
+    initializeTraceOahHandling (
+      this);
 #endif
 
-  initializeOahOahHandling (
-    executableName,
-    this);
+    initializeOahOahHandling (
+      executableName,
+      this);
 
-  initializeGeneralOahHandling (
-    this);
+    initializeGeneralOahHandling (
+      this);
 
-  // initialize the library
-  // ------------------------------------------------------
+    // initialize the library
+    // ------------------------------------------------------
 
-  initializeMSR ();
-  initializeLPSR ();
+    initializeMSR ();
+    initializeLPSR ();
 
-  // initialize options handling, phase 2
-  // ------------------------------------------------------
+    // initialize options handling, phase 2
+    // ------------------------------------------------------
 
-  initializeMusicxmlOahHandling (
-    this);
+    initializeMusicxmlOahHandling (
+      this);
 
-  initializeMxmlTreeOahHandling (
-    this);
+    initializeMxmlTreeOahHandling (
+      this);
 
-  initializeMxmlTree2MsrOahHandling (
-    this);
+    initializeMxmlTree2MsrOahHandling (
+      this);
 
-  initializeMsrOahHandling (
-    this);
+    initializeMsrOahHandling (
+      this);
 
-  initializeMsr2LpsrOahHandling (
-    this);
+    initializeMsr2LpsrOahHandling (
+      this);
 
-  initializeLpsrOahHandling (
-    this);
+    initializeLpsrOahHandling (
+      this);
 
-  initializeLpsr2LilypondOahHandling (
-    this);
+    initializeLpsr2LilypondOahHandling (
+      this);
 
-  initializeLilypondOahHandling (
-    this);
+    initializeLilypondOahHandling (
+      this);
 
 #ifdef EXTRA_OAH
-  initializeExtraOahHandling (
-    this);
+    initializeExtraOahHandling (
+      this);
 #endif
 
-/* JMI
-  initializeXml2lyManPageOahHandling (
-    this,
-    theOah2ManPageGenerator);
-*/
+  /* JMI
+    initializeXml2lyManPageOahHandling (
+      this,
+      theOah2ManPageGenerator);
+  */
 
-  initializeXml2lyOah (
-    this);
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    // print the options handler initial state
-    fHandlerLogOstream <<
-      "xml2lyInsiderOahHandler has been initialized as:" <<
-      endl;
-
-    gIndenter++;
-
-    print (
-      fHandlerLogOstream);
-    fHandlerLogOstream <<
-      endl <<
-      endl;
-
-    gIndenter--;
-  }
-#endif
-
-  // register options handler in itself,
-  // so that the 'global' help options can be handled
-  this->
-    registerHandlerInItself ();
+    initializeXml2lyOah (
+      this);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    fHandlerLogOstream <<
-      "xml2lyInsiderOahHandler help:" <<
-      endl;
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      // print the options handler initial state
+      fHandlerLogOstream <<
+        "xml2lyInsiderOahHandler has been initialized as:" <<
+        endl;
 
-    this->
-      printHelp (
+      gIndenter++;
+
+      print (
         fHandlerLogOstream);
-  }
+      fHandlerLogOstream <<
+        endl <<
+        endl;
+
+      gIndenter--;
+    }
 #endif
+
+    // register options handler in itself,
+    // so that the 'global' help options can be handled
+    this->
+      registerHandlerInItself ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      fHandlerLogOstream <<
+        "xml2lyInsiderOahHandler help:" <<
+        endl;
+
+      this->
+        printHelp (
+          fHandlerLogOstream);
+    }
+#endif
+
+    initializeXml2lyInsiderOahHandlingHasBeenRun = true;
+  }
 }
 
 void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
@@ -633,7 +657,7 @@ void xml2lyInsiderOahHandler::print (ostream& os) const
       iEnd   = fHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      // print the element
+      // print the options group
       os << (*i);
       if (++i == iEnd) break;
       os << endl;
@@ -641,6 +665,14 @@ void xml2lyInsiderOahHandler::print (ostream& os) const
 
     gIndenter--;
   }
+
+  // print the known options
+  os <<
+    "xml2lyInsiderOahHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
+    endl <<
+    "xml2lyInsiderOahHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
+    endl;
+  printKnownOptions (os);
 
   gIndenter--;
 

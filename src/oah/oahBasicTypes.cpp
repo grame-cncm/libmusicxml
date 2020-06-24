@@ -9314,6 +9314,9 @@ S_oahHandler oahHandler::create (
       handlerDescription,
       handlerLogOstream);
   assert(o!=0);
+
+  o->initializeHandler ();
+
   return o;
 }
 
@@ -9357,8 +9360,6 @@ oahHandler::oahHandler (
 
   fHandlerUsage =
     handlerUsage;
-
-  initializeHandler ();
 }
 
 void oahHandler::initializeHandler ()
@@ -9896,6 +9897,12 @@ void oahHandler::print (ostream& os) const
     gIndenter--;
   }
 
+  // print the known options
+  os <<
+    "oahHandler known options" << // JMI
+    endl;
+  printKnownOptions (os);
+
   gIndenter--;
 }
 
@@ -10323,7 +10330,7 @@ void oahHandler::appendPrefixToHandler (
     s <<
       "option prefix name '" << prefixName <<
       "' is already known";
-abort();
+
     oahError (s.str ());
   }
 
@@ -10662,7 +10669,7 @@ void oahHandler::printKnownOptions (ostream& os) const
       i      = iBegin;
     for ( ; ; ) {
       os <<
-        (*i).first << "==>" <<
+        "\"" << (*i).first << "\" ==>" <<
         endl;
 
       gIndenter++;
@@ -11708,25 +11715,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
       commandLineWithLongNamesAsString ();
 
   return kHelpOptionsHaveBeenUsedNo;
-}
-
-void oahHandler::appendSubGroupToInternalAndUserGroups (
-  S_oahSubGroup subGroup,
-  S_oahGroup    internalGroup,
-  S_oahGroup    userGroup)
-{
-/* JMI
-  fHandlerInternalGroupsList->
-    appendGroupToGroupsList (internalGroup);
-
-  fHandlerUserGroupsList->
-    appendGroupToGroupsList (userGroup);
-    */
-  internalGroup->
-    appendSubGroupToGroup (subGroup);
-
-  userGroup->
-    appendSubGroupToGroup (subGroup);
 }
 
 void oahHandler::handleHandlerName (

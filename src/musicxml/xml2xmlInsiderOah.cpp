@@ -190,94 +190,101 @@ void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandling (
     which is retained in oahDualHandler::populateUserHandlerFromInsiderHandler()
   */
 
-  // initialize options handling, phase 1
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeXml2xmlInsiderOahHandlingHasBeenRun = false;
+
+  if (! initializeXml2xmlInsiderOahHandlingHasBeenRun) {
+    // initialize options handling, phase 1
+    // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  initializeTraceOahHandling (
-    this);
+    initializeTraceOahHandling (
+      this);
 #endif
 
-  initializeOahOahHandling (
-    executableName,
-    this);
+    initializeOahOahHandling (
+      executableName,
+      this);
 
-  initializeGeneralOahHandling (
-    this);
+    initializeGeneralOahHandling (
+      this);
 
-  // initialize the library
-  // ------------------------------------------------------
+    // initialize the library
+    // ------------------------------------------------------
 
-  initializeMSR ();
-//  initializeLPSR (); // JMI only if pass5 msr2lpsr is run
+    initializeMSR ();
+  //  initializeLPSR (); // JMI only if pass5 msr2lpsr is run
 
-  // initialize options handling, phase 2
-  // ------------------------------------------------------
+    // initialize options handling, phase 2
+    // ------------------------------------------------------
 
-  initializeMusicxmlOahHandling (
-    this);
+    initializeMusicxmlOahHandling (
+      this);
 
-  initializeMxmlTreeOahHandling (
-    this);
+    initializeMxmlTreeOahHandling (
+      this);
 
-  initializeMxmlTree2MsrOahHandling (
-    this);
+    initializeMxmlTree2MsrOahHandling (
+      this);
 
-  initializeMsrOahHandling (
-    this);
+    initializeMsrOahHandling (
+      this);
 
-  initializeMsr2LpsrOahHandling (
-    this);
+    initializeMsr2LpsrOahHandling (
+      this);
 
-  initializeMsr2MxmltreeOahHandling (
-    this);
+    initializeMsr2MxmltreeOahHandling (
+      this);
 
-//  initializeLpsrOahHandling ( // JMI only if pass5 msr2lpsr is run
-//    this);
+  //  initializeLpsrOahHandling ( // JMI only if pass5 msr2lpsr is run
+  //    this);
 
 #ifdef EXTRA_OAH
-  initializeExtraOahHandling (
-    this);
+    initializeExtraOahHandling (
+      this);
 #endif
 
-  initializeXml2xmlOah (
-    this);
+    initializeXml2xmlOah (
+      this);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    // print the options handler initial state
-    fHandlerLogOstream <<
-      "xml2xmlInsiderOahHandler has been initialized as:" <<
-      endl;
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      // print the options handler initial state
+      fHandlerLogOstream <<
+        "xml2xmlInsiderOahHandler has been initialized as:" <<
+        endl;
 
-    gIndenter++;
+      gIndenter++;
 
-    print (
-      fHandlerLogOstream);
-    fHandlerLogOstream <<
-      endl <<
-      endl;
-
-    gIndenter--;
-  }
-#endif
-
-  // register options handler in itself,
-  // so that the 'global' help options can be handled
-  this->
-    registerHandlerInItself ();
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-    fHandlerLogOstream <<
-      "xml2xmlInsiderOahHandler help:" <<
-      endl;
-
-    this->
-      printHelp (
+      print (
         fHandlerLogOstream);
-  }
+      fHandlerLogOstream <<
+        endl <<
+        endl;
+
+      gIndenter--;
+    }
 #endif
+
+    // register options handler in itself,
+    // so that the 'global' help options can be handled
+    this->
+      registerHandlerInItself ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      fHandlerLogOstream <<
+        "xml2xmlInsiderOahHandler help:" <<
+        endl;
+
+      this->
+        printHelp (
+          fHandlerLogOstream);
+    }
+#endif
+
+    initializeXml2xmlInsiderOahHandlingHasBeenRun = true;
+  }
 }
 
 void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
@@ -706,14 +713,6 @@ R"()",
 
     appendSubGroupToGroup (subGroup);
 
-/* JMI
-    fHandlerUpLink->
-      appendSubGroupToInternalAndUserGroups (
-        subGroup,
-        this,
-        fHandlerUpLink->getInformationUserGroup ());
-*/
-
     // version
 
     subGroup->
@@ -899,9 +898,9 @@ void initializeXml2xmlOah (
   S_oahHandler handler)
 {
   // protect library against multiple initializations
-  static bool initializeXml2xmlOahBeenRun = false;
+  static bool initializeXml2xmlOahHasBeenRun = false;
 
-  if (! initializeXml2xmlOahBeenRun) {
+  if (! initializeXml2xmlOahHasBeenRun) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
       gLogOstream <<
@@ -926,7 +925,7 @@ void initializeXml2xmlOah (
     assert (gXml2xmlOah != 0);
   }
 
-  initializeXml2xmlOahBeenRun = true;
+  initializeXml2xmlOahHasBeenRun = true;
 }
 
 

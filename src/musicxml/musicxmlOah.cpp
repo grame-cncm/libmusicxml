@@ -403,24 +403,31 @@ void initializeMusicxmlOahHandling (
   }
 #endif
 
-  // create the Musicxml options
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeMusicxmlOahHandlingHasBeenRun = false;
 
-  gMusicxmlOahUserChoices = musicxmlOah::create (
-    handler);
-  assert(gMusicxmlOahUserChoices != 0);
+  if (! initializeMusicxmlOahHandlingHasBeenRun) {
+    // create the Musicxml options
+    // ------------------------------------------------------
 
-  gMusicxmlOah =
-    gMusicxmlOahUserChoices;
+    gMusicxmlOahUserChoices = musicxmlOah::create (
+      handler);
+    assert(gMusicxmlOahUserChoices != 0);
 
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
+    gMusicxmlOah =
+      gMusicxmlOahUserChoices;
 
-/* JMI
-  gMusicxmlOahWithDetailedTrace =
-    gMusicxmlOah->
-      createCloneWithDetailedTrace ();
-      */
+    // prepare for measure detailed trace
+    // ------------------------------------------------------
+
+  /* JMI
+    gMusicxmlOahWithDetailedTrace =
+      gMusicxmlOah->
+        createCloneWithDetailedTrace ();
+        */
+
+    initializeMusicxmlOahHandlingHasBeenRun = true;
+  }
 }
 
 

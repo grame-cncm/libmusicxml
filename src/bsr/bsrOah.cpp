@@ -904,23 +904,30 @@ void initializeBsrOahHandling (
   }
 #endif
 
-  // create the bsr variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  static bool initializeBsr2BrailleOahHandlingHasBeenRun = false;
 
-  gBsrOahUserChoices = bsrOah::create (
-    handler);
-  assert(gBsrOahUserChoices != 0);
+  if (! initializeBsr2BrailleOahHandlingHasBeenRun) {
+    // create the bsr variables
+    // ------------------------------------------------------
 
-  gBsrOah =
-    gBsrOahUserChoices;
+    gBsrOahUserChoices = bsrOah::create (
+      handler);
+    assert(gBsrOahUserChoices != 0);
 
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
-/* JMI
-  gBsrOahWithDetailedTrace =
-    gBsrOah->
-      createCloneWithDetailedTrace ();
-      */
+    gBsrOah =
+      gBsrOahUserChoices;
+
+    // prepare for measure detailed trace
+    // ------------------------------------------------------
+  /* JMI
+    gBsrOahWithDetailedTrace =
+      gBsrOah->
+        createCloneWithDetailedTrace ();
+        */
+
+    initializeBsr2BrailleOahHandlingHasBeenRun = true;
+  }
 }
 
 
