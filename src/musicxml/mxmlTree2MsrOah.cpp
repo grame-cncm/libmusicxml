@@ -1285,6 +1285,243 @@ R"(Omit harmonies in MusicXML data.)",
 R"(Omit figured basses in MusicXML data.)",
         "omitFiguredBasses",
         fOmitFiguredBasses));
+
+  // slash all grace notes
+  // --------------------------------------
+
+  fSlashAllGraceNotes = false;
+
+  S_oahBooleanAtom
+    slashAllGraceNotesAtom =
+      oahBooleanAtom::create (
+        "slashagn", "slash-all-grace-notes",
+R"(Add a slash to all grace notes)",
+        "slashAllGraceNotes",
+        fSlashAllGraceNotes);
+  subGroup->
+    appendAtomToSubGroup (
+      slashAllGraceNotesAtom);
+
+  // slur all grace notes
+  // --------------------------------------
+
+  fSlurAllGraceNotes = false;
+
+  S_oahBooleanAtom
+    slurAllGraceNotesAtom =
+      oahBooleanAtom::create (
+        "sluragn", "slur-all-grace-notes",
+R"(Add a slur to all grace notes)",
+        "slurAllGraceNotes",
+        fSlurAllGraceNotes);
+  subGroup->
+    appendAtomToSubGroup (
+      slurAllGraceNotesAtom);
+
+  // beam all grace notes
+  // --------------------------------------
+
+  fBeamAllGraceNotes = false;
+
+  S_oahBooleanAtom
+    beamAllGraceNotesAtom =
+      oahBooleanAtom::create (
+        "beamagn", "beam-all-grace-notes",
+R"(Add a beam to all grace notes)",
+        "beamAllGraceNotes",
+        fBeamAllGraceNotes);
+  subGroup->
+    appendAtomToSubGroup (
+      beamAllGraceNotesAtom);
+
+  // the 'dr' prefix
+  // --------------------------------------
+
+  S_oahPrefix
+    shortDelayRestsPrefix =
+      oahPrefix::create (
+        "dr",
+        "dr",
+        "'-dr=abc,yz' is equivalent to '-drabc, -dryz'");
+  fHandlerUpLink->
+    appendPrefixToHandler (shortDelayRestsPrefix);
+
+  // the 'delay-rests' prefix
+  // --------------------------------------
+
+  S_oahPrefix
+    longDelayRestsPrefix =
+      oahPrefix::create (
+        "delay-rests",
+        "delay-rests-",
+        "'-delay-rests=abc,yz' is equivalent to '-delay-rests-abc, -delay-rests-yz'");
+  fHandlerUpLink->
+    appendPrefixToHandler (longDelayRestsPrefix);
+
+  // the 'delay rests' multiplex booleans atom
+  // --------------------------------------
+
+  S_oahMultiplexBooleansAtom
+    delayRestsMultiplexBooleansAtom =
+      oahMultiplexBooleansAtom::create (
+        "Delay SHORT_NAME/LONG_NAME that occur on a rest until the next note.",
+        "SHORT_NAME",
+        "LONG_NAME",
+        shortDelayRestsPrefix,
+        longDelayRestsPrefix);
+
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsMultiplexBooleansAtom);
+
+  // delay rests dynamics
+  // --------------------------------------
+
+  fDelayRestsDynamics = false;
+
+  S_oahBooleanAtom
+    delayRestsDynamicsAtom =
+      oahBooleanAtom::create (
+        "drdyns", "delay-rests-dynamics",
+R"()",
+        "delayRestsDynamics",
+        fDelayRestsDynamics);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsDynamicsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsDynamicsAtom);
+
+  // delay rests words
+  // --------------------------------------
+
+  fDelayRestsWords = false;
+
+  S_oahBooleanAtom
+    delayRestsWordsAtom =
+      oahBooleanAtom::create (
+        "drwords", "delay-rests-words",
+R"()",
+        "delayRestsWords",
+        fDelayRestsWords);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsWordsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsWordsAtom);
+
+  // delay rests beams
+  // --------------------------------------
+
+  fDelayRestsBeams = false;
+
+  S_oahBooleanAtom
+    delayRestsBeamsAtom =
+      oahBooleanAtom::create (
+        "drbeams", "delay-rests-beams",
+R"()",
+        "delayRestsBeams",
+        fDelayRestsBeams);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsBeamsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsBeamsAtom);
+
+  // delay rests slurs
+  // --------------------------------------
+
+  fDelayRestsSlurs = false;
+
+  S_oahBooleanAtom
+    delayRestsSlursAtom =
+      oahBooleanAtom::create (
+        "drslurs", "delay-rests-slurs",
+R"()",
+        "delayRestsSlurs",
+        fDelayRestsSlurs);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsSlursAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsSlursAtom);
+
+  // delay rests ligatures
+  // --------------------------------------
+
+  fDelayRestsLigatures = false;
+
+  S_oahBooleanAtom
+    delayRestsLigaturesAtom =
+      oahBooleanAtom::create (
+        "drligs", "delay-rests-ligatures",
+R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
+        "delayRestsLigatures",
+        fDelayRestsLigatures);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsLigaturesAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsLigaturesAtom);
+
+  // delay rests pedals
+  // --------------------------------------
+
+  fDelayRestsPedals = false;
+
+  S_oahBooleanAtom
+    delayRestsPedalsAtom =
+      oahBooleanAtom::create (
+        "drpeds", "delay-rests-pedals",
+R"()",
+        "delayRestsPedals",
+        fDelayRestsPedals);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsPedalsAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsPedalsAtom);
+
+  // delay rests slashes
+  // --------------------------------------
+
+  fDelayRestsSlashes = false;
+
+  S_oahBooleanAtom
+    delayRestsSlashesAtom =
+      oahBooleanAtom::create (
+        "drslashes", "delay-rests-slashes",
+R"('<slash/>' in MusicXML)",
+        "delayRestsSlashes",
+        fDelayRestsSlashes);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsSlashesAtom);
+
+  // delay rests wedges
+  // --------------------------------------
+
+  fDelayRestsWedges = false;
+
+  S_oahBooleanAtom
+    delayRestsWedgesAtom =
+      oahBooleanAtom::create (
+        "drwedges", "delay-rests-wedges",
+R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
+        "delayRestsWedges",
+        fDelayRestsWedges);
+  subGroup->
+    appendAtomToSubGroup (
+      delayRestsWedgesAtom);
+  delayRestsMultiplexBooleansAtom->
+    addBooleanAtom (
+      delayRestsWedgesAtom);
 }
 
 void mxmlTree2MsrOah::initializeWordsOptions (
@@ -1496,6 +1733,31 @@ S_mxmlTree2MsrOah mxmlTree2MsrOah::createCloneWithDetailedTrace ()
     fIgnoreRedundantKeys;
   clone->fIgnoreRedundantTimes =
     fIgnoreRedundantTimes;
+
+  // notes
+  // --------------------------------------
+
+  clone->fDelayRestsDynamics =
+    fDelayRestsDynamics;
+  clone->fDelayRestsWords =
+    fDelayRestsWords;
+  clone->fDelayRestsSlurs =
+    fDelayRestsSlurs;
+  clone->fDelayRestsLigatures =
+    fDelayRestsLigatures;
+  clone->fDelayRestsPedals =
+    fDelayRestsPedals;
+  clone->fDelayRestsSlashes =
+    fDelayRestsSlashes;
+  clone->fDelayRestsWedges =
+    fDelayRestsWedges;
+
+  clone->fSlashAllGraceNotes =
+    fSlashAllGraceNotes;
+  clone->fSlurAllGraceNotes =
+    fSlurAllGraceNotes;
+  clone->fBeamAllGraceNotes =
+    fBeamAllGraceNotes;
 
   // articulations
   // --------------------------------------
@@ -1737,9 +1999,6 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int valueFieldWidth)
   // parts
   // --------------------------------------
 
-  // parts
-  // --------------------------------------
-
   // parts omitted IDs
 
   gLogOstream << left <<
@@ -1877,6 +2136,56 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int valueFieldWidth)
     booleanAsString (fIgnoreRedundantTimes) <<
     endl;
 */
+  gIndenter--;
+
+  // notes
+  // --------------------------------------
+
+  gLogOstream <<
+     "Notes:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "delayRestsDynamics" << " : " <<
+    booleanAsString (fDelayRestsDynamics) <<
+    endl <<
+
+    setw (valueFieldWidth) << "delayRestsWords" << " : " <<
+    booleanAsString (fDelayRestsWords) <<
+    endl <<
+
+    setw (valueFieldWidth) << "delayRestsSlurs" << " : " <<
+    booleanAsString (fDelayRestsSlurs) <<
+    endl <<
+
+    setw (valueFieldWidth) << "delayRestsLigatures" << " : " <<
+    booleanAsString (fDelayRestsLigatures) <<
+    endl <<
+
+    setw (valueFieldWidth) << "delayRestsPedals" << " : " <<
+    booleanAsString (fDelayRestsPedals) <<
+    endl <<
+
+    setw (valueFieldWidth) << "delayRestsSlashes" << " : " <<
+    booleanAsString (fDelayRestsSlashes) <<
+    endl <<
+
+    setw (valueFieldWidth) << "delayRestsWedges" << " : " <<
+    booleanAsString (fDelayRestsWedges) <<
+    endl <<
+
+    setw (valueFieldWidth) << "slashAllGraceNotes" << " : " <<
+    booleanAsString (fSlashAllGraceNotes) <<
+    endl <<
+    setw (valueFieldWidth) << "slurAllGraceNotes" << " : " <<
+    booleanAsString (fSlurAllGraceNotes) <<
+    endl <<
+    setw (valueFieldWidth) << "beamAllGraceNotes" << " : " <<
+    booleanAsString (fBeamAllGraceNotes) <<
+    endl;
+
   gIndenter--;
 
   // articulations

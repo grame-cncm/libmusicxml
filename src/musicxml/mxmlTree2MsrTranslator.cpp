@@ -34,7 +34,6 @@
 #include "mxmlTreeOah.h"
 #include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
-#include "msr2LpsrOah.h"
 
 #include "mxmlTree2MsrTranslator.h"
 
@@ -14772,12 +14771,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
   }
 
   // should all grace notes be slashed?
-  if (gMsr2LpsrOah->fSlashAllGraceNotes) {
+  if (gMxmlTree2MsrOah->fSlashAllGraceNotes) {
     fCurrentGraceIsSlashed = true;
   }
 
   // should all grace notes be beamed?
-  if (gMsr2LpsrOah->fBeamAllGraceNotes) {
+  if (gMxmlTree2MsrOah->fBeamAllGraceNotes) {
     fCurrentGraceIsBeamed = true;
   }
 
@@ -18169,7 +18168,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
 #endif
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsDynamics) {
+      if (gMxmlTree2MsrOah->fDelayRestsDynamics) {
         fLogOutputStream <<
           "Delaying dynamics attached to a rest until next note" <<
           endl;
@@ -18235,7 +18234,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
 #endif
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsDynamics) {
+      if (gMxmlTree2MsrOah->fDelayRestsDynamics) {
         fLogOutputStream <<
           "Delaying dynamics attached to a rest until next note" <<
           endl;
@@ -18301,7 +18300,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
 #endif
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsWords) {
+      if (gMxmlTree2MsrOah->fDelayRestsWords) {
         fLogOutputStream <<
           "Delaying word(s) attached to a rest until next note" <<
           endl;
@@ -18368,7 +18367,7 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
 #endif
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsBeams) {
+      if (gMxmlTree2MsrOah->fDelayRestsBeams) {
         fLogOutputStream <<
           "Delaying beam attached to a rest until next note" <<
           endl;
@@ -18434,7 +18433,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
 #endif
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsSlurs) {
+      if (gMxmlTree2MsrOah->fDelayRestsSlurs) {
         fLogOutputStream <<
           "Delaying slur attached to a rest until next note" <<
           endl;
@@ -18487,7 +18486,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
     bool delayAttachment = false;
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsLigatures) {
+      if (gMxmlTree2MsrOah->fDelayRestsLigatures) {
         fLogOutputStream <<
           "Delaying ligature attached to a rest until next note" <<
           endl;
@@ -18680,7 +18679,7 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
 #endif
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsPedals) {
+      if (gMxmlTree2MsrOah->fDelayRestsPedals) {
         fLogOutputStream <<
           "Delaying pedal attached to a rest until next note" <<
           endl;
@@ -18742,7 +18741,7 @@ void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
 #endif
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsSlashes) {
+      if (gMxmlTree2MsrOah->fDelayRestsSlashes) {
         fLogOutputStream <<
           "Delaying slash attached to a rest until next note" <<
       endl;
@@ -18804,7 +18803,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
 #endif
 
     if (fCurrentNoteIsARest) {
-      if (gMsr2LpsrOah->fDelayRestsWedges) {
+      if (gMxmlTree2MsrOah->fDelayRestsWedges) {
         fLogOutputStream <<
           "Delaying wedge attached to a rest until next note" <<
       endl;
@@ -20592,7 +20591,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
           currentVoice);
 
       // should all grace notes be slurred?
-      if (gMsr2LpsrOah->fSlurAllGraceNotes) {
+      if (gMxmlTree2MsrOah->fSlurAllGraceNotes) {
         fPendingGraceNotesGroup->setGraceNotesGroupIsTied ();
       }
 

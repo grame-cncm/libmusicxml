@@ -362,6 +362,22 @@ class mxmlTree2MsrOah : public oahGroup
 
     map<string,int>       fAddEmptyMeasuresStringToIntMap;
 
+    // notes
+    // --------------------------------------
+
+    bool                  fDelayRestsDynamics;
+    bool                  fDelayRestsWords;
+    bool                  fDelayRestsBeams;
+    bool                  fDelayRestsSlurs;
+    bool                  fDelayRestsLigatures;
+    bool                  fDelayRestsPedals;
+    bool                  fDelayRestsSlashes;
+    bool                  fDelayRestsWedges;
+
+    bool                  fSlashAllGraceNotes;
+    bool                  fSlurAllGraceNotes;
+    bool                  fBeamAllGraceNotes;
+
     // articulations
     // --------------------------------------
 

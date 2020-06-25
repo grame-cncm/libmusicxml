@@ -403,22 +403,6 @@ class msr2LpsrOah : public oahGroup
     // --------------------------------------
 
     bool                  fCreateImplicitInitialRepeatBarline;
-
-    // notes
-    // --------------------------------------
-
-    bool                  fDelayRestsDynamics;
-    bool                  fDelayRestsWords; // JMI
-    bool                  fDelayRestsBeams; // JMI
-    bool                  fDelayRestsSlurs; // JMI
-    bool                  fDelayRestsLigatures; // JMI
-    bool                  fDelayRestsPedals; // JMI
-    bool                  fDelayRestsSlashes; // JMI
-    bool                  fDelayRestsWedges; // JMI
-
-    bool                  fSlashAllGraceNotes;
-    bool                  fSlurAllGraceNotes;
-    bool                  fBeamAllGraceNotes;
 };
 typedef SMARTP<msr2LpsrOah> S_msr2LpsrOah;
 EXP ostream& operator<< (ostream& os, const S_msr2LpsrOah& elt);
