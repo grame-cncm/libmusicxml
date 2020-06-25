@@ -99,13 +99,6 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
-#ifdef TRACE_OAH
-  if (false && gTraceOah->fTraceOahDetails) { // JMI TESTS
-    dualHandler->
-      print (gOutputOstream);
-  }
-#endif
-
   // analyze the command line options and arguments
   // ------------------------------------------------------
 
@@ -133,6 +126,24 @@ int main (int argc, char *argv[])
   }
 
   dualHandler->checkOptionsAndArguments ();
+
+#ifdef TRACE_OAH
+  if (true || gTraceOah->fTraceOah) { // JMI TESTS
+    S_oahHandler
+      userHandler =
+        dualHandler->getUserHandler ();
+
+    userHandler->printKnownPrefixes (gOutputOstream);
+    userHandler->printKnownSingleCharacterOptions (gOutputOstream);
+    // userHandler->printKnownOptions (gOutputOstream);
+  }
+
+  if (false && gTraceOah->fTraceOahDetails) { // JMI TESTS
+    dualHandler->
+      print (gOutputOstream);
+  }
+#endif
+
 
 #else
 
@@ -180,6 +191,14 @@ int main (int argc, char *argv[])
   catch (std::exception& e) {
     return kInvalidFile;
   }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) { // JMI
+    handler->printKnownPrefixes (gOutputOstream);
+    handler->printKnownSingleCharacterOptions (gOutputOstream);
+    // handler->printKnownOptions (gOutputOstream);
+  }
+#endif
 
 #endif
 

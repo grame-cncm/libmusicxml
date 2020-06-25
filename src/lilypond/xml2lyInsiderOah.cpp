@@ -62,6 +62,21 @@ S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::create (
   return o;
 }
 
+S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::createMinimal (
+  string   executableName,
+  string   handlerHeader,
+  ostream& os)
+{
+  // create the insider handler
+  xml2lyInsiderOahHandler* o = new
+    xml2lyInsiderOahHandler (
+      executableName,
+      handlerHeader,
+      os);
+  assert(o!=0);
+  return o;
+}
+
 xml2lyInsiderOahHandler::xml2lyInsiderOahHandler (
   string   executableName,
   string   handlerHeader,
@@ -88,41 +103,6 @@ Option '-h, -help' prints the full help,
 
 xml2lyInsiderOahHandler::~xml2lyInsiderOahHandler ()
 {}
-
-S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::createHandlerNewbornCloneWithoutGroups ()
-{
-#ifdef TRACE_OAH
-  if (true || gTraceOah->fTraceOah) { // JMI
-    gLogOstream <<
-      "Creating a newborn clone of xml2lyInsiderOahHandler" <<
-      endl;
-  }
-#endif
-
-  S_xml2lyInsiderOahHandler
-    newbornClone =
-      xml2lyInsiderOahHandler::create (
-        fExecutableName,
-        fHandlerHeader + "_clone",
-        fHandlerLogOstream);
-
-  newbornClone->fShortName =
-    fShortName + "_clone";
-  newbornClone->fLongName =
-    fLongName + "_clone";
-
-/*
-  // register newbornClone handler in itself,
-  // so that the 'global' help options can be handled
-  newbornClone->
-    registerHandlerInItself ();
-
-  newbornClone->
-    registerElementInHandler (newbornClone);
-*/
-
-  return newbornClone;
-}
 
 void xml2lyInsiderOahHandler::createThePrefixesAndInitializeOahHandling (
   string executableName)
@@ -214,9 +194,9 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
   */
 
   // protect library against multiple initializations
-  static bool initializeXml2lyInsiderOahHandlingHasBeenRun = false;
+  static bool thisMethodHasBeenRun = false;
 
-  if (! initializeXml2lyInsiderOahHandlingHasBeenRun) {
+  if (! thisMethodHasBeenRun) {
     /* JMI
   #ifdef TRACE_OAH
       if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
@@ -290,7 +270,7 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
       this);
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    if (false && gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) { // JMI TESTS
       // print the options handler initial state
       fHandlerLogOstream <<
         "xml2lyInsiderOahHandler has been initialized as:" <<
@@ -298,8 +278,8 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
 
       gIndenter++;
 
-      print (
-        fHandlerLogOstream);
+      print (fHandlerLogOstream);
+
       fHandlerLogOstream <<
         endl <<
         endl;
@@ -325,7 +305,7 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
     }
 #endif
 
-    initializeXml2lyInsiderOahHandlingHasBeenRun = true;
+    thisMethodHasBeenRun = true;
   }
 }
 
@@ -666,6 +646,7 @@ void xml2lyInsiderOahHandler::print (ostream& os) const
     gIndenter--;
   }
 
+if (false) { // JMI
   // print the known options
   os <<
     "xml2lyInsiderOahHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
@@ -673,6 +654,7 @@ void xml2lyInsiderOahHandler::print (ostream& os) const
     "xml2lyInsiderOahHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
     endl;
   printKnownOptions (os);
+}
 
   gIndenter--;
 
@@ -723,35 +705,6 @@ xml2lyOah::~xml2lyOah ()
 
 void xml2lyOah::initializeXml2lyOah ()
 {
-  // insider
-  // --------------------------------------
-/* JMI
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "Options and help view",
-          "hoahv", "options-and-help-view",
-R"()",
-        kElementVisibilityWhole,
-        this);
-
-    appendSubGroupToGroup (subGroup);
-
-    subGroup->
-      appendAtomToSubGroup (
-        oahDualHandlerInsiderAtom::create (
-          "insider", "",
-R"(In the default 'user' view, the options are grouped by music scoring topics,
-such a slurs, tuplets and figured bass.
-This option switches the options and help view to 'insider',
-in which the options are grouped as they are used by the various
-internal representations and translation passes.
-This unleashes the full set of display and trace options.
-This option should be the first one.)"));
-  }
-*/
-
   // version
   // --------------------------------------
 

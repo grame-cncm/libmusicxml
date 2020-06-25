@@ -48,6 +48,7 @@ namespace MusicXML2
 //_______________________________________________________________________________
 class EXP oahDualHandler : public smartable
 {
+/* pure virtual class
   public:
 
     // creation
@@ -58,6 +59,7 @@ class EXP oahDualHandler : public smartable
       string   insiderAtomShortName,
       string   insiderAtomLongName,
       ostream& os);
+*/
 
   protected:
 
@@ -105,11 +107,6 @@ class EXP oahDualHandler : public smartable
     // public services
     // ------------------------------------------------------
 
-    virtual void          createTheTwoHandlers (
-                            ostream& os);
-
-    void                  switchToInsiderView ();
-
     oahHandler::oahHelpOptionsHaveBeenUsedKind
                           applyOptionsAndArgumentsFromArgcAndArgv (
                             int   argc,
@@ -131,6 +128,9 @@ class EXP oahDualHandler : public smartable
 
     string                asString () const;
 
+    void                  printInsiderHandler (ostream& os) const;
+    void                  printUserHandler (ostream& os) const;
+
     void                  print (ostream& os) const;
 
     void                  printHelp (ostream& os) const;
@@ -139,6 +139,10 @@ class EXP oahDualHandler : public smartable
 
     // protected services
     // ------------------------------------------------------
+
+    virtual void          createTheTwoHandlers (ostream& os) = 0;
+
+    void                  switchToInsiderView ();
 
 /*
     virtual void          createInsiderHandler (
@@ -166,8 +170,9 @@ class EXP oahDualHandler : public smartable
 
     string                fExecutableName;
 
-    // the insider handler provides the options used internally by the translator
-    // the user handler provides a user view of the options, organized by topics
+    // the insider handler provides the options used internally by the translator,
+    // organized by representations and passes,
+    // while the user handler provides another view of the options, organized by topics
     S_oahHandler          fInsiderHandler;
     S_oahHandler          fUserHandler;
 
@@ -260,6 +265,9 @@ class oahDualHandlerInsiderAtom : public oahAtom
     // ------------------------------------------------------
 
     virtual string        asString () const;
+
+    void                  printOutsiderHandler (ostream& os) const;
+    void                  printuserHandler (ostream& os) const;
 
     void                  print (ostream& os) const;
 

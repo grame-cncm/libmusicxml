@@ -32,7 +32,10 @@ class EXP xml2lyInsiderOahHandler : public oahHandler
       string   handlerHeader,
       ostream& os);
 
-    SMARTP<xml2lyInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
+    static SMARTP<xml2lyInsiderOahHandler> createMinimal (
+      string   executableName,
+      string   handlerHeader,
+      ostream& os);
 
   protected:
 

@@ -3037,6 +3037,7 @@ class EXP oahHandler : public oahElement
     static string optionsDefaultValuesStyleAsString (
       oahOptionsDefaultValuesStyle optionsDefaultValuesStyle);
 
+/* pure virtual class
   public:
 
     // creation
@@ -3053,6 +3054,7 @@ class EXP oahHandler : public oahElement
       string   handlerUsage,
       string   handlerDescription,
       ostream& handlerLogOstream);
+*/
 
   protected:
 

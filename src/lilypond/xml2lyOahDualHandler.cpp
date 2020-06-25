@@ -70,25 +70,47 @@ void xml2lyOahDualHandler::createTheTwoHandlers (
   }
 #endif
 
+  gIndenter++;
+
   // create the 'insider' handler
-// JMI  os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
+#ifdef TRACE_OAH
+  if (true) { // JMI
+    gLogOstream <<
+      "Creating the insider handler for \"" << fDualHandlerName << "\"" <<
+      endl;
+  }
+#endif
+
   fXml2lyInsiderHandler =
     xml2lyInsiderOahHandler::create (
       fExecutableName,
-      fDualHandlerName,
+      fDualHandlerName + "_insider",
       os);
-
   // propagate it into the base class
   setInsiderHandler (fXml2lyInsiderHandler);
 
-  // create the 'user' handler
-// JMI  os << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
-  fXml2lyUserHandler =
-    fXml2lyInsiderHandler->
-      createHandlerNewbornCloneWithoutGroups ();
 
+  // create the 'user' handler
+#ifdef TRACE_OAH
+  if (true) { // JMI
+    gLogOstream <<
+      "Creating the user handler for \"" << fDualHandlerName << "\"" <<
+      endl;
+  }
+#endif
+
+  fXml2lyUserHandler =
+    xml2lyInsiderOahHandler::createMinimal (
+      fExecutableName,
+      fDualHandlerName + "_user",
+      os);
   // propagate it into the base class
   setUserHandler (fXml2lyUserHandler);
+
+  // register user handler in itself,
+  // so that the 'global' help options can be handled
+  fXml2lyUserHandler->
+    registerHandlerInItself ();
 
   // create the user handler groups
   createUserHandlerGroups (os);
@@ -102,82 +124,103 @@ if (true) { // JMI TESTS
 } else {
   fOahHandlerToBeUsed = fInsiderHandler;
 }
+
+#ifdef TRACE_OAH
+  if (true) { // JMI
+    gLogOstream <<
+      "Setting dual handler \"" <<
+      fDualHandlerName <<
+      "\" handler to \"" <<
+      fOahHandlerToBeUsed->getHandlerHeader () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  gIndenter--;
 }
 
 void xml2lyOahDualHandler::createUserHandlerGroups (
   ostream& os)
 {
-// JMI  os << "createUserHandlerGroups()" << endl;
+#ifdef TRACE_OAH
+  if (true) { // JMI
+    gLogOstream <<
+      "Creating the user handler groups for \"" << fDualHandlerName << "\"" <<
+      endl;
+  }
+#endif
 
-  createOahUserGroup (os);
+  // protect library against multiple initializations
+  static bool thisMethodHasBeenRun = false;
 
-  createInformationsUserGroup (os);
+  if (! thisMethodHasBeenRun) {
+    createOahUserGroup (os);
 
-  createWarningAndErrorsUserGroup (os);
+    createInformationsUserGroup (os);
 
-  createFilesUserGroup (os);
+    createWarningAndErrorsUserGroup (os);
 
-  createInputUserGroup (os);
+    createFilesUserGroup (os);
 
-  createPartsUserGroup (os);
-  createStavesUserGroup (os);
-  createVoicesUserGroup (os);
+    createInputUserGroup (os);
 
-  createTranspositionsUserGroup (os);
+    createPartsUserGroup (os);
+    createStavesUserGroup (os);
+    createVoicesUserGroup (os);
 
-  createClefsUserGroup (os);
-  createKeysUserGroup (os);
-  createTimesUserGroup (os);
+    createTranspositionsUserGroup (os);
 
-  createRepeatsUserGroup (os);
+    createClefsUserGroup (os);
+    createKeysUserGroup (os);
+    createTimesUserGroup (os);
 
-  createMeasuresUserGroup (os);
+    createRepeatsUserGroup (os);
 
-  createRestsUserGroup (os);
-  createNotesUserGroup (os);
+    createMeasuresUserGroup (os);
 
-  creatBeamsUserGroup (os);
+    createRestsUserGroup (os);
+    createNotesUserGroup (os);
 
-  createArticulationsUserGroup (os);
+    creatBeamsUserGroup (os);
 
-  createOrnamentsUserGroup (os);
+    createArticulationsUserGroup (os);
 
-  createGraceNotesUserGroup (os);
+    createOrnamentsUserGroup (os);
 
-  createChordsUserGroup (os);
+    createGraceNotesUserGroup (os);
 
-  createTiesUserGroup (os);
-  createSlursUserGroup (os);
-  createLigaturesUserGroup (os);
+    createChordsUserGroup (os);
 
-  createDynamicsUserGroup (os);
-  createWedgesUserGroup (os);
+    createTiesUserGroup (os);
+    createSlursUserGroup (os);
+    createLigaturesUserGroup (os);
 
-  createTupletsUserGroup (os);
+    createDynamicsUserGroup (os);
+    createWedgesUserGroup (os);
 
-  createLyricsUserGroup (os);
+    createTupletsUserGroup (os);
 
-  createStringsUserGroup (os);
+    createLyricsUserGroup (os);
 
-  createTablaturesUserGroup (os);
+    createStringsUserGroup (os);
 
-  createHarmoniesUserGroup (os);
+    createTablaturesUserGroup (os);
 
-  createFiguredBassesUserGroup (os);
+    createHarmoniesUserGroup (os);
 
-  createHeaderUserGroup (os);
-  createPaperUserGroup (os);
-  createLayoutUserGroup (os);
+    createFiguredBassesUserGroup (os);
 
-  createOutputUserGroup (os);
+    createHeaderUserGroup (os);
+    createPaperUserGroup (os);
+    createLayoutUserGroup (os);
 
-  createMidiUserGroup (os);
+    createOutputUserGroup (os);
 
-  // register options handler in itself,
-  // so that the 'global' help options can be handled
+    createMidiUserGroup (os);
 
-  fUserHandler->
-    registerHandlerInItself ();
+    thisMethodHasBeenRun = true;
+  }
 }
 
 void xml2lyOahDualHandler::createOahUserGroup (
@@ -212,6 +255,33 @@ void xml2lyOahDualHandler::createOahUserGroup (
         group);
   group->
     appendSubGroupToGroup (subGroup);
+
+  // add the 'insider' option
+  {
+    S_oahSubGroup
+      subGroup =
+        oahSubGroup::create (
+          "Options and help view",
+          "hoahv", "options-and-help-view",
+R"()",
+        kElementVisibilityWhole,
+        group);
+
+    group->
+      appendSubGroupToGroup (subGroup);
+
+    subGroup->
+      appendAtomToSubGroup (
+        oahDualHandlerInsiderAtom::create (
+          "insider", "",
+R"(In the default 'user' view, the options are grouped by music scoring topics,
+such a slurs, tuplets and figured bass.
+This option switches the options and help view to 'insider',
+in which the options are grouped as they are used by the various
+internal representations and translation passes.
+This unleashes the full set of display and trace options.
+This option should be the first one.)"));
+  }
 
   // atoms
 

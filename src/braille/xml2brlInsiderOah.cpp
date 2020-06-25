@@ -176,9 +176,9 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
   */
 
   // protect library against multiple initializations
-  static bool initializeXml2brlInsiderOahHandlingHasBeenRun = false;
+  static bool thisMethodHasBeenRun = false;
 
-  if (! initializeXml2brlInsiderOahHandlingHasBeenRun) {
+  if (! thisMethodHasBeenRun) {
     // initialize options handling, phase 1
     // ------------------------------------------------------
 
@@ -271,7 +271,7 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
     }
 #endif
 
-  initializeXml2brlInsiderOahHandlingHasBeenRun = true;
+  thisMethodHasBeenRun = true;
   }
 }
 

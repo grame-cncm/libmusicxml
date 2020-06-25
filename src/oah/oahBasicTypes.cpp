@@ -9287,6 +9287,7 @@ ostream& operator<< (ostream& os, const S_oahGroup& elt)
 }
 
 //______________________________________________________________________________
+/* pure virtual class
 S_oahHandler oahHandler::create (
   string   executableName,
   string   handlerHeader,
@@ -9314,11 +9315,9 @@ S_oahHandler oahHandler::create (
       handlerDescription,
       handlerLogOstream);
   assert(o!=0);
-
-  o->initializeHandler ();
-
   return o;
 }
+*/
 
 oahHandler::oahHandler (
   string   executableName,
@@ -9360,6 +9359,8 @@ oahHandler::oahHandler (
 
   fHandlerUsage =
     handlerUsage;
+
+  initializeHandler ();
 }
 
 void oahHandler::initializeHandler ()
@@ -9401,7 +9402,7 @@ void oahHandler::initializeHandler ()
 oahHandler::~oahHandler ()
 {}
 
-void oahHandler::registerHandlerInItself ()
+void oahHandler::registerHandlerInItself () // better name??? JMI
 {
   this->
     registerElementInHandler (this);
@@ -9414,7 +9415,6 @@ void oahHandler::registerHandlerInItself ()
     this);
 */
 
-//* JMI
   for (
     list<S_oahGroup>::const_iterator
       i = fHandlerGroupsList.begin ();
@@ -9426,7 +9426,6 @@ void oahHandler::registerHandlerInItself ()
       registerGroupInHandler (
         this);
   } // for
- // */
 }
 
 S_oahPrefix oahHandler::fetchNameInPrefixesMap (
@@ -9898,10 +9897,12 @@ void oahHandler::print (ostream& os) const
   }
 
   // print the known options
+if (false) { // JMI
   os <<
-    "oahHandler known options" << // JMI
+    "oahHandler known options" <<
     endl;
   printKnownOptions (os);
+}
 
   gIndenter--;
 }
@@ -10263,7 +10264,7 @@ void oahHandler::printAllOahCommandLineValues (
   if (gTraceOah->fTraceOahDetails) { // JMI ???
     printKnownPrefixes (gOutputOstream);
     printKnownSingleCharacterOptions (gOutputOstream);
-    printKnownOptions (gOutputOstream);
+    //printKnownOptions (gOutputOstream); JMI
   }
 #endif
 
@@ -10652,8 +10653,8 @@ void oahHandler::printKnownOptions (ostream& os) const
     "The " <<
     handlerElementsMapSize <<
     " known options for the " <<
-    handlerElementsMapSize <<
-    " registered elements are in \"" <<
+    handlerElementsMapSize << // JMI
+    " registered elements in \"" <<
     fExecutableName <<
     "\" OAH handler " <<
     fHandlerHeader <<
@@ -10679,6 +10680,61 @@ void oahHandler::printKnownOptions (ostream& os) const
           os);
 
       gIndenter--;
+
+      if (++i == iEnd) break;
+    } // for
+  }
+  else {
+    os <<
+      "none" <<
+      endl;
+  }
+
+  gIndenter--;
+
+  // create a list of the options map elements names
+  list<string> optionsMapElementsNamesList;
+
+  int optionsMapElementsNamesListSize =
+    optionsMapElementsNamesList.size ();
+
+  if (optionsMapElementsNamesListSize) {
+    for (
+      map<string, S_oahElement>::const_iterator i = fHandlerElementsMap.begin ();
+      i!= fHandlerElementsMap.end ();
+      i++
+    ) {
+      optionsMapElementsNamesList.push_back ((*i).first);
+    } // for
+  }
+
+  // sort it
+  optionsMapElementsNamesList.sort ();
+
+  // print it
+  os <<
+    "The " <<
+    optionsMapElementsNamesListSize <<
+    " known options names for the " <<
+    optionsMapElementsNamesListSize << // JMI
+    " registered elements in \"" <<
+    fExecutableName <<
+    "\" OAH handler " <<
+    fHandlerHeader <<
+    " are:" <<
+    endl;
+
+  gIndenter++;
+
+  if (optionsMapElementsNamesListSize) {
+    list<string>::const_iterator
+      iBegin = optionsMapElementsNamesList.begin (),
+      iEnd   = optionsMapElementsNamesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" << (*i) << "\" ==>" <<
+        endl;
 
       if (++i == iEnd) break;
     } // for
@@ -10942,14 +10998,11 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
 
   int clusterElementsListSize =
     clusterElementsList.size ();
-  int singleCharacterShortNamesSetSize =
-    fSingleCharacterShortNamesSet.size ();
 
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       gOutputOstream <<
         "clusterElementsListSize = " << clusterElementsListSize <<
-        ", singleCharacterShortNamesSetSize = " << singleCharacterShortNamesSetSize <<
         endl;
 
       gOutputOstream <<
@@ -10987,10 +11040,21 @@ bool oahHandler::optionNameIsASingleCharacterOptionsCluster (
     }
 #endif
 
+  int optionNameSize =
+    optionName.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gOutputOstream <<
+      "optionNameSize = " << optionNameSize <<
+      endl;
+  }
+#endif
+
   if (
     clusterElementsListSize
       &&
-    clusterElementsListSize == singleCharacterShortNamesSetSize
+    clusterElementsListSize == optionNameSize
   ) {
     // all the elements in clusterElementsList are single character options,
     // handle them
@@ -12039,10 +12103,12 @@ void oahHandler::handleOptionName (
 
       s <<
         "oahHandler::handleOptionName(): " << // JMI
-        "option name '" << name << "' is unknown";
+        "option name '" << name << "' is unknown in \"" <<
+        fHandlerHeader <<
+        "\"";
 
-// JMI      oahError (s.str ());
-      oahWarning (s.str ());
+      oahError (s.str ());
+// JMI      oahWarning (s.str ());
     }
   }
 

@@ -28,6 +28,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+/* pure virtual class
 S_oahDualHandler oahDualHandler::create (
   string   dualHandlerName,
   string   executableName,
@@ -48,6 +49,7 @@ S_oahDualHandler oahDualHandler::create (
 
   return o;
 }
+*/
 
 oahDualHandler::oahDualHandler (
   string   dualHandlerName,
@@ -71,56 +73,28 @@ oahDualHandler::oahDualHandler (
   fInsiderAtomShortName = insiderAtomShortName;
   fInsiderAtomLongName  = insiderAtomLongName;
 
-  // createTheTwoHandlers() will be called in the derived classes 'create()' method JMI
+  // createTheTwoHandlers() will be called in the derived classes 'create()' method
 }
 
 oahDualHandler::~oahDualHandler ()
 {}
 
-/* JMI
-S_oahDualHandler oahDualHandler::createHandlerNewbornCloneWithoutGroups ()
+void oahDualHandler::switchToInsiderView ()
 {
+  fOahHandlerToBeUsed = fInsiderHandler;
+
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (true) { // JMI
     gLogOstream <<
-      "Creating a newborn clone of oahDualHandler" <<
+      "Switching dual handler \"" <<
+      fDualHandlerName <<
+      "\" handler to \"" <<
+      fOahHandlerToBeUsed->getHandlerHeader () <<
+      "\"" <<
       endl;
   }
 #endif
 
-  S_oahDualHandler
-    newbornClone =
-      oahDualHandler::create (
-        fExecutableName,
-        gLogOstream);
-
-  newbornClone->fHandlerHeader =
-    fHandlerHeader + "_clone";
-
-  newbornClone->fShortName =
-    fShortName + "_clone";
-  newbornClone->fLongName =
-    fLongName + "_clone";
-
-  newbornClone->fHandlerPrefixesMap =
-    fHandlerPrefixesMap;
-
-//  newbornClone->fHandlerElementsMap = // JMI TESTS
-//    fHandlerElementsMap;
-
-//  newbornClone->fSingleCharacterShortNamesSet =
-//    fSingleCharacterShortNamesSet;
-
-  return newbornClone;
-}
-*/
-
-void oahDualHandler::createTheTwoHandlers (ostream& os)
-{}
-
-void oahDualHandler::switchToInsiderView ()
-{
-  fOahHandlerToBeUsed = fInsiderHandler;
   // fInsiderOptionsCounter will be incremented in
   // oahDualHandlerInsiderAtom::handleOptionUnderName (),
   // since the 'insider' option will be handled anyway
@@ -135,6 +109,14 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
 
 //  bool saveTraceOah = gTraceOah->fTraceOah;
 //  gTraceOah->fTraceOah = true; // JMI, TESTS
+
+#ifdef TRACE_OAH
+  if (true) { // JMI
+    gLogOstream <<
+      "Populating the user handler from the insider handler for \"" << fDualHandlerName << "\"" <<
+      endl;
+  }
+#endif
 
   // create the 'put aside' group
   fPutAsideInUserViewGroup =
@@ -206,29 +188,17 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
   checkMappingsUse ();
 
 #ifdef TRACE_OAH
-//  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-  if (true || (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet)) {
-    gLogOstream <<
-      endl << endl <<
-      "*******************************************************************" <<
-      endl << endl;
-
-    gLogOstream <<
-      "xml2lyInsiderOahHandler fInsiderHandler:" <<
-      endl;
-
-    fInsiderHandler->
-      print (
-        gLogOstream);
+  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+// JMI  if (true || (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet)) {
+    printInsiderHandler (gLogOstream);
 
     gLogOstream <<
       endl << endl <<
       "*******************************************************************" <<
       endl << endl;
 
-    gLogOstream <<
-      "xml2lyInsiderOahHandler fUserHandler:" <<
-      endl;
+/* JMI
+    printUserHandler (gLogOstream);
 
     fUserHandler->
       print (
@@ -238,7 +208,7 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
       endl << endl <<
       "*******************************************************************" <<
       endl << endl;
-
+*/
   }
 #endif
 
@@ -561,14 +531,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::applyOptionsAndArgume
       ||
     argument1 == string ("-") + fInsiderAtomLongName
     ) {
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceOah) {
-        gLogOstream <<
-          "==> oahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv(): switching from user to insider view" <<
-          endl;
-      }
-#endif
-
       switchToInsiderView ();
     }
     else {
@@ -622,14 +584,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::hangleOptionsFromOpti
         ||
       optionName1 == string ("-") + fInsiderAtomLongName
     ) {
-#ifdef TRACE_OAH
-      if (gTraceOah->fTraceOah) {
-        gLogOstream <<
-          "==> oahDualHandler::hangleOptionsFromOptionsVector(): switching from user to insider view" <<
-          endl;
-      }
-#endif
-
       switchToInsiderView ();
     }
     else {
@@ -678,6 +632,74 @@ string oahDualHandler::asString () const
   return "oahDualHandlerInsiderAtom";
 }
 
+void oahDualHandler::printInsiderHandler (ostream& os) const
+{
+  os <<
+    endl <<
+    "------------ " <<
+    "insiderHandler" <<
+     " ------------" <<
+   endl;
+
+  gIndenter++;
+
+  const list<S_oahGroup>
+    insiderHandlerGroupsList =
+      fInsiderHandler->
+        getHandlerGroupsList ();
+
+  if (insiderHandlerGroupsList.size ()) {
+    os << endl;
+
+    list<S_oahGroup>::const_iterator
+      iBegin = insiderHandlerGroupsList.begin (),
+      iEnd   = insiderHandlerGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the group help
+      (*i)->print (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  gIndenter--;
+}
+
+void oahDualHandler::printUserHandler (ostream& os) const
+{
+  os <<
+    endl <<
+    "------------ " <<
+    "userOahHandler" <<
+    " ------------" <<
+    endl;
+
+  gIndenter++;
+
+  const list<S_oahGroup>
+    userOahHandlerGroupsList =
+      fUserHandler->
+        getHandlerGroupsList ();
+
+  if (userOahHandlerGroupsList.size ()) {
+    os << endl;
+
+    list<S_oahGroup>::const_iterator
+      iBegin = userOahHandlerGroupsList.begin (),
+      iEnd   = userOahHandlerGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the group help
+      (*i)->print (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  gIndenter--;
+}
+
 void oahDualHandler::print (ostream& os) const
 {
   os <<
@@ -693,71 +715,14 @@ void oahDualHandler::print (ostream& os) const
 
   gIndenter++;
 
-  {
-    os <<
-      endl <<
-      "------------ " <<
-      "insiderHandler" <<
-       " ------------" <<
-     endl;
+  printInsiderHandler (os);
 
-    gIndenter++;
+  os <<
+    endl <<
+    "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+    endl << endl;
 
-    const list<S_oahGroup>
-      insiderHandlerGroupsList =
-        fInsiderHandler->
-          getHandlerGroupsList ();
-
-    if (insiderHandlerGroupsList.size ()) {
-      os << endl;
-
-      list<S_oahGroup>::const_iterator
-        iBegin = insiderHandlerGroupsList.begin (),
-        iEnd   = insiderHandlerGroupsList.end (),
-        i      = iBegin;
-      for ( ; ; ) {
-        // print the group help
-        (*i)->print (os);
-        if (++i == iEnd) break;
-        os << endl;
-      } // for
-    }
-
-    gIndenter--;
-  }
-
-  {
-    os <<
-      endl <<
-      "------------ " <<
-      "userOahHandler" <<
-      " ------------" <<
-      endl;
-
-    gIndenter++;
-
-    const list<S_oahGroup>
-      userOahHandlerGroupsList =
-        fUserHandler->
-          getHandlerGroupsList ();
-
-    if (userOahHandlerGroupsList.size ()) {
-      os << endl;
-
-      list<S_oahGroup>::const_iterator
-        iBegin = userOahHandlerGroupsList.begin (),
-        iEnd   = userOahHandlerGroupsList.end (),
-        i      = iBegin;
-      for ( ; ; ) {
-        // print the group help
-        (*i)->print (os);
-        if (++i == iEnd) break;
-        os << endl;
-      } // for
-    }
-
-    gIndenter--;
-  }
+  printUserHandler (os);
 
   gIndenter--;
 
