@@ -275,7 +275,13 @@ void msrPitchesLanguageAtom::printAtomOptionsValues (
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -631,6 +637,10 @@ void msrRenamePartAtom::printAtomOptionsValues (
         endl;
       if (++i == iEnd) break;
     } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
 
     gIndenter--;
   }

@@ -670,6 +670,17 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
   return voice;
 }
 
+void msrStaff::registerVoiceInStaffAllVoicesList (
+  S_msrVoice voice)
+{
+  // register voice in this staff
+  fStaffAllVoicesList.push_back (voice);
+
+  // register it in the part uplink
+  fStaffPartUpLink->
+    registerVoiceInPartAllVoicesList (voice);
+}
+
 void msrStaff::registerVoiceByItsNumber (
   int        inputLineNumber,
   int        voiceNumber,
@@ -689,7 +700,7 @@ void msrStaff::registerVoiceByItsNumber (
   fStaffAllVoicesMap [voiceNumber] = voice;
 
   // register it in all voices list
-  fStaffAllVoicesList.push_back (voice);
+  registerVoiceInStaffAllVoicesList (voice);
 
   // sort the list if necessary
   switch (voice->getVoiceKind ()) {
@@ -764,7 +775,7 @@ void msrStaff::registerRegularVoiceByItsNumber (
   fStaffRegularVoicesList.push_back (regularVoice);
 
   // register it in all voices list
-  fStaffAllVoicesList.push_back (regularVoice);
+  registerVoiceInStaffAllVoicesList (regularVoice);
 
   // setRegularVoiceStaffSequentialNumber() will be called in msrStaff::finalizeStaff()
 
@@ -792,7 +803,7 @@ void msrStaff::registerVoiceInAllVoicesList (
   }
 #endif
 
-  fStaffAllVoicesList.push_back (voice);
+  registerVoiceInStaffAllVoicesList (voice);
 }
 */
 

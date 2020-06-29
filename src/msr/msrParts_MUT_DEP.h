@@ -20,6 +20,8 @@ class msrPart : public msrPartGroupElement
     #define K_PART_FIGURED_BASS_STAFF_NUMBER  20
     #define K_PART_FIGURED_BASS_VOICE_NUMBER  21
 
+  public:
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -393,7 +395,8 @@ class msrPart : public msrPartGroupElement
 
     // voices
 
-    void                  removePartEmptyVoices ();
+    void                  registerVoiceInPartAllVoicesList (
+                            S_msrVoice voice);
 
     // frames
 
@@ -520,6 +523,10 @@ class msrPart : public msrPartGroupElement
 
     string                fPartInstrumentName;
     string                fPartInstrumentAbbreviation;
+
+    // voices
+
+    list<S_msrVoice>      fPartAllVoicesList;
 
     // measures
 

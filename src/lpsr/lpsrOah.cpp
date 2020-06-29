@@ -274,7 +274,13 @@ void lpsrPitchesLanguageAtom::printAtomOptionsValues (
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -519,7 +525,13 @@ void lpsrChordsLanguageAtom::printAtomOptionsValues (
     " : \"" <<
     lpsrChordsLanguageKindAsString (
       fLpsrChordsLanguageKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -743,7 +755,9 @@ void lpsrTransposeAtom::printAtomOptionsValues (
     os << endl;
     gIndenter++;
     os <<
-      fMsrSemiTonesPitchAndOctaveVariable;
+      fMsrSemiTonesPitchAndOctaveVariable <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
     gIndenter--;
   }
   else {
@@ -1057,6 +1071,10 @@ void lpsrDalSegnoAtom::printAtomOptionsValues (
       if (++i == iEnd) break;
     } // for
 
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+
     gIndenter--;
   }
 }
@@ -1363,6 +1381,10 @@ void lpsrDalSegnoAlFineAtom::printAtomOptionsValues (
         endl;
       if (++i == iEnd) break;
     } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
 
     gIndenter--;
   }
@@ -1671,6 +1693,10 @@ void lpsrDalSegnoAlCodaAtom::printAtomOptionsValues (
         endl;
       if (++i == iEnd) break;
     } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
 
     gIndenter--;
   }

@@ -13,6 +13,7 @@
 #include <signal.h>
 #endif
 
+#include "libmusicxml.h"
 #include "version.h"
 
 #include "utilities.h"
@@ -47,17 +48,20 @@ static void _sigaction(int signal, siginfo_t *si, void *arg)
     exit(-2);
 }
 
-static void catchsigs()
+static void catchsigs ()
 {
 	struct sigaction sa;
 
-    memset(&sa, 0, sizeof(struct sigaction));
-    sigemptyset(&sa.sa_mask);
+    memset (&sa, 0, sizeof(struct sigaction));
+
+    sigemptyset (&sa.sa_mask);
+
     sa.sa_sigaction = _sigaction;
-    sa.sa_flags   = SA_SIGINFO;
-    sigaction(SIGSEGV, &sa, NULL);
-    sigaction(SIGILL, &sa, NULL);
-    sigaction(SIGFPE, &sa, NULL);
+    sa.sa_flags     = SA_SIGINFO;
+
+    sigaction (SIGSEGV, &sa, NULL);
+    sigaction (SIGILL, &sa, NULL);
+    sigaction (SIGFPE, &sa, NULL);
 }
 
 #else
@@ -93,13 +97,6 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
-#ifdef TRACE_OAH
-  if (false && gTraceOah->fTraceOahDetails) { // JMI TESTS
-    dualHandler->
-      print (gOutputOstream);
-  }
-#endif
-
   // analyze the command line options and arguments
   // ------------------------------------------------------
 
@@ -125,8 +122,6 @@ int main (int argc, char *argv[])
   catch (std::exception& e) {
     return kInvalidFile;
   }
-
-  dualHandler->checkOptionsAndArguments ();
 
 #else
 
@@ -174,6 +169,14 @@ int main (int argc, char *argv[])
   catch (std::exception& e) {
     return kInvalidFile;
   }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) { // JMI
+    handler->printKnownPrefixes (gOutputOstream);
+    handler->printKnownSingleCharacterOptions (gOutputOstream);
+    // handler->printKnownOptions (gOutputOstream);
+  }
+#endif
 
 #endif
 

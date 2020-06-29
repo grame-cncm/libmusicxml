@@ -9,8 +9,6 @@
 
 #include <iomanip>      // setw()), set::precision(), ...
 
-#include <regex>
-
 #ifndef WIN32
 #include <signal.h>
 #endif
@@ -50,7 +48,7 @@ static void _sigaction(int signal, siginfo_t *si, void *arg)
     exit(-2);
 }
 
-static void catchsigs()
+static void catchsigs ()
 {
 	struct sigaction sa;
 
@@ -125,26 +123,6 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
-  dualHandler->checkOptionsAndArguments ();
-
-#ifdef TRACE_OAH
-  if (true || gTraceOah->fTraceOah) { // JMI TESTS
-    S_oahHandler
-      userHandler =
-        dualHandler->getUserHandler ();
-
-    userHandler->printKnownPrefixes (gOutputOstream);
-    userHandler->printKnownSingleCharacterOptions (gOutputOstream);
-    // userHandler->printKnownOptions (gOutputOstream);
-  }
-
-  if (false && gTraceOah->fTraceOahDetails) { // JMI TESTS
-    dualHandler->
-      print (gOutputOstream);
-  }
-#endif
-
-
 #else
 
   // create the options handler
@@ -208,7 +186,9 @@ int main (int argc, char *argv[])
 
   string
     outputFileName =
-      gXml2lyOah->fLilyPondOutputFileName;
+      gXml2lyOah->
+        getOutputFileNameStringAtom ()->
+          getStringVariable ();
 
   int
     outputFileNameSize =

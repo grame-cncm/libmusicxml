@@ -414,7 +414,132 @@ typedef SMARTP<oahAtomWithVariableName> S_oahAtomWithVariableName;
 EXP ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt);
 
 //______________________________________________________________________________
-class oahBooleanAtom : public oahAtomWithVariableName
+class oahValuedAtom : public oahAtomWithVariableName
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum oahValuedAtomKind { // JMI ???
+      kAtomHasNoArgument,
+      kAtomHasARequiredArgument,
+      kAtomHasAnOptionsArgument };
+
+    static string oahAtomKindAsString (
+      oahValuedAtomKind oahAtomKind);
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahValuedAtom> create (
+      string shortName,
+      string longName,
+      string description,
+      string valueSpecification,
+      string variableName);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahValuedAtom (
+      string shortName,
+      string longName,
+      string description,
+      string valueSpecification,
+      string variableName);
+
+    virtual ~oahValuedAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    oahValuedAtomKind
+                          getValuedAtomKind () const
+                              { return fValuedAtomKind; }
+
+    string                getValueSpecification () const
+                              { return fValueSpecification; }
+
+    bool                  getVariableHasBeenSet () const
+                              { return fVariableHasBeenSet; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    virtual void          handleValue (
+                            string   theString,
+                            ostream& os) = 0;
+
+    virtual void          handleDefaultValue ();
+                            // used only if fElementValueExpectedKind
+                            // is equal to kElementValueExpectedOptional
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          printValuedAtomEssentials (
+                            ostream& os,
+                            int      fieldWidth) const;
+
+    void                  print (ostream& os) const;
+
+    void                  printHelp (ostream& os);
+
+    virtual void          printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  protected:
+
+    // fields
+    // ------------------------------------------------------
+
+    oahValuedAtomKind     fValuedAtomKind; // JMI
+
+    string                fValueSpecification;
+
+    bool                  fVariableHasBeenSet;
+};
+typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
+EXP ostream& operator<< (ostream& os, const S_oahValuedAtom& elt);
+
+// optional values style
+//______________________________________________________________________________
+enum oahOptionalValuesStyleKind {
+  kOptionalValuesStyleGNU, // default value
+  kOptionalValuesStyleOAH };
+
+string oahOptionalValuesStyleKindAsString (
+  oahOptionalValuesStyleKind optionalValuesStyleKind);
+
+extern map<string, oahOptionalValuesStyleKind>
+  gOahOptionalValuesStyleKindsMap;
+
+string existingOahOptionalValuesStyleKinds (int namesListMaxLength);
+
+void initializeOahOptionalValuesStyleKindsMap ();
+
+//______________________________________________________________________________
+class oahBooleanAtom : public oahValuedAtom
 {
   public:
 
@@ -449,12 +574,22 @@ class oahBooleanAtom : public oahAtomWithVariableName
 
     void                  setBooleanVariable (
                             bool value)
-                              { fBooleanVariable = value; }
+                              {
+                                fBooleanVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
+
+    bool                  getBooleanVariable () const
+                              { return fBooleanVariable; }
 
   public:
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
@@ -530,16 +665,19 @@ class oahTwoBooleansAtom : public oahBooleanAtom
     void                  setTwoBooleansVariables (
                             bool value)
                               {
-                                fBooleanVariable =
-                                  value;
-                                fBooleanSecondaryVariable =
-                                  value;
+                                fBooleanVariable = value;
+                                fBooleanSecondaryVariable = value;
+                                fVariableHasBeenSet = true;
                               }
 
   public:
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
@@ -617,18 +755,20 @@ class oahThreeBooleansAtom : public oahBooleanAtom
     void                  setThreeBooleansVariables (
                             bool value)
                               {
-                                fBooleanVariable =
-                                  value;
-                                fBooleanSecondaryVariable =
-                                  value;
-                                fBooleanTertiaryVariable =
-                                  value;
+                                fBooleanVariable = value;
+                                fBooleanSecondaryVariable = value;
+                                fBooleanTertiaryVariable = value;
+                                fVariableHasBeenSet = true;
                               }
 
   public:
 
     // services
     // ------------------------------------------------------
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
@@ -959,126 +1099,6 @@ typedef SMARTP<oahMultiplexBooleansAtom> S_oahMultiplexBooleansAtom;
 EXP ostream& operator<< (ostream& os, const S_oahMultiplexBooleansAtom& elt);
 
 //______________________________________________________________________________
-class oahValuedAtom : public oahAtomWithVariableName
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum oahValuedAtomKind { // JMI ???
-      kAtomHasNoArgument,
-      kAtomHasARequiredArgument,
-      kAtomHasAnOptionsArgument };
-
-    static string oahAtomKindAsString (
-      oahValuedAtomKind oahAtomKind);
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<oahValuedAtom> create (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    oahValuedAtom (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName);
-
-    virtual ~oahValuedAtom ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    oahValuedAtomKind
-                          getValuedAtomKind () const
-                              { return fValuedAtomKind; }
-
-    string                getValueSpecification () const
-                              { return fValueSpecification; }
-
-  public:
-
-    // services
-    // ------------------------------------------------------
-
-    virtual void          handleValue (
-                            string   theString,
-                            ostream& os) = 0;
-
-    virtual void          handleDefaultValue ();
-                            // used only if fElementValueExpectedKind
-                            // is equal to kElementValueExpectedOptional
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          printValuedAtomEssentials (
-                            ostream& os,
-                            int      fieldWidth) const;
-
-    void                  print (ostream& os) const;
-
-    void                  printHelp (ostream& os);
-
-    virtual void          printAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  protected:
-
-    // fields
-    // ------------------------------------------------------
-
-    oahValuedAtomKind     fValuedAtomKind; // JMI
-
-    string                fValueSpecification;
-};
-typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
-EXP ostream& operator<< (ostream& os, const S_oahValuedAtom& elt);
-
-// optional values style
-//______________________________________________________________________________
-enum oahOptionalValuesStyleKind {
-  kOptionalValuesStyleGNU, // default value
-  kOptionalValuesStyleOAH };
-
-string oahOptionalValuesStyleKindAsString (
-  oahOptionalValuesStyleKind optionalValuesStyleKind);
-
-extern map<string, oahOptionalValuesStyleKind>
-  gOahOptionalValuesStyleKindsMap;
-
-string existingOahOptionalValuesStyleKinds (int namesListMaxLength);
-
-void initializeOahOptionalValuesStyleKindsMap ();
-
-//______________________________________________________________________________
 class oahIntegerAtom : public oahValuedAtom
 {
   public:
@@ -1119,7 +1139,13 @@ class oahIntegerAtom : public oahValuedAtom
 
     void                  setIntegerVariable (
                             int value)
-                              { fIntegerVariable = value; }
+                              {
+                                fIntegerVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
+
+    int                   getIntegerVariable () const
+                              { return fIntegerVariable; }
 
   public:
 
@@ -1298,11 +1324,11 @@ class oahFloatAtom : public oahValuedAtom
                             float value)
                               {
                                 fFloatVariable = value;
-                                fFloatVariableHasBeenSet = true;
+                                fVariableHasBeenSet = true;
                               }
 
-    bool                  getFloatVariableHasBeenSet () const
-                              { return fFloatVariableHasBeenSet; }
+    float                 getFloatVariable () const
+                              { return fFloatVariable; }
 
   public:
 
@@ -1347,8 +1373,6 @@ class oahFloatAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     float&                fFloatVariable;
-
-    bool                  fFloatVariableHasBeenSet;
 };
 typedef SMARTP<oahFloatAtom> S_oahFloatAtom;
 EXP ostream& operator<< (ostream& os, const S_oahFloatAtom& elt);
@@ -1391,7 +1415,13 @@ class oahStringAtom : public oahValuedAtom
 
     void                  setStringVariable (
                             string value)
-                              { fStringVariable = value; }
+                              {
+                                fStringVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
+
+    string                getStringVariable () const
+                              { return fStringVariable; }
 
   public:
 
@@ -1566,7 +1596,13 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
 
     void                  setStringVariable (
                             string value)
-                              { oahStringAtom::setStringVariable (value); }
+                              {
+                                oahStringAtom::setStringVariable (value);
+                                fVariableHasBeenSet = true;
+                              }
+
+    string                getStringVariable () const
+                              { return fStringVariable; }
 
   public:
 
@@ -1653,7 +1689,13 @@ class oahRationalAtom : public oahValuedAtom
 
     void                  setRationalVariable (
                             rational value)
-                              { fRationalVariable = value;  }
+                              {
+                                fRationalVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
+
+    rational              getRationalVariable () const
+                              { return fRationalVariable; }
 
   public:
 
@@ -1739,8 +1781,14 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  setNaturalNumbersSetVariable (
-                            set<int> value)
-                              { fNaturalNumbersSetVariable = value; }
+                            set<int>& value)
+                              {
+                                fNaturalNumbersSetVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
+
+    const set<int>&       getNaturalNumbersSetVariable () const
+                              { return fNaturalNumbersSetVariable; }
 
   public:
 
@@ -1828,8 +1876,14 @@ class oahRGBColorAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     void                  setRGBColorVariable (
-                            msrRGBColor value)
-                              { fRGBColorVariable = value; }
+                            msrRGBColor& value)
+                              {
+                                fRGBColorVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
+
+    const msrRGBColor&    getRGBColorVariable () const
+                              { return fRGBColorVariable; }
 
   public:
 
@@ -1874,7 +1928,6 @@ class oahRGBColorAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     msrRGBColor&          fRGBColorVariable;
-    bool&                 fHasBeenSetVariable;
 };
 typedef SMARTP<oahRGBColorAtom> S_oahRGBColorAtom;
 EXP ostream& operator<< (ostream& os, const S_oahRGBColorAtom& elt);
@@ -1915,8 +1968,9 @@ class oahIntSetAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    const set<int>&       getIntSetVariable ()
+    const set<int>&       getIntSetVariable () const
                               { return fIntSetVariable; }
+// JMI                                 fVariableHasBeenSet = true;
 
   public:
 
@@ -2003,9 +2057,12 @@ class oahStringSetAtom : public oahValuedAtom
 
     void                  setStringSetVariable (
                             string  partName)
-                              { fStringSetVariable.insert (partName); }
+                              {
+                                fStringSetVariable.insert (partName);
+                                fVariableHasBeenSet = true;
+                              }
 
-    const set<string>&    getStringSetVariable ()
+    const set<string>&    getStringSetVariable () const
                               { return fStringSetVariable; }
 
   public:
@@ -2092,8 +2149,9 @@ class oahStringToIntMapAtom : public oahValuedAtom
     // ------------------------------------------------------
 
     const map<string, int>&
-                          getStringToIntMapVariable ()
+                          getStringToIntMapVariable () const
                               { return fStringToIntMapVariable; }
+/// JMI                                 fVariableHasBeenSet = true;
 
   public:
 
@@ -2191,7 +2249,10 @@ class oahStringAndIntegerAtom : public oahValuedAtom
 
     void                  setIntegerVariable (
                             int value)
-                              { fIntegerVariable = value; }
+                              {
+                                fIntegerVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
 
     int                   getIntegerVariable () const
                               { return fIntegerVariable; }
@@ -2289,21 +2350,30 @@ class oahStringAndTwoIntegersAtom : public oahValuedAtom
 
     void                  setStringVariable (
                             string value)
-                              { fStringVariable = value; }
+                              {
+                                fStringVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
 
     string                getStringVariable () const
                               { return fStringVariable; }
 
     void                  setPrimaryIntegerVariable (
                             int value)
-                              { fPrimaryIntegerVariable = value; }
+                              {
+                                fPrimaryIntegerVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
 
     int                   getPrimaryIntegerVariable () const
                               { return fPrimaryIntegerVariable; }
 
     void                  setSecondaryIntegerVariable (
                             int value)
-                              { fSecondaryIntegerVariable = value; }
+                              {
+                                fSecondaryIntegerVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
 
     int                   getSecondaryIntegerVariable () const
                               { return fSecondaryIntegerVariable; }
@@ -2396,7 +2466,13 @@ class oahLengthUnitKindAtom : public oahValuedAtom
 
     void                  setLengthUnitKindVariable (
                             msrLengthUnitKind value)
-                              { fLengthUnitKindVariable = value; }
+                              {
+                                fLengthUnitKindVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
+
+    msrLengthUnitKind     getLengthUnitKindVariable () const
+                              { return fLengthUnitKindVariable; }
 
   public:
 
@@ -2483,7 +2559,13 @@ class oahLengthAtom : public oahValuedAtom
 
     void                  setLengthVariable (
                             msrLength value)
-                              { fLengthVariable = value; }
+                              {
+                                fLengthVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
+
+    msrLength             getLengthVariable () const
+                              { return fLengthVariable; }
 
   public:
 
@@ -2568,12 +2650,15 @@ class oahMidiTempoAtom : public oahValuedAtom
     // set and get
     // ------------------------------------------------------
 
-    void                  setMidiTempoAtomVariable (
+    void                  setMidiTempoVariable (
                             msrMidiTempo& value)
-                              { fMidiTempoAtomVariable = value; }
+                              {
+                                fMidiTempoVariable = value;
+                                fVariableHasBeenSet = true;
+                              }
 
-    const msrMidiTempo&   getMidiTempoAtomVariable ()
-                              { return fMidiTempoAtomVariable; }
+    const msrMidiTempo&   getMidiTempoVariable () const
+                              { return fMidiTempoVariable; }
 
   public:
 
@@ -2617,7 +2702,7 @@ class oahMidiTempoAtom : public oahValuedAtom
     // fields
     // ------------------------------------------------------
 
-    msrMidiTempo&         fMidiTempoAtomVariable;
+    msrMidiTempo&         fMidiTempoVariable;
 };
 typedef SMARTP<oahMidiTempoAtom> S_oahMidiTempoAtom;
 EXP ostream& operator<< (ostream& os, const S_oahMidiTempoAtom& elt);
@@ -3151,6 +3236,7 @@ class EXP oahHandler : public oahElement
                             S_oahPrefix prefix);
 
     void                  registerHandlerInItself ();
+    void                  registerHandlerOptionNamesInItself ();
 
     void                  appendGroupToHandler (
                             S_oahGroup group);
@@ -3158,6 +3244,9 @@ class EXP oahHandler : public oahElement
                             S_oahGroup group);
 
     void                  registerElementInHandler (
+                            S_oahElement element);
+
+    void                  registerSpecificElementNamesInHandler (
                             S_oahElement element);
 
     S_oahPrefix           fetchPrefixNameInPrefixesMap (

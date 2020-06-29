@@ -231,7 +231,13 @@ void lilypondScoreOutputKindAtom::printAtomOptionsValues (
     " : \"" <<
     lpsrScoreOutputKindAsString (
       fLpsrScoreOutputKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -591,6 +597,10 @@ void lilypondTransposePartAtom::printAtomOptionsValues (
       if (++i == iEnd) break;
     } // for
 
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet) <<
+
     gIndenter--;
   }
 }
@@ -751,7 +761,7 @@ void lilypondAbsoluteOctaveEntryAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    "- no value here -" <<
+    "- no possible value here -" <<
     endl;
 }
 
@@ -1002,7 +1012,9 @@ void lilypondRelativeOctaveEntryAtom::printAtomOptionsValues (
     os << endl;
     gIndenter++;
     os <<
-      fMsrSemiTonesPitchAndOctaveVariable;
+      fMsrSemiTonesPitchAndOctaveVariable <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
     gIndenter--;
   }
   else {
@@ -1222,7 +1234,9 @@ void lilypondFixedOctaveEntryAtom::printAtomOptionsValues (
     os << endl;
     gIndenter++;
     os <<
-      fMsrSemiTonesPitchAndOctaveVariable;
+      fMsrSemiTonesPitchAndOctaveVariable <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
     gIndenter--;
   }
   else {
@@ -1473,7 +1487,13 @@ void lilypondAccidentalStyleKindAtom::printAtomOptionsValues (
     " : \"" <<
     lpsrAccidentalStyleKindAsString (
       fLpsrAccidentalStyleKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -1837,6 +1857,10 @@ void lilypondChordsDisplayAtom::printAtomOptionsValues (
       os << endl;
     } // for
 
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+
     gIndenter--;
   }
   else {
@@ -2089,7 +2113,13 @@ void lilypondLyricsDurationsKindAtom::printAtomOptionsValues (
     " : \"" <<
     lpsrLyricsDurationsKindAsString (
       fLpsrLyricsDurationsKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -5222,9 +5252,9 @@ void initializeLpsr2LilypondOahHandling (
 #endif
 
   // protect library against multiple initializations
-  static bool initializLpsr2LilypondOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializLpsr2LilypondOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the lilypond variables
     // ------------------------------------------------------
 
@@ -5244,7 +5274,7 @@ void initializeLpsr2LilypondOahHandling (
         createCloneWithDetailedTrace ();
         */
 
-    initializLpsr2LilypondOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -5475,6 +5505,8 @@ void lilypondBreakPageAfterMeasureNumberAtom::printAtomOptionsValues (
         "\" --> \"" <<
         (*i).second <<
         "\"" <<
+        ", variableHasBeenSet: " <<
+        booleanAsString (fVariableHasBeenSet) <<
         endl;
       if (++i == iEnd) break;
     } // for

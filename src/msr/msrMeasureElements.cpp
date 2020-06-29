@@ -35,40 +35,16 @@ msrMeasureElement::msrMeasureElement (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fMeasureElementMeasureNumber      = K_NO_MEASURE_NUMBER;
-  fMeasureElementPositionInMeasure  = K_NO_POSITION_MEASURE_NUMBER;
   fMeasureElementSoundingWholeNotes = rational (0, 1);
+
+  fMeasureElementMeasureNumber      = K_NO_MEASURE_NUMBER;
+
+  fMeasureElementPositionInMeasure  = K_NO_POSITION;
+  fMeasureElementPositionInVoice  = K_NO_POSITION;
 }
 
 msrMeasureElement::~msrMeasureElement ()
 {}
-
-void msrMeasureElement::setMeasureElementPositionInMeasure (
-  rational positionInMeasure,
-  string   context)
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
-    gLogOstream <<
-      "Setting measure element position in measure of " <<
-      asString () <<
-      " to '" << positionInMeasure <<
-      "' in measure '" <<
-      fMeasureElementMeasureNumber <<
-      "', context: \"" <<
-      context <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  // sanity check
-  msrAssert (
-    positionInMeasure != K_NO_POSITION_MEASURE_NUMBER,
-    "positionInMeasure == K_NO_POSITION_MEASURE_NUMBER");
-
-  fMeasureElementPositionInMeasure = positionInMeasure;
-}
 
 void msrMeasureElement::setMeasureElementSoundingWholeNotes (
   rational wholeNotes,
@@ -95,6 +71,60 @@ void msrMeasureElement::setMeasureElementSoundingWholeNotes (
     "wholeNotes == K_NO_WHOLE_NOTES");
 
   fMeasureElementSoundingWholeNotes = wholeNotes;
+}
+
+void msrMeasureElement::setMeasureElementPositionInMeasure (
+  rational positionInMeasure,
+  string   context)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
+    gLogOstream <<
+      "Setting measure element position in measure of " <<
+      asString () <<
+      " to '" << positionInMeasure <<
+      "' in measure '" <<
+      fMeasureElementMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    positionInMeasure != K_NO_POSITION,
+    "positionInMeasure == K_NO_POSITION");
+
+  fMeasureElementPositionInMeasure = positionInMeasure;
+}
+
+void msrMeasureElement::setMeasureElementPositionInVoice (
+  rational positionInVoice,
+  string   context)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
+    gLogOstream <<
+      "Setting measure element position in voice of " <<
+      asString () <<
+      " to '" << positionInVoice <<
+      "' in measure '" <<
+      fMeasureElementMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    positionInVoice != K_NO_POSITION,
+    "positionInVoice == K_NO_POSITION");
+
+  fMeasureElementPositionInVoice = positionInVoice;
 }
 
 bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (

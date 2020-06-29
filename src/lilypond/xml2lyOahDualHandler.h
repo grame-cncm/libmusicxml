@@ -188,23 +188,6 @@ class EXP xml2lyOahDualHandler : public oahDualHandler
 
     void                  createMidiUserGroup (
                             ostream& os);
-
-  protected:
-
-    // fields
-    // ------------------------------------------------------
-
-  private:
-
-    // work fields
-    // ------------------------------------------------------
-
-    // it would be way too cumbersome for oahDualHandler to be a template class,
-    // so we double its two variable here
-    S_xml2lyInsiderOahHandler
-                          fXml2lyInsiderHandler;
-    S_xml2lyInsiderOahHandler
-                          fXml2lyUserHandler;
 };
 typedef SMARTP<xml2lyOahDualHandler> S_xml2lyOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOahDualHandler& elt);

@@ -23,6 +23,8 @@ class msrVoice : public msrElement
     #define K_VOICE_HARMONY_VOICE_BASE_NUMBER      20
     #define K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER 40
 
+  public:
+
     // data types
     // ------------------------------------------------------
 
@@ -53,6 +55,8 @@ class msrVoice : public msrElement
 
     enum msrVoiceCreateInitialLastSegmentKind {
       kCreateInitialLastSegmentYes, kCreateInitialLastSegmentNo };
+
+  public:
 
     // creation from MusicXML
     // ------------------------------------------------------

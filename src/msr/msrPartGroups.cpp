@@ -12,6 +12,8 @@
 
 #include "msrPartGroups.h"
 
+#include "msrParts_MUT_DEP.h"
+
 #include "generalOah.h"
 
 #include "setTraceOahIfDesired.h"
@@ -724,6 +726,17 @@ void msrPartGroup::collectPartGroupPartsList (
   } // for
 }
 
+void msrPartGroup::registerVoiceInPartGroupAllVoicesList (
+  S_msrVoice voice)
+{
+  // register voice in this staff
+  fPartGroupAllVoicesList.push_back (voice);
+
+  // register it in the partgroup uplink
+  fPartGroupScoreUpLink->
+    registerVoiceInScoreAllVoicesList (voice);
+}
+
 void msrPartGroup::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
@@ -993,6 +1006,38 @@ void msrPartGroup::print (ostream& os) const
       fPartGroupBarlineKind) <<
     endl;
 
+  // print all the voices if any
+  int partGroupAllVoicesListSize = fPartGroupAllVoicesList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "PartGroupAllVoicesList";
+  if (partGroupAllVoicesListSize) {
+    os << endl;
+    gIndenter++;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fPartGroupAllVoicesList.begin (),
+      iEnd   = fPartGroupAllVoicesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrVoice voice = (*i);
+
+      os << voice->getVoiceName () << endl;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
+
+  // print the part group elements if any
   if (fPartGroupElements.size ()) {
     os << endl;
     list<S_msrPartGroupElement>::const_iterator

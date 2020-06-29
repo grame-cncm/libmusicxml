@@ -10,9 +10,9 @@
   research@grame.fr
 */
 
-#include "msrScores.h"
-
 #include <iomanip>      // for 'setw()'
+
+#include "msrScores.h"
 
 #include "msr.h"
 
@@ -130,6 +130,13 @@ void msrScore::setScoreMasterVoice (
 
 S_msrVoice msrScore::getScoreMasterVoice () const
 { return fScoreMasterVoice; }
+
+void msrScore::registerVoiceInScoreAllVoicesList (
+  S_msrVoice voice)
+{
+  // register voice in this staff
+  fScoreAllVoicesList.push_back (voice);
+}
 
 void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 {
@@ -683,7 +690,9 @@ void msrScore::print (ostream& os) const
       iEnd   = fCreditsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i);
+      S_msrCredit credit = (*i);
+
+      os << credit;
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -696,6 +705,37 @@ void msrScore::print (ostream& os) const
       endl;
   }
   os << endl;
+
+  // print all the voices if any
+  int scoreAllVoicesListSize = fScoreAllVoicesList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "ScoreAllVoicesList";
+  if (scoreAllVoicesListSize) {
+    os << endl;
+    gIndenter++;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fScoreAllVoicesList.begin (),
+      iEnd   = fScoreAllVoicesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrVoice voice = (*i);
+
+      os << voice->getVoiceName () << endl;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
 
   // print the part groups if any
   if (partGroupsListSize) {

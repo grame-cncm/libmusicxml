@@ -1473,9 +1473,9 @@ void initializeExtraOahHandling (
 #endif
 
   // protect library against multiple initializations
-  static bool initializeExtraOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeExtraOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the options variables
     // ------------------------------------------------------
 
@@ -1486,7 +1486,7 @@ void initializeExtraOahHandling (
     gExtraOah =
       gExtraOahUserChoices;
 
-    initializeExtraOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 
   // prepare for measure detailed trace

@@ -714,9 +714,9 @@ string lpsrScoreOutputKindAsString (
 void initializeLpsrScoreOutputKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeLpsrScoreOutputKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeLpsrScoreOutputKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // register the LilyPond score output kinds
     // --------------------------------------
 
@@ -729,6 +729,8 @@ void initializeLpsrScoreOutputKindsMap ()
     gLpsrScoreOutputKindsMap ["score-and-parts-one-file"] = kScoreAndPartsOneFile;
     gLpsrScoreOutputKindsMap ["parts-and-score-one-file"] = kPartsAndScoreOneFile;
     gLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
+
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -809,9 +811,9 @@ string lpsrOctaveEntryKindAsString (
 void initializeLpsrOctaveEntryKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeLpsrOctaveEntryKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeLpsrOctaveEntryKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // register the LilyPond score output kinds
     // --------------------------------------
 
@@ -821,7 +823,7 @@ void initializeLpsrOctaveEntryKindsMap ()
     gLpsrOctaveEntryKindsMap ["absolute"] = kOctaveEntryAbsolute;
     gLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
 
-    initializeLpsrOctaveEntryKindsMapHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -1010,9 +1012,9 @@ string lpsrAccidentalStyleKindAsLilypondString (
 void initializeLpsrAccidentalStyleKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeLpsrAccidentalStyleKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeLpsrAccidentalStyleKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // register the LilyPond accidental styles
     // --------------------------------------
 
@@ -1035,7 +1037,7 @@ void initializeLpsrAccidentalStyleKindsMap ()
     gLpsrAccidentalStyleKindsMap ["no-reset"] = kNoReset;
     gLpsrAccidentalStyleKindsMap ["forget"] = kForget;
 
-    initializeLpsrAccidentalStyleKindsMapHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -1094,16 +1096,16 @@ map<string, lpsrChordsLanguageKind>
 void initializeLpsrChordsLanguageKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeLpsrChordsLanguageKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeLpsrChordsLanguageKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     gLpsrChordsLanguageKindsMap ["ignatzek"]   = k_IgnatzekChords; // default
     gLpsrChordsLanguageKindsMap ["german"]     = k_GermanChords;
     gLpsrChordsLanguageKindsMap ["semiGerman"] = k_SemiGermanChords;
     gLpsrChordsLanguageKindsMap ["italian"]    = k_ItalianChords;
     gLpsrChordsLanguageKindsMap ["french"]     = k_FrenchChords;
 
-    initializeLpsrChordsLanguageKindsMapHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -1372,9 +1374,9 @@ string lpsrLyricsDurationsKindAsString (
 void initializeLpsrLyricsDurationsKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeLpsrLyricsDurationsKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeLpsrLyricsDurationsKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // register the LilyPond score output kinds
     // --------------------------------------
 
@@ -1383,7 +1385,7 @@ void initializeLpsrLyricsDurationsKindsMap ()
     gLpsrLyricsDurationsKindsMap ["implicit"] = kLyricsDurationsImplicit;
     gLpsrLyricsDurationsKindsMap ["explicit"] = kLyricsDurationsExplicit;
 
-    initializeLpsrLyricsDurationsKindsMapHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -1436,9 +1438,9 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
 void initializeLPSRBasicTypes ()
 {
   // protect library against multiple initializations
-  static bool initializeLPSRBasicTypesHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeLPSRBasicTypesHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
       gLogOstream <<
@@ -1472,7 +1474,7 @@ void initializeLPSRBasicTypes ()
 
     initializeLpsrLyricsDurationsKindsMap ();
 
-    initializeLPSRBasicTypesHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

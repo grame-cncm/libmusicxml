@@ -251,9 +251,9 @@ void initializeMsr2MxmltreeOahHandling (
 #endif
 
   // protect library against multiple initializations
-  static bool initializeMsr2MxmltreeOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeMsr2MxmltreeOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the MusicXML options
     // ------------------------------------------------------
 
@@ -273,7 +273,7 @@ void initializeMsr2MxmltreeOahHandling (
           createCloneWithDetailedTrace ();
           */
 
-    initializeMsr2MxmltreeOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

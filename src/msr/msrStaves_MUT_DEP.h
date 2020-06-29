@@ -178,17 +178,13 @@ class msrStaff : public msrElement
 
     const map<int, S_msrVoice>&
                           getStaffRegularVoicesMap () const
-                              {
-                                return
-                                  fStaffRegularVoicesMap;
-                              }
+                              { return fStaffRegularVoicesMap; }
 
     const list<S_msrVoice>&
                           getStaffAllVoicesVector () const
-                              {
-                                return
-                                  fStaffAllVoicesList;
-                              }
+                              { return fStaffAllVoicesList; }
+
+  public:
 
     // services
     // ------------------------------------------------------
@@ -509,6 +505,9 @@ class msrStaff : public msrElement
 
     S_msrTranspose        getStaffCurrentTranspose () const
                               { return fStaffCurrentTranspose; }
+
+    void                  registerVoiceInStaffAllVoicesList (
+                            S_msrVoice voice);
 
     // voices ordering in staves
 

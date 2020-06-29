@@ -1971,14 +1971,13 @@ R"()",
   // trace options
 
   fTraceOah = boolOptionsInitialValue;
-//  fTraceOah = true; // JMI TESTS
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "toah", "trace-oah",
 R"(Write a trace of options and help handling to standard error.
-This option should best appear first.)",
+This option should best appear early.)",
         "traceOah",
         fTraceOah));
 
@@ -1991,7 +1990,7 @@ This option should best appear first.)",
       oahTwoBooleansAtom::create (
         "toahd", "trace-oah-details",
 R"(Write a trace of options and help handling with more details to standard error.
-This option should best appear first.)",
+This option should best appear early.)",
         "traceOahDetails",
         fTraceOahDetails,
         fTraceOah));
@@ -3809,9 +3808,9 @@ void initializeTraceOahHandling (
 #endif
 
   // protect library against multiple initializations
-  static bool initializeTraceOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeTraceOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the options variables
     // ------------------------------------------------------
 
@@ -3822,7 +3821,7 @@ void initializeTraceOahHandling (
     gTraceOah =
       gTraceOahUserChoices;
 
-    initializeTraceOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

@@ -212,6 +212,11 @@ class msrScore : public msrElement
                                   fInhibitRestMeasuresBrowsing;
                               };
 
+    // voices
+
+    void                  registerVoiceInScoreAllVoicesList (
+                            S_msrVoice voice);
+
   public:
 
     // services
@@ -322,6 +327,10 @@ class msrScore : public msrElement
     // in <multiple-rest/>, the rest measures are explicit,
     // whereas LilyPond only needs the number of rest measures
     bool                  fInhibitRestMeasuresBrowsing;
+
+    // voices
+
+    list<S_msrVoice>      fScoreAllVoicesList;
 };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);

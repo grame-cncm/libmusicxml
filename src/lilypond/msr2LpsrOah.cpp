@@ -271,7 +271,13 @@ void msr2LpsrScoreOutputKindAtom::printAtomOptionsValues (
     " : \"" <<
     lpsrScoreOutputKindAsString (
       fLpsrScoreOutputKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -566,6 +572,10 @@ void msrOmitPartAtom::printAtomOptionsValues (
         endl;
       if (++i == iEnd) break;
     } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
 
     gIndenter--;
   }
@@ -862,6 +872,10 @@ void msrKeepPartAtom::printAtomOptionsValues (
         endl;
       if (++i == iEnd) break;
     } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
 
     gIndenter--;
   }

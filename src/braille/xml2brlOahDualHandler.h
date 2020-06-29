@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 /*
 //_______________________________________________________________________________
-// data types
+// data types JMI
 enum oahDualHandlerViewKind {
   kViewInsider,
   kViewUser };
@@ -62,6 +62,10 @@ class EXP xml2brlOahDualHandler : public oahDualHandler
     // public services
     // ------------------------------------------------------
 
+    void                  checkOptionsAndArguments ();
+
+    void                  enforceOahDualHandlerQuietness ();
+
   public:
 
     // print
@@ -84,13 +88,19 @@ class EXP xml2brlOahDualHandler : public oahDualHandler
     void                  createUserHandlerGroups (
                             ostream& os);
 
-    void                  createFilesUserGroup (
+    void                  createOahUserGroup (
                             ostream& os);
 
     void                  createInformationsUserGroup (
                             ostream& os);
 
     void                  createWarningAndErrorsUserGroup (
+                            ostream& os);
+
+    void                  createFilesUserGroup (
+                            ostream& os);
+
+    void                  createInputUserGroup (
                             ostream& os);
 
     void                  createPresentationUserGroup (
@@ -129,6 +139,9 @@ class EXP xml2brlOahDualHandler : public oahDualHandler
     void                  createNotesUserGroup (
                             ostream& os);
 
+    void                  creatBeamsUserGroup (
+                            ostream& os);
+
     void                  createArticulationsUserGroup (
                             ostream& os);
 
@@ -141,16 +154,31 @@ class EXP xml2brlOahDualHandler : public oahDualHandler
     void                  createChordsUserGroup (
                             ostream& os);
 
-    void                  createTiesAndSlursUserGroup (
+    void                  createTiesUserGroup (
                             ostream& os);
 
-    void                  createDynamicsAndWedgesUserGroup (
+    void                  createSlursUserGroup (
                             ostream& os);
+
+    void                  createLigaturesUserGroup (
+                            ostream& os);
+
+    void                  createDynamicsUserGroup (
+                            ostream& os);
+
+    void                  createWedgesUserGroup (
+                            ostream& os);
+    void                  createStringsUserGroup (
+                            ostream& os);
+
 
     void                  createTupletsUserGroup (
                             ostream& os);
 
     void                  createLyricsUserGroup (
+                            ostream& os);
+
+    void                  createTablaturesUserGroup (
                             ostream& os);
 
     void                  createHarmoniesUserGroup (
@@ -161,26 +189,6 @@ class EXP xml2brlOahDualHandler : public oahDualHandler
 
     void                  createOutputUserGroup (
                             ostream& os);
-
-    void                  createInsiderUserGroup (
-                            ostream& os);
-
-  protected:
-
-    // fields
-    // ------------------------------------------------------
-
-  private:
-
-    // work fields
-    // ------------------------------------------------------
-
-    // it would be way too cumbersome for oahDualHandler to be a template class,
-    // so we double its two variable here
-    S_xml2brlInsiderOahHandler
-                          fXml2brlInsiderHandler;
-    S_xml2brlInsiderOahHandler
-                          fXml2brlUserHandler;
 };
 typedef SMARTP<xml2brlOahDualHandler> S_xml2brlOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOahDualHandler& elt);

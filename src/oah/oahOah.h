@@ -225,7 +225,7 @@ class oahOah : public oahGroup
     // option name
     // --------------------------------------
 
-    string                fOptionName; // JMI
+    string                fOptionName;
 
     // trace
     // --------------------------------------

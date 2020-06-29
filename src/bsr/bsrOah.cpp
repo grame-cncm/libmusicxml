@@ -227,7 +227,13 @@ void bsrFacSimileKindAtom::printAtomOptionsValues (
     " : \"" <<
     bsrFacSimileKindAsString (
       fBsrFacSimileKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -414,7 +420,13 @@ void bsrTextsLanguageAtom::printAtomOptionsValues (
     " : \"" <<
     bsrTextsLanguageKindAsString (
       fBsrTextsLanguageKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -905,9 +917,9 @@ void initializeBsrOahHandling (
 #endif
 
   // protect library against multiple initializations
-  static bool initializeBsr2BrailleOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeBsr2BrailleOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the bsr variables
     // ------------------------------------------------------
 
@@ -926,7 +938,7 @@ void initializeBsrOahHandling (
         createCloneWithDetailedTrace ();
         */
 
-    initializeBsr2BrailleOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

@@ -126,6 +126,9 @@ class EXP oahDualHandler : public smartable
     string                commandLineWithShortNamesAsString () const;
     string                commandLineWithLongNamesAsString () const;
 
+    void                  printAllOahCommandLineValues (
+                            ostream& os) const;
+
     string                asString () const;
 
     void                  printInsiderHandler (ostream& os) const;

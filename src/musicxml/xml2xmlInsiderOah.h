@@ -32,7 +32,10 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
       string   handlerHeader,
       ostream& os);
 
-    SMARTP<xml2xmlInsiderOahHandler> createHandlerNewbornCloneWithoutGroups ();
+    static SMARTP<xml2xmlInsiderOahHandler> createWithOnlyThePrefixes (
+      string   executableName,
+      string   handlerHeader,
+      ostream& os);
 
   protected:
 
@@ -68,7 +71,7 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
     // public services
     // ------------------------------------------------------
 
-    void                  createThePrefixesAndInitialize (
+    void                  createThePrefixesAndInitializeOahHandling (
                             string executableName);
 
     void                  checkOptionsAndArguments ();
@@ -152,11 +155,6 @@ class xml2xmlOah : public oahGroup
 
     // visitors
     // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
 
   public:
 

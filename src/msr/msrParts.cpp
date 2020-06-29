@@ -1417,6 +1417,17 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
+void msrPart::registerVoiceInPartAllVoicesList (
+  S_msrVoice voice)
+{
+  // register voice in this staff
+  fPartAllVoicesList.push_back (voice);
+
+  // register it in the partgroup uplink
+  fPartPartGroupUpLink->
+    registerVoiceInPartGroupAllVoicesList (voice);
+}
+
 S_msrVoice msrPart::createPartHarmonyVoice (
   int    inputLineNumber,
   string currentMeasureNumber)
@@ -2395,6 +2406,37 @@ void msrPart::print (ostream& os) const
   printPartMeasuresWholeNotesDurationsVector (
     os,
     fieldWidth);
+
+  // print all the voices if any
+  int partAllVoicesListSize = fPartAllVoicesList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "PartAllVoicesList";
+  if (partAllVoicesListSize) {
+    os << endl;
+    gIndenter++;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fPartAllVoicesList.begin (),
+      iEnd   = fPartAllVoicesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrVoice voice = (*i);
+
+      os << voice->getVoiceName () << endl;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
 
   // print the registered staves
   if (fPartStavesMap.size ()) {

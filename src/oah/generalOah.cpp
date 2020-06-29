@@ -403,9 +403,9 @@ void initializeGeneralOahHandling (
   S_oahHandler handler)
 {
   // protect library against multiple initializations
-  static bool initializeExtraOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeExtraOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the options variables
     // ------------------------------------------------------
 
@@ -416,7 +416,7 @@ void initializeGeneralOahHandling (
     gGeneralOah =
       gGeneralOahUserChoices;
 
-    initializeExtraOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

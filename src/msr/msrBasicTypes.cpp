@@ -9325,9 +9325,9 @@ msrClefKind clefKindFromString (
 void initializeClefKinds ()
 {
   // protect library against multiple initializations
-  static bool initializeClefKindsHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeClefKindsHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
   //  gClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
 
     gClefKindsNamesList.push_back ("treble");
@@ -9377,7 +9377,7 @@ void initializeClefKinds ()
     gClefKindsNamesList.push_back ("jianpu");
     gClefKindsMap ["jianpu"] = kJianpuClef;
 
-    initializeClefKindsHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -10083,9 +10083,9 @@ list<string>
 void initializeHarmonyKinds ()
 {
   // protect library against multiple initializations
-  static bool initializeHarmonyKindsHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeHarmonyKindsHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // MusicXML harmonies
 
     gHarmonyKindsNamesList.push_back ("maj"); // JMI
@@ -10132,7 +10132,7 @@ void initializeHarmonyKinds ()
     gHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
     gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
 
-    initializeHarmonyKindsHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -10231,9 +10231,9 @@ string existingHarmonyKindsNames (int namesListMaxLength)
 void initializeHarmonyStructuresMap ()
 {
   // protect library against multiple initializations
-  static bool initializeHarmonyStructuresMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeHarmonyStructuresMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
       msrHarmonyKind
         harmonyKind =
@@ -10250,7 +10250,7 @@ void initializeHarmonyStructuresMap ()
         harmonyStructure;
     } // for
 
-    initializeHarmonyStructuresMapHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -10322,9 +10322,9 @@ map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
 void initializeQuarterTonesPitchesLanguageKinds ()
 {
   // protect library against multiple initializations
-  static bool initializeQuarterTonesPitchesLanguageKindsHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeQuarterTonesPitchesLanguageKindsHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
     gQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
     gQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
@@ -10351,7 +10351,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
     initializeSvenskaPitchNamesMap ();
     initializeVlaamsPitchNamesMap ();
 
-    initializeQuarterTonesPitchesLanguageKindsHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -14028,9 +14028,9 @@ string msrLengthUnitKindAsString (
 void initializeMsrLengthUnitKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeMsrLengthUnitKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeMsrLengthUnitKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // register the LilyPond score output kinds
     // --------------------------------------
 
@@ -14040,7 +14040,7 @@ void initializeMsrLengthUnitKindsMap ()
     gMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
     gMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
 
-    initializeMsrLengthUnitKindsMapHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -14229,9 +14229,9 @@ string msrMarginTypeKindAsString (
 void initializeMsrMarginTypeKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeMsrMarginTypeKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeMsrMarginTypeKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // register the LilyPond score output kinds
     // --------------------------------------
 
@@ -14241,7 +14241,7 @@ void initializeMsrMarginTypeKindsMap ()
     gMsrMarginTypeKindsMap ["even"] = kEvenMargin;
     gMsrMarginTypeKindsMap ["both"] = kBothMargins;
 
-    initializeMsrMarginTypeKindsMapHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -20540,9 +20540,9 @@ string msrScoreNotationKindAsString (
 void initializeMSRBasicTypes ()
 {
   // protect library against multiple initializations
-  static bool initializeMSRBasicTypesHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeMSRBasicTypesHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
       gLogOstream <<
@@ -20581,7 +20581,7 @@ void initializeMSRBasicTypes ()
 
     initializeMsrMarginTypeKindsMap ();
 
-    initializeMSRBasicTypesHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

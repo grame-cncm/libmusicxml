@@ -22,6 +22,9 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
 
@@ -34,21 +37,21 @@ typedef SMARTP<msrScore> S_msrScore;
 //______________________________________________________________________________
 class msrPartGroup : public msrPartGroupElement
 {
+/*
+  There is no hierarchy implied in part-group elements.
+  All that matters is the sequence of part-group elements relative to score-part elements.
+  The sequencing of two consecutive part-group elements does not matter.
+  It is the default-x attribute that indicates the left-to-right ordering of the group symbols.
+
+  <part-group number="1" type="start">
+  <group-name>Trombones</group-name>
+  <group-abbreviation>Trb.</group-abbreviation>
+  <group-symbol default-x="-12">brace</group-symbol>
+  <group-barline>yes</group-barline>
+  </part-group>
+*/
+
   public:
-
-    /*
-      There is no hierarchy implied in part-group elements.
-      All that matters is the sequence of part-group elements relative to score-part elements.
-      The sequencing of two consecutive part-group elements does not matter.
-      It is the default-x attribute that indicates the left-to-right ordering of the group symbols.
-
-      <part-group number="1" type="start">
-      <group-name>Trombones</group-name>
-      <group-abbreviation>Trb.</group-abbreviation>
-      <group-symbol default-x="-12">brace</group-symbol>
-      <group-barline>yes</group-barline>
-      </part-group>
-    */
 
     // data types
     // ------------------------------------------------------
@@ -79,6 +82,8 @@ class msrPartGroup : public msrPartGroupElement
 
     static string partGroupBarlineKindAsString (
       msrPartGroupBarlineKind partGroupBarlineKind);
+
+  public:
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -218,6 +223,8 @@ class msrPartGroup : public msrPartGroupElement
                           getPartGroupElements () const
                               { return fPartGroupElements; }
 
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -244,6 +251,11 @@ class msrPartGroup : public msrPartGroupElement
     void                  collectPartGroupPartsList (
                             int    inputLineNumber,
                             list<S_msrPart>& partsList);
+
+    // voices
+
+    void                  registerVoiceInPartGroupAllVoicesList (
+                            S_msrVoice voice);
 
   public:
 
@@ -340,6 +352,10 @@ class msrPartGroup : public msrPartGroupElement
     // allowing for both parts and (sub-)part groups as elements
     list<S_msrPartGroupElement>
                           fPartGroupElements;
+
+    // voices
+
+    list<S_msrVoice>      fPartGroupAllVoicesList;
 };
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);

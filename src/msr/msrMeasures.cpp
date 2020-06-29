@@ -1139,8 +1139,8 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
 {
   // sanity check
   msrAssert (
-    fCurrentMeasureWholeNotesDuration != K_NO_POSITION_MEASURE_NUMBER,
-    "currentMeasureWholeNotesDuration == K_NO_POSITION_MEASURE_NUMBER");
+    delta.getNumerator () != 0,
+    "delta.getNumerator () == 0");
 
   // compute the new measure whole notes duration
   rational

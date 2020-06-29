@@ -212,15 +212,15 @@ map<string, bsrBrailleOutputKind>
 void initializeBsrBrailleOutputKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeBsrBrailleOutputKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeBsrBrailleOutputKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     gBsrBrailleOutputKindsMap ["ascii"] = kBrailleOutputAscii; // default
     gBsrBrailleOutputKindsMap ["utf8"]  = kBrailleOutputUTF8;
     gBsrBrailleOutputKindsMap ["utf8d"] = kBrailleOutputUTF8Debug;
     gBsrBrailleOutputKindsMap ["utf16"] = kBrailleOutputUTF16;
 
-    initializeBsrBrailleOutputKindsMapHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -303,15 +303,15 @@ map<string, bsrTextsLanguageKind>
 void initializeBsrTextsLanguageKindsMap ()
 {
   // protect library against multiple initializations
-  static bool initializeBsrTextsLanguageKindsMapHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeBsrTextsLanguageKindsMapHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     gBsrTextsLanguageKindsMap ["english"] = kTextsEnglish; // default
     gBsrTextsLanguageKindsMap ["german"]  = kTextsGerman;
     gBsrTextsLanguageKindsMap ["italian"] = kTextsItalian;
     gBsrTextsLanguageKindsMap ["french"]  = kTextsFrench;
 
-    initializeBsrTextsLanguageKindsMapHasBeenRun= true;
+    pThisMethodHasBeenRun= true;
   }
 }
 
@@ -431,9 +431,9 @@ ostream& operator<< (ostream& os, const wstring& wstr)
 void initializeBSRBasicTypes ()
 {
   // protect library against multiple initializations
-  static bool initializeBSRBasicTypesHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeBSRBasicTypesHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
       gLogOstream <<
@@ -452,7 +452,7 @@ void initializeBSRBasicTypes ()
 
     initializeBsrTextsLanguageKindsMap ();
 
-    initializeBSRBasicTypesHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

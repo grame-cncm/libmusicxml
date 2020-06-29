@@ -27,6 +27,8 @@
 namespace MusicXML2
 {
 
+//#define OAH_TESTS
+
 //______________________________________________________________________________
 /* pure virtual class
 S_oahDualHandler oahDualHandler::create (
@@ -61,11 +63,11 @@ oahDualHandler::oahDualHandler (
   fDualHandlerName = dualHandlerName;
 
 #ifdef TRACE_OAH
-  if (true) { // JMI
+#ifdef OAH_TESTS
     gLogOstream <<
       "Constructing OAH dual handler \"" << fDualHandlerName << "\"" <<
       endl;
-  }
+#endif
 #endif
 
   fExecutableName = executableName;
@@ -84,15 +86,15 @@ void oahDualHandler::switchToInsiderView ()
   fOahHandlerToBeUsed = fInsiderHandler;
 
 #ifdef TRACE_OAH
-  if (true) { // JMI
-    gLogOstream <<
-      "Switching dual handler \"" <<
-      fDualHandlerName <<
-      "\" handler to \"" <<
-      fOahHandlerToBeUsed->getHandlerHeader () <<
-      "\"" <<
-      endl;
-  }
+#ifdef OAH_TESTS
+  gLogOstream <<
+    "Switching dual handler \"" <<
+    fDualHandlerName <<
+    "\" handler to \"" <<
+    fOahHandlerToBeUsed->getHandlerHeader () <<
+    "\" (insider view)" <<
+    endl;
+#endif
 #endif
 
   // fInsiderOptionsCounter will be incremented in
@@ -107,15 +109,12 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
     is retained in the 'user' view
   */
 
-//  bool saveTraceOah = gTraceOah->fTraceOah;
-//  gTraceOah->fTraceOah = true; // JMI, TESTS
-
 #ifdef TRACE_OAH
-  if (true) { // JMI
-    gLogOstream <<
-      "Populating the user handler from the insider handler for \"" << fDualHandlerName << "\"" <<
-      endl;
-  }
+#ifdef OAH_TESTS
+  gLogOstream <<
+    "Populating the user handler from the insider handler for \"" << fDualHandlerName << "\"" <<
+    endl;
+#endif
 #endif
 
   // create the 'put aside' group
@@ -188,31 +187,28 @@ void oahDualHandler::populateUserHandlerFromInsiderHandler ()
   checkMappingsUse ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-// JMI  if (true || (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet)) {
-    printInsiderHandler (gLogOstream);
+#ifdef OAH_TESTS
+  printInsiderHandler (gLogOstream);
 
-    gLogOstream <<
-      endl << endl <<
-      "*******************************************************************" <<
-      endl << endl;
+  gLogOstream <<
+    endl << endl <<
+    "*******************************************************************" <<
+    endl << endl;
 
 /* JMI
-    printUserHandler (gLogOstream);
+  printUserHandler (gLogOstream);
 
-    fUserHandler->
-      print (
-        gLogOstream);
+  fUserHandler->
+    print (
+      gLogOstream);
 
-    gLogOstream <<
-      endl << endl <<
-      "*******************************************************************" <<
-      endl << endl;
+  gLogOstream <<
+    endl << endl <<
+    "*******************************************************************" <<
+    endl << endl;
 */
-  }
 #endif
-
-//  gTraceOah->fTraceOah = saveTraceOah;
+#endif
 }
 
 void oahDualHandler::handleSubGroupMapping (S_oahSubGroup subGroup)
@@ -257,6 +253,7 @@ void oahDualHandler::handleSubGroupMapping (S_oahSubGroup subGroup)
     // remove subGroupNameToUse from the map
     it = fSubGroupNamesToUserGroupsMap.erase (it);
   }
+
   else {
     // subGroupNameToUse is not known in the map
 
@@ -450,9 +447,10 @@ void oahDualHandler::checkMappingsUse ()
         // handle the atom name
         string atomName = (*i);
 
+#ifdef OAH_TESTS
         bool
           shouldTheAtomBeOutput =
-            false // JMI TESTS
+            false
               ? true
               : atomName.size ()
                   &&
@@ -467,6 +465,7 @@ void oahDualHandler::checkMappingsUse ()
         if (shouldTheAtomBeOutput) {
           atomNamesToBeOutputList.push_back (atomName);
         }
+#endif
       } // for
 
       // output the retained atom names if any
@@ -510,9 +509,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::applyOptionsAndArgume
   int   argc,
   char* argv[])
 {
-  bool saveTraceOah = gTraceOah->fTraceOah;
-  gTraceOah->fTraceOah = true; // JMI, TESTS
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
@@ -527,24 +523,26 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::applyOptionsAndArgume
     string argument1 (argv [1]);
 
     if (
-    argument1 == string ("-") + fInsiderAtomShortName // "insider"
-      ||
-    argument1 == string ("-") + fInsiderAtomLongName
+      argument1 == string ("-") + fInsiderAtomShortName
+        ||
+      argument1 == string ("-") + fInsiderAtomLongName
     ) {
       switchToInsiderView ();
     }
     else {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceOah) {
-        gLogOstream <<
-          "==> oahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv(): remaining in user view" <<
-          endl;
-      }
+#ifdef OAH_TESTS
+      gLogOstream <<
+        "Keeping dual handler \"" <<
+        fDualHandlerName <<
+        "\" handler \"" <<
+        fOahHandlerToBeUsed->getHandlerHeader () <<
+        "\" (user view)" <<
+        endl;
+#endif
 #endif
     }
   }
-
-  gTraceOah->fTraceOah = saveTraceOah;
 
   oahHandler::oahHelpOptionsHaveBeenUsedKind
     result =
@@ -553,10 +551,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::applyOptionsAndArgume
           argc,
           argv);
 
-  // check the 'user' handler's options and arguments
-  fUserHandler->
-    checkOptionsAndArguments ();
-
   return result;
 }
 
@@ -564,9 +558,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::hangleOptionsFromOpti
   string               fakeExecutableName,
   const optionsVector& theOptionsVector)
 {
-//  bool saveTraceOah = gTraceOah->fTraceOah;
-//  gTraceOah->fTraceOah = true; // JMI, TESTS
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
@@ -588,16 +579,14 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::hangleOptionsFromOpti
     }
     else {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceOah) {
-        gLogOstream <<
-          "==> oahDualHandler::hangleOptionsFromOptionsVector(): remaining in user view" <<
-          endl;
-      }
+#ifdef OAH_TESTS
+      gLogOstream <<
+        "==> oahDualHandler::hangleOptionsFromOptionsVector(): remaining in user view" <<
+        endl;
+#endif
 #endif
     }
   }
-
-//  gTraceOah->fTraceOah = saveTraceOah;
 
   return
     fOahHandlerToBeUsed->
@@ -625,6 +614,13 @@ string oahDualHandler::commandLineWithLongNamesAsString () const
   return
     fOahHandlerToBeUsed->
       commandLineWithLongNamesAsString ();
+}
+
+void oahDualHandler::printAllOahCommandLineValues (
+  ostream& os) const
+{
+  fInsiderHandler-> printAllOahCommandLineValues (os);
+  fUserHandler-> printAllOahCommandLineValues (os);
 }
 
 string oahDualHandler::asString () const

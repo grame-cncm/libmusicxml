@@ -458,9 +458,9 @@ void initializeXml2xmlManPageOahHandling (
 #endif
 
   // protect library against multiple initializations
-  static bool initializeXml2xmlManPageOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeXml2xmlManPageOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the bsr variables
     // ------------------------------------------------------
 
@@ -480,7 +480,7 @@ void initializeXml2xmlManPageOahHandling (
         createCloneWithDetailedTrace ();
         */
 
-  initializeXml2xmlManPageOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

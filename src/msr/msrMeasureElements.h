@@ -32,11 +32,11 @@ class msrMeasureElement : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_MEASURE_NUMBER          "*unknown*"
+    #define K_NO_MEASURE_NUMBER "*unknown*"
 
-    #define K_NO_POSITION_MEASURE_NUMBER rational (-222222, 1)
+    #define K_NO_POSITION       rational (-222222, 1)
 
-    #define K_NO_WHOLE_NOTES             rational (-444444, 1)
+    #define K_NO_WHOLE_NOTES    rational (-444444, 1)
 
   protected:
 
@@ -53,11 +53,17 @@ class msrMeasureElement : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setMeasureElementSoundingWholeNotes (
+                            rational wholeNotes,
+                            string   context);
+
+    rational              getMeasureElementSoundingWholeNotes () const
+                              { return fMeasureElementSoundingWholeNotes; }
+
     void                  setMeasureElementMeasureNumber (
                             string positionInMeasure)
                               {
-                                fMeasureElementMeasureNumber =
-                                  positionInMeasure;
+                                fMeasureElementMeasureNumber = positionInMeasure;
                               }
 
     string                getMeasureElementMeasureNumber ()
@@ -70,12 +76,12 @@ class msrMeasureElement : public msrElement
     rational              getMeasureElementPositionInMeasure ()
                               { return fMeasureElementPositionInMeasure; }
 
-    void                  setMeasureElementSoundingWholeNotes (
-                            rational wholeNotes,
+    void                  setMeasureElementPositionInVoice (
+                            rational positionInVoice,
                             string   context);
 
-    rational              getMeasureElementSoundingWholeNotes () const
-                              { return fMeasureElementSoundingWholeNotes; }
+    rational              getMeasureElementPositionInVoice ()
+                              { return fMeasureElementPositionInVoice; }
 
   public:
 
@@ -118,11 +124,12 @@ class msrMeasureElement : public msrElement
       to allow for separate *.h files, C++ constraint
     */
 
+    rational              fMeasureElementSoundingWholeNotes;
+
     string                fMeasureElementMeasureNumber;
 
     rational              fMeasureElementPositionInMeasure;
-
-    rational              fMeasureElementSoundingWholeNotes;
+    rational              fMeasureElementPositionInVoice;
 };
 typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureElement& elt);

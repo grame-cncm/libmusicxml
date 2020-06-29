@@ -89,13 +89,6 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     return kInvalidFile;
   }
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahDetails) { // JMI TESTS
-    dualHandler->
-      print (gOutputOstream);
-  }
-#endif
-
   // analyze the options vector
   // ------------------------------------------------------
 
@@ -170,7 +163,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
     if (gGeneralOah->fQuiet) {
       // disable all trace and display options
-      dualHandler-> // JMI TESTS
+      dualHandler->
         enforceOahDualHandlerQuietness ();
     }
 

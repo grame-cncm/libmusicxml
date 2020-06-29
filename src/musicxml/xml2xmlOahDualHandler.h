@@ -61,10 +61,11 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
 
     // public services
     // ------------------------------------------------------
-/*
-    bool                  fetchExit2a () const;
-    bool                  fetchExit2b () const;
-*/
+
+    void                  checkOptionsAndArguments ();
+
+    void                  enforceOahDualHandlerQuietness ();
+
   public:
 
     // print
@@ -87,13 +88,19 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     void                  createUserHandlerGroups (
                             ostream& os);
 
-    void                  createFilesUserGroup (
+    void                  createOahUserGroup (
                             ostream& os);
 
     void                  createInformationsUserGroup (
                             ostream& os);
 
     void                  createWarningAndErrorsUserGroup (
+                            ostream& os);
+
+    void                  createFilesUserGroup (
+                            ostream& os);
+
+    void                  createInputUserGroup (
                             ostream& os);
 
     void                  createPresentationUserGroup (
@@ -132,6 +139,9 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     void                  createNotesUserGroup (
                             ostream& os);
 
+    void                  creatBeamsUserGroup (
+                            ostream& os);
+
     void                  createArticulationsUserGroup (
                             ostream& os);
 
@@ -144,16 +154,31 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
     void                  createChordsUserGroup (
                             ostream& os);
 
-    void                  createTiesAndSlursUserGroup (
+    void                  createTiesUserGroup (
                             ostream& os);
 
-    void                  createDynamicsAndWedgesUserGroup (
+    void                  createSlursUserGroup (
+                            ostream& os);
+
+    void                  createLigaturesUserGroup (
+                            ostream& os);
+
+    void                  createDynamicsUserGroup (
+                            ostream& os);
+
+    void                  createWedgesUserGroup (
                             ostream& os);
 
     void                  createTupletsUserGroup (
                             ostream& os);
 
     void                  createLyricsUserGroup (
+                            ostream& os);
+
+    void                  createStringsUserGroup (
+                            ostream& os);
+
+    void                  createTablaturesUserGroup (
                             ostream& os);
 
     void                  createHarmoniesUserGroup (
@@ -164,26 +189,6 @@ class EXP xml2xmlOahDualHandler : public oahDualHandler
 
     void                  createOutputUserGroup (
                             ostream& os);
-
-    void                  createInsiderUserGroup (
-                            ostream& os);
-
-  protected:
-
-    // fields
-    // ------------------------------------------------------
-
-  private:
-
-    // work fields
-    // ------------------------------------------------------
-
-    // it would be way too cumbersome for oahDualHandler to be a template class,
-    // so we double its two variable here
-    S_xml2xmlInsiderOahHandler
-                          fXml2xmlInsiderHandler;
-    S_xml2xmlInsiderOahHandler
-                          fXml2xmlUserHandler;
 };
 typedef SMARTP<xml2xmlOahDualHandler> S_xml2xmlOahDualHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlOahDualHandler& elt);

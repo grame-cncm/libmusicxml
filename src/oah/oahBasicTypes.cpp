@@ -29,6 +29,8 @@
 namespace MusicXML2
 {
 
+//#define TRACE_TESTS
+
 //______________________________________________________________________________
 S_oahAtom oahAtom::create (
   string                      shortName,
@@ -867,7 +869,7 @@ void oahAtomWithVariableName::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     endl;
@@ -918,10 +920,11 @@ oahBooleanAtom::oahBooleanAtom (
   string description,
   string variableName,
   bool&  booleanVariable)
-  : oahAtomWithVariableName (
+  : oahValuedAtom (
       shortName,
       longName,
       description,
+      "no valueSpecification for booleans ???",
       variableName),
     fBooleanVariable (
       booleanVariable)
@@ -1034,15 +1037,26 @@ void oahBooleanAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fBooleanVariable" << " : " <<
+    "booleanVariable" << " : " <<
     booleanAsString (fBooleanVariable) <<
+    endl <<
+    setw (fieldWidth) <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
     endl;
 
   gIndenter--;
+}
+
+void oahBooleanAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+  // nothing to do here
 }
 
 void oahBooleanAtom::printAtomOptionsValues (
@@ -1053,8 +1067,13 @@ void oahBooleanAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    booleanAsString (fBooleanVariable) <<
-    endl;
+    booleanAsString (fBooleanVariable);
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahBooleanAtom& elt)
@@ -1208,21 +1227,32 @@ void oahTwoBooleansAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fBooleanVariable" << " : " <<
+    "booleanVariable" << " : " <<
     booleanAsString (
       fBooleanVariable) <<
     endl <<
     setw (fieldWidth) <<
-    "fBooleanSecondaryVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "booleanSecondaryVariable" << " : " <<
     booleanAsString (
       fBooleanSecondaryVariable) <<
     endl;
 
   gIndenter--;
+}
+
+void oahTwoBooleansAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+  // nothing to do here
 }
 
 void oahTwoBooleansAtom::printAtomOptionsValues (
@@ -1233,8 +1263,13 @@ void oahTwoBooleansAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    booleanAsString (fBooleanVariable) <<
-    endl;
+    booleanAsString (fBooleanVariable);
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahTwoBooleansAtom& elt)
@@ -1393,26 +1428,37 @@ void oahThreeBooleansAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fBooleanVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "booleanVariable" << " : " <<
     booleanAsString (
       fBooleanVariable) <<
     endl <<
     setw (fieldWidth) <<
-    "fBooleanSecondaryVariable" << " : " <<
+    "booleanSecondaryVariable" << " : " <<
     booleanAsString (
       fBooleanSecondaryVariable) <<
     endl <<
     setw (fieldWidth) <<
-    "fBooleanTertiaryVariable" << " : " <<
+    "booleanTertiaryVariable" << " : " <<
     booleanAsString (
       fBooleanTertiaryVariable) <<
     endl;
 
   gIndenter--;
+}
+
+void oahThreeBooleansAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+  // nothing to do here
 }
 
 void oahThreeBooleansAtom::printAtomOptionsValues (
@@ -1426,6 +1472,11 @@ void oahThreeBooleansAtom::printAtomOptionsValues (
     booleanAsString (
       fBooleanVariable) <<
     endl;
+  if (fBooleanVariable) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_oahThreeBooleansAtom& elt)
@@ -2747,6 +2798,8 @@ oahValuedAtom::oahValuedAtom (
 {
   fValueSpecification = valueSpecification;
 
+  fVariableHasBeenSet = false;
+
   this->setElementValueExpectedKind (kElementValueExpectedYes);
 }
 
@@ -2852,6 +2905,10 @@ void oahValuedAtom::printValuedAtomEssentials (
     fValueSpecification <<
     endl <<
     setw (fieldWidth) <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
     "elementValueExpectedKind" << " : " <<
     elementValueExpectedKindAsString (fElementValueExpectedKind) <<
     endl;
@@ -2862,8 +2919,13 @@ void oahValuedAtom::print (ostream& os) const
   const int fieldWidth = 19;
 
   os <<
-    "ValuedAtom ???:" <<
-    endl;
+    "ValuedAtom ???:";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 
   gIndenter++;
 
@@ -2925,7 +2987,9 @@ void oahValuedAtom::printAtomOptionsValues (
   int      valueFieldWidth) const
 {
   os <<
-    "ValuedAtom values ???:" <<
+    "ValuedAtom values:" <<
+    "???, variableHasBeenSet: " <<
+    booleanAsString (fVariableHasBeenSet) <<
     endl;
 }
 
@@ -3118,7 +3182,7 @@ void oahIntegerAtom::handleValue (
       s >> integerValue;
     }
 
-    fIntegerVariable = integerValue;
+    setIntegerVariable (integerValue);
   }
 
   else {
@@ -3231,11 +3295,15 @@ void oahIntegerAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fIntegerVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "integerVariable" << " : " <<
     fIntegerVariable <<
     endl;
 
@@ -3250,8 +3318,13 @@ void oahIntegerAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    fIntegerVariable <<
-    endl;
+    fIntegerVariable;
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahIntegerAtom& elt)
@@ -3494,15 +3567,19 @@ void oahTwoIntegersAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fIntegerVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "integerVariable" << " : " <<
     fIntegerVariable <<
     endl <<
     setw (fieldWidth) <<
-    "fIntegerSecondaryVariable" << " : " <<
+    "integerSecondaryVariable" << " : " <<
     fIntegerSecondaryVariable <<
     endl;
 
@@ -3521,8 +3598,13 @@ void oahTwoIntegersAtom::printAtomOptionsValues (
     fIntegerVariable <<
     " " <<
     fIntegerSecondaryVariable <<
-    "\"" <<
-    endl;
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahTwoIntegersAtom& elt)
@@ -3567,9 +3649,7 @@ oahFloatAtom::oahFloatAtom (
       variableName),
     fFloatVariable (
       floatVariable)
-{
-  fFloatVariableHasBeenSet = false;
-}
+{}
 
 oahFloatAtom::~oahFloatAtom ()
 {}
@@ -3750,16 +3830,16 @@ void oahFloatAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fFloatVariable" << " : " <<
-    fFloatVariable <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
     endl <<
     setw (fieldWidth) <<
-    "fFloatVariableHasBeenSet" << " : " <<
-    booleanAsString (fFloatVariableHasBeenSet) <<
+    "floatVariable" << " : " <<
+    fFloatVariable <<
     endl;
 
   gIndenter--;
@@ -3773,10 +3853,13 @@ void oahFloatAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    fFloatVariable <<
-    ", fFloatVariableHasBeenSet: " <<
-    booleanAsString (fFloatVariableHasBeenSet) <<
-    endl;
+    fFloatVariable;
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahFloatAtom& elt)
@@ -3846,7 +3929,7 @@ void oahStringAtom::handleValue (
   string   theString,
   ostream& os)
 {
-  fStringVariable = theString;
+  setStringVariable (theString);
 }
 
 void oahStringAtom::acceptIn (basevisitor* v)
@@ -3947,11 +4030,15 @@ void oahStringAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fStringVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "stringVariable" << " : " <<
     fStringVariable <<
     endl;
 
@@ -3967,15 +4054,17 @@ void oahStringAtom::printAtomOptionsValues (
     fVariableName <<
     " : \"" <<
     fStringVariable <<
-    "\"" <<
-    endl;
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahStringAtom& elt)
 {
-  os <<
-    "StringAtom:" <<
-    endl;
   elt->print (os);
   return os;
 }
@@ -4545,11 +4634,15 @@ void oahStringWithDefaultValueAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fStringVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "stringVariable" << " : " <<
     fStringVariable <<
     endl;
 
@@ -4565,8 +4658,13 @@ void oahStringWithDefaultValueAtom::printAtomOptionsValues (
     fVariableName <<
     " : \"" <<
     fStringVariable <<
-    "\"" <<
-    endl;
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahStringWithDefaultValueAtom& elt)
@@ -4702,7 +4800,7 @@ void oahRationalAtom::handleValue (
     }
 #endif
 
-    fRationalVariable = rationalValue;
+    setRationalVariable (rationalValue);
   }
 
   else {
@@ -4814,11 +4912,15 @@ void oahRationalAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fRationalVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "rationalVariable" << " : " <<
     fRationalVariable <<
     endl;
 
@@ -4833,8 +4935,13 @@ void oahRationalAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    fRationalVariable <<
-    endl;
+    fRationalVariable;
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahRationalAtom& elt)
@@ -5038,10 +5145,14 @@ void oahNaturalNumbersSetAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fNaturalNumbersSetVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "naturalNumbersSetVariable" << " : " <<
     endl;
 
   if (! fNaturalNumbersSetVariable.size ()) {
@@ -5103,10 +5214,14 @@ void oahNaturalNumbersSetAtom::printAtomOptionsValues (
     } // for
 
     os <<
-      "'";
-  }
+        "'";
 
-  os << endl;
+    if (fVariableHasBeenSet) {
+      os <<
+        ", variableHasBeenSet: " <<
+        booleanAsString (fVariableHasBeenSet);
+    }
+  }
 }
 
 ostream& operator<< (ostream& os, const S_oahNaturalNumbersSetAtom& elt)
@@ -5153,12 +5268,8 @@ oahRGBColorAtom::oahRGBColorAtom (
       valueSpecification,
       variableName),
     fRGBColorVariable (
-      RGBColorVariable),
-    fHasBeenSetVariable (
-      hasBeenSetVariable)
+      RGBColorVariable)
 {
-  fHasBeenSetVariable = false;
-
   fMultipleOccurrencesAllowed = true;
 }
 
@@ -5185,8 +5296,9 @@ void oahRGBColorAtom::handleValue (
   string   theString,
   ostream& os)
 {
-  fRGBColorVariable = msrRGBColor (theString);
-  fHasBeenSetVariable = true;
+  msrRGBColor theRGBColor (theString);
+
+  setRGBColorVariable (theRGBColor);
 }
 
 void oahRGBColorAtom::acceptIn (basevisitor* v)
@@ -5293,13 +5405,17 @@ void oahRGBColorAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fRGBColorVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "RGBColorVariable" << " : " <<
     fRGBColorVariable.asString () <<
-    "fHasBeenSetVariable" << " : " <<
-    booleanAsString (fHasBeenSetVariable) <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
     endl;
 
   gIndenter--;
@@ -5313,13 +5429,13 @@ void oahRGBColorAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    fRGBColorVariable.asString () <<
-    endl <<
-    setw (valueFieldWidth) <<
-    "hasBeenSetVariable" <<
-    " : " <<
-    fRGBColorVariable.asString () <<
-    endl;
+    fRGBColorVariable.asString ();
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahRGBColorAtom& elt)
@@ -5599,10 +5715,14 @@ void oahIntSetAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fIntSetVariable" << " : '" <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "intSetVariable" << " : '" <<
     endl;
 
   if (! fIntSetVariable.size ()) {
@@ -5651,6 +5771,11 @@ void oahIntSetAtom::printAtomOptionsValues (
       os << (*i) << endl;
       if (++i == iEnd) break;
     } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet) <<
+      endl;
 
     gIndenter--;
   }
@@ -5894,10 +6019,14 @@ void oahStringSetAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fStringSetVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "stringSetVariable" << " : " <<
     endl;
 
   if (! fStringSetVariable.size ()) {
@@ -5948,6 +6077,11 @@ void oahStringSetAtom::printAtomOptionsValues (
         endl;
       if (++i == iEnd) break;
     } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet) <<
+      endl;
 
     gIndenter--;
   }
@@ -6241,10 +6375,14 @@ void oahStringToIntMapAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fStringSetVariable" << " : '" <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "stringSetVariable" << " : '" <<
     endl;
 
   if (! fStringToIntMapVariable.size ()) {
@@ -6299,6 +6437,11 @@ void oahStringToIntMapAtom::printAtomOptionsValues (
         endl;
       if (++i == iEnd) break;
     } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet) <<
+      endl;
 
     gIndenter--;
   }
@@ -6581,8 +6724,13 @@ void oahStringAndIntegerAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fIntegerVariableName <<
     " : " <<
-    "\"" << fIntegerVariable << "\"" <<
-    endl;
+    "\"" << fIntegerVariable << "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahStringAndIntegerAtom& elt)
@@ -6837,14 +6985,18 @@ void oahStringAndTwoIntegersAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fStringVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "stringVariable" << " : " <<
     "\"" << fStringVariable << "\"" <<
-    "fPrimaryIntegerVariable" << " : " <<
+    "primaryIntegerVariable" << " : " <<
     fPrimaryIntegerVariable <<
-    "fSecondaryIntegerVariable" << " : " <<
+    "secondaryIntegerVariable" << " : " <<
     fSecondaryIntegerVariable <<
     endl;
 
@@ -6874,8 +7026,13 @@ void oahStringAndTwoIntegersAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     "secondaryIntegerVariable" <<
     " : " <<
-    fSecondaryIntegerVariable <<
-    endl;
+    fSecondaryIntegerVariable;
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahStringAndTwoIntegersAtom& elt)
@@ -7097,11 +7254,15 @@ void oahLengthUnitKindAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsLengthUnitKindVariable" << " : \"" <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "optionsLengthUnitKindVariable" << " : \"" <<
     msrLengthUnitKindAsString (
       fLengthUnitKindVariable) <<
     "\"" <<
@@ -7120,8 +7281,13 @@ void oahLengthUnitKindAtom::printAtomOptionsValues (
     " : \"" <<
     msrLengthUnitKindAsString (
       fLengthUnitKindVariable) <<
-    "\"" <<
-    endl;
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahLengthUnitKindAtom& elt)
@@ -7400,11 +7566,15 @@ void oahLengthAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsLengthVariable" << " : " <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "optionsLengthVariable" << " : " <<
     fLengthVariable.asString () <<
     endl;
 
@@ -7419,8 +7589,13 @@ void oahLengthAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : " <<
-    fLengthVariable.asString () <<
-    endl;
+    fLengthVariable.asString ();
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahLengthAtom& elt)
@@ -7463,7 +7638,7 @@ oahMidiTempoAtom::oahMidiTempoAtom (
       description,
       valueSpecification,
       variableName),
-    fMidiTempoAtomVariable (
+    fMidiTempoVariable (
       midiTempoVariable)
 {}
 
@@ -7576,11 +7751,13 @@ void oahMidiTempoAtom::handleValue (
       midiTempoPerSecond <<
       endl;
 
-  fMidiTempoAtomVariable =
-    msrMidiTempo (
+  msrMidiTempo theMidiTempo (
       0, // inputLineNumber
       midiTempoDuration,
       midiTempoPerSecond);
+
+  setMidiTempoVariable (
+    theMidiTempo);
   }
 #endif
 }
@@ -7654,7 +7831,7 @@ string oahMidiTempoAtom::asShortNamedOptionString () const
 
   s <<
     "-" << fShortName << " " <<
-    fMidiTempoAtomVariable.asString ();
+    fMidiTempoVariable.asString ();
 
   return s.str ();
 }
@@ -7665,7 +7842,7 @@ string oahMidiTempoAtom::asActualLongNamedOptionString () const
 
   s <<
     "-" << fLongName << " " <<
-    fMidiTempoAtomVariable.asString ();
+    fMidiTempoVariable.asString ();
 
   return s.str ();
 }
@@ -7685,11 +7862,15 @@ void oahMidiTempoAtom::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fVariableName" << " : " <<
+    "variableName" << " : " <<
     fVariableName <<
     setw (fieldWidth) <<
-    "fMidiTempoAtomVariable" << " : '" <<
-    fMidiTempoAtomVariable.asString () <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "midiTempoVariable" << " : '" <<
+    fMidiTempoVariable.asString () <<
     "'" <<
     endl;
 
@@ -7704,9 +7885,14 @@ void oahMidiTempoAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : '" <<
-    fMidiTempoAtomVariable.asString () <<
-    "'" <<
-    endl;
+    fMidiTempoVariable.asString () <<
+    "'";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_oahMidiTempoAtom& elt)
@@ -8732,7 +8918,7 @@ void oahGroup::checkOptionsConsistency ()
 void oahGroup::checkGroupSubGroupsOptionsConsistency ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOahDetails) {
     gOutputOstream <<
       "Checking the consistency of OAH group \"" <<
       fGroupHeader <<
@@ -9366,13 +9552,13 @@ oahHandler::oahHandler (
 void oahHandler::initializeHandler ()
 {
 #ifdef TRACE_OAH
-  if (true) { // JMI
-    gLogOstream <<
-      "Initializing OAH handler " <<
-      "\"" << fHandlerHeader << "\"" <<
-      " for \"" << fExecutableName << "\"" <<
-      endl;
-  }
+#ifdef TRACE_TESTS
+  gLogOstream <<
+    "Initializing OAH handler " <<
+    "\"" << fHandlerHeader << "\"" <<
+    " for \"" << fExecutableName << "\"" <<
+    endl;
+#endif
 #endif
 
   // arguments handling
@@ -9402,19 +9588,22 @@ void oahHandler::initializeHandler ()
 oahHandler::~oahHandler ()
 {}
 
-void oahHandler::registerHandlerInItself () // better name??? JMI
+void oahHandler::registerHandlerInItself ()
 {
   this->
     registerElementInHandler (this);
 
-/* JMI ???
-  // register the help summary names in handler
-  registerElementNamesInHandler (
-    fHandlerSummaryShortName,
-    fHandlerSummaryLongName,
-    this);
-*/
+  /* JMI ???
+    // register the help summary names in handler
+    registerElementNamesInHandler (
+      fHandlerSummaryShortName,
+      fHandlerSummaryLongName,
+      this);
+  */
+}
 
+void oahHandler::registerHandlerOptionNamesInItself ()
+{
   for (
     list<S_oahGroup>::const_iterator
       i = fHandlerGroupsList.begin ();
@@ -9503,6 +9692,12 @@ string oahHandler::handlerOptionNamesBetweenParentheses () const
   return s.str ();
 }
 
+void oahHandler::registerSpecificElementNamesInHandler (
+  S_oahElement element)
+{
+  registerElementNamesInHandler (element);
+}
+
 void oahHandler::registerElementNamesInHandler (
   S_oahElement element)
 {
@@ -9571,7 +9766,14 @@ void oahHandler::registerElementNamesInHandler (
           " for element short name \"" << elementShortName << "\"" <<
         " is defined more that once";
 
-      oahError (s.str ());
+        abort();
+
+      if (elementShortName == "insider") { // JMI TESTS
+        abort();
+      }
+
+// JMI      oahError (s.str ());
+      oahWarning (s.str ());
     }
 
     // is elementShortName already in the elements names map?
@@ -9584,7 +9786,10 @@ void oahHandler::registerElementNamesInHandler (
           " for element long name \"" << elementLongName << "\"" <<
           " is defined more that once";
 
-        oahError (s.str ());
+        abort();
+
+// JMI      oahError (s.str ());
+      oahWarning (s.str ());
       }
     }
   } // for
@@ -9632,7 +9837,7 @@ void oahHandler::registerElementInHandler (
   S_oahElement element)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOahDetails) {
     gOutputOstream <<
       "Registering element " <<
       element->fetchNamesBetweenParentheses () <<
@@ -9687,8 +9892,7 @@ void oahHandler::checkOptionsAndArguments ()
   }
 #endif
 
-  // JMI
-  gOutputOstream << "FOOOOOOOOOOOO" << endl;
+  gOutputOstream << "oahHandler::checkOptionsAndArguments()" << endl; // JMI
 }
 
 void oahHandler::checkOptionsConsistency ()
@@ -9697,7 +9901,7 @@ void oahHandler::checkOptionsConsistency ()
 void oahHandler::checkHandlerGroupsOptionsConsistency ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOahDetails) {
     gOutputOstream <<
       "Checking the consistency of \"" <<
       fExecutableName <<
@@ -9909,11 +10113,6 @@ if (false) { // JMI
 
 void oahHandler::printHelp (ostream& os)
 {
-  // print the executable name
-  os <<
-    fExecutableName <<
-    endl;
-
   // print the options handler preamble
   os <<
     gIndenter.indentMultiLineString (
@@ -10233,10 +10432,11 @@ void oahHandler::printAllOahCommandLineValues (
 {
   // print the options handler values header
   os <<
+    "The options values for \"" <<
     fHandlerValuesHeader <<
-    " " <<
+    "\" " <<
     fetchNamesBetweenParentheses () <<
-    ":" <<
+    " are:" <<
     endl;
 
   int
@@ -11201,6 +11401,14 @@ void oahHandler::decipherOptionContainingEqualSign (
       s <<
         "option name '" << name << "' is not the name of an option";
 
+#ifdef TRACE_OAH
+      if (true || gTraceOah->fTraceOahDetails) { // JMI ???
+        printKnownPrefixes (gOutputOstream);
+        printKnownSingleCharacterOptions (gOutputOstream);
+        //printKnownOptions (gOutputOstream); JMI
+      }
+#endif
+
       oahError (s.str ());
     }
   }
@@ -11301,9 +11509,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
       endl;
   }
 #endif
-
-  bool saveTraceOah = gTraceOah->fTraceOah;
-//  gTraceOah->fTraceOah = true; // JMI, TESTS
 
   // fetch program name
   fHandlerExecutableName = string (argv [0]);
@@ -11425,10 +11630,8 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
     printKnownSingleCharacterOptions (gOutputOstream);
     printKnownOptions (gOutputOstream);
   }
-#endif
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (gTraceOah->fTraceOahDetails) {
     // print the arguments vector
     gOutputOstream <<
       "Arguments vector from argc/argv (" <<
@@ -11462,12 +11665,12 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
 
   // was this run a 'pure help' one?
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gOutputOstream <<
-      "The value of fHandlerFoundAHelpOption is: " <<
-      booleanAsString (fHandlerFoundAHelpOption) <<
-      endl;
-  }
+#ifdef TRACE_TESTS
+  gOutputOstream <<
+    "The value of fHandlerFoundAHelpOption is: " <<
+    booleanAsString (fHandlerFoundAHelpOption) <<
+    endl;
+#endif
 #endif
 
   if (fHandlerFoundAHelpOption) {
@@ -11496,8 +11699,6 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
       commandLineWithShortNamesAsString ();
   gOahOah->fCommandLineWithLongOptionsNames =
       commandLineWithLongNamesAsString ();
-
-  gTraceOah->fTraceOah = saveTraceOah;
 
   return kHelpOptionsHaveBeenUsedNo;
 }
@@ -11664,8 +11865,11 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
     else {
       // optionName is no oahElement:
       // it is an argument
-      fHandlerArgumentsVector.push_back (optionName);
-//      handleOptionValueOrArgument (optionName);
+
+      // don't keep 'insider', it has been handled early
+      if (optionName != "insider") { // JMI TESTS
+        fHandlerArgumentsVector.push_back (optionName);
+      }
     }
 
   } // for
@@ -11743,12 +11947,12 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
 
   // was this run a 'pure help' one?
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gOutputOstream <<
-      "The value of fHandlerFoundAHelpOption is: " <<
-      booleanAsString (fHandlerFoundAHelpOption) <<
-      endl;
-  }
+#ifdef TRACE_TESTS
+  gOutputOstream <<
+    "The value of fHandlerFoundAHelpOption is: " <<
+    booleanAsString (fHandlerFoundAHelpOption) <<
+    endl;
+#endif
 #endif
 
   if (fHandlerFoundAHelpOption) {
@@ -12103,12 +12307,20 @@ void oahHandler::handleOptionName (
 
       s <<
         "oahHandler::handleOptionName(): " << // JMI
-        "option name '" << name << "' is unknown in \"" <<
+        "option name \"" << name << "\" is unknown in \"" <<
         fHandlerHeader <<
         "\"";
 
+      // don't keep 'insider', it has been handled early
+      if (name != "insider") { // JMI TESTS
+        fHandlerArgumentsVector.push_back (name);
+
+        if (false) { // JMI TESTS
+          printKnownOptions (gOutputOstream);
+        }
+      }
+
       oahError (s.str ());
-// JMI      oahWarning (s.str ());
     }
   }
 

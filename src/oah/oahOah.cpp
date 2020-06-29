@@ -24,6 +24,8 @@
 
 #include "oahOah.h"
 
+#include "xml2lyOahDualHandler.h"
+
 
 using namespace std;
 
@@ -317,6 +319,20 @@ R"()",
       this);
 
   appendSubGroupToGroup (subGroup);
+
+  // the 'insider' option
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahDualHandlerInsiderAtom::create (
+        "insider", "",
+R"(In the default 'user' view, the options are grouped by music scoring topics,
+such a slurs, tuplets and figured bass.
+This option switches the options and help view to 'insider',
+in which the options are grouped as they are used by the various
+internal representations and translation passes.
+This unleashes the full set of display and trace options.
+This option should be the first one.)"));
 
   // help options
 
@@ -718,9 +734,9 @@ void initializeOahOahHandling (
   S_oahHandler handler)
 {
   // protect library against multiple initializations
-  static bool initializeOahOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeOahOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the options variables
     // ------------------------------------------------------
 
@@ -732,7 +748,7 @@ void initializeOahOahHandling (
     gOahOah =
       gOahOahUserChoices;
 
-    initializeOahOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

@@ -258,7 +258,13 @@ void brailleOutputKindAtom::printAtomOptionsValues (
     " : \"" <<
     bsrBrailleOutputKindAsString (
       fBrailleOutputKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -467,7 +473,13 @@ void brailleUTFKindAtom::printAtomOptionsValues (
     " : \"" <<
     bsrUTFKindAsString (
       fBsrUTFKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -676,7 +688,13 @@ void brailleByteOrderingKindAtom::printAtomOptionsValues (
     " : \"" <<
     bsrByteOrderingKindAsString (
       fBsrByteOrderingKindVariable) <<
-    "\"" <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os <<
     endl;
 }
 
@@ -1165,9 +1183,9 @@ void initializeBsr2BrailleOahHandling (
 #endif
 
   // protect library against multiple initializations
-  static bool initializeBsr2BrailleOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeBsr2BrailleOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the Bsr2Braille options
     // ------------------------------------------------------
 
@@ -1187,7 +1205,7 @@ void initializeBsr2BrailleOahHandling (
         createCloneWithDetailedTrace ();
         */
 
-    initializeBsr2BrailleOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

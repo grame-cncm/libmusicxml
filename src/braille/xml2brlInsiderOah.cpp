@@ -43,12 +43,15 @@ using namespace std;
 namespace MusicXML2
 {
 
+//#define OAH_TESTS
+
 //______________________________________________________________________________
 S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::create (
   string   executableName,
   string   handlerHeader,
   ostream& os)
 {
+  // create the insider handler
   xml2brlInsiderOahHandler* o = new
     xml2brlInsiderOahHandler (
       executableName,
@@ -56,7 +59,25 @@ S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::create (
       os);
   assert(o!=0);
 
-  o->createThePrefixesAndInitialize (executableName);
+  o->createThePrefixesAndInitializeOahHandling (executableName);
+
+  return o;
+}
+
+S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::createWithOnlyThePrefixes (
+  string   executableName,
+  string   handlerHeader,
+  ostream& os)
+{
+  // create the insider handler
+  xml2brlInsiderOahHandler* o = new
+    xml2brlInsiderOahHandler (
+      executableName,
+      handlerHeader,
+      os);
+  assert(o!=0);
+
+  o->createThePrefixes ();
 
   return o;
 }
@@ -80,8 +101,6 @@ R"(
 Usage: xml2brl [options] [MusicXMLFile|-] [options]
 )",
 R"(
-Options can be written with '-' or '--' at will,
-  even though the help information below is presented with '-'.
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
     os)
@@ -90,35 +109,7 @@ Option '-h, -help' prints the full help,
 xml2brlInsiderOahHandler::~xml2brlInsiderOahHandler ()
 {}
 
-S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::createHandlerNewbornCloneWithoutGroups ()
-{
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
-    gLogOstream <<
-      "Creating a newborn clone of xml2brlInsiderOahHandler" <<
-      endl;
-  }
-#endif
-
-  S_xml2brlInsiderOahHandler
-    newbornClone =
-      xml2brlInsiderOahHandler::create (
-        fExecutableName,
-        fHandlerHeader + "_clone",
-        fHandlerLogOstream);
-
-  newbornClone->fShortName =
-    fShortName + "_clone";
-  newbornClone->fLongName =
-    fLongName + "_clone";
-
-  newbornClone->fHandlerPrefixesMap =
-    fHandlerPrefixesMap;
-
-  return newbornClone;
-}
-
-void xml2brlInsiderOahHandler::createThePrefixesAndInitialize (
+void xml2brlInsiderOahHandler::createThePrefixesAndInitializeOahHandling (
   string executableName)
 {
   // create the prefixes
@@ -176,9 +167,19 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
   */
 
   // protect library against multiple initializations
-  static bool thisMethodHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! thisMethodHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
+    /* JMI
+  #ifdef TRACE_OAH
+      if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+        gLogOstream <<
+          "Initializing xml2brl insider options handling" <<
+          endl;
+      }
+  #endif
+  */
+
     // initialize options handling, phase 1
     // ------------------------------------------------------
 
@@ -236,28 +237,31 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
       this);
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
-      // print the options handler initial state
-      fHandlerLogOstream <<
-        "xml2brlInsiderOahHandler has been initialized as:" <<
-        endl;
+#ifdef OAH_TESTS
+    // print the options handler initial state
+    fHandlerLogOstream <<
+      "xml2brlInsiderOahHandler has been initialized as:" <<
+      endl;
 
-      gIndenter++;
+    gIndenter++;
 
-      print (
-        fHandlerLogOstream);
-      fHandlerLogOstream <<
-        endl <<
-        endl;
+    print (fHandlerLogOstream);
 
-      gIndenter--;
-    }
+    fHandlerLogOstream <<
+      endl <<
+      endl;
+
+    gIndenter--;
+#endif
 #endif
 
     // register options handler in itself,
     // so that the 'global' help options can be handled
     this->
       registerHandlerInItself ();
+    // register options handler names in itself
+    this->
+      registerHandlerOptionNamesInItself ();
 
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
@@ -271,17 +275,27 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
     }
 #endif
 
-  thisMethodHasBeenRun = true;
+  pThisMethodHasBeenRun = true;
   }
 }
 
 void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahDetails) {
+    gOutputOstream <<
+      "xml2brlInsiderOahHandler::checkOptionsAndArguments() " <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
   unsigned int argumentsNumber =
     fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (gTraceOah->fTraceOahDetails && ! gGeneralOah->fQuiet) {
     if (argumentsNumber > 0) {
       fHandlerLogOstream <<
         singularOrPluralWithoutNumber (
@@ -445,16 +459,32 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
   // check auto output file option usage
   // ------------------------------------------------------
 
+  string brailleMusicOutputFileName =
+    gXml2brlOah->fBrailleMusicOutputFileName;
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOahDetails && ! gGeneralOah->fQuiet) {
+    // print the options handler initial state
+    fHandlerLogOstream <<
+      "xml2brlInsiderOahHandler::checkOptionsAndArguments(): " <<
+      "gXml2brlOah->fAutoOutputFileName: " << booleanAsString (gXml2brlOah->fAutoOutputFileName) <<
+      "brailleMusicOutputFileName: " << brailleMusicOutputFileName <<
+      endl;
+  }
+#endif
+
   if (gXml2brlOah->fAutoOutputFileName) {
-    if (gXml2brlOah->fBrailleMusicOutputFileName.size ()) {
+    if (brailleMusicOutputFileName.size ()) {
       stringstream s;
 
       s <<
         "options '-aofn, -auto-output-file-name' and '-o, -output-file-name'"  <<
         endl <<
-        "cannot be chosen simultaneously";
+        "cannot be chosen simultaneously" <<
+        " (brailleMusicOutputFileName: \"" << brailleMusicOutputFileName << "\")";
 
-      oahError (s.str ());
+// JMI      oahError (s.str ());
+      oahWarning (s.str ());
     }
 
     else if (gOahOah->fInputSourceName == "-") {
@@ -473,16 +503,6 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
         potentialOutputFileName;
     }
   }
-
-  // register command line informations in gGeneralOah
-  // ------------------------------------------------------
-
-/* JMI
-  gGeneralOah->fCommandLineWithShortOptions =
-    fCommandLineWithShortOptions;
-  gGeneralOah->fCommandLineWithLongOptions =
-    fCommandLineWithLongOptions;
-    */
 }
 
 //______________________________________________________________________________
@@ -530,74 +550,6 @@ void xml2brlOah::enforceQuietness ()
 //______________________________________________________________________________
 void xml2brlOah::checkOptionsConsistency ()
 {}
-
-//______________________________________________________________________________
-void xml2brlInsiderOahHandler::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlInsiderOahHandler::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlInsiderOahHandler>*
-    p =
-      dynamic_cast<visitor<S_xml2brlInsiderOahHandler>*> (v)) {
-        S_xml2brlInsiderOahHandler elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching xml2brlInsiderOahHandler::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void xml2brlInsiderOahHandler::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlInsiderOahHandler::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlInsiderOahHandler>*
-    p =
-      dynamic_cast<visitor<S_xml2brlInsiderOahHandler>*> (v)) {
-        S_xml2brlInsiderOahHandler elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching xml2brlInsiderOahHandler::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void xml2brlInsiderOahHandler::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlInsiderOahHandler::browseData ()" <<
-      endl;
-  }
-#endif
-
-//  oahGroup::browseData (v);
-  oahHandler::browseData (v);
-
-}
 
 //______________________________________________________________________________
 void xml2brlInsiderOahHandler::print (ostream& os) const
@@ -864,72 +816,6 @@ or adding '.brl' if none is present.)",
 }
 
 //______________________________________________________________________________
-void xml2brlOah::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlOah::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlOah>*
-    p =
-      dynamic_cast<visitor<S_xml2brlOah>*> (v)) {
-        S_xml2brlOah elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching xml2brlOah::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void xml2brlOah::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlOah::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlOah>*
-    p =
-      dynamic_cast<visitor<S_xml2brlOah>*> (v)) {
-        S_xml2brlOah elem = this;
-
-#ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching xml2brlOah::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void xml2brlOah::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlOah::browseData ()" <<
-      endl;
-  }
-#endif
-
-  oahGroup::browseData (v);
-}
-
-//______________________________________________________________________________
 void xml2brlOah::printXml2brlOahValues (int fieldWidth)
 {
   gLogOstream <<
@@ -986,9 +872,9 @@ void initializeXml2brlOah (
   S_oahHandler handler)
 {
   // protect library against multiple initializations
-  static bool initializeXml2brlOahHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeXml2brlOahHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
       gLogOstream <<
@@ -1002,7 +888,7 @@ void initializeXml2brlOah (
 
     enlistVersion (
       "Initial", "october 2018",
-      "Derived from xml2ly, with an embryonic BSR");
+      "Derived from xml2brl, with an embryonic BSR");
 
     enlistVersion (
       musicxml2brailleVersionStr (), "Nobember 2018",
@@ -1015,7 +901,7 @@ void initializeXml2brlOah (
       handler);
     assert (gXml2brlOah != 0);
 
-    initializeXml2brlOahHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

@@ -29,6 +29,9 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+//#define OAH_TESTS
+
 /*
 //______________________________________________________________________________
 string oahDualHandlerViewKindAsString (
@@ -71,7 +74,7 @@ xml2xmlOahDualHandler::xml2xmlOahDualHandler (
       "xml2xmlOahDualHandler",
       executableName,
       "insider",
-      "insider-group",
+      "",
       os)
 {}
 
@@ -82,32 +85,44 @@ void xml2xmlOahDualHandler::createTheTwoHandlers (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (true) { // JMI
-    gLogOstream <<
-      "Creating the two OAH handlers for \"" << fDualHandlerName << "\"" <<
-      endl;
-  }
+#ifdef OAH_TESTS
+  gLogOstream <<
+    "Creating the two OAH handlers for \"" << fDualHandlerName << "\"" <<
+    endl;
+#endif
 #endif
 
+  gIndenter++;
+
   // create the 'insider' handler
-// JMI  os << "createInsiderHandler(), fExecutableName = " << fExecutableName << endl;
-  fXml2xmlInsiderHandler =
+#ifdef TRACE_OAH
+#ifdef OAH_TESTS
+  gLogOstream <<
+    "Creating the insider handler for \"" << fDualHandlerName << "\"" <<
+    endl;
+#endif
+#endif
+
+  fInsiderHandler =
     xml2xmlInsiderOahHandler::create (
       fExecutableName,
-      fDualHandlerName,
+      fExecutableName + " 'insider' help",
       os);
 
-  // propagate it into the base class
-  setInsiderHandler (fXml2xmlInsiderHandler);
-
   // create the 'user' handler
-// JMI  os << "createUserHandler(), fExecutableName = " << fExecutableName << endl;
-  fXml2xmlUserHandler =
-    fXml2xmlInsiderHandler->
-      createHandlerNewbornCloneWithoutGroups ();
+#ifdef TRACE_OAH
+#ifdef OAH_TESTS
+  gLogOstream <<
+    "Creating the user handler for \"" << fDualHandlerName << "\"" <<
+    endl;
+#endif
+#endif
 
-  // propagate it into the base class
-  setUserHandler (fXml2xmlUserHandler);
+  fUserHandler =
+    xml2xmlInsiderOahHandler::createWithOnlyThePrefixes (
+      fExecutableName,
+      fExecutableName + " 'user' help",
+      os);
 
   // create the user handler groups
   createUserHandlerGroups (os);
@@ -115,28 +130,52 @@ void xml2xmlOahDualHandler::createTheTwoHandlers (
   // populate the user handler from the insider handler
   populateUserHandlerFromInsiderHandler ();
 
+  // register user handler in itself,
+  // so that the 'global' help options can be handled
+  fUserHandler->
+    registerHandlerInItself ();
+
   // the default is to use the 'user' oahHandler
-if (true) { // JMI TESTS
   fOahHandlerToBeUsed = fUserHandler;
-} else {
-  fOahHandlerToBeUsed = fInsiderHandler;
-}
+
+#ifdef TRACE_OAH
+#ifdef OAH_TESTS
+  gLogOstream <<
+    "Setting dual handler \"" <<
+    fDualHandlerName <<
+    "\" handler to \"" <<
+    fOahHandlerToBeUsed->getHandlerHeader () <<
+    "\"" <<
+    endl;
+#endif
+#endif
+
+  gIndenter--;
 }
 
 void xml2xmlOahDualHandler::createUserHandlerGroups (
   ostream& os)
 {
-// JMI os << "createUserHandlerGroups()" << endl;
+#ifdef TRACE_OAH
+#ifdef OAH_TESTS
+  gLogOstream <<
+    "Creating the user handler groups for \"" << fDualHandlerName << "\"" <<
+    endl;
+#endif
+#endif
 
-  createInsiderUserGroup (os);
 
-  createFilesUserGroup (os);
+  createOahUserGroup (os);
 
   createInformationsUserGroup (os);
 
   createWarningAndErrorsUserGroup (os);
 
-  createPresentationUserGroup (os);
+  createFilesUserGroup (os);
+
+  createInputUserGroup (os);
+
+  createPresentationUserGroup (os); // JMI
 
   createPartsUserGroup (os);
   createStavesUserGroup (os);
@@ -155,6 +194,8 @@ void xml2xmlOahDualHandler::createUserHandlerGroups (
   createRestsUserGroup (os);
   createNotesUserGroup (os);
 
+  creatBeamsUserGroup (os);
+
   createArticulationsUserGroup (os);
 
   createOrnamentsUserGroup (os);
@@ -163,13 +204,20 @@ void xml2xmlOahDualHandler::createUserHandlerGroups (
 
   createChordsUserGroup (os);
 
-  createTiesAndSlursUserGroup (os);
+  createTiesUserGroup (os);
+  createSlursUserGroup (os);
+  createLigaturesUserGroup (os);
 
-  createDynamicsAndWedgesUserGroup (os);
+  createDynamicsUserGroup (os);
+  createWedgesUserGroup (os);
 
   createTupletsUserGroup (os);
 
   createLyricsUserGroup (os);
+
+  createStringsUserGroup (os);
+
+  createTablaturesUserGroup (os);
 
   createHarmoniesUserGroup (os);
 
@@ -178,7 +226,7 @@ void xml2xmlOahDualHandler::createUserHandlerGroups (
   createOutputUserGroup (os);
 }
 
-void xml2xmlOahDualHandler::createInsiderUserGroup (
+void xml2xmlOahDualHandler::createOahUserGroup (
   ostream& os)
 {
   // group
@@ -186,9 +234,9 @@ void xml2xmlOahDualHandler::createInsiderUserGroup (
   S_oahGroup
     group =
       oahGroup::create (
-        "Insider group",
-        "insider-group",
-        "",
+        "Options and help group",
+        "hoah-grp",
+        "help-oah-grp",
         "",
         kElementVisibilityWhole,
         fUserHandler);
@@ -197,23 +245,63 @@ void xml2xmlOahDualHandler::createInsiderUserGroup (
   fUserHandler->
     appendGroupToHandler (group);
 
-  // this group is hidden in user view JMI
-//  group->
-//    setIsHidden ();
-
   // subgroup
 
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Insider",
-        "insider",
-        "",
+        "Options and help",
+        "hoah",
+        "help-oah",
         "",
         kElementVisibilityWhole,
         group);
   group->
     appendSubGroupToGroup (subGroup);
+
+/* JMI ???
+  // the 'insider' atom
+
+  S_oahDualHandlerInsiderAtom
+    dualHandlerInsiderAtom =
+      oahDualHandlerInsiderAtom::create (
+          fInsiderAtomShortName, fInsiderAtomLongName,
+R"(In the default 'user' view, the options are grouped by music scoring topics,
+such a slurs, tuplets and figured bass.
+This option switches the options and help view to 'insider',
+in which the options are grouped as they are used by the various
+internal representations and translation passes.
+This unleashes the full set of display and trace options.
+This option should be the first one.)");
+
+  subGroup->
+    appendAtomToSubGroup (dualHandlerInsiderAtom);
+*/
+
+    /*
+  dualHandlerInsiderAtom ->
+    registerAtomInHandler (fUserHandler);
+
+ fUserHandler->
+    registerElementInHandler (
+      dualHandlerInsiderAtom);
+
+  fUserHandler->
+    registerSpecificElementNamesInHandler (
+      dualHandlerInsiderAtom);
+      */
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap [fInsiderAtomShortName] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["help-options-usage"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["option-name-help"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["display-options-values"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["show-options-and-arguments"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["trace-oah"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["trace-passes"] = subGroup;
 }
 
 void xml2xmlOahDualHandler::createInformationsUserGroup (
@@ -225,11 +313,13 @@ void xml2xmlOahDualHandler::createInformationsUserGroup (
     group =
       oahGroup::create (
         "Informations group",
-        "informations-group",
-        "",
+        "hinfos-grp",
+        "help-informations-grp",
         "",
         kElementVisibilityWhole,
         fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserHandler->
     appendGroupToHandler (group);
 
@@ -239,8 +329,8 @@ void xml2xmlOahDualHandler::createInformationsUserGroup (
     subGroup =
       oahSubGroup::create (
         "Informations",
-        "informations",
-        "",
+        "hinfos",
+        "help-informations",
         "",
         kElementVisibilityWhole,
         group);
@@ -252,10 +342,6 @@ void xml2xmlOahDualHandler::createInformationsUserGroup (
   fAtomNamesToUserSubGroupsMap ["version"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["about"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["contact"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["help-options"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["option-name-help"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["display-options-values"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["show-options-and-arguments"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["display-cpu-usage"] = subGroup;
 }
 
@@ -295,7 +381,6 @@ void xml2xmlOahDualHandler::createWarningAndErrorsUserGroup (
   fAtomNamesToUserSubGroupsMap ["quiet"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["dont-show-errors"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["dont-exit-on-errors"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["display-source-code-position"] = subGroup;
 }
 
 void xml2xmlOahDualHandler::createPresentationUserGroup (
@@ -333,6 +418,53 @@ void xml2xmlOahDualHandler::createPresentationUserGroup (
 
   fAtomNamesToUserSubGroupsMap ["use-filename-as-work-title"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["use-lyricists-as-poets"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createInputUserGroup (
+  ostream& os)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Input group",
+        "hinput-grp",
+        "help-input-grp",
+        "",
+        kElementVisibilityWhole,
+        fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
+  fUserHandler->
+    appendGroupToHandler (group);
+//  fUserHandler-> // JMI
+//    registerElementInHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Input",
+        "hinput",
+        "help-input",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-words"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["convert-tempos-to-rehearsal-marks"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["convert-words-to-rehearsal-marks"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["convert-words-to-tempo"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["cubase"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["dal-segno"] = subGroup;
 }
 
 void xml2xmlOahDualHandler::createFilesUserGroup (
@@ -788,6 +920,47 @@ void xml2xmlOahDualHandler::createNotesUserGroup (
   fAtomNamesToUserSubGroupsMap ["merges-rests"] = subGroup;
 }
 
+void xml2xmlOahDualHandler::creatBeamsUserGroup (
+  ostream& os)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Beams group",
+        "hbeams-grp",
+        "help-beams-grp",
+        "",
+        kElementVisibilityWhole,
+        fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
+  fUserHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Beams",
+        "hbeams",
+        "help-beams",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["no-auto-beaming"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["no-beams"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["delay-rests-beams"] = subGroup; // JMI
+}
+
 void xml2xmlOahDualHandler::createArticulationsUserGroup (
   ostream& os)
 {
@@ -941,7 +1114,7 @@ void xml2xmlOahDualHandler::createChordsUserGroup (
   fAtomNamesToUserSubGroupsMap ["lpsr-pitches-language"] = subGroup;
 }
 
-void xml2xmlOahDualHandler::createTiesAndSlursUserGroup (
+void xml2xmlOahDualHandler::createTiesUserGroup (
   ostream& os)
 {
   // group
@@ -949,12 +1122,14 @@ void xml2xmlOahDualHandler::createTiesAndSlursUserGroup (
   S_oahGroup
     group =
       oahGroup::create (
-        "Ties and slurs group",
-        "ties-and-slurs-group",
-        "",
+        "Ties group",
+        "hties-grp",
+        "help-ties-grp",
         "",
         kElementVisibilityWhole,
         fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserHandler->
     appendGroupToHandler (group);
 
@@ -963,9 +1138,9 @@ void xml2xmlOahDualHandler::createTiesAndSlursUserGroup (
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Ties and slurs",
-        "ties-and-slurs",
-        "",
+        "Ties",
+        "hties",
+        "help-ties",
         "",
         kElementVisibilityWhole,
         group);
@@ -975,12 +1150,9 @@ void xml2xmlOahDualHandler::createTiesAndSlursUserGroup (
   // atoms
 
   fAtomNamesToUserSubGroupsMap ["omit-ties"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["omit-slurs"] = subGroup;
-
-  fAtomNamesToUserSubGroupsMap ["delay-slurs"] = subGroup;
 }
 
-void xml2xmlOahDualHandler::createDynamicsAndWedgesUserGroup (
+void xml2xmlOahDualHandler::createSlursUserGroup (
   ostream& os)
 {
   // group
@@ -988,12 +1160,14 @@ void xml2xmlOahDualHandler::createDynamicsAndWedgesUserGroup (
   S_oahGroup
     group =
       oahGroup::create (
-        "Dynamics and wedges group",
-        "dynamics-and-wedges group",
-        "",
+        "Slurs group",
+        "hslurs-grp",
+        "help-slurs-grp",
         "",
         kElementVisibilityWhole,
         fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   fUserHandler->
     appendGroupToHandler (group);
 
@@ -1002,9 +1176,88 @@ void xml2xmlOahDualHandler::createDynamicsAndWedgesUserGroup (
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Dynamics and wedges",
-        "dynamics-and-wedges",
+        "Slurs",
+        "hslurs",
+        "help-slurs",
         "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-slurs"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["delay-slurs"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["delay-rests-slurs"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createLigaturesUserGroup (
+  ostream& os)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Ligatures group",
+        "hligs-grp",
+        "help-ligatures-grp",
+        "",
+        kElementVisibilityWhole,
+        fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
+  fUserHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Ligatures",
+        "hligs",
+        "help-ligatures",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["delay-rests-ligatures"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createDynamicsUserGroup (
+  ostream& os)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Dynamics group",
+        "hdyns-grp",
+        "help-dynamics-grp",
+        "",
+        kElementVisibilityWhole,
+        fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
+  fUserHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Dynamics",
+        "hdyns",
+        "help-dynamics",
         "",
         kElementVisibilityWhole,
         group);
@@ -1014,12 +1267,54 @@ void xml2xmlOahDualHandler::createDynamicsAndWedgesUserGroup (
   // atoms
 
   fAtomNamesToUserSubGroupsMap ["omit-dynamics"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["omit-wedges"] = subGroup;
 
   fAtomNamesToUserSubGroupsMap ["all-dynamics-below"] = subGroup;
-  fAtomNamesToUserSubGroupsMap ["all-wedges-below"] = subGroup;
 
   fAtomNamesToUserSubGroupsMap ["delay-dynamics"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["delay-rests-dynamics"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createWedgesUserGroup (
+  ostream& os)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Wedges group",
+        "hweds-grp",
+        "help-wedges-grp",
+        "",
+        kElementVisibilityWhole,
+        fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
+  fUserHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Wedges",
+        "hweds",
+        "help-wedges",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["omit-wedges"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["all-wedges-below"] = subGroup;
+
+  fAtomNamesToUserSubGroupsMap ["delay-rests-wedges"] = subGroup;
 }
 
 void xml2xmlOahDualHandler::createTupletsUserGroup (
@@ -1059,6 +1354,84 @@ void xml2xmlOahDualHandler::createTupletsUserGroup (
 //  fAtomNamesToUserSubGroupsMap ["add-words-from-the-tuplets"] = subGroup;
 
   fAtomNamesToUserSubGroupsMap ["lpsr-tuplets-language"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createStringsUserGroup (
+  ostream& os)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Strings group",
+        "hstrings-grp",
+        "help-strings-grp",
+        "",
+        kElementVisibilityWhole,
+        fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
+  fUserHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Strings",
+        "hstrings",
+        "",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["roman-string-numbers"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["avoid-open-strings"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::createTablaturesUserGroup (
+  ostream& os)
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Tablatures group",
+        "htabs-grp",
+        "help-tablatures-grp",
+        "",
+        kElementVisibilityWhole,
+        fUserHandler);
+  group->
+    setGroupHeaderIsToBeWritten (false);
+  fUserHandler->
+    appendGroupToHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Tablatures",
+        "htabs",
+        "help-tablatures",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  fAtomNamesToUserSubGroupsMap ["tabFullNotation"] = subGroup;
+  fAtomNamesToUserSubGroupsMap ["modernTab"] = subGroup;
 }
 
 void xml2xmlOahDualHandler::createHarmoniesUserGroup (
@@ -1220,6 +1593,27 @@ void xml2xmlOahDualHandler::createOutputUserGroup (
 
   fAtomNamesToUserSubGroupsMap ["msr2lpsr-score-output-kind"] = subGroup;
   fAtomNamesToUserSubGroupsMap ["lpsr-Languages-language"] = subGroup;
+}
+
+void xml2xmlOahDualHandler::checkOptionsAndArguments ()
+{
+  if (
+    // xml2xmlInsiderOahHandler?
+    S_xml2xmlInsiderOahHandler
+      theXml2xmlInsiderOahHandler =
+        dynamic_cast<xml2xmlInsiderOahHandler*>(&(*fOahHandlerToBeUsed))
+  ) {
+    theXml2xmlInsiderOahHandler->
+      checkOptionsAndArguments ();
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "xml2xmlInsiderOahHandler expected for checkOptionsAndArguments()";
+
+    oahError (s.str ());
+  }
 }
 
 /*

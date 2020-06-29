@@ -404,9 +404,9 @@ void initializeMusicxmlOahHandling (
 #endif
 
   // protect library against multiple initializations
-  static bool initializeMusicxmlOahHandlingHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeMusicxmlOahHandlingHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     // create the Musicxml options
     // ------------------------------------------------------
 
@@ -426,7 +426,7 @@ void initializeMusicxmlOahHandling (
         createCloneWithDetailedTrace ();
         */
 
-    initializeMusicxmlOahHandlingHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

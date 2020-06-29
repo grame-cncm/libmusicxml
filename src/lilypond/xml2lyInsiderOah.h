@@ -32,7 +32,7 @@ class EXP xml2lyInsiderOahHandler : public oahHandler
       string   handlerHeader,
       ostream& os);
 
-    static SMARTP<xml2lyInsiderOahHandler> createMinimal (
+    static SMARTP<xml2lyInsiderOahHandler> createWithOnlyThePrefixes (
       string   executableName,
       string   handlerHeader,
       ostream& os);
@@ -125,6 +125,17 @@ class xml2lyOah : public oahGroup
 
   public:
 
+    // set and get
+    // ------------------------------------------------------
+
+    S_oahBooleanAtom      getAutoOutputFileNameAtom () const
+                              { return fAutoOutputFileNameAtom; }
+
+    S_oahStringAtom       getOutputFileNameStringAtom () const
+                              { return fOutputFileNameStringAtom; }
+
+  public:
+
     // quiet mode
     // ------------------------------------------------------
 
@@ -166,8 +177,10 @@ class xml2lyOah : public oahGroup
     // output file
     // --------------------------------------
 
-    string                fLilyPondOutputFileName;
-    bool                  fAutoOutputFileName;
+    // we store the atoms for the needs of checkOptionsAndArguments()
+    S_oahBooleanAtom      fAutoOutputFileNameAtom;
+
+    S_oahStringAtom       fOutputFileNameStringAtom;
 
     // loop back to MusicXML
     // --------------------------------------
@@ -178,6 +191,16 @@ class xml2lyOah : public oahGroup
 
     bool                  fExit2a;
     bool                  fExit2b;
+
+  private:
+
+    // LilyPond output file name
+    // --------------------------------------
+
+    // these private variables are the ones accessible through the atoms
+    bool                  fAutoOutputFileName;
+
+    string                fLilyPondOutputFileName;
 };
 typedef SMARTP<xml2lyOah> S_xml2lyOah;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOah& elt);
