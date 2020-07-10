@@ -149,6 +149,8 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
       return kInvalidFile;
     }
 
+    // should we return now?
+    // ------------------------------------------------------
 
     if (gXml2xmlOah->fExit2a) {
       gLogOstream <<
@@ -175,6 +177,9 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     catch (std::exception& e) {
       return kInvalidFile;
     }
+
+    // should we return now?
+    // ------------------------------------------------------
 
     if (gXml2xmlOah->fExit2b) {
       gLogOstream <<
@@ -374,6 +379,8 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   string inputSourceName,
   string outputFileName)
 {
+  int saveIndent = 0;
+
   // sanity check
   // ------------------------------------------------------
 
@@ -403,6 +410,18 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
         mxmlTree,
         "Pass 2a");
 
+  // check indentation
+  // ------------------------------------------------------
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
+
   if (gXml2xmlOah->fExit2a) {
     gLogOstream <<
       endl <<
@@ -429,6 +448,17 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       return kInvalidFile;
     }
 
+  // check indentation
+  // ------------------------------------------------------
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
   if (gXml2xmlOah->fExit2b) {
     gLogOstream <<
       endl <<
@@ -480,6 +510,15 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
         regex (".ly"),
         "_LOOP.xml"),
         "Pass 3");
+
+  // check indentation
+  // ------------------------------------------------------
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertMsrScoreToMusicXMLScore(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
 
   if (err != kNoErr) {
     return err;

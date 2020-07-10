@@ -108,7 +108,7 @@ class msrSegno : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getfStaffNumber () const
+    int                   getStaffNumber () const
                               { return fStaffNumber; }
 
   public:
@@ -338,7 +338,7 @@ class msrCoda : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getfStaffNumber () const
+    int                   getStaffNumber () const
                               { return fStaffNumber; }
 
     msrCodaKind           getCodaKind () const

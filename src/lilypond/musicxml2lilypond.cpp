@@ -197,6 +197,9 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       return kInvalidFile;
     }
 
+    // should we return now?
+    // ------------------------------------------------------
+
     if (gXml2lyOah->fExit2a) {
       err <<
         endl <<
@@ -222,6 +225,9 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     catch (std::exception& e) {
       return kInvalidFile;
     }
+
+    // should we return now?
+    // ------------------------------------------------------
 
     if (gXml2lyOah->fExit2b) {
       err <<
@@ -284,6 +290,9 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     catch (std::exception& e) {
       return kInvalidFile;
     }
+
+    // should we return now?
+    // ------------------------------------------------------
 
     if (gLpsrOah->fExit3) {
       err <<
@@ -383,8 +392,12 @@ EXP xmlErr convertMusicXMLToLilypond (
   string outputFileName,
   bool   loopBackToMusicXML) // loopBackToMusicXML is used by 'xml2ly -loop'
 {
+  int saveIndent = 0;
+
   // create the mxmlTree from MusicXML contents (pass 1)
   // ------------------------------------------------------
+
+  saveIndent = gIndenter.getIndent ();
 
   Sxmlelement
     mxmlTree =
@@ -392,14 +405,33 @@ EXP xmlErr convertMusicXMLToLilypond (
         inputSourceName,
         "Pass 1");
 
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
   // create the MSR skeleton from the mxmlTree (pass 2a)
   // ------------------------------------------------------
+
+  saveIndent = gIndenter.getIndent ();
 
   S_msrScore
     mScore =
       convertMxmlTreeToMsrScoreSkeleton (
         mxmlTree,
         "Pass 2a");
+
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
 
   if (gXml2lyOah->fExit2a) {
     gLogOstream <<
@@ -413,19 +445,31 @@ EXP xmlErr convertMusicXMLToLilypond (
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
-    try {
-      populateMsrSkeletonFromMxmlTree (
-        mxmlTree,
-        mScore,
-        gLogOstream,
-        "Pass 2b");
-    }
-    catch (mxmlTreeToMsrException& e) {
-      return kInvalidFile;
-    }
-    catch (std::exception& e) {
-      return kInvalidFile;
-    }
+  saveIndent = gIndenter.getIndent ();
+
+  try {
+    populateMsrSkeletonFromMxmlTree (
+      mxmlTree,
+      mScore,
+      gLogOstream,
+      "Pass 2b");
+  }
+  catch (mxmlTreeToMsrException& e) {
+    return kInvalidFile;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
 
   if (gXml2lyOah->fExit2b) {
     gLogOstream <<
@@ -474,20 +518,32 @@ EXP xmlErr convertMusicXMLToLilypond (
   // create the LPSR from the MSR (pass 3)
   // ------------------------------------------------------
 
-    S_lpsrScore lpScore;
+  saveIndent = gIndenter.getIndent ();
 
-    try {
-      lpScore =
-        convertMsrScoreToLpsrScore (
-          mScore,
-          "Pass 3");
-    }
-    catch (msrScoreToLpsrScoreException& e) {
-      return kInvalidFile;
-    }
-    catch (std::exception& e) {
-      return kInvalidFile;
-    }
+  S_lpsrScore lpScore;
+
+  try {
+    lpScore =
+      convertMsrScoreToLpsrScore (
+        mScore,
+        "Pass 3");
+  }
+  catch (msrScoreToLpsrScoreException& e) {
+    return kInvalidFile;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertMsrScoreToLpsrScore(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
 
   if (gLpsrOah->fExit3) {
     gLogOstream <<
@@ -511,14 +567,25 @@ EXP xmlErr convertMusicXMLToLilypond (
   // generate LilyPond code from the LPSR (pass 4)
   // ------------------------------------------------------
 
+  saveIndent = gIndenter.getIndent ();
+
   convertLpsrScoreToLilypondCode (
     outputFileName,
     lpScore,
     "Pass 4");
 
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertLpsrScoreToLilypondCode(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
   // create MusicXML back from the MSR if requested
   // ------------------------------------------------------
   if (loopBackToMusicXML) {
+    saveIndent = gIndenter.getIndent ();
+
     convertMsrScoreToMusicXMLScore (
       mScore,
       regex_replace (
@@ -526,6 +593,13 @@ EXP xmlErr convertMusicXMLToLilypond (
         regex (".ly"),
         "_LOOP.xml"),
       "Pass 5");
+
+    if (gIndenter != saveIndent) {
+      gLogOstream <<
+        "### gIndenter final value has changed after convertMsrScoreToMusicXMLScore(): "<< gIndenter.getIndent () << " ###" <<
+        endl <<
+        endl;
+    }
   }
 
   return kNoErr;

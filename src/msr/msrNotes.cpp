@@ -1084,6 +1084,9 @@ S_msrNote msrNote::createNoteDeepCopy (
   noteDeepCopy->
     fMeasureElementPositionInMeasure =
       fMeasureElementPositionInMeasure;
+  noteDeepCopy->
+    fMeasureElementPositionInVoice =
+      fMeasureElementPositionInVoice;
 
   noteDeepCopy->
     fNoteOccupiesAFullMeasure =
@@ -1407,9 +1410,35 @@ void msrNote::setNotePositionInMeasure (
 
   positionInMeasure.rationalise (); // TEMP ? JMI
 
-  msrMeasureElement::setMeasureElementPositionInMeasure (
+  string context =
+    "setNotePositionInMeasure()";
+
+  setMeasureElementPositionInMeasure (
     positionInMeasure,
-    "setNotePositionInMeasure()");
+    context);
+
+  // compute note's position in voice
+  rational
+     positionInVoice =
+      fNoteMeasureUpLink->getMeasurePositionInVoice ()
+        +
+      positionInMeasure;
+  positionInVoice.rationalise ();
+
+  // set note's position in voice
+  setMeasureElementPositionInVoice (
+    positionInVoice,
+    context);
+
+  // update current position in voice
+  S_msrVoice
+    voice =
+      fNoteMeasureUpLink->
+        fetchMeasureVoiceUpLink ();
+
+  voice->
+    incrementCurrentPositionInVoice (
+      fMeasureElementSoundingWholeNotes);
 
   // are there harmonies attached to this note?
   if (fNoteHarmoniesList.size ()) {
@@ -3603,17 +3632,23 @@ string msrNote::asString () const
     s << fMeasureElementMeasureNumber;
   }
 
+/* JMI
   s << left <<
     ", positionInMeasure: ";
-    /* JMI
+    / * JMI
   if (fMeasureElementPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
     s << "unknown (" << fMeasureElementPositionInMeasure << ")";
   }
   else {
     s << fMeasureElementPositionInMeasure;
   }
-  */
+  * /
   s << fMeasureElementPositionInMeasure;
+
+  s <<
+    ", positionInVoice: " <<
+    fMeasureElementPositionInVoice;
+*/
 
   if (fNoteOccupiesAFullMeasure) {
     s <<
@@ -3712,7 +3747,7 @@ void msrNote::print (ostream& os) const
   // print position in measure
   os << left <<
     setw (fieldWidth) <<
-    "positionInMeasure" << " : ";
+    "measureElementPositionInMeasure" << " : ";
     /* JMI
   if (fMeasureElementPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
     os << "unknown (" << fMeasureElementPositionInMeasure << ")";
@@ -3723,6 +3758,12 @@ void msrNote::print (ostream& os) const
   */
   os <<
     fMeasureElementPositionInMeasure <<
+    endl;
+
+  // print position in voice
+  os << left <<
+    setw (fieldWidth) << "measureElementPositionInVoice" << " : " <<
+    fMeasureElementPositionInVoice <<
     endl;
 
   // print note measure uplink

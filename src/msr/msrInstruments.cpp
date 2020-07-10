@@ -254,6 +254,8 @@ void msrScordatura::print (ostream& os) const
       " : no string tunings" <<
       endl;
   }
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrScordatura& elt)

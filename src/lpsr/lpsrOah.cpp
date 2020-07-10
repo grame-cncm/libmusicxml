@@ -280,8 +280,7 @@ void lpsrPitchesLanguageAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrPitchesLanguageAtom& elt)
@@ -531,8 +530,7 @@ void lpsrChordsLanguageAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrChordsLanguageAtom& elt)
@@ -1035,6 +1033,8 @@ void lpsrDalSegnoAtom::print (ostream& os) const
     } // for
   }
 
+  gIndenter--;
+
   os << endl;
 }
 
@@ -1345,6 +1345,8 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
       os << endl;
     } // for
   }
+
+  gIndenter--;
 
   os << endl;
 }
@@ -1657,6 +1659,8 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
       os << endl;
     } // for
   }
+
+  gIndenter--;
 
   os << endl;
 }
@@ -3100,7 +3104,6 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   gLogOstream << endl;
 
   gIndenter--;
-
 
   gIndenter--;
 }

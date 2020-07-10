@@ -54,6 +54,15 @@ class msrDoubleTremolo : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
+    // uplink
+
+    void                  setDoubleTremoloMeasureUpLink (
+                            S_msrMeasure measure)
+                              { fDoubleTremoloMeasureUpLink = measure; }
+
+    S_msrMeasure          getDoubleTremoloMeasureUpLink () const
+                              { return fDoubleTremoloMeasureUpLink; }
+
     // double tremolo kind
 
     void                  setDoubleTremoloKind (
@@ -200,6 +209,9 @@ class msrDoubleTremolo : public msrMeasureElement
     // fields
     // ------------------------------------------------------
 
+    // uplink
+    S_msrMeasure          fDoubleTremoloMeasureUpLink;
+
     // sounding whole notes JMI
     // the same as the displayed divisions of both members
 // JMI    rational              fDoubleTremoloSoundingWholeNotes;
@@ -217,7 +229,7 @@ class msrDoubleTremolo : public msrMeasureElement
 
     msrPlacementKind      fDoubleTremoloPlacementKind;
 
-    // the two elements of a double tremole are notes or chords
+    // the two elements of a double tremolo are notes or chords
     S_msrElement          fDoubleTremoloFirstElement;
     S_msrElement          fDoubleTremoloSecondElement;
 };

@@ -6,6 +6,9 @@
 #ifndef ___msrVoices_MUT_DEP___
 #define ___msrVoices_MUT_DEP___
 
+#include "msrMeasures_MUT_DEP.h"
+
+
 //______________________________________________________________________________
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
@@ -740,6 +743,18 @@ class msrVoice : public msrElement
 
     // strings
 
+    // position in voice
+
+    void                  incrementCurrentPositionInVoice (
+                            rational delta)
+                              {
+                                fCurrentPositionInVoice += delta;
+                                fCurrentPositionInVoice.rationalise ();
+                              }
+
+    rational              getCurrentPositionInVoice () const
+                              { return fCurrentPositionInVoice; }
+
     // finalization
 
     void                  finalizeLastAppendedMeasureInVoice (
@@ -1035,7 +1050,6 @@ class msrVoice : public msrElement
     list<S_msrMeasure>    fVoiceMeasuresFlatList;
 
     // notes
-
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;
 
@@ -1224,6 +1238,10 @@ class msrVoice : public msrElement
     S_msrMeasuresRepeat   fVoicePendingMeasuresRepeat;
 
     bool                  fVoiceContainsMeasuresRepeats;
+
+    // current position in voice
+
+    rational              fCurrentPositionInVoice;
 
     // voice finalization
 

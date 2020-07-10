@@ -176,9 +176,37 @@ void msrDalSegno::setDalSegnoPositionInMeasure (
   }
 #endif
 
-  msrMeasureElement::setMeasureElementPositionInMeasure (
+  string context =
+    "setDalSegnoPositionInMeasure()";
+
+  setMeasureElementPositionInMeasure (
     positionInMeasure,
-    "setDalSegnoPositionInMeasure()");
+    context);
+
+/* JMI
+  // compute dal segno's position in voice
+  rational
+     positionInVoice =
+      fdal segnoMeasureUpLink->getMeasurePositionInVoice ()
+        +
+      positionInMeasure;
+  positionInVoice.rationalise ();
+
+  // set dal segno's position in voice
+  setMeasureElementPositionInVoice (
+    positionInVoice,
+    context);
+
+  // update current position in voice
+  S_msrVoice
+    voice =
+      measure->
+        fetchMeasureVoiceUpLink ();
+
+  voice->
+    incrementCurrentPositionInVoice (
+      fdal segnoNotesVector [0]->getNoteSoundingWholeNotes ());
+      */
 }
 
 void msrDalSegno::acceptIn (basevisitor* v)
@@ -287,6 +315,9 @@ void msrDalSegno::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
+    endl <<
+    setw (fieldWidth) <<
+    "positionInVoice" << " : " << fMeasureElementPositionInVoice <<
     endl <<
     setw (fieldWidth) <<
     "line" << " : " << fInputLineNumber <<

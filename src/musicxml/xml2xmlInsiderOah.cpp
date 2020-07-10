@@ -860,6 +860,8 @@ void xml2xmlOah::printXml2xmlOahValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________

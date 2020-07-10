@@ -143,6 +143,9 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
       return kInvalidFile;
     }
 
+    // should we return now?
+    // ------------------------------------------------------
+
     if (gXml2brlOah->fExit2a) {
       err <<
         endl <<
@@ -227,6 +230,9 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
       return kInvalidFile;
     }
 
+    // should we return now?
+    // ------------------------------------------------------
+
     if (gMsr2BsrOah->fExit3a) {
       err <<
         endl <<
@@ -263,6 +269,9 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     catch (std::exception& e) {
       return kInvalidFile;
     }
+
+    // should we return now?
+    // ------------------------------------------------------
 
     if (gMsr2BsrOah->fExit3b) {
       err <<
@@ -358,8 +367,12 @@ EXP xmlErr convertMusicXMLToBraille (
   std::string inputSourceName,
   std::string outputFileName)
 {
+  int saveIndent = 0;
+
   // create the mxmlTree from MusicXML contents (pass 1)
   // ------------------------------------------------------
+
+  saveIndent = gIndenter.getIndent ();
 
   Sxmlelement
     mxmlTree =
@@ -367,14 +380,33 @@ EXP xmlErr convertMusicXMLToBraille (
         inputSourceName,
         "Pass 1");
 
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertMusicXMLToMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
   // create the MSR skeleton from the mxmlTree (pass 2a)
   // ------------------------------------------------------
+
+  saveIndent = gIndenter.getIndent ();
 
   S_msrScore
     mScore =
       convertMxmlTreeToMsrScoreSkeleton (
         mxmlTree,
         "Pass 2a");
+
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
 
   if (gXml2brlOah->fExit2a) {
     gLogOstream <<
@@ -388,19 +420,31 @@ EXP xmlErr convertMusicXMLToBraille (
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
-    try {
-      populateMsrSkeletonFromMxmlTree (
-        mxmlTree,
-        mScore,
-        gLogOstream,
-        "Pass 2b");
-    }
-    catch (mxmlTreeToMsrException& e) {
-      return kInvalidFile;
-    }
-    catch (std::exception& e) {
-      return kInvalidFile;
-    }
+  saveIndent = gIndenter.getIndent ();
+
+  try {
+    populateMsrSkeletonFromMxmlTree (
+      mxmlTree,
+      mScore,
+      gLogOstream,
+      "Pass 2b");
+  }
+  catch (mxmlTreeToMsrException& e) {
+    return kInvalidFile;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
 
   if (gXml2brlOah->fExit2b) {
     gLogOstream <<
@@ -445,11 +489,23 @@ EXP xmlErr convertMusicXMLToBraille (
   // create the BSR from the MSR (pass 3a)
   // ------------------------------------------------------
 
+  saveIndent = gIndenter.getIndent ();
+
   S_bsrScore
     firstBsrScore =
       convertMsrScoreToBsrScore (
         mScore,
         "Pass 3a");
+
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertMsrScoreToBsrScore(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
 
   if (gMsr2BsrOah->fExit3a) {
     gLogOstream <<
@@ -473,11 +529,23 @@ EXP xmlErr convertMusicXMLToBraille (
   // create the finalized BSR from the first BSR (pass 3b)
   // ------------------------------------------------------
 
+  saveIndent = gIndenter.getIndent ();
+
   S_bsrScore
     finalizedBsrScore =
       convertBsrScoreToFinalizedBsrScore (
         firstBsrScore,
         "Pass 3b");
+
+  if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertBsrScoreToFinalizedBsrScore(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+  // should we return now?
+  // ------------------------------------------------------
 
   if (gMsr2BsrOah->fExit3b) {
     gLogOstream <<
@@ -501,12 +569,21 @@ EXP xmlErr convertMusicXMLToBraille (
   // generate Braille music text from the BSR (pass 4)
   // ------------------------------------------------------
 
+  saveIndent = gIndenter.getIndent ();
+
   convertBsrScoreToBrailleText (
     outputFileName,
     finalizedBsrScore,
     "Pass 4");
 
-  return kNoErr;
+   if (gIndenter != saveIndent) {
+    gLogOstream <<
+      "### gIndenter final value has changed after convertBsrScoreToBrailleText(): "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+  }
+
+ return kNoErr;
 }
 
 

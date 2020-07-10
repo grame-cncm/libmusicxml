@@ -1336,11 +1336,7 @@ void msrSegment::padUpToPositionInMeasureInSegment (
   rational wholeNotes)
 {
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceSegments
-      ||
-    gTraceOah->fTraceMeasures
-  ) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Padding up to current whole notes '" << wholeNotes <<
       "' in segment '" <<

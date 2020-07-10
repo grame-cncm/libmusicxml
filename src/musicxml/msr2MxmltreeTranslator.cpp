@@ -1731,40 +1731,40 @@ void msr2MxmltreeTranslator::populateAppearanceLineWidths (
         lineWidthTypeString = "extend";
         break;
       case msrLineWidth::kHeavyBarLineLineWidth:
-        lineWidthTypeString = "heavyBarLine";
+        lineWidthTypeString = "heavy barline";
         break;
       case msrLineWidth::kLegerLineWidth:
         lineWidthTypeString = "leger";
         break;
       case msrLineWidth::kLightBarLineLineWidthLineWidth:
-        lineWidthTypeString = "lightBarLineLineWidth";
+        lineWidthTypeString = "light barline";
         break;
       case msrLineWidth::kOctaveShiftLineWidth:
-        lineWidthTypeString = "octaveShift";
+        lineWidthTypeString = "octave shift";
         break;
       case msrLineWidth::kPedalLineWidth:
         lineWidthTypeString = "pedal";
         break;
       case msrLineWidth::kSlurMiddleLineWidth:
-        lineWidthTypeString = "slurMiddle";
+        lineWidthTypeString = "slur middle";
         break;
       case msrLineWidth::kSlurTipLineWidth:
-        lineWidthTypeString = "slurTip";
+        lineWidthTypeString = "slur tip";
         break;
       case msrLineWidth::kStaffLineWidth:
         lineWidthTypeString = "staff";
         break;
-      case msrLineWidth::kStemLineWidthLineWidth:
-        lineWidthTypeString = "stemLineWidth";
+      case msrLineWidth::kStemLineWidthLineWidth: // better name ???
+        lineWidthTypeString = "stem";
         break;
       case msrLineWidth::kTieMiddleLineWidth:
-        lineWidthTypeString = "tieMiddle";
+        lineWidthTypeString = "tie middle";
         break;
       case msrLineWidth::kTieTipLineWidth:
-        lineWidthTypeString = "tieTip";
+        lineWidthTypeString = "tie tip";
         break;
       case msrLineWidth::kTupletBracketLineWidth:
-        lineWidthTypeString = "tupletBracket";
+        lineWidthTypeString = "tuplet bracket";
         break;
       case msrLineWidth::kWedgeLineWidth:
         lineWidthTypeString = "wedge";
@@ -7400,6 +7400,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrVoice& elt)
   }
 #endif
 
+  gIndenter++;
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrVoice& elt)

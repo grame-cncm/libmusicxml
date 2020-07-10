@@ -281,8 +281,7 @@ void msrPitchesLanguageAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrPitchesLanguageAtom& elt)
@@ -1404,6 +1403,8 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
     setw (valueFieldWidth) << "showFiguredBassVoices" << " : " <<
     booleanAsString (fShowFiguredBassVoices) <<
     endl;
+
+  gIndenter--;
 
   gIndenter--;
 }

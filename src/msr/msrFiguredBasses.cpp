@@ -471,9 +471,41 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
   }
 #endif
 
-  msrMeasureElement::setMeasureElementPositionInMeasure (
+  string context =
+    "setFiguredBassPositionInMeasure()";
+
+  setMeasureElementPositionInMeasure (
     positionInMeasure,
-    "setFiguredBassPositionInMeasure()");
+    context);
+
+  // compute figured bass's position in voice
+  S_msrMeasure
+    measure =
+      fFiguredBassNoteUpLink->
+        getNoteMeasureUpLink ();
+
+  rational
+    positionInVoice =
+      measure->
+        getMeasurePositionInVoice ()
+        +
+      positionInMeasure;
+  positionInVoice.rationalise ();
+
+  // set figured bass's position in voice
+  setMeasureElementPositionInVoice (
+    positionInVoice,
+    context);
+
+  // update current position in voice
+  S_msrVoice
+    voice =
+      measure->
+        fetchMeasureVoiceUpLink ();
+
+  voice->
+    incrementCurrentPositionInVoice (
+      fFiguredBassNoteUpLink->getNoteSoundingWholeNotes ());
 }
 
 void msrFiguredBass::appendFigureToFiguredBass (
@@ -619,6 +651,10 @@ string msrFiguredBass::asString () const
   }
 */
 
+  // print the figured bass position in voice
+  s <<
+    ", positionInVoice: " << fMeasureElementPositionInVoice;
+
   s <<
     ", line " << fInputLineNumber <<
     "]";
@@ -702,6 +738,12 @@ void msrFiguredBass::print (ostream& os) const
   os <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
+    endl;
+
+  // print the figured bass position in voice
+  os <<
+    setw (fieldWidth) <<
+    "positionInVoice" << " : " << fMeasureElementPositionInVoice <<
     endl;
 
   gIndenter--;

@@ -440,9 +440,74 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
   rational positionInMeasure)
 {
-  msrMeasureElement::setMeasureElementPositionInMeasure (
+  string context =
+    "setDoubleTremoloPositionInMeasure()";
+
+  setMeasureElementPositionInMeasure (
     positionInMeasure,
-    "setDoubleTremoloPositionInMeasure()");
+    context);
+
+  // compute double tremolo's position in voice
+  rational
+     positionInVoice =
+      fDoubleTremoloMeasureUpLink->getMeasurePositionInVoice ()
+        +
+      positionInMeasure;
+  positionInVoice.rationalise ();
+
+  // set double tremolo's position in voice
+  setMeasureElementPositionInVoice (
+    positionInVoice,
+    context);
+
+  // update current position in voice
+  S_msrVoice
+    voice =
+      fDoubleTremoloMeasureUpLink->
+        fetchMeasureVoiceUpLink ();
+
+  // the two elements of a double tremolo are notes or chords
+  switch (fDoubleTremoloKind) {
+    case msrDoubleTremolo::kNotesDoubleTremolo:
+      if (
+        S_msrNote
+          note =
+            dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
+      ) {
+        voice->
+          incrementCurrentPositionInVoice (
+            note->
+              getNoteSoundingWholeNotes ());
+      }
+      else {
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          "notes double tremolo first element should be a note");
+      }
+      break;
+
+    case msrDoubleTremolo::kChordsDoubleTremolo:
+      if (
+        S_msrChord
+          chord =
+            dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
+      ) {
+        voice->
+          incrementCurrentPositionInVoice (
+            chord->
+              getChordSoundingWholeNotes ());
+      }
+      else {
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          "chords double tremolo first element should be a chord");
+      }
+      break;
+  } // switch
 }
 
 void msrDoubleTremolo::setDoubleTremoloMeasureNumber (
@@ -572,7 +637,7 @@ string msrDoubleTremolo::asString () const
           S_msrNote
             note =
               dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
-          ) {
+        ) {
           note->asShortString ();
         }
         else {
@@ -589,7 +654,7 @@ string msrDoubleTremolo::asString () const
           S_msrChord
             chord =
               dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
-          ) {
+        ) {
           chord->asString ();
         }
         else {
@@ -613,7 +678,7 @@ string msrDoubleTremolo::asString () const
           S_msrNote
             note =
               dynamic_cast<msrNote*>(&(*fDoubleTremoloSecondElement))
-          ) {
+        ) {
           note->asShortString ();
         }
         else {
@@ -630,7 +695,7 @@ string msrDoubleTremolo::asString () const
           S_msrChord
             chord =
               dynamic_cast<msrChord*>(&(*fDoubleTremoloSecondElement))
-          ) {
+        ) {
           chord->asString ();
         }
         else {

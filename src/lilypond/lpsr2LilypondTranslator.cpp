@@ -5646,6 +5646,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
       * endl;
   }
 */
+
   gIndenter--;
 
   fLilypondCodeOstream <<
@@ -5706,6 +5707,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
       * endl;
   }
 */
+
   gIndenter--;
 
   fLilypondCodeOstream <<
@@ -5767,6 +5769,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
       * endl;
   }
 */
+
   gIndenter--;
 
   fLilypondCodeOstream <<
@@ -6278,9 +6281,6 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
 
   if (part->getPartStavesMap ().size () > 1) {
     // don't generate code for a part with only one stave
-
- // JMI ???   gIndenter--;
-
     if (gLpsr2LilypondOah->fLilyPondComments) {
       fLilypondCodeOstream << left <<
         setw (commentFieldWidth) << ">>" <<
@@ -13586,6 +13586,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
         harpPedalsAlterationKindsMap [kA]) <<
       "\" } " <<
       endl;
+
+    gIndenter--;
   }
   else {
     fLilypondCodeOstream <<
@@ -15593,7 +15595,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
   */
 
   if (! fRepeatDescrsStack.back ()->getEndOfRepeatHasBeenGenerated ()) {
-    // the end of the repeat has not been generated yet
+    // the end of the repeat has not been generated yet JMI
 
     gIndenter--;
 
@@ -15821,7 +15823,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       ==
     fRepeatDescrsStack.back ()->getRepeatEndingsNumber ()) {
 
-    gIndenter--;
+    gIndenter--; // JMI ???
 
     // last repeat ending is in charge of
     // outputting the end of the alternative

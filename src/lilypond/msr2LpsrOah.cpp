@@ -277,8 +277,7 @@ void msr2LpsrScoreOutputKindAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_msr2LpsrScoreOutputKindAtom& elt)
@@ -539,6 +538,8 @@ void msrOmitPartAtom::print (ostream& os) const
       os << endl;
     } // for
   }
+
+  gIndenter--;
 
   os << endl;
 }
@@ -839,6 +840,8 @@ void msrKeepPartAtom::print (ostream& os) const
       os << endl;
     } // for
   }
+
+  gIndenter--;
 
   os << endl;
 }

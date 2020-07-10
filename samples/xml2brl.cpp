@@ -350,9 +350,10 @@ int main (int argc, char *argv[])
 
   // check indentation
   // ------------------------------------------------------
+
   if (gIndenter != 0) {
     gLogOstream <<
-      "### gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
+      "### xml2brl gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
       endl <<
       endl;
   }

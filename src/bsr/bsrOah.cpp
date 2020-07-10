@@ -215,6 +215,8 @@ void bsrFacSimileKindAtom::print (ostream& os) const
       fBsrFacSimileKindVariable) <<
       "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void bsrFacSimileKindAtom::printAtomOptionsValues (
@@ -233,8 +235,7 @@ void bsrFacSimileKindAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_bsrFacSimileKindAtom& elt)
@@ -408,6 +409,8 @@ void bsrTextsLanguageAtom::print (ostream& os) const
       fBsrTextsLanguageKindVariable) <<
     "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void bsrTextsLanguageAtom::printAtomOptionsValues (
@@ -426,8 +429,7 @@ void bsrTextsLanguageAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_bsrTextsLanguageAtom& elt)

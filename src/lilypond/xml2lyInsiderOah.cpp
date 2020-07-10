@@ -1092,6 +1092,8 @@ void xml2lyOah::printXml2lyOahValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________

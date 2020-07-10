@@ -587,9 +587,41 @@ void msrHarmony::setHarmonyPositionInMeasure (
   }
 #endif
 
-  msrMeasureElement::setMeasureElementPositionInMeasure (
-    actualPositionInMeasure,
-    "setHarmonyPositionInMeasure()");
+  string context =
+    "setHarmonyPositionInMeasure()";
+
+  setMeasureElementPositionInMeasure (
+    positionInMeasure,
+    context);
+
+  // compute harmony's position in voice
+  S_msrMeasure
+    measure =
+      fHarmonyNoteUpLink->
+        getNoteMeasureUpLink ();
+
+  rational
+    positionInVoice =
+      measure->
+        getMeasurePositionInVoice ()
+        +
+      positionInMeasure;
+  positionInVoice.rationalise ();
+
+  // set harmony's position in voice
+  setMeasureElementPositionInVoice (
+    positionInVoice,
+    context);
+
+  // update current position in voice
+  S_msrVoice
+    voice =
+      measure->
+        fetchMeasureVoiceUpLink ();
+
+  voice->
+    incrementCurrentPositionInVoice (
+      fHarmonyNoteUpLink->getNoteSoundingWholeNotes ());
 }
 
 void msrHarmony::acceptIn (basevisitor* v)
@@ -787,6 +819,12 @@ void msrHarmony::print (ostream& os) const
   os <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
+    endl;
+
+  // print the harmony bass position in voice
+  os <<
+    setw (fieldWidth) <<
+    "positionInVoice" << " : " << fMeasureElementPositionInVoice <<
     endl;
 
   os <<

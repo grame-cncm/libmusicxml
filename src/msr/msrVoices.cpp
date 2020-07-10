@@ -475,6 +475,9 @@ void msrVoice::initializeVoice (
   // measures repests
   fVoiceContainsMeasuresRepeats = false;
 
+    // position in voice
+  fCurrentPositionInVoice = rational (0, 1);
+
   // voice finalization
   fVoiceHasBeenFinalized = false;
 
@@ -2072,7 +2075,7 @@ void msrVoice::padUpToPositionInMeasureInVoice (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
       i++
-  ) {
+    ) {
       S_msrStanza stanza = (*i).second;
 
       stanza->
@@ -6019,7 +6022,8 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
     gLogOstream <<
       nextMeasureAfterMeasuresRepeat;
     gLogOstream << endl;
-  }
+    gIndenter--;
+}
 #endif
 
   voiceLastSegmentMeasureList.pop_back ();
@@ -9761,6 +9765,11 @@ void msrVoice::print (ostream& os) const
     endl;
 
   os << left <<
+    setw (fieldWidth) << "currentPositionInVoice" << " : " <<
+    fCurrentPositionInVoice <<
+    endl;
+
+  os << left <<
     setw (fieldWidth) << "musicHasBeenInsertedInVoice" << " : " <<
     booleanAsString (fMusicHasBeenInsertedInVoice) <<
     endl <<
@@ -9908,7 +9917,6 @@ void msrVoice::print (ostream& os) const
   else {
     os << " : " << "none";
   }
-  os << endl;
 
   if (voiceInitialElementsListSize) {
     os << endl;

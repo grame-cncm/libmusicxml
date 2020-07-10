@@ -1976,7 +1976,6 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int valueFieldWidth)
 
   gIndenter++;
 
-
   // header
   // --------------------------------------
 
@@ -1998,6 +1997,12 @@ void mxmlTree2MsrOah::printMxmlTree2MsrValues (int valueFieldWidth)
 
   // parts
   // --------------------------------------
+
+  gLogOstream <<
+    "Parts:" <<
+    endl;
+
+  gIndenter++;
 
   // parts omitted IDs
 

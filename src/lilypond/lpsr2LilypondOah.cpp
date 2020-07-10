@@ -237,8 +237,7 @@ void lilypondScoreOutputKindAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt)
@@ -1493,8 +1492,7 @@ void lilypondAccidentalStyleKindAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_lilypondAccidentalStyleKindAtom& elt)
@@ -2119,8 +2117,7 @@ void lilypondLyricsDurationsKindAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_lilypondLyricsDurationsKindAtom& elt)

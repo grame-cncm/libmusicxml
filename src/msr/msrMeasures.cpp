@@ -142,6 +142,12 @@ void msrMeasure::initializeMeasure ()
   // repeat context
   fMeasuresRepeatContextKind = msrMeasure::kMeasuresRepeatContextKindUnknown;
 
+  // position in voice
+  fMeasurePositionInVoice =
+    fMeasureSegmentUpLink->
+      getSegmentVoiceUpLink ()->
+        getCurrentPositionInVoice ();
+
   // measure finalization
   fMeasureHasBeenFinalized = false;
   fMeasureKindAndPuristNumberHaveBeenDetermined = false;
@@ -897,7 +903,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
 #endif
 }
 
-void msrMeasure::insertElementAsPositionInMeasure (
+void msrMeasure::insertElementAtPositionInMeasure (
   int                 inputLineNumber,
   rational            positionInMeasure,
   S_msrMeasureElement elem)
@@ -1009,7 +1015,7 @@ void msrMeasure::insertElementAsPositionInMeasure (
   elem->
     setMeasureElementPositionInMeasure (
       positionInMeasure,
-      "insertElementAsPositionInMeasure()");
+      "insertElementAtPositionInMeasure()");
 
   // account for elem's duration in current measure whole notes
   incrementCurrentMeasureWholeNotesDuration (
@@ -1182,6 +1188,8 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
       endl;
   }
 #endif
+
+//  if (newMeasureWholeNotesDuration == rational (2, 1)) abort(); // JMI
 
   // set new measure whole notes duration
   fCurrentMeasureWholeNotesDuration =
@@ -1396,7 +1404,7 @@ void msrMeasure::insertHiddenMeasureAndBarlineInMeasureClone (
 
 /* JMI BLARK
   // insert it in the measure elements list
-  insertElementAsPositionInMeasure (
+  insertElementAtPositionInMeasure (
     inputLineNumber,
     positionInMeasure,
     hiddenMeasureAndBarline);
@@ -1823,6 +1831,15 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
   int inputLineNumber =
     note->getInputLineNumber ();
 
+  // fetch note sounding whole notes
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes ();
+
+  string
+    noteSoundingWholeNotesAsMsrString =
+      note->noteSoundingWholeNotesAsMsrString ();
+
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
@@ -1834,6 +1851,8 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
+      ", fCurrentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
+      ", noteSoundingWholeNotes = " << noteSoundingWholeNotes <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1860,15 +1879,6 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
   // append it to the measure elements list
 // JMI  appendElementToMeasure (note); ???
   fMeasureElementsList.push_back (note);
-
-  // fetch note sounding whole notes
-  rational
-    noteSoundingWholeNotes =
-      note->getNoteSoundingWholeNotes ();
-
-  string
-    noteSoundingWholeNotesAsMsrString =
-      note->noteSoundingWholeNotesAsMsrString ();
 
   // account for note duration in measure whole notes
   incrementCurrentMeasureWholeNotesDuration (
@@ -2482,13 +2492,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
         getSegmentVoiceUpLink ();
 
 #ifdef TRACE_OAH
-  if (
-    gTraceOah->fTraceMeasures
-      ||
-    gTraceOah->fTracePositionsInMeasures
-      ||
-    gTraceOah->fTraceWholeNotes
-  ) {
+  if (true || gTraceOah->fTracePositionsInMeasures) { // JMI
     this->print (gLogOstream);
 
     gLogOstream <<
@@ -5780,6 +5784,11 @@ void msrMeasure::print (ostream& os) const
     endl <<
 
     setw (fieldWidth) <<
+    "measurePositionInVoice" << " : " <<
+    fMeasurePositionInVoice <<
+    endl <<
+
+    setw (fieldWidth) <<
     "measureHasBeenFinalized" << " : " <<
     booleanAsString (
       fMeasureHasBeenFinalized) <<
@@ -5975,6 +5984,11 @@ void msrMeasure::shortPrint (ostream& os) const
     "measureKindAndPuristNumberHaveBeenDetermined" << " : " <<
     booleanAsString (
       fMeasureKindAndPuristNumberHaveBeenDetermined) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "measurePositionInVoice" << " : " <<
+    fMeasurePositionInVoice <<
     endl <<
 
     setw (fieldWidth) <<

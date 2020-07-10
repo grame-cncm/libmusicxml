@@ -9766,14 +9766,8 @@ void oahHandler::registerElementNamesInHandler (
           " for element short name \"" << elementShortName << "\"" <<
         " is defined more that once";
 
-        abort();
-
-      if (elementShortName == "insider") { // JMI TESTS
-        abort();
-      }
-
-// JMI      oahError (s.str ());
-      oahWarning (s.str ());
+      oahError (s.str ());
+// JMI      oahWarning (s.str ());
     }
 
     // is elementShortName already in the elements names map?
@@ -9786,10 +9780,8 @@ void oahHandler::registerElementNamesInHandler (
           " for element long name \"" << elementLongName << "\"" <<
           " is defined more that once";
 
-        abort();
-
-// JMI      oahError (s.str ());
-      oahWarning (s.str ());
+      oahError (s.str ());
+// JMI      oahWarning (s.str ());
       }
     }
   } // for

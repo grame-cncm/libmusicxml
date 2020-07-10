@@ -124,7 +124,7 @@ void msrStaff::initializeStaff ()
       break;
   } // switch
 
-// JMI  gIndenter++;
+  gIndenter++;
 
   // check the staff number
   switch (fStaffKind) {
@@ -271,7 +271,7 @@ void msrStaff::initializeStaff ()
   // rest measures
   fStaffContainsRestMeasures = false;
 
-// JMI  gIndenter--;
+  gIndenter--;
 }
 
 msrStaff::~msrStaff ()
@@ -2014,7 +2014,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceBarlines) {
     gLogOstream <<
       "Appending barline " << barline->asString () <<
       " to staff " <<

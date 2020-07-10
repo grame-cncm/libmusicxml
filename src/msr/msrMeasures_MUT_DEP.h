@@ -245,6 +245,15 @@ class msrMeasure : public msrElement
                           getMeasuresRepeatContextKind () const
                               { return fMeasuresRepeatContextKind; }
 
+    // position in voice
+
+    void                  setMeasurePositionInVoice (
+                            rational value)
+                              { fMeasurePositionInVoice = value; }
+
+    rational              getMeasurePositionInVoice () const
+                              { return fMeasurePositionInVoice; }
+
   public:
 
     // public services
@@ -676,6 +685,9 @@ class msrMeasure : public msrElement
     msrMeasuresRepeatContextKind
                           fMeasuresRepeatContextKind;
 
+    // position in voice
+    rational              fMeasurePositionInVoice;
+
   public:
 
     // public work services
@@ -751,7 +763,7 @@ class msrMeasure : public msrElement
     void                  appendElementAtTheEndOfMeasure (
                             S_msrMeasureElement elem);
 
-    void                  insertElementAsPositionInMeasure (
+    void                  insertElementAtPositionInMeasure (
                             int                 inputLineNumber,
                             rational            positionInMeasure,
                             S_msrMeasureElement elem);

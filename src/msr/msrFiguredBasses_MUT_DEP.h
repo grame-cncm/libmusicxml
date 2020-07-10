@@ -255,7 +255,7 @@ class msrFiguredBass : public msrMeasureElement
     S_msrNote             fFiguredBassNoteUpLink;
     S_msrVoice            fFiguredBassVoiceUpLink;
 
-    rational              fFiguredBassDisplayWholeNotes; // JMI useless???
+    rational              fFiguredBassDisplayWholeNotes;
 
     msrFiguredBassParenthesesKind
                           fFiguredBassParenthesesKind;

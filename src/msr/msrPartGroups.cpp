@@ -1025,7 +1025,7 @@ void msrPartGroup::print (ostream& os) const
 
       os << voice->getVoiceName () << endl;
       if (++i == iEnd) break;
-      os << endl;
+      // os << endl;
     } // for
     os << endl;
 

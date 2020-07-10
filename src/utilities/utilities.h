@@ -130,7 +130,7 @@ class EXP indenter
     void                  resetToZero ()
                               { fIndent = 0; }
 
-    // check indentation value
+    // compare indentation value
     bool                  operator == (const int &value) const
                               { return fIndent == value; }
     bool                  operator != (const int &value) const

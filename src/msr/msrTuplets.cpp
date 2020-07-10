@@ -660,10 +660,37 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   }
 #endif
 
-  msrMeasureElement::setMeasureElementPositionInMeasure (
-    positionInMeasure,
-    "setTupletMembersPositionInMeasure()");
+  string context =
+    "setTupletMembersPositionInMeasure()";
 
+  setMeasureElementPositionInMeasure (
+    positionInMeasure,
+    context);
+
+  // compute tuplet's position in voice
+  rational
+     positionInVoice =
+      fTupletMeasureUpLink->getMeasurePositionInVoice ()
+        +
+      positionInMeasure;
+  positionInVoice.rationalise ();
+
+  // set tuplet's position in voice
+  setMeasureElementPositionInVoice (
+    positionInVoice,
+    context);
+
+  // update current position in voice
+  S_msrVoice
+    voice =
+      fTupletMeasureUpLink->
+        fetchMeasureVoiceUpLink ();
+
+  voice->
+    incrementCurrentPositionInVoice (
+      fMeasureElementSoundingWholeNotes);
+
+  // current position
   rational currentPosition = positionInMeasure;
 
   // compute position in measure for the tuplets elements
@@ -996,6 +1023,10 @@ void msrTuplet::print (ostream& os) const
     "positionInMeasure" << " : " <<
     fMeasureElementPositionInMeasure <<
     endl <<
+    setw (fieldWidth) <<
+    "positionInVoice" << " : " <<
+    fMeasureElementPositionInVoice <<
+    endl <<
     endl;
 
 /* JMI ???
@@ -1131,6 +1162,9 @@ void msrTuplet::printShort (ostream& os)
     setw (fieldWidth) <<
     "positionInMeasure" << " : " <<
     fMeasureElementPositionInMeasure <<
+    endl <<
+    setw (fieldWidth) <<
+    "positionInVoice" << " : " << fMeasureElementPositionInVoice <<
     endl <<
     endl;
 

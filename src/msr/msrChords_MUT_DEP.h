@@ -415,10 +415,12 @@ class msrChord : public msrTupletElement
     // tuplet uplink
     S_msrTuplet           fChordTupletUpLink;
 
-    // sounding divisions
-// JMI    rational              fChordSoundingWholeNotes;
+    // sounding whole notes
+    // no need for 'rational fChordSoundingWholeNotes;',
+    // since fChordNotesVector [0] contains this information,
+    // as do all the other elements in this vector
 
-    // display divisions
+    // display whole notes
     rational              fChordDisplayWholeNotes;
 
     // graphic duration is needed for grace notes,

@@ -477,7 +477,7 @@ void msrPart::setPartNumberOfMeasures (int partNumberOfMeasures)
   fPartNumberOfMeasures = partNumberOfMeasures;
 
   // allocate fPartNumberOfMeasures elements
-  // in fPartMeasuresWholeNotesDurationsVector
+  // in fPartMeasuresWholeNotesDurationsVector JMI ???
   fPartMeasuresWholeNotesDurationsVector.clear ();
   fPartMeasuresWholeNotesDurationsVector.resize (
     fPartNumberOfMeasures,
@@ -522,12 +522,14 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
         ", now it becomes " <<
         wholeNotesDuration;
 
-   //   msrInternalError (
-      msrInternalWarning (
+/* JMI
+      msrInternalError (
+   //   msrInternalWarning (
         gOahOah->fInputSourceName,
         inputLineNumber,
-   //     __FILE__, __LINE__,
+        __FILE__, __LINE__,
         s.str ());
+        */
     }
     // else it's OK
   }
@@ -2426,7 +2428,7 @@ void msrPart::print (ostream& os) const
 
       os << voice->getVoiceName () << endl;
       if (++i == iEnd) break;
-      os << endl;
+      // os << endl;
     } // for
     os << endl;
 

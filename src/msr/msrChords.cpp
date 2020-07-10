@@ -173,9 +173,34 @@ void msrChord::setChordMembersPositionInMeasure (
   }
 #endif
 
-  msrMeasureElement::setMeasureElementPositionInMeasure (
+  string context =
+    "setChordMembersPositionInMeasure()";
+
+  setMeasureElementPositionInMeasure (
     positionInMeasure,
-    "setChordMembersPositionInMeasure()");
+    context);
+
+  // compute chord's position in voice
+  rational
+     positionInVoice =
+      fChordMeasureUpLink->getMeasurePositionInVoice ()
+        +
+      positionInMeasure;
+
+  // set chord's position in voice
+  setMeasureElementPositionInVoice (
+    positionInVoice,
+    context);
+
+  // update current position in voice
+  S_msrVoice
+    voice =
+      measure->
+        fetchMeasureVoiceUpLink ();
+
+  voice->
+    incrementCurrentPositionInVoice (
+      fChordNotesVector [0]->getNoteSoundingWholeNotes ());
 
   // set the chord's elements' position in measure
   if (fChordNotesVector.size ()) {
@@ -187,13 +212,21 @@ void msrChord::setChordMembersPositionInMeasure (
       S_msrNote
         note = (*i);
 
+      // set note's measure uplink
       note->
         setNoteMeasureUpLink (
           measure);
 
+      // set note's position in measure
       note->
         setNotePositionInMeasure (
           positionInMeasure); // they all share the same one
+
+      // set note's position in voice
+      note->
+        setMeasureElementPositionInVoice (
+          positionInVoice,
+          context); // they all share the same one
 
       if (++i == iEnd) break;
     } // for
@@ -1129,6 +1162,9 @@ void msrChord::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
+    endl <<
+    setw (fieldWidth) <<
+    "positionInVoice" << " : " << fMeasureElementPositionInVoice <<
     endl <<
     setw (fieldWidth) <<
     "chordMeasureFullLength" << " : " << chordMeasureFullLength <<

@@ -246,6 +246,8 @@ void brailleOutputKindAtom::print (ostream& os) const
       fBrailleOutputKindVariable) <<
       "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void brailleOutputKindAtom::printAtomOptionsValues (
@@ -264,8 +266,7 @@ void brailleOutputKindAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_brailleOutputKindAtom& elt)
@@ -461,6 +462,8 @@ void brailleUTFKindAtom::print (ostream& os) const
       fBsrUTFKindVariable) <<
       "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void brailleUTFKindAtom::printAtomOptionsValues (
@@ -479,8 +482,7 @@ void brailleUTFKindAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_brailleUTFKindAtom& elt)
@@ -676,6 +678,8 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
       fBsrByteOrderingKindVariable) <<
       "\"" <<
     endl;
+
+  gIndenter--;
 }
 
 void brailleByteOrderingKindAtom::printAtomOptionsValues (
@@ -694,8 +698,7 @@ void brailleByteOrderingKindAtom::printAtomOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
   }
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_brailleByteOrderingKindAtom& elt)
