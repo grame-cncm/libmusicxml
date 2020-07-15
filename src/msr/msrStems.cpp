@@ -124,7 +124,7 @@ string msrStem::asString () const
 
   s <<
     "Stem" <<
-    ", fStemKind: " <<
+    ", stemKind: " <<
     stemKindAsString (fStemKind) <<
     ", line " << fInputLineNumber;
 

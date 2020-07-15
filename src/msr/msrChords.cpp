@@ -670,10 +670,11 @@ void msrChord::appendStemToChord (S_msrStem stem)
         " and " << (*i)->asString () <<
         " don't have the same kind, but are in one and the same chord";
 
-      msrInternalError ( // not internal actually JMI
+//      msrInternalError ( // not internal actually JMI ???
+      msrInternalWarning ( // not internal actually JMI ???
         gOahOah->fInputSourceName,
         fInputLineNumber,
-        __FILE__, __LINE__,
+  //      __FILE__, __LINE__,
         s.str ());
     }
   } // for
@@ -1684,8 +1685,7 @@ void msrChord::print (ostream& os) const
       os << endl;
       gIndenter++;
         os << fChordOctaveShift;
-
-    gIndenter--;
+      gIndenter--;
     }
     else {
       os <<
@@ -1695,43 +1695,49 @@ void msrChord::print (ostream& os) const
   }
 
   // print the grace notes groups if any
-  if (fChordGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
+  if (
+    gTraceOah->fTraceGraceNotes
+      ||
+    fChordGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails
+  ) {
     os <<
       setw (fieldWidth) <<
-      "chordGraceNotesGroupBefore" << " : " <<
-      endl;
-
-    gIndenter++;
+      "chordGraceNotesGroupBefore" << " : ";
 
     if (fChordGraceNotesGroupBefore) {
+      os << endl;
+      gIndenter++;
+
       os <<
-        fChordGraceNotesGroupBefore->asString () <<
-        endl;
+        fChordGraceNotesGroupBefore->asString ();
     }
     else {
-      os <<
-        "none";
+      os << "none" ;
     }
+    os << endl;
 
     gIndenter--;
   }
-  if (fChordGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
+
+  if (
+    gTraceOah->fTraceGraceNotes
+      ||
+    fChordGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails
+  ) {
     os <<
       setw (fieldWidth) <<
-      "chordGraceNotesGroupAfter" << " : " <<
-      endl;
+      "chordGraceNotesGroupAfter" << " : ";
 
     gIndenter++;
 
     if (fChordGraceNotesGroupAfter) {
       os <<
-        fChordGraceNotesGroupAfter->asString () <<
-        endl;
+        fChordGraceNotesGroupAfter->asString ();
     }
     else {
-      os <<
-        "none";
+      os << "none";
     }
+    os << endl;
 
     gIndenter--;
   }

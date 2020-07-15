@@ -268,6 +268,17 @@ void msrPart::decrementPartCurrentPositionInMeasure (
       __FILE__, __LINE__,
       s.str ());
   }
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "The new part current position in measure is " <<
+      fPartCurrentPositionInMeasure <<
+      " in part " <<
+      getPartCombinedName () <<
+      endl;
+  }
+#endif
 }
 
 void msrPart::assignSequentialNumbersToRegularVoicesInPart (
@@ -512,24 +523,19 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
   if (currentValue.getNumerator () != 0) {
     if (currentValue != wholeNotesDuration) {
       // allow for polymetrics in non-MusicXML contexts? JMI
-      stringstream s;
-
-      s <<
-        "the measure with ordinal number " <<
-        measureOrdinalNumber <<
-        " had a whole notes duration  of " <<
-        currentValue <<
-        ", now it becomes " <<
-        wholeNotesDuration;
-
-/* JMI
-      msrInternalError (
-   //   msrInternalWarning (
-        gOahOah->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-        */
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceMeasures ||  gTraceOah->fTracePositionsInMeasures) {
+        gLogOstream <<
+          "The measure with ordinal number " <<
+          measureOrdinalNumber <<
+          " was known with a whole notes duration of " <<
+          currentValue <<
+          ", now registering it with a duration of " <<
+          wholeNotesDuration <<
+          "in part " << getPartCombinedName () <<
+          endl;
+      }
+#endif
     }
     // else it's OK
   }

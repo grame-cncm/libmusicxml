@@ -1762,7 +1762,7 @@ void msrMeasure::appendNoteToMeasure (
   }
 #endif
 
-  // should a skip/rest note be appended before note?
+  // should a skip note be appended before note?
   if (positionsDelta.getNumerator () > 0) {
     // fetch the voice
     S_msrVoice
@@ -1771,7 +1771,7 @@ void msrMeasure::appendNoteToMeasure (
 
     // create a skip note of duration delta
     S_msrNote
-      paddingNote =
+      skipNote =
         msrNote::createSkipNote (
           inputLineNumber,
           fMeasureElementMeasureNumber,
@@ -1785,7 +1785,7 @@ void msrMeasure::appendNoteToMeasure (
 
     // append it to the measure
     appendNoteOrPaddingToMeasure (
-      paddingNote);
+      skipNote);
   }
 
   else if (positionsDelta.getNumerator () < 0) {
@@ -2466,7 +2466,7 @@ S_msrNote msrMeasure::createPaddingSkipNoteForVoice (
 
   // create a skip note
   S_msrNote
-    paddingNote =
+    skipNote =
       msrNote::createSkipNote (
         inputLineNumber,
         fMeasureElementMeasureNumber,
@@ -2478,7 +2478,7 @@ S_msrNote msrMeasure::createPaddingSkipNoteForVoice (
         voice->
           getVoiceNumber ());
 
-  return paddingNote;
+  return skipNote;
 }
 
 void msrMeasure::padUpToPositionInMeasureInMeasure (
@@ -2535,7 +2535,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceMeasures) {
       gLogOstream <<
-        "Appending rest" << paddingNote->asString () <<
+        "Appending skip " << paddingNote->asString () <<
         " (missingDuration " << missingDuration <<
         " whole notes) to skip from length '" <<
         fCurrentMeasureWholeNotesDuration <<
@@ -2674,7 +2674,7 @@ void msrMeasure::appendPaddingSkipNoteToMeasure (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
-      "Appending padding note" <<
+      "Appending padding skip note" <<
       ", forwardStepLength: " <<
       forwardStepLength <<
       ", to measure " <<
@@ -3476,14 +3476,15 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
-       "Creating a padding note '" <<
-       ", missingDuration: " << missingDuration <<
-       " at the end of voice \"" << measureVoice->getVoiceName () <<
-       "\", measure: " <<
+        "Creating a padding note '" <<
+        ", missingDuration: " << missingDuration <<
+        " at the end of measure " <<
         this->asShortString () <<
-       ", currentMeasureWholeNotesDuration: " <<
-       fCurrentMeasureWholeNotesDuration <<
-       endl;
+        " in voice \"" << measureVoice->getVoiceName () << "\",  " <<
+        ", currentMeasureWholeNotesDuration: " <<
+        fCurrentMeasureWholeNotesDuration <<
+        ", line " << inputLineNumber <<
+        endl;
    }
 #endif
 
@@ -3710,18 +3711,18 @@ void msrMeasure::handleFirstHarmonyInHarmonyMeasure (
   if (positionInMeasureToPadUpTo.getNumerator () != 0) {
     // create a padding skip note
     S_msrNote
-      paddingNote =
+      skipNote =
         createPaddingSkipNoteForVoice (
           inputLineNumber,
           positionInMeasureToPadUpTo,
           voice);
 
-    // insert paddingNote before currentHarmony in the measure's elements list
+    // insert skipNote before currentHarmony in the measure's elements list
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
         "Inserting first padding note " <<
-        paddingNote->asString () <<
+        skipNote->asString () <<
         " before currentHarmony " <<
         currentHarmony->asString () <<
         " in voice \"" <<
@@ -3731,11 +3732,11 @@ void msrMeasure::handleFirstHarmonyInHarmonyMeasure (
     }
 #endif
 
-    // insert paddingNote in the measure elements list before (*i)
+    // insert skipNote in the measure elements list before (*i)
     insertElementInMeasureBeforeIterator (
       inputLineNumber,
       i,
-      paddingNote);
+      skipNote);
 
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
@@ -3817,24 +3818,24 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
   if (positionsInMeasureDelta.getNumerator () > 0) {
     // create a padding skip note
     S_msrNote
-      paddingNote =
+      skipNote =
         createPaddingSkipNoteForVoice (
           inputLineNumber,
           positionsInMeasureDelta,
           voice);
 
     // set its position in measure
-    paddingNote->
+    skipNote->
       setMeasureElementPositionInMeasure (
         fCurrentMeasureWholeNotesDuration,
         "handleSubsequentHarmonyInHarmonyMeasure() 8");
 
-    // insert paddingNote before currentHarmony in the measure's elements list
+    // insert skipNote before currentHarmony in the measure's elements list
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
         "Inserting subsequent padding note " <<
-        paddingNote->asString () <<
+        skipNote->asString () <<
         " before currentHarmony " <<
         currentHarmony->asString () <<
         " in voice \"" <<
@@ -3844,11 +3845,11 @@ void msrMeasure::handleSubsequentHarmonyInHarmonyMeasure (
     }
 #endif
 
-    // insert paddingNote in the measure elements list before (*i)
+    // insert skipNote in the measure elements list before (*i)
     insertElementInMeasureBeforeIterator (
       inputLineNumber,
       i,
-      paddingNote);
+      skipNote);
   }
 
   else if (positionsInMeasureDelta.getNumerator () < 0) {
@@ -4312,18 +4313,18 @@ void msrMeasure::handleFirstFiguredBassInFiguredBassMeasure (
   if (positionInMeasureToPadUpTo.getNumerator () != 0) {
     // create a padding skip note
     S_msrNote
-      paddingNote =
+      skipNote =
         createPaddingSkipNoteForVoice (
           inputLineNumber,
           positionInMeasureToPadUpTo,
           voice);
 
-    // insert paddingNote before currentFiguredBass in the measure's elements list
+    // insert skipNote before currentFiguredBass in the measure's elements list
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
         "Inserting first padding note " <<
-        paddingNote->asString () <<
+        skipNote->asString () <<
         " before currentFiguredBass " <<
         currentFiguredBass->asString () <<
         " in voice \"" <<
@@ -4333,11 +4334,11 @@ void msrMeasure::handleFirstFiguredBassInFiguredBassMeasure (
     }
 #endif
 
-    // insert paddingNote in the measure elements list before (*i)
+    // insert skipNote in the measure elements list before (*i)
     insertElementInMeasureBeforeIterator (
       inputLineNumber,
       i,
-      paddingNote);
+      skipNote);
 
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
@@ -4419,24 +4420,24 @@ void msrMeasure::handleSubsequentFiguredBassInFiguredBassMeasure (
   if (positionsInMeasureDelta.getNumerator () > 0) {
     // create a padding skip note
     S_msrNote
-      paddingNote =
+      skipNote =
         createPaddingSkipNoteForVoice (
           inputLineNumber,
           positionsInMeasureDelta,
           voice);
 
     // set its position in measure
-    paddingNote->
+    skipNote->
       setMeasureElementPositionInMeasure (
         fCurrentMeasureWholeNotesDuration,
         "handleSubsequentFiguredBassInFiguredBassMeasure() 8");
 
-    // insert paddingNote before currentFiguredBass in the measure's elements list
+    // insert skipNote before currentFiguredBass in the measure's elements list
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
       gLogOstream <<
         "Inserting subsequent padding note " <<
-        paddingNote->asString () <<
+        skipNote->asString () <<
         " before currentFiguredBass " <<
         currentFiguredBass->asString () <<
         " in voice \"" <<
@@ -4446,11 +4447,11 @@ void msrMeasure::handleSubsequentFiguredBassInFiguredBassMeasure (
     }
 #endif
 
-    // insert paddingNote in the measure elements list before (*i)
+    // insert skipNote in the measure elements list before (*i)
     insertElementInMeasureBeforeIterator (
       inputLineNumber,
       i,
-      paddingNote);
+      skipNote);
   }
 
   else if (positionsInMeasureDelta.getNumerator () < 0) {

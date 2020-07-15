@@ -1247,10 +1247,12 @@ S_msrNote msrNote::createSkipNote (
   assert(o!=0);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSkipNotes) {
+  if (gTraceOah->fTraceSkipNotes || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Creating skip note '" <<
-      o->asShortString () <<
+      o->asString () <<
+      ", staffNumber = " << staffNumber <<
+      ", voiceNumber = " << voiceNumber <<
       ", line " << inputLineNumber <<
       endl;
   }

@@ -31,6 +31,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::create (
   msrGraceNotesGroupKind graceNotesGroupKind,
   bool                   graceNotesGroupIsSlashed,
   bool                   graceNotesGroupIsBeamed,
+  string                 graceNotesGroupMeasureNumber,
   S_msrVoice             graceNotesGroupVoiceUpLink)
 {
   msrGraceNotesGroup* o =
@@ -39,6 +40,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::create (
       graceNotesGroupKind,
       graceNotesGroupIsSlashed,
       graceNotesGroupIsBeamed,
+      graceNotesGroupMeasureNumber,
       graceNotesGroupVoiceUpLink);
   assert(o!=0);
 
@@ -50,6 +52,7 @@ msrGraceNotesGroup::msrGraceNotesGroup (
   msrGraceNotesGroupKind graceNotesGroupKind,
   bool                   graceNotesGroupIsSlashed,
   bool                   graceNotesGroupIsBeamed,
+  string                 graceNotesGroupMeasureNumber,
   S_msrVoice             graceNotesGroupVoiceUpLink)
     : msrElement (inputLineNumber)
 {
@@ -67,6 +70,8 @@ msrGraceNotesGroup::msrGraceNotesGroup (
 
   fGraceNotesGroupIsSlashed = graceNotesGroupIsSlashed;
   fGraceNotesGroupIsBeamed = graceNotesGroupIsBeamed;
+
+  fGraceNotesGroupMeasureNumber = graceNotesGroupMeasureNumber;
 
   // grace notes are followed by notes
   // unless they are last in a measure
@@ -101,6 +106,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
         fGraceNotesGroupKind,
         fGraceNotesGroupIsSlashed,
         fGraceNotesGroupIsBeamed,
+        fGraceNotesGroupMeasureNumber,
         containingVoice);
 
   newbornClone->fGraceNotesGroupIsTied =
@@ -162,6 +168,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
         fGraceNotesGroupKind,
         fGraceNotesGroupIsSlashed,
         fGraceNotesGroupIsBeamed,
+        fGraceNotesGroupMeasureNumber,
         containingVoice);
 
   clone->fGraceNotesGroupIsTied =
@@ -435,7 +442,6 @@ string msrGraceNotesGroup::asString () const
 
   s <<
     "GraceNotesGroup" <<
-    ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
     ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
     "\", line " << fInputLineNumber << " ";
 

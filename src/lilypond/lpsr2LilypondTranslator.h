@@ -1025,6 +1025,15 @@ class lpsr2LilypondTranslator :
     S_msrSyllable         fCurrentMsrSyllableClone;
 
 
+    // book blocks
+    // ------------------------------------------------------
+    bool                  fOnGoingBookBlock; // JMI
+
+    // book part blocks
+    // ------------------------------------------------------
+    bool                  fOnGoingBookPartBlock; // JMI
+
+
     // score blocks
     // ------------------------------------------------------
     bool                  fOnGoingScoreBlock; // JMI

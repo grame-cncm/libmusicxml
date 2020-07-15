@@ -4458,6 +4458,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
   if (originalVoiceFirstNonGraceNote) {
     if (noteNotesGroupIsAttachedTo == originalVoiceFirstNonGraceNote) {
+    // don't createSkipGraceNotesGroupClone() is there's only a single voice JMI
+
       // issue #34 in LilyPond should be worked around by creating
       // skip grace notes in the other voices of the part
 
@@ -5178,6 +5180,7 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
       setNoteStem (elt);
   }
   else if (fOnGoingChord) {
+  if (false) // JMI
     fCurrentChordClone->
       appendStemToChord (elt);
   }

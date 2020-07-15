@@ -65,8 +65,15 @@ msr2MxmltreeTranslator::msr2MxmltreeTranslator (
   fPendingNoteAwaitingGraceNotes = nullptr;
   fPendingNoteElement = nullptr;
 
-  // forward handling
-  fCumulatedSkipDurations = rational (0, 1);
+  // chords
+  fOnGoingChord = false;
+
+  // backup and forward handling
+  fCurrentPositionInMeasure = rational (0, 1);
+
+  fCurrentCumulatedSkipsDurations = rational (0, 1);
+  fCurrentCumulatedSkipsStaffNumber = -1;
+  fCurrentCumulatedSkipsVoiceNumber = -1;
 
 /*
   // double tremolos
@@ -462,6 +469,10 @@ void msr2MxmltreeTranslator::appendNoteToMeasure (
 
   // append elem to the current measure element
   fCurrentMeasure->push (elem);
+
+  // account for the note's whole notes duration in the measure
+  fCurrentPositionInMeasure +=
+    note->getNoteSoundingWholeNotes ();
 
   // append the 'after spanner' elements if any
   appendNoteSpannersAfterNote (note);
@@ -1791,17 +1802,17 @@ void msr2MxmltreeTranslator::populateAppearanceNoteSizes (
   ) {
     S_msrNoteSize noteSize = (*i);
 
-    // get line width type
+    // get note size type
     msrNoteSize::msrNoteSizeTypeKind
       noteSizeTypeKind =
         noteSize->getNoteSizeTypeKind ();
 
-    // get line width value
+    // get note size value
     float
       noteSizeValue =
         noteSize->getNoteSizeValue ();
 
-    // create a line width element
+    // create a note size element
     Sxmlelement
       noteSizeElement =
         createFloatElement (
@@ -1828,7 +1839,7 @@ void msr2MxmltreeTranslator::populateAppearanceNoteSizes (
 
     noteSizeElement->add (createAttribute ("type", noteSizeTypeString));
 
-    // append the line width element to the appearance element
+    // append the note size element to the appearance element
     appearanceElement->push (
       noteSizeElement);
   } // for
@@ -2750,6 +2761,15 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
 
   // forget about the current part element
   fCurrentPart = nullptr;
+
+  // forget about the current part clef
+  fCurrentPartClef = nullptr;
+
+  // forget about the current part key
+  fCurrentPartKey = nullptr;
+
+  // forget about the current part time
+  fCurrentPartTime = nullptr;
 }
 
 //________________________________________________________________________
@@ -2937,9 +2957,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
 
   // there's no previous MSR note yet in this measure
   fPreviousMSRNote = nullptr;
-
-  // forward handling
-  fCumulatedSkipDurations = rational (0, 1);
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
@@ -2976,8 +2993,16 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
   // forget about the current measure element
   fCurrentMeasure = nullptr;
 
-  // forget about the current part measure attributes element
+  // forget about the current measure attributes element
   fCurrentMeasureAttributes = nullptr;
+
+  // reset the current position in the measure
+  fCurrentPositionInMeasure = rational (0, 1);
+
+  // reset the cumulated skip durations informations
+  fCurrentCumulatedSkipsDurations = rational (0, 1);
+  fCurrentCumulatedSkipsStaffNumber = -1;
+  fCurrentCumulatedSkipsVoiceNumber = -1;
 }
 
 //________________________________________________________________________
@@ -3077,411 +3102,343 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
   }
 #endif
 
-  switch (elt->getClefKind ()) {
-    case k_NoClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
+  bool doAppendAClefElementToTheMeasure = false;
 
-        clefElement->push (
-          createElement (
-            k_sign,
-            "none"));
-      }
-      break;
-    case kTrebleClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
+  if (fCurrentPartClef) {
+    // a clef element has already been created for the current part:
+    // each voice in an MSR staff has its own clefs,
+    // another one should be created only if it is different the the current one
+    doAppendAClefElementToTheMeasure =
+      ! elt->isEqualTo (fCurrentPartClef);
+  }
+  else {
+    // this the first clef met in the part
+    doAppendAClefElementToTheMeasure = true;
+  }
 
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
+  if (doAppendAClefElementToTheMeasure) {
+    // create the clef element
+    Sxmlelement clefElement = createElement (k_clef, "");
 
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kSopranoClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
+    // populate it
+    switch (elt->getClefKind ()) {
+      case k_NoClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "none"));
+        }
+        break;
+      case kTrebleClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+        }
+        break;
+      case kSopranoClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+        }
+        break;
+      case kMezzoSopranoClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+        }
+        break;
+      case kAltoClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+        }
+        break;
+      case kTenorClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+        }
+        break;
+      case kBaritoneClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+        }
+        break;
+      case kBassClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "F"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              4));
+        }
+        break;
+      case kTrebleLine1Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              1));
+        }
+        break;
+      case kTrebleMinus15Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+          clefElement->push (
+            createIntegerElement (
+              k_clef_octave_change,
+              -2));
+        }
+        break;
+      case kTrebleMinus8Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+          clefElement->push (
+            createIntegerElement (
+              k_clef_octave_change,
+              -1));
+        }
+        break;
+      case kTreblePlus8Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+          clefElement->push (
+            createIntegerElement (
+              k_clef_octave_change,
+              1));
+        }
+        break;
+      case kTreblePlus15Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "G"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              2));
+          clefElement->push (
+            createIntegerElement (
+              k_clef_octave_change,
+              2));
+        }
+        break;
+      case kBassMinus15Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "F"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              4));
+          clefElement->push (
+            createIntegerElement (
+              k_clef_octave_change,
+              -2));
+        }
+        break;
+      case kBassMinus8Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "F"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              4));
+          clefElement->push (
+            createIntegerElement (
+              k_clef_octave_change,
+              -1));
+        }
+        break;
+      case kBassPlus8Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "F"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              4));
+          clefElement->push (
+            createIntegerElement (
+              k_clef_octave_change,
+              1));
+        }
+        break;
+      case kBassPlus15Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "F"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              4));
+          clefElement->push (
+            createIntegerElement (
+              k_clef_octave_change,
+              2));
+        }
+        break;
+      case kVarbaritoneClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "F"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              3));
+        }
+        break;
 
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
+      case kTablature4Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "tab"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              4));
+        }
+      case kTablature5Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "tab"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              5));
+        }
+        break;
+      case kTablature6Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "tab"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              6));
+        }
+      case kTablature7Clef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "tab"));
+          clefElement->push (
+            createIntegerElement (
+              k_line,
+              7));
+        }
+        break;
 
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kMezzoSopranoClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
+      case kPercussionClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "percussion"));
+        }
+        break;
 
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
+      case kJianpuClef:
+        {
+          clefElement->push (
+            createElement (
+              k_sign,
+              "jianpu"));
+        }
+        break;
+    } // switch
 
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kAltoClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
+    // append the clef element to the measure attributes element
+    appendToMeasureAttributes (clefElement);
 
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kTenorClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kBaritoneClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kBassClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "F"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            4));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kTrebleLine1Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            1));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kTrebleMinus15Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
-        clefElement->push (
-          createIntegerElement (
-            k_clef_octave_change,
-            -2));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kTrebleMinus8Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
-        clefElement->push (
-          createIntegerElement (
-            k_clef_octave_change,
-            -1));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kTreblePlus8Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
-        clefElement->push (
-          createIntegerElement (
-            k_clef_octave_change,
-            1));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kTreblePlus15Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "G"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            2));
-        clefElement->push (
-          createIntegerElement (
-            k_clef_octave_change,
-            2));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kBassMinus15Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "F"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            4));
-        clefElement->push (
-          createIntegerElement (
-            k_clef_octave_change,
-            -2));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kBassMinus8Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "F"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            4));
-        clefElement->push (
-          createIntegerElement (
-            k_clef_octave_change,
-            -1));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kBassPlus8Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "F"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            4));
-        clefElement->push (
-          createIntegerElement (
-            k_clef_octave_change,
-            1));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kBassPlus15Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "F"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            4));
-        clefElement->push (
-          createIntegerElement (
-            k_clef_octave_change,
-            2));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kVarbaritoneClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "F"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            3));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-
-    case kTablature4Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "tab"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            4));
-
-        appendToMeasureAttributes (clefElement);
-      }
-    case kTablature5Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "tab"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            5));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-    case kTablature6Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "tab"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            6));
-
-        appendToMeasureAttributes (clefElement);
-      }
-    case kTablature7Clef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "tab"));
-        clefElement->push (
-          createIntegerElement (
-            k_line,
-            7));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-
-    case kPercussionClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "percussion"));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-
-    case kJianpuClef:
-      {
-        Sxmlelement clefElement = createElement (k_clef, "");
-
-        clefElement->push (
-          createElement (
-            k_sign,
-            "jianpu"));
-
-        appendToMeasureAttributes (clefElement);
-      }
-      break;
-  } // switch
+    // this clef becomes the new current part clef
+    fCurrentPartClef = elt;
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrClef& elt)
@@ -3511,142 +3468,162 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
   }
 #endif
 
-  switch (elt->getKeyKind ()) {
-    case msrKey::kTraditionalKind:
-      {
-        // create the key element
-        Sxmlelement keyElement = createElement (k_key, "");
+  bool doAppendAKeyElementToTheMeasure = false;
 
-        // compute the number of fifths
-        const int K_NO_FIFTHS_NUMBER = -99;
-        int       fifthsNumber = K_NO_FIFTHS_NUMBER;
+  if (fCurrentPartKey) {
+    // a key element has already been created for the current part:
+    // each voice in an MSR staff has its own keys,
+    // another one should be created only if it is different the the current one
+    doAppendAKeyElementToTheMeasure =
+      ! elt->isEqualTo (fCurrentPartKey);
+  }
+  else {
+    // this the first key met in the part
+    doAppendAKeyElementToTheMeasure = true;
+  }
 
-        msrQuarterTonesPitchKind
-          keyTonicQuarterTonesPitchKind =
-            elt->getKeyTonicQuarterTonesPitchKind ();
+  if (doAppendAKeyElementToTheMeasure) {
+    // create the key element
+    Sxmlelement keyElement = createElement (k_key, "");
 
-        switch (keyTonicQuarterTonesPitchKind) {
-          case k_NoQuarterTonesPitch_QTP:
-          case k_Rest_QTP:
-            // should not occur
-            break;
+    // populate it
+    switch (elt->getKeyKind ()) {
+      case msrKey::kTraditionalKind:
+        {
+          // compute the number of fifths
+          const int K_NO_FIFTHS_NUMBER = -99;
+          int       fifthsNumber = K_NO_FIFTHS_NUMBER;
 
-          case kC_Natural_QTP:
-            fifthsNumber = 0;
-            break;
-          case kG_Natural_QTP:
-            fifthsNumber = 1;
-            break;
-          case kD_Natural_QTP:
-            fifthsNumber = 2;
-            break;
-          case kA_Natural_QTP:
-            fifthsNumber = 3;
-            break;
-          case kE_Natural_QTP:
-            fifthsNumber = 4;
-            break;
-          case kB_Natural_QTP:
-            fifthsNumber = 5;
-            break;
-          case kF_Sharp_QTP:
-            fifthsNumber = 6;
-            break;
-          case kC_Sharp_QTP:
-            fifthsNumber = 7;
-            break;
+          msrQuarterTonesPitchKind
+            keyTonicQuarterTonesPitchKind =
+              elt->getKeyTonicQuarterTonesPitchKind ();
 
-          case kG_Sharp_QTP: // JMI
-            fifthsNumber = 8;
-            break;
-          case kD_Sharp_QTP:
-            fifthsNumber = 9;
-            break;
-          case kA_Sharp_QTP:
-            fifthsNumber = 10;
-            break;
-          case kE_Sharp_QTP:
-            fifthsNumber = 11;
-            break;
+          switch (keyTonicQuarterTonesPitchKind) {
+            case k_NoQuarterTonesPitch_QTP:
+            case k_Rest_QTP:
+              // should not occur
+              break;
 
-          case kF_Natural_QTP:
-            fifthsNumber = -1;
-            break;
-          case kB_Flat_QTP:
-            fifthsNumber = -2;
-            break;
-          case kE_Flat_QTP:
-            fifthsNumber = -3;
-            break;
-          case kA_Flat_QTP:
-            fifthsNumber = -4;
-            break;
-          case kD_Flat_QTP:
-            fifthsNumber = -5;
-            break;
-          case kG_Flat_QTP:
-            fifthsNumber = -6;
-            break;
-          case kC_Flat_QTP:
-            fifthsNumber = -7;
-            break;
+            case kC_Natural_QTP:
+              fifthsNumber = 0;
+              break;
+            case kG_Natural_QTP:
+              fifthsNumber = 1;
+              break;
+            case kD_Natural_QTP:
+              fifthsNumber = 2;
+              break;
+            case kA_Natural_QTP:
+              fifthsNumber = 3;
+              break;
+            case kE_Natural_QTP:
+              fifthsNumber = 4;
+              break;
+            case kB_Natural_QTP:
+              fifthsNumber = 5;
+              break;
+            case kF_Sharp_QTP:
+              fifthsNumber = 6;
+              break;
+            case kC_Sharp_QTP:
+              fifthsNumber = 7;
+              break;
 
-          case kF_Flat_QTP: // JMI
-            fifthsNumber = -8;
-            break;
-          case kB_DoubleFlat_QTP:
-            fifthsNumber = -9;
-            break;
-          case kE_DoubleFlat_QTP:
-            fifthsNumber = -10;
-            break;
-          case kA_DoubleFlat_QTP:
-            fifthsNumber = -11;
-            break;
+            case kG_Sharp_QTP: // JMI
+              fifthsNumber = 8;
+              break;
+            case kD_Sharp_QTP:
+              fifthsNumber = 9;
+              break;
+            case kA_Sharp_QTP:
+              fifthsNumber = 10;
+              break;
+            case kE_Sharp_QTP:
+              fifthsNumber = 11;
+              break;
 
-          default:
-            // should not occur
-            break;
-        } // switch
+            case kF_Natural_QTP:
+              fifthsNumber = -1;
+              break;
+            case kB_Flat_QTP:
+              fifthsNumber = -2;
+              break;
+            case kE_Flat_QTP:
+              fifthsNumber = -3;
+              break;
+            case kA_Flat_QTP:
+              fifthsNumber = -4;
+              break;
+            case kD_Flat_QTP:
+              fifthsNumber = -5;
+              break;
+            case kG_Flat_QTP:
+              fifthsNumber = -6;
+              break;
+            case kC_Flat_QTP:
+              fifthsNumber = -7;
+              break;
 
-        if (fifthsNumber != K_NO_FIFTHS_NUMBER) {
-          // populate the key element
-          keyElement->push (
-            createIntegerElement (
-              k_fifths,
-              fifthsNumber));
+            case kF_Flat_QTP: // JMI
+              fifthsNumber = -8;
+              break;
+            case kB_DoubleFlat_QTP:
+              fifthsNumber = -9;
+              break;
+            case kE_DoubleFlat_QTP:
+              fifthsNumber = -10;
+              break;
+            case kA_DoubleFlat_QTP:
+              fifthsNumber = -11;
+              break;
 
-          keyElement->push (
-            createElement (
-              k_mode,
-              msrKey::keyModeKindAsString (elt->getKeyModeKind ())));
+            default:
+              // should not occur
+              break;
+          } // switch
 
-          // append it to the attributes element
-          appendToMeasureAttributes (keyElement);
+          if (fifthsNumber != K_NO_FIFTHS_NUMBER) {
+            // populate the key element
+            keyElement->push (
+              createIntegerElement (
+                k_fifths,
+                fifthsNumber));
+
+            keyElement->push (
+              createElement (
+                k_mode,
+                msrKey::keyModeKindAsString (elt->getKeyModeKind ())));
+          }
+
+          else {
+            stringstream s;
+
+            s <<
+              "key fifthsNumber not specified for key '" <<
+              elt->asShortString ();
+
+            msrInternalError (
+              gOahOah->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
         }
+        break;
 
-        else {
-          stringstream s;
-
-          s <<
-            "key fifthsNumber not specified for key '" <<
-            elt->asShortString ();
-
-          msrInternalError (
-            gOahOah->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
+      case msrKey::kHumdrumScotKind:
+        {
+          // JMI
         }
-      }
-      break;
+        break;
+    } // switch
 
-    case msrKey::kHumdrumScotKind:
-      {
-        // JMI
-      }
-      break;
-  } // switch
+    // append the key element to the measure attributes element
+    appendToMeasureAttributes (keyElement);
+
+    // this key becomes the new current part key
+    fCurrentPartKey = elt;
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrKey& elt)
@@ -3673,248 +3650,116 @@ void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
   }
 #endif
 
-/*
-  if       (timeSymbol == "common") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;
-  }
-  else  if (timeSymbol == "cut") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCut;
-  }
-  else  if (timeSymbol == "note") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolNote;
-  }
-  else  if (timeSymbol == "dotted-note") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolDottedNote;
-  }
-  else  if (timeSymbol == "single-number") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
-  }
+  bool doAppendATimeElementToTheMeasure = false;
 
-
-  // handle the time
-  if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
-    // senza misura time
-
-    fVoiceIsCurrentlySenzaMisura = true;
+  if (fCurrentPartTime) {
+    // a time element has already been created for the current part:
+    // each voice in an MSR staff has its own times,
+    // another one should be created only if it is different the the current one
+    doAppendATimeElementToTheMeasure =
+      ! elt->isEqualTo (fCurrentPartTime);
   }
-
   else {
-    // con misura time
-
-    int timesItemsNumber =
-      timeItemsVector.size ();
-
-    if (timesItemsNumber) {
-      // should there be a single number?
-      switch (timeSymbolKind) {
-        case msrTime::kTimeSymbolCommon:
-          break;
-        case msrTime::kTimeSymbolCut:
-          break;
-        case msrTime::kTimeSymbolNote:
-          break;
-        case msrTime::kTimeSymbolDottedNote:
-          break;
-        case msrTime::kTimeSymbolSingleNumber:
-          fLilypondCodeOstream <<
-            "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
-            endl;
-          break;
-        case msrTime::kTimeSymbolSenzaMisura:
-          break;
-        case msrTime::kTimeSymbolNone:
-          break;
-      } // switch
-
-      if (! elt->getTimeIsCompound ()) {
-        // simple time
-        // \time "3/4" for 3/4
-        // or senza misura
-
-        S_msrTimeItem
-          timeItem =
-            timeItemsVector [0]; // the only element;
-
-        // fetch the time item beat numbers vector
-        const vector<int>&
-          beatsNumbersVector =
-            timeItem->
-              getTimeBeatsNumbersVector ();
-
-        // should the time be numeric?
-        if (
-          timeSymbolKind == msrTime::kTimeSymbolNone
-            ||
-          gLpsr2LilypondOah->fNumericalTime) {
-          fLilypondCodeOstream <<
-            "\\numericTimeSignature ";
-        }
-
-        fLilypondCodeOstream <<
-          "\\time " <<
-          beatsNumbersVector [0] << // the only element
-          "/" <<
-          timeItem->getTimeBeatValue () <<
-          endl;
-      }
-
-      else {
-        // compound time
-        // \compoundMeter #'(3 2 8) for 3+2/8
-        // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
-        // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
-
-        fLilypondCodeOstream <<
-          "\\compoundMeter #`(";
-
-        // handle all the time items in the vector
-        for (int i = 0; i < timesItemsNumber; i++) {
-          S_msrTimeItem
-            timeItem =
-              timeItemsVector [i];
-
-          // fetch the time item beat numbers vector
-          const vector<int>&
-            beatsNumbersVector =
-              timeItem->
-                getTimeBeatsNumbersVector ();
-
-          int beatsNumbersNumber =
-            beatsNumbersVector.size ();
-
-          // first generate the opening parenthesis
-          fLilypondCodeOstream <<
-            "(";
-
-          // then generate all beats numbers in the vector
-          for (int j = 0; j < beatsNumbersNumber; j++) {
-            fLilypondCodeOstream <<
-              beatsNumbersVector [j] <<
-              ' ';
-          } // for
-
-          // then generate the beat type
-          fLilypondCodeOstream <<
-            timeItem->getTimeBeatValue ();
-
-          // and finally generate the closing parenthesis
-          fLilypondCodeOstream <<
-            ")";
-
-          if (i != timesItemsNumber - 1) {
-            fLilypondCodeOstream <<
-              ' ';
-          }
-        } // for
-
-      fLilypondCodeOstream <<
-        ")" <<
-        endl;
-      }
-    }
-
-    else {
-      // there are no time items
-      if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
-        msrInternalError (
-          gOahOah->fInputSourceName,
-          elt->getInputLineNumber (),
-          __FILE__, __LINE__,
-          "time items vector is empty");
-      }
-    }
+    // this the first time met in the part
+    doAppendATimeElementToTheMeasure = true;
   }
-*/
 
-  // create a time element
-  Sxmlelement timeElement = createElement (k_time, "");
+  if (doAppendATimeElementToTheMeasure) {
+    // create the time element
+    Sxmlelement timeElement = createElement (k_time, "");
 
-  switch (elt->getTimeSymbolKind ()) {
-    case msrTime::kTimeSymbolCommon:
-      {
-        timeElement->add (createAttribute ("symbol", "common"));
-
-        timeElement->push (
-          createIntegerElement (
-            k_beats,
-            4));
-        timeElement->push (
-          createIntegerElement (
-            k_beat_type,
-            4));
-      }
-      break;
-
-    case msrTime::kTimeSymbolCut:
-       {
-        timeElement->add (createAttribute ("symbol", "cut"));
-
-        timeElement->push (
-          createIntegerElement (
-            k_beats,
-            2));
-        timeElement->push (
-          createIntegerElement (
-            k_beat_type,
-            2));
-      }
-     break;
-
-    case msrTime::kTimeSymbolNote:
-      break;
-
-    case msrTime::kTimeSymbolDottedNote:
-      break;
-
-    case msrTime::kTimeSymbolSingleNumber:
-      break;
-
-    case msrTime::kTimeSymbolSenzaMisura:
-      break;
-
-    case msrTime::kTimeSymbolNone:
-      {
-        const vector<S_msrTimeItem>&
-          timeItemsVector =
-            elt->getTimeItemsVector ();
-
-        if (! elt->getTimeIsCompound ()) {
-          // simple time
-          // \time "3/4" for 3/4
-          // or senza misura
-
-          S_msrTimeItem
-            timeItem =
-              timeItemsVector [0]; // the only element;
-
-          // fetch the time item beat numbers vector
-          const vector<int>&
-            beatsNumbersVector =
-              timeItem->
-                getTimeBeatsNumbersVector ();
+    // populate it
+    switch (elt->getTimeSymbolKind ()) {
+      case msrTime::kTimeSymbolCommon:
+        {
+          timeElement->add (createAttribute ("symbol", "common"));
 
           timeElement->push (
             createIntegerElement (
               k_beats,
-              beatsNumbersVector [0])); // the only element
+              4));
           timeElement->push (
             createIntegerElement (
               k_beat_type,
-              timeItem->getTimeBeatValue ()));
+              4));
         }
+        break;
 
-        else {
-          // compound time
-          // \compoundMeter #'(3 2 8) for 3+2/8
-          // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
-          // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+      case msrTime::kTimeSymbolCut:
+         {
+          timeElement->add (createAttribute ("symbol", "cut"));
 
+          timeElement->push (
+            createIntegerElement (
+              k_beats,
+              2));
+          timeElement->push (
+            createIntegerElement (
+              k_beat_type,
+              2));
         }
-      }
-      break;
-  } // switch
+       break;
 
-  appendToMeasureAttributes (timeElement);
+      case msrTime::kTimeSymbolNote:
+        break;
+
+      case msrTime::kTimeSymbolDottedNote:
+        break;
+
+      case msrTime::kTimeSymbolSingleNumber:
+        break;
+
+      case msrTime::kTimeSymbolSenzaMisura:
+        break;
+
+      case msrTime::kTimeSymbolNone:
+        {
+          const vector<S_msrTimeItem>&
+            timeItemsVector =
+              elt->getTimeItemsVector ();
+
+          if (! elt->getTimeIsCompound ()) {
+            // simple time
+            // \time "3/4" for 3/4
+            // or senza misura
+
+            S_msrTimeItem
+              timeItem =
+                timeItemsVector [0]; // the only element;
+
+            // fetch the time item beat numbers vector
+            const vector<int>&
+              beatsNumbersVector =
+                timeItem->
+                  getTimeBeatsNumbersVector ();
+
+            timeElement->push (
+              createIntegerElement (
+                k_beats,
+                beatsNumbersVector [0])); // the only element
+            timeElement->push (
+              createIntegerElement (
+                k_beat_type,
+                timeItem->getTimeBeatValue ()));
+          }
+
+          else {
+            // compound time
+            // \compoundMeter #'(3 2 8) for 3+2/8
+            // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
+            // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+
+          }
+        }
+        break;
+    } // switch
+
+    // append the time element to the measure attributes element
+    appendToMeasureAttributes (timeElement);
+
+    // this time becomes the new current part time
+    fCurrentPartTime = elt;
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrTime& elt)
@@ -4332,6 +4177,8 @@ void msr2MxmltreeTranslator::visitStart (S_msrChord& elt)
 
   // append it to the current measure element
   fCurrentMeasure->push (fPendingChordStartComment);
+
+  fOnGoingChord = true;
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
@@ -4369,6 +4216,8 @@ void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
 
   // forget about the pending chord start comment
   fPendingChordStartComment = nullptr;
+
+  fOnGoingChord = false;
 }
 
 //________________________________________________________________________
@@ -4679,6 +4528,11 @@ void msr2MxmltreeTranslator:: appendABackupToMeasure (S_msrNote note)
 
   // append it to the current measure element
   appendOtherToMeasure (backupElement);
+
+  // reset the cumulated skip durations informations
+  fCurrentCumulatedSkipsDurations = rational (0, 1);
+  fCurrentCumulatedSkipsStaffNumber = -1;
+  fCurrentCumulatedSkipsVoiceNumber = -1;
 }
 
 //________________________________________________________________________
@@ -4700,7 +4554,7 @@ void msr2MxmltreeTranslator:: appendAForwardToMeasure (S_msrNote note)
     forwardDurationDivisions =
       wholeNotesAsDivisions (
         inputLineNumber,
-        fCumulatedSkipDurations);
+        fCurrentCumulatedSkipsDurations);
 
 #ifdef TRACE_OAH
   if (gMusicxmlOah->fTraceForward) {
@@ -4764,12 +4618,15 @@ void msr2MxmltreeTranslator:: appendAForwardToMeasure (S_msrNote note)
   // append it to the current measure element
   appendOtherToMeasure (forwardElement);
 
-  // reset the cumulated skip durations
-  fCumulatedSkipDurations = rational (0, 1);
+  // reset the cumulated skip durations informations
+  fCurrentCumulatedSkipsDurations = rational (0, 1);
+  fCurrentCumulatedSkipsStaffNumber = -1;
+  fCurrentCumulatedSkipsVoiceNumber = -1;
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
+void msr2MxmltreeTranslator:: appendABackupOrForwardToMeasureIfNeeded (
+  S_msrNote note)
 {
   int inputLineNumber =
      note->getInputLineNumber ();
@@ -4791,11 +4648,20 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
 #ifdef TRACE_OAH
   if (gMusicxmlOah->fTraceBackup || gMusicxmlOah->fTraceForward) {
     fLogOutputStream <<
-      "--> appendABackupOrForwardIfNeeded, note = " <<
+      "--> appendABackupOrForwardToMeasureIfNeeded(1), note = " <<
       note->asShortString () <<
-      ", fCumulatedSkipDurations: " << fCumulatedSkipDurations <<
+      ", fCurrentCumulatedSkipsDurations: " << fCurrentCumulatedSkipsDurations <<
       ", noteStaffNumber: " << noteStaffNumber <<
       ", noteVoiceNumber: " << noteVoiceNumber <<
+      ", previousMSRNote: ";
+    if (fPreviousMSRNote) {
+      fLogOutputStream <<
+        fPreviousMSRNote->asShortString ();
+    }
+    else {
+      fLogOutputStream << "none";
+    }
+    fLogOutputStream <<
       ", previousMSRNoteStaffNumber: " << previousMSRNoteStaffNumber <<
       ", previousMSRNoteVoiceNumber: " << previousMSRNoteVoiceNumber <<
       ", line " << inputLineNumber <<
@@ -4808,16 +4674,61 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardIfNeeded (S_msrNote note)
   A <forward /> is needed when a note follows one or more skip(s) in the same voice.
   Consecutive skips are not created by mxmlTree2msr from MusicXML data,
   but this may happen if the  MSR API is used freely
+
+  A skip in MSR may have been created when there was a <backup />
+  to a position after the beginning of the measure,
+  in which case a <backu> /? should be created in the MusicXML output,
+  and not a <forward />
+*/
+
+  if (fOnGoingChord) { // JMI ???
+  }
+
+/*
+fCurrentCumulatedSkipsStaffNumber
+fCurrentCumulatedSkipsVoiceNumber
 */
 
   if (fPreviousMSRNote) {
+    // compare the staff and voice numbers of note and fPreviousMSRNote
+
     if (noteStaffNumber == previousMSRNoteStaffNumber) {
       if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
         // same staff, same voice
 
-        // is a <forward /> element needed?
-        if (fCumulatedSkipDurations.getNumerator () != 0) {
-          appendAForwardToMeasure (note);
+        // is a <forward /> or <backup /> element needed?
+        if (fCurrentCumulatedSkipsDurations.getNumerator () != 0) {
+          // a skip may have been created due to a <backup /> to a position
+          // that is not at the beginning of the measure
+          rational
+            notePositionInMeasure =
+              note->getMeasureElementPositionInMeasure ();
+
+          rational
+            positionAfterNoteInMeasure =
+              notePositionInMeasure +
+                note->getNoteSoundingWholeNotes ();
+          positionAfterNoteInMeasure.rationalise ();
+
+#ifdef TRACE_OAH
+          if (gMusicxmlOah->fTraceBackup || gMusicxmlOah->fTraceForward) {
+            fLogOutputStream <<
+              "--> appendABackupOrForwardToMeasureIfNeeded(2), note = " <<
+              note->asShortString () <<
+              ", notePositionInMeasure: " << notePositionInMeasure <<
+              ", positionAfterNoteInMeasure: " << positionAfterNoteInMeasure <<
+              ", fCurrentPositionInMeasure: " << fCurrentPositionInMeasure <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+#endif
+
+          if (positionAfterNoteInMeasure < fCurrentPositionInMeasure) { // JMI TEST
+            appendABackupToMeasure (note);
+          }
+          else if (positionAfterNoteInMeasure > fCurrentPositionInMeasure) {
+            appendAForwardToMeasure (note);
+          }
         }
       }
 
@@ -6481,7 +6392,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
-      "--> appendDurationToNoteIfRelevant(), note = " <<
+      "--> appendDurationToNoteIfRelevant(1), note = " <<
       note->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
@@ -6529,6 +6440,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
       break;
 
     case msrNote::kSkipNote:
+      // nothing is generated at once for a skip note
       break;
 
     case msrNote::kUnpitchedNote:
@@ -6596,7 +6508,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
     if (gTraceOah->fTraceNotes) {
       fLogOutputStream <<
         endl <<
-        "--> appendDurationToNoteIfRelevant(): " <<
+        "--> appendDurationToNoteIfRelevant(2): " <<
         note <<
         endl;
     }
@@ -6706,7 +6618,7 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
     case msrNote::kSkipNote:
       doGenerateNote = false;
       // cumulating the skip notes durations for <forward /> elements generation
-      fCumulatedSkipDurations +=
+      fCurrentCumulatedSkipsDurations +=
         note->getNoteSoundingWholeNotes ();
       break;
     case msrNote::kUnpitchedNote:
@@ -6884,7 +6796,8 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
         stringstream s;
         s <<
           " ===== " <<
-          "Note" <<
+          "Note " <<
+          note->notePitchAndSoundingWholeNotesAsString () <<
           ", staff: " << noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
           ", voice: " << noteVoice->getVoiceNumber () <<
           ", position: " << note->getMeasureElementPositionInMeasure () <<
@@ -7021,7 +6934,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 #endif
 
   // append a backup or forward sub-element if needed
-  appendABackupOrForwardIfNeeded (elt);
+  appendABackupOrForwardToMeasureIfNeeded (elt);
 
   // append the note directions to the note element
   populateNoteDirections (elt);
@@ -7045,10 +6958,67 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
   }
 #endif
 
-  // remember this note and its voice and staff
-  fPreviousMSRNote      = elt;
-  fPreviousMSRNoteVoice = fPreviousMSRNote->fetchNoteVoice ();
-  fPreviousMSRNoteStaff = fPreviousMSRNoteVoice->getVoiceStaffUpLink ();
+  // remember this note and its voice and staff if relevant
+  // skips are just taken into account in fCurrentCumulatedSkipsDurations,
+  // and a <backup /> or <forward /> is generated upon the next non-skip note
+
+  bool doRememberThisNote = false;
+
+  switch (elt->getNoteKind ()) {
+    case msrNote::k_NoNoteKind:
+      break;
+
+    case msrNote::kRestNote:
+      fCurrentNote->push (createElement (k_rest, "")); // JMI ???
+      doRememberThisNote = true;
+      break;
+
+    case msrNote::kSkipNote:
+      break;
+
+    case msrNote::kUnpitchedNote:
+      doRememberThisNote = true;
+      break;
+
+    case msrNote::kRegularNote:
+    case msrNote::kChordMemberNote:
+    case msrNote::kTupletMemberNote:
+      doRememberThisNote = true;
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      doRememberThisNote = true; // JMI ???
+      break;
+
+    case msrNote::kGraceNote:
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletMemberUnpitchedNote:
+      doRememberThisNote = true;
+      break;
+  } // switch
+
+  if (doRememberThisNote) {
+#ifdef TRACE_OAH
+    if (gMusicxmlOah->fTraceBackup || gMusicxmlOah->fTraceForward) {
+      fLogOutputStream <<
+        "--> remembering previous note " <<
+        elt->asString () <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    fPreviousMSRNote = elt;
+    fPreviousMSRNoteVoice = fPreviousMSRNote->fetchNoteVoice ();
+    fPreviousMSRNoteStaff = fPreviousMSRNoteVoice->getVoiceStaffUpLink ();
+  }
 
   // forget about the note element
   fCurrentNote = nullptr;
@@ -10221,3 +10191,157 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
 	return aIndex < bIndex;
 }
 */
+
+
+/*
+  if       (timeSymbol == "common") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;
+  }
+  else  if (timeSymbol == "cut") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCut;
+  }
+  else  if (timeSymbol == "note") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolNote;
+  }
+  else  if (timeSymbol == "dotted-note") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolDottedNote;
+  }
+  else  if (timeSymbol == "single-number") {
+    fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
+  }
+
+  // handle the time
+  if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
+    // senza misura time
+
+    fVoiceIsCurrentlySenzaMisura = true;
+  }
+
+  else {
+    // con misura time
+
+    int timesItemsNumber =
+      timeItemsVector.size ();
+
+    if (timesItemsNumber) {
+      // should there be a single number?
+      switch (timeSymbolKind) {
+        case msrTime::kTimeSymbolCommon:
+          break;
+        case msrTime::kTimeSymbolCut:
+          break;
+        case msrTime::kTimeSymbolNote:
+          break;
+        case msrTime::kTimeSymbolDottedNote:
+          break;
+        case msrTime::kTimeSymbolSingleNumber:
+          fLilypondCodeOstream <<
+            "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
+            endl;
+          break;
+        case msrTime::kTimeSymbolSenzaMisura:
+          break;
+        case msrTime::kTimeSymbolNone:
+          break;
+      } // switch
+
+      if (! elt->getTimeIsCompound ()) {
+        // simple time
+        // \time "3/4" for 3/4
+        // or senza misura
+
+        S_msrTimeItem
+          timeItem =
+            timeItemsVector [0]; // the only element;
+
+        // fetch the time item beat numbers vector
+        const vector<int>&
+          beatsNumbersVector =
+            timeItem->
+              getTimeBeatsNumbersVector ();
+
+        // should the time be numeric?
+        if (
+          timeSymbolKind == msrTime::kTimeSymbolNone
+            ||
+          gLpsr2LilypondOah->fNumericalTime) {
+          fLilypondCodeOstream <<
+            "\\numericTimeSignature ";
+        }
+
+        fLilypondCodeOstream <<
+          "\\time " <<
+          beatsNumbersVector [0] << // the only element
+          "/" <<
+          timeItem->getTimeBeatValue () <<
+          endl;
+      }
+
+      else {
+        // compound time
+        // \compoundMeter #'(3 2 8) for 3+2/8
+        // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4
+        // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
+
+        fLilypondCodeOstream <<
+          "\\compoundMeter #`(";
+
+        // handle all the time items in the vector
+        for (int i = 0; i < timesItemsNumber; i++) {
+          S_msrTimeItem
+            timeItem =
+              timeItemsVector [i];
+
+          // fetch the time item beat numbers vector
+          const vector<int>&
+            beatsNumbersVector =
+              timeItem->
+                getTimeBeatsNumbersVector ();
+
+          int beatsNumbersNumber =
+            beatsNumbersVector.size ();
+
+          // first generate the opening parenthesis
+          fLilypondCodeOstream <<
+            "(";
+
+          // then generate all beats numbers in the vector
+          for (int j = 0; j < beatsNumbersNumber; j++) {
+            fLilypondCodeOstream <<
+              beatsNumbersVector [j] <<
+              ' ';
+          } // for
+
+          // then generate the beat type
+          fLilypondCodeOstream <<
+            timeItem->getTimeBeatValue ();
+
+          // and finally generate the closing parenthesis
+          fLilypondCodeOstream <<
+            ")";
+
+          if (i != timesItemsNumber - 1) {
+            fLilypondCodeOstream <<
+              ' ';
+          }
+        } // for
+
+      fLilypondCodeOstream <<
+        ")" <<
+        endl;
+      }
+    }
+
+    else {
+      // there are no time items
+      if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+        msrInternalError (
+          gOahOah->fInputSourceName,
+          elt->getInputLineNumber (),
+          __FILE__, __LINE__,
+          "time items vector is empty");
+      }
+    }
+  }
+*/
+

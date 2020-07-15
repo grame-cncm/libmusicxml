@@ -29,6 +29,7 @@ class msrGraceNotesGroup : public msrElement
       msrGraceNotesGroupKind graceNotesGroupKind,
       bool                   graceNotesGroupIsSlashed,
       bool                   graceNotesGroupIsBeamed,
+      string                 graceNotesGroupMeasureNumber,
       S_msrVoice             graceNotesGroupVoiceUpLink);
 
     SMARTP<msrGraceNotesGroup> createGraceNotesGroupNewbornClone (
@@ -50,6 +51,7 @@ class msrGraceNotesGroup : public msrElement
       msrGraceNotesGroupKind graceNotesGroupKind,
       bool                   graceNotesGroupIsSlashed,
       bool                   graceNotesGroupIsBeamed,
+      string                 graceNotesGroupMeasureNumber,
       S_msrVoice             graceNotesGroupVoiceUpLink);
 
     virtual ~msrGraceNotesGroup ();
@@ -103,10 +105,9 @@ class msrGraceNotesGroup : public msrElement
                               { return fGraceNotesGroupIsFollowedByNotes; }
 
     void                  setGraceNotesGroupMeasureNumber (
-                            string graceNotesGroupMeasureNumber)
+                            string measureNumber)
                               {
-                                fGraceNotesGroupMeasureNumber =
-                                  graceNotesGroupMeasureNumber;
+                                fGraceNotesGroupMeasureNumber = measureNumber;
                               }
 
     string                getGraceNotesGroupMeasureNumber () const

@@ -285,6 +285,12 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // stanzas
   fGenerateCodeForOngoingNonEmptyStanza = false;
 
+  // book blocks
+  fOnGoingBookBlock = false;
+
+  // book part blocks
+  fOnGoingBookPartBlock = false;
+
   // score blocks
   fOnGoingScoreBlock = false;
 
@@ -919,9 +925,9 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   } // switch
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotesOctaveEntry) {
-          fLogOutputStream << endl;
-        }
+  if (gTraceOah->fTraceNotesOctaveEntry) {
+    fLogOutputStream << endl;
+  }
 #endif
 
   return s.str ();
@@ -4950,494 +4956,501 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   }
 #endif
 
-  // get MSR page layout
-  S_msrPageLayout
-    pageLayout =
-      elt->getPageLayout ();
+/*
+  we could generate the LPSR paper code a second time
+  with an option JMI ???
+*/
 
-  // default length unit
-  const msrLengthUnitKind
-    defaultLengthUnit = kMillimeterUnit; // JMI
+  if (! fOnGoingBookPartBlock) {
+    // get MSR page layout
+    S_msrPageLayout
+      pageLayout =
+        elt->getPageLayout ();
 
-  fLilypondCodeOstream <<
-    "\\paper" << " {" <<
-    endl;
+    // default length unit
+    const msrLengthUnitKind
+      defaultLengthUnit = kMillimeterUnit; // JMI
 
-  gIndenter++;
+    fLilypondCodeOstream <<
+      "\\paper" << " {" <<
+      endl;
 
-  const int fieldWidth = 30;
+    gIndenter++;
 
-  // page size
-  {
+    const int fieldWidth = 30;
+
+    // page size
     {
-      // paper height
-      msrLength
-        paperHeight;
+      {
+        // paper height
+        msrLength
+          paperHeight;
 
-      if (gLpsrOah->fPaperHeight.getLengthValue () >= 0) { // JMI BLARK
-        paperHeight =
-          gLpsrOah->fPaperHeight;
-      }
-      else {
-        paperHeight =
-          * (pageLayout->getPageHeight ()); // BLARK
+        if (gLpsrOah->fPaperHeight.getLengthValue () >= 0) { // JMI BLARK
+          paperHeight =
+            gLpsrOah->fPaperHeight;
+        }
+        else {
+          paperHeight =
+            * (pageLayout->getPageHeight ()); // BLARK
+        }
+
+        if (paperHeight.getLengthValue () < 0.0) {
+          fLilypondCodeOstream << "%";
+        }
+        fLilypondCodeOstream << left <<
+          setw (fieldWidth) <<
+          "paper-height" << " = ";
+        if (paperHeight.getLengthValue () >= 0.0) {
+          fLilypondCodeOstream <<
+            setprecision (3) << paperHeight.getLengthValue () <<
+            lengthUnitAsLilypondString (paperHeight.getLengthUnitKind ());
+        }
+        else {
+          fLilypondCodeOstream <<
+            "297.0" <<
+            lengthUnitAsLilypondString (defaultLengthUnit);
+        }
+        fLilypondCodeOstream << endl;
       }
 
-      if (paperHeight.getLengthValue () < 0.0) {
-        fLilypondCodeOstream << "%";
+      {
+        // paper width
+        msrLength
+          paperWidth;
+
+        if (gLpsrOah->fPaperWidth.getLengthValue () >= 0) { // JMI BLARK
+          paperWidth =
+            gLpsrOah->fPaperWidth;
+        }
+        else {
+          paperWidth =
+            * (pageLayout->getPageWidth ()); // BLARK
+        }
+
+        if (paperWidth.getLengthValue () < 0.0) {
+          fLilypondCodeOstream << "%";
+        }
+        fLilypondCodeOstream << left <<
+          setw (fieldWidth) <<
+          "paper-width" << " = ";
+        if (paperWidth.getLengthValue () >= 0.0) {
+          fLilypondCodeOstream <<
+            setprecision (3) << paperWidth.getLengthValue () <<
+            lengthUnitAsLilypondString (paperWidth.getLengthUnitKind ());
+        }
+        else {
+          fLilypondCodeOstream <<
+            "210.0" <<
+            lengthUnitAsLilypondString (defaultLengthUnit);
+        }
+        fLilypondCodeOstream << endl;
       }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "paper-height" << " = ";
-      if (paperHeight.getLengthValue () >= 0.0) {
-        fLilypondCodeOstream <<
-          setprecision (3) << paperHeight.getLengthValue () <<
-          lengthUnitAsLilypondString (paperHeight.getLengthUnitKind ());
-      }
-      else {
-        fLilypondCodeOstream <<
-          "297.0" <<
-          lengthUnitAsLilypondString (defaultLengthUnit);
-      }
-      fLilypondCodeOstream << endl;
     }
 
+    // separator
+    fLilypondCodeOstream << endl;
+
+    // margins
     {
-      // paper width
-      msrLength
-        paperWidth;
+      // left margin
+      bool   commentOutLeftMargin = false;
+      float  leftMarginValue = 0.0; // JMI
+      string leftMarginUnitString =
+               lengthUnitAsLilypondString (defaultLengthUnit);
 
-      if (gLpsrOah->fPaperWidth.getLengthValue () >= 0) { // JMI BLARK
-        paperWidth =
-          gLpsrOah->fPaperWidth;
-      }
-      else {
-        paperWidth =
-          * (pageLayout->getPageWidth ()); // BLARK
-      }
+      if (pageLayout) {
+        S_msrMargin
+          leftMargin =
+            pageLayout->getSingleLeftMargin ();
 
-      if (paperWidth.getLengthValue () < 0.0) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "paper-width" << " = ";
-      if (paperWidth.getLengthValue () >= 0.0) {
-        fLilypondCodeOstream <<
-          setprecision (3) << paperWidth.getLengthValue () <<
-          lengthUnitAsLilypondString (paperWidth.getLengthUnitKind ());
-      }
-      else {
-        fLilypondCodeOstream <<
-          "210.0" <<
-          lengthUnitAsLilypondString (defaultLengthUnit);
-      }
-      fLilypondCodeOstream << endl;
-    }
-  }
+        if (leftMargin) {
+          leftMarginValue =
+            leftMargin->getMarginLength ().getLengthValue ();
 
-  // separator
-  fLilypondCodeOstream << endl;
-
-  // margins
-  {
-    // left margin
-    bool   commentOutLeftMargin = false;
-    float  leftMarginValue = 0.0; // JMI
-    string leftMarginUnitString =
-             lengthUnitAsLilypondString (defaultLengthUnit);
-
-    if (pageLayout) {
-      S_msrMargin
-        leftMargin =
-          pageLayout->getSingleLeftMargin ();
-
-      if (leftMargin) {
-        leftMarginValue =
-          leftMargin->getMarginLength ().getLengthValue ();
-
-        leftMarginUnitString =
-          lengthUnitAsLilypondString (
-            leftMargin->getMarginLength ().getLengthUnitKind ());
+          leftMarginUnitString =
+            lengthUnitAsLilypondString (
+              leftMargin->getMarginLength ().getLengthUnitKind ());
+        }
+        else {
+          commentOutLeftMargin = true;
+        }
       }
       else {
         commentOutLeftMargin = true;
       }
-    }
-    else {
-      commentOutLeftMargin = true;
-    }
 
-    if (commentOutLeftMargin) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "left-margin" << " = " <<
-      setprecision (3) << leftMarginValue <<
-      leftMarginUnitString <<
-      endl;
+      if (commentOutLeftMargin) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "left-margin" << " = " <<
+        setprecision (3) << leftMarginValue <<
+        leftMarginUnitString <<
+        endl;
 
-    // right margin
-    bool   commentOutRightMargin = false;
-    float  rightMarginValue = 0.0; // JMI
-    string rightMarginUnitString =
-             lengthUnitAsLilypondString (defaultLengthUnit);
+      // right margin
+      bool   commentOutRightMargin = false;
+      float  rightMarginValue = 0.0; // JMI
+      string rightMarginUnitString =
+               lengthUnitAsLilypondString (defaultLengthUnit);
 
-    if (pageLayout) {
-      S_msrMargin
-        rightMargin =
-          pageLayout->getSingleRightMargin ();
+      if (pageLayout) {
+        S_msrMargin
+          rightMargin =
+            pageLayout->getSingleRightMargin ();
 
-      if (rightMargin) {
-        rightMarginValue =
-          rightMargin->getMarginLength ().getLengthValue ();
+        if (rightMargin) {
+          rightMarginValue =
+            rightMargin->getMarginLength ().getLengthValue ();
 
-        rightMarginUnitString =
-          lengthUnitAsLilypondString (
-            rightMargin->getMarginLength ().getLengthUnitKind ());
+          rightMarginUnitString =
+            lengthUnitAsLilypondString (
+              rightMargin->getMarginLength ().getLengthUnitKind ());
+        }
+        else {
+          commentOutRightMargin = true;
+        }
       }
       else {
         commentOutRightMargin = true;
       }
-    }
-    else {
-      commentOutRightMargin = true;
-    }
 
-    if (commentOutRightMargin) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "right-margin" << " = " <<
-      setprecision (3) << rightMarginValue <<
-      rightMarginUnitString <<
-      endl;
+      if (commentOutRightMargin) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "right-margin" << " = " <<
+        setprecision (3) << rightMarginValue <<
+        rightMarginUnitString <<
+        endl;
 
-    // top margin
-    bool   commentOutTopMargin = false;
-    float  topMarginValue = 0.0; // JMI
-    string topMarginUnitString =
-             lengthUnitAsLilypondString (defaultLengthUnit);
+      // top margin
+      bool   commentOutTopMargin = false;
+      float  topMarginValue = 0.0; // JMI
+      string topMarginUnitString =
+               lengthUnitAsLilypondString (defaultLengthUnit);
 
-    if (pageLayout) {
-      S_msrMargin
-        topMargin =
-          pageLayout->getSingleTopMargin ();
+      if (pageLayout) {
+        S_msrMargin
+          topMargin =
+            pageLayout->getSingleTopMargin ();
 
-      if (topMargin) {
-        topMarginValue =
-          topMargin->getMarginLength ().getLengthValue ();
+        if (topMargin) {
+          topMarginValue =
+            topMargin->getMarginLength ().getLengthValue ();
 
-        topMarginUnitString =
-          lengthUnitAsLilypondString (
-            topMargin->getMarginLength ().getLengthUnitKind ());
+          topMarginUnitString =
+            lengthUnitAsLilypondString (
+              topMargin->getMarginLength ().getLengthUnitKind ());
+        }
+        else {
+          commentOutTopMargin = true;
+        }
       }
       else {
         commentOutTopMargin = true;
       }
-    }
-    else {
-      commentOutTopMargin = true;
-    }
 
-    if (commentOutTopMargin) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "top-margin" << " = " <<
-      setprecision (3) << topMarginValue <<
-      topMarginUnitString <<
-      endl;
+      if (commentOutTopMargin) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "top-margin" << " = " <<
+        setprecision (3) << topMarginValue <<
+        topMarginUnitString <<
+        endl;
 
-    // bottom margin
-    bool   commentOutBottomMargin = false;
-    float  bottomMarginValue = 0.0; // JMI
-    string bottomMarginUnitString =
-             lengthUnitAsLilypondString (defaultLengthUnit);
+      // bottom margin
+      bool   commentOutBottomMargin = false;
+      float  bottomMarginValue = 0.0; // JMI
+      string bottomMarginUnitString =
+               lengthUnitAsLilypondString (defaultLengthUnit);
 
-    if (pageLayout) {
-      S_msrMargin
-        bottomMargin =
-          pageLayout->getSingleBottomMargin ();
+      if (pageLayout) {
+        S_msrMargin
+          bottomMargin =
+            pageLayout->getSingleBottomMargin ();
 
-      if (bottomMargin) {
-        bottomMarginValue =
-          bottomMargin->getMarginLength ().getLengthValue ();
+        if (bottomMargin) {
+          bottomMarginValue =
+            bottomMargin->getMarginLength ().getLengthValue ();
 
-        bottomMarginUnitString =
-          lengthUnitAsLilypondString (
-            bottomMargin->getMarginLength ().getLengthUnitKind ());
+          bottomMarginUnitString =
+            lengthUnitAsLilypondString (
+              bottomMargin->getMarginLength ().getLengthUnitKind ());
+        }
+        else {
+          commentOutBottomMargin = true;
+        }
       }
       else {
         commentOutBottomMargin = true;
       }
-    }
-    else {
-      commentOutBottomMargin = true;
+
+      if (commentOutBottomMargin) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "bottom-margin" << " = " <<
+        setprecision (3) << bottomMarginValue <<
+        bottomMarginUnitString <<
+        endl;
     }
 
-    if (commentOutBottomMargin) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "bottom-margin" << " = " <<
-      setprecision (3) << bottomMarginValue <<
-      bottomMarginUnitString <<
-      endl;
-  }
-
-  // separator
-  fLilypondCodeOstream << endl;
-
-  // indents
-  {
-    // horizontal shift
-    S_msrLength
-      horizontalShift =
-        elt->getHorizontalShift ();
-
-    if (! horizontalShift) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "horizontal-shift" << " = ";
-    if (horizontalShift) {
-      fLilypondCodeOstream <<
-        setprecision (3) << horizontalShift->getLengthValue () <<
-        lengthUnitAsLilypondString (horizontalShift->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
+    // separator
     fLilypondCodeOstream << endl;
 
-    // indent
-    S_msrLength
-      indent =
-        elt->getIndent ();
+    // indents
+    {
+      // horizontal shift
+      S_msrLength
+        horizontalShift =
+          elt->getHorizontalShift ();
 
-    if (! indent) {
-      fLilypondCodeOstream << "%";
+      if (! horizontalShift) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "horizontal-shift" << " = ";
+      if (horizontalShift) {
+        fLilypondCodeOstream <<
+          setprecision (3) << horizontalShift->getLengthValue () <<
+          lengthUnitAsLilypondString (horizontalShift->getLengthUnitKind ());
+      }
+      else {
+        fLilypondCodeOstream <<
+          "0.0" <<
+          lengthUnitAsLilypondString (defaultLengthUnit);
+      }
+      fLilypondCodeOstream << endl;
+
+      // indent
+      S_msrLength
+        indent =
+          elt->getIndent ();
+
+      if (! indent) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "indent" << " = ";
+      if (indent) {
+        fLilypondCodeOstream <<
+          setprecision (3) << indent->getLengthValue () <<
+          lengthUnitAsLilypondString (indent->getLengthUnitKind ());
+      }
+      else {
+        fLilypondCodeOstream <<
+          "0.0" <<
+          lengthUnitAsLilypondString (defaultLengthUnit);
+      }
+      fLilypondCodeOstream << endl;
+
+      // short indent
+      S_msrLength
+        shortIndent =
+          elt->getShortIndent ();
+
+      if (! shortIndent) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "short-indent" << " = ";
+      if (shortIndent) {
+        fLilypondCodeOstream <<
+          setprecision (3) << shortIndent->getLengthValue () <<
+          lengthUnitAsLilypondString (shortIndent->getLengthUnitKind ());
+      }
+      else {
+        fLilypondCodeOstream <<
+          "0.0" <<
+          lengthUnitAsLilypondString (defaultLengthUnit);
+      }
+      fLilypondCodeOstream << endl;
     }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "indent" << " = ";
-    if (indent) {
-      fLilypondCodeOstream <<
-        setprecision (3) << indent->getLengthValue () <<
-        lengthUnitAsLilypondString (indent->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
+
+    // separator
     fLilypondCodeOstream << endl;
 
-    // short indent
-    S_msrLength
-      shortIndent =
-        elt->getShortIndent ();
+    // spaces
+    {
+      // markup system spacing padding
+      S_msrLength
+        markupSystemPpacingPadding =
+          elt->getMarkupSystemSpacingPadding ();
 
-    if (! shortIndent) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "short-indent" << " = ";
-    if (shortIndent) {
-      fLilypondCodeOstream <<
-        setprecision (3) << shortIndent->getLengthValue () <<
-        lengthUnitAsLilypondString (shortIndent->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
-  }
+      if (! markupSystemPpacingPadding) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "markup-system-spacing.padding" << " = ";
+      if (markupSystemPpacingPadding) {
+        fLilypondCodeOstream <<
+          setprecision (3) << markupSystemPpacingPadding->getLengthValue () <<
+          lengthUnitAsLilypondString (markupSystemPpacingPadding->getLengthUnitKind ());
+      }
+      else {
+        fLilypondCodeOstream <<
+          "0.0" <<
+          lengthUnitAsLilypondString (defaultLengthUnit);
+      }
+      fLilypondCodeOstream << endl;
 
-  // separator
-  fLilypondCodeOstream << endl;
+      // between system space
+      S_msrLength
+        betweenSystemSpace =
+          elt->getBetweenSystemSpace ();
 
-  // spaces
-  {
-    // markup system spacing padding
-    S_msrLength
-      markupSystemPpacingPadding =
-        elt->getMarkupSystemSpacingPadding ();
+      if (! betweenSystemSpace) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "between-system-space" << " = ";
+      if (betweenSystemSpace) {
+        fLilypondCodeOstream <<
+          setprecision (3) << betweenSystemSpace->getLengthValue () <<
+          lengthUnitAsLilypondString (betweenSystemSpace->getLengthUnitKind ());
+      }
+      else {
+        fLilypondCodeOstream <<
+          "0.0" <<
+          lengthUnitAsLilypondString (defaultLengthUnit);
+      }
+      fLilypondCodeOstream << endl;
 
-    if (! markupSystemPpacingPadding) {
-      fLilypondCodeOstream << "%";
+      // page top space
+      S_msrLength
+        pageTopSpace =
+          elt->getPageTopSpace ();
+
+      if (! pageTopSpace) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "page-top-space" << " = ";
+      if (pageTopSpace) {
+        fLilypondCodeOstream <<
+          setprecision (3) << pageTopSpace->getLengthValue () <<
+          lengthUnitAsLilypondString (pageTopSpace->getLengthUnitKind ());
+      }
+      else {
+        fLilypondCodeOstream <<
+          "0.0" <<
+          lengthUnitAsLilypondString (defaultLengthUnit);
+      }
+      fLilypondCodeOstream << endl;
     }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "markup-system-spacing.padding" << " = ";
-    if (markupSystemPpacingPadding) {
-      fLilypondCodeOstream <<
-        setprecision (3) << markupSystemPpacingPadding->getLengthValue () <<
-        lengthUnitAsLilypondString (markupSystemPpacingPadding->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
 
-    // between system space
-    S_msrLength
-      betweenSystemSpace =
-        elt->getBetweenSystemSpace ();
-
-    if (! betweenSystemSpace) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "between-system-space" << " = ";
-    if (betweenSystemSpace) {
-      fLilypondCodeOstream <<
-        setprecision (3) << betweenSystemSpace->getLengthValue () <<
-        lengthUnitAsLilypondString (betweenSystemSpace->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
-
-    // page top space
-    S_msrLength
-      pageTopSpace =
-        elt->getPageTopSpace ();
-
-    if (! pageTopSpace) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "page-top-space" << " = ";
-    if (pageTopSpace) {
-      fLilypondCodeOstream <<
-        setprecision (3) << pageTopSpace->getLengthValue () <<
-        lengthUnitAsLilypondString (pageTopSpace->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeOstream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeOstream << endl;
-  }
-
-  // separator
-  fLilypondCodeOstream << endl;
-
-  // counts
-  {
-    // page count
-    int
-      pageCount =
-        elt->getPageCount ();
-
-    if (pageCount < 0) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "page-count" << " = " <<
-       pageCount <<
-       endl;
-
-    // system count
-    int
-      systemCount =
-        elt->getSystemCount ();
-
-    if (systemCount < 0) {
-      fLilypondCodeOstream << "%";
-    }
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "system-count" << " = " <<
-       systemCount <<
-       endl;
-  }
-
-  // separator
-  fLilypondCodeOstream << endl;
-
-  // headers and footers
-  {
-    string oddHeaderMarkup =
-      elt->getOddHeaderMarkup ();
-
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "oddHeaderMarkup" << " = ";
-    if (oddHeaderMarkup.size ()) {
-      fLilypondCodeOstream <<
-        oddHeaderMarkup;
-    }
-    else {
-      fLilypondCodeOstream << "\"\"";
-    }
+    // separator
     fLilypondCodeOstream << endl;
 
-    string evenHeaderMarkup =
-      elt->getEvenHeaderMarkup ();
+    // counts
+    {
+      // page count
+      int
+        pageCount =
+          elt->getPageCount ();
 
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "evenHeaderMarkup" << " = ";
-    if (evenHeaderMarkup.size ()) {
-      fLilypondCodeOstream <<
-        evenHeaderMarkup;
+      if (pageCount < 0) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "page-count" << " = " <<
+         pageCount <<
+         endl;
+
+      // system count
+      int
+        systemCount =
+          elt->getSystemCount ();
+
+      if (systemCount < 0) {
+        fLilypondCodeOstream << "%";
+      }
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "system-count" << " = " <<
+         systemCount <<
+         endl;
     }
-    else {
-      fLilypondCodeOstream << "\"\"";
-    }
+
+    // separator
     fLilypondCodeOstream << endl;
 
-    string oddFooterMarkup =
-      elt->getOddFooterMarkup ();
+    // headers and footers
+    {
+      string oddHeaderMarkup =
+        elt->getOddHeaderMarkup ();
 
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "oddFooterMarkup" << " = ";
-    if (oddFooterMarkup.size ()) {
-      fLilypondCodeOstream <<
-        oddFooterMarkup;
-    }
-    else {
-      fLilypondCodeOstream << "\"\"";
-    }
-    fLilypondCodeOstream << endl;
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "oddHeaderMarkup" << " = ";
+      if (oddHeaderMarkup.size ()) {
+        fLilypondCodeOstream <<
+          oddHeaderMarkup;
+      }
+      else {
+        fLilypondCodeOstream << "\"\"";
+      }
+      fLilypondCodeOstream << endl;
 
-    string evenFooterMarkup =
-      elt->getEvenFooterMarkup ();
+      string evenHeaderMarkup =
+        elt->getEvenHeaderMarkup ();
 
-    fLilypondCodeOstream << left <<
-      setw (fieldWidth) <<
-      "evenFooterMarkup" << " = ";
-    if (evenFooterMarkup.size ()) {
-      fLilypondCodeOstream <<
-        evenFooterMarkup;
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "evenHeaderMarkup" << " = ";
+      if (evenHeaderMarkup.size ()) {
+        fLilypondCodeOstream <<
+          evenHeaderMarkup;
+      }
+      else {
+        fLilypondCodeOstream << "\"\"";
+      }
+      fLilypondCodeOstream << endl;
+
+      string oddFooterMarkup =
+        elt->getOddFooterMarkup ();
+
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "oddFooterMarkup" << " = ";
+      if (oddFooterMarkup.size ()) {
+        fLilypondCodeOstream <<
+          oddFooterMarkup;
+      }
+      else {
+        fLilypondCodeOstream << "\"\"";
+      }
+      fLilypondCodeOstream << endl;
+
+      string evenFooterMarkup =
+        elt->getEvenFooterMarkup ();
+
+      fLilypondCodeOstream << left <<
+        setw (fieldWidth) <<
+        "evenFooterMarkup" << " = ";
+      if (evenFooterMarkup.size ()) {
+        fLilypondCodeOstream <<
+          evenFooterMarkup;
+      }
+      else {
+        fLilypondCodeOstream << "\"\"";
+      }
+      fLilypondCodeOstream << endl;
     }
-    else {
-      fLilypondCodeOstream << "\"\"";
-    }
-    fLilypondCodeOstream << endl;
   }
 }
 
@@ -5457,6 +5470,10 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
   fLilypondCodeOstream <<
     "}" <<
     endl << endl;
+
+  if (! fOnGoingBookPartBlock) {
+    gIndenter++;
+  }
 }
 
 //________________________________________________________________________
@@ -5622,7 +5639,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBookBlock& elt)
     gIndenter++;
   }
 */
-  fOnGoingScoreBlock = true;
+  fOnGoingBookPartBlock = true;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
@@ -5653,7 +5670,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
     "}" <<
     endl;
 
-  fOnGoingScoreBlock = false;
+  fOnGoingBookPartBlock = false;
 }
 
 //________________________________________________________________________
@@ -5745,7 +5762,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBookPartBlock& elt)
     gIndenter++;
   }
 */
-  fOnGoingScoreBlock = true;
+  fOnGoingBookPartBlock = true;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
@@ -5777,7 +5794,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
     endl << // JMI
     endl;
 
-  fOnGoingScoreBlock = false;
+  fOnGoingBookPartBlock = false;
 }
 
 //________________________________________________________________________
@@ -11461,6 +11478,16 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
     4. no slash but slur: \appoggiatura, LilyPond will slur it JMI
   */
 
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGraceNotes) {
+    fLilypondCodeOstream <<
+      "% --> generating code for grace notes group " <<
+      graceNotesGroup->asString () <<
+      ", line " << graceNotesGroup->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
   bool doGenerateASlurIfPresent = true;
 
   switch (graceNotesGroup->getGraceNotesGroupKind ()) {
@@ -11815,110 +11842,114 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 #endif
 
-  // is this a rest measures to be ignored?
-  switch (elt->getNoteKind ()) {
-    case msrNote::kRestNote:
-      // don't handle rest measuress, that's done in visitEnd (S_msrRestMeasures&)
-      if (fOnGoingRestMeasures) {
-        /*
-        if (elt->getNoteOccupiesAFullMeasure ()) {
-          bool inhibitRestMeasuresBrowsing =
-            fVisitedLpsrScore->
-              getMsrScore ()->
-                getInhibitRestMeasuresBrowsing ();
+  // is this note to be ignored?
+  if (fOnGoingRestMeasures) {
+    switch (elt->getNoteKind ()) {
+      case msrNote::kRestNote:
+        // don't handle rest measures, that's done in visitEnd (S_msrRestMeasures&)
+          /*
+          if (elt->getNoteOccupiesAFullMeasure ()) {
+            bool inhibitRestMeasuresBrowsing =
+              fVisitedLpsrScore->
+                getMsrScore ()->
+                  getInhibitRestMeasuresBrowsing ();
 
-          if (inhibitRestMeasuresBrowsing) {
-            if (
-              gMsrOah->fTraceMsrVisitors
-                ||
-              gTraceOah->ffTraceRestMeasures) {
-              gLogOstream <<
-                "% ==> visiting rest measures is ignored" <<
-                endl;
+            if (inhibitRestMeasuresBrowsing) {
+              if (
+                gMsrOah->fTraceMsrVisitors
+                  ||
+                gTraceOah->ffTraceRestMeasures) {
+                gLogOstream <<
+                  "% ==> visiting rest measures is ignored" <<
+                  endl;
+              }
+
+  #ifdef TRACE_OAH
+    if (gTraceOah->fTraceNotesDetails) {
+      gLogOstream <<
+        "% ==> returning from visitStart (S_msrNote&)" <<
+      endl;
+    }
+  #endif
+
+            return;
             }
-
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesDetails) {
-    gLogOstream <<
-      "% ==> returning from visitStart (S_msrNote&)" <<
-    endl;
-  }
-#endif
-
-          return;
           }
-        }
-        */
+          */
 
-#ifdef TRACE_OAH
-        if (
-          gMsrOah->fTraceMsrVisitors
-            ||
-          gTraceOah->fTraceRestMeasures
-        ) {
-          gLogOstream <<
-            "% ==> start visiting rest measures is ignored" <<
-            endl;
-        }
-#endif
-
-        return;
-      }
-      break;
-
-    case msrNote::kSkipNote:
-      if (elt->getNoteGraceNotesGroupUpLink ()) {
-#ifdef TRACE_OAH
-        if (
-          gMsrOah->fTraceMsrVisitors
-            ||
-          gTraceOah->fTraceNotes
-        ) {
-          gLogOstream <<
-            "% ==> start visiting skip notes is ignored" <<
-            endl;
-        }
-#endif
+  #ifdef TRACE_OAH
+          if (
+            gMsrOah->fTraceMsrVisitors
+              ||
+            gTraceOah->fTraceRestMeasures
+          ) {
+            gLogOstream <<
+              "% ==> start visiting rest notes is ignored upon note " <<
+              elt->asString () <<
+              endl;
+          }
+  #endif
 
           return;
-      }
-      break;
+        break;
 
-    case msrNote::kGraceNote:
-#ifdef TRACE_OAH
-        if (
-          gMsrOah->fTraceMsrVisitors
-            ||
-          gTraceOah->fTraceGraceNotes
-        ) {
-          gLogOstream <<
-            "% ==> start visiting grace notes is ignored" <<
-            endl;
+      case msrNote::kSkipNote:
+        if (elt->getNoteGraceNotesGroupUpLink ()) {
+  #ifdef TRACE_OAH
+          if (
+            gMsrOah->fTraceMsrVisitors
+              ||
+            gTraceOah->fTraceNotes
+          ) {
+            gLogOstream <<
+              "% ==> start visiting skip notes is ignored upon note " <<
+              elt->asString () <<
+              endl;
+          }
+  #endif
+
+          return;
         }
-#endif
+        break;
 
-        return;
-      break;
+      case msrNote::kGraceNote:
+  #ifdef TRACE_OAH
+          if (
+            gMsrOah->fTraceMsrVisitors
+              ||
+            gTraceOah->fTraceGraceNotes
+          ) {
+            gLogOstream <<
+              "% ==> start visiting grace notes is ignored upon note " <<
+              elt->asString () <<
+              endl;
+          }
+  #endif
 
-    case msrNote::kGraceChordMemberNote:
-#ifdef TRACE_OAH
-        if (
-          gMsrOah->fTraceMsrVisitors
-            ||
-          gTraceOah->fTraceGraceNotes
-        ) {
-          gLogOstream <<
-            "% ==> start visiting chord grace notes is ignored" <<
-            endl;
-        }
-#endif
+          return;
+        break;
 
-        return;
-      break;
+      case msrNote::kGraceChordMemberNote:
+  #ifdef TRACE_OAH
+          if (
+            gMsrOah->fTraceMsrVisitors
+              ||
+            gTraceOah->fTraceGraceNotes
+          ) {
+            gLogOstream <<
+              "% ==> start visiting chord grace notes is ignored upon note " <<
+              elt->asString () <<
+              endl;
+          }
+  #endif
 
-    default:
-      ;
-  } // switch
+          return;
+        break;
+
+      default:
+        ;
+    } // switch
+  }
 
   // get the note's grace notes after
   S_msrGraceNotesGroup
@@ -11932,14 +11963,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 
   // print the note's grace notes before if any,
-  // but not ??? JMI
-  S_msrGraceNotesGroup
-    noteGraceNotesGroupBefore =
-      elt->getNoteGraceNotesGroupBefore ();
+  // unless the note belongs to a chord
+  if (! fOnGoingChord) {
+    S_msrGraceNotesGroup
+      noteGraceNotesGroupBefore =
+        elt->getNoteGraceNotesGroupBefore ();
 
-  if (noteGraceNotesGroupBefore) {
-    generateGraceNotesGroup (
-      noteGraceNotesGroupBefore);
+    if (noteGraceNotesGroupBefore) {
+      generateGraceNotesGroup (
+        noteGraceNotesGroupBefore);
+    }
   }
 
   // print the note scordaturas if any
@@ -12549,7 +12582,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
-  // generate the note itself
   generateCodeForNote (elt);
 
   // generate things after the note
@@ -12581,80 +12613,80 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 #endif
 
-  // is this a rest measures to be ignored?
-  switch (elt->getNoteKind ()) {
-    case msrNote::kRestNote:
-      // don't handle rest measuress, that's done in visitEnd (S_msrRestMeasures&)
-      if (fOnGoingRestMeasures) {
-        if (elt->getNoteOccupiesAFullMeasure ()) {
-          bool inhibitRestMeasuresBrowsing =
-            fVisitedLpsrScore->
-              getMsrScore ()->
-                getInhibitRestMeasuresBrowsing ();
+  // is this note to be ignored?
+  if (fOnGoingRestMeasures) {
+    switch (elt->getNoteKind ()) {
+      case msrNote::kRestNote:
+        // don't handle rest measuress, that's done in visitEnd (S_msrRestMeasures&)
+          if (elt->getNoteOccupiesAFullMeasure ()) {
+            bool inhibitRestMeasuresBrowsing =
+              fVisitedLpsrScore->
+                getMsrScore ()->
+                  getInhibitRestMeasuresBrowsing ();
 
-          if (inhibitRestMeasuresBrowsing) {
-#ifdef TRACE_OAH
-            if (
-              gTraceOah->fTraceNotes
-                ||
-              gTraceOah->fTraceRestMeasures
-            ) {
-              gLogOstream <<
-                "% ==> end visiting rest measures is ignored" <<
-                endl;
+            if (inhibitRestMeasuresBrowsing) {
+  #ifdef TRACE_OAH
+              if (
+                gTraceOah->fTraceNotes
+                  ||
+                gTraceOah->fTraceRestMeasures
+              ) {
+                gLogOstream <<
+                  "% ==> end visiting rest measures is ignored" <<
+                  endl;
+              }
+  #endif
+
+  #ifdef TRACE_OAH
+    if (gTraceOah->fTraceNotesDetails) {
+      gLogOstream <<
+        "% ==> returning from visitEnd (S_msrNote&)" <<
+        endl;
+    }
+  #endif
+
+              return;
             }
-#endif
+          }
+        break;
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesDetails) {
-    gLogOstream <<
-      "% ==> returning from visitEnd (S_msrNote&)" <<
-      endl;
-  }
-#endif
+      case msrNote::kSkipNote:
+        if (elt->getNoteGraceNotesGroupUpLink ()) {
+  #ifdef TRACE_OAH
+          if (
+            gMsrOah->fTraceMsrVisitors
+              ||
+            gTraceOah->fTraceNotes
+          ) {
+            gLogOstream <<
+              "% ==> end visiting skip notes is ignored" <<
+              endl;
+          }
+  #endif
 
           return;
+        }
+        break;
+
+      case msrNote::kGraceNote:
+  #ifdef TRACE_OAH
+          if (
+            gMsrOah->fTraceMsrVisitors
+              ||
+            gTraceOah->fTraceGraceNotes) {
+            gLogOstream <<
+              "% ==> end visiting grace notes is ignored" <<
+              endl;
           }
-        }
-      }
-      break;
+  #endif
 
-    case msrNote::kSkipNote:
-      if (elt->getNoteGraceNotesGroupUpLink ()) {
-#ifdef TRACE_OAH
-        if (
-          gMsrOah->fTraceMsrVisitors
-            ||
-          gTraceOah->fTraceNotes
-        ) {
-          gLogOstream <<
-            "% ==> end visiting skip notes is ignored" <<
-            endl;
-        }
-#endif
+          return;
+        break;
 
-        return;
-      }
-      break;
-
-    case msrNote::kGraceNote:
-#ifdef TRACE_OAH
-        if (
-          gMsrOah->fTraceMsrVisitors
-            ||
-          gTraceOah->fTraceGraceNotes) {
-          gLogOstream <<
-            "% ==> end visiting grace notes is ignored" <<
-            endl;
-        }
-#endif
-
-        return;
-      break;
-
-    default:
-      ;
-  } // switch
+      default:
+        ;
+    } // switch
+  }
 
   // fetch the note single tremolo
   S_msrSingleTremolo
@@ -13456,17 +13488,20 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     }
   }
 
-  // get the note's grace notes after
-  S_msrGraceNotesGroup
-    noteGraceNotesGroupAfter =
-      elt->getNoteGraceNotesGroupAfter ();
+  // get the note's grace notes after,
+  // unless the note belongs to a chord
+  if (! fOnGoingChord) {
+    S_msrGraceNotesGroup
+      noteGraceNotesGroupAfter =
+        elt->getNoteGraceNotesGroupAfter ();
 
-  // print the note's grace notes after group closer if any
-  if (noteGraceNotesGroupAfter) {
-    fLilypondCodeOstream <<
-      "} ";
-    generateGraceNotesGroup (
-      noteGraceNotesGroupAfter);
+    // print the note's grace notes after group closer if any
+    if (noteGraceNotesGroupAfter) {
+      fLilypondCodeOstream <<
+        "} ";
+      generateGraceNotesGroup (
+        noteGraceNotesGroupAfter);
+    }
   }
 
   fOnGoingNote = false;
@@ -13719,6 +13754,16 @@ void lpsr2LilypondTranslator::generateCodeAHeadOfChordContents (
 void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
   S_msrChord chord)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChords) {
+    fLilypondCodeOstream <<
+      "% --> generateCodeRightBeforeChordContents() for chord " <<
+      chord->asShortString () <<
+      ", line " << chord->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
   // print the chord's grace notes before if any,
   // but not ??? JMI
   S_msrGraceNotesGroup
@@ -13967,15 +14012,21 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
     generateCodeForOctaveShift (
       chordOctaveShift);
   }
-
-  // generate the start of the chord
-  fLilypondCodeOstream <<
-    "<";
 }
 
 void lpsr2LilypondTranslator::generateCodeForChordContents (
   S_msrChord chord)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChords) {
+    fLilypondCodeOstream <<
+      "% --> generateCodeForChordContents() for chord " <<
+      chord->asShortString () <<
+      ", line " << chord->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
   // get the chord notes vector
   const vector<S_msrNote>&
     chordNotesVector =
@@ -14010,9 +14061,15 @@ void lpsr2LilypondTranslator::generateCodeForChordContents (
 void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
   S_msrChord chord)
 {
-  // generate the end of the chord
-  fLilypondCodeOstream <<
-    ">";
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceChords) {
+    fLilypondCodeOstream <<
+      "% --> generateCodeRightAfterChordContents() for chord " <<
+      chord->asShortString () <<
+      ", line " << chord->getInputLineNumber () <<
+      endl;
+  }
+#endif
 
   // get the chord notes vector
   const vector<S_msrNote>&
@@ -14053,6 +14110,31 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
         chordInputLineNumber,
         chord->
           getChordDisplayWholeNotes ()); // JMI test wether chord is in a tuplet?
+  }
+
+  // print the chord's grace notes before if any,
+  // but not ??? JMI
+  S_msrGraceNotesGroup
+    chordGraceNotesGroupAfter =
+      chord->getChordGraceNotesGroupAfter ();
+
+/* JMI
+  gLogOstream <<
+    "% chordGraceNotesGroupAfter = ";
+  if (chordGraceNotesGroupAfter) {
+    gLogOstream <<
+      chordGraceNotesGroupAfter;
+  }
+  else {
+    gLogOstream <<
+      "nullptr";
+  }
+  gLogOstream << endl;
+*/
+
+  if (chordGraceNotesGroupAfter) {
+    generateGraceNotesGroup (
+      chordGraceNotesGroupAfter);
   }
 
   // are there pending chord member notes string numbers?
@@ -14582,7 +14664,15 @@ void lpsr2LilypondTranslator::generateChordInGraceNotesGroup (S_msrChord chord)
 {
   generateCodeRightBeforeChordContents (chord);
 
+  // generate the start of the chord
+  fLilypondCodeOstream <<
+    "<";
+
   generateCodeForChordContents (chord);
+
+  // generate the end of the chord
+  fLilypondCodeOstream <<
+    ">";
 
   generateCodeRightAfterChordContents (chord);
 }
@@ -14618,6 +14708,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
   generateCodeAHeadOfChordContents (elt);
 
   generateCodeRightBeforeChordContents (elt);
+
+  // generate the start of the chord
+  fLilypondCodeOstream <<
+    "<";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
@@ -14644,6 +14738,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     return;
   }
 #endif
+
+  // generate the end of the chord
+  fLilypondCodeOstream <<
+    ">";
 
   generateCodeRightAfterChordContents (elt);
 

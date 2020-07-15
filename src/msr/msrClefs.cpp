@@ -144,7 +144,9 @@ string msrClef::asString () const
 void msrClef::print (ostream& os) const
 {
   os <<
-    asString () <<
+    "Clef " <<
+    clefKindAsString (fClefKind) <<
+    ", line " << fInputLineNumber <<
     endl;
 }
 

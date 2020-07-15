@@ -804,6 +804,22 @@ class msr2MxmltreeTranslator :
     // ------------------------------------------------------
 */
 
+
+    // clefs
+    // ------------------------------------------------------
+
+    S_msrClef                 fCurrentPartClef;
+
+    // keys
+    // ------------------------------------------------------
+
+    S_msrKey                  fCurrentPartKey;
+
+    // times
+    // ------------------------------------------------------
+
+    S_msrTime                 fCurrentPartTime;
+
     // notes
     // ------------------------------------------------------
     /*
@@ -819,7 +835,13 @@ class msr2MxmltreeTranslator :
     // backup and forward
     // ------------------------------------------------------
 
-    void                      appendABackupOrForwardIfNeeded (S_msrNote note);
+    rational                  fCurrentPositionInMeasure;
+
+    rational                  fCurrentCumulatedSkipsDurations;
+    int                       fCurrentCumulatedSkipsStaffNumber;
+    int                       fCurrentCumulatedSkipsVoiceNumber;
+
+    void                      appendABackupOrForwardToMeasureIfNeeded (S_msrNote note);
     void                      appendABackupToMeasure (S_msrNote note);
     void                      appendAForwardToMeasure (S_msrNote note);
 
@@ -867,9 +889,6 @@ class msr2MxmltreeTranslator :
     S_msrNote                 fPreviousMSRNote;
     S_msrVoice                fPreviousMSRNoteVoice;
     S_msrStaff                fPreviousMSRNoteStaff;
-
-    // forward handling
-    rational                  fCumulatedSkipDurations;
 
     void                      appendNoteToMesure (S_msrNote note);
 
@@ -970,6 +989,7 @@ class msr2MxmltreeTranslator :
 
     // chords
     // ------------------------------------------------------
+    bool                      fOnGoingChord;
     Sxmlelement               fPendingChordStartComment;
 
 /*

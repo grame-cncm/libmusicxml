@@ -794,6 +794,14 @@ class msrNote : public msrTupletElement
                             int actualNotes, int normalNotes) const;
 
     // note as string
+    string                notePitchAndSoundingWholeNotesAsString () const
+                              {
+                                return
+                                  notePitchAsString ()
+                                    +
+                                noteSoundingWholeNotesAsMsrString ();
+                              }
+
     string                asString () const;
 
     string                asShortString () const;

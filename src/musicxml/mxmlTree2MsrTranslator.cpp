@@ -6114,9 +6114,11 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 #ifdef TRACE_OAH
   if (gMusicxmlOah->fTraceBackup) {
     fLogOutputStream <<
-      "Backup by " << fCurrentBackupDivisions <<
-      " divisions becomes pending" <<
-      "\", fCurrentStaffNumberToInsertInto = " <<
+      "Backup by " <<
+      singularOrPlural (
+        fCurrentBackupDivisions, "division", "divisions") <<
+      " becomes pending" <<
+      ", fCurrentStaffNumberToInsertInto = " <<
       fCurrentStaffNumberToInsertInto <<
       ", line " << inputLineNumber <<
       endl;
@@ -20588,6 +20590,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
           msrGraceNotesGroup::kGraceNotesGroupBefore, // default value
           fCurrentGraceIsSlashed,
           fCurrentGraceIsBeamed,
+          fCurrentMeasureNumber,
           currentVoice);
 
       // should all grace notes be slurred?
