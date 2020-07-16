@@ -76,6 +76,8 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+  string executableName = argv [0];
+
 //#define USE_DUAL_HANDLE
 
 #ifdef USE_DUAL_HANDLE
@@ -87,7 +89,7 @@ int main (int argc, char *argv[])
   try {
     dualHandler =
       xml2lyOahDualHandler::create (
-        argv [0],
+        executableName,
         gOutputOstream);
   }
   catch (msrOahException& e) {
@@ -133,7 +135,7 @@ int main (int argc, char *argv[])
   try {
     handler =
       xml2lyInsiderOahHandler::create (
-        argv [0],
+        executableName,
         "xml2ly",
         gOutputOstream);
   }
@@ -200,7 +202,7 @@ int main (int argc, char *argv[])
       "%--------------------------------------------------------------";
 
     gLogOstream <<
-      "main(): " <<
+      executableName << ": " <<
       "inputSourceName: \"" << inputSourceName << "\"" <<
       ", outputFileName: \"" << outputFileName << "\"" <<
       endl <<
@@ -366,51 +368,12 @@ int main (int argc, char *argv[])
 
   if (err != kNoErr) {
     gLogOstream <<
-      "### Conversion from LPSR to LilyPond code failed ###" <<
+      "### Conversion from MusicXML to LilyPond code failed ###" <<
       endl <<
       endl;
 
     return 1;
   }
-// JMI }
 
   return 0;
 }
-
-
-/* JMI
-
-  string
-    inputSourceName =
-      gOahOah->fInputSourceName;
-
-  string
-    outputFileName =
-      dualHandler->fetchLilyPondOutputFileName ();
-
-  int
-    outputFileNameSize =
-      outputFileName.size ();
-
-
-  if (true) { // JMI, TEST
-  / *
-    xml2lilypond (
-      argc,
-      argv,
-      cout,
-      inputSourceName);
-  }
-
-  else {
-  * /
-  // has quiet mode been requested?
-  // ------------------------------------------------------
-
-  if (gGeneralOah->fQuiet) {
-    // disable all trace and display options
-    handler->
-      enforceOahHandlerQuietness ();
-  }
-*/
-

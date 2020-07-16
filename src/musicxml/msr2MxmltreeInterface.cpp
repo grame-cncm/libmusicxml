@@ -39,9 +39,11 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 Sxmlelement buildMxmltreeFromMsrScore (
-  const S_msrScore mScore,
-  S_msrOah         msrOpts,
-  ostream&         logOstream)
+  const S_msrScore           mScore,
+  S_msrOah                   msrOpts,
+  ostream&                   logOstream,
+  string                     passNumber,
+  timingItem::timingItemKind timingItemKind)
 {
   // sanity check
   msrAssert (
@@ -60,7 +62,7 @@ Sxmlelement buildMxmltreeFromMsrScore (
       separator <<
       endl <<
       gTab <<
-      "Optional pass: translating the MSR into an mxmltree" <<
+      "translating the MSR into an mxmltree" <<
       endl <<
       separator <<
       endl;
@@ -80,7 +82,7 @@ Sxmlelement buildMxmltreeFromMsrScore (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Optional pass",
+    passNumber,
     "translate the MSR to an mxmltree",
     timingItem::kMandatory,
     startClock,

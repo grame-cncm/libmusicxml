@@ -419,7 +419,8 @@ string msrGraceNotesGroup::asShortString () const
     graceNotesGroupKindAsString (
       fGraceNotesGroupKind) <<
     ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
-    "\", line " << fInputLineNumber << " ";
+    "\", line " << fInputLineNumber <<
+    " [";
 
   if (fGraceNotesGroupElementsList.size ()) {
     list<S_msrMeasureElement>::const_iterator
@@ -433,6 +434,8 @@ string msrGraceNotesGroup::asShortString () const
     } // for
   }
 
+  s << "]";
+
   return s.str ();
 }
 
@@ -443,7 +446,8 @@ string msrGraceNotesGroup::asString () const
   s <<
     "GraceNotesGroup" <<
     ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
-    "\", line " << fInputLineNumber << " ";
+    "\", line " << fInputLineNumber <<
+    " [";
 
   if (fGraceNotesGroupElementsList.size ()) {
     list<S_msrMeasureElement>::const_iterator
@@ -456,6 +460,8 @@ string msrGraceNotesGroup::asString () const
       s << ", ";
     } // for
   }
+
+  s << "]";
 
   return s.str ();
 }

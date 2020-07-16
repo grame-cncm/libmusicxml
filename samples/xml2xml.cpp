@@ -76,6 +76,8 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+  string executableName = argv [0];
+
 //#define USE_DUAL_HANDLE
 
 #ifdef USE_DUAL_HANDLE
@@ -87,7 +89,7 @@ int main (int argc, char *argv[])
   try {
     dualHandler =
       xml2xmlOahDualHandler::create (
-        argv [0],
+        executableName,
         gOutputOstream);
   }
   catch (msrOahException& e) {
@@ -133,7 +135,7 @@ int main (int argc, char *argv[])
   try {
     handler =
       xml2xmlInsiderOahHandler::create (
-        argv [0],
+        executableName,
         "xml2xml",
         gOutputOstream);
   }
@@ -186,7 +188,9 @@ int main (int argc, char *argv[])
 
   string
     outputFileName =
-      gXml2xmlOah->fMusicXMLOutputFileName;
+      gXml2xmlOah->
+        getOutputFileNameStringAtom ()->
+          getStringVariable ();
 
   int
     outputFileNameSize =
@@ -198,7 +202,7 @@ int main (int argc, char *argv[])
       "%--------------------------------------------------------------";
 
     gLogOstream <<
-      "main(): " <<
+      executableName << ": " <<
       "inputSourceName: \"" << inputSourceName << "\"" <<
       ", outputFileName: \"" << outputFileName << "\"" <<
       endl <<
@@ -325,20 +329,28 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (inputSourceName == outputFileName) {
-    gLogOstream <<
-      "\"" << inputSourceName << "\" is both the input and output file name" <<
-      endl;
+    stringstream s;
 
-    return 1;
+    s <<
+      "\"" << inputSourceName << "\" is both the input and output file name";;
+
+    oahError (s.str ());
   }
 
   // do the translation
   // ------------------------------------------------------
 
-  xmlErr err =
-    convertMusicXMLBackToMusicXML (
-      inputSourceName,
-      outputFileName);
+  xmlErr err;
+
+  try {
+    err =
+      convertMusicXMLBackToMusicXML (
+        inputSourceName,
+        outputFileName);
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
 
   // display the input line numbers for which messages have been issued
   // ------------------------------------------------------
@@ -367,7 +379,7 @@ int main (int argc, char *argv[])
 
   if (err != kNoErr) {
     gLogOstream <<
-      "### Conversion from LPSR to LilyPond code failed ###" <<
+      "### Conversion from MusicXML to MusicXML code failed ###" <<
       endl <<
       endl;
 

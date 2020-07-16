@@ -22,9 +22,10 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 EXP xmlErr convertMsrScoreToMusicXMLScore (
-  S_msrScore mScore,
-  string     outputFileName,
-  string     passNumber);
+  S_msrScore                 mScore,
+  string                     outputFileName,
+  string                     passNumber,
+  timingItem::timingItemKind timingItemKind);
 
 //_______________________________________________________________________________
 EXP xmlErr convertMusicXMLBackToMusicXML (

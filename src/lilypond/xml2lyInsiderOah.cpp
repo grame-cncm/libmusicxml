@@ -30,6 +30,7 @@
 #include "lpsrOah.h"
 #include "lpsr2LilypondOah.h"
 #include "lilypondOah.h"
+#include "msr2MxmltreeOah.h"    // this is in case the '-loop' option is selected
 
 #include "version.h"
 
@@ -258,6 +259,10 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
       this);
 
     initializeLilypondOahHandling (
+      this);
+
+    // this is in case the '-loop' option is selected
+    initializeMsr2MxmltreeOahHandling (
       this);
 
 #ifdef EXTRA_OAH
@@ -497,8 +502,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
 
         s <<
           "option '-aofn, -auto-output-file-name'"  <<
-          endl <<
-          "cannot be used when reading from standard input";
+          " cannot be used when reading from standard input";
 
         oahError (s.str ());
       }

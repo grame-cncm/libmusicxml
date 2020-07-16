@@ -31,9 +31,11 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 EXP Sxmlelement buildMxmltreeFromMsrScore (
-  const S_msrScore mScore,
-  S_msrOah         msrOpts,
-  ostream&         logOstream);
+  const S_msrScore           mScore,
+  S_msrOah                   msrOpts,
+  ostream&                   logOstream,
+  string                     passNumber,
+  timingItem::timingItemKind timingItemKind);
 
 //_______________________________________________________________________________
 EXP void displayMxmltreeScore (

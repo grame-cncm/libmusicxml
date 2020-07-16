@@ -480,63 +480,6 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
 }
 
 //________________________________________________________________________
-/* JMI
-void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
-  S_msrPart            partClone,
-  S_msrVoice           voiceClone,
-  S_msrGraceNotesGroup skipGraceNotesGroup)
-{
-#ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotes) {
-      fLogOutputStream <<
-        "--> prepending a skip graceNotesGroup clone " <<
-        skipGraceNotesGroup->asShortString () <<
-        " to voices other than \"" <<
-        voiceClone->getVoiceName () << "\"" <<
-        " in part " <<
-        partClone->getPartCombinedName () <<
-        ", line " << skipGraceNotesGroup->getInputLineNumber () <<
-        endl;
-    }
-#endif
-
-  map<int, S_msrStaff>
-    partStavesMap =
-      partClone->
-        getPartStavesMap ();
-
-  for (
-    map<int, S_msrStaff>::const_iterator i=partStavesMap.begin ();
-    i!=partStavesMap.end ();
-    i++
-  ) {
-    list<S_msrVoice>
-      staffAllVoicesVector =
-        (*i).second->
-          getStaffAllVoicesVector ();
-
-    for (
-      list<S_msrVoice>::const_iterator j=staffAllVoicesVector.begin ();
-      j!=staffAllVoicesVector.end ();
-      j++
-    ) {
-      S_msrVoice voice = (*j);
-
-      if (voice != voiceClone) {
-        // prepend skip grace notes to voice JMI
-        / *
-        voice->
-          prependGraceNotesGroupToVoice (
-            skipGraceNotesGroup);
-            * /
-      }
-    } // for
-
-  } // for
-}
-*/
-
-//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 {
   int inputLineNumber =
@@ -1543,7 +1486,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
   if (fCurrentSkipGraceNotesGroup) {
     // add it ahead of the other voices in the part if needed
     fCurrentPartClone->
-      addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
+      addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded ( // JMI only if there's more than one voice???
         fCurrentVoiceClone,
         fCurrentSkipGraceNotesGroup);
 
@@ -4351,19 +4294,34 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     // if (fOnGoingNonGraceNote) { JMI
    // { // JMI
 
-    switch (elt->getGraceNotesGroupKind ()) {
-      case msrGraceNotesGroup::kGraceNotesGroupBefore:
-        fCurrentNonGraceNoteClone->
-          setNoteGraceNotesGroupBefore (
-            fCurrentGraceNotesGroupClone);
-        break;
-      case msrGraceNotesGroup::kGraceNotesGroupAfter:
-        fCurrentNonGraceNoteClone->
-          setNoteGraceNotesGroupAfter (
-            fCurrentGraceNotesGroupClone);
-        break;
-    } // switch
-  //  }
+    if (fOnGoingChord) {
+      switch (elt->getGraceNotesGroupKind ()) {
+        case msrGraceNotesGroup::kGraceNotesGroupBefore:
+          fCurrentChordClone->
+            setChordGraceNotesGroupBefore (
+              fCurrentGraceNotesGroupClone);
+          break;
+        case msrGraceNotesGroup::kGraceNotesGroupAfter:
+          fCurrentChordClone->
+            setChordGraceNotesGroupAfter (
+              fCurrentGraceNotesGroupClone);
+          break;
+      } // switch
+    }
+    else {
+      switch (elt->getGraceNotesGroupKind ()) {
+        case msrGraceNotesGroup::kGraceNotesGroupBefore:
+          fCurrentNonGraceNoteClone->
+            setNoteGraceNotesGroupBefore (
+              fCurrentGraceNotesGroupClone);
+          break;
+        case msrGraceNotesGroup::kGraceNotesGroupAfter:
+          fCurrentNonGraceNoteClone->
+            setNoteGraceNotesGroupAfter (
+              fCurrentGraceNotesGroupClone);
+          break;
+      } // switch
+    }
   }
 
 #ifdef TRACE_OAH
@@ -4991,8 +4949,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletMemberUnpitchedNote:
+    case msrNote::kTupletUnpitchedMemberNote:
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<
@@ -6772,3 +6731,61 @@ void msr2LpsrTranslator::visitEnd (S_msrMidiTempo& elt)
 
 
 } // namespace
+
+//________________________________________________________________________
+/* JMI
+void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
+  S_msrPart            partClone,
+  S_msrVoice           voiceClone,
+  S_msrGraceNotesGroup skipGraceNotesGroup)
+{
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceGraceNotes) {
+      fLogOutputStream <<
+        "--> prepending a skip graceNotesGroup clone " <<
+        skipGraceNotesGroup->asShortString () <<
+        " to voices other than \"" <<
+        voiceClone->getVoiceName () << "\"" <<
+        " in part " <<
+        partClone->getPartCombinedName () <<
+        ", line " << skipGraceNotesGroup->getInputLineNumber () <<
+        endl;
+    }
+#endif
+
+  map<int, S_msrStaff>
+    partStavesMap =
+      partClone->
+        getPartStavesMap ();
+
+  for (
+    map<int, S_msrStaff>::const_iterator i=partStavesMap.begin ();
+    i!=partStavesMap.end ();
+    i++
+  ) {
+    list<S_msrVoice>
+      staffAllVoicesVector =
+        (*i).second->
+          getStaffAllVoicesVector ();
+
+    for (
+      list<S_msrVoice>::const_iterator j=staffAllVoicesVector.begin ();
+      j!=staffAllVoicesVector.end ();
+      j++
+    ) {
+      S_msrVoice voice = (*j);
+
+      if (voice != voiceClone) {
+        // prepend skip grace notes to voice JMI
+        / *
+        voice->
+          prependGraceNotesGroupToVoice (
+            skipGraceNotesGroup);
+            * /
+      }
+    } // for
+
+  } // for
+}
+*/
+

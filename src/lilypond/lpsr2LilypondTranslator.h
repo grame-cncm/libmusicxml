@@ -998,15 +998,21 @@ class lpsr2LilypondTranslator :
     // chords
     // ------------------------------------------------------
     list<int>             fPendingChordMemberNotesStringNumbers;
+
     bool                  fOnGoingChord;
 
-    void                  generateCodeAHeadOfChordContents (S_msrChord chord);
+    void                  generateCodeAHeadOfChordContents (
+                            S_msrChord chord);
 
-    void                  generateCodeRightBeforeChordContents (S_msrChord chord);
-    void                  generateCodeForChordContents (S_msrChord chord);
-    void                  generateCodeRightAfterChordContents (S_msrChord chord);
+    void                  generateCodeRightBeforeChordContents (
+                            S_msrChord chord);
+    void                  generateCodeForChordInGraceNotesGroupContents (
+                            S_msrChord chord);
+    void                  generateCodeRightAfterChordContents (
+                            S_msrChord chord);
 
-    void                  generateChordInGraceNotesGroup (S_msrChord chord);
+    void                  generateChordInGraceNotesGroup (
+                            S_msrChord chord);
 
 
     // tuplets

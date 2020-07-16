@@ -2488,8 +2488,9 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
 
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletMemberUnpitchedNote:
+    case msrNote::kTupletUnpitchedMemberNote:
       // register actual note
       fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
@@ -2574,8 +2575,9 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       break;
 
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletMemberUnpitchedNote:
+    case msrNote::kTupletUnpitchedMemberNote:
       // register actual note
       fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;

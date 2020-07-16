@@ -76,6 +76,8 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+  string executableName = argv [0];
+
 //#define USE_DUAL_HANDLE
 
 #ifdef USE_DUAL_HANDLE
@@ -87,7 +89,7 @@ int main (int argc, char *argv[])
   try {
     dualHandler =
       xml2brlOahDualHandler::create (
-        argv [0],
+        executableName,
         gOutputOstream);
   }
   catch (msrOahException& e) {
@@ -133,7 +135,7 @@ int main (int argc, char *argv[])
   try {
     handler =
       xml2brlInsiderOahHandler::create (
-        argv [0],
+        executableName,
         "xml2brl",
         gOutputOstream);
   }
@@ -186,7 +188,9 @@ int main (int argc, char *argv[])
 
   string
     outputFileName =
-      gXml2brlOah->fBrailleMusicOutputFileName;
+      gXml2brlOah->
+        getOutputFileNameStringAtom ()->
+          getStringVariable ();
 
   int
     outputFileNameSize =
@@ -198,7 +202,7 @@ int main (int argc, char *argv[])
       "%--------------------------------------------------------------";
 
     gLogOstream <<
-      "main(): " <<
+      executableName << ": " <<
       "inputSourceName: \"" << inputSourceName << "\"" <<
       ", outputFileName: \"" << outputFileName << "\"" <<
       endl <<
@@ -363,7 +367,7 @@ int main (int argc, char *argv[])
 
   if (err != kNoErr) {
     gLogOstream <<
-      "### Conversion from BSR to Braille music failed ###" <<
+      "### Conversion from MusicXML to Braille music failed ###" <<
       endl <<
       endl;
 

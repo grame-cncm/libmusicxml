@@ -298,136 +298,326 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOahDetails) {
     gOutputOstream <<
-      "xml2lyInsiderOahHandler::checkOptionsAndArguments() " <<
+      "xml2xmlInsiderOahHandler::checkOptionsAndArguments() " <<
       fHandlerHeader <<
       "\"" <<
       endl;
   }
 #endif
 
-  unsigned int argumentsNumber =
-    fHandlerArgumentsVector.size ();
+  static bool pThisMethodHasBeenRun = false;
+
+  if (! pThisMethodHasBeenRun) {
+    unsigned int argumentsNumber =
+      fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahDetails && ! gGeneralOah->fQuiet) {
-    if (argumentsNumber > 0) {
+    if (gTraceOah->fTraceOahDetails && ! gGeneralOah->fQuiet) {
+      if (argumentsNumber > 0) {
+        fHandlerLogOstream <<
+          singularOrPluralWithoutNumber (
+            argumentsNumber, "There is", "There are") <<
+          " " <<
+          argumentsNumber <<
+          " " <<
+          singularOrPluralWithoutNumber (
+            argumentsNumber, "argument", "arguments") <<
+          ":" <<
+          endl;
+
+        gIndenter++;
+
+        for (unsigned int i = 0; i < argumentsNumber; i++) {
+          fHandlerLogOstream <<
+            i << " : " << fHandlerArgumentsVector [i] <<
+              endl;
+        } // for
+
+        fHandlerLogOstream << endl;
+
+        gIndenter--;
+      }
+      else {
+        fHandlerLogOstream <<
+          "There are no arguments to " <<
+          gOahOah->fHandlerExecutableName <<
+          endl;
+      }
+    }
+#endif
+
+    // input source name
+    // ------------------------------------------------------
+
+    switch (argumentsNumber) {
+      case 0:
+        {
+          if (! fHandlerFoundAHelpOption) {
+            string message =
+              "Input file name or '-' for standard input expected";
+
+            fHandlerLogOstream <<
+              endl <<
+              message <<
+              endl <<
+              endl;
+
+            throw msrOahException (message);
+          }
+        }
+        break;
+
+      case 1:
+        // register intput file name
+        gOahOah->fInputSourceName =
+          fHandlerArgumentsVector [0];
+        break;
+
+      default:
+        fHandlerLogOstream <<
+          endl <<
+          "Several input file name supplied, only the first one, \"" <<
+          fHandlerArgumentsVector [0] <<
+          "\", will be translated" <<
+          endl <<
+          endl;
+
+        // register intput file name
+        gOahOah->fInputSourceName =
+          fHandlerArgumentsVector [0];
+        break;
+    } //  switch
+
+    // build potential output file name
+    // ------------------------------------------------------
+
+    string
+      inputSourceName =
+        gOahOah->fInputSourceName;
+
+    string potentialOutputFileName;
+
+    if (inputSourceName != "-") {
+      // determine potential output file name,
+      // may be set differently by '--o, --outputFileName' option
+      potentialOutputFileName =
+        baseName (inputSourceName);
+
+      // set '.ly' suffix
+      size_t
+        posInString =
+          potentialOutputFileName.rfind ('.');
+
+      if (posInString != string::npos) {
+        potentialOutputFileName.replace (
+          posInString,
+          potentialOutputFileName.size () - posInString,
+          ".ly");
+      }
+    }
+
+    // check auto output file option usage
+    // ------------------------------------------------------
+
+    S_oahStringAtom
+      outputFileNameStringAtom =
+        gXml2xmlOah->
+          getOutputFileNameStringAtom ();
+
+    S_oahBooleanAtom
+      autoOutputFileNameAtom =
+        gXml2xmlOah->
+          getAutoOutputFileNameAtom ();
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      // print the options handler initial state
       fHandlerLogOstream <<
-        singularOrPluralWithoutNumber (
-          argumentsNumber, "There is", "There are") <<
-        " " <<
-        argumentsNumber <<
-        " " <<
-        singularOrPluralWithoutNumber (
-          argumentsNumber, "argument", "arguments") <<
-        ":" <<
+        "xml2xmlInsiderOahHandler::checkOptionsAndArguments(): " <<
         endl;
 
       gIndenter++;
 
-      for (unsigned int i = 0; i < argumentsNumber; i++) {
-        fHandlerLogOstream <<
-          i << " : " << fHandlerArgumentsVector [i] <<
-            endl;
-      } // for
+      fHandlerLogOstream <<
+        "outputFileNameStringAtom:" <<
+        endl;
 
-      fHandlerLogOstream << endl;
+      gIndenter++;
+      fHandlerLogOstream <<
+        outputFileNameStringAtom <<
+        endl;
+      gIndenter--;
+
+      fHandlerLogOstream <<
+        "autoOutputFileNameAtom:" <<
+          endl;
+
+      gIndenter++;
+      fHandlerLogOstream <<
+        autoOutputFileNameAtom <<
+        endl;
+      gIndenter--;
 
       gIndenter--;
     }
-    else {
-      fHandlerLogOstream <<
-        "There are no arguments to " <<
-        gOahOah->fHandlerExecutableName <<
-        endl;
-    }
-  }
 #endif
 
-  // input source name
-  // ------------------------------------------------------
+    if (autoOutputFileNameAtom->getVariableHasBeenSet ()) {
+      // '-aofn, -auto-output-file-name' has been chosen
+      // ---------------------------------------------------
 
-  switch (argumentsNumber) {
-    case 0:
-      {
-        if (! fHandlerFoundAHelpOption) {
-          string message =
-            "Input file name or '-' for standard input expected";
+      if (inputSourceName == "-") {
+        stringstream s;
 
-          fHandlerLogOstream <<
-            endl <<
-            message <<
-            endl <<
-            endl;
+        s <<
+          "option '-aofn, -auto-output-file-name'"  <<
+          " cannot be used when reading from standard input";
 
-          throw msrOahException (message);
-        }
+        oahError (s.str ());
       }
-      break;
 
-    case 1:
-      // register intput file name
-      gOahOah->fInputSourceName =
-        fHandlerArgumentsVector [0];
-      break;
-
-    default:
-      fHandlerLogOstream <<
-        endl <<
-        "Several input file name supplied, only the first one, \"" <<
-        fHandlerArgumentsVector [0] <<
-        "\", will be translated" <<
-        endl <<
-        endl;
-
-      // register intput file name
-      gOahOah->fInputSourceName =
-        fHandlerArgumentsVector [0];
-      break;
-  } //  switch
-
-  // determine output file name
-  // ------------------------------------------------------
+      else {
+        if (outputFileNameStringAtom->getVariableHasBeenSet ()) {
+          // '-aofn, -auto-output-file-name' has been chosen
+          // '-o, -output-file-name' has been chosen
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) { // JMI
-    string separator =
-      "%--------------------------------------------------------------";
-
-    gLogOstream <<
-      "xml2xmlInsiderOahHandler::checkOptionsAndArguments(): " <<
-      "gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
-      ", gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
-      ", gXml2xmlOah->fAutoOutputFileName: \"" << booleanAsString (gXml2xmlOah->fAutoOutputFileName) << "\"" <<
-      ", gXml2xmlOah->fMusicXMLOutputFileName: \"" << gXml2xmlOah->fMusicXMLOutputFileName << "\"" <<
-      endl <<
-      separator <<
-      endl;
-  }
+          if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+            fHandlerLogOstream <<
+              "'-aofn, -auto-output-file-name' has been chosen" <<
+              endl <<
+              "'-o, -output-file-name' has been chosen" <<
+              endl;
+          }
 #endif
 
-  if (gXml2xmlOah->fAutoOutputFileName) {
-    if (gOahOah->fInputSourceName == "-") {
-      gXml2xmlOah->fMusicXMLOutputFileName =
-        "stdout.xml";
+          stringstream s;
+
+          s <<
+            "options '-aofn, -auto-output-file-name' and '-o, -output-file-name'"  <<
+            endl <<
+            "cannot be chosen simultaneously" <<
+            " (lilyPondOutputFileName: \"" <<
+            outputFileNameStringAtom->getStringVariable () <<
+            "\")";
+
+          oahError (s.str ());
+        }
+
+        else {
+          // '-aofn, -auto-output-file-name' has been chosen
+          // '-o, -output-file-name' has NOT been chosen
+
+#ifdef TRACE_OAH
+          if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+            fHandlerLogOstream <<
+              "'-aofn, -auto-output-file-name' has been chosen" <<
+              endl <<
+              "'-o, -output-file-name' has NOT been chosen" <<
+              endl <<
+              "====> output goes to \"" <<
+              potentialOutputFileName <<
+              "\"" <<
+              endl;
+          }
+#endif
+
+          outputFileNameStringAtom->
+            setStringVariable (
+              potentialOutputFileName);
+        }
+      }
     }
+
     else {
-      determineOutputFileNameFromInputFileName ();
-    }
-  }
+      // '-aofn, -auto-output-file-name' has NOT been chosen
+      // ---------------------------------------------------
 
-  else {
-    if (gXml2xmlOah->fMusicXMLOutputFileName.size ()) {
-      // the '--o, --outputFileName' option has been used,
-      // use the user chosen output file name
+      if (outputFileNameStringAtom->getVariableHasBeenSet ()) {
+        // '-aofn, -auto-output-file-name' has NOT been chosen
+        // '-o, -output-file-name' has been chosen
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+          fHandlerLogOstream <<
+            "'-aofn, -auto-output-file-name' has NOT been chosen" <<
+            endl <<
+            "'-o, -output-file-name' has been chosen" <<
+            endl <<
+            "====> output goes to \"" <<
+            outputFileNameStringAtom->getStringVariable () <<
+            "\"" <<
+            endl;
+        }
+#endif
+      }
+
+      else {
+        // '-aofn, -auto-output-file-name' has NOT been chosen
+        // '-o, -output-file-name' has NOT been chosen
+
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+          fHandlerLogOstream <<
+            "'-aofn, -auto-output-file-name' has NOT been chosen" <<
+            endl <<
+            "'-o, -output-file-name' has NOT been chosen" <<
+            endl <<
+            "====> output goes to standard output" <<
+            endl;
+        }
+#endif
+      }
     }
+
+  /*
+    // determine output file name
+    // ------------------------------------------------------
+
+  #ifdef TRACE_OAH
+    if (gTraceOah->fTracePasses) { // JMI
+      string separator =
+        "%--------------------------------------------------------------";
+
+      gLogOstream <<
+        "xml2xmlInsiderOahHandler::checkOptionsAndArguments(): " <<
+        "gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
+        ", gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
+        ", gXml2xmlOah->fAutoOutputFileName: \"" << booleanAsString (gXml2xmlOah->fAutoOutputFileName) << "\"" <<
+        ", gXml2xmlOah->fMusicXMLOutputFileName: \"" << gXml2xmlOah->fMusicXMLOutputFileName << "\"" <<
+        endl <<
+        separator <<
+        endl;
+    }
+  #endif
+
+    if (gXml2xmlOah->fAutoOutputFileName) {
+      if (gOahOah->fInputSourceName == "-") {
+        gXml2xmlOah->fMusicXMLOutputFileName =
+          "stdout.xml";
+      }
+      else {
+        determineOutputFileNameFromInputFileName ();
+      }
+    }
+
     else {
-      stringstream s;
+      if (gXml2xmlOah->fMusicXMLOutputFileName.size ()) {
+        // the '--o, --outputFileName' option has been used,
+        // use the user chosen output file name
+      }
+      else {
+        stringstream s;
 
-      s <<
-        "xml2xmlInsiderOahHandler: a MusicXML output file name must be chosen with '-o, -output-file-name";
+        s <<
+          "xml2xmlInsiderOahHandler: a MusicXML output file name must be chosen with '-o, -output-file-name";
 
-      oahError (s.str ());
+        oahError (s.str ());
+      }
     }
+    */
+
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -485,9 +675,11 @@ void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
   }
 #endif
 
+/*
   // use outputFileName
   gXml2xmlOah->fMusicXMLOutputFileName =
     outputFileName;
+    */
 }
 
 void xml2xmlInsiderOahHandler::checkOptionsConsistency ()
@@ -739,30 +931,36 @@ R"()",
 
  //   fMusicXMLOutputFileName = "foo.xml"; // JMI TEMP
 
+    fOutputFileNameStringAtom =
+      oahStringAtom::create (
+        "o", "output-file-name",
+R"(Write MusicXML code to file FILENAME instead of standard output.)",
+        "FILENAME",
+        "musicXMLOutputFileName",
+        fMusicXMLOutputFileName);
+
     subGroup->
       appendAtomToSubGroup (
-        oahStringAtom::create (
-          "o", "output-file-name",
-R"(Write MusicXML code to file FILENAME instead of standard output.)",
-          "FILENAME",
-          "musicXMLOutputFileName",
-          fMusicXMLOutputFileName));
+        fOutputFileNameStringAtom);
 
     // auto output filename
 
     fAutoOutputFileName = false;
 
-    subGroup->
-      appendAtomToSubGroup (
-        oahBooleanAtom::create (
-          "aofn", "auto-output-file-name",
+    fAutoOutputFileNameAtom =
+      oahBooleanAtom::create (
+        "aofn", "auto-output-file-name",
 R"(This option can only be used when reading from a file.
 Write MusicXML code to a file in the current working directory.
 The file name is derived from that of the input file,
 replacing any suffix after the the '.' by 'xml'
 or adding '.xml' if none is present.)",
-          "autoOutputFileName",
-          fAutoOutputFileName));
+        "autoOutputFileName",
+        fAutoOutputFileName);
+
+    subGroup->
+      appendAtomToSubGroup (
+        fAutoOutputFileNameAtom);
   }
 
   // exit after some passes

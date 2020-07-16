@@ -814,8 +814,9 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       fScoreChordNotesCounter++;
       break;
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletMemberUnpitchedNote:
+    case msrNote::kTupletUnpitchedMemberNote:
       fScoreTupletNotesCounter++;
       break;
   } // switch
@@ -851,8 +852,9 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kChordMemberNote:
       break;
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletMemberUnpitchedNote:
+    case msrNote::kTupletUnpitchedMemberNote:
       break;
   } // switch
 }

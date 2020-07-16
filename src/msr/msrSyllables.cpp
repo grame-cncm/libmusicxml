@@ -404,8 +404,9 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
 
       case msrNote::kSkipNote:
       case msrNote::kTupletMemberNote:
+      case msrNote::kTupletRestMemberNote:
       case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletMemberUnpitchedNote:
+      case msrNote::kTupletUnpitchedMemberNote:
         {
           stringstream s;
 

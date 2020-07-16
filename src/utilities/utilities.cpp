@@ -97,7 +97,7 @@ void timing::print (ostream& os) const
 {
   const int
     activityWidth     =  8,
-    descriptionWidth  = 31,
+    descriptionWidth  = 32,
     kindWidth         =  9,
     secondsWidth      =  9,
     secondsPrecision  =  6;
@@ -107,7 +107,10 @@ void timing::print (ostream& os) const
     totalMandatoryClock = 0,
     totalOptionalClock  = 0;
 
-  os << endl << "Timing information:" << endl << endl <<
+  os << left <<
+    endl <<
+    "Timing information:" <<
+    endl << endl <<
     setw (activityWidth) << "Activity" << "  " <<
     setw (descriptionWidth) << "Description" << "  " <<
     setw (kindWidth)     << "Kind" << "  " <<
@@ -117,7 +120,11 @@ void timing::print (ostream& os) const
     setw (kindWidth) << replicateString ("-", kindWidth) << "  " <<
     setw (secondsWidth) << replicateString ("-", secondsWidth) << endl << endl;
 
-  for ( list<S_timingItem>::const_iterator i=fTimingItemsList.begin (); i!=fTimingItemsList.end (); i++) {
+  for (
+    list<S_timingItem>::const_iterator i=fTimingItemsList.begin ();
+    i!=fTimingItemsList.end ();
+    i++
+  ) {
     clock_t timingItemClock = (*i)->fEndClock - (*i)->fStartClock;
     totalClock += timingItemClock;
 

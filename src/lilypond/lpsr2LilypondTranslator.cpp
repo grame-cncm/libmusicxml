@@ -1990,17 +1990,54 @@ void lpsr2LilypondTranslator::generateCodeForNote (
       }
 
       // print the note name
-      if (note->getNoteIsARest ()) {
-        fLilypondCodeOstream <<
-          string (
-            note->getNoteOccupiesAFullMeasure ()
-              ? "s%{6%}" // JMI ??? "R"
-              : "r%{5%}");
+      fLilypondCodeOstream <<
+        notePitchAsLilypondString (note);
+
+      // print the note display duration
+      fLilypondCodeOstream <<
+        durationAsLilypondString (
+          inputLineNumber,
+          note->
+            getNoteDisplayWholeNotes ());
+
+/* JMI
+      // print the tie if any
+      {
+        S_msrTie noteTie = note->getNoteTie ();
+
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kTieStart) {
+            fLilypondCodeOstream <<
+              "%{line " << inputLineNumber << "%}" <<
+              "~  %{kTupletMemberNote%}"; // JMI spaces???
+          }
+        }
       }
-      else {
-        fLilypondCodeOstream <<
-          notePitchAsLilypondString (note);
+*/
+
+      // this note is the new relative octave reference
+      switch (gLpsr2LilypondOah->fOctaveEntryKind) {
+        case kOctaveEntryRelative:
+          fCurrentOctaveEntryReference = note;
+          break;
+        case kOctaveEntryAbsolute:
+          break;
+        case kOctaveEntryFixed:
+          break;
+      } // switch
+      break;
+
+    case msrNote::kTupletRestMemberNote:
+      if (gLpsr2LilypondOah->fIndentTuplets) {
+        fLilypondCodeOstream << endl;
       }
+
+      // print the note name
+      fLilypondCodeOstream <<
+        string (
+          note->getNoteOccupiesAFullMeasure ()
+            ? "s%{6%}" // JMI ??? "R"
+            : "r%{5%}");
 
       // print the note display duration
       fLilypondCodeOstream <<
@@ -2025,18 +2062,38 @@ void lpsr2LilypondTranslator::generateCodeForNote (
 */
 
       // a rest is no relative octave reference,
-      if (! note->getNoteIsARest ()) {
-        // this note is the new relative octave reference
-        switch (gLpsr2LilypondOah->fOctaveEntryKind) {
-          case kOctaveEntryRelative:
-            fCurrentOctaveEntryReference = note;
-            break;
-          case kOctaveEntryAbsolute:
-            break;
-          case kOctaveEntryFixed:
-            break;
-        } // switch
+      break;
+
+    case msrNote::kTupletUnpitchedMemberNote:
+      if (gLpsr2LilypondOah->fIndentTuplets) {
+        fLilypondCodeOstream << endl;
       }
+
+      // print the note name
+      fLilypondCodeOstream <<
+        "e"; // by convention
+
+      // print the note (display) duration
+      fLilypondCodeOstream <<
+        durationAsLilypondString (
+          inputLineNumber,
+          note->
+            getNoteDisplayWholeNotes ());
+
+/* JMI
+      // print the tie if any
+      {
+        S_msrTie noteTie = note->getNoteTie ();
+
+        if (noteTie) {
+          if (noteTie->getTieKind () == msrTie::kTieStart) {
+            fLilypondCodeOstream <<
+              "%{line " << inputLineNumber << "%}" <<
+              "~  %{kTupletUnpitchedMemberNote%}";
+          }
+        }
+      }
+      */
       break;
 
     case msrNote::kGraceTupletMemberNote:
@@ -2088,38 +2145,6 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         case kOctaveEntryFixed:
           break;
       } // switch
-      break;
-
-    case msrNote::kTupletMemberUnpitchedNote:
-      if (gLpsr2LilypondOah->fIndentTuplets) {
-        fLilypondCodeOstream << endl;
-      }
-
-      // print the note name
-      fLilypondCodeOstream <<
-        "e"; // by convention
-
-      // print the note (display) duration
-      fLilypondCodeOstream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteDisplayWholeNotes ());
-
-/* JMI
-      // print the tie if any
-      {
-        S_msrTie noteTie = note->getNoteTie ();
-
-        if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kTieStart) {
-            fLilypondCodeOstream <<
-              "%{line " << inputLineNumber << "%}" <<
-              "~  %{kTupletMemberUnpitchedNote%}";
-          }
-        }
-      }
-      */
       break;
   } // switch
 
@@ -11877,7 +11902,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           }
           */
 
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
           if (
             gMsrOah->fTraceMsrVisitors
               ||
@@ -11888,14 +11913,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
               elt->asString () <<
               endl;
           }
-  #endif
+#endif
 
           return;
         break;
 
       case msrNote::kSkipNote:
         if (elt->getNoteGraceNotesGroupUpLink ()) {
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
           if (
             gMsrOah->fTraceMsrVisitors
               ||
@@ -11906,14 +11931,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
               elt->asString () <<
               endl;
           }
-  #endif
+#endif
 
           return;
         }
         break;
 
       case msrNote::kGraceNote:
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
           if (
             gMsrOah->fTraceMsrVisitors
               ||
@@ -11924,13 +11949,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
               elt->asString () <<
               endl;
           }
-  #endif
+#endif
 
           return;
         break;
 
       case msrNote::kGraceChordMemberNote:
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
           if (
             gMsrOah->fTraceMsrVisitors
               ||
@@ -11941,7 +11966,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
               elt->asString () <<
               endl;
           }
-  #endif
+#endif
 
           return;
         break;
@@ -12625,7 +12650,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
                   getInhibitRestMeasuresBrowsing ();
 
             if (inhibitRestMeasuresBrowsing) {
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
               if (
                 gTraceOah->fTraceNotes
                   ||
@@ -12635,15 +12660,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
                   "% ==> end visiting rest measures is ignored" <<
                   endl;
               }
-  #endif
+#endif
 
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
     if (gTraceOah->fTraceNotesDetails) {
       gLogOstream <<
         "% ==> returning from visitEnd (S_msrNote&)" <<
         endl;
     }
-  #endif
+#endif
 
               return;
             }
@@ -12652,7 +12677,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
       case msrNote::kSkipNote:
         if (elt->getNoteGraceNotesGroupUpLink ()) {
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
           if (
             gMsrOah->fTraceMsrVisitors
               ||
@@ -12662,14 +12687,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               "% ==> end visiting skip notes is ignored" <<
               endl;
           }
-  #endif
+#endif
 
           return;
         }
         break;
 
       case msrNote::kGraceNote:
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
           if (
             gMsrOah->fTraceMsrVisitors
               ||
@@ -12678,7 +12703,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               "% ==> end visiting grace notes is ignored" <<
               endl;
           }
-  #endif
+#endif
 
           return;
         break;
@@ -14014,13 +14039,13 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
   }
 }
 
-void lpsr2LilypondTranslator::generateCodeForChordContents (
+void lpsr2LilypondTranslator::generateCodeForChordInGraceNotesGroupContents (
   S_msrChord chord)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceChords) {
     fLilypondCodeOstream <<
-      "% --> generateCodeForChordContents() for chord " <<
+      "% --> generateCodeForChordInGraceNotesGroupContents() for chord " <<
       chord->asShortString () <<
       ", line " << chord->getInputLineNumber () <<
       endl;
@@ -14064,6 +14089,7 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceChords) {
     fLilypondCodeOstream <<
+      endl <<
       "% --> generateCodeRightAfterChordContents() for chord " <<
       chord->asShortString () <<
       ", line " << chord->getInputLineNumber () <<
@@ -14668,7 +14694,7 @@ void lpsr2LilypondTranslator::generateChordInGraceNotesGroup (S_msrChord chord)
   fLilypondCodeOstream <<
     "<";
 
-  generateCodeForChordContents (chord);
+  generateCodeForChordInGraceNotesGroupContents (chord);
 
   // generate the end of the chord
   fLilypondCodeOstream <<
@@ -14694,10 +14720,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
     int chordInputLineNumber =
       elt->getInputLineNumber ();
 
+    stringstream s;
+
+    s <<
+      "% ==> Start visiting grace chords is ignored upon chord " <<
+      elt->asShortString ();
+
     msrInternalWarning (
       gOahOah->fInputSourceName,
       chordInputLineNumber,
-      "% ==> Start visiting grace chords is ignored");
+      s.str ());
 
     return;
   }

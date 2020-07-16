@@ -19488,11 +19488,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
         fCurrentNoteQuarterTonesDisplayPitchKind,
         fCurrentDisplayOctave,
 
-        fCurrentNoteIsARest,
-        fCurrentNoteIsUnpitched,
-
         fCurrentNoteIsACueNote,
-        fCurrentNoteIsAGraceNote,
 
         fCurrentNotePrintObjectKind,
 
@@ -19558,8 +19554,9 @@ void mxmlTree2MsrTranslator::populateNote (
         break;
 
       case msrNote::kTupletMemberNote:
+      case msrNote::kTupletRestMemberNote:
       case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletMemberUnpitchedNote:
+      case msrNote::kTupletUnpitchedMemberNote:
   // JMI      break;
 
       case msrNote::kRestNote:
@@ -21377,8 +21374,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         break;
 
       case msrNote::kTupletMemberNote:
+      case msrNote::kTupletRestMemberNote:
       case msrNote::kGraceTupletMemberNote:
-      case msrNote::kTupletMemberUnpitchedNote:
+      case msrNote::kTupletUnpitchedMemberNote:
         break;
 
       case msrNote::k_NoNoteKind:
@@ -21473,7 +21471,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
  // register note as a tuplet member
  if (fCurrentNoteIsUnpitched) {
     note->
-      setNoteKind (msrNote::kTupletMemberUnpitchedNote);
+      setNoteKind (msrNote::kTupletUnpitchedMemberNote);
+  }
+  else if (fCurrentNoteIsARest) {
+    note->
+      setNoteKind (msrNote::kTupletRestMemberNote);
   }
   else {
     note->

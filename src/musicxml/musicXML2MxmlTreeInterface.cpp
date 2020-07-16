@@ -596,7 +596,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   // register time spent
   timing::gTiming.appendTimingItem (
     passNumber,
-    ": build xmlelement tree from file",
+    "build xmlelement tree from file",
     timingItem::kMandatory,
     startClock,
     endClock);

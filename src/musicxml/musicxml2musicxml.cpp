@@ -230,7 +230,8 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
           file,
           regex (".ly"),
           "_LOOP.xml"),
-          "Pass 3");
+          "Pass 3",
+        timingItem::kMandatory);
     }
     catch (msrScoreToMusicXMLScoreException& e) {
       return kInvalidFile;
@@ -295,9 +296,10 @@ EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& op
 
 //_______________________________________________________________________________
 EXP xmlErr convertMsrScoreToMusicXMLScore (
-  S_msrScore mScore,
-  string     outputFileName,
-  string     passNumber)
+  S_msrScore                 mScore,
+  string                     outputFileName,
+  string                     passNumber,
+  timingItem::timingItemKind timingItemKind)
 {
   // open output file if need be
   // ------------------------------------------------------
@@ -339,7 +341,9 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
       buildMxmltreeFromMsrScore (
         mScore,
         gMsrOah,
-        gLogOstream);
+        gLogOstream,
+        passNumber,
+        timingItemKind);
 
   // create the MusicXML data
 	SXMLFile xmlFile = createXMLFile ();
@@ -499,7 +503,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       gLogOstream);
   }
 
-  // create MusicXML back from the MSR
+  // create MusicXML back from the MSR (pass 3)
   // ------------------------------------------------------
 
   xmlErr err =
@@ -509,7 +513,8 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
         outputFileName,
         regex (".ly"),
         "_LOOP.xml"),
-        "Pass 3");
+      "Pass 3",
+      timingItem::kOptional);
 
   // check indentation
   // ------------------------------------------------------

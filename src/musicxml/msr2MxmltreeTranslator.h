@@ -740,8 +740,10 @@ class msr2MxmltreeTranslator :
     // the current partGroup is the top of the stack
     stack<Sxmlelement>        fPartGroupElementsStack;
 
-    // current part
+    // parts
     // ------------------------------------------------------
+
+    S_msrPart                 fCurrentMSRPart;
 
     Sxmlelement               fCurrentPart;
 
@@ -790,8 +792,21 @@ class msr2MxmltreeTranslator :
 
     // the measure attributes element
     // ------------------------------------------------------
+
+    // <staves /> should be placed in <attributes />
+    // between <time /> and <clef />, which may be absent:
+    // we must thus delay the insertion of the elements
+    // to append them in the right order
+    bool                      fAnAttributeElementIsNeeded;
     Sxmlelement               fCurrentMeasureAttributes;
 
+    Sxmlelement               fDivisionsElement;
+    Sxmlelement               fKeyElement;
+    Sxmlelement               fTimeElement;
+    Sxmlelement               fStavesElement;
+    list<Sxmlelement>         fClefElementsList;
+
+    void                      populateCurrentMeasureAttributes ();
     void                      appendToMeasureAttributes (
                                 Sxmlelement elem);
 
@@ -819,11 +834,6 @@ class msr2MxmltreeTranslator :
     // ------------------------------------------------------
 
     S_msrTime                 fCurrentPartTime;
-
-    // notes
-    // ------------------------------------------------------
-    /*
-*/
 
     // print layouts
     // ------------------------------------------------------
@@ -885,6 +895,7 @@ class msr2MxmltreeTranslator :
     // notes
     // ------------------------------------------------------
     Sxmlelement               fCurrentNote;
+    bool                      fANoteHasBeenMetInCurrentMeasure;
 
     S_msrNote                 fPreviousMSRNote;
     S_msrVoice                fPreviousMSRNoteVoice;

@@ -592,7 +592,8 @@ EXP xmlErr convertMusicXMLToLilypond (
         outputFileName,
         regex (".ly"),
         "_LOOP.xml"),
-      "Pass 5");
+      "Pass 5",
+      timingItem::kOptional);
 
     if (gIndenter != saveIndent) {
       gLogOstream <<

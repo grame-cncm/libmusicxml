@@ -1108,8 +1108,9 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
-    case msrNote::kTupletMemberUnpitchedNote:
+    case msrNote::kTupletUnpitchedMemberNote:
 #ifdef TRACE_OAH
       if (gTraceOah->fTraceNotes) {
         fLogOutputStream <<

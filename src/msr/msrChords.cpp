@@ -1429,7 +1429,11 @@ void msrChord::print (ostream& os) const
   // print the beams if any
   int chordBeamsSize = fChordBeams.size ();
 
-  if (chordBeamsSize || gMsrOah->fDisplayMsrDetails) {
+  if (
+    gTraceOah->fTraceBeams
+      ||
+    chordBeamsSize || gMsrOah->fDisplayMsrDetails
+  ) {
     os <<
       setw (fieldWidth) <<
       "chordBeams";
@@ -1454,7 +1458,11 @@ void msrChord::print (ostream& os) const
   // print the words if any
   int chordWordsSize = fChordWords.size ();
 
-  if (chordWordsSize || gMsrOah->fDisplayMsrDetails) {
+  if (
+    gTraceOah->fTraceWords
+      ||
+    chordWordsSize || gMsrOah->fDisplayMsrDetails
+  ) {
     os <<
       setw (fieldWidth) <<
       "chordWords";
@@ -1504,7 +1512,11 @@ void msrChord::print (ostream& os) const
   // print the slurs if any
   int chordSlursSize = fChordSlurs.size ();
 
-  if (chordSlursSize || gMsrOah->fDisplayMsrDetails) {
+  if (
+    gTraceOah->fTraceSlurs
+      ||
+    chordSlursSize || gMsrOah->fDisplayMsrDetails
+  ) {
     os <<
       setw (fieldWidth) <<
       "chordSlurs";
@@ -1517,7 +1529,7 @@ void msrChord::print (ostream& os) const
         os << (*i);
       } // for
 
-    gIndenter--;
+      gIndenter--;
     }
     else {
       os <<
@@ -1529,7 +1541,11 @@ void msrChord::print (ostream& os) const
   // print the ligatures if any
   int chordLigaturesSize = fChordLigatures.size ();
 
-  if (chordLigaturesSize || gMsrOah->fDisplayMsrDetails) {
+  if (
+    gTraceOah->fTraceLigatures
+      ||
+    chordLigaturesSize || gMsrOah->fDisplayMsrDetails
+  ) {
     os <<
       setw (fieldWidth) <<
       "chordLigatures";
@@ -1542,7 +1558,7 @@ void msrChord::print (ostream& os) const
         os << (*i);
       } // for
 
-    gIndenter--;
+      gIndenter--;
     }
     else {
       os <<
@@ -1567,7 +1583,7 @@ void msrChord::print (ostream& os) const
         os << (*i);
       } // for
 
-    gIndenter--;
+      gIndenter--;
     }
     else {
       os <<
@@ -1592,7 +1608,7 @@ void msrChord::print (ostream& os) const
         os << (*i);
       } // for
 
-    gIndenter--;
+      gIndenter--;
     }
     else {
       os <<
@@ -1617,7 +1633,7 @@ void msrChord::print (ostream& os) const
         os << (*i);
       } // for
 
-    gIndenter--;
+      gIndenter--;
     }
     else {
       os <<
@@ -1642,7 +1658,7 @@ void msrChord::print (ostream& os) const
         os << (*i);
       } // for
 
-    gIndenter--;
+      gIndenter--;
     }
     else {
       os <<
@@ -1667,7 +1683,7 @@ void msrChord::print (ostream& os) const
         os << (*i);
       } // for
 
-    gIndenter--;
+      gIndenter--;
     }
     else {
       os <<
@@ -1694,7 +1710,7 @@ void msrChord::print (ostream& os) const
     }
   }
 
-  // print the grace notes groups if any
+  // print the chord grace notes groups if any
   if (
     gTraceOah->fTraceGraceNotes
       ||
@@ -1702,50 +1718,52 @@ void msrChord::print (ostream& os) const
   ) {
     os <<
       setw (fieldWidth) <<
-      "chordGraceNotesGroupBefore" << " : ";
+      "chordGraceNotesGroupBefore";
 
     if (fChordGraceNotesGroupBefore) {
-      os << endl;
       gIndenter++;
-
+      os << endl;
       os <<
-        fChordGraceNotesGroupBefore->asString ();
+        fChordGraceNotesGroupBefore->asString () <<
+        endl;
+      gIndenter--;
     }
     else {
-      os << "none" ;
+      os << " : " << "none" << endl; // JMI TEST
     }
-    os << endl;
-
-    gIndenter--;
+//    os << endl;
   }
 
   if (
     gTraceOah->fTraceGraceNotes
       ||
-    fChordGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails
+    fChordGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails
   ) {
     os <<
       setw (fieldWidth) <<
-      "chordGraceNotesGroupAfter" << " : ";
-
-    gIndenter++;
+      "chordGraceNotesGroupAfter";
 
     if (fChordGraceNotesGroupAfter) {
+      gIndenter++;
+      os << endl;
       os <<
         fChordGraceNotesGroupAfter->asString ();
+      gIndenter--;
     }
     else {
-      os << "none";
+      os << " : " << "none";
     }
     os << endl;
-
-    gIndenter--;
   }
 
   // print the harmonies associated to this chord if any
   int chordHarmoniesListSize = fChordHarmoniesList.size ();
 
-  if (chordHarmoniesListSize > 0 || gMsrOah->fDisplayMsrDetails) {
+  if (
+    gTraceOah->fTraceHarmonies
+      ||
+    chordHarmoniesListSize > 0 || gMsrOah->fDisplayMsrDetails
+  ) {
     os <<
       setw (fieldWidth) <<
       "chordHarmonies";
@@ -1777,7 +1795,11 @@ void msrChord::print (ostream& os) const
   }
 
   // print the figured bass if any
-  if (fChordFiguredBass || gMsrOah->fDisplayMsrDetails) {
+  if (
+    gTraceOah->fTraceFiguredBasses
+      ||
+    fChordFiguredBass || gMsrOah->fDisplayMsrDetails
+  ) {
     os <<
       setw (fieldWidth) <<
       "chordFiguredBass" << " : " <<
@@ -1785,7 +1807,7 @@ void msrChord::print (ostream& os) const
 
     gIndenter++;
 
-   if (fChordFiguredBass) {
+    if (fChordFiguredBass) {
       os <<
         fChordFiguredBass->asString () <<
         endl;

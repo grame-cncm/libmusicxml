@@ -125,6 +125,17 @@ class xml2brlOah : public oahGroup
 
   public:
 
+    // set and get
+    // ------------------------------------------------------
+
+    S_oahBooleanAtom      getAutoOutputFileNameAtom () const
+                              { return fAutoOutputFileNameAtom; }
+
+    S_oahStringAtom       getOutputFileNameStringAtom () const
+                              { return fOutputFileNameStringAtom; }
+
+  public:
+
     // quiet mode
     // ------------------------------------------------------
 
@@ -163,14 +174,27 @@ class xml2brlOah : public oahGroup
     // output file
     // --------------------------------------
 
-    string                fBrailleMusicOutputFileName;
-    bool                  fAutoOutputFileName;
+    // we store the atoms for the needs of checkOptionsAndArguments()
+    S_oahBooleanAtom      fAutoOutputFileNameAtom;
+
+    S_oahStringAtom       fOutputFileNameStringAtom;
 
     // exit after some passes
     // --------------------------------------
 
     bool                  fExit2a;
     bool                  fExit2b;
+
+  private:
+
+    // Braille music output file name
+    // --------------------------------------
+
+    // these private variables are the ones accessible through the atoms
+
+    bool                  fAutoOutputFileName;
+
+    string                fBrailleMusicOutputFileName;
 };
 typedef SMARTP<xml2brlOah> S_xml2brlOah;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOah& elt);
