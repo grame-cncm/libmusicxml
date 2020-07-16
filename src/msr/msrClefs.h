@@ -34,7 +34,8 @@ class msrClef : public msrMeasureElement
 
     static SMARTP<msrClef> create (
       int         inputLineNumber,
-      msrClefKind clefKind);
+      msrClefKind clefKind,
+      int         clefStaffNumber);
 
   protected:
 
@@ -43,7 +44,8 @@ class msrClef : public msrMeasureElement
 
     msrClef (
       int         inputLineNumber,
-      msrClefKind clefKind);
+      msrClefKind clefKind,
+      int         clefStaffNumber);
 
     virtual ~msrClef ();
 
@@ -54,6 +56,9 @@ class msrClef : public msrMeasureElement
 
     msrClefKind           getClefKind () const
                               { return fClefKind; }
+
+    int                   getClefStaffNumber () const
+                              { return fClefStaffNumber; }
 
     // services
     // ------------------------------------------------------
@@ -94,6 +99,7 @@ class msrClef : public msrMeasureElement
     // ------------------------------------------------------
 
     msrClefKind           fClefKind;
+    int                   fClefStaffNumber;
 };
 typedef SMARTP<msrClef> S_msrClef;
 EXP ostream& operator<< (ostream& os, const S_msrClef& elt);

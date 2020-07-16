@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC
+    "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
+    "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+  <work>
+    <work-title>A mere note</work-title>
+    </work>
+  <!-- A very minimal MusicXML example -->
+  <part-list>
+    <score-part id="P1">
+      <part-name>Music</part-name>
+    </score-part>
+  </part-list>
+  <part id="P1">
+<!--=========================================================-->
+    <measure number="1">
+  <!-- A very minimal MusicXML example, part P1, measure 1 -->
+      <attributes>
+        <divisions>1</divisions>
+      </attributes>
+  <!-- A very minimal MusicXML example, part P1, measure 1, before first note -->
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <type>whole</type>
+      </note>
+    </measure>
+<!--=========================================================-->
+  </part>
+</score-partwise>

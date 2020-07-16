@@ -2705,7 +2705,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     clef =
       msrClef::create (
         inputLineNumber,
-        clefKind);
+        clefKind,
+        fCurrentClefStaffNumber);
 
   // register clef in part or staff
   if (fCurrentClefStaffNumber == 0) {

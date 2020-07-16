@@ -28,21 +28,24 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_msrClef msrClef::create (
   int         inputLineNumber,
-  msrClefKind clefKind)
+  msrClefKind clefKind,
+  int         clefStaffNumber)
 {
   msrClef* o =
     new msrClef (
-      inputLineNumber, clefKind);
+      inputLineNumber, clefKind, clefStaffNumber);
   assert(o!=0);
   return o;
 }
 
 msrClef::msrClef (
   int         inputLineNumber,
-  msrClefKind clefKind)
+  msrClefKind clefKind,
+  int         clefStaffNumber)
     : msrMeasureElement (inputLineNumber)
 {
   fClefKind = clefKind;
+  fClefStaffNumber = clefStaffNumber;
 }
 
 msrClef::~msrClef ()
@@ -79,7 +82,10 @@ bool msrClef::isEqualTo (S_msrClef otherClef) const
     return false;
   }
 
-  return fClefKind == otherClef->fClefKind;
+  return
+    fClefKind == otherClef->fClefKind
+      &&
+    fClefStaffNumber == otherClef->fClefStaffNumber;
 }
 
 void msrClef::acceptIn (basevisitor* v)
@@ -136,6 +142,7 @@ string msrClef::asString () const
   s <<
     "[Clef " <<
     clefKindAsString (fClefKind) <<
+    ", clefStaffNumber: " << fClefStaffNumber <<
     "], line " << fInputLineNumber;
 
   return s.str ();
@@ -146,6 +153,7 @@ void msrClef::print (ostream& os) const
   os <<
     "Clef " <<
     clefKindAsString (fClefKind) <<
+    ", clefStaffNumber: " << fClefStaffNumber <<
     ", line " << fInputLineNumber <<
     endl;
 }

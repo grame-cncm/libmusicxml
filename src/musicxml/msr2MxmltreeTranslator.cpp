@@ -378,105 +378,70 @@ void msr2MxmltreeTranslator::appendToScoreDefaultsPageLayout (
 }
 
 //________________________________________________________________________
-void msr2MxmltreeTranslator::populateCurrentMeasureAttributes ()
+void msr2MxmltreeTranslator::createAttributesElementAndAppendItToMeasure ()
 {
-  if (fAnAttributeElementIsNeeded) {
-    // create the attributes element
-    fCurrentMeasureAttributes = createElement (k_attributes, "");
+  if (gMsr2MxmltreeOah->fMusicXMLComments) {
+    // create an attributes comment
+    stringstream s;
+    s <<
+      " ===== " <<
+      "Attributes " <<
+      " ===== ";
+    Sxmlelement comment = createElement (kComment, s.str ());
 
-    if (fDivisionsElement) {
-      // append divisions to the current measure attributes element
-      fCurrentMeasureAttributes->push (fDivisionsElement);
-    }
-
-    if (fKeyElement) {
-      // append key to the current measure attributes element
-      fCurrentMeasureAttributes->push (fKeyElement);
-    }
-
-    if (fTimeElement) {
-      // append time to the current measure attributes element
-      fCurrentMeasureAttributes->push (fTimeElement);
-    }
-
-    // should a <staves /> element be appended?
-    int partStavesNumber =
-      fCurrentMSRPart->getPartStavesMap ().size ();
-    if (partStavesNumber > 1) {
-      // create an staves element
-      Sxmlelement
-        stavesElement =
-          createIntegerElement (
-            k_staves,
-            partStavesNumber);
-
-      // append it the current measure attributes element
-      fCurrentMeasureAttributes->push (stavesElement);
-    }
-
-    if (fClefElementsList.size ()) {
-      // append the clef  elements if any to the current measure element
-      for (
-        list<Sxmlelement>::const_iterator i =
-          fClefElementsList.begin ();
-        i!=fClefElementsList.end ();
-        i++
-      ) {
-        Sxmlelement clefElement = (*i);
-
-        fCurrentMeasureAttributes->push (clefElement);
-      } // for
-
-      // forget about those clef elements
-      fClefElementsList.clear ();
-    }
-
-    // append the attributes element to the current measure element
-    // if it contains elements
-//    if (fCurrentMeasureAttributes->elements ().size ()) {
-      fCurrentMeasure->push (fCurrentMeasureAttributes);
-//    }
-  }
-}
-
-//________________________________________________________________________
-void msr2MxmltreeTranslator::appendToMeasureAttributes (
-  Sxmlelement elem)
-{
-  fAnAttributeElementIsNeeded = true;
-
-/*
-  if (! fCurrentMeasureAttributes) {
-    // create the attributes element
-    fCurrentMeasureAttributes = createElement (k_attributes, "");
+    // append it to the current measure element
+    // maybe not if it not in the first measure seen with the given number??? JMI
+    fCurrentMeasure->push (comment);
   }
 
+  // create the attributes element
+  Sxmlelement
+    attributesElement =
+      createElement (k_attributes, "");
 
-  if (! fCurrentMeasureAttributes) {
-    if (gMsr2MxmltreeOah->fMusicXMLComments) {
-      // create a print comment
-      stringstream s;
-      s <<
-        " ===== " <<
-        "Attributes " <<
-        " ===== ";
-      Sxmlelement comment = createElement (kComment, s.str ());
-
-      // append it to the current measure element
-      // maybe not if it not in the first measure seen with the given number??? JMI
-      fCurrentMeasure->push (comment);
-    }
-
-    // create an attributes element
-    fCurrentMeasureAttributes = createElement (k_attributes, "");
-
-    // append the attributes element to the current measure element
-    fCurrentMeasure->push (fCurrentMeasureAttributes);
+  if (fDivisionsElement) {
+    // append divisions to the current measure attributes element
+    attributesElement->push (fDivisionsElement);
+    fDivisionsElement = nullptr;
   }
 
-  // append elem to the current measure attributes element
-  fCurrentMeasureAttributes->push (elem);
-  */
+  if (fKeyElement) {
+    // append key to the current measure attributes element
+    attributesElement->push (fKeyElement);
+    fKeyElement = nullptr;
+  }
+
+  if (fTimeElement) {
+    // append time to the current measure attributes element
+    attributesElement->push (fTimeElement);
+    fTimeElement = nullptr;
+  }
+
+  if (fStavesElement) {
+    // append it the current measure attributes element
+    attributesElement->push (fStavesElement);
+    fStavesElement = nullptr;
+  }
+
+  if (fClefElementsList.size ()) {
+    // append the clef  elements if any to the current measure element
+    for (
+      list<Sxmlelement>::const_iterator i =
+        fClefElementsList.begin ();
+      i!=fClefElementsList.end ();
+      i++
+    ) {
+      Sxmlelement clefElement = (*i);
+
+      attributesElement->push (clefElement);
+    } // for
+
+    // forget about those clef elements
+    fClefElementsList.clear ();
+  }
+
+  // append the attributes element to the current measure element
+  fCurrentMeasure->push (attributesElement);
 }
 
 //________________________________________________________________________
@@ -2628,7 +2593,7 @@ int msr2MxmltreeTranslator::wholeNotesAsDivisions (
   durationAsRational.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes) {
+  if (gMusicxmlOah->fTraceDivisions) {
     fLogOutputStream <<
       "--> durationAsRational: " <<
       durationAsRational <<
@@ -2766,6 +2731,32 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
   fDivisionsMultiplyingFactor =
     divisionsPerQuarterNoteAsRational.getDenominator ();
 
+#ifdef TRACE_OAH
+  if (gMusicxmlOah->fTraceDivisions) {
+    fLogOutputStream <<
+      "-->  partShortestNoteDuration: " <<
+      fPartShortestNoteDuration <<
+      endl <<
+      "-->  divisionsPerQuarterNoteAsRational: " <<
+      divisionsPerQuarterNoteAsRational <<
+      endl <<
+      /* JMI
+      "-->  partShortestNoteTupletFactor: " <<
+      fPartShortestNoteTupletFactor.asString () <<
+      endl <<
+      "-->  partShortestNoteTupletFactorAsRational: " <<
+      partShortestNoteTupletFactorAsRational <<
+      endl <<
+      */
+      "-->  fDivisionsPerQuarterNote: " <<
+      fDivisionsPerQuarterNote <<
+      endl <<
+      "-->  fDivisionsMultiplyingFactor: " <<
+      fDivisionsMultiplyingFactor <<
+      endl;
+  }
+#endif
+
   if (fDivisionsMultiplyingFactor != 1) {
     stringstream s;
 
@@ -2782,39 +2773,21 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
       s.str ());
   }
 
-#ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes) {
-    fLogOutputStream <<
-      "-->  partShortestNoteDuration: " <<
-      fPartShortestNoteDuration <<
-      endl <<
-      "-->  divisionsPerQuarterNoteAsRational: " <<
-      divisionsPerQuarterNoteAsRational <<
-      endl <<
-      /* JMI
-      "-->  partShortestNoteTupletFactor: " <<
-      fPartShortestNoteTupletFactor.asString () <<
-      endl <<
-      "-->  partShortestNoteTupletFactorAsRational: " <<
-      partShortestNoteTupletFactorAsRational <<
-      endl <<
-      */
-      "-->  divisionsPerQuarterNoteAsRational: " <<
-      divisionsPerQuarterNoteAsRational <<
-      endl <<
-      "-->  fDivisionsPerQuarterNote: " <<
-      fDivisionsPerQuarterNote <<
-      endl <<
-      "-->  fDivisionsMultiplyingFactor: " <<
-      fDivisionsMultiplyingFactor <<
-      endl;
-  }
-#endif
-
   fCurrentMSRPart = elt;
 
   // a divisions element has to be appended for this part
   fPartDivisionsElementHasToBeAppended = true;
+
+  // should a <staves /> element be created?
+  int partStavesNumber =
+    fCurrentMSRPart->getPartStavesMap ().size ();
+  if (partStavesNumber > 1) {
+    // create a staves element
+    fStavesElement =
+      createIntegerElement (
+        k_staves,
+        partStavesNumber);
+  }
 }
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
@@ -3022,27 +2995,6 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
     fCurrentMeasure->push (fCurrentPrint);
   }
 
-  if (gMsr2MxmltreeOah->fMusicXMLComments) {
-    // create an attributes comment
-    stringstream s;
-    s <<
-      " ===== " <<
-      "Attributes " <<
-      " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
-
-    // append it to the current measure element
-    // maybe not if it not in the first measure seen with the given number??? JMI
-    fCurrentMeasure->push (comment);
-  }
-
-  // create the attributes element
-//  fCurrentMeasureAttributes = createElement (k_attributes, "");
-
-  // append it to the current measure element at once,
-  // it will be populated later
-  fCurrentMeasure->push (fCurrentMeasureAttributes);
-
   // is there a divisions element to be appended?
   if (fPartDivisionsElementHasToBeAppended) {
     // append a divisions element to the attributes element
@@ -3050,7 +3002,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
       createIntegerElement (
         k_divisions,
         fDivisionsPerQuarterNote);
-    appendToMeasureAttributes (fDivisionsElement);
+    fAnAttributeElementIsNeeded = true;
 
     fPartDivisionsElementHasToBeAppended = false;
   }
@@ -3094,9 +3046,6 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
 
   // forget about the current measure element
   fCurrentMeasure = nullptr;
-
-  // forget about the current measure attributes element
-  fCurrentMeasureAttributes = nullptr;
 
   // reset the current position in the measure
   fCurrentPositionInMeasure = rational (0, 1);
@@ -3221,6 +3170,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
   if (doAppendAClefElementToTheMeasure) {
     // create the clef element
     Sxmlelement clefElement = createElement (k_clef, "");
+
+    // set its "number" attribute
+    clefElement->add (
+      createIntegerAttribute ("number", elt->getClefStaffNumber ()));
 
     // populate it
     switch (elt->getClefKind ()) {
@@ -3537,7 +3490,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
 
     // append the clef element to the measure attributes element
     fClefElementsList.push_back (clefElement);
-    appendToMeasureAttributes (clefElement);
+    fAnAttributeElementIsNeeded = true;
 
     // this clef becomes the new current part clef
     fCurrentPartClef = elt;
@@ -3722,7 +3675,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
     } // switch
 
     // append the key element to the measure attributes element
-    appendToMeasureAttributes (fKeyElement);
+    fAnAttributeElementIsNeeded = true;
 
     // this key becomes the new current part key
     fCurrentPartKey = elt;
@@ -3858,7 +3811,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
     } // switch
 
     // append the time element to the measure attributes element
-    appendToMeasureAttributes (fTimeElement);
+    fAnAttributeElementIsNeeded = true;
 
     // this time becomes the new current part time
     fCurrentPartTime = elt;
@@ -7035,9 +6988,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 #endif
 
   // populate the measure attributes if needed
-//  if (fAnAttributeElementIsNeeded) {
-  if (! fANoteHasBeenMetInCurrentMeasure) {
-    populateCurrentMeasureAttributes ();
+  if (fAnAttributeElementIsNeeded) {
+    createAttributesElementAndAppendItToMeasure ();
+
+    fAnAttributeElementIsNeeded = false;
   }
 
   // append a backup or forward sub-element if needed

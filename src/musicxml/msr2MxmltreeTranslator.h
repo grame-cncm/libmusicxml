@@ -798,17 +798,17 @@ class msr2MxmltreeTranslator :
     // we must thus delay the insertion of the elements
     // to append them in the right order
     bool                      fAnAttributeElementIsNeeded;
-    Sxmlelement               fCurrentMeasureAttributes;
 
     Sxmlelement               fDivisionsElement;
+
     Sxmlelement               fKeyElement;
     Sxmlelement               fTimeElement;
+
     Sxmlelement               fStavesElement;
+
     list<Sxmlelement>         fClefElementsList;
 
-    void                      populateCurrentMeasureAttributes ();
-    void                      appendToMeasureAttributes (
-                                Sxmlelement elem);
+    void                      createAttributesElementAndAppendItToMeasure ();
 
 /*
     // full measure rests compression
