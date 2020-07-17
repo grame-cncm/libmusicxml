@@ -164,9 +164,10 @@ void timing::print (ostream& os) const
     totalOptionalClockWidth  =  9,
     totalsPrecision          =  secondsPrecision;
 
-  os << left <<
+  os << right <<
+
     setw (totalClockWidth)            << "Total" <<
-    "    " <<
+    "  " <<
     setw (totalMandatoryClockWidth)   << "Mandatory" <<
     "  " <<
     setw (totalOptionalClockWidth)    << "Optional" <<
@@ -174,7 +175,7 @@ void timing::print (ostream& os) const
 
     setw (totalClockWidth) <<
     replicateString ("-", totalClockWidth) <<
-    "    " <<
+    "  " <<
     setw (totalMandatoryClockWidth) <<
     replicateString ("-", totalMandatoryClockWidth) <<
     "  " <<
@@ -182,12 +183,12 @@ void timing::print (ostream& os) const
     replicateString ("-", secondsWidth) <<
     endl <<
 
-    right << fixed <<
+    fixed <<
     setprecision (totalsPrecision) <<
 
     setw (totalClockWidth) <<
     float(totalClock) / CLOCKS_PER_SEC <<
-    "    " <<
+    "  " <<
     setw (totalMandatoryClockWidth) <<
     float(totalMandatoryClock) / CLOCKS_PER_SEC <<
     "  " <<

@@ -405,7 +405,7 @@ class msrBarline : public msrMeasureElement
     list<int>             fEndingNumbersList;
 };
 typedef SMARTP<msrBarline> S_msrBarline;
-EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
+//EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
 
 
 } // namespace MusicXML2

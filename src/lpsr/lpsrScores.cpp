@@ -2482,7 +2482,7 @@ void lpsrScore::print (ostream& os) const
 void lpsrScore::printShort (ostream& os) const
 {
   os <<
-    "LPSR Score" <<
+    "LPSR Score, short version" <<
     endl <<
     endl;
 

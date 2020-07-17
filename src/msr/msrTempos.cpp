@@ -1285,7 +1285,8 @@ string msrTempo::asString () const
   }
 
   s <<
-    ", tempoBeatUnit: " << fTempoBeatUnit << ": " << fTempoPerMinute <<
+    ", tempoBeatUnit: " << fTempoBeatUnit.asString () <<
+    ", tempoPerMinute: " << fTempoPerMinute <<
     ", tempoParenthesizedKind: "  <<
     tempoParenthesizedKindAsString (fTempoParenthesizedKind) <<
     ", line " << fInputLineNumber;
@@ -1410,14 +1411,7 @@ void msrTempo::print (ostream& os) const
 
 void msrTempo::printShort (ostream& os) const
 {
-  os <<
-    "Tempo" <<
-    ", line " << fInputLineNumber <<
-    endl;
-
-  gIndenter++;
   os << asString () << endl;
-  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrTempo& elt)

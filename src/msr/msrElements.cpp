@@ -108,5 +108,11 @@ ostream& operator<< (ostream& os, const S_msrElement& elt)
   return os;
 }
 
+ostream& operator&& (ostream& os, const S_msrElement& elt)
+{
+  elt->printShort (os);
+  return os;
+}
+
 
 }

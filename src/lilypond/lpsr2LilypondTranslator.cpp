@@ -5481,8 +5481,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
 {
-  gIndenter--;
-
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
@@ -5655,15 +5653,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBookBlock& elt)
 
   gIndenter++;
 
-/* JMI
-  if (elt->getScoreBlockElements ().size ()) {
-    fLilypondCodeOstream <<
-      "<<" <<
-      endl;
-
-    gIndenter++;
-  }
-*/
   fOnGoingBookPartBlock = true;
 }
 
@@ -5677,17 +5666,6 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
       endl;
   }
 #endif
-
-/* JMI
-  if (elt->getScoreBlockElements ().size ()) {
-    gIndenter--;
-
-    fLilypondCodeOstream <<
-      ">>" <<
-      endl <<
-      * endl;
-  }
-*/
 
   gIndenter--;
 
@@ -5716,15 +5694,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
 
   gIndenter++;
 
-/* JMI
-  if (elt->getScoreBlockElements ().size ()) {
-    fLilypondCodeOstream <<
-      "<<" <<
-      endl;
-
-    gIndenter++;
-  }
-*/
   fOnGoingScoreBlock = true;
 }
 
@@ -5738,17 +5707,6 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
       endl;
   }
 #endif
-
-/* JMI
-  if (elt->getScoreBlockElements ().size ()) {
-    gIndenter--;
-
-    fLilypondCodeOstream <<
-      ">>" <<
-      endl <<
-      * endl;
-  }
-*/
 
   gIndenter--;
 
@@ -5778,15 +5736,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBookPartBlock& elt)
 
   gIndenter++;
 
-/* JMI
-  if (elt->getScoreBlockElements ().size ()) {
-    fLilypondCodeOstream <<
-      "<<" <<
-      endl;
-
-    gIndenter++;
-  }
-*/
   fOnGoingBookPartBlock = true;
 }
 
@@ -5800,17 +5749,6 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
       endl;
   }
 #endif
-
-/* JMI
-  if (elt->getScoreBlockElements ().size ()) {
-    gIndenter--;
-
-    fLilypondCodeOstream <<
-      ">>" <<
-      endl <<
-      * endl;
-  }
-*/
 
   gIndenter--;
 
@@ -5887,9 +5825,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
         ">>";
     }
 
-    fLilypondCodeOstream <<
-      endl <<
-      endl;
+    fLilypondCodeOstream << endl << endl;
   }
 }
 
@@ -6767,7 +6703,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
       voiceContextName = "Voice";
         // no "RhythmicVoice" alias exists
       break;
-
   } // switch
 
  // if (voice->getStaffRelativeVoiceNumber () > 0) { JMI
@@ -6901,7 +6836,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
     fLilypondCodeOstream <<
       ">>" <<
       endl;
- // }
+ // } JMI
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
@@ -7155,8 +7090,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBarCommand& elt)
       endl;
   }
 #endif
-
-  gIndenter++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
@@ -7169,8 +7102,6 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
       endl;
   }
 #endif
-
-  gIndenter--;
 }
 
 //________________________________________________________________________
@@ -15800,7 +15731,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       elt->getRepeatEndingInternalNumber ();
 
   if (repeatEndingInternalNumber == 1) {
-
     gIndenter--;
 
     // first repeat ending is in charge of
@@ -16190,7 +16120,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
      " { " <<
     endl;
 
-    gIndenter++;
+  gIndenter++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
@@ -16235,10 +16165,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
       endl;
   }
 #endif
-
-  gIndenter++;
-
-  // JMI
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
@@ -16250,8 +16176,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
       endl;
   }
 #endif
-
-  gIndenter--;
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
