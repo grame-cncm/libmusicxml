@@ -66,6 +66,34 @@ void displayMsrScore_OptionalPass (
   }
 }
 
+void displayMsrScoreShort_OptionalPass (
+  S_msrScore mScore,
+  S_msrOah   msrOpts)
+{
+  // display the MSR
+  displayMSRPopulatedScoreShort (
+    msrOpts,
+    mScore,
+    gLogOstream);
+
+  if (gIndenter != 0) {
+    if (! gGeneralOah->fQuiet) {
+      stringstream s;
+
+      s <<
+        "gIndenter value after MSR score short display: "<<
+        gIndenter.getIndent ();
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+}
+
 //_______________________________________________________________________________
 void populateMsrSkeletonFromMxmlTree (
   Sxmlelement mxmlTree,
@@ -158,7 +186,46 @@ void displayMSRPopulatedScore (
   // register time spent
   timing::gTiming.appendTimingItem (
     "",
-    "display the MSR",
+    "display the MSR as text",
+    timingItem::kOptional,
+    startClock,
+    endClock);
+}
+
+void displayMSRPopulatedScoreShort (
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream)
+{
+  // sanity check
+  msrAssert (
+    mScore != 0,
+    "mScore is null");
+
+  clock_t startClock = clock ();
+
+  string separator =
+    "%--------------------------------------------------------------";
+
+  logOstream <<
+    endl <<
+    separator <<
+    endl <<
+    gTab <<
+    "Optional pass: displaying the MSR as text, short version" <<
+    endl <<
+    separator <<
+    endl <<
+    endl;
+
+  mScore->printShort (logOstream);
+
+  clock_t endClock = clock ();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "",
+    "display the MSR as text, short version",
     timingItem::kOptional,
     startClock,
     endClock);

@@ -30,8 +30,19 @@ void displayFinalizedBsrScore_OptionalPass (
   S_msrOah   msrOpts,
   S_bsrOah   bsrOpts);
 
+void displayFinalizedBsrScoreShort_OptionalPass (
+  S_bsrScore bScore,
+  S_msrOah   msrOpts,
+  S_bsrOah   bsrOpts);
+
 //_______________________________________________________________________________
 EXP void displayFinalizedBsrScore (
+  const S_bsrScore bScore,
+  S_msrOah         msrOpts,
+  S_bsrOah         bsrOpts,
+  ostream&         logOstream);
+
+EXP void displayFinalizedBsrScoreShort (
   const S_bsrScore bScore,
   S_msrOah         msrOpts,
   S_bsrOah         bsrOpts,
@@ -46,6 +57,11 @@ EXP S_bsrScore generateFinalizedBsrScoreFromBsrScore (
 
 //_______________________________________________________________________________
 void displayBsrFirstScore_OptionalPass (
+  S_bsrScore bScore,
+  S_msrOah   msrOpts,
+  S_bsrOah   bsrOpts);
+
+void displayBsrFirstScoreShort_OptionalPass (
   S_bsrScore bScore,
   S_msrOah   msrOpts,
   S_bsrOah   bsrOpts);

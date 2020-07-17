@@ -35,6 +35,10 @@ void displayMsrScore_OptionalPass (
   S_msrScore mScore,
   S_msrOah   msrOpts);
 
+void displayMsrScoreShort_OptionalPass (
+  S_msrScore mScore,
+  S_msrOah   msrOpts);
+
 //______________________________________________________________________________
 EXP void populateMsrSkeletonFromMxmlTree (
   Sxmlelement mxmlTree,
@@ -44,6 +48,11 @@ EXP void populateMsrSkeletonFromMxmlTree (
 
 //______________________________________________________________________________
 EXP void displayMSRPopulatedScore (
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream);
+
+EXP void displayMSRPopulatedScoreShort (
   S_msrOah&  msrOpts,
   S_msrScore mScore,
   ostream&   logOstream);

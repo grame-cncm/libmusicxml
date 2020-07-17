@@ -132,7 +132,7 @@ R"()",
       musicXMLMultiplexBooleansAtom);
 */
 
-  // visitors
+  // MusicXML tree visiting
 
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
 
@@ -192,7 +192,9 @@ void mxmlTreeOah::setAllMxmlTreeTraceOah (
 //______________________________________________________________________________
 void mxmlTreeOah::enforceQuietness ()
 {
+#ifdef TRACE_OAH
   fTraceMusicXMLTreeVisitors = false;
+#endif
 }
 
 //______________________________________________________________________________
@@ -274,6 +276,7 @@ void mxmlTreeOah::printMxmlTreeOahValues (int fieldWidth)
 
   gIndenter++;
 
+#ifdef TRACE_OAH
   // trace
   // --------------------------------------
 
@@ -289,6 +292,7 @@ void mxmlTreeOah::printMxmlTreeOahValues (int fieldWidth)
     endl;
 
   gIndenter--;
+#endif
 
   gIndenter--;
 }

@@ -112,7 +112,7 @@ class msrMeasureElement : public msrElement
 
     virtual void          print (ostream& os) const;
 
-    virtual void          printSummary (ostream& os) {}
+    virtual void          printSummary (ostream& os) const {}
 
   protected:
 

@@ -302,6 +302,8 @@ class msrChord : public msrTupletElement
                               {
                                 fChordDynamics.push_back (dynamic);
                               }
+
+    // other dynamics
     void                  appendOtherDynamicsToChord (
                             S_msrOtherDynamics otherDynamic)
                               {
@@ -348,10 +350,7 @@ class msrChord : public msrTupletElement
                               }
 
     // slurs
-    void                  appendSlurToChord (S_msrSlur slur)
-                              {
-                                fChordSlurs.push_back (slur);
-                              }
+    void                  appendSlurToChord (S_msrSlur slur);
 
     // stems
     void                  appendStemToChord (S_msrStem stem);
@@ -403,6 +402,8 @@ class msrChord : public msrTupletElement
     string                asShortString () const;
 
     virtual void          print (ostream& os) const;
+
+    virtual void          printShort (ostream& os) const;
 
   private:
 

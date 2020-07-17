@@ -489,7 +489,9 @@ class msrPart : public msrPartGroupElement
 
     virtual void          print (ostream& os) const;
 
-    virtual void          printSummary (ostream& os);
+    virtual void          printShort (ostream& os) const;
+
+    virtual void          printSummary (ostream& os) const;
 
   private:
 

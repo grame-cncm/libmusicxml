@@ -341,7 +341,7 @@ void msrBeatsRepeatElement::print (ostream& os) const
   gIndenter--;
 }
 
-void msrBeatsRepeatElement::shortPrint (ostream& os)
+void msrBeatsRepeatElement::printShort (ostream& os)
 {
   os <<
     "BeatsRepeatElement" <<
@@ -389,7 +389,7 @@ void msrBeatsRepeatElement::shortPrint (ostream& os)
 
     for ( ; ; ) {
       // print the element
-      (*i)->shortPrint (os);
+      (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
     } // for

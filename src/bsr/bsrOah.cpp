@@ -489,7 +489,7 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // BSR
+  // display BSR
 
   fDisplayBsr = boolOptionsInitialValue;
 
@@ -501,7 +501,19 @@ R"(Write the contents of the BSR data to standard error.)",
         "displayBsr",
         fDisplayBsr));
 
-  // BSR details
+  // display BSR short
+
+  fDisplayBsrShort = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "dbsrs", "display-bsr-short",
+R"(Write the contents of the BSR data, short version, to standard error.)",
+        "displayBsrShort",
+        fDisplayBsrShort));
+
+  // display BSR details
 
   fDisplayBsrDetails = boolOptionsInitialValue;
 
@@ -723,6 +735,8 @@ S_bsrOah bsrOah::createCloneWithDetailedTrace ()
 
   clone->fDisplayBsr =
     true;
+  clone->fDisplayBsrShort =
+    true;
   clone->fDisplayBsrDetails =
     true;
 
@@ -760,6 +774,7 @@ bool bsrOah::setBsrTextsLanguage (string language)
 void bsrOah::enforceQuietness ()
 {
   fDisplayBsr = false;
+  fDisplayBsrShort = false;
   fDisplayBsrDetails = false;
 }
 
@@ -853,6 +868,10 @@ void bsrOah::printBsrOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "displayBsr" << " : " <<
     booleanAsString (fDisplayBsr) <<
+    endl <<
+
+    setw (fieldWidth) << "displayBsrShort" << " : " <<
+    booleanAsString (fDisplayBsrShort) <<
     endl <<
 
     setw (fieldWidth) << "displayBsrDetails" << " : " <<

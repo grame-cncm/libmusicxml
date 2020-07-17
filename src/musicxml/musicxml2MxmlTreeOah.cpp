@@ -77,14 +77,14 @@ musicxml2MxmlTreeOah::~musicxml2MxmlTreeOah ()
 {}
 
 #ifdef TRACE_OAH
-void musicxml2MxmlTreeOah::initializeMxmlTreeTraceOah (
+void musicxml2MxmlTreeOah::initializeMusicxml2MxmlTreeTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
         "Trace",
-        "hmxmlt2mxmlgree", "help-mxml-to-mxmltree-trace",
+        "hmxml2mxmlt", "help-musicxml-to-mxmltree-trace",
 R"()",
         kElementVisibilityWhole,
         this);
@@ -129,18 +129,6 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       musicXMLMultiplexBooleansAtom);
-
-  // MusicXML tree visiting
-
-  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "tmxmltv", "trace-musicxml-tree-visitors",
-R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
-        "traceMusicXMLTreeVisitors",
-        fTraceMusicXMLTreeVisitors));
 }
 #endif
 
@@ -150,7 +138,7 @@ void musicxml2MxmlTreeOah::initializeMusicxml2MxmlTree (
 #ifdef TRACE_OAH
   // trace
   // --------------------------------------
-  initializeMxmlTreeTraceOah (
+  initializeMusicxml2MxmlTreeTraceOah (
     boolOptionsInitialValue);
 #endif
 }
@@ -166,12 +154,9 @@ S_musicxml2MxmlTreeOah musicxml2MxmlTreeOah::createCloneWithDetailedTrace ()
   clone->fHandlerUpLink =
     fHandlerUpLink;
 
+#ifdef TRACE_OAH
   // trace
   // --------------------------------------
-
-#ifdef TRACE_OAH
-  clone->fTraceMusicXMLTreeVisitors =
-    fTraceMusicXMLTreeVisitors;
 #endif
 
   return clone;
@@ -190,7 +175,8 @@ void musicxml2MxmlTreeOah::setAllMusicXMLTraceOah (
 //______________________________________________________________________________
 void musicxml2MxmlTreeOah::enforceQuietness ()
 {
-  fTraceMusicXMLTreeVisitors = false;
+#ifdef TRACE_OAH
+#endif
 }
 
 //______________________________________________________________________________
@@ -281,11 +267,6 @@ void musicxml2MxmlTreeOah::printMusicxml2MxmlTreeValues (int fieldWidth)
     endl;
 
   gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
-    booleanAsString (fTraceMusicXMLTreeVisitors) <<
-    endl;
 
   gIndenter--;
 #endif

@@ -30,8 +30,9 @@ bsr2BsrFinalizer::bsr2BsrFinalizer (
   S_bsrOah&  bsrOpts,
   ostream&   logOstream,
   S_bsrScore bScore)
-    : fLogOutputStream (
-        logOstream)
+#ifdef TRACE_OAH
+    : fLogOutputStream (logOstream)
+#endif
 {
   fBsrOah = bsrOpts;
 

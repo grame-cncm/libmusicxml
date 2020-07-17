@@ -70,9 +70,9 @@ class msrElement : public smartable
 
     virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os) const;
+    virtual void          printShort (ostream& os) const;
 
-    virtual void          printSummary (ostream& os) {}
+    virtual void          printSummary (ostream& os) const {}
 
   protected:
 

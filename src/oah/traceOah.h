@@ -339,6 +339,7 @@ class traceOah : public oahGroup
     // spanners
     // slurs
     bool                  fTraceSlurs;
+    bool                  fTraceSlursDetails;
     // ligatures
     bool                  fTraceLigatures;
 

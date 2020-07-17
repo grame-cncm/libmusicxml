@@ -3174,7 +3174,7 @@ void msrVoice::displayVoiceRepeatsStack (
       gIndenter++;
       (*i)->
         getRepeatDescrRepeat ()->
-          shortPrint (gLogOstream);
+          printShort (gLogOstream);
       gIndenter--;
 
       n--;
@@ -3228,7 +3228,7 @@ void msrVoice::displayVoiceRepeatsStackSummary (
       gIndenter++;
       (*i)->
         getRepeatDescrRepeat ()->
-          shortPrint (gLogOstream);
+          printShort (gLogOstream);
       gIndenter--;
 
       n--;
@@ -9984,6 +9984,405 @@ void msrVoice::print (ostream& os) const
 
     for ( ; ; ) {
       os << (*i).second;
+      if (++i == iEnd) break;
+      // no endl here
+    } // for
+
+    gIndenter--;
+  }
+
+  gIndenter--;
+}
+
+void msrVoice::printShort (ostream& os) const
+{
+  os <<
+    "Voice \"" << getVoiceName () << "\", " <<
+    voiceKindAsString (fVoiceKind) <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    "(" <<
+    singularOrPlural (
+      fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceActualFiguredBassesCounter, "figured bass", "figured basses") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceActualNotesCounter, "actual note", "actual notes") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceRestsCounter, "rest", "rests") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceSkipsCounter, "skip", "skips") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceStanzasMap.size (), "stanza", "stanzas") <<
+    ")" <<
+    endl;
+
+  const int fieldWidth = 41;
+
+/*
+  os << left <<
+    setw (fieldWidth) <<
+    "staffUpLink" << " : " <<
+    fVoiceStaffUpLink->getStaffName () <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "voiceNumber" << " : " <<
+    voiceNumberAsString () <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "voiceCurrentMeasureNumber" << " : \"" <<
+    fVoiceCurrentMeasureNumber <<
+    "\"" <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "voiceCurrentMeasureOrdinalNumber" << " : " <<
+    fVoiceCurrentMeasureOrdinalNumber <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "voiceCurrentMeasurePuristNumber" << " : " <<
+    fVoiceCurrentMeasurePuristNumber <<
+    endl <<
+
+  os << left <<
+    setw (fieldWidth) <<
+    "regularVoiceStaffSequentialNumber" << " : " <<
+    regularVoiceStaffSequentialNumberAsString () <<
+    endl;
+
+#ifdef TRACE_OAH
+  // regular measure ends detection
+  os << left <<
+    setw (fieldWidth) <<
+    "wholeNotesSinceLastRegularMeasureEnd" << " : " <<
+    fWholeNotesSinceLastRegularMeasureEnd <<
+    endl;
+
+  // incomplete measures after repeats detection
+  os << left <<
+    setw (fieldWidth) <<
+    "currentVoiceRepeatPhaseKind" << " : " <<
+    voiceRepeatPhaseKindAsString (
+      fCurrentVoiceRepeatPhaseKind) <<
+    endl;
+
+  // print the voice first clef, and the current clef, key and time
+  os << left <<
+    setw (fieldWidth) << "voiceFirstClef" << " : ";
+  if (fVoiceFirstClef) {
+    os <<
+      fVoiceFirstClef;
+  }
+  else {
+    os << "null" << endl;
+  }
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentClef" << " : ";
+  if (fVoiceCurrentClef) {
+    os <<
+      fVoiceCurrentClef;
+  }
+  else {
+    os << "null" << endl;
+  }
+
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentKey" << " : ";
+  if (fVoiceCurrentKey) {
+    os <<
+      fVoiceCurrentKey;
+  }
+  else {
+    os << "null" << endl;
+  }
+
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentTime" << " : ";
+  if (fVoiceCurrentTime) {
+    os <<
+      endl <<
+      fVoiceCurrentTime;
+  }
+  else {
+    os << "null" << endl;
+  }
+#endif
+
+  // print the harmony voice name if any
+  os << left <<
+    setw (fieldWidth) << "regularVoiceHarmonyVoice" << " : ";
+  if (fRegularVoiceHarmonyVoiceForwardLink) {
+    os <<
+      fRegularVoiceHarmonyVoiceForwardLink->getVoiceName ();
+  }
+  else {
+    os <<
+      "none";
+  }
+  os << endl;
+
+  // print the figured bass voice name if any
+  os << left <<
+    setw (fieldWidth) << "regularVoiceFiguredBassVoice" << " : ";
+  if (fRegularVoiceFiguredBassVoiceForwardLink) {
+    os <<
+      fRegularVoiceFiguredBassVoiceForwardLink->getVoiceName ();
+  }
+  else {
+    os <<
+      "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) << "voiceShortestNoteDuration" << " : " <<
+    fVoiceShortestNoteDuration <<
+    endl <<
+    setw (fieldWidth) << "voiceShortestNoteTupletFactor" << " : " <<
+    endl;
+
+  gIndenter++;
+  os <<
+    fVoiceShortestNoteTupletFactor;
+  gIndenter--;
+
+  os << left <<
+    setw (fieldWidth) << "voiceHasBeenFinalized" << " : " <<
+    booleanAsString (fVoiceHasBeenFinalized) <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) << "currentPositionInVoice" << " : " <<
+    fCurrentPositionInVoice <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) << "musicHasBeenInsertedInVoice" << " : " <<
+    booleanAsString (fMusicHasBeenInsertedInVoice) <<
+    endl <<
+    setw (fieldWidth) << "voiceContainsRestMeasures" << " : " <<
+    booleanAsString (fVoiceContainsRestMeasures) <<
+    endl <<
+    setw (fieldWidth) << "voiceContainsMeasuresRepeats" << " : " <<
+    booleanAsString (fVoiceContainsMeasuresRepeats) <<
+    endl;
+
+  // print the voice first segment if any
+  os <<
+    setw (fieldWidth) << "voiceFirstSegment" << " : ";
+  if (fVoiceFirstSegment) {
+    os <<
+      "'" <<
+      fVoiceFirstSegment->getSegmentAbsoluteNumber () <<
+      "'";
+    }
+  else {
+    os <<
+      "none";
+  }
+  os << endl;
+
+  // print the voice last appended measure if any
+  os <<
+    setw (fieldWidth) << "voiceLastAppendedMeasure" << " : ";
+  if (fVoiceLastAppendedMeasure) {
+    os <<
+      "'" <<
+      fVoiceLastAppendedMeasure->asShortString () <<
+      "'";
+    }
+  else {
+    os <<
+      "none";
+  }
+  os << endl;
+
+  // print the voice first measure if any
+  os <<
+    setw (fieldWidth) << "voiceFirstMeasure" << " : ";
+  if (fVoiceFirstMeasure) {
+    os <<
+      "'" <<
+      fVoiceFirstMeasure->asShortString () <<
+      "'";
+    }
+  else {
+    os <<
+      "none";
+  }
+  os << endl;
+
+  // print this voice's first non-grace note
+  {
+    S_msrNote
+      voiceFirstNonGraceNote =
+        this->
+          fetchVoiceFirstNonGraceNote ();
+
+    os <<
+      setw (fieldWidth) <<
+      "voiceFirstNonGraceNote" << " : ";
+    if (voiceFirstNonGraceNote) {
+      os << gTab <<
+        voiceFirstNonGraceNote->asShortString ();
+    }
+    else {
+      os <<
+        "none";
+    }
+    os << endl;
+  }
+
+  // print the voice last appended note
+  os <<
+    setw (fieldWidth) <<
+    "voiceLastAppendedNote" << " : ";
+  if (fVoiceLastAppendedNote) {
+    os << gTab <<
+      fVoiceLastAppendedNote->asShortString ();
+  }
+  else {
+    os <<
+      "none";
+  }
+  os << endl;
+*/
+
+#ifdef TRACE_OAH
+  // print the voice measures flat list
+  int voiceMeasuresFlatListSize =
+    fVoiceMeasuresFlatList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "voiceMeasuresFlatList";
+  if (voiceMeasuresFlatListSize) {
+    os <<
+      " : " <<  voiceMeasuresFlatListSize << " elements";
+  }
+  else {
+    os <<
+      " : " << "empty";
+  }
+  os << endl;
+
+  if (voiceMeasuresFlatListSize) {
+    gIndenter++;
+
+    list<S_msrMeasure>::const_iterator
+      iBegin = fVoiceMeasuresFlatList.begin (),
+      iEnd   = fVoiceMeasuresFlatList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      // print the measure
+      if (gTraceOah->fTraceMeasures) {
+        os << (*i)->asShortString ();
+      }
+      else {
+        os << (*i)->getMeasureElementMeasureNumber ();
+      }
+      if (++i == iEnd) break;
+      os << ' ';
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  // print the voice initial elements
+  int voiceInitialElementsListSize =
+    fInitialVoiceElementsList.size ();
+
+  os <<
+    endl <<
+    setw (fieldWidth) <<
+    "voiceInitialElementsList";
+  if (voiceInitialElementsListSize) {
+    os << " : " <<  voiceInitialElementsListSize << " elements";
+  }
+  else {
+    os << " : " << "none";
+  }
+
+  if (voiceInitialElementsListSize) {
+    os << endl;
+
+    gIndenter++;
+
+    list<S_msrVoiceElement>::const_iterator
+      iBegin = fInitialVoiceElementsList.begin (),
+      iEnd   = fInitialVoiceElementsList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      // print the element
+      (*i)->printShort (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+  os << endl;
+
+  /* JMI
+  // sanity check
+  msrAssert (
+    fVoiceLastSegment != nullptr,
+    "fVoiceLastSegment is null");
+    */
+
+  // print the last segment
+  if (fVoiceLastSegment) {
+    os <<
+      endl <<
+      setw (fieldWidth) <<
+      "voiceLastSegment" <<
+      endl;
+
+    gIndenter++;
+    fVoiceLastSegment->printShort (os);
+    os <<
+      endl;
+    gIndenter--;
+  }
+  else {
+    os <<
+      "*** voiceLastSegment is null ***" << // JMI
+      endl;
+  }
+  os << endl;
+
+  // print the stanzas if any
+  if (fVoiceStanzasMap.size ()) {
+    os <<
+      "Stanzas:" <<
+      endl;
+
+    gIndenter++;
+
+    map<string, S_msrStanza>::const_iterator
+      iBegin = fVoiceStanzasMap.begin (),
+      iEnd   = fVoiceStanzasMap.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      (*i).second->printShort (os);
       if (++i == iEnd) break;
       // no endl here
     } // for

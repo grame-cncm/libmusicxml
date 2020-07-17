@@ -39,7 +39,9 @@ namespace MusicXML2
 msrVoice2MasterVoiceCreator::msrVoice2MasterVoiceCreator (
   ostream&   os,
   S_msrVoice mVoice)
+#ifdef TRACE_OAH
     : fLogOutputStream (os)
+#endif
 {
   // the MSR score we're visiting
   fVisitedMsrVoice = mVoice;
@@ -82,10 +84,10 @@ void msrVoice2MasterVoiceCreator::buildMsrMasterFromMsrVoice ()
 //________________________________________________________________________
 void msrVoice2MasterVoiceCreator::visitStart (S_msrVoice& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoice \"" <<
@@ -1134,10 +1136,10 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 //________________________________________________________________________
 void msrVoice2MasterVoiceCreator::visitStart (S_msrChord& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrChord" <<

@@ -20,6 +20,8 @@
   #include "traceOah.h"
 #endif
 
+#include "oahBasicTypes.h"
+
 
 namespace MusicXML2
 {
@@ -717,6 +719,7 @@ class lpsrOah : public oahGroup
     // --------------------------------------
 
     bool                  fDisplayLpsr;
+    bool                  fDisplayLpsrShort;
 
     // LilyPond version
     // --------------------------------------

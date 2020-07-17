@@ -11592,10 +11592,10 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
     lastOptionNameFound,
     "last option in command line");
 
+#ifdef TRACE_OAH
   unsigned int argumentsVectorSize =
     fHandlerArgumentsVector.size ();
 
-#ifdef TRACE_OAH
   // display arc and argv only now, to wait for the options to have been handled
   if (gOahOah->fShowOptionsAndArguments) {
     gOutputOstream <<
@@ -11614,9 +11614,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
 
     gIndenter--;
   }
-#endif
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceOahDetails) {
     printKnownPrefixes (gOutputOstream);
     printKnownSingleCharacterOptions (gOutputOstream);
@@ -11871,10 +11869,10 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
     lastOptionNameFound,
     "last option in command line");
 
+#ifdef TRACE_OAH
   unsigned int argumentsVectorSize =
     fHandlerArgumentsVector.size ();
 
-#ifdef TRACE_OAH
   // display theOptionsVector only now, to wait for the options to have been handled
   if (gTraceOah->fTraceOah || gOahOah->fShowOptionsAndArguments) {
     gOutputOstream <<
@@ -11894,17 +11892,13 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
 
     gIndenter--;
   }
-#endif
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceOahDetails) {
     printKnownPrefixes (gOutputOstream);
     printKnownSingleCharacterOptions (gOutputOstream);
     printKnownOptions (gOutputOstream);
   }
-#endif
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     // print the arguments vector
     gOutputOstream <<

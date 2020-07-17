@@ -85,7 +85,7 @@ class musicxml2MxmlTreeOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeMxmlTreeTraceOah (
+    void                  initializeMusicxml2MxmlTreeTraceOah (
                             bool boolOptionsInitialValue);
 #endif
 
@@ -112,14 +112,6 @@ class musicxml2MxmlTreeOah : public oahGroup
 
     // fields
     // ------------------------------------------------------
-
-#ifdef TRACE_OAH
-    // specific trace
-    // --------------------------------------
-
-    // visitors
-    bool                  fTraceMusicXMLTreeVisitors;
-#endif
 };
 typedef SMARTP<musicxml2MxmlTreeOah> S_musicxml2MxmlTreeOah;
 EXP ostream& operator<< (ostream& os, const S_musicxml2MxmlTreeOah& elt);

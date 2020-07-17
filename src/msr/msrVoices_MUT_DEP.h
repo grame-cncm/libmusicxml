@@ -952,6 +952,8 @@ class msrVoice : public msrElement
 
     virtual void          print (ostream& os) const;
 
+    virtual void          printShort (ostream& os) const;
+
   private:
 
     // fields

@@ -741,7 +741,7 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // partgroups
+  // display partgroups
 
   fDisplayPartGroups = boolOptionsInitialValue;
 
@@ -753,7 +753,7 @@ R"(Write the structure of the part groups to standard error.)",
         "displayPartGroups",
         fDisplayPartGroups));
 
-  // MSR
+  // display MSR
 
   fDisplayMsr        = boolOptionsInitialValue;
 
@@ -765,7 +765,19 @@ R"(Write the contents of the MSR data to standard error.)",
         "displayMsr",
         fDisplayMsr));
 
-  // MSR details
+  // display MSR short
+
+  fDisplayMsrShort        = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "dmsrs", "display-msr-short",
+R"(Write the contents of the MSR data, short version, to standard error.)",
+        "displayMsrShort",
+        fDisplayMsrShort));
+
+  // display MSR details
 
   fDisplayMsrDetails = boolOptionsInitialValue;
 
@@ -778,27 +790,27 @@ R"(Write the contents of the MSR data with more details to standard error.)",
         fDisplayMsrDetails,
         fDisplayMsr));
 
-  // MSR names
+  // display MSR names
 
   fDisplayMsrNames   = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "names", "display-msr-names",
+        "dmnames", "display-msr-names",
 R"(Only write a view of the names in the MSR to standard error.
 This implies that no LilyPond code is generated.)",
         "displayMsrNames",
         fDisplayMsrNames));
 
-  // MSR summary
+  // display MSR summary
 
   fDisplayMsrSummary = boolOptionsInitialValue;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "sum", "display-msr-summary",
+        "dmsum", "display-msr-summary",
 R"(Only write a summary of the MSR to standard error.
 This implies that no LilyPond code is generated.)",
         "displayMsrSummary",
@@ -1095,6 +1107,8 @@ S_msrOah msrOah::createCloneWithDetailedTrace ()
 
   clone->fDisplayMsr =
     fDisplayMsr;
+  clone->fDisplayMsrShort =
+    fDisplayMsrShort;
   clone->fDisplayMsrDetails =
     fDisplayMsrDetails;
 
@@ -1167,6 +1181,7 @@ void msrOah::enforceQuietness ()
   fTraceMsrVisitors = false;
   fDisplayPartGroups = false;
   fDisplayMsr = false;
+  fDisplayMsrShort = false;
   fDisplayMsrDetails = false;
   fDisplayMsrNames = false;
   fDisplayMsrSummary = false;
@@ -1273,6 +1288,9 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
 
     setw (valueFieldWidth) << "displayMsr" << " : " <<
     booleanAsString (fDisplayMsr) <<
+    endl <<
+    setw (valueFieldWidth) << "displayMsrShort" << " : " <<
+    booleanAsString (fDisplayMsrShort) <<
     endl <<
     setw (valueFieldWidth) << "displayMsrDetails" << " : " <<
     booleanAsString (fDisplayMsrDetails) <<

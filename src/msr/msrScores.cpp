@@ -594,16 +594,16 @@ void msrScore::print (ostream& os) const
     setw (fieldWidth) <<
     singularOrPluralWithoutNumber (
       partGroupsListSize,
-      "part group", "part groups") <<
-    " : " <<
+      "part group number", "part groups number") <<
+    ": " <<
     partGroupsListSize <<
     endl <<
 
     setw (fieldWidth) <<
     singularOrPluralWithoutNumber (
       fScoreNumberOfMeasures,
-      "measure", "measures") <<
-    " : " <<
+      "measure number", "measures number") <<
+    ": " <<
     fScoreNumberOfMeasures <<
     endl <<
 
@@ -758,7 +758,192 @@ void msrScore::print (ostream& os) const
   gIndenter--;
 }
 
-void msrScore::printSummary (ostream& os)
+void msrScore::printShort (ostream& os) const
+{
+  os <<
+    "MSR Score, short version" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 38;
+
+  int partGroupsListSize =
+    fPartGroupsList.size ();
+
+  os << left <<
+    setw (fieldWidth) <<
+    singularOrPluralWithoutNumber (
+      partGroupsListSize,
+      "part group number", "part groups number") <<
+    ": " <<
+    partGroupsListSize <<
+    endl <<
+
+    setw (fieldWidth) <<
+    singularOrPluralWithoutNumber (
+      fScoreNumberOfMeasures,
+      "measure number", "measures number") <<
+    ": " <<
+    fScoreNumberOfMeasures <<
+    endl;
+/*
+  os << left <<
+    setw (fieldWidth) <<
+    "scorePartGroupNamesMaxLength" <<  " : " <<
+    fScorePartGroupNamesMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "scorePartNamesMaxLength" <<  " : " <<
+    fScorePartNamesMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "scoreInstrumentNamesMaxLength" <<  " : " <<
+    fScoreInstrumentNamesMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
+    fScoreInstrumentAbbreviationsMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "inhibitRestMeasuresBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitRestMeasuresBrowsing) <<
+    endl<<
+    endl;
+
+  // print the identification if any
+  if (fIdentification) {
+    os <<
+      fIdentification;
+  }
+*/
+
+  // print the scaling if any
+  if (fScaling) {
+    os <<
+      fScaling <<
+      endl;
+  }
+
+/*
+  // print the page layout if any
+  if (fPageLayout) {
+    os <<
+      fPageLayout <<
+      endl;
+  }
+
+  // print the system layout if any
+  if (fSystemLayout) {
+    os <<
+      fSystemLayout <<
+      endl;
+  }
+
+  // print the staff layout if any
+  if (fStaffLayout) {
+    os <<
+      fStaffLayout <<
+      endl;
+  }
+
+  // print the appearance if any
+  if (fAppearance) {
+    os <<
+      fAppearance <<
+      endl;
+  }
+
+  // print the credits if any
+  int creditsListSize = fCreditsList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "CreditsList";
+  if (creditsListSize) {
+    os << endl;
+    gIndenter++;
+
+    list<S_msrCredit>::const_iterator
+      iBegin = fCreditsList.begin (),
+      iEnd   = fCreditsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrCredit credit = (*i);
+
+      os << credit;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
+  os << endl;
+
+  // print all the voices if any
+  int scoreAllVoicesListSize = fScoreAllVoicesList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "ScoreAllVoicesList";
+  if (scoreAllVoicesListSize) {
+    os << endl;
+    gIndenter++;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fScoreAllVoicesList.begin (),
+      iEnd   = fScoreAllVoicesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrVoice voice = (*i);
+
+      os << voice->getVoiceName () << endl;
+      if (++i == iEnd) break;
+      // os << endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
+*/
+
+  // print the part groups if any
+  if (partGroupsListSize) {
+    list<S_msrPartGroup>::const_iterator
+      iBegin = fPartGroupsList.begin (),
+      iEnd   = fPartGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      (*i)->printShort (os);
+      if (++i == iEnd) break;
+      // no endl here
+    } // for
+  }
+  else {
+    os <<
+      "There are no part groups in the list" <<
+      endl;
+  }
+
+  gIndenter--;
+}
+
+void msrScore::printSummary (ostream& os) const
 {
   os <<
     "MSR component" <<
@@ -776,16 +961,16 @@ void msrScore::printSummary (ostream& os)
     setw (fieldWidth) <<
     singularOrPluralWithoutNumber (
       partGroupsListSize,
-      "part group", "part groups") <<
-    " : " <<
+      "part group number", "part groups number") <<
+    ": " <<
     partGroupsListSize <<
     endl <<
 
     setw (fieldWidth) <<
     singularOrPluralWithoutNumber (
       fScoreNumberOfMeasures,
-      "measure", "measures") <<
-    " : " <<
+      "measure number", "measures number") <<
+    ": " <<
     fScoreNumberOfMeasures <<
     endl <<
 

@@ -412,7 +412,7 @@ void msrRepeatCommonPart::print (ostream& os) const
   gIndenter--;
 }
 
-void msrRepeatCommonPart::shortPrint (ostream& os) const
+void msrRepeatCommonPart::printShort (ostream& os) const
 {
   os <<
     this->asShortString () <<
@@ -460,7 +460,7 @@ void msrRepeatCommonPart::shortPrint (ostream& os) const
 
     for ( ; ; ) {
       // short print the element
-      (*i)->shortPrint (os);
+      (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -823,7 +823,7 @@ void msrRepeatEnding::print (ostream& os) const
   gIndenter--;
 }
 
-void msrRepeatEnding::shortPrint (ostream& os) const
+void msrRepeatEnding::printShort (ostream& os) const
 {
   os <<
     this->asShortString () <<
@@ -890,7 +890,7 @@ void msrRepeatEnding::shortPrint (ostream& os) const
 
     for ( ; ; ) {
       // print the element
-      (*i)->shortPrint (os);
+      (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -1866,7 +1866,7 @@ void msrRepeat::print (ostream& os) const
   gIndenter--;
 }
 
-void msrRepeat::shortPrint (ostream& os) const
+void msrRepeat::printShort (ostream& os) const
 {
   os <<
     this->asShortString () <<
@@ -1881,7 +1881,7 @@ void msrRepeat::shortPrint (ostream& os) const
       endl;
   }
   else {
-    fRepeatCommonPart->shortPrint (os);
+    fRepeatCommonPart->printShort (os);
   }
 
   // short print the repeat endings
@@ -1908,7 +1908,7 @@ void msrRepeat::shortPrint (ostream& os) const
 
     for ( ; ; ) {
       // short print the repeat ending
-      (*i)->shortPrint (os);
+      (*i)->printShort (os);
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
@@ -2246,7 +2246,7 @@ void msrRepeatElement::print (ostream& os) const
   gIndenter--;
 }
 
-void msrRepeatElement::shortPrint (ostream& os) const
+void msrRepeatElement::printShort (ostream& os) const
 {
   os <<
     "RepeatElement" <<
@@ -2294,7 +2294,7 @@ void msrRepeatElement::shortPrint (ostream& os) const
 
     for ( ; ; ) {
       // print the element
-      (*i)->shortPrint (os);
+      (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
     } // for

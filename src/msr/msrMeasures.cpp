@@ -1964,10 +1964,10 @@ void msrMeasure::accountForTupletMemberNoteDurationInMeasure (
 
 void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceMeasures || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Appending padding note " << note->asShortString () <<
@@ -2220,10 +2220,10 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 
 void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     tuplet->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Appending tuplet " << tuplet->asString () <<
@@ -4190,33 +4190,33 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
             currentHarmony->
               getHarmonyNoteUpLink ();
 
+#ifdef TRACE_OAH
         // get the currentHarmony's note uplink position in the measure
         rational
           currentHarmonyNoteUpLinkPositionInMeasure =
             currentHarmonyNoteUpLink->
               getMeasureElementPositionInMeasure ();
 
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-            gLogOstream <<
-              "handleHarmoniesInHarmonyMeasureFinalization() 4" <<
-              ", previousHarmony: ";
+        if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+          gLogOstream <<
+            "handleHarmoniesInHarmonyMeasureFinalization() 4" <<
+            ", previousHarmony: ";
 
-            if (previousHarmony) {
-              gLogOstream <<
-                previousHarmony->asString ();
-            }
-            else {
-              gLogOstream << "none";
-            }
-
+          if (previousHarmony) {
             gLogOstream <<
-              ", currentHarmonyPositionInMeasure: " <<
-              currentHarmonyPositionInMeasure <<
-              ", currentHarmonyNoteUpLinkPositionInMeasure: " <<
-              currentHarmonyNoteUpLinkPositionInMeasure <<
-              endl;
+              previousHarmony->asString ();
           }
+          else {
+            gLogOstream << "none";
+          }
+
+          gLogOstream <<
+            ", currentHarmonyPositionInMeasure: " <<
+            currentHarmonyPositionInMeasure <<
+            ", currentHarmonyNoteUpLinkPositionInMeasure: " <<
+            currentHarmonyNoteUpLinkPositionInMeasure <<
+            endl;
+        }
 #endif
 
         if (! previousHarmony) {
@@ -4794,33 +4794,33 @@ void msrMeasure::handleFiguredBassesInFiguredBassMeasureFinalization (
             currentFiguredBass->
               getFiguredBassNoteUpLink ();
 
+#ifdef TRACE_OAH
         // get the currentFiguredBass's note uplink position in the measure
         rational
           currentFiguredBassNoteUpLinkPositionInMeasure =
             currentFiguredBassNoteUpLink->
               getMeasureElementPositionInMeasure ();
 
-#ifdef TRACE_OAH
-          if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
-            gLogOstream <<
-              "handleHarmoniesInFiguredBassMeasureFinalization() 4" <<
-              ", previousFiguredBass: ";
+        if (gTraceOah->fTraceHarmonies || gTraceOah->fTracePositionsInMeasures) {
+          gLogOstream <<
+            "handleHarmoniesInFiguredBassMeasureFinalization() 4" <<
+            ", previousFiguredBass: ";
 
-            if (previousFiguredBass) {
-              gLogOstream <<
-                previousFiguredBass->asString ();
-            }
-            else {
-              gLogOstream << "none";
-            }
-
+          if (previousFiguredBass) {
             gLogOstream <<
-              ", currentFiguredBassPositionInMeasure: " <<
-              currentFiguredBassPositionInMeasure <<
-              ", currentFiguredBassNoteUpLinkPositionInMeasure: " <<
-              currentFiguredBassNoteUpLinkPositionInMeasure <<
-              endl;
+              previousFiguredBass->asString ();
           }
+          else {
+            gLogOstream << "none";
+          }
+
+          gLogOstream <<
+            ", currentFiguredBassPositionInMeasure: " <<
+            currentFiguredBassPositionInMeasure <<
+            ", currentFiguredBassNoteUpLinkPositionInMeasure: " <<
+            currentFiguredBassNoteUpLinkPositionInMeasure <<
+            endl;
+        }
 #endif
 
         if (! previousFiguredBass) {
@@ -4916,13 +4916,13 @@ void msrMeasure::finalizeHarmonyMeasure (
   }
 #endif
 
+#ifdef TRACE_OAH
   // get the harmonyPart number of measures
   int
     harmonyPartNumberOfMeasures =
       harmonyPart->
         getPartNumberOfMeasures ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "fMeasureOrdinalNumberInVoice = " <<
@@ -5009,13 +5009,13 @@ void msrMeasure::finalizeFiguredBassMeasure (
   }
 #endif
 
+#ifdef TRACE_OAH
   // get the figuredBassPart number of measures
   int
     figuredBassPartNumberOfMeasures =
       figuredBassPart->
         getPartNumberOfMeasures ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "fMeasureOrdinalNumberInVoice = " <<
@@ -5843,7 +5843,7 @@ void msrMeasure::print (ostream& os) const
   gIndenter--;
 }
 
-void msrMeasure::shortPrint (ostream& os) const
+void msrMeasure::printShort (ostream& os) const
 {
   os <<
     "Measure '" <<
@@ -5857,7 +5857,7 @@ void msrMeasure::shortPrint (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 28;
+  const int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -5872,8 +5872,10 @@ void msrMeasure::shortPrint (ostream& os) const
     setw (fieldWidth) <<
     "measureDebugNumber" << " : " <<
     fMeasureDebugNumber <<
-    endl <<
+    endl;
 
+/*
+  os << left <<
     setw (fieldWidth) <<
     "measureEndRegularKind" << " : " <<
     measureEndRegularKindAsString (
@@ -5883,8 +5885,9 @@ void msrMeasure::shortPrint (ostream& os) const
     "measuresRepeatContextKind" << " : " <<
     measuresRepeatContextKindAsString (
       fMeasuresRepeatContextKind) <<
-    endl <<
+    endl;
 
+  os << left <<
     setw (fieldWidth) <<
     "measureFirstInVoice" << " : " <<
     booleanAsString (
@@ -5918,12 +5921,14 @@ void msrMeasure::shortPrint (ostream& os) const
     "currentMeasureWholeNotesDuration" << " : " <<
     fCurrentMeasureWholeNotesDuration <<
     endl <<
+*/
 
+  os << left <<
     setw (fieldWidth) <<
     "fullMeasureWholeNotesDuration" << " : " <<
     fFullMeasureWholeNotesDuration <<
     endl;
-
+/*
 #ifdef TRACE_OAH
   // fetch the voice
   S_msrVoice
@@ -6007,6 +6012,7 @@ void msrMeasure::shortPrint (ostream& os) const
     fNextMeasureNumber <<
     "\"" <<
     endl;
+*/
 
   int
     measureElementsListSize =
@@ -6020,6 +6026,7 @@ void msrMeasure::shortPrint (ostream& os) const
     endl;
 
   if (measureElementsListSize) {
+    os << endl;
     gIndenter++;
 
     list<S_msrMeasureElement>::const_iterator
@@ -6027,7 +6034,7 @@ void msrMeasure::shortPrint (ostream& os) const
       iEnd   = fMeasureElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i)->asShortString ();
+      (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
     } // for

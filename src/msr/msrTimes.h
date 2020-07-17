@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -32,13 +32,13 @@ typedef SMARTP<msrTime> S_msrTime;
 class msrTimeItem : public msrElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrTimeItem> create (
       int inputLineNumber);
-      
+
   protected:
 
     // constructors/destructor
@@ -46,7 +46,7 @@ class msrTimeItem : public msrElement
 
     msrTimeItem (
       int inputLineNumber);
-            
+
     virtual ~msrTimeItem ();
 
   public:
@@ -58,7 +58,7 @@ class msrTimeItem : public msrElement
                               { return fTimeBeatsNumbersVector; }
 
     void                  setTimeBeatValue (int timeBeatValue);
-                              
+
     int                   getTimeBeatValue () const
                               { return fTimeBeatValue; }
 
@@ -66,11 +66,11 @@ class msrTimeItem : public msrElement
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrTimeItem otherTimeItem) const;
-                            
+
     void                  appendBeatsNumber (int beatsNumber);
 
     int                   getTimeBeatsNumber () const;
-                              
+
   public:
 
     // visitors
@@ -89,9 +89,9 @@ class msrTimeItem : public msrElement
     string                asString () const;
 
     virtual void          print (ostream& os) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -105,7 +105,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTimeItem& elt);
 class msrTime : public msrMeasureElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -120,7 +120,7 @@ class msrTime : public msrMeasureElement
 
     static string timeSymbolKindAsString (
       msrTimeSymbolKind timeSymbolKind);
-      
+
     enum msrTimeSeparatorKind {
         kTimeSeparatorNone,
         kTimeSeparatorHorizontal,
@@ -130,7 +130,7 @@ class msrTime : public msrMeasureElement
 
     static string timeSeparatorKindAsString (
       msrTimeSeparatorKind timeSeparatorKind);
-      
+
     enum msrTimeRelationKind {
         kTimeRelationNone,
         kTimeRelationParentheses,
@@ -142,7 +142,7 @@ class msrTime : public msrMeasureElement
 
     static string timeRelationKindAsString (
       msrTimeRelationKind timeRelationKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -161,9 +161,9 @@ class msrTime : public msrMeasureElement
     msrTime (
       int               inputLineNumber,
       msrTimeSymbolKind timeSymbolKind);
-      
+
     virtual ~msrTime ();
-  
+
   public:
 
     // set and get
@@ -171,19 +171,19 @@ class msrTime : public msrMeasureElement
 
     msrTimeSymbolKind     getTimeSymbolKind () const
                               { return fTimeSymbolKind; }
-                  
+
     bool                  getTimeIsCompound () const
                               { return fTimeIsCompound; }
-                  
+
     const vector<S_msrTimeItem>&
                           getTimeItemsVector ()
                               { return fTimeItemsVector; }
 
     // services
     // ------------------------------------------------------
-                  
+
     bool                  isEqualTo (S_msrTime otherTime) const;
-                            
+
     void                  appendTimeItem (
                             S_msrTimeItem timeItem);
 
@@ -209,6 +209,8 @@ class msrTime : public msrMeasureElement
     string                asShortString () const;
 
     virtual void          print (ostream& os) const;
+
+    virtual void          printShort (ostream& os) const;
 
   private:
 

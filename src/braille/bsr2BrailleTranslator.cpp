@@ -36,13 +36,20 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
   S_bsrOah&  bsrOpts,
   ostream&   logOstream,
   ostream&   brailleCodeOutputStream)
-    : fLogOutputStream (
-        logOstream)
+#ifdef TRACE_OAH
+    : fLogOutputStream (logOstream)
+#endif
 {
   fBsrOah = bsrOpts;
 
   // the BSR score we're visiting
   fVisitedBsrScore = bsrScore;
+
+  // set generation to ASCII braille by default
+  // should not be necessary JMI ???
+  fBrailleGenerator =
+    bsrAsciiBrailleGenerator::create (
+      brailleCodeOutputStream);
 
   switch (gBsr2BrailleOah->fBrailleOutputKind) {
     case kBrailleOutputAscii:
@@ -93,11 +100,11 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
           break;
 
         case kByteOrderingSmallEndian:
-          break;
           fBrailleGenerator =
             bsrUTF16SmallEndianBrailleGenerator::create (
               gBsr2BrailleOah->fByteOrderingKind,
               brailleCodeOutputStream);
+          break;
       } // switch
       break;
   } // switch

@@ -1013,10 +1013,10 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
 void msrSegment::appendStaffDetailsToSegment (
   S_msrStaffDetails staffDetails)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     staffDetails->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (
     gTraceOah->fTraceStaffDetails
       ||
@@ -2338,7 +2338,7 @@ void msrSegment::print (ostream& os) const
   gIndenter--;
 }
 
-void msrSegment::shortPrint (ostream& os) const
+void msrSegment::printShort (ostream& os) const
 {
   os <<
     "Segment '" <<
@@ -2355,14 +2355,15 @@ void msrSegment::shortPrint (ostream& os) const
 
   const int fieldWidth = 20;
 
-  /* JMI
+/*
   os <<
-    setw (fieldWidth) << "voiceUpLink" << " : " <<
+    setw (fieldWidth) <<
+    "voiceUpLink" << " : " <<
     "\"" <<
     fSegmentVoiceUpLink->getVoiceName () <<
     "\"" <<
     endl;
-    */
+*/
 
   if (! fSegmentMeasuresList.size ()) {
     os <<
@@ -2372,19 +2373,19 @@ void msrSegment::shortPrint (ostream& os) const
   }
 
   else {
+    os << endl;
+
     list<S_msrMeasure>::const_iterator
       iBegin = fSegmentMeasuresList.begin (),
       iEnd   = fSegmentMeasuresList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
-      (*i)->shortPrint (os);
+      (*i)->printShort (os);
       if (++i == iEnd) break;
-      os << endl;
+//      os << endl;
     } // for
   }
-
-  os << endl;
 
   gIndenter--;
 }

@@ -50,7 +50,6 @@ class lpsrElement : public msrElement
     // services
     // ------------------------------------------------------
 
-
   public:
 
     // visitors

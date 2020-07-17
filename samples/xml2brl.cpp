@@ -192,10 +192,6 @@ int main (int argc, char *argv[])
         getOutputFileNameStringAtom ()->
           getStringVariable ();
 
-  int
-    outputFileNameSize =
-      outputFileName.size ();
-
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePasses) {
     string separator =
@@ -227,6 +223,10 @@ int main (int argc, char *argv[])
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTracePasses) {
+    int
+      outputFileNameSize =
+        outputFileName.size ();
+
     gLogOstream <<
       "This is xml2brl " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<

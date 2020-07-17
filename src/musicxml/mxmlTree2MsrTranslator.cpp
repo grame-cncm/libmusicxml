@@ -698,24 +698,28 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_millimeters& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_millimeters" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fCurrentMillimeters = (float)(*elt);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_tenths& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tenths" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fCurrentTenths = (float)(*elt);
 }
@@ -725,12 +729,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_scaling& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_scaling" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // create a scaling
   S_msrScaling
@@ -762,12 +768,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_layout" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // create the system layout
   fCurrentSystemLayout =
@@ -779,6 +787,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_system_layout& elt )
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -788,6 +797,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_system_layout& elt )
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingPrint) {
     // set the current print layout's system layout
@@ -814,12 +824,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_margins& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_margins" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   if (! fOnGoingSystemLayout) {
     msrMusicXMLError (
@@ -834,12 +846,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_margins& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_system_distance& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_distance" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   if (fOnGoingSystemLayout) {
     float systemDistanceTenths = (float)(*elt);
@@ -862,12 +876,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_distance& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_top_system_distance& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_top_system_distance" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingSystemLayout) {
     float topSystemDistanceTenths = (float)(*elt);
@@ -882,7 +901,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_top_system_distance& elt )
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "<top-system-distance /> is out of context");
   }
@@ -893,12 +912,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_system_margins& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_system_margins" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (! fOnGoingSystemLayout) {
     msrMusicXMLError (
@@ -914,12 +935,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_system_margins& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_system_dividers& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_dividers" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
     stringstream s;
 
@@ -937,22 +960,26 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_dividers& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_left_divider& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_left_divider" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_right_divider& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_right_divider" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //______________________________________________________________________________
@@ -961,12 +988,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_layout& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_layout" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // create a page layout
   fCurrentPageLayout =
@@ -978,12 +1007,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_layout& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_page_layout& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_page_layout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   if (fOnGoingPrint) {
     // JMI
@@ -999,12 +1030,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_page_layout& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_page_height& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_height" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   if (fOnGoingPageLayout) {
     float pageHeight = (float)(*elt);
@@ -1026,12 +1059,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_height& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_page_width& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_width" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   if (fOnGoingPageLayout) {
     float pageWidth = (float)(*elt);
@@ -1056,12 +1091,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_margins& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_margins" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingPageLayout) {
     string pageMarginsType =
@@ -1130,12 +1167,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_margins& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_page_margins& elt )
 {
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_page_margins" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   // forget about the current page layout margins group
   fCurrentPageLayoutMarginsGroup = nullptr;
@@ -1150,6 +1189,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_left_margin& elt )
 
   float leftMargin = (float)(*elt);
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_left_margin" <<
@@ -1157,6 +1197,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_left_margin& elt )
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   msrLength
     leftMarginLength (
@@ -1198,6 +1239,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_right_margin& elt )
 
   float rightMargin = (float)(*elt);
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_right_margin" <<
@@ -1205,6 +1247,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_right_margin& elt )
        ", line " << inputLineNumber <<
      endl;
   }
+#endif
 
   msrLength
     rightMarginLength (
@@ -1246,6 +1289,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_top_margin& elt )
 
   float topMargin = (float)(*elt);
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_top_margin" <<
@@ -1253,6 +1297,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_top_margin& elt )
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingPageMargins) {
     fCurrentPageLayoutMarginsGroup->
@@ -1281,6 +1326,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bottom_margin& elt )
 
   float bottomMargin = (float)(*elt);
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bottom_margin" <<
@@ -1288,6 +1334,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bottom_margin& elt )
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingPageMargins) {
     fCurrentPageLayoutMarginsGroup->
@@ -1315,12 +1362,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_staff_layout& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_layout" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
 /*
 From DalSegno.xml: JMI there is no <staff-distance /> ...
@@ -1357,6 +1406,7 @@ From DalSegno.xml: JMI there is no <staff-distance /> ...
 
 void mxmlTree2MsrTranslator::visitEnd ( S_staff_layout& elt )
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -1366,6 +1416,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_staff_layout& elt )
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // forget about the current staff layout
   fCurrentStaffLayout = nullptr;
@@ -1378,12 +1429,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_staff_distance& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_distance" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingStaffLayout) {
     float staffDistanceTenths = (float)(*elt);
@@ -1398,7 +1451,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staff_distance& elt )
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "<staff-distance /> is out of context");
   }
@@ -1410,12 +1463,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_layout& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_measure_layout" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // create a measure layout
   fCurrentMeasureLayout =
@@ -1427,6 +1482,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_layout& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_measure_layout& elt )
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -1436,6 +1492,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_measure_layout& elt )
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // forget about the current measure layout
   fCurrentMeasureLayout = nullptr;
@@ -1448,12 +1505,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_distance& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_measure_distance" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingMeasureLayout) {
     float measureDistanceTenths = (float)(*elt);
@@ -1468,7 +1527,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_distance& elt )
   else {
     msrMusicXMLError (
       gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "<measure-distance /> is out of context");
   }
@@ -1480,12 +1539,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_appearance& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_appearance" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
 /*
 <!--
@@ -1592,6 +1653,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_appearance& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_appearance& elt )
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -1601,6 +1663,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_appearance& elt )
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // forget about the current appearance
   fCurrentAppearance = nullptr;
@@ -1613,12 +1676,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_line_width& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_line_width" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingAppearance) {
     // value
@@ -1730,12 +1795,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_note_size& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_note_size" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingAppearance) {
     // value
@@ -1813,12 +1880,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_distance& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_distance" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingAppearance) {
     // value
@@ -1895,12 +1964,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_glyph& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_glyph" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingAppearance) {
     // value
@@ -1999,12 +2070,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_appearance& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_other_appearance" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   if (fOnGoingAppearance) {
     // what can we find in such a markup??? JMI
@@ -3808,10 +3881,10 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
 
 void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_direction" <<
@@ -6083,10 +6156,10 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_backup" <<
@@ -6428,7 +6501,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSlurs) {
+  if (gTraceOah->fTraceSlursDetails) {
     displaySlurStartsStack ("BEFORE handling slur");
   }
 #endif
@@ -6649,12 +6722,13 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceSlurs) {
       fLogOutputStream <<
-        "slurNumber: " <<
+        "visitStart (S_slur&)"
+        ", slurNumber: " <<
         slurNumber <<
-        "slurTypeKind: " <<
+        ", slurTypeKind: " <<
         msrSlur::slurTypeKindAsString (
           fCurrentSlurTypeKind) <<
-        "slurLineType: " <<
+        ", slurLineType: " <<
         msrLineTypeKindAsString (
           slurLineTypeKind) <<
         endl;
@@ -6685,7 +6759,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSlurs) {
+  if (gTraceOah->fTraceSlursDetails) {
     displaySlurStartsStack ("AFTER handling slur");
   }
 #endif
@@ -7250,10 +7324,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_text" <<
@@ -10897,15 +10971,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
 {
-   int inputLineNumber =
+  int inputLineNumber =
     elt->getInputLineNumber ();
 
- if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+ #ifdef TRACE_OAH
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_unstress" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // placement
 
@@ -10935,12 +11011,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
- if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+#ifdef TRACE_OAH
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_detached_legato" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // placement
 
@@ -14479,12 +14557,14 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
- if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
+#ifdef TRACE_OAH
+  if (gMxmlTreeOah->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sffz" <<
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   // placement
 

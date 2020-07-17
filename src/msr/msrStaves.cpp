@@ -3015,7 +3015,319 @@ os <<
   gIndenter--;
 }
 
-void msrStaff::printSummary (ostream& os)
+void msrStaff::printShort (ostream& os) const
+{
+  os <<
+    "Staff " << getStaffName () <<
+    ", " << staffKindAsString () <<
+    ", " <<
+    singularOrPlural (
+      fStaffAllVoicesMap.size (), "voice", "voices") <<
+    ", " <<
+    singularOrPlural (
+      fStaffRegularVoicesCounter,
+      "regular voice",
+      "regular voices") << // JMI
+    ")" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 28;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "staffNumber" << " : " <<
+    staffNumberAsString () <<
+    endl;
+
+/*
+  os << left <<
+    setw (fieldWidth) <<
+    "staffPartUpLink" << " : " <<
+    fStaffPartUpLink->getPartCombinedName () <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "staffInstrumentName" << " : \"" <<
+    fStaffInstrumentName <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "staffInstrumentAbbreviation" << " : \"" <<
+    fStaffInstrumentAbbreviation <<
+    endl;
+
+  // print current the staff clef if any
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceClefs) {
+    os << left <<
+      setw (fieldWidth) <<
+      "staffCurrentClef" << " : ";
+
+    if (fStaffCurrentClef) {
+      os <<
+        "'" <<
+        fStaffCurrentClef->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os << endl;
+  }
+#endif
+
+  // print the current staff key if any
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    os << left <<
+      setw (fieldWidth) <<
+      "staffCurrentKey" << " : ";
+
+    if (fStaffCurrentKey) {
+      os <<
+        "'" <<
+        fStaffCurrentKey->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os << endl;
+  }
+#endif
+
+  // print the current staff time if any
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
+    os << left <<
+      setw (fieldWidth) <<
+      "staffCurrentTime" << " : ";
+
+    if (fStaffCurrentTime) {
+      os <<
+        "'" <<
+        fStaffCurrentTime->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os << endl;
+  }
+#endif
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceStaffDetails) {
+    // print the staff details if any
+    if (fCurrentStaffStaffDetails) {
+      os <<
+        fCurrentStaffStaffDetails;
+    }
+    else {
+      os << left <<
+        setw (fieldWidth) <<
+        "currentStaffStaffDetails" << " : " << "none";
+    }
+    os << endl;
+  }
+#endif
+
+  // print the staff all voices map
+  os << left <<
+    setw (fieldWidth) <<
+    "staffAllVoicesMap" << " : ";
+  if (fStaffAllVoicesMap.size ()) {
+    gIndenter++;
+
+    map<int, S_msrVoice>::const_iterator
+      iBegin = fStaffAllVoicesMap.begin (),
+      iEnd   = fStaffAllVoicesMap.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      int        voiceNumber = (*i).first;
+      S_msrVoice voice       = (*i).second;
+
+      // sanity check
+      msrAssert (
+        voice != nullptr,
+        "voice is null");
+
+      os <<
+        voiceNumber << " : " <<
+        "regularVoiceStaffSequentialNumber = " <<
+        voice->getRegularVoiceStaffSequentialNumber () <<
+        ", " <<
+        voice->asShortString () <<
+        endl;
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+ //   os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os << "empty" << endl;
+  }
+
+  // print the staff regular voices map
+  os << left <<
+    setw (fieldWidth) <<
+    "staffRegularVoicesMap" << " : ";
+
+  if (fStaffRegularVoicesMap.size ()) {
+    gIndenter++;
+
+    map<int, S_msrVoice>::const_iterator
+      iBegin = fStaffRegularVoicesMap.begin (),
+      iEnd   = fStaffRegularVoicesMap.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+//      if (i == iEnd) break; // JMI ???
+
+      int        voiceNumber = (*i).first;
+      S_msrVoice voice       = (*i).second;
+
+      // sanity check
+      msrAssert (
+        voice != nullptr,
+        "voice is null");
+
+      os <<
+        voiceNumber << " : " <<
+        "regularVoiceStaffSequentialNumber = " <<
+        voice->getRegularVoiceStaffSequentialNumber () <<
+        ", " <<
+        voice->asShortString () <<
+        endl;
+      if (++i == iEnd) break;
+  // JMI    os << endl;
+    } // for
+//    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os << "empty" << endl;
+  }
+
+  // print the regular voices list
+  os << left <<
+    setw (fieldWidth) <<
+    "staffRegularVoicesList" << " : ";
+  if (fStaffRegularVoicesList.size ()) {
+    gIndenter++;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fStaffRegularVoicesList.begin (),
+      iEnd   = fStaffRegularVoicesList.end (),
+      i      = iBegin;
+
+    int voiceNumber = 0;
+
+    for ( ; ; ) {
+ //     if (i == iEnd) break; // JMI ???
+
+      S_msrVoice voice = (*i);
+
+      // sanity check
+      msrAssert (
+        voice != nullptr,
+        "voice is null");
+
+      voiceNumber++;
+
+      os <<
+        voiceNumber << " : " <<
+        "regularVoiceStaffSequentialNumber = " <<
+        voice->getRegularVoiceStaffSequentialNumber () <<
+        ", " <<
+        voice->asShortString () <<
+        endl;
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+//    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os << "empty" << endl;
+  }
+*/
+
+  // print the  voices
+  if (fStaffAllVoicesMap.size ()) {
+    os << endl;
+
+    map<int, S_msrVoice>::const_iterator
+      iBegin = fStaffAllVoicesMap.begin (),
+      iEnd   = fStaffAllVoicesMap.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_msrVoice voice = (*i).second;
+
+/* JMI
+os <<
+  endl <<
+  "================= voice :" <<
+  endl <<
+  voice <<
+  endl <<
+  endl;
+*/
+
+      voice->printShort (os);
+
+        /* JMI
+      switch (voice->getVoiceKind ()) {
+        case msrVoice::kVoiceRegular:
+          os <<
+            voice;
+          break;
+
+        case msrVoice::kVoiceHarmony:
+          if (
+            gMsrOah->fShowHarmonyVoices
+              ||
+            voice->getMusicHasBeenInsertedInVoice ())
+            os <<
+              voice;
+          break;
+
+        case msrVoice::kVoiceFiguredBass:
+          if (
+            gMsrOah->fShowFiguredBassVoices
+              ||
+            voice->getMusicHasBeenInsertedInVoice ())
+            os <<
+              voice;
+          break;
+      } // switch
+        */
+
+      if (++i == iEnd) break;
+
+      os << endl;
+    } // for
+  }
+
+  gIndenter--;
+}
+
+void msrStaff::printSummary (ostream& os) const
 {
   os <<
     "Staff" " " << getStaffName () <<
@@ -3053,7 +3365,6 @@ void msrStaff::printSummary (ostream& os)
     os << endl;
     gIndenter--;
   }
-*/
 
   // print the voices names
   if (fStaffAllVoicesMap.size ()) {
@@ -3093,10 +3404,11 @@ void msrStaff::printSummary (ostream& os)
 
     gIndenter --;
   }
-
-  gIndenter--;
+*/
 
   os << endl;
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrStaff& elt)

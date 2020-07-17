@@ -492,10 +492,10 @@ void msr2MxmltreeTranslator::appendNoteToMeasure (
   S_msrNote   note,
   Sxmlelement elem)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elem->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteToMeasure(), elem = " <<
@@ -522,10 +522,10 @@ void msr2MxmltreeTranslator::appendNoteToMeasure (
 void msr2MxmltreeTranslator::appendOtherToMeasure (
   Sxmlelement elem)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elem->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendOtherToMeasure()" <<
@@ -651,10 +651,10 @@ void msr2MxmltreeTranslator::appendToNoteNotationsTechnicals (
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrScore" <<
@@ -2792,12 +2792,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  gIndenter--;
-
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPart " <<
@@ -2806,6 +2804,8 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
       endl;
   }
 #endif
+
+  gIndenter--;
 
   // forget about measure elements in the map
   fPartMeasuresMap.clear ();
@@ -2899,11 +2899,11 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
     measureNumber =
       elt->getMeasureElementMeasureNumber ();
 
+#ifdef TRACE_OAH
   int
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasure '" <<
@@ -3015,8 +3015,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
 
 void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
+#endif
 
   string
     measureNumber =
@@ -3026,11 +3028,11 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
     nextMeasureNumber =
       elt->getNextMeasureNumber ();
 
+#ifdef TRACE_OAH
   int
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
@@ -3059,10 +3061,10 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPrintLayout '" <<
@@ -3123,10 +3125,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
 
 void msr2MxmltreeTranslator::visitEnd (S_msrPrintLayout& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPrintLayout '" <<
@@ -3833,10 +3835,10 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTime& elt)
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTempo" <<
@@ -4684,8 +4686,10 @@ void msr2MxmltreeTranslator:: appendAForwardToMeasure (S_msrNote note)
 void msr2MxmltreeTranslator:: appendABackupOrForwardToMeasureIfNeeded (
   S_msrNote note)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
      note->getInputLineNumber ();
+#endif
 
   int
     noteStaffNumber =
@@ -5951,10 +5955,10 @@ void msr2MxmltreeTranslator::appendBeamsToNote (S_msrNote note)
 //________________________________________________________________________
 void msr2MxmltreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendStaffToNoteIfRelevant(), note = " <<
@@ -6007,10 +6011,10 @@ void msr2MxmltreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
 void msr2MxmltreeTranslator::appendVoiceToNoteIfRelevant (
   S_msrNote note)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendVoiceToNoteIfRelevant(), note = " <<
@@ -6461,11 +6465,13 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
 
   rational
     noteSoundingWholeNotes =
-      note->getMeasureElementSoundingWholeNotes (),
+      note->getMeasureElementSoundingWholeNotes ();
+
+#ifdef TRACE_OAH
+  rational
     noteDisplayWholeNotes =
       note->getNoteDisplayWholeNotes ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "-->  noteKind: " << msrNote::noteKindAsString (noteKind) <<
@@ -6575,10 +6581,10 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
 void msr2MxmltreeTranslator::appendTimeModificationToNoteIfRelevant (
   S_msrNote note)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     note->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendTimeModificationToNoteIfRelevant(), note = " <<
@@ -6973,10 +6979,10 @@ void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 //________________________________________________________________________
 void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrNote '" <<
@@ -7008,10 +7014,10 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
 
 void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrNote " <<

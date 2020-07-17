@@ -305,6 +305,7 @@ class bsrOah : public oahGroup
     // display
 
     bool                  fDisplayBsr;
+    bool                  fDisplayBsrShort;
     bool                  fDisplayBsrDetails;
 
     // languages

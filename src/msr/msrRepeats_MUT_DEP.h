@@ -94,7 +94,7 @@ class msrRepeatCommonPart : public msrElement
 
     virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os) const;
+    virtual void          printShort (ostream& os) const;
 
   private:
 
@@ -238,7 +238,7 @@ class msrRepeatEnding : public msrElement
 
     virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os) const;
+    virtual void          printShort (ostream& os) const;
 
   private:
 
@@ -421,7 +421,7 @@ class msrRepeat : public msrVoiceElement
 
     virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os) const;
+    virtual void          printShort (ostream& os) const;
 
   private:
 
@@ -652,7 +652,7 @@ class msrRepeatElement : public msrElement
 
     virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os) const;
+    virtual void          printShort (ostream& os) const;
 
   private:
 

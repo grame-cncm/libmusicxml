@@ -929,28 +929,12 @@ void msrPartGroup::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "partGroupPartGroupUpLink" << " : ";
-
-  if (fPartGroupPartGroupUpLink) {
-    // it may be empty
-    os <<
-      fPartGroupPartGroupUpLink->
-        getPartGroupCombinedName ();
-  }
-  else {
-    os <<
-      "none";
-  }
-  os << endl;
-
-  os << left <<
-    setw (fieldWidth) <<
     "partGroupName" << " : \"" <<
     fPartGroupName <<
     "\"" <<
     endl;
 
-   os << left <<
+  os << left <<
     setw (fieldWidth) <<
     "partGroupPartGroupUpLink" << " : ";
   if (fPartGroupPartGroupUpLink) {
@@ -961,8 +945,7 @@ void msrPartGroup::print (ostream& os) const
       "\"";
   }
   else {
-    os <<
-    "none";
+    os << "none";
   }
   os << endl;
 
@@ -1055,7 +1038,137 @@ void msrPartGroup::print (ostream& os) const
   gIndenter--;
 }
 
-void msrPartGroup::printSummary (ostream& os)
+void msrPartGroup::printShort (ostream& os) const
+{
+  os <<
+    "PartGroup" " \"" << getPartGroupCombinedName () <<
+    "\" (" <<
+    singularOrPlural (
+      fPartGroupPartsMap.size (), "part", "parts") <<
+    ")" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 25;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "partGroupName" << " : \"" <<
+    fPartGroupName <<
+    "\"" <<
+    endl;
+
+/*
+  os << left <<
+    setw (fieldWidth) <<
+    "partGroupPartGroupUpLink" << " : ";
+
+  if (fPartGroupPartGroupUpLink) {
+    // it may be empty
+    os <<
+      "\"" <<
+      fPartGroupPartGroupUpLink->
+        getPartGroupCombinedName () <<
+      "\"";
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+   setw (fieldWidth) <<
+    "partGroupNameDisplayText" << " : \"" <<
+    fPartGroupNameDisplayText <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "partGroupAccidentalText" << " : \"" <<
+    fPartGroupAccidentalText <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "partGroupAbbrevation" << " : \"" <<
+    fPartGroupAbbreviation <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "partGroupSymbolDefaultX" << " : " <<
+    fPartGroupSymbolDefaultX <<
+      endl <<
+    setw (fieldWidth) <<
+    "partGroupSymbolKind" << " : " <<
+    partGroupSymbolKindAsString (
+      fPartGroupSymbolKind) <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "partGroupImplicit" << " : " <<
+    partGroupImplicitKindAsString (
+      fPartGroupImplicitKind) <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "partGroupBarline" << " : " <<
+    partGroupBarlineKindAsString (
+      fPartGroupBarlineKind) <<
+    endl;
+
+  // print all the voices if any
+  int partGroupAllVoicesListSize = fPartGroupAllVoicesList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "PartGroupAllVoicesList";
+  if (partGroupAllVoicesListSize) {
+    os << endl;
+    gIndenter++;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fPartGroupAllVoicesList.begin (),
+      iEnd   = fPartGroupAllVoicesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrVoice voice = (*i);
+
+      os << voice->getVoiceName () << endl;
+      if (++i == iEnd) break;
+      // os << endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
+*/
+
+  // print the part group elements if any
+  if (fPartGroupElements.size ()) {
+    os << endl;
+    list<S_msrPartGroupElement>::const_iterator
+      iBegin = fPartGroupElements.begin (),
+      iEnd   = fPartGroupElements.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      (*i)->printShort (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  gIndenter--;
+}
+
+void msrPartGroup::printSummary (ostream& os) const
 {
   os <<
     "PartGroup" " \"" << getPartGroupCombinedName () <<

@@ -2479,6 +2479,88 @@ void lpsrScore::print (ostream& os) const
   gIndenter--;
 }
 
+void lpsrScore::printShort (ostream& os) const
+{
+  os <<
+    "LPSR Score" <<
+    endl <<
+    endl;
+
+  gIndenter++;
+
+  // print the MSR structure (without the voices)
+  fMsrScore->
+    printShort (os);
+  os << endl;
+
+  // are some Scheme functions needed?
+  const int fieldWidth = 42;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "TongueSchemeFunctionIsNeeded" << " : " <<
+    booleanAsString (
+      fTongueSchemeFunctionIsNeeded) <<
+    endl <<
+    setw (fieldWidth) <<
+    "EditorialAccidentalSchemeFunctionIsNeeded" << " : " <<
+    booleanAsString (
+      fEditorialAccidentalSchemeFunctionIsNeeded) <<
+    endl <<
+    endl;
+
+  // print LPSR basic information
+  os <<
+    fLilypondVersion <<
+    endl <<
+
+    fScoreGlobalStaffSizeSchemeVariable <<
+    endl <<
+
+    fScoreHeader <<
+    // no endl here
+
+    fScorePaper <<
+    endl <<
+
+    fScoreLayout <<
+    endl;
+
+// myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
+
+  // print the voices and stanzas
+  if (fScoreElementsList.size ()) {
+    list<S_msrElement>::const_iterator
+      iBegin = fScoreElementsList.begin (),
+      iEnd   = fScoreElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      (*i)->printShort (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    os << endl;
+  }
+
+  // print the book blocks
+  if (fScoreBookBlocksList.size ()) {
+    list<S_lpsrBookBlock>::const_iterator
+      iBegin = fScoreBookBlocksList.begin (),
+      iEnd   = fScoreBookBlocksList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      (*i)->printShort (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    os << endl;
+  }
+
+  gIndenter--;
+}
+
 ostream& operator<< (ostream& os, const S_lpsrScore& scr)
 {
   scr->print (os);

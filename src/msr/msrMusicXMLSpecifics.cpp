@@ -1032,6 +1032,14 @@ void msrPrintLayout::print (ostream& os) const
   gIndenter--;
 }
 
+void msrPrintLayout::printShort (ostream& os) const
+{
+  os <<
+    "PrintLayout" <<
+    ", line " << fInputLineNumber <<
+    endl;
+}
+
 ostream& operator<< (ostream& os, const S_msrPrintLayout& elt)
 {
   elt->print (os);

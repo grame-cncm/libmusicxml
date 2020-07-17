@@ -171,7 +171,9 @@ class bsr2BsrFinalizer :
     // log output stream
     // ------------------------------------------------------
 
+#ifdef TRACE_OAH
     ostream&              fLogOutputStream;
+#endif
 };
 
 

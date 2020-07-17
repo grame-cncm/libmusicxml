@@ -38,8 +38,19 @@ EXP void displayLpsrScore (
   S_lpsrOah         lpsrOpts,
   ostream&          logOstream);
 
+EXP void displayLpsrScoreShort (
+  const S_lpsrScore lpScore,
+  S_msrOah          msrOpts,
+  S_lpsrOah         lpsrOpts,
+  ostream&          logOstream);
+
 //_______________________________________________________________________________
 void displayLpsrScore_OptionalPass (
+  S_lpsrScore lpScore,
+  S_msrOah    msrOpts,
+  S_lpsrOah   lpsrOpts);
+
+void displayLpsrScoreShort_OptionalPass (
   S_lpsrScore lpScore,
   S_msrOah    msrOpts,
   S_lpsrOah   lpsrOpts);

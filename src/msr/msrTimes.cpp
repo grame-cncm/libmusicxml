@@ -705,7 +705,23 @@ void msrTime::print (ostream& os) const
   }
 
   gIndenter--;
-  }
+}
+
+void msrTime::printShort (ostream& os) const
+{
+  os <<
+    "Time " <<
+    ", timeSymbolKind: " <<
+    timeSymbolKindAsString (fTimeSymbolKind) <<
+    ", timeIsCompound: " <<
+    booleanAsString (fTimeIsCompound) <<
+    ", fTimeItemsVector.size(): " <<
+    singularOrPlural (
+      fTimeItemsVector.size (), "item", "items") <<
+    singularOrPlural (
+      fTimeItemsVector.size (), "item", "items") <<
+    ", line " << fInputLineNumber;
+}
 
 ostream& operator<< (ostream& os, const S_msrTime& elt)
 {

@@ -341,7 +341,7 @@ void msrMeasuresRepeatElement::print (ostream& os) const
   gIndenter--;
 }
 
-void msrMeasuresRepeatElement::shortPrint (ostream& os) const
+void msrMeasuresRepeatElement::printShort (ostream& os) const
 {
   os <<
     "MeasuresRepeatElement" <<
@@ -389,7 +389,7 @@ void msrMeasuresRepeatElement::shortPrint (ostream& os) const
 
     for ( ; ; ) {
       // print the element
-      (*i)->shortPrint (os);
+      (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
     } // for

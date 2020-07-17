@@ -99,7 +99,7 @@ class msrMeasuresRepeatElement : public msrElement
 
     virtual void          print (ostream& os) const;
 
-    virtual void          shortPrint (ostream& os) const;
+    virtual void          printShort (ostream& os) const;
 
   private:
 

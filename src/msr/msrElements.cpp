@@ -97,7 +97,7 @@ void msrElement::print (ostream& os) const
   os << asString () << endl;
 }
 
-void msrElement::shortPrint (ostream& os) const
+void msrElement::printShort (ostream& os) const
 {
   print (os);
 }

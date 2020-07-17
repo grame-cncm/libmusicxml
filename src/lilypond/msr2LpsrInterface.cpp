@@ -134,7 +134,51 @@ void displayLpsrScore (
   // register time spent
   timing::gTiming.appendTimingItem (
     "",
-    "display the LPSR",
+    "display the LPSR as text",
+    timingItem::kOptional,
+    startClock,
+    endClock);
+}
+
+void displayLpsrScoreShort (
+  const S_lpsrScore lpScore,
+  S_msrOah          msrOpts,
+  S_lpsrOah         lpsrOpts,
+  ostream&          logOstream)
+{
+  // sanity check
+  msrAssert (
+    lpScore != 0,
+    "lpScore is null");
+
+  clock_t startClock = clock ();
+
+  string separator =
+    "%--------------------------------------------------------------";
+
+  logOstream <<
+    separator <<
+    endl <<
+    gTab <<
+    "Optional pass: displaying the LPSR as text, short version" <<
+    endl <<
+    separator <<
+    endl <<
+    endl;
+
+  lpScore->printShort (logOstream);
+
+  logOstream <<
+    separator <<
+    endl <<
+    endl;
+
+  clock_t endClock = clock ();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "",
+    "display the LPSR as text, short version",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -159,6 +203,36 @@ void displayLpsrScore_OptionalPass (
 
       s <<
         "gIndenter value after LPSR score display: "<<
+        gIndenter.getIndent ();
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+}
+
+void displayLpsrScoreShort_OptionalPass (
+  S_lpsrScore lpScore,
+  S_msrOah    msrOpts,
+  S_lpsrOah   lpsrOpts)
+{
+  // display it
+  displayLpsrScoreShort (
+    lpScore,
+    msrOpts,
+    lpsrOpts,
+    gLogOstream);
+
+  if (gIndenter != 0) {
+    if (! gGeneralOah->fQuiet) {
+      stringstream s;
+
+      s <<
+        "gIndenter value after LPSR score short display: "<<
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (

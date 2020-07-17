@@ -68,7 +68,51 @@ void displayFirstBsrScore (
   // register time spent
   timing::gTiming.appendTimingItem (
     "",
-    "display the first BSR",
+    "display the first BSR as text",
+    timingItem::kOptional,
+    startClock,
+    endClock);
+}
+
+void displayFirstBsrScoreShort (
+  const S_bsrScore bScore,
+  S_msrOah         msrOpts,
+  S_bsrOah         bsrOpts,
+  ostream&         logOstream)
+{
+  // sanity check
+  msrAssert (
+    bScore != 0,
+    "bScore is null");
+
+  clock_t startClock = clock ();
+
+  string separator =
+    "%--------------------------------------------------------------";
+
+  logOstream <<
+    separator <<
+    endl <<
+    gTab <<
+    "Optional pass: displaying the first BSR as text, short version" <<
+    endl <<
+    separator <<
+    endl <<
+    endl;
+
+  bScore->printShort (logOstream);
+
+  logOstream <<
+    separator <<
+    endl <<
+    endl;
+
+  clock_t endClock = clock ();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "",
+    "display the first BSR as text, short version",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -105,6 +149,36 @@ void displayBsrFirstScore_OptionalPass (
   }
 }
 
+void displayBsrFirstScoreShort_OptionalPass (
+  S_bsrScore bScore,
+  S_msrOah   msrOpts,
+  S_bsrOah   bsrOpts)
+{
+  // display it
+  displayFirstBsrScoreShort (
+    bScore,
+    msrOpts,
+    bsrOpts,
+    gLogOstream);
+
+  if (gIndenter != 0) {
+    if (! gGeneralOah->fQuiet) {
+      stringstream s;
+
+      s <<
+        "gIndenter value after first BSR score short display: "<<
+        gIndenter.getIndent ();
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+}
+
 //_______________________________________________________________________________
 void displayFinalizedBsrScore_OptionalPass (
   S_bsrScore bScore,
@@ -124,6 +198,36 @@ void displayFinalizedBsrScore_OptionalPass (
 
       s <<
         "gIndenter value after BSR score display: "<<
+        gIndenter.getIndent ();
+
+      msrMusicXMLWarning (
+        gOahOah->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+}
+
+void displayFinalizedBsrScoreShort_OptionalPass (
+  S_bsrScore bScore,
+  S_msrOah   msrOpts,
+  S_bsrOah   bsrOpts)
+{
+  // display it
+  displayFinalizedBsrScoreShort (
+    bScore,
+    msrOpts,
+    bsrOpts,
+    gLogOstream);
+
+  if (gIndenter != 0) {
+    if (! gGeneralOah->fQuiet) {
+      stringstream s;
+
+      s <<
+        "gIndenter value after BSR score short display: "<<
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
@@ -231,7 +335,50 @@ void displayFinalizedBsrScore (
   // register time spent
   timing::gTiming.appendTimingItem (
     "",
-    "display the finalized BSR",
+    "display the finalized BSR as text",
+    timingItem::kOptional,
+    startClock,
+    endClock);
+}
+
+void displayFinalizedBsrScoreShort (
+  const S_bsrScore bScore,
+  S_msrOah         msrOpts,
+  S_bsrOah         bsrOpts,
+  ostream&         logOstream)
+{
+  // sanity check
+  msrAssert (
+    bScore != 0,
+    "bScore is null");
+
+  clock_t startClock = clock ();
+
+  string separator =
+    "%--------------------------------------------------------------";
+
+  logOstream <<
+    separator <<
+    endl <<
+    gTab <<
+    "Optional pass: displaying the finalized BSR as text, short version" <<
+    endl <<
+    separator <<
+    endl;
+
+  bScore->printShort (logOstream);
+
+  logOstream <<
+    separator <<
+    endl <<
+    endl;
+
+  clock_t endClock = clock ();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "",
+    "display the finalized BSR as text, short version",
     timingItem::kOptional,
     startClock,
     endClock);

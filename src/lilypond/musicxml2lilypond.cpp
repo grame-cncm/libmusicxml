@@ -226,23 +226,17 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       return kInvalidFile;
     }
 
-    // should we return now?
-    // ------------------------------------------------------
-
-    if (gXml2lyOah->fExit2b) {
-      err <<
-        endl <<
-        "Existing after pass 2b as requested" <<
-        endl;
-
-      return kNoErr;
-    }
-
     // display the MSR score summary if requested
     // ------------------------------------------------------
 
     if (gMsrOah->fDisplayMsr) {
       displayMsrScore_OptionalPass (
+        mScore,
+        gMsrOah);
+    }
+
+    if (gMsrOah->fDisplayMsrShort) {
+      displayMsrScoreShort_OptionalPass (
         mScore,
         gMsrOah);
     }
@@ -273,6 +267,18 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       return kNoErr;
     }
 
+    // should we return now?
+    // ------------------------------------------------------
+
+    if (gXml2lyOah->fExit2b) {
+      err <<
+        endl <<
+        "Existing after pass 2b as requested" <<
+        endl;
+
+      return kNoErr;
+    }
+
     // create the LPSR from the MSR (pass 3)
     // ------------------------------------------------------
 
@@ -291,6 +297,23 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       return kInvalidFile;
     }
 
+    // display the LPSR score if requested
+    // ------------------------------------------------------
+
+    if (gLpsrOah->fDisplayLpsr) {
+      displayLpsrScore_OptionalPass (
+        lpScore,
+        gMsrOah,
+        gLpsrOah);
+    }
+
+    if (gLpsrOah->fDisplayLpsrShort) {
+      displayLpsrScoreShort_OptionalPass (
+        lpScore,
+        gMsrOah,
+        gLpsrOah);
+    }
+
     // should we return now?
     // ------------------------------------------------------
 
@@ -301,16 +324,6 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
         endl;
 
       return kNoErr;
-    }
-
-    // display the LPSR score if requested
-    // ------------------------------------------------------
-
-    if (gLpsrOah->fDisplayLpsr) {
-      displayLpsrScore_OptionalPass (
-        lpScore,
-        gMsrOah,
-        gLpsrOah);
     }
 
     // generate LilyPond code from the LPSR (pass 4)
@@ -480,7 +493,7 @@ EXP xmlErr convertMusicXMLToLilypond (
     return kNoErr;
   }
 
-  // display the MSR score summary if requested
+  // display the MSR score if requested
   // ------------------------------------------------------
 
   if (gMsrOah->fDisplayMsr) {
@@ -489,7 +502,13 @@ EXP xmlErr convertMusicXMLToLilypond (
       gMsrOah);
   }
 
-  // display the score summary if requested
+  if (gMsrOah->fDisplayMsrShort) {
+    displayMsrScoreShort_OptionalPass (
+      mScore,
+      gMsrOah);
+  }
+
+  // display the populated MSR score summary if requested
   // ------------------------------------------------------
 
   if (gMsrOah->fDisplayMsrSummary) {
@@ -502,7 +521,7 @@ EXP xmlErr convertMusicXMLToLilypond (
     return kNoErr;
   }
 
-  // display the score names if requested
+  // display the populated MSR score names if requested
   // ------------------------------------------------------
 
   if (gMsrOah->fDisplayMsrNames) {
@@ -563,6 +582,13 @@ EXP xmlErr convertMusicXMLToLilypond (
       gMsrOah,
       gLpsrOah);
   }
+
+  if (gLpsrOah->fDisplayLpsrShort) {
+    displayLpsrScoreShort_OptionalPass (
+      lpScore,
+      gMsrOah,
+      gLpsrOah);
+    }
 
   // generate LilyPond code from the LPSR (pass 4)
   // ------------------------------------------------------

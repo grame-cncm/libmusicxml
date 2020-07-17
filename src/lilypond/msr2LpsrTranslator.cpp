@@ -173,6 +173,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   // repeats
 
   // notes
+  fOnGoingNote = false;
   fOnGoingNonGraceNote = false;
 
   // double tremolos
@@ -392,7 +393,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
   }
 
   // heuristics to determine the number of characters per centimeter
-  float charactersPerCemtimeter = 4.0;
+//  float charactersPerCemtimeter = 4.0; // JMI ???
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceGeometry) {
@@ -440,11 +441,13 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       setw (fieldWidth) <<
       "maxShortValue" << " : " <<
       maxShortValue <<
+      /* JMI
       endl <<
 
       setw (fieldWidth) <<
       "charactersPerCemtimeter" << " : " <<
       charactersPerCemtimeter <<
+      */
       endl;
 /*
     fLogOutputStream << left <<
@@ -4062,8 +4065,22 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrSlur" <<
+      "--> Start visiting msrSlur " <<
+      elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (gTraceOah->fTraceSlurs) {
+    fLogOutputStream <<
+      "--> visitStart (S_msrSlur&), " <<
+      elt->asShortString () <<
+      ", onGoingNote: " <<
+      booleanAsString (fOnGoingNote) <<
+      ", onGoingChord: " <<
+      booleanAsString (fOnGoingChord) <<
+      ", onGoingNonGraceNote: " <<
+      booleanAsString (fOnGoingNonGraceNote) <<
       endl;
   }
 #endif
@@ -4075,6 +4092,7 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
     these should be ignored
   */
 
+/*
   if (fOnGoingNonGraceNote) {
     // don't add slurs to chord member notes except the first one
     switch (fCurrentNonGraceNoteClone->getNoteKind ()) {
@@ -4089,6 +4107,11 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
         fCurrentNonGraceNoteClone->
           appendSlurToNote (elt);
     } // switch
+  }
+*/
+  if (fOnGoingNote) {
+    fCurrentNoteClone->
+      appendSlurToNote (elt);
   }
 
   else if (fOnGoingChord) {
@@ -4118,7 +4141,8 @@ void msr2LpsrTranslator::visitEnd (S_msrSlur& elt)
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrSlur" <<
+      "--> End visiting msrSlur " <<
+      elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -4263,7 +4287,8 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrGraceNotesGroup" <<
+      "--> Start visiting msrGraceNotesGroup " <<
+      elt->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -4329,7 +4354,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 1" <<
       endl <<
-      "fCurrentNonGraceNoteClone:";
+      "fCurrentNonGraceNoteClone: ";
 
     if (fCurrentNonGraceNoteClone) {
       fLogOutputStream <<
@@ -4369,7 +4394,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
-      "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
+      "The noteNotesGroupIsAttachedTo voice clone FIRST_ONE??? '" <<
       fCurrentVoiceClone->getVoiceName () <<
       "' is '";
 
@@ -4460,7 +4485,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 2" <<
       endl <<
-      "fCurrentNonGraceNoteClone:";
+      "fCurrentNonGraceNoteClone: ";
 
     if (fCurrentNonGraceNoteClone) {
       fLogOutputStream <<
@@ -4520,13 +4545,12 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 #endif
 
   // create the note clone
-  S_msrNote
-    noteClone =
-      elt->createNoteNewbornClone (
-        fCurrentPartClone);
+  fCurrentNoteClone =
+    elt->createNoteNewbornClone (
+      fCurrentPartClone);
 
   // register clone in this tranlastors' voice notes map
-  fVoiceNotesMap [elt] = noteClone; // JMI XXL
+  fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL
 
   // don't register grace notes as the current note clone,
   // but as the current grace note clone instead
@@ -4557,11 +4581,11 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     case msrNote::kGraceNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
-      fCurrentGraceNoteClone = noteClone;
+      fCurrentGraceNoteClone = fCurrentNoteClone;
       break;
 
     default:
-      fCurrentNonGraceNoteClone = noteClone;
+      fCurrentNonGraceNoteClone = fCurrentNoteClone;
 
       if (! fFirstNoteCloneInVoice) {
         fFirstNoteCloneInVoice =
@@ -4582,6 +4606,8 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
       fOnGoingNonGraceNote = true;
   } // switch
+
+  fOnGoingNote = true;
 
 /* JMI
   // can we optimize graceNotesGroup into afterGraceNotesGroup?
@@ -5035,6 +5061,10 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     default:
       fOnGoingNonGraceNote = false;
   } // switch
+
+  // forget about current note
+  fCurrentNoteClone = nullptr;
+  fOnGoingNote = false;
 }
 
 //________________________________________________________________________
@@ -5223,7 +5253,8 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrChord" <<
+      "--> Start visiting msrChord " <<
+      elt->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
   }

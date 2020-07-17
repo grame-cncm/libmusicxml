@@ -704,8 +704,7 @@ string msrBarline::asString () const
   stringstream s;
 
   s <<
-    "["
-    "Barline " <<
+    "[Barline " <<
     barlineCategoryKindAsString (fBarlineCategoryKind) <<
     ", measureNumber " << fMeasureElementMeasureNumber <<
     ", positionInMeasure " << fMeasureElementPositionInMeasure <<
@@ -818,13 +817,21 @@ void msrBarline::print (ostream& os) const
     setw (fieldWidth) <<
     "measureNumber" << " : " <<
     fMeasureElementMeasureNumber <<
-    endl <<
-    setw (fieldWidth) <<
-    "positionInMeasure" << " : " <<
-    fMeasureElementPositionInMeasure <<
     endl;
 
   gIndenter--;
+}
+
+void msrBarline::printShort (ostream& os) const
+{
+  os <<
+    "Barline, " <<
+    barlineCategoryKindAsString (
+      fBarlineCategoryKind) <<
+    ", measureNumber " << fMeasureElementMeasureNumber <<
+    ", positionInMeasure " << fMeasureElementPositionInMeasure <<
+    ", line " << fInputLineNumber <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrBarline& elt)

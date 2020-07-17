@@ -444,10 +444,10 @@ string msrGraceNotesGroup::asString () const
   stringstream s;
 
   s <<
-    "GraceNotesGroup" <<
+    "[GraceNotesGroup" <<
     ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
     "\", line " << fInputLineNumber <<
-    " [";
+    " ";
 
   if (fGraceNotesGroupElementsList.size ()) {
     list<S_msrMeasureElement>::const_iterator
@@ -547,6 +547,108 @@ void msrGraceNotesGroup::print (ostream& os) const
 
     for ( ; ; ) {
       os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+  else {
+    os <<
+       " : " <<
+       "none" <<
+      endl;
+  }
+
+  gIndenter--;
+}
+
+void msrGraceNotesGroup::printShort (ostream& os) const
+{
+  os <<
+    "GraceNotesGroup" <<
+    ", line " << fInputLineNumber <<
+    ", " <<
+    singularOrPlural (
+      fGraceNotesGroupElementsList.size (), "element", "elements") <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 33;
+
+/*
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupVoiceUpLink" << " : ";
+    if (fGraceNotesGroupVoiceUpLink) {
+      os <<
+        fGraceNotesGroupVoiceUpLink->asShortString ();
+    }
+    else {
+      os <<
+        "none";
+    }
+  os << endl;
+
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupNoteUpLink" << " : ";
+    if (fGraceNotesGroupNoteUpLink) {
+      os <<
+        fGraceNotesGroupNoteUpLink->asShortString ();
+    }
+    else {
+      os <<
+        "none";
+    }
+  os << endl;
+*/
+
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupIsSlashed" << " : " <<
+    booleanAsString (fGraceNotesGroupIsSlashed) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "graceNotesGroupIsTied" << " : " <<
+    booleanAsString (fGraceNotesGroupIsTied) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "graceNotesGroupIsBeamed" << " : " <<
+    booleanAsString (fGraceNotesGroupIsBeamed) <<
+    endl;
+
+/*
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupIsFollowedByNotes" << " : " <<
+    booleanAsString (fGraceNotesGroupIsFollowedByNotes) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "graceNotesGroupMeasureNumber" << " : " <<
+    fGraceNotesGroupMeasureNumber <<
+    endl;
+*/
+
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupElementsList";
+  if (fGraceNotesGroupElementsList.size ()) {
+    os << endl;
+
+    gIndenter++;
+
+    list<S_msrMeasureElement>::const_iterator
+      iBegin = fGraceNotesGroupElementsList.begin (),
+      iEnd   = fGraceNotesGroupElementsList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
     } // for

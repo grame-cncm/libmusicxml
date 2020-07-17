@@ -142,7 +142,7 @@ void displayMsrSkeleton (
   // register time spent
   timing::gTiming.appendTimingItem (
     "",
-    "display the MSR skeleton",
+    "display the MSR skeleton as text",
     timingItem::kOptional,
     startClock,
     endClock);

@@ -95,20 +95,22 @@ ostream& operator<< (ostream& os, const timing& tim) {
 
 void timing::print (ostream& os) const
 {
+  // printing the details
   const int
     activityWidth     =  8,
-    descriptionWidth  = 32,
+    descriptionWidth  = 50,
     kindWidth         =  9,
     secondsWidth      =  9,
-    secondsPrecision  =  6;
+    secondsPrecision  = secondsWidth - 4; // to leave room for large numbers
 
   clock_t
     totalClock          = 0,
     totalMandatoryClock = 0,
     totalOptionalClock  = 0;
 
-  os << left <<
+  os <<
     endl <<
+    left <<
     "Timing information:" <<
     endl << endl <<
     setw (activityWidth) << "Activity" << "  " <<
@@ -118,7 +120,9 @@ void timing::print (ostream& os) const
     setw (activityWidth) << replicateString ("-", activityWidth) << "  " <<
     setw (descriptionWidth) << replicateString ("-", descriptionWidth) << "  " <<
     setw (kindWidth) << replicateString ("-", kindWidth) << "  " <<
-    setw (secondsWidth) << replicateString ("-", secondsWidth) << endl << endl;
+    setw (secondsWidth) << replicateString ("-", secondsWidth) <<
+    endl <<
+    endl;
 
   for (
     list<S_timingItem>::const_iterator i=fTimingItemsList.begin ();
@@ -144,18 +148,23 @@ void timing::print (ostream& os) const
     } // switch
 
     os << "  " <<
-      setw (secondsWidth) << setprecision(secondsPrecision) <<
-    left << float(timingItemClock) / CLOCKS_PER_SEC << endl;
-  } // for
+      right << fixed <<
+      setprecision (secondsPrecision) <<
 
+      setw (secondsWidth) <<
+      float(timingItemClock) / CLOCKS_PER_SEC <<
+      endl;
+  } // for
+  os << endl;
+
+  // printing the totals
   const int
-    totalClockWidth          =  7,
+    totalClockWidth          =  9,
     totalMandatoryClockWidth =  9,
-    totalOptionalClockWidth  = 10,
-    totalsPrecision          =  6;
+    totalOptionalClockWidth  =  9,
+    totalsPrecision          =  secondsPrecision;
 
   os << left <<
-    endl <<
     setw (totalClockWidth)            << "Total" <<
     "    " <<
     setw (totalMandatoryClockWidth)   << "Mandatory" <<
@@ -171,8 +180,10 @@ void timing::print (ostream& os) const
     "  " <<
     setw (secondsWidth) <<
     replicateString ("-", secondsWidth) <<
-    setprecision(totalsPrecision) <<
     endl <<
+
+    right << fixed <<
+    setprecision (totalsPrecision) <<
 
     setw (totalClockWidth) <<
     float(totalClock) / CLOCKS_PER_SEC <<

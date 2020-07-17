@@ -145,7 +145,9 @@ class bsr2BrailleTranslator :
 
     S_bsrOah              fBsrOah;
 
-    ostream&              fLogOutputStream; // unused JMI ???
+#ifdef TRACE_OAH
+    ostream&              fLogOutputStream;
+#endif
 
     S_bsrBrailleGenerator fBrailleGenerator;
 };

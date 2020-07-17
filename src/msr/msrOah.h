@@ -318,6 +318,7 @@ class msrOah : public oahGroup
     bool                  fDisplayPartGroups;
 
     bool                  fDisplayMsr;
+    bool                  fDisplayMsrShort;
     bool                  fDisplayMsrDetails;
 
     bool                  fDisplayMsrNames;

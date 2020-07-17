@@ -78,8 +78,6 @@ S_msrScaling msrScaling::createMsrScalingNewbornClone ()
 float msrScaling::fetchGlobalStaffSize () const
 {
   const float
-    optionsStaffGlobalSizeDefaultValue =
-      gLpsrOah->fStaffGlobalSizeDefaultValue,
     optionsGlobalStaffSize =
       gLpsrOah->fGlobalStaffSize;
 
@@ -104,7 +102,11 @@ float msrScaling::fetchGlobalStaffSize () const
 
     result = optionsGlobalStaffSize * ratio;
 
-  #ifdef TRACE_OAH
+#ifdef TRACE_OAH
+    const float
+      optionsStaffGlobalSizeDefaultValue =
+        gLpsrOah->fStaffGlobalSizeDefaultValue;
+
     if (gTraceOah->fTraceGeometry) {
       gLogOstream <<
         "fetchGlobalStaffSize():" <<
@@ -153,7 +155,7 @@ float msrScaling::fetchGlobalStaffSize () const
 
       gIndenter--;
     }
-  #endif
+#endif
 
     if (result < 1.0 || result > 100.0) {
 #ifdef TRACE_OAH

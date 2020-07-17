@@ -680,6 +680,26 @@ R"(Slurs)",
     addBooleanAtom (
       traceSlursAtom);
 
+  // slurs details
+
+  fTraceSlursDetails = boolOptionsInitialValue;
+
+  S_oahThreeBooleansAtom
+    traceSlursDetailsAtom =
+      oahThreeBooleansAtom::create (
+        "tslursd", "trace-slurs-details",
+R"(Slurs details)",
+        "traceSlursDetails",
+        fTraceSlursDetails,
+        fTraceSlurs,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      traceSlursDetailsAtom);
+  spannersMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceSlursDetailsAtom);
+
   // ligatures
 
   fTraceLigatures = boolOptionsInitialValue;

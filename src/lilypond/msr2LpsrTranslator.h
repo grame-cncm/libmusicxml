@@ -685,6 +685,10 @@ class msr2LpsrTranslator :
 
     // notes
     // ------------------------------------------------------
+
+    bool                      fOnGoingNote;
+    S_msrNote                 fCurrentNoteClone;
+
     bool                      fOnGoingNonGraceNote;
 
     // fCurrentNonGraceNoteClone is not used for grace notes,

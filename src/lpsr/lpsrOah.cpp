@@ -1852,6 +1852,18 @@ R"()",
 R"(Write the contents of the LPSR data to standard error.)",
         "displayLpsr",
         fDisplayLpsr));
+
+  // display LPSR short
+
+  fDisplayLpsrShort = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "dlpsrs", "display-lpsr-short",
+R"(Write the contents of the LPSR data, short version, to standard error.)",
+        "displayLpsrShort",
+        fDisplayLpsrShort));
 }
 
 void lpsrOah::initializeLpsrLilypondVersionOptions (
@@ -2622,6 +2634,8 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
 
   clone->fDisplayLpsr =
     true;
+  clone->fDisplayLpsrShort =
+    true;
 
   // LilyPond version
   // --------------------------------------
@@ -2767,6 +2781,7 @@ void lpsrOah::enforceQuietness ()
 #endif
 
   fDisplayLpsr = false;
+  fDisplayLpsrShort = false;
 }
 
 //______________________________________________________________________________
@@ -2892,6 +2907,9 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   gLogOstream << left <<
     setw (fieldWidth) << "displayLpsr" << " : " <<
     booleanAsString (fDisplayLpsr) <<
+    endl <<
+    setw (fieldWidth) << "displayLpsrShort" << " : " <<
+    booleanAsString (fDisplayLpsrShort) <<
     endl;
 
   gIndenter--;

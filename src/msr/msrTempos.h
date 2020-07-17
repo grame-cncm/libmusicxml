@@ -498,6 +498,8 @@ class msrTempo : public msrMeasureElement
 
     virtual void          print (ostream& os) const;
 
+    virtual void          printShort (ostream& os) const;
+
   private:
 
     // fields

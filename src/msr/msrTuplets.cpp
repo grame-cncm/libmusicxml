@@ -1115,6 +1115,7 @@ void msrTuplet::printShort (ostream& os)
 
   const int fieldWidth = 30;
 
+/*
   os << left <<
     setw (fieldWidth) <<
     "tupletBracketKind" << " : " <<
@@ -1136,7 +1137,9 @@ void msrTuplet::printShort (ostream& os)
     tupletShowTypeKindAsString (
       fTupletShowTypeKind) <<
     endl <<
+*/
 
+  os << left <<
     setw (fieldWidth) <<
     "memberNotesSoundingWholeNotes" << " : " <<
     fMemberNotesSoundingWholeNotes <<

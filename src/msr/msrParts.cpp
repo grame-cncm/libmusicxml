@@ -2383,7 +2383,7 @@ void msrPart::print (ostream& os) const
 
     gIndenter++;
 
-    os <<fPartHarmoniesStaff;
+    os << fPartHarmoniesStaff;
 
     gIndenter--;
   }
@@ -2506,7 +2506,303 @@ void msrPart::print (ostream& os) const
   gIndenter--;
 }
 
-void msrPart::printSummary (ostream& os)
+void msrPart::printShort (ostream& os) const
+{
+  os <<
+    "Part" << " " << fPartMsrName <<
+    " (" <<
+    singularOrPlural (
+      fPartStavesMap.size (), "staff", "staves") <<
+    ")" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 28;
+
+/*
+  os << left <<
+    setw (fieldWidth) <<
+    "partGroupUpLink" << " : ";
+  if (fPartPartGroupUpLink) {
+    // it may be empty
+    os <<
+      fPartPartGroupUpLink->getPartGroupCombinedName ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+*/
+
+  os << left <<
+    setw (fieldWidth) <<
+    "partID" << " : \"" <<
+    fPartID << "\"" <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partMsrName" << " : \"" <<
+    fPartMsrName << "\"" <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partAbsoluteNumber" << " : " <<
+    fPartAbsoluteNumber <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partName" << " : \"" <<
+    fPartName << "\"" <<
+    endl;
+
+/*
+  os << left <<
+    setw (fieldWidth) <<
+    "partNameDisplayText" << " : \"" <<
+    fPartNameDisplayText << "\"" <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partAbbrevation" << " : \"" <<
+    fPartAbbreviation << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "partAbbreviationDisplayText" << " : \"" <<
+    fPartAbbreviationDisplayText << "\"" <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partInstrumentName" << " : \"" <<
+    fPartInstrumentName << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "partInstrumentAbbreviation" << " : \"" <<
+    fPartInstrumentAbbreviation << "\"" <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partNumberOfMeasures" << " : " <<
+    fPartNumberOfMeasures <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partContainsRestMeasures" << " : " <<
+    booleanAsString (fPartContainsRestMeasures) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "partCurrentPositionInMeasure" << " : " <<
+    fPartCurrentPositionInMeasure <<
+    endl;
+
+  // print current the part clef if any
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceClefs) {
+    os << left <<
+      setw (fieldWidth) <<
+      "partCurrentClef" << " : ";
+
+    if (fPartCurrentClef) {
+      os <<
+        "'" <<
+        fPartCurrentClef->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os << endl;
+  }
+#endif
+
+  // print the current part key if any
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceKeys) {
+    os << left <<
+      setw (fieldWidth) <<
+      "partCurrentKey" << " : ";
+
+    if (fPartCurrentKey) {
+      os <<
+        "'" <<
+        fPartCurrentKey->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os << endl;
+  }
+#endif
+
+  // print the current part time if any
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceTimes) {
+    os << left <<
+      setw (fieldWidth) <<
+      "partCurrentTime" << " : ";
+
+    if (fPartCurrentTime) {
+      os <<
+        "'" <<
+        fPartCurrentTime->asShortString () <<
+        "'";
+    }
+    else {
+      os << "none";
+    }
+
+    os << endl;
+  }
+#endif
+
+  os << left <<
+    setw (fieldWidth) << "partShortestNoteDuration" << " : " <<
+    fPartShortestNoteDuration <<
+    endl <<
+    setw (fieldWidth) << "partShortestNoteTupletFactor" << " : " <<
+    endl;
+
+  gIndenter++;
+  os <<
+    fPartShortestNoteTupletFactor <<
+    endl;
+  gIndenter--;
+
+  // print the part harmonies staff if any
+  os << left <<
+    setw (fieldWidth) <<
+    "partHarmoniesStaff" << " : ";
+  if (fPartHarmoniesStaff) {
+    os << endl;
+
+    gIndenter++;
+    fPartHarmoniesStaff->printShort (os);
+    gIndenter--;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // print the part figured bass staff if any
+  os << left <<
+    setw (fieldWidth) <<
+    "partFiguredBassStaff" << " : ";
+  if (fPartFiguredBassStaff) {
+    os << endl;
+
+    gIndenter++;
+    fPartFiguredBassStaff->printShort (os);
+    gIndenter--;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // print the part measure' whole notes durations
+  printPartMeasuresWholeNotesDurationsVector (
+    os,
+    fieldWidth);
+
+  // print all the voices if any
+  int partAllVoicesListSize = fPartAllVoicesList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "PartAllVoicesList";
+  if (partAllVoicesListSize) {
+    os << endl;
+    gIndenter++;
+
+    list<S_msrVoice>::const_iterator
+      iBegin = fPartAllVoicesList.begin (),
+      iEnd   = fPartAllVoicesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrVoice voice = (*i);
+
+      os << voice->getVoiceName () << endl;
+      if (++i == iEnd) break;
+      // os << endl;
+    } // for
+    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
+*/
+
+  // print the registered staves
+  if (fPartStavesMap.size ()) {
+    os << endl;
+
+    map<int, S_msrStaff>::const_iterator
+      iBegin = fPartStavesMap.begin (),
+      iEnd   = fPartStavesMap.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_msrStaff staff = (*i).second;
+
+      // sanity check
+      msrAssert (
+        staff != nullptr,
+        "staff is null");
+
+      msrStaff::msrStaffKind
+        staffKind =
+          staff->getStaffKind ();
+
+      switch (staffKind) { // JMI
+        case msrStaff::kStaffRegular:
+          staff->printShort (os);
+          break;
+
+        case msrStaff::kStaffTablature:
+          staff->printShort (os);
+          break;
+
+        case msrStaff::kStaffHarmony:
+    // JMI      if (gMsrOah->fShowHarmonyVoices) {}
+          staff->printShort (os);
+          break;
+
+        case msrStaff::kStaffFiguredBass:
+    // JMI      if (gMsrOah->fShowFiguredBassVoices) {}
+          staff->printShort (os);
+          break;
+
+        case msrStaff::kStaffDrum:
+          staff->printShort (os);
+          break;
+
+        case msrStaff::kStaffRythmic:
+          staff->printShort (os);
+          break;
+      } // switch
+
+      if (++i == iEnd) break;
+
+      os << endl;
+    } // for
+  }
+
+  gIndenter--;
+}
+
+void msrPart::printSummary (ostream& os) const
 {
   os <<
     "Part" << " " << fPartMsrName <<

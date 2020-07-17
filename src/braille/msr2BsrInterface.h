@@ -39,6 +39,12 @@ EXP void displayFirstBsrScore (
   S_bsrOah         bsrOpts,
   ostream&         logOstream);
 
+EXP void displayFirstBsrScoreShort (
+  const S_bsrScore bScore,
+  S_msrOah         msrOpts,
+  S_bsrOah         bsrOpts,
+  ostream&         logOstream);
+
 //_______________________________________________________________________________
 S_bsrScore convertMsrScoreToBsrScore (
   S_msrScore mScore,

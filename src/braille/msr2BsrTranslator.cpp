@@ -420,9 +420,6 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
 
 void msr2BsrTranslator::visitEnd (S_msrScore& elt)
 {
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -532,8 +529,10 @@ void msr2BsrTranslator::visitEnd (S_msrPartGroup& elt)
 //________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrPart& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
+#endif
 
   string
     partCombinedName =
@@ -566,12 +565,10 @@ void msr2BsrTranslator::visitStart (S_msrPart& elt)
 
 void msr2BsrTranslator::visitEnd (S_msrPart& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  gIndenter--;
-
-#ifdef TRACE_OAH
   if (gTraceOah->fTraceParts || gTraceOah->fTraceMeasures) {
     fLogOutputStream <<
       "--> End visiting msrPart " <<
@@ -580,6 +577,8 @@ void msr2BsrTranslator::visitEnd (S_msrPart& elt)
       endl;
   }
 #endif
+
+  gIndenter--;
 }
 
 //________________________________________________________________________
@@ -661,10 +660,10 @@ void msr2BsrTranslator::visitEnd (S_msrStaff& elt)
 //________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrVoice& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoice \"" <<
@@ -833,10 +832,10 @@ void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
 
 void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
@@ -2545,10 +2544,10 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
 
 void msr2BsrTranslator::visitStart (S_msrNote& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrNote '" <<
@@ -2566,10 +2565,10 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
 
 void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 {
+#ifdef TRACE_OAH
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-#ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrNote " <<
@@ -4312,7 +4311,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 1" <<
       endl <<
-      "fCurrentNonGraceNoteClone:";
+      "fCurrentNonGraceNoteClone: ";
 
     if (fCurrentNonGraceNoteClone) {
       fLogOutputStream <<
@@ -4358,7 +4357,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     gTraceOah->fTraceVoices
   ) {
     fLogOutputStream <<
-      "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
+      "The noteNotesGroupIsAttachedTo voice clone FIRST_ONE??? '" <<
       fCurrentVoiceClone->getVoiceName () <<
       "' is '";
 
@@ -4595,7 +4594,7 @@ void msr2BsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 2" <<
       endl <<
-      "fCurrentNonGraceNoteClone:";
+      "fCurrentNonGraceNoteClone: ";
 
     if (fCurrentNonGraceNoteClone) {
       fLogOutputStream <<
