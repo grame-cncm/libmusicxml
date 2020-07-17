@@ -833,12 +833,12 @@ void msrBarline::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 }
-/*
+
 ostream& operator<< (ostream& os, const S_msrBarline& elt)
 {
   elt->print (os);
   return os;
 }
-*/
+
 
 }

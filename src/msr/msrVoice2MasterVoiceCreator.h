@@ -208,9 +208,9 @@ class msrVoice2MasterVoiceCreator :
 
   private:
 
-#ifdef TRACE_OAH
+// JMI #ifdef TRACE_OAH
     ostream&                  fLogOutputStream;
-#endif
+// #endif
 
     // the MSR voice we're visiting
     // ------------------------------------------------------

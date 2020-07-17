@@ -354,7 +354,6 @@ class lpsrVarValsListAssoc : public lpsrElement
 };
 typedef SMARTP<lpsrVarValsListAssoc> S_lpsrVarValsListAssoc;
 EXP ostream& operator<< (ostream& os, const S_lpsrVarValsListAssoc& elt);
-EXP ostream& operator&& (ostream& os, const S_lpsrVarValsListAssoc& elt);
 
 
 } // namespace MusicXML2

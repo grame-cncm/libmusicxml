@@ -8151,11 +8151,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasurePuristNumber ();
 
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
-    msrMeasure::msrMeasureEndRegularKind
-      measureEndRegularKind =
-        elt-> getMeasureEndRegularKind ();
+  msrMeasure::msrMeasureEndRegularKind
+    measureEndRegularKind =
+      elt-> getMeasureEndRegularKind ();
+#endif
 
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
       "% --> Start visiting msrMeasure '" <<
       measureNumber <<
@@ -8576,11 +8578,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       elt->getMeasurePuristNumber ();
 
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
-    msrMeasure::msrMeasureEndRegularKind
-      measureEndRegularKind =
-        elt-> getMeasureEndRegularKind ();
+  msrMeasure::msrMeasureEndRegularKind
+    measureEndRegularKind =
+      elt-> getMeasureEndRegularKind ();
+#endif
 
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
       "% --> End visiting msrMeasure '" <<
       measureNumber <<

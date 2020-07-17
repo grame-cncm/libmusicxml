@@ -547,11 +547,6 @@ ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& assoc) {
   return os;
 }
 
-ostream& operator&& (ostream& os, const S_lpsrVarValAssoc& assoc) {
-  assoc->printShort (os);
-  return os;
-}
-
 //______________________________________________________________________________
 S_lpsrVarValsListAssoc lpsrVarValsListAssoc::create (
   int                      inputLineNumber,
@@ -772,11 +767,6 @@ void lpsrVarValsListAssoc::printShort (ostream& os) const
 
 ostream& operator<< (ostream& os, const S_lpsrVarValsListAssoc& assoc) {
   assoc->print (os);
-  return os;
-}
-
-ostream& operator&& (ostream& os, const S_lpsrVarValsListAssoc& assoc) {
-  assoc->printShort (os);
   return os;
 }
 

@@ -421,6 +421,9 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
 void msr2BsrTranslator::visitEnd (S_msrScore& elt)
 {
 #ifdef TRACE_OAH
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrScore" <<

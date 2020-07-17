@@ -83,7 +83,6 @@ class msrElement : public smartable
 };
 typedef SMARTP<msrElement> S_msrElement;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
-EXP ostream& operator&& (ostream& os, const S_msrElement& elt);
 
 //______________________________________________________________________________
 template <typename T> class msrBrowser : public browser <T>

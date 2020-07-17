@@ -16,7 +16,7 @@
 
 // comment the following definition if no trace options are wanted
 #ifndef TRACE_OAH
-//  #define TRACE_OAH
+  #define TRACE_OAH
 #endif
 
 #endif

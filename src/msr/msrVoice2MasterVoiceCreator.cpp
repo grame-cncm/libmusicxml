@@ -55,9 +55,11 @@ msrVoice2MasterVoiceCreator::msrVoice2MasterVoiceCreator (
   fOnGoingHarmonyVoice     = false;
   fOnGoingFiguredBassVoice = false;
 
+  // harmonies
   fOnGoingHarmony = false;
 
   // repeats
+  // JMI ???
 
   // notes
   fOnGoingNote = false;
@@ -99,7 +101,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrVoice& elt)
 
   gIndenter++;
 
-  switch (elt->getVoiceKind ()) {
+  switch (elt->getVoiceKind ()) { // JMI ???
 
     case msrVoice::kVoiceRegular:
       break;
