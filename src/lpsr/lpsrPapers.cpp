@@ -207,6 +207,7 @@ void lpsrPaper::print (ostream& os) const
 
   const int fieldWidth = 27;
 
+/*
   // scaling
 
   os << left <<
@@ -245,6 +246,7 @@ void lpsrPaper::print (ostream& os) const
     os << "none";
   }
   os << endl;
+*/
 
   os << left <<
     setw (fieldWidth) <<
@@ -268,6 +270,7 @@ void lpsrPaper::print (ostream& os) const
   }
   os << endl;
 
+/*
   // spaces
 
   os << left <<
@@ -302,6 +305,7 @@ void lpsrPaper::print (ostream& os) const
     os << "none";
   }
   os << endl;
+*/
 
   // counts
 
@@ -327,6 +331,7 @@ void lpsrPaper::print (ostream& os) const
   }
   os << endl;
 
+/*
   // headers and footers
 
   os << left <<
@@ -356,6 +361,176 @@ void lpsrPaper::print (ostream& os) const
     fEvenFooterMarkup <<
     "\"" <<
     endl;
+*/
+
+  gIndenter--;
+}
+
+void lpsrPaper::printShort (ostream& os) const
+{
+  os <<
+    "Paper" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 27;
+
+  // scaling
+
+  os << left <<
+    setw (fieldWidth) <<
+    "scaling" << " : ";
+  if (fScaling) {
+    os << fScaling;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // page layout
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageLayout" << " : ";
+  if (fPageLayout) {
+    os << fPageLayout;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  // indents
+
+/*
+  os << left <<
+    setw (fieldWidth) <<
+    "horizontalShift" << " : ";
+  if (fHorizontalShift) {
+    os << fHorizontalShift;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+*/
+
+  os << left <<
+    setw (fieldWidth) <<
+    "indent" << " : ";
+  if (fIndent) {
+    os << fIndent;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "shortIndent" << " : ";
+  if (fShortIndent) {
+    os << fShortIndent;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+/*
+  // spaces
+
+  os << left <<
+    setw (fieldWidth) <<
+    "markupSystemSpacingPadding" << " : ";
+  if (fMarkupSystemSpacingPadding) {
+    os << fMarkupSystemSpacingPadding;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "betweenSystemSpace" << " : ";
+  if (fBetweenSystemSpace) {
+    os << fBetweenSystemSpace;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageTopSpace" << " : ";
+  if (fPageTopSpace) {
+    os << fPageTopSpace;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+*/
+
+  // counts
+
+  os << left <<
+    setw (fieldWidth) <<
+    "pageCount" << " : ";
+  if (fPageCount) {
+    os << fPageCount;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "systemCount" << " : ";
+  if (fSystemCount) {
+    os << fSystemCount;
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+/*
+  // headers and footers
+
+  os << left <<
+    setw (fieldWidth) <<
+    "oddHeaderMarkup" << " : \"" <<
+    fOddHeaderMarkup <<
+    "\"" <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "evenHeaderMarkup" << " : " <<
+    fEvenHeaderMarkup <<
+    "\"" <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "oddFooterMarkup" << " : " <<
+    fOddFooterMarkup <<
+    "\"" <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "evenFooterMarkup" << " : " <<
+    fEvenFooterMarkup <<
+    "\"" <<
+    endl;
+*/
 
   gIndenter--;
 }

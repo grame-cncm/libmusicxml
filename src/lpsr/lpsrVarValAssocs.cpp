@@ -433,8 +433,122 @@ void lpsrVarValAssoc::print (ostream& os) const
   gIndenter--;
 }
 
+void lpsrVarValAssoc::printShort (ostream& os) const
+{
+  os <<
+    "LPSR VarValAssoc" <<
+    endl;
+
+  gIndenter++;
+
+  // escape quotes if any
+  string variableValue;
+
+  for_each (
+    fVariableValue.begin (),
+    fVariableValue.end (),
+    stringQuoteEscaper (variableValue));
+
+  const int fieldWidth = 24;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "lilyPondVarValAssocKind" << " : " <<
+    lilyPondVarValAssocKindAsString () <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "variableValue" << " : \"" <<
+    variableValue <<
+    "\"" <<
+    endl;
+
+/*
+  os << left <<
+    setw (fieldWidth) <<
+   "varValFontStyleKind" << " : " <<
+    msrFontStyleKindAsString (
+      fVarValFontStyleKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+   "varValFontWeightKind" << " : " <<
+    msrFontWeightKindAsString (
+      fVarValFontWeightKind) <<
+    endl;
+*/
+
+  os << left <<
+    setw (fieldWidth) <<
+   "commentedKind" << " : " <<
+    commentedKindAsString (
+      fCommentedKind) <<
+    endl;
+
+/*
+  os << left <<
+    setw (fieldWidth) <<
+   "backSlashKind" << " : " <<
+    backSlashKindAsString (
+      fBackSlashKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+   "varValSeparatorKind" << " : " <<
+    varValSeparatorKindAsString (
+      fVarValSeparatorKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+   "quotesKind" << " : " <<
+    quotesKindAsString (
+      fQuotesKind) <<
+    endl;
+*/
+
+  os << left <<
+    setw (fieldWidth) <<
+   "unit" << " : ";
+
+  if (fUnit.size ()) {
+    os << "\"" << fUnit << "\"";
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+/*
+  os <<
+    setw (fieldWidth) <<
+   "comment" << " : ";
+
+  if (fComment.size ()) {
+    os << "\"" << fComment << "\"";
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os <<
+    setw (fieldWidth) <<
+   "endlKind" << " : " <<
+    endlKindAsString (
+      fEndlKind) <<
+    endl;
+*/
+
+  gIndenter--;
+}
+
 ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& assoc) {
   assoc->print (os);
+  return os;
+}
+
+ostream& operator&& (ostream& os, const S_lpsrVarValAssoc& assoc) {
+  assoc->printShort (os);
   return os;
 }
 
@@ -616,8 +730,53 @@ void lpsrVarValsListAssoc::print (ostream& os) const
   gIndenter--;
 }
 
+void lpsrVarValsListAssoc::printShort (ostream& os) const
+{
+  os <<
+    "LPSR VarValsListAssoc" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 16;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "assoc kind" << " : " <<
+    lilyPondVarValsListAssocKindAsString () <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "variable values" << " : " <<
+    endl;
+
+  gIndenter++;
+
+  list<string>::const_iterator
+    iBegin = fVariableValuesList.begin (),
+    iEnd   = fVariableValuesList.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    os << "\"" << (*i) << "\"";
+    if (++i == iEnd) break;
+    os << endl;
+  } // for
+
+  os << endl;
+
+  gIndenter--;
+
+  gIndenter--;
+}
+
 ostream& operator<< (ostream& os, const S_lpsrVarValsListAssoc& assoc) {
   assoc->print (os);
+  return os;
+}
+
+ostream& operator&& (ostream& os, const S_lpsrVarValsListAssoc& assoc) {
+  assoc->printShort (os);
   return os;
 }
 

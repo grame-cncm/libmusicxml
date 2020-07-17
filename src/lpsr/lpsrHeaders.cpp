@@ -1438,6 +1438,257 @@ void lpsrHeader::print (ostream& os) const
   gIndenter--;
 }
 
+void lpsrHeader::printShort (ostream& os) const
+{
+  os <<
+    "Header" <<
+    endl;
+
+  bool emptyHeader = true;
+
+  gIndenter++;
+
+  const int fieldWidth = 16;
+
+  // LilyPond informations
+
+  // MusicXML informations
+
+  if (fLilypondTitle) {
+    os << left <<
+      setw (fieldWidth) <<
+      fLilypondTitle->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fLilypondTitle->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fWorkNumber) {
+    os << left <<
+      setw (fieldWidth) <<
+      fWorkNumber->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fWorkNumber->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fWorkTitle) {
+    os << left <<
+      setw (fieldWidth) <<
+      fWorkTitle->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fWorkTitle->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fOpus) {
+    os << left <<
+      setw (fieldWidth) <<
+      fOpus->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fOpus->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fMovementNumber) {
+    os << left <<
+      setw (fieldWidth) <<
+      fMovementNumber->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fMovementNumber->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fMovementTitle) {
+    os << left <<
+      setw (fieldWidth) <<
+      fMovementTitle->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fMovementTitle->printShort (os);
+    os << endl;
+
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fRights) {
+    os << left <<
+      setw (fieldWidth) <<
+      fRights->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fRights->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fComposers) {
+    os << left <<
+      setw (fieldWidth) <<
+      fComposers->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fComposers->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fArrangers) {
+    os << left <<
+      setw (fieldWidth) <<
+      fArrangers->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fArrangers->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fLyricists) {
+    os << left <<
+      setw (fieldWidth) <<
+      fLyricists->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fLyricists->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fPoets) {
+    os << left <<
+      setw (fieldWidth) <<
+      fPoets->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fPoets->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fTranslators) {
+    os << left <<
+      setw (fieldWidth) <<
+      fTranslators->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fTranslators->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fSoftwares) {
+    os << left <<
+      setw (fieldWidth) <<
+      fSoftwares->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fSoftwares->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fScoreInstrument) {
+    os << left <<
+      setw (fieldWidth) <<
+      fScoreInstrument->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fScoreInstrument->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fEncodingDate) {
+    os << left <<
+      setw (fieldWidth) <<
+      fEncodingDate->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fEncodingDate->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fMiscellaneousField) {
+    os << left <<
+      setw (fieldWidth) <<
+      fMiscellaneousField->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+
+    gIndenter++;
+    fMiscellaneousField->printShort (os);
+    os << endl;
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (emptyHeader) {
+    os <<
+      " " << "nothing specified" <<
+      endl <<
+      endl; // JMI
+  }
+
+  gIndenter--;
+}
+
 ostream& operator<< (ostream& os, const S_lpsrHeader& elt)
 {
   elt->print (os);

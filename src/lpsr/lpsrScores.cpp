@@ -2493,6 +2493,7 @@ void lpsrScore::printShort (ostream& os) const
     printShort (os);
   os << endl;
 
+/*
   // are some Scheme functions needed?
   const int fieldWidth = 42;
 
@@ -2508,23 +2509,23 @@ void lpsrScore::printShort (ostream& os) const
       fEditorialAccidentalSchemeFunctionIsNeeded) <<
     endl <<
     endl;
+*/
 
   // print LPSR basic information
-  os <<
-    fLilypondVersion <<
-    endl <<
+  fScoreHeader->printShort (os);
+  os << endl;
 
-    fScoreGlobalStaffSizeSchemeVariable <<
-    endl <<
+  fLilypondVersion->printShort (os);
+  os << endl;
 
-    fScoreHeader <<
-    // no endl here
+  fScoreGlobalStaffSizeSchemeVariable->printShort (os);
+  os << endl;
 
-    fScorePaper <<
-    endl <<
+  fScorePaper->printShort (os);
+  os << endl;
 
-    fScoreLayout <<
-    endl;
+  fScoreLayout->printShort (os);
+  os << endl;
 
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 

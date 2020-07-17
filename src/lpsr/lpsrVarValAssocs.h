@@ -210,6 +210,8 @@ class lpsrVarValAssoc : public lpsrElement
 
     virtual void          print (ostream& os) const;
 
+    virtual void          printShort (ostream& os) const;
+
   private:
 
     // fields
@@ -338,6 +340,8 @@ class lpsrVarValsListAssoc : public lpsrElement
 
     virtual void          print (ostream& os) const;
 
+    virtual void          printShort (ostream& os) const;
+
   private:
 
     // fields
@@ -350,6 +354,7 @@ class lpsrVarValsListAssoc : public lpsrElement
 };
 typedef SMARTP<lpsrVarValsListAssoc> S_lpsrVarValsListAssoc;
 EXP ostream& operator<< (ostream& os, const S_lpsrVarValsListAssoc& elt);
+EXP ostream& operator&& (ostream& os, const S_lpsrVarValsListAssoc& elt);
 
 
 } // namespace MusicXML2
