@@ -229,15 +229,27 @@ class msr2LpsrTranslator :
 
   public visitor<S_msrOtherDynamics>,
 
+  // slashes
+
   public visitor<S_msrSlash>,
 
-  public visitor<S_msrSlur>,
-  public visitor<S_msrLigature>,
+  // wedges
+
   public visitor<S_msrWedge>,
 
-  // grace notes
+  // slurs
+
+  public visitor<S_msrSlur>,
+  public visitor<S_msrChordSlurLink>,
+
+  // ligatures
+
+  public visitor<S_msrLigature>,
+
+  // grace note groups
 
   public visitor<S_msrGraceNotesGroup>,
+  public visitor<S_msrChordGraceNotesGroupLink>,
 
   // notes
 
@@ -431,26 +443,34 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrSlide& elt);
     virtual void visitEnd   (S_msrSlide& elt);
 
+    // tremolos
     virtual void visitStart (S_msrSingleTremolo& elt);
     virtual void visitEnd   (S_msrSingleTremolo& elt);
 
     virtual void visitStart (S_msrDoubleTremolo& elt);
     virtual void visitEnd   (S_msrDoubleTremolo& elt);
 
+    // dynamics
     virtual void visitStart (S_msrDynamics& elt);
     virtual void visitEnd   (S_msrDynamics& elt);
 
     virtual void visitStart (S_msrOtherDynamics& elt);
     virtual void visitEnd   (S_msrOtherDynamics& elt);
 
-    virtual void visitStart (S_msrSlash& elt);
-
+    // wedges
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
 
+    // slashes
+    virtual void visitStart (S_msrSlash& elt);
+
+    // grace notes groups
     virtual void visitStart (S_msrGraceNotesGroup& elt);
     virtual void visitEnd   (S_msrGraceNotesGroup& elt);
+    virtual void visitStart (S_msrChordGraceNotesGroupLink& elt);
+    virtual void visitEnd   (S_msrChordGraceNotesGroupLink& elt);
 
+    // notes
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
 
@@ -461,9 +481,11 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrHarpPedalsTuning& elt);
 
+    // stems
     virtual void visitStart (S_msrStem& elt);
     virtual void visitEnd   (S_msrStem& elt);
 
+    // beams
     virtual void visitStart (S_msrBeam& elt);
     virtual void visitEnd   (S_msrBeam& elt);
 
@@ -475,15 +497,21 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrTuplet& elt);
     virtual void visitEnd   (S_msrTuplet& elt);
 
+    // ties
     virtual void visitStart (S_msrTie& elt);
     virtual void visitEnd   (S_msrTie& elt);
 
+    // slurs
     virtual void visitStart (S_msrSlur& elt);
     virtual void visitEnd   (S_msrSlur& elt);
+    virtual void visitStart (S_msrChordSlurLink& elt);
+    virtual void visitEnd   (S_msrChordSlurLink& elt);
 
+    // ligatures
     virtual void visitStart (S_msrLigature& elt);
     virtual void visitEnd   (S_msrLigature& elt);
 
+    // barlines
     virtual void visitStart (S_msrBarline& elt);
     virtual void visitEnd   (S_msrBarline& elt);
 
@@ -686,8 +714,12 @@ class msr2LpsrTranslator :
     // notes
     // ------------------------------------------------------
 
-    bool                      fOnGoingNote;
     S_msrNote                 fCurrentNoteClone;
+
+    // browsing grace notes groups leads to several notes
+    // being ongoing simultaneously,
+    // since such groups are attached to a note, hence:
+    stack<S_msrNote>          fOnGoingNotesStack;
 
     bool                      fOnGoingNonGraceNote;
 
@@ -727,6 +759,8 @@ class msr2LpsrTranslator :
     S_msrNote                 fCurrentGraceNoteClone;
     bool                      fOnGoingGraceNotesGroup;
 
+    bool                      fOnGoingChordGraceNotesGroupLink;
+
     // afterGraceNotes optimisation
     S_msrAfterGraceNotesGroup fPendingAfterGraceNotesGroup;
     S_msrElement              fCurrentAfterGraceNotesGroupElement;
@@ -738,6 +772,9 @@ class msr2LpsrTranslator :
                                 S_msrGraceNotesGroup skipGraceNotesGroup);
                                 */
 
+// JMI    bool                      fOnGoingNote;
+// JMI    S_msrChordGraceNotesGroupLink
+//                          fCurrentChordGraceNotesGroupLink;
 
     // chords
     // ------------------------------------------------------
@@ -751,6 +788,10 @@ class msr2LpsrTranslator :
  //   bool                      fOnGoingTuplet;
     stack<S_msrTuplet>        fTupletClonesStack;
 
+
+    // slurs
+    // ------------------------------------------------------
+    bool                      fOnGoingChordSlurLink;
 
     // stanzas
     // ------------------------------------------------------

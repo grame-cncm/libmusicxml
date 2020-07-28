@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -34,10 +34,10 @@ class msrSlur : public msrElement
       kRegularSlurStart, kPhrasingSlurStart,
       kSlurContinue,
       kRegularSlurStop, kPhrasingSlurStop};
-    
+
     static string slurTypeKindAsString (
       msrSlurTypeKind slurKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -57,9 +57,9 @@ class msrSlur : public msrElement
       int             slurNumber,
       msrSlurTypeKind slurKind,
       msrLineTypeKind slurLineTypeKind);
-      
+
     virtual ~msrSlur ();
-  
+
   public:
 
     // set and get
@@ -67,7 +67,7 @@ class msrSlur : public msrElement
 
     int                   getSlurNumber () const
                               { return fSlurNumber; }
-    
+
     void                  setSlurTypeKind (msrSlurTypeKind slurTypeKind)
                               { fSlurTypeKind = slurTypeKind; }
 

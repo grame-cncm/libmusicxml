@@ -414,13 +414,13 @@ string msrGraceNotesGroup::asShortString () const
   stringstream s;
 
   s <<
-    "GraceNotesGroup" <<
+    "[GraceNotesGroup" <<
     ", graceNotesGroupKind \"" <<
     graceNotesGroupKindAsString (
       fGraceNotesGroupKind) <<
     ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
     "\", line " << fInputLineNumber <<
-    " [";
+    ",";
 
   if (fGraceNotesGroupElementsList.size ()) {
     list<S_msrMeasureElement>::const_iterator

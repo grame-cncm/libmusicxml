@@ -318,6 +318,9 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrTie>,
 
   public visitor<S_msrSlur>,
+  /*
+  public visitor<S_msrChordSlurLink>,
+*/
 
   public visitor<S_msrLigature>,
 
@@ -635,15 +638,23 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrTuplet& elt);
     virtual void visitEnd   (S_msrTuplet& elt);
 
+    // ties
     virtual void visitStart (S_msrTie& elt);
     virtual void visitEnd   (S_msrTie& elt);
 
+    // slurs
     virtual void visitStart (S_msrSlur& elt);
     virtual void visitEnd   (S_msrSlur& elt);
+    /*
+    virtual void visitStart (S_msrChordSlurLink& elt);
+    virtual void visitEnd   (S_msrChordSlurLink& elt);
+    */
 
+    // ligatures
     virtual void visitStart (S_msrLigature& elt);
     virtual void visitEnd   (S_msrLigature& elt);
 
+    // barlines
     virtual void visitStart (S_msrBarline& elt);
     virtual void visitEnd   (S_msrBarline& elt);
 
@@ -658,18 +669,21 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrDampAll& elt);
     virtual void visitStart (S_msrScordatura& elt);
 
+    // bar numbers
     virtual void visitStart (S_msrBarCheck& elt);
     virtual void visitEnd   (S_msrBarCheck& elt);
 
     virtual void visitStart (S_msrBarNumberCheck& elt);
     virtual void visitEnd   (S_msrBarNumberCheck& elt);
 
+    // breaks
     virtual void visitStart (S_msrLineBreak& elt);
     virtual void visitEnd   (S_msrLineBreak& elt);
 
     virtual void visitStart (S_msrPageBreak& elt);
     virtual void visitEnd   (S_msrPageBreak& elt);
 
+    // repeats
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
     virtual void visitStart (S_msrRepeatCommonPart& elt);
@@ -677,6 +691,7 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrRepeatEnding& elt);
     virtual void visitEnd   (S_msrRepeatEnding& elt);
 
+    // measures repests
     virtual void visitStart (S_msrMeasuresRepeat& elt);
     virtual void visitEnd   (S_msrMeasuresRepeat& elt);
     virtual void visitStart (S_msrMeasuresRepeatPattern& elt);
@@ -684,14 +699,17 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
     virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
 
+    // rest measures
     virtual void visitStart (S_msrRestMeasures& elt);
     virtual void visitEnd   (S_msrRestMeasures& elt);
     virtual void visitStart (S_msrRestMeasuresContents& elt);
     virtual void visitEnd   (S_msrRestMeasuresContents& elt);
 
+    // rehearsals
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
 
+    // MIDI
     virtual void visitStart (S_msrMidiTempo& elt);
     virtual void visitEnd   (S_msrMidiTempo& elt);
 
@@ -773,6 +791,7 @@ class lpsr2LilypondTranslator :
     string                pitchedRestAsLilypondString (S_msrNote note);
 
     void                  generateNoteBeams (S_msrNote note);
+
     void                  generateNoteSlurs (S_msrNote note);
 
     void                  generateNoteHeadColor (S_msrNote note);
@@ -846,6 +865,7 @@ class lpsr2LilypondTranslator :
     // grace notes
 
     bool                  fOnGoingGraceNotesGroup;
+    bool                  fOnGoingChordGraceNotesGroupLink;
 
     void                  generateGraceNotesGroup (
                             S_msrGraceNotesGroup graceNotesGroup);
@@ -986,6 +1006,11 @@ class lpsr2LilypondTranslator :
     // notes
     // ------------------------------------------------------
     bool                  fOnGoingNote;
+    // browsing grace notes groups leads to several notes
+    // being ongoing simultaneously,
+    // since such groups are attached to a note, hence:
+    stack<S_msrNote>      fOnGoingNotesStack;
+
 
     // double tremolos
     // ------------------------------------------------------
@@ -1000,6 +1025,9 @@ class lpsr2LilypondTranslator :
     list<int>             fPendingChordMemberNotesStringNumbers;
 
     bool                  fOnGoingChord;
+    S_msrChord            fCurrentChord;
+
+    list<int>             fCurrentChordPendingSlurs;
 
     void                  generateCodeAHeadOfChordContents (
                             S_msrChord chord);

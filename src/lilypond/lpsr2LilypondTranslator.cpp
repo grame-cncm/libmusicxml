@@ -260,7 +260,6 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // notes
   fCurrentNotePrinObjectKind = kPrintObjectYes; // default value
-  fOnGoingNote = false;
 
   // grace notes
   fOnGoingGraceNotesGroup = false;
@@ -579,7 +578,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInFixedEntryMode (
       noteAbsoluteOctave <<
       ", referenceAbsoluteOctave = " <<
       referenceAbsoluteOctave <<
-      ", refabsoluteOctavesDifferenceerenceAbsoluteOctave = " <<
+      ", referenceAbsoluteOctave = " <<
       absoluteOctavesDifference <<
       endl;
   }
@@ -7294,6 +7293,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPartGroup& elt)
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
       "% --> Start visiting msrPartGroup" <<
+      elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       elt->getPartGroupCombinedName () <<
       endl;
@@ -7802,7 +7802,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       "% --> Start visiting msrHarmony '" <<
       elt->asString () <<
       "'" <<
-      ", fOnGoingNote = " << booleanAsString (fOnGoingNote) <<
+      ", fOnGoingNotesStack.size () = " <<  fOnGoingNotesStack.size () <<
       ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingHarmonyVoice = " << booleanAsString (fOnGoingHarmonyVoice) <<
       ", line " << elt->getInputLineNumber () <<
@@ -7810,12 +7810,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   }
 #endif
 
-  if (fOnGoingNote) {
+  if (fOnGoingNotesStack.size () > 0) {
   /* JMI
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceHarmonies) {
       fLilypondCodeOstream <<
-        "%{ fOnGoingNote S_msrHarmony JMI " <<
+        "%{ fOnGoingNotesStack.size () S_msrHarmony JMI " <<
         elt->asString () <<
         " %}" <<
         endl;
@@ -7857,7 +7857,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFrame& elt)
   }
 #endif
 
-  if (fOnGoingNote) {
+  if (fOnGoingNotesStack.size () > 0) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceFrames) {
       fLilypondCodeOstream <<
@@ -7881,7 +7881,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
       "% --> Start visiting msrFiguredBass '" <<
       elt->asString () <<
       "'" <<
-      ", fOnGoingNote = " << booleanAsString (fOnGoingNote) <<
+      ", fOnGoingNotesStack.size () = " << fOnGoingNotesStack.size () <<
       ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingFiguredBassVoice = " << booleanAsString (fOnGoingFiguredBassVoice) <<
       ", line " << elt->getInputLineNumber () <<
@@ -7891,11 +7891,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
 
   fCurrentFiguredBass = elt;
 
-  if (fOnGoingNote) {
+  if (fOnGoingNotesStack.size () > 0) {
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceFiguredBasses) {
       fLilypondCodeOstream <<
-        "%{ fOnGoingNote S_msrFiguredBass JMI " << fCurrentFiguredBass->asString () << " %}" <<
+        "%{ fOnGoingNotesStack.size () S_msrFiguredBass JMI " << fCurrentFiguredBass->asString () << " %}" <<
         endl;
     }
 #endif
@@ -10791,7 +10791,7 @@ Articulations can be attached to rests as well as notes but they cannot be attac
   } // switch
 
   // don't generate fermatas for chord member notes
-  if (false && fOnGoingNote) { // JMI
+  if (false && fOnGoingNotesStack.size () > 0) { // JMI
     switch (elt->getFermataTypeKind ()) {
       case msrFermata::kFermataTypeNone:
         // no placement needed
@@ -11285,6 +11285,34 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSlur& elt)
   }
 #endif
 }
+
+/*
+void lpsr2LilypondTranslator::visitStart (S_msrChordSlurLink& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting msrChordSlurLink " <<
+      elt->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrChordSlurLink& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> End visiting msrChordSlurLink " <<
+      elt->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+*/
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrLigature& elt)
@@ -11802,9 +11830,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
-      "% --> Start visiting " <<
+      "% --> End visiting note " <<
       msrNote::noteKindAsString (elt->getNoteKind ()) <<
-      " note" <<
+      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -11919,7 +11949,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // switch
   }
 
-  // get the note's grace notes after
+  // get the note's grace notes group after
   S_msrGraceNotesGroup
     noteGraceNotesGroupAfter =
       elt->getNoteGraceNotesGroupAfter ();
@@ -11930,9 +11960,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       "\\afterGrace { ";
   }
 
-  // print the note's grace notes before if any,
+  // print the note's grace notes group before if any,
   // unless the note belongs to a chord
-  if (! fOnGoingChord) {
+  bool doGenerateNoteGraceNotesGroupBefore = true;
+
+  if (fOnGoingChord) {
+    doGenerateNoteGraceNotesGroupBefore = false;
+  }
+
+  if (doGenerateNoteGraceNotesGroupBefore) {
     S_msrGraceNotesGroup
       noteGraceNotesGroupBefore =
         elt->getNoteGraceNotesGroupBefore ();
@@ -12565,7 +12601,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       elt);
   }
 
-  fOnGoingNote = true;
+  fOnGoingNotesStack.push (elt);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
@@ -12573,9 +12609,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
-      "% --> End visiting " <<
+      "% --> End visiting note " <<
       msrNote::noteKindAsString (elt->getNoteKind ()) <<
-      " note" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -12606,11 +12641,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 #endif
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotesDetails) {
-      gLogOstream <<
-        "% ==> returning from visitEnd (S_msrNote&)" <<
-        endl;
-    }
+              if (gTraceOah->fTraceNotesDetails) {
+                gLogOstream <<
+                  "% ==> returning from visitEnd (S_msrNote&)" <<
+                  endl;
+              }
 #endif
 
               return;
@@ -12814,7 +12849,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             " } ";
 
           markup = s.str ();
-          }
+        }
 
         fLilypondCodeOstream <<
           markup;
@@ -13456,9 +13491,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     }
   }
 
-  // get the note's grace notes after,
-  // unless the note belongs to a chord
-  if (! fOnGoingChord) {
+  // get the note's grace notes now,
+  // unless the note belongs to a grace notes group link
+  if (! fOnGoingChordGraceNotesGroupLink) {
     S_msrGraceNotesGroup
       noteGraceNotesGroupAfter =
         elt->getNoteGraceNotesGroupAfter ();
@@ -13472,7 +13507,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     }
   }
 
-  fOnGoingNote = false;
+  fOnGoingNotesStack.pop ();
 }
 
 //________________________________________________________________________
@@ -13732,12 +13767,6 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
   }
 #endif
 
-  // print the chord's grace notes before if any,
-  // but not ??? JMI
-  S_msrGraceNotesGroup
-    chordGraceNotesGroupBefore =
-      chord->getChordGraceNotesGroupBefore ();
-
 /* JMI
   gLogOstream <<
     "% chordGraceNotesGroupBefore = ";
@@ -13752,9 +13781,15 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
   gLogOstream << endl;
 */
 
-  if (chordGraceNotesGroupBefore) {
+  // print the chord's grace notes before if any,
+  S_msrChordGraceNotesGroupLink
+    chordGraceNotesGroupLinkBefore =
+      chord->getChordGraceNotesGroupLinkBefore ();
+
+  if (chordGraceNotesGroupLinkBefore) {
     generateGraceNotesGroup (
-      chordGraceNotesGroupBefore);
+      chordGraceNotesGroupLinkBefore->
+        getOriginalGraceNotesGroup ());
   }
 
   // get the chord glissandos
@@ -14081,12 +14116,6 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
           getChordDisplayWholeNotes ()); // JMI test wether chord is in a tuplet?
   }
 
-  // print the chord's grace notes before if any,
-  // but not ??? JMI
-  S_msrGraceNotesGroup
-    chordGraceNotesGroupAfter =
-      chord->getChordGraceNotesGroupAfter ();
-
 /* JMI
   gLogOstream <<
     "% chordGraceNotesGroupAfter = ";
@@ -14099,11 +14128,22 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
       "nullptr";
   }
   gLogOstream << endl;
-*/
 
   if (chordGraceNotesGroupAfter) {
     generateGraceNotesGroup (
       chordGraceNotesGroupAfter);
+  }
+*/
+
+  // print the chord's grace notes after if any
+  S_msrChordGraceNotesGroupLink
+    chordGraceNotesGroupLinkAfter =
+      chord->getChordGraceNotesGroupLinkAfter ();
+
+  if (chordGraceNotesGroupLinkAfter) {
+    generateGraceNotesGroup (
+      chordGraceNotesGroupLinkAfter->
+        getOriginalGraceNotesGroup ());
   }
 
   // are there pending chord member notes string numbers?
@@ -14418,12 +14458,13 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
     } // for
   }
 
+/*
   // print the chord slurs if any
   list<S_msrSlur>
     chordSlurs =
       chord->getChordSlurs ();
 
-  if (chordSlurs.size ()) {
+  if (false && chordSlurs.size ()) {
     list<S_msrSlur>::const_iterator i;
     for (
       i=chordSlurs.begin ();
@@ -14432,6 +14473,44 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
     ) {
 
       switch ((*i)->getSlurTypeKind ()) {
+        case msrSlur::k_NoSlur:
+          break;
+        case msrSlur::kRegularSlurStart:
+          fLilypondCodeOstream << "( ";
+          break;
+        case msrSlur::kPhrasingSlurStart:
+          fLilypondCodeOstream << "\\( ";
+          break;
+        case msrSlur::kSlurContinue:
+          break;
+        case msrSlur::kRegularSlurStop:
+          fLilypondCodeOstream << ") ";
+          break;
+        case msrSlur::kPhrasingSlurStop:
+          fLilypondCodeOstream << "\\) ";
+          break;
+      } // switch
+    } // for
+  }
+*/
+
+  // print the chord slur links if any
+  list<S_msrChordSlurLink>
+    chordSlurLinks =
+      chord->getChordSlurLinks ();
+
+  if (chordSlurLinks.size ()) {
+    list<S_msrChordSlurLink>::const_iterator i;
+    for (
+      i=chordSlurLinks.begin ();
+      i!=chordSlurLinks.end ();
+      i++
+    ) {
+      S_msrChordSlurLink ChordSlurLink = (*i);
+
+      S_msrSlur originalSlur = ChordSlurLink->getOriginalSlur ();
+
+      switch (originalSlur->getSlurTypeKind ()) {
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kRegularSlurStart:
@@ -14667,7 +14746,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
     stringstream s;
 
     s <<
-      "% ==> Start visiting grace chords is ignored upon chord " <<
+      "% ==> Start visiting grace chords is ignored inside grace notes groups " <<
       elt->asShortString ();
 
     msrInternalWarning (
@@ -14680,6 +14759,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
 #endif
 
   fOnGoingChord = true;
+  fCurrentChord = elt;
 
   generateCodeAHeadOfChordContents (elt);
 
@@ -14708,7 +14788,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     msrInternalWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
-      "% ==> End visiting grace chords is ignored");
+      "% ==> End visiting grace chords is ignored inside grace notes groups");
 
     return;
   }
@@ -14735,6 +14815,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   } // switch
 
   fOnGoingChord = false;
+  fCurrentChord = nullptr;
 }
 
 //________________________________________________________________________
@@ -14952,9 +15033,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
     case msrTie::kTieNone:
       break;
     case msrTie::kTieStart:
-      if (fOnGoingNote) {
+      if (fOnGoingNotesStack.size () > 0) {
         // this precludes generating for the chords' ties,
-        // since the last of its notes sets fOnGoingNote to false
+        // since the last of its notes sets fOnGoingNotesStack.size > 0 to false
         // after code has been generated for it
         fLilypondCodeOstream <<
   // JMI        "%{line " << inputLineNumber << "%}" <<

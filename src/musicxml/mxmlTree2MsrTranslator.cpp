@@ -16673,6 +16673,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
 #endif
 }
 
+/*
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteSlursToChord (
   S_msrNote note, S_msrChord chord)
@@ -16704,6 +16705,51 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
 
     chord->
       appendSlurToChord ((*i));
+  } // for
+}
+*/
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::appendNoteSlursLinksToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // append link of note's slurs if any from the first note to chord
+
+  list<S_msrSlur>
+    noteSlurs =
+      note->
+        getNoteSlurs ();
+
+  list<S_msrSlur>::const_iterator i;
+  for (
+    i=noteSlurs.begin ();
+    i!=noteSlurs.end ();
+    i++
+  ) {
+    S_msrSlur slur = (*i);
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceChords) {
+      fLogOutputStream <<
+        "Adding slur link of '" <<
+        slur->asString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+#endif
+
+    // create the slur link
+    S_msrChordSlurLink
+      chordSlurLink =
+        msrChordSlurLink::create (
+          chord->getInputLineNumber (),
+          slur,
+          chord);
+
+    // append it in the chord
+    chord->
+      appendChordSlurLinkToChord (chordSlurLink);
   } // for
 }
 
@@ -16973,6 +17019,7 @@ void mxmlTree2MsrTranslator::copyNoteOctaveShiftToChord (
   }
 }
 
+/*
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
   S_msrNote note, S_msrChord chord)
@@ -17019,6 +17066,78 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
     chord->
       setChordGraceNotesGroupAfter (graceNotesGroupAfter);
+  }
+}
+*/
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::addNoteGraceNotesGroupsLinksToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // add link of note's grace notes groups if any to chord
+
+  S_msrGraceNotesGroup
+    graceNotesGroupBefore =
+      note->
+        getNoteGraceNotesGroupBefore ();
+
+  if (graceNotesGroupBefore) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceChords) {
+      fLogOutputStream <<
+        "Adding grace notes group link before '" <<
+        graceNotesGroupBefore->asShortString () <<
+        "' from note " << note->asString () <<
+        " to chord '" << chord->asString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // create the grace notes group link
+    S_msrChordGraceNotesGroupLink
+      chordChordGraceNotesGroupLink =
+        msrChordGraceNotesGroupLink::create (
+          chord->getInputLineNumber (),
+          graceNotesGroupBefore,
+          chord);
+
+    // register it in the chord
+    chord->
+      setChordGraceNotesGroupLinkBefore (
+        chordChordGraceNotesGroupLink);
+  }
+
+  S_msrGraceNotesGroup
+    graceNotesGroupAfter =
+      note->
+        getNoteGraceNotesGroupAfter ();
+
+  if (graceNotesGroupAfter) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceChords) {
+      fLogOutputStream <<
+        "Adding grace notes group link after '" <<
+        graceNotesGroupAfter->asShortString () <<
+        "' from note " << note->asString () <<
+        " to chord '" << chord->asString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // create the grace notes group link
+    S_msrChordGraceNotesGroupLink
+      chordChordGraceNotesGroupLink =
+        msrChordGraceNotesGroupLink::create (
+          chord->getInputLineNumber (),
+          graceNotesGroupAfter,
+          chord);
+
+    // register it in the chord
+    chord->
+      setChordGraceNotesGroupLinkAfter (
+        chordChordGraceNotesGroupLink);
   }
 }
 
@@ -17096,8 +17215,9 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
   // copy note's ties if any to the chord
   copyNoteTieToChord (note, chord);
 
-  // copy note's tie if any to the chord
-  copyNoteSlursToChord (note, chord);
+  // copy note's slurs if any to the chord
+// JMI  copyNoteSlursToChord (note, chord);
+  appendNoteSlursLinksToChord (note, chord);
 
   // copy note's ligatures if any to the chord
   copyNoteLigaturesToChord (note, chord);
@@ -17124,7 +17244,8 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
   copyNoteOctaveShiftToChord (note, chord);
 
   // copy note's grace notes groups if any to the chord
-  copyNoteGraceNotesGroupsToChord (note, chord);
+//  copyNoteGraceNotesGroupsToChord (note, chord);
+  addNoteGraceNotesGroupsLinksToChord (note, chord);
 
   // copy note's harmony if any to the chord
   copyNoteHarmoniesToChord (note, chord);
@@ -20673,7 +20794,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
       // should all grace notes be slurred?
       if (gMxmlTree2MsrOah->fSlurAllGraceNotes) {
-        fPendingGraceNotesGroup->setGraceNotesGroupIsTied ();
+        fPendingGraceNotesGroup->
+          setGraceNotesGroupIsTied ();
       }
 
 /* JMI

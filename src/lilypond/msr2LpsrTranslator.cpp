@@ -173,7 +173,6 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   // repeats
 
   // notes
-  fOnGoingNote = false;
   fOnGoingNonGraceNote = false;
 
   // double tremolos
@@ -181,9 +180,13 @@ msr2LpsrTranslator::msr2LpsrTranslator (
 
   // grace notes
   fOnGoingGraceNotesGroup = false;
+  fOnGoingChordGraceNotesGroupLink = false;
 
   // chords
   fOnGoingChord = false;
+
+  // slurs
+  fOnGoingChordSlurLink = false;
 
   // stanzas
   fOnGoingStanza = false;
@@ -211,7 +214,7 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 void msr2LpsrTranslator::displayCurrentOnGoingValues ()
 {
   fLogOutputStream <<
-    "Ongoing value:" <<
+    "Current ongoing values:" <<
     endl;
 
   gIndenter++;
@@ -233,6 +236,9 @@ void msr2LpsrTranslator::displayCurrentOnGoingValues ()
     endl<<
     setw (fieldWidth) <<
     "fOnGoingFiguredBassVoice" << ": " << booleanAsString (fOnGoingFiguredBassVoice) <<
+    endl<<
+    setw (fieldWidth) <<
+    "fOnGoingNotesStack.size ()" << ": " << fOnGoingNotesStack.size () <<
     endl<<
     setw (fieldWidth) <<
     "fOnGoingNonGraceNote" << ": " << booleanAsString (fOnGoingNonGraceNote) <<
@@ -2127,8 +2133,9 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     stringstream s;
 
     s <<
-      "harmony '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "harmony is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -2203,8 +2210,9 @@ void msr2LpsrTranslator::visitStart (S_msrFrame& elt)
     stringstream s;
 
     s <<
-      "frame '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "frame is out of context, cannot be handled:'" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -2270,8 +2278,9 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
     stringstream s;
 
     s <<
-      "figured bass '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "figured bass is out of context, cannot be handled:'" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -2780,8 +2789,9 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     stringstream s;
 
     s <<
-      "syllable '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "syllable is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "' ";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3099,8 +3109,9 @@ void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
     stringstream s;
 
     s <<
-      "articulation '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "articulation is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3148,8 +3159,9 @@ void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
     stringstream s;
 
     s <<
-      "fermata '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "fermata is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3185,8 +3197,9 @@ void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
     stringstream s;
 
     s <<
-      "arpeggiato '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "arpeggiato is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3222,8 +3235,9 @@ void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
     stringstream s;
 
     s <<
-      "nonArpeggiato '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "nonArpeggiato is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "' ";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3257,8 +3271,9 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
     stringstream s;
 
     s <<
-      "technical '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "technical is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3344,8 +3359,9 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
     stringstream s;
 
     s <<
-      "technicalWithInteger '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "technicalWithInteger is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3391,8 +3407,9 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
     stringstream s;
 
     s <<
-      "technicalWithFloat '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "technicalWithFloat is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3438,8 +3455,9 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
     stringstream s;
 
     s <<
-      "technicalWithString '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "technicalWithString is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3496,8 +3514,9 @@ void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
     stringstream s;
 
     s <<
-      "ornament '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "ornament is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3555,8 +3574,9 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
     stringstream s;
 
     s <<
-      "spanner '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "spanner is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3602,8 +3622,9 @@ void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
     stringstream s;
 
     s <<
-      "glissando '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "glissando is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3655,8 +3676,9 @@ void msr2LpsrTranslator::visitStart (S_msrSlide& elt)
     stringstream s;
 
     s <<
-      "slide '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "slide is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3702,8 +3724,9 @@ void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
     stringstream s;
 
     s <<
-      "singleTremolo '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "singleTremolo is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3822,8 +3845,9 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
     stringstream s;
 
     s <<
-      "dynamics '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "dynamics is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -3869,8 +3893,9 @@ void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
     stringstream s;
 
     s <<
-      "otherDynamics '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "otherDynamics is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -4036,8 +4061,9 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
     stringstream s;
 
     s <<
-      "words '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "words is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -4062,12 +4088,15 @@ void msr2LpsrTranslator::visitEnd (S_msrWords& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSlur " <<
       elt->asShortString () <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -4075,48 +4104,47 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
     fLogOutputStream <<
       "--> visitStart (S_msrSlur&), " <<
       elt->asShortString () <<
-      ", onGoingNote: " <<
-      booleanAsString (fOnGoingNote) <<
+      ", fOnGoingNotesStack.size (): " <<
+      fOnGoingNotesStack.size () <<
       ", onGoingChord: " <<
       booleanAsString (fOnGoingChord) <<
       ", onGoingNonGraceNote: " <<
       booleanAsString (fOnGoingNonGraceNote) <<
+      ", onGoingGraceNotesGroup: " <<
+      booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", onGoingChordSlurLink: " <<
+      booleanAsString (fOnGoingChordSlurLink) <<
       endl;
   }
 #endif
 
-  /*
+  /* JMI ???
     Only the  first note of the chord should get the slur notation.
     Some applications print out the slur for all notes,
     i.e. a stop and a start in sequence:
     these should be ignored
   */
 
-/*
-  if (fOnGoingNonGraceNote) {
-    // don't add slurs to chord member notes except the first one
-    switch (fCurrentNonGraceNoteClone->getNoteKind ()) {
-      case msrNote::kChordMemberNote:
-        if (fCurrentNonGraceNoteClone->getNoteIsAChordsFirstMemberNote ()) {
-          fCurrentNonGraceNoteClone->
-            appendSlurToNote (elt);
-        }
-        break;
-
-      default:
-        fCurrentNonGraceNoteClone->
-          appendSlurToNote (elt);
-    } // switch
-  }
-*/
-  if (fOnGoingNote) {
-    fCurrentNoteClone->
-      appendSlurToNote (elt);
+  if (fOnGoingNotesStack.size () > 0) {
+//    if (fOnGoingNonGraceNote) {
+      fOnGoingNotesStack.top ()->
+        appendSlurToNote (elt);
+//    }
   }
 
   else if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendSlurToChord (elt);
+    // don't append a slur if we're inside a slur link JMI ???
+    if (fOnGoingNonGraceNote) {
+      S_msrChordSlurLink
+        ChordSlurLink =
+          msrChordSlurLink::create (
+            fCurrentChordClone->getInputLineNumber (),
+            elt,
+            fCurrentChordClone);
+
+      fCurrentChordClone->
+        appendChordSlurLinkToChord (ChordSlurLink);
+    }
   }
 
   else {
@@ -4125,12 +4153,13 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
     stringstream s;
 
     s <<
-      "slur '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "slur is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -4147,6 +4176,79 @@ void msr2LpsrTranslator::visitEnd (S_msrSlur& elt)
       endl;
   }
 #endif
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrChordSlurLink& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrChordSlurLink " <<
+      elt->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  S_msrSlur originalSlur = elt->getOriginalSlur ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSlurs) {
+    fLogOutputStream <<
+      "--> visitStart (S_msrChordSlurLink&), " <<
+      elt->asShortString () <<
+      ", originalSlur: " <<
+      originalSlur->asShortString () <<
+      endl;
+  }
+#endif
+
+  if (fOnGoingChord) {
+    S_msrChordSlurLink
+      ChordSlurLink =
+        msrChordSlurLink::create (
+          elt->getInputLineNumber (),
+          originalSlur,
+          fCurrentChordClone);
+
+    fCurrentChordClone->
+      appendChordSlurLinkToChord (ChordSlurLink);
+  }
+
+  else {
+    displayCurrentOnGoingValues ();
+
+    stringstream s;
+
+    s <<
+      "slur link is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fOnGoingChordSlurLink = true;
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrChordSlurLink& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrChordSlurLink " <<
+      elt->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fOnGoingChordSlurLink = false;
 }
 
 //________________________________________________________________________
@@ -4173,8 +4275,9 @@ void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
     stringstream s;
 
     s <<
-      "ligature '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "ligature is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -4220,8 +4323,9 @@ void msr2LpsrTranslator::visitStart (S_msrSlash& elt)
     stringstream s;
 
     s <<
-      "slash '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "slash is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -4255,8 +4359,9 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
     stringstream s;
 
     s <<
-      "wedge '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "wedge is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -4289,6 +4394,10 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     fLogOutputStream <<
       "--> Start visiting msrGraceNotesGroup " <<
       elt->asShortString () <<
+      ", fOnGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
+      ", fOnGoingChord: " << fOnGoingChord <<
+      ", fOnGoingChordGraceNotesGroupLink: " <<
+        booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -4319,6 +4428,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     // if (fOnGoingNonGraceNote) { JMI
    // { // JMI
 
+/*
     if (fOnGoingChord) {
       switch (elt->getGraceNotesGroupKind ()) {
         case msrGraceNotesGroup::kGraceNotesGroupBefore:
@@ -4334,31 +4444,54 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       } // switch
     }
     else {
+    */
+
+    if (fOnGoingNotesStack.size ()) {
       switch (elt->getGraceNotesGroupKind ()) {
         case msrGraceNotesGroup::kGraceNotesGroupBefore:
-          fCurrentNonGraceNoteClone->
+      //    fCurrentNonGraceNoteClone->
+          fOnGoingNotesStack.top ()->
             setNoteGraceNotesGroupBefore (
               fCurrentGraceNotesGroupClone);
           break;
         case msrGraceNotesGroup::kGraceNotesGroupAfter:
-          fCurrentNonGraceNoteClone->
+      //    fCurrentNonGraceNoteClone->
+          fOnGoingNotesStack.top ()->
             setNoteGraceNotesGroupAfter (
               fCurrentGraceNotesGroupClone);
           break;
       } // switch
+    }
+
+    else if (fOnGoingChordGraceNotesGroupLink) {
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "graceNotesGroup is out of context, fOnGoingNotesStack.size () == 0, cannot be handled: '" <<
+        elt->asShortString () <<
+        "'";
+
+      msrInternalError (
+        gOahOah->fInputSourceName,
+        elt->getInputLineNumber (),
+        __FILE__, __LINE__,
+        s.str ());
     }
   }
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
-      "+++++++++++++++++++++++++ 1" <<
+      "+++++++++++++++++++++++++ visitStart (S_msrGraceNotesGroup&)" <<
       endl <<
       "fCurrentNonGraceNoteClone: ";
 
     if (fCurrentNonGraceNoteClone) {
-      fLogOutputStream <<
-        fCurrentNonGraceNoteClone;
+      fCurrentNonGraceNoteClone->printShort (
+        fLogOutputStream);
     }
     else {
       fLogOutputStream <<
@@ -4392,7 +4525,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
   // is noteNotesGroupIsAttachedTo the first one in its voice?
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes) {
+  if (false && gTraceOah->fTraceGraceNotes) { // JMI
     fLogOutputStream <<
       "The noteNotesGroupIsAttachedTo voice clone FIRST_ONE??? '" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4413,7 +4546,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGraceNotes) {
+  if (false && gTraceOah->fTraceGraceNotes) { // JMI
     fLogOutputStream <<
       "The first note of voice clone KLJWLPOEF '" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4439,7 +4572,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       fCurrentVoiceOriginal->
         fetchVoiceFirstNonGraceNote ();
 
-  if (originalVoiceFirstNonGraceNote) {
+  if (false && originalVoiceFirstNonGraceNote) { // JMI
     if (noteNotesGroupIsAttachedTo == originalVoiceFirstNonGraceNote) {
     // don't createSkipGraceNotesGroupClone() is there's only a single voice JMI
 
@@ -4475,6 +4608,10 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrGraceNotesGroup" <<
+      ", fOnGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
+      ", fOnGoingChord: " << fOnGoingChord <<
+      ", fOnGoingChordGraceNotesGroupLink: " <<
+        booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -4483,13 +4620,13 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceGraceNotes) {
     fLogOutputStream <<
-      "+++++++++++++++++++++++++ 2" <<
+      "+++++++++++++++++++++++++ visitEnd (S_msrGraceNotesGroup&)" <<
       endl <<
       "fCurrentNonGraceNoteClone: ";
 
     if (fCurrentNonGraceNoteClone) {
-      fLogOutputStream <<
-        fCurrentNonGraceNoteClone;
+      fCurrentNonGraceNoteClone->printShort (
+        fLogOutputStream);
     }
     else {
       fLogOutputStream <<
@@ -4531,6 +4668,107 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrChordGraceNotesGroupLink " <<
+      elt->asShortString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  S_msrGraceNotesGroup
+    originalGraceNotesGroup =
+      elt->getOriginalGraceNotesGroup ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGraceNotes) {
+    fLogOutputStream <<
+      "--> visitStart (S_msrChordGraceNotesGroupLink&), " <<
+      elt->asShortString () <<
+      ", originalGraceNotesGroup: " <<
+      originalGraceNotesGroup->asShortString () <<
+      ", fOnGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
+      ", fOnGoingChord: " << fOnGoingChord <<
+      ", fOnGoingChordGraceNotesGroupLink: " <<
+        booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
+      endl;
+  }
+#endif
+
+  if (fOnGoingChord) {
+    S_msrChordGraceNotesGroupLink
+      chordChordGraceNotesGroupLink =
+        msrChordGraceNotesGroupLink::create (
+          elt->getInputLineNumber (),
+          originalGraceNotesGroup,
+          fCurrentChordClone);
+
+    switch (originalGraceNotesGroup->getGraceNotesGroupKind ()) {
+      case msrGraceNotesGroup::kGraceNotesGroupBefore:
+        fCurrentChordClone->
+          setChordGraceNotesGroupLinkBefore (
+            chordChordGraceNotesGroupLink);
+        break;
+      case msrGraceNotesGroup::kGraceNotesGroupAfter:
+        fCurrentChordClone->
+          setChordGraceNotesGroupLinkAfter (
+            chordChordGraceNotesGroupLink);
+        break;
+    } // switch
+  }
+
+  else {
+    displayCurrentOnGoingValues ();
+
+    stringstream s;
+
+    s <<
+      "grace notes group link is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fOnGoingChordGraceNotesGroupLink = true;
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrChordGraceNotesGroupLink& elt)
+{
+#ifdef TRACE_OAH
+    S_msrGraceNotesGroup
+      originalGraceNotesGroup =
+        elt->getOriginalGraceNotesGroup ();
+
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrChordGraceNotesGroupLink" <<
+      elt->asShortString () <<
+      ", originalGraceNotesGroup: " <<
+      originalGraceNotesGroup->asShortString () <<
+      ", fOnGoingNotesStack.size (): " << fOnGoingNotesStack.size () <<
+      ", fOnGoingChord: " << fOnGoingChord <<
+      ", fOnGoingChordGraceNotesGroupLink: " << fOnGoingChordGraceNotesGroupLink <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fOnGoingChordGraceNotesGroupLink = false;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 {
 #ifdef TRACE_OAH
@@ -4545,12 +4783,15 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 #endif
 
   // create the note clone
-  fCurrentNoteClone =
-    elt->createNoteNewbornClone (
-      fCurrentPartClone);
+  S_msrNote
+    noteClone =
+      elt->
+        createNoteNewbornClone (
+          fCurrentPartClone);
 
-  // register clone in this tranlastors' voice notes map
-  fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL
+  // register clone in this tranlastors' voice notes map and ongoing notes stack
+  fVoiceNotesMap [elt] = noteClone; // JMI XXL
+  fOnGoingNotesStack.push (noteClone);
 
   // don't register grace notes as the current note clone,
   // but as the current grace note clone instead
@@ -4581,11 +4822,11 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     case msrNote::kGraceNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
-      fCurrentGraceNoteClone = fCurrentNoteClone;
+      fCurrentGraceNoteClone = noteClone;
       break;
 
     default:
-      fCurrentNonGraceNoteClone = fCurrentNoteClone;
+      fCurrentNonGraceNoteClone = noteClone;
 
       if (! fFirstNoteCloneInVoice) {
         fFirstNoteCloneInVoice =
@@ -4606,8 +4847,6 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
       fOnGoingNonGraceNote = true;
   } // switch
-
-  fOnGoingNote = true;
 
 /* JMI
   // can we optimize graceNotesGroup into afterGraceNotesGroup?
@@ -4995,24 +5234,26 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
   } // switch
 
-  // handle editorial accidentals
-  switch (fCurrentNonGraceNoteClone->getNoteEditorialAccidentalKind ()) {
-    case kEditorialAccidentalYes:
-      fLpsrScore->
-        // this score needs the 'editorial accidental' Scheme function
-        setEditorialAccidentalSchemeFunctionIsNeeded ();
-      break;
-    case kEditorialAccidentalNo:
-      break;
-  } // switch
+  if (fCurrentNonGraceNoteClone) { // JMI
+    // handle editorial accidentals
+    switch (fCurrentNonGraceNoteClone->getNoteEditorialAccidentalKind ()) {
+      case kEditorialAccidentalYes:
+        fLpsrScore->
+          // this score needs the 'editorial accidental' Scheme function
+          setEditorialAccidentalSchemeFunctionIsNeeded ();
+        break;
+      case kEditorialAccidentalNo:
+        break;
+    } // switch
 
-  // handle cautionary accidentals
-  switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
-    case kCautionaryAccidentalYes:
-      break;
-    case kCautionaryAccidentalNo:
-      break;
-  } // switch
+    // handle cautionary accidentals
+    switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
+      case kCautionaryAccidentalYes:
+        break;
+      case kCautionaryAccidentalNo:
+        break;
+    } // switch
+  }
 
 /* JMI
   // handle melisma
@@ -5063,8 +5304,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   } // switch
 
   // forget about current note
-  fCurrentNoteClone = nullptr;
-  fOnGoingNote = false;
+  fOnGoingNotesStack.pop ();
 }
 
 //________________________________________________________________________
@@ -5091,8 +5331,9 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
     stringstream s;
 
     s <<
-      "octaveShift '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "octaveShift is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5177,8 +5418,9 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
     stringstream s;
 
     s <<
-      "stem '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "stem is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5457,8 +5699,9 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
     stringstream s;
 
     s <<
-      "tie '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "tie is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5506,8 +5749,9 @@ void msr2LpsrTranslator::visitStart (S_msrSegno& elt)
     stringstream s;
 
     s <<
-      "segno '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "segno is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5545,8 +5789,9 @@ void msr2LpsrTranslator::visitStart (S_msrDalSegno& elt)
     stringstream s;
 
     s <<
-      "dal segno '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "dal segno is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -5613,8 +5858,8 @@ void msr2LpsrTranslator::visitStart (S_msrCoda& elt)
     stringstream s;
 
     s <<
-      "coda '" << elt->asShortString () <<
-      "' is out of context, cannot be handled";
+      "coda is out of context, cannot be handled: '" << elt->asShortString () <<
+      "'";
 
     msrInternalError (
       gOahOah->fInputSourceName,

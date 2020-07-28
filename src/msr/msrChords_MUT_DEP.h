@@ -7,6 +7,13 @@
 #define ___msrChords_MUT_DEP___
 
 //______________________________________________________________________________
+class msrChordSlurLink;
+typedef SMARTP<msrChordSlurLink> S_msrChordSlurLink;
+
+class msrChordGraceNotesGroupLink;
+typedef SMARTP<msrChordGraceNotesGroupLink> S_msrChordGraceNotesGroupLink;
+
+//______________________________________________________________________________
 class msrChord : public msrTupletElement
 {
   public:
@@ -49,7 +56,6 @@ class msrChord : public msrTupletElement
                             rational wholeNotes);
 
     rational              getChordSoundingWholeNotes () const
-                      // JMI        { return fChordSoundingWholeNotes; }
                               { return fMeasureElementSoundingWholeNotes; }
 
     void                  setChordDisplayWholeNotes (
@@ -164,9 +170,14 @@ class msrChord : public msrTupletElement
                               { return fChordTies; }
 
     // slurs
+                              /*
     const list<S_msrSlur>&
                           getChordSlurs () const
                               { return fChordSlurs; }
+*/
+    const list<S_msrChordSlurLink>&
+                          getChordSlurLinks () const
+                              { return fChordSlurLinks; }
 
     // ligatures
     const list<S_msrLigature>&
@@ -192,6 +203,7 @@ class msrChord : public msrTupletElement
                               { return fChordIsSecondChordInADoubleTremolo; }
 
     // grace notes
+/*
     void                  setChordGraceNotesGroupBefore (
                             S_msrGraceNotesGroup graceNotesGroupBefore)
                               {
@@ -211,7 +223,29 @@ class msrChord : public msrTupletElement
 
     S_msrGraceNotesGroup  getChordGraceNotesGroupAfter () const
                               { return fChordGraceNotesGroupAfter; }
+*/
 
+    void                  setChordGraceNotesGroupLinkBefore (
+                            S_msrChordGraceNotesGroupLink chordChordGraceNotesGroupLinkBefore)
+                              {
+                                fChordGraceNotesGroupLinkBefore =
+                                  chordChordGraceNotesGroupLinkBefore;
+                              }
+
+    S_msrChordGraceNotesGroupLink
+                          getChordGraceNotesGroupLinkBefore () const
+                              { return fChordGraceNotesGroupLinkBefore; }
+
+    void                  setChordGraceNotesGroupLinkAfter (
+                            S_msrChordGraceNotesGroupLink chordChordGraceNotesGroupLinkAfter)
+                              {
+                                fChordGraceNotesGroupLinkAfter =
+                                  chordChordGraceNotesGroupLinkAfter;
+                              }
+
+    S_msrChordGraceNotesGroupLink
+                          getChordGraceNotesGroupLinkAfter () const
+                              { return fChordGraceNotesGroupLinkAfter; }
 
     // harmony
     void                  appendHarmonyToChord (
@@ -299,58 +333,43 @@ class msrChord : public msrTupletElement
 
     // dynamics
     void                  appendDynamicsToChord (S_msrDynamics dynamic)
-                              {
-                                fChordDynamics.push_back (dynamic);
-                              }
+                              { fChordDynamics.push_back (dynamic); }
 
     // other dynamics
     void                  appendOtherDynamicsToChord (
                             S_msrOtherDynamics otherDynamic)
-                              {
-                                fChordOtherDynamics.push_back (otherDynamic);
-                              }
+                              { fChordOtherDynamics.push_back (otherDynamic); }
 
     // slashes
     void                  appendSlashToChord (S_msrSlash slash)
-                              {
-                                fChordSlashes.push_back (slash);
-                              }
+                              { fChordSlashes.push_back (slash); }
 
     // wedges
     void                  appendWedgeToChord (S_msrWedge wedge)
-                              {
-                                fChordWedges.push_back (wedge);
-                              }
+                              { fChordWedges.push_back (wedge); }
 
     // segnos
     void                  appendSegnoToChord (S_msrSegno segno)
-                              {
-                                fChordSegnos.push_back (segno);
-                              }
+                              { fChordSegnos.push_back (segno); }
 
     // dal segnos
     void                  appendDalSegnoToChord (S_msrDalSegno dalSegno);
 
     // codas
     void                  appendCodaToChord (S_msrCoda coda)
-                              {
-                                fChordCodas.push_back (coda);
-                              }
+                              { fChordCodas.push_back (coda); }
 
     // words
     void                  appendWordsToChord (S_msrWords dynamic)
-                              {
-                                fChordWords.push_back (dynamic);
-                              }
+                              { fChordWords.push_back (dynamic); }
 
     // ties
     void                  appendTieToChord (S_msrTie tie)
-                              {
-                                fChordTies.push_back (tie);
-                              }
+                              { fChordTies.push_back (tie); }
 
     // slurs
-    void                  appendSlurToChord (S_msrSlur slur);
+//    void                  appendSlurToChord (S_msrSlur slur);
+    void                  appendChordSlurLinkToChord (S_msrChordSlurLink ChordSlurLink);
 
     // stems
     void                  appendStemToChord (S_msrStem stem);
@@ -360,15 +379,11 @@ class msrChord : public msrTupletElement
 
     // ligatures
     void                  appendLigatureToChord (S_msrLigature ligature)
-                              {
-                                fChordLigatures.push_back (ligature);
-                              }
+                              { fChordLigatures.push_back (ligature); }
 
     // pedals
     void                  appendPedalToChord (S_msrPedal pedal)
-                              {
-                                fChordPedals.push_back (pedal);
-                              }
+                              { fChordPedals.push_back (pedal);  }
 
     // tuplet members
     /* JMI
@@ -501,7 +516,9 @@ class msrChord : public msrTupletElement
     list<S_msrTie>        fChordTies;
 
     // slurs
-    list<S_msrSlur>       fChordSlurs;
+//    list<S_msrSlur>       fChordSlurs;
+    list<S_msrChordSlurLink>
+                          fChordSlurLinks;
 
     // ligatures
     list<S_msrLigature>   fChordLigatures;
@@ -510,8 +527,13 @@ class msrChord : public msrTupletElement
     list<S_msrPedal>      fChordPedals;
 
     // grace notes
-    S_msrGraceNotesGroup  fChordGraceNotesGroupBefore;
-    S_msrGraceNotesGroup  fChordGraceNotesGroupAfter;
+//    S_msrGraceNotesGroup  fChordGraceNotesGroupBefore;
+//    S_msrGraceNotesGroup  fChordGraceNotesGroupAfter;
+
+    S_msrChordGraceNotesGroupLink
+                          fChordGraceNotesGroupLinkBefore;
+    S_msrChordGraceNotesGroupLink
+                          fChordGraceNotesGroupLinkAfter;
 
     // harmony
     list<S_msrHarmony>    fChordHarmoniesList;
@@ -521,6 +543,150 @@ class msrChord : public msrTupletElement
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
+
+//______________________________________________________________________________
+class msrChordSlurLink : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrChordSlurLink> create (
+      int        inputLineNumber,
+      S_msrSlur  originalSlur,
+      S_msrChord chordUpLink);
+
+    SMARTP<msrChordSlurLink> createSlurNewbornClone ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrChordSlurLink (
+      int        inputLineNumber,
+      S_msrSlur  originalSlur,
+      S_msrChord chordUpLink);
+
+    virtual ~msrChordSlurLink ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrChord            getChordUpLink () const
+                              { return fChordUpLink; }
+
+    S_msrSlur             getOriginalSlur () const
+                              { return fOriginalSlur; }
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortString () const;
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+    virtual void          printShort (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_msrChord            fChordUpLink;
+
+    S_msrSlur             fOriginalSlur;
+};
+typedef SMARTP<msrChordSlurLink> S_msrChordSlurLink;
+EXP ostream& operator<< (ostream& os, const S_msrChordSlurLink& elt);
+
+//______________________________________________________________________________
+class msrChordGraceNotesGroupLink : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrChordGraceNotesGroupLink> create (
+      int                  inputLineNumber,
+      S_msrGraceNotesGroup originalGraceNotesGroup,
+      S_msrChord            chordUpLink);
+
+    SMARTP<msrChordGraceNotesGroupLink> createChordGraceNotesGroupLinkNewbornClone ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrChordGraceNotesGroupLink (
+      int                  inputLineNumber,
+      S_msrGraceNotesGroup originalGraceNotesGroup,
+      S_msrChord            chordUpLink);
+
+    virtual ~msrChordGraceNotesGroupLink ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrChord            getChordUpLink () const
+                              { return fChordUpLink; }
+
+    S_msrGraceNotesGroup  getOriginalGraceNotesGroup () const
+                              { return fOriginalGraceNotesGroup; }
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortString () const;
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+    virtual void          printShort (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_msrChord            fChordUpLink;
+
+    S_msrGraceNotesGroup  fOriginalGraceNotesGroup;
+};
+typedef SMARTP<msrChordGraceNotesGroupLink> S_msrChordGraceNotesGroupLink;
+EXP ostream& operator<< (ostream& os, const S_msrChordGraceNotesGroupLink& elt);
 
 
 #endif

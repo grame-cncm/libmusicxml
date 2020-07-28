@@ -653,6 +653,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
   fChordSlides.push_back (slide);
 }
 
+/*
 void msrChord::appendSlurToChord (S_msrSlur slur)
 {
 #ifdef TRACE_OAH
@@ -665,6 +666,21 @@ void msrChord::appendSlurToChord (S_msrSlur slur)
 #endif
 
   fChordSlurs.push_back (slur);
+}
+*/
+
+void msrChord::appendChordSlurLinkToChord (S_msrChordSlurLink ChordSlurLink)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSlurs) {
+    gLogOstream <<
+      "Adding slur link '" << ChordSlurLink->asString() <<
+      "' to chord '" << asString () << "'" <<
+      endl;
+  }
+#endif
+
+  fChordSlurLinks.push_back (ChordSlurLink);
 }
 
 void msrChord::appendStemToChord (S_msrStem stem)
@@ -780,6 +796,12 @@ void msrChord::acceptOut (basevisitor* v)
 
 void msrChord::browseData (basevisitor* v)
 {
+  if (fChordGraceNotesGroupLinkBefore) {
+    // browse the grace notes group before
+    msrBrowser<msrChordGraceNotesGroupLink> browser (v);
+    browser.browse (*fChordGraceNotesGroupLinkBefore);
+  }
+
   for (
     vector<S_msrNote>::const_iterator i = fChordNotesVector.begin ();
     i != fChordNotesVector.end ();
@@ -911,6 +933,7 @@ void msrChord::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+/* JMI
   for (
     list<S_msrSlur>::const_iterator i = fChordSlurs.begin ();
     i != fChordSlurs.end ();
@@ -920,6 +943,7 @@ void msrChord::browseData (basevisitor* v)
     msrBrowser<msrSlur> browser (v);
     browser.browse (*(*i));
   } // for
+*/
 
   for (
     list<S_msrLigature>::const_iterator i = fChordLigatures.begin ();
@@ -987,17 +1011,6 @@ void msrChord::browseData (basevisitor* v)
     browser.browse (*fChordOctaveShift);
   }
 
-  if (fChordGraceNotesGroupBefore) {
-    // browse the grace notes group before
-    msrBrowser<msrGraceNotesGroup> browser (v);
-    browser.browse (*fChordGraceNotesGroupBefore);
-  }
-  if (fChordGraceNotesGroupAfter) {
-    // browse the grace notes group after
-    msrBrowser<msrGraceNotesGroup> browser (v);
-    browser.browse (*fChordGraceNotesGroupAfter);
-  }
-
   // browse the harmonies if any
   if (fChordHarmoniesList.size ()) {
     list<S_msrHarmony>::const_iterator i;
@@ -1012,6 +1025,35 @@ void msrChord::browseData (basevisitor* v)
     // browse the figured bass
     msrBrowser<msrFiguredBass> browser (v);
     browser.browse (*fChordFiguredBass);
+  }
+
+  for (
+    list<S_msrChordSlurLink>::const_iterator i = fChordSlurLinks.begin ();
+    i != fChordSlurLinks.end ();
+    i++
+  ) {
+    // browse the slur link
+    msrBrowser<msrChordSlurLink> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+/*
+  if (fChordGraceNotesGroupBefore) {
+    // browse the grace notes group before
+    msrBrowser<msrGraceNotesGroup> browser (v);
+    browser.browse (*fChordGraceNotesGroupBefore);
+  }
+  if (fChordGraceNotesGroupAfter) {
+    // browse the grace notes group after
+    msrBrowser<msrGraceNotesGroup> browser (v);
+    browser.browse (*fChordGraceNotesGroupAfter);
+  }
+*/
+
+  if (fChordGraceNotesGroupLinkAfter) {
+    // browse the grace notes group after
+    msrBrowser<msrChordGraceNotesGroupLink> browser (v);
+    browser.browse (*fChordGraceNotesGroupLinkAfter);
   }
 }
 
@@ -1185,6 +1227,23 @@ void msrChord::print (ostream& os) const
     "chordMeasureFullLength" << " : " << chordMeasureFullLength <<
     endl;
 
+  os <<
+    "chordTupletUpLink" << " : ";
+  if (fChordTupletUpLink) {
+    os <<
+      fChordTupletUpLink->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+
+  os <<
+    setw (fieldWidth) <<
+    "positionInTuplet" << " : " <<
+    fPositionInTuplet <<
+    endl;
+
   // print simplified position in measure if relevant
 // JMI  if (fChordMeasureUpLink) {
     // the chord measure upLink may not have been set yet
@@ -1213,7 +1272,25 @@ void msrChord::print (ostream& os) const
     setw (fieldWidth) <<
     "chordIsSecondChordInADoubleTremolo" << " : " <<
     booleanAsString (fChordIsSecondChordInADoubleTremolo) <<
+    endl <<
     endl;
+
+  // print the chord grace notes groups links if any
+  if (fChordGraceNotesGroupLinkBefore || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordGraceNotesGroupLinkBefore";
+
+    if (fChordGraceNotesGroupLinkBefore) {
+      os << endl;
+      gIndenter++;
+      os << fChordGraceNotesGroupLinkBefore;
+      gIndenter--;
+    }
+    else {
+      os << " : " << "none" << endl; // JMI TEST
+    }
+  }
 
   // print the articulations if any
   int chordArticulationsSize = fChordArticulations.size ();
@@ -1515,31 +1592,6 @@ void msrChord::print (ostream& os) const
     }
   }
 
-  // print the slurs if any
-  int chordSlursSize = fChordSlurs.size ();
-
-  if (chordSlursSize || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "chordSlurs";
-    if (chordSlursSize) {
-      os << endl;
-      gIndenter++;
-
-      list<S_msrSlur>::const_iterator i;
-      for (i=fChordSlurs.begin (); i!=fChordSlurs.end (); i++) {
-        os << (*i);
-      } // for
-
-      gIndenter--;
-    }
-    else {
-      os <<
-        " : " << "none" <<
-      endl;
-    }
-  }
-
   // print the ligatures if any
   int chordLigaturesSize = fChordLigatures.size ();
 
@@ -1706,44 +1758,6 @@ void msrChord::print (ostream& os) const
         " : " << "none" <<
       endl;
     }
-  }
-
-  // print the chord grace notes groups if any
-  if (fChordGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "chordGraceNotesGroupBefore";
-
-    if (fChordGraceNotesGroupBefore) {
-      os << endl;
-      gIndenter++;
-      os <<
-        fChordGraceNotesGroupBefore->asString () <<
-        endl;
-      gIndenter--;
-    }
-    else {
-      os << " : " << "none" << endl; // JMI TEST
-    }
-//    os << endl;
-  }
-
-  if (fChordGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "chordGraceNotesGroupAfter";
-
-    if (fChordGraceNotesGroupAfter) {
-      os << endl;
-      gIndenter++;
-      os <<
-        fChordGraceNotesGroupAfter->asString ();
-      gIndenter--;
-    }
-    else {
-      os << " : " << "none";
-    }
-    os << endl;
   }
 
   // print the harmonies associated to this chord if any
@@ -1830,30 +1844,118 @@ void msrChord::print (ostream& os) const
       os << ":" << "none" <<
       endl;
     }
+
+    os << endl;
   }
 
-  // print the chord position in measure
-  os <<
-    setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
-    endl;
+/* JMI
+  // print the slurs if any
+  int chordSlursSize = fChordSlurs.size ();
 
-  os <<
-    "chordTupletUpLink" << " : ";
-  if (fChordTupletUpLink) {
+  if (chordSlursSize || gMsrOah->fDisplayMsrDetails) {
     os <<
-      fChordTupletUpLink->asShortString ();
-  }
-  else {
-    os << "none";
-  }
-  os << endl;
+      setw (fieldWidth) <<
+      "chordSlurs";
+    if (chordSlursSize) {
+      os << endl;
+      gIndenter++;
 
-  os <<
-    setw (fieldWidth) <<
-    "positionInTuplet" << " : " <<
-    fPositionInTuplet <<
-    endl;
+      list<S_msrSlur>::const_iterator i;
+      for (i=fChordSlurs.begin (); i!=fChordSlurs.end (); i++) {
+        os << (*i);
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+*/
+
+  // print the slur links if any
+  int chordSlurLinksSize = fChordSlurLinks.size ();
+
+  if (chordSlurLinksSize || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "===> chordSlurLinks ===>";
+    if (chordSlurLinksSize) {
+      os << endl;
+      gIndenter++;
+
+      list<S_msrChordSlurLink>::const_iterator i;
+      for (i=fChordSlurLinks.begin (); i!=fChordSlurLinks.end (); i++) {
+        os << (*i);
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+
+/*
+  // print the chord grace notes groups if any
+  if (fChordGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordGraceNotesGroupBefore";
+
+    if (fChordGraceNotesGroupBefore) {
+      os << endl;
+      gIndenter++;
+      os <<
+        fChordGraceNotesGroupBefore->asString () <<
+        endl;
+      gIndenter--;
+    }
+    else {
+      os << " : " << "none" << endl; // JMI TEST
+    }
+//    os << endl;
+  }
+
+  if (fChordGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordGraceNotesGroupAfter";
+
+    if (fChordGraceNotesGroupAfter) {
+      os << endl;
+      gIndenter++;
+      os <<
+        fChordGraceNotesGroupAfter->asString ();
+      gIndenter--;
+    }
+    else {
+      os << " : " << "none";
+    }
+    os << endl;
+  }
+*/
+
+  if (fChordGraceNotesGroupLinkAfter || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordGraceNotesGroupLinkAfter";
+
+    if (fChordGraceNotesGroupLinkAfter) {
+      os << endl;
+      gIndenter++;
+      os << fChordGraceNotesGroupLinkAfter;
+      gIndenter--;
+    }
+    else {
+      os << " : " << "none";
+    }
+    os << endl;
+  }
 
   gIndenter--;
 }
@@ -1901,6 +2003,26 @@ void msrChord::printShort (ostream& os) const
     endl;
 
 /*
+  os <<
+    "chordTupletUpLink" << " : ";
+  if (fChordTupletUpLink) {
+    os <<
+      fChordTupletUpLink->asShortString ();
+  }
+  else {
+    os << "none";
+  }
+  os << endl;
+*/
+
+  os <<
+    setw (fieldWidth) <<
+    "positionInTuplet" << " : " <<
+    fPositionInTuplet <<
+    endl <<
+    endl;
+
+/*
   // print simplified position in measure if relevant
 // JMI  if (fChordMeasureUpLink) {
     // the chord measure upLink may not have been set yet
@@ -1930,7 +2052,27 @@ void msrChord::printShort (ostream& os) const
     "chordIsSecondChordInADoubleTremolo" << " : " <<
     booleanAsString (fChordIsSecondChordInADoubleTremolo) <<
     endl;
+*/
 
+  // print the chord grace notes group link before if any
+  if (fChordGraceNotesGroupLinkBefore || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "===> chordGraceNotesGroupLinkBefore ===>";
+
+    if (fChordGraceNotesGroupLinkBefore) {
+      os << endl;
+      gIndenter++;
+      os << fChordGraceNotesGroupLinkBefore->asShortString();
+      gIndenter--;
+    }
+    else {
+      os << " : " << "none";
+    }
+    os << endl;
+  }
+
+/*
   // print the articulations if any
   int chordArticulationsSize = fChordArticulations.size ();
 
@@ -2232,6 +2374,7 @@ void msrChord::printShort (ostream& os) const
     }
   }
 
+/* JMI
   // print the slurs if any
   int chordSlursSize = fChordSlurs.size ();
 
@@ -2256,6 +2399,34 @@ void msrChord::printShort (ostream& os) const
       endl;
     }
   }
+*/
+
+/*
+  // print the slur links if any
+  int chordSlurLinksSize = fChordSlurLinks.size ();
+
+  if (chordSlurLinksSize || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordSlurLinks";
+    if (chordSlurLinksSize) {
+      os << endl;
+      gIndenter++;
+
+      list<S_msrChordSlurLink>::const_iterator i;
+      for (i=fChordSlurLinks.begin (); i!=fChordSlurLinks.end (); i++) {
+        os << (*i);
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+*/
 
   // print the ligatures if any
   int chordLigaturesSize = fChordLigatures.size ();
@@ -2427,44 +2598,6 @@ void msrChord::printShort (ostream& os) const
   }
 */
 
-  // print the chord grace notes groups if any
-  if (fChordGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "chordGraceNotesGroupBefore";
-
-    if (fChordGraceNotesGroupBefore) {
-      os << endl;
-      gIndenter++;
-      os <<
-        fChordGraceNotesGroupBefore->asString () <<
-        endl;
-      gIndenter--;
-    }
-    else {
-      os << " : " << "none" << endl; // JMI TEST
-    }
-//    os << endl;
-  }
-
-  if (fChordGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "chordGraceNotesGroupAfter";
-
-    if (fChordGraceNotesGroupAfter) {
-      os << endl;
-      gIndenter++;
-      os <<
-        fChordGraceNotesGroupAfter->asString ();
-      gIndenter--;
-    }
-    else {
-      os << " : " << "none";
-    }
-    os << endl;
-  }
-
   // print the harmonies associated to this chord if any
   int chordHarmoniesListSize = fChordHarmoniesList.size ();
 
@@ -2550,37 +2683,485 @@ void msrChord::printShort (ostream& os) const
       os << ":" << "none" <<
       endl;
     }
-  }
 
-  // print the chord position in measure
-  os <<
-    setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fMeasureElementPositionInMeasure <<
-    endl;
+    os << endl;
+  }
 
 /*
-  os <<
-    "chordTupletUpLink" << " : ";
-  if (fChordTupletUpLink) {
+  // print the chord grace notes groups if any
+  if (fChordGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
     os <<
-      fChordTupletUpLink->asShortString ();
+      setw (fieldWidth) <<
+      "chordGraceNotesGroupBefore";
+
+    if (fChordGraceNotesGroupBefore) {
+      os << endl;
+      gIndenter++;
+      fChordGraceNotesGroupBefore->printShort (os);
+      gIndenter--;
+    }
+    else {
+      os << " : " << "none" << endl; // JMI TEST
+    }
+//    os << endl;
   }
-  else {
-    os << "none";
+
+  if (fChordGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordGraceNotesGroupAfter";
+
+    if (fChordGraceNotesGroupAfter) {
+      os << endl;
+      gIndenter++;
+      fChordGraceNotesGroupAfter->printShort (os);
+      gIndenter--;
+    }
+    else {
+      os << " : " << "none";
+    }
+    os << endl;
   }
-  os << endl;
 */
 
-  os <<
-    setw (fieldWidth) <<
-    "positionInTuplet" << " : " <<
-    fPositionInTuplet <<
-    endl;
+  // print the chord grace notes group link after if any
+  if (fChordGraceNotesGroupLinkAfter || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "===> chordGraceNotesGroupLinkAfter ===>";
+
+    if (fChordGraceNotesGroupLinkAfter) {
+      os << endl;
+      gIndenter++;
+      os << fChordGraceNotesGroupLinkAfter->asShortString();
+      gIndenter--;
+    }
+    else {
+      os << " : " << "none";
+    }
+    os << endl;
+  }
 
   gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrChord& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrChordSlurLink msrChordSlurLink::create (
+  int        inputLineNumber,
+  S_msrSlur  originalSlur,
+  S_msrChord chordUpLink)
+{
+  msrChordSlurLink* o =
+    new msrChordSlurLink (
+      inputLineNumber,
+      originalSlur,
+      chordUpLink);
+  assert(o!=0);
+
+  return o;
+}
+
+msrChordSlurLink::msrChordSlurLink (
+  int        inputLineNumber,
+  S_msrSlur  originalSlur,
+  S_msrChord chordUpLink)
+    : msrElement (inputLineNumber)
+{
+  // sanity check
+  msrAssert(
+    originalSlur != nullptr,
+    "originalSlur is null");
+
+  // sanity check
+  msrAssert(
+    chordUpLink != nullptr,
+    "chordUpLink is null");
+
+  fChordUpLink = chordUpLink;
+
+  fOriginalSlur = originalSlur;
+}
+
+msrChordSlurLink::~msrChordSlurLink ()
+{}
+
+S_msrChordSlurLink msrChordSlurLink::createSlurNewbornClone ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGraceNotes) {
+    gLogOstream <<
+      "Creating a newborn clone of grace notes group link '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
+/* JMI
+  // sanity check
+  msrAssert(
+    containingVoice != nullptr,
+    "containingVoice is null");
+*/
+
+  S_msrChordSlurLink
+    newbornClone =
+      msrChordSlurLink::create (
+        fInputLineNumber,
+        fOriginalSlur,
+        fChordUpLink);
+
+  return newbornClone;
+}
+
+void msrChordSlurLink::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrChordSlurLink::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrChordSlurLink>*
+    p =
+      dynamic_cast<visitor<S_msrChordSlurLink>*> (v)) {
+        S_msrChordSlurLink elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrChordSlurLink::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrChordSlurLink::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrChordSlurLink::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrChordSlurLink>*
+    p =
+      dynamic_cast<visitor<S_msrChordSlurLink>*> (v)) {
+        S_msrChordSlurLink elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrChordSlurLink::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrChordSlurLink::browseData (basevisitor* v)
+{
+  // browse the original grace notes group
+  msrBrowser<msrSlur> browser (v);
+  browser.browse (*fOriginalSlur);
+}
+
+string msrChordSlurLink::asShortString () const
+{
+  stringstream s;
+
+  s <<
+    "[ChordSlurLink" <<
+    ", originalSlur \"" <<
+    fOriginalSlur->asShortString () <<
+    ", chordUpLink \"" <<
+    fChordUpLink->asShortString () <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+string msrChordSlurLink::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[ChordSlurLink" <<
+    ", originalSlur \"" <<
+    fOriginalSlur->asString () <<
+    ", chordUpLink \"" <<
+    fChordUpLink->asString () <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrChordSlurLink::print (ostream& os) const
+{
+  os <<
+    "ChordSlurLink" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 33;
+
+  os <<
+    setw (fieldWidth) <<
+    "originalSlur:" <<
+    endl;
+
+  gIndenter++;
+  os <<
+    fOriginalSlur <<
+    fChordUpLink;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void msrChordSlurLink::printShort (ostream& os) const
+{
+  os <<
+    "ChordSlurLink" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 33;
+
+  os <<
+    setw (fieldWidth) <<
+    "originalSlur:" <<
+    endl;
+
+  gIndenter++;
+  fOriginalSlur->printShort (os);
+  fChordUpLink->printShort (os);
+  gIndenter--;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrChordSlurLink& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrChordGraceNotesGroupLink msrChordGraceNotesGroupLink::create (
+  int                  inputLineNumber,
+  S_msrGraceNotesGroup originalGraceNotesGroup,
+  S_msrChord           chordUpLink)
+{
+  msrChordGraceNotesGroupLink* o =
+    new msrChordGraceNotesGroupLink (
+      inputLineNumber,
+      originalGraceNotesGroup,
+      chordUpLink);
+  assert(o!=0);
+
+  return o;
+}
+
+msrChordGraceNotesGroupLink::msrChordGraceNotesGroupLink (
+  int                  inputLineNumber,
+  S_msrGraceNotesGroup originalGraceNotesGroup,
+  S_msrChord           chordUpLink)
+    : msrElement (inputLineNumber)
+{
+  // sanity check
+  msrAssert(
+    originalGraceNotesGroup != nullptr,
+    "originalGraceNotesGroup is null");
+
+  // sanity check
+  msrAssert(
+    chordUpLink != nullptr,
+    "chordUpLink is null");
+
+  fChordUpLink = chordUpLink;
+
+  fOriginalGraceNotesGroup = originalGraceNotesGroup;
+}
+
+msrChordGraceNotesGroupLink::~msrChordGraceNotesGroupLink ()
+{}
+
+S_msrChordGraceNotesGroupLink msrChordGraceNotesGroupLink::createChordGraceNotesGroupLinkNewbornClone ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGraceNotes) {
+    gLogOstream <<
+      "Creating a newborn clone of grace notes group link '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
+/* JMI
+  // sanity check
+  msrAssert(
+    containingVoice != nullptr,
+    "containingVoice is null");
+*/
+
+  S_msrChordGraceNotesGroupLink
+    newbornClone =
+      msrChordGraceNotesGroupLink::create (
+        fInputLineNumber,
+        fOriginalGraceNotesGroup,
+        fChordUpLink);
+
+  return newbornClone;
+}
+
+void msrChordGraceNotesGroupLink::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrChordGraceNotesGroupLink::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrChordGraceNotesGroupLink>*
+    p =
+      dynamic_cast<visitor<S_msrChordGraceNotesGroupLink>*> (v)) {
+        S_msrChordGraceNotesGroupLink elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrChordGraceNotesGroupLink::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrChordGraceNotesGroupLink::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrChordGraceNotesGroupLink::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrChordGraceNotesGroupLink>*
+    p =
+      dynamic_cast<visitor<S_msrChordGraceNotesGroupLink>*> (v)) {
+        S_msrChordGraceNotesGroupLink elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrChordGraceNotesGroupLink::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrChordGraceNotesGroupLink::browseData (basevisitor* v)
+{
+  list<S_msrMeasureElement>::const_iterator i;
+
+  // browse the original grace notes group
+  msrBrowser<msrGraceNotesGroup> browser (v);
+  browser.browse (*fOriginalGraceNotesGroup);
+}
+
+string msrChordGraceNotesGroupLink::asShortString () const
+{
+  stringstream s;
+
+  s <<
+    "[chordGraceNotesGroupLink" <<
+    ", fOriginalGraceNotesGroup: \"" <<
+    fOriginalGraceNotesGroup->asShortString () <<
+    ", chordUpLink \"" <<
+    fChordUpLink->asShortString () <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+string msrChordGraceNotesGroupLink::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[chordGraceNotesGroupLink" <<
+    ", originalGraceNotesGroup \"" <<
+    fOriginalGraceNotesGroup->asString () <<
+    ", chordUpLink \"" <<
+    fChordUpLink->asString () <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrChordGraceNotesGroupLink::print (ostream& os) const
+{
+  os <<
+    "chordGraceNotesGroupLink" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 33;
+
+  os <<
+    setw (fieldWidth) <<
+    "originalGraceNotesGroup" <<
+    endl;
+
+  gIndenter++;
+  os <<
+    fOriginalGraceNotesGroup <<
+    fChordUpLink;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void msrChordGraceNotesGroupLink::printShort (ostream& os) const
+{
+  os <<
+    "chordGraceNotesGroupLink" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 33;
+
+  os <<
+    setw (fieldWidth) <<
+    "originalGraceNotesGroup" <<
+    endl;
+
+  gIndenter++;
+  fOriginalGraceNotesGroup->printShort (os);
+  fChordUpLink->printShort (os);
+  gIndenter--;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrChordGraceNotesGroupLink& elt)
 {
   elt->print (os);
   return os;

@@ -17,34 +17,34 @@ applications := xmlversion countnotes xmlread xmlclone xmliter xml2guido xml2mid
 
 all : $(applications)
 
-countnotes: countnotes.cpp 
+countnotes: countnotes.cpp
 	gcc $(CXXFLAGS) countnotes.cpp $(LIB) -o countnotes
 
-xmlread: xmlread.cpp 
+xmlread: xmlread.cpp
 	gcc $(CXXFLAGS) xmlread.cpp $(LIB) -o xmlread
 
-xmlclone: xmlclone.cpp 
+xmlclone: xmlclone.cpp
 	gcc $(CXXFLAGS) xmlclone.cpp $(LIB) -o xmlclone
 
 xmliter : xmliter.cpp
 	gcc $(CXXFLAGS) xmliter.cpp $(LIB) -o xmliter
 
-xml2guido: xml2guido.cpp 
+xml2guido: xml2guido.cpp
 	gcc $(CXXFLAGS) xml2guido.cpp $(LIB) -o xml2guido
 
-xml2midi: xml2midi.cpp 
+xml2midi: xml2midi.cpp
 	gcc $(CXXFLAGS) xml2midi.cpp $(LIB) -o xml2midi
 
-readunrolled: readunrolled.cpp 
+readunrolled: readunrolled.cpp
 	gcc $(CXXFLAGS) readunrolled.cpp $(LIB) -o readunrolled
 
-randomMusic: RandomMusic.cpp 
+randomMusic: RandomMusic.cpp
 	gcc $(CXXFLAGS) RandomMusic.cpp $(LIB) -o randomMusic
 
-xmltranspose: xmltranspose.cpp 
+xmltranspose: xmltranspose.cpp
 	gcc $(CXXFLAGS) xmltranspose.cpp $(LIB) -o xmltranspose
 
-partsummary: partsummary.cpp 
+partsummary: partsummary.cpp
 	gcc $(CXXFLAGS) partsummary.cpp $(LIB) -o partsummary
 
 xmlversion: xmlversion.cpp

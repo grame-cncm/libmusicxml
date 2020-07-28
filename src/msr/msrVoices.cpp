@@ -2769,9 +2769,25 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
     }
 #endif
 
+/*
     firstNoteChordUpLink->
       setChordGraceNotesGroupBefore (
         graceNotesGroup);
+        */
+
+    // create a grace notes group link
+    S_msrChordGraceNotesGroupLink
+      chordChordGraceNotesGroupLink =
+        msrChordGraceNotesGroupLink::create (
+          graceNotesGroup->getInputLineNumber (),
+          graceNotesGroup,
+          firstNoteChordUpLink);
+
+    // register it in the chord
+    firstNoteChordUpLink->
+      setChordGraceNotesGroupLinkBefore (
+        chordChordGraceNotesGroupLink);
+
   }
 
   else {

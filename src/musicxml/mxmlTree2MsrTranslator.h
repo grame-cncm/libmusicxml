@@ -1907,7 +1907,9 @@ class mxmlTree2MsrTranslator :
 
     void                      copyNoteTieToChord (
                                 S_msrNote note, S_msrChord chord);
-    void                      copyNoteSlursToChord (
+//    void                      copyNoteSlursToChord (
+//                                S_msrNote note, S_msrChord chord);
+    void                      appendNoteSlursLinksToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteLigaturesToChord (
                                 S_msrNote note, S_msrChord chord);
@@ -1931,7 +1933,9 @@ class mxmlTree2MsrTranslator :
     void                      copyNoteOctaveShiftToChord (
                                 S_msrNote note, S_msrChord chord);
 
-    void                      copyNoteGraceNotesGroupsToChord (
+//    void                      copyNoteGraceNotesGroupsToChord (
+//                                S_msrNote note, S_msrChord chord);
+    void                      addNoteGraceNotesGroupsLinksToChord (
                                 S_msrNote note, S_msrChord chord);
 
     void                      copyNoteHarmoniesToChord (

@@ -4661,48 +4661,6 @@ void msrNote::print (ostream& os) const
     }
   }
 
-  // print the grace notes group before if any
-  if (fNoteGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteGraceNotesGroupBefore";
-    if (fNoteGraceNotesGroupBefore) {
-      os << endl;
-
-      gIndenter++;
-
-      os << fNoteGraceNotesGroupBefore;
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
-  // print the after grace group notes after if any
-  if (fNoteGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteGraceNotesGroupAfter";
-    if (fNoteGraceNotesGroupAfter) {
-      os << endl;
-
-      gIndenter++;
-
-      os << fNoteGraceNotesGroupAfter;
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
   // print the singleTremolo if any
   if (fNoteSingleTremolo || gMsrOah->fDisplayMsrDetails) {
     os <<
@@ -5306,6 +5264,48 @@ void msrNote::print (ostream& os) const
         if (++i == iEnd) break;
         // no endl here
       } // for
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the grace notes group before if any
+  if (fNoteGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNotesGroupBefore";
+    if (fNoteGraceNotesGroupBefore) {
+      os << endl;
+
+      gIndenter++;
+
+      os << fNoteGraceNotesGroupBefore;
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the after grace group notes after if any
+  if (fNoteGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNotesGroupAfter";
+    if (fNoteGraceNotesGroupAfter) {
+      os << endl;
+
+      gIndenter++;
+
+      os << fNoteGraceNotesGroupAfter;
 
       gIndenter--;
     }
@@ -6260,48 +6260,6 @@ void msrNote::printShort (ostream& os) const
   }
 */
 
-  // print the grace notes group before if any
-  if (fNoteGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteGraceNotesGroupBefore";
-    if (fNoteGraceNotesGroupBefore) {
-      os << endl;
-
-      gIndenter++;
-
-      fNoteGraceNotesGroupBefore->printShort (os);
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
-  // print the after grace group notes after if any
-  if (fNoteGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteGraceNotesGroupAfter";
-    if (fNoteGraceNotesGroupAfter) {
-      os << endl;
-
-      gIndenter++;
-
-      fNoteGraceNotesGroupAfter->printShort (os);
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
 /*
   // print the singleTremolo if any
   if (fNoteSingleTremolo || gMsrOah->fDisplayMsrDetails) {
@@ -6909,6 +6867,48 @@ void msrNote::printShort (ostream& os) const
         if (++i == iEnd) break;
         // no endl here
       } // for
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the grace notes group before if any
+  if (fNoteGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNotesGroupBefore";
+    if (fNoteGraceNotesGroupBefore) {
+      os << endl;
+
+      gIndenter++;
+
+      fNoteGraceNotesGroupBefore->printShort (os);
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the after grace group notes after if any
+  if (fNoteGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNotesGroupAfter";
+    if (fNoteGraceNotesGroupAfter) {
+      os << endl;
+
+      gIndenter++;
+
+      fNoteGraceNotesGroupAfter->printShort (os);
 
       gIndenter--;
     }
