@@ -41,6 +41,7 @@ namespace MusicXML2
     , fTotalDuration(0.0)
     {
         timePositions.clear();
+        fPartsAvailable = 0;
     }
     
     //______________________________________________________________________________
@@ -190,6 +191,7 @@ namespace MusicXML2
     {
         currentPart = elt->getAttributeValue("id");
         stavesInPart[currentPart] = 1;
+        fPartsAvailable++;
         
         // Filter out score-part here
         if (fPartNum != 0) {
@@ -560,6 +562,10 @@ std::map<double, int> xml2guidovisitor::getMeasureMap() {
     
 double xml2guidovisitor::getTotalDuration() {
     return fTotalDuration;
+}
+
+int xml2guidovisitor::getPartsAvailable() {
+    return fPartsAvailable;
 }
 }
 
