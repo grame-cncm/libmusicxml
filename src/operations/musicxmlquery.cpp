@@ -31,7 +31,7 @@ namespace MusicXML2
     }
     
     void musicxmlQuery::init() {
-        beatCum = 0.0;
+
     }
     
     
@@ -86,48 +86,6 @@ namespace MusicXML2
                 return "C";
                 break;
         }
-    }
-    
-    
-    //________________________________________________________________________
-    // The visit methods
-    //________________________________________________________________________
-    void musicxmlQuery::visitEnd ( S_note& elt )
-    {
-        notevisitor::visitEnd (elt);
-        
-        ctree<xmlelement>::iterator next;
-        for (ctree<xmlelement>::iterator i = elt->begin(); i != elt->end(); ) {
-            next = i;
-            next++;
-            switch (i->getType()) {
-                case k_step:
-                    break;
-                case k_octave:
-                    break;
-                case k_alter:
-                    
-                    break;
-                case k_accidental:
-                    break;
-                case k_time_modification:
-                case k_stem:
-                case k_notehead:
-                case k_staff:
-                case k_beam:
-                case k_notations:
-                case k_lyric:
-                    
-                    break;
-            }
-            i = next;
-        }
-    }
-    
-    
-    void musicxmlQuery::visitEnd ( S_rehearsal& elt )
-    {
-        //cout<< " Rehearsal Mark \""<< elt->getValue() <<"\" at beat-pos "<<beatCum<<endl;
     }
     
     //________________________________________________________________________

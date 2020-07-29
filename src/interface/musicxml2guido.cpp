@@ -49,25 +49,53 @@ static xmlErr xml2guido(SXMLFile& xmlfile, bool generateBars, int partFilter, os
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2guido(const char *file, bool generateBars, ostream& out) 
+static xmlErr partialxml2guido(SXMLFile& xmlfile, bool generateBars, int partFilter, int beginMeasure, int endMeasure, ostream& out, const char* file)
+{
+    Sxmlelement st = xmlfile->elements();
+    if (st) {
+        if (st->getName() == "score-timewise") return kUnsupported;
+        
+        xml2guidovisitor v(true, true, generateBars, partFilter, beginMeasure, endMeasure);
+        Sguidoelement gmn = v.convert(st);
+        if (file) {
+            out << "(*\n  gmn code converted from '" << file << "'"
+                << "\n  using libmusicxml v." << musicxmllibVersionStr();
+        }
+        else out << "(*\n  gmn code converted using libmusicxml v." << musicxmllibVersionStr();
+        out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
+            << "\n*)" << endl;
+        out << gmn << endl;
+        return kNoErr;
+    }
+    return kInvalidFile;
+}
+
+//_______________________________________________________________________________
+EXP xmlErr musicxmlfile2guido(const char *file, bool generateBars, int beginMeasure, int endMeasure, int partFilter, ostream& out)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(file);
 	if (xmlfile) {
-		return xml2guido(xmlfile, generateBars, 0, out, file);
+        if ((beginMeasure != 0) || (endMeasure != 0)) {
+            return partialxml2guido(xmlfile, generateBars, partFilter, beginMeasure, endMeasure, out, 0);
+        }
+		return xml2guido(xmlfile, generateBars, partFilter, out, file);
 	}
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2guido(FILE * fd, bool generateBars, ostream& out) 
+EXP xmlErr musicxmlfd2guido(FILE * fd, bool generateBars, int beginMeasure, int endMeasure, int partFilter, ostream& out)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
 	xmlfile = r.read(fd);
 	if (xmlfile) {
-		return xml2guido(xmlfile, generateBars, 0, out, 0);
+        if ((beginMeasure != 0) || (endMeasure != 0)) {
+            return partialxml2guido(xmlfile, generateBars, partFilter, beginMeasure, endMeasure, out, 0);
+        }
+		return xml2guido(xmlfile, generateBars, partFilter, out, 0);
 	}
 	return kInvalidFile;
 }
@@ -88,6 +116,17 @@ EXP xmlErr musicxmlstring2guidoOnPart(const char * buffer, bool generateBars, in
 		return xml2guido(xmlfile, generateBars, partFilter, out, 0);
 	}
 	return kInvalidFile;
+}
+
+EXP xmlErr      musicxmlstring2guidoPartial(const char * buffer, bool generateBars, int partFilter, int beginMeasure, int endMeasure, std::ostream& out)
+{
+    xmlreader r;
+    SXMLFile xmlfile;
+    xmlfile = r.readbuff(buffer);
+    if (xmlfile) {
+        return partialxml2guido(xmlfile, generateBars, partFilter, beginMeasure, endMeasure, out, 0);
+    }
+    return kInvalidFile;
 }
     
 
