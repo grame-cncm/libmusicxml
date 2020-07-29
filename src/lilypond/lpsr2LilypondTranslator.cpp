@@ -4761,7 +4761,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
     "\\header" << " {" <<
     endl;
 
-  gIndenter++;
+  gIndenter++; // decremented in visitEnd (S_lpsrHeader&)
 
   // generate header elements
 
@@ -4950,7 +4950,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrHeader& elt)
 {
-  gIndenter--;
+  gIndenter--; // incremented in visitStart (S_lpsrHeader&)
 
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
@@ -5494,7 +5494,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
     endl << endl;
 
   if (! fOnGoingBookPartBlock) {
-    gIndenter++;
+    gIndenter--;
   }
 }
 
@@ -5669,8 +5669,15 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
   gIndenter--;
 
   fLilypondCodeOstream <<
-    "}" <<
-    endl;
+    "}";
+
+  if (gLpsr2LilypondOah->fLilyPondComments) {
+    fLilypondCodeOstream << left <<
+      setw (commentFieldWidth) <<
+      " % book";
+  }
+
+  fLilypondCodeOstream << endl;
 
   fOnGoingBookPartBlock = false;
 }
@@ -11830,8 +11837,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
-      "% --> End visiting note " <<
-      msrNote::noteKindAsString (elt->getNoteKind ()) <<
+      "% --> Start visiting note " <<
+      elt->asShortString () <<
       ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
       ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
@@ -11840,7 +11847,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 #endif
 
+  bool noteIsToBeIgnored = false;
+
   // is this note to be ignored?
+  if (fOnGoingChord && fOnGoingGraceNotesGroup) { // JMI
+    noteIsToBeIgnored = true;
+  }
+
   if (fOnGoingRestMeasures) {
     switch (elt->getNoteKind ()) {
       case msrNote::kRestNote:
@@ -11870,7 +11883,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     }
   #endif
 
-            return;
+            noteIsToBeIgnored = true;
             }
           }
           */
@@ -11888,7 +11901,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           }
 #endif
 
-          return;
+          noteIsToBeIgnored = true;
         break;
 
       case msrNote::kSkipNote:
@@ -11906,7 +11919,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           }
 #endif
 
-          return;
+          noteIsToBeIgnored = true;
         }
         break;
 
@@ -11924,7 +11937,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           }
 #endif
 
-          return;
+          noteIsToBeIgnored = true;
         break;
 
       case msrNote::kGraceChordMemberNote:
@@ -11941,7 +11954,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           }
 #endif
 
-          return;
+          noteIsToBeIgnored = true;
         break;
 
       default:
@@ -11949,7 +11962,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // switch
   }
 
-  // get the note's grace notes group after
+  if (noteIsToBeIgnored) {
+    return;
+  }
+
+// get the note's grace notes group after
   S_msrGraceNotesGroup
     noteGraceNotesGroupAfter =
       elt->getNoteGraceNotesGroupAfter ();
@@ -11960,11 +11977,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       "\\afterGrace { ";
   }
 
+/* JMI mal placé
   // print the note's grace notes group before if any,
   // unless the note belongs to a chord
   bool doGenerateNoteGraceNotesGroupBefore = true;
 
-  if (fOnGoingChord) {
+  if (fOnGoingChord && fOnGoingGraceNotesGroup) {
     doGenerateNoteGraceNotesGroupBefore = false;
   }
 
@@ -11978,6 +11996,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         noteGraceNotesGroupBefore);
     }
   }
+*/
 
   // print the note scordaturas if any
   const list<S_msrScordatura>&
@@ -12610,13 +12629,18 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
       "% --> End visiting note " <<
-      msrNote::noteKindAsString (elt->getNoteKind ()) <<
+      elt->asShortString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 #endif
 
+  bool noteIsToBeIgnored = false;
+
   // is this note to be ignored?
+  if (fOnGoingChord && fOnGoingGraceNotesGroup) { // JMI
+    noteIsToBeIgnored = true;
+  }
   if (fOnGoingRestMeasures) {
     switch (elt->getNoteKind ()) {
       case msrNote::kRestNote:
@@ -12648,7 +12672,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               }
 #endif
 
-              return;
+              noteIsToBeIgnored = true;
             }
           }
         break;
@@ -12667,7 +12691,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           }
 #endif
 
-          return;
+          noteIsToBeIgnored = true;
         }
         break;
 
@@ -12683,12 +12707,16 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           }
 #endif
 
-          return;
+          noteIsToBeIgnored = true;
         break;
 
       default:
         ;
     } // switch
+  }
+
+  if (noteIsToBeIgnored) {
+    return;
   }
 
   // fetch the note single tremolo
