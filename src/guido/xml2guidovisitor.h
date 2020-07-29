@@ -101,6 +101,7 @@ protected:
     int  fCurrentAccoladeIndex;
     
     int  fPartNum;  // 0 (default) to parse all score-parts. 1 for "P1" only, etc.
+    int fPartsAvailable; // number of parts available in this XML
     
     int fBeginMeasure;      // Number of measure to begin parsing, used for partial conversion. (default = 0)
     int fEndMeasure;        // Measure Number where parsing ends, used for partial conversion. (default = 0 meaning go to the end)
@@ -197,6 +198,9 @@ public:
     std::map<double, int> getMeasureMap();
     
     double getTotalDuration();
+    
+    /// Returne the number of parts in this XML Score
+    int getPartsAvailable();
     
 };
 
