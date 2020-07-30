@@ -939,6 +939,13 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     bool                  fOnGoingHeader;
 
+    // paper handling
+    // ------------------------------------------------------
+    void                  generatePaperPageSize (
+                            S_msrPageLayout   pageLayout,
+                            msrLengthUnitKind defaultLengthUnit,
+                            int               fieldWidth);
+
     // score
     // ------------------------------------------------------
     S_msrScore            fCurrentMsrScoreClone;

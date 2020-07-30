@@ -4758,7 +4758,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 #endif
 
   fLilypondCodeOstream <<
-    "\\header" << " {" <<
+    "\\header {" <<
     endl;
 
   gIndenter++; // decremented in visitEnd (S_lpsrHeader&)
@@ -4962,10 +4962,88 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrHeader& elt)
 #endif
 
   fLilypondCodeOstream <<
-    "}" <<
-    endl << endl;
+    "}";
+
+  if (gLpsr2LilypondOah->fLilyPondComments) {
+    fLilypondCodeOstream << left <<
+      setw (commentFieldWidth) <<
+      " % header";
+  }
+
+  fLilypondCodeOstream <<
+    endl <<
+    endl;
 
   fOnGoingHeader = false;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generatePaperPageSize (
+  S_msrPageLayout   pageLayout,
+  msrLengthUnitKind defaultLengthUnit,
+  int               fieldWidth)
+{
+  // paper height
+  msrLength
+    paperHeight;
+
+  if (gLpsrOah->fPaperHeight.getLengthValue () >= 0) { // JMI BLARK
+    paperHeight =
+      gLpsrOah->fPaperHeight;
+  }
+  else {
+    paperHeight =
+      * (pageLayout->getPageHeight ()); // BLARK
+  }
+
+  if (paperHeight.getLengthValue () < 0.0) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "paper-height" << " = ";
+  if (paperHeight.getLengthValue () >= 0.0) {
+    fLilypondCodeOstream <<
+      setprecision (3) << paperHeight.getLengthValue () <<
+      lengthUnitAsLilypondString (paperHeight.getLengthUnitKind ());
+  }
+  else {
+    fLilypondCodeOstream <<
+      "297.0" <<
+      lengthUnitAsLilypondString (defaultLengthUnit);
+  }
+  fLilypondCodeOstream << endl;
+
+  // paper width
+  msrLength
+    paperWidth;
+
+  if (gLpsrOah->fPaperWidth.getLengthValue () >= 0) { // JMI BLARK
+    paperWidth =
+      gLpsrOah->fPaperWidth;
+  }
+  else {
+    paperWidth =
+      * (pageLayout->getPageWidth ()); // BLARK
+  }
+
+  if (paperWidth.getLengthValue () < 0.0) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "paper-width" << " = ";
+  if (paperWidth.getLengthValue () >= 0.0) {
+    fLilypondCodeOstream <<
+      setprecision (3) << paperWidth.getLengthValue () <<
+      lengthUnitAsLilypondString (paperWidth.getLengthUnitKind ());
+  }
+  else {
+    fLilypondCodeOstream <<
+      "210.0" <<
+      lengthUnitAsLilypondString (defaultLengthUnit);
+  }
+  fLilypondCodeOstream << endl;
 }
 
 //________________________________________________________________________
@@ -5004,73 +5082,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     const int fieldWidth = 30;
 
     // page size
-    {
-      {
-        // paper height
-        msrLength
-          paperHeight;
-
-        if (gLpsrOah->fPaperHeight.getLengthValue () >= 0) { // JMI BLARK
-          paperHeight =
-            gLpsrOah->fPaperHeight;
-        }
-        else {
-          paperHeight =
-            * (pageLayout->getPageHeight ()); // BLARK
-        }
-
-        if (paperHeight.getLengthValue () < 0.0) {
-          fLilypondCodeOstream << "%";
-        }
-        fLilypondCodeOstream << left <<
-          setw (fieldWidth) <<
-          "paper-height" << " = ";
-        if (paperHeight.getLengthValue () >= 0.0) {
-          fLilypondCodeOstream <<
-            setprecision (3) << paperHeight.getLengthValue () <<
-            lengthUnitAsLilypondString (paperHeight.getLengthUnitKind ());
-        }
-        else {
-          fLilypondCodeOstream <<
-            "297.0" <<
-            lengthUnitAsLilypondString (defaultLengthUnit);
-        }
-        fLilypondCodeOstream << endl;
-      }
-
-      {
-        // paper width
-        msrLength
-          paperWidth;
-
-        if (gLpsrOah->fPaperWidth.getLengthValue () >= 0) { // JMI BLARK
-          paperWidth =
-            gLpsrOah->fPaperWidth;
-        }
-        else {
-          paperWidth =
-            * (pageLayout->getPageWidth ()); // BLARK
-        }
-
-        if (paperWidth.getLengthValue () < 0.0) {
-          fLilypondCodeOstream << "%";
-        }
-        fLilypondCodeOstream << left <<
-          setw (fieldWidth) <<
-          "paper-width" << " = ";
-        if (paperWidth.getLengthValue () >= 0.0) {
-          fLilypondCodeOstream <<
-            setprecision (3) << paperWidth.getLengthValue () <<
-            lengthUnitAsLilypondString (paperWidth.getLengthUnitKind ());
-        }
-        else {
-          fLilypondCodeOstream <<
-            "210.0" <<
-            lengthUnitAsLilypondString (defaultLengthUnit);
-        }
-        fLilypondCodeOstream << endl;
-      }
-    }
+    generatePaperPageSize (
+      pageLayout,
+      defaultLengthUnit,
+      fieldWidth);
 
     // separator
     fLilypondCodeOstream << endl;
@@ -5489,12 +5504,21 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
   }
 #endif
 
-  fLilypondCodeOstream <<
-    "}" <<
-    endl << endl;
-
   if (! fOnGoingBookPartBlock) {
     gIndenter--;
+
+    fLilypondCodeOstream <<
+      "}";
+
+    if (gLpsr2LilypondOah->fLilyPondComments) {
+      fLilypondCodeOstream << left <<
+        setw (commentFieldWidth) <<
+        " % paper";
+    }
+
+    fLilypondCodeOstream <<
+      endl <<
+      endl;
   }
 }
 
@@ -5622,14 +5646,29 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
     gIndenter--;
 
     fLilypondCodeOstream <<
-      "}" <<
-      endl;
+      "}";
+
+    if (gLpsr2LilypondOah->fLilyPondComments) {
+      fLilypondCodeOstream << left <<
+        setw (commentFieldWidth) <<
+        " % layout";
+    }
+
+    fLilypondCodeOstream << endl;
   }
 
   gIndenter--;
 
   fLilypondCodeOstream <<
-    "}" <<
+    "}";
+
+  if (gLpsr2LilypondOah->fLilyPondComments) {
+    fLilypondCodeOstream << left <<
+      setw (commentFieldWidth) <<
+      " % layout";
+  }
+
+  fLilypondCodeOstream <<
     endl <<
     endl;
 }
@@ -5717,7 +5756,15 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
   gIndenter--;
 
   fLilypondCodeOstream <<
-    "}" <<
+    "}";
+
+  if (gLpsr2LilypondOah->fLilyPondComments) {
+    fLilypondCodeOstream << left <<
+      setw (commentFieldWidth) <<
+      " % score";
+  }
+
+  fLilypondCodeOstream <<
     endl << // JMI
     endl;
 
@@ -5759,8 +5806,16 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
   gIndenter--;
 
   fLilypondCodeOstream <<
-    "}" <<
-    endl << // JMI
+    "}";
+
+  if (gLpsr2LilypondOah->fLilyPondComments) {
+    fLilypondCodeOstream << left <<
+      setw (commentFieldWidth) <<
+      " % bookpart";
+  }
+
+  fLilypondCodeOstream <<
+    endl <<
     endl;
 
   fOnGoingBookPartBlock = false;
@@ -7722,36 +7777,48 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
 
   if (gLpsr2LilypondOah->fDisplayMusic) {
     fLilypondCodeOstream <<
-      "}" <<
-      endl;
+      "}";
+
+    if (gLpsr2LilypondOah->fLilyPondComments) {
+      fLilypondCodeOstream << left <<
+        setw (commentFieldWidth) <<
+        " % displayMusic";
+    }
+
+    fLilypondCodeOstream << endl;
 
     gIndenter--;
   }
 
   // generate the end of the voice definition
-  switch (elt->getVoiceKind ()) {
+  switch (elt->getVoiceKind ()) { // JMI putzer
     case msrVoice::kVoiceRegular:
       fLilypondCodeOstream <<
-        "}" <<
-        endl <<
-        endl;
+        "}";
       break;
 
     case msrVoice::kVoiceHarmony:
       fLilypondCodeOstream <<
-        "}" <<
-        endl <<
-        endl;
+        "}";
       break;
 
     case msrVoice::kVoiceFiguredBass:
       fLilypondCodeOstream <<
-        "}" <<
-        endl <<
-        endl;
+        "}";
       break;
   } // switch
 
+  if (gLpsr2LilypondOah->fLilyPondComments) {
+    fLilypondCodeOstream << left <<
+      setw (commentFieldWidth) <<
+      " % voice " << elt->getVoiceName ();
+  }
+
+  fLilypondCodeOstream <<
+    endl <<
+    endl;
+
+  // set relevant 'ongoing' variables
   switch (elt->getVoiceKind ()) {
     case msrVoice::kVoiceRegular:
       break;
