@@ -12033,17 +12033,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     return;
   }
 
-  // get the note's grace notes group after ??? JMI
-  S_msrGraceNotesGroup
-    noteGraceNotesGroupAfter =
-      elt->getNoteGraceNotesGroupAfter ();
-
-  // print the note's grace notes group after opener if any
-  if (noteGraceNotesGroupAfter) {
-    fLilypondCodeOstream <<
-      "\\afterGrace { ";
-  }
-
 // * JMI mal placé???
   // print the note's grace notes group before if any,
   // unless the note belongs to a chord
@@ -12677,6 +12666,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   // generate things after the note
   generateCodeRightAfterNote (elt);
   generateAfterNoteSpannersIfAny (elt);
+
+  // get the note's grace notes group after ??? JMI
+  S_msrGraceNotesGroup
+    noteGraceNotesGroupAfter =
+      elt->getNoteGraceNotesGroupAfter ();
+
+  // print the note's grace notes group after opener if any
+  if (noteGraceNotesGroupAfter) {
+    fLilypondCodeOstream <<
+      "\\afterGrace { ";
+  }
 
   if (
     gLpsr2LilypondOah->fInputLineNumbers

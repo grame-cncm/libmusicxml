@@ -4572,7 +4572,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       fCurrentVoiceOriginal->
         fetchVoiceFirstNonGraceNote ();
 
-  if (false && originalVoiceFirstNonGraceNote) { // JMI
+  if (originalVoiceFirstNonGraceNote) { // JMI
     if (noteNotesGroupIsAttachedTo == originalVoiceFirstNonGraceNote) {
     // don't createSkipGraceNotesGroupClone() is there's only a single voice JMI
 

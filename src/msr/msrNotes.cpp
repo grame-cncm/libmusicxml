@@ -2486,6 +2486,13 @@ void msrNote::acceptOut (basevisitor* v)
 
 void msrNote::browseData (basevisitor* v)
 {
+  // browse the grace notes group before if any
+  if (fNoteGraceNotesGroupBefore) {
+    // browse the grace notes group
+    msrBrowser<msrGraceNotesGroup> browser (v);
+    browser.browse (*fNoteGraceNotesGroupBefore);
+  }
+
   if (fNoteOctaveShift) {
     // browse the octave shift
     msrBrowser<msrOctaveShift> browser (v);
@@ -2632,20 +2639,6 @@ void msrNote::browseData (basevisitor* v)
       browser.browse (*(*i));
     } // for
     gIndenter--;
-  }
-
-  // browse the grace notes group before if any
-  if (fNoteGraceNotesGroupBefore) {
-    // browse the grace notes group
-    msrBrowser<msrGraceNotesGroup> browser (v);
-    browser.browse (*fNoteGraceNotesGroupBefore);
-  }
-
-  // browse the after grace notes group after if any
-  if (fNoteGraceNotesGroupAfter) {
-    // browse the after grace notes grup
-    msrBrowser<msrGraceNotesGroup> browser (v);
-    browser.browse (*fNoteGraceNotesGroupAfter);
   }
 
   // browse the single tremolo if any
@@ -2876,6 +2869,14 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
+
+  // browse the grace notes group after if any
+  if (fNoteGraceNotesGroupAfter) {
+    // browse the after grace notes grup
+    msrBrowser<msrGraceNotesGroup> browser (v);
+    browser.browse (*fNoteGraceNotesGroupAfter);
+  }
+
 }
 
 string msrNote::notePitchAsString () const
