@@ -2096,6 +2096,21 @@ void oahPrefix::print (ostream& os) const
 
 void oahPrefix::printHelp (ostream& os)
 {
+/*
+
+      gOutputOstream << endl;
+      gOutputOstream <<
+        endl <<
+        "--- Help for  '" <<
+        name <<
+        "':" <<
+        endl <<
+        ", prefixErsatz: '" <<
+        prefix->getPrefixErsatz () <<
+        "', prefixDescription: " <<
+        prefix->getPrefixDescription () <<
+        " ---";
+
   os <<
     prefixNames () <<
     endl;
@@ -2111,6 +2126,7 @@ void oahPrefix::printHelp (ostream& os)
 
     gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
+*/
 
   if (fPrefixDescription.size ()) {
     // indent a bit more for readability
@@ -2123,6 +2139,8 @@ void oahPrefix::printHelp (ostream& os)
 
     gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
+
+  os << endl;
 
   // register help print action in options handler upLink
 // JMI  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
@@ -10274,13 +10292,36 @@ void oahHandler::printOptionNameIntrospectiveHelp (
       fetchNameInElementsMap (name);
 
   if (! element) {
-    // name is not well handled by this options handler
-    stringstream s;
+    // name is not known
+    if (
+      // prefix?
+      S_oahPrefix
+        prefix =
+          fetchPrefixNameInPrefixesMap (name)
+    ) {
+      // print the help
+      gOutputOstream <<
+        endl <<
+        "--- Help for prefix '" <<
+        name <<
+        "' ---" <<
+        endl <<
+        endl;
 
-    s <<
-      "option name '" << name << "' is unknown, cannot deliver specific help";
+      prefix->
+        printHelp (
+          gOutputOstream);
+    }
 
-    oahError (s.str ());
+    else {
+      // name is not known by this options handler
+      stringstream s;
+
+      s <<
+        "option name '" << name << "' is unknown, cannot deliver specific help";
+
+      oahError (s.str ());
+    }
   }
 
   else {
@@ -10533,7 +10574,7 @@ void oahHandler::appendPrefixToHandler (
 }
 
 S_oahPrefix oahHandler::fetchPrefixNameInPrefixesMap (
-  string prefixName)
+  string prefixName) const
 {
   S_oahPrefix result;
 

@@ -3250,7 +3250,7 @@ class EXP oahHandler : public oahElement
                             S_oahElement element);
 
     S_oahPrefix           fetchPrefixNameInPrefixesMap (
-                            string prefixName);
+                            string prefixName) const;
 
     S_oahElement          fetchNameInElementsMap (
                             string name) const;

@@ -157,6 +157,23 @@ void xml2lyInsiderOahHandler::createThePrefixes ()
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
   appendPrefixToHandler (tPrefix);
 
+  // create and append the display options prefixes
+  S_oahPrefix
+    displayPrefix =
+      oahPrefix::create (
+        "display",
+        "display-",
+        "'-display=abc,yz' is equivalent to '-display-abc, -display-yz'");
+  appendPrefixToHandler (displayPrefix);
+
+  S_oahPrefix
+    dPrefix =
+      oahPrefix::create (
+        "d",
+        "d",
+        "'-d=abc,wxyz' is equivalent to '-dabc, -dwxyz'");
+  appendPrefixToHandler (dPrefix);
+
   // create and append the omit options prefixes
   S_oahPrefix
     omitPrefix =

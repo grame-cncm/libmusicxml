@@ -12033,7 +12033,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     return;
   }
 
-// get the note's grace notes group after
+  // get the note's grace notes group after ??? JMI
   S_msrGraceNotesGroup
     noteGraceNotesGroupAfter =
       elt->getNoteGraceNotesGroupAfter ();
@@ -12044,7 +12044,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       "\\afterGrace { ";
   }
 
-/* JMI mal placé
+// * JMI mal placé???
   // print the note's grace notes group before if any,
   // unless the note belongs to a chord
   bool doGenerateNoteGraceNotesGroupBefore = true;
@@ -12063,7 +12063,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         noteGraceNotesGroupBefore);
     }
   }
-*/
+//*/
 
   // print the note scordaturas if any
   const list<S_msrScordatura>&
