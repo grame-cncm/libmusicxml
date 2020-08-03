@@ -285,6 +285,8 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrGraceNotesGroup>,
 
+  public visitor<S_msrChordGraceNotesGroupLink>,
+
   public visitor<S_msrAfterGraceNotesGroup>,
   public visitor<S_msrAfterGraceNotesGroupContents>,
 
@@ -603,6 +605,9 @@ class lpsr2LilypondTranslator :
     // grace notes
     virtual void visitStart (S_msrGraceNotesGroup& elt);
     virtual void visitEnd   (S_msrGraceNotesGroup& elt);
+
+    virtual void visitStart (S_msrChordGraceNotesGroupLink& elt);
+    virtual void visitEnd   (S_msrChordGraceNotesGroupLink& elt);
 
     virtual void visitStart (S_msrAfterGraceNotesGroup& elt);
     virtual void visitEnd   (S_msrAfterGraceNotesGroup& elt);

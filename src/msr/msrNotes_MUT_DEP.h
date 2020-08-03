@@ -1097,7 +1097,7 @@ class msrNote : public msrTupletElement
     S_msrSpanner          fNoteWavyLineSpannerStop;
 
     // color
-    msrAlphaRGBColor              fNoteColor;
+    msrAlphaRGBColor      fNoteColor;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

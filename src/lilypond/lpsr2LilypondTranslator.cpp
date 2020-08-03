@@ -263,6 +263,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // grace notes
   fOnGoingGraceNotesGroup = false;
+  fOnGoingChordGraceNotesGroupLink = false;
 
   // articulations
   fCurrentArpeggioDirectionKind = kDirectionNone;
@@ -11743,6 +11744,37 @@ void lpsr2LilypondTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting msrChordGraceNotesGroupLink " <<
+      elt->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fOnGoingChordGraceNotesGroupLink = true;
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrChordGraceNotesGroupLink& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> End visiting msrChordGraceNotesGroupLink " <<
+      elt->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fOnGoingChordGraceNotesGroupLink = false;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotesGroup& elt)
 {
 #ifdef TRACE_OAH
@@ -11914,11 +11946,80 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 #endif
 
-  bool noteIsToBeIgnored = false;
+  // register the note as on-going right now,
+  // since we may return early from this method
+  fOnGoingNotesStack.push (elt);
 
   // is this note to be ignored?
-  if (fOnGoingChord && fOnGoingGraceNotesGroup) { // JMI
-    noteIsToBeIgnored = true;
+  bool noteIsToBeIgnored = false;
+
+  if (fOnGoingGraceNotesGroup) { // JMI
+    if (fOnGoingChord) {
+      noteIsToBeIgnored = true;
+    }
+    else {
+      switch (elt->getNoteKind ()) {
+        case msrNote::k_NoNoteKind:
+          break;
+
+        case msrNote::kRestNote:
+          break;
+
+        case msrNote::kSkipNote:
+          break;
+
+        case msrNote::kUnpitchedNote:
+          break;
+
+        case msrNote::kRegularNote:
+          break;
+
+        case msrNote::kDoubleTremoloMemberNote:
+          break;
+
+        case msrNote::kGraceNote:
+          {
+          // don't generate code for the grace notes here, that's done thru
+          // the oteGraceNotesGroupBefore and oteGraceNotesGroupAfter notes' field
+            noteIsToBeIgnored = true;
+/* JMI
+            S_msrNote
+              noteTheGraceNotesGroupIsAttachedTo =
+                elt->getNoteGraceNotesGroupUpLink ()->
+                  getGraceNotesGroupNoteUpLink ();
+
+            // don't generate note if the notes it's grace notes group is attached to
+            // has a ??? JMI
+            if (
+              noteTheGraceNotesGroupIsAttachedTo->getNoteGraceNotesGroupBefore ()
+                ||
+              noteTheGraceNotesGroupIsAttachedTo->getNoteGraceNotesGroupAfter ()
+            ) {
+              noteIsToBeIgnored = true;
+            }
+*/
+          }
+          break;
+
+        case msrNote::kGraceChordMemberNote:
+          break;
+
+        case msrNote::kChordMemberNote:
+          break;
+
+        case msrNote::kTupletMemberNote:
+          break;
+
+        case msrNote::kTupletRestMemberNote:
+          break;
+
+       case msrNote::kGraceTupletMemberNote:
+          break;
+
+        case msrNote::kTupletUnpitchedMemberNote:
+          break;
+      } // switch
+    }
   }
 
   if (fOnGoingRestMeasures) {
@@ -12686,8 +12787,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     generateInputLineNumberAndOrPositionInMeasureAsAComment (
       elt);
   }
-
-  fOnGoingNotesStack.push (elt);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)

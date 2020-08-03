@@ -61,15 +61,15 @@ class msrGraceNotesGroup : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrVoice            getGraceNotesGroupVoiceUpLink () const
-                              { return fGraceNotesGroupVoiceUpLink; }
-
     void                  setGraceNotesGroupNoteUpLink (
                             S_msrNote note)
                               { fGraceNotesGroupNoteUpLink = note; }
 
     S_msrNote             getGraceNotesGroupNoteUpLink () const
                               { return fGraceNotesGroupNoteUpLink; }
+
+    S_msrVoice            getGraceNotesGroupVoiceUpLink () const
+                              { return fGraceNotesGroupVoiceUpLink; }
 
     msrGraceNotesGroupKind
                           getGraceNotesGroupKind () const
@@ -153,8 +153,8 @@ class msrGraceNotesGroup : public msrElement
     // ------------------------------------------------------
 
     // upLinks
-    S_msrVoice            fGraceNotesGroupVoiceUpLink;
     S_msrNote             fGraceNotesGroupNoteUpLink;
+    S_msrVoice            fGraceNotesGroupVoiceUpLink;
 
     msrGraceNotesGroupKind
                           fGraceNotesGroupKind;

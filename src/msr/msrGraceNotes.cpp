@@ -590,6 +590,7 @@ void msrGraceNotesGroup::printShort (ostream& os) const
         "none";
     }
   os << endl;
+*/
 
   os <<
     setw (fieldWidth) <<
@@ -603,7 +604,6 @@ void msrGraceNotesGroup::printShort (ostream& os) const
         "none";
     }
   os << endl;
-*/
 
   os <<
     setw (fieldWidth) <<
