@@ -39,7 +39,7 @@ class msrException: public exception
       int           exceptionNumber = 0,
       int           exceptionLevel = 0
     ) throw ()
-      : fExceptionDescription (exceptionDescription),
+      : fExceptionDescription ("msrException: " + exceptionDescription),
         fExceptionNumber (exceptionNumber),
         fExceptionLevel (exceptionLevel)
     {}
@@ -64,24 +64,7 @@ class msrException: public exception
     // ------------------------------------------------------
 
     virtual const char*   what () const throw ()
-      {
-        stringstream s;
-
-        s <<
-          "msrException: " <<
-          fExceptionDescription;
-
-        string theString    = s.str ();
-        int    thetringSize = theString.size ();
-
-        char * result = new char [thetringSize + 1];
-        assert (result != nullptr);
-
-        strcpy (result, theString.c_str ());
-        result [thetringSize] = '\0';
-
-        return result;
-      }
+                              { return fExceptionDescription.c_str (); }
 
   private:
 

@@ -1869,6 +1869,9 @@ class mxmlTree2MsrTranslator :
     list<S_msrWedge>          fPendingWedgesList;
     list<S_msrSlash>          fPendingSlashesList;
 
+    // attaching elements to notes
+    // ------------------------------------------------------
+
     void                      attachPendingNoteLevelElementsToNote (
                                 S_msrNote note);
 
@@ -1893,6 +1896,9 @@ class mxmlTree2MsrTranslator :
                                 S_msrNote note);
     void                      attachPendingSlidesToNote (
                                 S_msrNote note);
+
+    // appending links to notes' elements to chords
+    // ------------------------------------------------------
 
     void                      copyNoteElementsToChord (
                                 S_msrNote note, S_msrChord chord);
@@ -2019,7 +2025,11 @@ class mxmlTree2MsrTranslator :
 
     void                      attachPendingBeamsToNote (
                                 S_msrNote note);
+                                /*
     void                      copyNoteBeamsToChord (
+                                S_msrNote note, S_msrChord chord);
+                                */
+    void                      appendNoteBeamsLinksToChord (
                                 S_msrNote note, S_msrChord chord);
 
     // glissandos handling

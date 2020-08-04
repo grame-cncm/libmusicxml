@@ -5627,6 +5627,7 @@ void msr2MxmltreeTranslator:: appendNoteTupletIfRelevant (
 
     case msrNote::kDoubleTremoloMemberNote:
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       break;
 
     case msrNote::kGraceChordMemberNote:
@@ -6337,6 +6338,7 @@ void msr2MxmltreeTranslator::appendBasicsToNote (
   // append the grace sub element if relevant
   switch (noteKind) {
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       fCurrentNote->push (createElement (k_grace, ""));
       break;
     default:
@@ -6399,6 +6401,7 @@ void msr2MxmltreeTranslator::appendBasicsToNote (
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       {
         // create the pitch element
         Sxmlelement pitchElement = createElement (k_pitch, "");
@@ -6523,6 +6526,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       break;
 
     case msrNote::kGraceChordMemberNote:
@@ -6619,6 +6623,7 @@ void msr2MxmltreeTranslator::appendTimeModificationToNoteIfRelevant (
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       break;
 
     case msrNote::kGraceChordMemberNote:
@@ -6704,6 +6709,7 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
 
     case msrNote::kDoubleTremoloMemberNote:
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       break;
 
     case msrNote::kGraceChordMemberNote:
@@ -6760,6 +6766,7 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
         break;
 
       case msrNote::kGraceNote:
+      case msrNote::kGraceSkipNote:
         break;
 
       case msrNote::kGraceChordMemberNote:
@@ -7060,6 +7067,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       break;
 
     case msrNote::kGraceChordMemberNote:

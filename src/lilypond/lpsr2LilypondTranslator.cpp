@@ -1849,6 +1849,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       // print the note name
       fLilypondCodeOstream <<
         notePitchAsLilypondString (note);
@@ -11628,6 +11629,15 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
           // generate the note itself
           generateCodeForNote (note);
 
+          if ( // JMI
+            gLpsr2LilypondOah->fInputLineNumbers
+              ||
+            gLpsr2LilypondOah->fPositionsInMeasures
+          ) {
+            generateInputLineNumberAndOrPositionInMeasureAsAComment (
+              note);
+          }
+
           // generate things after the note
           generateCodeRightAfterNote (note);
 
@@ -11978,6 +11988,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           break;
 
         case msrNote::kGraceNote:
+        case msrNote::kGraceSkipNote:
           {
           // don't generate code for the grace notes here, that's done thru
           // the oteGraceNotesGroupBefore and oteGraceNotesGroupAfter notes' field
@@ -12092,6 +12103,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         break;
 
       case msrNote::kGraceNote:
+      case msrNote::kGraceSkipNote:
 #ifdef TRACE_OAH
           if (
             gMsrOah->fTraceMsrVisitors
@@ -12862,6 +12874,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         break;
 
       case msrNote::kGraceNote:
+      case msrNote::kGraceSkipNote:
 #ifdef TRACE_OAH
           if (
             gMsrOah->fTraceMsrVisitors
@@ -14608,27 +14621,28 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
     } // for
   }
 
-  // print the chord beams if any
-  list<S_msrBeam>
-    chordBeams =
-      chord->getChordBeams ();
+  // print the chord beams links if any
+  list<S_msrChordBeamLink>
+    chordBeamLinks =
+      chord->getChordBeamLinks ();
 
-  if (chordBeams.size ()) {
-    list<S_msrBeam>::const_iterator i;
+  if (chordBeamLinks.size ()) {
+    list<S_msrChordBeamLink>::const_iterator i;
     for (
-      i=chordBeams.begin ();
-      i!=chordBeams.end ();
+      i=chordBeamLinks.begin ();
+      i!=chordBeamLinks.end ();
       i++
     ) {
+      S_msrChordBeamLink chordBeamLink = (*i);
 
-      S_msrBeam beam = (*i);
+      S_msrBeam originalBeam = chordBeamLink->getOriginalBeam ();
 
       // LilyPond will take care of multiple beams automatically,
       // so we need only generate code for the first number (level)
-      switch (beam->getBeamKind ()) {
+      switch (originalBeam->getBeamKind ()) {
 
         case msrBeam::kBeginBeam:
-          if (beam->getBeamNumber () == 1)
+          if (originalBeam->getBeamNumber () == 1)
             fLilypondCodeOstream << "[ ";
           break;
 
@@ -14636,7 +14650,7 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
           break;
 
         case msrBeam::kEndBeam:
-          if (beam->getBeamNumber () == 1)
+          if (originalBeam->getBeamNumber () == 1)
             fLilypondCodeOstream << "] ";
           break;
 
@@ -14700,9 +14714,9 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
       i!=chordSlurLinks.end ();
       i++
     ) {
-      S_msrChordSlurLink ChordSlurLink = (*i);
+      S_msrChordSlurLink chordSlurLink = (*i);
 
-      S_msrSlur originalSlur = ChordSlurLink->getOriginalSlur ();
+      S_msrSlur originalSlur = chordSlurLink->getOriginalSlur ();
 
       switch (originalSlur->getSlurTypeKind ()) {
         case msrSlur::k_NoSlur:

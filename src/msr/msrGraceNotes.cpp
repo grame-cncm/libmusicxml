@@ -186,10 +186,10 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
     ) {
-      // create skip with same duration as note
+      // create grace skip note with same duration as note
       S_msrNote
         skip =
-          msrNote::createSkipNote (
+          msrNote::createGraceSkipNote (
             note->            getInputLineNumber (),
             note->            getMeasureElementMeasureNumber (),
             note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
@@ -211,10 +211,10 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
         chordFirstNote =
           chord->getChordNotesVector () [0];
 
-      // create skip with same duration as chord
+      // create grace skip note with same duration as chord
       S_msrNote
         skip =
-          msrNote::createSkipNote (
+          msrNote::createGraceSkipNote (
             chordFirstNote->  getInputLineNumber (),
             chordFirstNote->  getMeasureElementMeasureNumber (),
             chordFirstNote->  getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI

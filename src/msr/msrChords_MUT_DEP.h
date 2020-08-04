@@ -10,6 +10,9 @@
 class msrChordSlurLink;
 typedef SMARTP<msrChordSlurLink> S_msrChordSlurLink;
 
+class msrChordBeamLink;
+typedef SMARTP<msrChordBeamLink> S_msrChordBeamLink;
+
 class msrChordGraceNotesGroupLink;
 typedef SMARTP<msrChordGraceNotesGroupLink> S_msrChordGraceNotesGroupLink;
 
@@ -79,9 +82,14 @@ class msrChord : public msrTupletElement
                               { return fChordStems; }
 
     // beams
+    /*
     const list<S_msrBeam>&
                           getChordBeams () const
                               { return fChordBeams; }
+                              */
+    const list<S_msrChordBeamLink>&
+                          getChordBeamLinks () const
+                              { return fChordBeamLinks; }
 
     // articulations
     const list<S_msrArticulation>&
@@ -369,13 +377,14 @@ class msrChord : public msrTupletElement
 
     // slurs
 //    void                  appendSlurToChord (S_msrSlur slur);
-    void                  appendChordSlurLinkToChord (S_msrChordSlurLink ChordSlurLink);
+    void                  appendChordSlurLinkToChord (S_msrChordSlurLink chordSlurLink);
 
     // stems
     void                  appendStemToChord (S_msrStem stem);
 
     // beams
-    void                  appendBeamToChord (S_msrBeam beam);
+//    void                  appendBeamToChord (S_msrBeam beam);
+    void                  appendChordBeamLinkToChord (S_msrChordBeamLink chordBeamLink);
 
     // ligatures
     void                  appendLigatureToChord (S_msrLigature ligature)
@@ -449,7 +458,9 @@ class msrChord : public msrTupletElement
     list<S_msrStem>       fChordStems;
 
     // beams
-    list<S_msrBeam>       fChordBeams;
+//    list<S_msrBeam>       fChordBeams;
+    list<S_msrChordBeamLink>
+                          fChordBeamLinks;
 
     // articulations
     list<S_msrArticulation>
@@ -543,6 +554,78 @@ class msrChord : public msrTupletElement
 };
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
+
+//______________________________________________________________________________
+class msrChordBeamLink : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrChordBeamLink> create (
+      int        inputLineNumber,
+      S_msrBeam  originalBeam,
+      S_msrChord chordUpLink);
+
+    SMARTP<msrChordBeamLink> createBeamNewbornClone ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrChordBeamLink (
+      int        inputLineNumber,
+      S_msrBeam  originalBeam,
+      S_msrChord chordUpLink);
+
+    virtual ~msrChordBeamLink ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrChord            getChordUpLink () const
+                              { return fChordUpLink; }
+
+    S_msrBeam             getOriginalBeam () const
+                              { return fOriginalBeam; }
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortString () const;
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+    virtual void          printShort (ostream& os) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_msrChord            fChordUpLink;
+
+    S_msrBeam             fOriginalBeam;
+};
+typedef SMARTP<msrChordBeamLink> S_msrChordBeamLink;
+EXP ostream& operator<< (ostream& os, const S_msrChordBeamLink& elt);
 
 //______________________________________________________________________________
 class msrChordSlurLink : public msrElement

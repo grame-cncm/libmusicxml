@@ -4693,6 +4693,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
   switch (elt->getNoteKind ()) {
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
       fCurrentGraceNoteClone = noteClone;
@@ -4941,6 +4942,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     / * JMI
       fLogOutputStream <<
         "fOnGoingGraceNotesGroup = " <<

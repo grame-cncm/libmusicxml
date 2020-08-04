@@ -394,6 +394,7 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
       case msrNote::kRegularNote:
       case msrNote::kDoubleTremoloMemberNote:
       case msrNote::kGraceNote:
+      case msrNote::kGraceSkipNote:
       case msrNote::kGraceChordMemberNote:
       case msrNote::kChordMemberNote:
         result =

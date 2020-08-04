@@ -807,6 +807,7 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       fScoreRegularNotesCounter++;
       break;
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       fScoreGraceNotesGroupCounter++;
       break;
@@ -847,6 +848,7 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kDoubleTremoloMemberNote:
       break;
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       break;
     case msrNote::kChordMemberNote:

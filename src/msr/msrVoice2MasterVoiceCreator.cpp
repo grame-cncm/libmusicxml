@@ -895,6 +895,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrNote& elt)
   switch (elt->getNoteKind ()) {
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
       break;
@@ -1059,6 +1060,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       break;
 
     case msrNote::kChordMemberNote:

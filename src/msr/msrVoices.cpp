@@ -2475,6 +2475,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       // register actual note
       fVoiceActualNotesCounter++;
@@ -2562,6 +2563,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       // register actual note
       fVoiceActualNotesCounter++;

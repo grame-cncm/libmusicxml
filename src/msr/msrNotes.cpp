@@ -1213,6 +1213,60 @@ S_msrNote msrNote::createSkipNote (
   return o;
 }
 
+S_msrNote msrNote::createGraceSkipNote (
+  int       inputLineNumber,
+  string    noteMeasureNumber,
+  rational  soundingWholeNotes,
+  rational  displayWholeNotes,
+  int       dotsNumber,
+  int       staffNumber,
+  int       voiceNumber)
+{
+  msrNote * o =
+    new msrNote (
+      inputLineNumber,
+      noteMeasureNumber,
+
+      kGraceSkipNote, // noteKind
+
+      k_NoQuarterTonesPitch_QTP,
+
+      soundingWholeNotes,
+      displayWholeNotes,
+
+      dotsNumber,
+
+      k_NoDuration, // noteGraphicDuration
+
+      K_NO_OCTAVE, // noteOctave,
+
+      k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
+      K_NO_OCTAVE, // noteDisplayOctave,
+
+      false, // noteIsACueNote
+
+      kPrintObjectYes, // JMI
+
+      kNoteHeadNormal, // JMI
+      kNoteHeadFilledYes, // JMI
+      kNoteHeadParenthesesNo); // JMI
+  assert(o!=0);
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSkipNotes || gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Creating skip note '" <<
+      o->asString () <<
+      ", staffNumber = " << staffNumber <<
+      ", voiceNumber = " << voiceNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  return o;
+}
+
 //________________________________________________________________________
 S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
   int                          inputLineNumber,
@@ -1310,9 +1364,10 @@ S_msrVoice msrNote::fetchNoteVoice () const
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
       result =
         fNoteGraceNotesGroupUpLink->
-            getGraceNotesGroupVoiceUpLink ();
+          getGraceNotesGroupVoiceUpLink ();
             /* JMI
             getGraceNotesGroupNoteUpLink ()->
             getNoteMeasureUpLink ()->
@@ -1506,6 +1561,9 @@ string msrNote::noteKindAsString (
 
     case msrNote::kGraceNote:
       result = "graceNote";
+      break;
+    case msrNote::kGraceSkipNote:
+      result = "graceSkipNote";
       break;
 
     case msrNote::kGraceChordMemberNote:
@@ -2890,6 +2948,7 @@ string msrNote::notePitchAsString () const
     case msrNote::kRegularNote:
     case msrNote::kDoubleTremoloMemberNote:
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kChordMemberNote:
     case msrNote::kTupletMemberNote:
@@ -3047,6 +3106,19 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kGraceNote:
       s <<
         "Grace note '" <<
+        notePitchAsString () <<
+        "' " <<
+        noteGraphicDurationAsMsrString () <<
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+      break;
+
+    case msrNote::kGraceSkipNote:
+      s <<
+        "Grace skip note '" <<
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString () <<
@@ -3255,6 +3327,18 @@ string msrNote::asShortString () const
     case msrNote::kGraceNote:
       s <<
         "GraceNote '" <<
+        notePitchAsString () <<
+        noteGraphicDurationAsMsrString () <<
+        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << ".";
+      } // for
+      break;
+
+    case msrNote::kGraceSkipNote:
+      s <<
+        "GraceSkipNote '" <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -3512,6 +3596,19 @@ string msrNote::asString () const
     case msrNote::kGraceNote:
       s <<
         "graceNote '"<<
+        notePitchAsString () <<
+ // JMI       noteGraphicDurationAsMsrString () <<
+        noteDisplayWholeNotesAsMsrString () <<
+        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << "."; // JMI
+      } // for
+      break;
+
+    case msrNote::kGraceSkipNote:
+      s <<
+        "graceSkipNote '"<<
         notePitchAsString () <<
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
@@ -3876,6 +3973,7 @@ void msrNote::print (ostream& os) const
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       os <<
         setw (fieldWidth) <<
@@ -4217,6 +4315,7 @@ void msrNote::print (ostream& os) const
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       {
         os << left <<
@@ -5473,6 +5572,7 @@ void msrNote::printShort (ostream& os) const
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       os <<
         setw (fieldWidth) <<
@@ -5815,6 +5915,7 @@ void msrNote::printShort (ostream& os) const
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       {
         os << left <<
@@ -5949,6 +6050,7 @@ void msrNote::printShort (ostream& os) const
         endl;
     }
   }
+*/
 
   // print the beams if any
   int noteBeamsSize = fNoteBeams.size ();
@@ -5981,6 +6083,7 @@ void msrNote::printShort (ostream& os) const
     }
   }
 
+/*
   // print the articulations if any
   int noteArticulationsSize = fNoteArticulations.size ();
 

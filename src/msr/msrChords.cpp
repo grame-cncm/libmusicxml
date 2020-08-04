@@ -669,18 +669,18 @@ void msrChord::appendSlurToChord (S_msrSlur slur)
 }
 */
 
-void msrChord::appendChordSlurLinkToChord (S_msrChordSlurLink ChordSlurLink)
+void msrChord::appendChordSlurLinkToChord (S_msrChordSlurLink chordSlurLink)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceSlurs) {
     gLogOstream <<
-      "Adding slur link '" << ChordSlurLink->asString() <<
+      "Adding slur link '" << chordSlurLink->asString() <<
       "' to chord '" << asString () << "'" <<
       endl;
   }
 #endif
 
-  fChordSlurLinks.push_back (ChordSlurLink);
+  fChordSlurLinks.push_back (chordSlurLink);
 }
 
 void msrChord::appendStemToChord (S_msrStem stem)
@@ -712,6 +712,7 @@ void msrChord::appendStemToChord (S_msrStem stem)
   fChordStems.push_back (stem);
 }
 
+/* JMI
 void msrChord::appendBeamToChord (S_msrBeam beam)
 {
 #ifdef TRACE_OAH
@@ -725,6 +726,21 @@ void msrChord::appendBeamToChord (S_msrBeam beam)
 #endif
 
   fChordBeams.push_back (beam);
+}
+*/
+
+void msrChord::appendChordBeamLinkToChord (S_msrChordBeamLink chordBeamLink)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBeams) {
+    gLogOstream <<
+      "Adding beam link '" << chordBeamLink->asString() <<
+      "' to chord '" << asString () << "'" <<
+      endl;
+  }
+#endif
+
+  fChordBeamLinks.push_back (chordBeamLink);
 }
 
 void msrChord::finalizeChord (
@@ -823,6 +839,7 @@ void msrChord::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+/* JMI
   for (
     list<S_msrBeam>::const_iterator i = fChordBeams.begin ();
     i != fChordBeams.end ();
@@ -832,6 +849,17 @@ void msrChord::browseData (basevisitor* v)
     msrBrowser<msrBeam> browser (v);
     browser.browse (*(*i));
   } // for
+  */
+  for (
+    list<S_msrChordBeamLink>::const_iterator i = fChordBeamLinks.begin ();
+    i != fChordBeamLinks.end ();
+    i++
+  ) {
+    // browse the beam link
+    msrBrowser<msrChordBeamLink> browser (v);
+    browser.browse (*(*i));
+  } // for
+
 
   for (
     list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
@@ -1517,6 +1545,7 @@ void msrChord::print (ostream& os) const
     }
   }
 
+/*
   // print the beams if any
   int chordBeamsSize = fChordBeams.size ();
 
@@ -1530,6 +1559,31 @@ void msrChord::print (ostream& os) const
 
       list<S_msrBeam>::const_iterator i;
       for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
+        os << (*i);
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+*/
+  // print the beam links if any
+  int chordBeamLinksSize = fChordBeamLinks.size ();
+
+  if (gTraceOah->fTraceBeams || chordBeamLinksSize || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "===> chordBeamLinks ===>";
+    if (chordBeamLinksSize) {
+      os << endl;
+      gIndenter++;
+
+      list<S_msrChordBeamLink>::const_iterator i;
+      for (i=fChordBeamLinks.begin (); i!=fChordBeamLinks.end (); i++) {
         os << (*i);
       } // for
 
@@ -1878,7 +1932,7 @@ void msrChord::print (ostream& os) const
   // print the slur links if any
   int chordSlurLinksSize = fChordSlurLinks.size ();
 
-  if (chordSlurLinksSize || gMsrOah->fDisplayMsrDetails) {
+  if (gTraceOah->fTraceSlurs || chordSlurLinksSize || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "===> chordSlurLinks ===>";
@@ -2019,7 +2073,6 @@ void msrChord::printShort (ostream& os) const
     setw (fieldWidth) <<
     "positionInTuplet" << " : " <<
     fPositionInTuplet <<
-    endl <<
     endl;
 
 /*
@@ -2299,10 +2352,11 @@ void msrChord::printShort (ostream& os) const
   }
 */
 
+/*
   // print the beams if any
   int chordBeamsSize = fChordBeams.size ();
 
-  if (chordBeamsSize || gMsrOah->fDisplayMsrDetails) {
+  if (true || chordBeamsSize || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordBeams";
@@ -2312,6 +2366,32 @@ void msrChord::printShort (ostream& os) const
 
       list<S_msrBeam>::const_iterator i;
       for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
+        os << (*i);
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+*/
+
+  // print the beam links if any
+  int chordBeamLinksSize = fChordBeamLinks.size ();
+
+  if (gTraceOah->fTraceBeams || chordBeamLinksSize || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordBeamLinks";
+    if (chordBeamLinksSize) {
+      os << endl;
+      gIndenter++;
+
+      list<S_msrChordBeamLink>::const_iterator i;
+      for (i=fChordBeamLinks.begin (); i!=fChordBeamLinks.end (); i++) {
         os << (*i);
       } // for
 
@@ -2401,11 +2481,10 @@ void msrChord::printShort (ostream& os) const
   }
 */
 
-/*
   // print the slur links if any
   int chordSlurLinksSize = fChordSlurLinks.size ();
 
-  if (chordSlurLinksSize || gMsrOah->fDisplayMsrDetails) {
+  if (gTraceOah->fTraceSlurs || chordSlurLinksSize || gMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSlurLinks";
@@ -2426,7 +2505,6 @@ void msrChord::printShort (ostream& os) const
       endl;
     }
   }
-*/
 
   // print the ligatures if any
   int chordLigaturesSize = fChordLigatures.size ();
@@ -2746,6 +2824,213 @@ void msrChord::printShort (ostream& os) const
 }
 
 ostream& operator<< (ostream& os, const S_msrChord& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrChordBeamLink msrChordBeamLink::create (
+  int        inputLineNumber,
+  S_msrBeam  originalBeam,
+  S_msrChord chordUpLink)
+{
+  msrChordBeamLink* o =
+    new msrChordBeamLink (
+      inputLineNumber,
+      originalBeam,
+      chordUpLink);
+  assert(o!=0);
+
+  return o;
+}
+
+msrChordBeamLink::msrChordBeamLink (
+  int        inputLineNumber,
+  S_msrBeam  originalBeam,
+  S_msrChord chordUpLink)
+    : msrElement (inputLineNumber)
+{
+  // sanity check
+  msrAssert(
+    originalBeam != nullptr,
+    "originalBeam is null");
+
+  // sanity check
+  msrAssert(
+    chordUpLink != nullptr,
+    "chordUpLink is null");
+
+  fChordUpLink = chordUpLink;
+
+  fOriginalBeam = originalBeam;
+}
+
+msrChordBeamLink::~msrChordBeamLink ()
+{}
+
+S_msrChordBeamLink msrChordBeamLink::createBeamNewbornClone ()
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceGraceNotes) {
+    gLogOstream <<
+      "Creating a newborn clone of grace notes group link '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
+/* JMI
+  // sanity check
+  msrAssert(
+    containingVoice != nullptr,
+    "containingVoice is null");
+*/
+
+  S_msrChordBeamLink
+    newbornClone =
+      msrChordBeamLink::create (
+        fInputLineNumber,
+        fOriginalBeam,
+        fChordUpLink);
+
+  return newbornClone;
+}
+
+void msrChordBeamLink::acceptIn (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrChordBeamLink::acceptIn ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrChordBeamLink>*
+    p =
+      dynamic_cast<visitor<S_msrChordBeamLink>*> (v)) {
+        S_msrChordBeamLink elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrChordBeamLink::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrChordBeamLink::acceptOut (basevisitor* v)
+{
+  if (gMsrOah->fTraceMsrVisitors) {
+    gLogOstream <<
+      "% ==> msrChordBeamLink::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrChordBeamLink>*
+    p =
+      dynamic_cast<visitor<S_msrChordBeamLink>*> (v)) {
+        S_msrChordBeamLink elem = this;
+
+        if (gMsrOah->fTraceMsrVisitors) {
+          gLogOstream <<
+            "% ==> Launching msrChordBeamLink::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrChordBeamLink::browseData (basevisitor* v)
+{
+  // browse the original grace notes group
+  msrBrowser<msrBeam> browser (v);
+  browser.browse (*fOriginalBeam);
+}
+
+string msrChordBeamLink::asShortString () const
+{
+  stringstream s;
+
+  s <<
+    "[ChordBeamLink" <<
+    ", originalBeam \"" <<
+    fOriginalBeam->asShortString () <<
+    ", chordUpLink \"" <<
+    fChordUpLink->asShortString () <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+string msrChordBeamLink::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[ChordBeamLink" <<
+    ", originalBeam \"" <<
+    fOriginalBeam->asString () <<
+    ", chordUpLink \"" <<
+    fChordUpLink->asString () <<
+    ", line " << fInputLineNumber <<
+    "]";
+
+  return s.str ();
+}
+
+void msrChordBeamLink::print (ostream& os) const
+{
+  os <<
+    "ChordBeamLink" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 33;
+
+  os <<
+    setw (fieldWidth) <<
+    "originalBeam:" <<
+    endl;
+
+  gIndenter++;
+  os <<
+    fOriginalBeam <<
+    fChordUpLink;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void msrChordBeamLink::printShort (ostream& os) const
+{
+  os <<
+    "ChordBeamLink" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 33;
+
+  os <<
+    setw (fieldWidth) <<
+    "originalBeam:" <<
+    endl;
+
+  gIndenter++;
+  fOriginalBeam->printShort (os);
+  fChordUpLink->printShort (os);
+  gIndenter--;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrChordBeamLink& elt)
 {
   elt->print (os);
   return os;

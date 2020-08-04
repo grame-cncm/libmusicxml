@@ -16207,7 +16207,7 @@ void mxmlTree2MsrTranslator::copyNoteArticulationsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceArticulations) {
       fLogOutputStream <<
         "Copying articulation '" <<
         (*i)->articulationKindAsString () <<
@@ -16240,7 +16240,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
   ) {
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceTechnicals) {
     fLogOutputStream <<
       "Copying technical '" <<
       (*i)->technicalKindAsString () <<
@@ -16273,7 +16273,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
   ) {
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceTechnicals) {
     fLogOutputStream <<
       "Copying technical '" <<
       (*i)->technicalWithIntegerKindAsString () <<
@@ -16306,7 +16306,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithFloatsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithFloatKindAsString () <<
@@ -16339,7 +16339,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceTechnicals) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithStringKindAsString () <<
@@ -16372,7 +16372,7 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceOrnaments) {
       fLogOutputStream <<
         "Copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -16406,7 +16406,7 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceSpanners) {
       fLogOutputStream <<
         "Copying spanner '" <<
         (*i)->spannerKindAsString () <<
@@ -16434,7 +16434,7 @@ void mxmlTree2MsrTranslator::copyNoteSingleTremoloToChord (
 
   if (noteSingleTremolo) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceTremolos) {
       fLogOutputStream <<
         "Copying singleTremolo '" <<
         noteSingleTremolo->asString () <<
@@ -16468,7 +16468,7 @@ void mxmlTree2MsrTranslator::copyNoteDynamicsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceDynamics) {
       fLogOutputStream <<
         "Copying dynamics '" <<
         (*i)->dynamicsKindAsString () <<
@@ -16502,7 +16502,7 @@ void mxmlTree2MsrTranslator::copyNoteOtherDynamicsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceDynamics) {
       fLogOutputStream <<
         "Copying other dynamics '" <<
         (*i)->asString () <<
@@ -16536,7 +16536,7 @@ void mxmlTree2MsrTranslator::copyNoteWordsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceWords) {
       fLogOutputStream <<
         "Copying words '" <<
         (*i)->asString () <<
@@ -16564,7 +16564,7 @@ void mxmlTree2MsrTranslator::copyNoteStemToChord (
 
   if (noteStem) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceStems) {
       fLogOutputStream <<
         "Copying stem '" <<
         noteStem->asString () <<
@@ -16579,6 +16579,7 @@ void mxmlTree2MsrTranslator::copyNoteStemToChord (
   }
 }
 
+/*
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   S_msrNote note, S_msrChord chord)
@@ -16598,7 +16599,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceBeams) {
       fLogOutputStream <<
         "Copying beam '" <<
         (*i)->asString () <<
@@ -16613,9 +16614,69 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceChords) {
+  if (gTraceOah->fTraceBeams) {
     fLogOutputStream <<
       "==> AFTER copying beams to chord:" <<
+      endl;
+
+    gIndenter++;
+
+    fLogOutputStream <<
+      chord <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
+}
+*/
+
+void mxmlTree2MsrTranslator::appendNoteBeamsLinksToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // append link of note's beams if any from the first note to chord
+
+  list<S_msrBeam>
+    noteBeams =
+      note->
+        getNoteBeams ();
+
+  list<S_msrBeam>::const_iterator i;
+  for (
+    i=noteBeams.begin ();
+    i!=noteBeams.end ();
+    i++
+  ) {
+    S_msrBeam beam = (*i);
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceBeams) {
+      fLogOutputStream <<
+        "Adding beam link of '" <<
+        beam->asString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+#endif
+
+    // create the beam link
+    S_msrChordBeamLink
+      chordBeamLink =
+        msrChordBeamLink::create (
+          chord->getInputLineNumber (),
+          beam,
+          chord);
+
+    // append it in the chord
+    chord->
+      appendChordBeamLinkToChord (chordBeamLink);
+  } // for
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBeams) {
+    fLogOutputStream <<
+      "==> AFTER appending note's beams links to chord:" <<
       endl;
 
     gIndenter++;
@@ -16642,7 +16703,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
 
   if (noteTie) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceTies) {
       fLogOutputStream <<
         "Appending tie '" <<
         noteTie->asString () <<
@@ -16657,7 +16718,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
   }
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceTies) {
     fLogOutputStream <<
       "==> AFTER appending tie to chord:" <<
       endl;
@@ -16693,7 +16754,7 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceSlurs) {
       fLogOutputStream <<
         "Copying slur '" <<
         (*i)->asString () <<
@@ -16729,7 +16790,7 @@ void mxmlTree2MsrTranslator::appendNoteSlursLinksToChord (
     S_msrSlur slur = (*i);
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceSlurs) {
       fLogOutputStream <<
         "Adding slur link of '" <<
         slur->asString () <<
@@ -16751,6 +16812,22 @@ void mxmlTree2MsrTranslator::appendNoteSlursLinksToChord (
     chord->
       appendChordSlurLinkToChord (chordSlurLink);
   } // for
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceSlurs) {
+    fLogOutputStream <<
+      "==> AFTER appending note's slurs links to chord:" <<
+      endl;
+
+    gIndenter++;
+
+    fLogOutputStream <<
+      chord <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
 }
 
 //______________________________________________________________________________
@@ -16772,7 +16849,7 @@ void mxmlTree2MsrTranslator::copyNoteLigaturesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceLigatures) {
       fLogOutputStream <<
         "Copying ligature '" <<
         (*i)->ligatureKindAsString () <<
@@ -16806,7 +16883,7 @@ void mxmlTree2MsrTranslator::copyNotePedalsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords || gTraceOah->fTracePedals) {
+    if (gTraceOah->fTracePedals) {
       fLogOutputStream <<
         "Copying pedal '" <<
         (*i)->pedalTypeAsString () <<
@@ -16840,7 +16917,7 @@ void mxmlTree2MsrTranslator::copyNoteSlashesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceSlashes) {
       fLogOutputStream <<
         "Copying slash '" <<
         (*i)->asString () <<
@@ -16874,7 +16951,7 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceWedges) {
       fLogOutputStream <<
         "Copying wedges '" <<
         (*i)->wedgeKindAsString () <<
@@ -17004,7 +17081,7 @@ void mxmlTree2MsrTranslator::copyNoteOctaveShiftToChord (
 
   if (noteOctaveShift) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceOctaveShifts) {
       fLogOutputStream <<
         "Copying octave shift '" <<
         noteOctaveShift->asString () <<
@@ -17031,7 +17108,7 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
   if (graceNotesGroupBefore) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Copying grace notes group before '" <<
         graceNotesGroupBefore->asShortString () <<
@@ -17053,7 +17130,7 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
   if (graceNotesGroupAfter) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Copying grace notes group after '" <<
         graceNotesGroupAfter->asShortString () <<
@@ -17083,7 +17160,7 @@ void mxmlTree2MsrTranslator::addNoteGraceNotesGroupsLinksToChord (
 
   if (graceNotesGroupBefore) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Adding grace notes group link before '" <<
         graceNotesGroupBefore->asShortString () <<
@@ -17115,7 +17192,7 @@ void mxmlTree2MsrTranslator::addNoteGraceNotesGroupsLinksToChord (
 
   if (graceNotesGroupAfter) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Adding grace notes group link after '" <<
         graceNotesGroupAfter->asShortString () <<
@@ -17157,7 +17234,7 @@ void mxmlTree2MsrTranslator::copyNoteHarmoniesToChord (
       S_msrHarmony harmony = (*i);
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChords) {
+      if (gTraceOah->fTraceHarmonies) {
         fLogOutputStream <<
           "Copying harmony '" <<
           harmony->asString () <<
@@ -17210,7 +17287,8 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
   copyNoteStemToChord (note, chord);
 
   // copy note's beams if any to the chord
-  copyNoteBeamsToChord (note, chord);
+//  copyNoteBeamsToChord (note, chord);
+  appendNoteBeamsLinksToChord (note, chord);
 
   // copy note's ties if any to the chord
   copyNoteTieToChord (note, chord);
@@ -17908,7 +17986,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   if (fCurrentArticulations.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceArticulations) {
       fLogOutputStream <<
         "Attaching current articulations to chord " <<
         chord->asString () <<
@@ -17923,7 +18001,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
       i++
   ) {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChords) {
+      if (gTraceOah->fTraceArticulations) {
         fLogOutputStream <<
           "Attaching articulation " <<  (*i) <<
           " to chord " << chord <<
@@ -17946,7 +18024,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
   if (fCurrentOrnamentsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceChords) {
+    if (gTraceOah->fTraceOrnaments) {
       fLogOutputStream <<
         "Attaching current ornaments to chord " <<
         chord->asString () <<
@@ -17961,7 +18039,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
       i++
   ) {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceChords) {
+      if (gTraceOah->fTraceOrnaments) {
         fLogOutputStream <<
           "Attaching ornament " <<  (*i) << " to chord " <<
           chord <<
@@ -19788,6 +19866,7 @@ void mxmlTree2MsrTranslator::populateNote (
         break;
 
       case msrNote::kGraceNote:
+      case msrNote::kGraceSkipNote:
       case msrNote::kGraceChordMemberNote:
       case msrNote::kDoubleTremoloMemberNote:
         break;
@@ -21569,6 +21648,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         break;
 
       case msrNote::kGraceNote:
+      case msrNote::kGraceSkipNote:
       case msrNote::kGraceChordMemberNote:
         break;
 

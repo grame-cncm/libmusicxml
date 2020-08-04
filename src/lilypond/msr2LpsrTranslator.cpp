@@ -175,6 +175,9 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   // notes
   fOnGoingNonGraceNote = false;
 
+  // beams
+  fOnGoingChordBeamLink = false;
+
   // double tremolos
   fOnGoingDoubleTremolo = false;
 
@@ -4136,14 +4139,14 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
     // don't append a slur if we're inside a slur link JMI ???
     if (fOnGoingNonGraceNote) {
       S_msrChordSlurLink
-        ChordSlurLink =
+        chordSlurLink =
           msrChordSlurLink::create (
             fCurrentChordClone->getInputLineNumber (),
             elt,
             fCurrentChordClone);
 
       fCurrentChordClone->
-        appendChordSlurLinkToChord (ChordSlurLink);
+        appendChordSlurLinkToChord (chordSlurLink);
     }
   }
 
@@ -4206,14 +4209,14 @@ void msr2LpsrTranslator::visitStart (S_msrChordSlurLink& elt)
 
   if (fOnGoingChord) {
     S_msrChordSlurLink
-      ChordSlurLink =
+      chordSlurLink =
         msrChordSlurLink::create (
           elt->getInputLineNumber (),
           originalSlur,
           fCurrentChordClone);
 
     fCurrentChordClone->
-      appendChordSlurLinkToChord (ChordSlurLink);
+      appendChordSlurLinkToChord (chordSlurLink);
   }
 
   else {
@@ -4820,6 +4823,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
   switch (elt->getNoteKind ()) {
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
       fCurrentGraceNoteClone = noteClone;
@@ -5071,6 +5075,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     /* JMI
       fLogOutputStream <<
         "fOnGoingGraceNotesGroup = " <<
@@ -5295,6 +5300,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
   switch (noteKind) {
     case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
       break;
@@ -5469,9 +5475,23 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
   }
 
   if (fOnGoingChord) { // else ??? JMI
+    // don't append a beam if we're inside a beam link JMI ???
+    if (fOnGoingNonGraceNote) {
+      S_msrChordBeamLink
+        chordBeamLink =
+          msrChordBeamLink::create (
+            fCurrentChordClone->getInputLineNumber (),
+            elt,
+            fCurrentChordClone);
+
+      fCurrentChordClone->
+        appendChordBeamLinkToChord (chordBeamLink);
+    }
+  }
+/* JMI
     fCurrentChordClone->
       appendBeamToChord (elt);
-  }
+      */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrBeam& elt)
@@ -5484,6 +5504,79 @@ void msr2LpsrTranslator::visitEnd (S_msrBeam& elt)
       endl;
   }
 #endif
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrChordBeamLink& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrChordBeamLink " <<
+      elt->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  S_msrBeam originalBeam = elt->getOriginalBeam ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceBeams) {
+    fLogOutputStream <<
+      "--> visitStart (S_msrChordBeamLink&), " <<
+      elt->asShortString () <<
+      ", originalBeam: " <<
+      originalBeam->asShortString () <<
+      endl;
+  }
+#endif
+
+  if (fOnGoingChord) {
+    S_msrChordBeamLink
+      chordBeamLink =
+        msrChordBeamLink::create (
+          elt->getInputLineNumber (),
+          originalBeam,
+          fCurrentChordClone);
+
+    fCurrentChordClone->
+      appendChordBeamLinkToChord (chordBeamLink);
+  }
+
+  else {
+    displayCurrentOnGoingValues ();
+
+    stringstream s;
+
+    s <<
+      "beam link is out of context, cannot be handled: '" <<
+      elt->asShortString () <<
+      "'";
+
+    msrInternalError (
+      gOahOah->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fOnGoingChordBeamLink = true;
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrChordBeamLink& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrChordBeamLink " <<
+      elt->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fOnGoingChordBeamLink = false;
 }
 
 //________________________________________________________________________

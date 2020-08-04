@@ -25,7 +25,7 @@ class msrNote : public msrTupletElement
       kUnpitchedNote,
       kRegularNote,
       kDoubleTremoloMemberNote,
-      kGraceNote,
+      kGraceNote, kGraceSkipNote,
       kChordMemberNote,
       kGraceChordMemberNote,
       kTupletMemberNote,
@@ -116,6 +116,15 @@ class msrNote : public msrTupletElement
       int       voiceNumber);
 
     static SMARTP<msrNote> createSkipNote (
+      int       inputLineNumber,
+      string    noteMeasureNumber,
+      rational  soundingWholeNotes,
+      rational  displayWholeNotes,
+      int       dotsNumber,
+      int       staffNumber,
+      int       voiceNumber);
+
+    static SMARTP<msrNote> createGraceSkipNote (
       int       inputLineNumber,
       string    noteMeasureNumber,
       rational  soundingWholeNotes,

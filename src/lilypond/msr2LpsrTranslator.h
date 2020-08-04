@@ -279,10 +279,13 @@ class msr2LpsrTranslator :
   public visitor<S_msrTie>,
 
   public visitor<S_msrBeam>,
+  public visitor<S_msrChordBeamLink>,
 
-  // ?
+  // barlines
 
   public visitor<S_msrBarline>,
+
+  // staff-level elements
 
   public visitor<S_msrSegno>,
   public visitor<S_msrDalSegno>,
@@ -294,8 +297,12 @@ class msr2LpsrTranslator :
   public visitor<S_msrDampAll>,
   public visitor<S_msrScordatura>,
 
+  // bars
+
   public visitor<S_msrBarCheck>,
   public visitor<S_msrBarNumberCheck>,
+
+  // breaks
 
   public visitor<S_msrLineBreak>,
 
@@ -488,6 +495,8 @@ class msr2LpsrTranslator :
     // beams
     virtual void visitStart (S_msrBeam& elt);
     virtual void visitEnd   (S_msrBeam& elt);
+    virtual void visitStart (S_msrChordBeamLink& elt);
+    virtual void visitEnd   (S_msrChordBeamLink& elt);
 
     // chords
     virtual void visitStart (S_msrChord& elt);
@@ -733,6 +742,10 @@ class msr2LpsrTranslator :
 
     S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
 
+
+    // beams
+    // ------------------------------------------------------
+    bool                      fOnGoingChordBeamLink;
 
     // glissandos
     // ------------------------------------------------------
