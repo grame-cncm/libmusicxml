@@ -46,7 +46,7 @@ S_msrNote msrNote::create (
   msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
   int                        noteDisplayOctave,
 
-  bool                       noteIsACueNote,
+  msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
   msrPrintObjectKind         notePrintObjectKind,
 
@@ -75,7 +75,7 @@ S_msrNote msrNote::create (
       noteQuarterTonesDisplayPitchKind,
       noteDisplayOctave,
 
-      noteIsACueNote,
+      noteIsACueNoteKind,
 
       notePrintObjectKind,
 
@@ -107,7 +107,7 @@ msrNote::msrNote (
   msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
   int                        noteDisplayOctave,
 
-  bool                       noteIsACueNote,
+  msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
   msrPrintObjectKind         notePrintObjectKind,
 
@@ -138,7 +138,7 @@ msrNote::msrNote (
   fNoteQuarterTonesDisplayPitchKind = noteQuarterTonesDisplayPitchKind;
   fNoteDisplayOctave                = noteDisplayOctave;
 
-  fNoteIsACueNote   = noteIsACueNote;
+  fNoteIsACueNoteKind   = noteIsACueNoteKind;
 
   fNotePrintObjectKind = notePrintObjectKind;
 
@@ -274,8 +274,8 @@ void msrNote::initializeNote ()
 
       left <<
         setw (fieldWidth) <<
-        "fNoteIsACueNote" << " = " <<
-         booleanAsString (fNoteIsACueNote) <<
+        "fNoteIsACueNoteKind" << " = " <<
+         noteIsACueNoteKindAsString (fNoteIsACueNoteKind) <<
         endl <<
 
       left <<
@@ -423,7 +423,7 @@ S_msrNote msrNote::createNoteNewbornClone (
         fNoteQuarterTonesDisplayPitchKind,
         fNoteDisplayOctave,
 
-        fNoteIsACueNote,
+        fNoteIsACueNoteKind,
 
         fNotePrintObjectKind,
 
@@ -640,7 +640,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteQuarterTonesDisplayPitchKind,
         fNoteDisplayOctave,
 
-        fNoteIsACueNote,
+        fNoteIsACueNoteKind,
 
         fNotePrintObjectKind,
 
@@ -1137,7 +1137,7 @@ S_msrNote msrNote::createRestNote (
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
 
-      false, // noteIsACueNote
+      msrNote::kNoteIsACueNoteNo,
 
       kPrintObjectYes, // JMI
 
@@ -1189,7 +1189,7 @@ S_msrNote msrNote::createSkipNote (
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
 
-      false, // noteIsACueNote
+      msrNote::kNoteIsACueNoteNo,
 
       kPrintObjectYes, // JMI
 
@@ -1243,7 +1243,7 @@ S_msrNote msrNote::createGraceSkipNote (
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
 
-      false, // noteIsACueNote
+      msrNote::kNoteIsACueNoteNo,
 
       kPrintObjectYes, // JMI
 
@@ -1299,7 +1299,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
 
-      false, // noteIsACueNote
+      msrNote::kNoteIsACueNoteNo,
 
       kPrintObjectNo, // JMI
 
@@ -1502,7 +1502,7 @@ string msrNote::noteSoundingWholeNotesAsMsrString () const
   string result;
 
   if (fMeasureElementSoundingWholeNotes.getNumerator () == 0)
-    result = " (no sounding whole notes)";
+    result = "(no sounding whole notes)";
   else
     result =
       wholeNotesAsMsrString (
@@ -1711,6 +1711,23 @@ string msrNote::noteHeadParenthesesKindAsString (
       break;
     case msrNote::kNoteHeadParenthesesNo:
       result = "noteHeadParenthesesNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrNote::noteIsACueNoteKindAsString (
+  msrNoteIsACueNoteKind noteIsACueNoteKind)
+{
+  string result;
+
+  switch (noteIsACueNoteKind) {
+    case msrNote::kNoteIsACueNoteYes:
+      result = "noteIsACueNoteYes";
+      break;
+    case msrNote::kNoteIsACueNoteNo:
+      result = "noteIsACueNoteNo";
       break;
   } // switch
 
@@ -3119,10 +3136,12 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kGraceSkipNote:
       s <<
         "Grace skip note '" <<
-        notePitchAsString () <<
-        "' " <<
-        noteGraphicDurationAsMsrString () <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ":" <<
+        ", whole notes: " <<
+        fMeasureElementSoundingWholeNotes <<
+        " sounding, " <<
+        fNoteDisplayWholeNotes <<
+        " displayed";
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3338,10 +3357,9 @@ string msrNote::asShortString () const
 
     case msrNote::kGraceSkipNote:
       s <<
-        "GraceSkipNote '" <<
-        notePitchAsString () <<
-        noteGraphicDurationAsMsrString () <<
-        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "GraceSkipNote" <<
+        " " <<
+        noteSoundingWholeNotesAsMsrString ();
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3608,14 +3626,11 @@ string msrNote::asString () const
 
     case msrNote::kGraceSkipNote:
       s <<
-        "graceSkipNote '"<<
-        notePitchAsString () <<
- // JMI       noteGraphicDurationAsMsrString () <<
-        noteDisplayWholeNotesAsMsrString () <<
-        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "graceSkipNote " <<
+        noteSoundingWholeNotesAsMsrString ();
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
-        s << "."; // JMI
+        s << ".";
       } // for
       break;
 
@@ -3812,10 +3827,8 @@ string msrNote::asString () const
       ", " << fNoteTie->tieKindAsString ();
   }
 
-  if (fNoteIsACueNote) {
-    s <<
-      ", " << "cue note";
-  }
+  s <<
+    ", " << noteIsACueNoteKindAsString (fNoteIsACueNoteKind);
 
   s <<
     ", line " << fInputLineNumber <<
@@ -3957,6 +3970,7 @@ void msrNote::print (ostream& os) const
     case msrNote::k_NoNoteKind:
     case msrNote::kRestNote:
     case msrNote::kSkipNote:
+    case msrNote::kGraceSkipNote:
     case msrNote::kUnpitchedNote:
     case msrNote::kRegularNote:
     case msrNote::kDoubleTremoloMemberNote:
@@ -3973,7 +3987,6 @@ void msrNote::print (ostream& os) const
       break;
 
     case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       os <<
         setw (fieldWidth) <<
@@ -4123,8 +4136,8 @@ void msrNote::print (ostream& os) const
   // cue note???
   os << left <<
     setw (fieldWidth) <<
-    "noteIsACueNote" << " : " <<
-    booleanAsString (fNoteIsACueNote) <<
+    "noteIsACueNoteKind" << " : " <<
+    noteIsACueNoteKindAsString (fNoteIsACueNoteKind) <<
     endl;
 
   // short cuts for efficiency
@@ -4245,92 +4258,94 @@ void msrNote::print (ostream& os) const
       break;
 
     case msrNote::kRestNote:
-      {
-        os << left <<
-          setw (fieldWidth) <<
-          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-          noteSoundingWholeNotesAsMsrString () <<
-          "\"" <<
-          endl;
-      }
+      os << left <<
+        setw (fieldWidth) <<
+        "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+        noteSoundingWholeNotesAsMsrString () <<
+        "\"" <<
+        endl;
       break;
 
     case msrNote::kSkipNote:
-      {
-        os << left <<
-          setw (fieldWidth) <<
-          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-          noteSoundingWholeNotesAsMsrString () <<
-          "\"" <<
-          endl;
-      }
+      os << left <<
+        setw (fieldWidth) <<
+        "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+        noteSoundingWholeNotesAsMsrString () <<
+        "\"" <<
+        endl;
       break;
 
     case msrNote::kUnpitchedNote:
-      {
-        os << left <<
-          setw (fieldWidth) <<
-          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-          noteSoundingWholeNotesAsMsrString () <<
-          "\"" <<
-          endl <<
-          setw (fieldWidth) <<
-          "noteDisplayWholeNotesAsMsrString" << " : \"" <<
-          noteDisplayWholeNotesAsMsrString () <<
-          "\"" <<
-          endl <<
-          setw (fieldWidth) <<
-          "noteGraphicDurationAsMsrString" << " : \"" <<
-          noteGraphicDurationAsMsrString () <<
-          "\"" <<
-          endl;
-      }
+      os << left <<
+        setw (fieldWidth) <<
+        "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+        noteSoundingWholeNotesAsMsrString () <<
+        "\"" <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteDisplayWholeNotesAsMsrString" << " : \"" <<
+        noteDisplayWholeNotesAsMsrString () <<
+        "\"" <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteGraphicDurationAsMsrString" << " : \"" <<
+        noteGraphicDurationAsMsrString () <<
+        "\"" <<
+        endl;
       break;
 
     case msrNote::kRegularNote:
-      {
-        os << left <<
-          setw (fieldWidth) <<
-          "noteSoundingWholeNotesAsMsrString" << " : \"" <<
-          noteSoundingWholeNotesAsMsrString () <<
-          "\"" <<
-          endl <<
-          setw (fieldWidth) <<
-          "noteDisplayWholeNotesAsMsrString" << " : \"" <<
-          noteDisplayWholeNotesAsMsrString () <<
-          "\"" <<
-          endl <<
-          setw (fieldWidth) <<
-          "noteGraphicDurationAsMsrString" << " : \"" <<
-          noteGraphicDurationAsMsrString () <<
-          "\"" <<
-          endl;
-      }
+      os << left <<
+        setw (fieldWidth) <<
+        "noteSoundingWholeNotesAsMsrString" << " : \"" <<
+        noteSoundingWholeNotesAsMsrString () <<
+        "\"" <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteDisplayWholeNotesAsMsrString" << " : \"" <<
+        noteDisplayWholeNotesAsMsrString () <<
+        "\"" <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteGraphicDurationAsMsrString" << " : \"" <<
+        noteGraphicDurationAsMsrString () <<
+        "\"" <<
+        endl;
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
-      {
-        // JMI
-      }
+      // JMI
       break;
 
     case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
-      {
-        os << left <<
-          setw (fieldWidth) <<
-          "noteGraphicDurationAsMsrString" << " : \"" <<
-          noteGraphicDurationAsMsrString () <<
-          "\"" <<
-          endl;
-      }
+      os << left <<
+        setw (fieldWidth) <<
+        "noteGraphicDurationAsMsrString" << " : \"" <<
+        noteGraphicDurationAsMsrString () <<
+        "\"" <<
+        endl;
+      break;
+
+    case msrNote::kGraceSkipNote:
+      os << left <<
+        setw (fieldWidth) <<
+        "noteSoundingWholeNotes" << " : " <<
+        fMeasureElementSoundingWholeNotes <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteDisplayWholeNotes" << " : " <<
+        fNoteDisplayWholeNotes <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteGraphicDurationAsMsrString" << " : \"" <<
+        noteGraphicDurationAsMsrString () <<
+        "\"" <<
+        endl;
       break;
 
     case msrNote::kChordMemberNote:
-      {
-        // JMI
-      }
+      // JMI
       break;
 
     case msrNote::kTupletMemberNote:
@@ -5572,12 +5587,28 @@ void msrNote::printShort (ostream& os) const
       break;
 
     case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       os <<
         setw (fieldWidth) <<
         "noteDisplayWholeNotes" << " : " <<
         fNoteDisplayWholeNotes <<
+        endl;
+      break;
+
+    case msrNote::kGraceSkipNote:
+      os << left <<
+        setw (fieldWidth) <<
+        "noteSoundingWholeNotes" << " : " <<
+        fMeasureElementSoundingWholeNotes <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteDisplayWholeNotes" << " : " <<
+        fNoteDisplayWholeNotes <<
+        endl <<
+        setw (fieldWidth) <<
+        "noteGraphicDurationAsMsrString" << " : \"" <<
+        noteGraphicDurationAsMsrString () <<
+        "\"" <<
         endl;
       break;
 
@@ -5723,8 +5754,8 @@ void msrNote::printShort (ostream& os) const
   // cue note???
   os << left <<
     setw (fieldWidth) <<
-    "noteIsACueNote" << " : " <<
-    booleanAsString (fNoteIsACueNote) <<
+    "noteIsACueNoteKind" << " : " <<
+    noteIsACueNoteKindAsString (fNoteIsACueNoteKind) <<
     endl;
 
   // short cuts for efficiency
@@ -5856,6 +5887,7 @@ void msrNote::printShort (ostream& os) const
       break;
 
     case msrNote::kSkipNote:
+    case msrNote::kGraceSkipNote:
       {
         os << left <<
           setw (fieldWidth) <<
@@ -5915,7 +5947,6 @@ void msrNote::printShort (ostream& os) const
       break;
 
     case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       {
         os << left <<

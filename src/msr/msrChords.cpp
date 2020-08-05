@@ -1311,9 +1311,7 @@ void msrChord::print (ostream& os) const
 
     if (fChordGraceNotesGroupLinkBefore) {
       os << endl;
-      gIndenter++;
-      os << fChordGraceNotesGroupLinkBefore;
-      gIndenter--;
+      os << gTab << fChordGraceNotesGroupLinkBefore;
     }
     else {
       os << " : " << "none" << endl; // JMI TEST
@@ -2001,9 +1999,7 @@ void msrChord::print (ostream& os) const
 
     if (fChordGraceNotesGroupLinkAfter) {
       os << endl;
-      gIndenter++;
-      os << fChordGraceNotesGroupLinkAfter;
-      gIndenter--;
+      os << gTab << fChordGraceNotesGroupLinkAfter;
     }
     else {
       os << " : " << "none";
@@ -2115,9 +2111,7 @@ void msrChord::printShort (ostream& os) const
 
     if (fChordGraceNotesGroupLinkBefore) {
       os << endl;
-      gIndenter++;
-      os << fChordGraceNotesGroupLinkBefore->asShortString();
-      gIndenter--;
+      os << gTab << fChordGraceNotesGroupLinkBefore->asShortString ();
     }
     else {
       os << " : " << "none";
@@ -2810,9 +2804,7 @@ void msrChord::printShort (ostream& os) const
 
     if (fChordGraceNotesGroupLinkAfter) {
       os << endl;
-      gIndenter++;
-      os << fChordGraceNotesGroupLinkAfter->asShortString();
-      gIndenter--;
+      os << gTab << fChordGraceNotesGroupLinkAfter->asShortString ();
     }
     else {
       os << " : " << "none";
@@ -3371,7 +3363,7 @@ string msrChordGraceNotesGroupLink::asShortString () const
 
   s <<
     "[chordGraceNotesGroupLink" <<
-    ", fOriginalGraceNotesGroup: \"" <<
+    ", fOriginalGraceNotesGroup: " <<
     fOriginalGraceNotesGroup->asShortString () <<
     ", chordUpLink \"" <<
     fChordUpLink->asShortString () <<

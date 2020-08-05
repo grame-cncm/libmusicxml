@@ -1849,7 +1849,6 @@ void lpsr2LilypondTranslator::generateCodeForNote (
       break;
 
     case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
       // print the note name
       fLilypondCodeOstream <<
         notePitchAsLilypondString (note);
@@ -1890,6 +1889,33 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         case kOctaveEntryFixed:
           break;
       } // switch
+      break;
+
+    case msrNote::kGraceSkipNote:
+      // print the note name
+      if (gLpsr2LilypondOah->fPositionsInMeasures) {
+        // print the rest name to help pin-point bugs
+        fLilypondCodeOstream << "r%{333%}";
+      }
+      else {
+        // print the skip name
+        fLilypondCodeOstream << "s%{444%}";
+      }
+
+      // print the skip duration
+      fLilypondCodeOstream <<
+        durationAsLilypondString (
+          inputLineNumber,
+          note->
+            getNoteDisplayWholeNotes ());
+
+      // print the dots if any JMI ???
+      for (int i = 0; i < note->getNoteDotsNumber (); i++) {
+        fLilypondCodeOstream << ".";
+      } // for
+
+      // a grace skip is no relative octave reference,
+      // the preceding one is kept
       break;
 
     case msrNote::kGraceChordMemberNote:
@@ -8203,6 +8229,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
     fLilypondCodeOstream << left <<
       setw (commentFieldWidth) <<
       "% end of segment" <<
+      elt->getSegmentAbsoluteNumber () <<
+      ", line " <<
+      elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -11461,20 +11490,34 @@ void lpsr2LilypondTranslator::generateNoteBeams (S_msrNote note)
       switch (beam->getBeamKind ()) {
 
         case msrBeam::kBeginBeam:
-          if (beam->getBeamNumber () == 1)
+          if (beam->getBeamNumber () == 1) {
             if (! gLpsr2LilypondOah->fNoBeams) {
               fLilypondCodeOstream << "[ ";
+
+              if (gLpsr2LilypondOah->fInputLineNumbers) {
+                // print the input line number as a comment
+                fLilypondCodeOstream <<
+                  "%{ line " << beam->getInputLineNumber () << "%} ";
+              }
             }
+          }
           break;
 
         case msrBeam::kContinueBeam:
           break;
 
         case msrBeam::kEndBeam:
-          if (beam->getBeamNumber () == 1)
+          if (beam->getBeamNumber () == 1) {
             if (! gLpsr2LilypondOah->fNoBeams) {
               fLilypondCodeOstream << "] ";
+
+              if (gLpsr2LilypondOah->fInputLineNumbers) {
+                // print the input line number as a comment
+                fLilypondCodeOstream <<
+                  "%{ line " << beam->getInputLineNumber () << "%} ";
+              }
             }
+          }
           break;
 
         case msrBeam::kForwardHookBeam:
@@ -11516,17 +11559,41 @@ void lpsr2LilypondTranslator::generateNoteSlurs (S_msrNote note)
           break;
         case msrSlur::kRegularSlurStart:
           fLilypondCodeOstream << "( ";
+
+          if (gLpsr2LilypondOah->fInputLineNumbers) {
+            // print the input line number as a comment
+            fLilypondCodeOstream <<
+              "%{ line " << slur->getInputLineNumber () << "%} ";
+          }
           break;
         case msrSlur::kPhrasingSlurStart:
           fLilypondCodeOstream << "\\( ";
+
+          if (gLpsr2LilypondOah->fInputLineNumbers) {
+            // print the input line number as a comment
+            fLilypondCodeOstream <<
+              "%{ line " << slur->getInputLineNumber () << "%} ";
+          }
           break;
         case msrSlur::kSlurContinue:
           break;
         case msrSlur::kRegularSlurStop:
           fLilypondCodeOstream << ") ";
+
+          if (gLpsr2LilypondOah->fInputLineNumbers) {
+            // print the input line number as a comment
+            fLilypondCodeOstream <<
+              "%{ line " << slur->getInputLineNumber () << "%} ";
+          }
           break;
         case msrSlur::kPhrasingSlurStop:
           fLilypondCodeOstream << "\\) ";
+
+          if (gLpsr2LilypondOah->fInputLineNumbers) {
+            // print the input line number as a comment
+            fLilypondCodeOstream <<
+              "%{ line " << slur->getInputLineNumber () << "%} ";
+          }
           break;
       } // switch
     } // for
@@ -12745,10 +12812,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 
   // is the note a cue note?
-  if (elt->getNoteIsACueNote ()) {
-    fLilypondCodeOstream <<
-      "\\once \\override NoteHead.font-size = -3 ";
-  }
+  switch (elt->getNoteIsACueNoteKind ()) {
+    case msrNote::kNoteIsACueNoteYes:
+      fLilypondCodeOstream <<
+        "\\once \\override NoteHead.font-size = -3 ";
+      break;
+    case msrNote::kNoteIsACueNoteNo:
+      break;
+  } // switch
 
   // has the note an octave shift up or down?
   if (! fOnGoingChord) {

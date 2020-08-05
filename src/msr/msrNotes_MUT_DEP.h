@@ -66,6 +66,12 @@ class msrNote : public msrTupletElement
     static string noteHeadParenthesesKindAsString (
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
 
+    enum msrNoteIsACueNoteKind {
+      kNoteIsACueNoteYes, kNoteIsACueNoteNo };
+
+    static string noteIsACueNoteKindAsString (
+      msrNoteIsACueNoteKind noteIsACueNoteKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -89,7 +95,7 @@ class msrNote : public msrTupletElement
       msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
       int                        noteDisplayOctave,
 
-      bool                       noteIsACueNote,
+      msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
       msrPrintObjectKind         notePrintObjectKind,
 
@@ -165,7 +171,7 @@ class msrNote : public msrTupletElement
       msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
       int                        noteDisplayOctave,
 
-      bool                       noteIsACueNote,
+      msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
       msrPrintObjectKind         notePrintObjectKind,
 
@@ -351,6 +357,7 @@ class msrNote : public msrTupletElement
     int                   getNoteDisplayOctave () const
                               { return fNoteDisplayOctave; }
 
+    // rest?
     bool                  getNoteIsARest () const
                             // shortcut for efficiency
                               {
@@ -360,6 +367,7 @@ class msrNote : public msrTupletElement
                                   fNoteKind == msrNote::kTupletRestMemberNote;
                               }
 
+    // unpitched?
     bool                  getNoteIsUnpitched () const
                               {
                                 return
@@ -368,8 +376,13 @@ class msrNote : public msrTupletElement
                                   fNoteKind == msrNote::kTupletUnpitchedMemberNote;
                               }
 
-    bool                  getNoteIsACueNote () const
-                              { return fNoteIsACueNote; }
+    // cue note?
+    void                  setNoteIsACueNoteKind (
+                            msrNoteIsACueNoteKind noteIsACueNoteKind)
+                              { fNoteIsACueNoteKind = noteIsACueNoteKind; }
+
+    msrNoteIsACueNoteKind getNoteIsACueNoteKind () const
+                              { return fNoteIsACueNoteKind; }
 
     // octave shifts
     void                  setNoteOctaveShift (
@@ -393,6 +406,8 @@ class msrNote : public msrTupletElement
                               {
                                 return
                                   fNoteKind == msrNote::kGraceNote
+                                    ||
+                                  fNoteKind == msrNote::kGraceSkipNote
                                     ||
                                   fNoteKind == msrNote::kGraceChordMemberNote
                                     ||
@@ -872,8 +887,8 @@ class msrNote : public msrTupletElement
                                 // for unpitched notes
                                 // and pitched rests
 
-    // cue note???
-    bool                  fNoteIsACueNote;
+    // cue note?
+    msrNoteIsACueNoteKind fNoteIsACueNoteKind;
 
     // note octave shift
     S_msrOctaveShift      fNoteOctaveShift;

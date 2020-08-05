@@ -187,12 +187,22 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
     ) {
       // create grace skip note with same duration as note
+#ifdef TRACE_OAH
+      if (gTraceOah->fTraceGraceNotes) {
+        gLogOstream <<
+          "Creating a skip grace note" <<
+          ", soundingWholeNotes: " << note->getNoteSoundingWholeNotes () <<
+          ", displayWholeNotes: " << note->getNoteDisplayWholeNotes () <<
+          endl;
+      }
+#endif
+
       S_msrNote
         skip =
           msrNote::createGraceSkipNote (
             note->            getInputLineNumber (),
             note->            getMeasureElementMeasureNumber (),
-            note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
+            note->            getNoteSoundingWholeNotes (), // 0/1 JMI
             note->            getNoteDisplayWholeNotes (),
             note->            getNoteDotsNumber (),
             containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
@@ -217,7 +227,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
           msrNote::createGraceSkipNote (
             chordFirstNote->  getInputLineNumber (),
             chordFirstNote->  getMeasureElementMeasureNumber (),
-            chordFirstNote->  getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
+            chordFirstNote->  getNoteSoundingWholeNotes (), // 0/1 JMI
             chordFirstNote->  getNoteDisplayWholeNotes (),
             chordFirstNote->  getNoteDotsNumber (),
             containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
@@ -415,12 +425,11 @@ string msrGraceNotesGroup::asShortString () const
 
   s <<
     "[GraceNotesGroup" <<
-    ", graceNotesGroupKind \"" <<
+    ", graceNotesGroupKind: " <<
     graceNotesGroupKindAsString (
       fGraceNotesGroupKind) <<
-    ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
-    "\", line " << fInputLineNumber <<
-    ",";
+    ", graceNotesGroupMeasureNumber: \"" << fGraceNotesGroupMeasureNumber <<
+    "\", ";
 
   if (fGraceNotesGroupElementsList.size ()) {
     list<S_msrMeasureElement>::const_iterator
@@ -434,7 +443,9 @@ string msrGraceNotesGroup::asShortString () const
     } // for
   }
 
-  s << "]";
+  s <<
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }
@@ -445,9 +456,9 @@ string msrGraceNotesGroup::asString () const
 
   s <<
     "[GraceNotesGroup" <<
-    ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
+    ", graceNotesGroupMeasureNumber: \"" << fGraceNotesGroupMeasureNumber <<
     "\", line " << fInputLineNumber <<
-    " ";
+    ", ";
 
   if (fGraceNotesGroupElementsList.size ()) {
     list<S_msrMeasureElement>::const_iterator

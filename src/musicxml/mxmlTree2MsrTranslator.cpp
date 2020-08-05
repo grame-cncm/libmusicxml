@@ -430,7 +430,7 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
   // cue notes
 
-  fCurrentNoteIsACueNote = false;
+  fCurrentNoteIsACueNoteKind = msrNote::kNoteIsACueNoteNo;
 
   // grace notes
 
@@ -14810,7 +14810,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_cue& elt )
   }
 #endif
 
-  fCurrentNoteIsACueNote = true;
+  fCurrentNoteIsACueNoteKind = msrNote::kNoteIsACueNoteYes;
 }
 
 //______________________________________________________________________________
@@ -19768,7 +19768,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
         fCurrentNoteQuarterTonesDisplayPitchKind,
         fCurrentDisplayOctave,
 
-        fCurrentNoteIsACueNote,
+        fCurrentNoteIsACueNoteKind,
 
         fCurrentNotePrintObjectKind,
 

@@ -1771,7 +1771,8 @@ class mxmlTree2MsrTranslator :
     bool                      fCurrentNoteIsUnpitched;
 
     // cue notes
-    bool                      fCurrentNoteIsACueNote;
+    msrNote::msrNoteIsACueNoteKind
+                              fCurrentNoteIsACueNoteKind;
 
     // grace notes
     bool                      fCurrentNoteIsAGraceNote;
