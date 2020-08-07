@@ -89,13 +89,13 @@ void lpsr2lilypondOah2ManPageGenerator::visitEnd (S_lilypondScoreOutputKindAtom&
 }
 
 //________________________________________________________________________
-void lpsr2lilypondOah2ManPageGenerator::visitStart (S_lilypondTransposePartAtom& elt)
+void lpsr2lilypondOah2ManPageGenerator::visitStart (S_lilypondTransposePartNameAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> Start visiting lilypondTransposePartAtom" <<
+      ".\\\" --> Start visiting lilypondTransposePartNameAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }
@@ -119,13 +119,13 @@ void lpsr2lilypondOah2ManPageGenerator::visitStart (S_lilypondTransposePartAtom&
     */
 }
 
-void lpsr2lilypondOah2ManPageGenerator::visitEnd (S_lilypondTransposePartAtom& elt)
+void lpsr2lilypondOah2ManPageGenerator::visitEnd (S_lilypondTransposePartNameAtom& elt)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
-      ".\\\" --> End visiting lilypondTransposePartAtom" <<
+      ".\\\" --> End visiting lilypondTransposePartNameAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }

@@ -24,7 +24,7 @@ namespace MusicXML2
 //________________________________________________________________________
 class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator
 
-// JMI  public visitor<S_lilypondTransposePartAtom>
+// JMI  public visitor<S_lilypondTransposePartNameAtom>
 
 {
   public:
@@ -38,8 +38,8 @@ class lilypondOah2ManPageGenerator : virtual public oah2ManPageGenerator
 
   protected:
 
-// JMI    virtual void visitStart (S_lilypondTransposePartAtom& elt);
-//    virtual void visitEnd   (S_lilypondTransposePartAtom& elt);
+// JMI    virtual void visitStart (S_lilypondTransposePartNameAtom& elt);
+//    virtual void visitEnd   (S_lilypondTransposePartNameAtom& elt);
 
 };
 typedef SMARTP<lilypondOah2ManPageGenerator> S_lilypondOah2ManPageGenerator;

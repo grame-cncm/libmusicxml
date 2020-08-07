@@ -2494,7 +2494,7 @@ R"()",
       lpsrTransposeAtom::create (
         "lpt", "lpsr-transpose",
 R"(Use TRANSPOSITION to tranpose in the LPSR data,
-thus as in the generated LilyPond code as well.
+thus in the generated LilyPond code as well.
 TRANSPOSITION should contain a diatonic pitch, followed if needed
 by a sequence of ',' or '\'' octave indications.
 Such indications cannot be mixed.
@@ -2587,10 +2587,12 @@ void lpsrOah::initializeLpsrOah (
   initializeLpsrLanguagesOptions (
     boolOptionsInitialValue);
 
+/* superfluous JMI ???
   // transpose
   // --------------------------------------
   initializeLpsrTransposeOptions (
     boolOptionsInitialValue);
+*/
 
   // exit after some passes
   // --------------------------------------

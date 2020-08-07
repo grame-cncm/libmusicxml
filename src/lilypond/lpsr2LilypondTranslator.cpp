@@ -6873,6 +6873,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
 
     if (gLpsr2LilypondOah->fPartsTranspositionMap.size ()) {
       // should we transpose fCurrentPart?
+
+      bool doTransposeCurrentPart = false;
+      S_msrSemiTonesPitchAndOctave
+        semiTonesPitchAndOctave;
+
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
         it =
           gLpsr2LilypondOah->fPartsTranspositionMap.find (
@@ -6881,10 +6886,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
       if (it != gLpsr2LilypondOah->fPartsTranspositionMap.end ()) {
         // partName is present in the map,
         // fetch the semitones pitch and octave
-        S_msrSemiTonesPitchAndOctave
-          semiTonesPitchAndOctave =
-            (*it).second;
+        semiTonesPitchAndOctave =
+          (*it).second;
+        doTransposeCurrentPart = true;
+      }
 
+      if (doTransposeCurrentPart) {
         // generate the transposition
 #ifdef TRACE_OAH
         if (gTraceOah->fTraceTranspositions) {
@@ -8281,7 +8288,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
-  // should we generated a box around this bar number?
+  // should we generate a box around this bar number?
   {
     set<int>::const_iterator
       it =

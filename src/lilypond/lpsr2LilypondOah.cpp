@@ -247,7 +247,7 @@ ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt)
 }
 
 //______________________________________________________________________________
-S_lilypondTransposePartAtom lilypondTransposePartAtom::create (
+S_lilypondTransposePartNameAtom lilypondTransposePartNameAtom::create (
   string             shortName,
   string             longName,
   string             description,
@@ -256,8 +256,8 @@ S_lilypondTransposePartAtom lilypondTransposePartAtom::create (
   map<string, S_msrSemiTonesPitchAndOctave>&
                      stringMsrSemiTonesPitchAndOctaveVariable)
 {
-  lilypondTransposePartAtom* o = new
-    lilypondTransposePartAtom (
+  lilypondTransposePartNameAtom* o = new
+    lilypondTransposePartNameAtom (
       shortName,
       longName,
       description,
@@ -268,7 +268,7 @@ S_lilypondTransposePartAtom lilypondTransposePartAtom::create (
   return o;
 }
 
-lilypondTransposePartAtom::lilypondTransposePartAtom (
+lilypondTransposePartNameAtom::lilypondTransposePartNameAtom (
   string             shortName,
   string             longName,
   string             description,
@@ -286,17 +286,17 @@ lilypondTransposePartAtom::lilypondTransposePartAtom (
       stringMsrSemiTonesPitchAndOctaveVariable)
 {}
 
-lilypondTransposePartAtom::~lilypondTransposePartAtom ()
+lilypondTransposePartNameAtom::~lilypondTransposePartNameAtom ()
 {}
 
-S_oahValuedAtom lilypondTransposePartAtom::handleOptionUnderName (
+S_oahValuedAtom lilypondTransposePartNameAtom::handleOptionUnderName (
   string   optionName,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     gLogOstream <<
-      "==> option '" << optionName << "' is a lilypondTransposePartAtom" <<
+      "==> option '" << optionName << "' is a lilypondTransposePartNameAtom" <<
       endl;
   }
 #endif
@@ -305,14 +305,14 @@ S_oahValuedAtom lilypondTransposePartAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondTransposePartAtom::handleValue (
+void lilypondTransposePartNameAtom::handleValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "==> oahAtom is of type 'lilypondTransposePartAtom'" <<
+      "==> oahAtom is of type 'lilypondTransposePartNameAtom'" <<
       endl;
   }
 #endif
@@ -362,20 +362,20 @@ void lilypondTransposePartAtom::handleValue (
     stringstream s;
 
     s <<
-      "-marTransposePart argument '" << theString <<
+      "-lilypond-transpose-part-name argument '" << theString <<
       "' is ill-formed";
 
     oahError (s.str ());
   }
 
   string
-    originalPitchName    = sm [1],
+    partName             = sm [1],
     destinationPitchName = sm [2];
 
 #ifdef TRACE_OAH
   if (gTraceOah->fTraceOah) {
     os <<
-      "--> originalPitchName = \"" << originalPitchName << "\", " <<
+      "--> partName = \"" << partName << "\", " <<
       "--> destinationPitchName = \"" << destinationPitchName << "\"" <<
       endl;
   }
@@ -384,46 +384,46 @@ void lilypondTransposePartAtom::handleValue (
   // is this part name in the part renaming map?
   map<string, S_msrSemiTonesPitchAndOctave>::iterator
     it =
-      fStringMsrSemiTonesPitchAndOctaveVariable.find (originalPitchName);
+      fStringMsrSemiTonesPitchAndOctaveVariable.find (partName);
 
   if (it != fStringMsrSemiTonesPitchAndOctaveVariable.end ()) {
     // yes, issue error message
     stringstream s;
 
     s <<
-      "Part \"" << originalPitchName << "\" occurs more that once" <<
-      "in the '--transpose-part' option";
+      "Part name \"" << partName << "\" occurs more that once" <<
+      " in the '-lilypond-transpose-part' option";
 
     oahError (s.str ());
   }
 
   else {
-    fStringMsrSemiTonesPitchAndOctaveVariable [originalPitchName] =
+    fStringMsrSemiTonesPitchAndOctaveVariable [partName] =
       msrSemiTonesPitchAndOctave::createFromString (
         K_NO_INPUT_LINE_NUMBER,
         destinationPitchName);
   }
 }
 
-void lilypondTransposePartAtom::acceptIn (basevisitor* v)
+void lilypondTransposePartNameAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondTransposePartAtom::acceptIn ()" <<
+      ".\\\" ==> lilypondTransposePartNameAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lilypondTransposePartAtom>*
+  if (visitor<S_lilypondTransposePartNameAtom>*
     p =
-      dynamic_cast<visitor<S_lilypondTransposePartAtom>*> (v)) {
-        S_lilypondTransposePartAtom elem = this;
+      dynamic_cast<visitor<S_lilypondTransposePartNameAtom>*> (v)) {
+        S_lilypondTransposePartNameAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching lilypondTransposePartAtom::visitStart ()" <<
+            ".\\\" ==> Launching lilypondTransposePartNameAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -431,25 +431,25 @@ void lilypondTransposePartAtom::acceptIn (basevisitor* v)
   }
 }
 
-void lilypondTransposePartAtom::acceptOut (basevisitor* v)
+void lilypondTransposePartNameAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondTransposePartAtom::acceptOut ()" <<
+      ".\\\" ==> lilypondTransposePartNameAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lilypondTransposePartAtom>*
+  if (visitor<S_lilypondTransposePartNameAtom>*
     p =
-      dynamic_cast<visitor<S_lilypondTransposePartAtom>*> (v)) {
-        S_lilypondTransposePartAtom elem = this;
+      dynamic_cast<visitor<S_lilypondTransposePartNameAtom>*> (v)) {
+        S_lilypondTransposePartNameAtom elem = this;
 
 #ifdef TRACE_OAH
         if (gOahOah->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching lilypondTransposePartAtom::visitEnd ()" <<
+            ".\\\" ==> Launching lilypondTransposePartNameAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -457,18 +457,18 @@ void lilypondTransposePartAtom::acceptOut (basevisitor* v)
   }
 }
 
-void lilypondTransposePartAtom::browseData (basevisitor* v)
+void lilypondTransposePartNameAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
   if (gOahOah->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> lilypondTransposePartAtom::browseData ()" <<
+      ".\\\" ==> lilypondTransposePartNameAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-string lilypondTransposePartAtom::asShortNamedOptionString () const
+string lilypondTransposePartNameAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
@@ -495,7 +495,7 @@ string lilypondTransposePartAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string lilypondTransposePartAtom::asActualLongNamedOptionString () const
+string lilypondTransposePartNameAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -522,12 +522,12 @@ string lilypondTransposePartAtom::asActualLongNamedOptionString () const
   return s.str ();
 }
 
-void lilypondTransposePartAtom::print (ostream& os) const
+void lilypondTransposePartNameAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "lilypondTransposePartAtom:" <<
+    "lilypondTransposePartNameAtom:" <<
     endl;
 
   gIndenter++;
@@ -562,7 +562,371 @@ void lilypondTransposePartAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondTransposePartAtom::printAtomOptionsValues (
+void lilypondTransposePartNameAtom::printAtomOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : ";
+
+  if (! fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os << endl;
+
+    gIndenter++;
+
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "Part name \"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet) <<
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_lilypondTransposePartNameAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_lilypondTransposePartIDAtom lilypondTransposePartIDAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  map<string, S_msrSemiTonesPitchAndOctave>&
+                     stringMsrSemiTonesPitchAndOctaveVariable)
+{
+  lilypondTransposePartIDAtom* o = new
+    lilypondTransposePartIDAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringMsrSemiTonesPitchAndOctaveVariable);
+  assert(o!=0);
+  return o;
+}
+
+lilypondTransposePartIDAtom::lilypondTransposePartIDAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  map<string, S_msrSemiTonesPitchAndOctave>&
+                     stringMsrSemiTonesPitchAndOctaveVariable)
+  : oahValuedAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fStringMsrSemiTonesPitchAndOctaveVariable (
+      stringMsrSemiTonesPitchAndOctaveVariable)
+{}
+
+lilypondTransposePartIDAtom::~lilypondTransposePartIDAtom ()
+{}
+
+S_oahValuedAtom lilypondTransposePartIDAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a lilypondTransposePartIDAtom" <<
+      endl;
+  }
+#endif
+
+  // an option value is needed
+  return this;
+}
+
+void lilypondTransposePartIDAtom::handleValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "==> oahAtom is of type 'lilypondTransposePartIDAtom'" <<
+      endl;
+  }
+#endif
+
+  // theString contains the part transpose specification
+  // decipher it to extract the old and new part names
+
+  string regularExpression (
+    "(.*)"
+    "="
+    "(.*)");
+//    "[[:space:]]*(.*)[[:space:]]*" JMI
+//    "="
+//    "[[:space:]]*(.*)[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for part transpose string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  if (smSize == 3) {
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOah) {
+      for (unsigned i = 0; i < smSize; ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+      os << endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-lilypond-transpose-part-id argument '" << theString <<
+      "' is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    partID               = sm [1],
+    destinationPitchName = sm [2];
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    os <<
+      "--> partID = \"" << partID << "\", " <<
+      "--> destinationPitchName = \"" << destinationPitchName << "\"" <<
+      endl;
+  }
+#endif
+
+  // is this part name in the part renaming map?
+  map<string, S_msrSemiTonesPitchAndOctave>::iterator
+    it =
+      fStringMsrSemiTonesPitchAndOctaveVariable.find (partID);
+
+  if (it != fStringMsrSemiTonesPitchAndOctaveVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Part ID \"" << partID << "\" occurs more that once" <<
+      " in the '-lilypond-transpose-part' option";
+
+    oahError (s.str ());
+  }
+
+  else {
+    fStringMsrSemiTonesPitchAndOctaveVariable [partID] =
+      msrSemiTonesPitchAndOctave::createFromString (
+        K_NO_INPUT_LINE_NUMBER,
+        destinationPitchName);
+  }
+}
+
+void lilypondTransposePartIDAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondTransposePartIDAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondTransposePartIDAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondTransposePartIDAtom>*> (v)) {
+        S_lilypondTransposePartIDAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lilypondTransposePartIDAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void lilypondTransposePartIDAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondTransposePartIDAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_lilypondTransposePartIDAtom>*
+    p =
+      dynamic_cast<visitor<S_lilypondTransposePartIDAtom>*> (v)) {
+        S_lilypondTransposePartIDAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gOahOah->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching lilypondTransposePartIDAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void lilypondTransposePartIDAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gOahOah->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> lilypondTransposePartIDAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string lilypondTransposePartIDAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  if (fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    s <<
+      "-" << fShortName << " \"";
+
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s <<
+        (*i).first << "=" <<
+        msrSemiTonesPitchAndOctaveAsLilypondString (
+          gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+          (*i).second);
+      if (++i == iEnd) break;
+    } // for
+
+    s << "\"";
+  }
+
+  return s.str ();
+}
+
+string lilypondTransposePartIDAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  if (fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    s <<
+      "-" << fShortName << " \"";
+
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s <<
+        (*i).first << "=" <<
+        msrSemiTonesPitchAndOctaveAsLilypondString (
+          gMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+          (*i).second);
+      if (++i == iEnd) break;
+    } // for
+
+    s << "\"";
+  }
+
+  return s.str ();
+}
+
+void lilypondTransposePartIDAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "lilypondTransposePartIDAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedAtomEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    setw (fieldWidth) <<
+    "fStringMsrSemiTonesPitchAndOctaveVariable" << " : " <<
+    endl;
+
+  if (! fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      iBegin = fStringMsrSemiTonesPitchAndOctaveVariable.begin (),
+      iEnd   = fStringMsrSemiTonesPitchAndOctaveVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+  os << endl;
+
+  gIndenter--;
+}
+
+void lilypondTransposePartIDAtom::printAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -604,7 +968,7 @@ void lilypondTransposePartAtom::printAtomOptionsValues (
   }
 }
 
-ostream& operator<< (ostream& os, const S_lilypondTransposePartAtom& elt)
+ostream& operator<< (ostream& os, const S_lilypondTransposePartIDAtom& elt)
 {
   elt->print (os);
   return os;
@@ -2452,18 +2816,18 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  // parts transposition
+  // part name transposition
   // --------------------------------------
 
-  subGroup->
-    appendAtomToSubGroup (
-      lilypondTransposePartAtom::create (
-        "lilytp", "lilypond-transpose-part",
-R"(Transpose part ORIGINAL_NAME using TRANSPOSITION to tranpose in the LilyPond code.
+  S_lilypondTransposePartNameAtom
+    transposePartNameAtom =
+      lilypondTransposePartNameAtom::create (
+        "lilytpn", "lilypond-transpose-part-name",
+R"(Transpose part PART_NAME using TRANSPOSITION in the LilyPond code.
 PART_TRANSPOSITION_SPEC can be:
-'ORIGINAL_NAME = TRANSPOSITION'
+'PART_NAME = TRANSPOSITION'
 or
-"ORIGINAL_NAME = TRANSPOSITION"
+"PART_NAME = TRANSPOSITION"
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 TRANSPOSITION should contain a diatonic pitch, followed if needed
@@ -2473,11 +2837,44 @@ For example, 'a', 'f' and 'bes,' can be used respectively
 for instruments in 'a', 'f' and B flat respectively.
 Using double quotes allows for shell variables substitutions, as in:
 SAXOPHONE="bes,"
-EXECUTABLE -lilypond-transpose-part "P1 ${SAXOPHONE}" .
+EXECUTABLE -lilypond-transpose-part-name "P1 ${SAXOPHONE}" .
 There can be several occurrences of this option.)",
         "PART_TRANSPOSITION_SPEC",
         "partsTranspositionMap",
-        fPartsTranspositionMap));
+        fPartsTranspositionMap);
+
+  transposePartNameAtom->
+      setMultipleOccurrencesAllowed ();
+
+  subGroup->
+    appendAtomToSubGroup (
+        transposePartNameAtom);
+
+  // part ID transposition
+  // --------------------------------------
+
+  S_lilypondTransposePartIDAtom
+    transposePartIDAtom =
+      lilypondTransposePartIDAtom::create (
+        "lilytpi", "lilypond-transpose-part-id",
+R"(Transpose part PART_ID using TRANSPOSITION in the LilyPond code.
+PART_TRANSPOSITION_SPEC can be:
+'PART_ID = TRANSPOSITION'
+or
+"PART_ID = TRANSPOSITION"
+This is handly when a part doesn't have a part name.
+See option '-lilypond-transpose-part-name' for the details.
+There can be several occurrences of this option.)",
+        "PART_TRANSPOSITION_SPEC",
+        "partsTranspositionMap",
+        fPartsTranspositionMap);
+
+  transposePartIDAtom->
+      setMultipleOccurrencesAllowed ();
+
+  subGroup->
+    appendAtomToSubGroup (
+        transposePartIDAtom);
 }
 
 void lpsr2LilypondOah::initializeEngraversOptions (

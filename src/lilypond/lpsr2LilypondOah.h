@@ -107,14 +107,14 @@ typedef SMARTP<lilypondScoreOutputKindAtom> S_lilypondScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class lilypondTransposePartAtom : public oahValuedAtom
+class lilypondTransposePartNameAtom : public oahValuedAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<lilypondTransposePartAtom> create (
+    static SMARTP<lilypondTransposePartNameAtom> create (
       string             shortName,
       string             longName,
       string             description,
@@ -128,7 +128,7 @@ class lilypondTransposePartAtom : public oahValuedAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondTransposePartAtom (
+    lilypondTransposePartNameAtom (
       string             shortName,
       string             longName,
       string             description,
@@ -137,7 +137,7 @@ class lilypondTransposePartAtom : public oahValuedAtom
       map<string, S_msrSemiTonesPitchAndOctave>&
                          stringMsrSemiTonesPitchAndOctaveVariable);
 
-    virtual ~lilypondTransposePartAtom ();
+    virtual ~lilypondTransposePartNameAtom ();
 
   public:
 
@@ -207,8 +207,112 @@ class lilypondTransposePartAtom : public oahValuedAtom
     map<string, S_msrSemiTonesPitchAndOctave>&
                           fStringMsrSemiTonesPitchAndOctaveVariable;
 };
-typedef SMARTP<lilypondTransposePartAtom> S_lilypondTransposePartAtom;
-EXP ostream& operator<< (ostream& os, const S_lilypondTransposePartAtom& elt);
+typedef SMARTP<lilypondTransposePartNameAtom> S_lilypondTransposePartNameAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondTransposePartNameAtom& elt);
+
+//______________________________________________________________________________
+class lilypondTransposePartIDAtom : public oahValuedAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<lilypondTransposePartIDAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      map<string, S_msrSemiTonesPitchAndOctave>&
+                         stringMsrSemiTonesPitchAndOctaveVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lilypondTransposePartIDAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      map<string, S_msrSemiTonesPitchAndOctave>&
+                         stringMsrSemiTonesPitchAndOctaveVariable);
+
+    virtual ~lilypondTransposePartIDAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setStringMsrSemiTonesPitchAndOctaveVariable (
+                            string  partName,
+                            S_msrSemiTonesPitchAndOctave
+                                    semiTonesPitchAndOctave)
+                              {
+                                fStringMsrSemiTonesPitchAndOctaveVariable [
+                                  partName
+                                ] =
+                                  semiTonesPitchAndOctave;
+                              }
+
+    const map<string, S_msrSemiTonesPitchAndOctave>&
+                          getStringMsrSemiTonesPitchAndOctaveVariable ()
+                              {
+                                return
+                                  fStringMsrSemiTonesPitchAndOctaveVariable;
+                              }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os);
+
+    void                  handleValue (
+                            string   theString,
+                            ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const;
+    string                asActualLongNamedOptionString () const;
+
+    void                  print (ostream& os) const;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    map<string, S_msrSemiTonesPitchAndOctave>&
+                          fStringMsrSemiTonesPitchAndOctaveVariable;
+};
+typedef SMARTP<lilypondTransposePartIDAtom> S_lilypondTransposePartIDAtom;
+EXP ostream& operator<< (ostream& os, const S_lilypondTransposePartIDAtom& elt);
 
 //______________________________________________________________________________
 class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
