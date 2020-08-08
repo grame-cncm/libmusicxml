@@ -78,9 +78,9 @@ int main (int argc, char *argv[])
 
   string executableName = argv [0];
 
-//#define USE_DUAL_HANDLE
+//#define USE_DUAL_HANDLER
 
-#ifdef USE_DUAL_HANDLE
+#ifdef USE_DUAL_HANDLER
 
   // create the OAH dual handler
   // ------------------------------------------------------
@@ -212,10 +212,17 @@ int main (int argc, char *argv[])
 
   if (gGeneralOah->fQuiet) {
     // disable all trace and display options
-    /* JMI
-    handler->
-      enforceOahHandlerQuietness ();
-      */
+#ifdef USE_DUAL_HANDLER
+
+      dualHandler->
+        enforceOahDualHandlerQuietness ();
+
+#else
+
+      handler->
+        enforceOahHandlerQuietness ();
+
+#endif
   }
 
   // welcome message
@@ -270,7 +277,7 @@ int main (int argc, char *argv[])
 
     gIndenter++;
 
-#ifdef USE_DUAL_HANDLE
+#ifdef USE_DUAL_HANDLER
 
     gLogOstream <<
       dualHandler->
@@ -292,7 +299,7 @@ int main (int argc, char *argv[])
       endl;
     gIndenter++;
 
-#ifdef USE_DUAL_HANDLE
+#ifdef USE_DUAL_HANDLER
 
     gLogOstream <<
       dualHandler->

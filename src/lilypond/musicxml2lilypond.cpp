@@ -71,6 +71,10 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
   string fakeExecutableName = "xml2ly";
 
+//#define USE_DUAL_HANDLER
+
+#ifdef USE_DUAL_HANDLER
+
   // create the OAH dual handler
   // ------------------------------------------------------
   S_xml2lyOahDualHandler dualHandler;
@@ -117,8 +121,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   }
 }
 
-/*
-{
+#else
+
   // create the options handler
   // ------------------------------------------------------
 
@@ -126,6 +130,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     handler =
       xml2lyInsiderOahHandler::create (
         fakeExecutableName,
+        "xml2ly",
         out);
 
   // analyze the options vector
@@ -154,8 +159,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   catch (std::exception& e) {
     return kInvalidFile;
   }
-}
-*/
+
+#endif
 
 	if (xmlfile) {
     // has quiet mode been requested?
@@ -163,8 +168,13 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
     if (gGeneralOah->fQuiet) {
       // disable all trace and display options
+#ifdef USE_DUAL_HANDLER
       dualHandler->
         enforceOahDualHandlerQuietness ();
+#else
+      handler->
+        enforceOahHandlerQuietness ();
+#endif
     }
 
     // get the mxmlTree

@@ -1047,7 +1047,9 @@ class lpsr2LilypondOah : public oahGroup
     // --------------------------------------
 
     map<string, S_msrSemiTonesPitchAndOctave>
-                          fPartsTranspositionMap;
+                          fPartNamesTranspositionMap;
+    map<string, S_msrSemiTonesPitchAndOctave>
+                          fPartIDsTranspositionMap;
 
 
     // names
@@ -1067,6 +1069,7 @@ class lpsr2LilypondOah : public oahGroup
     bool                  fCommentClefChanges;
 
     bool                  fNumericalTime;
+
 
     // notes
     // --------------------------------------

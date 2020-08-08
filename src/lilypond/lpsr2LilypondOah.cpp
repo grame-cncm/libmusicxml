@@ -232,6 +232,7 @@ void lilypondScoreOutputKindAtom::printAtomOptionsValues (
     lpsrScoreOutputKindAsString (
       fLpsrScoreOutputKindVariable) <<
     "\"";
+
   if (fVariableHasBeenSet) {
     os <<
       ", variableHasBeenSet: " <<
@@ -402,6 +403,8 @@ void lilypondTransposePartNameAtom::handleValue (
       msrSemiTonesPitchAndOctave::createFromString (
         K_NO_INPUT_LINE_NUMBER,
         destinationPitchName);
+
+    fVariableHasBeenSet = true;
   }
 }
 
@@ -571,6 +574,12 @@ void lilypondTransposePartNameAtom::printAtomOptionsValues (
     fVariableName <<
     " : ";
 
+  if (fVariableHasBeenSet) {
+    os <<
+      "variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+
   if (! fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
     os <<
       "none" <<
@@ -589,16 +598,11 @@ void lilypondTransposePartNameAtom::printAtomOptionsValues (
       os <<
         "Part name \"" <<
         (*i).first <<
-        "\" --> \"" <<
+        "\" --> " <<
         (*i).second <<
-        "\"" <<
         endl;
       if (++i == iEnd) break;
     } // for
-
-    os <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet) <<
 
     gIndenter--;
   }
@@ -766,6 +770,8 @@ void lilypondTransposePartIDAtom::handleValue (
       msrSemiTonesPitchAndOctave::createFromString (
         K_NO_INPUT_LINE_NUMBER,
         destinationPitchName);
+
+    fVariableHasBeenSet = true;
   }
 }
 
@@ -935,6 +941,12 @@ void lilypondTransposePartIDAtom::printAtomOptionsValues (
     fVariableName <<
     " : ";
 
+  if (fVariableHasBeenSet) {
+    os <<
+      "variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+
   if (! fStringMsrSemiTonesPitchAndOctaveVariable.size ()) {
     os <<
       "none" <<
@@ -953,16 +965,11 @@ void lilypondTransposePartIDAtom::printAtomOptionsValues (
       os <<
         "\"" <<
         (*i).first <<
-        "\" --> \"" <<
+        "\" --> " <<
         (*i).second <<
-        "\"" <<
         endl;
       if (++i == iEnd) break;
     } // for
-
-    os <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet) <<
 
     gIndenter--;
   }
@@ -1247,12 +1254,18 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
 
     oahError (s.str ());
   }
+
+  if (! theString.size ()) {
+    oahError ("'the '-rel, relative' option needs a reference pitch and octave");
+  }
 */
 
   setRelativeOctaveEntryVariableValue (
     msrSemiTonesPitchAndOctave::createFromString (
       K_NO_INPUT_LINE_NUMBER,
       theString));
+
+  fVariableHasBeenSet = true;
 }
 
 void lilypondRelativeOctaveEntryAtom::acceptIn (basevisitor* v)
@@ -1371,13 +1384,19 @@ void lilypondRelativeOctaveEntryAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : ";
+
+  if (fVariableHasBeenSet) {
+    os <<
+      "variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+
   if (fMsrSemiTonesPitchAndOctaveVariable) {
     os << endl;
     gIndenter++;
     os <<
-      fMsrSemiTonesPitchAndOctaveVariable <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet);
+      fMsrSemiTonesPitchAndOctaveVariable;
+
     gIndenter--;
   }
   else {
@@ -1475,6 +1494,8 @@ void lilypondFixedOctaveEntryAtom::handleValue (
     msrSemiTonesPitchAndOctave::createFromString (
       K_NO_INPUT_LINE_NUMBER,
       theString));
+
+  fVariableHasBeenSet = true;
 }
 
 void lilypondFixedOctaveEntryAtom::acceptIn (basevisitor* v)
@@ -1593,13 +1614,19 @@ void lilypondFixedOctaveEntryAtom::printAtomOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : ";
+
+  if (fVariableHasBeenSet) {
+    os <<
+      "variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+
   if (fMsrSemiTonesPitchAndOctaveVariable) {
     os << endl;
     gIndenter++;
     os <<
-      fMsrSemiTonesPitchAndOctaveVariable <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet);
+      fMsrSemiTonesPitchAndOctaveVariable;
+
     gIndenter--;
   }
   else {
@@ -1851,6 +1878,7 @@ void lilypondAccidentalStyleKindAtom::printAtomOptionsValues (
     lpsrAccidentalStyleKindAsString (
       fLpsrAccidentalStyleKindVariable) <<
     "\"";
+
   if (fVariableHasBeenSet) {
     os <<
       ", variableHasBeenSet: " <<
@@ -2219,9 +2247,12 @@ void lilypondChordsDisplayAtom::printAtomOptionsValues (
       os << endl;
     } // for
 
-    os <<
-      ", variableHasBeenSet: " <<
-      booleanAsString (fVariableHasBeenSet);
+    if (fVariableHasBeenSet) {
+      os <<
+        "variableHasBeenSet: " <<
+        booleanAsString (fVariableHasBeenSet) <<
+        endl;
+    }
 
     gIndenter--;
   }
@@ -2476,10 +2507,12 @@ void lilypondLyricsDurationsKindAtom::printAtomOptionsValues (
     lpsrLyricsDurationsKindAsString (
       fLpsrLyricsDurationsKindVariable) <<
     "\"";
+
   if (fVariableHasBeenSet) {
     os <<
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
+
   }
   os << endl;
 }
@@ -2840,8 +2873,8 @@ SAXOPHONE="bes,"
 EXECUTABLE -lilypond-transpose-part-name "P1 ${SAXOPHONE}" .
 There can be several occurrences of this option.)",
         "PART_TRANSPOSITION_SPEC",
-        "partsTranspositionMap",
-        fPartsTranspositionMap);
+        "partNamesTranspositionMap",
+        fPartNamesTranspositionMap);
 
   transposePartNameAtom->
       setMultipleOccurrencesAllowed ();
@@ -2866,8 +2899,8 @@ This is handly when a part doesn't have a part name.
 See option '-lilypond-transpose-part-name' for the details.
 There can be several occurrences of this option.)",
         "PART_TRANSPOSITION_SPEC",
-        "partsTranspositionMap",
-        fPartsTranspositionMap);
+        "partIDsTranspositionMap",
+        fPartIDsTranspositionMap);
 
   transposePartIDAtom->
       setMultipleOccurrencesAllowed ();
@@ -4198,8 +4231,10 @@ S_lpsr2LilypondOah lpsr2LilypondOah::createCloneWithDetailedTrace ()
   // parts
   // --------------------------------------
 
-  clone->fPartsTranspositionMap =
-    fPartsTranspositionMap;
+  clone->fPartNamesTranspositionMap =
+    fPartNamesTranspositionMap;
+  clone->fPartIDsTranspositionMap =
+    fPartIDsTranspositionMap;
 
   // engravers
   // --------------------------------------
@@ -4596,27 +4631,49 @@ void lpsr2LilypondOah::printAtomOptionsValues (
   // parts
   // --------------------------------------
 
-  // parts transposition
+  // part names transposition
 
   gLogOstream << left <<
-    setw (valueFieldWidth) << "parts transposition" << " : ";
+    setw (valueFieldWidth) << "part names transposition" << " : ";
 
-  if (! fPartsTranspositionMap.size ()) {
-    gLogOstream <<
-      "none";
+  if (! fPartNamesTranspositionMap.size ()) {
+    gLogOstream << "none";
   }
   else {
     for (
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator i =
-        fPartsTranspositionMap.begin ();
-      i != fPartsTranspositionMap.end ();
+        fPartNamesTranspositionMap.begin ();
+      i != fPartNamesTranspositionMap.end ();
       i++
-  ) {
-        gLogOstream <<
-          "\"" << ((*i).first) <<
-          " = " <<
-          ((*i).second->asString ()) <<
-          "\" ";
+    ) {
+      gLogOstream <<
+        "Part name \"" << ((*i).first) <<
+        " = " <<
+        ((*i).second->asString ()) <<
+        "\" ";
+    } // for
+  }
+
+  // part IDs transposition
+
+  gLogOstream << left <<
+    setw (valueFieldWidth) << "part IDs transposition" << " : ";
+
+  if (! fPartIDsTranspositionMap.size ()) {
+    gLogOstream << "none";
+  }
+  else {
+    for (
+      map<string, S_msrSemiTonesPitchAndOctave>::const_iterator i =
+        fPartIDsTranspositionMap.begin ();
+      i != fPartIDsTranspositionMap.end ();
+      i++
+    ) {
+      gLogOstream <<
+        "Part ID \"" << ((*i).first) <<
+        " = " <<
+        ((*i).second->asString ()) <<
+        "\" ";
     } // for
   }
 
@@ -4689,7 +4746,15 @@ void lpsr2LilypondOah::printAtomOptionsValues (
       if (fRelativeOctaveEntrySemiTonesPitchAndOctave) {
         os << left <<
           setw (valueFieldWidth) <<
-          "relativeOctaveEntrySemiTonesPitchAndOctave" << " : " <<
+          "relativeOctaveEntrySemiTonesPitchAndOctave" << " : ";
+/* JMI
+        if (fVariableHasBeenSet) {
+          os <<
+            ", variableHasBeenSet: " <<
+            booleanAsString (fVariableHasBeenSet);
+        }
+*/
+        os <<
           fRelativeOctaveEntrySemiTonesPitchAndOctave->asString () <<
           endl;
       }
@@ -4700,7 +4765,15 @@ void lpsr2LilypondOah::printAtomOptionsValues (
       if (fFixedOctaveEntrySemiTonesPitchAndOctave) {
         os << left <<
           setw (valueFieldWidth) <<
-          "fixedOctaveEntrySemiTonesPitchAndOctave" << " : " <<
+          "fixedOctaveEntrySemiTonesPitchAndOctave" << " : ";
+/* JMI
+        if (fVariableHasBeenSet) {
+          os <<
+            ", variableHasBeenSet: " <<
+            booleanAsString (fVariableHasBeenSet);
+        }
+*/
+        os <<
           fFixedOctaveEntrySemiTonesPitchAndOctave->asString () <<
           endl;
       }

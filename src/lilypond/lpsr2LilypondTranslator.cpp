@@ -6871,56 +6871,80 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
     }
 #endif
 
-    if (gLpsr2LilypondOah->fPartsTranspositionMap.size ()) {
-      // should we transpose fCurrentPart?
+    // should we transpose fCurrentPart?
+    bool doTransposeCurrentPart = false;
+    S_msrSemiTonesPitchAndOctave
+      semiTonesPitchAndOctave;
 
-      bool doTransposeCurrentPart = false;
-      S_msrSemiTonesPitchAndOctave
-        semiTonesPitchAndOctave;
+    if (partName.size ()) { // a part name is not mandatory in MusicXML
+      // check by name
+      if (gLpsr2LilypondOah->fPartNamesTranspositionMap.size ()) {
+        map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+          it =
+            gLpsr2LilypondOah->fPartNamesTranspositionMap.find (
+              partName);
 
+        if (it != gLpsr2LilypondOah->fPartNamesTranspositionMap.end ()) {
+          // partName is present in the map,
+          // fetch the semitones pitch and octave
+          semiTonesPitchAndOctave =
+            (*it).second;
+          doTransposeCurrentPart = true;
+        }
+      }
+    }
+
+    // check by ID JMI
+    string partID =
+      part->getPartID ();
+
+    if (gLpsr2LilypondOah->fPartIDsTranspositionMap.size ()) {
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
         it =
-          gLpsr2LilypondOah->fPartsTranspositionMap.find (
-            partName);
+          gLpsr2LilypondOah->fPartIDsTranspositionMap.find (
+            partID);
 
-      if (it != gLpsr2LilypondOah->fPartsTranspositionMap.end ()) {
-        // partName is present in the map,
+      if (it != gLpsr2LilypondOah->fPartIDsTranspositionMap.end ()) {
+        // partID is present in the map,
         // fetch the semitones pitch and octave
         semiTonesPitchAndOctave =
           (*it).second;
         doTransposeCurrentPart = true;
       }
+    }
 
-      if (doTransposeCurrentPart) {
-        // generate the transposition
+    if (doTransposeCurrentPart) {
+      // generate the transposition
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceTranspositions) {
-          fLogOutputStream <<
-            endl <<
-            "Generating a voice transposition for " <<
-            semiTonesPitchAndOctave->asString () <<
-            " in part \"" <<
-            partName <<
-            "\"" <<
-            endl;
-        }
-#endif
-
-        // fetch the LilyPond pitch and octave
-        string
-          semiTonesPitchAndOctaveAsLilypondString =
-            msrSemiTonesPitchAndOctaveAsLilypondString (
-              gLpsrOah->fLpsrQuarterTonesPitchesLanguageKind,
-              semiTonesPitchAndOctave);
-
-        fLilypondCodeOstream <<
-           "\\transposition " <<
-           semiTonesPitchAndOctaveAsLilypondString <<
-           endl <<
-           "\\transpose " <<
-           semiTonesPitchAndOctaveAsLilypondString << " " << "c'" <<
+      if (gTraceOah->fTraceTranspositions) {
+        fLogOutputStream <<
+          endl <<
+          "Generating a voice transposition for " <<
+          semiTonesPitchAndOctave->asString () <<
+          " in part \"" <<
+          partName <<
+          "\"" <<
+          ", part ID \"" <<
+          partID <<
+          "\"" <<
           endl;
       }
+#endif
+
+      // fetch the LilyPond pitch and octave
+      string
+        semiTonesPitchAndOctaveAsLilypondString =
+          msrSemiTonesPitchAndOctaveAsLilypondString (
+            gLpsrOah->fLpsrQuarterTonesPitchesLanguageKind,
+            semiTonesPitchAndOctave);
+
+      fLilypondCodeOstream <<
+         "\\transposition " <<
+         semiTonesPitchAndOctaveAsLilypondString <<
+         endl <<
+         "\\transpose " <<
+         semiTonesPitchAndOctaveAsLilypondString << " " << "c'" <<
+        endl;
     }
 
     // generate voice name

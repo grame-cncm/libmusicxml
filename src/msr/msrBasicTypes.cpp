@@ -10600,7 +10600,7 @@ void initializeEnglishPitchNamesMap ()
   gEnglishPitchNamesMap [kA_SemiSharp_QTP]   = "aqs";
   gEnglishPitchNamesMap [kA_Sharp_QTP]       = "as";
   gEnglishPitchNamesMap [kA_SesquiSharp_QTP] = "atqs";
-  gEnglishPitchNamesMap [kA_DoubleSharp_QTP] = "a";
+  gEnglishPitchNamesMap [kA_DoubleSharp_QTP] = "ax";
 
   gEnglishPitchNamesMap [kB_DoubleFlat_QTP]  = "bfqf";
   gEnglishPitchNamesMap [kB_SesquiFlat_QTP]  = "btqf";
@@ -13121,7 +13121,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
         result = kA_Flat_STP;
         break;
       case kA_Natural_QTP:
-        result = kA_Flat_STP;
+        result = kA_Natural_STP;
         break;
       case kA_Sharp_QTP:
         result = kA_Sharp_STP;

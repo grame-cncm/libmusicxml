@@ -11008,14 +11008,36 @@ void oahHandler::checkMissingPendingValuedAtomValue (
   string atomName,
   string context)
 {
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceOah) {
+    gOutputOstream <<
+      "===> checkMissingPendingValuedAtomValue()" <<
+      ", fPendingValuedAtom: ";
+
+    if (fPendingValuedAtom) {
+      gOutputOstream <<
+        fPendingValuedAtom->asString ();
+    }
+    else {
+      gOutputOstream << "none";
+    }
+
+    gOutputOstream <<
+      ", fHandlerOptionalValuesStyleKind: " <<
+      oahOptionalValuesStyleKindAsString (fHandlerOptionalValuesStyleKind) <<
+      ", fElementValueExpectedKind: " <<
+      elementValueExpectedKindAsString (fElementValueExpectedKind) <<
+      endl;
+  }
+#endif
+
   if (fPendingValuedAtom) {
     switch (fHandlerOptionalValuesStyleKind) {
       case kOptionalValuesStyleGNU:
         // handle the valued atom using the default value
         switch (fElementValueExpectedKind) {
           case kElementValueExpectedYes:
-          case kElementValueExpectedNo:
-            /* JMI
+            {
               stringstream s;
 
               s <<
@@ -11023,8 +11045,18 @@ void oahHandler::checkMissingPendingValuedAtomValue (
                 "' takes an optional value: it should be used with a '=' in GNU optional values style";
 
               oahError (s.str ());
-             //   oahWarning (s.str ()); // JMI
-            */
+            }
+            break;
+          case kElementValueExpectedNo:
+            {
+              stringstream s;
+
+              s <<
+                "option name '" << atomName <<
+                "' needs a value";
+
+              oahError (s.str ());
+            }
             break;
           case kElementValueExpectedOptional:
             fPendingValuedAtom->
@@ -12157,8 +12189,7 @@ void oahHandler::handleAtomName (
 #ifdef TRACE_OAH
     if (gTraceOah->fTraceOah) {
       gOutputOstream <<
-        "==> option '" << atomName << "' is a plain atom '" <<
-        "'" <<
+        "==> option '" << atomName << "' is a plain atom" <<
         endl;
     }
 #endif
@@ -12357,7 +12388,7 @@ void oahHandler::handleOptionName (
     if (gTraceOah->fTraceOah) {
       gOutputOstream <<
         endl <<
-        "==> oahHandler::handleOptionName (), name = \"" <<
+        "==> oahHandler::handleOptionName(), name = \"" <<
         name <<
         "\" is described by option:" <<
         endl;
