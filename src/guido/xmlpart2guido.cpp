@@ -338,7 +338,7 @@ bool xmlpart2guido::checkMeasureRange() {
                 if (!isFirstPartialMeasure)
                     add (tag);
             }
-        }else {
+        }else if (fCurrentScorePosition.toFloat() != 0.0) {
             // Create a HIDDEN Bar in case of fPendingBar equal to false.
             // This is the case for "bar-style" equal to "none" or "implicit" measures
             Sguidoelement tag = guidotag::create("bar");
