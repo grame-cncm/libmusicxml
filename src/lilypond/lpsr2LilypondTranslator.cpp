@@ -160,6 +160,12 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // the LPSR score we're visiting
   fVisitedLpsrScore = lpsrScore;
 
+  // inhibit the browsing of grace notes groups before,
+  // since they are handled at the note level
+  fVisitedLpsrScore->
+    getMsrScore ()->
+      setInhibitGraceNotesGroupsBeforeBrowsing ();
+
   // inhibit the browsing of measures repeats replicas,
   // since Lilypond only needs the repeat measure
   fVisitedLpsrScore->
@@ -11508,21 +11514,42 @@ void lpsr2LilypondTranslator::generateNoteBeams (S_msrNote note)
       note->getNoteBeams ();
 
   if (noteBeams.size ()) {
-    list<S_msrBeam>::const_iterator i;
     for (
-      i=noteBeams.begin ();
-      i!=noteBeams.end ();
+      list<S_msrBeam>::const_iterator i = noteBeams.begin ();
+      i != noteBeams.end ();
       i++
     ) {
       S_msrBeam beam = (*i);
 
-      // LilyPond will take care of multiple beams automatically,
+ #ifdef TRACE_OAH
+      if (gTraceOah->fTraceBeams) {
+        gLogOstream <<
+          "Considering to generate LilyPond code for beam " <<
+          beam->asShortString () <<
+          " in note " <<
+          note->asShortString () <<
+          endl;
+      }
+#endif
+
+     // LilyPond will take care of multiple beams automatically,
       // so we need only generate code for the first number (level)
       switch (beam->getBeamKind ()) {
 
         case msrBeam::kBeginBeam:
           if (beam->getBeamNumber () == 1) {
             if (! gLpsr2LilypondOah->fNoBeams) {
+ #ifdef TRACE_OAH
+              if (gTraceOah->fTraceBeams) {
+                gLogOstream <<
+                  "Generating LilyPond code for beam " <<
+                  beam->asShortString () <<
+                  " in note " <<
+                  note->asShortString () <<
+                  endl;
+              }
+#endif
+
               fLilypondCodeOstream << "[ ";
 
               if (gLpsr2LilypondOah->fInputLineNumbers) {
@@ -11580,6 +11607,17 @@ void lpsr2LilypondTranslator::generateNoteSlurs (S_msrNote note)
     ) {
       S_msrSlur slur = (*i);
 
+ #ifdef TRACE_OAH
+      if (gTraceOah->fTraceSlurs) {
+        gLogOstream <<
+          "Considering to generate LilyPond code for slur " <<
+          slur->asShortString () <<
+          " in note " <<
+          note->asShortString () <<
+          endl;
+      }
+#endif
+
       /* JMI ???
         \slurDashed, \slurDotted, \slurHalfDashed,
         \slurHalfSolid, \slurDashPattern, \slurSolid
@@ -11589,6 +11627,17 @@ void lpsr2LilypondTranslator::generateNoteSlurs (S_msrNote note)
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kRegularSlurStart:
+ #ifdef TRACE_OAH
+          if (gTraceOah->fTraceSlurs) {
+            gLogOstream <<
+              "Generating LilyPond code for slur " <<
+              slur->asShortString () <<
+              " in note " <<
+              note->asShortString () <<
+              endl;
+          }
+#endif
+
           fLilypondCodeOstream << "( ";
 
           if (gLpsr2LilypondOah->fInputLineNumbers) {
@@ -11715,6 +11764,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
       S_msrElement element = (*i);
 
       elementNumber += 1;
+
       if (
         // note?
         S_msrNote
@@ -11828,6 +11878,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrGraceNotesGroup& elt)
     fLilypondCodeOstream <<
       "% --> Start visiting msrGraceNotesGroup " <<
       elt->asShortString () <<
+      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -12056,7 +12109,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 
   // register the note as on-going right now,
   // since we may return early from this method
-  fOnGoingNotesStack.push (elt);
+  fOnGoingNotesStack.push (elt); // popped in visitEnd (S_msrNote&)
 
   // is this note to be ignored?
   bool noteIsToBeIgnored = false;
@@ -12247,6 +12300,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 // * JMI mal placé???
   // print the note's grace notes group before if any,
   // unless the note belongs to a chord
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Actually handling note " <<
+      elt->asShortString () <<
+      ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
+      ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
+      ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
   bool doGenerateNoteGraceNotesGroupBefore = true;
 
   if (fOnGoingChord && fOnGoingGraceNotesGroup) {
@@ -13483,13 +13549,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
   // print the note beams if any,
   // unless the note is chord member
-  if (! elt->getNoteBelongsToAChord ()) {
+  bool doGenerateBeams = true;
+  if (elt->getNoteBelongsToAChord ()) {
+    doGenerateBeams = false;
+  }
+  if (doGenerateBeams) {
     generateNoteBeams (elt);
   }
 
   // print the note slurs if any,
   // unless the note is chord member
-  if (! elt->getNoteBelongsToAChord ()) {
+  bool doGenerateSlurs = true;
+  if (elt->getNoteBelongsToAChord ()) {
+     doGenerateSlurs = false;
+  }
+  if (doGenerateSlurs) {
     generateNoteSlurs (elt);
   }
 
@@ -13505,7 +13579,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i!=noteLigatures.end ();
       i++
     ) {
-
       switch ((*i)->getLigatureKind ()) {
         case msrLigature::kLigatureNone:
           break;
@@ -13795,7 +13868,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (elt->getNoteIsFollowedByGraceNotesGroup ()) { // JMI
     if (! elt->getNoteIsARest ()) {
       fLilypondCodeOstream <<
-       " % NoteIsFollowedByGraceNotesGroup" <<
+       " % noteIsFollowedByGraceNotesGroup" <<
         endl; // JMI ???
     }
   }
@@ -13816,7 +13889,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     }
   }
 
-  fOnGoingNotesStack.pop ();
+  fOnGoingNotesStack.pop (); // was pushed in visitStart (S_msrNote&)
 }
 
 //________________________________________________________________________

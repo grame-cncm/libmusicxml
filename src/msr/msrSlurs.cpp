@@ -143,12 +143,14 @@ string msrSlur::asString () const
   stringstream s;
 
   s <<
-    "Slur" " " << slurTypeKindAsString () <<
-    ", slurLineTypeKind = " <<
+    "[Slur " <<
+    slurTypeKindAsString () <<
+    ", slurLineTypeKind: " <<
     msrLineTypeKindAsString (
       fSlurLineTypeKind) <<
-    ", slurNumber = " << fSlurNumber <<
-    ", line " << fInputLineNumber;
+    ", slurNumber: " << fSlurNumber <<
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }

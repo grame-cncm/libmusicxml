@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -33,10 +33,10 @@ class msrBeam : public msrElement
       k_NoBeam,
       kBeginBeam, kContinueBeam, kEndBeam,
       kForwardHookBeam, kBackwardHookBeam};
-    
+
     static string beamKindAsString (
       msrBeamKind beamKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -54,9 +54,9 @@ class msrBeam : public msrElement
       int         inputLineNumber,
       int         number,
       msrBeamKind beamKind);
-      
+
     virtual ~msrBeam ();
-  
+
   public:
 
     // set and get
@@ -64,7 +64,7 @@ class msrBeam : public msrElement
 
     msrBeamKind           getBeamKind   () const
                               { return fBeamKind; }
-                              
+
     int                   getBeamNumber () const
                               { return fBeamNumber; }
 
@@ -85,6 +85,8 @@ class msrBeam : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                beamKindAsString () const;
 
     string                asString () const;
 

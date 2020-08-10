@@ -21650,6 +21650,25 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       case msrNote::kGraceNote:
       case msrNote::kGraceSkipNote:
       case msrNote::kGraceChordMemberNote:
+      /* JMI
+        // remove last handled (previous current) note from the current voice
+#ifdef TRACE_OAH
+        if (gTraceOah->fTraceChords) {
+          fLogOutputStream <<
+            "Removing chord first note " <<
+            chordFirstNote->asShortString () <<
+            ", line " << inputLineNumber <<
+            ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+#endif
+
+        currentVoice->
+          removeNoteFromVoice (
+            inputLineNumber,
+            chordFirstNote);
+*/
         break;
 
       case msrNote::kChordMemberNote:

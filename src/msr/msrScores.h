@@ -186,14 +186,25 @@ class msrScore : public msrElement
                               { return fScoreInstrumentAbbreviationsMaxLength; }
 
     // inhibiting browsing
+    void                  setInhibitGraceNotesGroupsBeforeBrowsing ()
+                              {
+                                fInhibitGraceNotesGroupsBeforeBrowsing =
+                                  true;
+                              }
+
+    bool                  getInhibitGraceNotesGroupsBeforeBrowsing () const
+                              {
+                                return
+                                  fInhibitGraceNotesGroupsBeforeBrowsing;
+                              };
+
     void                  setInhibitMeasuresRepeatReplicasBrowsing ()
                               {
                                 fInhibitMeasuresRepeatReplicasBrowsing =
                                   true;
                               }
 
-    bool                  getInhibitMeasuresRepeatReplicasBrowsing ()
-                            const
+    bool                  getInhibitMeasuresRepeatReplicasBrowsing () const
                               {
                                 return
                                   fInhibitMeasuresRepeatReplicasBrowsing;
@@ -205,8 +216,7 @@ class msrScore : public msrElement
                                   true;
                               }
 
-    bool                  getInhibitRestMeasuresBrowsing ()
-                            const
+    bool                  getInhibitRestMeasuresBrowsing () const
                               {
                                 return
                                   fInhibitRestMeasuresBrowsing;
@@ -321,6 +331,10 @@ class msrScore : public msrElement
     int                   fScoreInstrumentAbbreviationsMaxLength;
 
     // inhibiting browsing
+
+    // grace notes groups before are handled at the note level,
+    // and should be not be browsed afterwards
+    bool                  fInhibitGraceNotesGroupsBeforeBrowsing;
 
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure

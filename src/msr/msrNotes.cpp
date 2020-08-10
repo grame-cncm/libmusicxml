@@ -2563,9 +2563,33 @@ void msrNote::browseData (basevisitor* v)
 {
   // browse the grace notes group before if any
   if (fNoteGraceNotesGroupBefore) {
-    // browse the grace notes group
-    msrBrowser<msrGraceNotesGroup> browser (v);
-    browser.browse (*fNoteGraceNotesGroupBefore);
+    // fetch the score
+    S_msrScore
+      score =
+        fNoteMeasureUpLink->
+          getMeasureSegmentUpLink ()->
+            getSegmentVoiceUpLink () ->
+              fetchVoicePartUpLink ()->
+                getPartPartGroupUpLink ()->
+                  getPartGroupScoreUpLink ();
+
+    bool inhibitGraceNotesGroupsBeforeBrowsing =
+      score->getInhibitGraceNotesGroupsBeforeBrowsing ();
+
+    if (inhibitGraceNotesGroupsBeforeBrowsing) {
+#ifdef TRACE_OAH
+      if (gMsrOah->fTraceMsrVisitors || gTraceOah->fTraceGraceNotes) {
+        gLogOstream <<
+          "% ==> visiting grace notes groups before is inhibited" <<
+          endl;
+      }
+#endif
+    }
+    else {
+      // browse the grace notes group
+      msrBrowser<msrGraceNotesGroup> browser (v);
+      browser.browse (*fNoteGraceNotesGroupBefore);
+    }
   }
 
   if (fNoteOctaveShift) {
@@ -2951,7 +2975,6 @@ void msrNote::browseData (basevisitor* v)
     msrBrowser<msrGraceNotesGroup> browser (v);
     browser.browse (*fNoteGraceNotesGroupAfter);
   }
-
 }
 
 string msrNote::notePitchAsString () const

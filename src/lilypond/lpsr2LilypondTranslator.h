@@ -1017,7 +1017,6 @@ class lpsr2LilypondTranslator :
 
     // notes
     // ------------------------------------------------------
-    bool                  fOnGoingNote;
     // browsing grace notes groups leads to several notes
     // being ongoing simultaneously,
     // since such groups are attached to a note, hence:

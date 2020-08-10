@@ -142,15 +142,21 @@ string msrBeam::beamKindAsString (
   return result;
 }
 
+string msrBeam::beamKindAsString () const
+{
+  return beamKindAsString (fBeamKind);
+}
+
 string msrBeam::asString () const
 {
   stringstream s;
 
   s <<
-    "Beam" <<
-    " " << beamKindAsString (fBeamKind) <<
-    ", number " << fBeamNumber <<
-    ", line " << fInputLineNumber;
+    "[Beam " <<
+    beamKindAsString () <<
+    ", number: " << fBeamNumber <<
+    ", line " << fInputLineNumber <<
+    "]";
 
   return s.str ();
 }
