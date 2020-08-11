@@ -186,16 +186,16 @@ class msrScore : public msrElement
                               { return fScoreInstrumentAbbreviationsMaxLength; }
 
     // inhibiting browsing
-    void                  setInhibitGraceNotesGroupsBeforeBrowsing ()
+    void                  setInhibitGraceNotesGroupsBrowsing ()
                               {
-                                fInhibitGraceNotesGroupsBeforeBrowsing =
+                                fInhibitGraceNotesGroupsBrowsing =
                                   true;
                               }
 
-    bool                  getInhibitGraceNotesGroupsBeforeBrowsing () const
+    bool                  getInhibitGraceNotesGroupsBrowsing () const
                               {
                                 return
-                                  fInhibitGraceNotesGroupsBeforeBrowsing;
+                                  fInhibitGraceNotesGroupsBrowsing;
                               };
 
     void                  setInhibitMeasuresRepeatReplicasBrowsing ()
@@ -334,7 +334,7 @@ class msrScore : public msrElement
 
     // grace notes groups before are handled at the note level,
     // and should be not be browsed afterwards
-    bool                  fInhibitGraceNotesGroupsBeforeBrowsing;
+    bool                  fInhibitGraceNotesGroupsBrowsing;
 
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure

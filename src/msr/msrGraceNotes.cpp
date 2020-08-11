@@ -456,6 +456,9 @@ string msrGraceNotesGroup::asString () const
 
   s <<
     "[GraceNotesGroup" <<
+    ", graceNotesGroupKind: " <<
+    graceNotesGroupKindAsString (
+      fGraceNotesGroupKind) <<
     ", graceNotesGroupMeasureNumber: \"" << fGraceNotesGroupMeasureNumber <<
     "\", line " << fInputLineNumber <<
     ", ";

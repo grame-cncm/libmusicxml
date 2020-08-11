@@ -4452,13 +4452,13 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     if (fOnGoingNotesStack.size ()) {
       switch (elt->getGraceNotesGroupKind ()) {
         case msrGraceNotesGroup::kGraceNotesGroupBefore:
-      //    fCurrentNonGraceNoteClone->
+      //    fCurrentNonGraceNoteClone-> JMI
           fOnGoingNotesStack.top ()->
             setNoteGraceNotesGroupBefore (
               fCurrentGraceNotesGroupClone);
           break;
         case msrGraceNotesGroup::kGraceNotesGroupAfter:
-      //    fCurrentNonGraceNoteClone->
+      //    fCurrentNonGraceNoteClone-> JMI
           fOnGoingNotesStack.top ()->
             setNoteGraceNotesGroupAfter (
               fCurrentGraceNotesGroupClone);
@@ -4467,6 +4467,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     }
 
     else if (fOnGoingChordGraceNotesGroupLink) {
+      // JMI ???
     }
 
     else {
@@ -4644,12 +4645,12 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 
   fOnGoingGraceNotesGroup = false;
 
-/* JMI
+//* JMI
   if (fPendingAfterGraceNotesGroup) {
     // remove the current afterGraceNotesGroup note clone
     // from the current voice clone
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceGraceNotesGroup) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Removing the after grace notes element from the current voice clone" <<
         endl;
@@ -4658,7 +4659,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 
     fCurrentVoiceClone->
       removeElementFromVoice (
-        inputLineNumber,
+        elt->getInputLineNumber (),
         fCurrentAfterGraceNotesGroupElement);
 
     // forget about the current after grace notes element
@@ -4667,7 +4668,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
     // forget about these after the pending grace notes
     fPendingAfterGraceNotesGroup = nullptr;
   }
-  */
+//  */
 }
 
 //________________________________________________________________________
@@ -4852,20 +4853,24 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       fOnGoingNonGraceNote = true;
   } // switch
 
-/* JMI
+//* JMI
   // can we optimize graceNotesGroup into afterGraceNotesGroup?
   if (
     elt->getNoteIsFollowedByGraceNotesGroup ()
       &&
-    elt->getNoteTrillOrnament ()) {
+    elt->getNoteTrillOrnament ()
+  ) {
+    int inputLineNumber =
+      elt->getInputLineNumber ();
+
     // yes, create the after grace notes
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotesGroup) {
+    if (gTraceOah->fTraceGraceNotes) {
       fLogOutputStream <<
         "Optimizing grace notes on trilled note '" <<
         elt->asShortString () <<
         "' as after grace notes " <<
-        ", line " << inputLineNumber <<
+        ", line " << inputLineNumber<<
         endl;
     }
 #endif
@@ -4881,7 +4886,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     fCurrentAfterGraceNotesGroupElement =
       fCurrentNonGraceNoteClone;
   }
-*/
+//*/
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrNote& elt)

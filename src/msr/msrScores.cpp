@@ -67,7 +67,7 @@ msrScore::msrScore (
   fScoreInstrumentAbbreviationsMaxLength = -1;
 
   // grace notes groups before should be browsed by default
-  fInhibitGraceNotesGroupsBeforeBrowsing = false;
+  fInhibitGraceNotesGroupsBrowsing = false;
 
   // measures repeats replicas should be browsed by default
   fInhibitMeasuresRepeatReplicasBrowsing = false;

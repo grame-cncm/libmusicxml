@@ -2573,10 +2573,10 @@ void msrNote::browseData (basevisitor* v)
                 getPartPartGroupUpLink ()->
                   getPartGroupScoreUpLink ();
 
-    bool inhibitGraceNotesGroupsBeforeBrowsing =
-      score->getInhibitGraceNotesGroupsBeforeBrowsing ();
+    bool inhibitGraceNotesGroupsBrowsing =
+      score->getInhibitGraceNotesGroupsBrowsing ();
 
-    if (inhibitGraceNotesGroupsBeforeBrowsing) {
+    if (inhibitGraceNotesGroupsBrowsing) {
 #ifdef TRACE_OAH
       if (gMsrOah->fTraceMsrVisitors || gTraceOah->fTraceGraceNotes) {
         gLogOstream <<
@@ -2586,7 +2586,7 @@ void msrNote::browseData (basevisitor* v)
 #endif
     }
     else {
-      // browse the grace notes group
+      // browse the grace notes group before
       msrBrowser<msrGraceNotesGroup> browser (v);
       browser.browse (*fNoteGraceNotesGroupBefore);
     }
@@ -2971,9 +2971,33 @@ void msrNote::browseData (basevisitor* v)
 
   // browse the grace notes group after if any
   if (fNoteGraceNotesGroupAfter) {
-    // browse the after grace notes grup
-    msrBrowser<msrGraceNotesGroup> browser (v);
-    browser.browse (*fNoteGraceNotesGroupAfter);
+    // fetch the score
+    S_msrScore
+      score =
+        fNoteMeasureUpLink->
+          getMeasureSegmentUpLink ()->
+            getSegmentVoiceUpLink () ->
+              fetchVoicePartUpLink ()->
+                getPartPartGroupUpLink ()->
+                  getPartGroupScoreUpLink ();
+
+    bool inhibitGraceNotesGroupsBrowsing =
+      score->getInhibitGraceNotesGroupsBrowsing ();
+
+    if (inhibitGraceNotesGroupsBrowsing) {
+#ifdef TRACE_OAH
+      if (gMsrOah->fTraceMsrVisitors || gTraceOah->fTraceGraceNotes) {
+        gLogOstream <<
+          "% ==> visiting grace notes groups before is inhibited" <<
+          endl;
+      }
+#endif
+    }
+    else {
+      // browse the after grace notes grup
+      msrBrowser<msrGraceNotesGroup> browser (v);
+      browser.browse (*fNoteGraceNotesGroupAfter);
+    }
   }
 }
 
@@ -3061,7 +3085,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       s <<
-        "noNoteKind";
+        "***noNoteKind***";
       break;
 
     case msrNote::kRestNote:
@@ -4120,6 +4144,27 @@ void msrNote::print (ostream& os) const
    "notePrintObjectKind" << " : " <<
     notePrintObjectKindAsString () <<
     endl;
+
+  // print the grace notes group before if any
+  if (fNoteGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNotesGroupBefore";
+    if (fNoteGraceNotesGroupBefore) {
+      os << endl;
+
+      gIndenter++;
+
+      os << fNoteGraceNotesGroupBefore;
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
 
   // note head
   os << left <<
@@ -5412,27 +5457,6 @@ void msrNote::print (ostream& os) const
     }
   }
 
-  // print the grace notes group before if any
-  if (fNoteGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteGraceNotesGroupBefore";
-    if (fNoteGraceNotesGroupBefore) {
-      os << endl;
-
-      gIndenter++;
-
-      os << fNoteGraceNotesGroupBefore;
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
   // print the after grace group notes after if any
   if (fNoteGraceNotesGroupAfter || gMsrOah->fDisplayMsrDetails) {
     os <<
@@ -5738,7 +5762,30 @@ void msrNote::printShort (ostream& os) const
    "notePrintObjectKind" << " : " <<
     notePrintObjectKindAsString () <<
     endl;
+*/
 
+  // print the grace notes group before if any
+  if (fNoteGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNotesGroupBefore";
+    if (fNoteGraceNotesGroupBefore) {
+      os << endl;
+
+      gIndenter++;
+
+      fNoteGraceNotesGroupBefore->printShort (os);
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+/*
   // note head
   os << left <<
     setw (fieldWidth) <<
@@ -7025,27 +7072,6 @@ void msrNote::printShort (ostream& os) const
         if (++i == iEnd) break;
         // no endl here
       } // for
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
-  // print the grace notes group before if any
-  if (fNoteGraceNotesGroupBefore || gMsrOah->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteGraceNotesGroupBefore";
-    if (fNoteGraceNotesGroupBefore) {
-      os << endl;
-
-      gIndenter++;
-
-      fNoteGraceNotesGroupBefore->printShort (os);
 
       gIndenter--;
     }

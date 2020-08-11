@@ -1114,7 +1114,7 @@ string msrChord::asStringwithRawDivisions () const
 {
   stringstream s;
 
-  s << "[<";
+  s << "<";
 
   if (fChordNotesVector.size ()) {
     vector<S_msrNote>::const_iterator
@@ -1139,7 +1139,7 @@ string msrChord::asStringwithRawDivisions () const
     } // for
   }
 
-  s << ">]";
+  s << ">";
 
   return s.str ();
 }
@@ -1160,20 +1160,22 @@ string msrChord::asString () const
         note = (*i);
 
       s <<
+        "[" <<
         note->notePitchAsString () <<
         ", whole notes: " <<
+        " sounding " <<
         note->getNoteSoundingWholeNotes () <<
-        " sounding, " <<
+        ", displayed " <<
         note->getNoteDisplayWholeNotes () <<
-        " displayed," <<
-        "[" << note->getNoteOctave () << "]";
+        ", octave: " << note->getNoteOctave () <<
+        "]";
 
       if (++i == iEnd) break;
       s << " ";
     } // for
   }
 
-  s << ">";
+  s << ">[";
 
   return s.str ();
 }
@@ -1194,14 +1196,15 @@ string msrChord::asShortString () const
         note = (*i);
 
       s <<
-        "'" <<
+        "[" <<
         note->notePitchAsString () <<
         "', whole notes: " <<
+        " sounding " <<
         note->getNoteSoundingWholeNotes () <<
-        " sounding, " <<
+        ", displayed " <<
         note->getNoteDisplayWholeNotes () <<
-        " displayed," <<
-        "[" << note->getNoteOctave () << "]";
+        ", octave: " << note->getNoteOctave () <<
+        "]";
 
       if (++i == iEnd) break;
       s << " ";

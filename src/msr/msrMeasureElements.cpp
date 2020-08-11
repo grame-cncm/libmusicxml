@@ -39,8 +39,8 @@ msrMeasureElement::msrMeasureElement (
 
   fMeasureElementMeasureNumber      = K_NO_MEASURE_NUMBER;
 
-  fMeasureElementPositionInMeasure  = K_NO_POSITION;
-  fMeasureElementPositionInVoice  = K_NO_POSITION;
+  fMeasureElementPositionInMeasure = K_NO_POSITION;
+  fMeasureElementPositionInVoice   = K_NO_POSITION;
 }
 
 msrMeasureElement::~msrMeasureElement ()
@@ -78,12 +78,14 @@ void msrMeasureElement::setMeasureElementPositionInMeasure (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in measure of " <<
       asString () <<
       " to '" << positionInMeasure <<
-      "' in measure '" <<
+      "' (was '" <<
+      fMeasureElementPositionInMeasure <<
+      "') in measure '" <<
       fMeasureElementMeasureNumber <<
       "', context: \"" <<
       context <<
@@ -91,6 +93,8 @@ void msrMeasureElement::setMeasureElementPositionInMeasure (
       endl;
   }
 #endif
+
+  if (positionInMeasure == K_NO_POSITION) abort();
 
   // sanity check
   msrAssert (
@@ -105,7 +109,7 @@ void msrMeasureElement::setMeasureElementPositionInVoice (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in voice of " <<
       asString () <<

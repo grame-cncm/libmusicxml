@@ -142,6 +142,9 @@ void msrMeasure::initializeMeasure ()
   // repeat context
   fMeasuresRepeatContextKind = msrMeasure::kMeasuresRepeatContextKindUnknown;
 
+  // current measure whole notes duration
+  fCurrentMeasureWholeNotesDuration = rational (0, 1);
+
   // position in voice
   fMeasurePositionInVoice =
     fMeasureSegmentUpLink->
@@ -1106,7 +1109,7 @@ void msrMeasure::setCurrentMeasureWholeNotesDuration (
   rationalisedCurrentMeasureWholeNotesDuration.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (gTraceOah->fTraceWholeNotes || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting current whole notes of measure " <<
       this->asShortString () <<
@@ -1155,7 +1158,7 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
   newMeasureWholeNotesDuration.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes || gTraceOah->fTraceMeasures) {
+  if (gTraceOah->fTraceWholeNotes || gTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Incrementing current whole notes of measure " <<
       this->asShortString ()<<
@@ -1851,8 +1854,8 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
         getSegmentVoiceUpLink ()->
           getVoiceName () <<
       "\"" <<
-      ", fCurrentMeasureWholeNotesDuration = " << fCurrentMeasureWholeNotesDuration <<
-      ", noteSoundingWholeNotes = " << noteSoundingWholeNotes <<
+      ", fCurrentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
+      ", noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
       ", line " << inputLineNumber <<
       endl;
   }

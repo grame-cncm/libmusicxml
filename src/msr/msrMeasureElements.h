@@ -32,7 +32,7 @@ class msrMeasureElement : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_MEASURE_NUMBER "*unknown*"
+    #define K_NO_MEASURE_NUMBER "K_NO_MEASURE_NUMBER"
 
     #define K_NO_POSITION       rational (-222222, 1)
 

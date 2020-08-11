@@ -164,7 +164,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // since they are handled at the note level
   fVisitedLpsrScore->
     getMsrScore ()->
-      setInhibitGraceNotesGroupsBeforeBrowsing ();
+      setInhibitGraceNotesGroupsBrowsing ();
 
   // inhibit the browsing of measures repeats replicas,
   // since Lilypond only needs the repeat measure
@@ -11950,7 +11950,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotesGroup& elt)
 
  // JMI exists? if (elt->getGraceNotesGroupIsSlashed ()) {}
   fLilypondCodeOstream <<
-    "\\afterGrace { ";
+    "\\afterGrace { %{ visitStart (S_msrAfterGraceNotesGroup&) %} ";
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotesGroupContents& elt)
@@ -12142,7 +12142,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         case msrNote::kGraceSkipNote:
           {
           // don't generate code for the grace notes here, that's done thru
-          // the oteGraceNotesGroupBefore and oteGraceNotesGroupAfter notes' field
+          // the note's noteGraceNotesGroupBefore and noteGraceNotesGroupAfter  fields
             noteIsToBeIgnored = true;
 /* JMI
             S_msrNote
@@ -12293,13 +12293,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // switch
   }
 
+  // is this note to be ignored?
   if (noteIsToBeIgnored) {
     return;
   }
 
-// * JMI mal placé???
-  // print the note's grace notes group before if any,
-  // unless the note belongs to a chord
 #ifdef TRACE_OAH
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
@@ -12313,6 +12311,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 #endif
 
+  // get the note's grace notes group after
+  S_msrGraceNotesGroup
+    noteGraceNotesGroupAfter =
+      elt->getNoteGraceNotesGroupAfter ();
+
+  // print the note's grace notes group after opener if any
+  if (noteGraceNotesGroupAfter) {
+    fLilypondCodeOstream <<
+      "\\afterGrace { ";
+  }
+
+  // print the note's grace notes group before if any,
+  // unless the note belongs to a chord
   bool doGenerateNoteGraceNotesGroupBefore = true;
 
   if (fOnGoingChord && fOnGoingGraceNotesGroup) {
@@ -12329,7 +12340,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         noteGraceNotesGroupBefore);
     }
   }
-//*/
 
   // print the note scordaturas if any
   const list<S_msrScordatura>&
@@ -12948,6 +12958,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   generateCodeRightAfterNote (elt);
   generateAfterNoteSpannersIfAny (elt);
 
+/* JMI
   // get the note's grace notes group after ??? JMI
   S_msrGraceNotesGroup
     noteGraceNotesGroupAfter =
@@ -12958,6 +12969,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     fLilypondCodeOstream <<
       "\\afterGrace { ";
   }
+*/
 
   if (
     gLpsr2LilypondOah->fInputLineNumbers
