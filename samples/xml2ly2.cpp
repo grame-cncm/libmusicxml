@@ -53,39 +53,39 @@ cerr << "args2Options: vstring size: " << args.size() << endl;
 }
 
 //_______________________________________________________________________________
-int main (int argc, char *argv[])
-{
-	optionsVector options;
-	options.push_back (make_pair ("-help", ""));
-	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
-	cout << "xml2ly2 ret=" << err;
-	return 0;
-}
-
 //int main (int argc, char *argv[])
 //{
 //	optionsVector options;
-//	const char* file = 0;
-//	if (argc > 1)
-//		file = argv[argc-1];
-//	else {
-//		cerr << "usage: xml2ly2 [options] file" << endl;
-//		return -1;
-//	}
-//	args2Options (argc, argv, options);
-//cerr << "read file " << file << endl;
-//	std::ifstream t(file);
-//	std::stringstream buffer;
-//	buffer << t.rdbuf();
-//	if (buffer.str().size()) {
-//		xmlErr err = musicxmlstring2lilypond (buffer.str().c_str(), options, cout, cerr);
-//		cerr << "done result: " << err << endl;
-//	}
-//	else {
-//		cerr << "cannot read file " << file << endl;
-//		xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
-//		return -1;
-//	}
+//	options.push_back (make_pair ("-help", ""));
+//	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
+//	cout << "xml2ly2 ret=" << err;
 //	return 0;
 //}
+
+int main (int argc, char *argv[])
+{
+	optionsVector options;
+	const char* file = 0;
+	if (argc > 1)
+		file = argv[argc-1];
+	else {
+		cerr << "usage: xml2ly2 [options] file" << endl;
+		return -1;
+	}
+	args2Options (argc, argv, options);
+cerr << "read file " << file << endl;
+	std::ifstream t(file);
+	std::stringstream buffer;
+	buffer << t.rdbuf();
+	if (buffer.str().size()) {
+		xmlErr err = musicxmlstring2lilypond (buffer.str().c_str(), options, cout, cerr);
+		cerr << "done result: " << err << endl;
+	}
+	else {
+		cerr << "cannot read file " << file << endl;
+		xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
+		return -1;
+	}
+	return 0;
+}
 
