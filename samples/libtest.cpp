@@ -15,12 +15,15 @@ int main (int argc, char *argv[])
 //	options.push_back (make_pair ("-t=oah", ""));
 	options.push_back (make_pair ("-t=passes", ""));
 
+  indentedOstream outIndentedOstream (cout, indenter::gIndenter);
+  indentedOstream errIndentedOstream (cerr, indenter::gIndenter);
+
   if (false) {
   	options.push_back (make_pair ("-help", ""));
-  	err = musicxmlstring2lilypond ("", options, cout, cerr);
+  	err = musicxmlstring2lilypond ("", options, outIndentedOstream, errIndentedOstream);
     }
   else {
-    err = musicxmlstring2lilypond ("basic/HelloWorld.xml", options, cout, cerr);
+    err = musicxmlstring2lilypond ("basic/HelloWorld.xml", options, outIndentedOstream, errIndentedOstream);
   }
 
 //	err = musicxmlstring2braille ("", options, cout, cerr);

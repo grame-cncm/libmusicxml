@@ -71,6 +71,12 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
   string fakeExecutableName = "xml2ly";
 
+  // the indented output streams
+  // ------------------------------------------------------
+
+  indentedOstream outIndentedOstream (out, indenter::gIndenter);
+  indentedOstream errIndentedOstream (err, indenter::gIndenter);
+
 //#define USE_DUAL_HANDLER
 
 #ifdef USE_DUAL_HANDLER
@@ -84,7 +90,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     dualHandler =
       xml2lyOahDualHandler::create (
         fakeExecutableName,
-        gOutputOstream);
+        outIndentedOstream);
   }
   catch (msrOahException& e) {
     return kInvalidOption;
@@ -131,7 +137,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       xml2lyInsiderOahHandler::create (
         fakeExecutableName,
         "xml2ly",
-        out);
+        outIndentedOstream);
 
   // analyze the options vector
   // ------------------------------------------------------
@@ -211,7 +217,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // ------------------------------------------------------
 
     if (gXml2lyOah->fExit2a) {
-      err <<
+      errIndentedOstream <<
         endl <<
         "Existing after pass 2a as requested" <<
         endl;
@@ -226,7 +232,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       populateMsrSkeletonFromMxmlTree (
         mxmlTree,
         mScore,
-        err,
+        errIndentedOstream,
         "Pass 2b");
     }
     catch (mxmlTreeToMsrException& e) {
@@ -259,7 +265,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       displayMSRPopulatedScoreSummary (
         gMsrOah,
         mScore,
-        err);
+        errIndentedOstream);
 
       return kNoErr;
     }
@@ -272,7 +278,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
       displayMSRPopulatedScoreNames (
         gMsrOah,
         mScore,
-        err);
+        errIndentedOstream);
 
       return kNoErr;
     }
@@ -281,7 +287,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // ------------------------------------------------------
 
     if (gXml2lyOah->fExit2b) {
-      err <<
+      errIndentedOstream <<
         endl <<
         "Existing after pass 2b as requested" <<
         endl;
@@ -328,7 +334,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // ------------------------------------------------------
 
     if (gLpsrOah->fExit3) {
-      err <<
+      errIndentedOstream <<
         endl <<
         "Existing after pass 3 as requested" <<
         endl;
@@ -344,8 +350,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
         lpScore,
         gMsrOah,
         gLpsrOah,
-        err,
-        out,
+        errIndentedOstream,
+        outIndentedOstream,
         "Pass 4");
     }
     catch (lpsrScoreToLilypondException& e) {
