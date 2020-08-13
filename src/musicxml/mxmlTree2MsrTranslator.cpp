@@ -20116,6 +20116,7 @@ void mxmlTree2MsrTranslator::handleNote (
       // newNote is the first note after the chord in the current voice
 
       // finalize the current chord
+      if (false && ! fCurrentNoteIsAGraceNote)
       finalizeCurrentChord (
         inputLineNumber);
 

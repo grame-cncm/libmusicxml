@@ -113,6 +113,11 @@ class msrGraceNotesGroup : public msrElement
     string                getGraceNotesGroupMeasureNumber () const
                               { return fGraceNotesGroupMeasureNumber; }
 
+    // positions in measures
+    void                  setGraceNotesGroupElementsPositionInMeasure (
+                            S_msrMeasure measure,
+                            rational     positionInMeasure);
+
     // services
     // ------------------------------------------------------
 

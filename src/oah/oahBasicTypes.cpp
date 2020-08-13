@@ -11857,6 +11857,24 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
 //  gTraceOah->fTraceOah = true; // TEMP JMI
 //  gOahOah->fDisplayOahValues = false; // TEMP JMI
 
+#ifdef TRACE_OAH
+  bool forceTraceOah = false; // this option has not yet been handled JMI
+
+  if (forceTraceOah || gTraceOah->fTraceOah) {
+    gOutputOstream << "==> theOptionsVector:" << endl;
+
+    for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
+      string optionName  = theOptionsVector [i].first;
+      string optionValue = theOptionsVector [i].second;
+
+      gOutputOstream <<
+        "   \"" << optionName << "\" \"" << optionValue << "\"" << endl;
+    } //for
+
+    gOutputOstream << endl;
+  }
+#endif
+
   // register executable name
   fHandlerExecutableName = fakeExecutableName;
 
@@ -11934,13 +11952,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
         fHandlerArgumentsVector.push_back (optionName);
       }
     }
-
   } // for
-
-  // is a pending valued atom value missing?
-  checkMissingPendingValuedAtomValue (
-    lastOptionNameFound,
-    "last option in command line");
 
 #ifdef TRACE_OAH
   unsigned int argumentsVectorSize =
@@ -11949,7 +11961,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
   // display theOptionsVector only now, to wait for the options to have been handled
   if (gTraceOah->fTraceOah || gOahOah->fShowOptionsAndArguments) {
     gOutputOstream <<
-      "theOptionsVector: " << theOptionsVector.size () << " elements:" <<
+      "--> theOptionsVector (" << theOptionsVector.size () << " elements):" <<
       endl;
 
     gIndenter++;
@@ -12029,8 +12041,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::hangleOptionsFromOptionsV
   // check the consistency of the options
   checkHandlerGroupsOptionsConsistency ();
 
-  // check the options and arguments
-  checkOptionsAndArguments ();
+  // DON'T check the options and arguments here!
 
   // store the command line with options in gOahOah
   // for whoever need them

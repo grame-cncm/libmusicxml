@@ -3695,7 +3695,7 @@ string msrNote::asString () const
       } // for
 
       s <<
-        ", noteTupletFactor " << fNoteTupletFactor;
+        ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
 
     case msrNote::kChordMemberNote:
@@ -3783,7 +3783,7 @@ string msrNote::asString () const
       }
 
       s <<
-        ", noteTupletFactor " << fNoteTupletFactor;
+        ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
 
     case msrNote::kTupletUnpitchedMemberNote:
@@ -3808,7 +3808,7 @@ string msrNote::asString () const
       } // for
 
       s <<
-        ", noteTupletFactor " << fNoteTupletFactor;
+        ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
   } // switch
 

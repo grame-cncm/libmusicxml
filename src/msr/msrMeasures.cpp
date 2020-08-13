@@ -1826,6 +1826,34 @@ void msrMeasure::appendNoteToMeasure (
 
   // append note to measure
   appendNoteOrPaddingToMeasure (note);
+
+  // set grace notes group 'before' elements position in measure in relevant
+  S_msrGraceNotesGroup
+    noteGraceNotesGroupBefore =
+      note->
+        getNoteGraceNotesGroupBefore ();
+
+  if (noteGraceNotesGroupBefore) {
+    noteGraceNotesGroupBefore->
+      setGraceNotesGroupElementsPositionInMeasure (
+        this,
+        note->getMeasureElementPositionInMeasure ());
+  }
+
+  // set grace notes group 'after' elements position in measure in relevant
+  S_msrGraceNotesGroup
+    noteGraceNotesGroupAfter =
+      note->
+        getNoteGraceNotesGroupAfter ();
+
+  if (noteGraceNotesGroupAfter) {
+    noteGraceNotesGroupAfter->
+      setGraceNotesGroupElementsPositionInMeasure (
+        this,
+        note->getMeasureElementPositionInMeasure ()
+         +
+        note->getNoteSoundingWholeNotes ());
+  }
 }
 
 void msrMeasure::appendNoteOrPaddingToMeasure (

@@ -93,13 +93,14 @@ void msrMeasureElement::setMeasureElementPositionInMeasure (
       endl;
   }
 #endif
-
+/* JMI
   if (positionInMeasure == K_NO_POSITION) abort();
 
   // sanity check
   msrAssert (
     positionInMeasure != K_NO_POSITION,
     "positionInMeasure == K_NO_POSITION");
+*/
 
   fMeasureElementPositionInMeasure = positionInMeasure;
 }

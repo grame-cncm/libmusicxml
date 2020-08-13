@@ -360,6 +360,90 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
   return result;
 }
 
+void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
+  S_msrMeasure measure,
+  rational     positionInMeasure)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Setting grace notes group elements position in measure of " << asString () <<
+      " to '" <<
+      positionInMeasure <<
+      "'" <<
+      endl;
+  }
+#endif
+
+/* JMI
+  string context =
+    "setChordMembersPositionInMeasure()";
+
+  setMeasureElementPositionInMeasure (
+    positionInMeasure,
+    context);
+
+  // compute chord's position in voice
+  rational
+     positionInVoice =
+      fChordMeasureUpLink->getMeasurePositionInVoice ()
+        +
+      positionInMeasure;
+
+  // set chord's position in voice
+  setMeasureElementPositionInVoice (
+    positionInVoice,
+    context);
+
+  // update current position in voice
+  S_msrVoice
+    voice =
+      measure->
+        fetchMeasureVoiceUpLink ();
+
+  voice->
+    incrementCurrentPositionInVoice (
+      fChordNotesVector [0]->getNoteSoundingWholeNotes ());
+*/
+
+  // set the grace notes group's elements' position in measure
+  if (fGraceNotesGroupElementsList.size ()) {
+  // compute chord's position in voice
+    rational
+       positionInVoice =
+        fGraceNotesGroupNoteUpLink->
+          getNoteMeasureUpLink ()->
+            getMeasurePositionInVoice ()
+          +
+        positionInMeasure;
+
+    string context =
+      "setGraceNotesGroupElementsPositionInMeasure()";
+
+    for (
+      list<S_msrMeasureElement>::const_iterator i =
+        fGraceNotesGroupElementsList.begin ();
+      i!=fGraceNotesGroupElementsList.end ();
+      i++
+    ) {
+      S_msrMeasureElement
+        measureElement = (*i);
+
+      // set measure element's position in measure
+      measureElement->
+        setMeasureElementPositionInMeasure (
+          positionInMeasure,
+          context);
+
+      // set measure element's position in measure
+      measureElement->
+        setMeasureElementPositionInVoice (
+          positionInVoice,
+          context);
+    } // for
+  }
+}
+
 void msrGraceNotesGroup::acceptIn (basevisitor* v)
 {
   if (gMsrOah->fTraceMsrVisitors) {
