@@ -2874,7 +2874,7 @@ void lpsr2LilypondTranslator::generateOrnament (
         "%{\\shake???%} ";
       break;
 
-    case msrOrnament::kOrnamentAccidentalMark:
+    case msrOrnament::kOrnamentAccidentalKind:
       switch (ornament->getOrnamentPlacementKind ()) {
         case kPlacementNone:
           fLilypondCodeOstream << "-";
@@ -2888,7 +2888,7 @@ void lpsr2LilypondTranslator::generateOrnament (
       } // switch
 
 string result; // JMI
-      switch (ornament->getOrnamentAccidentalMark ()) {
+      switch (ornament->getOrnamentAccidentalKind ()) {
         case kAccidentalNone:
           fLilypondCodeOstream << "\\markup { \\accidentalNone } ";
           break;

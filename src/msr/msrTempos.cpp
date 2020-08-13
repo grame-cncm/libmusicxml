@@ -422,7 +422,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       "cannot remove tempoNote " <<
       tempoNote <<
       " from tempoTuplet " << asString () <<
-      " since it has not been found";
+      " since this note has not been found in fTempoTupletElements";
 
     msrInternalError (
       gOahOah->fInputSourceName,
@@ -438,7 +438,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       "cannot remove tempoNote " <<
       tempoNote <<
       " from empty tempoTuplet " <<
-      " since it has not been found";
+      " since this note cannot be found in empty fTempoTupletElements";
 
     msrInternalError (
       gOahOah->fInputSourceName,

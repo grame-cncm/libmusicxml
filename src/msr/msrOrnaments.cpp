@@ -43,73 +43,11 @@ msrOrnament::msrOrnament (
 
   fOrnamentPlacementKind = ornamentPlacementKind;
 
-  fOrnamentAccidentalMark = kAccidentalNone;
+  fOrnamentAccidentalKind = kAccidentalNone;
 }
 
 msrOrnament::~msrOrnament ()
 {}
-
-string msrOrnament::ornamentKindAsString () const
-{
-  string result;
-
-  switch (fOrnamentKind) {
-    case msrOrnament::kOrnamentTrill:
-      result = "ornamentTrill";
-      break;
-      /* JMI
-    case msrOrnament::kOrnamentDashes:
-      result = "ornamentDashes";
-      break;
-      */
-    case msrOrnament::kOrnamentTurn:
-      result = "ornamentTurn";
-      break;
-    case msrOrnament::kOrnamentInvertedTurn:
-      result = "ornamentInvertedTurn";
-      break;
-    case msrOrnament::kOrnamentDelayedTurn:
-      result = "ornamentDelayedTurn";
-      break;
-    case msrOrnament::kOrnamentDelayedInvertedTurn:
-      result = "ornamentDelayedInvertedTurn";
-      break;
-    case msrOrnament::kOrnamentVerticalTurn:
-      result = "ornamentVerticalTurn";
-      break;
-    case msrOrnament::kOrnamentMordent:
-      result = "ornamentMordent";
-      break;
-    case msrOrnament::kOrnamentInvertedMordent:
-      result = "ornamentInvertedMordent";
-      break;
-    case msrOrnament::kOrnamentSchleifer:
-      result = "ornamentSchleifer";
-      break;
-    case msrOrnament::kOrnamentShake:
-      result = "ornamentShake";
-      break;
-    case msrOrnament::kOrnamentAccidentalMark:
-      result = "ornamentAccidentalMark";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrOrnament::ornamentPlacementKindAsString () const
-{
-   return
-    msrPlacementKindAsString (
-      fOrnamentPlacementKind);
-}
-
-string msrOrnament::ornamentAccidentalMarkAsString () const
-{
-  return
-    accidentalKindAsString (
-      fOrnamentAccidentalMark);
-}
 
 void msrOrnament::acceptIn (basevisitor* v)
 {
@@ -158,6 +96,89 @@ void msrOrnament::acceptOut (basevisitor* v)
 void msrOrnament::browseData (basevisitor* v)
 {}
 
+string msrOrnament::ornamentKindAsString (
+  msrOrnamentKind ornamentKind)
+{
+  string result;
+
+  switch (ornamentKind) {
+    case msrOrnament::kOrnamentTrill:
+      result = "ornamentTrill";
+      break;
+      /* JMI
+    case msrOrnament::kOrnamentDashes:
+      result = "ornamentDashes";
+      break;
+      */
+    case msrOrnament::kOrnamentTurn:
+      result = "ornamentTurn";
+      break;
+    case msrOrnament::kOrnamentInvertedTurn:
+      result = "ornamentInvertedTurn";
+      break;
+    case msrOrnament::kOrnamentDelayedTurn:
+      result = "ornamentDelayedTurn";
+      break;
+    case msrOrnament::kOrnamentDelayedInvertedTurn:
+      result = "ornamentDelayedInvertedTurn";
+      break;
+    case msrOrnament::kOrnamentVerticalTurn:
+      result = "ornamentVerticalTurn";
+      break;
+    case msrOrnament::kOrnamentMordent:
+      result = "ornamentMordent";
+      break;
+    case msrOrnament::kOrnamentInvertedMordent:
+      result = "ornamentInvertedMordent";
+      break;
+    case msrOrnament::kOrnamentSchleifer:
+      result = "ornamentSchleifer";
+      break;
+    case msrOrnament::kOrnamentShake:
+      result = "ornamentShake";
+      break;
+    case msrOrnament::kOrnamentAccidentalKind:
+      result = "ornamentAccidentalKind";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrOrnament::ornamentKindAsString () const
+{
+  return ornamentKindAsString (fOrnamentKind);
+}
+
+string msrOrnament::ornamentPlacementKindAsString () const
+{
+   return
+    msrPlacementKindAsString (
+      fOrnamentPlacementKind);
+}
+
+string msrOrnament::ornamentAccidentalKindAsString () const
+{
+  return
+    accidentalKindAsString (
+      fOrnamentAccidentalKind);
+}
+
+string msrOrnament::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[Ornament" <<
+    ", ornamentKind: " << ornamentKindAsString () <<
+    ", ornamentPlacementKind: " << msrPlacementKindAsString (fOrnamentPlacementKind) <<
+    ", ornamentAccidentalKind: " << accidentalKindAsString (fOrnamentAccidentalKind) <<
+    "]";
+
+  return s.str ();
+}
+
+
 void msrOrnament::print (ostream& os) const
 {
   os <<
@@ -177,7 +198,7 @@ void msrOrnament::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "accidental mark" << " : " <<
-    ornamentAccidentalMarkAsString () <<
+    ornamentAccidentalKindAsString () <<
     endl <<
     setw (fieldWidth) <<
     "noteUpLink" << " : " <<

@@ -6370,6 +6370,7 @@ void msrNote::printShort (ostream& os) const
         endl;
     }
   }
+*/
 
   // print the ornaments if any
   int noteOrnamentsSize = fNoteOrnaments.size ();
@@ -6402,6 +6403,7 @@ void msrNote::printShort (ostream& os) const
     }
   }
 
+/*
   // print the glissandos if any
   int noteGlissandosSize = fNoteGlissandos.size ();
 

@@ -316,6 +316,54 @@ void msr2LpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::displayOnGoingNotesStack (
+  string context)
+{
+  int onGoingNotesStackSize = fOnGoingNotesStack.size ();
+
+  fLogOutputStream <<
+    endl <<
+    ">>++++++++++++++++ " <<
+    "The on-going notes stack contains " << onGoingNotesStackSize << " elements:" <<
+    endl;
+
+  if (onGoingNotesStackSize) {
+    list<S_msrNote>::const_iterator
+      iBegin = fOnGoingNotesStack.begin (),
+      iEnd   = fOnGoingNotesStack.end (),
+      i      = iBegin;
+
+    S_msrNote note = (*i);
+
+    gIndenter++;
+
+    int n = onGoingNotesStackSize;
+    for ( ; ; ) {
+      fLogOutputStream <<
+        "v (" << n << ")" <<
+        endl;
+
+      gIndenter++;
+      note->printShort (fLogOutputStream);
+      gIndenter--;
+
+      n--;
+
+      if (++i == iEnd) break;
+
+      fLogOutputStream << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  fLogOutputStream <<
+    "<<++++++++++++++++ " <<
+    endl <<
+    endl;
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::handlePartHiddenMeasureAndBarlineDescrList ()
 {
   fLogOutputStream <<
@@ -3499,10 +3547,17 @@ void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrOrnament" <<
+      "--> Start visiting msrOrnament " <<
+      elt->asString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
+
+#ifdef TRACE_OAH
+    if (gTraceOah->fTraceOrnaments) {
+      displayOnGoingNotesStack ("visitStart (S_msrOrnament&)");
+    }
 #endif
 
   if (fOnGoingNonGraceNote) {
@@ -3534,7 +3589,8 @@ void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 #ifdef TRACE_OAH
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrOrnament" <<
+      "--> End visiting msrOrnament " <<
+      elt->asString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -4130,7 +4186,7 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 
   if (fOnGoingNotesStack.size () > 0) {
 //    if (fOnGoingNonGraceNote) {
-      fOnGoingNotesStack.top ()->
+      fOnGoingNotesStack.front ()->
         appendSlurToNote (elt);
 //    }
   }
@@ -4453,13 +4509,13 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       switch (elt->getGraceNotesGroupKind ()) {
         case msrGraceNotesGroup::kGraceNotesGroupBefore:
       //    fCurrentNonGraceNoteClone-> JMI
-          fOnGoingNotesStack.top ()->
+          fOnGoingNotesStack.front ()->
             setNoteGraceNotesGroupBefore (
               fCurrentGraceNotesGroupClone);
           break;
         case msrGraceNotesGroup::kGraceNotesGroupAfter:
       //    fCurrentNonGraceNoteClone-> JMI
-          fOnGoingNotesStack.top ()->
+          fOnGoingNotesStack.front ()->
             setNoteGraceNotesGroupAfter (
               fCurrentGraceNotesGroupClone);
           break;
@@ -4795,7 +4851,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
   // register clone in this tranlastors' voice notes map and ongoing notes stack
   fVoiceNotesMap [elt] = noteClone; // JMI XXL
-  fOnGoingNotesStack.push (noteClone);
+  fOnGoingNotesStack.push_front (noteClone);
 
   // don't register grace notes as the current note clone,
   // but as the current grace note clone instead
@@ -5315,7 +5371,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   } // switch
 
   // forget about current note
-  fOnGoingNotesStack.pop ();
+  fOnGoingNotesStack.pop_front ();
 }
 
 //________________________________________________________________________

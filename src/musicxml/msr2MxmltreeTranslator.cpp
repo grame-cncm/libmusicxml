@@ -4922,20 +4922,20 @@ void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
         case msrOrnament::kOrnamentShake:
           ornamentType = k_shake;
           break;
-        case msrOrnament::kOrnamentAccidentalMark:
+        case msrOrnament::kOrnamentAccidentalKind:
           ornamentType = k_accidental_mark;
           break;
       } // switch
 
       // append the note ornament element to the current note element
       switch (ornamentKind) {
-        case msrOrnament::kOrnamentAccidentalMark:
+        case msrOrnament::kOrnamentAccidentalKind:
           {
             Sxmlelement ornamentElement =
               createElement (
                 ornamentType,
                 accidentalKindAsMusicXMLString (
-                  ornament->getOrnamentAccidentalMark ()));
+                  ornament->getOrnamentAccidentalKind ()));
 
             appendToNoteNotations (
               ornamentElement,

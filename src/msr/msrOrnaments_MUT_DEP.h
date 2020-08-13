@@ -20,7 +20,7 @@ class msrOrnament : public msrElement
         kOrnamentDelayedInvertedTurn, kOrnamentVerticalTurn,
         kOrnamentMordent, kOrnamentInvertedMordent,
         kOrnamentSchleifer, kOrnamentShake,
-        kOrnamentAccidentalMark };
+        kOrnamentAccidentalKind };
 
     static string ornamentKindAsString (
       msrOrnamentKind ornamentKind);
@@ -70,16 +70,16 @@ class msrOrnament : public msrElement
     msrPlacementKind      getOrnamentPlacementKind () const
                               { return fOrnamentPlacementKind; }
 
-    void                  setOrnamentAccidentalMarkKind (
+    void                  setOrnamentAccidentalKindKind (
                             msrAccidentalKind
-                              ornamentAccidentalMark)
+                              ornamentAccidentalKind)
                               {
-                                fOrnamentAccidentalMark =
-                                  ornamentAccidentalMark;
+                                fOrnamentAccidentalKind =
+                                  ornamentAccidentalKind;
                               }
 
-    msrAccidentalKind getOrnamentAccidentalMark () const
-                              { return fOrnamentAccidentalMark; }
+    msrAccidentalKind getOrnamentAccidentalKind () const
+                              { return fOrnamentAccidentalKind; }
 
     // services
     // ------------------------------------------------------
@@ -88,7 +88,7 @@ class msrOrnament : public msrElement
 
     string                ornamentPlacementKindAsString () const;
 
-    string                ornamentAccidentalMarkAsString () const;
+    string                ornamentAccidentalKindAsString () const;
 
   public:
 
@@ -105,6 +105,8 @@ class msrOrnament : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os) const;
 
   private:
@@ -118,7 +120,7 @@ class msrOrnament : public msrElement
 
     msrPlacementKind      fOrnamentPlacementKind;
 
-    msrAccidentalKind fOrnamentAccidentalMark;
+    msrAccidentalKind     fOrnamentAccidentalKind;
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);

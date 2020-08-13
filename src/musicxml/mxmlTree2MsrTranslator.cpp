@@ -13477,113 +13477,113 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
 */
 
   msrAccidentalKind
-    currentOrnamentAccidentalMark =
+    currentOrnamentAccidentalKind =
       kAccidentalNone;
 
   if (accidentalMark      == "sharp")
-    currentOrnamentAccidentalMark = kAccidentalSharp;
+    currentOrnamentAccidentalKind = kAccidentalSharp;
 
   else if (accidentalMark == "natural")
-    currentOrnamentAccidentalMark = kAccidentalNatural;
+    currentOrnamentAccidentalKind = kAccidentalNatural;
 
   else if (accidentalMark == "flat")
-    currentOrnamentAccidentalMark = kAccidentalFlat;
+    currentOrnamentAccidentalKind = kAccidentalFlat;
 
   else if (accidentalMark == "double-sharp")
-    currentOrnamentAccidentalMark = kAccidentalDoubleSharp;
+    currentOrnamentAccidentalKind = kAccidentalDoubleSharp;
 
   else if (accidentalMark == "sharp-sharp")
-    currentOrnamentAccidentalMark = kAccidentalSharpSharp;
+    currentOrnamentAccidentalKind = kAccidentalSharpSharp;
 
   else if (accidentalMark == "flat-flat")
-    currentOrnamentAccidentalMark = kAccidentalFlatFlat;
+    currentOrnamentAccidentalKind = kAccidentalFlatFlat;
 
   else if (accidentalMark == "natural-sharp")
-    currentOrnamentAccidentalMark = kAccidentalNaturalSharp;
+    currentOrnamentAccidentalKind = kAccidentalNaturalSharp;
 
   else if (accidentalMark == "natural-flat")
-    currentOrnamentAccidentalMark = kAccidentalQuarterFlat;
+    currentOrnamentAccidentalKind = kAccidentalQuarterFlat;
 
   else if (accidentalMark == "quarter-flat")
-    currentOrnamentAccidentalMark = kAccidentalNaturalFlat;
+    currentOrnamentAccidentalKind = kAccidentalNaturalFlat;
 
   else if (accidentalMark == "quarter-sharp")
-    currentOrnamentAccidentalMark = kAccidentalQuarterSharp;
+    currentOrnamentAccidentalKind = kAccidentalQuarterSharp;
 
   else if (accidentalMark == "three-quarters-flat")
-    currentOrnamentAccidentalMark = kAccidentalThreeQuartersFlat;
+    currentOrnamentAccidentalKind = kAccidentalThreeQuartersFlat;
 
   else if (accidentalMark == "three-quarters-sharp")
-    currentOrnamentAccidentalMark = kAccidentalThreeQuartersSharp;
+    currentOrnamentAccidentalKind = kAccidentalThreeQuartersSharp;
 
   else if (accidentalMark == "sharp-down")
-    currentOrnamentAccidentalMark = kAccidentalSharpDown;
+    currentOrnamentAccidentalKind = kAccidentalSharpDown;
 
   else if (accidentalMark == "sharp-up")
-    currentOrnamentAccidentalMark = kAccidentalSharpUp;
+    currentOrnamentAccidentalKind = kAccidentalSharpUp;
 
   else if (accidentalMark == "natural-down")
-    currentOrnamentAccidentalMark = kAccidentalNaturalDown;
+    currentOrnamentAccidentalKind = kAccidentalNaturalDown;
 
   else if (accidentalMark == "natural-up")
-    currentOrnamentAccidentalMark = kAccidentalNaturalUp;
+    currentOrnamentAccidentalKind = kAccidentalNaturalUp;
 
   else if (accidentalMark == "flat-down")
-    currentOrnamentAccidentalMark = kAccidentalFlatDown;
+    currentOrnamentAccidentalKind = kAccidentalFlatDown;
 
   else if (accidentalMark == "flat-up")
-    currentOrnamentAccidentalMark = kAccidentalFlatUp;
+    currentOrnamentAccidentalKind = kAccidentalFlatUp;
 
   else if (accidentalMark == "triple-sharp")
-    currentOrnamentAccidentalMark = kAccidentalTripleSharp;
+    currentOrnamentAccidentalKind = kAccidentalTripleSharp;
 
   else if (accidentalMark == "triple-flat")
-    currentOrnamentAccidentalMark = kAccidentalTripleFlat;
+    currentOrnamentAccidentalKind = kAccidentalTripleFlat;
 
   else if (accidentalMark == "slash-quarter-sharp")
-    currentOrnamentAccidentalMark = kAccidentalSlashQuarterSharp;
+    currentOrnamentAccidentalKind = kAccidentalSlashQuarterSharp;
 
   else if (accidentalMark == "slash-sharp")
-    currentOrnamentAccidentalMark = kAccidentalSlashSharp;
+    currentOrnamentAccidentalKind = kAccidentalSlashSharp;
 
   else if (accidentalMark == "slash-flat")
-    currentOrnamentAccidentalMark = kAccidentalSlashFlat;
+    currentOrnamentAccidentalKind = kAccidentalSlashFlat;
 
   else if (accidentalMark == "double-slash-flat")
-    currentOrnamentAccidentalMark = kAccidentalDoubleSlashFlat;
+    currentOrnamentAccidentalKind = kAccidentalDoubleSlashFlat;
 
   else if (accidentalMark == "sharp-1")
-    currentOrnamentAccidentalMark = kAccidentalSharp_1;
+    currentOrnamentAccidentalKind = kAccidentalSharp_1;
 
   else if (accidentalMark == "sharp-2")
-    currentOrnamentAccidentalMark = kAccidentalSharp_2;
+    currentOrnamentAccidentalKind = kAccidentalSharp_2;
 
   else if (accidentalMark == "sharp-3")
-    currentOrnamentAccidentalMark = kAccidentalSharp_3;
+    currentOrnamentAccidentalKind = kAccidentalSharp_3;
 
   else if (accidentalMark == "sharp-5")
-    currentOrnamentAccidentalMark = kAccidentalSharp_3;
+    currentOrnamentAccidentalKind = kAccidentalSharp_3;
 
   else if (accidentalMark == "flat-1")
-    currentOrnamentAccidentalMark = kAccidentalFlat_1;
+    currentOrnamentAccidentalKind = kAccidentalFlat_1;
 
   else if (accidentalMark == "flat-2")
-    currentOrnamentAccidentalMark = kAccidentalFlat_2;
+    currentOrnamentAccidentalKind = kAccidentalFlat_2;
 
   else if (accidentalMark == "flat-3")
-    currentOrnamentAccidentalMark = kAccidentalFlat_3;
+    currentOrnamentAccidentalKind = kAccidentalFlat_3;
 
   else if (accidentalMark == "flat-4")
-    currentOrnamentAccidentalMark = kAccidentalFlat_4;
+    currentOrnamentAccidentalKind = kAccidentalFlat_4;
 
   else if (accidentalMark == "sori")
-    currentOrnamentAccidentalMark = kAccidentalSori;
+    currentOrnamentAccidentalKind = kAccidentalSori;
 
   else if (accidentalMark == "koron")
-    currentOrnamentAccidentalMark = kAccidentalKoron;
+    currentOrnamentAccidentalKind = kAccidentalKoron;
 
   else if (accidentalMark == "other")
-    currentOrnamentAccidentalMark = kAccidentalOther;
+    currentOrnamentAccidentalKind = kAccidentalOther;
 
   else if (accidentalMark.size ()) {
     stringstream s;
@@ -13614,12 +13614,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     ornament =
       msrOrnament::create (
         inputLineNumber,
-        msrOrnament::kOrnamentAccidentalMark,
+        msrOrnament::kOrnamentAccidentalKind,
         placementKind);
 
   ornament->
-    setOrnamentAccidentalMarkKind (
-      currentOrnamentAccidentalMark);
+    setOrnamentAccidentalKindKind (
+      currentOrnamentAccidentalKind);
 
   if (! gMxmlTree2MsrOah->fOmitOrnaments) {
     fCurrentOrnamentsList.push_back (ornament);
@@ -19940,7 +19940,6 @@ void mxmlTree2MsrTranslator::populateNote (
     // forget about the pending grace notes
     fPendingGraceNotesGroup = nullptr;
   }
-
 }
 
 //______________________________________________________________________________

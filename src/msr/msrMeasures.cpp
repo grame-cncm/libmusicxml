@@ -2918,7 +2918,7 @@ void msrMeasure::removeNoteFromMeasure (
     " in voice \"" <<
     segmentVoiceUpLink->getVoiceName () <<
     "\"," <<
-    " since it has not been found";
+    " since this note has not been found in fMeasureElementsList";
 
   msrInternalError (
     gOahOah->fInputSourceName,
@@ -2988,7 +2988,7 @@ void msrMeasure::removeElementFromMeasure (
 
   s <<
     "cannot remove element " <<
-    element <<
+    element->asString () <<
     " from measure " <<
     this->asShortString () <<
     " in voice \"" <<
@@ -2996,7 +2996,9 @@ void msrMeasure::removeElementFromMeasure (
       getSegmentVoiceUpLink ()->
         getVoiceName () <<
     "\"," <<
-    " since it has not been found";
+    " since this element has not been found in fMeasureElementsList";
+
+  abort(); // JMI
 
   msrInternalError (
     gOahOah->fInputSourceName,

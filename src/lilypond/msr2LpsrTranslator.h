@@ -728,7 +728,8 @@ class msr2LpsrTranslator :
     // browsing grace notes groups leads to several notes
     // being ongoing simultaneously,
     // since such groups are attached to a note, hence:
-    stack<S_msrNote>          fOnGoingNotesStack;
+    list<S_msrNote>           fOnGoingNotesStack;
+    void                      displayOnGoingNotesStack (string context);
 
     bool                      fOnGoingNonGraceNote;
 

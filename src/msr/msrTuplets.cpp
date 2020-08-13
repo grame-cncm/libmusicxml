@@ -531,7 +531,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
           getSegmentVoiceUpLink ()->
             getVoiceName () <<
       "\"," <<
-      " since it has not been found";
+      " since this note has not been found in fTupletElementsList";
 
     msrInternalError (
       gOahOah->fInputSourceName,
