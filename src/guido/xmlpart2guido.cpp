@@ -1205,7 +1205,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             int clefoctavechange = iter->getIntValue(k_clef_octave_change, 0);
             
             /// Actions:
-            int staffnum = iter->getAttributeIntValue("number", 0);
+            int staffnum = iter->getAttributeIntValue("number", 1);
             
             stringstream s;
             if ( clefsign == "G")			s << "g";
