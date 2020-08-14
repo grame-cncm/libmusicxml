@@ -49,7 +49,8 @@ function run (engine, log, xml) {
 		log( "<br /><hr />\n");
 		gmnconvert (xml, engine, log );
 		log( "<br /><hr />\n");
-		lilyconvert (xml, engine, log );
+		try { lilyconvert (xml, engine, log ); }
+		catch (error) { log ("exception raised while running lilyconvert: " + error); }
 		// log( "<br /><hr />\n");
 		// brailleconvert (xml, engine, log );
 	}
