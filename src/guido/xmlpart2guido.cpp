@@ -200,6 +200,7 @@ bool xmlpart2guido::checkMeasureRange() {
             fCurrentVoicePosition += r;
             fCurrentVoicePosition.rationalise();
         }
+        //cerr<<"moveMeasureTime v:"<<fTargetVoice<<" s:"<<fTargetStaff<<" m:"<<fMeasNum <<"->";fCurrentMeasurePosition.print(cerr);cerr<<" ("<< moveVoiceToo<<") fCurrentVoicePosition->";fCurrentVoicePosition.print(cerr);cerr<<endl;
     }
     
     //______________________________________________________________________________
@@ -217,11 +218,7 @@ bool xmlpart2guido::checkMeasureRange() {
             fCurrentVoicePosition += diff;
             fCurrentVoicePosition.rationalise();
         }
-        else if (diff.getNumerator() < 0)
-        {
-            if (!fInCue)
-                cerr << "warning! checkVoiceTime: measure time behind voice time " << string(diff) << " (measure "<< fMeasNum<<")" << endl;
-        }
+        // difference can be negative due to S_backup and it is normal!
     }
     
     //______________________________________________________________________________
@@ -1239,7 +1236,9 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
                 iter = elt->find(k_clef, iter);
                 continue;
             }
-            
+            // Make sure we are at the right position before adding clef
+            checkVoiceTime (fCurrentMeasurePosition, fCurrentVoicePosition);
+
             Sguidoelement tag = guidotag::create("clef");
             checkStaff (staffnum);
             tag->add (guidoparam::create(param));
