@@ -79,15 +79,17 @@ static bool args2Options (int argc, char *argv[], optionsVector& options)
 }
 
 //_______________________________________________________________________________
-//int main (int argc, char *argv[])
-//{
-//	optionsVector options;
-//	options.push_back (make_pair ("-help", ""));
-//	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
-//	cout << "xml2ly2 ret=" << err;
-//	return 0;
-//}
+#if 1
+int main (int argc, char *argv[])
+{
+	optionsVector options;
+	options.push_back (make_pair ("-help", ""));
+	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
+	cout << "xml2ly2 ret=" << err << endl;
+	return 0;
+}
 
+#else
 int main (int argc, char *argv[])
 {
 	optionsVector options;
@@ -125,4 +127,4 @@ int main (int argc, char *argv[])
 
 	return 0;
 }
-
+#endif
