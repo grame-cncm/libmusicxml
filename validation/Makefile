@@ -66,7 +66,7 @@ help:
 	@echo "Makefile for testing the libmusicxml library output."
 	@echo "Testing is based on the xml files located in the 'files' folder."
 	@echo "Available targets are:"
-	@echo "  'all' (default)  : call the 'read', 'guido', 'lilyignored', 'lily' and 'lilyjianpu' targets."
+	@echo "  'all' (default)  : call the 'read', 'guido' and 'lily' targets."
 	@echo "  'read'           : reads the set of xml files and writes the corresponding output"
 	@echo "  'guido'          : converts the set of xml files to guido"
 	@echo "  'guidosvg'       : converts the output of 'guido' target to svg"
