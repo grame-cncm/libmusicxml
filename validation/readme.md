@@ -3,9 +3,12 @@
 ## Validation tools
 
 This folder contains validation tools intended to check the output of the following tools:
+- xml2read : read a musicxml file and print it
 - xml2guido : converts musicxml to guido music notation format
 - xml2ly : converts musicxml to lilypond format
 - xml2brl : converts musicxml to braille format
+
+When running the validation, you should make sure that the above tools are on your path, or you should indicate the path to these tools.
 
 The principle of the validation is the following :
 - first, you have to boostrap the system with a first run. The output has to be checked manually or using any associated compilers (guido2svg, lilypond,...). Once validated, this first output will constitute a reference output.
@@ -27,6 +30,11 @@ to speed up the generation process, you can parallelize the jobs (using `make` o
 Simply run:
 ~~~~~~~~~
 $ make validate VERSION='your_ref_folder_name'
+~~~~~~~~~
+
+### Getting help
+~~~~~~~~~
+$ make help
 ~~~~~~~~~
 
 ### Example
