@@ -50,6 +50,7 @@ namespace MusicXML2
         fTupletOpen = 0;
         fTremoloInProgress = false;
         fShouldStopOctava = false;
+        staffClefMap.clear();
     }
     
     //______________________________________________________________________________
@@ -1204,14 +1205,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             int clefoctavechange = iter->getIntValue(k_clef_octave_change, 0);
             
             /// Actions:
-            int staffnum = iter->getAttributeIntValue("number", 0);
-            if ((staffnum != fTargetStaff) || fNotesOnly)
-            {
-                /// Search again for other clefs:
-                iter++;
-                iter = elt->find(k_clef, iter);
-                continue;
-            }
+            int staffnum = iter->getAttributeIntValue("number", 1);
             
             stringstream s;
             if ( clefsign == "G")			s << "g";
@@ -1233,13 +1227,24 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
                 param += "+8";
             else if (clefoctavechange == -1)
                 param += "-8";
+            
+            // staffClefMap: multimap containing <staff-num, measureNum, position, clef type>
+            std::pair<rational, std::string> positionClef = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
+            staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(staffnum, std::pair< int, std::pair< rational, std::string > >(fMeasNum, positionClef) ) );
+            
+            if ((staffnum != fTargetStaff) || fNotesOnly)
+            {
+                /// Search again for other clefs:
+                iter++;
+                iter = elt->find(k_clef, iter);
+                continue;
+            }
+            
             Sguidoelement tag = guidotag::create("clef");
             checkStaff (staffnum);
             tag->add (guidoparam::create(param));
             add(tag);
             
-            std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
-            staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
             
             /// Search again for other clefs:
             iter++;
