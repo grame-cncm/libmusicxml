@@ -125,7 +125,7 @@ class EXP notevisitor :
 
         type	getType() const		{ return fType; }
         int		getTie() const		{ return fTie; }
-        int		getStaff() const	{ return fStaff; }
+        int		getStaff() const	{ return (fStaff == kUndefinedStaff ? 1: fStaff); }
         int		getVoice() const	{ return fVoice; }
         S_note	getSnote() const	{ return fThisSNote; }
         float getNoteHeadDy(string fCurClef) const;

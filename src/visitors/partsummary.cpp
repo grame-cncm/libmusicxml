@@ -138,6 +138,9 @@ int partsummary::getStaffNotes (int id) const
 //________________________________________________________________________
 int partsummary::getMainStaff (int voiceid) const
 {
+    if (fStavesCount == 1) {
+        return 1;
+    }
 	smartlist<int>::ptr v = getStaves (voiceid);
 	int staffid = 0;
 	int maxnotes = 0;
