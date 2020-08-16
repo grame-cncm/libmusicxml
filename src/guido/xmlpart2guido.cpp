@@ -50,6 +50,7 @@ namespace MusicXML2
         fTupletOpen = 0;
         fTremoloInProgress = false;
         fShouldStopOctava = false;
+        staffClefMap.clear();
     }
     
     //______________________________________________________________________________
@@ -199,6 +200,7 @@ bool xmlpart2guido::checkMeasureRange() {
             fCurrentVoicePosition += r;
             fCurrentVoicePosition.rationalise();
         }
+        //cerr<<"moveMeasureTime v:"<<fTargetVoice<<" s:"<<fTargetStaff<<" m:"<<fMeasNum <<"->";fCurrentMeasurePosition.print(cerr);cerr<<" ("<< moveVoiceToo<<") fCurrentVoicePosition->";fCurrentVoicePosition.print(cerr);cerr<<endl;
     }
     
     //______________________________________________________________________________
@@ -216,11 +218,7 @@ bool xmlpart2guido::checkMeasureRange() {
             fCurrentVoicePosition += diff;
             fCurrentVoicePosition.rationalise();
         }
-        else if (diff.getNumerator() < 0)
-        {
-            if (!fInCue)
-                cerr << "warning! checkVoiceTime: measure time behind voice time " << string(diff) << " (measure "<< fMeasNum<<")" << endl;
-        }
+        // difference can be negative due to S_backup and it is normal!
     }
     
     //______________________________________________________________________________
@@ -338,7 +336,7 @@ bool xmlpart2guido::checkMeasureRange() {
                 if (!isFirstPartialMeasure)
                     add (tag);
             }
-        }else {
+        }else if (fCurrentScorePosition.toFloat() != 0.0) {
             // Create a HIDDEN Bar in case of fPendingBar equal to false.
             // This is the case for "bar-style" equal to "none" or "implicit" measures
             Sguidoelement tag = guidotag::create("bar");
@@ -1204,14 +1202,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             int clefoctavechange = iter->getIntValue(k_clef_octave_change, 0);
             
             /// Actions:
-            int staffnum = iter->getAttributeIntValue("number", 0);
-            if ((staffnum != fTargetStaff) || fNotesOnly)
-            {
-                /// Search again for other clefs:
-                iter++;
-                iter = elt->find(k_clef, iter);
-                continue;
-            }
+            int staffnum = iter->getAttributeIntValue("number", 1);
             
             stringstream s;
             if ( clefsign == "G")			s << "g";
@@ -1233,13 +1224,26 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
                 param += "+8";
             else if (clefoctavechange == -1)
                 param += "-8";
+            
+            // staffClefMap: multimap containing <staff-num, measureNum, position, clef type>
+            std::pair<rational, std::string> positionClef = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
+            staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(staffnum, std::pair< int, std::pair< rational, std::string > >(fMeasNum, positionClef) ) );
+            
+            if ((staffnum != fTargetStaff) || fNotesOnly)
+            {
+                /// Search again for other clefs:
+                iter++;
+                iter = elt->find(k_clef, iter);
+                continue;
+            }
+            // Make sure we are at the right position before adding clef
+            checkVoiceTime (fCurrentMeasurePosition, fCurrentVoicePosition);
+
             Sguidoelement tag = guidotag::create("clef");
             checkStaff (staffnum);
             tag->add (guidoparam::create(param));
             add(tag);
             
-            std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
-            staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
             
             /// Search again for other clefs:
             iter++;

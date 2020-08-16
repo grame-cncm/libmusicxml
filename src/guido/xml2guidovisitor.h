@@ -114,10 +114,6 @@ protected:
     
     static int defaultStaffDistance;   // xml staff-distance value in defaults
     
-    /// multimap containing <staff-num, measureNum, position, clef type>
-    //std::multimap<int, std::pair< rational, string > > staffClefMap;
-    std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
-    
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
     
