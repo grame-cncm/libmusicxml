@@ -108,7 +108,6 @@ files/musicxml/harmonies/HarmoniesSharingANote.xml
 files/musicxml/harmonies/TwoHarmoniesSecondWithPositiveOffset.xml
 files/musicxml/harmonies/HarmonyWithNegativeOffsetInTuplet.xml
 files/musicxml/lyrics/AmazingGrace_FINALE_toAndFro.xml
-files/musicxml/lyrics/AmazingGrace.xml
 files/musicxml/misc/Bug_mapping.xml
 files/musicxml/misc/Triolet.xml
 files/musicxml/misc/Triolet1.xml

@@ -484,6 +484,7 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
       fFiguredBassNoteUpLink->
         getNoteMeasureUpLink ();
 
+  if (false) { // JMI
   rational
     positionInVoice =
       measure->
@@ -496,6 +497,7 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
   setMeasureElementPositionInVoice (
     positionInVoice,
     context);
+}
 
   // update current position in voice
   S_msrVoice

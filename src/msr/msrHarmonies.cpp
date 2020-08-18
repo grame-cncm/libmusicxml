@@ -594,6 +594,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
     positionInMeasure,
     context);
 
+  if (false) { // JMI
   // compute harmony's position in voice
   S_msrMeasure
     measure =
@@ -622,6 +623,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
   voice->
     incrementCurrentPositionInVoice (
       fHarmonyNoteUpLink->getNoteSoundingWholeNotes ());
+}
 }
 
 void msrHarmony::acceptIn (basevisitor* v)

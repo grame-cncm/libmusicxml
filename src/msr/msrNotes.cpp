@@ -1423,6 +1423,7 @@ void msrNote::setNotePositionInMeasure (
     positionInMeasure,
     context);
 
+  if (false) { // JMI
   // compute note's position in voice
   rational
      positionInVoice =
@@ -1445,6 +1446,7 @@ void msrNote::setNotePositionInMeasure (
   voice->
     incrementCurrentPositionInVoice (
       fMeasureElementSoundingWholeNotes);
+}
 
   // are there harmonies attached to this note?
   if (fNoteHarmoniesList.size ()) {

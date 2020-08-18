@@ -667,6 +667,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
     positionInMeasure,
     context);
 
+  if (false) { // JMI
   // compute tuplet's position in voice
   rational
      positionInVoice =
@@ -689,6 +690,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   voice->
     incrementCurrentPositionInVoice (
       fMeasureElementSoundingWholeNotes);
+}
 
   // current position
   rational currentPosition = positionInMeasure;

@@ -79,7 +79,7 @@ static bool args2Options (int argc, char *argv[], optionsVector& options)
 }
 
 //_______________________________________________________________________________
-#if 1
+#if 0
 int main (int argc, char *argv[])
 {
 	optionsVector options;

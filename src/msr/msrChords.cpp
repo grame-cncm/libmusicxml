@@ -180,6 +180,7 @@ void msrChord::setChordMembersPositionInMeasure (
     positionInMeasure,
     context);
 
+  if (false) { // JMI
   // compute chord's position in voice
   rational
      positionInVoice =
@@ -201,6 +202,7 @@ void msrChord::setChordMembersPositionInMeasure (
   voice->
     incrementCurrentPositionInVoice (
       fChordNotesVector [0]->getNoteSoundingWholeNotes ());
+}
 
   // set the chord's elements' position in measure
   if (fChordNotesVector.size ()) {
@@ -223,10 +225,14 @@ void msrChord::setChordMembersPositionInMeasure (
           positionInMeasure); // they all share the same one
 
       // set note's position in voice
+      /* JMI
+  if (false) { // JMI
       note->
         setMeasureElementPositionInVoice (
           positionInVoice,
           context); // they all share the same one
+}
+          */
 
       if (++i == iEnd) break;
     } // for

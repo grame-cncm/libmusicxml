@@ -74,7 +74,7 @@ int main (int argc, char *argv[])
   // create the signals
   // ------------------------------------------------------
 
-// JMI	catchsigs();
+	catchsigs();
 
   string executableName = argv [0];
 

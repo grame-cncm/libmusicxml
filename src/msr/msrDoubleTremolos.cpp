@@ -447,6 +447,7 @@ void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
     positionInMeasure,
     context);
 
+  if (false) { // JMI
   // compute double tremolo's position in voice
   rational
      positionInVoice =
@@ -459,6 +460,7 @@ void msrDoubleTremolo::setDoubleTremoloPositionInMeasure (
   setMeasureElementPositionInVoice (
     positionInVoice,
     context);
+}
 
   // update current position in voice
   S_msrVoice

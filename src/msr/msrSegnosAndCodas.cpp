@@ -184,6 +184,7 @@ void msrDalSegno::setDalSegnoPositionInMeasure (
     context);
 
 /* JMI
+  if (false) { // JMI
   // compute dal segno's position in voice
   rational
      positionInVoice =
@@ -206,6 +207,7 @@ void msrDalSegno::setDalSegnoPositionInMeasure (
   voice->
     incrementCurrentPositionInVoice (
       fdal segnoNotesVector [0]->getNoteSoundingWholeNotes ());
+}
       */
 }
 

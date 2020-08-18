@@ -383,6 +383,7 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
     positionInMeasure,
     context);
 
+  if (false) { // JMI
   // compute chord's position in voice
   rational
      positionInVoice =
@@ -404,11 +405,14 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
   voice->
     incrementCurrentPositionInVoice (
       fChordNotesVector [0]->getNoteSoundingWholeNotes ());
+}
 */
 
   // set the grace notes group's elements' position in measure
   if (fGraceNotesGroupElementsList.size ()) {
-  // compute chord's position in voice
+  /* JMI
+  if (false) { // JMI
+    // compute chord's position in voice
     rational
        positionInVoice =
         fGraceNotesGroupNoteUpLink->
@@ -416,6 +420,8 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
             getMeasurePositionInVoice ()
           +
         positionInMeasure;
+}
+*/
 
     string context =
       "setGraceNotesGroupElementsPositionInMeasure()";
@@ -435,11 +441,15 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
           positionInMeasure,
           context);
 
+/* JMI
       // set measure element's position in measure
+  if (false) { // JMI
       measureElement->
         setMeasureElementPositionInVoice (
           positionInVoice,
           context);
+}
+*/
     } // for
   }
 }
