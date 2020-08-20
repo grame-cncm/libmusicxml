@@ -237,7 +237,7 @@ bool xmlpart2guido::checkMeasureRange() {
     void xmlpart2guido::visitStart ( S_forward& elt )
     {
         bool scanElement = (elt->getIntValue(k_voice, 0) == fTargetVoice)
-        && (elt->getIntValue(k_staff, 0) == fTargetStaff);
+        && (elt->getIntValue(k_staff, 1) == fTargetStaff);
         int duration = elt->getIntValue(k_duration, 0);
         moveMeasureTime(duration, scanElement);
         if (!scanElement) return;
@@ -434,7 +434,7 @@ bool xmlpart2guido::checkMeasureRange() {
     void xmlpart2guido::visitStart ( S_direction& elt )
     {
         // Parse Staff and Offset first
-        if (fNotesOnly || (elt->getIntValue(k_staff, 0) != fTargetStaff)) {
+        if (fNotesOnly || (elt->getIntValue(k_staff, 1) != fTargetStaff)) {
             fSkipDirection = true;
         }
         else {
