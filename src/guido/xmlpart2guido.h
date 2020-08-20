@@ -243,6 +243,7 @@ public:
     const rational& getTimeSign () const		{ return fCurrentTimeSign; }
     bool hasLyrics() const {return fHasLyrics;}
     
+    /// Map for staffNum, measureNum, voice-Position and Clef
     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
