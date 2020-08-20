@@ -50,31 +50,31 @@ class bsrWords : public bsrLineElement
     // services
     // ------------------------------------------------------
 
-    S_bsrCellsList        fetchCellsList () const
+    S_bsrCellsList        fetchCellsList () const override
                               { return fWordCellsList; }
 
-    int                   fetchCellsNumber () const;
+    int                   fetchCellsNumber () const override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asString () const;
+    string                asString () const override;
 
-    virtual string        asDebugString () const;
+    virtual string        asDebugString () const override;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 

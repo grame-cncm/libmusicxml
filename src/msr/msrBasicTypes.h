@@ -569,10 +569,10 @@ class msrDottedDuration
     // ------------------------------------------------------
 
 /* JMI
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 */
 
   public:
@@ -581,7 +581,6 @@ class msrDottedDuration
 
     string                asString () const;
 
-    //virtual
     void                  print (ostream& os) const;
 
   private:
@@ -948,10 +947,10 @@ class msrMarginsGroup : public smartable
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 */
 
   public:
@@ -1283,10 +1282,10 @@ class msrTupletFactor
     // ------------------------------------------------------
 
 /* JMI
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 */
 
   public:
@@ -1393,10 +1392,10 @@ class msrHarmonyInterval : public smartable
     // ------------------------------------------------------
 
 /* JMI
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 */
 
   public:
@@ -1488,10 +1487,10 @@ class msrHarmonyStructure : public smartable
     // visitors
     // ------------------------------------------------------
 /* JMI
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 */
 
   public:
@@ -1573,10 +1572,10 @@ class msrHarmonyContents : public smartable
     // visitors
     // ------------------------------------------------------
 /* JMI
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 */
 
   public:
@@ -1662,7 +1661,7 @@ class msrRGBColor {
     // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    string                asString () const;
 
     void                  print (ostream& os) const;
 

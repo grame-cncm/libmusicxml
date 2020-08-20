@@ -16,7 +16,7 @@
 #include "bsrMutualDependencies.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -30,7 +30,7 @@ class bsrTranscriptionNotesElement : public bsrElement
     static SMARTP<bsrTranscriptionNotesElement> create (
       int    inputLineNumber,
       string transcriptionNoteText);
-    
+
   protected:
 
     // constructors/destructor
@@ -39,9 +39,9 @@ class bsrTranscriptionNotesElement : public bsrElement
     bsrTranscriptionNotesElement (
       int    inputLineNumber,
       string transcriptionNoteText);
-      
+
     virtual ~bsrTranscriptionNotesElement ();
-  
+
   public:
 
     // set and get
@@ -70,19 +70,19 @@ class bsrTranscriptionNotesElement : public bsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asString () const;
+    string                asString () const override;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 
@@ -104,7 +104,7 @@ class bsrTranscriptionNotes : public bsrLine
 
     static SMARTP<bsrTranscriptionNotes> create (
       int inputLineNumber);
-    
+
   protected:
 
     // constructors/destructor
@@ -112,9 +112,9 @@ class bsrTranscriptionNotes : public bsrLine
 
     bsrTranscriptionNotes (
       int inputLineNumber);
-      
+
     virtual ~bsrTranscriptionNotes ();
-  
+
   public:
 
     // set and get
@@ -132,7 +132,7 @@ class bsrTranscriptionNotes : public bsrLine
                                   transcriptionNotesElement);
                               }
 
-    int                   fetchLineContentsNumber () const
+    int                   fetchLineContentsNumber () const override
                               { return fLineContentsList.size (); }
 
   public:
@@ -140,17 +140,17 @@ class bsrTranscriptionNotes : public bsrLine
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 

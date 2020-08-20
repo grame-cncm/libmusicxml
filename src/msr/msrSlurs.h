@@ -85,10 +85,10 @@ class msrSlur : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -97,9 +97,9 @@ class msrSlur : public msrElement
 
     string                slurTypeKindAsString () const;
 
-    string                asString () const;
+    string                asString () const override;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 

@@ -56,30 +56,30 @@ class xml2brlVersionOahAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printVersion (ostream& os) const;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -126,30 +126,30 @@ class xml2brlAboutOahAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAbout (ostream& os) const;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -196,30 +196,30 @@ class xml2brlContactOahAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printContact (ostream& os) const;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 

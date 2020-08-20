@@ -187,10 +187,10 @@ class msrDoubleTremolo : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -199,10 +199,10 @@ class msrDoubleTremolo : public msrMeasureElement
 
     string                doubleTremoloPlacementKindAsString () const;
 
-    string                asShortString () const;
-    string                asString () const;
+    string                asShortString () const override;
+    string                asString () const override;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 

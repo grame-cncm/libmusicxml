@@ -2395,7 +2395,7 @@ void msrChord::printShort (ostream& os) const
 
       list<S_msrChordBeamLink>::const_iterator i;
       for (i=fChordBeamLinks.begin (); i!=fChordBeamLinks.end (); i++) {
-        os << (*i);
+        (*i)->printShort(os);
       } // for
 
       gIndenter--;
@@ -3025,7 +3025,7 @@ void msrChordBeamLink::printShort (ostream& os) const
 
   gIndenter++;
   fOriginalBeam->printShort (os);
-  fChordUpLink->printShort (os);
+// JMI ??? INFINITE RECURSION  fChordUpLink->printShort (os);
   gIndenter--;
 
   gIndenter--;

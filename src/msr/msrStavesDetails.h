@@ -77,19 +77,19 @@ class msrStaffTuning : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asString () const;
+    string                asString () const override;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   public:
 
@@ -195,24 +195,24 @@ class msrStaffDetails : public msrMeasureElement
                                 fStaffTuningsList.push_back (staffTuning);
                               }
 
-    string                asShortString () const;
+    string                asShortString () const override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 

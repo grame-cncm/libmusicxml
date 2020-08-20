@@ -74,9 +74,9 @@ class EXP xml2lyInsiderOahHandler : public oahHandler
     void                  createThePrefixesAndInitializeOahHandling (
                             string executableName);
 
-    void                  checkOptionsAndArguments ();
+    void                  checkOptionsAndArguments () override;
 
-    void                  checkOptionsConsistency ();
+    void                  checkOptionsConsistency () override;
 
   public:
 
@@ -88,7 +88,7 @@ class EXP xml2lyInsiderOahHandler : public oahHandler
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -148,7 +148,7 @@ class xml2lyOah : public oahGroup
 
     void                  checkOptionsAndArguments ();
 
-    void                  checkOptionsConsistency ();
+    void                  checkOptionsConsistency () override;
 
   public:
 
@@ -158,10 +158,10 @@ class xml2lyOah : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 

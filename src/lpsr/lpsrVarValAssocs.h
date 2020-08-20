@@ -191,10 +191,10 @@ class lpsrVarValAssoc : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -208,9 +208,9 @@ class lpsrVarValAssoc : public lpsrElement
                                     fLilyPondVarValAssocKind);
                               }
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const;
+    virtual void          printShort (ostream& os) const override;
 
   private:
 
@@ -319,10 +319,10 @@ class lpsrVarValsListAssoc : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -338,9 +338,9 @@ class lpsrVarValsListAssoc : public lpsrElement
 
     string                lilyPondVarValsListAssocValuesAsString () const;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const;
+    virtual void          printShort (ostream& os) const override;
 
   private:
 

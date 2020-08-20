@@ -923,10 +923,10 @@ class msrVoice : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -939,8 +939,8 @@ class msrVoice : public msrElement
 
     string                regularVoiceStaffSequentialNumberAsString () const;
 
-    string                asShortString () const;
-    string                asString () const;
+    string                asShortString () const override;
+    string                asString () const override;
 
     void                  displayVoice (
                             int    inputLineNumber,
@@ -950,9 +950,9 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const;
+    virtual void          printShort (ostream& os) const override;
 
   private:
 

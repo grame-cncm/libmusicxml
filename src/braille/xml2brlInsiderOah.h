@@ -74,9 +74,9 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
     void                  createThePrefixesAndInitializeOahHandling (
                             string executableName);
 
-    void                  checkOptionsAndArguments ();
+    void                  checkOptionsAndArguments () override;
 
-    void                  checkOptionsConsistency ();
+    void                  checkOptionsConsistency () override;
 
   public:
 
@@ -88,7 +88,7 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -148,7 +148,7 @@ class xml2brlOah : public oahGroup
 
     void                  checkOptionsAndArguments ();
 
-    void                  checkOptionsConsistency ();
+    void                  checkOptionsConsistency () override;
 
   public:
 

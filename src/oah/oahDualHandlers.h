@@ -250,17 +250,17 @@ class oahDualHandlerInsiderAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -272,7 +272,7 @@ class oahDualHandlerInsiderAtom : public oahAtom
     void                  printOutsiderHandler (ostream& os) const;
     void                  printuserHandler (ostream& os) const;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
   private:
 

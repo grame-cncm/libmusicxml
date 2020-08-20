@@ -78,23 +78,23 @@ class bsrLineContents : public bsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asString () const;
+    virtual std::string   asString () const override;
 
-    virtual std::string   asShortString () const;
+    virtual std::string   asShortString () const override;
 
     virtual std::string   asDebugString () const;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 
@@ -178,7 +178,7 @@ class bsrLine : public bsrPageElement
 
     void                  appendNoteToLine (S_bsrNote note);
 
-    int                   fetchLineContentsNumber () const
+    int                   fetchLineContentsNumber () const override
                               { return fLineContentsList.size (); }
 
     S_bsrCellsList        fetchCellsList () const
@@ -207,21 +207,21 @@ class bsrLine : public bsrPageElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asString () const;
+    virtual std::string   asString () const override;
 
     virtual std::string   asDebugString () const;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   protected:
 

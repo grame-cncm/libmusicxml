@@ -102,17 +102,17 @@ class oahAtom : public oahElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     virtual void          printAtomOptionsValues (
                             ostream& os,
@@ -173,21 +173,21 @@ class oahAtomSynonym : public oahAtom
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -236,30 +236,30 @@ class oahOptionsUsageAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
 //    void                  printOptionsUsage (ostream& os) const;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -306,30 +306,30 @@ class oahOptionsSummaryAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printOptionsSummary (ostream& os) const;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -379,7 +379,7 @@ class oahAtomWithVariableName : public oahAtom
     // services
     // ------------------------------------------------------
 
-    virtual int           fetchVariableNameLength () const
+    virtual int           fetchVariableNameLength () const override // JMI ???
                               { return fVariableName.size (); }
 
   public:
@@ -387,21 +387,21 @@ class oahAtomWithVariableName : public oahAtom
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   protected:
 
@@ -486,10 +486,10 @@ class oahValuedAtom : public oahAtomWithVariableName
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -500,13 +500,13 @@ class oahValuedAtom : public oahAtomWithVariableName
                             ostream& os,
                             int      fieldWidth) const;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
-    void                  printHelp (ostream& os);
+    void                  printHelp (ostream& os) override;
 
     virtual void          printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   protected:
 
@@ -589,32 +589,32 @@ class oahBooleanAtom : public oahValuedAtom
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   protected:
 
@@ -677,32 +677,32 @@ class oahTwoBooleansAtom : public oahBooleanAtom
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -768,32 +768,32 @@ class oahThreeBooleansAtom : public oahBooleanAtom
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -858,30 +858,30 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
-    void                  printHelp (ostream& os);
+    void                  printHelp (ostream& os) override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -1050,30 +1050,30 @@ class oahMultiplexBooleansAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
-    void                  printHelp (ostream& os);
+    void                  printHelp (ostream& os) override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -1154,35 +1154,35 @@ class oahIntegerAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
   protected:
 
     // fields
@@ -1245,35 +1245,35 @@ class oahTwoIntegersAtom : public oahIntegerAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
   private:
 
     // fields
@@ -1337,35 +1337,35 @@ class oahFloatAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -1430,35 +1430,35 @@ class oahStringAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   protected:
 
@@ -1515,30 +1515,30 @@ class oahMonoplexStringAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
-    void                  printHelp (ostream& os);
+    void                  printHelp (ostream& os) override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -1611,35 +1611,35 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   protected:
 
@@ -1704,35 +1704,35 @@ class oahRationalAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -1797,35 +1797,35 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -1892,35 +1892,35 @@ class oahRGBColorAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -1979,35 +1979,35 @@ class oahIntSetAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -2072,35 +2072,35 @@ class oahStringSetAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -2160,35 +2160,35 @@ class oahStringToIntMapAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -2264,35 +2264,35 @@ class oahStringAndIntegerAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -2385,35 +2385,35 @@ class oahStringAndTwoIntegersAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -2481,35 +2481,35 @@ class oahLengthUnitKindAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -2574,35 +2574,35 @@ class oahLengthAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -2667,35 +2667,35 @@ class oahMidiTempoAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -2762,37 +2762,37 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
-    void                  handleDefaultValue ();
+    void                  handleDefaultValue () override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     virtual void          printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
   private:
 
     // fields
@@ -2882,26 +2882,26 @@ class oahSubGroup : public oahElement
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
-    void                  printHelp (ostream& os);
+    void                  printHelp (ostream& os) override;
 
     void                  printHelpWithHeaderWidth (
                             ostream& os,
@@ -3035,28 +3035,28 @@ class oahGroup : public oahElement
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printGroupHeader (ostream& os) const;
 
-    void                  printHelp (ostream& os);
+    void                  printHelp (ostream& os) override;
 
     void                  underlineGroupHeader (ostream& os) const;
 
@@ -3277,10 +3277,10 @@ class EXP oahHandler : public oahElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -3291,9 +3291,9 @@ class EXP oahHandler : public oahElement
     string                commandLineWithShortNamesAsString () const;
     string                commandLineWithLongNamesAsString () const;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
-    void                  printHelp (ostream& os);
+    void                  printHelp (ostream& os) override;
 
     void                  printOptionsSummary (ostream& os) const;
     void                  printOptionsSummary () const

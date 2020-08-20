@@ -92,27 +92,31 @@ class msrMeasureElement : public msrElement
                             const SMARTP<msrMeasureElement>& first,
                             const SMARTP<msrMeasureElement>& second);
 
+    virtual void          assignMeasureElementPositionInVoice (
+                            rational& positionInVoice,
+                            string    context);
+
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) = 0;
+    virtual void          browseData (basevisitor* v) override = 0; // JMI ???
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asShortString () const;
-    virtual std::string   asString () const;
+    virtual std::string   asShortString () const override;
+    virtual std::string   asString () const override;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
-    virtual void          printSummary (ostream& os) const {}
+    virtual void          printSummary (ostream& os) const override {}
 
   protected:
 

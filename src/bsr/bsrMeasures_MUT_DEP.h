@@ -61,10 +61,10 @@ class bsrMeasure : public bsrLineElement
 
     void                  appendDynamicsToMeasure (S_bsrDynamics dynamics);
 
-    S_bsrCellsList        fetchCellsList () const
+    S_bsrCellsList        fetchCellsList () const override
                               { return buildCellsList (); }
 
-    int                   fetchCellsNumber () const;
+    int                   fetchCellsNumber () const override;
 
   private:
 
@@ -81,21 +81,21 @@ class bsrMeasure : public bsrLineElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual string        asString () const;
+    virtual string        asString () const override;
 
-    virtual string        asDebugString () const;
+    virtual string        asDebugString () const override;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 

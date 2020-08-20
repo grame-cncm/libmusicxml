@@ -145,7 +145,7 @@ class bsrAsciiBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     virtual void          generateCodeForBrailleCell (
-                            bsrCellKind cellKind);
+                            bsrCellKind cellKind) override;
 
     static void           writeTestData (ostream& os);
 
@@ -156,7 +156,7 @@ class bsrAsciiBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 
@@ -203,7 +203,7 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     virtual void          generateCodeForBrailleCell (
-                            bsrCellKind cellKind);
+                            bsrCellKind cellKind) override;
 
     static void           writeTestData (ostream& os);
 
@@ -214,7 +214,7 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   protected:
 
@@ -260,10 +260,10 @@ class bsrUTF8DebugBrailleGenerator : public bsrUTF8BrailleGenerator
     // ------------------------------------------------------
 
     void                  generateCodeForMusicHeading (
-                            S_bsrMusicHeading musicHeading); // override
+                            S_bsrMusicHeading musicHeading) override;
 
     void                  generateCodeForLineContents (
-                            S_bsrLineContents lineContents); // override
+                            S_bsrLineContents lineContents) override;
 
   public:
 
@@ -272,7 +272,7 @@ class bsrUTF8DebugBrailleGenerator : public bsrUTF8BrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 
@@ -319,7 +319,7 @@ class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     virtual void          generateCodeForBrailleCell (
-                            bsrCellKind cellKind);
+                            bsrCellKind cellKind) override;
 
     static void           writeTestData (ostream& os);
 
@@ -330,7 +330,7 @@ class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 
@@ -379,7 +379,7 @@ class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     virtual void          generateCodeForBrailleCell (
-                            bsrCellKind cellKind);
+                            bsrCellKind cellKind) override;
 
     static void           writeTestData (ostream& os);
 
@@ -390,7 +390,7 @@ class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const;
+    virtual void          print (ostream& os) const override;
 
   private:
 

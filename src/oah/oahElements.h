@@ -192,7 +192,7 @@ class oahElement : public smartable
 
     string                asString () const;
 
-    virtual void          printOptionHeader (ostream& os) const; // virtual ??? JMI
+    virtual void          printOptionHeader (ostream& os) const;
 
     virtual void          printOptionEssentials (
                             ostream& os,

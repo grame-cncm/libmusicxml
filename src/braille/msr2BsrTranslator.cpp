@@ -4366,7 +4366,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
     if (noteNotesGroupIsAttachedTo) {
       fLogOutputStream <<
-        noteNotesGroupIsAttachedTo->asShortString () const;
+        noteNotesGroupIsAttachedTo->asShortString ();
     }
     else {
       fLogOutputStream <<
@@ -4393,7 +4393,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
     if (fFirstNoteCloneInVoice) {
       fLogOutputStream <<
-        fFirstNoteCloneInVoice->asShortString () const;
+        fFirstNoteCloneInVoice->asShortString ();
     }
     else {
       fLogOutputStream <<
@@ -4677,7 +4677,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
 
           if (fFirstNoteCloneInVoice) {
             fLogOutputStream <<
-              fFirstNoteCloneInVoice->asShortString () const;
+              fFirstNoteCloneInVoice->asShortString ();
           }
           else {
             fLogOutputStream <<

@@ -2410,6 +2410,66 @@ void msrNote::appendScordaturaToNote (S_msrScordatura scordatura)
   fNoteScordaturas.push_back (scordatura);
 }
 
+void msrNote::assignMeasureElementPositionInVoice (
+  rational& positionInVoice,
+  string    context)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Assigning note position in voice of " <<
+      asString () <<
+      " to '" << positionInVoice <<
+      "' in measure '" <<
+      fMeasureElementMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    positionInVoice != K_NO_POSITION,
+    "positionInVoice == K_NO_POSITION");
+
+  // set measure element position in voice
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Setting note position in voice of " <<
+      asString () <<
+      " to '" << positionInVoice <<
+      "' in measure '" <<
+      fMeasureElementMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  fMeasureElementPositionInVoice = positionInVoice;
+
+  // account for it in positionInVoice
+  positionInVoice +=
+    fMeasureElementSoundingWholeNotes;
+  positionInVoice.rationalise ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Position in voice becomes " <<
+      positionInVoice <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+}
+
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
 #ifdef TRACE_OAH
@@ -5443,7 +5503,7 @@ void msrNote::print (ostream& os) const
           ", noteUpLink: " <<
           syllable->
             getSyllableNoteUpLink ()->
-              asShortString () const;
+              asShortString ();
   */
 
         if (++i == iEnd) break;
@@ -7070,7 +7130,7 @@ void msrNote::printShort (ostream& os) const
           ", noteUpLink: " <<
           syllable->
             getSyllableNoteUpLink ()->
-              asShortString () const;
+              asShortString ();
   */
 
         if (++i == iEnd) break;

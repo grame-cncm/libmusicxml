@@ -68,33 +68,33 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -169,35 +169,35 @@ class lilypondTransposePartNameAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -273,35 +273,35 @@ class lilypondTransposePartIDAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -355,28 +355,28 @@ class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -439,35 +439,35 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -533,35 +533,35 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -627,35 +627,35 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -723,35 +723,35 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string  theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -815,35 +815,35 @@ class lilypondLyricsDurationsKindAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    string                asShortNamedOptionString () const;
-    string                asActualLongNamedOptionString () const;
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -919,7 +919,7 @@ class lpsr2LilypondOah : public oahGroup
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency ();
+    virtual void          checkOptionsConsistency () override;
 
   public:
 
@@ -999,10 +999,10 @@ class lpsr2LilypondOah : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
@@ -1340,20 +1340,20 @@ class lilypondBreakPageAfterMeasureNumberAtom : public oahValuedAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
     void                  handleValue (
                             string   theString,
-                            ostream& os);
+                            ostream& os) override;
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 

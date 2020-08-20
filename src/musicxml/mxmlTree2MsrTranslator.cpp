@@ -22645,7 +22645,7 @@ void mxmlTree2MsrTranslator::displayLastHandledTupletInVoiceMap (string header)
         ", voice " <<  (*i).first.second <<
         endl;
 //        "\"" << (*i).first->getVoiceName () <<
-//        "\" ----> " << (*i).second->asString () const;
+//        "\" ----> " << (*i).second->asString ();
       if (++i == iEnd) break;
       fLogOutputStream << endl;
     } // for

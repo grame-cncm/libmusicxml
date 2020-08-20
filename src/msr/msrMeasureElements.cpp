@@ -142,6 +142,66 @@ bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (
     second->getMeasureElementPositionInMeasure ();
 }
 
+void msrMeasureElement::assignMeasureElementPositionInVoice (
+  rational& positionInVoice,
+  string    context)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Assigning measure element position in voice of " <<
+      asString () <<
+      " to '" << positionInVoice <<
+      "' in measure '" <<
+      fMeasureElementMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    positionInVoice != K_NO_POSITION,
+    "positionInVoice == K_NO_POSITION");
+
+  // set measure element position in voice
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Setting measure element position in voice of " <<
+      asString () <<
+      " to '" << positionInVoice <<
+      "' in measure '" <<
+      fMeasureElementMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  fMeasureElementPositionInVoice = positionInVoice;
+
+  // account for it in positionInVoice
+  positionInVoice +=
+    fMeasureElementSoundingWholeNotes;
+  positionInVoice.rationalise ();
+
+#ifdef TRACE_OAH
+  if (gTraceOah->fTracePositionsInMeasures) {
+    gLogOstream <<
+      "Position in voice becomes " <<
+      positionInVoice <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+}
+
 void msrMeasureElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH

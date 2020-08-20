@@ -3358,7 +3358,7 @@ void msrStaff::printSummary (ostream& os) const
 
     gIndenter++;
     for ( ; ; ) {
-      os << (*i)->asString () const;
+      os << (*i)->asString ();
       if (++i == iEnd) break;
       os << endl;
     } // for

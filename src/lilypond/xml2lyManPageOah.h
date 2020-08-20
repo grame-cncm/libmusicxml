@@ -60,28 +60,28 @@ class xml2lyManPageGenerateAtom : public oahAtom
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
-                            ostream& os);
+                            ostream& os) override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  print (ostream& os) const;
+    void                  print (ostream& os) const override;
 
     void                  printAtomOptionsValues (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            int      valueFieldWidth) const override;
 
   private:
 
@@ -152,7 +152,7 @@ class xml2lyManPageOah : public oahGroup
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency ();
+    virtual void          checkOptionsConsistency () override;
 
   public:
 
@@ -179,10 +179,10 @@ class xml2lyManPageOah : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 

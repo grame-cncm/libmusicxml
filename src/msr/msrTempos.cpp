@@ -644,21 +644,21 @@ string msrTempoTuplet::asString () const
         S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(*(*i)))
         ) {
         s <<
-          note->asShortString () const;
+          note->asShortString ();
       }
 
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
         ) {
         s <<
-          chord->asString () const;
+          chord->asString ();
       }
 
       else if (
         S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(*(*i)))
         ) {
         s <<
-          tempoTuplet->asString () const;
+          tempoTuplet->asString ();
       }
 
       else {

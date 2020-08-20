@@ -24,20 +24,20 @@ using namespace std;
 
 class EXP rational {
 
-   private:    
-   
+   private:
+
         long int fNumerator;
-        long int fDenominator;        
-        
+        long int fDenominator;
+
         // Used by rationalise()
-        long int gcd(long int a, long int b); 
- 
-    public:    
-	
+        long int gcd(long int a, long int b);
+
+    public:
+
         rational(long int num = 0, long int denom = 1);
         rational(const rational& d);
         rational(const string &str);
-    
+
         long int getNumerator()	const		{ return fNumerator; }
         long int getDenominator() const		{ return fDenominator; }
         void setNumerator(long int d)		{ fNumerator = d; }
@@ -47,37 +47,37 @@ class EXP rational {
         rational operator +(const rational &dur) const;
         rational operator -(const rational &dur) const;
         //! Useful for notes with dots.
-        rational operator *(const rational &dur) const; 
+        rational operator *(const rational &dur) const;
         rational operator /(const rational &dur) const;
         // (i.e. dur * 3/2 or dur * 7/4)
-  
-        rational operator *(int num) const; 
+
+        rational operator *(int num) const;
         rational operator /(int num) const;
-  
+
         rational& operator +=(const rational &dur);
         rational& operator -=(const rational &dur);
         //! Useful for notes with dots.
-        rational& operator *=(const rational &dur); 
+        rational& operator *=(const rational &dur);
         rational& operator /=(const rational &dur);
         // (i.e. dur * 3/2 or dur * 7/4)
 
         rational& operator *=(long int num) { fNumerator *= num; return *this; }
         rational& operator /=(long int num) { fDenominator *= num; return *this; }
- 
+
         rational& operator =(const rational& dur);
-    
+
         bool operator >(const rational &dur) const;
         bool operator >=(const rational &dur) const 	{return !(*this < dur);}
         bool operator <(const rational &dur) const;
         bool operator <=(const rational &dur) const 	{return !(*this > dur);}
-            
+
         bool operator ==(const rational &dur) const;
         bool operator !=(const rational &dur) const	{return !(*this == dur);}
-      
+
         bool operator >	(double num) const;
         bool operator >=(double num) const;
         bool operator <	(double num) const;
-        bool operator <=(double num) const;    
+        bool operator <=(double num) const;
         bool operator ==(double) const;
 
         // Used to "rationalise" rational.
@@ -87,7 +87,7 @@ class EXP rational {
         operator string () const;
 		operator double () const;
 		operator float () const;
-		operator int () const; 
+		operator int () const;
 
         //virtual string toString() const;  Why ?? SL
 		string toString() const;

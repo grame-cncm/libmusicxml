@@ -4865,7 +4865,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
           if (fFirstNoteCloneInVoice) {
             fLogOutputStream <<
-              fFirstNoteCloneInVoice->asShortString () const;
+              fFirstNoteCloneInVoice->asShortString ();
           }
           else {
             fLogOutputStream <<

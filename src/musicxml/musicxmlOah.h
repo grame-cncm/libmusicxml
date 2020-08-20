@@ -62,7 +62,7 @@ class musicxmlOah : public oahGroup
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency ();
+    virtual void          checkOptionsConsistency () override;
 
   public:
 
@@ -92,10 +92,10 @@ class musicxmlOah : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v);
+    virtual void          browseData (basevisitor* v) override;
 
   public:
 

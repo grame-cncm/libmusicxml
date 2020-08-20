@@ -5184,6 +5184,27 @@ void msrMeasure::finalizeMeasure (
         break;
     } // switch
 
+    // position in voice
+    rational
+      positionInVoice =
+        fMeasureSegmentUpLink->
+          getSegmentVoiceUpLink ()->
+            getCurrentPositionInVoice ();
+
+    // increment position in voice if relevant
+    for (
+      list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
+      i != fMeasureElementsList.end ();
+      i++
+    ) {
+      S_msrMeasureElement measureElement = (*i);
+
+      measureElement->
+        assignMeasureElementPositionInVoice (
+          positionInVoice,
+          "finalizeMeasure()");
+    } // for
+
     // register finalization
     fMeasureHasBeenFinalized = true;
     fMeasureFinalizationContext = context;
