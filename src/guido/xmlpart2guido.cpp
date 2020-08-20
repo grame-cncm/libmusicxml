@@ -302,7 +302,7 @@ bool xmlpart2guido::checkMeasureRange() {
                 }
                     
                 // Add last clef
-                std::string lastClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+                std::string lastClef = getClef(fTargetStaff , fCurrentVoicePosition, fMeasNum);
                 if (!lastClef.empty()) {
                     Sguidoelement tag = guidotag::create("clef");
                     tag->add (guidoparam::create(lastClef));
@@ -1228,6 +1228,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
             // staffClefMap: multimap containing <staff-num, measureNum, position, clef type>
             std::pair<rational, std::string> positionClef = std::pair<rational, std::string>(fCurrentVoicePosition ,param);
             staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(staffnum, std::pair< int, std::pair< rational, std::string > >(fMeasNum, positionClef) ) );
+            //cerr<<"\t\t<<< staffClefMap adding "<<param<<" staff:"<<staffnum <<" pos: ";fCurrentVoicePosition.print(cerr);cerr<<" size="<<staffClefMap.size()<<endl;
             
             if ((staffnum != fTargetStaff) || fNotesOnly)
             {
@@ -2797,7 +2798,10 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         if (nv.getStep().size())
         {
             // Check out clef for position and voice
-            std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+            std::string thisClef = getClef(fTargetStaff , fCurrentVoicePosition, fMeasNum);
+            if (thisClef.empty()) {
+                return 0;
+            }
             float noteHeadPos=nv.getNoteHeadDy(thisClef);
             float restformatDy = noteHeadPos;
             // Rest default position in Guido (dy 0) is the middle line of the staff
@@ -2828,9 +2832,14 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         return 0;
     }
     
+    /// Provides the clef at position, Staff and Measure
+    /// @param staffIndex  the staff index **relative to MusicXML** (not guido staff)
+    /// @param pos relative position in voice
+    /// @param measureNum  measure number
+    ///     - IMPORTANT:   the staffIndex in this method should be the XML staffIndex of the PART and not the Guido staff. THis is stored in fTargetStaff
     std::string xmlpart2guido::getClef(int staffIndex, rational pos, int measureNum) {
         //     std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
-        std::string thisClef = "g";
+        std::string thisClef = "";
         if (staffClefMap.size()>0) {
             auto staffRange = staffClefMap.equal_range(staffIndex);
             
@@ -3020,7 +3029,10 @@ bool xmlpart2guido::findNextNote(ctree<xmlelement>::iterator& elt, ctree<xmlelem
 }
 
 void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, Sguidoelement& tag, float offset) {
-    std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+    std::string thisClef = getClef(fTargetStaff , fCurrentVoicePosition, fMeasNum);
+    if (thisClef.empty()) {
+        thisClef = "g";
+    }
     float noteHeadDy = nv.getNoteHeadDy(thisClef);
     float xmlY = xml2guidovisitor::getYposition(elt, 0, true);
     /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
@@ -3044,7 +3056,10 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
 }
 
 float xmlpart2guido::getNoteDistanceFromStaffTop(const notevisitor& nv) {
-    std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
+    std::string thisClef = getClef(fTargetStaff , fCurrentVoicePosition, fMeasNum);
+    if (thisClef.empty()) {
+        thisClef = "g";
+    }
     float noteHeadDy = nv.getNoteHeadDy(thisClef);
     /// Notehead placement from top of the staff is (noteheaddy - 10) for G-Clef, and for F-Clef: (2.0 - noteheaddy)
     float noteDistanceFromStaffTop = 0.0;
