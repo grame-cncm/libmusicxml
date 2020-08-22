@@ -595,18 +595,12 @@ void msrScore::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    singularOrPluralWithoutNumber (
-      partGroupsListSize,
-      "part group number", "part groups number") <<
-    ": " <<
+    "partGroupsListSize" << " : " <<
     partGroupsListSize <<
     endl <<
 
     setw (fieldWidth) <<
-    singularOrPluralWithoutNumber (
-      fScoreNumberOfMeasures,
-      "measure number", "measures number") <<
-    ": " <<
+    "scoreNumberOfMeasures" << " : " <<
     fScoreNumberOfMeasures <<
     endl <<
 

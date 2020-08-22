@@ -421,9 +421,8 @@ class msrChord : public msrTupletElement
 
     string                asStringwithRawDivisions () const;
 
-    string                asString () const override;
-
     string                asShortString () const override;
+    string                asString () const override;
 
     virtual void          print (ostream& os) const override;
 

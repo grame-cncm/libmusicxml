@@ -3000,8 +3000,8 @@ void msrChordBeamLink::print (ostream& os) const
 
   gIndenter++;
   os <<
-    fOriginalBeam <<
-    fChordUpLink;
+    fOriginalBeam; // <<
+    fChordUpLink->asString ();
   gIndenter--;
 
   gIndenter--;
@@ -3025,7 +3025,9 @@ void msrChordBeamLink::printShort (ostream& os) const
 
   gIndenter++;
   fOriginalBeam->printShort (os);
-// JMI ??? INFINITE RECURSION  fChordUpLink->printShort (os);
+  os <<
+    fChordUpLink->asShortString () <<
+    endl;
   gIndenter--;
 
   gIndenter--;
@@ -3208,7 +3210,7 @@ void msrChordSlurLink::print (ostream& os) const
   gIndenter++;
   os <<
     fOriginalSlur <<
-    fChordUpLink;
+    fChordUpLink->asString ();
   gIndenter--;
 
   gIndenter--;
@@ -3232,7 +3234,9 @@ void msrChordSlurLink::printShort (ostream& os) const
 
   gIndenter++;
   fOriginalSlur->printShort (os);
-  fChordUpLink->printShort (os);
+  os <<
+    fChordUpLink->asShortString () <<
+    endl;
   gIndenter--;
 
   gIndenter--;
@@ -3417,7 +3421,8 @@ void msrChordGraceNotesGroupLink::print (ostream& os) const
   gIndenter++;
   os <<
     fOriginalGraceNotesGroup <<
-    fChordUpLink;
+    fChordUpLink->asString () <<
+    endl;
   gIndenter--;
 
   gIndenter--;
@@ -3441,7 +3446,9 @@ void msrChordGraceNotesGroupLink::printShort (ostream& os) const
 
   gIndenter++;
   fOriginalGraceNotesGroup->printShort (os);
-  fChordUpLink->printShort (os);
+  os <<
+    fChordUpLink->asShortString () <<
+    endl;
   gIndenter--;
 
   gIndenter--;
