@@ -736,11 +736,16 @@ class lpsrOah : public oahGroup
     // paper
     // --------------------------------------
 
+    bool                  fAllPaperVariables;
+
     msrLengthUnitKind     fLengthUnitKind;
     msrLengthUnitKind     fLengthUnitKindDefaultValue;
 
     msrLength             fPaperHeight;
+    S_oahLengthAtom       fPaperHeightAtom;
+
     msrLength             fPaperWidth;
+    S_oahLengthAtom       fPaperWidthAtom;
 
     // indents
     msrLength             fPaperHorizontalShift;

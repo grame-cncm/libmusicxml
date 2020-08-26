@@ -1949,6 +1949,21 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
+  // all paper variables
+
+  fAllPaperVariables = boolOptionsInitialValue;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+         "apv", "all-paper-variables",
+R"(Generate LilyPond comments containing paper variables
+that are not present in the MusicXML data nor specified in options.
+Default values are supplied.
+This helps the user adapting the generated code for their needs.)",
+        "allPaperVariables",
+        fAllPaperVariables));
+
   // length unit kind
 
   fLengthUnitKindDefaultValue = kMillimeterUnit; // default value;
@@ -1984,34 +1999,38 @@ The default is 'DEFAULT_VALUE'.)",
   fPaperHeight.setLengthUnitKind (kMillimeterUnit);
   fPaperHeight.setLengthValue (297);
 
-  subGroup->
-    appendAtomToSubGroup (
-      oahLengthAtom::create (
-        "paper-height", "",
+  fPaperHeightAtom =
+    oahLengthAtom::create (
+      "paper-height", "",
 R"(Set the LilyPond 'paper-height' paper variable to HEIGHT in the LilyPond code.
 HEIGHT should be a positive floating point or integer number,
 immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
 By default, LilyPond uses 297 mm (A4 format).)",
-        "HEIGHT",
-        "paperHeight",
-        fPaperHeight));
+      "HEIGHT",
+      "paperHeight",
+      fPaperHeight);
+  subGroup->
+    appendAtomToSubGroup (
+      fPaperHeightAtom);
 
   // paper width
 
   fPaperWidth.setLengthUnitKind (kMillimeterUnit);
   fPaperWidth.setLengthValue (210);
 
-  subGroup->
-    appendAtomToSubGroup (
-      oahLengthAtom::create (
-        "paper-width", "",
+  fPaperWidthAtom =
+    oahLengthAtom::create (
+      "paper-width", "",
 R"(Set the LilyPond 'paper-width' paper variable to WIDTH in the LilyPond code.
 WIDTH should be a positive floating point or integer number,
 immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
 By default, LilyPond uses 210 mm (A4 format).)",
-        "WIDTH",
-        "paperWidth",
-        fPaperWidth));
+      "WIDTH",
+      "paperWidth",
+      fPaperWidth);
+  subGroup->
+    appendAtomToSubGroup (
+      fPaperWidthAtom);
 
 /* JMI superflous
   // a4
@@ -2654,6 +2673,9 @@ S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
   // paper
   // --------------------------------------
 
+  clone->fAllPaperVariables =
+    fAllPaperVariables;
+
   clone->fLengthUnitKind =
     fLengthUnitKind;
   clone->fLengthUnitKindDefaultValue =
@@ -2958,6 +2980,10 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
+    setw (fieldWidth) << "allPaperVariables" << " : " <<
+    booleanAsString (fAllPaperVariables) <<
+    endl <<
+
     setw (fieldWidth) << "lengthUnitKind" << " : " <<
     msrLengthUnitKindAsString (fLengthUnitKind) <<
     endl <<

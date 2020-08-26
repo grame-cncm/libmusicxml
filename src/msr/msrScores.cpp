@@ -770,20 +770,15 @@ void msrScore::printShort (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    singularOrPluralWithoutNumber (
-      partGroupsListSize,
-      "part group number", "part groups number") <<
-    ": " <<
+    "partGroupsListSize" << " : " <<
     partGroupsListSize <<
     endl <<
 
     setw (fieldWidth) <<
-    singularOrPluralWithoutNumber (
-      fScoreNumberOfMeasures,
-      "measure number", "measures number") <<
-    ": " <<
+    "scoreNumberOfMeasures" << " : " <<
     fScoreNumberOfMeasures <<
     endl;
+
 /*
   os << left <<
     setw (fieldWidth) <<
@@ -820,6 +815,8 @@ void msrScore::printShort (ostream& os) const
   }
 */
 
+  os << endl;
+
   // print the scaling if any
   if (fScaling) {
     os <<
@@ -827,7 +824,6 @@ void msrScore::printShort (ostream& os) const
       endl;
   }
 
-/*
   // print the page layout if any
   if (fPageLayout) {
     os <<
@@ -856,6 +852,7 @@ void msrScore::printShort (ostream& os) const
       endl;
   }
 
+/*
   // print the credits if any
   int creditsListSize = fCreditsList.size ();
 
@@ -956,18 +953,12 @@ void msrScore::printSummary (ostream& os) const
   // print global information
   os << left <<
     setw (fieldWidth) <<
-    singularOrPluralWithoutNumber (
-      partGroupsListSize,
-      "part group number", "part groups number") <<
-    ": " <<
+    "partGroupsListSize" << " : " <<
     partGroupsListSize <<
     endl <<
 
     setw (fieldWidth) <<
-    singularOrPluralWithoutNumber (
-      fScoreNumberOfMeasures,
-      "measure number", "measures number") <<
-    ": " <<
+    "scoreNumberOfMeasures" << " : " <<
     fScoreNumberOfMeasures <<
     endl <<
 
@@ -1017,6 +1008,34 @@ void msrScore::printSummary (ostream& os) const
   if (fScaling) {
     os <<
       fScaling <<
+      endl;
+  }
+
+  // print the page layout if any
+  if (fPageLayout) {
+    os <<
+      fPageLayout <<
+      endl;
+  }
+
+  // print the system layout if any
+  if (fSystemLayout) {
+    os <<
+      fSystemLayout <<
+      endl;
+  }
+
+  // print the staff layout if any
+  if (fStaffLayout) {
+    os <<
+      fStaffLayout <<
+      endl;
+  }
+
+  // print the appearance if any
+  if (fAppearance) {
+    os <<
+      fAppearance <<
       endl;
   }
 

@@ -109,6 +109,12 @@ class msr2LpsrTranslator :
   // layout
 
   public visitor<S_msrPageLayout>,
+  public visitor<S_msrSystemLayout>,
+  public visitor<S_msrStaffLayout>,
+
+  // appearance
+
+  public visitor<S_msrAppearance>,
 
   // parts & part groups
 
@@ -481,9 +487,11 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
 
+    // octave shifts
     virtual void visitStart (S_msrOctaveShift& elt);
     virtual void visitEnd   (S_msrOctaveShift& elt);
 
+    // instruments
     virtual void visitStart (S_msrAccordionRegistration& elt);
 
     virtual void visitStart (S_msrHarpPedalsTuning& elt);
@@ -534,17 +542,22 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrDampAll& elt);
     virtual void visitStart (S_msrScordatura& elt);
 
+    // bar checks
     virtual void visitStart (S_msrBarCheck& elt);
     virtual void visitEnd   (S_msrBarCheck& elt);
+
+    // bar number checks
     virtual void visitStart (S_msrBarNumberCheck& elt);
     virtual void visitEnd   (S_msrBarNumberCheck& elt);
 
+    // breaks
     virtual void visitStart (S_msrLineBreak& elt);
     virtual void visitEnd   (S_msrLineBreak& elt);
 
     virtual void visitStart (S_msrPageBreak& elt);
     virtual void visitEnd   (S_msrPageBreak& elt);
 
+    // repeats
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
     virtual void visitStart (S_msrRepeatCommonPart& elt);
@@ -552,6 +565,7 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrRepeatEnding& elt);
     virtual void visitEnd   (S_msrRepeatEnding& elt);
 
+    // measure repeats
     virtual void visitStart (S_msrMeasuresRepeat& elt);
     virtual void visitEnd   (S_msrMeasuresRepeat& elt);
     virtual void visitStart (S_msrMeasuresRepeatPattern& elt);
@@ -559,6 +573,7 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
     virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
 
+    // rest measures
     virtual void visitStart (S_msrRestMeasures& elt);
     virtual void visitEnd   (S_msrRestMeasures& elt);
     virtual void visitStart (S_msrRestMeasuresContents& elt);
@@ -569,12 +584,25 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrVarValsListAssoc& elt);
     virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
+    // scaling
     virtual void visitStart (S_msrScaling& elt);
     virtual void visitEnd   (S_msrScaling& elt);
 
+    // layout
     virtual void visitStart (S_msrPageLayout& elt);
     virtual void visitEnd   (S_msrPageLayout& elt);
 
+    virtual void visitStart (S_msrSystemLayout& elt);
+    virtual void visitEnd   (S_msrSystemLayout& elt);
+
+    virtual void visitStart (S_msrStaffLayout& elt);
+    virtual void visitEnd   (S_msrStaffLayout& elt);
+
+    // appearance
+    virtual void visitStart (S_msrAppearance& elt);
+    virtual void visitEnd   (S_msrAppearance& elt);
+
+    // midi
     virtual void visitStart (S_msrMidiTempo& elt);
     virtual void visitEnd   (S_msrMidiTempo& elt);
 

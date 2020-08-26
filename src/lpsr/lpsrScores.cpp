@@ -305,12 +305,12 @@ lpsrScore::lpsrScore (
       fMsrScore->getScaling (),
       fMsrScore->getPageLayout ());
 
-  // populate the paper
 /* JMI
-  // populate paper
+  // populate the paper
   msrLength paperWidth =
     elt->getPaperWidth ();
-  if (gLpsrOah->fPaperWidth.getLengthValue () > 0.0) {
+//  if (gLpsrOah->fPaperWidth.getLengthValue () > 0.0) {
+  if (gLpsrOah->fPaperWidthAtom->getVariableHasBeenSet ()) {
     paperWidth = gLpsrOah->fPaperWidth;
   }
   paper ->
@@ -318,7 +318,8 @@ lpsrScore::lpsrScore (
 
   msrLength paperHeight =
     elt->getPaperHeight ();
-  if (gLpsrOah->fPaperHeight.getLengthValue () > 0.0) {
+//  if (gLpsrOah->fPaperHeight.getLengthValue () > 0.0) {
+  if (gLpsrOah->fPaperHeightAtom->getVariableHasBeenSet ()) {
     paperWidth = gLpsrOah->fPaperHeight;
   }
   paper->
@@ -2448,6 +2449,12 @@ void lpsrScore::print (ostream& os) const
 
   // print the voices and stanzas
   if (fScoreElementsList.size ()) {
+    os <<
+      "Voices & Stanzas" <<
+      endl <<
+      endl;
+    gIndenter++;
+
     list<S_msrElement>::const_iterator
       iBegin = fScoreElementsList.begin (),
       iEnd   = fScoreElementsList.end (),
@@ -2459,10 +2466,17 @@ void lpsrScore::print (ostream& os) const
     } // for
 
     os << endl;
+    gIndenter--;
   }
 
   // print the book blocks
   if (fScoreBookBlocksList.size ()) {
+    os <<
+      "Book blocks" <<
+      endl <<
+      endl;
+    gIndenter++;
+
     list<S_lpsrBookBlock>::const_iterator
       iBegin = fScoreBookBlocksList.begin (),
       iEnd   = fScoreBookBlocksList.end (),
@@ -2474,6 +2488,7 @@ void lpsrScore::print (ostream& os) const
     } // for
 
     os << endl;
+    gIndenter--;
   }
 
   gIndenter--;
@@ -2511,6 +2526,13 @@ void lpsrScore::printShort (ostream& os) const
     endl;
 */
 
+  os <<
+    "LPSR basic information" <<
+    endl <<
+    endl;
+
+  gIndenter++;
+
   // print LPSR basic information
   fScoreHeader->printShort (os);
   os << endl;
@@ -2529,8 +2551,17 @@ void lpsrScore::printShort (ostream& os) const
 
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
+  gIndenter--;
+
   // print the voices and stanzas
   if (fScoreElementsList.size ()) {
+    os <<
+      "Voices & Stanzas" <<
+      endl <<
+      endl;
+
+    gIndenter++;
+
     list<S_msrElement>::const_iterator
       iBegin = fScoreElementsList.begin (),
       iEnd   = fScoreElementsList.end (),
@@ -2542,10 +2573,17 @@ void lpsrScore::printShort (ostream& os) const
     } // for
 
     os << endl;
+    gIndenter--;
   }
 
   // print the book blocks
   if (fScoreBookBlocksList.size ()) {
+    os <<
+      "Book blocks" <<
+      endl <<
+      endl;
+    gIndenter++;
+
     list<S_lpsrBookBlock>::const_iterator
       iBegin = fScoreBookBlocksList.begin (),
       iEnd   = fScoreBookBlocksList.end (),
@@ -2557,6 +2595,7 @@ void lpsrScore::printShort (ostream& os) const
     } // for
 
     os << endl;
+    gIndenter--;
   }
 
   gIndenter--;

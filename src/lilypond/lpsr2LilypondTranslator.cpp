@@ -5021,61 +5021,481 @@ void lpsr2LilypondTranslator::generatePaperPageSize (
   msrLength
     paperHeight;
 
-  if (gLpsrOah->fPaperHeight.getLengthValue () >= 0) { // JMI BLARK
+//  if (gLpsrOah->fPaperHeight.getLengthValue () >= 0.0) { // JMI BLARK
+  if (gLpsrOah->fPaperHeightAtom->getVariableHasBeenSet ()) {
     paperHeight =
       gLpsrOah->fPaperHeight;
   }
-  else {
+  else if (pageLayout) {
     paperHeight =
       * (pageLayout->getPageHeight ()); // BLARK
   }
 
-  if (paperHeight.getLengthValue () < 0.0) {
-    fLilypondCodeOstream << "%";
+  if (paperHeight.getLengthValue () >= 0.0) { // JMI ???
+    if (paperHeight.getLengthValue () < 0.0) {
+      fLilypondCodeOstream << "%";
+    }
+    fLilypondCodeOstream << left <<
+      setw (fieldWidth) <<
+      "paper-height" << " = ";
+    if (paperHeight.getLengthValue () >= 0.0) {
+      fLilypondCodeOstream <<
+        setprecision (3) << paperHeight.getLengthValue () <<
+        lengthUnitAsLilypondString (paperHeight.getLengthUnitKind ());
+    }
+    else {
+      fLilypondCodeOstream <<
+        "297.0" <<
+        lengthUnitAsLilypondString (defaultLengthUnit);
+    }
+    fLilypondCodeOstream << endl;
   }
-  fLilypondCodeOstream << left <<
-    setw (fieldWidth) <<
-    "paper-height" << " = ";
-  if (paperHeight.getLengthValue () >= 0.0) {
-    fLilypondCodeOstream <<
-      setprecision (3) << paperHeight.getLengthValue () <<
-      lengthUnitAsLilypondString (paperHeight.getLengthUnitKind ());
-  }
-  else {
-    fLilypondCodeOstream <<
-      "297.0" <<
-      lengthUnitAsLilypondString (defaultLengthUnit);
-  }
-  fLilypondCodeOstream << endl;
 
   // paper width
   msrLength
     paperWidth;
 
-  if (gLpsrOah->fPaperWidth.getLengthValue () >= 0) { // JMI BLARK
+//  if (gLpsrOah->fPaperWidth.getLengthValue () >= 0.0) { // JMI BLARK
+  if (gLpsrOah->fPaperWidthAtom->getVariableHasBeenSet ()) {
     paperWidth =
       gLpsrOah->fPaperWidth;
   }
-  else {
+  else if (pageLayout) {
     paperWidth =
       * (pageLayout->getPageWidth ()); // BLARK
   }
 
-  if (paperWidth.getLengthValue () < 0.0) {
+  if (paperWidth.getLengthValue () >= 0.0) {
+    if (paperWidth.getLengthValue () < 0.0) {
+      fLilypondCodeOstream << "%";
+    }
+    fLilypondCodeOstream << left <<
+      setw (fieldWidth) <<
+      "paper-width" << " = ";
+    if (paperWidth.getLengthValue () >= 0.0) {
+      fLilypondCodeOstream <<
+        setprecision (3) << paperWidth.getLengthValue () <<
+        lengthUnitAsLilypondString (paperWidth.getLengthUnitKind ());
+    }
+    else {
+      fLilypondCodeOstream <<
+        "210.0" <<
+        lengthUnitAsLilypondString (defaultLengthUnit);
+    }
+    fLilypondCodeOstream << endl;
+  }
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generatePaperMargins (
+  S_msrPageLayout   pageLayout,
+  msrLengthUnitKind defaultLengthUnit,
+  int               fieldWidth)
+{
+  return; // JMI
+  // left margin
+  bool   commentOutLeftMargin = false;
+  float  leftMarginValue = 0.0; // JMI
+  string leftMarginUnitString =
+           lengthUnitAsLilypondString (defaultLengthUnit);
+
+  if (pageLayout) {
+    S_msrMargin
+      leftMargin =
+        pageLayout->getSingleLeftMargin ();
+
+    if (leftMargin) {
+      leftMarginValue =
+        leftMargin->getMarginLength ().getLengthValue ();
+
+      leftMarginUnitString =
+        lengthUnitAsLilypondString (
+          leftMargin->getMarginLength ().getLengthUnitKind ());
+    }
+    else {
+      commentOutLeftMargin = true;
+    }
+  }
+  else {
+    commentOutLeftMargin = true;
+  }
+
+  if (commentOutLeftMargin) {
     fLilypondCodeOstream << "%";
   }
   fLilypondCodeOstream << left <<
     setw (fieldWidth) <<
-    "paper-width" << " = ";
-  if (paperWidth.getLengthValue () >= 0.0) {
+    "left-margin" << " = " <<
+    setprecision (3) << leftMarginValue <<
+    leftMarginUnitString <<
+    endl;
+
+  // right margin
+  bool   commentOutRightMargin = false;
+  float  rightMarginValue = 0.0; // JMI
+  string rightMarginUnitString =
+           lengthUnitAsLilypondString (defaultLengthUnit);
+
+  if (pageLayout) {
+    S_msrMargin
+      rightMargin =
+        pageLayout->getSingleRightMargin ();
+
+    if (rightMargin) {
+      rightMarginValue =
+        rightMargin->getMarginLength ().getLengthValue ();
+
+      rightMarginUnitString =
+        lengthUnitAsLilypondString (
+          rightMargin->getMarginLength ().getLengthUnitKind ());
+    }
+    else {
+      commentOutRightMargin = true;
+    }
+  }
+  else {
+    commentOutRightMargin = true;
+  }
+
+  if (commentOutRightMargin) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "right-margin" << " = " <<
+    setprecision (3) << rightMarginValue <<
+    rightMarginUnitString <<
+    endl;
+
+  // top margin
+  bool   commentOutTopMargin = false;
+  float  topMarginValue = 0.0; // JMI
+  string topMarginUnitString =
+           lengthUnitAsLilypondString (defaultLengthUnit);
+
+  if (pageLayout) {
+    S_msrMargin
+      topMargin =
+        pageLayout->getSingleTopMargin ();
+
+    if (topMargin) {
+      topMarginValue =
+        topMargin->getMarginLength ().getLengthValue ();
+
+      topMarginUnitString =
+        lengthUnitAsLilypondString (
+          topMargin->getMarginLength ().getLengthUnitKind ());
+    }
+    else {
+      commentOutTopMargin = true;
+    }
+  }
+  else {
+    commentOutTopMargin = true;
+  }
+
+  if (commentOutTopMargin) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "top-margin" << " = " <<
+    setprecision (3) << topMarginValue <<
+    topMarginUnitString <<
+    endl;
+
+  // bottom margin
+  bool   commentOutBottomMargin = false;
+  float  bottomMarginValue = 0.0; // JMI
+  string bottomMarginUnitString =
+           lengthUnitAsLilypondString (defaultLengthUnit);
+
+  if (pageLayout) {
+    S_msrMargin
+      bottomMargin =
+        pageLayout->getSingleBottomMargin ();
+
+    if (bottomMargin) {
+      bottomMarginValue =
+        bottomMargin->getMarginLength ().getLengthValue ();
+
+      bottomMarginUnitString =
+        lengthUnitAsLilypondString (
+          bottomMargin->getMarginLength ().getLengthUnitKind ());
+    }
+    else {
+      commentOutBottomMargin = true;
+    }
+  }
+  else {
+    commentOutBottomMargin = true;
+  }
+
+  if (commentOutBottomMargin) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "bottom-margin" << " = " <<
+    setprecision (3) << bottomMarginValue <<
+    bottomMarginUnitString <<
+    endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generatePaperIndents (
+  S_lpsrPaper       pagePaper,
+  msrLengthUnitKind defaultLengthUnit,
+  int               fieldWidth)
+{
+  return; // JMI
+  // horizontal shift
+  S_msrLength
+    horizontalShift =
+      pagePaper->getHorizontalShift ();
+
+  if (! horizontalShift) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "horizontal-shift" << " = ";
+  if (horizontalShift) {
     fLilypondCodeOstream <<
-      setprecision (3) << paperWidth.getLengthValue () <<
-      lengthUnitAsLilypondString (paperWidth.getLengthUnitKind ());
+      setprecision (3) << horizontalShift->getLengthValue () <<
+      lengthUnitAsLilypondString (horizontalShift->getLengthUnitKind ());
   }
   else {
     fLilypondCodeOstream <<
-      "210.0" <<
+      "0.0" <<
       lengthUnitAsLilypondString (defaultLengthUnit);
+  }
+  fLilypondCodeOstream << endl;
+
+  // indent
+  S_msrLength
+    indent =
+      pagePaper->getIndent ();
+
+  if (! indent) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "indent" << " = ";
+  if (indent) {
+    fLilypondCodeOstream <<
+      setprecision (3) << indent->getLengthValue () <<
+      lengthUnitAsLilypondString (indent->getLengthUnitKind ());
+  }
+  else {
+    fLilypondCodeOstream <<
+      "0.0" <<
+      lengthUnitAsLilypondString (defaultLengthUnit);
+  }
+  fLilypondCodeOstream << endl;
+
+  // short indent
+  S_msrLength
+    shortIndent =
+      pagePaper->getShortIndent ();
+
+  if (! shortIndent) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "short-indent" << " = ";
+  if (shortIndent) {
+    fLilypondCodeOstream <<
+      setprecision (3) << shortIndent->getLengthValue () <<
+      lengthUnitAsLilypondString (shortIndent->getLengthUnitKind ());
+  }
+  else {
+    fLilypondCodeOstream <<
+      "0.0" <<
+      lengthUnitAsLilypondString (defaultLengthUnit);
+  }
+  fLilypondCodeOstream << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generatePaperSpaces (
+  S_lpsrPaper       pagePaper,
+  msrLengthUnitKind defaultLengthUnit,
+  int               fieldWidth)
+{
+  return; // JMI
+  // markup system spacing padding
+  S_msrLength
+    markupSystemPpacingPadding =
+      pagePaper->getMarkupSystemSpacingPadding ();
+
+  if (! markupSystemPpacingPadding) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "markup-system-spacing.padding" << " = ";
+  if (markupSystemPpacingPadding) {
+    fLilypondCodeOstream <<
+      setprecision (3) << markupSystemPpacingPadding->getLengthValue () <<
+      lengthUnitAsLilypondString (markupSystemPpacingPadding->getLengthUnitKind ());
+  }
+  else {
+    fLilypondCodeOstream <<
+      "0.0" <<
+      lengthUnitAsLilypondString (defaultLengthUnit);
+  }
+  fLilypondCodeOstream << endl;
+
+  // between system space
+  S_msrLength
+    betweenSystemSpace =
+      pagePaper->getBetweenSystemSpace ();
+
+  if (! betweenSystemSpace) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "between-system-space" << " = ";
+  if (betweenSystemSpace) {
+    fLilypondCodeOstream <<
+      setprecision (3) << betweenSystemSpace->getLengthValue () <<
+      lengthUnitAsLilypondString (betweenSystemSpace->getLengthUnitKind ());
+  }
+  else {
+    fLilypondCodeOstream <<
+      "0.0" <<
+      lengthUnitAsLilypondString (defaultLengthUnit);
+  }
+  fLilypondCodeOstream << endl;
+
+  // page top space
+  S_msrLength
+    pageTopSpace =
+      pagePaper->getPageTopSpace ();
+
+  if (! pageTopSpace) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "page-top-space" << " = ";
+  if (pageTopSpace) {
+    fLilypondCodeOstream <<
+      setprecision (3) << pageTopSpace->getLengthValue () <<
+      lengthUnitAsLilypondString (pageTopSpace->getLengthUnitKind ());
+  }
+  else {
+    fLilypondCodeOstream <<
+      "0.0" <<
+      lengthUnitAsLilypondString (defaultLengthUnit);
+  }
+  fLilypondCodeOstream << endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generatePaperCounts (
+  S_lpsrPaper       pagePaper,
+  msrLengthUnitKind defaultLengthUnit,
+  int               fieldWidth)
+{
+  return; // JMI
+  // page count
+  int
+    pageCount =
+      pagePaper->getPageCount ();
+
+  if (pageCount < 0) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "page-count" << " = " <<
+     pageCount <<
+     endl;
+
+  // system count
+  int
+    systemCount =
+      pagePaper->getSystemCount ();
+
+  if (systemCount < 0) {
+    fLilypondCodeOstream << "%";
+  }
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "system-count" << " = " <<
+     systemCount <<
+     endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generatePaperHeadersAndFooters (
+  S_lpsrPaper       pagePaper,
+  msrLengthUnitKind defaultLengthUnit,
+  int               fieldWidth)
+{
+  return; // JMI
+  string oddHeaderMarkup =
+    pagePaper->getOddHeaderMarkup ();
+
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "oddHeaderMarkup" << " = ";
+  if (oddHeaderMarkup.size ()) {
+    fLilypondCodeOstream <<
+      oddHeaderMarkup;
+  }
+  else {
+    fLilypondCodeOstream << "\"\"";
+  }
+  fLilypondCodeOstream << endl;
+
+  string evenHeaderMarkup =
+    pagePaper->getEvenHeaderMarkup ();
+
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "evenHeaderMarkup" << " = ";
+  if (evenHeaderMarkup.size ()) {
+    fLilypondCodeOstream <<
+      evenHeaderMarkup;
+  }
+  else {
+    fLilypondCodeOstream << "\"\"";
+  }
+  fLilypondCodeOstream << endl;
+
+  string oddFooterMarkup =
+    pagePaper->getOddFooterMarkup ();
+
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "oddFooterMarkup" << " = ";
+  if (oddFooterMarkup.size ()) {
+    fLilypondCodeOstream <<
+      oddFooterMarkup;
+  }
+  else {
+    fLilypondCodeOstream << "\"\"";
+  }
+  fLilypondCodeOstream << endl;
+
+  string evenFooterMarkup =
+    pagePaper->getEvenFooterMarkup ();
+
+  fLilypondCodeOstream << left <<
+    setw (fieldWidth) <<
+    "evenFooterMarkup" << " = ";
+  if (evenFooterMarkup.size ()) {
+    fLilypondCodeOstream <<
+      evenFooterMarkup;
+  }
+  else {
+    fLilypondCodeOstream << "\"\"";
   }
   fLilypondCodeOstream << endl;
 }
@@ -5125,405 +5545,46 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     fLilypondCodeOstream << endl;
 
     // margins
-    {
-      // left margin
-      bool   commentOutLeftMargin = false;
-      float  leftMarginValue = 0.0; // JMI
-      string leftMarginUnitString =
-               lengthUnitAsLilypondString (defaultLengthUnit);
-
-      if (pageLayout) {
-        S_msrMargin
-          leftMargin =
-            pageLayout->getSingleLeftMargin ();
-
-        if (leftMargin) {
-          leftMarginValue =
-            leftMargin->getMarginLength ().getLengthValue ();
-
-          leftMarginUnitString =
-            lengthUnitAsLilypondString (
-              leftMargin->getMarginLength ().getLengthUnitKind ());
-        }
-        else {
-          commentOutLeftMargin = true;
-        }
-      }
-      else {
-        commentOutLeftMargin = true;
-      }
-
-      if (commentOutLeftMargin) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "left-margin" << " = " <<
-        setprecision (3) << leftMarginValue <<
-        leftMarginUnitString <<
-        endl;
-
-      // right margin
-      bool   commentOutRightMargin = false;
-      float  rightMarginValue = 0.0; // JMI
-      string rightMarginUnitString =
-               lengthUnitAsLilypondString (defaultLengthUnit);
-
-      if (pageLayout) {
-        S_msrMargin
-          rightMargin =
-            pageLayout->getSingleRightMargin ();
-
-        if (rightMargin) {
-          rightMarginValue =
-            rightMargin->getMarginLength ().getLengthValue ();
-
-          rightMarginUnitString =
-            lengthUnitAsLilypondString (
-              rightMargin->getMarginLength ().getLengthUnitKind ());
-        }
-        else {
-          commentOutRightMargin = true;
-        }
-      }
-      else {
-        commentOutRightMargin = true;
-      }
-
-      if (commentOutRightMargin) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "right-margin" << " = " <<
-        setprecision (3) << rightMarginValue <<
-        rightMarginUnitString <<
-        endl;
-
-      // top margin
-      bool   commentOutTopMargin = false;
-      float  topMarginValue = 0.0; // JMI
-      string topMarginUnitString =
-               lengthUnitAsLilypondString (defaultLengthUnit);
-
-      if (pageLayout) {
-        S_msrMargin
-          topMargin =
-            pageLayout->getSingleTopMargin ();
-
-        if (topMargin) {
-          topMarginValue =
-            topMargin->getMarginLength ().getLengthValue ();
-
-          topMarginUnitString =
-            lengthUnitAsLilypondString (
-              topMargin->getMarginLength ().getLengthUnitKind ());
-        }
-        else {
-          commentOutTopMargin = true;
-        }
-      }
-      else {
-        commentOutTopMargin = true;
-      }
-
-      if (commentOutTopMargin) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "top-margin" << " = " <<
-        setprecision (3) << topMarginValue <<
-        topMarginUnitString <<
-        endl;
-
-      // bottom margin
-      bool   commentOutBottomMargin = false;
-      float  bottomMarginValue = 0.0; // JMI
-      string bottomMarginUnitString =
-               lengthUnitAsLilypondString (defaultLengthUnit);
-
-      if (pageLayout) {
-        S_msrMargin
-          bottomMargin =
-            pageLayout->getSingleBottomMargin ();
-
-        if (bottomMargin) {
-          bottomMarginValue =
-            bottomMargin->getMarginLength ().getLengthValue ();
-
-          bottomMarginUnitString =
-            lengthUnitAsLilypondString (
-              bottomMargin->getMarginLength ().getLengthUnitKind ());
-        }
-        else {
-          commentOutBottomMargin = true;
-        }
-      }
-      else {
-        commentOutBottomMargin = true;
-      }
-
-      if (commentOutBottomMargin) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "bottom-margin" << " = " <<
-        setprecision (3) << bottomMarginValue <<
-        bottomMarginUnitString <<
-        endl;
-    }
+    generatePaperMargins (
+      pageLayout,
+      defaultLengthUnit,
+      fieldWidth);
 
     // separator
     fLilypondCodeOstream << endl;
 
     // indents
-    {
-      // horizontal shift
-      S_msrLength
-        horizontalShift =
-          elt->getHorizontalShift ();
-
-      if (! horizontalShift) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "horizontal-shift" << " = ";
-      if (horizontalShift) {
-        fLilypondCodeOstream <<
-          setprecision (3) << horizontalShift->getLengthValue () <<
-          lengthUnitAsLilypondString (horizontalShift->getLengthUnitKind ());
-      }
-      else {
-        fLilypondCodeOstream <<
-          "0.0" <<
-          lengthUnitAsLilypondString (defaultLengthUnit);
-      }
-      fLilypondCodeOstream << endl;
-
-      // indent
-      S_msrLength
-        indent =
-          elt->getIndent ();
-
-      if (! indent) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "indent" << " = ";
-      if (indent) {
-        fLilypondCodeOstream <<
-          setprecision (3) << indent->getLengthValue () <<
-          lengthUnitAsLilypondString (indent->getLengthUnitKind ());
-      }
-      else {
-        fLilypondCodeOstream <<
-          "0.0" <<
-          lengthUnitAsLilypondString (defaultLengthUnit);
-      }
-      fLilypondCodeOstream << endl;
-
-      // short indent
-      S_msrLength
-        shortIndent =
-          elt->getShortIndent ();
-
-      if (! shortIndent) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "short-indent" << " = ";
-      if (shortIndent) {
-        fLilypondCodeOstream <<
-          setprecision (3) << shortIndent->getLengthValue () <<
-          lengthUnitAsLilypondString (shortIndent->getLengthUnitKind ());
-      }
-      else {
-        fLilypondCodeOstream <<
-          "0.0" <<
-          lengthUnitAsLilypondString (defaultLengthUnit);
-      }
-      fLilypondCodeOstream << endl;
-    }
+    generatePaperIndents (
+      elt,
+      defaultLengthUnit,
+      fieldWidth);
 
     // separator
     fLilypondCodeOstream << endl;
 
     // spaces
-    {
-      // markup system spacing padding
-      S_msrLength
-        markupSystemPpacingPadding =
-          elt->getMarkupSystemSpacingPadding ();
-
-      if (! markupSystemPpacingPadding) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "markup-system-spacing.padding" << " = ";
-      if (markupSystemPpacingPadding) {
-        fLilypondCodeOstream <<
-          setprecision (3) << markupSystemPpacingPadding->getLengthValue () <<
-          lengthUnitAsLilypondString (markupSystemPpacingPadding->getLengthUnitKind ());
-      }
-      else {
-        fLilypondCodeOstream <<
-          "0.0" <<
-          lengthUnitAsLilypondString (defaultLengthUnit);
-      }
-      fLilypondCodeOstream << endl;
-
-      // between system space
-      S_msrLength
-        betweenSystemSpace =
-          elt->getBetweenSystemSpace ();
-
-      if (! betweenSystemSpace) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "between-system-space" << " = ";
-      if (betweenSystemSpace) {
-        fLilypondCodeOstream <<
-          setprecision (3) << betweenSystemSpace->getLengthValue () <<
-          lengthUnitAsLilypondString (betweenSystemSpace->getLengthUnitKind ());
-      }
-      else {
-        fLilypondCodeOstream <<
-          "0.0" <<
-          lengthUnitAsLilypondString (defaultLengthUnit);
-      }
-      fLilypondCodeOstream << endl;
-
-      // page top space
-      S_msrLength
-        pageTopSpace =
-          elt->getPageTopSpace ();
-
-      if (! pageTopSpace) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "page-top-space" << " = ";
-      if (pageTopSpace) {
-        fLilypondCodeOstream <<
-          setprecision (3) << pageTopSpace->getLengthValue () <<
-          lengthUnitAsLilypondString (pageTopSpace->getLengthUnitKind ());
-      }
-      else {
-        fLilypondCodeOstream <<
-          "0.0" <<
-          lengthUnitAsLilypondString (defaultLengthUnit);
-      }
-      fLilypondCodeOstream << endl;
-    }
+    generatePaperSpaces (
+      elt,
+      defaultLengthUnit,
+      fieldWidth);
 
     // separator
     fLilypondCodeOstream << endl;
 
     // counts
-    {
-      // page count
-      int
-        pageCount =
-          elt->getPageCount ();
-
-      if (pageCount < 0) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "page-count" << " = " <<
-         pageCount <<
-         endl;
-
-      // system count
-      int
-        systemCount =
-          elt->getSystemCount ();
-
-      if (systemCount < 0) {
-        fLilypondCodeOstream << "%";
-      }
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "system-count" << " = " <<
-         systemCount <<
-         endl;
-    }
+    generatePaperCounts (
+      elt,
+      defaultLengthUnit,
+      fieldWidth);
 
     // separator
     fLilypondCodeOstream << endl;
 
     // headers and footers
-    {
-      string oddHeaderMarkup =
-        elt->getOddHeaderMarkup ();
-
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "oddHeaderMarkup" << " = ";
-      if (oddHeaderMarkup.size ()) {
-        fLilypondCodeOstream <<
-          oddHeaderMarkup;
-      }
-      else {
-        fLilypondCodeOstream << "\"\"";
-      }
-      fLilypondCodeOstream << endl;
-
-      string evenHeaderMarkup =
-        elt->getEvenHeaderMarkup ();
-
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "evenHeaderMarkup" << " = ";
-      if (evenHeaderMarkup.size ()) {
-        fLilypondCodeOstream <<
-          evenHeaderMarkup;
-      }
-      else {
-        fLilypondCodeOstream << "\"\"";
-      }
-      fLilypondCodeOstream << endl;
-
-      string oddFooterMarkup =
-        elt->getOddFooterMarkup ();
-
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "oddFooterMarkup" << " = ";
-      if (oddFooterMarkup.size ()) {
-        fLilypondCodeOstream <<
-          oddFooterMarkup;
-      }
-      else {
-        fLilypondCodeOstream << "\"\"";
-      }
-      fLilypondCodeOstream << endl;
-
-      string evenFooterMarkup =
-        elt->getEvenFooterMarkup ();
-
-      fLilypondCodeOstream << left <<
-        setw (fieldWidth) <<
-        "evenFooterMarkup" << " = ";
-      if (evenFooterMarkup.size ()) {
-        fLilypondCodeOstream <<
-          evenFooterMarkup;
-      }
-      else {
-        fLilypondCodeOstream << "\"\"";
-      }
-      fLilypondCodeOstream << endl;
-    }
+    generatePaperHeadersAndFooters (
+      elt,
+      defaultLengthUnit,
+      fieldWidth);
   }
 }
 
@@ -7358,6 +7419,81 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPageLayout& elt)
   if (gLpsrOah->fTraceLpsrVisitors) {
     fLilypondCodeOstream <<
       "% --> End visiting msrPageLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrSystemLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting msrSystemLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrSystemLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> End visiting msrSystemLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrStaffLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting msrStaffLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrStaffLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> End visiting msrStaffLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrAppearance& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> Start visiting msrAppearance" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrAppearance& elt)
+{
+#ifdef TRACE_OAH
+  if (gLpsrOah->fTraceLpsrVisitors) {
+    fLilypondCodeOstream <<
+      "% --> End visiting msrAppearance" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

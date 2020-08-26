@@ -984,13 +984,13 @@ void msr2LpsrTranslator::visitStart (S_msrScaling& elt)
 
   // create a scaling clone
   S_msrScaling
-    geometryClone =
+    scalingClone =
       elt->createMsrScalingNewbornClone ();
 
-  // register it in current MSR score clone
+  // register it in the current MSR score clone
   fCurrentMsrScoreClone-> // JMI BLARK ???
     setScaling (
-      geometryClone);
+      scalingClone);
 
   // get LPSR score paper
   S_lpsrPaper
@@ -1052,7 +1052,9 @@ void msr2LpsrTranslator::visitStart (S_msrScaling& elt)
 
   // create the score block layout staff-size Scheme assoc
   stringstream s;
+
   s << globalStaffSize;
+
   S_lpsrSchemeVariable
     assoc =
       lpsrSchemeVariable::create (
@@ -1076,6 +1078,126 @@ void msr2LpsrTranslator::visitEnd (S_msrScaling& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrScaling" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrSystemLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrSystemLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // register the aystem layout in the current MSR score clone
+  fCurrentMsrScoreClone->
+    setSystemLayout (
+      elt);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrSystemLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrSystemLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrStaffLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrStaffLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // register the staff layout in the current MSR score clone
+  fCurrentMsrScoreClone->
+    setStaffLayout (
+      elt);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrStaffLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrStaffLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrAppearance& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrAppearance" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // register the appearance in the current MSR score clone
+  fCurrentMsrScoreClone->
+    setAppearance (
+      elt);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrAppearance& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrAppearance" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrPageLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrPageLayout" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // register the page layout in the current MSR score clone
+  fCurrentMsrScoreClone->
+    setPageLayout (
+      elt);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrPageLayout& elt)
+{
+#ifdef TRACE_OAH
+  if (gMsrOah->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrPageLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -7099,35 +7221,6 @@ void msr2LpsrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
   if (gMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrVarValsListAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrPageLayout& elt)
-{
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrPageLayout" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
-}
-
-void msr2LpsrTranslator::visitEnd (S_msrPageLayout& elt)
-{
-  gIndenter--;
-
-#ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrPageLayout" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

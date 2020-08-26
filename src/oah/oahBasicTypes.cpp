@@ -924,7 +924,7 @@ oahBooleanAtom::oahBooleanAtom (
       shortName,
       longName,
       description,
-      "no valueSpecification for booleans ???",
+      "", // no valueSpecification for booleans
       variableName),
     fBooleanVariable (
       booleanVariable)

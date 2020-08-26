@@ -387,6 +387,7 @@ class lpsr2LilypondTranslator :
   protected:
 
     // LPSR
+    // ------------------------------------------------------
 
     virtual void visitStart (S_lpsrScore& elt);
     virtual void visitEnd   (S_lpsrScore& elt);
@@ -456,38 +457,56 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrSchemeFunction& elt);
     virtual void visitEnd   (S_lpsrSchemeFunction& elt);
 
-    // MSR score
 
+    // MSR
+    // ------------------------------------------------------
+
+    // MSR score
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
     // MSR scaling
-
     virtual void visitStart (S_msrScaling& elt);
     virtual void visitEnd   (S_msrScaling& elt);
 
      // MSR page layout
 
+    // layout
     virtual void visitStart (S_msrPageLayout& elt);
     virtual void visitEnd   (S_msrPageLayout& elt);
 
+    virtual void visitStart (S_msrSystemLayout& elt);
+    virtual void visitEnd   (S_msrSystemLayout& elt);
+
+    virtual void visitStart (S_msrStaffLayout& elt);
+    virtual void visitEnd   (S_msrStaffLayout& elt);
+
+    // appearance
+    virtual void visitStart (S_msrAppearance& elt);
+    virtual void visitEnd   (S_msrAppearance& elt);
+
+    // credits
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
 
+    // part groups
     virtual void visitStart (S_msrPartGroup& elt);
     virtual void visitEnd   (S_msrPartGroup& elt);
 
+    //parts
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
 
+    // staves
     virtual void visitStart (S_msrStaffTuning& elt);
     virtual void visitStart (S_msrStaffDetails& elt);
 
     virtual void visitStart (S_msrStaff& elt);
     virtual void visitEnd   (S_msrStaff& elt);
 
+    // voices
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
 
@@ -718,6 +737,9 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMidiTempo& elt);
     virtual void visitEnd   (S_msrMidiTempo& elt);
 
+    // own functions
+    // ------------------------------------------------------
+
     // names
 
     string                nameAsLilypondString (
@@ -741,6 +763,7 @@ class lpsr2LilypondTranslator :
                             int               fieldNameWidth);
 
     // lengths
+
     string                lengthUnitAsLilypondString (
                             msrLengthUnitKind lengthUnitKind);
 
@@ -752,6 +775,7 @@ class lpsr2LilypondTranslator :
                             S_msrMeasureElement measureElement);
 
     // markups
+
     enum markupColumnKind {
       markupColumnKindLeftAligned,
       markupColumnKindLeftACentered };
@@ -812,7 +836,6 @@ class lpsr2LilypondTranslator :
 
     // stems
 
-    // stems
     msrStem::msrStemKind  fCurrentStemKind;
 
     string                stemAsLilypondString (
@@ -948,6 +971,31 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     void                  generatePaperPageSize (
                             S_msrPageLayout   pageLayout,
+                            msrLengthUnitKind defaultLengthUnit,
+                            int               fieldWidth);
+
+    void                  generatePaperMargins (
+                            S_msrPageLayout   pageLayout,
+                            msrLengthUnitKind defaultLengthUnit,
+                            int               fieldWidth);
+
+    void                  generatePaperIndents (
+                            S_lpsrPaper       pagePaper,
+                            msrLengthUnitKind defaultLengthUnit,
+                            int               fieldWidth);
+
+    void                  generatePaperSpaces (
+                            S_lpsrPaper       pagePaper,
+                            msrLengthUnitKind defaultLengthUnit,
+                            int               fieldWidth);
+
+    void                  generatePaperCounts (
+                            S_lpsrPaper       pagePaper,
+                            msrLengthUnitKind defaultLengthUnit,
+                            int               fieldWidth);
+
+    void                  generatePaperHeadersAndFooters (
+                            S_lpsrPaper       pagePaper,
                             msrLengthUnitKind defaultLengthUnit,
                             int               fieldWidth);
 

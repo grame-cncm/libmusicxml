@@ -386,7 +386,6 @@ class mxmlTree2MsrOah : public oahGroup
     // ornaments
     // --------------------------------------
 
-
     bool                  fOmitOrnaments;
 
     // words
