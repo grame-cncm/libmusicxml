@@ -38,7 +38,7 @@
 
 #include "version.h"
 
-#include "mxmlTree.h"
+#include "bmmlTree.h"
 
 
 using namespace std;
@@ -55,7 +55,7 @@ msr2BmmltreeTranslator::msr2BmmltreeTranslator (
   fVisitedMsrScore = mScore;
 
   // create the current score part-wise element
-  fScorePartWiseElement = createScorePartWiseElement ();
+  fScorePartWiseElement = createBmmlScorePartWiseElement ();
 
   // print layouts
   fOnGoingPrintLayout = false;
@@ -156,7 +156,7 @@ void msr2BmmltreeTranslator::populatePageMargins (
         leftMargin->getMarginLength ();
 
     elem->push (
-      createElement (
+      createBmmlElement (
         k_left_margin,
         msrLengthAsTenths (leftMarginLength)));
   }
@@ -171,7 +171,7 @@ void msr2BmmltreeTranslator::populatePageMargins (
         rightMargin->getMarginLength ();
 
     elem->push (
-      createElement (
+      createBmmlElement (
         k_right_margin,
         msrLengthAsTenths (rightMarginLength)));
   }
@@ -186,7 +186,7 @@ void msr2BmmltreeTranslator::populatePageMargins (
         topMargin->getMarginLength ();
 
     elem->push (
-      createElement (
+      createBmmlElement (
         k_top_margin,
         msrLengthAsTenths (topMarginLength)));
   }
@@ -201,7 +201,7 @@ void msr2BmmltreeTranslator::populatePageMargins (
         bottomMargin->getMarginLength ();
 
     elem->push (
-      createElement (
+      createBmmlElement (
         k_bottom_margin,
         msrLengthAsTenths (bottomMarginLength)));
   }
@@ -213,11 +213,11 @@ void msr2BmmltreeTranslator::appendPageMarginsToScoreDefaultsPageLayout (
   // create a page margins element
   Sxmlelement
     pageMargins =
-      createElement (k_page_margins, "");
+      createBmmlElement (k_page_margins, "");
 
   // set its "type" element
   pageMargins->add (
-    createAttribute (
+    createBmmlAttribute (
       "type",
       msrMarginTypeKindAsString (
         marginsGroup->getMarginsGroupTypeKind ())));
@@ -247,7 +247,7 @@ void msr2BmmltreeTranslator::populateSystemMargins (
         leftMargin->getMarginLength ();
 
     elem->push (
-      createElement (
+      createBmmlElement (
         k_left_margin,
         msrLengthAsTenths (leftMarginLength)));
   }
@@ -262,7 +262,7 @@ void msr2BmmltreeTranslator::populateSystemMargins (
         rightMargin->getMarginLength ();
 
     elem->push (
-      createElement (
+      createBmmlElement (
         k_right_margin,
         msrLengthAsTenths (rightMarginLength)));
   }
@@ -325,7 +325,7 @@ void msr2BmmltreeTranslator::appendToScoreWork (
 {
   if (! fScoreWorkElement) {
     // create a work element
-    fScoreWorkElement = createElement (k_work, "");
+    fScoreWorkElement = createBmmlElement (k_work, "");
   }
 
   fScoreWorkElement->push (elem);
@@ -337,7 +337,7 @@ void msr2BmmltreeTranslator::appendToScoreIdentification (
 {
   if (! fScoreIdentificationElement) {
     // create an identification element
-    fScoreIdentificationElement = createElement (k_identification, "");
+    fScoreIdentificationElement = createBmmlElement (k_identification, "");
   }
 
   fScoreIdentificationElement->push (elem);
@@ -348,7 +348,7 @@ void msr2BmmltreeTranslator::appendToScoreIdentificationEncoding (
 {
   if (! fScoreIdentificationEncodingElement) {
     // create an encoding element
-    fScoreIdentificationEncodingElement = createElement (k_encoding, "");
+    fScoreIdentificationEncodingElement = createBmmlElement (k_encoding, "");
   }
 
   fScoreIdentificationEncodingElement->push (elem);
@@ -360,7 +360,7 @@ void msr2BmmltreeTranslator::appendToScoreDefaults (
 {
   if (! fScoreDefaultsElement) {
     // create a defaults element
-    fScoreDefaultsElement = createElement (k_defaults, "");
+    fScoreDefaultsElement = createBmmlElement (k_defaults, "");
   }
 
   fScoreDefaultsElement->push (elem);
@@ -371,14 +371,14 @@ void msr2BmmltreeTranslator::appendToScoreDefaultsPageLayout (
 {
   if (! fScoreDefaultsPageLayoutElement) {
     // create a page layout element
-    fScoreDefaultsPageLayoutElement = createElement (k_page_layout, "");
+    fScoreDefaultsPageLayoutElement = createBmmlElement (k_page_layout, "");
   }
 
   fScoreDefaultsPageLayoutElement->push (elem);
 }
 
 //________________________________________________________________________
-void msr2BmmltreeTranslator::createAttributesElementAndAppendItToMeasure ()
+void msr2BmmltreeTranslator::createBmmlAttributesElementAndAppendItToMeasure ()
 {
   if (gMsr2BmmltreeOah->fMusicXMLComments) {
     // create an attributes comment
@@ -387,7 +387,7 @@ void msr2BmmltreeTranslator::createAttributesElementAndAppendItToMeasure ()
       " ===== " <<
       "Attributes " <<
       " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     // maybe not if it not in the first measure seen with the given number??? JMI
@@ -397,7 +397,7 @@ void msr2BmmltreeTranslator::createAttributesElementAndAppendItToMeasure ()
   // create the attributes element
   Sxmlelement
     attributesElement =
-      createElement (k_attributes, "");
+      createBmmlElement (k_attributes, "");
 
   if (fDivisionsElement) {
     // append divisions to the current measure attributes element
@@ -456,14 +456,14 @@ void msr2BmmltreeTranslator::appendToMeasureDirection (
       " ===== " <<
       "Direction" <<
       " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     fCurrentMeasure->push (comment);
   }
 
   // create a direction element
-  Sxmlelement directionElement = createElement (k_direction, "");
+  Sxmlelement directionElement = createBmmlElement (k_direction, "");
 
   // set it's "placement" attribute if relevant
   string
@@ -471,14 +471,14 @@ void msr2BmmltreeTranslator::appendToMeasureDirection (
       msrPlacementKindAsMusicXMLString (placementKind);
 
   if (placementString.size ()) {
-    directionElement->add (createAttribute ("placement",  placementString));
+    directionElement->add (createBmmlAttribute ("placement",  placementString));
   }
 
   // append the direction element to the current measure element
   fCurrentMeasure->push (directionElement);
 
   // create a direction type element
-  Sxmlelement directionTypeElement = createElement (k_direction_type, "");
+  Sxmlelement directionTypeElement = createBmmlElement (k_direction_type, "");
 
   // append it to the current direction element
   directionElement->push (directionTypeElement);
@@ -499,7 +499,7 @@ void msr2BmmltreeTranslator::appendNoteToMeasure (
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteToMeasure(), elem = " <<
-      ", elem: " << xmlelementAsString (elem) <<
+      ", elem: " << bmmlElementAsString (elem) <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -529,7 +529,7 @@ void msr2BmmltreeTranslator::appendOtherToMeasure (
   if (gTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendOtherToMeasure()" <<
-      ", elem: " << xmlelementAsString (elem) <<
+      ", elem: " << bmmlElementAsString (elem) <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -546,7 +546,7 @@ void msr2BmmltreeTranslator::appendToNoteNotations (
 {
   if (! fCurrentNoteNotations) {
     // create an notations element
-    fCurrentNoteNotations = createElement (k_notations, "");
+    fCurrentNoteNotations = createBmmlElement (k_notations, "");
 
     // append it to fCurrentNote
     fCurrentNote->push (fCurrentNoteNotations);
@@ -558,7 +558,7 @@ void msr2BmmltreeTranslator::appendToNoteNotations (
       msrPlacementKindAsMusicXMLString (placementKind);
 
   if (placementString.size ()) {
-    elem->add (createAttribute ("placement", placementString));
+    elem->add (createBmmlAttribute ("placement", placementString));
   }
 
   // append elem to the note notations element
@@ -571,7 +571,7 @@ void msr2BmmltreeTranslator::appendToNoteNotationsOrnaments (
 {
   if (! fCurrentNoteNotationsOrnaments) {
     // create an notations element
-    fCurrentNoteNotationsOrnaments = createElement (k_ornaments, "");
+    fCurrentNoteNotationsOrnaments = createBmmlElement (k_ornaments, "");
 
     // append it to fCurrentNoteNotations
     appendToNoteNotations (
@@ -585,7 +585,7 @@ void msr2BmmltreeTranslator::appendToNoteNotationsOrnaments (
       msrPlacementKindAsMusicXMLString (placementKind);
 
   if (placementString.size ()) {
-    elem->add (createAttribute ("placement", placementString));
+    elem->add (createBmmlAttribute ("placement", placementString));
   }
 
   // append elem to the note notations ornaments element
@@ -599,7 +599,7 @@ void msr2BmmltreeTranslator::appendToNoteNotationsArticulations (
 {
   if (! fCurrentNoteNotationsArticulations) {
     // create the note notations articulations element
-    fCurrentNoteNotationsArticulations = createElement (k_articulations, "");
+    fCurrentNoteNotationsArticulations = createBmmlElement (k_articulations, "");
 
     // append it to fCurrentNoteNotationsArticulations
     appendToNoteNotations (
@@ -613,7 +613,7 @@ void msr2BmmltreeTranslator::appendToNoteNotationsArticulations (
       msrPlacementKindAsMusicXMLString (placementKind);
 
   if (placementString.size ()) {
-    elem->add (createAttribute ("placement", placementString));
+    elem->add (createBmmlAttribute ("placement", placementString));
   }
 
   // append elem to the note notations articulations element
@@ -627,7 +627,7 @@ void msr2BmmltreeTranslator::appendToNoteNotationsTechnicals (
 {
   if (! fCurrentNoteNotationsTechnicals) {
     // create an notations element
-    fCurrentNoteNotationsTechnicals = createElement (k_technical, "");
+    fCurrentNoteNotationsTechnicals = createBmmlElement (k_technical, "");
 
     // append it to fCurrentNoteNotations
     appendToNoteNotations (
@@ -641,7 +641,7 @@ void msr2BmmltreeTranslator::appendToNoteNotationsTechnicals (
       msrPlacementKindAsMusicXMLString (placementKind);
 
   if (placementString.size ()) {
-    elem->add (createAttribute ("placement", placementString));
+    elem->add (createBmmlAttribute ("placement", placementString));
   }
 
   // append elem to the note notations technicals element
@@ -678,12 +678,12 @@ void msr2BmmltreeTranslator::visitStart (S_msrScore& elt)
     " ===== ";
 
   // append the initial creation comment to the score part wise element
-  fScorePartWiseElement->push (createElement (kComment, s.str ()));
+  fScorePartWiseElement->push (createBmmlElement (kComment, s.str ()));
 
   // create a software element
   Sxmlelement
     softwareElement =
-      createElement (
+      createBmmlElement (
         k_software,
         gOahOah->fHandlerExecutableName
           + " "
@@ -696,7 +696,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrScore& elt)
   // create an encoding date element
   Sxmlelement
     encodingDateElement =
-      createElement (
+      createBmmlElement (
         k_encoding_date,
         gGeneralOah->fTranslationDateYYYYMMDD);
 
@@ -704,7 +704,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrScore& elt)
   appendToScoreIdentificationEncoding (encodingDateElement);
 
   // create the part list element
-  fScorePartListElement = createElement (k_part_list, "");
+  fScorePartListElement = createBmmlElement (k_part_list, "");
 }
 
 void msr2BmmltreeTranslator::visitEnd (S_msrScore& elt)
@@ -745,7 +745,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrScore& elt)
         " ===== " <<
         "Identification" <<
         " ===== ";
-      Sxmlelement comment = createElement (kComment, s.str ());
+      Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
       // append it to the score partwise element
       fScorePartWiseElement->push (comment);
@@ -795,7 +795,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrScore& elt)
         " ===== " <<
         "Defaults" <<
         " ===== ";
-      Sxmlelement comment = createElement (kComment, s.str ());
+      Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
       // append it to the score partwise element
       fScorePartWiseElement->push (comment);
@@ -816,7 +816,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrScore& elt)
         singularOrPlural (
           pendingScoreCreditElementsListSize, "Credit", "Credits") <<
         " ===== ";
-      Sxmlelement comment = createElement (kComment, s.str ());
+      Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
       // append it to the score partwise element
       fScorePartWiseElement->push (comment);
@@ -841,7 +841,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrScore& elt)
       " ===== " <<
       "PART-LIST" <<
       " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the score partwise element
     fScorePartWiseElement->push (comment);
@@ -868,7 +868,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrScore& elt)
         " \"" << partElement->getAttributeValue ("id") << "\"" <<
         ", line " << inputLineNumber <<
         " ============================= ";
-      Sxmlelement partComment = createElement (kComment, s.str ());
+      Sxmlelement partComment = createBmmlElement (kComment, s.str ());
 
       // append it to the score part wise element
       fScorePartWiseElement->push (partComment);
@@ -903,7 +903,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
     // create the work number element
     Sxmlelement
       workNumberElement =
-        createElement (
+        createBmmlElement (
           k_work_number,
           variableValue);
 
@@ -923,7 +923,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
     // create the work title element
     Sxmlelement
       workTitleElement =
-        createElement (
+        createBmmlElement (
           k_work_title,
           variableValue);
 
@@ -943,7 +943,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
     // create the opus element
     Sxmlelement
       opusElement =
-        createElement (
+        createBmmlElement (
           k_opus,
           variableValue);
 
@@ -963,7 +963,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
     // create the movement number element
     Sxmlelement
       movementNumberElement =
-        createElement (
+        createBmmlElement (
           k_movement_number,
           variableValue);
 
@@ -983,7 +983,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
     // create the movement title element
     Sxmlelement
       movementTitleElement =
-        createElement (
+        createBmmlElement (
           k_movement_title,
           variableValue);
 
@@ -1003,16 +1003,16 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
     // create the miscellaneous field element
     Sxmlelement
       miscellaneousFieldElement =
-        createElement (
+        createBmmlElement (
           k_miscellaneous_field,
           variableValue);
 
     // set its "name" attribute
     miscellaneousFieldElement->add (
-      createAttribute ("name", "description")); // ??? JMI sometines "comment"
+      createBmmlAttribute ("name", "description")); // ??? JMI sometines "comment"
 
     // create a miscellaneous element
-    fIdentificationMiscellaneousElement = createElement (k_miscellaneous, "");
+    fIdentificationMiscellaneousElement = createBmmlElement (k_miscellaneous, "");
 
     // append the miscellaneous field element to it
     fIdentificationMiscellaneousElement->push (miscellaneousFieldElement);
@@ -1030,7 +1030,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
     // create the score instrument element
     Sxmlelement
       scoreInstrumentElement =
-        createElement (
+        createBmmlElement (
           k_score_instrument,
           variableValue);
 
@@ -1162,10 +1162,10 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
       string variableValue = (*i);
 
       // append a creator element
-      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+      Sxmlelement creatorElement = createBmmlElement (k_creator, variableValue);
 
       // set its "type" attribute
-      creatorElement->add (createAttribute ("type", "composer"));
+      creatorElement->add (createBmmlAttribute ("type", "composer"));
 
       // append it to the composers elements list
       fComposersElementsList.push_back (creatorElement);
@@ -1187,10 +1187,10 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
       string variableValue = (*i);
 
       // append a creator element
-      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+      Sxmlelement creatorElement = createBmmlElement (k_creator, variableValue);
 
       // set its "type" attribute
-      creatorElement->add (createAttribute ("type", "arranger"));
+      creatorElement->add (createBmmlAttribute ("type", "arranger"));
 
       // append it to the composers elements list
       fComposersElementsList.push_back (creatorElement);
@@ -1212,10 +1212,10 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
       string variableValue = (*i);
 
       // append a creator element
-      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+      Sxmlelement creatorElement = createBmmlElement (k_creator, variableValue);
 
       // set its "type" attribute
-      creatorElement->add (createAttribute ("type", "lyricist"));
+      creatorElement->add (createBmmlAttribute ("type", "lyricist"));
 
       // append it to the composers elements list
       fComposersElementsList.push_back (creatorElement);
@@ -1237,10 +1237,10 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
       string variableValue = (*i);
 
       // append a creator element
-      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+      Sxmlelement creatorElement = createBmmlElement (k_creator, variableValue);
 
       // set its "type" attribute
-      creatorElement->add (createAttribute ("type", "poet"));
+      creatorElement->add (createBmmlAttribute ("type", "poet"));
 
       // append it to the composers elements list
       fComposersElementsList.push_back (creatorElement);
@@ -1262,10 +1262,10 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
       string variableValue = (*i);
 
       // append a creator element
-      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+      Sxmlelement creatorElement = createBmmlElement (k_creator, variableValue);
 
       // set its "type" attribute
-      creatorElement->add (createAttribute ("type", "translator"));
+      creatorElement->add (createBmmlAttribute ("type", "translator"));
 
       // append it to the composers elements list
       fComposersElementsList.push_back (creatorElement);
@@ -1287,10 +1287,10 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
       string variableValue = (*i);
 
       // append a creator element
-      Sxmlelement creatorElement = createElement (k_creator, variableValue);
+      Sxmlelement creatorElement = createBmmlElement (k_creator, variableValue);
 
       // set its "type" attribute
-      creatorElement->add (createAttribute ("type", "artist"));
+      creatorElement->add (createBmmlAttribute ("type", "artist"));
 
       // append it to the composers elements list
       fComposersElementsList.push_back (creatorElement);
@@ -1313,7 +1313,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
 
       // append a software element to the softwares elements list
       fSoftwaresElementsList.push_back (
-        createElement (
+        createBmmlElement (
         k_software,
         variableValue));
     } // for
@@ -1335,7 +1335,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrIdentification& elt)
 
       // append a rights element to the rights elements list
       fRightsElementsList.push_back (
-        createElement (
+        createBmmlElement (
         k_rights,
         variableValue));
     } // for
@@ -1408,7 +1408,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrScaling& elt)
 
   if (fMillimeters > 0) {
     // create a scaling element
-    fScoreDefaultsScalingElement = createElement (k_scaling, "");
+    fScoreDefaultsScalingElement = createBmmlElement (k_scaling, "");
 
     // append a millimeters sub-element to it
     {
@@ -1417,7 +1417,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrScaling& elt)
       s << fMillimeters;
 
       fScoreDefaultsScalingElement->push (
-        createElement (
+        createBmmlElement (
           k_millimeters,
           s.str ()));
     }
@@ -1429,7 +1429,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrScaling& elt)
       s << fTenths;
 
       fScoreDefaultsScalingElement->push (
-        createElement (
+        createBmmlElement (
           k_tenths,
           s.str ()));
     }
@@ -1468,7 +1468,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrPageLayout& elt)
   if (pageHeight) {
     // append a page height element to the defaults page layout element
     appendToScoreDefaultsPageLayout (
-      createElement (
+      createBmmlElement (
         k_page_height,
         S_msrLengthAsTenths (pageHeight)));
   }
@@ -1478,7 +1478,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrPageLayout& elt)
   if (pageWidth) {
     // append a page width element to the defaults page layout element
     appendToScoreDefaultsPageLayout (
-      createElement (
+      createBmmlElement (
         k_page_width,
         S_msrLengthAsTenths (pageWidth)));
   }
@@ -1536,7 +1536,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrSystemLayout& elt)
   // create a system layout element
   Sxmlelement
     systemLayoutElement =
-      createElement (k_system_layout, "");
+      createBmmlElement (k_system_layout, "");
 
   if (fOnGoingPrintLayout) {
     // append it to the current print element
@@ -1551,7 +1551,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrSystemLayout& elt)
   // create a system margins element
   Sxmlelement
     systemMargins =
-      createElement (k_system_margins, "");
+      createBmmlElement (k_system_margins, "");
 
   // populate it
   populateSystemMargins (
@@ -1569,7 +1569,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrSystemLayout& elt)
     // create a system distance element
     Sxmlelement
       systemDistanceElement =
-        createElement (
+        createBmmlElement (
           k_system_distance,
           S_msrLengthAsTenths (systemDistance));
 
@@ -1584,7 +1584,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrSystemLayout& elt)
     // create a top system distance element
     Sxmlelement
       topSystemDistanceElement =
-        createElement (
+        createBmmlElement (
           k_top_system_distance,
           S_msrLengthAsTenths (topSystemDistance));
 
@@ -1624,12 +1624,12 @@ void msr2BmmltreeTranslator::visitStart (S_msrStaffLayout& elt)
   // create a staff layout element
   Sxmlelement
     staffLayoutElement =
-      createElement (k_staff_layout, "");
+      createBmmlElement (k_staff_layout, "");
 
   // set its "number" attribute if relevant
   // (it is 0 inside the <defaults /> element)
   if (staffNumber > 0) {
-    staffLayoutElement->add (createIntegerAttribute ("number", staffNumber));
+    staffLayoutElement->add (createBmmlIntegerAttribute ("number", staffNumber));
   }
 
   // distance
@@ -1639,7 +1639,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrStaffLayout& elt)
     // create a staff distance element
     Sxmlelement
       staffDistanceElement =
-        createElement (
+        createBmmlElement (
           k_staff_distance,
           S_msrLengthAsTenths (staffDistance));
 
@@ -1687,7 +1687,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrMeasureLayout& elt)
     // create a measure layout element
     Sxmlelement
       measureLayoutElement =
-        createElement (k_measure_layout, "");
+        createBmmlElement (k_measure_layout, "");
 
     // append it to the current print element
     fCurrentPrint->push (
@@ -1700,7 +1700,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrMeasureLayout& elt)
       // create a measure distance element
       Sxmlelement
         measureDistanceElement =
-          createElement (
+          createBmmlElement (
             k_measure_distance,
             S_msrLengthAsTenths (measureDistance));
 
@@ -1753,7 +1753,7 @@ void msr2BmmltreeTranslator::populateAppearanceLineWidths (
     // create a line width element
     Sxmlelement
       lineWidthElement =
-        createElement (
+        createBmmlElement (
           k_line_width,
           S_msrLengthAsTenths (lineWidthValue));
 
@@ -1823,7 +1823,7 @@ void msr2BmmltreeTranslator::populateAppearanceLineWidths (
         break;
     } // switch
 
-    lineWidthElement->add (createAttribute ("type", lineWidthTypeString));
+    lineWidthElement->add (createBmmlAttribute ("type", lineWidthTypeString));
 
     // append the line width element to the appearance element
     appearanceElement->push (
@@ -1856,7 +1856,7 @@ void msr2BmmltreeTranslator::populateAppearanceNoteSizes (
     // create a note size element
     Sxmlelement
       noteSizeElement =
-        createFloatElement (
+        createBmmlFloatElement (
           k_note_size,
           noteSizeValue);
 
@@ -1878,7 +1878,7 @@ void msr2BmmltreeTranslator::populateAppearanceNoteSizes (
         break;
     } // switch
 
-    noteSizeElement->add (createAttribute ("type", noteSizeTypeString));
+    noteSizeElement->add (createBmmlAttribute ("type", noteSizeTypeString));
 
     // append the note size element to the appearance element
     appearanceElement->push (
@@ -1911,7 +1911,7 @@ void msr2BmmltreeTranslator::populateAppearanceDistances (
     // create a line width element
     Sxmlelement
       distanceElement =
-        createElement (
+        createBmmlElement (
           k_distance,
           S_msrLengthAsTenths (distanceValue));
 
@@ -1930,7 +1930,7 @@ void msr2BmmltreeTranslator::populateAppearanceDistances (
         break;
     } // switch
 
-    distanceElement->add (createAttribute ("type", distanceTypeString));
+    distanceElement->add (createBmmlAttribute ("type", distanceTypeString));
 
     // append the line width element to the appearance element
     appearanceElement->push (
@@ -1963,7 +1963,7 @@ void msr2BmmltreeTranslator::populateAppearanceGlyphs (
     // create a line width element
     Sxmlelement
       glyphElement =
-        createElement (
+        createBmmlElement (
           k_glyph,
           glyphValue);
 
@@ -2018,7 +2018,7 @@ void msr2BmmltreeTranslator::populateAppearanceGlyphs (
         break;
     } // switch
 
-    glyphElement->add (createAttribute ("type", glyphTypeString));
+    glyphElement->add (createBmmlAttribute ("type", glyphTypeString));
 
     // append the line width element to the appearance element
     appearanceElement->push (
@@ -2052,7 +2052,7 @@ void msr2BmmltreeTranslator::populateAppearanceOtherAppearances (
     // create a line width element
     Sxmlelement
       otherAppearanceElement =
-        createElement (
+        createBmmlElement (
           k_other_appearance,
           otherAppearanceValue);
 
@@ -2065,7 +2065,7 @@ void msr2BmmltreeTranslator::populateAppearanceOtherAppearances (
         break;
     } // switch
 
-    otherAppearanceElement->add (createAttribute (
+    otherAppearanceElement->add (createBmmlAttribute (
       "type",
       otherAppearanceTypeString));
 
@@ -2088,7 +2088,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrAppearance& elt)
 
   // create an appearance element
   fScoreDefaultsAppearanceElement =
-    createElement (k_appearance, "");
+    createBmmlElement (k_appearance, "");
 
   // don't append it to the score defaults element yet,
   // this will be done in visitEnd (S_msrScore&)
@@ -2164,11 +2164,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrCredit& elt)
 #endif
 
   // create a credit element
-  fCurrentScoreCredit = createElement (k_credit, "");
+  fCurrentScoreCredit = createBmmlElement (k_credit, "");
 
   // set its "page" attribute
   fCurrentScoreCredit->add (
-    createIntegerAttribute ("page", elt->getCreditPageNumber ()));
+    createBmmlIntegerAttribute ("page", elt->getCreditPageNumber ()));
 
   // append the credit element to the credit elements pending list
   fPendingScoreCreditElementsList.push_back (fCurrentScoreCredit);
@@ -2203,7 +2203,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
   // create a credit words element
   Sxmlelement
     creditWordsElement =
-      createElement (
+      createBmmlElement (
         k_credit_words,
         elt->getCreditWordsContents ());
 
@@ -2214,7 +2214,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
   if (creditWordsDefaultX > 0.0) {
     stringstream s;
     s << setprecision (8) << creditWordsDefaultX;
-    creditWordsElement->add (createAttribute ("default-x", s.str ()));
+    creditWordsElement->add (createBmmlAttribute ("default-x", s.str ()));
   }
 
   // set its "default-y" attribute
@@ -2224,7 +2224,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
   if (creditWordsDefaultY > 0.0) {
     stringstream s;
     s << setprecision (8) << creditWordsDefaultY;
-    creditWordsElement->add (createAttribute ("default-y", s.str ()));
+    creditWordsElement->add (createBmmlAttribute ("default-y", s.str ()));
   }
 
   // set its "font-family" attribute
@@ -2234,7 +2234,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
 
   if (creditWordsFontFamilyString.size ()) {
     creditWordsElement->add (
-      createAttribute (
+      createBmmlAttribute (
         "font-family",
         creditWordsFontFamilyString));
   }
@@ -2245,7 +2245,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
       elt->getCreditWordsFontSize ();
   stringstream s;
   s << setprecision (2) << creditWordsFontSize;
-  creditWordsElement->add (createAttribute ("font-size", s.str ()));
+  creditWordsElement->add (createBmmlAttribute ("font-size", s.str ()));
 
   // set its "font-weight" attribute
   string fontWeightString;
@@ -2262,7 +2262,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
     } // switch
 
   if (fontWeightString.size ()) {
-    creditWordsElement->add (createAttribute ("font-weight", fontWeightString));
+    creditWordsElement->add (createBmmlAttribute ("font-weight", fontWeightString));
   }
 
   // set its "font-style" attribute
@@ -2280,7 +2280,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
     } // switch
 
   if (fontStyleString.size ()) {
-    creditWordsElement->add (createAttribute ("font-style", fontStyleString));
+    creditWordsElement->add (createBmmlAttribute ("font-style", fontStyleString));
   }
 
   // set its "justify" attribute
@@ -2301,7 +2301,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
     } // switch
 
   if (justifyString.size ()) {
-    creditWordsElement->add (createAttribute ("justify", justifyString));
+    creditWordsElement->add (createBmmlAttribute ("justify", justifyString));
   }
 
   // set its "halign" attribute
@@ -2322,7 +2322,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
     } // switch
 
   if (horizontalAlignmentString.size ()) {
-    creditWordsElement->add (createAttribute ("halign", horizontalAlignmentString));
+    creditWordsElement->add (createBmmlAttribute ("halign", horizontalAlignmentString));
   }
 
   // set its "valign" attribute
@@ -2343,12 +2343,12 @@ void msr2BmmltreeTranslator::visitStart (S_msrCreditWords& elt)
     } // switch
 
   if (verticalAlignmentString.size ()) {
-    creditWordsElement->add (createAttribute ("valign", verticalAlignmentString));
+    creditWordsElement->add (createBmmlAttribute ("valign", verticalAlignmentString));
   }
 
   // set its "xml:lang" attribute
   creditWordsElement->add (
-    createAttribute (
+    createBmmlAttribute (
       "xml:lang",
       msrXMLLangKindAsString (elt->getCreditWordsXMLLang ())));
 
@@ -2400,22 +2400,22 @@ void msr2BmmltreeTranslator::visitStart (S_msrPartGroup& elt)
             " START" <<
               ", line " << inputLineNumber <<
             " ========== ";
-          Sxmlelement comment = createElement (kComment, s.str ());
+          Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
           // append it to the current part list element
           fScorePartListElement->push (comment);
         }
 
         // create a part group element
-        Sxmlelement scorePartGroupElement = createElement (k_part_group, "");
+        Sxmlelement scorePartGroupElement = createBmmlElement (k_part_group, "");
 
         // set it's "number" attribute
         scorePartGroupElement->add (
-          createIntegerAttribute (
+          createBmmlIntegerAttribute (
             "number", elt->getPartGroupNumber ()));
 
         // set it's "type" attribute
-        scorePartGroupElement->add (createAttribute ("type", "start"));
+        scorePartGroupElement->add (createBmmlAttribute ("type", "start"));
 
         // create a group symbol element to the part group element if relevant
         string groupSymbolString;
@@ -2439,7 +2439,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrPartGroup& elt)
 
         if (groupSymbolString.size ()) {
           Sxmlelement groupSymbolElement =
-            createElement (
+            createBmmlElement (
               k_group_symbol,
               groupSymbolString);
 
@@ -2450,7 +2450,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrPartGroup& elt)
 
           if (partGroupSymbolDefaultX != INT_MIN) { // JMI superfluous???
             groupSymbolElement->add (
-              createIntegerAttribute (
+              createBmmlIntegerAttribute (
                 "default-x",
                 partGroupSymbolDefaultX));
           }
@@ -2465,7 +2465,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrPartGroup& elt)
 
         if (groupName.size ()) {
           scorePartGroupElement->push (
-            createElement (
+            createBmmlElement (
               k_group_name,
               groupName));
         }
@@ -2483,7 +2483,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrPartGroup& elt)
         } // switch
 
         scorePartGroupElement->push (
-          createElement (
+          createBmmlElement (
             k_group_barline,
             groupBarlineString));
 
@@ -2528,7 +2528,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrPartGroup& elt)
             " END" <<
               ", line " << inputLineNumber <<
             " ========== ";
-          Sxmlelement comment = createElement (kComment, s.str ());
+          Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
           // append it to the current part list element
           fScorePartListElement->push (comment);
@@ -2544,9 +2544,9 @@ void msr2BmmltreeTranslator::visitEnd (S_msrPartGroup& elt)
         if (elt != partGroupElementsStackTop) {
           s <<
             "elt " <<
-            xmlelementAsString (elt) <<
+            bmmlElementAsString (elt) <<
             " and partGroupElementsStackTop " <<
-            xmlelementAsString (partGroupElementsStackTop) <<
+            bmmlElementAsString (partGroupElementsStackTop) <<
             " are different" <<
             ", line " << inputLineNumber;
 
@@ -2558,15 +2558,15 @@ void msr2BmmltreeTranslator::visitEnd (S_msrPartGroup& elt)
         }
 */
         // create a part group element
-        Sxmlelement scorePartGroupElement = createElement (k_part_group, "");
+        Sxmlelement scorePartGroupElement = createBmmlElement (k_part_group, "");
 
         // set it's "number" attribute
         scorePartGroupElement->add (
-          createIntegerAttribute (
+          createBmmlIntegerAttribute (
             "number", elt->getPartGroupNumber ()));
 
         // set it's "type" attribute
-        scorePartGroupElement->add (createAttribute ("type", "stop"));
+        scorePartGroupElement->add (createBmmlAttribute ("type", "stop"));
 
         // append the part group element to the part list element
         fScorePartListElement->push (scorePartGroupElement);
@@ -2658,30 +2658,30 @@ void msr2BmmltreeTranslator::visitStart (S_msrPart& elt)
   gIndenter++;
 
   // create a score part element
-  Sxmlelement scorePartElement = createElement (k_score_part, "");
+  Sxmlelement scorePartElement = createBmmlElement (k_score_part, "");
   // set it's "id" attribute
-  scorePartElement->add (createAttribute ("id", partID));
+  scorePartElement->add (createBmmlAttribute ("id", partID));
 
   // append it to the part list element
   fScorePartListElement->push (scorePartElement);
 
   // append a part name element to the score part element
   scorePartElement->push (
-    createElement (
+    createBmmlElement (
       k_part_name,
       partName));
 
   if (partAbbreviation.size ()) {
     scorePartElement->push (
-      createElement (
+      createBmmlElement (
         k_part_abbreviation,
         partAbbreviation));
   }
 
   // create a part element
-  fCurrentPart = createElement (k_part, "");
+  fCurrentPart = createBmmlElement (k_part, "");
   // set its "id" attribute
-	fCurrentPart->add (createAttribute ("id", partID));
+	fCurrentPart->add (createBmmlAttribute ("id", partID));
 
   // append it to the pending part elements list
   fPendingPartElementsList.push_back (fCurrentPart);
@@ -2784,7 +2784,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrPart& elt)
   if (partStavesNumber > 1) {
     // create a staves element
     fStavesElement =
-      createIntegerElement (
+      createBmmlIntegerElement (
         k_staves,
         partStavesNumber);
   }
@@ -2849,7 +2849,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrSegment& elt)
       " START" <<
         ", line " << inputLineNumber <<
       " ==================== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current part element
     fCurrentPart->push (comment);
@@ -2881,7 +2881,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrSegment& elt)
       " END" <<
         ", line " << inputLineNumber <<
       " ==================== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current part element
     fCurrentPart->push (comment);
@@ -2949,16 +2949,16 @@ void msr2BmmltreeTranslator::visitStart (S_msrMeasure& elt)
         "ordinal number: " << elt->getMeasureOrdinalNumberInVoice () <<
         ", line " << inputLineNumber <<
         " ===== ";
-      Sxmlelement comment = createElement (kComment, s.str ());
+      Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
       // append it to the current part element
       fCurrentPart->push (comment);
     }
 
     // create a measure element
-    fCurrentMeasure = createElement (k_measure, "");
+    fCurrentMeasure = createBmmlElement (k_measure, "");
     // set its "number" attribute
-    fCurrentMeasure->add (createAttribute ("number", measureNumber));
+    fCurrentMeasure->add (createBmmlAttribute ("number", measureNumber));
 
     // append it to the current part element
     fCurrentPart->push (fCurrentMeasure);
@@ -2981,14 +2981,14 @@ void msr2BmmltreeTranslator::visitStart (S_msrMeasure& elt)
         "Print" <<
         ", line " << inputLineNumber <<
         " ===== ";
-      Sxmlelement comment = createElement (kComment, s.str ());
+      Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
       // append it to the current measure element
       fCurrentMeasure->push (comment);
     }
 
     // create a print element
-    fCurrentPrint = createElement (k_print, "");
+    fCurrentPrint = createBmmlElement (k_print, "");
 
     // append it to the current measure element at once,
     // since is must be the first one in the measure
@@ -2999,7 +2999,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrMeasure& elt)
   if (fPartDivisionsElementHasToBeAppended) {
     // append a divisions element to the attributes element
     fDivisionsElement =
-      createIntegerElement (
+      createBmmlIntegerElement (
         k_divisions,
         fDivisionsPerQuarterNote);
     fAnAttributeElementIsNeeded = true;
@@ -3093,31 +3093,31 @@ void msr2BmmltreeTranslator::visitStart (S_msrPrintLayout& elt)
   if (staffSpacing > 0) {
     stringstream s;
     s << staffSpacing;
-  	fCurrentPrint->add (createAttribute ("staff-spacing", s.str ()));
+  	fCurrentPrint->add (createBmmlAttribute ("staff-spacing", s.str ()));
   }
 
   bool newSystem = elt->getNewSystem ();
   if (newSystem) {
-  	fCurrentPrint->add (createAttribute ("new-system", "yes"));
+  	fCurrentPrint->add (createBmmlAttribute ("new-system", "yes"));
   }
 
   bool newPage = elt->getNewPage ();
   if (newPage) {
-  	fCurrentPrint->add (createAttribute ("new-page", "yes"));
+  	fCurrentPrint->add (createBmmlAttribute ("new-page", "yes"));
   }
 
   int blankPage = elt->getBlankPage ();
   if (blankPage > 0) {
     stringstream s;
     s << blankPage;
-  	fCurrentPrint->add (createAttribute ("blank-page", s.str ()));
+  	fCurrentPrint->add (createBmmlAttribute ("blank-page", s.str ()));
   }
 
   int pageNumber = elt->getPageNumber ();
   if (pageNumber > 0) {
     stringstream s;
     s << pageNumber;
-  	fCurrentPrint->add (createAttribute ("page-number", s.str ()));
+  	fCurrentPrint->add (createBmmlAttribute ("page-number", s.str ()));
   }
 
   fOnGoingPrintLayout = true;
@@ -3171,18 +3171,18 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
 
   if (doAppendAClefElementToTheMeasure) {
     // create the clef element
-    Sxmlelement clefElement = createElement (k_clef, "");
+    Sxmlelement clefElement = createBmmlElement (k_clef, "");
 
     // set its "number" attribute
     clefElement->add (
-      createIntegerAttribute ("number", elt->getClefStaffNumber ()));
+      createBmmlIntegerAttribute ("number", elt->getClefStaffNumber ()));
 
     // populate it
     switch (elt->getClefKind ()) {
       case k_NoClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "none"));
         }
@@ -3190,11 +3190,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTrebleClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
         }
@@ -3202,11 +3202,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kSopranoClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
         }
@@ -3214,11 +3214,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kMezzoSopranoClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
         }
@@ -3226,11 +3226,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kAltoClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
         }
@@ -3238,11 +3238,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTenorClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
         }
@@ -3250,11 +3250,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kBaritoneClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
         }
@@ -3262,11 +3262,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kBassClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "F"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               4));
         }
@@ -3274,11 +3274,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTrebleLine1Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               1));
         }
@@ -3286,15 +3286,15 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTrebleMinus15Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_clef_octave_change,
               -2));
         }
@@ -3302,15 +3302,15 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTrebleMinus8Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_clef_octave_change,
               -1));
         }
@@ -3318,15 +3318,15 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTreblePlus8Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_clef_octave_change,
               1));
         }
@@ -3334,15 +3334,15 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTreblePlus15Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "G"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               2));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_clef_octave_change,
               2));
         }
@@ -3350,15 +3350,15 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kBassMinus15Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "F"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               4));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_clef_octave_change,
               -2));
         }
@@ -3366,15 +3366,15 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kBassMinus8Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "F"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               4));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_clef_octave_change,
               -1));
         }
@@ -3382,15 +3382,15 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kBassPlus8Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "F"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               4));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_clef_octave_change,
               1));
         }
@@ -3398,15 +3398,15 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kBassPlus15Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "F"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               4));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_clef_octave_change,
               2));
         }
@@ -3414,11 +3414,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kVarbaritoneClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "F"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               3));
         }
@@ -3427,22 +3427,22 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTablature4Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "tab"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               4));
         }
       case kTablature5Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "tab"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               5));
         }
@@ -3450,22 +3450,22 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kTablature6Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "tab"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               6));
         }
       case kTablature7Clef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "tab"));
           clefElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_line,
               7));
         }
@@ -3474,7 +3474,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kPercussionClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "percussion"));
         }
@@ -3483,7 +3483,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrClef& elt)
       case kJianpuClef:
         {
           clefElement->push (
-            createElement (
+            createBmmlElement (
               k_sign,
               "jianpu"));
         }
@@ -3542,7 +3542,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrKey& elt)
 
   if (doAppendAKeyElementToTheMeasure) {
     // create the key element
-    fKeyElement = createElement (k_key, "");
+    fKeyElement = createBmmlElement (k_key, "");
 
     // populate it
     switch (elt->getKeyKind ()) {
@@ -3643,12 +3643,12 @@ void msr2BmmltreeTranslator::visitStart (S_msrKey& elt)
           if (fifthsNumber != K_NO_FIFTHS_NUMBER) {
             // populate the key element
             fKeyElement->push (
-              createIntegerElement (
+              createBmmlIntegerElement (
                 k_fifths,
                 fifthsNumber));
 
             fKeyElement->push (
-              createElement (
+              createBmmlElement (
                 k_mode,
                 msrKey::keyModeKindAsString (elt->getKeyModeKind ())));
           }
@@ -3724,20 +3724,20 @@ void msr2BmmltreeTranslator::visitStart (S_msrTime& elt)
 
   if (doAppendATimeElementToTheMeasure) {
     // create the time element
-    fTimeElement = createElement (k_time, "");
+    fTimeElement = createBmmlElement (k_time, "");
 
     // populate it
     switch (elt->getTimeSymbolKind ()) {
       case msrTime::kTimeSymbolCommon:
         {
-          fTimeElement->add (createAttribute ("symbol", "common"));
+          fTimeElement->add (createBmmlAttribute ("symbol", "common"));
 
           fTimeElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_beats,
               4));
           fTimeElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_beat_type,
               4));
         }
@@ -3745,14 +3745,14 @@ void msr2BmmltreeTranslator::visitStart (S_msrTime& elt)
 
       case msrTime::kTimeSymbolCut:
          {
-          fTimeElement->add (createAttribute ("symbol", "cut"));
+          fTimeElement->add (createBmmlAttribute ("symbol", "cut"));
 
           fTimeElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_beats,
               2));
           fTimeElement->push (
-            createIntegerElement (
+            createBmmlIntegerElement (
               k_beat_type,
               2));
         }
@@ -3792,11 +3792,11 @@ void msr2BmmltreeTranslator::visitStart (S_msrTime& elt)
                   getTimeBeatsNumbersVector ();
 
             fTimeElement->push (
-              createIntegerElement (
+              createBmmlIntegerElement (
                 k_beats,
                 beatsNumbersVector [0])); // the only element
             fTimeElement->push (
-              createIntegerElement (
+              createBmmlIntegerElement (
                 k_beat_type,
                 timeItem->getTimeBeatValue ()));
           }
@@ -3906,10 +3906,10 @@ void msr2BmmltreeTranslator::visitStart (S_msrTempo& elt)
         case msrTempo::kTempoParenthesizedYes:
           {
           // create the metronome element
-          Sxmlelement metronomeElement = createElement (k_metronome, "");
+          Sxmlelement metronomeElement = createBmmlElement (k_metronome, "");
 
           // set its "parentheses" attribute
-          metronomeElement->add (createAttribute ("parentheses", "yes"));
+          metronomeElement->add (createBmmlAttribute ("parentheses", "yes"));
 
           // append the beat unit element to the metronome elements
           msrDurationKind
@@ -3922,12 +3922,12 @@ void msr2BmmltreeTranslator::visitStart (S_msrTempo& elt)
               */
 
           metronomeElement-> push (
-            createElement (
+            createBmmlElement (
               k_beat_unit,
               msrDurationKindAsMusicXMLType (durationKind)));
 
           // append the per minute element to the metronome elements
-          metronomeElement-> push (createElement (k_per_minute, tempoPerMinute));
+          metronomeElement-> push (createBmmlElement (k_per_minute, tempoPerMinute));
 
           // append the dynamics element to the current measure element
           appendToMeasureDirection (
@@ -3960,7 +3960,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrTempo& elt)
       case msrTempo::kTempoParenthesizedNo:
         {
           // create the metronome element
-          Sxmlelement metronomeElement = createElement (k_metronome, "");
+          Sxmlelement metronomeElement = createBmmlElement (k_metronome, "");
 
           // append the beat unit element to the metronome elements
           msrDurationKind
@@ -3973,12 +3973,12 @@ void msr2BmmltreeTranslator::visitStart (S_msrTempo& elt)
               */
 
           metronomeElement-> push (
-            createElement (
+            createBmmlElement (
               k_beat_unit,
               msrDurationKindAsMusicXMLType (durationKind)));
 
           // append the per minute element to the metronome elements
-          metronomeElement-> push (createElement (k_per_minute, tempoPerMinute));
+          metronomeElement-> push (createBmmlElement (k_per_minute, tempoPerMinute));
 
           // append the metronome element to the current measure element
           appendToMeasureDirection (
@@ -4230,7 +4230,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrChord& elt)
       " elements" <<
       ", line " << inputLineNumber <<
       " ===== ";
-    fPendingChordStartComment = createElement (kComment, s.str ());
+    fPendingChordStartComment = createBmmlElement (kComment, s.str ());
   }
 
   // append it to the current measure element
@@ -4266,7 +4266,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrChord& elt)
       " elements" <<
       ", line " << inputLineNumber <<
       " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     fCurrentMeasure->push (comment);
@@ -4305,7 +4305,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrTuplet& elt)
       elt->getTupletElementsList ().size () << " elements" <<
       ", line " << inputLineNumber <<
       " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     fCurrentMeasure->push (comment);
@@ -4338,7 +4338,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrTuplet& elt)
       elt->getTupletElementsList ().size () << " elements" <<
       ", line " << inputLineNumber <<
       " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     fCurrentMeasure->push (comment);
@@ -4387,10 +4387,10 @@ void msr2BmmltreeTranslator:: appendNoteWedges (S_msrNote note)
       } // switch
 
       // create the wedge element
-      Sxmlelement wedgeElement = createElement (k_wedge, "");
+      Sxmlelement wedgeElement = createBmmlElement (k_wedge, "");
 
       // set its "type" attribute
-      wedgeElement->add (createAttribute ("type", typeString));
+      wedgeElement->add (createBmmlAttribute ("type", typeString));
 
       // append the wedge element to the current measure element
       appendToMeasureDirection (
@@ -4423,7 +4423,7 @@ void msr2BmmltreeTranslator:: appendNoteDynamics (S_msrNote note)
       S_msrDynamics dynamics = (*i);
 
       // create the dynamics element
-      Sxmlelement dynamicsElement = createElement (k_dynamics, "");
+      Sxmlelement dynamicsElement = createBmmlElement (k_dynamics, "");
 
       // create the dynamics specific sub-element
       int subElementID = -1;
@@ -4506,7 +4506,7 @@ void msr2BmmltreeTranslator:: appendNoteDynamics (S_msrNote note)
           break;
       } // switch
 
-      Sxmlelement dynamicsElementSubElement = createElement (subElementID, "");
+      Sxmlelement dynamicsElementSubElement = createBmmlElement (subElementID, "");
 
       // append the dynamics sub-element to the dynamics elements
       dynamicsElement-> push (dynamicsElementSubElement);
@@ -4571,18 +4571,18 @@ void msr2BmmltreeTranslator:: appendABackupToMeasure (S_msrNote note)
       ", to staff: " << noteStaffNumber <<
       ", line " << inputLineNumber <<
       " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     appendOtherToMeasure (comment);
   }
 
   // create a backup element
-  Sxmlelement backupElement = createElement (k_backup, "");
+  Sxmlelement backupElement = createBmmlElement (k_backup, "");
 
   // append a duration sub-element to it
   backupElement->push (
-    createIntegerElement (k_duration, backupDurationDivisions));
+    createBmmlIntegerElement (k_duration, backupDurationDivisions));
 
   // append it to the current measure element
   appendOtherToMeasure (backupElement);
@@ -4652,26 +4652,26 @@ void msr2BmmltreeTranslator:: appendAForwardToMeasure (S_msrNote note)
       ", in voice: " << previousMSRNoteVoiceNumber <<
       ", line " << inputLineNumber <<
       " ===== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     appendOtherToMeasure (comment);
   }
 
   // create a forward element
-  Sxmlelement forwardElement = createElement (k_forward, "");
+  Sxmlelement forwardElement = createBmmlElement (k_forward, "");
 
   // append a duration sub-element to it
   forwardElement->push (
-    createIntegerElement (k_duration, forwardDurationDivisions));
+    createBmmlIntegerElement (k_duration, forwardDurationDivisions));
 
   // append a voice sub-element to it
   forwardElement->push (
-    createIntegerElement (k_voice, noteVoiceNumber));
+    createBmmlIntegerElement (k_voice, noteVoiceNumber));
 
   // append a staff sub-element to it
   forwardElement->push (
-    createIntegerElement (k_staff, noteStaffNumber));
+    createBmmlIntegerElement (k_staff, noteStaffNumber));
 
   // append it to the current measure element
   appendOtherToMeasure (forwardElement);
@@ -4932,7 +4932,7 @@ void msr2BmmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
         case msrOrnament::kOrnamentAccidentalKind:
           {
             Sxmlelement ornamentElement =
-              createElement (
+              createBmmlElement (
                 ornamentType,
                 accidentalKindAsMusicXMLString (
                   ornament->getOrnamentAccidentalKind ()));
@@ -4946,7 +4946,7 @@ void msr2BmmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
         default:
           {
             Sxmlelement ornamentElement =
-              createElement (
+              createBmmlElement (
                 ornamentType,
                 "");
 
@@ -5052,7 +5052,7 @@ void msr2BmmltreeTranslator:: appendNoteTechnicals (S_msrNote note)
       } // switch
 
       // create the technical element
-      Sxmlelement technicalElement = createElement (technicalType, "");
+      Sxmlelement technicalElement = createBmmlElement (technicalType, "");
 
       // append the note technicals element to the current note element
       appendToNoteNotationsTechnicals (
@@ -5125,10 +5125,10 @@ void msr2BmmltreeTranslator:: appendNoteTechnicalWithIntegers (
 
       Sxmlelement technicalWithIntegerElement =
         technicalWithIntegerValue > 0
-          ? createIntegerElement (
+          ? createBmmlIntegerElement (
               technicalWithIntegerType,
               technicalWithIntegerValue)
-          : createElement (
+          : createBmmlElement (
               technicalWithIntegerType,
               "");
 
@@ -5197,7 +5197,7 @@ void msr2BmmltreeTranslator:: appendNoteTechnicalWithFloats (
       s << technicalWithFloat->getTechnicalWithFloatValue ();
 
       Sxmlelement technicalWithFloatElement =
-        createElement (
+        createBmmlElement (
           technicalWithFloatType,
           s.str ());
 
@@ -5274,7 +5274,7 @@ void msr2BmmltreeTranslator:: appendNoteTechnicalWithStrings (
 
       // create the technicalWithString element
       Sxmlelement technicalWithStringElement =
-        createElement (
+        createBmmlElement (
           technicalWithStringType,
           technicalWithString->getTechnicalWithStringValue ());
 
@@ -5385,7 +5385,7 @@ void msr2BmmltreeTranslator:: appendNoteArticulations (S_msrNote note)
       } // switch
 
       // create the articulation element
-      Sxmlelement articulationElement = createElement (articulationType, "");
+      Sxmlelement articulationElement = createBmmlElement (articulationType, "");
 
       // append it to the current note notations articulations element
       switch (articulationKind) {
@@ -5447,7 +5447,7 @@ void msr2BmmltreeTranslator:: appendNoteTieIfAny (
 
   if (noteTie) {
     // create the tied element
-    Sxmlelement tiedElement = createElement (k_tied, "");
+    Sxmlelement tiedElement = createBmmlElement (k_tied, "");
 
     // set its "type" attribute if any
     string typeString;
@@ -5468,7 +5468,7 @@ void msr2BmmltreeTranslator:: appendNoteTieIfAny (
 
     if (typeString.size ()) {
       tiedElement->add (
-        createAttribute ("type", typeString));
+        createBmmlAttribute ("type", typeString));
     }
 
     // append it to the current note notations element
@@ -5508,13 +5508,13 @@ void msr2BmmltreeTranslator:: appendNoteSlursIfAny (
           slur->getSlurTypeKind ();
 
       // create the slur element
-      Sxmlelement slurElement = createElement (k_slur, "");
+      Sxmlelement slurElement = createBmmlElement (k_slur, "");
 
       // create the slur number attribute
       int slurNumber = slur->getSlurNumber ();
 
       if (slurNumber > 0) {
-        slurElement->add (createIntegerAttribute ("number", slurNumber));
+        slurElement->add (createBmmlIntegerAttribute ("number", slurNumber));
       }
 
       // create the slur type attribute
@@ -5541,7 +5541,7 @@ void msr2BmmltreeTranslator:: appendNoteSlursIfAny (
       } // switch
 
       if (slurTypeString.size ()) {
-        slurElement->add (createAttribute ("type", slurTypeString));
+        slurElement->add (createBmmlAttribute ("type", slurTypeString));
       }
 
       // append the slur element to the current note note notations element
@@ -5603,17 +5603,17 @@ void msr2BmmltreeTranslator:: appendNoteTupletIfRelevant (
 
         if (typeString.size ()) {
           // create a tuplet element
-          Sxmlelement tupletElement = createElement (k_tuplet, "");
+          Sxmlelement tupletElement = createBmmlElement (k_tuplet, "");
 
           // set its "number" attribute
           tupletElement->add (
-            createIntegerAttribute (
+            createBmmlIntegerAttribute (
               "number",
               noteTupletUpLink->getTupletNumber ()));
 
           // set its "type" attribute
           tupletElement->add (
-            createAttribute (
+            createBmmlAttribute (
               "type",
               typeString));
 
@@ -5706,7 +5706,7 @@ void msr2BmmltreeTranslator:: appendNoteSpannersBeforeNote (
         } // switch
 
         // create the spanner element
-        Sxmlelement spannerElement = createElement (spannerType, "");
+        Sxmlelement spannerElement = createBmmlElement (spannerType, "");
 
         // set spannerElement's "number" attribute if relevant
         int
@@ -5714,7 +5714,7 @@ void msr2BmmltreeTranslator:: appendNoteSpannersBeforeNote (
             spanner->getSpannerNumber ();
 
         if (spannerNumber > 0) {
-          spannerElement->add (createIntegerAttribute ("number", spannerNumber));
+          spannerElement->add (createBmmlIntegerAttribute ("number", spannerNumber));
         }
 
         // set spannerElement's "type" attribute if relevant
@@ -5723,7 +5723,7 @@ void msr2BmmltreeTranslator:: appendNoteSpannersBeforeNote (
             msrSpannerTypeKindAsMusicXMLString (spannerTypeKind);
 
         if (typeString.size ()) {
-          spannerElement->add (createAttribute ("type", typeString));
+          spannerElement->add (createBmmlAttribute ("type", typeString));
         }
 
         switch (spannerKind) {
@@ -5810,7 +5810,7 @@ void msr2BmmltreeTranslator:: appendNoteSpannersAfterNote (
         } // switch
 
         // create the spanner element
-        Sxmlelement spannerElement = createElement (spannerType, "");
+        Sxmlelement spannerElement = createBmmlElement (spannerType, "");
 
         // set spannerElement's "number" attribute if relevant
         int
@@ -5818,7 +5818,7 @@ void msr2BmmltreeTranslator:: appendNoteSpannersAfterNote (
             spanner->getSpannerNumber ();
 
         if (spannerNumber > 1) {
-          spannerElement->add (createIntegerAttribute ("number", spannerNumber));
+          spannerElement->add (createBmmlIntegerAttribute ("number", spannerNumber));
         }
 
         // set spannerElement's "type" attribute if relevant
@@ -5827,7 +5827,7 @@ void msr2BmmltreeTranslator:: appendNoteSpannersAfterNote (
             msrSpannerTypeKindAsMusicXMLString (spannerTypeKind);
 
         if (typeString.size ()) {
-          spannerElement->add (createAttribute ("type", typeString));
+          spannerElement->add (createBmmlAttribute ("type", typeString));
         }
 
         switch (spannerKind) {
@@ -5886,7 +5886,7 @@ void msr2BmmltreeTranslator:: appendStemToNote (S_msrNote note)
 
     // append a slur element to the current note element
     fCurrentNote->push (
-      createElement (
+      createBmmlElement (
         k_stem,
         stemString));
   }
@@ -5942,10 +5942,10 @@ void msr2BmmltreeTranslator::appendBeamsToNote (S_msrNote note)
           break;
       } // switch
 
-      Sxmlelement beamElement = createElement (k_beam, beamString);
+      Sxmlelement beamElement = createBmmlElement (k_beam, beamString);
 
       // set its "number" attribute
-      beamElement->add (createIntegerAttribute ("number", beam->getBeamNumber ()));
+      beamElement->add (createBmmlIntegerAttribute ("number", beam->getBeamNumber ()));
 
       // append the beam element to the current note element
       fCurrentNote->push (beamElement);
@@ -6001,7 +6001,7 @@ void msr2BmmltreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
 
     if (noteStaffNumber != 1) { // options ? JMI
       fCurrentNote->push (
-        createIntegerElement (
+        createBmmlIntegerElement (
           k_staff,
           noteStaffNumber));
     }
@@ -6055,7 +6055,7 @@ void msr2BmmltreeTranslator::appendVoiceToNoteIfRelevant (
 
     if (noteVoiceNumber != 1) { // options ? JMI
       fCurrentNote->push (
-        createIntegerElement (
+        createBmmlIntegerElement (
           k_voice,
           noteVoiceNumber));
     }
@@ -6195,18 +6195,18 @@ void msr2BmmltreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
 
       if (doCreateALyricElement) {
         // create the lyric element
-        Sxmlelement lyricElement = createElement (k_lyric, "");
+        Sxmlelement lyricElement = createBmmlElement (k_lyric, "");
 
         // set its "number" attribute
         lyricElement->add (
-          createAttribute (
+          createBmmlAttribute (
             "number",
             syllable->getSyllableStanzaNumber ()));
 
         // append a syllabic element to the lyric element if relevant
         if (syllabicString.size ()) {
           lyricElement->push (
-            createElement (k_syllabic, syllabicString));
+            createBmmlElement (k_syllabic, syllabicString));
         }
 
         // append a text elements to the lyric element if relevant
@@ -6222,7 +6222,7 @@ void msr2BmmltreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
           string text = (*i);
 
           lyricElement->push (
-            createElement (k_text, text));
+            createBmmlElement (k_text, text));
         } // for
 
         // append the extend element to the lyric element if relevant
@@ -6251,11 +6251,11 @@ void msr2BmmltreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
 
         if (doCreateAnExtendElement) {
           // create an extend element
-          Sxmlelement extendElement = createElement (k_extend, "");
+          Sxmlelement extendElement = createBmmlElement (k_extend, "");
 
           if (extendTypeString.size ()) {
             // set its "type" attribute
-            extendElement->add (createAttribute ("type", extendTypeString));
+            extendElement->add (createBmmlAttribute ("type", extendTypeString));
           }
 
           // append the extend element to the lyric element
@@ -6328,7 +6328,7 @@ void msr2BmmltreeTranslator::appendBasicsToNote (
   switch (noteKind) {
     case msrNote::kChordMemberNote:
       if (! note->getNoteIsAChordsFirstMemberNote ()) {
-        fCurrentNote->push (createElement (k_chord, ""));
+        fCurrentNote->push (createBmmlElement (k_chord, ""));
       }
       break;
     default:
@@ -6339,7 +6339,7 @@ void msr2BmmltreeTranslator::appendBasicsToNote (
   switch (noteKind) {
     case msrNote::kGraceNote:
     case msrNote::kGraceSkipNote:
-      fCurrentNote->push (createElement (k_grace, ""));
+      fCurrentNote->push (createBmmlElement (k_grace, ""));
       break;
     default:
       ;
@@ -6351,7 +6351,7 @@ void msr2BmmltreeTranslator::appendBasicsToNote (
       break;
 
     case msrNote::kRestNote:
-      fCurrentNote->push (createElement (k_rest, ""));
+      fCurrentNote->push (createBmmlElement (k_rest, ""));
       break;
 
     case msrNote::kSkipNote:
@@ -6365,11 +6365,11 @@ void msr2BmmltreeTranslator::appendBasicsToNote (
     case msrNote::kTupletMemberNote:
       {
         // create the pitch element
-        Sxmlelement pitchElement = createElement (k_pitch, "");
+        Sxmlelement pitchElement = createBmmlElement (k_pitch, "");
 
         // append the step element
         pitchElement->push (
-          createElement (
+          createBmmlElement (
             k_step,
             msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
 
@@ -6378,14 +6378,14 @@ void msr2BmmltreeTranslator::appendBasicsToNote (
           stringstream s;
           s << setprecision (2) << noteMusicXMLAlter;
           pitchElement->push (
-            createElement (
+            createBmmlElement (
               k_alter,
               s.str ()));
         }
 
         // append the octave element
         pitchElement->push (
-          createIntegerElement (
+          createBmmlIntegerElement (
             k_octave,
             noteOctave));
 
@@ -6394,7 +6394,7 @@ void msr2BmmltreeTranslator::appendBasicsToNote (
       break;
 
     case msrNote::kTupletRestMemberNote:
-      fCurrentNote->push (createElement (k_rest, ""));
+      fCurrentNote->push (createBmmlElement (k_rest, ""));
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -6404,11 +6404,11 @@ void msr2BmmltreeTranslator::appendBasicsToNote (
     case msrNote::kGraceSkipNote:
       {
         // create the pitch element
-        Sxmlelement pitchElement = createElement (k_pitch, "");
+        Sxmlelement pitchElement = createBmmlElement (k_pitch, "");
 
         // append the step element
         pitchElement->push (
-          createElement (
+          createBmmlElement (
             k_step,
             msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
 
@@ -6417,14 +6417,14 @@ void msr2BmmltreeTranslator::appendBasicsToNote (
           stringstream s;
           s << setprecision (2) << noteMusicXMLAlter;
           pitchElement->push (
-            createElement (
+            createBmmlElement (
               k_alter,
               s.str ()));
         }
 
         // append the octave element
         pitchElement->push (
-          createIntegerElement (
+          createBmmlIntegerElement (
             k_octave,
             noteOctave));
 
@@ -6566,7 +6566,7 @@ void msr2BmmltreeTranslator::appendDurationToNoteIfRelevant (
     }
 
     fCurrentNote->push (
-      createIntegerElement (
+      createBmmlIntegerElement (
         k_duration,
         soundingDurationAsRational.getNumerator ()));
 
@@ -6636,14 +6636,14 @@ void msr2BmmltreeTranslator::appendTimeModificationToNoteIfRelevant (
     case msrNote::kTupletRestMemberNote:
       {
         Sxmlelement
-          timeModificationElement = createElement (k_time_modification, "");
+          timeModificationElement = createBmmlElement (k_time_modification, "");
 
         timeModificationElement->push (
-          createIntegerElement (
+          createBmmlIntegerElement (
             k_actual_notes,
             note->getNoteTupletFactor ().getTupletActualNotes ()));
         timeModificationElement->push (
-          createIntegerElement (
+          createBmmlIntegerElement (
             k_normal_notes,
             note->getNoteTupletFactor ().getTupletNormalNotes ()));
 
@@ -6724,7 +6724,7 @@ void msr2BmmltreeTranslator::appendNoteToMesureIfRelevant (
 
   if (doGenerateNote) {
     // create a note element
-    fCurrentNote = createElement (k_note, "");
+    fCurrentNote = createBmmlElement (k_note, "");
 
     // append the note basic sub-elements
     appendBasicsToNote (note);
@@ -6785,7 +6785,7 @@ void msr2BmmltreeTranslator::appendNoteToMesureIfRelevant (
           note->getNoteGraphicDurationKind ();
 
       fCurrentNote->push (
-        createElement (
+        createBmmlElement (
           k_type,
           msrDurationKindAsMusicXMLType (noteGraphicDurationKind)));
     }
@@ -6809,7 +6809,7 @@ void msr2BmmltreeTranslator::appendNoteToMesureIfRelevant (
 
     for (int i = 0; i < noteDotsNumber; i++) {
       fCurrentNote->push (
-        createElement (
+        createBmmlElement (
           k_dot, ""));
     } // for
 
@@ -6825,7 +6825,7 @@ void msr2BmmltreeTranslator::appendNoteToMesureIfRelevant (
 
     if (accidentalString.size ()) {
       fCurrentNote->push (
-        createElement (
+        createBmmlElement (
           k_accidental,
           accidentalString));
     }
@@ -6871,7 +6871,7 @@ void msr2BmmltreeTranslator::appendNoteToMesureIfRelevant (
           ", sounding: " << note->getNoteSoundingWholeNotes () <<
           ", line " << inputLineNumber <<
           " ===== ";
-        Sxmlelement comment = createElement (kComment, s.str ());
+        Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
         // append it to the current measure element
         appendOtherToMeasure (comment);
@@ -6915,7 +6915,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
       " START" <<
         ", line " << inputLineNumber <<
       " ==================== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     fCurrentMeasure->push (comment);
@@ -6946,7 +6946,7 @@ void msr2BmmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
       " END" <<
         ", line " << inputLineNumber <<
       " ==================== ";
-    Sxmlelement comment = createElement (kComment, s.str ());
+    Sxmlelement comment = createBmmlElement (kComment, s.str ());
 
     // append it to the current measure element
     fCurrentMeasure->push (comment);
@@ -7002,7 +7002,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrNote& elt)
 
   // populate the measure attributes if needed
   if (fAnAttributeElementIsNeeded) {
-    createAttributesElementAndAppendItToMeasure ();
+    createBmmlAttributesElementAndAppendItToMeasure ();
 
     fAnAttributeElementIsNeeded = false;
   }
@@ -7163,10 +7163,10 @@ void msr2BmmltreeTranslator::visitStart (S_msrBarline& elt)
 
   if (barLStyleString.size ()) {
     // create the bar style element
-    Sxmlelement barStyleElement = createElement (k_bar_style, barLStyleString);
+    Sxmlelement barStyleElement = createBmmlElement (k_bar_style, barLStyleString);
 
     // create the barline element
-    Sxmlelement barlineElement = createElement (k_barline, "");
+    Sxmlelement barlineElement = createBmmlElement (k_barline, "");
 
     // set its "location" attribute if any
     msrBarline::msrBarlineLocationKind
@@ -7190,7 +7190,7 @@ void msr2BmmltreeTranslator::visitStart (S_msrBarline& elt)
     } // switch
 
     if (barLineLocationString.size ()) {
-      barlineElement->add (createAttribute ("location", barLineLocationString));
+      barlineElement->add (createBmmlAttribute ("location", barLineLocationString));
     }
 
     // append the barline element to the barline element

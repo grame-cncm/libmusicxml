@@ -16,7 +16,7 @@
 
 #include <sstream>
 
-#include "mxmlTree.h"
+#include "meiTree.h"
 
 #include "setTraceOahIfDesired.h"
 #ifdef TRACE_OAH
@@ -30,7 +30,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-string mxmlElementAsString (Sxmlelement elem)
+string meiElementAsString (Sxmlelement elem)
 {
   int                 elemType = elem->getType ();
   const std::string&  elemName = elem->getName ();
@@ -40,7 +40,7 @@ string mxmlElementAsString (Sxmlelement elem)
   stringstream s;
 
   s <<
-    "mxmlelement " <<
+    "meielement " <<
     ", elemType: " << elemType <<
     ", elemName: " << elemName <<
     ", elemAttributes.size ():" << elemAttributes.size ();
@@ -49,7 +49,7 @@ string mxmlElementAsString (Sxmlelement elem)
 }
 
 //------------------------------------------------------------------------
-Sxmlelement createMxmlElement (int type, const string& value)
+Sxmlelement createMeiElement (int type, const string& value)
 {
 	Sxmlelement result = factory::instance().create(type);
 
@@ -58,7 +58,7 @@ Sxmlelement createMxmlElement (int type, const string& value)
 	return result;
 }
 
-Sxmlelement createMxmlIntegerElement (int type, int value)
+Sxmlelement createMeiIntegerElement (int type, int value)
 {
 	Sxmlelement result = factory::instance().create(type);
 
@@ -67,7 +67,7 @@ Sxmlelement createMxmlIntegerElement (int type, int value)
 	return result;
 }
 
-Sxmlelement createMxmlFloatElement (int type, float value)
+Sxmlelement createMeiFloatElement (int type, float value)
 {
 	Sxmlelement result = factory::instance().create(type);
 
@@ -77,7 +77,7 @@ Sxmlelement createMxmlFloatElement (int type, float value)
 }
 
 //------------------------------------------------------------------------
-Sxmlattribute createMxmlAttribute (const string& name, const string& value)
+Sxmlattribute createMeiAttribute (const string& name, const string& value)
 {
 	Sxmlattribute result = xmlattribute::create();
 
@@ -87,7 +87,7 @@ Sxmlattribute createMxmlAttribute (const string& name, const string& value)
 	return result;
 }
 
-Sxmlattribute createMxmlIntegerAttribute (const string& name, int value)
+Sxmlattribute createMeiIntegerAttribute (const string& name, int value)
 {
 	Sxmlattribute result = xmlattribute::create();
 
@@ -97,7 +97,7 @@ Sxmlattribute createMxmlIntegerAttribute (const string& name, int value)
 	return result;
 }
 
-Sxmlattribute createMxmlFloatAttribute (const string& name, float value)
+Sxmlattribute createMeiFloatAttribute (const string& name, float value)
 {
 	Sxmlattribute result = xmlattribute::create();
 
@@ -108,7 +108,7 @@ Sxmlattribute createMxmlFloatAttribute (const string& name, float value)
 }
 
 //------------------------------------------------------------------------
-SXMLFile createMxmlFile ()
+SXMLFile createMeiFile ()
 {
 	SXMLFile result = TXMLFile::create ();
 
@@ -122,11 +122,11 @@ SXMLFile createMxmlFile ()
 }
 
 //------------------------------------------------------------------------
-Sxmlelement createMxmlScorePartWiseElement ()
+Sxmlelement createMeiScorePartWiseElement ()
 {
   Sxmlelement result = factory::instance().create(k_score_partwise);
 
-  Sxmlattribute versionAttribute = createMxmlAttribute("version", "3.1");
+  Sxmlattribute versionAttribute = createMeiAttribute("version", "3.1");
   result->add (versionAttribute);
 
   return result;

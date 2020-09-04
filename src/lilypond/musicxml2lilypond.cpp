@@ -436,7 +436,9 @@ EXP xmlErr convertMusicXMLToLilypond (
 
   if (gIndenter != saveIndent) {
     gLogOstream <<
-      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
+      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl <<
       endl;
   }
@@ -454,7 +456,9 @@ EXP xmlErr convertMusicXMLToLilypond (
 
   if (gIndenter != saveIndent) {
     gLogOstream <<
-      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
+      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl <<
       endl;
   }
@@ -492,7 +496,9 @@ EXP xmlErr convertMusicXMLToLilypond (
 
   if (gIndenter != saveIndent) {
     gLogOstream <<
-      "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
+      "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl <<
       endl;
   }
@@ -572,7 +578,9 @@ EXP xmlErr convertMusicXMLToLilypond (
 
   if (gIndenter != saveIndent) {
     gLogOstream <<
-      "### gIndenter final value has changed after convertMsrScoreToLpsrScore(): "<< gIndenter.getIndent () << " ###" <<
+      "### gIndenter final value has changed after convertMsrScoreToLpsrScore(): "<<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl <<
       endl;
   }
@@ -639,7 +647,9 @@ EXP xmlErr convertMusicXMLToLilypond (
 
     if (gIndenter != saveIndent) {
       gLogOstream <<
-        "### gIndenter final value has changed after convertMsrScoreToMusicXMLScore(): "<< gIndenter.getIndent () << " ###" <<
+        "### gIndenter final value has changed after convertMusicXMLToLilypond(): "<<
+        gIndenter.getIndent () <<
+        " ###" <<
         endl <<
         endl;
     }

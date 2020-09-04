@@ -28,27 +28,27 @@ namespace MusicXML2
 {
 
 //------------------------------------------------------------------------
-string mxmlElementAsString (Sxmlelement elem);
+string meiElementAsString (Sxmlelement elem);
 
 //------------------------------------------------------------------------
-Sxmlelement createMxmlElement (int type, const string& value);
+Sxmlelement createMeiElement (int type, const string& value);
 
-Sxmlelement createMxmlIntegerElement (int type, int value);
+Sxmlelement createMeiIntegerElement (int type, int value);
 
-Sxmlelement createMxmlFloatElement (int type, float value);
-
-//------------------------------------------------------------------------
-Sxmlattribute createMxmlAttribute (const string& name, const string& value);
-
-Sxmlattribute createMxmlIntegerAttribute (const string& name, int value);
-
-Sxmlattribute createMxmlFloatAttribute (const string& name, float value);
+Sxmlelement createMeiFloatElement (int type, float value);
 
 //------------------------------------------------------------------------
-EXP SXMLFile createMxmlFile ();
+Sxmlattribute createMeiAttribute (const string& name, const string& value);
+
+Sxmlattribute createMeiIntegerAttribute (const string& name, int value);
+
+Sxmlattribute createMeiFloatAttribute (const string& name, float value);
 
 //------------------------------------------------------------------------
-Sxmlelement createMxmlScorePartWiseElement ();
+EXP SXMLFile createMeiFile ();
+
+//------------------------------------------------------------------------
+Sxmlelement createMeiScorePartWiseElement ();
 
 }
 

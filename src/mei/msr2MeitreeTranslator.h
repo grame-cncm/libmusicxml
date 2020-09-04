@@ -808,7 +808,7 @@ class msr2MeitreeTranslator :
 
     list<Sxmlelement>         fClefElementsList;
 
-    void                      createAttributesElementAndAppendItToMeasure ();
+    void                      createMeiAttributesElementAndAppendItToMeasure ();
 
 /*
     // full measure rests compression

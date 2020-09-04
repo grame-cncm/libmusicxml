@@ -325,18 +325,6 @@ int main (int argc, char *argv[])
   }
 #endif
 
-  // sanity check
-  // ------------------------------------------------------
-
-  if (inputSourceName == outputFileName) {
-    stringstream s;
-
-    s <<
-      "\"" << inputSourceName << "\" is both the input and output file name";;
-
-    oahError (s.str ());
-  }
-
   // do the translation
   // ------------------------------------------------------
 

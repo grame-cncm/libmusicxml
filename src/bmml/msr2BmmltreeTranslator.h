@@ -808,7 +808,7 @@ class msr2BmmltreeTranslator :
 
     list<Sxmlelement>         fClefElementsList;
 
-    void                      createAttributesElementAndAppendItToMeasure ();
+    void                      createBmmlAttributesElementAndAppendItToMeasure ();
 
 /*
     // full measure rests compression

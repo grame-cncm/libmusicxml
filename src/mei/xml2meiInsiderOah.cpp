@@ -24,10 +24,9 @@
 
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
-#include "msr2MxmltreeOah.h"
-#include "msrOah.h"
-#include "msr2MxmltreeOah.h"
 #include "mxmlTree2MsrOah.h"
+#include "msrOah.h"
+#include "msr2MeitreeOah.h"
 #include "msr2LpsrOah.h" // JMI ???
 //#include "lpsrOah.h" // JMI only if pass5 msr2lpsr is run
 
@@ -233,10 +232,10 @@ void xml2meiInsiderOahHandler::initializeXml2meiInsiderOahHandling (
     initializeMsrOahHandling (
       this);
 
-    initializeMsr2LpsrOahHandling (
-      this);
+//    initializeMsr2LpsrOahHandling (
+//      this);
 
-    initializeMsr2MxmltreeOahHandling (
+    initializeMsr2MeitreeOahHandling (
       this);
 
   //  initializeLpsrOahHandling ( // JMI only if pass5 msr2lpsr is run

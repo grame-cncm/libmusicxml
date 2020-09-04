@@ -24,10 +24,9 @@
 
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
-#include "msr2MxmltreeOah.h"
-#include "msrOah.h"
-#include "msr2MxmltreeOah.h"
 #include "mxmlTree2MsrOah.h"
+#include "msrOah.h"
+#include "msr2BmmltreeOah.h"
 #include "msr2LpsrOah.h" // JMI ???
 //#include "lpsrOah.h" // JMI only if pass5 msr2lpsr is run
 
@@ -233,10 +232,10 @@ void xml2bmmlInsiderOahHandler::initializeXml2bmmlInsiderOahHandling (
     initializeMsrOahHandling (
       this);
 
-    initializeMsr2LpsrOahHandling (
-      this);
+//    initializeMsr2LpsrOahHandling (
+//      this);
 
-    initializeMsr2MxmltreeOahHandling (
+    initializeMsr2BmmltreeOahHandling (
       this);
 
   //  initializeLpsrOahHandling ( // JMI only if pass5 msr2lpsr is run
@@ -696,8 +695,8 @@ void xml2bmmlInsiderOahHandler::enforceOahHandlerQuietness ()
   gGeneralOah->
     enforceQuietness ();
 
-  gMxmlTreeOah->
-    enforceQuietness ();
+//  gBmmlTreeOah->
+//    enforceQuietness ();
 
   gMsrOah->
     enforceQuietness ();

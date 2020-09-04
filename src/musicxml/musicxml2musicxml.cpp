@@ -352,7 +352,7 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
         timingItemKind);
 
   // create the MusicXML data
-	SXMLFile xmlFile = createXMLFile ();
+	SXMLFile xmlFile = createMxmlFile ();
 /* JMI
 	SXMLFile xmlFile = TXMLFile::create ();
 

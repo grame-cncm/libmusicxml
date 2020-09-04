@@ -35,16 +35,16 @@
 #include "msr2LpsrOah.h"
 #include "musicxmlOah.h"
 
-#include "xml2xmlInsiderOah.h"
+#include "xml2meiInsiderOah.h"
 
 #include "msr.h"
 
 #include "musicXML2MxmlTreeInterface.h"
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"
 #include "mxmlTree2MsrTranslatorInterface.h"
-#include "msr2MxmltreeInterface.h"
+#include "msr2MeitreeInterface.h"
 
-#include "mxmlTree.h"
+#include "meiTree.h"
 
 #include "musicxml2mei.h"
 
@@ -70,16 +70,16 @@ static xmlErr xml2mei (SXMLFile& xmlfile, const optionsVector& options, std::ost
   // the fake executable name
   // ------------------------------------------------------
 
-  string fakeExecutableName = "xml2xml";
+  string fakeExecutableName = "xml2mei";
 
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2xmlInsiderOahHandler
+  S_xml2meiInsiderOahHandler
     handler =
-      xml2xmlInsiderOahHandler::create (
+      xml2meiInsiderOahHandler::create (
         fakeExecutableName,
-        "xml2xml",
+        "xml2mei",
         out);
 
   // analyze the coptions vector
@@ -152,7 +152,7 @@ static xmlErr xml2mei (SXMLFile& xmlfile, const optionsVector& options, std::ost
     // should we return now?
     // ------------------------------------------------------
 
-    if (gXml2xmlOah->fExit2a) {
+    if (gXml2meiOah->fExit2a) {
       gLogOstream <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -218,7 +218,7 @@ static xmlErr xml2mei (SXMLFile& xmlfile, const optionsVector& options, std::ost
     // should we return now?
     // ------------------------------------------------------
 
-    if (gXml2xmlOah->fExit2b) {
+    if (gXml2meiOah->fExit2b) {
       gLogOstream <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -341,10 +341,10 @@ EXP xmlErr convertMsrScoreToMEIScore (
       outFileStream,
       gIndenter);
 
-  // convert the MSR score to an mxmltree
+  // convert the MSR score to an meitree
   Sxmlelement
     mxmltree =
-      buildMxmltreeFromMsrScore (
+      buildMeitreeFromMsrScore (
         mScore,
         gMsrOah,
         gLogOstream,
@@ -352,7 +352,7 @@ EXP xmlErr convertMsrScoreToMEIScore (
         timingItemKind);
 
   // create the MusicXML data
-	SXMLFile xmlFile = createXMLFile ();
+	SXMLFile xmlFile = createMeiFile ();
 /* JMI
 	SXMLFile xmlFile = TXMLFile::create ();
 
@@ -391,17 +391,6 @@ EXP xmlErr convertMusicXMLToMEI (
 {
   int saveIndent = 0;
 
-  // sanity check
-  // ------------------------------------------------------
-
-  if (inputSourceName == outputFileName) {
-    gLogOstream <<
-      "\"" << inputSourceName << "\" is both the input and output file name" <<
-      endl;
-
-    return kInvalidOption;
-  }
-
   // create the mxmlTree from MusicXML contents (pass 1)
   // ------------------------------------------------------
 
@@ -424,7 +413,9 @@ EXP xmlErr convertMusicXMLToMEI (
   // ------------------------------------------------------
   if (gIndenter != saveIndent) {
     gLogOstream <<
-      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
+      "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl <<
       endl;
   }
@@ -432,7 +423,7 @@ EXP xmlErr convertMusicXMLToMEI (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gXml2xmlOah->fExit2a) {
+  if (gXml2meiOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -462,7 +453,9 @@ EXP xmlErr convertMusicXMLToMEI (
   // ------------------------------------------------------
   if (gIndenter != saveIndent) {
     gLogOstream <<
-      "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
+      "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl <<
       endl;
   }
@@ -506,7 +499,7 @@ EXP xmlErr convertMusicXMLToMEI (
 
   // should we return now?
   // ------------------------------------------------------
-  if (gXml2xmlOah->fExit2b) {
+  if (gXml2meiOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<
@@ -532,7 +525,9 @@ EXP xmlErr convertMusicXMLToMEI (
   // ------------------------------------------------------
   if (gIndenter != saveIndent) {
     gLogOstream <<
-      "### gIndenter final value has changed after convertMsrScoreToMusicXMLScore(): "<< gIndenter.getIndent () << " ###" <<
+      "### gIndenter final value has changed after convertMusicXMLToBMML(): "<<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl <<
       endl;
   }
