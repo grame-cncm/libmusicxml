@@ -61,14 +61,14 @@ This document shows the architecture of the \lib\ library, to be found at
 The picture at figure \ref {Architecture}, page \pageref {Architecture}, shows how \lib\ is structured. The dimmed, dashed arrows indicate items not yet available. 
 The numbered arrows show the existing conversions between formats and representations.
 
-\begin{adjustwidth}{-1cm}{-1cm}
+\begin{adjustwidth}{0cm}{0cm}
 \begin{figure}[h]
 \caption {\lib\ architecture}
 \label{Architecture}
 \begin{center}
 
 % -------------------------------------------------------------------------
-\begin{tikzpicture}[scale=0.6] % allow upside down ???
+\begin{tikzpicture}[scale=0.42] % allow upside down ???
 % -------------------------------------------------------------------------
 
 % elements positions
@@ -76,10 +76,10 @@ The numbered arrows show the existing conversions between formats and representa
 
 \tikzmath{
 	% dilatation factor
-	\interalDiameter = 6;
+	\interalDiameter = 9;
 	%
 	% diameters ration
-	\externalDiameter = 12;
+	\externalDiameter = 18;
 	%
   % MSR
   \MSRAbs = 0;
@@ -282,6 +282,9 @@ The numbered arrows show the existing conversions between formats and representa
 }
 
 
+\footnotesize
+
+
 % The coordinates
 % ------------------------------------------------
 
@@ -316,9 +319,10 @@ The numbered arrows show the existing conversions between formats and representa
 % Draw the elements
 % ------------------------------------------------
 
-\def \minimumCircelSize {80}
+\def \minimumCircelSize {85}
+\def \minimumSquareSize {75}
 
-\def \MusicXMLColor {red!15}
+\def \MusicXMLColor {red!15.5}
 
 \def \GuidoColor {brown!20}
 
@@ -343,21 +347,21 @@ The numbered arrows show the existing conversions between formats and representa
   (UpperSpace) at (UpperSpace) {~};
 
 % MusicXML
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumCircelSize,fill=\MusicXMLColor}]
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\MusicXMLColor}]
   (MusicXML)
   at (MusicXML) {{\bf MusicXML}\\(text)};
 
 % MusicXMLTree
 \node[align=center,style={circle,minimum size=\minimumCircelSize,fill=\MusicXMLColor}]
   (MusicXMLTree)
-  at (MusicXMLTree) {{\bf xmlelement}\\(tree)};
+  at (MusicXMLTree) {{\bf mxmlelement}\\(tree)};
   
 % Guido
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumCircelSize,fill=\GuidoColor}]
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\GuidoColor}]
   (Guido) at (Guido) {{\bf Guido}\\(text)};
  
 % BMML
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumCircelSize,fill=\BMMLColor}]
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\BMMLColor}]
   (BMML) at (BMML) {{\bf BMML}\\(text)};
  
 % BMMLTree
@@ -366,7 +370,7 @@ The numbered arrows show the existing conversions between formats and representa
   at (BMMLTree) {{\bf bmmlelement}\\(tree)};
   
 % MEI
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumCircelSize,fill=\MEIColor}]
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\MEIColor}]
   (MEI) at (MEI) {{\bf MEI}\\(text)};
  
 % MEITree
@@ -375,7 +379,7 @@ The numbered arrows show the existing conversions between formats and representa
   at (MEITree) {{\bf meielement}\\(tree)};
   
 % LilyPond
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumCircelSize,fill=\LilyPondColor}]
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\LilyPondColor}]
   (LilyPond)
   at (LilyPond) {{\bf LilyPond}\\(text)};
 \node[align=center,style={circle,minimum size=\minimumCircelSize,fill=\LilyPondColor}]
@@ -383,7 +387,7 @@ The numbered arrows show the existing conversions between formats and representa
   at (LPSR) {{\bf LPSR}\\(graph)};
 
 % Jianpu LilyPond
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumCircelSize,fill=\LilyPondColor}]
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\LilyPondColor}]
   (JianpuLilyPond)
   at (JianpuLilyPond) {
     \parbox [c] {1.8cm} {
@@ -394,20 +398,20 @@ The numbered arrows show the existing conversions between formats and representa
 			\centering {(text)}
     }
   };
-\node[align=center,style={circle,minimum size=\minimumCircelSize,fill=\LilyPondColor}]
+\node[align=center,style={circle,minimum size=\minimumSquareSize,fill=\LilyPondColor}]
   (LPSR)
   at (LPSR) {{\bf LPSR}\\(graph)};
 
 % BrailleMusic
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumCircelSize,fill=\BrailleMusicColor}]
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\BrailleMusicColor}]
   (BrailleMusic)
   at (BrailleMusic) {{\bf Braille music}\\(text)};
-\node[align=center,style={circle,minimum size=\minimumCircelSize,fill=\BrailleMusicColor}]
+\node[align=center,style={circle,minimum size=\minimumSquareSize,fill=\BrailleMusicColor}]
   (BSR)
   at (BSR) {{\bf BSR}\\(graph)};
 
 % MIDI
-\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumCircelSize,fill=\MIDIColor}]
+\node[align=center,style={rectangle,rounded corners=\roundedCorners,minimum size=\minimumSquareSize,fill=\MIDIColor}]
   (MIDI)
   at (MIDI) {{\bf MIDI}\\(binary)};
   
@@ -434,12 +438,12 @@ The numbered arrows show the existing conversions between formats and representa
 % MusicXML <-> MusicXMLTree
 \path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
 (MusicXML) 
-edge node {\rotatebox{90}{1}} 
+edge node {\rotatebox{-90}{1}} 
 (MusicXMLTree);
 
 \path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
 (MusicXMLTree) 
-edge node {\rotatebox{-90}{2}} 
+edge node {\rotatebox{90}{2}} 
 (MusicXML);
 
 % MusicXMLTree -> Guido
@@ -523,13 +527,13 @@ edge node {\rotatebox{70}{7}}
 % LPSR -> LilyPond
 \path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
 (LPSR) 
-edge node {\rotatebox{30}{8}} 
+edge node {\rotatebox{60}{8}} 
 (LilyPond);
 
 % LPSR -> JianpuLilyPond
 \path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
 (LPSR) 
-edge node {\rotatebox{-90}{8'}} 
+edge node {\rotatebox{-30}{8'}} 
 (JianpuLilyPond);
 
 % MSR <-> BSR
@@ -546,7 +550,7 @@ edge node {\rotatebox{-52.5}{10}}
 % BSR -> BSR
 \path [->, sloped, below, thick, \arcsColor]
 (BSR) 
-edge [out=-90, in=-70, loop] node {\rotatebox{-15}{11}} 
+edge [out=-110, in=-90, loop] node {\rotatebox{0}{11}} 
 (BSR);
 
 % BSR -> BrailleMusic
@@ -835,7 +839,7 @@ The representations used by \lib\ are:
 MSR & Music Score Representation, in terms of part groups, parts, staves, voices, notes, etc. This is the heart of the multi-language converters provided by \lib;
 \tabularnewline
 
-xmlelement tree & a tree representing the \mxml\ markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
+mxmlelement tree & a tree representing the \mxml\ markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
 \tabularnewline
 
 bmmlelement tree & a tree representing the \bmml\ markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
@@ -853,7 +857,7 @@ BSR & Braille Score Representation, with pages, lines and 6-dots cells;
 MDSR & MIDI Score Representation, to be designed.
 \tabularnewline
 
-%\texttt{RandomMusic} & generates an xmlelement tree containing random music and writes it as \mxml
+%\texttt{RandomMusic} & generates an mxmlelement tree containing random music and writes it as \mxml
 %\tabularnewline
 %
 %tools & a set of other demo programs such as {\tt countnotes}, {\tt xmltranspose} and {\tt partsummary}
@@ -884,16 +888,16 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 {Passes} & {Description} \tabularnewline[0.5ex]
 \hline\\[-3.0ex]
 %
-\texttt{1} & reads \mxml\ data from a file or from standard input is '-' is supplied as the file name, and creates an xmlelement tree containg the same data;
+\texttt{1} & reads \mxml\ data from a file or from standard input is '-' is supplied as the file name, and creates an mxmlelement tree containg the same data;
 \tabularnewline
 
-\texttt{2} & converts an xmlelement tree into \mxml\ data. This is a mere 'print()' operation;
+\texttt{2} & converts an mxmlelement tree into \mxml\ data. This is a mere 'print()' operation;
 \tabularnewline
 
-\texttt{3} & converts an xmlelement tree into Guido text code, and writes it to standard output;
+\texttt{3} & converts an mxmlelement tree into Guido text code, and writes it to standard output;
 \tabularnewline
 
-\texttt{4} & converts an xmlelement tree into and MSR representation. \mxml\ represents how a score is to be drawn, while MSR represents the musical contents with great detail. This pass actually consists in two sub-passes: the first one builds an MSR skeleton containing empty voices and stanzas, and the second one the fills this with all the rest;
+\texttt{4} & converts an mxmlelement tree into and MSR representation. \mxml\ represents how a score is to be drawn, while MSR represents the musical contents with great detail. This pass actually consists in two sub-passes: the first one builds an MSR skeleton containing empty voices and stanzas, and the second one the fills this with all the rest;
 \tabularnewline
 
 \texttt{5} & converts an MSR representation into another one, built from scratch. This allows the new representation to be different than the original one, for example to change the score after is has been scanned and exported as \mxml\ data, or to add skip (invisible) notes to avoid the \lily\ issue \#34. For simplicity and efficiency reasons, this pass is not present as such, but 'merges' within passes 6 and 9;
@@ -936,7 +940,7 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 \tabularnewline
 
 
-\texttt{\textcolor{gray}{15}} & converts an MSR representation into an xmlelement tree -- ongoing work;
+\texttt{\textcolor{gray}{15}} & converts an MSR representation into an mxmlelement tree -- ongoing work;
 \tabularnewline
 
 
@@ -1134,11 +1138,11 @@ The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data
 \lib\ supplies a number of basic tools using its features:
 
 \begin{itemize}
-\item \texttt{RandomMusic} generates an xmlelement tree containing random music, and writes it as \mxml\ to standard output;
+\item \texttt{RandomMusic} generates an mxmlelement tree containing random music, and writes it as \mxml\ to standard output;
 
-\item \texttt{RandomChords} generates an xmlelement tree containing random two-note chords, and writes it as \mxml\ to standard output;
+\item \texttt{RandomChords} generates an mxmlelement tree containing random two-note chords, and writes it as \mxml\ to standard output;
 
-\item \texttt{MusicAndHarmonies.cpp} generates an xmlelement tree containing notes and harmonies, and writes it as \mxml\ to standard output;
+\item \texttt{MusicAndHarmonies.cpp} generates an mxmlelement tree containing notes and harmonies, and writes it as \mxml\ to standard output;
 
 \item other programs such as {\tt countnotes}, {\tt xmltranspose} and {\tt partsummary} demonstrate the possibilities of the library, in particular those of the two-phase visitors pattern it uses.
 \end{itemize}
