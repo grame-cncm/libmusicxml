@@ -34,12 +34,14 @@ get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
 
 #######################################
-option ( XML 		  "Generates the musicxml library by default"	on )
-option ( LILY         "Generates lilypond part"       	            on )
-option ( BRAILLE      "Generates braille part"	                    on )
-option ( ALL 		  "set XML, LILY and BSR on"	                off )
+option ( XML 		      "Generates the musicxml library by default"	on )
+option ( LILY         "Generates lilypond part"       	          on )
+option ( BRAILLE      "Generates braille part"	                  on )
+option ( BMML         "Generates BMML part"	                      on )
+option ( MEI          "Generates MEI part"	                      on )
+option ( ALL 		      "set XML, LILY and BSR on"	                off )
 option ( FMWK 	  	  "Generates a framework on MacOS by default"	off )
-option ( GDB 		  "Activates ggdb3 option"	                    off )
+option ( GDB 		      "Activates ggdb3 option"	                  off )
 option ( APPLEDEBUG   "Activates Apple debug option"	            off )
 
 if (ALL)
@@ -48,7 +50,7 @@ if (ALL)
 	set (BRAILLE on)
 endif()
 
-if (LILY OR BRAILLE)
+if (LILY OR BRAILLE OR BMML OR MEI)
 	set (MSR on)
 endif()
 
@@ -60,6 +62,12 @@ if (LILY)
 endif()
 if (BRAILLE)
 	message (STATUS "Generates the braille part")
+endif()
+if (BMML)
+	message (STATUS "Generates the BMML part")
+endif()
+if (MEI)
+	message (STATUS "Generates the MEI part")
 endif()
 
 
@@ -136,6 +144,14 @@ endif()
 
 if (BRAILLE)
 	set (SRCFOLDERS ${SRCFOLDERS} bsr braille)
+endif()
+
+if (BMML)
+	set (SRCFOLDERS ${SRCFOLDERS} bmml)
+endif()
+
+if (MEI)
+	set (SRCFOLDERS ${SRCFOLDERS} mei)
 endif()
 
 foreach(folder ${SRCFOLDERS})
@@ -224,6 +240,14 @@ endif()
 if (BRAILLE)
 	set (SAMPLES ${SAMPLES} xml2brl)
 	set (TOOLS   ${TOOLS}   xml2brl)
+endif()
+if (BMML)
+	set (SAMPLES ${SAMPLES} xml2bmml)
+	set (TOOLS   ${TOOLS}   xml2bmml)
+endif()
+if (MEI)
+	set (SAMPLES ${SAMPLES} xml2mei)
+	set (TOOLS   ${TOOLS}   xml2mei)
 endif()
 
 

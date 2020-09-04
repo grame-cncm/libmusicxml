@@ -53,7 +53,7 @@ void generateLilypondCodeFromLpsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     logOstream <<
       endl <<
       separator <<
@@ -111,7 +111,7 @@ void convertLpsrScoreToLilypondCode (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTracePasses) {
+      if (gTraceOah->getTracePasses ()) {
         gLogOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -158,7 +158,7 @@ void convertLpsrScoreToLilypondCode (
 
     else {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTracePasses) {
+      if (gTraceOah->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
@@ -185,7 +185,7 @@ void convertLpsrScoreToLilypondCode (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTracePasses) {
+      if (gTraceOah->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<

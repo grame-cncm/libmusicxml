@@ -13,6 +13,9 @@
 #if defined(XML)
 #include "xml/xmlElements.h"
 
+#elif defined(BMML)
+#include "bmml/bmmlElements.h"
+
 #elif defined(MEI)
 #include "mei/meiElements.h"
 #endif

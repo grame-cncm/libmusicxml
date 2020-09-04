@@ -1026,6 +1026,8 @@ class lpsr2LilypondOah : public oahGroup
     string                fRights;
     string                fComposer;
     string                fArranger;
+
+    S_oahStringAtom       fPoetAtom;
     string                fPoet;
     string                fLyricist;
     string                fSoftware;

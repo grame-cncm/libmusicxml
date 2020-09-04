@@ -1,0 +1,611 @@
+<!--
+
+    BMML DTD
+
+    version 0.8
+    Contrapunctus project www.punctus.org
+
+-->
+
+<!ENTITY % id
+    "id ID               #REQUIRED">
+<!ENTITY % id_ref
+    "id IDREF            #REQUIRED">
+
+<!--
+    elements in alphabetic order. Main element is score
+-->
+
+<!ELEMENT abbr_name (#PCDATA)>
+<!ATTLIST abbr_name
+    %id;
+    value CDATA     #IMPLIED>
+
+<!ELEMENT accidental (#PCDATA)>
+<!ATTLIST accidental
+    %id;
+    value CDATA         #REQUIRED
+    cancel CDATA        #IMPLIED
+    placement (above|below)     #IMPLIED
+    step CDATA          #IMPLIED
+    editorial CDATA     #IMPLIED>
+
+<!ELEMENT accordion_register (#PCDATA)>
+<!ATTLIST accordion_register
+    %id;
+    value CDATA     #REQUIRED
+    tremolo (normal|double|high|low|high_low)  #IMPLIED>
+
+<!ELEMENT accordion_row (#PCDATA)>
+<!ATTLIST accordion_row
+    %id;
+    value CDATA             #REQUIRED>
+    
+<!ELEMENT alteration (#PCDATA)>
+
+<!ELEMENT alternation (#PCDATA)>
+<!ATTLIST alternation
+    %id;
+    value CDATA             #REQUIRED>
+
+<!ELEMENT alternation_ref EMPTY>
+<!ATTLIST alternation_ref
+    %id_ref;
+    type    (start|stop)   #REQUIRED>
+
+<!ELEMENT appoggiatura_ref EMPTY>
+<!ATTLIST appoggiatura_ref
+    %id_ref;>
+
+<!ELEMENT barline (fermata?,barline_type,fermata?)>
+<!ATTLIST barline
+    %id;
+    type (left|middle|right) #IMPLIED>
+
+<!ELEMENT barline_type (#PCDATA)>
+<!ATTLIST barline_type
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT barre (#PCDATA)>
+<!ATTLIST barre
+    %id;
+    value (full|half|vertical) #REQUIRED>
+
+<!ELEMENT bow (#PCDATA)>
+<!ATTLIST bow
+    %id;
+    value (up|down) #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT breath (#PCDATA)>
+<!ATTLIST breath
+    %id;
+    value (full|half|caesura)    #REQUIRED>
+
+<!ELEMENT chord (chord_data,chord_type,(stem_type,dot?)?)>
+<!ATTLIST chord
+    %id;>
+
+<!ELEMENT chord_data (duration)>
+
+<!ELEMENT chord_prefix (#PCDATA)>
+<!ATTLIST chord_prefix
+    %id;>
+
+<!ELEMENT chord_type (#PCDATA)>
+<!ATTLIST chord_type
+    %id;
+	root   CDATA       	#REQUIRED
+	notes  CDATA		#REQUIRED
+	bass   CDATA	    #IMPLIED
+	duration   CDATA	#IMPLIED
+	dot    CDATA	    #IMPLIED
+	value  CDATA    	#IMPLIED>
+
+<!ELEMENT clef (#PCDATA)>
+<!ATTLIST clef
+    %id;
+    name CDATA          #REQUIRED
+    line CDATA          #IMPLIED
+    eight (above|below) #IMPLIED
+    cross_staff (true|false)    #IMPLIED
+    >
+
+<!ELEMENT coda (#PCDATA)>
+<!ATTLIST coda
+    %id;>
+
+<!ELEMENT dot (#PCDATA)>
+<!ATTLIST dot
+    %id;
+    value CDATA             #REQUIRED>
+
+<!ELEMENT duration (#PCDATA)>
+
+<!ELEMENT dynamic (#PCDATA)>
+<!ATTLIST dynamic
+    %id;
+    value CDATA         #REQUIRED
+    line_of_continuation (1|2) #IMPLIED>
+
+<!ELEMENT editorial_mark (#PCDATA)>
+<!ATTLIST editorial_mark
+    %id;>
+
+<!ELEMENT ending (#PCDATA)>
+<!ATTLIST ending
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT family (#PCDATA)>
+
+<!ELEMENT fermata (#PCDATA)>
+<!ATTLIST fermata
+    %id;
+    shape CDATA #IMPLIED>
+
+<!ELEMENT fingering (#PCDATA)>
+<!ATTLIST fingering
+    %id;
+    value CDATA     #IMPLIED
+    alternative CDATA     #IMPLIED>
+
+<!ELEMENT foot_crossing (#PCDATA)>
+<!ATTLIST foot_crossing
+    %id;
+    value (change|front|behind)    #IMPLIED>
+    
+<!ELEMENT generic_text (#PCDATA)>
+<!ATTLIST generic_text
+    %id;
+    type CDATA          #IMPLIED
+    value CDATA         #IMPLIED
+    xml:lang CDATA      #IMPLIED
+    line_of_continuation (start)  #IMPLIED>
+
+<!ELEMENT hand (#PCDATA)>
+<!ATTLIST hand
+    %id;
+    value (left|right)  #REQUIRED
+    chord_dir (up|down)   #IMPLIED>
+
+<!ELEMENT harmonic (#PCDATA)>
+<!ATTLIST harmonic
+    %id;
+    value (natural|artificial) #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT inaccord (#PCDATA)>
+<!ATTLIST inaccord
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT interval (shift_line?,
+    harmonic?,accordion_row?,accidental?,octave?,interval_type,
+    (fingering|(string_fingering,harmonic?)|
+    (harmonic,string_fingering)|organ_pedal)?,
+    tie?,shift_line?)>
+<!ATTLIST interval
+    %id;>
+
+<!ELEMENT interval_data (pitch,alteration?,ties?)>
+
+<!ELEMENT interval_ref (interval_data)>
+<!ATTLIST interval_ref
+    %id_ref;>
+
+<!ELEMENT interval_type (#PCDATA)>
+<!ATTLIST interval_type
+    %id;
+    value CDATA         #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT intervals (interval_ref+)>
+
+<!ELEMENT key_signature (#PCDATA)>
+<!ATTLIST key_signature
+    %id;
+    value CDATA         #REQUIRED
+    cancel CDATA        #IMPLIED>
+
+<!ELEMENT line_of_continuation (#PCDATA)>
+<!ATTLIST line_of_continuation
+    %id;
+    value (start|stop) #REQUIRED>
+
+<!ELEMENT lyric (lyric_prefix?,(syllable|syllable_mute|lyric_repeat|space)+)>
+<!ATTLIST lyric
+    %id;
+    xml:lang CDATA      #IMPLIED>
+
+<!ELEMENT lyric_prefix (#PCDATA)>
+<!ATTLIST lyric_prefix
+    %id;>
+
+<!ELEMENT lyric_repeat ((number?,lyric_repetition,(syllable|syllable_mute|space)+,lyric_repetition)|
+                    (lyric_repetition,(syllable|syllable_mute|space)+,lyric_repetition,number?))>
+<!ATTLIST lyric_repeat
+    %id;>
+
+<!ELEMENT lyric_repetition (#PCDATA)>
+<!ATTLIST lyric_repetition
+    %id;
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT lyrics (syllable_ref)+>
+
+<!ELEMENT merged_text (#PCDATA)>
+<!ATTLIST merged_text
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT meta_data ANY>
+
+<!ELEMENT metronome ((generic_text,space)?,
+    metronome_note_type,(metronome_equal,(metronome_value|metronome_note_type))?)>
+<!ATTLIST metronome
+    %id;>
+
+<!ELEMENT metronome_equal (#PCDATA)>
+<!ATTLIST metronome_equal
+    %id;>
+
+<!ELEMENT metronome_note_type (#PCDATA)>
+<!ATTLIST metronome_note_type
+    %id;
+    value (8th_or_128th|quarter_or_64th|half_or_32nd|whole_or_16th|brevis|longa)  #REQUIRED
+    dot (true|false) #IMPLIED>
+
+<!ELEMENT metronome_value (#PCDATA)>
+<!ATTLIST metronome_value
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT midi_instrument EMPTY>
+<!ATTLIST midi_instrument
+    value CDATA         #REQUIRED>
+
+<!ELEMENT midi_metronome EMPTY>
+<!ATTLIST midi_metronome
+    value CDATA         #REQUIRED>
+    
+<!ELEMENT multimeasure (#PCDATA)>
+
+<!ELEMENT music_hyphen (#PCDATA)>
+<!ATTLIST music_hyphen
+    %id;>
+
+<!ELEMENT name (#PCDATA)>
+<!ATTLIST name
+    %id;
+    value CDATA     #IMPLIED>
+
+<!ELEMENT newline (#PCDATA)>
+<!ATTLIST newline
+    %id;>
+
+<!ELEMENT note (note_data,
+        foot_crossing?,
+        slur?,shift_line?,(bow|stroke)?,pizzicato?,right_string_fingering?,
+        tuplet*,value_prefix?,
+        ornament*,nuance*,
+        harmonic?,accordion_row?,accidental?,octave?,
+        note_type,
+        dot?,
+        (fingering|(string_fingering,harmonic?)|
+        (harmonic,string_fingering)|organ_pedal)?,
+        ((slur,interval*,
+        (tremolo|alternation)?,fermata?,(merged_text?|syllabic_slur*))|
+        (interval*,
+        (tremolo|alternation)?,fermata?,(merged_text?|syllabic_slur*),
+        slur?)),
+        tie?,shift_line?)>
+<!ATTLIST note
+    %id;>
+
+<!ELEMENT note_data (pitch,(duration|appoggiatura_ref),alteration?,
+    rhythmic_group?,
+    tuplets?,slurs?,ties?,intervals?,nuances?,tremolo_ref?,alternation_ref?,
+    lyrics?)>
+
+<!ELEMENT note_ref EMPTY>
+<!ATTLIST note_ref
+    %id_ref;>
+
+<!ELEMENT note_type (#PCDATA)>
+<!ATTLIST note_type
+    %id;
+    name (A|B|C|D|E|F|G)    #REQUIRED
+    value (8th_or_128th|quarter_or_64th|half_or_32nd|whole_or_16th|brevis|longa)  #REQUIRED>
+
+<!ELEMENT nuance (#PCDATA)>
+<!ATTLIST nuance
+    %id;
+    value CDATA         #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT nuance_ref EMPTY>
+<!ATTLIST nuance_ref
+    %id_ref;>
+
+<!ELEMENT nuances (nuance_ref+)>
+
+<!ELEMENT number (#PCDATA)>
+<!ATTLIST number
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT octave (#PCDATA)>
+<!ATTLIST octave
+    %id;
+    value CDATA         #REQUIRED
+    position CDATA      #IMPLIED>
+
+<!ELEMENT organ_pedal (#PCDATA)>
+<!ATTLIST organ_pedal
+    %id;
+    value (left_toe|left_heel|right_toe|right_heel) #REQUIRED
+    substitution (left_toe|left_heel|right_toe|right_heel) #IMPLIED>
+    
+<!ELEMENT ornament (accidental*,ornament_type)>
+<!ATTLIST ornament
+    %id;>
+
+<!ELEMENT ornament_type (#PCDATA)>
+<!ATTLIST ornament_type
+    %id;
+    value CDATA         #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT part (part_name?, (space|newline|key_signature|time_signature|clef|
+            note|stem|rest|inaccord|barline|repeat|
+            music_hyphen|dynamic|ending|separator|hand|segno|coda|generic_text|
+            pedal|chord_prefix|chord|line_of_continuation|
+            string|barre|string_position|rasgueado|accordion_register|breath|
+            right_string_fingering|fermata|
+            unknown)+)>
+<!ATTLIST part
+    %id;>
+
+<!ELEMENT part_data (name, abbr_name?, clef?, midi_instrument?, family?)>
+<!ATTLIST part_data
+    %id;
+    chord_dir (up|down)   #IMPLIED
+    xml:lang CDATA      #IMPLIED
+    transpose CDATA     #IMPLIED>
+
+<!ELEMENT part_list (part_data+)>
+
+<!ELEMENT part_name (#PCDATA)>
+<!ATTLIST part_name
+    %id;>
+
+<!ELEMENT pedal (#PCDATA)>
+<!ATTLIST pedal
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT pitch (#PCDATA)>
+
+<!ELEMENT pizzicato (#PCDATA)>
+<!ATTLIST pizzicato
+    %id;
+    value (left|right) #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT rasgueado (#PCDATA)>
+<!ATTLIST rasgueado
+    %id;
+    value (up|down) #REQUIRED>
+
+<!ELEMENT repeat (repeat_data,
+            slur?,octave?,
+            repetition,
+            number?,slur?,tie?)>
+<!ATTLIST repeat
+    %id;>
+    
+<!ELEMENT repeat_data (repeats?)>
+
+<!ELEMENT repeat_ref ((note_data|rest_data|stem_data)?)>
+<!ATTLIST repeat_ref
+    %id_ref;>
+
+<!ELEMENT repeats (repeat_ref+)>
+
+<!ELEMENT repetition (#PCDATA)>
+<!ATTLIST repetition
+    %id;
+    value CDATA         #REQUIRED
+    separation CDATA    #IMPLIED>
+
+<!ELEMENT rest (rest_data,
+        slur?,tuplet*,editorial_mark?,number?,value_prefix?,
+        rest_type,
+        dot?,slur?,fermata?)>
+<!ATTLIST rest
+    %id;>
+
+<!ELEMENT rest_data (duration,multimeasure?,
+        rhythmic_group?,tuplets?,slurs?)>
+
+<!ELEMENT rest_type (#PCDATA)>
+<!ATTLIST rest_type
+    %id;
+    value (8th_or_128th|quarter_or_64th|half_or_32nd|whole_or_16th|brevis|longa)  #REQUIRED
+    multimeasure CDATA     #IMPLIED>
+
+<!ELEMENT rhythmic_group (#PCDATA)>
+
+<!ELEMENT right_string_fingering (#PCDATA)>
+<!ATTLIST right_string_fingering
+    %id;
+    value CDATA     #REQUIRED>
+
+<!ELEMENT score (score_header, score_data)>
+<!ATTLIST score
+    version CDATA #REQUIRED>
+
+<!ELEMENT score_data (space|newline|key_signature|time_signature|
+    lyric|part|unknown|metronome|generic_text)+>
+
+<!ELEMENT score_header (meta_data?, part_list, midi_metronome?)>
+
+<!ELEMENT segno (#PCDATA)>
+<!ATTLIST segno
+    %id;>
+
+<!ELEMENT separator (#PCDATA)>
+<!ATTLIST separator
+    %id;>
+
+<!ELEMENT shift_line (#PCDATA)>
+<!ATTLIST shift_line
+    %id;
+    value (glissando|start|stop)         #REQUIRED>
+
+<!ELEMENT slur (#PCDATA)>
+<!ATTLIST slur
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT slur_ref EMPTY>
+<!ATTLIST slur_ref
+    %id_ref;
+    type    (start|stop|continue)   #REQUIRED
+    start_ref  CDATA    #REQUIRED>
+    
+<!ELEMENT slurs (slur_ref+)>
+
+<!ELEMENT space (#PCDATA)>
+<!ATTLIST space
+    %id;>
+
+<!ELEMENT stem (stem_data,
+    slur?,stem_type,dot?,slur?,tie?)>
+<!ATTLIST stem
+    %id;>
+
+<!ELEMENT stem_data (duration,note_ref)>
+
+<!ELEMENT stem_type (#PCDATA)>
+<!ATTLIST stem_type
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT string (#PCDATA)>
+<!ATTLIST string
+    %id;
+    value CDATA         #REQUIRED
+    doubled (true|false)    #IMPLIED>
+            
+<!ELEMENT string_fingering (#PCDATA)>
+<!ATTLIST string_fingering
+    %id;
+    value CDATA     #REQUIRED
+    line_of_continuation (start|stop)   #IMPLIED>
+
+<!ELEMENT string_position (#PCDATA)>
+<!ATTLIST string_position
+    %id;
+    value CDATA         #REQUIRED
+    line_of_continuation (start)  #IMPLIED>
+    
+<!ELEMENT stroke (#PCDATA)>
+<!ATTLIST stroke
+    %id;
+    value (up|down) #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT syllabic_mute (#PCDATA)>
+<!ATTLIST syllabic_mute
+    %id;
+    value (single|measure)  #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT syllabic_parenthesis (#PCDATA)>
+<!ATTLIST syllabic_parenthesis
+    %id;>
+
+<!ELEMENT syllabic_slur (#PCDATA)>
+<!ATTLIST syllabic_slur
+    %id;
+    value CDATA         #REQUIRED
+    verses CDATA        #IMPLIED>
+
+<!ELEMENT syllabic_text (#PCDATA)>
+<!ATTLIST syllabic_text
+    %id;
+    value CDATA     #IMPLIED
+    xml:lang CDATA  #IMPLIED>
+
+<!ELEMENT syllable ((syllabic_parenthesis,syllabic_text,syllabic_parenthesis)|
+                    (syllabic_text))>
+<!ATTLIST syllable
+    %id;>
+
+<!ELEMENT syllable_mute (syllabic_mute,number?)>
+<!ATTLIST syllable_mute
+    %id;>
+    
+<!ELEMENT syllable_ref EMPTY>
+<!ATTLIST syllable_ref
+    %id_ref;
+    type (begin|middle|end|single|continue|mute) #IMPLIED>
+
+<!ELEMENT tie (#PCDATA)>
+<!ATTLIST tie
+    %id;
+    value CDATA         #REQUIRED>
+
+<!ELEMENT tie_ref EMPTY>
+<!ATTLIST tie_ref
+    %id_ref;
+    type    (start|stop)   #REQUIRED
+    start_ref  CDATA    #REQUIRED>
+
+<!ELEMENT ties (tie_ref+)>
+
+<!ELEMENT time_signature (#PCDATA)>
+<!ATTLIST time_signature
+    %id;
+    values CDATA        #REQUIRED
+    csymbol (C|c)       #IMPLIED
+    figure (true|false) #IMPLIED
+    single_number (true|false)  #IMPLIED>
+
+<!ELEMENT tremolo (#PCDATA)>
+<!ATTLIST tremolo
+    %id;
+    value CDATA         #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT tremolo_ref EMPTY>
+<!ATTLIST tremolo_ref
+    %id_ref;>
+
+<!ELEMENT tuplet (#PCDATA)>
+<!ATTLIST tuplet
+    %id;
+    value CDATA         #REQUIRED
+    doubled (true|false)    #IMPLIED>
+
+<!ELEMENT tuplet_ref EMPTY>
+<!ATTLIST tuplet_ref
+    %id_ref;
+    notes   CDATA   #REQUIRED
+    type    (start|stop|continue)   #REQUIRED>
+
+<!ELEMENT tuplets (tuplet_ref+)>
+
+<!ELEMENT unknown (#PCDATA)>
+<!ATTLIST unknown
+    %id;>
+    
+<!ELEMENT value_prefix (#PCDATA)>
+<!ATTLIST value_prefix
+    %id;
+    value (separator|large|small|256th)         #REQUIRED>
+
+

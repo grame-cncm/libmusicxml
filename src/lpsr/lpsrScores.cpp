@@ -1819,6 +1819,9 @@ R"(
       // add ! before ( and after ) since the code contains )"
 R"!(
 boxAroundNextBarNumber = {
+  % Prevent bar numbers at the end of a line
+  \once\override Score.BarNumber.break-visibility = #end-of-line-invisible
+
   \once\override Score.BarNumber.font-size = 2
   \once\override Score.BarNumber.stencil =
   #(make-stencil-boxer 0.25 0.5 ly:text-interface::print)

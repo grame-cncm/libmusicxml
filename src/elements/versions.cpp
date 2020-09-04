@@ -27,5 +27,11 @@ const char* versions::xml2lilypondVersionStr()    { return "0.93"; }
 float   versions::xml2brailleVersion()   { return 0.03f; }
 const char* versions::xml2brailleVersionStr()    { return "0.03"; }
 
+float   versions::xml2bmmlVersion()   { return 0.01f; }
+const char* versions::xml2bmmlVersionStr()    { return "0.01"; }
+
+float   versions::xml2meiVersion()   { return 0.01f; }
+const char* versions::xml2meiVersionStr()    { return "0.01"; }
+
 }
 

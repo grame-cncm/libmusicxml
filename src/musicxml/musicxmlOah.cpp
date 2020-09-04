@@ -136,12 +136,11 @@ R"()",
 
   S_oahBooleanAtom
     traceEncodingAtom =
-      oahTwoBooleansAtom::create (
+      oahBooleanAtom::create (
         "tenc", "trace-encoding",
 R"(Encoding)",
         "traceEncoding",
-        fTraceEncoding,
-        gTraceOah->fTracePasses);
+        fTraceEncoding);
   subGroup->
     appendAtomToSubGroup (
       traceEncodingAtom);
@@ -155,12 +154,11 @@ R"(Encoding)",
 
   S_oahBooleanAtom
     traceDivisionsAtom =
-      oahTwoBooleansAtom::create (
+      oahBooleanAtom::create (
         "tdivs", "trace-divisions",
 R"(Divisions)",
         "traceDivisions",
-        fTraceDivisions,
-        gTraceOah->fTracePasses);
+        fTraceDivisions);
   subGroup->
     appendAtomToSubGroup (
       traceDivisionsAtom);
@@ -174,12 +172,11 @@ R"(Divisions)",
 
   S_oahBooleanAtom
     traceBackupAtom =
-      oahTwoBooleansAtom::create (
+      oahBooleanAtom::create (
         "tbackup", "trace-backup",
 R"(Backup)",
         "traceBackup",
-        fTraceBackup,
-        gTraceOah->fTracePasses);
+        fTraceBackup);
   subGroup->
     appendAtomToSubGroup (
       traceBackupAtom);
@@ -193,12 +190,11 @@ R"(Backup)",
 
   S_oahBooleanAtom
     traceForwardAtom =
-      oahTwoBooleansAtom::create (
+      oahBooleanAtom::create (
         "tforward", "trace-forward",
 R"(Forward)",
         "traceForward",
-        fTraceForward,
-        gTraceOah->fTracePasses);
+        fTraceForward);
   subGroup->
     appendAtomToSubGroup (
       traceForwardAtom);

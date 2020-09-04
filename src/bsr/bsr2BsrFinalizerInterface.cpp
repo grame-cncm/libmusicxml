@@ -260,7 +260,7 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     logOstream <<
       endl <<
       separator <<

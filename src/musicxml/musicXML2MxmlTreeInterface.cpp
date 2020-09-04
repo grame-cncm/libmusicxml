@@ -275,7 +275,7 @@ string uncompressMXLFile (
 
         if (sm.size ()) {
 #ifdef TRACE_OAH
-          if (gTraceOah->fTracePasses) { // JMI ???
+          if (gTraceOah->getTracePasses ()) { // JMI ???
             logOstream <<
               "There are " << sm.size () - 1 << " match(es) " <<
               "with regex '" << regularExpression <<
@@ -415,7 +415,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   string fileNameAsString = fileName;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -549,7 +549,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   if (encoding == desiredEncoding) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTracePasses) {
+    if (gTraceOah->getTracePasses ()) {
       logOstream <<
         "% MusicXML data uses \"" <<
         desiredEncoding <<
@@ -614,7 +614,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -740,7 +740,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -782,7 +782,7 @@ Sxmlelement convertMusicXMLToMxmlTree (
   string passNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

@@ -1147,6 +1147,7 @@ void msrMeasure::incrementCurrentMeasureWholeNotesDuration (
   rational delta)
 {
   // sanity check
+  if (false) // JMI
   msrAssert (
     delta.getNumerator () != 0,
     "delta.getNumerator () == 0");
@@ -1812,10 +1813,11 @@ void msrMeasure::appendNoteToMeasure (
       ", positionsDelta " << positionsDelta <<
       ", line " << inputLineNumber;
 
-    msrInternalError (
+ // JMI   msrInternalError (
+    msrInternalWarning (
       gOahOah->fInputSourceName,
       inputLineNumber,
-      __FILE__, __LINE__,
+  //    __FILE__, __LINE__,
       s.str ());
   }
 

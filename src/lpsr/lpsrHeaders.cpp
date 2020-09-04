@@ -652,6 +652,21 @@ void lpsrHeader::addPoet (
     addAssocVariableValue (value);
 }
 
+void lpsrHeader::removeAllPoets (
+  int    inputLineNumber)
+{
+#ifdef TRACE_OAH
+  if (gTraceOah->fTraceVarValAssocs) {
+    gLogOstream <<
+      "Removing all poets from lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
+  fPoets = nullptr;
+}
+
 void lpsrHeader::addTranslator (
   int    inputLineNumber,
   string value)

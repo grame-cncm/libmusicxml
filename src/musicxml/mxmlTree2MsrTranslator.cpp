@@ -2109,7 +2109,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   string partID = elt->getAttributeValue ("id");
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partID << "\"" <<
@@ -7889,7 +7889,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
 #ifdef TRACE_OAH
 // JMI  if (gTraceOah->fTraceMeasures) {
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << fCurrentMeasureNumber <<

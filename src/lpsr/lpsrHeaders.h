@@ -174,7 +174,7 @@ class lpsrHeader : public lpsrElement
                               { return fLyricists; }
 
     // poets
-    void                  setPoets (
+    void                  setPoets ( // not defined JMI
                             int               inputLineNumber,
                             string            val,
                             msrFontStyleKind  fontStyleKind,
@@ -346,6 +346,8 @@ class lpsrHeader : public lpsrElement
     void                  addPoet (
                             int    inputLineNumber,
                             string value);
+    void                  removeAllPoets (
+                            int    inputLineNumber);
 
     void                  addTranslator (
                             int    inputLineNumber,

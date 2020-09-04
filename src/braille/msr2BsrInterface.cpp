@@ -51,7 +51,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

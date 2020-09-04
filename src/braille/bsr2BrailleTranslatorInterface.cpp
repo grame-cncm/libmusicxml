@@ -54,7 +54,7 @@ void generateBrailleCodeFromBsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     logOstream <<
       endl <<
       separator <<
@@ -103,7 +103,7 @@ void convertBsrScoreToBrailleText (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTracePasses) {
+      if (gTraceOah->getTracePasses ()) {
         gLogOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -141,7 +141,7 @@ void convertBsrScoreToBrailleText (
         passNumber);
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTracePasses) {
+      if (gTraceOah->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -154,7 +154,7 @@ void convertBsrScoreToBrailleText (
 
     else {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTracePasses) {
+      if (gTraceOah->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "Braille music will be written to standard output" <<

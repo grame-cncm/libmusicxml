@@ -114,7 +114,7 @@ void populateMsrSkeletonFromMxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -245,7 +245,7 @@ void displayMSRPopulatedScoreSummary (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -296,7 +296,7 @@ void displayMSRPopulatedScoreNames (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

@@ -586,8 +586,11 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   }
 
   // is there a poet option?
-  if (gLpsr2LilypondOah->fPoet.size ()) {
-    // define poet
+  if (gLpsr2LilypondOah->fPoetAtom->getVariableHasBeenSet ()) {
+    // remove all poets
+    fCurrentLpsrScoreHeader->
+      removeAllPoets (inputLineNumber);
+    // add poet
     fCurrentLpsrScoreHeader->
       addPoet (
         inputLineNumber,

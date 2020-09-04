@@ -2637,20 +2637,19 @@ R"(Set the 'arranger' to STRING in the LilyPond code \header.)",
     addStringAtom (
       arrangerAtom);
 
-  S_oahStringAtom
-    poetAtom =
-      oahStringAtom::create (
-        "poet", "",
+  fPoetAtom =
+    oahStringAtom::create (
+      "poet", "",
 R"(Set the 'poet' to STRING in the LilyPond code \header.)",
-        "STRING",
-        "poet",
-        fPoet);
+      "STRING",
+      "poet",
+      fPoet);
   subGroup->
     appendAtomToSubGroup (
-      poetAtom);
+      fPoetAtom);
   identificationMonoplexStringAtom->
     addStringAtom (
-      poetAtom);
+      fPoetAtom);
 
   S_oahStringAtom
     lyricistAtom =

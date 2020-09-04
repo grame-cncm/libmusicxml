@@ -313,7 +313,7 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
   ofstream outFileStream;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     gLogOstream <<
       "Opening file '" << outputFileName << "' for writing" <<
       endl;
@@ -371,7 +371,7 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
 	outFileStream << endl;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     gLogOstream <<
       endl <<
       "Closing file '" << outputFileName << "'" <<

@@ -172,6 +172,24 @@ class msrScoreToMusicXMLScoreException : public msrException
 };
 
 //______________________________________________________________________________
+class msrScoreToBMMLScoreException : public msrException
+{
+  public:
+    msrScoreToBMMLScoreException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+//______________________________________________________________________________
+class msrScoreToMEIScoreException : public msrException
+{
+  public:
+    msrScoreToMEIScoreException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+//______________________________________________________________________________
 class msrScoreToBsrScoreException: public msrException
 {
   public:

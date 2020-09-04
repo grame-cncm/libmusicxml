@@ -575,7 +575,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
     // ------------------------------------------------------
 
   #ifdef TRACE_OAH
-    if (gTraceOah->fTracePasses) { // JMI
+    if (gTraceOah->getTracePasses ()) { // JMI
       string separator =
         "%--------------------------------------------------------------";
 
@@ -624,7 +624,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -659,7 +659,7 @@ void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
     inputSourceBaseNamePrefix + "_LOOP.xml";
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

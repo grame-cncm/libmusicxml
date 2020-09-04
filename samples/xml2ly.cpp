@@ -193,14 +193,14 @@ int main (int argc, char *argv[])
           getStringVariable ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
     gLogOstream <<
       executableName << ": " <<
-      "inputSourceName: \"" << inputSourceName << "\"" <<
-      ", outputFileName: \"" << outputFileName << "\"" <<
+      "inputSourceName = \"" << inputSourceName << "\"" <<
+      ", outputFileName = \"" << outputFileName << "\"" <<
       endl <<
       separator <<
       endl;
@@ -229,7 +229,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     int
       outputFileNameSize =
         outputFileName.size ();
@@ -325,7 +325,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePasses) {
+  if (gTraceOah->getTracePasses ()) {
     gLogOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;

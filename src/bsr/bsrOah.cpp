@@ -627,12 +627,11 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
 
   subGroup->
     appendAtomToSubGroup (
-      oahTwoBooleansAtom::create (
+      oahBooleanAtom::create (
         "tpages", "trace-pages",
 R"()",
         "tracePages",
-        fTracePages,
-        gTraceOah->fTracePasses));
+        fTracePages));
 
   // lines
 
@@ -676,12 +675,11 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
 
   subGroup->
     appendAtomToSubGroup (
-      oahTwoBooleansAtom::create (
+      oahBooleanAtom::create (
         "tpars", "trace-parallels",
 R"()",
         "traceParallels",
-        fTraceParallels,
-        gTraceOah->fTracePasses));
+        fTraceParallels));
 
   // BSR visitors
 

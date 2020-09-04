@@ -5038,7 +5038,7 @@ void lpsr2LilypondTranslator::generatePaperPageSize (
     fLilypondCodeOstream << left <<
       setw (fieldWidth) <<
       "paper-height" << " = ";
-    if (paperHeight.getLengthValue () >= 0.0) {
+    if (false && paperHeight.getLengthValue () >= 0.0) { // JMI
       fLilypondCodeOstream <<
         setprecision (3) << paperHeight.getLengthValue () <<
         lengthUnitAsLilypondString (paperHeight.getLengthUnitKind ());
@@ -5072,7 +5072,7 @@ void lpsr2LilypondTranslator::generatePaperPageSize (
     fLilypondCodeOstream << left <<
       setw (fieldWidth) <<
       "paper-width" << " = ";
-    if (paperWidth.getLengthValue () >= 0.0) {
+    if (false && paperWidth.getLengthValue () >= 0.0) { // JMI
       fLilypondCodeOstream <<
         setprecision (3) << paperWidth.getLengthValue () <<
         lengthUnitAsLilypondString (paperWidth.getLengthUnitKind ());
