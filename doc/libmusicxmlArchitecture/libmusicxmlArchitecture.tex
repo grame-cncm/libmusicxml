@@ -965,7 +965,7 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 
 \def \tab {~~~}
 
-The converters provided by \lib\ are in the form of functions. Executable command-line applications are also supplied. They are shown in the table below, in which the ones under development are dimmed:
+The converters provided by \lib\ are in the form of functions. Executable command-line applications are also supplied. They are shown in the table below, in which the ones not yet planned or under development are dimmed:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
@@ -996,7 +996,7 @@ The converters provided by \lib\ are in the form of functions. Executable comman
 \end{longtable}
 \end{center}
 
-The executables available or under development in \lib\ are:
+The executables available, planned or under development in \lib\ are:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
@@ -1036,27 +1036,64 @@ The {\tt -loop} option is supplied to create \mxml\ data back from the \mxml\ da
 \tabularnewline
 
 
-\textcolor{gray}{\meiToGuido} & converts \mei\ data to Guido code, using passes:
+
+\textcolor{gray}{\bmmlToGuido} & converts \bmml\ data to Guido code, using passes:
 
 \tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 15 $\Rightarrow$ 3
 \tabularnewline
 
 
+\textcolor{gray}{\bmmlToXml} & converts \bmml\ data to MusicXML code, using passes:
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 15 $\Rightarrow$ 2
+\tabularnewline
+
+
+\textcolor{gray}{\bmmlToBmml} & converts \bmml\ data to MSR and back:
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 16 $\Rightarrow$ 14
+\tabularnewline
+
+
+\textcolor{gray}{\bmmlToLy} & performs the 4 hops from \bmml\ to \lily\ to translate the former into the latter, using these passes:
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 6 $\Rightarrow$ 8
+
+
+The {\tt -jianpu} option is supplied to create Jianpu (numbered) scores, in which the notes are represented by numbers instead of graphics;
+
+The {\tt -loop} option is supplied to create \bmml\ data back from the \mei\ data, as is done by \bmmlToBmml;
+\tabularnewline
+
+
+\textcolor{gray}{\bmmlToBrl} & performs the 5 hops from \bmml\ to \braille\ to translate the former into the latter (draft):
+
+\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 9 $\Rightarrow$ 11  $\Rightarrow$ 12
+\tabularnewline
+
+
+
+\textcolor{gray}{\meiToGuido} & converts \mei\ data to Guido code, using passes:
+
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 15 $\Rightarrow$ 3
+\tabularnewline
+
+
 \textcolor{gray}{\meiToXml} & converts \mei\ data to Guido code, using passes:
 
-\tab\ 13 $\Rightarrow$ 15 $\Rightarrow$ 12 $\Rightarrow$ 2
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 15 $\Rightarrow$ 2
 \tabularnewline
 
 
 \textcolor{gray}{\meiToMei} & converts \mei\ data to MSR and back:
 
-\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 17 $\Rightarrow$ 14
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 21 $\Rightarrow$ 19
 \tabularnewline
 
 
 \textcolor{gray}{\meiToLy} & performs the 4 hops from \mei\ to \lily\ to translate the former into the latter, using these passes:
 
-\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 6 $\Rightarrow$ 8
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 6 $\Rightarrow$ 8
 
 
 The {\tt -jianpu} option is supplied to create Jianpu (numbered) scores, in which the notes are represented by numbers instead of graphics;
@@ -1067,7 +1104,7 @@ The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data
 
 \textcolor{gray}{\meiToBrl} & performs the 5 hops from \mei\ to \braille\ to translate the former into the latter (draft):
 
-\tab\ 13 $\Rightarrow$ 16 $\Rightarrow$ 9 $\Rightarrow$ 11  $\Rightarrow$ 12
+\tab\ 18 $\Rightarrow$ 20 $\Rightarrow$ 9 $\Rightarrow$ 11  $\Rightarrow$ 12
 \tabularnewline
 
 
@@ -1079,7 +1116,7 @@ The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data
 
 \textcolor{gray}{\xmlToMei} & performs the 4 hops from \mxml\ to \mei\ to translate the former into the latter:
 
-\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 17 $\Rightarrow$ 14
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 21 $\Rightarrow$ 19
 \tabularnewline
 
 
