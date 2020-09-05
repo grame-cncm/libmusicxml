@@ -78,12 +78,22 @@ static bool args2Options (int argc, char *argv[], optionsVector& options)
 	return true;
 }
 
+static string options2String (const optionsVector& options)
+{
+	stringstream sstr;
+	for (auto p: options)
+		sstr << "'" << p.first << "': '" << p.second << "' ";
+	return sstr.str();
+}
+
 //_______________________________________________________________________________
-#if 0
+#if 1
 int main (int argc, char *argv[])
 {
 	optionsVector options;
 	options.push_back (make_pair ("-help", ""));
+cerr << "main - string2lily options: " << options.size() << ": " << options2String(options) << endl;
+
 	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
 	cout << "xml2ly2 ret=" << err << endl;
 	return 0;
