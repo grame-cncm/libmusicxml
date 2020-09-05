@@ -111,5 +111,9 @@ files/musicxml/lyrics/AmazingGrace_FINALE_toAndFro.xml
 files/musicxml/misc/Bug_mapping.xml
 files/musicxml/misc/Triolet.xml
 files/musicxml/misc/Triolet1.xml
-
 files/regression/A01-SOURCEQueen1.xml
+files/musicxml/gracenotes/GraceNotesWithSlashAndSlurToChord.xml
+files/musicxml/gracenotes/GraceNotesInTuplet.xml
+files/musicxml/gracenotes/GraceNotesWithTrill.xml
+files/musicxml/multistaff/MozartAdagioKV410.xml
+files/musicxml/tremolos/DoubleTremolo.xml
