@@ -818,9 +818,9 @@ class lpsrOah : public oahGroup
 typedef SMARTP<lpsrOah> S_lpsrOah;
 EXP ostream& operator<< (ostream& os, const S_lpsrOah& elt);
 
-EXP extern S_lpsrOah gLpsrOah;
-EXP extern S_lpsrOah gLpsrOahUserChoices;
-EXP extern S_lpsrOah gLpsrOahWithDetailedTrace;
+EXP extern S_lpsrOah globalLpsrOah;
+EXP extern S_lpsrOah globalLpsrOahUserChoices;
+EXP extern S_lpsrOah globalLpsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
 EXP  void initializeLpsrOahHandling (

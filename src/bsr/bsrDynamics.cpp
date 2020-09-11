@@ -216,7 +216,7 @@ int bsrDynamics::fetchCellsNumber() const
 void bsrDynamics::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrDynamics::acceptIn ()" <<
       endl;
@@ -229,7 +229,7 @@ void bsrDynamics::acceptIn (basevisitor* v)
         S_bsrDynamics elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrDynamics::visitStart ()" <<
             endl;
@@ -242,7 +242,7 @@ void bsrDynamics::acceptIn (basevisitor* v)
 void bsrDynamics::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrDynamics::acceptOut ()" <<
       endl;
@@ -255,7 +255,7 @@ void bsrDynamics::acceptOut (basevisitor* v)
         S_bsrDynamics elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrDynamics::visitEnd ()" <<
             endl;

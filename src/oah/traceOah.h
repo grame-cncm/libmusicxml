@@ -800,9 +800,9 @@ class traceOah : public oahGroup
 typedef SMARTP<traceOah> S_traceOah;
 EXP ostream& operator<< (ostream& os, const S_traceOah& elt);
 
-EXP extern S_traceOah gTraceOah;
-EXP extern S_traceOah gTraceOahUserChoices;
-EXP extern S_traceOah gTraceOahWithDetailedTrace;
+EXP extern S_traceOah globalTraceOah;
+EXP extern S_traceOah globalTraceOahUserChoices;
+EXP extern S_traceOah globalTraceOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeTraceOahHandling (

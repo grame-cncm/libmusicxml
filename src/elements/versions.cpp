@@ -33,5 +33,16 @@ const char* versions::xml2bmmlVersionStr()    { return "0.01"; }
 float   versions::xml2meiVersion()   { return 0.01f; }
 const char* versions::xml2meiVersionStr()    { return "0.01"; }
 
+float   versions::bmml2lilypondVersion()   { return 0.01f; }
+const char* versions::bmml2lilypondVersionStr()    { return "0.01"; }
+
+float   versions::mei2lilypondVersion()   { return 0.01f; }
+const char* versions::mei2lilypondVersionStr()    { return "0.01"; }
+
+float   versions::bmml2bmmlVersion()   { return 0.01f; }
+const char* versions::bmml2bmmlVersionStr()    { return "0.01"; }
+
+float   versions::mei2meiVersion()   { return 0.01f; }
+const char* versions::mei2meiVersionStr()    { return "0.01"; }
 }
 

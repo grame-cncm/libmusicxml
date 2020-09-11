@@ -172,7 +172,7 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
   if (! pThisMethodHasBeenRun) {
     /* JMI
   #ifdef TRACE_OAH
-      if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
         gLogOstream <<
           "Initializing xml2brl insider options handling" <<
           endl;
@@ -264,7 +264,7 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
       registerHandlerOptionNamesInItself ();
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
       fHandlerLogOstream <<
         "xml2brlInsiderOahHandler help:" <<
         endl;
@@ -282,7 +282,7 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandling (
 void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahDetails) {
+  if (globalTraceOah->fTraceOahDetails) {
     gOutputOstream <<
       "xml2brlInsiderOahHandler::checkOptionsAndArguments() " <<
       fHandlerHeader <<
@@ -298,7 +298,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
       fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOahDetails && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOahDetails && ! globalGeneralOah->fQuiet) {
       if (argumentsNumber > 0) {
         fHandlerLogOstream <<
           singularOrPluralWithoutNumber (
@@ -326,7 +326,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
       else {
         fHandlerLogOstream <<
           "There are no arguments to " <<
-          gOahOah->fHandlerExecutableName <<
+          globalOahOah->fHandlerExecutableName <<
           endl;
       }
     }
@@ -355,7 +355,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
 
       case 1:
         // register intput file name
-        gOahOah->fInputSourceName =
+        globalOahOah->fInputSourceName =
           fHandlerArgumentsVector [0];
         break;
 
@@ -369,7 +369,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
           endl;
 
         // register intput file name
-        gOahOah->fInputSourceName =
+        globalOahOah->fInputSourceName =
           fHandlerArgumentsVector [0];
         break;
     } //  switch
@@ -379,7 +379,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
 
     string
       inputSourceName =
-        gOahOah->fInputSourceName;
+        globalOahOah->fInputSourceName;
 
     string potentialOutputFileName;
 
@@ -403,8 +403,8 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
       }
 
       // should encoding be used by the file name?
-      if (! gBsr2BrailleOah->fDontUseEncodingInFileName) {
-        switch (gBsr2BrailleOah->fBrailleOutputKind) {
+      if (! globalBsr2BrailleOah->fDontUseEncodingInFileName) {
+        switch (globalBsr2BrailleOah->fBrailleOutputKind) {
           case kBrailleOutputAscii:
             potentialOutputFileName += "_ASCII";
             break;
@@ -412,7 +412,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
           case kBrailleOutputUTF8:
             potentialOutputFileName += "_UTF8";
               /* JMI
-            switch (gBsr2BrailleOah->fByteOrderingKind) {
+            switch (globalBsr2BrailleOah->fByteOrderingKind) {
               case kByteOrderingNone:
                 break;
               case kByteOrderingBigEndian:
@@ -432,7 +432,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
           case kBrailleOutputUTF16:
             potentialOutputFileName += "_UTF16";
               /* JMI
-            switch (gBsr2BrailleOah->fByteOrderingKind) {
+            switch (globalBsr2BrailleOah->fByteOrderingKind) {
               case kByteOrderingNone:
                 break;
 
@@ -450,7 +450,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
       }
 
       // append the file extension
-      switch (gBsr2BrailleOah->fBrailleOutputKind) {
+      switch (globalBsr2BrailleOah->fBrailleOutputKind) {
         case kBrailleOutputAscii:
          potentialOutputFileName += ".brf";
           break;
@@ -468,16 +468,16 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
 
     S_oahStringAtom
       outputFileNameStringAtom =
-        gXml2brlOah->
+        globalXml2brlOah->
           getOutputFileNameStringAtom ();
 
     S_oahBooleanAtom
       autoOutputFileNameAtom =
-        gXml2brlOah->
+        globalXml2brlOah->
           getAutoOutputFileNameAtom ();
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
       // print the options handler initial state
       fHandlerLogOstream <<
         "xml2brlInsiderOahHandler::checkOptionsAndArguments(): " <<
@@ -529,7 +529,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
           // '-o, -output-file-name' has been chosen
 
 #ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+          if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
             fHandlerLogOstream <<
               "'-aofn, -auto-output-file-name' has been chosen" <<
               endl <<
@@ -556,7 +556,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
           // '-o, -output-file-name' has NOT been chosen
 
 #ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+          if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
             fHandlerLogOstream <<
               "'-aofn, -auto-output-file-name' has been chosen" <<
               endl <<
@@ -585,7 +585,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
         // '-o, -output-file-name' has been chosen
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+        if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
           fHandlerLogOstream <<
             "'-aofn, -auto-output-file-name' has NOT been chosen" <<
             endl <<
@@ -604,7 +604,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
         // '-o, -output-file-name' has NOT been chosen
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+        if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
           fHandlerLogOstream <<
             "'-aofn, -auto-output-file-name' has NOT been chosen" <<
             endl <<
@@ -628,34 +628,34 @@ void xml2brlInsiderOahHandler::checkOptionsConsistency ()
 void xml2brlInsiderOahHandler::enforceOahHandlerQuietness ()
 {
 #ifdef TRACE_OAH
-  gGeneralOah->
+  globalGeneralOah->
     enforceQuietness ();
 #endif
 
-  gGeneralOah->
+  globalGeneralOah->
     enforceQuietness ();
 
-  gMxmlTreeOah->
+  globalMxmlTreeOah->
     enforceQuietness ();
 
-  gMsrOah->
+  globalMsrOah->
     enforceQuietness ();
 
-  gBsrOah->
+  globalBsrOah->
     enforceQuietness ();
 
-  gBrailleOah->
+  globalBrailleOah->
     enforceQuietness ();
 
-  gBsr2BrailleOah->
+  globalBsr2BrailleOah->
     enforceQuietness ();
 
 #ifdef EXTRA_OAH
-  gExtraOah->
+  globalExtraOah->
     enforceQuietness ();
 #endif
 
-  gXml2brlOah->
+  globalXml2brlOah->
     enforceQuietness ();
 }
 
@@ -728,7 +728,7 @@ ostream& operator<< (ostream& os, const S_xml2brlInsiderOahHandler& elt)
 }
 
 //_______________________________________________________________________________
-S_xml2brlOah gXml2brlOah;
+S_xml2brlOah globalXml2brlOah;
 
 S_xml2brlOah xml2brlOah::create (
   S_oahHandler handlerUpLink)
@@ -998,7 +998,7 @@ void initializeXml2brlOah (
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
       gLogOstream <<
         "Initializing xml2brl options handling" <<
         endl;
@@ -1019,9 +1019,9 @@ void initializeXml2brlOah (
     // create the options variables
     // ------------------------------------------------------
 
-    gXml2brlOah = xml2brlOah::create (
+    globalXml2brlOah = xml2brlOah::create (
       handler);
-    assert (gXml2brlOah != 0);
+    assert (globalXml2brlOah != 0);
 
     pThisMethodHasBeenRun = true;
   }

@@ -12,8 +12,8 @@
 
 //======================================================================
 // DON'T MODIFY THIS FILE!
-// It is automatically generated from the MusicXML schema.
-// (see the schema folder) 
+// It is automatically generated from the BMML schema.
+// (see the schema folder)
 //======================================================================
 
 #ifndef __typedefs__

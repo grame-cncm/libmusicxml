@@ -47,14 +47,14 @@ msrRepeatCoda::msrRepeatCoda (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     repeatCodaSegment != nullptr,
     "repeatCodaSegment is null");
 
   fRepeatCodaSegment = repeatCodaSegment;
 
   // sanity check
-  msrAssert (
+  msgAssert (
     repeatUpLink != nullptr,
     "repeatUpLink is null");
 
@@ -68,7 +68,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
   S_msrRepeat containingRepeat)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (globalTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
@@ -77,7 +77,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
 #endif
 
   // sanity check
-  msrAssert(
+  msgAssert(
     containingRepeat != nullptr,
     "containingRepeat is null");
 
@@ -103,7 +103,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   S_msrRepeat containingRepeat)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (globalTraceOah->fTraceRepeats) {
     gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
@@ -112,7 +112,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
 #endif
 
   // sanity check
-  msrAssert(
+  msgAssert(
     containingRepeat != nullptr,
     "containingRepeat is null");
 
@@ -152,7 +152,7 @@ void msrRepeatCoda::appendElementToRepeatCoda (
 
 void msrRepeatCoda::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRepeatCoda::acceptIn ()" <<
       endl;
@@ -163,7 +163,7 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
         S_msrRepeatCoda elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRepeatCoda::visitStart ()" <<
             endl;
@@ -174,7 +174,7 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
 
 void msrRepeatCoda::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRepeatCoda::acceptOut ()" <<
       endl;
@@ -185,7 +185,7 @@ void msrRepeatCoda::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
         S_msrRepeatCoda elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRepeatCoda::visitEnd ()" <<
             endl;

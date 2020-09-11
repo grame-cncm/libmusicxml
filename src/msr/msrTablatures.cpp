@@ -70,7 +70,7 @@ msrFrameNote::msrFrameNote (
   fFrameNoteBarreTypeKind = frameNoteBarreTypeKind;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceHarmonies) {
+  if (globalTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating frame note '" <<
       asString () <<
@@ -122,7 +122,7 @@ string msrFrameNote::asString () const
 
 void msrFrameNote::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFrameNote::acceptIn ()" <<
       endl;
@@ -133,7 +133,7 @@ void msrFrameNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
         S_msrFrameNote elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFrameNote::visitStart ()" <<
             endl;
@@ -144,7 +144,7 @@ void msrFrameNote::acceptIn (basevisitor* v)
 
 void msrFrameNote::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFrameNote::acceptOut ()" <<
       endl;
@@ -155,7 +155,7 @@ void msrFrameNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
         S_msrFrameNote elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFrameNote::visitEnd ()" <<
             endl;
@@ -235,7 +235,7 @@ msrFrame::msrFrame (
   fFrameContainsFingerings = false;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceHarmonies) {
+  if (globalTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Creating frame '" <<
       asString () <<
@@ -277,7 +277,7 @@ void msrFrame::appendFrameNoteToFrame (
             frameNote;
 
           msrMusicXMLError (
-            gOahOah->fInputSourceName,
+            globalOahOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -306,7 +306,7 @@ void msrFrame::appendFrameNoteToFrame (
               barreStartFretNumber;
 
             msrMusicXMLError (
-              gOahOah->fInputSourceName,
+              globalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -354,7 +354,7 @@ string msrFrame::asString () const
 
 void msrFrame::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFrame::acceptIn ()" <<
       endl;
@@ -365,7 +365,7 @@ void msrFrame::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFrame>*> (v)) {
         S_msrFrame elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFrame::visitStart ()" <<
             endl;
@@ -376,7 +376,7 @@ void msrFrame::acceptIn (basevisitor* v)
 
 void msrFrame::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFrame::acceptOut ()" <<
       endl;
@@ -387,7 +387,7 @@ void msrFrame::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFrame>*> (v)) {
         S_msrFrame elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFrame::visitEnd ()" <<
             endl;

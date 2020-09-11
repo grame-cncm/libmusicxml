@@ -33,9 +33,9 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_mxmlTreeOah gMxmlTreeOah;
-S_mxmlTreeOah gMxmlTreeOahUserChoices;
-S_mxmlTreeOah gMxmlTreeOahWithDetailedTrace;
+S_mxmlTreeOah globalMxmlTreeOah;
+S_mxmlTreeOah globalMxmlTreeOahUserChoices;
+S_mxmlTreeOah globalMxmlTreeOahWithDetailedTrace;
 
 S_mxmlTreeOah mxmlTreeOah::create (
   S_oahHandler handlerUpLink)
@@ -50,14 +50,14 @@ mxmlTreeOah::mxmlTreeOah (
   S_oahHandler handlerUpLink)
   : oahGroup (
     "MxmlTree",
-    "hmxmlttr", "help-xmlelement-tree",
-R"(These options control the way xmlelement trees are handled.)",
+    "hmxmlttr", "help-mxml-element-tree",
+R"(These options control the way mxml-element trees are handled.)",
     kElementVisibilityWhole,
     handlerUpLink)
 {
 /* JMI
   // sanity check
-  msrAssert (
+  msgAssert (
     handlerUpLink != nullptr,
     "handlerUpLink is null");
 */
@@ -84,7 +84,7 @@ void mxmlTreeOah::initializeMxmlTreeTraceOah (
     subGroup =
       oahSubGroup::create (
         "Trace",
-        "hmxmltt", "help-mxmltree-trace",
+        "hmxmltt", "help-mxml-tree-trace",
 R"()",
         kElementVisibilityWhole,
         this);
@@ -99,7 +99,7 @@ R"()",
         fetchPrefixNameInPrefixesMap (
           "t");
 
-  msrAssert (
+  msgAssert (
     shortTracePrefix != nullptr,
     "shortTracePrefix is null");
 
@@ -111,7 +111,7 @@ R"()",
         fetchPrefixNameInPrefixesMap (
           "trace");
 
-  msrAssert (
+  msgAssert (
     longTracePrefix != nullptr,
     "longTracePrefix is null");
 
@@ -139,7 +139,7 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "tmxmltv", "trace-musicxml-tree-visitors",
+        "tmxmltv", "trace-mxml-tree-visitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
         "traceMusicXMLTreeVisitors",
         fTraceMusicXMLTreeVisitors));
@@ -207,7 +207,7 @@ void mxmlTreeOah::checkOptionsConsistency ()
 void mxmlTreeOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> mxmlTreeOah::acceptIn ()" <<
       endl;
@@ -220,7 +220,7 @@ void mxmlTreeOah::acceptIn (basevisitor* v)
         S_mxmlTreeOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching mxmlTreeOah::visitStart ()" <<
             endl;
@@ -233,7 +233,7 @@ void mxmlTreeOah::acceptIn (basevisitor* v)
 void mxmlTreeOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> mxmlTreeOah::acceptOut ()" <<
       endl;
@@ -246,7 +246,7 @@ void mxmlTreeOah::acceptOut (basevisitor* v)
         S_mxmlTreeOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching mxmlTreeOah::visitEnd ()" <<
             endl;
@@ -259,7 +259,7 @@ void mxmlTreeOah::acceptOut (basevisitor* v)
 void mxmlTreeOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> mxmlTreeOah::browseData ()" <<
       endl;
@@ -308,7 +308,7 @@ void initializeMxmlTreeOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing MusicXML options handling" <<
       endl;
@@ -322,19 +322,19 @@ void initializeMxmlTreeOahHandling (
     // create the MusicXML options
     // ------------------------------------------------------
 
-    gMxmlTreeOahUserChoices = mxmlTreeOah::create (
+    globalMxmlTreeOahUserChoices = mxmlTreeOah::create (
       handler);
-    assert(gMxmlTreeOahUserChoices != 0);
+    assert(globalMxmlTreeOahUserChoices != 0);
 
-    gMxmlTreeOah =
-      gMxmlTreeOahUserChoices;
+    globalMxmlTreeOah =
+      globalMxmlTreeOahUserChoices;
 
     // prepare for measure detailed trace
     // ------------------------------------------------------
 
   /* JMI
-    gMxmlTreeOahWithDetailedTrace =
-      gMxmlTreeOah->
+    globalMxmlTreeOahWithDetailedTrace =
+      globalMxmlTreeOah->
         createCloneWithDetailedTrace ();
         */
 

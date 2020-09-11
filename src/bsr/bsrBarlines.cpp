@@ -54,7 +54,7 @@ bsrBarline::bsrBarline (
   fBarlineCellsList = buildCellsList ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarlines) {
+  if (globalTraceOah->fTraceBarlines) {
     gLogOstream <<
       "Creating bsrBarline '" <<
       asString () <<
@@ -115,7 +115,7 @@ int bsrBarline::fetchCellsNumber() const
 void bsrBarline::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrBarline::acceptIn ()" <<
       endl;
@@ -128,7 +128,7 @@ void bsrBarline::acceptIn (basevisitor* v)
         S_bsrBarline elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrBarline::visitStart ()" <<
             endl;
@@ -141,7 +141,7 @@ void bsrBarline::acceptIn (basevisitor* v)
 void bsrBarline::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrBarline::acceptOut ()" <<
       endl;
@@ -154,7 +154,7 @@ void bsrBarline::acceptOut (basevisitor* v)
         S_bsrBarline elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrBarline::visitEnd ()" <<
             endl;

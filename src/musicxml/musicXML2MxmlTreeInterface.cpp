@@ -74,7 +74,7 @@ void displayXMLDeclaration (
 }
 
 //_______________________________________________________________________________
-void displayDocumentType (
+void displayMusicXMLDocumentType (
   TDocType* documentType,
   ostream&  logOstream)
 {
@@ -170,7 +170,7 @@ string uncompressMXLFile (
         "' with 'popen ()'";
 
       msrInternalError (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
@@ -198,7 +198,7 @@ string uncompressMXLFile (
       // close the stream
       if (pclose (inputStream) < 0) {
         msrInternalError (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           0, // inputLineNumber
           __FILE__, __LINE__,
           "Cannot close the input stream after 'popen ()'");
@@ -275,7 +275,7 @@ string uncompressMXLFile (
 
         if (sm.size ()) {
 #ifdef TRACE_OAH
-          if (gTraceOah->getTracePasses ()) { // JMI ???
+          if (globalTraceOah->getTracePasses ()) { // JMI ???
             logOstream <<
               "There are " << sm.size () - 1 << " match(es) " <<
               "with regex '" << regularExpression <<
@@ -324,7 +324,7 @@ string uncompressMXLFile (
                   "' and then '" << stringFromLine << "'";
 
                 msrInternalError (
-                  gOahOah->fInputSourceName,
+                  globalOahOah->fInputSourceName,
                   0, // inputLineNumber
                   __FILE__, __LINE__,
                   s.str ());
@@ -392,7 +392,7 @@ string uncompressMXLFile (
         "' with 'popen ()'";
 
       msrInternalError (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
@@ -415,7 +415,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   string fileNameAsString = fileName;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -463,7 +463,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     string message = s.str ();
 
     msrMusicXMLError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       1, // inputLineNumber,
       __FILE__, __LINE__,
       message);
@@ -487,7 +487,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 
 #ifdef TRACE_OAH
-  if (gMusicxmlOah->fTraceEncoding) {
+  if (globalMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! xmlFile contents from file:" <<
@@ -506,7 +506,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
 
 #ifdef TRACE_OAH
-  if (gMusicxmlOah->fTraceEncoding) {
+  if (globalMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! xmlDecl contents from file:" <<
@@ -524,7 +524,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
 
-  if (gMusicxmlOah->fTraceEncoding) {
+  if (globalMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! docType from file:" <<
@@ -532,7 +532,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl;
     docType->print (logOstream);
 
-    displayDocumentType (
+    displayMusicXMLDocumentType (
       docType,
       logOstream);
   }
@@ -549,7 +549,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   if (encoding == desiredEncoding) {
 #ifdef TRACE_OAH
-    if (gTraceOah->getTracePasses ()) {
+    if (globalTraceOah->getTracePasses ()) {
       logOstream <<
         "% MusicXML data uses \"" <<
         desiredEncoding <<
@@ -567,7 +567,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       " doesn't contain any encoding specification; assuming it is UTF-8";
 
     msrMusicXMLWarning (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
@@ -583,7 +583,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
     msrMusicXMLWarning (
 //    msrMusicXMLError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       1, // inputLineNumber,
 //      __FILE__, __LINE__,
       s.str ());
@@ -614,7 +614,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -641,7 +641,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   }
 
 #ifdef TRACE_OAH
-  if (gMusicxmlOah->fTraceEncoding) {
+  if (globalMusicxmlOah->fTraceEncoding) {
     logOstream <<
       "!!!!! xmlFile contents from stream:" <<
       endl;
@@ -654,7 +654,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
 
 #ifdef TRACE_OAH
-  if (gMusicxmlOah->fTraceEncoding) {
+  if (globalMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "xmlDecl contents:" <<
@@ -672,7 +672,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
 
-  if (gMusicxmlOah->fTraceEncoding) {
+  if (globalMusicxmlOah->fTraceEncoding) {
     logOstream <<
       endl <<
       "!!!!! docType from stream:" <<
@@ -680,7 +680,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       endl;
     docType->print (logOstream);
 
-    displayDocumentType (
+    displayMusicXMLDocumentType (
       docType,
       logOstream);
   }
@@ -709,7 +709,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       ", for example with iconv or using a text editor - handling it as is";
 
     msrMusicXMLWarning (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
@@ -740,7 +740,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -782,7 +782,7 @@ Sxmlelement convertMusicXMLToMxmlTree (
   string passNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -803,7 +803,7 @@ Sxmlelement convertMusicXMLToMxmlTree (
     mxmlTree =
       musicXMLFd2mxmlTree (
         stdin,
-        gMxmlTreeOah,
+        globalMxmlTreeOah,
         gLogOstream,
         passNumber);
   }
@@ -833,7 +833,7 @@ Sxmlelement convertMusicXMLToMxmlTree (
     mxmlTree =
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),
-        gMxmlTreeOah,
+        globalMxmlTreeOah,
         gLogOstream,
         passNumber);
   }

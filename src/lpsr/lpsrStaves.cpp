@@ -45,7 +45,7 @@ lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock ()
 void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptIn ()" <<
       endl;
@@ -58,7 +58,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
         S_lpsrNewStaffgroupBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitStart ()" <<
             endl;
@@ -71,7 +71,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
 void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptOut ()" <<
       endl;
@@ -84,7 +84,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
         S_lpsrNewStaffgroupBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitEnd ()" <<
             endl;
@@ -144,7 +144,7 @@ lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock ()
 void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptIn ()" <<
       endl;
@@ -157,7 +157,7 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
         S_lpsrNewStaffTuningBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitStart ()" <<
             endl;
@@ -170,7 +170,7 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
 void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptOut ()" <<
       endl;
@@ -183,7 +183,7 @@ void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
         S_lpsrNewStaffTuningBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitEnd ()" <<
             endl;
@@ -236,7 +236,7 @@ lpsrNewStaffBlock::~lpsrNewStaffBlock ()
 void lpsrNewStaffBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewStaffBlock::acceptIn ()" <<
       endl;
@@ -249,7 +249,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v)
         S_lpsrNewStaffBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitStart ()" <<
             endl;
@@ -262,7 +262,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v)
 void lpsrNewStaffBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewStaffBlock::acceptOut ()" <<
       endl;
@@ -275,7 +275,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v)
         S_lpsrNewStaffBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitEnd ()" <<
             endl;
@@ -324,7 +324,7 @@ lpsrStaffBlock::lpsrStaffBlock (
     : lpsrElement (0) // JMI
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     staff != nullptr,
     "staff is null");
 
@@ -368,7 +368,7 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
 void lpsrStaffBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrStaffBlock::acceptIn ()" <<
       endl;
@@ -381,7 +381,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v)
         S_lpsrStaffBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrStaffBlock::visitStart ()" <<
             endl;
@@ -394,7 +394,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v)
 void lpsrStaffBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrStaffBlock::acceptOut ()" <<
       endl;
@@ -407,7 +407,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v)
         S_lpsrStaffBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrStaffBlock::visitEnd ()" <<
             endl;
@@ -420,7 +420,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v)
 void lpsrStaffBlock::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrStaffBlock::browseData ()" <<
       endl;
@@ -438,7 +438,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
   } // for
 
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrStaffBlock::browseData ()" <<
       endl;

@@ -25,7 +25,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-EXP void msrAssert (
+EXP void msgAssert (
   bool   condition,
   std::string messageIfFalse);
 
@@ -35,38 +35,26 @@ EXP void oahWarning (std::string warningMessage);
 EXP void oahError (std::string errorMessage);
 
 //______________________________________________________________________________
-EXP void msrWarning (
+EXP void msgWarning (
   std::string context,
   std::string inputSourceName,
   int         inputLineNumber,
   std::string message);
 
-EXP void msrError (
+EXP void msgError (
   std::string context,
   std::string inputSourceName,
-  int    inputLineNumber,
+  int         inputLineNumber,
   std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  std::string message);
-
-EXP void msrUnsupported (
-  std::string inputSourceName,
-  int    inputLineNumber,
-  std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
+  int         sourceCodeLineNumber,
   std::string message);
 
 //______________________________________________________________________________
-EXP void msrMusicXMLWarning (
+EXP void msrUnsupported (
   std::string inputSourceName,
   int         inputLineNumber,
-  std::string message);
-
-EXP void msrMusicXMLError (
-  std::string inputSourceName,
-  int    inputLineNumber,
   std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
+  int         sourceCodeLineNumber,
   std::string message);
 
 //______________________________________________________________________________
@@ -77,9 +65,22 @@ EXP void msrInternalWarning (
 
 EXP void msrInternalError (
   std::string inputSourceName,
-  int    inputLineNumber,
+  int         inputLineNumber,
   std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
+EXP void msrMusicXMLWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+EXP void msrMusicXMLError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
   std::string message);
 
 //______________________________________________________________________________
@@ -90,9 +91,9 @@ EXP void lpsrMusicXMLWarning (
 
 EXP void lpsrMusicXMLError (
   std::string inputSourceName,
-  int    inputLineNumber,
+  int         inputLineNumber,
   std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
+  int         sourceCodeLineNumber,
   std::string message);
 
 //______________________________________________________________________________
@@ -103,9 +104,49 @@ EXP void bsrWarning (
 
 EXP void bsrInternalError (
   std::string inputSourceName,
-  int    inputLineNumber,
+  int         inputLineNumber,
   std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
+EXP void bmmlWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+EXP void bmmlError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+EXP void bmmlInternalError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
+EXP void meiWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+EXP void meiError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+EXP void meiInternalError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
   std::string message);
 
 //______________________________________________________________________________

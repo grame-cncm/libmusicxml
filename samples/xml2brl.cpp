@@ -173,7 +173,7 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) { // JMI
+  if (globalTraceOah->fTraceOah) { // JMI
     handler->printKnownPrefixes (gOutputOstream);
     handler->printKnownSingleCharacterOptions (gOutputOstream);
     // handler->printKnownOptions (gOutputOstream);
@@ -184,16 +184,16 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      gOahOah->fInputSourceName;
+      globalOahOah->fInputSourceName;
 
   string
     outputFileName =
-      gXml2brlOah->
+      globalXml2brlOah->
         getOutputFileNameStringAtom ()->
           getStringVariable ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -210,7 +210,7 @@ int main (int argc, char *argv[])
   // has quiet mode been requested?
   // ------------------------------------------------------
 
-  if (gGeneralOah->fQuiet) {
+  if (globalGeneralOah->fQuiet) {
     // disable all trace and display options
     /* JMI
     handler->
@@ -222,7 +222,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     int
       outputFileNameSize =
         outputFileName.size ();
@@ -247,7 +247,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogOstream <<
-      "Time is " << gGeneralOah->fTranslationDateFull <<
+      "Time is " << globalGeneralOah->fTranslationDateFull <<
       endl;
 
     gLogOstream <<
@@ -318,7 +318,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     gLogOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -348,7 +348,7 @@ int main (int argc, char *argv[])
   // print timing information
   // ------------------------------------------------------
 
-  if (gGeneralOah->fDisplayCPUusage)
+  if (globalGeneralOah->fDisplayCPUusage)
     timing::gTiming.print (
       gLogOstream);
 

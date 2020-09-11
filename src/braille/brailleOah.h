@@ -101,9 +101,9 @@ class brailleOah : public oahGroup
 typedef SMARTP<brailleOah> S_brailleOah;
 EXP ostream& operator<< (ostream& os, const S_brailleOah& elt);
 
-EXP extern S_brailleOah gBrailleOah;
-EXP extern S_brailleOah gBrailleOahUserChoices;
-EXP extern S_brailleOah gBrailleOahWithDetailedTrace;
+EXP extern S_brailleOah globalBrailleOah;
+EXP extern S_brailleOah globalBrailleOahUserChoices;
+EXP extern S_brailleOah globalBrailleOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeBrailleOahHandling (

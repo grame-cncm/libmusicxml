@@ -134,9 +134,9 @@ class generalOah : public oahGroup
 typedef SMARTP<generalOah> S_generalOah;
 EXP ostream& operator<< (ostream& os, const S_generalOah& elt);
 
-EXP extern S_generalOah gGeneralOah;
-EXP extern S_generalOah gGeneralOahUserChoices;
-EXP extern S_generalOah gGeneralOahWithDetailedTrace;
+EXP extern S_generalOah globalGeneralOah;
+EXP extern S_generalOah globalGeneralOahUserChoices;
+EXP extern S_generalOah globalGeneralOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeGeneralOahHandling (

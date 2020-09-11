@@ -30,8 +30,8 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-S_generalOah gGeneralOah;
-S_generalOah gGeneralOahUserChoices;
+S_generalOah globalGeneralOah;
+S_generalOah globalGeneralOahUserChoices;
 
 S_generalOah generalOah::create (
   S_oahHandler handlerUpLink)
@@ -116,7 +116,7 @@ R"(Don't show errors in the log.)",
 R"(Do not exit execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gOahOah->fHandlerExecutableName),
+          globalOahOah->fHandlerExecutableName),
         "dontExitOnErrors",
         fDontExitOnErrors));
 
@@ -133,7 +133,7 @@ R"(Display the source code file name and line number
 in warning and error messages.
 This is useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gOahOah->fHandlerExecutableName),
+          globalOahOah->fHandlerExecutableName),
         "displaySourceCodePosition",
         fDisplaySourceCodePosition));
 }
@@ -264,7 +264,7 @@ void generalOah::checkOptionsConsistency ()
 void generalOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> generalOah::acceptIn ()" <<
       endl;
@@ -277,7 +277,7 @@ void generalOah::acceptIn (basevisitor* v)
         S_generalOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching generalOah::visitStart ()" <<
             endl;
@@ -290,7 +290,7 @@ void generalOah::acceptIn (basevisitor* v)
 void generalOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> generalOah::acceptOut ()" <<
       endl;
@@ -303,7 +303,7 @@ void generalOah::acceptOut (basevisitor* v)
         S_generalOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching generalOah::visitEnd ()" <<
             endl;
@@ -316,7 +316,7 @@ void generalOah::acceptOut (basevisitor* v)
 void generalOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> generalOah::browseData ()" <<
       endl;
@@ -409,12 +409,12 @@ void initializeGeneralOahHandling (
     // create the options variables
     // ------------------------------------------------------
 
-    gGeneralOahUserChoices = generalOah::create (
+    globalGeneralOahUserChoices = generalOah::create (
       handler);
-    assert(gGeneralOahUserChoices != 0);
+    assert(globalGeneralOahUserChoices != 0);
 
-    gGeneralOah =
-      gGeneralOahUserChoices;
+    globalGeneralOah =
+      globalGeneralOahUserChoices;
 
     pThisMethodHasBeenRun = true;
   }

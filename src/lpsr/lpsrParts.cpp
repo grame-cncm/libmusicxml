@@ -42,7 +42,7 @@ lpsrPartBlock::lpsrPartBlock (
     : lpsrElement (0) // JMI
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     part != nullptr,
     "part is null");
 
@@ -109,7 +109,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -227,7 +227,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -300,7 +300,7 @@ bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingStaff (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       first->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -324,7 +324,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
 
   // sort the list if necessary
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceHarmonies) {
+  if (globalTraceOah->fTraceHarmonies) {
     gLogOstream <<
       "Sorting the voices in part block for part \"" <<
       fPart->getPartCombinedName () << "\"" <<
@@ -400,7 +400,7 @@ void lpsrPartBlock::appendFiguredBassContextToPartBlock (
 void lpsrPartBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPartBlock::acceptIn ()" <<
       endl;
@@ -413,7 +413,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v)
         S_lpsrPartBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPartBlock::visitStart ()" <<
             endl;
@@ -426,7 +426,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v)
 void lpsrPartBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPartBlock::acceptOut ()" <<
       endl;
@@ -439,7 +439,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v)
         S_lpsrPartBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPartBlock::visitEnd ()" <<
             endl;
@@ -452,7 +452,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v)
 void lpsrPartBlock::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPartBlock::browseData ()" <<
       endl;
@@ -470,7 +470,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
   } // for
 
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrPartBlock::browseData ()" <<
       endl;

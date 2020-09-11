@@ -131,9 +131,9 @@ class musicxmlOah : public oahGroup
 typedef SMARTP<musicxmlOah> S_musicxmlOah;
 EXP ostream& operator<< (ostream& os, const S_musicxmlOah& elt);
 
-EXP extern S_musicxmlOah gMusicxmlOah;
-EXP extern S_musicxmlOah gMusicxmlOahUserChoices;
-EXP extern S_musicxmlOah gMusicxmlOahWithDetailedTrace;
+EXP extern S_musicxmlOah globalMusicxmlOah;
+EXP extern S_musicxmlOah globalMusicxmlOahUserChoices;
+EXP extern S_musicxmlOah globalMusicxmlOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMusicxmlOahHandling (

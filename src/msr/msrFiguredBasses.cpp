@@ -54,7 +54,7 @@ msrFigure::msrFigure (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msrAssert(
+  msgAssert(
     figurePartUpLink != nullptr,
     "figurePartUpLink is null");
 
@@ -67,7 +67,7 @@ msrFigure::msrFigure (
   fFigureSuffixKind = figureSuffixKind;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses) {
+  if (globalTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating figure '" <<
       asString () <<
@@ -84,7 +84,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses) {
+  if (globalTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating a newborn clone of figure '" <<
       asString () <<
@@ -94,7 +94,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
 #endif
 
   // sanity check
-  msrAssert(
+  msgAssert(
     containingPart != nullptr,
     "containingPart is null");
 
@@ -114,7 +114,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses) {
+  if (globalTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating a deep copy of figure '" <<
       asString () <<
@@ -124,7 +124,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
 #endif
 
   // sanity check
-  msrAssert(
+  msgAssert(
     containingPart != nullptr,
     "containingPart is null");
 
@@ -242,7 +242,7 @@ string msrFigure::asString () const
 
 void msrFigure::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFigure::acceptIn ()" <<
       endl;
@@ -253,7 +253,7 @@ void msrFigure::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFigure>*> (v)) {
         S_msrFigure elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFigure::visitStart ()" <<
             endl;
@@ -264,7 +264,7 @@ void msrFigure::acceptIn (basevisitor* v)
 
 void msrFigure::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFigure::acceptOut ()" <<
       endl;
@@ -275,7 +275,7 @@ void msrFigure::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFigure>*> (v)) {
         S_msrFigure elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFigure::visitEnd ()" <<
             endl;
@@ -360,7 +360,7 @@ msrFiguredBass::msrFiguredBass (
 {
   /* JMI
   // sanity check
-  msrAssert(
+  msgAssert(
     figuredBassPartUpLink != nullptr,
     "figuredBassPartUpLink is null");
 
@@ -378,7 +378,7 @@ msrFiguredBass::msrFiguredBass (
     figuredBassParenthesesKind;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses) {
+  if (globalTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating figuredBass " <<
       asString () <<
@@ -394,7 +394,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses) {
+  if (globalTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating a newborn clone of figured bass '" <<
       asShortString () <<
@@ -404,7 +404,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 #endif
 
   // sanity check
-  msrAssert(
+  msgAssert(
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -426,7 +426,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
  // S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses) {
+  if (globalTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating a deep copy of figuredBass '" <<
       asString () <<
@@ -437,7 +437,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
 
 /* JMi
   // sanity check
-  msrAssert(
+  msgAssert(
     containingPart != nullptr,
     "containingPart is null");
     */
@@ -462,7 +462,7 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
   // set the figured bass position in measure
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures) {
+  if (globalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting figured bass position in measure of " << asString () <<
       " to '" <<
@@ -514,7 +514,7 @@ void msrFiguredBass::appendFigureToFiguredBass (
   S_msrFigure figure)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceFiguredBasses) {
+  if (globalTraceOah->fTraceFiguredBasses) {
     gLogOstream <<
       "Appending figure '" << figure->asString () <<
       "' to figuredBass '" <<
@@ -529,7 +529,7 @@ void msrFiguredBass::appendFigureToFiguredBass (
 
 void msrFiguredBass::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFiguredBass::acceptIn ()" <<
       endl;
@@ -540,7 +540,7 @@ void msrFiguredBass::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
         S_msrFiguredBass elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFiguredBass::visitStart ()" <<
             endl;
@@ -551,7 +551,7 @@ void msrFiguredBass::acceptIn (basevisitor* v)
 
 void msrFiguredBass::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrFiguredBass::acceptOut ()" <<
       endl;
@@ -562,7 +562,7 @@ void msrFiguredBass::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
         S_msrFiguredBass elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrFiguredBass::visitEnd ()" <<
             endl;

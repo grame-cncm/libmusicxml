@@ -128,9 +128,9 @@ class mxmlTreeOah : public oahGroup
 typedef SMARTP<mxmlTreeOah> S_mxmlTreeOah;
 EXP ostream& operator<< (ostream& os, const S_mxmlTreeOah& elt);
 
-EXP extern S_mxmlTreeOah gMxmlTreeOah;
-EXP extern S_mxmlTreeOah gMxmlTreeOahUserChoices;
-EXP extern S_mxmlTreeOah gMxmlTreeOahWithDetailedTrace;
+EXP extern S_mxmlTreeOah globalMxmlTreeOah;
+EXP extern S_mxmlTreeOah globalMxmlTreeOahUserChoices;
+EXP extern S_mxmlTreeOah globalMxmlTreeOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMxmlTreeOahHandling (

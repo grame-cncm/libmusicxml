@@ -33,9 +33,9 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_musicxmlOah gMusicxmlOah;
-S_musicxmlOah gMusicxmlOahUserChoices;
-S_musicxmlOah gMusicxmlOahWithDetailedTrace;
+S_musicxmlOah globalMusicxmlOah;
+S_musicxmlOah globalMusicxmlOahUserChoices;
+S_musicxmlOah globalMusicxmlOahWithDetailedTrace;
 
 S_musicxmlOah musicxmlOah::create (
   S_oahHandler handlerUpLink)
@@ -57,7 +57,7 @@ R"(These options control the way MusicXML data is handled.)",
 {
 /* JMI
   // sanity check
-  msrAssert (
+  msgAssert (
     handlerUpLink != nullptr,
     "handlerUpLink is null");
 */
@@ -99,7 +99,7 @@ R"()",
         fetchPrefixNameInPrefixesMap (
           "t");
 
-  msrAssert (
+  msgAssert (
     shortTracePrefix != nullptr,
     "shortTracePrefix is null");
 
@@ -111,7 +111,7 @@ R"()",
         fetchPrefixNameInPrefixesMap (
           "trace");
 
-  msrAssert (
+  msgAssert (
     longTracePrefix != nullptr,
     "longTracePrefix is null");
 
@@ -279,7 +279,7 @@ void musicxmlOah::checkOptionsConsistency ()
 void musicxmlOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::acceptIn ()" <<
       endl;
@@ -292,7 +292,7 @@ void musicxmlOah::acceptIn (basevisitor* v)
         S_musicxmlOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching musicxmlOah::visitStart ()" <<
             endl;
@@ -305,7 +305,7 @@ void musicxmlOah::acceptIn (basevisitor* v)
 void musicxmlOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::acceptOut ()" <<
       endl;
@@ -318,7 +318,7 @@ void musicxmlOah::acceptOut (basevisitor* v)
         S_musicxmlOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching musicxmlOah::visitEnd ()" <<
             endl;
@@ -331,7 +331,7 @@ void musicxmlOah::acceptOut (basevisitor* v)
 void musicxmlOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::browseData ()" <<
       endl;
@@ -392,7 +392,7 @@ void initializeMusicxmlOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing Musicxml2Mxml options handling" <<
       endl;
@@ -406,19 +406,19 @@ void initializeMusicxmlOahHandling (
     // create the Musicxml options
     // ------------------------------------------------------
 
-    gMusicxmlOahUserChoices = musicxmlOah::create (
+    globalMusicxmlOahUserChoices = musicxmlOah::create (
       handler);
-    assert(gMusicxmlOahUserChoices != 0);
+    assert(globalMusicxmlOahUserChoices != 0);
 
-    gMusicxmlOah =
-      gMusicxmlOahUserChoices;
+    globalMusicxmlOah =
+      globalMusicxmlOahUserChoices;
 
     // prepare for measure detailed trace
     // ------------------------------------------------------
 
   /* JMI
-    gMusicxmlOahWithDetailedTrace =
-      gMusicxmlOah->
+    globalMusicxmlOahWithDetailedTrace =
+      globalMusicxmlOah->
         createCloneWithDetailedTrace ();
         */
 

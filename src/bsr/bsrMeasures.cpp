@@ -53,7 +53,7 @@ bsrMeasure::bsrMeasure (
   fBrailleMeasureNumber = fPrintMeasureNumber;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating bsrMeasure '" <<
       asString () <<
@@ -70,7 +70,7 @@ bsrMeasure::~bsrMeasure ()
 S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Creating a newborn clone of measure " <<
       asString () <<
@@ -100,7 +100,7 @@ void bsrMeasure::appendLineElementToMeasure (
 void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceClefs || gTraceOah->fTraceMeasures) {
+  if (globalTraceOah->fTraceClefs || globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending clef '" <<
       clef->asShortString () <<
@@ -117,7 +117,7 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarlines || gTraceOah->fTraceMeasures) {
+  if (globalTraceOah->fTraceBarlines || globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending barline " <<
       barline->asShortString () <<
@@ -134,7 +134,7 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceNumbers || gTraceOah->fTraceMeasures) {
+  if (globalBsrOah->fTraceNumbers || globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending number '" <<
       number->asShortString () <<
@@ -151,7 +151,7 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceNumbers || gTraceOah->fTraceMeasures) {
+  if (globalBsrOah->fTraceNumbers || globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending words '" <<
       words->asShortString () <<
@@ -168,7 +168,7 @@ void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotes || gTraceOah->fTraceMeasures) {
+  if (globalTraceOah->fTraceNotes || globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<
@@ -185,7 +185,7 @@ void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceDynamics || gTraceOah->fTraceMeasures) {
+  if (globalTraceOah->fTraceDynamics || globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Appending dynamics '" <<
       dynamics->asShortString () <<
@@ -226,7 +226,7 @@ int bsrMeasure::fetchCellsNumber () const
 void bsrMeasure::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrMeasure::acceptIn ()" <<
       endl;
@@ -239,7 +239,7 @@ void bsrMeasure::acceptIn (basevisitor* v)
         S_bsrMeasure elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrMeasure::visitStart ()" <<
             endl;
@@ -252,7 +252,7 @@ void bsrMeasure::acceptIn (basevisitor* v)
 void bsrMeasure::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrMeasure::acceptOut ()" <<
       endl;
@@ -265,7 +265,7 @@ void bsrMeasure::acceptOut (basevisitor* v)
         S_bsrMeasure elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrMeasure::visitEnd ()" <<
             endl;
@@ -367,7 +367,7 @@ void bsrMeasure::print (ostream& os) const
   // print the measure elements if any
   int measureElementsListSize = fMeasureLineElementsList.size ();
 
-  if (measureElementsListSize || gBsrOah->fDisplayBsrDetails) {
+  if (measureElementsListSize || globalBsrOah->fDisplayBsrDetails) {
     os <<
 //      setw (fieldWidth) <<
       "MeasureElementsList" <<

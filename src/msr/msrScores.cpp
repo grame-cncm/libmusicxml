@@ -82,7 +82,7 @@ msrScore::~msrScore ()
 S_msrScore msrScore::createScoreNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceScore) {
+  if (globalTraceOah->fTraceScore) {
     gLogOstream <<
       "Creating a newborn clone of a score" <<
       endl;
@@ -152,7 +152,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
       "' already exists in this score";
 
     msrInternalError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       partGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -166,7 +166,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 void msrScore::appendCreditToScore (S_msrCredit credit)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceCredits) {
+  if (globalTraceOah->fTraceCredits) {
     gLogOstream <<
       "Appending credit '" <<
       credit->asString () <<
@@ -185,7 +185,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   S_msrPart result;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePartGroupsDetails) {
+  if (globalTraceOah->fTracePartGroupsDetails) {
     gLogOstream <<
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
@@ -240,11 +240,11 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
   if (
     ! fIdentification->getWorkTitle ()
       &&
-    gMxmlTree2MsrOah->fUseFilenameAsWorkTitle
+    globalMxmlTree2MsrOah->fUseFilenameAsWorkTitle
   ) {
     string
       inputSourceName =
-        gOahOah->fInputSourceName;
+        globalOahOah->fInputSourceName;
 
     if (inputSourceName == "-") {
       inputSourceName = "Standard_input";
@@ -306,7 +306,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
               switch (topCreditsCounter) {
                 case 1:
 #ifdef TRACE_OAH
-                  if (gTraceOah->fTraceCredits) {
+                  if (globalTraceOah->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -323,7 +323,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
 
                 case 2:
 #ifdef TRACE_OAH
-                  if (gTraceOah->fTraceCredits) {
+                  if (globalTraceOah->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -352,7 +352,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
               switch (bottomCreditsCounter) {
                 case 1:
 #ifdef TRACE_OAH
-                  if (gTraceOah->fTraceCredits) {
+                  if (globalTraceOah->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -369,7 +369,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
 
                 case 2:
 #ifdef TRACE_OAH
-                  if (gTraceOah->fTraceCredits) {
+                  if (globalTraceOah->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -403,7 +403,7 @@ void msrScore::setHeaderFromOptionsIfAny (
   int inputLineNumber)
 {
   // should we use lyricists as poets? JMI
-  if (gMxmlTree2MsrOah->fUseLyricistsAsPoets) {
+  if (globalMxmlTree2MsrOah->fUseLyricistsAsPoets) {
     S_msrVarValsListAssoc
       lyricists =
         fIdentification->getLyricists ();
@@ -467,7 +467,7 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
 
 void msrScore::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScore::acceptIn ()" <<
       endl;
@@ -478,7 +478,7 @@ void msrScore::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrScore::visitStart ()" <<
             endl;
@@ -489,7 +489,7 @@ void msrScore::acceptIn (basevisitor* v)
 
 void msrScore::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScore::acceptOut ()" <<
       endl;
@@ -500,7 +500,7 @@ void msrScore::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrScore::visitEnd ()" <<
             endl;
@@ -511,7 +511,7 @@ void msrScore::acceptOut (basevisitor* v)
 
 void msrScore::browseData (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScore::browseData ()" <<
       endl;
@@ -573,7 +573,7 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% <== msrScore::browseData ()" <<
       endl;

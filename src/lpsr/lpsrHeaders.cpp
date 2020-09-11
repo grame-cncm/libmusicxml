@@ -46,78 +46,78 @@ lpsrHeader::lpsrHeader (
     : lpsrElement (inputLineNumber)
 {
   // grab values from the LilyPond options if any
-  if (gLpsr2LilypondOah->fDedication.size ()) {
+  if (globalLpsr2LilypondOah->fDedication.size ()) {
     setLilypondDedication (
       inputLineNumber,
-      gLpsr2LilypondOah->fDedication,
+      globalLpsr2LilypondOah->fDedication,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLpsr2LilypondOah->fPiece.size ()) {
+  if (globalLpsr2LilypondOah->fPiece.size ()) {
     setLilypondPiece (
       inputLineNumber,
-      gLpsr2LilypondOah->fPiece,
+      globalLpsr2LilypondOah->fPiece,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLpsr2LilypondOah->fOpus.size ()) {
+  if (globalLpsr2LilypondOah->fOpus.size ()) {
     setLilypondOpus (
       inputLineNumber,
-      gLpsr2LilypondOah->fOpus,
+      globalLpsr2LilypondOah->fOpus,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLpsr2LilypondOah->fTitle.size ()) {
+  if (globalLpsr2LilypondOah->fTitle.size ()) {
     setLilypondTitle (
       inputLineNumber,
-      gLpsr2LilypondOah->fTitle,
+      globalLpsr2LilypondOah->fTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLpsr2LilypondOah->fSubTitle.size ()) {
+  if (globalLpsr2LilypondOah->fSubTitle.size ()) {
     setLilypondSubTitle (
       inputLineNumber,
-      gLpsr2LilypondOah->fSubTitle,
+      globalLpsr2LilypondOah->fSubTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLpsr2LilypondOah->fSubSubTitle.size ()) {
+  if (globalLpsr2LilypondOah->fSubSubTitle.size ()) {
     setLilypondSubSubTitle (
       inputLineNumber,
-      gLpsr2LilypondOah->fSubSubTitle,
+      globalLpsr2LilypondOah->fSubSubTitle,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLpsr2LilypondOah->fInstrument.size ()) {
+  if (globalLpsr2LilypondOah->fInstrument.size ()) {
     setLilypondInstrument (
       inputLineNumber,
-      gLpsr2LilypondOah->fInstrument,
+      globalLpsr2LilypondOah->fInstrument,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLpsr2LilypondOah->fMeter.size ()) {
+  if (globalLpsr2LilypondOah->fMeter.size ()) {
     setLilypondMeter (
       inputLineNumber,
-      gLpsr2LilypondOah->fMeter,
+      globalLpsr2LilypondOah->fMeter,
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gLpsr2LilypondOah->fCopyright.size ()) {
+  if (globalLpsr2LilypondOah->fCopyright.size ()) {
     setLilypondCopyright (
       inputLineNumber,
-      gLpsr2LilypondOah->fCopyright,
+      globalLpsr2LilypondOah->fCopyright,
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gLpsr2LilypondOah->fTagline.size ()) {
+  if (globalLpsr2LilypondOah->fTagline.size ()) {
     setLilypondTagline (
       inputLineNumber,
-      gLpsr2LilypondOah->fTagline,
+      globalLpsr2LilypondOah->fTagline,
       kFontStyleNone,
       kFontWeightNone);
   }
@@ -527,7 +527,7 @@ void lpsrHeader::addRights (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding right \"" <<
       value <<
@@ -553,7 +553,7 @@ void lpsrHeader::addComposer (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding composer \"" <<
       value <<
@@ -579,7 +579,7 @@ void lpsrHeader::addArranger (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding arranger \"" <<
       value <<
@@ -605,7 +605,7 @@ void lpsrHeader::addLyricist (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding lyricist \"" <<
       value <<
@@ -631,7 +631,7 @@ void lpsrHeader::addPoet (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding poet \"" <<
       value <<
@@ -656,7 +656,7 @@ void lpsrHeader::removeAllPoets (
   int    inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Removing all poets from lpsrHeader" <<
       ", line " << fInputLineNumber <<
@@ -672,7 +672,7 @@ void lpsrHeader::addTranslator (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding translator \"" <<
       value <<
@@ -698,7 +698,7 @@ void lpsrHeader::addArtist (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding artist \"" <<
       value <<
@@ -724,7 +724,7 @@ void lpsrHeader::addSoftware (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVarValAssocs) {
+  if (globalTraceOah->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding software \"" <<
       value <<
@@ -1013,7 +1013,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
 void lpsrHeader::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrHeader::acceptIn ()" <<
       endl;
@@ -1026,7 +1026,7 @@ void lpsrHeader::acceptIn (basevisitor* v)
         S_lpsrHeader elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrHeader::visitStart ()" <<
             endl;
@@ -1039,7 +1039,7 @@ void lpsrHeader::acceptIn (basevisitor* v)
 void lpsrHeader::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrHeader::acceptOut ()" <<
       endl;
@@ -1052,7 +1052,7 @@ void lpsrHeader::acceptOut (basevisitor* v)
         S_lpsrHeader elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrHeader::visitEnd ()" <<
             endl;

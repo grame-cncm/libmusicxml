@@ -48,7 +48,7 @@ lpsrBarNumberCheck::~lpsrBarNumberCheck ()
 void lpsrBarNumberCheck::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBarNumberCheck::acceptIn ()" <<
       endl;
@@ -61,7 +61,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v)
         S_lpsrBarNumberCheck elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitStart ()" <<
             endl;
@@ -74,7 +74,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v)
 void lpsrBarNumberCheck::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBarNumberCheck::acceptOut ()" <<
       endl;
@@ -87,7 +87,7 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v)
         S_lpsrBarNumberCheck elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitEnd ()" <<
             endl;
@@ -135,7 +135,7 @@ lpsrBarCommand::~lpsrBarCommand ()
 void lpsrBarCommand::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBarCommand::acceptIn ()" <<
       endl;
@@ -148,7 +148,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v)
         S_lpsrBarCommand elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBarCommand::visitStart ()" <<
             endl;
@@ -161,7 +161,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v)
 void lpsrBarCommand::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrBarCommand::acceptOut ()" <<
       endl;
@@ -174,7 +174,7 @@ void lpsrBarCommand::acceptOut (basevisitor* v)
         S_lpsrBarCommand elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrBarCommand::visitEnd ()" <<
             endl;

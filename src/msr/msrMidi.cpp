@@ -75,7 +75,7 @@ S_msrMidiTempo msrMidiTempo::createMsrMidiTempoNewbornClone ()
 
 void msrMidiTempo::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMidiTempo::acceptIn ()" <<
       endl;
@@ -86,7 +86,7 @@ void msrMidiTempo::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMidiTempo>*> (v)) {
         S_msrMidiTempo elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMidiTempo::visitStart ()" <<
             endl;
@@ -97,7 +97,7 @@ void msrMidiTempo::acceptIn (basevisitor* v)
 
 void msrMidiTempo::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMidiTempo::acceptOut ()" <<
       endl;
@@ -108,7 +108,7 @@ void msrMidiTempo::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMidiTempo>*> (v)) {
         S_msrMidiTempo elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMidiTempo::visitEnd ()" <<
             endl;

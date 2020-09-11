@@ -24,9 +24,9 @@
 
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
-#include "msr2MxmltreeOah.h"
+#include "msr2MxmlTreeOah.h"
 #include "msrOah.h"
-#include "msr2MxmltreeOah.h"
+#include "msr2MxmlTreeOah.h"
 #include "mxmlTree2MsrOah.h"
 #include "msr2LpsrOah.h" // JMI ???
 //#include "lpsrOah.h" // JMI only if pass5 msr2lpsr is run
@@ -59,7 +59,7 @@ S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::create (
       os);
   assert(o!=0);
 
-  o->createThePrefixesAndInitializeOahHandling (executableName);
+  o->createThePrefixesAndInitializeOahHandler (executableName);
 
   return o;
 }
@@ -109,14 +109,14 @@ Option '-h, -help' prints the full help,
 xml2xmlInsiderOahHandler::~xml2xmlInsiderOahHandler ()
 {}
 
-void xml2xmlInsiderOahHandler::createThePrefixesAndInitializeOahHandling (
+void xml2xmlInsiderOahHandler::createThePrefixesAndInitializeOahHandler (
   string executableName)
 {
   // create the prefixes
   createThePrefixes ();
 
   // initialize the insider OAH handling only now, since it may use prefixes
-  initializeXml2xmlInsiderOahHandling (
+  initializeXml2xmlInsiderOahHandler (
     executableName);
 }
 
@@ -174,7 +174,7 @@ void xml2xmlInsiderOahHandler::createThePrefixes ()
   appendPrefixToHandler (oPrefix);
 }
 
-void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandling (
+void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandler (
   string executableName)
 {
   /*
@@ -189,7 +189,7 @@ void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandling (
   if (! pThisMethodHasBeenRun) {
     /* JMI
   #ifdef TRACE_OAH
-      if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+      if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
         gLogOstream <<
           "Initializing xml2xml insider options handling" <<
           endl;
@@ -247,7 +247,7 @@ void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandling (
       this);
 #endif
 
-    initializeXml2xmlOah (
+    initializeXml2xmlInsiderOah (
       this);
 
 #ifdef TRACE_OAH
@@ -278,7 +278,7 @@ void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandling (
       registerHandlerOptionNamesInItself ();
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
       fHandlerLogOstream <<
         "xml2xmlInsiderOahHandler help:" <<
         endl;
@@ -296,7 +296,7 @@ void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandling (
 void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOahDetails) {
+  if (globalTraceOah->fTraceOahDetails) {
     gOutputOstream <<
       "xml2xmlInsiderOahHandler::checkOptionsAndArguments() " <<
       fHandlerHeader <<
@@ -312,7 +312,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
       fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOahDetails && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOahDetails && ! globalGeneralOah->fQuiet) {
       if (argumentsNumber > 0) {
         fHandlerLogOstream <<
           singularOrPluralWithoutNumber (
@@ -340,7 +340,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
       else {
         fHandlerLogOstream <<
           "There are no arguments to " <<
-          gOahOah->fHandlerExecutableName <<
+          globalOahOah->fHandlerExecutableName <<
           endl;
       }
     }
@@ -369,7 +369,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 
       case 1:
         // register intput file name
-        gOahOah->fInputSourceName =
+        globalOahOah->fInputSourceName =
           fHandlerArgumentsVector [0];
         break;
 
@@ -383,7 +383,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
           endl;
 
         // register intput file name
-        gOahOah->fInputSourceName =
+        globalOahOah->fInputSourceName =
           fHandlerArgumentsVector [0];
         break;
     } //  switch
@@ -393,7 +393,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 
     string
       inputSourceName =
-        gOahOah->fInputSourceName;
+        globalOahOah->fInputSourceName;
 
     string potentialOutputFileName;
 
@@ -421,16 +421,16 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 
     S_oahStringAtom
       outputFileNameStringAtom =
-        gXml2xmlOah->
+        globalXml2xmlOah->
           getOutputFileNameStringAtom ();
 
     S_oahBooleanAtom
       autoOutputFileNameAtom =
-        gXml2xmlOah->
+        globalXml2xmlOah->
           getAutoOutputFileNameAtom ();
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
       // print the options handler initial state
       fHandlerLogOstream <<
         "xml2xmlInsiderOahHandler::checkOptionsAndArguments(): " <<
@@ -482,7 +482,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
           // '-o, -output-file-name' has been chosen
 
 #ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+          if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
             fHandlerLogOstream <<
               "'-aofn, -auto-output-file-name' has been chosen" <<
               endl <<
@@ -509,7 +509,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
           // '-o, -output-file-name' has NOT been chosen
 
 #ifdef TRACE_OAH
-          if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+          if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
             fHandlerLogOstream <<
               "'-aofn, -auto-output-file-name' has been chosen" <<
               endl <<
@@ -538,7 +538,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
         // '-o, -output-file-name' has been chosen
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+        if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
           fHandlerLogOstream <<
             "'-aofn, -auto-output-file-name' has NOT been chosen" <<
             endl <<
@@ -557,7 +557,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
         // '-o, -output-file-name' has NOT been chosen
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+        if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
           fHandlerLogOstream <<
             "'-aofn, -auto-output-file-name' has NOT been chosen" <<
             endl <<
@@ -575,25 +575,25 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
     // ------------------------------------------------------
 
   #ifdef TRACE_OAH
-    if (gTraceOah->getTracePasses ()) { // JMI
+    if (globalTraceOah->getTracePasses ()) { // JMI
       string separator =
         "%--------------------------------------------------------------";
 
       gLogOstream <<
         "xml2xmlInsiderOahHandler::checkOptionsAndArguments(): " <<
-        "gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
-        ", gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
-        ", gXml2xmlOah->fAutoOutputFileName: \"" << booleanAsString (gXml2xmlOah->fAutoOutputFileName) << "\"" <<
-        ", gXml2xmlOah->fMusicXMLOutputFileName: \"" << gXml2xmlOah->fMusicXMLOutputFileName << "\"" <<
+        "globalOahOah->fInputSourceName: \"" << globalOahOah->fInputSourceName << "\"" <<
+        ", globalOahOah->fInputSourceName: \"" << globalOahOah->fInputSourceName << "\"" <<
+        ", globalXml2xmlOah->fAutoOutputFileName: \"" << booleanAsString (globalXml2xmlOah->fAutoOutputFileName) << "\"" <<
+        ", globalXml2xmlOah->fMusicXMLOutputFileName: \"" << globalXml2xmlOah->fMusicXMLOutputFileName << "\"" <<
         endl <<
         separator <<
         endl;
     }
   #endif
 
-    if (gXml2xmlOah->fAutoOutputFileName) {
-      if (gOahOah->fInputSourceName == "-") {
-        gXml2xmlOah->fMusicXMLOutputFileName =
+    if (globalXml2xmlOah->fAutoOutputFileName) {
+      if (globalOahOah->fInputSourceName == "-") {
+        globalXml2xmlOah->fMusicXMLOutputFileName =
           "stdout.xml";
       }
       else {
@@ -602,7 +602,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
     }
 
     else {
-      if (gXml2xmlOah->fMusicXMLOutputFileName.size ()) {
+      if (globalXml2xmlOah->fMusicXMLOutputFileName.size ()) {
         // the '--o, --outputFileName' option has been used,
         // use the user chosen output file name
       }
@@ -624,7 +624,7 @@ void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -637,7 +637,7 @@ void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
 #endif
   // get input source base name
   string inputSourceBaseName =
-    baseName (gOahOah->fInputSourceName);
+    baseName (globalOahOah->fInputSourceName);
 
   // get input source base name prefix
   string inputSourceBaseNamePrefix;
@@ -659,13 +659,13 @@ void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
     inputSourceBaseNamePrefix + "_LOOP.xml";
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
     gLogOstream <<
       "xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName(): " <<
-      "gOahOah->fInputSourceName: \"" << gOahOah->fInputSourceName << "\"" <<
+      "globalOahOah->fInputSourceName: \"" << globalOahOah->fInputSourceName << "\"" <<
       ", inputSourceBaseName: \"" << inputSourceBaseName << "\"" <<
       ", inputSourceBaseNamePrefix: \"" << inputSourceBaseNamePrefix << "\"" <<
       ", outputFileName: \"" << outputFileName << "\"" <<
@@ -677,7 +677,7 @@ void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
 
 /*
   // use outputFileName
-  gXml2xmlOah->fMusicXMLOutputFileName =
+  globalXml2xmlOah->fMusicXMLOutputFileName =
     outputFileName;
     */
 }
@@ -689,28 +689,28 @@ void xml2xmlInsiderOahHandler::checkOptionsConsistency ()
 void xml2xmlInsiderOahHandler::enforceOahHandlerQuietness ()
 {
 #ifdef TRACE_OAH
-  gGeneralOah->
+  globalGeneralOah->
     enforceQuietness ();
 #endif
 
-  gGeneralOah->
+  globalGeneralOah->
     enforceQuietness ();
 
-  gMxmlTreeOah->
+  globalMxmlTreeOah->
     enforceQuietness ();
 
-  gMsrOah->
+  globalMsrOah->
     enforceQuietness ();
 
-//  gLpsrOah-> // JMI only if pass5 msr2lpsr is run
+//  globalLpsrOah-> // JMI only if pass5 msr2lpsr is run
 //    enforceQuietness ();
 
 #ifdef EXTRA_OAH
-  gExtraOah->
+  globalExtraOah->
     enforceQuietness ();
 #endif
 
-  gXml2xmlOah->
+  globalXml2xmlOah->
     enforceQuietness ();
 }
 
@@ -731,7 +731,7 @@ void xml2xmlOah::checkOptionsConsistency ()
     oahError (s.str ());
   }
 
-  else if (fMusicXMLOutputFileName == gOahOah->fInputSourceName) {
+  else if (fMusicXMLOutputFileName == globalOahOah->fInputSourceName) {
     stringstream s;
 
     s <<
@@ -803,7 +803,7 @@ ostream& operator<< (ostream& os, const S_xml2xmlInsiderOahHandler& elt)
 }
 
 //_______________________________________________________________________________
-S_xml2xmlOah gXml2xmlOah;
+S_xml2xmlOah globalXml2xmlOah;
 
 S_xml2xmlOah xml2xmlOah::create (
   S_oahHandler handlerUpLink)
@@ -1063,7 +1063,7 @@ void xml2xmlOah::printXml2xmlOahValues (int fieldWidth)
 }
 
 //______________________________________________________________________________
-void initializeXml2xmlOah (
+void initializeXml2xmlInsiderOah (
   S_oahHandler handler)
 {
   // protect library against multiple initializations
@@ -1071,7 +1071,7 @@ void initializeXml2xmlOah (
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
       gLogOstream <<
         "Initializing xml2xml options handling" <<
         endl;
@@ -1089,9 +1089,9 @@ void initializeXml2xmlOah (
     // create the options groups
     // ------------------------------------------------------
 
-    gXml2xmlOah = xml2xmlOah::create (
+    globalXml2xmlOah = xml2xmlOah::create (
       handler);
-    assert (gXml2xmlOah != 0);
+    assert (globalXml2xmlOah != 0);
   }
 
   pThisMethodHasBeenRun = true;

@@ -81,7 +81,7 @@ S_oahValuedAtom msr2LpsrScoreOutputKindAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msr2LpsrScoreOutputKindAtom" <<
       endl;
@@ -97,7 +97,7 @@ void msr2LpsrScoreOutputKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'msr2LpsrScoreOutputKindAtom'" <<
       endl;
@@ -108,7 +108,7 @@ void msr2LpsrScoreOutputKindAtom::handleValue (
   // is it in the score output kinds map?
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'msr2LpsrScoreOutputKindAtom'" <<
       endl;
@@ -151,7 +151,7 @@ void msr2LpsrScoreOutputKindAtom::handleValue (
 void msr2LpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrScoreOutputKindAtom::acceptIn ()" <<
       endl;
@@ -164,7 +164,7 @@ void msr2LpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
         S_msr2LpsrScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2LpsrScoreOutputKindAtom::visitStart ()" <<
             endl;
@@ -177,7 +177,7 @@ void msr2LpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
 void msr2LpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrScoreOutputKindAtom::acceptOut ()" <<
       endl;
@@ -190,7 +190,7 @@ void msr2LpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
         S_msr2LpsrScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2LpsrScoreOutputKindAtom::visitEnd ()" <<
             endl;
@@ -203,7 +203,7 @@ void msr2LpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
 void msr2LpsrScoreOutputKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrScoreOutputKindAtom::browseData ()" <<
       endl;
@@ -334,7 +334,7 @@ S_oahValuedAtom msrOmitPartAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msrOmitPartAtom" <<
       endl;
@@ -350,7 +350,7 @@ void msrOmitPartAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'msrOmitPartAtom'" <<
       endl;
@@ -362,7 +362,7 @@ void msrOmitPartAtom::handleValue (
   string partName = theString;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "--> partName = \"" << partName << "\", " <<
       endl;
@@ -393,7 +393,7 @@ void msrOmitPartAtom::handleValue (
 void msrOmitPartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOmitPartAtom::acceptIn ()" <<
       endl;
@@ -406,7 +406,7 @@ void msrOmitPartAtom::acceptIn (basevisitor* v)
         S_msrOmitPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrOmitPartAtom::visitStart ()" <<
             endl;
@@ -419,7 +419,7 @@ void msrOmitPartAtom::acceptIn (basevisitor* v)
 void msrOmitPartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOmitPartAtom::acceptOut ()" <<
       endl;
@@ -432,7 +432,7 @@ void msrOmitPartAtom::acceptOut (basevisitor* v)
         S_msrOmitPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrOmitPartAtom::visitEnd ()" <<
             endl;
@@ -445,7 +445,7 @@ void msrOmitPartAtom::acceptOut (basevisitor* v)
 void msrOmitPartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOmitPartAtom::browseData ()" <<
       endl;
@@ -636,7 +636,7 @@ S_oahValuedAtom msrKeepPartAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msrKeepPartAtom" <<
       endl;
@@ -652,7 +652,7 @@ void msrKeepPartAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'msrKeepPartAtom'" <<
       endl;
@@ -664,7 +664,7 @@ void msrKeepPartAtom::handleValue (
   string partName = theString;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "--> partName = \"" << partName << "\", " <<
       endl;
@@ -695,7 +695,7 @@ void msrKeepPartAtom::handleValue (
 void msrKeepPartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrKeepPartAtom::acceptIn ()" <<
       endl;
@@ -708,7 +708,7 @@ void msrKeepPartAtom::acceptIn (basevisitor* v)
         S_msrKeepPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrKeepPartAtom::visitStart ()" <<
             endl;
@@ -721,7 +721,7 @@ void msrKeepPartAtom::acceptIn (basevisitor* v)
 void msrKeepPartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrKeepPartAtom::acceptOut ()" <<
       endl;
@@ -734,7 +734,7 @@ void msrKeepPartAtom::acceptOut (basevisitor* v)
         S_msrKeepPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrKeepPartAtom::visitEnd ()" <<
             endl;
@@ -747,7 +747,7 @@ void msrKeepPartAtom::acceptOut (basevisitor* v)
 void msrKeepPartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrKeepPartAtom::browseData ()" <<
       endl;
@@ -892,9 +892,9 @@ ostream& operator<< (ostream& os, const S_msrKeepPartAtom& elt)
 
 //_______________________________________________________________________________
 
-S_msr2LpsrOah gMsr2LpsrOah;
-S_msr2LpsrOah gMsr2LpsrOahUserChoices;
-S_msr2LpsrOah gMsr2LpsrOahWithDetailedTrace;
+S_msr2LpsrOah globalMsr2LpsrOah;
+S_msr2LpsrOah globalMsr2LpsrOahUserChoices;
+S_msr2LpsrOah globalMsr2LpsrOahWithDetailedTrace;
 
 S_msr2LpsrOah msr2LpsrOah::create (
   S_oahHandler handlerUpLink)
@@ -916,7 +916,7 @@ R"(These options control the way MSR data is translated to LPSR.)",
 {
 /* JMI
   // sanity check
-  msrAssert (
+  msgAssert (
     handlerUpLink != nullptr,
     "handlerUpLink is null");
 */
@@ -1127,7 +1127,7 @@ void msr2LpsrOah::checkOptionsConsistency ()
 void msr2LpsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrOah::acceptIn ()" <<
       endl;
@@ -1140,7 +1140,7 @@ void msr2LpsrOah::acceptIn (basevisitor* v)
         S_msr2LpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2LpsrOah::visitStart ()" <<
             endl;
@@ -1153,7 +1153,7 @@ void msr2LpsrOah::acceptIn (basevisitor* v)
 void msr2LpsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrOah::acceptOut ()" <<
       endl;
@@ -1166,7 +1166,7 @@ void msr2LpsrOah::acceptOut (basevisitor* v)
         S_msr2LpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2LpsrOah::visitEnd ()" <<
             endl;
@@ -1179,7 +1179,7 @@ void msr2LpsrOah::acceptOut (basevisitor* v)
 void msr2LpsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrOah::browseData ()" <<
       endl;
@@ -1243,7 +1243,7 @@ void initializeMsr2LpsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing MusicXML options handling" <<
       endl;
@@ -1253,19 +1253,19 @@ void initializeMsr2LpsrOahHandling (
   // create the MusicXML options
   // ------------------------------------------------------
 
-  gMsr2LpsrOahUserChoices = msr2LpsrOah::create (
+  globalMsr2LpsrOahUserChoices = msr2LpsrOah::create (
     handler);
-  assert(gMsr2LpsrOahUserChoices != 0);
+  assert(globalMsr2LpsrOahUserChoices != 0);
 
-  gMsr2LpsrOah =
-    gMsr2LpsrOahUserChoices;
+  globalMsr2LpsrOah =
+    globalMsr2LpsrOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
 /* JMI
-  gMsr2LpsrOahWithDetailedTrace =
-    gMsr2LpsrOah->
+  globalMsr2LpsrOahWithDetailedTrace =
+    globalMsr2LpsrOah->
       createCloneWithDetailedTrace ();
       */
 }

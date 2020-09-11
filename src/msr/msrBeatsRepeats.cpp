@@ -45,7 +45,7 @@ msrBeatsRepeatElement::msrBeatsRepeatElement (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatUpLink != nullptr,
     "beatsRepeatUpLink is null");
 
@@ -61,7 +61,7 @@ void msrBeatsRepeatElement::appendSegmentToBeatsRepeatElementsList ( // JMI ???
   string       context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVoices) {
+  if (globalTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending segment '" << segment <<
       "' to beatsRepeat element elements list '" << asString () <<
@@ -72,7 +72,7 @@ void msrBeatsRepeatElement::appendSegmentToBeatsRepeatElementsList ( // JMI ???
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     segment != nullptr,
     "segment is null");
 
@@ -85,7 +85,7 @@ void msrBeatsRepeatElement::appendBeatsRepeatToBeatsRepeatElementsList (
   string               context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVoices) {
+  if (globalTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending beatsRepeat '" << beatsRepeat <<
       "' to beatsRepeat element elements list '" << asString () <<
@@ -96,7 +96,7 @@ void msrBeatsRepeatElement::appendBeatsRepeatToBeatsRepeatElementsList (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeat != nullptr,
     "beatsRepeat is null");
 
@@ -109,7 +109,7 @@ void msrBeatsRepeatElement::appendVoiceElementToBeatsRepeatElementsList (
   string            context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceVoices) {
+  if (globalTraceOah->fTraceVoices) {
     gLogOstream <<
       "Appending voice element '" << voiceElement <<
       "' to beatsRepeat element elements list '" << asString () <<
@@ -120,7 +120,7 @@ void msrBeatsRepeatElement::appendVoiceElementToBeatsRepeatElementsList (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     voiceElement != nullptr,
     "voiceElement is null");
 
@@ -195,7 +195,7 @@ S_msrNote msrBeatsRepeatElement::fetchBeatsRepeatElementFirstNonGraceNote () con
           "'";
 
         msrInternalError (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -210,7 +210,7 @@ S_msrNote msrBeatsRepeatElement::fetchBeatsRepeatElementFirstNonGraceNote () con
 
 void msrBeatsRepeatElement::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeatElement::acceptIn ()" <<
       endl;
@@ -221,7 +221,7 @@ void msrBeatsRepeatElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBeatsRepeatElement>*> (v)) {
         S_msrBeatsRepeatElement elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeatsRepeatElement::visitStart ()" <<
             endl;
@@ -232,7 +232,7 @@ void msrBeatsRepeatElement::acceptIn (basevisitor* v)
 
 void msrBeatsRepeatElement::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeatElement::acceptOut ()" <<
       endl;
@@ -243,7 +243,7 @@ void msrBeatsRepeatElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBeatsRepeatElement>*> (v)) {
         S_msrBeatsRepeatElement elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeatsRepeatElement::visitEnd ()" <<
             endl;
@@ -426,7 +426,7 @@ msrBeatsRepeatPattern::msrBeatsRepeatPattern (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatUpLink != nullptr,
     "beatsRepeatUpLink is null");
 
@@ -440,7 +440,7 @@ void msrBeatsRepeatPattern::setBeatsRepeatPatternSegment (
     S_msrSegment beatsRepeatPatternSegment)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeatsRepeats) {
+  if (globalTraceOah->fTraceBeatsRepeats) {
     gLogOstream <<
       "Setting measures repeat pattern segment containing " <<
       singularOrPlural (
@@ -452,7 +452,7 @@ void msrBeatsRepeatPattern::setBeatsRepeatPatternSegment (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatPatternSegment != nullptr,
     "beatsRepeatPatternSegment is null");
 
@@ -478,7 +478,7 @@ int msrBeatsRepeatPattern::fetchMeasuresNumber () const
 
 void msrBeatsRepeatPattern::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeatPattern::acceptIn ()" <<
       endl;
@@ -489,7 +489,7 @@ void msrBeatsRepeatPattern::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBeatsRepeatPattern>*> (v)) {
         S_msrBeatsRepeatPattern elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeatsRepeatPattern::visitStart ()" <<
             endl;
@@ -500,7 +500,7 @@ void msrBeatsRepeatPattern::acceptIn (basevisitor* v)
 
 void msrBeatsRepeatPattern::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeatPattern::acceptOut ()" <<
       endl;
@@ -511,7 +511,7 @@ void msrBeatsRepeatPattern::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBeatsRepeatPattern>*> (v)) {
         S_msrBeatsRepeatPattern elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeatsRepeatPattern::visitEnd ()" <<
             endl;
@@ -522,7 +522,7 @@ void msrBeatsRepeatPattern::acceptOut (basevisitor* v)
 
 void msrBeatsRepeatPattern::browseData (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeatPattern::browseData ()" <<
       endl;
@@ -611,7 +611,7 @@ msrBeatsRepeatReplicas::msrBeatsRepeatReplicas (
     : msrElement (inputLineNumber)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatUpLink != nullptr,
     "beatsRepeatUpLink is null");
 
@@ -625,7 +625,7 @@ void msrBeatsRepeatReplicas::setBeatsRepeatReplicasSegment (
   S_msrSegment beatsRepeatReplicasSegment)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeatsRepeats) {
+  if (globalTraceOah->fTraceBeatsRepeats) {
     gLogOstream <<
       "Setting measures repeat replicas segment containing " <<
       singularOrPlural (
@@ -637,7 +637,7 @@ void msrBeatsRepeatReplicas::setBeatsRepeatReplicasSegment (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatReplicasSegment != nullptr,
     "beatsRepeatReplicasSegment is null");
 
@@ -663,7 +663,7 @@ int msrBeatsRepeatReplicas::fetchMeasuresNumber () const
 
 void msrBeatsRepeatReplicas::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeatReplicas::acceptIn ()" <<
       endl;
@@ -674,7 +674,7 @@ void msrBeatsRepeatReplicas::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBeatsRepeatReplicas>*> (v)) {
         S_msrBeatsRepeatReplicas elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeatsRepeatReplicas::visitStart ()" <<
             endl;
@@ -685,7 +685,7 @@ void msrBeatsRepeatReplicas::acceptIn (basevisitor* v)
 
 void msrBeatsRepeatReplicas::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeatReplicas::acceptOut ()" <<
       endl;
@@ -696,7 +696,7 @@ void msrBeatsRepeatReplicas::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBeatsRepeatReplicas>*> (v)) {
         S_msrBeatsRepeatReplicas elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeatsRepeatReplicas::visitEnd ()" <<
             endl;
@@ -707,7 +707,7 @@ void msrBeatsRepeatReplicas::acceptOut (basevisitor* v)
 
 void msrBeatsRepeatReplicas::browseData (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeatReplicas::browseData ()" <<
       endl;
@@ -802,14 +802,14 @@ msrBeatsRepeat::msrBeatsRepeat (
     : msrVoiceElement (inputLineNumber)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatMeasuresNumber > 0,
     "beatsRepeatMeasuresNumber is not positive");
 
   fBeatsRepeatMeasuresNumber = beatsRepeatMeasuresNumber;
 
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatSlashesNumber > 0,
     "beatsRepeatSlashesNumber is not positive");
 
@@ -829,7 +829,7 @@ S_msrBeatsRepeat msrBeatsRepeat::createBeatsRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeatsRepeats) {
+  if (globalTraceOah->fTraceBeatsRepeats) {
     gLogOstream <<
       "Creating a newborn clone of measures repeat '" <<
       asString () <<
@@ -839,7 +839,7 @@ S_msrBeatsRepeat msrBeatsRepeat::createBeatsRepeatNewbornClone (
 #endif
 
   // sanity check
-  msrAssert(
+  msgAssert(
     containingVoice != nullptr,
     "containingVoice is null");
 
@@ -858,7 +858,7 @@ void msrBeatsRepeat::setBeatsRepeatPattern (
   S_msrBeatsRepeatPattern beatsRepeatPattern)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeatsRepeats) {
+  if (globalTraceOah->fTraceBeatsRepeats) {
     gLogOstream <<
       "Setting measures repeat pattern containing " <<
       singularOrPlural (
@@ -871,7 +871,7 @@ void msrBeatsRepeat::setBeatsRepeatPattern (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatPattern != nullptr,
     "beatsRepeatPattern is null");
 
@@ -886,7 +886,7 @@ void msrBeatsRepeat::setBeatsRepeatReplicas (
   S_msrBeatsRepeatReplicas beatsRepeatReplicas)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeatsRepeats) {
+  if (globalTraceOah->fTraceBeatsRepeats) {
     gLogOstream <<
       "Setting measures repeat replicas containing " <<
       singularOrPlural (
@@ -899,7 +899,7 @@ void msrBeatsRepeat::setBeatsRepeatReplicas (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     beatsRepeatReplicas != nullptr,
     "beatsRepeatReplicas is null");
 
@@ -916,7 +916,7 @@ int msrBeatsRepeat::fetchBeatsRepeatReplicasNumber () const
     fetchBeatsRepeatPatternMeasuresNumber ();
 
   // sanity check
-  msrAssert (
+  msgAssert (
     patternMeasuresNumber > 0,
     "patternMeasuresNumber is not positive");
 
@@ -929,7 +929,7 @@ int msrBeatsRepeat::fetchBeatsRepeatReplicasNumber () const
 int msrBeatsRepeat::fetchBeatsRepeatPatternMeasuresNumber () const
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     fBeatsRepeatPattern != nullptr,
     "fBeatsRepeatPattern is null");
 
@@ -941,7 +941,7 @@ int msrBeatsRepeat::fetchBeatsRepeatPatternMeasuresNumber () const
 int msrBeatsRepeat::fetchBeatsRepeatReplicasMeasuresNumber () const
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     fBeatsRepeatReplicas != nullptr,
     "fBeatsRepeatReplicas is null");
 
@@ -952,7 +952,7 @@ int msrBeatsRepeat::fetchBeatsRepeatReplicasMeasuresNumber () const
 
 void msrBeatsRepeat::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeat::acceptIn ()" <<
       endl;
@@ -963,7 +963,7 @@ void msrBeatsRepeat::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBeatsRepeat>*> (v)) {
         S_msrBeatsRepeat elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeatsRepeat::visitStart ()" <<
             endl;
@@ -974,7 +974,7 @@ void msrBeatsRepeat::acceptIn (basevisitor* v)
 
 void msrBeatsRepeat::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeat::acceptOut ()" <<
       endl;
@@ -985,7 +985,7 @@ void msrBeatsRepeat::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBeatsRepeat>*> (v)) {
         S_msrBeatsRepeat elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeatsRepeat::visitEnd ()" <<
             endl;
@@ -996,7 +996,7 @@ void msrBeatsRepeat::acceptOut (basevisitor* v)
 
 void msrBeatsRepeat::browseData (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeatsRepeat::browseData ()" <<
       endl;
@@ -1022,7 +1022,7 @@ void msrBeatsRepeat::browseData (basevisitor* v)
 
   if (inhibitBeatsRepeatReplicasBrowsing) {
 #ifdef TRACE_OAH
-    if (gMsrOah->fTraceMsrVisitors || gTraceOah->fTraceBeatsRepeats) {
+    if (globalMsrOah->fTraceMsrVisitors || globalTraceOah->fTraceBeatsRepeats) {
       gLogOstream <<
         "% ==> visiting measures repeat replicas is inhibited" <<
         endl;
@@ -1141,7 +1141,7 @@ void msrBeatsRepeat::print (ostream& os) const
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBeatsRepeats) {
+  if (globalTraceOah->fTraceBeatsRepeats) {
     // print the current measures repeat build phase
     const int fieldWidth = 36;
 

@@ -28,9 +28,9 @@
 
 #include "mxmlTree.h"
 
-#include "msr2MxmltreeInterface.h"
+#include "msr2MxmlTreeInterface.h"
 
-#include "msr2MxmltreeTranslator.h"
+#include "msr2MxmlTreeTranslator.h"
 
 using namespace std;
 
@@ -46,14 +46,14 @@ Sxmlelement buildMxmltreeFromMsrScore (
   timingItem::timingItemKind timingItemKind)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mScore != 0,
     "mScore is null");
 
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -104,7 +104,7 @@ void displayMxmltreeScore ( // unused JMI
   ostream&          logOstream)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mxmlTree != 0,
     "mxmlTree is null");
 

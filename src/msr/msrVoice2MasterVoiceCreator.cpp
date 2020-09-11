@@ -90,7 +90,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrVoice& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoice \"" <<
       elt->asString () << "\"" <<
@@ -125,7 +125,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrVoice& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrVoice \"" <<
       elt->getVoiceName () << "\"" <<
@@ -153,7 +153,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrVoice& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrSegment& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
@@ -179,7 +179,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrSegment& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
@@ -201,7 +201,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrSegment& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrHarmony& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrHarmony '" <<
       elt->asString () <<
@@ -276,7 +276,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrHarmony& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrHarmonyDegree& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_msrHarmonyDegree '" <<
       elt->asString () <<
@@ -298,7 +298,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrHarmonyDegree& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrHarmony& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrHarmony '" <<
       elt->asString () <<
@@ -316,7 +316,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrHarmony& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrFrame& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFrame '" <<
       elt->asString () <<
@@ -337,7 +337,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrFrame& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrFiguredBass& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFiguredBass '" <<
       elt->asString () <<
@@ -389,7 +389,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrFiguredBass& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrFigure& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFigure '" <<
       elt->asString () <<
@@ -408,7 +408,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrFigure& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrFiguredBass& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrFiguredBass '" <<
       elt->asString () <<
@@ -437,7 +437,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasure& elt)
       elt->getMeasurePuristNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasure '" <<
       measureNumber <<
@@ -449,7 +449,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasure& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasures) {
+  if (globalTraceOah->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<
@@ -472,7 +472,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasure& elt)
     // yes
 
     // should we compress full measures rests?
-    if (gLpsr2LilypondOah->fCompressFullMeasureRests) {
+    if (globalLpsr2LilypondOah->fCompressFullMeasureRests) {
       // yes
 
       if (! fCurrentRestMeasure) {
@@ -553,7 +553,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
       elt->getMeasurePuristNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
       measureNumber <<
@@ -589,7 +589,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -645,7 +645,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
     // no
 
     // should we compress full measures rests?
-    if (gLpsr2LilypondOah->fCompressFullMeasureRests) {
+    if (globalLpsr2LilypondOah->fCompressFullMeasureRests) {
       // yes
 
       if (fCurrentRestMeasures) {
@@ -673,7 +673,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
           "', line " << inputLineNumber;
 
         msrInternalError (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -716,7 +716,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrKey& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrKey" <<
       ", line " << elt->getInputLineNumber () <<
@@ -731,7 +731,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrKey& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrKey& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrKey" <<
       ", line " << elt->getInputLineNumber () <<
@@ -744,7 +744,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrKey& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrTime& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTime" <<
       ", line " << elt->getInputLineNumber () <<
@@ -760,7 +760,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrTime& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrTime& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTime" <<
       ", line " << elt->getInputLineNumber () <<
@@ -773,7 +773,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTime& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrTempo& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTempo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -788,7 +788,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrTempo& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrTempo& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTempo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -801,7 +801,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTempo& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrRehearsal& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
@@ -816,7 +816,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRehearsal& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrRehearsal& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
@@ -829,7 +829,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRehearsal& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrFermata& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFermata" <<
       ", line " << elt->getInputLineNumber () <<
@@ -853,7 +853,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrFermata& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrSlash& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSlash" <<
       ", line " << elt->getInputLineNumber () <<
@@ -876,7 +876,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrSlash& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrNote& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrNote '" <<
       elt->asString () <<
@@ -908,7 +908,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrNote& elt)
           fCurrentNonGraceNoteClone;
 
 #ifdef TRACE_OAH
-        if (gTraceOah->fTraceNotes || gTraceOah->fTraceVoices) {
+        if (globalTraceOah->fTraceNotes || globalTraceOah->fTraceVoices) {
           fLogOutputStream <<
             "The first note of voice clone RJIRWR '" <<
             fMasterVoice->getVoiceName () <<
@@ -931,7 +931,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrNote& elt)
     elt->getNoteTrillOrnament ()) {
     // yes, create the after grace notes
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceNotesGroup) {
+    if (globalTraceOah->fTraceNotesGroup) {
       fLogOutputStream <<
         "Optimizing grace notes on trilled note '" <<
         elt->asShortString () <<
@@ -961,7 +961,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrNote " <<
       elt->asString () <<
@@ -971,7 +971,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesDetails) {
+  if (globalTraceOah->fTraceNotesDetails) {
     fLogOutputStream <<
       "FAA fCurrentNonGraceNoteClone = " <<
       endl;
@@ -994,7 +994,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 
     case msrNote::kRestNote:
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
+      if (globalTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending rest note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -1010,7 +1010,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 
     case msrNote::kSkipNote: // JMI
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
+      if (globalTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending skip note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -1026,7 +1026,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 
     case msrNote::kUnpitchedNote:
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
+      if (globalTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending unpitched note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -1042,7 +1042,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 
     case msrNote::kRegularNote:
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
+      if (globalTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending regular note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -1080,7 +1080,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1106,7 +1106,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1118,7 +1118,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletUnpitchedMemberNote:
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceNotes) {
+      if (globalTraceOah->fTraceNotes) {
         fLogOutputStream <<
           "Appending note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "'' to voice clone " <<
@@ -1144,7 +1144,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrChord& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrChord" <<
       ", line " << inputLineNumber <<
@@ -1191,7 +1191,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1219,7 +1219,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrChord& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrChord& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrChord" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1234,7 +1234,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrChord& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrTuplet& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTuplet" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1249,7 +1249,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrTuplet& elt)
 
   // register it in this visitor
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets) {
+  if (globalTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tupletClone->asString () <<
@@ -1264,7 +1264,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrTuplet& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrTuplet& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTuplet" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1273,7 +1273,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTuplet& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTuplets) {
+  if (globalTraceOah->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet '" <<
       elt->asString () <<
@@ -1287,7 +1287,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTuplet& elt)
   if (fTupletClonesStack.size ()) {
     // tuplet is a nested tuplet
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceTuplets) {
+    if (globalTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "Adding nested tuplet '" <<
       elt->asString () <<
@@ -1306,7 +1306,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTuplet& elt)
     // tuplet is a top level tuplet
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceTuplets) {
+    if (globalTraceOah->fTraceTuplets) {
       fLogOutputStream <<
         "Adding top level tuplet '" <<
       elt->asString () <<
@@ -1325,7 +1325,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTuplet& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrSegno& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSegno" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1340,7 +1340,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrSegno& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrCoda& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrCoda" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1356,7 +1356,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrCoda& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrScordatura& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting scordatura" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1372,7 +1372,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrScordatura& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrBarCheck& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarCheck" <<
       ", nextBarNumber: " <<
@@ -1389,7 +1389,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrBarCheck& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrBarCheck& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1402,7 +1402,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrBarCheck& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrBarNumberCheck& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarNumberCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1417,7 +1417,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrBarNumberCheck& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrBarNumberCheck& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarNumberCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1430,7 +1430,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrBarNumberCheck& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrLineBreak& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1445,7 +1445,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrLineBreak& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrLineBreak& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1458,7 +1458,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrLineBreak& elt)
 void msrVoice2MasterVoiceCreator::visitStart (S_msrPageBreak& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1473,7 +1473,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrPageBreak& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrPageBreak& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1489,7 +1489,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRepeat& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeat" <<
       ", line " << inputLineNumber <<
@@ -1498,7 +1498,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRepeat& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (globalTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1519,7 +1519,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRepeat& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeat" <<
       ", line " << inputLineNumber <<
@@ -1528,7 +1528,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRepeat& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (globalTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat end in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1551,7 +1551,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRepeatCommonPart& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeatCommonPart" <<
       ", line " << inputLineNumber <<
@@ -1570,7 +1570,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRepeatCommonPart& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeatCommonPart" <<
       ", line " << inputLineNumber <<
@@ -1590,7 +1590,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRepeatEnding& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeatEnding" <<
       ", line " << inputLineNumber <<
@@ -1600,7 +1600,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRepeatEnding& elt)
 
   // handle the repeat ending start in the voice clone
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (globalTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1622,7 +1622,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRepeatEnding& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeatEnding" <<
       ", line " << inputLineNumber <<
@@ -1632,7 +1632,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRepeatEnding& elt)
 
   // handle the repeat ending end in the voice clone
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRepeats) {
+  if (globalTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending end in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1655,7 +1655,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRestMeasures& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRestMeasures" <<
       ", line " << inputLineNumber <<
@@ -1666,7 +1666,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRestMeasures& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRestMeasures) {
+  if (globalTraceOah->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1687,7 +1687,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRestMeasures& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRestMeasures" <<
       ", line " << inputLineNumber <<
@@ -1698,7 +1698,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRestMeasures& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRestMeasures) {
+  if (globalTraceOah->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1719,7 +1719,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRestMeasuresContents& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRestMeasuresContents" <<
       ", line " << inputLineNumber <<
@@ -1730,7 +1730,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRestMeasuresContents& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRestMeasures) {
+  if (globalTraceOah->fTraceRestMeasures) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1749,7 +1749,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRestMeasuresContents& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRestMeasuresContents" <<
       ", line " << inputLineNumber <<
@@ -1760,7 +1760,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRestMeasuresContents& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceRestMeasures) {
+  if (globalTraceOah->fTraceRestMeasures) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1780,7 +1780,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeat& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeat" <<
       ", line " << inputLineNumber <<
@@ -1791,7 +1791,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeat& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresRepeats) {
+  if (globalTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1812,7 +1812,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeat& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasuresRepeat" <<
       ", line " << inputLineNumber <<
@@ -1825,7 +1825,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeat& elt)
 /* JMI
   // set last segment as the measures repeat pattern segment
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresRepeats) {
+  if (globalTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measures repeat pattern segment in voice \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1836,7 +1836,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeat& elt)
 */
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresRepeats) {
+  if (globalTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat end in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1857,7 +1857,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeatPattern& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeatPattern" <<
       ", line " << inputLineNumber <<
@@ -1868,7 +1868,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeatPattern& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresRepeats) {
+  if (globalTraceOah->fTraceMeasuresRepeats) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1887,7 +1887,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeatPattern& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasuresRepeatPattern" <<
       ", line " << inputLineNumber <<
@@ -1898,7 +1898,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresRepeats) {
+  if (globalTraceOah->fTraceMeasuresRepeats) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1918,7 +1918,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeatReplicas& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeatReplicas" <<
       ", line " << inputLineNumber <<
@@ -1929,7 +1929,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresRepeats) {
+  if (globalTraceOah->fTraceMeasuresRepeats) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1948,7 +1948,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting S_msrMeasuresRepeatReplicas" <<
       ", line " << inputLineNumber <<
@@ -1960,7 +1960,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceMeasuresRepeats) {
+  if (globalTraceOah->fTraceMeasuresRepeats) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1982,7 +1982,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarline" <<
       ", line " << inputLineNumber <<
@@ -1991,7 +1991,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceBarlines) {
+  if (globalTraceOah->fTraceBarlines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (
@@ -2010,7 +2010,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrBarline& elt)
 void msrVoice2MasterVoiceCreator::visitEnd (S_msrBarline& elt)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarline" <<
       ", line " << elt->getInputLineNumber () <<

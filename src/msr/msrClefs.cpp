@@ -90,7 +90,7 @@ bool msrClef::isEqualTo (S_msrClef otherClef) const
 
 void msrClef::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrClef::acceptIn ()" <<
       endl;
@@ -101,7 +101,7 @@ void msrClef::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrClef::visitStart ()" <<
             endl;
@@ -112,7 +112,7 @@ void msrClef::acceptIn (basevisitor* v)
 
 void msrClef::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrClef::acceptOut ()" <<
       endl;
@@ -123,7 +123,7 @@ void msrClef::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrClef::visitEnd ()" <<
             endl;

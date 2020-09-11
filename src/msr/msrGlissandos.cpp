@@ -66,7 +66,7 @@ msrGlissando::~msrGlissando ()
 S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceGlissandos) {
+  if (globalTraceOah->fTraceGlissandos) {
     gLogOstream <<
       "Creating a newborn clone of glissando '" <<
       asString () <<
@@ -109,7 +109,7 @@ string msrGlissando::glissandoTypeKindAsString (
 
 void msrGlissando::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrGlissando::acceptIn ()" <<
       endl;
@@ -120,7 +120,7 @@ void msrGlissando::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrGlissando>*> (v)) {
         S_msrGlissando elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrGlissando::visitStart ()" <<
             endl;
@@ -131,7 +131,7 @@ void msrGlissando::acceptIn (basevisitor* v)
 
 void msrGlissando::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrGlissando::acceptOut ()" <<
       endl;
@@ -142,7 +142,7 @@ void msrGlissando::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrGlissando>*> (v)) {
         S_msrGlissando elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrGlissando::visitEnd ()" <<
             endl;

@@ -286,7 +286,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void browse (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (gOahOah->fTraceOahVisitors) {
+      if (globalOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> browse()" <<
@@ -309,7 +309,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void enter (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (gOahOah->fTraceOahVisitors) {
+      if (globalOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> enter()" <<
@@ -323,7 +323,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void leave (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (gOahOah->fTraceOahVisitors) {
+      if (globalOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> leave()" <<

@@ -20,20 +20,32 @@ using namespace std;
 namespace MusicXML2
 {
 
-EXP float   	musicxmllibVersion()     	  { return versions::libVersion(); }
+EXP float   	  musicxmllibVersion()     	  { return versions::libVersion(); }
 EXP const char* musicxmllibVersionStr()       { return versions::libVersionStr(); }
 
-EXP float   	musicxml2guidoVersion()       { return versions::xml2guidoVersion(); }
+EXP float   	  musicxml2guidoVersion()       { return versions::xml2guidoVersion(); }
 EXP const char* musicxml2guidoVersionStr()    { return versions::xml2guidoVersionStr(); }
 
-EXP float   	musicxml2musicxmlVersion()      { return versions::xml2brailleVersion(); }
+EXP float   	  musicxml2musicxmlVersion()      { return versions::xml2brailleVersion(); }
 EXP const char* musicxml2musicxmlVersionStr()   { return versions::xml2brailleVersionStr(); }
 
-EXP float   	musicxml2lilypondVersion()    { return versions::xml2lilypondVersion(); }
+EXP float   	  musicxml2lilypondVersion()    { return versions::xml2lilypondVersion(); }
 EXP const char* musicxml2lilypondVersionStr() { return versions::xml2lilypondVersionStr(); }
 
-EXP float   	musicxml2brailleVersion()     { return versions::xml2brailleVersion(); }
+EXP float     	musicxml2brailleVersion()     { return versions::xml2brailleVersion(); }
 EXP const char* musicxml2brailleVersionStr()  { return versions::xml2brailleVersionStr(); }
+
+EXP float     	bmml2lilypondVersion()     { return versions::bmml2lilypondVersion(); }
+EXP const char* bmml2lilypondVersionStr()  { return versions::bmml2lilypondVersionStr(); }
+
+EXP float     	bmml2bmmlVersion()     { return versions::bmml2bmmlVersion(); }
+EXP const char* bmml2bmmlVersionStr()  { return versions::bmml2bmmlVersionStr(); }
+
+EXP float     	mei2lilypondVersion()     { return versions::mei2lilypondVersion(); }
+EXP const char* mei2lilypondVersionStr()  { return versions::mei2lilypondVersionStr(); }
+
+EXP float     	mei2meiVersion()     { return versions::mei2meiVersion(); }
+EXP const char* mei2meiVersionStr()  { return versions::mei2meiVersionStr(); }
 
 
 //------------------------------------------------------------------------

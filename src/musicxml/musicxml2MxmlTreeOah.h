@@ -116,9 +116,9 @@ class musicxml2MxmlTreeOah : public oahGroup
 typedef SMARTP<musicxml2MxmlTreeOah> S_musicxml2MxmlTreeOah;
 EXP ostream& operator<< (ostream& os, const S_musicxml2MxmlTreeOah& elt);
 
-EXP extern S_musicxml2MxmlTreeOah gMusicxml2MxmlTreeOah;
-EXP extern S_musicxml2MxmlTreeOah gMusicxml2MxmlTreeOahUserChoices;
-EXP extern S_musicxml2MxmlTreeOah gMusicxml2MxmlTreeOahWithDetailedTrace;
+EXP extern S_musicxml2MxmlTreeOah globalMusicxml2MxmlTreeOah;
+EXP extern S_musicxml2MxmlTreeOah globalMusicxml2MxmlTreeOahUserChoices;
+EXP extern S_musicxml2MxmlTreeOah globalMusicxml2MxmlTreeOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMusicxml2MxmlTreeOahHandling (

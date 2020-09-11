@@ -44,7 +44,7 @@ bsrElement::~bsrElement ()
 void bsrElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrElement::acceptIn ()" <<
       endl;
@@ -57,7 +57,7 @@ void bsrElement::acceptIn (basevisitor* v)
         S_bsrElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrElement::visitStart ()" <<
             endl;
@@ -70,7 +70,7 @@ void bsrElement::acceptIn (basevisitor* v)
 void bsrElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrElement::acceptOut ()" <<
       endl;
@@ -83,7 +83,7 @@ void bsrElement::acceptOut (basevisitor* v)
         S_bsrElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrElement::visitEnd ()" <<
             endl;

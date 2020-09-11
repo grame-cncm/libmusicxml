@@ -40,7 +40,7 @@ string mxmlElementAsString (Sxmlelement elem)
   stringstream s;
 
   s <<
-    "mxmlelement " <<
+    "mxmlElement " <<
     ", elemType: " << elemType <<
     ", elemName: " << elemName <<
     ", elemAttributes.size ():" << elemAttributes.size ();

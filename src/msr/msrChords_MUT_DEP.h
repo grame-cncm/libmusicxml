@@ -178,11 +178,6 @@ class msrChord : public msrTupletElement
                               { return fChordTies; }
 
     // slurs
-                              /*
-    const list<S_msrSlur>&
-                          getChordSlurs () const
-                              { return fChordSlurs; }
-*/
     const list<S_msrChordSlurLink>&
                           getChordSlurLinks () const
                               { return fChordSlurLinks; }
@@ -526,7 +521,6 @@ class msrChord : public msrTupletElement
     list<S_msrTie>        fChordTies;
 
     // slurs
-//    list<S_msrSlur>       fChordSlurs;
     list<S_msrChordSlurLink>
                           fChordSlurLinks;
 

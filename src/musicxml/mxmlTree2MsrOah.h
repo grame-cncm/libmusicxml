@@ -18,9 +18,6 @@
 #include "oahBasicTypes.h"
 
 
-//#include "msrBasicTypes.h"
-
-
 namespace MusicXML2
 {
 
@@ -453,9 +450,9 @@ class mxmlTree2MsrOah : public oahGroup
 typedef SMARTP<mxmlTree2MsrOah> S_mxmlTree2MsrOah;
 EXP ostream& operator<< (ostream& os, const S_mxmlTree2MsrOah& elt);
 
-EXP extern S_mxmlTree2MsrOah gMxmlTree2MsrOah;
-EXP extern S_mxmlTree2MsrOah gMxmlTree2MsrOahUserChoices;
-EXP extern S_mxmlTree2MsrOah gMxmlTree2MsrOahWithDetailedTrace;
+EXP extern S_mxmlTree2MsrOah globalMxmlTree2MsrOah;
+EXP extern S_mxmlTree2MsrOah globalMxmlTree2MsrOahUserChoices;
+EXP extern S_mxmlTree2MsrOah globalMxmlTree2MsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMxmlTree2MsrOahHandling (

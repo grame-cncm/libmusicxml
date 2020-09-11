@@ -32,9 +32,9 @@ namespace MusicXML2
 {
 //_______________________________________________________________________________
 
-S_lilypondOah gLilypondOah;
-S_lilypondOah gLilypondOahUserChoices;
-S_lilypondOah gLilypondOahWithDetailedTrace;
+S_lilypondOah globalLilypondOah;
+S_lilypondOah globalLilypondOahUserChoices;
+S_lilypondOah globalLilypondOahWithDetailedTrace;
 
 S_lilypondOah lilypondOah::create (
   S_oahHandler handlerUpLink)
@@ -56,7 +56,7 @@ R"(These options control the way LilyPond data is handled.)",
 {
 /* JMI
   // sanity check
-  msrAssert (
+  msgAssert (
     handlerUpLink != nullptr,
     "handlerUpLink is null");
 */
@@ -128,7 +128,7 @@ void lilypondOah::checkOptionsConsistency ()
 void lilypondOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondOah::acceptIn ()" <<
       endl;
@@ -141,7 +141,7 @@ void lilypondOah::acceptIn (basevisitor* v)
         S_lilypondOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondOah::visitStart ()" <<
             endl;
@@ -154,7 +154,7 @@ void lilypondOah::acceptIn (basevisitor* v)
 void lilypondOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondOah::acceptOut ()" <<
       endl;
@@ -167,7 +167,7 @@ void lilypondOah::acceptOut (basevisitor* v)
         S_lilypondOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondOah::visitEnd ()" <<
             endl;
@@ -180,7 +180,7 @@ void lilypondOah::acceptOut (basevisitor* v)
 void lilypondOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondOah::browseData ()" <<
       endl;
@@ -211,7 +211,7 @@ void initializeLilypondOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing lilypondOah options handling" <<
       endl;
@@ -221,19 +221,19 @@ void initializeLilypondOahHandling (
   // create the lilypondOah options
   // ------------------------------------------------------
 
-  gLilypondOahUserChoices = lilypondOah::create (
+  globalLilypondOahUserChoices = lilypondOah::create (
     handler);
-  assert(gLilypondOahUserChoices != 0);
+  assert(globalLilypondOahUserChoices != 0);
 
-  gLilypondOah =
-    gLilypondOahUserChoices;
+  globalLilypondOah =
+    globalLilypondOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
 /* JMI
-  gLilypondOahWithDetailedTrace =
-    gLilypondOah->
+  globalLilypondOahWithDetailedTrace =
+    globalLilypondOah->
       createCloneWithDetailedTrace ();
       */
 }

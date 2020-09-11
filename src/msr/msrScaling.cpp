@@ -79,11 +79,11 @@ float msrScaling::fetchGlobalStaffSize () const
 {
   const float
     optionsGlobalStaffSize =
-      gLpsrOah->fGlobalStaffSize;
+      globalLpsrOah->fGlobalStaffSize;
 
   const bool
     staffGlobalSizeHasBeenSet =
-      gLpsrOah->fStaffGlobalSizeHasBeenSet;
+      globalLpsrOah->fStaffGlobalSizeHasBeenSet;
 
   float result = 0.0;
 
@@ -105,9 +105,9 @@ float msrScaling::fetchGlobalStaffSize () const
 #ifdef TRACE_OAH
     const float
       optionsStaffGlobalSizeDefaultValue =
-        gLpsrOah->fStaffGlobalSizeDefaultValue;
+        globalLpsrOah->fStaffGlobalSizeDefaultValue;
 
-    if (gTraceOah->fTraceGeometry) {
+    if (globalTraceOah->fTraceGeometry) {
       gLogOstream <<
         "fetchGlobalStaffSize():" <<
         endl;
@@ -159,7 +159,7 @@ float msrScaling::fetchGlobalStaffSize () const
 
     if (result < 1.0 || result > 100.0) {
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceGeometry) {
+      if (globalTraceOah->fTraceGeometry) {
         stringstream s;
 
         s <<
@@ -168,7 +168,7 @@ float msrScaling::fetchGlobalStaffSize () const
           endl;
 
         msrMusicXMLWarning (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           fInputLineNumber,
           s.str ());
       }
@@ -183,7 +183,7 @@ float msrScaling::fetchGlobalStaffSize () const
 
 void msrScaling::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScaling::acceptIn ()" <<
       endl;
@@ -194,7 +194,7 @@ void msrScaling::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrScaling>*> (v)) {
         S_msrScaling elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrScaling::visitStart ()" <<
             endl;
@@ -205,7 +205,7 @@ void msrScaling::acceptIn (basevisitor* v)
 
 void msrScaling::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrScaling::acceptOut ()" <<
       endl;
@@ -216,7 +216,7 @@ void msrScaling::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrScaling>*> (v)) {
         S_msrScaling elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrScaling::visitEnd ()" <<
             endl;

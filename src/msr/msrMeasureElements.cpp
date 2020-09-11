@@ -51,7 +51,7 @@ void msrMeasureElement::setMeasureElementSoundingWholeNotes (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures || gTraceOah->fTraceMeasures) {
+  if (globalTraceOah->fTracePositionsInMeasures || globalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting measure element sounding whole notes of " <<
       asString () <<
@@ -66,7 +66,7 @@ void msrMeasureElement::setMeasureElementSoundingWholeNotes (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     wholeNotes != K_NO_WHOLE_NOTES,
     "wholeNotes == K_NO_WHOLE_NOTES");
 
@@ -78,7 +78,7 @@ void msrMeasureElement::setMeasureElementPositionInMeasure (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures) {
+  if (globalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in measure of " <<
       asString () <<
@@ -97,7 +97,7 @@ void msrMeasureElement::setMeasureElementPositionInMeasure (
   if (positionInMeasure == K_NO_POSITION) abort();
 
   // sanity check
-  msrAssert (
+  msgAssert (
     positionInMeasure != K_NO_POSITION,
     "positionInMeasure == K_NO_POSITION");
 */
@@ -110,7 +110,7 @@ void msrMeasureElement::setMeasureElementPositionInVoice (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures) {
+  if (globalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in voice of " <<
       asString () <<
@@ -125,7 +125,7 @@ void msrMeasureElement::setMeasureElementPositionInVoice (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     positionInVoice != K_NO_POSITION,
     "positionInVoice == K_NO_POSITION");
 
@@ -147,7 +147,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
   string    context)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures) {
+  if (globalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Assigning measure element position in voice of " <<
       asString () <<
@@ -162,13 +162,13 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
 #endif
 
   // sanity check
-  msrAssert (
+  msgAssert (
     positionInVoice != K_NO_POSITION,
     "positionInVoice == K_NO_POSITION");
 
   // set measure element position in voice
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures) {
+  if (globalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in voice of " <<
       asString () <<
@@ -190,7 +190,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
   positionInVoice.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTracePositionsInMeasures) {
+  if (globalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Position in voice becomes " <<
       positionInVoice <<
@@ -205,7 +205,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
 void msrMeasureElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasureElement::acceptIn ()" <<
       endl;
@@ -218,7 +218,7 @@ void msrMeasureElement::acceptIn (basevisitor* v)
         S_msrMeasureElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasureElement::visitStart ()" <<
             endl;
@@ -231,7 +231,7 @@ void msrMeasureElement::acceptIn (basevisitor* v)
 void msrMeasureElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasureElement::acceptOut ()" <<
       endl;
@@ -244,7 +244,7 @@ void msrMeasureElement::acceptOut (basevisitor* v)
         S_msrMeasureElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasureElement::visitEnd ()" <<
             endl;

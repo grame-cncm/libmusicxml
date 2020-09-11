@@ -49,7 +49,7 @@ void displayMsrScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOah->fQuiet) {
+    if (! globalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -57,7 +57,7 @@ void displayMsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -77,7 +77,7 @@ void displayMsrScoreShort_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGeneralOah->fQuiet) {
+    if (! globalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -85,7 +85,7 @@ void displayMsrScoreShort_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -102,19 +102,19 @@ void populateMsrSkeletonFromMxmlTree (
   string      passNumber)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mxmlTree != 0,
     "mxmlTree is null");
 
   // sanity check
-  msrAssert (
+  msgAssert (
     scoreSkeleton != 0,
     "scoreSkeleton is null");
 
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -123,7 +123,7 @@ void populateMsrSkeletonFromMxmlTree (
       separator <<
       endl <<
       gTab <<
-      passNumber << ": translating the xmlelement tree into a MSR" <<
+      passNumber << ": translating the mxmlElement tree into a MSR" <<
       endl;
 
     logOstream <<
@@ -160,7 +160,7 @@ void displayMSRPopulatedScore (
   ostream&   logOstream)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mScore != 0,
     "mScore is null");
 
@@ -198,7 +198,7 @@ void displayMSRPopulatedScoreShort (
   ostream&   logOstream)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mScore != 0,
     "mScore is null");
 
@@ -238,14 +238,14 @@ void displayMSRPopulatedScoreSummary (
   ostream&   logOstream)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mScore != 0,
     "mScore is null");
 
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -289,14 +289,14 @@ void displayMSRPopulatedScoreNames (
   ostream&   logOstream)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mScore != 0,
     "mScore is null");
 
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

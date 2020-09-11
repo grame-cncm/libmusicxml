@@ -52,7 +52,7 @@ msrTimeItem::msrTimeItem (
   fTimeBeatValue = -1;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
@@ -100,7 +100,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending beat number '" <<
       beatsNumber <<
@@ -119,7 +119,7 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
 void msrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Setting beat value to '" <<
       timeBeatValue <<
@@ -147,7 +147,7 @@ int msrTimeItem::getTimeBeatsNumber () const
 
 void msrTimeItem::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTimeItem::acceptIn ()" <<
       endl;
@@ -158,7 +158,7 @@ void msrTimeItem::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTimeItem::visitStart ()" <<
             endl;
@@ -169,7 +169,7 @@ void msrTimeItem::acceptIn (basevisitor* v)
 
 void msrTimeItem::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTimeItem::acceptOut ()" <<
       endl;
@@ -180,7 +180,7 @@ void msrTimeItem::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTimeItem::visitEnd ()" <<
             endl;
@@ -206,7 +206,7 @@ string msrTimeItem::asString () const
     case 0:
     /* JMI
       msrInternalError (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
@@ -347,7 +347,7 @@ void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Append item '" <<
       timeItem->asString () <<
@@ -431,7 +431,7 @@ rational msrTime::wholeNotesPerMeasure () const
 
   else {
     msrInternalError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "time items vector is empty");
@@ -446,7 +446,7 @@ rational msrTime::wholeNotesPerMeasure () const
 
 void msrTime::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTime::acceptIn ()" <<
       endl;
@@ -457,7 +457,7 @@ void msrTime::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTime::visitStart ()" <<
             endl;
@@ -468,7 +468,7 @@ void msrTime::acceptIn (basevisitor* v)
 
 void msrTime::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTime::acceptOut ()" <<
       endl;
@@ -479,7 +479,7 @@ void msrTime::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTime::visitEnd ()" <<
             endl;
@@ -616,7 +616,7 @@ string msrTime::asString () const
   else {
     if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time  items vector is empty");

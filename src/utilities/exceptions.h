@@ -101,11 +101,18 @@ class msrMusicXMLException: public msrException
     {}
 };
 
-//______________________________________________________________________________
 class mxmlTreeToMsrException: public msrException
 {
   public:
     mxmlTreeToMsrException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class msrScoreToMusicXMLScoreException : public msrException
+{
+  public:
+    msrScoreToMusicXMLScoreException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };
@@ -144,7 +151,6 @@ class lpsrMusicXMLException: public msrException
     {}
 };
 
-//______________________________________________________________________________
 class msrScoreToLpsrScoreException: public msrException
 {
   public:
@@ -153,38 +159,10 @@ class msrScoreToLpsrScoreException: public msrException
     {}
 };
 
-//______________________________________________________________________________
 class lpsrScoreToLilypondException : public msrException
 {
   public:
     lpsrScoreToLilypondException (string const& exceptionDescription) throw ()
-      : msrException (exceptionDescription)
-    {}
-};
-
-//______________________________________________________________________________
-class msrScoreToMusicXMLScoreException : public msrException
-{
-  public:
-    msrScoreToMusicXMLScoreException (string const& exceptionDescription) throw ()
-      : msrException (exceptionDescription)
-    {}
-};
-
-//______________________________________________________________________________
-class msrScoreToBMMLScoreException : public msrException
-{
-  public:
-    msrScoreToBMMLScoreException (string const& exceptionDescription) throw ()
-      : msrException (exceptionDescription)
-    {}
-};
-
-//______________________________________________________________________________
-class msrScoreToMEIScoreException : public msrException
-{
-  public:
-    msrScoreToMEIScoreException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };
@@ -198,7 +176,6 @@ class msrScoreToBsrScoreException: public msrException
     {}
 };
 
-//______________________________________________________________________________
 class bsrInternalException: public msrException
 {
   public:
@@ -207,11 +184,18 @@ class bsrInternalException: public msrException
     {}
 };
 
-//______________________________________________________________________________
 class bsrScoreToFinalizedBsrScoreException : public msrException
 {
   public:
     bsrScoreToFinalizedBsrScoreException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class bsrScoreToBrailleTextException : public msrException
+{
+  public:
+    bsrScoreToBrailleTextException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };
@@ -226,10 +210,83 @@ class musicXMLFile2mxmlTreeException : public msrException
 };
 
 //______________________________________________________________________________
-class bsrScoreToBrailleTextException : public msrException
+class bmmlException : public msrException
 {
   public:
-    bsrScoreToBrailleTextException (string const& exceptionDescription) throw ()
+    bmmlException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class bmmlInternalException: public msrException
+{
+  public:
+    bmmlInternalException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class bmmlFile2bmmlTreeException : public msrException
+{
+  public:
+    bmmlFile2bmmlTreeException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class bmmlTreeToMsrException : public msrException
+{
+  public:
+    bmmlTreeToMsrException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class msrScoreToBmmlScoreException : public msrException
+{
+  public:
+    msrScoreToBmmlScoreException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+//______________________________________________________________________________
+class meiException : public msrException
+{
+  public:
+    meiException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class meiInternalException: public msrException
+{
+  public:
+    meiInternalException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class meiFile2meiTreeException : public msrException
+{
+  public:
+    meiFile2meiTreeException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class meiTreeToMsrException : public msrException
+{
+  public:
+    meiTreeToMsrException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class msrScoreToMeiScoreException : public msrException
+{
+  public:
+    msrScoreToMeiScoreException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };

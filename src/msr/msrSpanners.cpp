@@ -68,7 +68,7 @@ void msrSpanner::setSpannerOtherEndSideLink (
   S_msrSpanner otherEndSideLink)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     otherEndSideLink != nullptr,
     "otherEndSideLink is null");
 
@@ -82,7 +82,7 @@ void msrSpanner::setSpannerOtherEndSideLink (
 
 void msrSpanner::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSpanner::acceptIn ()" <<
       endl;
@@ -93,7 +93,7 @@ void msrSpanner::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSpanner>*> (v)) {
         S_msrSpanner elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSpanner::visitStart ()" <<
             endl;
@@ -104,7 +104,7 @@ void msrSpanner::acceptIn (basevisitor* v)
 
 void msrSpanner::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSpanner::acceptOut ()" <<
       endl;
@@ -115,7 +115,7 @@ void msrSpanner::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSpanner>*> (v)) {
         S_msrSpanner elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSpanner::visitEnd ()" <<
             endl;

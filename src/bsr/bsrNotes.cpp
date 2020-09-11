@@ -833,7 +833,7 @@ int bsrNote::fetchCellsNumber() const
 void bsrNote::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrNote::acceptIn ()" <<
       endl;
@@ -846,7 +846,7 @@ void bsrNote::acceptIn (basevisitor* v)
         S_bsrNote elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrNote::visitStart ()" <<
             endl;
@@ -859,7 +859,7 @@ void bsrNote::acceptIn (basevisitor* v)
 void bsrNote::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrNote::acceptOut ()" <<
       endl;
@@ -872,7 +872,7 @@ void bsrNote::acceptOut (basevisitor* v)
         S_bsrNote elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrNote::visitEnd ()" <<
             endl;

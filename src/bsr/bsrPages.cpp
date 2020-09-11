@@ -50,7 +50,7 @@ bsrPage::bsrPage (
   fLinesPerPage = linesPerPage;
 
 #ifdef TRACE_OAH
-  if (gBsrOah->fTracePages) {
+  if (globalBsrOah->fTracePages) {
     gLogOstream <<
       "Creating bsrPage '" <<
       asString () <<
@@ -67,7 +67,7 @@ bsrPage::~bsrPage ()
 S_bsrPage bsrPage::createPageNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTracePages) {
+  if (globalBsrOah->fTracePages) {
     gLogOstream <<
       "Creating a newborn clone of page " <<
       asString () <<
@@ -107,7 +107,7 @@ int bsrPage::fetchLineContentsNumber () const
 void bsrPage::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPage::acceptIn ()" <<
       endl;
@@ -120,7 +120,7 @@ void bsrPage::acceptIn (basevisitor* v)
         S_bsrPage elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPage::visitStart ()" <<
             endl;
@@ -133,7 +133,7 @@ void bsrPage::acceptIn (basevisitor* v)
 void bsrPage::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPage::acceptOut ()" <<
       endl;
@@ -146,7 +146,7 @@ void bsrPage::acceptOut (basevisitor* v)
         S_bsrPage elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPage::visitEnd ()" <<
             endl;
@@ -214,7 +214,7 @@ void bsrPage::print (ostream& os) const
   // print the page elements if any
   int pageElementsListSize = fPageElementsList.size ();
 
-  if (pageElementsListSize || gBsrOah->fDisplayBsrDetails) {
+  if (pageElementsListSize || globalBsrOah->fDisplayBsrDetails) {
     os <<
 //      setw (fieldWidth) <<
       "PageElementsList" <<

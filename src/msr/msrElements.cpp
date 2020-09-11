@@ -38,7 +38,7 @@ msrElement::~msrElement ()
 
 void msrElement::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrElement::msrElement ()" <<
       endl;
@@ -49,7 +49,7 @@ void msrElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrElement::visitStart ()" <<
             endl;
@@ -60,7 +60,7 @@ void msrElement::acceptIn (basevisitor* v)
 
 void msrElement::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrElement::acceptOut ()" <<
       endl;
@@ -71,7 +71,7 @@ void msrElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrElement::visitEnd ()" <<
             endl;

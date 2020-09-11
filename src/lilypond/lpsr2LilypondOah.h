@@ -1240,9 +1240,9 @@ class lpsr2LilypondOah : public oahGroup
 typedef SMARTP<lpsr2LilypondOah> S_lpsr2LilypondOah;
 EXP ostream& operator<< (ostream& os, const S_lpsr2LilypondOah& elt);
 
-EXP extern S_lpsr2LilypondOah gLpsr2LilypondOah;
-EXP extern S_lpsr2LilypondOah gLpsr2LilypondOahUserChoices;
-EXP extern S_lpsr2LilypondOah gLpsr2LilypondOahWithDetailedTrace;
+EXP extern S_lpsr2LilypondOah globalLpsr2LilypondOah;
+EXP extern S_lpsr2LilypondOah globalLpsr2LilypondOahUserChoices;
+EXP extern S_lpsr2LilypondOah globalLpsr2LilypondOahWithDetailedTrace;
 
 // JMI typedef void (lpsr2LilypondOah::*lpsr2LilypondOahMethodPtr)(); //MyTypedef is a type!
 

@@ -205,7 +205,7 @@ class xml2lyOah : public oahGroup
 typedef SMARTP<xml2lyOah> S_xml2lyOah;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOah& elt);
 
-EXP extern S_xml2lyOah gXml2lyOah;
+EXP extern S_xml2lyOah globalXml2lyOah;
 
 //______________________________________________________________________________
 void initializeXml2lyOah (

@@ -61,7 +61,7 @@ msrRehearsal::~msrRehearsal ()
 
 void msrRehearsal::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRehearsal::acceptIn ()" <<
       endl;
@@ -72,7 +72,7 @@ void msrRehearsal::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRehearsal::visitStart ()" <<
             endl;
@@ -83,7 +83,7 @@ void msrRehearsal::acceptIn (basevisitor* v)
 
 void msrRehearsal::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRehearsal::acceptOut ()" <<
       endl;
@@ -94,7 +94,7 @@ void msrRehearsal::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRehearsal::visitEnd ()" <<
             endl;

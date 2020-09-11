@@ -97,7 +97,7 @@ void bsrFacSimileKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'bsrFacSimileKindAtom'" <<
       endl;
@@ -109,7 +109,7 @@ void bsrFacSimileKindAtom::handleValue (
 void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrFacSimileKindAtom::acceptIn ()" <<
       endl;
@@ -122,7 +122,7 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
         S_bsrFacSimileKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrFacSimileKindAtom::visitStart ()" <<
             endl;
@@ -135,7 +135,7 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrFacSimileKindAtom::acceptOut ()" <<
       endl;
@@ -148,7 +148,7 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
         S_bsrFacSimileKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrFacSimileKindAtom::visitEnd ()" <<
             endl;
@@ -161,7 +161,7 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 void bsrFacSimileKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrFacSimileKindAtom::browseData ()" <<
       endl;
@@ -292,7 +292,7 @@ void bsrTextsLanguageAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'bsrTextsLanguageAtom'" <<
       endl;
@@ -304,7 +304,7 @@ void bsrTextsLanguageAtom::handleValue (
 void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrTextsLanguageAtom::acceptIn ()" <<
       endl;
@@ -317,7 +317,7 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
         S_bsrTextsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrTextsLanguageAtom::visitStart ()" <<
             endl;
@@ -330,7 +330,7 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrTextsLanguageAtom::acceptOut ()" <<
       endl;
@@ -343,7 +343,7 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
         S_bsrTextsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrTextsLanguageAtom::visitEnd ()" <<
             endl;
@@ -356,7 +356,7 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 void bsrTextsLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrTextsLanguageAtom::browseData ()" <<
       endl;
@@ -439,9 +439,9 @@ ostream& operator<< (ostream& os, const S_bsrTextsLanguageAtom& elt)
 }
 
 //_______________________________________________________________________________
-S_bsrOah gBsrOah;
-S_bsrOah gBsrOahUserChoices;
-S_bsrOah gBsrOahWithDetailedTrace;
+S_bsrOah globalBsrOah;
+S_bsrOah globalBsrOahUserChoices;
+S_bsrOah globalBsrOahWithDetailedTrace;
 
 S_bsrOah bsrOah::create (
   S_oahHandler handlerUpLink)
@@ -786,7 +786,7 @@ void bsrOah::checkOptionsConsistency ()
 void bsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrOah::acceptIn ()" <<
       endl;
@@ -799,7 +799,7 @@ void bsrOah::acceptIn (basevisitor* v)
         S_bsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrOah::visitStart ()" <<
             endl;
@@ -812,7 +812,7 @@ void bsrOah::acceptIn (basevisitor* v)
 void bsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrOah::acceptOut ()" <<
       endl;
@@ -825,7 +825,7 @@ void bsrOah::acceptOut (basevisitor* v)
         S_bsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrOah::visitEnd ()" <<
             endl;
@@ -838,7 +838,7 @@ void bsrOah::acceptOut (basevisitor* v)
 void bsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrOah::browseData ()" <<
       endl;
@@ -928,7 +928,7 @@ void initializeBsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing BSR bsr handling" <<
       endl;
@@ -942,18 +942,18 @@ void initializeBsrOahHandling (
     // create the bsr variables
     // ------------------------------------------------------
 
-    gBsrOahUserChoices = bsrOah::create (
+    globalBsrOahUserChoices = bsrOah::create (
       handler);
-    assert(gBsrOahUserChoices != 0);
+    assert(globalBsrOahUserChoices != 0);
 
-    gBsrOah =
-      gBsrOahUserChoices;
+    globalBsrOah =
+      globalBsrOahUserChoices;
 
     // prepare for measure detailed trace
     // ------------------------------------------------------
   /* JMI
-    gBsrOahWithDetailedTrace =
-      gBsrOah->
+    globalBsrOahWithDetailedTrace =
+      globalBsrOah->
         createCloneWithDetailedTrace ();
         */
 

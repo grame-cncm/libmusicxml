@@ -52,10 +52,10 @@ lpsrPaper::lpsrPaper (
 {
 /* JMI
   // sanity checks
-  msrAssert (
+  msgAssert (
     scaling != nullptr,
     "scaling is null");
-  msrAssert (
+  msgAssert (
     pageLayout != nullptr,
     "pageLayout is null");
 */
@@ -117,7 +117,7 @@ lpsrPaper::~lpsrPaper ()
 void lpsrPaper::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPaper::acceptIn ()" <<
       endl;
@@ -130,7 +130,7 @@ void lpsrPaper::acceptIn (basevisitor* v)
         S_lpsrPaper elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPaper::visitStart ()" <<
             endl;
@@ -143,7 +143,7 @@ void lpsrPaper::acceptIn (basevisitor* v)
 void lpsrPaper::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPaper::acceptOut ()" <<
       endl;
@@ -156,7 +156,7 @@ void lpsrPaper::acceptOut (basevisitor* v)
         S_lpsrPaper elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPaper::visitEnd ()" <<
             endl;
@@ -169,7 +169,7 @@ void lpsrPaper::acceptOut (basevisitor* v)
 void lpsrPaper::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPaper::browseData ()" <<
       endl;
@@ -189,7 +189,7 @@ void lpsrPaper::browseData (basevisitor* v)
   }
 
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrPaper::browseData ()" <<
       endl;

@@ -46,14 +46,14 @@ S_msrScore buildMsrSkeletonFromElementsTree (
   string      passNumber)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mxmlTree != 0,
     "mxmlTree is null");
 
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -62,7 +62,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
       separator <<
       endl <<
       gTab <<
-      "Pass 2a: translating the xmlelement tree into an MSR skeleton" <<
+      "Pass 2a: translating the mxmlElement tree into an MSR skeleton" <<
       endl;
 
     logOstream <<
@@ -116,7 +116,7 @@ void displayMsrSkeleton (
   string     passNumber)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mScore != 0,
     "mScore is null");
 
@@ -156,14 +156,14 @@ void displayMsrSkeletonSummary (
   ostream&   logOstream)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mScore != 0,
     "mScore is null");
 
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -208,13 +208,13 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
   S_msrScore
     mScore =
       buildMsrSkeletonFromElementsTree (
-        gMsrOah,
+        globalMsrOah,
         mxmlTree,
         gLogOstream,
         passNumber);
 
   if (gIndenter != 0) {
-    if (! gGeneralOah->fQuiet) {
+    if (! globalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -222,7 +222,7 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }

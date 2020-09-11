@@ -53,7 +53,7 @@ bsrClef::bsrClef (
   fClefCellsList = buildCellsList ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceClefs) {
+  if (globalTraceOah->fTraceClefs) {
     gLogOstream <<
       "Creating bsrClef '" <<
       asString () <<
@@ -157,7 +157,7 @@ int bsrClef::fetchCellsNumber() const
 void bsrClef::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrClef::acceptIn ()" <<
       endl;
@@ -170,7 +170,7 @@ void bsrClef::acceptIn (basevisitor* v)
         S_bsrClef elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrClef::visitStart ()" <<
             endl;
@@ -183,7 +183,7 @@ void bsrClef::acceptIn (basevisitor* v)
 void bsrClef::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrClef::acceptOut ()" <<
       endl;
@@ -196,7 +196,7 @@ void bsrClef::acceptOut (basevisitor* v)
         S_bsrClef elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrClef::visitEnd ()" <<
             endl;

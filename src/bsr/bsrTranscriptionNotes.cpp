@@ -61,7 +61,7 @@ S_bsrCellsList bsrTranscriptionNotesElement::buildCellsList () const
 void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptIn ()" <<
       endl;
@@ -74,7 +74,7 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
         S_bsrTranscriptionNotesElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitStart ()" <<
             endl;
@@ -87,7 +87,7 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptOut ()" <<
       endl;
@@ -100,7 +100,7 @@ void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
         S_bsrTranscriptionNotesElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitEnd ()" <<
             endl;
@@ -165,7 +165,7 @@ bsrTranscriptionNotes::bsrTranscriptionNotes (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gBsr2BrailleOah->fCellsPerLine)
+        globalBsr2BrailleOah->fCellsPerLine)
 {}
 
 bsrTranscriptionNotes::~bsrTranscriptionNotes ()
@@ -174,7 +174,7 @@ bsrTranscriptionNotes::~bsrTranscriptionNotes ()
 void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTranscriptionNotes::acceptIn ()" <<
       endl;
@@ -187,7 +187,7 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
         S_bsrTranscriptionNotes elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitStart ()" <<
             endl;
@@ -200,7 +200,7 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 void bsrTranscriptionNotes::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTranscriptionNotes::acceptOut ()" <<
       endl;
@@ -213,7 +213,7 @@ void bsrTranscriptionNotes::acceptOut (basevisitor* v)
         S_bsrTranscriptionNotes elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitEnd ()" <<
             endl;
@@ -249,7 +249,7 @@ void bsrTranscriptionNotes::print (ostream& os) const
 
   int transcriptionNotesElementsListSize = fTranscriptionNotesElementsList.size ();
 
-  if (transcriptionNotesElementsListSize || gBsrOah->fDisplayBsrDetails) {
+  if (transcriptionNotesElementsListSize || globalBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "transcriptionNotesElementsList" << " : " <<

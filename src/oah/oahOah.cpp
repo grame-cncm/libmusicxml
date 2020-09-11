@@ -80,7 +80,7 @@ S_oahValuedAtom oahOptionalValuesStyleKindAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a oahOptionalValuesStyleKindAtom" <<
       endl;
@@ -96,7 +96,7 @@ void oahOptionalValuesStyleKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
       endl;
@@ -107,7 +107,7 @@ void oahOptionalValuesStyleKindAtom::handleValue (
   // is it in the optional values style kinds map?
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
       endl;
@@ -149,7 +149,7 @@ void oahOptionalValuesStyleKindAtom::handleValue (
 void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::acceptIn ()" <<
       endl;
@@ -162,7 +162,7 @@ void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
         S_oahOptionalValuesStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOptionalValuesStyleKindAtom::visitStart ()" <<
             endl;
@@ -175,7 +175,7 @@ void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
 void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::acceptOut ()" <<
       endl;
@@ -188,7 +188,7 @@ void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
         S_oahOptionalValuesStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOptionalValuesStyleKindAtom::visitEnd ()" <<
             endl;
@@ -201,7 +201,7 @@ void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
 void oahOptionalValuesStyleKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::browseData ()" <<
       endl;
@@ -266,8 +266,8 @@ ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt)
 }
 
 //_______________________________________________________________________________
-S_oahOah gOahOah;
-S_oahOah gOahOahUserChoices;
+S_oahOah globalOahOah;
+S_oahOah globalOahOahUserChoices;
 
 S_oahOah oahOah::create (
   string       executableName,
@@ -587,7 +587,7 @@ void oahOah::checkOptionsConsistency ()
 void oahOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOah::acceptIn ()" <<
       endl;
@@ -600,7 +600,7 @@ void oahOah::acceptIn (basevisitor* v)
         S_oahOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOah::visitStart ()" <<
             endl;
@@ -613,7 +613,7 @@ void oahOah::acceptIn (basevisitor* v)
 void oahOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOah::acceptOut ()" <<
       endl;
@@ -626,7 +626,7 @@ void oahOah::acceptOut (basevisitor* v)
         S_oahOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOah::visitEnd ()" <<
             endl;
@@ -639,7 +639,7 @@ void oahOah::acceptOut (basevisitor* v)
 void oahOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOah::browseData ()" <<
       endl;
@@ -740,13 +740,13 @@ void initializeOahOahHandling (
     // create the options variables
     // ------------------------------------------------------
 
-    gOahOahUserChoices = oahOah::create (
+    globalOahOahUserChoices = oahOah::create (
       executableName,
       handler);
-    assert(gOahOahUserChoices != 0);
+    assert(globalOahOahUserChoices != 0);
 
-    gOahOah =
-      gOahOahUserChoices;
+    globalOahOah =
+      globalOahOahUserChoices;
 
     pThisMethodHasBeenRun = true;
   }

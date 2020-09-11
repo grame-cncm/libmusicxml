@@ -83,7 +83,7 @@ S_oahValuedAtom msrDalSegnoAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msrDalSegnoAtom" <<
       endl;
@@ -99,7 +99,7 @@ void msrDalSegnoAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'msrDalSegnoAtom'" <<
       endl;
@@ -109,7 +109,7 @@ void msrDalSegnoAtom::handleValue (
   // theString contains the dal segno specification
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'msrDalSegnoAtom'" <<
       endl;
@@ -117,7 +117,7 @@ void msrDalSegnoAtom::handleValue (
 #endif
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -148,7 +148,7 @@ void msrDalSegnoAtom::handleValue (
 void msrDalSegnoAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrDalSegnoAtom::acceptIn ()" <<
       endl;
@@ -161,7 +161,7 @@ void msrDalSegnoAtom::acceptIn (basevisitor* v)
         S_msrDalSegnoAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrDalSegnoAtom::visitStart ()" <<
             endl;
@@ -174,7 +174,7 @@ void msrDalSegnoAtom::acceptIn (basevisitor* v)
 void msrDalSegnoAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrDalSegnoAtom::acceptOut ()" <<
       endl;
@@ -187,7 +187,7 @@ void msrDalSegnoAtom::acceptOut (basevisitor* v)
         S_msrDalSegnoAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrDalSegnoAtom::visitEnd ()" <<
             endl;
@@ -200,7 +200,7 @@ void msrDalSegnoAtom::acceptOut (basevisitor* v)
 void msrDalSegnoAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrDalSegnoAtom::browseData ()" <<
       endl;
@@ -392,7 +392,7 @@ S_oahValuedAtom msrReplaceClefAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msrReplaceClefAtom" <<
       endl;
@@ -408,7 +408,7 @@ void msrReplaceClefAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'msrReplaceClefAtom'" <<
       endl;
@@ -419,7 +419,7 @@ void msrReplaceClefAtom::handleValue (
   // decipher it to extract the old and new clef names
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -442,7 +442,7 @@ void msrReplaceClefAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "There are " << smSize << " matches" <<
       " for part transpose string '" << theString <<
@@ -454,7 +454,7 @@ void msrReplaceClefAtom::handleValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah) {
+    if (globalTraceOah->fTraceOah) {
       for (unsigned i = 0; i < smSize; ++i) {
         os <<
           "[" << sm [i] << "] ";
@@ -479,7 +479,7 @@ void msrReplaceClefAtom::handleValue (
     destinationClefhName = sm [2];
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "--> originalClefhName = \"" << originalClefhName << "\", " <<
       "--> destinationClefhName = \"" << destinationClefhName << "\"" <<
@@ -519,7 +519,7 @@ void msrReplaceClefAtom::handleValue (
 void msrReplaceClefAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrReplaceClefAtom::acceptIn ()" <<
       endl;
@@ -532,7 +532,7 @@ void msrReplaceClefAtom::acceptIn (basevisitor* v)
         S_msrReplaceClefAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrReplaceClefAtom::visitStart ()" <<
             endl;
@@ -545,7 +545,7 @@ void msrReplaceClefAtom::acceptIn (basevisitor* v)
 void msrReplaceClefAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrReplaceClefAtom::acceptOut ()" <<
       endl;
@@ -558,7 +558,7 @@ void msrReplaceClefAtom::acceptOut (basevisitor* v)
         S_msrReplaceClefAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrReplaceClefAtom::visitEnd ()" <<
             endl;
@@ -571,7 +571,7 @@ void msrReplaceClefAtom::acceptOut (basevisitor* v)
 void msrReplaceClefAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrReplaceClefAtom::browseData ()" <<
       endl;
@@ -715,9 +715,9 @@ ostream& operator<< (ostream& os, const S_msrReplaceClefAtom& elt)
 
 //_______________________________________________________________________________
 
-S_mxmlTree2MsrOah gMxmlTree2MsrOah;
-S_mxmlTree2MsrOah gMxmlTree2MsrOahUserChoices;
-S_mxmlTree2MsrOah gMxmlTree2MsrOahWithDetailedTrace;
+S_mxmlTree2MsrOah globalMxmlTree2MsrOah;
+S_mxmlTree2MsrOah globalMxmlTree2MsrOahUserChoices;
+S_mxmlTree2MsrOah globalMxmlTree2MsrOahWithDetailedTrace;
 
 S_mxmlTree2MsrOah mxmlTree2MsrOah::create (
   S_oahHandler handlerUpLink)
@@ -739,7 +739,7 @@ R"(These options control the way xmlelement trees are translated to MSR.)",
 {
 /* JMI
   // sanity check
-  msrAssert (
+  msgAssert (
     handlerUpLink != nullptr,
     "handlerUpLink is null");
 */
@@ -781,7 +781,7 @@ R"()",
         fetchPrefixNameInPrefixesMap (
           "t");
 
-  msrAssert (
+  msgAssert (
     shortTracePrefix != nullptr,
     "shortTracePrefix is null");
 
@@ -793,7 +793,7 @@ R"()",
         fetchPrefixNameInPrefixesMap (
           "trace");
 
-  msrAssert (
+  msgAssert (
     longTracePrefix != nullptr,
     "longTracePrefix is null");
 
@@ -1865,7 +1865,7 @@ void mxmlTree2MsrOah::enforceQuietness ()
 void mxmlTree2MsrOah::checkOptionsConsistency ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     gLogOstream <<
       "Checking the consistency of mxmlTree2MsrOah group \"" <<
       fGroupHeader <<
@@ -1907,7 +1907,7 @@ void mxmlTree2MsrOah::checkOptionsConsistency ()
 void mxmlTree2MsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> mxmlTree2MsrOah::acceptIn ()" <<
       endl;
@@ -1920,7 +1920,7 @@ void mxmlTree2MsrOah::acceptIn (basevisitor* v)
         S_mxmlTree2MsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching mxmlTree2MsrOah::visitStart ()" <<
             endl;
@@ -1933,7 +1933,7 @@ void mxmlTree2MsrOah::acceptIn (basevisitor* v)
 void mxmlTree2MsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> mxmlTree2MsrOah::acceptOut ()" <<
       endl;
@@ -1946,7 +1946,7 @@ void mxmlTree2MsrOah::acceptOut (basevisitor* v)
         S_mxmlTree2MsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching mxmlTree2MsrOah::visitEnd ()" <<
             endl;
@@ -1959,7 +1959,7 @@ void mxmlTree2MsrOah::acceptOut (basevisitor* v)
 void mxmlTree2MsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> mxmlTree2MsrOah::browseData ()" <<
       endl;
@@ -2418,7 +2418,7 @@ void initializeMxmlTree2MsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing MusicXML options handling" <<
       endl;
@@ -2428,19 +2428,19 @@ void initializeMxmlTree2MsrOahHandling (
   // create the MusicXML options
   // ------------------------------------------------------
 
-  gMxmlTree2MsrOahUserChoices = mxmlTree2MsrOah::create (
+  globalMxmlTree2MsrOahUserChoices = mxmlTree2MsrOah::create (
     handler);
-  assert(gMxmlTree2MsrOahUserChoices != 0);
+  assert(globalMxmlTree2MsrOahUserChoices != 0);
 
-  gMxmlTree2MsrOah =
-    gMxmlTree2MsrOahUserChoices;
+  globalMxmlTree2MsrOah =
+    globalMxmlTree2MsrOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
 /* JMI
-  gMxmlTree2MsrOahWithDetailedTrace =
-    gMxmlTree2MsrOah->
+  globalMxmlTree2MsrOahWithDetailedTrace =
+    globalMxmlTree2MsrOah->
       createCloneWithDetailedTrace ();
       */
 }

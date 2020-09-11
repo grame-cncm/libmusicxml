@@ -41,14 +41,14 @@ S_msrVoice buildMsrMasterFromMsrVoice (
   ostream&         logOstream)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     mVoice != 0,
     "mVoice is null");
 
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->getTracePasses ()) {
+  if (globalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -101,7 +101,7 @@ void displayMsrMasterVoice (
   ostream&         logOstream)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     masterVoice != 0,
     "masterVoice is null");
 

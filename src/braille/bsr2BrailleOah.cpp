@@ -79,7 +79,7 @@ S_oahValuedAtom brailleOutputKindAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a brailleOutputKindAtom" <<
       endl;
@@ -95,7 +95,7 @@ void brailleOutputKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'brailleOutputKindAtom'" <<
       endl;
@@ -140,7 +140,7 @@ void brailleOutputKindAtom::handleValue (
 void brailleOutputKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleOutputKindAtom::acceptIn ()" <<
       endl;
@@ -153,7 +153,7 @@ void brailleOutputKindAtom::acceptIn (basevisitor* v)
         S_brailleOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching brailleOutputKindAtom::visitStart ()" <<
             endl;
@@ -166,7 +166,7 @@ void brailleOutputKindAtom::acceptIn (basevisitor* v)
 void brailleOutputKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleOutputKindAtom::acceptOut ()" <<
       endl;
@@ -179,7 +179,7 @@ void brailleOutputKindAtom::acceptOut (basevisitor* v)
         S_brailleOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching brailleOutputKindAtom::visitEnd ()" <<
             endl;
@@ -192,7 +192,7 @@ void brailleOutputKindAtom::acceptOut (basevisitor* v)
 void brailleOutputKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleOutputKindAtom::browseData ()" <<
       endl;
@@ -321,7 +321,7 @@ void brailleUTFKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'brailleUTFKindAtom'" <<
       endl;
@@ -356,7 +356,7 @@ void brailleUTFKindAtom::handleValue (
 void brailleUTFKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleUTFKindAtom::acceptIn ()" <<
       endl;
@@ -369,7 +369,7 @@ void brailleUTFKindAtom::acceptIn (basevisitor* v)
         S_brailleUTFKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching brailleUTFKindAtom::visitStart ()" <<
             endl;
@@ -382,7 +382,7 @@ void brailleUTFKindAtom::acceptIn (basevisitor* v)
 void brailleUTFKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleUTFKindAtom::acceptOut ()" <<
       endl;
@@ -395,7 +395,7 @@ void brailleUTFKindAtom::acceptOut (basevisitor* v)
         S_brailleUTFKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching brailleUTFKindAtom::visitEnd ()" <<
             endl;
@@ -408,7 +408,7 @@ void brailleUTFKindAtom::acceptOut (basevisitor* v)
 void brailleUTFKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleUTFKindAtom::browseData ()" <<
       endl;
@@ -537,7 +537,7 @@ void brailleByteOrderingKindAtom::handleValue (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah) {
+  if (globalTraceOah->fTraceOah) {
     os <<
       "==> oahAtom is of type 'brailleByteOrderingKindAtom'" <<
       endl;
@@ -572,7 +572,7 @@ void brailleByteOrderingKindAtom::handleValue (
 void brailleByteOrderingKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleByteOrderingKindAtom::acceptIn ()" <<
       endl;
@@ -585,7 +585,7 @@ void brailleByteOrderingKindAtom::acceptIn (basevisitor* v)
         S_brailleByteOrderingKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching brailleByteOrderingKindAtom::visitStart ()" <<
             endl;
@@ -598,7 +598,7 @@ void brailleByteOrderingKindAtom::acceptIn (basevisitor* v)
 void brailleByteOrderingKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleByteOrderingKindAtom::acceptOut ()" <<
       endl;
@@ -611,7 +611,7 @@ void brailleByteOrderingKindAtom::acceptOut (basevisitor* v)
         S_brailleByteOrderingKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching brailleByteOrderingKindAtom::visitEnd ()" <<
             endl;
@@ -624,7 +624,7 @@ void brailleByteOrderingKindAtom::acceptOut (basevisitor* v)
 void brailleByteOrderingKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleByteOrderingKindAtom::browseData ()" <<
       endl;
@@ -709,9 +709,9 @@ ostream& operator<< (ostream& os, const S_brailleByteOrderingKindAtom& elt)
 
 //_______________________________________________________________________________
 
-S_bsr2BrailleOah gBsr2BrailleOah;
-S_bsr2BrailleOah gBsr2BrailleOahUserChoices;
-S_bsr2BrailleOah gBsr2BrailleOahWithDetailedTrace;
+S_bsr2BrailleOah globalBsr2BrailleOah;
+S_bsr2BrailleOah globalBsr2BrailleOahUserChoices;
+S_bsr2BrailleOah globalBsr2BrailleOahWithDetailedTrace;
 
 S_bsr2BrailleOah bsr2BrailleOah::create (
   S_oahHandler handlerUpLink)
@@ -733,7 +733,7 @@ R"(These options control the way BSR data is translated to braille music.)",
 {
 /* JMI
   // sanity check
-  msrAssert (
+  msgAssert (
     handlerUpLink != nullptr,
     "handlerUpLink is null");
 */
@@ -1053,7 +1053,7 @@ void bsr2BrailleOah::checkOptionsConsistency ()
 void bsr2BrailleOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsr2BrailleOah::acceptIn ()" <<
       endl;
@@ -1066,7 +1066,7 @@ void bsr2BrailleOah::acceptIn (basevisitor* v)
         S_bsr2BrailleOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsr2BrailleOah::visitStart ()" <<
             endl;
@@ -1079,7 +1079,7 @@ void bsr2BrailleOah::acceptIn (basevisitor* v)
 void bsr2BrailleOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsr2BrailleOah::acceptOut ()" <<
       endl;
@@ -1092,7 +1092,7 @@ void bsr2BrailleOah::acceptOut (basevisitor* v)
         S_bsr2BrailleOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsr2BrailleOah::visitEnd ()" <<
             endl;
@@ -1105,7 +1105,7 @@ void bsr2BrailleOah::acceptOut (basevisitor* v)
 void bsr2BrailleOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsr2BrailleOah::browseData ()" <<
       endl;
@@ -1178,7 +1178,7 @@ void initializeBsr2BrailleOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing Bsr2Braille options handling" <<
       endl;
@@ -1192,19 +1192,19 @@ void initializeBsr2BrailleOahHandling (
     // create the Bsr2Braille options
     // ------------------------------------------------------
 
-    gBsr2BrailleOahUserChoices = bsr2BrailleOah::create (
+    globalBsr2BrailleOahUserChoices = bsr2BrailleOah::create (
       handler);
-    assert(gBsr2BrailleOahUserChoices != 0);
+    assert(globalBsr2BrailleOahUserChoices != 0);
 
-    gBsr2BrailleOah =
-      gBsr2BrailleOahUserChoices;
+    globalBsr2BrailleOah =
+      globalBsr2BrailleOahUserChoices;
 
     // prepare for measure detailed trace
     // ------------------------------------------------------
 
   /* JMI
-    gBsr2BrailleOahWithDetailedTrace =
-      gBsr2BrailleOah->
+    globalBsr2BrailleOahWithDetailedTrace =
+      globalBsr2BrailleOah->
         createCloneWithDetailedTrace ();
         */
 

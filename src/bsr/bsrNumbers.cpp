@@ -153,7 +153,7 @@ int bsrNumber::fetchCellsNumber() const
 void bsrNumber::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrNumber::acceptIn ()" <<
       endl;
@@ -166,7 +166,7 @@ void bsrNumber::acceptIn (basevisitor* v)
         S_bsrNumber elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrNumber::visitStart ()" <<
             endl;
@@ -179,7 +179,7 @@ void bsrNumber::acceptIn (basevisitor* v)
 void bsrNumber::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrNumber::acceptOut ()" <<
       endl;
@@ -192,7 +192,7 @@ void bsrNumber::acceptOut (basevisitor* v)
         S_bsrNumber elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrNumber::visitEnd ()" <<
             endl;

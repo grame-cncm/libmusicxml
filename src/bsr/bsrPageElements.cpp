@@ -65,7 +65,7 @@ S_bsrLine bsrPageElement::getBsrLineUpLink () const
 void bsrPageElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPageElement::acceptIn ()" <<
       endl;
@@ -78,7 +78,7 @@ void bsrPageElement::acceptIn (basevisitor* v)
         S_bsrPageElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPageElement::visitStart ()" <<
             endl;
@@ -91,7 +91,7 @@ void bsrPageElement::acceptIn (basevisitor* v)
 void bsrPageElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPageElement::acceptOut ()" <<
       endl;
@@ -104,7 +104,7 @@ void bsrPageElement::acceptOut (basevisitor* v)
         S_bsrPageElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPageElement::visitEnd ()" <<
             endl;

@@ -231,6 +231,144 @@ EXP xmlErr      musicxmlfd2braille(FILE *fd, const optionsVector& options, std::
 EXP xmlErr      musicxmlstring2braille(const char *bufferer, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 //_______________________________________________________________________________
+/*!
+  \brief Gives the LilyPond converter version number.
+  \return a version number as a float value
+*/
+EXP float       bmml2lilypondVersion();
+/*!
+  \brief Gives the LilyPond converter version as a string.
+  \return a string
+*/
+EXP const char*   bmml2lilypondVersionStr();
+
+/*!
+  \brief Gives the BMML converter version number.
+  \return a version number as a float value
+*/
+EXP float       musicxml2bmmlVersion();
+/*!
+  \brief Gives the BMML converter version as a string.
+  \return a string
+*/
+EXP const char*   musicxml2bmmlVersionStr();
+
+/*!
+  \brief Converts a MusicXML representation to the BMML music format.
+  \param file a file name
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfile2bmml(const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
+
+/*!
+  \brief Converts a MusicXML representation to the BMML music format.
+  \param fd a file descriptor
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfd2bmml(FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err);
+
+/*!
+  \brief Converts a MusicXML representation to the BMML music format.
+  \param buffer a string containing MusicXML code
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlstring2bmml(const char *bufferer, const optionsVector& options, std::ostream& out, std::ostream& err);
+
+/*!
+  \brief Gives the BMML to BMML converter version number.
+  \return a version number as a float value
+*/
+EXP float       bmml2lilypondVersion();
+/*!
+  \brief Gives the BMML to BMML converter version as a string.
+  \return a string
+*/
+EXP const char*   bmml2lilypondVersionStr();
+
+/*!
+  \brief Gives the BMML to BMML converter version number.
+  \return a version number as a float value
+*/
+EXP float       bmml2bmmlVersion();
+/*!
+  \brief Gives the BMML to BMML converter version as a string.
+  \return a string
+*/
+EXP const char*   bmml2bmmlVersionStr();
+
+//_______________________________________________________________________________
+/*!
+  \brief Gives the LilyPond converter version number.
+  \return a version number as a float value
+*/
+EXP float       mei2lilypondVersion();
+/*!
+  \brief Gives the LilyPond converter version as a string.
+  \return a string
+*/
+EXP const char*   mei2lilypondVersionStr();
+
+/*!
+  \brief Gives the MEI converter version number.
+  \return a version number as a float value
+*/
+EXP float       musicxml2meiVersion();
+/*!
+  \brief Gives the MEI converter version as a string.
+  \return a string
+*/
+EXP const char*   musicxml2meiVersionStr();
+
+/*!
+  \brief Converts a MusicXML representation to the MEI music format.
+  \param file a file name
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfile2mei(const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
+
+/*!
+  \brief Converts a MusicXML representation to the MEI music format.
+  \param fd a file descriptor
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlfd2mei(FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err);
+
+/*!
+  \brief Converts a MusicXML representation to the MEI music format.
+  \param buffer a string containing MusicXML code
+  \param out the output stream
+  \return an error code (\c kNoErr when success)
+*/
+EXP xmlErr      musicxmlstring2mei(const char *bufferer, const optionsVector& options, std::ostream& out, std::ostream& err);
+
+/*!
+  \brief Gives the MEI to MEI converter version number.
+  \return a version number as a float value
+*/
+EXP float       mei2lilypondVersion();
+/*!
+  \brief Gives the MEI to MEI converter version as a string.
+  \return a string
+*/
+EXP const char*   mei2lilypondVersionStr();
+
+/*!
+  \brief Gives the MEI to MEI converter version number.
+  \return a version number as a float value
+*/
+EXP float       mei2meiVersion();
+/*!
+  \brief Gives the MEI to MEI converter version as a string.
+  \return a string
+*/
+EXP const char*   mei2meiVersionStr();
+
+//_______________________________________________________________________________
 
 /*! @} */
 

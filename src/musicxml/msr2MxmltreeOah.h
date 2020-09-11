@@ -127,9 +127,9 @@ class msr2MxmltreeOah : public oahGroup
 typedef SMARTP<msr2MxmltreeOah> S_msr2MxmltreeOah;
 EXP ostream& operator<< (ostream& os, const S_msr2MxmltreeOah& elt);
 
-EXP extern S_msr2MxmltreeOah gMsr2MxmltreeOah;
-EXP extern S_msr2MxmltreeOah gMsr2MxmltreeOahUserChoices;
-EXP extern S_msr2MxmltreeOah gMsr2MxmltreeOahWithDetailedTrace;
+EXP extern S_msr2MxmltreeOah globalMsr2MxmltreeOah;
+EXP extern S_msr2MxmltreeOah globalMsr2MxmltreeOahUserChoices;
+EXP extern S_msr2MxmltreeOah globalMsr2MxmltreeOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMsr2MxmltreeOahHandling (

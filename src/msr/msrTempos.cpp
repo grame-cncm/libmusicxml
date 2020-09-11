@@ -71,7 +71,7 @@ void msrTempoNote::appendBeamToTempoNote (S_msrBeam beam)
 
 void msrTempoNote::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTempoNote::acceptIn ()" <<
       endl;
@@ -82,7 +82,7 @@ void msrTempoNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTempoNote>*> (v)) {
         S_msrTempoNote elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTempoNote::visitStart ()" <<
             endl;
@@ -93,7 +93,7 @@ void msrTempoNote::acceptIn (basevisitor* v)
 
 void msrTempoNote::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTempoNote::acceptOut ()" <<
       endl;
@@ -104,7 +104,7 @@ void msrTempoNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTempoNote>*> (v)) {
         S_msrTempoNote elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTempoNote::visitEnd ()" <<
             endl;
@@ -235,7 +235,7 @@ msrTempoTuplet::msrTempoTuplet (
   fTempoTupletDisplayWholeNotes  = rational (0, 1);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTempos){
+  if (globalTraceOah->fTraceTempos){
     gLogOstream <<
       "Creating tempo tuplet '" <<
       this->asString () <<
@@ -308,7 +308,7 @@ string msrTempoTuplet::tempoTupletShowNumberKindAsString (
 void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTempos) {
+  if (globalTraceOah->fTraceTempos) {
     gLogOstream <<
       "Adding tempoNote '" <<
       tempoNote->asShortString () <<
@@ -338,7 +338,7 @@ void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTempos) {
+  if (globalTraceOah->fTraceTempos) {
     gLogOstream <<
       "Adding tempoTuplet '" <<
       tempoTuplet->asString () <<
@@ -379,7 +379,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
   S_msrTempoNote tempoNote)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTempos) {
+  if (globalTraceOah->fTraceTempos) {
     gLogOstream <<
       "Removing first tempoNote '" <<
       tempoNote->asShortString () <<
@@ -425,7 +425,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       " since this note has not been found in fTempoTupletElements";
 
     msrInternalError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -441,7 +441,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       " since this note cannot be found in empty fTempoTupletElements";
 
     msrInternalError (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -453,7 +453,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
 void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTempos) {
+  if (globalTraceOah->fTraceTempos) {
     gLogOstream <<
       "% ==> applyDisplayFactorToTempoTupletMembers ()" <<
       endl;
@@ -476,7 +476,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
   int containingTempoTupletNormalNotes)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTempos) {
+  if (globalTraceOah->fTraceTempos) {
     gLogOstream <<
       "unapplySoundingFactorToTempoTupletMembers ()" <<
       endl;
@@ -505,7 +505,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
 
 void msrTempoTuplet::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTempoTuplet::acceptIn ()" <<
       endl;
@@ -516,7 +516,7 @@ void msrTempoTuplet::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTempoTuplet>*> (v)) {
         S_msrTempoTuplet elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTempoTuplet::visitStart ()" <<
             endl;
@@ -527,7 +527,7 @@ void msrTempoTuplet::acceptIn (basevisitor* v)
 
 void msrTempoTuplet::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTempoTuplet::acceptOut ()" <<
       endl;
@@ -538,7 +538,7 @@ void msrTempoTuplet::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTempoTuplet>*> (v)) {
         S_msrTempoTuplet elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTempoTuplet::visitEnd ()" <<
             endl;
@@ -594,7 +594,7 @@ string msrTempoTuplet::asString () const
 
       else {
         msrInternalError (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");
@@ -663,7 +663,7 @@ string msrTempoTuplet::asString () const
 
       else {
         msrInternalError (
-          gOahOah->fInputSourceName,
+          globalOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");
@@ -791,7 +791,7 @@ void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
   S_msrElement element)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTempos){
+  if (globalTraceOah->fTraceTempos){
     gLogOstream <<
       "Adding element '" <<
       element->asString () <<
@@ -805,7 +805,7 @@ void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
 
 void msrTempoRelationshipElements::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTempoRelationshipElements::acceptIn ()" <<
       endl;
@@ -816,7 +816,7 @@ void msrTempoRelationshipElements::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTempoRelationshipElements>*> (v)) {
         S_msrTempoRelationshipElements elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTempoRelationshipElements::visitStart ()" <<
             endl;
@@ -827,7 +827,7 @@ void msrTempoRelationshipElements::acceptIn (basevisitor* v)
 
 void msrTempoRelationshipElements::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTempoRelationshipElements::acceptOut ()" <<
       endl;
@@ -838,7 +838,7 @@ void msrTempoRelationshipElements::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTempoRelationshipElements>*> (v)) {
         S_msrTempoRelationshipElements elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTempoRelationshipElements::visitEnd ()" <<
             endl;
@@ -1107,7 +1107,7 @@ msrTempo::~msrTempo ()
 
 void msrTempo::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTempo::acceptIn ()" <<
       endl;
@@ -1118,7 +1118,7 @@ void msrTempo::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTempo::visitStart ()" <<
             endl;
@@ -1129,7 +1129,7 @@ void msrTempo::acceptIn (basevisitor* v)
 
 void msrTempo::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTempo::acceptOut ()" <<
       endl;
@@ -1140,7 +1140,7 @@ void msrTempo::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTempo::visitEnd ()" <<
             endl;

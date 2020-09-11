@@ -50,7 +50,7 @@ bsrOah2ManPageGenerator::~bsrOah2ManPageGenerator ()
 void bsrOah2ManPageGenerator::visitStart (S_bsrFacSimileKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting bsrFacSimileKindAtom" <<
@@ -79,7 +79,7 @@ void bsrOah2ManPageGenerator::visitStart (S_bsrFacSimileKindAtom& elt)
 void bsrOah2ManPageGenerator::visitEnd (S_bsrFacSimileKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting bsrFacSimileKindAtom" <<
@@ -93,7 +93,7 @@ void bsrOah2ManPageGenerator::visitEnd (S_bsrFacSimileKindAtom& elt)
 void bsrOah2ManPageGenerator::visitStart (S_bsrTextsLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting bsrTextsLanguageAtom" <<
@@ -122,7 +122,7 @@ void bsrOah2ManPageGenerator::visitStart (S_bsrTextsLanguageAtom& elt)
 void bsrOah2ManPageGenerator::visitEnd (S_bsrTextsLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting bsrTextsLanguageAtom" <<

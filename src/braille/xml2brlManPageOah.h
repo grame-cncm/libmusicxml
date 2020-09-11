@@ -202,9 +202,9 @@ class xml2brlManPageOah : public oahGroup
 typedef SMARTP<xml2brlManPageOah> S_xml2brlManPageOah;
 EXP ostream& operator<< (ostream& os, const S_xml2brlManPageOah& elt);
 
-EXP extern S_xml2brlManPageOah gxml2brlManPageOah;
-EXP extern S_xml2brlManPageOah gxml2brlManPageOahUserChoices;
-EXP extern S_xml2brlManPageOah gxml2brlManPageOahWithDetailedTrace;
+EXP extern S_xml2brlManPageOah globalXml2brlManPageOah;
+EXP extern S_xml2brlManPageOah globalXml2brlManPageOahUserChoices;
+EXP extern S_xml2brlManPageOah globalXml2brlManPageOahWithDetailedTrace;
 
 //______________________________________________________________________________
 EXP  void initializeXml2brlManPageOahHandling (

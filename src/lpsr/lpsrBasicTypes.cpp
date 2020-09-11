@@ -126,7 +126,7 @@ string wholeNotesAsLilypondString (
   // this algorithm is inspired by musicxml2ly
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (globalTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> wholeNotesAsLilypondString() 1 -------------------------------------" <<
       ", wholeNotes: " << wholeNotes <<
@@ -140,7 +140,7 @@ string wholeNotesAsLilypondString (
     denominator  = wholeNotes.getDenominator ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (globalTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> numerator:   " << numerator <<
       endl <<
@@ -175,7 +175,7 @@ string wholeNotesAsLilypondString (
 
  //   msrMusicXMLError ( JMI
     msrMusicXMLWarning (
-      gOahOah->fInputSourceName,
+      globalOahOah->fInputSourceName,
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -186,7 +186,7 @@ string wholeNotesAsLilypondString (
   wholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
+  if (globalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
@@ -206,7 +206,7 @@ string wholeNotesAsLilypondString (
     integralNumberOfWholeNotes = denominator == 1;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
+  if (globalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
@@ -234,7 +234,7 @@ string wholeNotesAsLilypondString (
   int  numeratorDots = lpsrNumberOfDots (numerator);
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
+  if (globalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl <<
@@ -269,7 +269,7 @@ string wholeNotesAsLilypondString (
             " it will be represented using a multiplying factor";
 
           msrMusicXMLWarning (
-            gOahOah->fInputSourceName,
+            globalOahOah->fInputSourceName,
             inputLineNumber,
             s.str ());
 
@@ -322,7 +322,7 @@ string wholeNotesAsLilypondString (
     }
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
+    if (globalTraceOah->fTraceWholeNotesDetails) {
       stringstream s;
 
       s <<
@@ -346,7 +346,7 @@ string wholeNotesAsLilypondString (
 
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -357,7 +357,7 @@ string wholeNotesAsLilypondString (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
+  if (globalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
@@ -372,7 +372,7 @@ string wholeNotesAsLilypondString (
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3\breve, hence \longa.
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
+    if (globalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
@@ -385,7 +385,7 @@ string wholeNotesAsLilypondString (
       denominatorDurationLog -= 1;
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceWholeNotesDetails) {
+      if (globalTraceOah->fTraceWholeNotesDetails) {
         gLogOstream <<
           "--> numerator" << " : " <<
           numerator <<
@@ -403,7 +403,7 @@ string wholeNotesAsLilypondString (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
+  if (globalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numerator" << " : " <<
       numerator <<
@@ -426,7 +426,7 @@ string wholeNotesAsLilypondString (
     denominatorDurationLog -= numeratorDots;
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
+    if (globalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -441,7 +441,7 @@ string wholeNotesAsLilypondString (
   else {
     // set the multiplying factor
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
+    if (globalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> setting the multiplying factor" <<
         endl;
@@ -457,7 +457,7 @@ string wholeNotesAsLilypondString (
     multiplyingFactor = numerator;
 
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceWholeNotesDetails) {
+    if (globalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -477,7 +477,7 @@ string wholeNotesAsLilypondString (
       multiplyingFactor /= 2;
 
 #ifdef TRACE_OAH
-      if (gTraceOah->fTraceWholeNotesDetails) {
+      if (globalTraceOah->fTraceWholeNotesDetails) {
         gLogOstream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
@@ -493,7 +493,7 @@ string wholeNotesAsLilypondString (
   }
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotesDetails) {
+  if (globalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numerator " << " : " <<
       numerator <<
@@ -556,7 +556,7 @@ string wholeNotesAsLilypondString (
   string result = s.str ();
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceWholeNotes) {
+  if (globalTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> wholeNotesAsLilypondString() 2 -------------------------------------" <<
      ", result: \"" << result << "\"" <<
@@ -1316,7 +1316,7 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
   } // switch
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceNotesOctaveEntry) {
+  if (globalTraceOah->fTraceNotesOctaveEntry) {
     s <<
       " %{ " <<
       semiTonesPitchAndOctave->asString () <<
@@ -1442,7 +1442,7 @@ void initializeLPSRBasicTypes ()
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
-    if (gTraceOah->fTraceOah && ! gGeneralOah->fQuiet) {
+    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
       gLogOstream <<
         "Initializing LPSR basic types handling" <<
         endl;

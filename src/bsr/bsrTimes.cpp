@@ -53,7 +53,7 @@ bsrTimeItem::bsrTimeItem (
   fTimeBeatValue = -1;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
@@ -101,7 +101,7 @@ bool bsrTimeItem::isEqualTo (S_bsrTimeItem otherTimeItem) const
 void bsrTimeItem::appendBeatsNumber (int beatsNumber)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending beat number '" <<
       beatsNumber <<
@@ -120,7 +120,7 @@ void bsrTimeItem::appendBeatsNumber (int beatsNumber)
 void bsrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Setting beat value to '" <<
       timeBeatValue <<
@@ -149,7 +149,7 @@ int bsrTimeItem::getTimeBeatsNumber () const
 void bsrTimeItem::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTimeItem::acceptIn ()" <<
       endl;
@@ -162,7 +162,7 @@ void bsrTimeItem::acceptIn (basevisitor* v)
         S_bsrTimeItem elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTimeItem::visitStart ()" <<
             endl;
@@ -175,7 +175,7 @@ void bsrTimeItem::acceptIn (basevisitor* v)
 void bsrTimeItem::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTimeItem::acceptOut ()" <<
       endl;
@@ -188,7 +188,7 @@ void bsrTimeItem::acceptOut (basevisitor* v)
         S_bsrTimeItem elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTimeItem::visitEnd ()" <<
             endl;
@@ -218,7 +218,7 @@ string bsrTimeItem::asString () const
     case 0:
     /* JMI
       msrInternalError (
-        gOahOah->fInputSourceName,
+        globalOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
@@ -289,7 +289,7 @@ bsrTime::bsrTime (
   fTimeKind = timeKind;
 
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Creating bsrTimes '" <<
       asString () <<
@@ -306,7 +306,7 @@ bsrTime::~bsrTime ()
 void bsrTime::appendTimeItem (S_bsrTimeItem timeItem)
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceTimes) {
+  if (globalTraceOah->fTraceTimes) {
     gLogOstream <<
       "Appending time item '" <<
       timeItem->asString () <<
@@ -369,7 +369,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
             case 0:
             /* JMI
               msrInternalError (
-                gOahOah->fInputSourceName,
+                globalOahOah->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 "time item beats numbers vector is empty");
@@ -493,7 +493,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         "' is not supported in Braille music";
 
                       bsrWarning (
-                        gOahOah->fInputSourceName,
+                        globalOahOah->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
                     }
@@ -561,7 +561,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
             case 0:
             /* JMI
               msrInternalError (
-                gOahOah->fInputSourceName,
+                globalOahOah->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 "time item beats numbers vector is empty");
@@ -622,7 +622,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         "' is not supported in Braille music";
 
                       bsrWarning (
-                        gOahOah->fInputSourceName,
+                        globalOahOah->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
                     }
@@ -670,7 +670,7 @@ int bsrTime::fetchCellsNumber() const
 void bsrTime::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTime::acceptIn ()" <<
       endl;
@@ -683,7 +683,7 @@ void bsrTime::acceptIn (basevisitor* v)
         S_bsrTime elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTime::visitStart ()" <<
             endl;
@@ -696,7 +696,7 @@ void bsrTime::acceptIn (basevisitor* v)
 void bsrTime::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTime::acceptOut ()" <<
       endl;
@@ -709,7 +709,7 @@ void bsrTime::acceptOut (basevisitor* v)
         S_bsrTime elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTime::visitEnd ()" <<
             endl;

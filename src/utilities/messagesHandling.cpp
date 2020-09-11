@@ -23,7 +23,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-void msrAssert (
+void msgAssert (
   bool   condition,
   string messageIfFalse)
 {
@@ -33,7 +33,7 @@ void msrAssert (
     gIndenter.resetToZero ();
 
     gLogOstream <<
-      "#### msrAssert failure: " << messageIfFalse <<
+      "#### msgAssert failure: " << messageIfFalse <<
       ", exiting." <<
       endl;
 
@@ -75,13 +75,13 @@ void oahError (string errorMessage)
 }
 
 //______________________________________________________________________________
-void msrWarning (
+void msgWarning (
   string context,
   string inputSourceName,
   int    inputLineNumber,
   string message)
 {
-  if (! gGeneralOah->fQuiet) {
+  if (! globalGeneralOah->fQuiet) {
     int saveIndent = gIndenter.getIndent ();
 
     gIndenter.resetToZero ();
@@ -97,7 +97,7 @@ void msrWarning (
   }
 }
 
-void msrError (
+void msgError (
   string context,
   string inputSourceName,
   int    inputLineNumber,
@@ -105,14 +105,14 @@ void msrError (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! gGeneralOah->fQuiet) {
-    if (gGeneralOah->fDisplaySourceCodePosition) {
+  if (! globalGeneralOah->fQuiet) {
+    if (globalGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    if (! gGeneralOah->fDontShowErrors) {
+    if (! globalGeneralOah->fDontShowErrors) {
       int saveIndent = gIndenter.getIndent ();
 
       gIndenter.resetToZero ();
@@ -131,6 +131,7 @@ void msrError (
   throw msrMsrException (message);
 }
 
+//______________________________________________________________________________
 void msrUnsupported (
   string inputSourceName,
   int    inputLineNumber,
@@ -138,12 +139,12 @@ void msrUnsupported (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
+  if (! (globalGeneralOah->fQuiet && globalGeneralOah->fDontShowErrors)) {
     int saveIndent = gIndenter.getIndent ();
 
     gIndenter.resetToZero ();
 
-    if (gGeneralOah->fDisplaySourceCodePosition) {
+    if (globalGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -161,12 +162,43 @@ void msrUnsupported (
 }
 
 //______________________________________________________________________________
+void msrInternalWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msgWarning (
+    "MSR INTERNAL",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+void msrInternalError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msgError (
+    "MSR INTERNAL",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  throw msrMsrInternalException (message);
+}
+
+//______________________________________________________________________________
 void msrMusicXMLWarning (
   string inputSourceName,
   int    inputLineNumber,
   string message)
 {
-  msrWarning (
+  msgWarning (
     "MusicXML",
     inputSourceName,
     inputLineNumber,
@@ -180,7 +212,7 @@ void msrMusicXMLError (
   int    sourceCodeLineNumber,
   string message)
 {
-  msrError (
+  msgError (
     "MusicXML",
     inputSourceName,
     inputLineNumber,
@@ -188,8 +220,8 @@ void msrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOah->fDontShowErrors) {
-    if (! gGeneralOah->fDontExitOnErrors) { // JMI
+  if (! globalGeneralOah->fDontShowErrors) {
+    if (! globalGeneralOah->fDontExitOnErrors) { // JMI
       throw msrMusicXMLException (message);
     }
     else {
@@ -199,43 +231,12 @@ void msrMusicXMLError (
 }
 
 //______________________________________________________________________________
-void msrInternalWarning (
-  string inputSourceName,
-  int    inputLineNumber,
-  string message)
-{
-  msrWarning (
-    "INTERNAL",
-    inputSourceName,
-    inputLineNumber,
-    message);
-}
-
-void msrInternalError (
-  string inputSourceName,
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string message)
-{
-  msrError (
-    "MSR INTERNAL",
-    inputSourceName,
-    inputLineNumber,
-    sourceCodeFileName,
-    sourceCodeLineNumber,
-    message);
-
-  throw msrMsrInternalException (message);
-}
-
-//______________________________________________________________________________
 void lpsrMusicXMLWarning (
   string inputSourceName,
   int    inputLineNumber,
   string message)
 {
-  msrWarning (
+  msgWarning (
     "LPSR",
     inputSourceName,
     inputLineNumber,
@@ -249,7 +250,7 @@ void lpsrMusicXMLError (
   int    sourceCodeLineNumber,
   string message)
 {
-  msrError (
+  msgError (
     "LPSR",
     inputSourceName,
     inputLineNumber,
@@ -257,7 +258,7 @@ void lpsrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOah->fDontShowErrors) { // JMI
+  if (! globalGeneralOah->fDontShowErrors) { // JMI
     throw lpsrMusicXMLException (message);
   }
 
@@ -270,14 +271,13 @@ void bsrWarning (
   int    inputLineNumber,
   string message)
 {
-  msrWarning (
+  msgWarning (
     "BSR",
     inputSourceName,
     inputLineNumber,
     message);
 }
 
-//______________________________________________________________________________
 void bsrInternalError (
   string inputSourceName,
   int    inputLineNumber,
@@ -285,7 +285,7 @@ void bsrInternalError (
   int    sourceCodeLineNumber,
   string message)
 {
-  msrError (
+  msgError (
     "BSR INTERNAL",
     inputSourceName,
     inputLineNumber,
@@ -297,6 +297,112 @@ void bsrInternalError (
 }
 
 //______________________________________________________________________________
+void bmmlWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msgWarning (
+    "BMML",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+void bmmlError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msgError (
+    "BMML",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  if (! globalGeneralOah->fDontShowErrors) { // JMI
+    throw bmmlException (message);
+  }
+
+  throw lpsrMusicXMLException (message);
+}
+
+void bmmlInternalError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msgError (
+    "BMML INTERNAL",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  throw bmmlInternalException (message);
+}
+
+//______________________________________________________________________________
+void meiWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msgWarning (
+    "MEI",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+void meiError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msgError (
+    "MEI",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  if (! globalGeneralOah->fDontShowErrors) { // JMI
+    throw meiException (message);
+  }
+
+  throw lpsrMusicXMLException (message);
+}
+
+void meiInternalError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msgError (
+    "MEI INTERNAL",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  throw meiInternalException (message);
+}
+
+//______________________________________________________________________________
 /*
 void msrStreamsWarning (
   int    inputLineNumber,
@@ -304,8 +410,8 @@ void msrStreamsWarning (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
-    if (gGeneralOah->fDisplaySourceCodePosition) {
+  if (! (globalGeneralOah->fQuiet && globalGeneralOah->fDontShowErrors)) {
+    if (globalGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -325,8 +431,8 @@ void msrStreamsError (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOah->fQuiet && gGeneralOah->fDontShowErrors)) {
-    if (gGeneralOah->fDisplaySourceCodePosition) {
+  if (! (globalGeneralOah->fQuiet && globalGeneralOah->fDontShowErrors)) {
+    if (globalGeneralOah->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -351,7 +457,7 @@ void displayWarningsAndErrorsInputLineNumbers ()
   int warningsInputLineNumbersSize =
     gWarningsInputLineNumbers.size ();
 
-  if (warningsInputLineNumbersSize && ! gGeneralOah->fQuiet) {
+  if (warningsInputLineNumbersSize && ! globalGeneralOah->fQuiet) {
     gLogOstream <<
       "Warning message(s) were issued for input " <<
       singularOrPluralWithoutNumber (

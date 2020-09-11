@@ -407,9 +407,9 @@ class msr2LpsrOah : public oahGroup
 typedef SMARTP<msr2LpsrOah> S_msr2LpsrOah;
 EXP ostream& operator<< (ostream& os, const S_msr2LpsrOah& elt);
 
-EXP extern S_msr2LpsrOah gMsr2LpsrOah;
-EXP extern S_msr2LpsrOah gMsr2LpsrOahUserChoices;
-EXP extern S_msr2LpsrOah gMsr2LpsrOahWithDetailedTrace;
+EXP extern S_msr2LpsrOah globalMsr2LpsrOah;
+EXP extern S_msr2LpsrOah globalMsr2LpsrOahUserChoices;
+EXP extern S_msr2LpsrOah globalMsr2LpsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMsr2LpsrOahHandling (

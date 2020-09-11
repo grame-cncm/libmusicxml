@@ -115,9 +115,9 @@ class lilypondOah : public oahGroup
 typedef SMARTP<lilypondOah> S_lilypondOah;
 EXP ostream& operator<< (ostream& os, const S_lilypondOah& elt);
 
-EXP extern S_lilypondOah gLilypondOah;
-EXP extern S_lilypondOah gLilypondOahUserChoices;
-EXP extern S_lilypondOah gLilypondOahWithDetailedTrace;
+EXP extern S_lilypondOah globalLilypondOah;
+EXP extern S_lilypondOah globalLilypondOahUserChoices;
+EXP extern S_lilypondOah globalLilypondOahWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeLilypondOahHandling (

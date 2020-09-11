@@ -51,7 +51,7 @@ msrOrnament::~msrOrnament ()
 
 void msrOrnament::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrOrnament::acceptIn ()" <<
       endl;
@@ -62,7 +62,7 @@ void msrOrnament::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOrnament::visitStart ()" <<
             endl;
@@ -73,7 +73,7 @@ void msrOrnament::acceptIn (basevisitor* v)
 
 void msrOrnament::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrOrnament::acceptOut ()" <<
       endl;
@@ -84,7 +84,7 @@ void msrOrnament::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrOrnament::visitEnd ()" <<
             endl;

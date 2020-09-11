@@ -229,7 +229,7 @@ S_oahValuedAtom oahElement::handleOptionUnderName (
     "' is not handled";
 
   msrInternalError (
-    gOahOah->fInputSourceName,
+    globalOahOah->fInputSourceName,
     K_NO_INPUT_LINE_NUMBER,
     __FILE__, __LINE__,
     s.str ());
@@ -281,7 +281,7 @@ S_oahElement oahElement::aPropos (string theString)
 void oahElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::acceptIn ()" <<
       endl;
@@ -294,7 +294,7 @@ void oahElement::acceptIn (basevisitor* v)
         S_oahElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching oahElement::visitStart ()" <<
             endl;
@@ -307,7 +307,7 @@ void oahElement::acceptIn (basevisitor* v)
 void oahElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::acceptOut ()" <<
       endl;
@@ -320,7 +320,7 @@ void oahElement::acceptOut (basevisitor* v)
         S_oahElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gOahOah->fTraceOahVisitors) {
+        if (globalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching oahElement::visitEnd ()" <<
             endl;
@@ -333,7 +333,7 @@ void oahElement::acceptOut (basevisitor* v)
 void oahElement::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gOahOah->fTraceOahVisitors) {
+  if (globalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::browseData ()" <<
       endl;

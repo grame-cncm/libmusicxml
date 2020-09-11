@@ -69,7 +69,7 @@ lpsrSchemeVariable::~lpsrSchemeVariable ()
 void lpsrSchemeVariable::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrSchemeVariable::acceptIn ()" <<
       endl;
@@ -82,7 +82,7 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
         S_lpsrSchemeVariable elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
             endl;
@@ -95,7 +95,7 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
 void lpsrSchemeVariable::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrSchemeVariable::acceptOut ()" <<
       endl;
@@ -108,7 +108,7 @@ void lpsrSchemeVariable::acceptOut (basevisitor* v)
         S_lpsrSchemeVariable elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
             endl;
@@ -248,7 +248,7 @@ lpsrSchemeFunction::~lpsrSchemeFunction ()
 void lpsrSchemeFunction::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrSchemeFunction::acceptIn ()" <<
       endl;
@@ -261,7 +261,7 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
         S_lpsrSchemeFunction elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrSchemeFunction::visitStart ()" <<
             endl;
@@ -274,7 +274,7 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
 void lpsrSchemeFunction::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrSchemeFunction::acceptOut ()" <<
       endl;
@@ -287,7 +287,7 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v)
         S_lpsrSchemeFunction elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrSchemeFunction::visitEnd ()" <<
             endl;

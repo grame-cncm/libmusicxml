@@ -71,7 +71,7 @@ void msrLigature::setLigatureOtherEndSideLink (
   S_msrLigature otherEndSideLink)
 {
   // sanity check
-  msrAssert (
+  msgAssert (
     otherEndSideLink != nullptr,
     "otherEndSideLink is null");
 
@@ -85,7 +85,7 @@ void msrLigature::setLigatureOtherEndSideLink (
 
 void msrLigature::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrLigature::acceptIn ()" <<
       endl;
@@ -96,7 +96,7 @@ void msrLigature::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLigature::visitStart ()" <<
             endl;
@@ -107,7 +107,7 @@ void msrLigature::acceptIn (basevisitor* v)
 
 void msrLigature::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrLigature::acceptOut ()" <<
       endl;
@@ -118,7 +118,7 @@ void msrLigature::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrLigature::visitEnd ()" <<
             endl;

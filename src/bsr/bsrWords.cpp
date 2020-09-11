@@ -219,7 +219,7 @@ bsrWords::~bsrWords ()
 void bsrWords::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrWords::acceptIn ()" <<
       endl;
@@ -232,7 +232,7 @@ void bsrWords::acceptIn (basevisitor* v)
         S_bsrWords elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrWords::visitStart ()" <<
             endl;
@@ -250,7 +250,7 @@ int bsrWords::fetchCellsNumber () const
 void bsrWords::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gBsrOah->fTraceBsrVisitors) {
+  if (globalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrWords::acceptOut ()" <<
       endl;
@@ -263,7 +263,7 @@ void bsrWords::acceptOut (basevisitor* v)
         S_bsrWords elem = this;
 
 #ifdef TRACE_OAH
-        if (gBsrOah->fTraceBsrVisitors) {
+        if (globalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrWords::visitEnd ()" <<
             endl;

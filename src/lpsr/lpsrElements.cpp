@@ -44,7 +44,7 @@ lpsrElement::~lpsrElement ()
 void lpsrElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrElement::acceptIn ()" <<
       endl;
@@ -57,7 +57,7 @@ void lpsrElement::acceptIn (basevisitor* v)
         S_lpsrElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrElement::visitStart ()" <<
             endl;
@@ -70,7 +70,7 @@ void lpsrElement::acceptIn (basevisitor* v)
 void lpsrElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gLpsrOah->fTraceLpsrVisitors) {
+  if (globalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrElement::acceptOut ()" <<
       endl;
@@ -83,7 +83,7 @@ void lpsrElement::acceptOut (basevisitor* v)
         S_lpsrElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gLpsrOah->fTraceLpsrVisitors) {
+        if (globalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrElement::visitEnd ()" <<
             endl;

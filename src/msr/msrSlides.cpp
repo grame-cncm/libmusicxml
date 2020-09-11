@@ -66,7 +66,7 @@ msrSlide::~msrSlide ()
 S_msrSlide msrSlide::createSlideNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gTraceOah->fTraceSlides) {
+  if (globalTraceOah->fTraceSlides) {
     gLogOstream <<
       "Creating a newborn clone of slide '" <<
       asString () <<
@@ -109,7 +109,7 @@ string msrSlide::slideTypeKindAsString (
 
 void msrSlide::acceptIn (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSlide::acceptIn ()" <<
       endl;
@@ -120,7 +120,7 @@ void msrSlide::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSlide>*> (v)) {
         S_msrSlide elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlide::visitStart ()" <<
             endl;
@@ -131,7 +131,7 @@ void msrSlide::acceptIn (basevisitor* v)
 
 void msrSlide::acceptOut (basevisitor* v)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrSlide::acceptOut ()" <<
       endl;
@@ -142,7 +142,7 @@ void msrSlide::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSlide>*> (v)) {
         S_msrSlide elem = this;
 
-        if (gMsrOah->fTraceMsrVisitors) {
+        if (globalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrSlide::visitEnd ()" <<
             endl;

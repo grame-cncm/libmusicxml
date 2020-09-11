@@ -82,7 +82,7 @@ void msr2SummaryVisitor::printSummaryFromMsrScore (
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrScore" <<
       endl;
@@ -90,7 +90,7 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 
   fMsrSummaryOutputStream <<
     "MSR contents summary of \"" <<
-    gOahOah->fInputSourceName <<
+    globalOahOah->fInputSourceName <<
     "\":" <<
     endl <<
     endl;
@@ -102,7 +102,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 {
   gIndenter--;
 
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrScore" <<
       endl;
@@ -244,7 +244,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrPartGroup" <<
       endl;
@@ -322,7 +322,7 @@ void msr2SummaryVisitor::visitEnd (S_msrPartGroup& elt)
 {
   gIndenter--;
 
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrPartGroup" <<
       endl;
@@ -332,7 +332,7 @@ void msr2SummaryVisitor::visitEnd (S_msrPartGroup& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrPart& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrPart" <<
       endl;
@@ -396,7 +396,7 @@ void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
 {
   gIndenter--;
 
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrPart" <<
       endl;
@@ -406,7 +406,7 @@ void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrStaff" <<
       endl;
@@ -455,7 +455,7 @@ void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 {
   gIndenter--;
 
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrStaff" <<
       endl;
@@ -467,7 +467,7 @@ void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrVoice" <<
       endl;
@@ -521,7 +521,7 @@ void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 {
   gIndenter--;
 
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrVoice" <<
       endl;
@@ -531,7 +531,7 @@ void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrStanza" <<
       endl;
@@ -560,7 +560,7 @@ void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrStanza& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrStanza" <<
       endl;
@@ -570,7 +570,7 @@ void msr2SummaryVisitor::visitEnd (S_msrStanza& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrSyllable& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrSyllable" <<
       endl;
@@ -579,7 +579,7 @@ void msr2SummaryVisitor::visitStart (S_msrSyllable& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrSyllable& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrSyllable" <<
       endl;
@@ -589,7 +589,7 @@ void msr2SummaryVisitor::visitEnd (S_msrSyllable& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrClef" <<
       endl;
@@ -604,7 +604,7 @@ void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrClef" <<
       endl;
@@ -614,7 +614,7 @@ void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrKey" <<
       endl;
@@ -629,7 +629,7 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrKey" <<
       endl;
@@ -639,7 +639,7 @@ void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrTime& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrTime" <<
       endl;
@@ -654,7 +654,7 @@ void msr2SummaryVisitor::visitStart (S_msrTime& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrTime" <<
     endl;
@@ -664,7 +664,7 @@ void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrTempo" <<
        endl;
@@ -678,7 +678,7 @@ void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrTempo" <<
     endl;
@@ -688,7 +688,7 @@ void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrSegment& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrSegment" <<
       endl;
@@ -697,7 +697,7 @@ void msr2SummaryVisitor::visitStart (S_msrSegment& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrSegment& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrSegment" <<
       endl;
@@ -707,7 +707,7 @@ void msr2SummaryVisitor::visitEnd (S_msrSegment& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrArticulation& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrArticulation" <<
       endl;
@@ -716,7 +716,7 @@ void msr2SummaryVisitor::visitStart (S_msrArticulation& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrArticulation& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrArticulation" <<
       endl;
@@ -726,7 +726,7 @@ void msr2SummaryVisitor::visitEnd (S_msrArticulation& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrDynamics& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrDynamics" <<
       endl;
@@ -735,7 +735,7 @@ void msr2SummaryVisitor::visitStart (S_msrDynamics& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrDynamics& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrDynamics" <<
       endl;
@@ -745,7 +745,7 @@ void msr2SummaryVisitor::visitEnd (S_msrDynamics& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrWedge& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrWedge" << endl;
   }
@@ -753,7 +753,7 @@ void msr2SummaryVisitor::visitStart (S_msrWedge& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrWedge" << endl;
   }
@@ -762,7 +762,7 @@ void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrGraceNotesGroup& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrGraceNotesGroup" << endl;
   }
@@ -770,7 +770,7 @@ void msr2SummaryVisitor::visitStart (S_msrGraceNotesGroup& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrGraceNotesGroup& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrGraceNotesGroup" << endl;
   }
@@ -779,7 +779,7 @@ void msr2SummaryVisitor::visitEnd (S_msrGraceNotesGroup& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting " <<
       msrNote::noteKindAsString (
@@ -825,7 +825,7 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting " <<
       msrNote::noteKindAsString (
@@ -864,7 +864,7 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrStem& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrStem" << endl;
   }
@@ -872,7 +872,7 @@ void msr2SummaryVisitor::visitStart (S_msrStem& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrStem& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrStem" <<
       endl;
@@ -882,7 +882,7 @@ void msr2SummaryVisitor::visitEnd (S_msrStem& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrBeam& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrBeam" << endl;
   }
@@ -890,7 +890,7 @@ void msr2SummaryVisitor::visitStart (S_msrBeam& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrBeam& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrBeam" <<
       endl;
@@ -900,7 +900,7 @@ void msr2SummaryVisitor::visitEnd (S_msrBeam& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrChord& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrChord" <<
       endl;
@@ -911,7 +911,7 @@ void msr2SummaryVisitor::visitStart (S_msrChord& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrChord& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrChord" <<
       endl;
@@ -921,7 +921,7 @@ void msr2SummaryVisitor::visitEnd (S_msrChord& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrTuplet& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrTuplet" <<
       endl;
@@ -932,7 +932,7 @@ void msr2SummaryVisitor::visitStart (S_msrTuplet& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrTuplet& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrTuplet" <<
       endl;
@@ -942,7 +942,7 @@ void msr2SummaryVisitor::visitEnd (S_msrTuplet& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrSlur& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrSlur" <<
       endl;
@@ -951,7 +951,7 @@ void msr2SummaryVisitor::visitStart (S_msrSlur& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrSlur& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrSlur" <<
       endl;
@@ -961,7 +961,7 @@ void msr2SummaryVisitor::visitEnd (S_msrSlur& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrBarline& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrBarline" <<
       endl;
@@ -970,7 +970,7 @@ void msr2SummaryVisitor::visitStart (S_msrBarline& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrBarline& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrBarline" <<
       endl;
@@ -980,7 +980,7 @@ void msr2SummaryVisitor::visitEnd (S_msrBarline& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrBarNumberCheck& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrBarNumberCheck" <<
       endl;
@@ -989,7 +989,7 @@ void msr2SummaryVisitor::visitStart (S_msrBarNumberCheck& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrBarNumberCheck& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrBarNumberCheck" <<
       endl;
@@ -999,7 +999,7 @@ void msr2SummaryVisitor::visitEnd (S_msrBarNumberCheck& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrLineBreak& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrLineBreak" <<
       endl;
@@ -1008,7 +1008,7 @@ void msr2SummaryVisitor::visitStart (S_msrLineBreak& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrLineBreak& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrLineBreak" <<
       endl;
@@ -1018,7 +1018,7 @@ void msr2SummaryVisitor::visitEnd (S_msrLineBreak& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrRepeat& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrRepeat" <<
       endl;
@@ -1027,7 +1027,7 @@ void msr2SummaryVisitor::visitStart (S_msrRepeat& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrRepeat" <<
       endl;
@@ -1037,7 +1037,7 @@ void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrVarValAssoc" <<
       endl;
@@ -1070,7 +1070,7 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrVarValAssoc" <<
       endl;
@@ -1080,7 +1080,7 @@ void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVarValsListAssoc& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrVarValsListAssoc" <<
       endl;
@@ -1113,7 +1113,7 @@ void msr2SummaryVisitor::visitStart (S_msrVarValsListAssoc& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrVarValsListAssoc& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrVarValsListAssoc" <<
       endl;
@@ -1123,7 +1123,7 @@ void msr2SummaryVisitor::visitEnd (S_msrVarValsListAssoc& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrScaling& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrScaling" <<
       endl;
@@ -1135,7 +1135,7 @@ void msr2SummaryVisitor::visitStart (S_msrScaling& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrScaling& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrScaling" <<
       endl;
@@ -1145,7 +1145,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScaling& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrPageLayout& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrPageLayout" <<
       endl;
@@ -1156,7 +1156,7 @@ void msr2SummaryVisitor::visitStart (S_msrPageLayout& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrPageLayout& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrPageLayout" <<
       endl;
@@ -1166,7 +1166,7 @@ void msr2SummaryVisitor::visitEnd (S_msrPageLayout& elt)
 //________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrMidiTempo& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> Start visiting msrMidiTempo" <<
       endl;
@@ -1175,7 +1175,7 @@ void msr2SummaryVisitor::visitStart (S_msrMidiTempo& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrMidiTempo& elt)
 {
-  if (gMsrOah->fTraceMsrVisitors) {
+  if (globalMsrOah->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrMidiTempo" <<
       endl;
