@@ -94,7 +94,7 @@ msrWords::~msrWords ()
 
 void msrWords::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrWords::acceptIn ()" <<
       endl;
@@ -105,7 +105,7 @@ void msrWords::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWords::visitStart ()" <<
             endl;
@@ -116,7 +116,7 @@ void msrWords::acceptIn (basevisitor* v)
 
 void msrWords::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrWords::acceptOut ()" <<
       endl;
@@ -127,7 +127,7 @@ void msrWords::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrWords::visitEnd ()" <<
             endl;

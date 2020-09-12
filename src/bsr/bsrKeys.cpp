@@ -67,7 +67,7 @@ bsrKey::bsrKey (
       "numberOfAlterations: " << fNumberOfAlterations;
 
     bsrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -76,7 +76,7 @@ bsrKey::bsrKey (
   fKeyCellsList = buildCellsList ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOah->fTraceKeys) {
     gLogOstream <<
       "Creating bsrKey '" <<
       asString () <<
@@ -172,7 +172,7 @@ int bsrKey::fetchCellsNumber() const
 void bsrKey::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrKey::acceptIn ()" <<
       endl;
@@ -185,7 +185,7 @@ void bsrKey::acceptIn (basevisitor* v)
         S_bsrKey elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrKey::visitStart ()" <<
             endl;
@@ -198,7 +198,7 @@ void bsrKey::acceptIn (basevisitor* v)
 void bsrKey::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrKey::acceptOut ()" <<
       endl;
@@ -211,7 +211,7 @@ void bsrKey::acceptOut (basevisitor* v)
         S_bsrKey elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrKey::visitEnd ()" <<
             endl;

@@ -200,7 +200,71 @@ typedef SMARTP<oahAtomSynonym> S_oahAtomSynonym;
 EXP ostream& operator<< (ostream& os, const S_oahAtomSynonym& elt);
 
 //______________________________________________________________________________
-class oahOptionsUsageAtom : public oahAtom
+class oahHelpAtom : public oahAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahHelpAtom> create (
+      string    shortName,
+      string    longName,
+      string    description);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahHelpAtom (
+      string    shortName,
+      string    longName,
+      string    description);
+
+    virtual ~oahHelpAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const override;
+
+    void                  printAtomOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const override;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<oahHelpAtom> S_oahHelpAtom;
+EXP ostream& operator<< (ostream& os, const S_oahHelpAtom& elt);
+
+//______________________________________________________________________________
+class oahOptionsUsageAtom : public oahHelpAtom
 {
   public:
 
@@ -270,7 +334,7 @@ typedef SMARTP<oahOptionsUsageAtom> S_oahOptionsUsageAtom;
 EXP ostream& operator<< (ostream& os, const S_oahOptionsUsageAtom& elt);
 
 //______________________________________________________________________________
-class oahOptionsSummaryAtom : public oahAtom
+class oahOptionsSummaryAtom : public oahHelpAtom
 {
   public:
 
@@ -3115,7 +3179,7 @@ class EXP oahHandler : public oahElement
     static string helpOptionsHaveBeenUsedKindAsString (
       oahHelpOptionsHaveBeenUsedKind helpOptionsHaveBeenUsedKind);
 
-    enum oahOptionsDefaultValuesStyle {
+    enum oahOptionsDefaultValuesStyle { // superfluous ??? JMI
         kGNUStyle,
         kOAHStyle };
 

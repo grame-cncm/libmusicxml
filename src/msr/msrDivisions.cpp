@@ -45,7 +45,7 @@ S_msrDivisions msrDivisions::create (
 S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
 #ifdef TRACE_OAH
- if (globalMusicxmlOah->fTraceDivisions) {
+ if (gGlobalMusicxmlOah->fTraceDivisions) {
     gLogOstream <<
       "Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
@@ -78,7 +78,7 @@ msrDivisions::msrDivisions (
 void msrDivisions::initializeDivisions ()
 {
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceDivisions && ! globalGeneralOah->fQuiet) {
+  if (gGlobalMusicxmlOah->fTraceDivisions && ! gGlobalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing divisions" <<
       ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
@@ -141,7 +141,7 @@ void msrDivisions::initializeDivisions ()
 
   // print the durations divisions if needed
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceDivisions) {
+  if (gGlobalMusicxmlOah->fTraceDivisions) {
     printDurationKindsDivisions (gLogOstream);
   }
 #endif
@@ -175,7 +175,7 @@ int msrDivisions::durationKindAsDivisions (
   printDurationKindsDivisions (s);
 
   msrInternalError (
-    globalOahOah->fInputSourceName,
+    gGlobalOahOah->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -252,7 +252,7 @@ string msrDivisions::divisionsAsMsrString (
   // either a sequence of dots or a multiplication factor
 
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceDivisions) {
+  if (gGlobalMusicxmlOah->fTraceDivisions) {
     const int fieldWidth = 16;
 
     gLogOstream <<
@@ -288,7 +288,7 @@ string msrDivisions::divisionsAsMsrString (
       printDurationKindsDivisions (gLogOstream);
 
       msrInternalError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -304,7 +304,7 @@ string msrDivisions::divisionsAsMsrString (
         msrDurationKindAsString (baseDurationKind);
 
 #ifdef TRACE_OAH
-      if (globalMusicxmlOah->fTraceDivisions) {
+      if (gGlobalMusicxmlOah->fTraceDivisions) {
         const int fieldWidth = 22;
 
         gLogOstream <<
@@ -341,7 +341,7 @@ string msrDivisions::divisionsAsMsrString (
       baseDurationDivisions / 2;
 
 #ifdef TRACE_OAH
-    if (globalMusicxmlOah->fTraceDivisions) {
+    if (gGlobalMusicxmlOah->fTraceDivisions) {
       const int fieldWidth = 22;
 
       gLogOstream <<
@@ -369,7 +369,7 @@ string msrDivisions::divisionsAsMsrString (
       r.rationalise ();
 
 #ifdef TRACE_OAH
-      if (globalMusicxmlOah->fTraceDivisions) {
+      if (gGlobalMusicxmlOah->fTraceDivisions) {
         const int fieldWidth = 22;
 
         gLogOstream <<
@@ -399,7 +399,7 @@ string msrDivisions::divisionsAsMsrString (
         nextDivisionsInList /= 2;
 
 #ifdef TRACE_OAH
-        if (globalMusicxmlOah->fTraceDivisions) {
+        if (gGlobalMusicxmlOah->fTraceDivisions) {
           const int fieldWidth = 22;
 
           gLogOstream <<
@@ -428,7 +428,7 @@ string msrDivisions::divisionsAsMsrString (
       } // while
 
 #ifdef TRACE_OAH
-      if (globalMusicxmlOah->fTraceDivisions) {
+      if (gGlobalMusicxmlOah->fTraceDivisions) {
         const int fieldWidth = 24;
 
         gLogOstream <<
@@ -462,7 +462,7 @@ string msrDivisions::divisionsAsMsrString (
   numberOfDotsNeeded = dotsNumber;
 
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceDivisions) {
+  if (gGlobalMusicxmlOah->fTraceDivisions) {
     gLogOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl <<
@@ -517,7 +517,7 @@ msrDivisions::~msrDivisions ()
 
 void msrDivisions::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrDivisions::acceptIn ()" <<
       endl;
@@ -528,7 +528,7 @@ void msrDivisions::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDivisions>*> (v)) {
         S_msrDivisions elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDivisions::visitStart ()" <<
             endl;
@@ -539,7 +539,7 @@ void msrDivisions::acceptIn (basevisitor* v)
 
 void msrDivisions::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrDivisions::acceptOut ()" <<
       endl;
@@ -550,7 +550,7 @@ void msrDivisions::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDivisions>*> (v)) {
         S_msrDivisions elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrDivisions::visitEnd ()" <<
             endl;

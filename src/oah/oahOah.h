@@ -241,12 +241,12 @@ class oahOah : public oahGroup
 typedef SMARTP<oahOah> S_oahOah;
 EXP ostream& operator<< (ostream& os, const S_oahOah& elt);
 
-EXP extern S_oahOah globalOahOah;
-EXP extern S_oahOah globalOahOahUserChoices;
-EXP extern S_oahOah globalOahOahWithDetailedTrace;
+EXP extern S_oahOah gGlobalOahOah;
+EXP extern S_oahOah gGlobalOahOahUserChoices;
+EXP extern S_oahOah gGlobalOahOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeOahOahHandling (
+void initializeOahOahHandler (
   string       executableName,
   S_oahHandler handler);
 

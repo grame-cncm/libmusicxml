@@ -127,12 +127,12 @@ class msr2MxmltreeOah : public oahGroup
 typedef SMARTP<msr2MxmltreeOah> S_msr2MxmltreeOah;
 EXP ostream& operator<< (ostream& os, const S_msr2MxmltreeOah& elt);
 
-EXP extern S_msr2MxmltreeOah globalMsr2MxmltreeOah;
-EXP extern S_msr2MxmltreeOah globalMsr2MxmltreeOahUserChoices;
-EXP extern S_msr2MxmltreeOah globalMsr2MxmltreeOahWithDetailedTrace;
+EXP extern S_msr2MxmltreeOah gGlobalMsr2MxmltreeOah;
+EXP extern S_msr2MxmltreeOah gGlobalMsr2MxmltreeOahUserChoices;
+EXP extern S_msr2MxmltreeOah gGlobalMsr2MxmltreeOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMsr2MxmltreeOahHandling (
+void initializeMsr2MxmltreeOahHandler (
   S_oahHandler handler);
 
 

@@ -53,7 +53,7 @@ Sxmlelement buildMxmltreeFromMsrScore (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

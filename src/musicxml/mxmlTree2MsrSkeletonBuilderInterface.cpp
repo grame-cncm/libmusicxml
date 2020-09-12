@@ -53,7 +53,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -163,7 +163,7 @@ void displayMsrSkeletonSummary (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -208,13 +208,13 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
   S_msrScore
     mScore =
       buildMsrSkeletonFromElementsTree (
-        globalMsrOah,
+        gGlobalMsrOah,
         mxmlTree,
         gLogOstream,
         passNumber);
 
   if (gIndenter != 0) {
-    if (! globalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -222,7 +222,7 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }

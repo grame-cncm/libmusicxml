@@ -113,7 +113,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // has quiet mode been requested?
     // ------------------------------------------------------
 
-    if (globalGeneralOah->fQuiet) {
+    if (gGlobalGeneralOah->fQuiet) {
       // disable all trace and display options
       handler->
         enforceOahHandlerQuietness ();
@@ -152,7 +152,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (globalXml2xmlOah->fExit2a) {
+    if (gGlobalXml2xmlOah->fExit2a) {
       gLogOstream <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -181,25 +181,25 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // display the MSR score if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsr) {
+    if (gGlobalMsrOah->fDisplayMsr) {
       displayMsrScore_OptionalPass (
         mScore,
-        globalMsrOah);
+        gGlobalMsrOah);
     }
 
-    if (globalMsrOah->fDisplayMsrShort) {
+    if (gGlobalMsrOah->fDisplayMsrShort) {
       displayMsrScoreShort_OptionalPass (
         mScore,
-        globalMsrOah);
+        gGlobalMsrOah);
     }
 
     // display the populated MSR score summary if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsrSummary) {
+    if (gGlobalMsrOah->fDisplayMsrSummary) {
       // display the score summary
       displayMSRPopulatedScoreSummary (
-        globalMsrOah,
+        gGlobalMsrOah,
         mScore,
         gLogOstream);
     }
@@ -207,10 +207,10 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // display the populated MSR score names if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsrNames) {
+    if (gGlobalMsrOah->fDisplayMsrNames) {
       // display the score name
       displayMSRPopulatedScoreNames (
-        globalMsrOah,
+        gGlobalMsrOah,
         mScore,
         gLogOstream);
     }
@@ -218,7 +218,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (globalXml2xmlOah->fExit2b) {
+    if (gGlobalXml2xmlOah->fExit2b) {
       gLogOstream <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -313,7 +313,7 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
   ofstream outFileStream;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     gLogOstream <<
       "Opening file '" << outputFileName << "' for writing" <<
       endl;
@@ -346,7 +346,7 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
     mxmltree =
       buildMxmltreeFromMsrScore (
         mScore,
-        globalMsrOah,
+        gGlobalMsrOah,
         gLogOstream,
         passNumber,
         timingItemKind);
@@ -371,7 +371,7 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
 	outFileStream << endl;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     gLogOstream <<
       endl <<
       "Closing file '" << outputFileName << "'" <<
@@ -432,7 +432,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   // should we return now?
   // ------------------------------------------------------
 
-  if (globalXml2xmlOah->fExit2a) {
+  if (gGlobalXml2xmlOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -470,25 +470,25 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   // display the MSR score if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsr) {
+  if (gGlobalMsrOah->fDisplayMsr) {
     displayMsrScore_OptionalPass (
       mScore,
-      globalMsrOah);
+      gGlobalMsrOah);
   }
 
-  if (globalMsrOah->fDisplayMsrShort) {
+  if (gGlobalMsrOah->fDisplayMsrShort) {
     displayMsrScoreShort_OptionalPass (
       mScore,
-      globalMsrOah);
+      gGlobalMsrOah);
   }
 
   // display the populated MSR score summary if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsrSummary) {
+  if (gGlobalMsrOah->fDisplayMsrSummary) {
     // display the score summary
     displayMSRPopulatedScoreSummary (
-      globalMsrOah,
+      gGlobalMsrOah,
       mScore,
       gLogOstream);
   }
@@ -496,17 +496,17 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   // display the populated MSR score names if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsrNames) {
+  if (gGlobalMsrOah->fDisplayMsrNames) {
     // display the score name
     displayMSRPopulatedScoreNames (
-      globalMsrOah,
+      gGlobalMsrOah,
       mScore,
       gLogOstream);
   }
 
   // should we return now?
   // ------------------------------------------------------
-  if (globalXml2xmlOah->fExit2b) {
+  if (gGlobalXml2xmlOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<

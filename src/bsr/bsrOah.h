@@ -337,12 +337,12 @@ class bsrOah : public oahGroup
 typedef SMARTP<bsrOah> S_bsrOah;
 EXP ostream& operator<< (ostream& os, const S_bsrOah& elt);
 
-EXP extern S_bsrOah globalBsrOah;
-EXP extern S_bsrOah globalBsrOahUserChoices;
-EXP extern S_bsrOah globalBsrOahWithDetailedTrace;
+EXP extern S_bsrOah gGlobalBsrOah;
+EXP extern S_bsrOah gGlobalBsrOahUserChoices;
+EXP extern S_bsrOah gGlobalBsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
-EXP  void initializeBsrOahHandling (
+EXP  void initializeBsrOahHandler (
   S_oahHandler handler);
 
 

@@ -60,7 +60,7 @@ S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::create (
       os);
   assert(o!=0);
 
-  o->createThePrefixesAndInitializeOahHandling (executableName);
+  o->createThePrefixesAndInitializeOahHandler (executableName);
 
   return o;
 }
@@ -110,14 +110,14 @@ Option '-h, -help' prints the full help,
 xml2lyInsiderOahHandler::~xml2lyInsiderOahHandler ()
 {}
 
-void xml2lyInsiderOahHandler::createThePrefixesAndInitializeOahHandling (
+void xml2lyInsiderOahHandler::createThePrefixesAndInitializeOahHandler (
   string executableName)
 {
   // create the prefixes
   createThePrefixes ();
 
   // initialize the insider OAH handling only now, since it may use prefixes
-  initializeXml2lyInsiderOahHandling (
+  initializeXml2lyInsiderOahHandler (
     executableName);
 }
 
@@ -202,7 +202,7 @@ void xml2lyInsiderOahHandler::createThePrefixes ()
         */
 }
 
-void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
+void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandler (
   string executableName)
 /* JMI
   ,
@@ -222,7 +222,7 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
   if (! pThisMethodHasBeenRun) {
     /* JMI
   #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+      if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
         gLogOstream <<
           "Initializing xml2ly insider options handling" <<
           endl;
@@ -234,15 +234,15 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    initializeTraceOahHandling (
+    initializeTraceOahHandler (
       this);
 #endif
 
-    initializeOahOahHandling (
+    initializeOahOahHandler (
       executableName,
       this);
 
-    initializeGeneralOahHandling (
+    initializeGeneralOahHandler (
       this);
 
     // initialize the library
@@ -254,41 +254,41 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
     // initialize options handling, phase 2
     // ------------------------------------------------------
 
-    initializeMusicxmlOahHandling (
+    initializeMusicxmlOahHandler (
       this);
 
-    initializeMxmlTreeOahHandling (
+    initializeMxmlTreeOahHandler (
       this);
 
-    initializeMxmlTree2MsrOahHandling (
+    initializeMxmlTree2MsrOahHandler (
       this);
 
-    initializeMsrOahHandling (
+    initializeMsrOahHandler (
       this);
 
-    initializeMsr2LpsrOahHandling (
+    initializeMsr2LpsrOahHandler (
       this);
 
-    initializeLpsrOahHandling (
+    initializeLpsrOahHandler (
       this);
 
-    initializeLpsr2LilypondOahHandling (
+    initializeLpsr2LilypondOahHandler (
       this);
 
-    initializeLilypondOahHandling (
+    initializeLilypondOahHandler (
       this);
 
     // this is in case the '-loop' option is selected
-    initializeMsr2MxmltreeOahHandling (
+    initializeMsr2MxmltreeOahHandler (
       this);
 
 #ifdef EXTRA_OAH
-    initializeExtraOahHandling (
+    initializeExtraOahHandler (
       this);
 #endif
 
   /* JMI
-    initializeXml2lyManPageOahHandling (
+    initializeXml2lyManPageOahHandler (
       this,
       theOah2ManPageGenerator);
   */
@@ -324,7 +324,7 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
       registerHandlerOptionNamesInItself ();
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+    if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
       fHandlerLogOstream <<
         "xml2lyInsiderOahHandler help:" <<
         endl;
@@ -335,14 +335,14 @@ void xml2lyInsiderOahHandler::initializeXml2lyInsiderOahHandling (
     }
 #endif
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
 void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOahDetails) {
+  if (gGlobalTraceOah->fTraceOahDetails) {
     gOutputOstream <<
       "xml2lyInsiderOahHandler::checkOptionsAndArguments() " <<
       fHandlerHeader <<
@@ -358,7 +358,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
       fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+    if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
       if (argumentsNumber > 0) {
         fHandlerLogOstream <<
           singularOrPluralWithoutNumber (
@@ -369,7 +369,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
           singularOrPluralWithoutNumber (
             argumentsNumber, "argument", "arguments") <<
           " in handlerArgumentsVector for " <<
-          globalOahOah->fHandlerExecutableName <<
+          gGlobalOahOah->fHandlerExecutableName <<
           ":" <<
           endl;
 
@@ -388,7 +388,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
       else {
         fHandlerLogOstream <<
           "There are no arguments to " <<
-          globalOahOah->fHandlerExecutableName <<
+          gGlobalOahOah->fHandlerExecutableName <<
           endl;
       }
     }
@@ -417,7 +417,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
 
       case 1:
         // register intput file name
-        globalOahOah->fInputSourceName =
+        gGlobalOahOah->fInputSourceName =
           fHandlerArgumentsVector [0];
         break;
 
@@ -431,7 +431,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
           endl;
 
         // register intput file name
-        globalOahOah->fInputSourceName =
+        gGlobalOahOah->fInputSourceName =
           fHandlerArgumentsVector [0];
         break;
     } //  switch
@@ -441,7 +441,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
 
     string
       inputSourceName =
-        globalOahOah->fInputSourceName;
+        gGlobalOahOah->fInputSourceName;
 
     string potentialOutputFileName;
 
@@ -469,16 +469,16 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
 
     S_oahStringAtom
       outputFileNameStringAtom =
-        globalXml2lyOah->
+        gGlobalXml2lyOah->
           getOutputFileNameStringAtom ();
 
     S_oahBooleanAtom
       autoOutputFileNameAtom =
-        globalXml2lyOah->
+        gGlobalXml2lyOah->
           getAutoOutputFileNameAtom ();
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+    if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
       // print the options handler initial state
       fHandlerLogOstream <<
         "xml2lyInsiderOahHandler::checkOptionsAndArguments(): " <<
@@ -530,7 +530,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
           // '-o, -output-file-name' has been chosen
 
 #ifdef TRACE_OAH
-          if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+          if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
             fHandlerLogOstream <<
               "'-aofn, -auto-output-file-name' has been chosen" <<
               endl <<
@@ -557,7 +557,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
           // '-o, -output-file-name' has NOT been chosen
 
 #ifdef TRACE_OAH
-          if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+          if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
             fHandlerLogOstream <<
               "'-aofn, -auto-output-file-name' has been chosen" <<
               endl <<
@@ -586,7 +586,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
         // '-o, -output-file-name' has been chosen
 
 #ifdef TRACE_OAH
-        if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+        if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
           fHandlerLogOstream <<
             "'-aofn, -auto-output-file-name' has NOT been chosen" <<
             endl <<
@@ -605,7 +605,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
         // '-o, -output-file-name' has NOT been chosen
 
 #ifdef TRACE_OAH
-        if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+        if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
           fHandlerLogOstream <<
             "'-aofn, -auto-output-file-name' has NOT been chosen" <<
             endl <<
@@ -618,7 +618,7 @@ void xml2lyInsiderOahHandler::checkOptionsAndArguments ()
       }
     }
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -629,31 +629,31 @@ void xml2lyInsiderOahHandler::checkOptionsConsistency ()
 void xml2lyInsiderOahHandler::enforceOahHandlerQuietness ()
 {
 #ifdef TRACE_OAH
-  globalGeneralOah->
+  gGlobalGeneralOah->
     enforceQuietness ();
 #endif
 
-  globalGeneralOah->
+  gGlobalGeneralOah->
     enforceQuietness ();
 
-  globalMxmlTreeOah->
+  gGlobalMxmlTreeOah->
     enforceQuietness ();
 
-  globalMsrOah->
+  gGlobalMsrOah->
     enforceQuietness ();
 
-  globalLpsrOah->
+  gGlobalLpsrOah->
     enforceQuietness ();
 
-  globalLpsr2LilypondOah->
+  gGlobalLpsr2LilypondOah->
     enforceQuietness ();
 
 #ifdef EXTRA_OAH
-  globalExtraOah->
+  gggGlobalExtraOah->
     enforceQuietness ();
 #endif
 
-  globalXml2lyOah->
+  gGlobalXml2lyOah->
     enforceQuietness ();
 }
 
@@ -669,7 +669,7 @@ void xml2lyOah::checkOptionsConsistency ()
 void xml2lyOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyOah::acceptIn ()" <<
       endl;
@@ -682,7 +682,7 @@ void xml2lyOah::acceptIn (basevisitor* v)
         S_xml2lyOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2lyOah::visitStart ()" <<
             endl;
@@ -695,7 +695,7 @@ void xml2lyOah::acceptIn (basevisitor* v)
 void xml2lyOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyOah::acceptOut ()" <<
       endl;
@@ -708,7 +708,7 @@ void xml2lyOah::acceptOut (basevisitor* v)
         S_xml2lyOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2lyOah::visitEnd ()" <<
             endl;
@@ -721,7 +721,7 @@ void xml2lyOah::acceptOut (basevisitor* v)
 void xml2lyOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyOah::browseData ()" <<
       endl;
@@ -802,7 +802,7 @@ ostream& operator<< (ostream& os, const S_xml2lyInsiderOahHandler& elt)
 }
 
 //_______________________________________________________________________________
-S_xml2lyOah globalXml2lyOah;
+S_xml2lyOah gGlobalXml2lyOah;
 
 S_xml2lyOah xml2lyOah::create (
   S_oahHandler handlerUpLink)
@@ -1126,7 +1126,7 @@ void initializeXml2lyOah (
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+    if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
       gLogOstream <<
         "Initializing xml2ly options handling" <<
         endl;
@@ -1147,11 +1147,11 @@ void initializeXml2lyOah (
     // create the options variables
     // ------------------------------------------------------
 
-    globalXml2lyOah = xml2lyOah::create (
+    gGlobalXml2lyOah = xml2lyOah::create (
       handler);
-    assert (globalXml2lyOah != 0);
+    assert (gGlobalXml2lyOah != 0);
 
-    pThisMethodHasBeenRun = true;
+// JMI// JMI    pThisMethodHasBeenRun = true;
   }
 }
 

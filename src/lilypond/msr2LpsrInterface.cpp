@@ -54,7 +54,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -198,7 +198,7 @@ void displayLpsrScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! globalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -206,7 +206,7 @@ void displayLpsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -228,7 +228,7 @@ void displayLpsrScoreShort_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! globalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -236,7 +236,7 @@ void displayLpsrScoreShort_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -252,7 +252,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
 {
   S_lpsrScore lpScore;
 
-  if (globalLpsr2LilypondOah->fNoLilypondCode) {
+  if (gGlobalLpsr2LilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "Option '-nolpc, -no-lilypond-code' is set, no LPSR is created" <<
       endl <<
@@ -262,13 +262,13 @@ S_lpsrScore convertMsrScoreToLpsrScore (
     lpScore =
       buildLpsrScoreFromMsrScore (
         mScore,
-        globalMsrOah,
-        globalLpsrOah,
+        gGlobalMsrOah,
+        gGlobalLpsrOah,
         gLogOstream);
   }
 
   if (gIndenter != 0) {
-    if (! globalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -276,7 +276,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -284,7 +284,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
     gIndenter.resetToZero ();
   }
 
-  if (! lpScore && ! globalLpsr2LilypondOah->fNoLilypondCode) {
+  if (! lpScore && ! gGlobalLpsr2LilypondOah->fNoLilypondCode) {
     string message =
       "### Conversion from MSR to LPSR failed ###";
 

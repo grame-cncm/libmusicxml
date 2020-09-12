@@ -53,7 +53,7 @@ msrBeam::msrBeam (
   fBeamKind   = beamKind;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceBeams) {
+  if (gGlobalTraceOah->fTraceBeams) {
     gLogOstream <<
       "Creating beam '" <<
       this->asString () <<
@@ -68,7 +68,7 @@ msrBeam::~msrBeam ()
 
 void msrBeam::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeam::acceptIn ()" <<
       endl;
@@ -79,7 +79,7 @@ void msrBeam::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeam::visitStart ()" <<
             endl;
@@ -90,7 +90,7 @@ void msrBeam::acceptIn (basevisitor* v)
 
 void msrBeam::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrBeam::acceptOut ()" <<
       endl;
@@ -101,7 +101,7 @@ void msrBeam::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrBeam::visitEnd ()" <<
             endl;

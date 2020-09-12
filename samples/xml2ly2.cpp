@@ -91,15 +91,16 @@ static string options2String (const optionsVector& options)
 int main (int argc, char *argv[])
 {
 	optionsVector options;
+//	options.push_back (make_pair ("-help", ""));
 	options.push_back (make_pair ("-hmxmlcg", ""));
   cerr << "main - string2lily options: " << options.size() << ": " << options2String(options) << endl;
 
-  cerr << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
+  cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
 
 	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
 	cout << "xml2ly2 ret 1 = " << err << endl;
 
-  cerr << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
+  cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
 
 	xmlErr err2 = musicxmlstring2lilypond ("", options, cout, cerr);
 	cout << "xml2ly2 ret 2 = " << err2 << endl;

@@ -50,7 +50,7 @@ lpsrNewLyricsBlock::~lpsrNewLyricsBlock ()
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewLyricsBlock::acceptIn ()" <<
       endl;
@@ -63,7 +63,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
         S_lpsrNewLyricsBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitStart ()" <<
             endl;
@@ -76,7 +76,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrNewLyricsBlock::acceptOut ()" <<
       endl;
@@ -89,7 +89,7 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
         S_lpsrNewLyricsBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitEnd ()" <<
             endl;

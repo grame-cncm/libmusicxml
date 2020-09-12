@@ -43,7 +43,7 @@ lpsrPartGroupBlock::~lpsrPartGroupBlock ()
 void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPartGroupBlock::acceptIn ()" <<
       endl;
@@ -56,7 +56,7 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
         S_lpsrPartGroupBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitStart ()" <<
             endl;
@@ -69,7 +69,7 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPartGroupBlock::acceptOut ()" <<
       endl;
@@ -82,7 +82,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
         S_lpsrPartGroupBlock elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitEnd ()" <<
             endl;
@@ -95,7 +95,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 void lpsrPartGroupBlock::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrPartGroupBlock::browseData ()" <<
       endl;
@@ -113,7 +113,7 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
   } // for
 
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrPartGroupBlock::browseData ()" <<
       endl;

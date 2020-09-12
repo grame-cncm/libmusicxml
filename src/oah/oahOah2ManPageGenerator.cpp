@@ -48,7 +48,7 @@ oahOah2ManPageGenerator::~oahOah2ManPageGenerator ()
 void oahOah2ManPageGenerator::visitStart (S_oahOptionalValuesStyleKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting oahOptionalValuesStyleKindAtom" <<
@@ -78,7 +78,7 @@ void oahOah2ManPageGenerator::visitStart (S_oahOptionalValuesStyleKindAtom& elt)
 void oahOah2ManPageGenerator::visitEnd (S_oahOptionalValuesStyleKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting oahOptionalValuesStyleKindAtom" <<

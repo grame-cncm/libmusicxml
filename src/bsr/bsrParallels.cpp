@@ -45,7 +45,7 @@ bsrParallel::bsrParallel (
 bsrParallel::~bsrParallel ()
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceParallels) {
+  if (gGlobalBsrOah->fTraceParallels) {
     gLogOstream <<
       "Creating bsrParallel '" <<
       asString () <<
@@ -59,7 +59,7 @@ bsrParallel::~bsrParallel ()
 void bsrParallel::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrParallel::acceptIn ()" <<
       endl;
@@ -72,7 +72,7 @@ void bsrParallel::acceptIn (basevisitor* v)
         S_bsrParallel elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrParallel::visitStart ()" <<
             endl;
@@ -85,7 +85,7 @@ void bsrParallel::acceptIn (basevisitor* v)
 void bsrParallel::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrParallel::acceptOut ()" <<
       endl;
@@ -98,7 +98,7 @@ void bsrParallel::acceptOut (basevisitor* v)
         S_bsrParallel elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrParallel::visitEnd ()" <<
             endl;
@@ -160,7 +160,7 @@ void bsrParallel::print (ostream& os) const
   // print the parallel elements if any
   int parallelElementsListSize = fParallelElementsList.size ();
 
-  if (parallelElementsListSize || globalBsrOah->fDisplayBsrDetails) {
+  if (parallelElementsListSize || gGlobalBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "fParallelElementsList";

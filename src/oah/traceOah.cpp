@@ -29,8 +29,8 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-S_traceOah globalTraceOah;
-S_traceOah globalTraceOahUserChoices;
+S_traceOah gGlobalTraceOah;
+S_traceOah gGlobalTraceOahUserChoices;
 
 S_traceOah traceOah::create (
   S_oahHandler handlerUpLink)
@@ -2852,7 +2852,7 @@ void traceOah::checkOptionsConsistency ()
 void traceOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> traceOah::acceptIn ()" <<
       endl;
@@ -2865,7 +2865,7 @@ void traceOah::acceptIn (basevisitor* v)
         S_traceOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching traceOah::visitStart ()" <<
             endl;
@@ -2878,7 +2878,7 @@ void traceOah::acceptIn (basevisitor* v)
 void traceOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> traceOah::acceptOut ()" <<
       endl;
@@ -2891,7 +2891,7 @@ void traceOah::acceptOut (basevisitor* v)
         S_traceOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching traceOah::visitEnd ()" <<
             endl;
@@ -2904,7 +2904,7 @@ void traceOah::acceptOut (basevisitor* v)
 void traceOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> traceOah::browseData ()" <<
       endl;
@@ -3816,11 +3816,11 @@ ostream& operator<< (ostream& os, const S_traceOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeTraceOahHandling (
+void initializeTraceOahHandler (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (false && ! globalGeneralOah->fQuiet) { // JMI
+  if (false && ! gGlobalGeneralOah->fQuiet) { // JMI
     gLogOstream <<
       "Initializing trace options handling" <<
       endl;
@@ -3834,14 +3834,14 @@ void initializeTraceOahHandling (
     // create the options variables
     // ------------------------------------------------------
 
-    globalTraceOahUserChoices = traceOah::create (
+    gGlobalTraceOahUserChoices = traceOah::create (
       handler);
-    assert(globalTraceOahUserChoices != 0);
+    assert(gGlobalTraceOahUserChoices != 0);
 
-    globalTraceOah =
-      globalTraceOahUserChoices;
+    gGlobalTraceOah =
+      gGlobalTraceOahUserChoices;
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 

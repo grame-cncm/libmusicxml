@@ -71,7 +71,7 @@ msrXMLLangKind msrXMLLangKindFromString (
         "' should be 'it', 'en', 'de' or 'fr'";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -221,7 +221,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) {
+  if (gGlobalTraceOah->fTraceOah) {
     gLogOstream <<
       "There are " << smSize << " matches" <<
       " for transposition string '" << theString <<
@@ -247,7 +247,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       octaveIndication = sm [2];
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah) {
+    if (gGlobalTraceOah->fTraceOah) {
       gLogOstream <<
         "--> pitch = \"" << pitch << "\", " <<
         "--> octaveIndication = \"" << octaveIndication << "\"" <<
@@ -301,7 +301,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
     } // for
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah) {
+    if (gGlobalTraceOah->fTraceOah) {
       gLogOstream <<
         "--> semiTonesPitchKind = \"" <<
           msrSemiTonesPitchKindAsString (
@@ -327,7 +327,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 
     msrMusicXMLError (
 //    msrMusicXMLWarning ( //  JMI
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -344,7 +344,7 @@ msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
   fOctave            = relativeOctave;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceHarmoniesDetails) {
+  if (gGlobalTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
       "==> Creating pitch and octave '" <<
       asString () <<
@@ -468,7 +468,7 @@ msrDurationKind msrDurationKindFromString (
       "\" is unknown";
 
     msrMusicXMLError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -811,7 +811,7 @@ string wholeNotesAsMsrString (
   int&     dotsNumber)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotes) {
+  if (gGlobalTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> wholeNotesAsMsrString() 1 -------------------------------------" <<
       ", wholeNotes: " << wholeNotes <<
@@ -825,7 +825,7 @@ string wholeNotesAsMsrString (
     denominator  = wholeNotes.getDenominator ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotes) {
+  if (gGlobalTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> numerator:   " << numerator <<
       endl <<
@@ -849,7 +849,7 @@ string wholeNotesAsMsrString (
 
  //   msrMusicXMLError ( JMI
     msrMusicXMLWarning (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -860,7 +860,7 @@ string wholeNotesAsMsrString (
   wholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotesDetails) {
+  if (gGlobalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
@@ -880,7 +880,7 @@ string wholeNotesAsMsrString (
     integralNumberOfWholeNotes = denominator == 1;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotesDetails) {
+  if (gGlobalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
@@ -908,7 +908,7 @@ string wholeNotesAsMsrString (
   int  numeratorDots = msrNumberOfDots (numerator);
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotesDetails) {
+  if (gGlobalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl <<
@@ -960,7 +960,7 @@ string wholeNotesAsMsrString (
     }
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceWholeNotesDetails) {
+    if (gGlobalTraceOah->fTraceWholeNotesDetails) {
       stringstream s;
 
       s <<
@@ -984,7 +984,7 @@ string wholeNotesAsMsrString (
 
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -995,7 +995,7 @@ string wholeNotesAsMsrString (
   }
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotesDetails) {
+  if (gGlobalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
@@ -1010,7 +1010,7 @@ string wholeNotesAsMsrString (
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3 \breve, hence '\longa.'
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceWholeNotesDetails) {
+    if (gGlobalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
@@ -1023,7 +1023,7 @@ string wholeNotesAsMsrString (
       denominatorDurationLog -= 1;
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceWholeNotesDetails) {
+      if (gGlobalTraceOah->fTraceWholeNotesDetails) {
         gLogOstream <<
           "--> numerator" << " : " <<
           numerator <<
@@ -1041,7 +1041,7 @@ string wholeNotesAsMsrString (
   }
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotesDetails) {
+  if (gGlobalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numerator" << " : " <<
       numerator <<
@@ -1062,7 +1062,7 @@ string wholeNotesAsMsrString (
   if (numeratorDots >= 0 && denominatorDurationLog >= numeratorDots) {
     // take the dots into account
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceWholeNotesDetails) {
+    if (gGlobalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> taking the dots into account" <<
         endl;
@@ -1072,7 +1072,7 @@ string wholeNotesAsMsrString (
     denominatorDurationLog -= numeratorDots;
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceWholeNotesDetails) {
+    if (gGlobalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -1087,7 +1087,7 @@ string wholeNotesAsMsrString (
   else {
     // set the multiplying factor
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceWholeNotesDetails) {
+    if (gGlobalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> setting the multiplying factor" <<
         endl;
@@ -1103,7 +1103,7 @@ string wholeNotesAsMsrString (
     multiplyingFactor = numerator;
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceWholeNotesDetails) {
+    if (gGlobalTraceOah->fTraceWholeNotesDetails) {
       gLogOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -1123,7 +1123,7 @@ string wholeNotesAsMsrString (
       multiplyingFactor /= 2;
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceWholeNotesDetails) {
+      if (gGlobalTraceOah->fTraceWholeNotesDetails) {
         gLogOstream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
@@ -1139,7 +1139,7 @@ string wholeNotesAsMsrString (
   }
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotesDetails) {
+  if (gGlobalTraceOah->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numerator " << " : " <<
       numerator <<
@@ -1202,7 +1202,7 @@ string wholeNotesAsMsrString (
   string result = s.str ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceWholeNotes) {
+  if (gGlobalTraceOah->fTraceWholeNotes) {
     gLogOstream <<
       "--> wholeNotesAsMsrString() 2 -------------------------------------" <<
      ", result: \"" << result << "\"" <<
@@ -5715,7 +5715,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           ", line = " << inputLineNumber;
 
         msrUnsupported (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -8599,14 +8599,14 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         s <<
           "Sorry, computing intervals from quartertones pitch '" <<
           msrQuarterTonesPitchKindAsString (
-            globalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+            gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
             quarterTonesPitchKind) <<
           "(" << quarterTonesPitchKind << ")" <<
           "' is not supported"
           ", line = " << inputLineNumber;
 
         msrUnsupported (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -9377,7 +9377,7 @@ void initializeClefKinds ()
     gClefKindsNamesList.push_back ("jianpu");
     gClefKindsMap ["jianpu"] = kJianpuClef;
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -10132,7 +10132,7 @@ void initializeHarmonyKinds ()
     gHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
     gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -10250,7 +10250,7 @@ void initializeHarmonyStructuresMap ()
         harmonyStructure;
     } // for
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -10351,7 +10351,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
     initializeSvenskaPitchNamesMap ();
     initializeVlaamsPitchNamesMap ();
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -12288,7 +12288,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              globalOahOah->fInputSourceName,
+              gGlobalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12341,7 +12341,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              globalOahOah->fInputSourceName,
+              gGlobalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12396,7 +12396,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              globalOahOah->fInputSourceName,
+              gGlobalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12449,7 +12449,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              globalOahOah->fInputSourceName,
+              gGlobalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12502,7 +12502,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              globalOahOah->fInputSourceName,
+              gGlobalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12555,7 +12555,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              globalOahOah->fInputSourceName,
+              gGlobalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12608,7 +12608,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              globalOahOah->fInputSourceName,
+              gGlobalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12628,7 +12628,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12754,7 +12754,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12772,7 +12772,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12909,7 +12909,7 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12927,7 +12927,7 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -13317,7 +13317,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromString (
   msrQuarterTonesPitchKind
     quarterTonesPitchKindFromString =
       msrQuarterTonesPitchKindFromString (
-        globalLpsrOah->
+        gGlobalLpsrOah->
           fLpsrQuarterTonesPitchesLanguageKind,
         theString);
 
@@ -14040,7 +14040,7 @@ void initializeMsrLengthUnitKindsMap ()
     gMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
     gMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -14241,7 +14241,7 @@ void initializeMsrMarginTypeKindsMap ()
     gMsrMarginTypeKindsMap ["even"] = kEvenMargin;
     gMsrMarginTypeKindsMap ["both"] = kBothMargins;
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -14385,7 +14385,7 @@ void msrMarginsGroup::setLeftMargin (
       " margins group";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14413,7 +14413,7 @@ void msrMarginsGroup::setRightMargin (
       " margins group";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14441,7 +14441,7 @@ void msrMarginsGroup::setTopMargin (
       " margins group";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14469,7 +14469,7 @@ void msrMarginsGroup::setBottomMargin (
       " margins group";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14480,7 +14480,7 @@ void msrMarginsGroup::setBottomMargin (
 
 /* JMI
 void msrMarginsGroup::acceptIn (basevisitor* v) {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMarginsGroup::acceptIn ()" <<
       endl;
@@ -14491,7 +14491,7 @@ void msrMarginsGroup::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrMarginsGroup>*> (v)) {
         S_msrMarginsGroup elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMarginsGroup::visitStart ()" <<
              endl;
@@ -14500,7 +14500,7 @@ void msrMarginsGroup::acceptIn (basevisitor* v) {
 }
 
 void msrMarginsGroup::acceptOut (basevisitor* v) {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMarginsGroup::acceptOut ()" <<
       endl;
@@ -14511,7 +14511,7 @@ void msrMarginsGroup::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrMarginsGroup>*> (v)) {
         S_msrMarginsGroup elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMarginsGroup::visitEnd ()" <<
             endl;
@@ -14736,7 +14736,7 @@ float msrFontSize::getFontNumericSize ()
           fontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           K_NO_INPUT_LINE_NUMBER, // JMI
           __FILE__, __LINE__,
           s.str ());
@@ -14794,7 +14794,7 @@ msrFontStyleKind msrFontStyleKindFromString (
         " should be 'normal' or 'italic'";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -14845,7 +14845,7 @@ msrFontWeightKind msrFontWeightKindFromString (
         " should be 'normal' or 'bold'";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -14898,7 +14898,7 @@ msrJustifyKind msrJustifyKindFromString (
         " should be 'left', 'center' or 'right'";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -14953,7 +14953,7 @@ msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
         " should be 'left', 'center' or 'right'";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15008,7 +15008,7 @@ msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
         " should be 'top', 'middle' or 'bottom'";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15086,7 +15086,7 @@ msrPrintObjectKind msrPrintObjectKindFromString (
         "\" should be 'above' or 'below'";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15137,7 +15137,7 @@ msrPlacementKind msrPlacementKindFromString (
         "\" should be 'above' or 'below'";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15188,7 +15188,7 @@ msrUseDotsKind msrUseDotsFromString (
         "\" is unknown";
 
       msrMusicXMLError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15379,7 +15379,7 @@ msrHarmonyInterval::msrHarmonyInterval (
   fHarmonyIntervalRelativeOctave = harmonyIntervalRelativeOctave;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceHarmoniesDetails) {
+  if (gGlobalTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
       "==> Creating harmony item '" <<
       harmonyIntervalAsString () <<
@@ -15457,7 +15457,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
   S_msrHarmonyInterval otherHarmonyInterval)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceExtraHarmonies) {
+  if (gGlobalTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       endl <<
       "--> computing intervalDifference betwwen '" <<
@@ -15484,7 +15484,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
     normalizeInterval ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceExtraHarmonies) {
+  if (gGlobalTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       "--> normalized operands are '" <<
       operand1->asShortString () <<
@@ -15543,7 +15543,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
   }
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceExtraHarmonies) {
+  if (gGlobalTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       "--> permuteRelativeOctaves = " <<
       booleanAsString (permuteRelativeOctaves) <<
@@ -16721,7 +16721,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
   } // switch
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceExtraHarmonies) {
+  if (gGlobalTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       "--> base resultIntervalKind = '" <<
       msrIntervalKindAsString (resultIntervalKind) <<
@@ -16754,7 +16754,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
   result->deNormalizeInterval ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceExtraHarmonies) {
+  if (gGlobalTraceOah->fTraceExtraHarmonies) {
     gLogOstream <<
       "--> result = '" <<
       result->asShortString () <<
@@ -17905,7 +17905,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalSum (
 
 /* JMI
 void msrHarmonyInterval::acceptIn (basevisitor* v) {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmonyInterval::acceptIn ()" <<
       endl;
@@ -17916,7 +17916,7 @@ void msrHarmonyInterval::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyInterval>*> (v)) {
         S_msrHarmonyInterval elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmonyInterval::visitStart ()" <<
              endl;
@@ -17925,7 +17925,7 @@ void msrHarmonyInterval::acceptIn (basevisitor* v) {
 }
 
 void msrHarmonyInterval::acceptOut (basevisitor* v) {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmonyInterval::acceptOut ()" <<
       endl;
@@ -17936,7 +17936,7 @@ void msrHarmonyInterval::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyInterval>*> (v)) {
         S_msrHarmonyInterval elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmonyInterval::visitEnd ()" <<
             endl;
@@ -18046,7 +18046,7 @@ msrHarmonyStructure::msrHarmonyStructure (
   fHarmonyStructureHarmonyKind = harmonyStructureHarmonyKind;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceHarmoniesDetails) {
+  if (gGlobalTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
       "==> Creating harmony intervals '" <<
       harmonyStructureAsString () <<
@@ -18944,7 +18944,7 @@ void msrHarmonyStructure::appendHarmonyIntervalToHarmonyStructure (
 
 /* JMI
 void msrHarmonyStructure::acceptIn (basevisitor* v) {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmonyStructure::acceptIn ()" <<
       endl;
@@ -18955,7 +18955,7 @@ void msrHarmonyStructure::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyStructure>*> (v)) {
         S_msrHarmonyStructure elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmonyStructure::visitStart ()" <<
              endl;
@@ -18964,7 +18964,7 @@ void msrHarmonyStructure::acceptIn (basevisitor* v) {
 }
 
 void msrHarmonyStructure::acceptOut (basevisitor* v) {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmonyStructure::acceptOut ()" <<
       endl;
@@ -18975,7 +18975,7 @@ void msrHarmonyStructure::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyStructure>*> (v)) {
         S_msrHarmonyStructure elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmonyStructure::visitEnd ()" <<
             endl;
@@ -19012,7 +19012,7 @@ S_msrHarmonyInterval msrHarmonyStructure::bassHarmonyIntervalForHarmonyInversion
       "', line " << inputLineNumber;
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -19038,7 +19038,7 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
       fHarmonyStructureIntervals.size ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceHarmoniesDetails) {
+  if (gGlobalTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
       "==> invertHarmonyStructure (), inversion = " << inversion <<
       ", original harmonyStructureIntervalsSize = " << harmonyStructureIntervalsSize <<
@@ -19055,7 +19055,7 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
             createHarmonyIntervalNewbornClone ();
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceHarmoniesDetails) {
+      if (gGlobalTraceOah->fTraceHarmoniesDetails) {
         gLogOstream <<
           "--> adding first item to result:" <<
           endl;
@@ -19072,7 +19072,7 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
           harmonyIntervalClone);
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceHarmoniesDetails) {
+      if (gGlobalTraceOah->fTraceHarmoniesDetails) {
         gLogOstream <<
           "==> result harmony structure after adding first item :" <<
           endl;
@@ -19097,7 +19097,7 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
         incrementHarmonyIntervalRelativeOctave ();
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceHarmoniesDetails) {
+      if (gGlobalTraceOah->fTraceHarmoniesDetails) {
         gLogOstream <<
           "--> adding last item to resultlast item :" <<
           endl;
@@ -19114,7 +19114,7 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
           harmonyIntervalClone);
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceHarmoniesDetails) {
+      if (gGlobalTraceOah->fTraceHarmoniesDetails) {
         gLogOstream <<
           "==> result harmony structure after  after adding last item:" <<
           endl;
@@ -19275,7 +19275,7 @@ msrSemiTonesPitchAndAbsoluteOctave::msrSemiTonesPitchAndAbsoluteOctave (
   fAbsoluteOctave = absoluteOctave;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceHarmoniesDetails) {
+  if (gGlobalTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
       "==> Creating harmony item '" <<
       asString () <<
@@ -19366,7 +19366,7 @@ msrSemiTonesPitchAndRelativeOctave::msrSemiTonesPitchAndRelativeOctave (
   fRelativeOctave = relativeOctave;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceHarmoniesDetails) {
+  if (gGlobalTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
       "==> Creating harmony item '" <<
       asString () <<
@@ -19460,7 +19460,7 @@ msrHarmonyContents::msrHarmonyContents (
   fHarmonyContentsHarmonyKind = harmonyContentsHarmonyKind;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceHarmoniesDetails) {
+  if (gGlobalTraceOah->fTraceHarmoniesDetails) {
     gLogOstream <<
       "==> Creating harmonyContents '" <<
       harmonyContentsAsString () <<
@@ -19558,7 +19558,7 @@ msrSemiTonesPitchKind msrHarmonyContents::bassSemiTonesPitchKindForHarmonyInvers
       "', line " << inputLineNumber;
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -19582,7 +19582,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
   os <<
     "All the known harmonies contents with diatonic root '" <<
     msrQuarterTonesPitchKindAsString (
-      globalLpsrOah->
+      gGlobalLpsrOah->
         fLpsrQuarterTonesPitchesLanguageKind,
       rootQuarterTonesPitchKind) <<
       /* JMI
@@ -19593,7 +19593,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
     */
     "' in language '" <<
     msrQuarterTonesPitchesLanguageKindAsString (
-      globalLpsrOah->
+      gGlobalLpsrOah->
         fLpsrQuarterTonesPitchesLanguageKind) <<
     "' 'are:" <<
     endl <<
@@ -19662,7 +19662,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
         os << left <<
           setw (fieldWidth2) <<
           msrQuarterTonesPitchKindAsString (
-            globalLpsrOah->
+            gGlobalLpsrOah->
               fLpsrQuarterTonesPitchesLanguageKind,
             noteQuarterTonesPitchKind) <<
           " : " <<
@@ -19685,7 +19685,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
 
 /* JMI
 void msrHarmonyContents::acceptIn (basevisitor* v) {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmonyContents::acceptIn ()" <<
       endl;
@@ -19696,7 +19696,7 @@ void msrHarmonyContents::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyContents>*> (v)) {
         S_msrHarmonyContents elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmonyContents::visitStart ()" <<
              endl;
@@ -19705,7 +19705,7 @@ void msrHarmonyContents::acceptIn (basevisitor* v) {
 }
 
 void msrHarmonyContents::acceptOut (basevisitor* v) {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHarmonyContents::acceptOut ()" <<
       endl;
@@ -19716,7 +19716,7 @@ void msrHarmonyContents::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyContents>*> (v)) {
         S_msrHarmonyContents elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHarmonyContents::visitEnd ()" <<
             endl;
@@ -19802,7 +19802,7 @@ void printHarmonyDetails (
   string
     rootQuarterTonesPitchKindAsString =
       msrQuarterTonesPitchKindAsString (
-        globalLpsrOah->
+        gGlobalLpsrOah->
           fLpsrQuarterTonesPitchesLanguageKind,
         rootQuarterTonesPitchKind);
 
@@ -19849,7 +19849,7 @@ void printHarmonyDetails (
             invertHarmonyStructure (inversion);
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceHarmoniesDetails) {
+      if (gGlobalTraceOah->fTraceHarmoniesDetails) {
         os <<
           "==> inversion = " << inversion <<
           ", initial invertedHarmonyStructure:" <<
@@ -19941,7 +19941,7 @@ void printHarmonyDetails (
         os << left <<
           setw (fieldWidth2) <<
           msrQuarterTonesPitchKindAsString (
-            globalLpsrOah->
+            gGlobalLpsrOah->
               fLpsrQuarterTonesPitchesLanguageKind,
             noteQuarterTonesPitchKind) <<
             /* JMI
@@ -19983,7 +19983,7 @@ void printHarmonyAnalysis (
   string
     rootQuarterTonesPitchKindAsString =
       msrQuarterTonesPitchKindAsString (
-        globalLpsrOah->
+        gGlobalLpsrOah->
           fLpsrQuarterTonesPitchesLanguageKind,
         rootQuarterTonesPitchKind);
 
@@ -20032,7 +20032,7 @@ void printHarmonyAnalysis (
             invertHarmonyStructure (inversion);
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceHarmoniesDetails) {
+      if (gGlobalTraceOah->fTraceHarmoniesDetails) {
         os <<
           "==> inversion = " << inversion <<
           ", initial invertedHarmonyStructure:" <<
@@ -20112,7 +20112,7 @@ void printHarmonyAnalysis (
           os << left <<
             setw (fieldWidth2) <<
             msrQuarterTonesPitchKindAsString (
-              globalLpsrOah->
+              gGlobalLpsrOah->
                 fLpsrQuarterTonesPitchesLanguageKind,
               noteQuarterTonesPitchKind) <<
             " : " <<
@@ -20244,7 +20244,7 @@ void printHarmonyAnalysis (
             os << left <<
               setw (fieldWidth1) <<
               msrQuarterTonesPitchKindAsString (
-                globalLpsrOah->
+                gGlobalLpsrOah->
                   fLpsrQuarterTonesPitchesLanguageKind,
                 noteQuarterTonesPitchKind1) <<
 
@@ -20252,7 +20252,7 @@ void printHarmonyAnalysis (
 
               setw (fieldWidth1) <<
               msrQuarterTonesPitchKindAsString (
-                globalLpsrOah->
+                gGlobalLpsrOah->
                   fLpsrQuarterTonesPitchesLanguageKind,
                 noteQuarterTonesPitchKind2) <<
 
@@ -20352,7 +20352,7 @@ msrRGBColor::msrRGBColor (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) {
+  if (gGlobalTraceOah->fTraceOah) {
     gLogOstream <<
       "There are " << smSize << " matches" <<
       " for RGB color string '" << theString <<
@@ -20364,7 +20364,7 @@ msrRGBColor::msrRGBColor (
 
   if (smSize == 4) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah) {
+    if (gGlobalTraceOah->fTraceOah) {
       for (unsigned i = 0; i < smSize; ++i) {
         gLogOstream <<
           "[" << sm [i] << "] ";
@@ -20390,7 +20390,7 @@ msrRGBColor::msrRGBColor (
     BString = sm [3];
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) {
+  if (gGlobalTraceOah->fTraceOah) {
     gLogOstream <<
       "--> RString = \"" << RString << "\", " <<
       "--> GString = \"" << GString << "\"" <<
@@ -20544,7 +20544,7 @@ void initializeMSRBasicTypes ()
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+    if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
       gLogOstream <<
         "Initializing MSR basic types handling" <<
         endl;
@@ -20581,7 +20581,7 @@ void initializeMSRBasicTypes ()
 
     initializeMsrMarginTypeKindsMap ();
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 

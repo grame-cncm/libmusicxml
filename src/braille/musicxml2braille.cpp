@@ -107,7 +107,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // has quiet mode been requested?
     // ------------------------------------------------------
 
-    if (globalGeneralOah->fQuiet) {
+    if (gGlobalGeneralOah->fQuiet) {
       // disable all trace and display options
       handler->
         enforceOahHandlerQuietness ();
@@ -146,7 +146,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // should we return now?
     // ------------------------------------------------------
 
-    if (globalXml2brlOah->fExit2a) {
+    if (gGlobalXml2brlOah->fExit2a) {
       err <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -172,7 +172,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
       return kInvalidFile;
     }
 
-    if (globalXml2brlOah->fExit2b) {
+    if (gGlobalXml2brlOah->fExit2b) {
       err <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -184,25 +184,25 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // display the MSR score summary if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsr) {
+    if (gGlobalMsrOah->fDisplayMsr) {
       displayMsrScore_OptionalPass (
         mScore,
-        globalMsrOah);
+        gGlobalMsrOah);
     }
 
-    if (globalMsrOah->fDisplayMsrShort) {
+    if (gGlobalMsrOah->fDisplayMsrShort) {
       displayMsrScoreShort_OptionalPass (
         mScore,
-        globalMsrOah);
+        gGlobalMsrOah);
     }
 
     // display the score summary if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsrSummary) {
+    if (gGlobalMsrOah->fDisplayMsrSummary) {
       // display the score summary
       displayMSRPopulatedScoreSummary (
-        globalMsrOah,
+        gGlobalMsrOah,
         mScore,
         gLogOstream);
     }
@@ -210,10 +210,10 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // display the score names if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsrNames) {
+    if (gGlobalMsrOah->fDisplayMsrNames) {
       // display the score name
       displayMSRPopulatedScoreNames (
-        globalMsrOah,
+        gGlobalMsrOah,
         mScore,
         gLogOstream);
     }
@@ -239,7 +239,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // should we return now?
     // ------------------------------------------------------
 
-    if (globalMsr2BsrOah->fExit3a) {
+    if (gGlobalMsr2BsrOah->fExit3a) {
       err <<
         endl <<
         "Existing after pass 3a as requested" <<
@@ -251,18 +251,18 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // display the first BSR score if requested
     // ------------------------------------------------------
 
-    if (globalBsrOah->fDisplayBsr) {
+    if (gGlobalBsrOah->fDisplayBsr) {
       displayBsrFirstScore_OptionalPass (
         firstBsrScore,
-        globalMsrOah,
-        globalBsrOah);
+        gGlobalMsrOah,
+        gGlobalBsrOah);
     }
 
-    if (globalBsrOah->fDisplayBsrShort) {
+    if (gGlobalBsrOah->fDisplayBsrShort) {
       displayBsrFirstScoreShort_OptionalPass (
         firstBsrScore,
-        globalMsrOah,
-        globalBsrOah);
+        gGlobalMsrOah,
+        gGlobalBsrOah);
     }
 
     // create the finalized BSR from the first BSR (pass 3b)
@@ -286,7 +286,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // should we return now?
     // ------------------------------------------------------
 
-    if (globalMsr2BsrOah->fExit3b) {
+    if (gGlobalMsr2BsrOah->fExit3b) {
       err <<
         endl <<
         "Existing after pass 3b as requested" <<
@@ -298,18 +298,18 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // display the finalized BSR score if requested
     // ------------------------------------------------------
 
-    if (globalBsrOah->fDisplayBsr) {
+    if (gGlobalBsrOah->fDisplayBsr) {
       displayFinalizedBsrScore_OptionalPass (
         finalizedBsrScore,
-        globalMsrOah,
-        globalBsrOah);
+        gGlobalMsrOah,
+        gGlobalBsrOah);
     }
 
-    if (globalBsrOah->fDisplayBsrShort) {
+    if (gGlobalBsrOah->fDisplayBsrShort) {
       displayFinalizedBsrScoreShort_OptionalPass (
         finalizedBsrScore,
-        globalMsrOah,
-        globalBsrOah);
+        gGlobalMsrOah,
+        gGlobalBsrOah);
     }
 
     // generate Braille music text from the BSR (pass 4)
@@ -428,7 +428,7 @@ EXP xmlErr convertMusicXMLToBraille (
   // should we return now?
   // ------------------------------------------------------
 
-  if (globalXml2brlOah->fExit2a) {
+  if (gGlobalXml2brlOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -466,25 +466,25 @@ EXP xmlErr convertMusicXMLToBraille (
   // display the MSR score if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsr) {
+  if (gGlobalMsrOah->fDisplayMsr) {
     displayMsrScore_OptionalPass (
       mScore,
-      globalMsrOah);
+      gGlobalMsrOah);
   }
 
-  if (globalMsrOah->fDisplayMsrShort) {
+  if (gGlobalMsrOah->fDisplayMsrShort) {
     displayMsrScoreShort_OptionalPass (
       mScore,
-      globalMsrOah);
+      gGlobalMsrOah);
   }
 
   // display the populated MSR score summary if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsrSummary) {
+  if (gGlobalMsrOah->fDisplayMsrSummary) {
     // display the score summary
     displayMSRPopulatedScoreSummary (
-      globalMsrOah,
+      gGlobalMsrOah,
       mScore,
       gLogOstream);
   }
@@ -492,10 +492,10 @@ EXP xmlErr convertMusicXMLToBraille (
   // display the populated MSR score names if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsrNames) {
+  if (gGlobalMsrOah->fDisplayMsrNames) {
     // display the score name
     displayMSRPopulatedScoreNames (
-      globalMsrOah,
+      gGlobalMsrOah,
       mScore,
       gLogOstream);
   }
@@ -503,7 +503,7 @@ EXP xmlErr convertMusicXMLToBraille (
   // should we return now?
   // ------------------------------------------------------
 
-  if (globalXml2brlOah->fExit2b) {
+  if (gGlobalXml2brlOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<
@@ -533,7 +533,7 @@ EXP xmlErr convertMusicXMLToBraille (
   // should we return now?
   // ------------------------------------------------------
 
-  if (globalMsr2BsrOah->fExit3a) {
+  if (gGlobalMsr2BsrOah->fExit3a) {
     gLogOstream <<
       endl <<
       "Existing after pass 3a as requested" <<
@@ -545,18 +545,18 @@ EXP xmlErr convertMusicXMLToBraille (
   // display the first BSR score if requested
   // ------------------------------------------------------
 
-  if (globalBsrOah->fDisplayBsr) {
+  if (gGlobalBsrOah->fDisplayBsr) {
     displayBsrFirstScore_OptionalPass (
       firstBsrScore,
-      globalMsrOah,
-      globalBsrOah);
+      gGlobalMsrOah,
+      gGlobalBsrOah);
   }
 
-  if (globalBsrOah->fDisplayBsrShort) {
+  if (gGlobalBsrOah->fDisplayBsrShort) {
     displayBsrFirstScoreShort_OptionalPass (
       firstBsrScore,
-      globalMsrOah,
-      globalBsrOah);
+      gGlobalMsrOah,
+      gGlobalBsrOah);
   }
 
   // create the finalized BSR from the first BSR (pass 3b)
@@ -580,7 +580,7 @@ EXP xmlErr convertMusicXMLToBraille (
   // should we return now?
   // ------------------------------------------------------
 
-  if (globalMsr2BsrOah->fExit3b) {
+  if (gGlobalMsr2BsrOah->fExit3b) {
     gLogOstream <<
       endl <<
       "Existing after pass 3b as requested" <<
@@ -592,18 +592,18 @@ EXP xmlErr convertMusicXMLToBraille (
   // display the finalized BSR score if requested
   // ------------------------------------------------------
 
-  if (globalBsrOah->fDisplayBsr) {
+  if (gGlobalBsrOah->fDisplayBsr) {
     displayFinalizedBsrScore_OptionalPass (
       finalizedBsrScore,
-      globalMsrOah,
-      globalBsrOah);
+      gGlobalMsrOah,
+      gGlobalBsrOah);
   }
 
-  if (globalBsrOah->fDisplayBsrShort) {
+  if (gGlobalBsrOah->fDisplayBsrShort) {
     displayFinalizedBsrScoreShort_OptionalPass (
       finalizedBsrScore,
-      globalMsrOah,
-      globalBsrOah);
+      gGlobalMsrOah,
+      gGlobalBsrOah);
   }
 
   // generate Braille music text from the BSR (pass 4)

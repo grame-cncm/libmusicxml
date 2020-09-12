@@ -220,7 +220,7 @@ void initializeBsrBrailleOutputKindsMap ()
     gBsrBrailleOutputKindsMap ["utf8d"] = kBrailleOutputUTF8Debug;
     gBsrBrailleOutputKindsMap ["utf16"] = kBrailleOutputUTF16;
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -435,7 +435,7 @@ void initializeBSRBasicTypes ()
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+    if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
       gLogOstream <<
         "Initializing BSR basic types handling" <<
         endl;
@@ -452,7 +452,7 @@ void initializeBSRBasicTypes ()
 
     initializeBsrTextsLanguageKindsMap ();
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 

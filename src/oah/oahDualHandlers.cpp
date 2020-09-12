@@ -236,7 +236,7 @@ void oahDualHandler::handleSubGroupMapping (S_oahSubGroup subGroup)
 
     // append subgroup to user group
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOahDetails) {
+    if (gGlobalTraceOah->fTraceOahDetails) {
       gLogOstream <<
         "+++ appending subgroup \"" <<
         subGroupNameToUse <<
@@ -306,7 +306,7 @@ void oahDualHandler::handleAtomMapping (S_oahAtom atom)
 
     // append atom to user subgroup
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOahDetails) {
+    if (gGlobalTraceOah->fTraceOahDetails) {
       gLogOstream <<
         "+++ appending atom \"" <<
         atomNameToUse <<
@@ -331,7 +331,7 @@ void oahDualHandler::handleAtomMapping (S_oahAtom atom)
     // place it in the 'put aside' user subgroup
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOahDetails) {
+    if (gGlobalTraceOah->fTraceOahDetails) {
       gLogOstream <<
         "+++ appending atom \"" <<
         atomNameToUse <<
@@ -352,7 +352,7 @@ void oahDualHandler::handleAtomMapping (S_oahAtom atom)
 void oahDualHandler::checkMappingsUse ()
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) {
+  if (gGlobalTraceOah->fTraceOah) {
     // print the known prefixes
     fUserHandler->
       printKnownPrefixes (gLogOstream);
@@ -365,7 +365,7 @@ void oahDualHandler::checkMappingsUse ()
 
   if (subGroupNamesToUserGroupsMapSize) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah) {
+    if (gGlobalTraceOah->fTraceOah) {
       stringstream s;
 
       s <<
@@ -399,7 +399,7 @@ void oahDualHandler::checkMappingsUse ()
 
   if (atomNamesToUserGroupsMapSize) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah) {
+    if (gGlobalTraceOah->fTraceOah) {
       stringstream s;
 
       s <<
@@ -433,7 +433,7 @@ void oahDualHandler::checkMappingsUse ()
 
   if (putAsideInUserViewAtomNamesListSize) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah) {
+    if (gGlobalTraceOah->fTraceOah) {
       stringstream s;
 
       // build the list of atom names to be output
@@ -510,7 +510,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::applyOptionsAndArgume
   char* argv[])
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) {
+  if (gGlobalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> oahDualHandler::applyOptionsAndArgumentsFromArgcAndArgv()" <<
       ", fDualHandlerName: \"" << fDualHandlerName << "\"" <<
@@ -559,7 +559,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahDualHandler::hangleOptionsFromOpti
   const optionsVector& theOptionsVector)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) {
+  if (gGlobalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> oahDualHandler::hangleOptionsFromOptionsVector" <<
       endl;
@@ -847,7 +847,7 @@ S_oahValuedAtom oahDualHandlerInsiderAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) {
+  if (gGlobalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a oahDualHandlerInsiderAtom" <<
       endl;
@@ -880,7 +880,7 @@ S_oahValuedAtom oahDualHandlerInsiderAtom::handleOptionUnderName (
 void oahDualHandlerInsiderAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahDualHandlerInsiderAtom::acceptIn ()" <<
       endl;
@@ -893,7 +893,7 @@ void oahDualHandlerInsiderAtom::acceptIn (basevisitor* v)
         S_oahDualHandlerInsiderAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahDualHandlerInsiderAtom::visitStart ()" <<
             endl;
@@ -906,7 +906,7 @@ void oahDualHandlerInsiderAtom::acceptIn (basevisitor* v)
 void oahDualHandlerInsiderAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahDualHandlerInsiderAtom::acceptOut ()" <<
       endl;
@@ -919,7 +919,7 @@ void oahDualHandlerInsiderAtom::acceptOut (basevisitor* v)
         S_oahDualHandlerInsiderAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahDualHandlerInsiderAtom::visitEnd ()" <<
             endl;
@@ -932,7 +932,7 @@ void oahDualHandlerInsiderAtom::acceptOut (basevisitor* v)
 void oahDualHandlerInsiderAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahDualHandlerInsiderAtom::browseData ()" <<
       endl;
@@ -971,7 +971,7 @@ ostream& operator<< (ostream& os, const S_oahDualHandlerInsiderAtom& elt)
 
   if (userOahHandlerGroupsList.size ()) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceOah) {
+    if (gGlobalTraceOah->fTraceOah) {
       list<S_oahGroup>::const_iterator
         iBegin = userOahHandlerGroupsList.begin (),
         iEnd   = userOahHandlerGroupsList.end (),

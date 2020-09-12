@@ -83,7 +83,7 @@ msrTuplet::msrTuplet (
   fTupletDisplayWholeNotes  = rational (0, 1);
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Creating tuplet:" <<
       endl;
@@ -103,7 +103,7 @@ msrTuplet::~msrTuplet ()
 S_msrTuplet msrTuplet::createTupletNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Creating a newborn clone of tuplet " <<
       asString () <<
@@ -250,7 +250,7 @@ void msrTuplet::appendNoteToTuplet (
     note->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Adding note " <<
       note->asShortString () <<
@@ -308,7 +308,7 @@ void msrTuplet::appendNoteToTuplet (
 void msrTuplet::appendChordToTuplet (S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Adding chord " <<
       chord->asString () <<
@@ -351,7 +351,7 @@ void msrTuplet::appendChordToTuplet (S_msrChord chord)
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Adding tuplet " <<
       tuplet->asString () <<
@@ -390,7 +390,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Adding tuplet " <<
       tuplet->asString () <<
@@ -446,7 +446,7 @@ S_msrNote msrTuplet::fetchTupletFirstNonGraceNote () const
 
   else {
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "cannot access the first note of an empty tuplet");
@@ -461,7 +461,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
   S_msrNote result;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Removing first note from tuplet " <<
       asString () <<
@@ -487,7 +487,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       }
 
       msrInternalError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "removeFirstNoteFromTuplet () expects a note as the first tuplet element");
@@ -534,7 +534,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       " since this note has not been found in fTupletElementsList";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -554,7 +554,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       "\"";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -569,7 +569,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   S_msrNote result;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Removing last note from tuplet " <<
       asString () <<
@@ -604,7 +604,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
       }
 
       msrInternalError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "removeLastNoteFromTuplet () expects a note as the last tuplet element");
@@ -624,14 +624,14 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
       "\"";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "This last note from tuplet " <<
       asString () <<
@@ -650,7 +650,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   // returns the position in measure after the tuplet
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting tuplet position in measure of " << asString () <<
       " to '" <<
@@ -755,7 +755,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
 
     else {
       msrInternalError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "tuplet member should be a note, a chord or another tuplet");
@@ -773,7 +773,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
   */
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "unapplySoundingFactorToTupletMembers ()" <<
       endl;
@@ -812,7 +812,7 @@ void msrTuplet::finalizeTuplet (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Finalizing tuplet " <<
       asString () <<
@@ -831,7 +831,7 @@ void msrTuplet::finalizeTuplet (
 
 void msrTuplet::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTuplet::acceptIn ()" <<
       endl;
@@ -842,7 +842,7 @@ void msrTuplet::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTuplet::visitStart ()" <<
             endl;
@@ -853,7 +853,7 @@ void msrTuplet::acceptIn (basevisitor* v)
 
 void msrTuplet::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTuplet::acceptOut ()" <<
       endl;
@@ -864,7 +864,7 @@ void msrTuplet::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTuplet::visitEnd ()" <<
             endl;
@@ -938,7 +938,7 @@ string msrTuplet::asString () const
 
       else {
         msrInternalError (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tuplet member should be a note, a chord or another tuplet");

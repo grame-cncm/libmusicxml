@@ -55,6 +55,13 @@ enum oahElementVisibilityKind {
 string elementVisibilityKindAsString (
   oahElementVisibilityKind elementVisibilityKind);
 
+enum oahElementIsPureHelpKind {
+    kElementIsPureHelpYes,
+    kElementIsPureHelpNo };
+
+static string elementIsPureHelpKindAsString (
+  oahElementIsPureHelpKind elementIsPureHelpKind);
+
 //______________________________________________________________________________
 class oahElement : public smartable
 {
@@ -135,6 +142,15 @@ class oahElement : public smartable
 
     bool                  getMultipleOccurrencesAllowed () const
                               { return fMultipleOccurrencesAllowed; }
+
+    void                  setOahElementIsPureHelpKind (
+                            oahElementIsPureHelpKind elementIsPureHelpKind)
+                              {
+                                fOahElementIsPureHelpKind = elementIsPureHelpKind;
+                              }
+
+    bool                  getOahElementIsPureHelpKind () const
+                              { return fOahElementIsPureHelpKind; }
 
   public:
 
@@ -223,6 +239,10 @@ class oahElement : public smartable
     bool                  fIsHidden;
 
     bool                  fMultipleOccurrencesAllowed;
+
+    oahElementIsPureHelpKind
+                          fOahElementIsPureHelpKind;
+
 };
 typedef SMARTP<oahElement> S_oahElement;
 EXP ostream& operator<< (ostream& os, const S_oahElement& elt);
@@ -286,7 +306,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void browse (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (globalOahOah->fTraceOahVisitors) {
+      if (gGlobalOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> browse()" <<
@@ -309,7 +329,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void enter (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (globalOahOah->fTraceOahVisitors) {
+      if (gGlobalOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> enter()" <<
@@ -323,7 +343,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void leave (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (globalOahOah->fTraceOahVisitors) {
+      if (gGlobalOahOah->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> leave()" <<

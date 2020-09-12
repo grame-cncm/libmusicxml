@@ -51,7 +51,7 @@ void msrMeasureElement::setMeasureElementSoundingWholeNotes (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePositionsInMeasures || globalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOah->fTracePositionsInMeasures || gGlobalTraceOah->fTraceMeasures) {
     gLogOstream <<
       "Setting measure element sounding whole notes of " <<
       asString () <<
@@ -78,7 +78,7 @@ void msrMeasureElement::setMeasureElementPositionInMeasure (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in measure of " <<
       asString () <<
@@ -110,7 +110,7 @@ void msrMeasureElement::setMeasureElementPositionInVoice (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in voice of " <<
       asString () <<
@@ -147,7 +147,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
   string    context)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Assigning measure element position in voice of " <<
       asString () <<
@@ -168,7 +168,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
 
   // set measure element position in voice
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in voice of " <<
       asString () <<
@@ -190,7 +190,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
   positionInVoice.rationalise ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Position in voice becomes " <<
       positionInVoice <<
@@ -205,7 +205,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
 void msrMeasureElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasureElement::acceptIn ()" <<
       endl;
@@ -218,7 +218,7 @@ void msrMeasureElement::acceptIn (basevisitor* v)
         S_msrMeasureElement elem = this;
 
 #ifdef TRACE_OAH
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasureElement::visitStart ()" <<
             endl;
@@ -231,7 +231,7 @@ void msrMeasureElement::acceptIn (basevisitor* v)
 void msrMeasureElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrMeasureElement::acceptOut ()" <<
       endl;
@@ -244,7 +244,7 @@ void msrMeasureElement::acceptOut (basevisitor* v)
         S_msrMeasureElement elem = this;
 
 #ifdef TRACE_OAH
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrMeasureElement::visitEnd ()" <<
             endl;

@@ -70,6 +70,23 @@ string elementVisibilityKindAsString (
   return result;
 }
 
+string elementIsPureHelpKindAsString (
+  oahElementIsPureHelpKind elementIsPureHelpKind)
+{
+  string result;
+
+  switch (elementIsPureHelpKind) {
+    case kElementIsPureHelpYes:
+      result = "elementIsPureHelpYes";
+      break;
+    case kElementIsPureHelpNo:
+      result = "elementIsPureHelpNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 //______________________________________________________________________________
 /* JMI
 S_oahElement oahElement::create (
@@ -109,6 +126,8 @@ oahElement::oahElement (
   fIsHidden = false;
 
   fMultipleOccurrencesAllowed = false;
+
+  fOahElementIsPureHelpKind = kElementIsPureHelpNo; // default value
 }
 
 oahElement::~oahElement ()
@@ -229,7 +248,7 @@ S_oahValuedAtom oahElement::handleOptionUnderName (
     "' is not handled";
 
   msrInternalError (
-    globalOahOah->fInputSourceName,
+    gGlobalOahOah->fInputSourceName,
     K_NO_INPUT_LINE_NUMBER,
     __FILE__, __LINE__,
     s.str ());
@@ -281,7 +300,7 @@ S_oahElement oahElement::aPropos (string theString)
 void oahElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::acceptIn ()" <<
       endl;
@@ -294,7 +313,7 @@ void oahElement::acceptIn (basevisitor* v)
         S_oahElement elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching oahElement::visitStart ()" <<
             endl;
@@ -307,7 +326,7 @@ void oahElement::acceptIn (basevisitor* v)
 void oahElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::acceptOut ()" <<
       endl;
@@ -320,7 +339,7 @@ void oahElement::acceptOut (basevisitor* v)
         S_oahElement elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching oahElement::visitEnd ()" <<
             endl;
@@ -333,7 +352,7 @@ void oahElement::acceptOut (basevisitor* v)
 void oahElement::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::browseData ()" <<
       endl;
@@ -388,30 +407,35 @@ void oahElement::printOptionEssentials (
 {
   os << left <<
     setw (fieldWidth) <<
-    "fShortName" << " : " <<
+    "shortName" << " : " <<
     fShortName <<
     endl <<
     setw (fieldWidth) <<
-    "fLongName" << " : " <<
+    "longName" << " : " <<
     fLongName <<
     endl <<
     setw (fieldWidth) <<
-    "fDescription" << " : " <<
+    "description" << " : " <<
     fDescription <<
     endl <<
     setw (fieldWidth) <<
-    "fElementVisibilityKind" << " : " <<
+    "elementVisibilityKind" << " : " <<
     elementVisibilityKindAsString (
       fElementVisibilityKind) <<
     endl <<
-    "fIsHidden" << " : " <<
+    "isHidden" << " : " <<
     booleanAsString (
       fIsHidden) <<
     endl <<
     setw (fieldWidth) <<
-    "fMultipleOccurrencesAllowed" << " : " <<
+    "multipleOccurrencesAllowed" << " : " <<
     booleanAsString (
       fMultipleOccurrencesAllowed) <<
+    endl <<
+    setw (fieldWidth) <<
+    "oahElementIsPureHelpKind" << " : " <<
+    elementIsPureHelpKindAsString (
+      fOahElementIsPureHelpKind) <<
     endl;
 }
 

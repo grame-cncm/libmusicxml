@@ -41,7 +41,7 @@ bsrMusicHeading::bsrMusicHeading (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        globalBsr2BrailleOah->fCellsPerLine)
+        gGlobalBsr2BrailleOah->fCellsPerLine)
 {}
 
 bsrMusicHeading::~bsrMusicHeading ()
@@ -85,7 +85,7 @@ S_bsrCellsList bsrMusicHeading::buildCellsList () const
 void bsrMusicHeading::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrMusicHeading::acceptIn ()" <<
       endl;
@@ -98,7 +98,7 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
         S_bsrMusicHeading elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrMusicHeading::visitStart ()" <<
             endl;
@@ -111,7 +111,7 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
 void bsrMusicHeading::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrMusicHeading::acceptOut ()" <<
       endl;
@@ -124,7 +124,7 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
         S_bsrMusicHeading elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrMusicHeading::visitEnd ()" <<
             endl;
@@ -137,7 +137,7 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
 void bsrMusicHeading::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
@@ -163,7 +163,7 @@ void bsrMusicHeading::browseData (basevisitor* v)
   }
 
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;

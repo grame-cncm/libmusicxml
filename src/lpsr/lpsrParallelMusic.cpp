@@ -60,7 +60,7 @@ lpsrParallelMusicBLock::~lpsrParallelMusicBLock ()
 void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrParallelMusicBLock::acceptIn ()" <<
       endl;
@@ -73,7 +73,7 @@ void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
         S_lpsrParallelMusicBLock elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitStart ()" <<
             endl;
@@ -86,7 +86,7 @@ void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrParallelMusicBLock::acceptOut ()" <<
       endl;
@@ -99,7 +99,7 @@ void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
         S_lpsrParallelMusicBLock elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitEnd ()" <<
             endl;
@@ -112,7 +112,7 @@ void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 void lpsrParallelMusicBLock::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrParallelMusicBLock::browseData ()" <<
       endl;
@@ -131,7 +131,7 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
   } // for
 
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% <== lpsrParallelMusicBLock::browseData ()" <<
       endl;

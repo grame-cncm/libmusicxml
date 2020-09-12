@@ -400,12 +400,12 @@ class bsr2BrailleOah : public oahGroup
 typedef SMARTP<bsr2BrailleOah> S_bsr2BrailleOah;
 EXP ostream& operator<< (ostream& os, const S_bsr2BrailleOah& elt);
 
-EXP extern S_bsr2BrailleOah globalBsr2BrailleOah;
-EXP extern S_bsr2BrailleOah globalBsr2BrailleOahUserChoices;
-EXP extern S_bsr2BrailleOah globalBsr2BrailleOahWithDetailedTrace;
+EXP extern S_bsr2BrailleOah gGlobalBsr2BrailleOah;
+EXP extern S_bsr2BrailleOah gGlobalBsr2BrailleOahUserChoices;
+EXP extern S_bsr2BrailleOah gGlobalBsr2BrailleOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeBsr2BrailleOahHandling (
+void initializeBsr2BrailleOahHandler (
   S_oahHandler handler);
 
 

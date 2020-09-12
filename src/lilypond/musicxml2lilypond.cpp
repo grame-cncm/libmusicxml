@@ -172,7 +172,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // has quiet mode been requested?
     // ------------------------------------------------------
 
-    if (globalGeneralOah->fQuiet) {
+    if (gGlobalGeneralOah->fQuiet) {
       // disable all trace and display options
 #ifdef USE_DUAL_HANDLER
       dualHandler->
@@ -216,7 +216,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (globalXml2lyOah->fExit2a) {
+    if (gGlobalXml2lyOah->fExit2a) {
       errIndentedOstream <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -245,25 +245,25 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // display the MSR score summary if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsr) {
+    if (gGlobalMsrOah->fDisplayMsr) {
       displayMsrScore_OptionalPass (
         mScore,
-        globalMsrOah);
+        gGlobalMsrOah);
     }
 
-    if (globalMsrOah->fDisplayMsrShort) {
+    if (gGlobalMsrOah->fDisplayMsrShort) {
       displayMsrScoreShort_OptionalPass (
         mScore,
-        globalMsrOah);
+        gGlobalMsrOah);
     }
 
     // display the MSR score summary if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsrSummary) {
+    if (gGlobalMsrOah->fDisplayMsrSummary) {
       // display the score summary
       displayMSRPopulatedScoreSummary (
-        globalMsrOah,
+        gGlobalMsrOah,
         mScore,
         errIndentedOstream);
 
@@ -273,10 +273,10 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // display the score names if requested
     // ------------------------------------------------------
 
-    if (globalMsrOah->fDisplayMsrNames) {
+    if (gGlobalMsrOah->fDisplayMsrNames) {
       // display the score name
       displayMSRPopulatedScoreNames (
-        globalMsrOah,
+        gGlobalMsrOah,
         mScore,
         errIndentedOstream);
 
@@ -286,7 +286,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (globalXml2lyOah->fExit2b) {
+    if (gGlobalXml2lyOah->fExit2b) {
       errIndentedOstream <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -316,24 +316,24 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // display the LPSR score if requested
     // ------------------------------------------------------
 
-    if (globalLpsrOah->fDisplayLpsr) {
+    if (gGlobalLpsrOah->fDisplayLpsr) {
       displayLpsrScore_OptionalPass (
         lpScore,
-        globalMsrOah,
-        globalLpsrOah);
+        gGlobalMsrOah,
+        gGlobalLpsrOah);
     }
 
-    if (globalLpsrOah->fDisplayLpsrShort) {
+    if (gGlobalLpsrOah->fDisplayLpsrShort) {
       displayLpsrScoreShort_OptionalPass (
         lpScore,
-        globalMsrOah,
-        globalLpsrOah);
+        gGlobalMsrOah,
+        gGlobalLpsrOah);
     }
 
     // should we return now?
     // ------------------------------------------------------
 
-    if (globalLpsrOah->fExit3) {
+    if (gGlobalLpsrOah->fExit3) {
       errIndentedOstream <<
         endl <<
         "Existing after pass 3 as requested" <<
@@ -348,8 +348,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     try {
       generateLilypondCodeFromLpsrScore (
         lpScore,
-        globalMsrOah,
-        globalLpsrOah,
+        gGlobalMsrOah,
+        gGlobalLpsrOah,
         errIndentedOstream,
         outIndentedOstream,
         "Pass 4");
@@ -466,7 +466,7 @@ EXP xmlErr convertMusicXMLToLilypond (
   // should we return now?
   // ------------------------------------------------------
 
-  if (globalXml2lyOah->fExit2a) {
+  if (gGlobalXml2lyOah->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -506,7 +506,7 @@ EXP xmlErr convertMusicXMLToLilypond (
   // should we return now?
   // ------------------------------------------------------
 
-  if (globalXml2lyOah->fExit2b) {
+  if (gGlobalXml2lyOah->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<
@@ -518,25 +518,25 @@ EXP xmlErr convertMusicXMLToLilypond (
   // display the MSR score if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsr) {
+  if (gGlobalMsrOah->fDisplayMsr) {
     displayMsrScore_OptionalPass (
       mScore,
-      globalMsrOah);
+      gGlobalMsrOah);
   }
 
-  if (globalMsrOah->fDisplayMsrShort) {
+  if (gGlobalMsrOah->fDisplayMsrShort) {
     displayMsrScoreShort_OptionalPass (
       mScore,
-      globalMsrOah);
+      gGlobalMsrOah);
   }
 
   // display the populated MSR score summary if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsrSummary) {
+  if (gGlobalMsrOah->fDisplayMsrSummary) {
     // display the score summary
     displayMSRPopulatedScoreSummary (
-      globalMsrOah,
+      gGlobalMsrOah,
       mScore,
       gLogOstream);
 
@@ -546,10 +546,10 @@ EXP xmlErr convertMusicXMLToLilypond (
   // display the populated MSR score names if requested
   // ------------------------------------------------------
 
-  if (globalMsrOah->fDisplayMsrNames) {
+  if (gGlobalMsrOah->fDisplayMsrNames) {
     // display the score name
     displayMSRPopulatedScoreNames (
-      globalMsrOah,
+      gGlobalMsrOah,
       mScore,
       gLogOstream);
 
@@ -588,7 +588,7 @@ EXP xmlErr convertMusicXMLToLilypond (
   // should we return now?
   // ------------------------------------------------------
 
-  if (globalLpsrOah->fExit3) {
+  if (gGlobalLpsrOah->fExit3) {
     gLogOstream <<
       endl <<
       "Existing after pass 3 as requested" <<
@@ -600,18 +600,18 @@ EXP xmlErr convertMusicXMLToLilypond (
   // display the LPSR score if requested
   // ------------------------------------------------------
 
-  if (globalLpsrOah->fDisplayLpsr) {
+  if (gGlobalLpsrOah->fDisplayLpsr) {
     displayLpsrScore_OptionalPass (
       lpScore,
-      globalMsrOah,
-      globalLpsrOah);
+      gGlobalMsrOah,
+      gGlobalLpsrOah);
   }
 
-  if (globalLpsrOah->fDisplayLpsrShort) {
+  if (gGlobalLpsrOah->fDisplayLpsrShort) {
     displayLpsrScoreShort_OptionalPass (
       lpScore,
-      globalMsrOah,
-      globalLpsrOah);
+      gGlobalMsrOah,
+      gGlobalLpsrOah);
     }
 
   // generate LilyPond code from the LPSR (pass 4)

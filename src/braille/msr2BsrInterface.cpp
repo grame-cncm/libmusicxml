@@ -51,7 +51,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -103,17 +103,17 @@ S_bsrScore convertMsrScoreToBsrScore (
 {
   S_bsrScore bScore;
 
-  if (! globalBsr2BrailleOah->fNoBrailleCode) {
+  if (! gGlobalBsr2BrailleOah->fNoBrailleCode) {
     bScore =
       buildBsrScoreFromMsrScore (
         mScore,
-        globalMsrOah,
-        globalBsrOah,
+        gGlobalMsrOah,
+        gGlobalBsrOah,
         gLogOstream);
   }
 
   if (gIndenter != 0) {
-    if (! globalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -121,7 +121,7 @@ S_bsrScore convertMsrScoreToBsrScore (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }

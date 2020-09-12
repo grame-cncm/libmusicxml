@@ -56,7 +56,7 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
 
     void                  createThePrefixes ();
 
-    void                  initializeXml2brlInsiderOahHandling (
+    void                  initializeXml2brlInsiderOahHandler (
                             string executableName);
 
   public:
@@ -71,7 +71,7 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
     // services
     // ------------------------------------------------------
 
-    void                  createThePrefixesAndInitializeOahHandling (
+    void                  createThePrefixesAndInitializeOahHandler (
                             string executableName);
 
     void                  checkOptionsAndArguments () override;
@@ -199,7 +199,7 @@ class xml2brlOah : public oahGroup
 typedef SMARTP<xml2brlOah> S_xml2brlOah;
 EXP ostream& operator<< (ostream& os, const S_xml2brlOah& elt);
 
-EXP extern S_xml2brlOah globalXml2brlOah;
+EXP extern S_xml2brlOah gGlobalXml2brlOah;
 
 //______________________________________________________________________________
 void initializeXml2brlOah (

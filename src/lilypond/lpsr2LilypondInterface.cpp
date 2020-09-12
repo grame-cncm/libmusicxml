@@ -53,7 +53,7 @@ void generateLilypondCodeFromLpsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     logOstream <<
       endl <<
       separator <<
@@ -97,7 +97,7 @@ void convertLpsrScoreToLilypondCode (
 {
   int outputFileNameSize = outputFileName.size ();
 
-  if (globalLpsr2LilypondOah->fNoLilypondCode) {
+  if (gGlobalLpsr2LilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "Option '-nolpc -no-lilypond-code' is set, no LilyPond code is created" <<
       endl <<
@@ -111,7 +111,7 @@ void convertLpsrScoreToLilypondCode (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
-      if (globalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOah->getTracePasses ()) {
         gLogOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -149,8 +149,8 @@ void convertLpsrScoreToLilypondCode (
       // convert the LPSR score to LilyPond code
       generateLilypondCodeFromLpsrScore (
         lpScore,
-        globalMsrOah,
-        globalLpsrOah,
+        gGlobalMsrOah,
+        gGlobalLpsrOah,
         gLogOstream,
         lilypondCodeFileOutputStream,
         passNumber);
@@ -158,7 +158,7 @@ void convertLpsrScoreToLilypondCode (
 
     else {
 #ifdef TRACE_OAH
-      if (globalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOah->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
@@ -176,8 +176,8 @@ void convertLpsrScoreToLilypondCode (
       // convert the LPSR score to LilyPond code
       generateLilypondCodeFromLpsrScore (
         lpScore,
-        globalMsrOah,
-        globalLpsrOah,
+        gGlobalMsrOah,
+        gGlobalLpsrOah,
         gLogOstream,
         brailleCodeCoutOutputStream,
         passNumber);
@@ -185,7 +185,7 @@ void convertLpsrScoreToLilypondCode (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
-      if (globalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOah->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -198,7 +198,7 @@ void convertLpsrScoreToLilypondCode (
   }
 
   if (gIndenter != 0) {
-    if (! globalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -206,7 +206,7 @@ void convertLpsrScoreToLilypondCode (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }

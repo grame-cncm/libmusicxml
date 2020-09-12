@@ -47,7 +47,7 @@ lpsrUseVoiceCommand::~lpsrUseVoiceCommand ()
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrUseVoiceCommand::acceptIn ()" <<
       endl;
@@ -60,7 +60,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
         S_lpsrUseVoiceCommand elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitStart ()" <<
             endl;
@@ -73,7 +73,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrUseVoiceCommand::acceptOut ()" <<
       endl;
@@ -86,7 +86,7 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
         S_lpsrUseVoiceCommand elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitEnd ()" <<
             endl;

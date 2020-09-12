@@ -71,7 +71,7 @@ S_oahValuedAtom xml2brlManPageGenerateAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) {
+  if (gGlobalTraceOah->fTraceOah) {
     gLogOstream <<
       "==> option '" << optionName << "' is a xml2brlManPageGenerateAtom" <<
       endl;
@@ -88,7 +88,7 @@ S_oahValuedAtom xml2brlManPageGenerateAtom::handleOptionUnderName (
 void xml2brlManPageGenerateAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageGenerateAtom::acceptIn ()" <<
       endl;
@@ -101,7 +101,7 @@ void xml2brlManPageGenerateAtom::acceptIn (basevisitor* v)
         S_xml2brlManPageGenerateAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2brlManPageGenerateAtom::visitStart ()" <<
             endl;
@@ -114,7 +114,7 @@ void xml2brlManPageGenerateAtom::acceptIn (basevisitor* v)
 void xml2brlManPageGenerateAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageGenerateAtom::acceptOut ()" <<
       endl;
@@ -127,7 +127,7 @@ void xml2brlManPageGenerateAtom::acceptOut (basevisitor* v)
         S_xml2brlManPageGenerateAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2brlManPageGenerateAtom::visitEnd ()" <<
             endl;
@@ -140,7 +140,7 @@ void xml2brlManPageGenerateAtom::acceptOut (basevisitor* v)
 void xml2brlManPageGenerateAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageGenerateAtom::browseData ()" <<
       endl;
@@ -201,9 +201,9 @@ ostream& operator<< (ostream& os, const S_xml2brlManPageGenerateAtom& elt)
 }
 
 //_______________________________________________________________________________
-S_xml2brlManPageOah globalXml2brlManPageOah;
-S_xml2brlManPageOah globalXml2brlManPageOahUserChoices;
-S_xml2brlManPageOah globalXml2brlManPageOahWithDetailedTrace;
+S_xml2brlManPageOah gGlobalXml2brlManPageOah;
+S_xml2brlManPageOah gGlobalXml2brlManPageOahUserChoices;
+S_xml2brlManPageOah gGlobalXml2brlManPageOahWithDetailedTrace;
 
 S_xml2brlManPageOah xml2brlManPageOah::create (
   S_oahHandler           handlerUpLink,
@@ -282,7 +282,7 @@ R"(Write the contents of the OAH data to standard error.)",
         regex_replace (
 R"(Write man page data for EXECUTABLE to standard output.)",
           regex ("EXECUTABLE"),
-          globalOahOah->fHandlerExecutableName),
+          gGlobalOahOah->fHandlerExecutableName),
         fOah2ManPageGenerator));
 }
 
@@ -364,7 +364,7 @@ void xml2brlManPageOah::checkOptionsConsistency ()
 void xml2brlManPageOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageOah::acceptIn ()" <<
       endl;
@@ -377,7 +377,7 @@ void xml2brlManPageOah::acceptIn (basevisitor* v)
         S_xml2brlManPageOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2brlManPageOah::visitStart ()" <<
             endl;
@@ -390,7 +390,7 @@ void xml2brlManPageOah::acceptIn (basevisitor* v)
 void xml2brlManPageOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageOah::acceptOut ()" <<
       endl;
@@ -403,7 +403,7 @@ void xml2brlManPageOah::acceptOut (basevisitor* v)
         S_xml2brlManPageOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2brlManPageOah::visitEnd ()" <<
             endl;
@@ -416,7 +416,7 @@ void xml2brlManPageOah::acceptOut (basevisitor* v)
 void xml2brlManPageOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageOah::browseData ()" <<
       endl;
@@ -445,12 +445,12 @@ ostream& operator<< (ostream& os, const S_xml2brlManPageOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeXml2brlManPageOahHandling (
+void initializeXml2brlManPageOahHandler (
   S_oahHandler           handler,
   S_oahVisitor theOah2ManPageGenerator)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing man page options handling" <<
       endl;
@@ -460,19 +460,19 @@ void initializeXml2brlManPageOahHandling (
   // create the bsr variables
   // ------------------------------------------------------
 
-  globalXml2brlManPageOahUserChoices = xml2brlManPageOah::create (
+  gGlobalXml2brlManPageOahUserChoices = xml2brlManPageOah::create (
     handler,
     theOah2ManPageGenerator);
-  assert(globalXml2brlManPageOahUserChoices != 0);
+  assert(gGlobalXml2brlManPageOahUserChoices != 0);
 
-  globalXml2brlManPageOah =
-    globalXml2brlManPageOahUserChoices;
+  gGlobalXml2brlManPageOah =
+    gGlobalXml2brlManPageOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 /* JMI
-  globalXml2brlManPageOahWithDetailedTrace =
-    globalXml2brlManPageOah->
+  gGlobalXml2brlManPageOahWithDetailedTrace =
+    gGlobalXml2brlManPageOah->
       createCloneWithDetailedTrace ();
       */
 }

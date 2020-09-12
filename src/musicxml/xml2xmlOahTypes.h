@@ -20,7 +20,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class xml2xmlVersionOahAtom : public oahAtom
+class xml2xmlVersionOahAtom : public oahHelpAtom
 {
   public:
 
@@ -88,7 +88,7 @@ typedef SMARTP<xml2xmlVersionOahAtom> S_xml2xmlVersionOahAtom;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlVersionOahAtom& elt);
 
 //______________________________________________________________________________
-class xml2xmlAboutOahAtom : public oahAtom
+class xml2xmlAboutOahAtom : public oahHelpAtom
 {
   public:
 
@@ -156,7 +156,7 @@ typedef SMARTP<xml2xmlAboutOahAtom> S_xml2xmlAboutOahAtom;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlAboutOahAtom& elt);
 
 //______________________________________________________________________________
-class xml2xmlContactOahAtom : public oahAtom
+class xml2xmlContactOahAtom : public oahHelpAtom
 {
   public:
 

@@ -55,7 +55,7 @@ lpsrComment::~lpsrComment ()
 void lpsrComment::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrComment::acceptIn ()" <<
       endl;
@@ -68,7 +68,7 @@ void lpsrComment::acceptIn (basevisitor* v)
         S_lpsrComment elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrComment::visitStart ()" <<
             endl;
@@ -81,7 +81,7 @@ void lpsrComment::acceptIn (basevisitor* v)
 void lpsrComment::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrComment::acceptOut ()" <<
       endl;
@@ -94,7 +94,7 @@ void lpsrComment::acceptOut (basevisitor* v)
         S_lpsrComment elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrComment::visitEnd ()" <<
             endl;

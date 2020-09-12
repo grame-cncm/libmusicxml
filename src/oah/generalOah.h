@@ -134,12 +134,12 @@ class generalOah : public oahGroup
 typedef SMARTP<generalOah> S_generalOah;
 EXP ostream& operator<< (ostream& os, const S_generalOah& elt);
 
-EXP extern S_generalOah globalGeneralOah;
-EXP extern S_generalOah globalGeneralOahUserChoices;
-EXP extern S_generalOah globalGeneralOahWithDetailedTrace;
+EXP extern S_generalOah gGlobalGeneralOah;
+EXP extern S_generalOah gGlobalGeneralOahUserChoices;
+EXP extern S_generalOah gGlobalGeneralOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeGeneralOahHandling (
+void initializeGeneralOahHandler (
   S_oahHandler handler);
 
 

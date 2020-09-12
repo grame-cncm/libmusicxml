@@ -33,9 +33,9 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_musicxmlOah globalMusicxmlOah;
-S_musicxmlOah globalMusicxmlOahUserChoices;
-S_musicxmlOah globalMusicxmlOahWithDetailedTrace;
+S_musicxmlOah gGlobalMusicxmlOah;
+S_musicxmlOah gGlobalMusicxmlOahUserChoices;
+S_musicxmlOah gGlobalMusicxmlOahWithDetailedTrace;
 
 S_musicxmlOah musicxmlOah::create (
   S_oahHandler handlerUpLink)
@@ -279,7 +279,7 @@ void musicxmlOah::checkOptionsConsistency ()
 void musicxmlOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::acceptIn ()" <<
       endl;
@@ -292,7 +292,7 @@ void musicxmlOah::acceptIn (basevisitor* v)
         S_musicxmlOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching musicxmlOah::visitStart ()" <<
             endl;
@@ -305,7 +305,7 @@ void musicxmlOah::acceptIn (basevisitor* v)
 void musicxmlOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::acceptOut ()" <<
       endl;
@@ -318,7 +318,7 @@ void musicxmlOah::acceptOut (basevisitor* v)
         S_musicxmlOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching musicxmlOah::visitEnd ()" <<
             endl;
@@ -331,7 +331,7 @@ void musicxmlOah::acceptOut (basevisitor* v)
 void musicxmlOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::browseData ()" <<
       endl;
@@ -388,11 +388,11 @@ ostream& operator<< (ostream& os, const S_musicxmlOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeMusicxmlOahHandling (
+void initializeMusicxmlOahHandler (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing Musicxml2Mxml options handling" <<
       endl;
@@ -406,23 +406,23 @@ void initializeMusicxmlOahHandling (
     // create the Musicxml options
     // ------------------------------------------------------
 
-    globalMusicxmlOahUserChoices = musicxmlOah::create (
+    gGlobalMusicxmlOahUserChoices = musicxmlOah::create (
       handler);
-    assert(globalMusicxmlOahUserChoices != 0);
+    assert(gGlobalMusicxmlOahUserChoices != 0);
 
-    globalMusicxmlOah =
-      globalMusicxmlOahUserChoices;
+    gGlobalMusicxmlOah =
+      gGlobalMusicxmlOahUserChoices;
 
     // prepare for measure detailed trace
     // ------------------------------------------------------
 
   /* JMI
-    globalMusicxmlOahWithDetailedTrace =
-      globalMusicxmlOah->
+    gGlobalMusicxmlOahWithDetailedTrace =
+      gGlobalMusicxmlOah->
         createCloneWithDetailedTrace ();
         */
 
-    pThisMethodHasBeenRun = true;
+// JMI    pThisMethodHasBeenRun = true;
   }
 }
 

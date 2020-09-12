@@ -34,9 +34,9 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-S_brailleOah globalBrailleOah;
-S_brailleOah globalBrailleOahUserChoices;
-S_brailleOah globalBrailleOahWithDetailedTrace;
+S_brailleOah gGlobalBrailleOah;
+S_brailleOah gGlobalBrailleOahUserChoices;
+S_brailleOah gGlobalBrailleOahWithDetailedTrace;
 
 S_brailleOah brailleOah::create (
   S_oahHandler handlerUpLink)
@@ -73,7 +73,7 @@ brailleOah::~brailleOah ()
 void brailleOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleOah::acceptIn ()" <<
       endl;
@@ -86,7 +86,7 @@ void brailleOah::acceptIn (basevisitor* v)
         S_brailleOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching brailleOah::visitStart ()" <<
             endl;
@@ -99,7 +99,7 @@ void brailleOah::acceptIn (basevisitor* v)
 void brailleOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleOah::acceptOut ()" <<
       endl;
@@ -112,7 +112,7 @@ void brailleOah::acceptOut (basevisitor* v)
         S_brailleOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching brailleOah::visitEnd ()" <<
             endl;
@@ -125,7 +125,7 @@ void brailleOah::acceptOut (basevisitor* v)
 void brailleOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> brailleOah::browseData ()" <<
       endl;
@@ -179,11 +179,11 @@ ostream& operator<< (ostream& os, const S_brailleOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeBrailleOahHandling (
+void initializeBrailleOahHandler (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing Braille braille handling" <<
       endl;
@@ -193,19 +193,19 @@ void initializeBrailleOahHandling (
   // create the braille variables
   // ------------------------------------------------------
 
-  globalBrailleOahUserChoices = brailleOah::create (
+  gGlobalBrailleOahUserChoices = brailleOah::create (
     handler);
-  assert(globalBrailleOahUserChoices != 0);
+  assert(gGlobalBrailleOahUserChoices != 0);
 
-  globalBrailleOah =
-    globalBrailleOahUserChoices;
+  gGlobalBrailleOah =
+    gGlobalBrailleOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
 /* JMI
-  globalBrailleOahWithDetailedTrace =
-    globalBrailleOah->
+  gGlobalBrailleOahWithDetailedTrace =
+    gGlobalBrailleOah->
       createCloneWithDetailedTrace ();
       */
 }
@@ -458,7 +458,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
             regex ("EXECUTABLE"),
-            globalOahOah->fHandlerExecutableName),
+            gGlobalOahOah->fHandlerExecutableName),
           "noteInputLineNumbers",
           fInputLineNumbers));
   }

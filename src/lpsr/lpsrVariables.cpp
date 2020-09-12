@@ -48,7 +48,7 @@ lpsrVariableUseCommand::~lpsrVariableUseCommand()
 void lpsrVariableUseCommand::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVariableUseCommand::acceptIn()" <<
       endl;
@@ -61,7 +61,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v)
         S_lpsrVariableUseCommand elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitStart()" <<
             endl;
@@ -74,7 +74,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v)
 void lpsrVariableUseCommand::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVariableUseCommand::acceptOut()" <<
       endl;
@@ -87,7 +87,7 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v)
         S_lpsrVariableUseCommand elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitEnd()" <<
             endl;

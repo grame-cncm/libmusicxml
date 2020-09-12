@@ -66,7 +66,7 @@ msrStaffTuning::~ msrStaffTuning ()
 S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceStaffDetails) {
+  if (gGlobalTraceOah->fTraceStaffDetails) {
     gLogOstream <<
       "Creating a newborn clone of staff tuning '" <<
       asString () <<
@@ -88,7 +88,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 
 void msrStaffTuning::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaffTuning::acceptIn ()" <<
       endl;
@@ -99,7 +99,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaffTuning::visitStart ()" <<
             endl;
@@ -110,7 +110,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
 
 void msrStaffTuning::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaffTuning::acceptOut ()" <<
       endl;
@@ -121,7 +121,7 @@ void msrStaffTuning::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaffTuning::visitEnd ()" <<
             endl;
@@ -142,7 +142,7 @@ string msrStaffTuning::asString () const
     ", line " << fStaffTuningLineNumber <<
     ", " <<
     msrQuarterTonesPitchKindAsString (
-      globalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+      gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
       fStaffTuningQuarterTonesPitchKind) <<
     ", octave " << fStaffTuningOctave;
 
@@ -168,7 +168,7 @@ void msrStaffTuning::print (ostream& os) const
     setw (fieldWidth) <<
     "staffTuningQuarterTonesPitch" << " : " <<
     msrQuarterTonesPitchKindAsString (
-      globalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+      gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
       fStaffTuningQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
@@ -227,7 +227,7 @@ msrStaffDetails::~msrStaffDetails ()
 
 void msrStaffDetails::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaffDetails::acceptIn ()" <<
       endl;
@@ -238,7 +238,7 @@ void msrStaffDetails::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaffDetails::visitStart ()" <<
             endl;
@@ -249,7 +249,7 @@ void msrStaffDetails::acceptIn (basevisitor* v)
 
 void msrStaffDetails::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStaffDetails::acceptOut ()" <<
       endl;
@@ -260,7 +260,7 @@ void msrStaffDetails::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStaffDetails::visitEnd ()" <<
             endl;

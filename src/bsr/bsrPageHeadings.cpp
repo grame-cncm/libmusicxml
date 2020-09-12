@@ -48,7 +48,7 @@ bsrPageHeading::bsrPageHeading (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        globalBsr2BrailleOah->fCellsPerLine)
+        gGlobalBsr2BrailleOah->fCellsPerLine)
 {
   fPageHeadingTitle = pageHeadingTitle;
 
@@ -107,7 +107,7 @@ S_bsrCellsList bsrPageHeading::buildCellsList () const
 void bsrPageHeading::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPageHeading::acceptIn ()" <<
       endl;
@@ -120,7 +120,7 @@ void bsrPageHeading::acceptIn (basevisitor* v)
         S_bsrPageHeading elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPageHeading::visitStart ()" <<
             endl;
@@ -133,7 +133,7 @@ void bsrPageHeading::acceptIn (basevisitor* v)
 void bsrPageHeading::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPageHeading::acceptOut ()" <<
       endl;
@@ -146,7 +146,7 @@ void bsrPageHeading::acceptOut (basevisitor* v)
         S_bsrPageHeading elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPageHeading::visitEnd ()" <<
             endl;
@@ -159,7 +159,7 @@ void bsrPageHeading::acceptOut (basevisitor* v)
 void bsrPageHeading::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
@@ -173,7 +173,7 @@ void bsrPageHeading::browseData (basevisitor* v)
   }
 
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;

@@ -100,7 +100,7 @@ lpsrVarValAssoc::~lpsrVarValAssoc ()
 void lpsrVarValAssoc::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVarValAssoc::acceptIn ()" <<
       endl;
@@ -113,7 +113,7 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
         S_lpsrVarValAssoc elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
             endl;
@@ -126,7 +126,7 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
 void lpsrVarValAssoc::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVarValAssoc::acceptOut ()" <<
       endl;
@@ -139,7 +139,7 @@ void lpsrVarValAssoc::acceptOut (basevisitor* v)
         S_lpsrVarValAssoc elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
             endl;
@@ -574,7 +574,7 @@ lpsrVarValsListAssoc::~lpsrVarValsListAssoc ()
 void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
       endl;
@@ -587,7 +587,7 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
         S_lpsrVarValsListAssoc elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
             endl;
@@ -600,7 +600,7 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalLpsrOah->fTraceLpsrVisitors) {
+  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
     gLogOstream <<
       "% ==> lpsrVarValsListAssoc::acceptOut ()" <<
       endl;
@@ -613,7 +613,7 @@ void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
         S_lpsrVarValsListAssoc elem = this;
 
 #ifdef TRACE_OAH
-        if (globalLpsrOah->fTraceLpsrVisitors) {
+        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
           gLogOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
             endl;

@@ -449,12 +449,12 @@ class extraOah : public oahGroup
 typedef SMARTP<extraOah> S_extraOah;
 EXP ostream& operator<< (ostream& os, const S_extraOah& elt);
 
-EXP extern S_extraOah globalExtraOah;
-EXP extern S_extraOah globalExtraOahUserChoices;
-EXP extern S_extraOah globalExtraOahWithDetailedTrace;
+EXP extern S_extraOah ggGlobalExtraOah;
+EXP extern S_extraOah ggGlobalExtraOahUserChoices;
+EXP extern S_extraOah ggGlobalExtraOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeExtraOahHandling (
+void initializeExtraOahHandler (
   S_oahHandler handler);
 
 

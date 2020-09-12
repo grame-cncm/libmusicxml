@@ -359,12 +359,12 @@ class msrOah : public oahGroup
 typedef SMARTP<msrOah> S_msrOah;
 EXP ostream& operator<< (ostream& os, const S_msrOah& elt);
 
-EXP extern S_msrOah globalMsrOah;
-EXP extern S_msrOah globalMsrOahUserChoices;
-EXP extern S_msrOah globalMsrOahWithDetailedTrace;
+EXP extern S_msrOah gGlobalMsrOah;
+EXP extern S_msrOah gGlobalMsrOahUserChoices;
+EXP extern S_msrOah gGlobalMsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMsrOahHandling (
+void initializeMsrOahHandler (
   S_oahHandler handler);
 
 

@@ -105,7 +105,7 @@ int bsrPagination::fetchCellsNumber () const
 void bsrPagination::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPagination::acceptIn ()" <<
       endl;
@@ -118,7 +118,7 @@ void bsrPagination::acceptIn (basevisitor* v)
         S_bsrPagination elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPagination::visitStart ()" <<
             endl;
@@ -131,7 +131,7 @@ void bsrPagination::acceptIn (basevisitor* v)
 void bsrPagination::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrPagination::acceptOut ()" <<
       endl;
@@ -144,7 +144,7 @@ void bsrPagination::acceptOut (basevisitor* v)
         S_bsrPagination elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrPagination::visitEnd ()" <<
             endl;

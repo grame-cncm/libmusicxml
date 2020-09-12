@@ -173,7 +173,7 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah) { // JMI
+  if (gGlobalTraceOah->fTraceOah) { // JMI
     handler->printKnownPrefixes (gOutputOstream);
     handler->printKnownSingleCharacterOptions (gOutputOstream);
     // handler->printKnownOptions (gOutputOstream);
@@ -184,16 +184,16 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      globalOahOah->fInputSourceName;
+      gGlobalOahOah->fInputSourceName;
 
   string
     outputFileName =
-      globalXml2brlOah->
+      gGlobalXml2brlOah->
         getOutputFileNameStringAtom ()->
           getStringVariable ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -210,7 +210,7 @@ int main (int argc, char *argv[])
   // has quiet mode been requested?
   // ------------------------------------------------------
 
-  if (globalGeneralOah->fQuiet) {
+  if (gGlobalGeneralOah->fQuiet) {
     // disable all trace and display options
     /* JMI
     handler->
@@ -222,7 +222,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     int
       outputFileNameSize =
         outputFileName.size ();
@@ -247,7 +247,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogOstream <<
-      "Time is " << globalGeneralOah->fTranslationDateFull <<
+      "Time is " << gGlobalGeneralOah->fTranslationDateFull <<
       endl;
 
     gLogOstream <<
@@ -318,7 +318,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     gLogOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -348,7 +348,7 @@ int main (int argc, char *argv[])
   // print timing information
   // ------------------------------------------------------
 
-  if (globalGeneralOah->fDisplayCPUusage)
+  if (gGlobalGeneralOah->fDisplayCPUusage)
     timing::gTiming.print (
       gLogOstream);
 

@@ -263,7 +263,7 @@ void bsrCellsList::generateBrailleCode (ostream& os)
 void bsrCellsList::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrCellsList::acceptIn ()" <<
       endl;
@@ -276,7 +276,7 @@ void bsrCellsList::acceptIn (basevisitor* v)
         S_bsrCellsList elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrCellsList::visitStart ()" <<
             endl;
@@ -289,7 +289,7 @@ void bsrCellsList::acceptIn (basevisitor* v)
 void bsrCellsList::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrCellsList::acceptOut ()" <<
       endl;
@@ -302,7 +302,7 @@ void bsrCellsList::acceptOut (basevisitor* v)
         S_bsrCellsList elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrCellsList::visitEnd ()" <<
             endl;

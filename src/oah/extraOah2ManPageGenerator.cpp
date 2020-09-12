@@ -48,7 +48,7 @@ extraOah2ManPageGenerator::~extraOah2ManPageGenerator ()
 void extraOah2ManPageGenerator::visitStart (S_extraShowAllHarmoniesStructuresAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting extraShowAllHarmoniesStructuresAtom" <<
@@ -78,7 +78,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllHarmoniesStructuresAto
 void extraOah2ManPageGenerator::visitEnd (S_extraShowAllHarmoniesStructuresAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting extraShowAllHarmoniesStructuresAtom" <<
@@ -92,7 +92,7 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowAllHarmoniesStructuresAtom&
 void extraOah2ManPageGenerator::visitStart (S_extraShowAllHarmoniesContentsAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting extraShowAllHarmoniesContentsAtom" <<
@@ -122,7 +122,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowAllHarmoniesContentsAtom&
 void extraOah2ManPageGenerator::visitEnd (S_extraShowAllHarmoniesContentsAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting extraShowAllHarmoniesContentsAtom" <<
@@ -136,7 +136,7 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowAllHarmoniesContentsAtom& e
 void extraOah2ManPageGenerator::visitStart (S_extraShowHarmonyDetailsAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting extraShowHarmonyDetailsAtom" <<
@@ -166,7 +166,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowHarmonyDetailsAtom& elt)
 void extraOah2ManPageGenerator::visitEnd (S_extraShowHarmonyDetailsAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting extraShowHarmonyDetailsAtom" <<
@@ -180,7 +180,7 @@ void extraOah2ManPageGenerator::visitEnd (S_extraShowHarmonyDetailsAtom& elt)
 void extraOah2ManPageGenerator::visitStart (S_extraShowHarmonyAnalysisAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting extraShowHarmonyAnalysisAtom" <<
@@ -210,7 +210,7 @@ void extraOah2ManPageGenerator::visitStart (S_extraShowHarmonyAnalysisAtom& elt)
 void extraOah2ManPageGenerator::visitEnd (S_extraShowHarmonyAnalysisAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting extraShowHarmonyAnalysisAtom" <<

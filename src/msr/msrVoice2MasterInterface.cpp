@@ -48,7 +48,7 @@ S_msrVoice buildMsrMasterFromMsrVoice (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

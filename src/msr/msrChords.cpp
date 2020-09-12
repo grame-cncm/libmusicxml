@@ -35,7 +35,7 @@ S_msrChord msrChord::create (
   msrDurationKind chordGraphicDurationKind)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Creating a chord" <<
       ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
@@ -81,7 +81,7 @@ S_msrChord msrChord::createChordNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Creating a newborn clone of chord '" <<
       asString () <<
@@ -125,7 +125,7 @@ void msrChord::setChordSoundingWholeNotes (
   rational wholeNotes)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Setting chord sounding whole notes to '" <<
       wholeNotes <<
@@ -144,7 +144,7 @@ void msrChord::setChordDisplayWholeNotes (
   rational wholeNotes)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Setting chord displayed whole notes to '" <<
       wholeNotes <<
@@ -163,7 +163,7 @@ void msrChord::setChordMembersPositionInMeasure (
   rational     positionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOah->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting chord members position in measure of " << asString () <<
       " to '" <<
@@ -257,7 +257,7 @@ void msrChord::addFirstNoteToChord (
   S_msrVoice voice)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Adding first note '" <<
       note->asString () <<
@@ -303,7 +303,7 @@ void msrChord::addAnotherNoteToChord (
   S_msrVoice voice)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Adding another note '" <<
       note->asShortString () <<
@@ -340,7 +340,7 @@ S_msrNote msrChord::fetchChordFirstNonGraceNote () const
 
   else {
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "cannot access the first note of an empty chord");
@@ -352,7 +352,7 @@ S_msrNote msrChord::fetchChordFirstNonGraceNote () const
 void msrChord::appendDalSegnoToChord (S_msrDalSegno dalSegno)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceDalSegnos) {
+  if (gGlobalTraceOah->fTraceDalSegnos) {
     gLogOstream <<
       "Appending dal segno " <<
       dalSegno->asShortString () <<
@@ -383,7 +383,7 @@ void msrChord::appendArticulationToChord (S_msrArticulation art)
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceArticulations) {
+  if (gGlobalTraceOah->fTraceArticulations) {
     gLogOstream <<
       "Appending articulation '" <<
       art->articulationKindAsString () <<
@@ -413,7 +413,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceSpanners) {
+  if (gGlobalTraceOah->fTraceSpanners) {
     gLogOstream <<
       "Appending spanner '" <<
       span->spannerKindAsString () <<
@@ -430,7 +430,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
 void msrChord::setChordSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTremolos) {
+  if (gGlobalTraceOah->fTraceTremolos) {
     gLogOstream <<
       "Adding singleTremolo '" <<
       trem->asString () <<
@@ -461,7 +461,7 @@ void msrChord::appendTechnicalToChord (S_msrTechnical tech)
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Appending technical '" <<
       tech->asString () <<
@@ -493,7 +493,7 @@ void msrChord::appendTechnicalWithIntegerToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Appending technical with integer '" <<
       tech->asString () <<
@@ -525,7 +525,7 @@ void msrChord::appendTechnicalWithFloatToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Appending technical with integer '" <<
       tech->asString () <<
@@ -557,7 +557,7 @@ void msrChord::appendTechnicalWithStringToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Appending technical with string '" <<
       tech->asString () <<
@@ -587,7 +587,7 @@ void msrChord::appendOrnamentToChord (S_msrOrnament orn)
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Appending ornament '" <<
       orn->ornamentKindAsString () <<
@@ -617,7 +617,7 @@ void msrChord::appendGlissandoToChord (S_msrGlissando gliss)
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Appending glissando '" <<
       gliss->asString () <<
@@ -647,7 +647,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
   } // for
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Appending slide '" <<
       slide->asString () <<
@@ -662,7 +662,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
 void msrChord::appendChordSlurLinkToChord (S_msrChordSlurLink chordSlurLink)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceSlurs) {
+  if (gGlobalTraceOah->fTraceSlurs) {
     gLogOstream <<
       "Adding slur link '" << chordSlurLink->asString() <<
       "' to chord '" << asString () << "'" <<
@@ -692,7 +692,7 @@ void msrChord::appendStemToChord (S_msrStem stem)
 
 //      msrInternalError ( // not internal actually JMI ???
       msrInternalWarning ( // not internal actually JMI ???
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         fInputLineNumber,
   //      __FILE__, __LINE__,
         s.str ());
@@ -706,7 +706,7 @@ void msrChord::appendStemToChord (S_msrStem stem)
 void msrChord::appendBeamToChord (S_msrBeam beam)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceBeams) {
+  if (gGlobalTraceOah->fTraceBeams) {
     gLogOstream <<
       "Appending beam '" <<
       beam->asString () <<
@@ -722,7 +722,7 @@ void msrChord::appendBeamToChord (S_msrBeam beam)
 void msrChord::appendChordBeamLinkToChord (S_msrChordBeamLink chordBeamLink)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceBeams) {
+  if (gGlobalTraceOah->fTraceBeams) {
     gLogOstream <<
       "Adding beam link '" << chordBeamLink->asString() <<
       "' to chord '" << asString () << "'" <<
@@ -737,7 +737,7 @@ void msrChord::finalizeChord (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceChords) {
+  if (gGlobalTraceOah->fTraceChords) {
     gLogOstream <<
       "Finalizing chord '" <<
       asString () <<
@@ -758,7 +758,7 @@ void msrChord::finalizeChord (
 
 void msrChord::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrChord::acceptIn ()" <<
       endl;
@@ -769,7 +769,7 @@ void msrChord::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrChord::visitStart ()" <<
             endl;
@@ -780,7 +780,7 @@ void msrChord::acceptIn (basevisitor* v)
 
 void msrChord::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrChord::acceptOut ()" <<
       endl;
@@ -791,7 +791,7 @@ void msrChord::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrChord::visitEnd ()" <<
             endl;
@@ -1068,7 +1068,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOah->fTraceTuplets) {
     gLogOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
@@ -1285,7 +1285,7 @@ void msrChord::print (ostream& os) const
     endl;
 
   // print the chord grace notes groups links if any
-  if (fChordGraceNotesGroupLinkBefore || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordGraceNotesGroupLinkBefore || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordGraceNotesGroupLinkBefore";
@@ -1302,7 +1302,7 @@ void msrChord::print (ostream& os) const
   // print the articulations if any
   int chordArticulationsSize = fChordArticulations.size ();
 
-  if (chordArticulationsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordArticulationsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordArticulations";
@@ -1327,7 +1327,7 @@ void msrChord::print (ostream& os) const
   // print the spanners if any
   int chordSpannersSize = fChordSpanners.size ();
 
-  if (chordSpannersSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordSpannersSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSpanners";
@@ -1352,7 +1352,7 @@ void msrChord::print (ostream& os) const
   // print the technicals if any
   int chordTechnicalsSize = fChordTechnicals.size ();
 
-  if (chordTechnicalsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordTechnicalsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordTechnicals";
@@ -1377,7 +1377,7 @@ void msrChord::print (ostream& os) const
   // print the ornaments if any
   int chordOrnamentsSize = fChordOrnaments.size ();
 
-  if (chordOrnamentsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordOrnamentsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordOrnaments";
@@ -1402,7 +1402,7 @@ void msrChord::print (ostream& os) const
   // print the glissandos if any
   int chordGlissandosSize = fChordGlissandos.size ();
 
-  if (chordGlissandosSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordGlissandosSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordGlissandos";
@@ -1427,7 +1427,7 @@ void msrChord::print (ostream& os) const
   // print the slides if any
   int chordSlidesSize = fChordSlides.size ();
 
-  if (chordSlidesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordSlidesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSlides";
@@ -1452,7 +1452,7 @@ void msrChord::print (ostream& os) const
   // print the dynamics if any
   int chordDynamicsSize = fChordDynamics.size ();
 
-  if (chordDynamicsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordDynamicsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordDynamics";
@@ -1477,7 +1477,7 @@ void msrChord::print (ostream& os) const
   // print the other dynamics if any
   int chordOtherDynamicsSize = fChordOtherDynamics.size ();
 
-  if (chordOtherDynamicsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordOtherDynamicsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordOtherDynamics";
@@ -1502,7 +1502,7 @@ void msrChord::print (ostream& os) const
   // print the stems if any
   int chordStemsSize = fChordStems.size ();
 
-  if (chordStemsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordStemsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordStems";
@@ -1528,7 +1528,7 @@ void msrChord::print (ostream& os) const
   // print the beams if any
   int chordBeamsSize = fChordBeams.size ();
 
-  if (chordBeamsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordBeamsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordBeams";
@@ -1553,7 +1553,7 @@ void msrChord::print (ostream& os) const
   // print the beam links if any
   int chordBeamLinksSize = fChordBeamLinks.size ();
 
-  if (globalTraceOah->fTraceBeams || chordBeamLinksSize || globalMsrOah->fDisplayMsrDetails) {
+  if (gGlobalTraceOah->fTraceBeams || chordBeamLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "===> chordBeamLinks ===>";
@@ -1578,7 +1578,7 @@ void msrChord::print (ostream& os) const
   // print the words if any
   int chordWordsSize = fChordWords.size ();
 
-  if (chordWordsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordWordsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordWords";
@@ -1603,7 +1603,7 @@ void msrChord::print (ostream& os) const
   // print the ties if any
   int chordTiesSize = fChordTies.size ();
 
-  if (chordTiesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordTiesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordTies";
@@ -1628,7 +1628,7 @@ void msrChord::print (ostream& os) const
   // print the ligatures if any
   int chordLigaturesSize = fChordLigatures.size ();
 
-  if (chordLigaturesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordLigaturesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordLigatures";
@@ -1653,7 +1653,7 @@ void msrChord::print (ostream& os) const
   // print the slashes if any
   int chordSlashesSize = fChordSlashes.size ();
 
-  if (chordSlashesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordSlashesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSlashes";
@@ -1678,7 +1678,7 @@ void msrChord::print (ostream& os) const
   // print the wedges if any
   int chordWedgesSize = fChordWedges.size ();
 
-  if (chordWedgesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordWedgesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordWedges";
@@ -1703,7 +1703,7 @@ void msrChord::print (ostream& os) const
   // print the segnos if any
   int chordSegnosSize = fChordSegnos.size ();
 
-  if (chordSegnosSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordSegnosSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSegnos";
@@ -1728,7 +1728,7 @@ void msrChord::print (ostream& os) const
   // print the dal segnos if any
   int chordDalSegnosSize = fChordDalSegnos.size ();
 
-  if (chordDalSegnosSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordDalSegnosSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordDalSegnos";
@@ -1753,7 +1753,7 @@ void msrChord::print (ostream& os) const
   // print the codas if any
   int chordCodasSize = fChordCodas.size ();
 
-  if (chordCodasSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordCodasSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordCodas";
@@ -1776,7 +1776,7 @@ void msrChord::print (ostream& os) const
   }
 
   // print the octave shift if any
-  if (fChordOctaveShift || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordOctaveShift || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordOctaveShift";
@@ -1796,7 +1796,7 @@ void msrChord::print (ostream& os) const
   // print the harmonies associated to this chord if any
   int chordHarmoniesListSize = fChordHarmoniesList.size ();
 
-  if (chordHarmoniesListSize > 0 || globalMsrOah->fDisplayMsrDetails) {
+  if (chordHarmoniesListSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordHarmonies";
@@ -1828,7 +1828,7 @@ void msrChord::print (ostream& os) const
   }
 
   // print the figured bass if any
-  if (fChordFiguredBass || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordFiguredBass || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordFiguredBass" << " : " <<
@@ -1852,7 +1852,7 @@ void msrChord::print (ostream& os) const
   // print the chord notes if any
   int chordNotesVectorSize = fChordNotesVector.size ();
 
-  if (chordNotesVectorSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordNotesVectorSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordNotes";
@@ -1884,7 +1884,7 @@ void msrChord::print (ostream& os) const
   // print the slur links if any
   int chordSlurLinksSize = fChordSlurLinks.size ();
 
-  if (globalTraceOah->fTraceSlurs || chordSlurLinksSize || globalMsrOah->fDisplayMsrDetails) {
+  if (gGlobalTraceOah->fTraceSlurs || chordSlurLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "===> chordSlurLinks ===>";
@@ -1908,7 +1908,7 @@ void msrChord::print (ostream& os) const
 
 /*
   // print the chord grace notes groups if any
-  if (fChordGraceNotesGroupBefore || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordGraceNotesGroupBefore || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordGraceNotesGroupBefore";
@@ -1927,7 +1927,7 @@ void msrChord::print (ostream& os) const
 //    os << endl;
   }
 
-  if (fChordGraceNotesGroupAfter || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordGraceNotesGroupAfter || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordGraceNotesGroupAfter";
@@ -1946,7 +1946,7 @@ void msrChord::print (ostream& os) const
   }
 */
 
-  if (fChordGraceNotesGroupLinkAfter || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordGraceNotesGroupLinkAfter || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordGraceNotesGroupLinkAfter";
@@ -2058,7 +2058,7 @@ void msrChord::printShort (ostream& os) const
 */
 
   // print the chord grace notes group link before if any
-  if (fChordGraceNotesGroupLinkBefore || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordGraceNotesGroupLinkBefore || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "===> chordGraceNotesGroupLinkBefore ===>";
@@ -2077,7 +2077,7 @@ void msrChord::printShort (ostream& os) const
   // print the articulations if any
   int chordArticulationsSize = fChordArticulations.size ();
 
-  if (chordArticulationsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordArticulationsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordArticulations";
@@ -2102,7 +2102,7 @@ void msrChord::printShort (ostream& os) const
   // print the spanners if any
   int chordSpannersSize = fChordSpanners.size ();
 
-  if (chordSpannersSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordSpannersSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSpanners";
@@ -2127,7 +2127,7 @@ void msrChord::printShort (ostream& os) const
   // print the technicals if any
   int chordTechnicalsSize = fChordTechnicals.size ();
 
-  if (chordTechnicalsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordTechnicalsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordTechnicals";
@@ -2152,7 +2152,7 @@ void msrChord::printShort (ostream& os) const
   // print the ornaments if any
   int chordOrnamentsSize = fChordOrnaments.size ();
 
-  if (chordOrnamentsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordOrnamentsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordOrnaments";
@@ -2177,7 +2177,7 @@ void msrChord::printShort (ostream& os) const
   // print the glissandos if any
   int chordGlissandosSize = fChordGlissandos.size ();
 
-  if (chordGlissandosSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordGlissandosSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordGlissandos";
@@ -2202,7 +2202,7 @@ void msrChord::printShort (ostream& os) const
   // print the slides if any
   int chordSlidesSize = fChordSlides.size ();
 
-  if (chordSlidesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordSlidesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSlides";
@@ -2227,7 +2227,7 @@ void msrChord::printShort (ostream& os) const
   // print the dynamics if any
   int chordDynamicsSize = fChordDynamics.size ();
 
-  if (chordDynamicsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordDynamicsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordDynamics";
@@ -2252,7 +2252,7 @@ void msrChord::printShort (ostream& os) const
   // print the other dynamics if any
   int chordOtherDynamicsSize = fChordOtherDynamics.size ();
 
-  if (chordOtherDynamicsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordOtherDynamicsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordOtherDynamics";
@@ -2277,7 +2277,7 @@ void msrChord::printShort (ostream& os) const
   // print the stems if any
   int chordStemsSize = fChordStems.size ();
 
-  if (chordStemsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordStemsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordStems";
@@ -2304,7 +2304,7 @@ void msrChord::printShort (ostream& os) const
   // print the beams if any
   int chordBeamsSize = fChordBeams.size ();
 
-  if (true || chordBeamsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (true || chordBeamsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordBeams";
@@ -2330,7 +2330,7 @@ void msrChord::printShort (ostream& os) const
   // print the beam links if any
   int chordBeamLinksSize = fChordBeamLinks.size ();
 
-  if (globalTraceOah->fTraceBeams || chordBeamLinksSize || globalMsrOah->fDisplayMsrDetails) {
+  if (gGlobalTraceOah->fTraceBeams || chordBeamLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordBeamLinks";
@@ -2355,7 +2355,7 @@ void msrChord::printShort (ostream& os) const
   // print the words if any
   int chordWordsSize = fChordWords.size ();
 
-  if (chordWordsSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordWordsSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordWords";
@@ -2380,7 +2380,7 @@ void msrChord::printShort (ostream& os) const
   // print the ties if any
   int chordTiesSize = fChordTies.size ();
 
-  if (chordTiesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordTiesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordTies";
@@ -2405,7 +2405,7 @@ void msrChord::printShort (ostream& os) const
   // print the slur links if any
   int chordSlurLinksSize = fChordSlurLinks.size ();
 
-  if (globalTraceOah->fTraceSlurs || chordSlurLinksSize || globalMsrOah->fDisplayMsrDetails) {
+  if (gGlobalTraceOah->fTraceSlurs || chordSlurLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSlurLinks";
@@ -2430,7 +2430,7 @@ void msrChord::printShort (ostream& os) const
   // print the ligatures if any
   int chordLigaturesSize = fChordLigatures.size ();
 
-  if (chordLigaturesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordLigaturesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordLigatures";
@@ -2456,7 +2456,7 @@ void msrChord::printShort (ostream& os) const
   // print the slashes if any
   int chordSlashesSize = fChordSlashes.size ();
 
-  if (chordSlashesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordSlashesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSlashes";
@@ -2481,7 +2481,7 @@ void msrChord::printShort (ostream& os) const
   // print the wedges if any
   int chordWedgesSize = fChordWedges.size ();
 
-  if (chordWedgesSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordWedgesSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordWedges";
@@ -2506,7 +2506,7 @@ void msrChord::printShort (ostream& os) const
   // print the segnos if any
   int chordSegnosSize = fChordSegnos.size ();
 
-  if (chordSegnosSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordSegnosSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSegnos";
@@ -2531,7 +2531,7 @@ void msrChord::printShort (ostream& os) const
   // print the dal segnos if any
   int chordDalSegnosSize = fChordDalSegnos.size ();
 
-  if (chordDalSegnosSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordDalSegnosSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordDalSegnos";
@@ -2556,7 +2556,7 @@ void msrChord::printShort (ostream& os) const
   // print the codas if any
   int chordCodasSize = fChordCodas.size ();
 
-  if (chordCodasSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordCodasSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordCodas";
@@ -2579,7 +2579,7 @@ void msrChord::printShort (ostream& os) const
   }
 
   // print the octave shift if any
-  if (fChordOctaveShift || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordOctaveShift || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordOctaveShift";
@@ -2600,7 +2600,7 @@ void msrChord::printShort (ostream& os) const
   // print the harmonies associated to this chord if any
   int chordHarmoniesListSize = fChordHarmoniesList.size ();
 
-  if (chordHarmoniesListSize > 0 || globalMsrOah->fDisplayMsrDetails) {
+  if (chordHarmoniesListSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordHarmonies";
@@ -2632,7 +2632,7 @@ void msrChord::printShort (ostream& os) const
   }
 
   // print the figured bass if any
-  if (fChordFiguredBass || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordFiguredBass || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordFiguredBass" << " : " <<
@@ -2657,7 +2657,7 @@ void msrChord::printShort (ostream& os) const
   // print the chord notes if any
   int chordNotesVectorSize = fChordNotesVector.size ();
 
-  if (chordNotesVectorSize || globalMsrOah->fDisplayMsrDetails) {
+  if (chordNotesVectorSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordNotes";
@@ -2688,7 +2688,7 @@ void msrChord::printShort (ostream& os) const
 
 /*
   // print the chord grace notes groups if any
-  if (fChordGraceNotesGroupBefore || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordGraceNotesGroupBefore || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordGraceNotesGroupBefore";
@@ -2705,7 +2705,7 @@ void msrChord::printShort (ostream& os) const
 //    os << endl;
   }
 
-  if (fChordGraceNotesGroupAfter || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordGraceNotesGroupAfter || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordGraceNotesGroupAfter";
@@ -2724,7 +2724,7 @@ void msrChord::printShort (ostream& os) const
 */
 
   // print the chord grace notes group link after if any
-  if (fChordGraceNotesGroupLinkAfter || globalMsrOah->fDisplayMsrDetails) {
+  if (fChordGraceNotesGroupLinkAfter || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "===> chordGraceNotesGroupLinkAfter ===>";
@@ -2791,7 +2791,7 @@ msrChordBeamLink::~msrChordBeamLink ()
 S_msrChordBeamLink msrChordBeamLink::createBeamNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of grace notes group link '" <<
       asShortString () <<
@@ -2819,7 +2819,7 @@ S_msrChordBeamLink msrChordBeamLink::createBeamNewbornClone ()
 
 void msrChordBeamLink::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrChordBeamLink::acceptIn ()" <<
       endl;
@@ -2830,7 +2830,7 @@ void msrChordBeamLink::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrChordBeamLink>*> (v)) {
         S_msrChordBeamLink elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrChordBeamLink::visitStart ()" <<
             endl;
@@ -2841,7 +2841,7 @@ void msrChordBeamLink::acceptIn (basevisitor* v)
 
 void msrChordBeamLink::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrChordBeamLink::acceptOut ()" <<
       endl;
@@ -2852,7 +2852,7 @@ void msrChordBeamLink::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrChordBeamLink>*> (v)) {
         S_msrChordBeamLink elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrChordBeamLink::visitEnd ()" <<
             endl;
@@ -3000,7 +3000,7 @@ msrChordSlurLink::~msrChordSlurLink ()
 S_msrChordSlurLink msrChordSlurLink::createSlurNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of grace notes group link '" <<
       asShortString () <<
@@ -3028,7 +3028,7 @@ S_msrChordSlurLink msrChordSlurLink::createSlurNewbornClone ()
 
 void msrChordSlurLink::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrChordSlurLink::acceptIn ()" <<
       endl;
@@ -3039,7 +3039,7 @@ void msrChordSlurLink::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrChordSlurLink>*> (v)) {
         S_msrChordSlurLink elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrChordSlurLink::visitStart ()" <<
             endl;
@@ -3050,7 +3050,7 @@ void msrChordSlurLink::acceptIn (basevisitor* v)
 
 void msrChordSlurLink::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrChordSlurLink::acceptOut ()" <<
       endl;
@@ -3061,7 +3061,7 @@ void msrChordSlurLink::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrChordSlurLink>*> (v)) {
         S_msrChordSlurLink elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrChordSlurLink::visitEnd ()" <<
             endl;
@@ -3209,7 +3209,7 @@ msrChordGraceNotesGroupLink::~msrChordGraceNotesGroupLink ()
 S_msrChordGraceNotesGroupLink msrChordGraceNotesGroupLink::createChordGraceNotesGroupLinkNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOah->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of grace notes group link '" <<
       asShortString () <<
@@ -3237,7 +3237,7 @@ S_msrChordGraceNotesGroupLink msrChordGraceNotesGroupLink::createChordGraceNotes
 
 void msrChordGraceNotesGroupLink::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrChordGraceNotesGroupLink::acceptIn ()" <<
       endl;
@@ -3248,7 +3248,7 @@ void msrChordGraceNotesGroupLink::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrChordGraceNotesGroupLink>*> (v)) {
         S_msrChordGraceNotesGroupLink elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrChordGraceNotesGroupLink::visitStart ()" <<
             endl;
@@ -3259,7 +3259,7 @@ void msrChordGraceNotesGroupLink::acceptIn (basevisitor* v)
 
 void msrChordGraceNotesGroupLink::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrChordGraceNotesGroupLink::acceptOut ()" <<
       endl;
@@ -3270,7 +3270,7 @@ void msrChordGraceNotesGroupLink::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrChordGraceNotesGroupLink>*> (v)) {
         S_msrChordGraceNotesGroupLink elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrChordGraceNotesGroupLink::visitEnd ()" <<
             endl;

@@ -32,9 +32,9 @@ namespace MusicXML2
 {
 //_______________________________________________________________________________
 
-S_msr2BsrOah globalMsr2BsrOah;
-S_msr2BsrOah globalMsr2BsrOahUserChoices;
-S_msr2BsrOah globalMsr2BsrOahWithDetailedTrace;
+S_msr2BsrOah gGlobalMsr2BsrOah;
+S_msr2BsrOah gGlobalMsr2BsrOahUserChoices;
+S_msr2BsrOah gGlobalMsr2BsrOahWithDetailedTrace;
 
 S_msr2BsrOah msr2BsrOah::create (
   S_oahHandler handlerUpLink)
@@ -311,7 +311,7 @@ void msr2BsrOah::checkOptionsConsistency ()
 void msr2BsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2BsrOah::acceptIn ()" <<
       endl;
@@ -324,7 +324,7 @@ void msr2BsrOah::acceptIn (basevisitor* v)
         S_msr2BsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2BsrOah::visitStart ()" <<
             endl;
@@ -337,7 +337,7 @@ void msr2BsrOah::acceptIn (basevisitor* v)
 void msr2BsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2BsrOah::acceptOut ()" <<
       endl;
@@ -350,7 +350,7 @@ void msr2BsrOah::acceptOut (basevisitor* v)
         S_msr2BsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (globalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOah->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2BsrOah::visitEnd ()" <<
             endl;
@@ -363,7 +363,7 @@ void msr2BsrOah::acceptOut (basevisitor* v)
 void msr2BsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOah->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2BsrOah::browseData ()" <<
       endl;
@@ -454,11 +454,11 @@ ostream& operator<< (ostream& os, const S_msr2BsrOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeMsr2BsrOahHandling (
+void initializeMsr2BsrOahHandler (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceOah && ! globalGeneralOah->fQuiet) {
+  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
     gLogOstream <<
       "Initializing Msr2Bsr options handling" <<
       endl;
@@ -468,19 +468,19 @@ void initializeMsr2BsrOahHandling (
   // create the Msr2Bsr options
   // ------------------------------------------------------
 
-  globalMsr2BsrOahUserChoices = msr2BsrOah::create (
+  gGlobalMsr2BsrOahUserChoices = msr2BsrOah::create (
     handler);
-  assert(globalMsr2BsrOahUserChoices != 0);
+  assert(gGlobalMsr2BsrOahUserChoices != 0);
 
-  globalMsr2BsrOah =
-    globalMsr2BsrOahUserChoices;
+  gGlobalMsr2BsrOah =
+    gGlobalMsr2BsrOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
 /* JMI
-  globalMsr2BsrOahWithDetailedTrace =
-    globalMsr2BsrOah->
+  gGlobalMsr2BsrOahWithDetailedTrace =
+    gGlobalMsr2BsrOah->
       createCloneWithDetailedTrace ();
       */
 }

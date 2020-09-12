@@ -380,7 +380,7 @@ void msr2MxmltreeTranslator::appendToScoreDefaultsPageLayout (
 //________________________________________________________________________
 void msr2MxmltreeTranslator::createMxmlAttributesElementAndAppendItToMeasure ()
 {
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml an attributes comment
     stringstream s;
     s <<
@@ -449,7 +449,7 @@ void msr2MxmltreeTranslator::appendToMeasureDirection (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml a direction comment
     stringstream s;
     s <<
@@ -496,7 +496,7 @@ void msr2MxmltreeTranslator::appendNoteToMeasure (
   int inputLineNumber =
     elem->getInputLineNumber ();
 
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteToMeasure(), elem = " <<
       ", elem: " << mxmlElementAsString (elem) <<
@@ -526,7 +526,7 @@ void msr2MxmltreeTranslator::appendOtherToMeasure (
   int inputLineNumber =
     elem->getInputLineNumber ();
 
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendOtherToMeasure()" <<
       ", elem: " << mxmlElementAsString (elem) <<
@@ -655,7 +655,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrScore" <<
       ", line " << inputLineNumber <<
@@ -668,13 +668,13 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
   s <<
     " ===== " <<
     "Created by " <<
-    globalOahOah->fHandlerExecutableName <<
+    gGlobalOahOah->fHandlerExecutableName <<
     " " <<
     currentVersionNumber () <<
     " on " <<
-    globalGeneralOah->fTranslationDateFull <<
+    gGlobalGeneralOah->fTranslationDateFull <<
     " from " <<
-    globalOahOah->fInputSourceName <<
+    gGlobalOahOah->fInputSourceName <<
     " ===== ";
 
   // append the initial creation comment to the score part wise element
@@ -685,7 +685,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
     softwareElement =
       createMxmlElement (
         k_software,
-        globalOahOah->fHandlerExecutableName
+        gGlobalOahOah->fHandlerExecutableName
           + " "
           + currentVersionNumber () +
           ", https://github.com/dfober/libmusicxml/tree/lilypond");
@@ -698,7 +698,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrScore& elt)
     encodingDateElement =
       createMxmlElement (
         k_encoding_date,
-        globalGeneralOah->fTranslationDateYYYYMMDD);
+        gGlobalGeneralOah->fTranslationDateYYYYMMDD);
 
   // append it to the identification encoding
   appendToScoreIdentificationEncoding (encodingDateElement);
@@ -713,7 +713,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrScore" <<
       ", line " << inputLineNumber <<
@@ -738,7 +738,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the score identification element if any to the score part wise element
   if (fScoreIdentificationElement) {
-    if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+    if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
       // createMxml an identification comment
       stringstream s;
       s <<
@@ -788,7 +788,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 
   // append the score defaults element if any to the score part wise element
   if (fScoreDefaultsElement) {
-    if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+    if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
       // createMxml an defaults comment
       stringstream s;
       s <<
@@ -809,7 +809,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     fPendingScoreCreditElementsList.size ();
 
   if (pendingScoreCreditElementsListSize) {
-    if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+    if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
       stringstream s;
       s <<
         " ===== " <<
@@ -834,7 +834,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
     } // for
   }
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml an part-list comment
     stringstream s;
     s <<
@@ -859,7 +859,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
   ) {
     Sxmlelement partElement = (*i);
 
-    if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+    if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
       // createMxml a part comment
       stringstream s;
       s <<
@@ -883,7 +883,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScore& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrIdentification" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1345,7 +1345,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrIdentification& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrIdentification& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrIdentification" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1392,7 +1392,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrIdentification& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrScaling& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1441,7 +1441,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScaling& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrScaling" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1454,7 +1454,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrScaling& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrPageLayout& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPageLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1512,7 +1512,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPageLayout& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrPageLayout& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPageLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1525,7 +1525,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPageLayout& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSystemLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1597,7 +1597,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSystemLayout& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrSystemLayout& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSystemLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1610,7 +1610,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSystemLayout& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrStaffLayout& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaffLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1662,7 +1662,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrStaffLayout& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrStaffLayout& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrStaffLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1675,7 +1675,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrStaffLayout& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrMeasureLayout& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasureLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -1718,7 +1718,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasureLayout& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrMeasureLayout& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasureLayout" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2078,7 +2078,7 @@ void msr2MxmltreeTranslator::populateAppearanceOtherAppearances (
 void msr2MxmltreeTranslator::visitStart (S_msrAppearance& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrAppearance" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2142,7 +2142,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrAppearance& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrAppearance& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrAppearance" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2155,7 +2155,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrAppearance& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrCredit& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrCredit" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2177,7 +2177,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCredit& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrCredit& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrCredit" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2192,7 +2192,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrCredit& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrCreditWords" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2359,7 +2359,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCreditWords& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrCreditWords& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrCreditWords" <<
       ", line " << elt->getInputLineNumber () <<
@@ -2375,7 +2375,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPartGroup " <<
       elt->getPartGroupCombinedName () <<
@@ -2391,7 +2391,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartGroup& elt)
 
     case msrPartGroup::kPartGroupImplicitNo:
       {
-        if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+        if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
           // createMxml a start comment
           stringstream s;
           s <<
@@ -2503,7 +2503,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPartGroup " <<
       elt->getPartGroupCombinedName () <<
@@ -2519,7 +2519,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
 
     case msrPartGroup::kPartGroupImplicitNo:
       {
-        if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+        if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
           // createMxml an end comment
           stringstream s;
           s <<
@@ -2551,7 +2551,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPartGroup& elt)
             ", line " << inputLineNumber;
 
           msrInternalError (
-            globalOahOah->fInputSourceName,
+            gGlobalOahOah->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -2593,7 +2593,7 @@ int msr2MxmltreeTranslator::wholeNotesAsDivisions (
   durationAsRational.rationalise ();
 
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceDivisions) {
+  if (gGlobalMusicxmlOah->fTraceDivisions) {
     fLogOutputStream <<
       "--> durationAsRational: " <<
       durationAsRational <<
@@ -2611,7 +2611,7 @@ int msr2MxmltreeTranslator::wholeNotesAsDivisions (
       ", line " << inputLineNumber;
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2636,7 +2636,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
       elt->getPartCombinedName ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPart " <<
       partCombinedName <<
@@ -2646,7 +2646,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceParts) {
+  if (gGlobalTraceOah->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -2732,7 +2732,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
     divisionsPerQuarterNoteAsRational.getDenominator ();
 
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceDivisions) {
+  if (gGlobalMusicxmlOah->fTraceDivisions) {
     fLogOutputStream <<
       "-->  partShortestNoteDuration: " <<
       fPartShortestNoteDuration <<
@@ -2767,7 +2767,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPart& elt)
 
 // JMI    msrInternalError (
     msrInternalWarning (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
 //      __FILE__, __LINE__,
       s.str ());
@@ -2796,7 +2796,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPart& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPart " <<
       elt->getPartCombinedName () <<
@@ -2830,7 +2830,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSegment& elt)
     elt->getInputLineNumber () ;
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
@@ -2839,7 +2839,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSegment& elt)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml a start comment
     stringstream s;
     s <<
@@ -2862,7 +2862,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSegment& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
@@ -2871,7 +2871,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSegment& elt)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml an end comment
     stringstream s;
     s <<
@@ -2904,7 +2904,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasure '" <<
       measureNumber <<
@@ -2916,7 +2916,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOah->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<
@@ -2940,7 +2940,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
   else {
     // no
 
-    if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+    if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
       // createMxml a comment
       stringstream s;
       s <<
@@ -2973,7 +2973,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasurePrintLayout ();
 
   if (measurePrintLayout) {
-    if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+    if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
       // createMxml a print comment
       stringstream s;
       s <<
@@ -3033,7 +3033,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasure& elt)
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
       measureNumber <<
@@ -3065,7 +3065,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPrintLayout '" <<
       "', line " << inputLineNumber <<
@@ -3074,7 +3074,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPrintLayout& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTracePrintLayouts) {
+  if (gGlobalTraceOah->fTracePrintLayouts) {
     fLogOutputStream <<
       endl <<
 //      "', voice \"" <<
@@ -3129,7 +3129,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPrintLayout& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPrintLayout '" <<
       "', line " << inputLineNumber <<
@@ -3147,7 +3147,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrPrintLayout& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrClef" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3502,7 +3502,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrClef& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrClef& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrClef" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3518,7 +3518,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrKey" <<
       ", line " << inputLineNumber <<
@@ -3661,7 +3661,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
               elt->asShortString ();
 
             msrInternalError (
-              globalOahOah->fInputSourceName,
+              gGlobalOahOah->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -3687,7 +3687,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrKey& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrKey& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrKey" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3700,7 +3700,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrKey& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTime" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3823,7 +3823,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTime& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrTime& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTime" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3839,7 +3839,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTempo" <<
       ", line " << inputLineNumber <<
@@ -4060,7 +4060,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
 
       gIndenter++;
 
-      if (globalLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
+      if (gGlobalLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
         fLilypondCodeOstream <<
           " \\smaller \\general-align #Y #DOWN \\note {";
       }
@@ -4074,7 +4074,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
           inputLineNumber,
           tempoBeatUnit);
 
-      if (globalLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
+      if (gGlobalLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
         fLilypondCodeOstream <<
           "} #UP";
       }
@@ -4090,7 +4090,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
 
       fLilypondCodeOstream <<
         "(";
-      if (globalLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
+      if (gGlobalLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
         fLilypondCodeOstream <<
           " \\smaller \\general-align #Y #DOWN \\note {";
       }
@@ -4104,7 +4104,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
           inputLineNumber,
           elt->getTempoEquivalentBeatUnit ());
 
-      if (globalLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
+      if (gGlobalLpsrOah->versionNumberGreaterThanOrEqualTo ("2.20")) {
         fLilypondCodeOstream <<
           "} #UP";
       }
@@ -4193,7 +4193,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTempo& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrTempo& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTempo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4209,7 +4209,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrChord& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrChord" <<
       ", line " << inputLineNumber <<
@@ -4217,7 +4217,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrChord& elt)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml a chord start comment
     stringstream s;
     s <<
@@ -4245,7 +4245,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrChord" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4253,7 +4253,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrChord& elt)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml a chord end comment
     stringstream s;
     s <<
@@ -4285,7 +4285,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTuplet" <<
       ", line " << inputLineNumber <<
@@ -4293,7 +4293,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTuplet& elt)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml a tuplet start comment
     stringstream s;
     s <<
@@ -4318,7 +4318,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTuplet" <<
       ", line " << elt->getInputLineNumber () <<
@@ -4326,7 +4326,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml a tuplet end comment
     stringstream s;
     s <<
@@ -4349,7 +4349,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTuplet& elt)
 void msr2MxmltreeTranslator:: appendNoteWedges (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteWedges, note = " <<
       note->asShortString () <<
@@ -4404,7 +4404,7 @@ void msr2MxmltreeTranslator:: appendNoteWedges (S_msrNote note)
 void msr2MxmltreeTranslator:: appendNoteDynamics (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteDynamics, note = " <<
       note->asShortString () <<
@@ -4541,7 +4541,7 @@ void msr2MxmltreeTranslator:: appendABackupToMeasure (S_msrNote note)
         backupDuration);
 
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceBackup) {
+  if (gGlobalMusicxmlOah->fTraceBackup) {
     fLogOutputStream <<
       "Creating a backup element, note = " <<
       note->asShortString () <<
@@ -4551,7 +4551,7 @@ void msr2MxmltreeTranslator:: appendABackupToMeasure (S_msrNote note)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     S_msrVoice
       noteVoice =
         note->fetchNoteVoice ();
@@ -4615,7 +4615,7 @@ void msr2MxmltreeTranslator:: appendAForwardToMeasure (S_msrNote note)
         fCurrentCumulatedSkipsDurations);
 
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceForward) {
+  if (gGlobalMusicxmlOah->fTraceForward) {
     fLogOutputStream <<
       "Creating a forward element, note = " <<
       note->asShortString () <<
@@ -4631,7 +4631,7 @@ void msr2MxmltreeTranslator:: appendAForwardToMeasure (S_msrNote note)
     noteVoiceNumber =
       note->fetchNoteVoice ()->getVoiceNumber ();
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     int
       previousMSRNoteStaffNumber =
         fPreviousMSRNoteStaff->getStaffNumber (),
@@ -4706,7 +4706,7 @@ void msr2MxmltreeTranslator:: appendABackupOrForwardToMeasureIfNeeded (
         : 0;
 
 #ifdef TRACE_OAH
-  if (globalMusicxmlOah->fTraceBackup || globalMusicxmlOah->fTraceForward) {
+  if (gGlobalMusicxmlOah->fTraceBackup || gGlobalMusicxmlOah->fTraceForward) {
     fLogOutputStream <<
       "--> appendABackupOrForwardToMeasureIfNeeded(1), note = " <<
       note->asShortString () <<
@@ -4771,7 +4771,7 @@ fCurrentCumulatedSkipsVoiceNumber
           positionAfterNoteInMeasure.rationalise ();
 
 #ifdef TRACE_OAH
-          if (globalMusicxmlOah->fTraceBackup || globalMusicxmlOah->fTraceForward) {
+          if (gGlobalMusicxmlOah->fTraceBackup || gGlobalMusicxmlOah->fTraceForward) {
             fLogOutputStream <<
               "--> appendABackupOrForwardToMeasureIfNeeded(2), note = " <<
               note->asShortString () <<
@@ -4816,7 +4816,7 @@ fCurrentCumulatedSkipsVoiceNumber
 void msr2MxmltreeTranslator:: populateNoteDirections (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> populateNoteDirections, note = " <<
       note->asShortString () <<
@@ -4847,7 +4847,7 @@ void msr2MxmltreeTranslator:: populateNoteDirections (S_msrNote note)
 void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteOrnaments, note = " <<
       note->asShortString () <<
@@ -4963,7 +4963,7 @@ void msr2MxmltreeTranslator:: appendNoteOrnaments (S_msrNote note)
 void msr2MxmltreeTranslator:: appendNoteTechnicals (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteTechnicals, note = " <<
       note->asShortString () <<
@@ -5067,7 +5067,7 @@ void msr2MxmltreeTranslator:: appendNoteTechnicalWithIntegers (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteTechnicalWithIntegers, note = " <<
       note->asShortString () <<
@@ -5145,7 +5145,7 @@ void msr2MxmltreeTranslator:: appendNoteTechnicalWithFloats (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteTechnicalWithFloats, note = " <<
       note->asShortString () <<
@@ -5214,7 +5214,7 @@ void msr2MxmltreeTranslator:: appendNoteTechnicalWithStrings (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteTechnicalWithStrings, note = " <<
       note->asShortString () <<
@@ -5290,7 +5290,7 @@ void msr2MxmltreeTranslator:: appendNoteTechnicalWithStrings (
 void msr2MxmltreeTranslator:: appendNoteArticulations (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteArticulations, note = " <<
       note->asShortString () <<
@@ -5434,7 +5434,7 @@ void msr2MxmltreeTranslator:: appendNoteTieIfAny (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteTechnicalWithStrings, note = " <<
       note->asShortString () <<
@@ -5483,7 +5483,7 @@ void msr2MxmltreeTranslator:: appendNoteSlursIfAny (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteSlursIfAny, note = " <<
       note->asShortString () <<
@@ -5557,7 +5557,7 @@ void msr2MxmltreeTranslator:: appendNoteTupletIfRelevant (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteSlursIfAny, note = " <<
       note->asShortString () <<
@@ -5646,7 +5646,7 @@ void msr2MxmltreeTranslator:: appendNoteSpannersBeforeNote (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteSpannersBeforeNoteElement, note = " <<
       note->asShortString () <<
@@ -5750,7 +5750,7 @@ void msr2MxmltreeTranslator:: appendNoteSpannersAfterNote (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteSpannersAfterNoteElement, note = " <<
       note->asShortString () <<
@@ -5853,7 +5853,7 @@ void msr2MxmltreeTranslator:: appendNoteSpannersAfterNote (
 void msr2MxmltreeTranslator:: appendStemToNote (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendStemToNote, note = " <<
       note->asShortString () <<
@@ -5896,7 +5896,7 @@ void msr2MxmltreeTranslator:: appendStemToNote (S_msrNote note)
 void msr2MxmltreeTranslator::appendBeamsToNote (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendBeamsToNote, note = " <<
       note->asShortString () <<
@@ -5960,7 +5960,7 @@ void msr2MxmltreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendStaffToNoteIfRelevant(), note = " <<
       note->asShortString () <<
@@ -5977,7 +5977,7 @@ void msr2MxmltreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
           getVoiceStaffUpLink ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       endl <<
       "--> noteStaff: ";
@@ -6016,7 +6016,7 @@ void msr2MxmltreeTranslator::appendVoiceToNoteIfRelevant (
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendVoiceToNoteIfRelevant(), note = " <<
       note->asShortString () <<
@@ -6031,7 +6031,7 @@ void msr2MxmltreeTranslator::appendVoiceToNoteIfRelevant (
       note->fetchNoteVoice ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       endl <<
       "--> noteVoice: ";
@@ -6066,7 +6066,7 @@ void msr2MxmltreeTranslator::appendVoiceToNoteIfRelevant (
 void msr2MxmltreeTranslator:: appendNoteNotationsToNote (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteNotationsToNote, note = " <<
       note->asShortString () <<
@@ -6113,7 +6113,7 @@ void msr2MxmltreeTranslator:: appendNoteNotationsToNote (S_msrNote note)
 void msr2MxmltreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteLyricsToNote, note = " <<
       note->asShortString () <<
@@ -6279,7 +6279,7 @@ void msr2MxmltreeTranslator::appendBasicsToNote (
     note->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendBasicsToNote(), note = " <<
       note->asShortString () <<
@@ -6314,7 +6314,7 @@ void msr2MxmltreeTranslator::appendBasicsToNote (
         noteAlterationKind);
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "-->  noteKind: " << msrNote::noteKindAsString (noteKind) <<
       "-->  noteOctave: " << noteOctave <<
@@ -6452,7 +6452,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
     note->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendDurationToNoteIfRelevant(1), note = " <<
       note->asShortString () <<
@@ -6475,7 +6475,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
     noteDisplayWholeNotes =
       note->getNoteDisplayWholeNotes ();
 
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "-->  noteKind: " << msrNote::noteKindAsString (noteKind) <<
       "-->  noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
@@ -6541,7 +6541,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
 
   if (doAppendDuration) {
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceNotes) {
+    if (gGlobalTraceOah->fTraceNotes) {
       fLogOutputStream <<
         "--> soundingDurationAsRational: " <<
         soundingDurationAsRational <<
@@ -6559,7 +6559,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
         ", line " << inputLineNumber;
 
       msrInternalError (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6571,7 +6571,7 @@ void msr2MxmltreeTranslator::appendDurationToNoteIfRelevant (
         soundingDurationAsRational.getNumerator ()));
 
 #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceNotes) {
+    if (gGlobalTraceOah->fTraceNotes) {
       fLogOutputStream <<
         endl <<
         "--> appendDurationToNoteIfRelevant(2): " <<
@@ -6589,7 +6589,7 @@ void msr2MxmltreeTranslator::appendTimeModificationToNoteIfRelevant (
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendTimeModificationToNoteIfRelevant(), note = " <<
       note->asShortString () <<
@@ -6664,7 +6664,7 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
   S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOah->fTraceNotes) {
     fLogOutputStream <<
       "--> appendNoteToMesureIfRelevant, note = " <<
       note->asShortString () <<
@@ -6799,7 +6799,7 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
         note->getNoteDotsNumber ();
 
   #ifdef TRACE_OAH
-    if (globalTraceOah->fTraceNotes) {
+    if (gGlobalTraceOah->fTraceNotes) {
       fLogOutputStream <<
         "-->  noteDotsNumber: " << noteDotsNumber <<
         "--> line " << inputLineNumber <<
@@ -6854,7 +6854,7 @@ void msr2MxmltreeTranslator::appendNoteToMesureIfRelevant (
         note->getNoteGraceNotesGroupAfter ();
 
     if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
-      if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+      if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
         // createMxml a note comment
         S_msrVoice
           noteVoice =
@@ -6897,7 +6897,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
     elt->getInputLineNumber () ;
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrGraceNotesGroup" <<
       ", line " << inputLineNumber <<
@@ -6905,7 +6905,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml a start comment
     stringstream s;
     s <<
@@ -6928,7 +6928,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
     elt->getInputLineNumber () ;
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrGraceNotesGroup" <<
       ", line " << inputLineNumber <<
@@ -6936,7 +6936,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-  if (globalMsr2MxmltreeOah->fMusicXMLComments) {
+  if (gGlobalMsr2MxmltreeOah->fMusicXMLComments) {
     // createMxml an end comment
     stringstream s;
     s <<
@@ -6990,7 +6990,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrNote& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrNote '" <<
       elt->asString () <<
@@ -7025,7 +7025,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrNote " <<
       elt->asString () <<
@@ -7083,7 +7083,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrNote& elt)
 
   if (doRememberThisNote) {
 #ifdef TRACE_OAH
-    if (globalMusicxmlOah->fTraceBackup || globalMusicxmlOah->fTraceForward) {
+    if (gGlobalMusicxmlOah->fTraceBackup || gGlobalMusicxmlOah->fTraceForward) {
       fLogOutputStream <<
         "--> remembering previous note " <<
         elt->asString () <<
@@ -7116,7 +7116,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarline" <<
       ", line " << inputLineNumber <<
@@ -7204,7 +7204,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrBarline& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrBarline& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarline" <<
       ", line " << elt->getInputLineNumber () <<
@@ -7219,7 +7219,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrBarline& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaffLinesNumber" <<
       ", line " << inputLineNumber <<
@@ -7237,7 +7237,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrStaffLinesNumber& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrStaffTuning& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaffTuning" <<
       ", line " << elt->getInputLineNumber () <<
@@ -7255,7 +7255,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrStaffTuning& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrStaffDetails& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaffDetails" <<
       ", line " << elt->getInputLineNumber () <<
@@ -7269,7 +7269,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrStaffDetails& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrStaffDetails& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrStaffDetails" <<
       ", line " << elt->getInputLineNumber () <<
@@ -7287,7 +7287,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrStaffDetails& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrStaff& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStaff \"" <<
       elt->getStaffName () << "\"" <<
@@ -7399,7 +7399,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrStaff& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting S_msrStaff \"" <<
       elt->getStaffName () << "\"" <<
@@ -7438,7 +7438,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrVoice& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoice \"" <<
       elt->asString () << "\"" <<
@@ -7455,7 +7455,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrVoice& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrVoice \"" <<
       elt->getVoiceName () << "\"" <<
@@ -7483,7 +7483,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrVoice& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrVoiceStaffChange& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoiceStaffChange '" <<
       elt->asString () << "'" <<
@@ -7508,7 +7508,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrVoiceStaffChange& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrHarmony& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrHarmony '" <<
       elt->asString () <<
@@ -7578,7 +7578,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrHarmony& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -7590,7 +7590,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrHarmony& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrHarmonyDegree& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_msrHarmonyDegree '" <<
       elt->asString () <<
@@ -7611,7 +7611,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrHarmonyDegree& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrHarmony& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrHarmony '" <<
       elt->asString () <<
@@ -7629,7 +7629,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrHarmony& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrFrame& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFrame '" <<
       elt->asString () <<
@@ -7653,7 +7653,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFrame& elt)
       "' is out of context, cannot be appendd";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -7664,7 +7664,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFrame& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrFiguredBass& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFiguredBass '" <<
       elt->asString () <<
@@ -7712,7 +7712,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFiguredBass& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -7722,7 +7722,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFiguredBass& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrFigure& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFigure '" <<
       elt->asString () <<
@@ -7741,7 +7741,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFigure& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrFiguredBass& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrFiguredBass '" <<
       elt->asString () <<
@@ -7760,7 +7760,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrFiguredBass& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrStanza& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStanza \"" <<
       elt->getStanzaName () <<
@@ -7798,7 +7798,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrStanza& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrStanza \"" <<
       elt->getStanzaName () <<
@@ -7821,7 +7821,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSyllable& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSyllable" <<
       ", line " << inputLineNumber <<
@@ -7848,7 +7848,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSyllable& elt)
       appendSyllableToNoteAndSetItsNoteUpLink (
         fCurrentNonGraceNoteClone);
 
-    if (globalLpsrOah->fAddWordsFromTheLyrics) {
+    if (gGlobalLpsrOah->fAddWordsFromTheLyrics) {
       // get the syllable texts list
       const list<string>&
         syllableTextsList =
@@ -7862,7 +7862,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSyllable& elt)
 
         // createMxml the words
 #ifdef TRACE_OAH
-        if (globalTraceOah->fTraceLyrics) {
+        if (gGlobalTraceOah->fTraceLyrics) {
           fLogOutputStream <<
             "Changing lyrics '" <<
             wordsValue <<
@@ -7892,7 +7892,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSyllable& elt)
 
         // append it to the current non-grace note
 #ifdef TRACE_OAH
-        if (globalTraceOah->fTraceWords) {
+        if (gGlobalTraceOah->fTraceWords) {
           fLogOutputStream <<
             "Appending words '" <<
             words->asShortString () <<
@@ -7916,7 +7916,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSyllable& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -7944,7 +7944,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSyllable& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrSyllable& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSyllable" <<
       ", line " << elt->getInputLineNumber () <<
@@ -7957,7 +7957,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSyllable& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrTranspose& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTranspose" <<
       ", line " << elt->getInputLineNumber () <<
@@ -7973,7 +7973,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTranspose& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrTranspose& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTranspose" <<
       ", line " << elt->getInputLineNumber () <<
@@ -7986,7 +7986,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTranspose& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrPartNameDisplay& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPartNameDisplay" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8003,7 +8003,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartNameDisplay& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPartAbbreviationDisplay" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8020,7 +8020,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrRehearsal& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8035,7 +8035,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRehearsal& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrRehearsal& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8048,7 +8048,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRehearsal& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrFermata& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFermata" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8070,7 +8070,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFermata& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8081,7 +8081,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrFermata& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrArpeggiato& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrArpeggiato" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8103,7 +8103,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrArpeggiato& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8114,7 +8114,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrArpeggiato& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrNonArpeggiato& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrNonArpeggiato" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8140,7 +8140,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrNonArpeggiato& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8151,7 +8151,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrNonArpeggiato& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrTechnical& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTechnical" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8175,7 +8175,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnical& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8225,7 +8225,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnical& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrTechnical& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTechnical" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8238,7 +8238,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTechnical& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTechnicalWithInteger" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8262,7 +8262,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithInteger& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8272,7 +8272,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTechnicalWithInteger" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8285,7 +8285,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithFloat& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTechnicalWithFloat" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8309,7 +8309,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithFloat& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8319,7 +8319,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithFloat& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTechnicalWithFloat" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8332,7 +8332,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithString& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTechnicalWithString" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8356,7 +8356,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithString& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8377,7 +8377,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTechnicalWithString& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrTechnicalWithString& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTechnicalWithString" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8390,7 +8390,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTechnicalWithString& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrOrnament& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrOrnament" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8414,7 +8414,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOrnament& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8424,7 +8424,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOrnament& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrOrnament& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrOrnament" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8437,7 +8437,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrOrnament& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrGlissando& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrGlissando" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8461,7 +8461,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrGlissando& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8477,7 +8477,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrGlissando& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrGlissando& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrGlissando" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8490,7 +8490,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrGlissando& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrSlide& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSlide" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8514,7 +8514,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSlide& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8524,7 +8524,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSlide& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrSlide& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSlide" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8537,7 +8537,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSlide& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrSingleTremolo& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSingleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8561,7 +8561,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSingleTremolo& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8571,7 +8571,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSingleTremolo& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrSingleTremolo& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSingleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8584,7 +8584,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSingleTremolo& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrDoubleTremolo& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrDoubleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8608,7 +8608,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDoubleTremolo& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrDoubleTremolo& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSingleTremolo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8631,7 +8631,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrDoubleTremolo& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrDynamics& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrDynamics" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8681,7 +8681,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDynamics& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8691,7 +8691,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDynamics& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrDynamics& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrDynamics" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8704,7 +8704,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrDynamics& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrOtherDynamics& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrOtherDynamics" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8728,7 +8728,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOtherDynamics& elt)
       "' is out of context, cannot be append";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8742,7 +8742,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOtherDynamics& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrOtherDynamics& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrOtherDynamics" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8758,7 +8758,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrWords" <<
       ", line " << inputLineNumber <<
@@ -8769,7 +8769,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
   if (fOnGoingNonGraceNote || fOnGoingChord) {
     bool wordsHasBeenappendd = false;
 
-    if (globalLpsrOah->fConvertWordsToTempo) {
+    if (gGlobalLpsrOah->fConvertWordsToTempo) {
       // createMxml a tempo containing elt
       S_msrTempo
         tempo =
@@ -8778,7 +8778,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
             elt);
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceWords) {
+      if (gGlobalTraceOah->fTraceWords) {
         fLogOutputStream <<
           "Converting words '" <<
           elt->asShortString () <<
@@ -8796,7 +8796,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
       wordsHasBeenappendd = true;
     }
 
-    else if (globalLpsrOah->fConvertWordsToRehearsalMarks) {
+    else if (gGlobalLpsrOah->fConvertWordsToRehearsalMarks) {
       // createMxml a rehearsal mark containing elt's words contents
       S_msrRehearsal
         rehearsal =
@@ -8807,7 +8807,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
             elt->getWordsPlacementKind ()); // above ??? JMI
 
 #ifdef TRACE_OAH
-      if (globalTraceOah->fTraceWords) {
+      if (gGlobalTraceOah->fTraceWords) {
         fLogOutputStream <<
           "Converting words '" <<
           elt->asShortString () <<
@@ -8832,9 +8832,9 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
       // is this words contents in the string to dal segno kind map?
       map<string, msrDalSegno::msrDalSegnoKind>::iterator
         it =
-          globalLpsrOah->fConvertWordsToDalSegno.find (wordsContents);
+          gGlobalLpsrOah->fConvertWordsToDalSegno.find (wordsContents);
 
-      if (it != globalLpsrOah->fConvertWordsToDalSegno.end ()) {
+      if (it != gGlobalLpsrOah->fConvertWordsToDalSegno.end ()) {
         // yes
         msrDalSegno::msrDalSegnoKind
           dalSegnoKind =
@@ -8850,7 +8850,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
               elt->getWordsStaffNumber ());
 
 #ifdef TRACE_OAH
-        if (globalTraceOah->fTraceWords) {
+        if (gGlobalTraceOah->fTraceWords) {
           fLogOutputStream <<
             "Converting words '" <<
             elt->asShortString () <<
@@ -8895,7 +8895,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8905,7 +8905,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWords& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrWords& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrWords" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8918,7 +8918,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrWords& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrSlur& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSlur" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8964,7 +8964,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSlur& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -8974,7 +8974,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSlur& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrSlur& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSlur" <<
       ", line " << elt->getInputLineNumber () <<
@@ -8987,7 +8987,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrSlur& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrLigature& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrLigature" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9011,7 +9011,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrLigature& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -9021,7 +9021,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrLigature& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrLigature& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrLigature" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9034,7 +9034,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrLigature& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrSlash& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSlash" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9058,7 +9058,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSlash& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -9069,7 +9069,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSlash& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrWedge& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrWedge" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9093,7 +9093,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWedge& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -9103,7 +9103,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrWedge& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrWedge& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrWedge" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9119,7 +9119,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrWedge& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrOctaveShift& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrOctaveShift" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9143,7 +9143,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOctaveShift& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -9153,7 +9153,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrOctaveShift& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrOctaveShift& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrOctaveShift" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9166,7 +9166,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrOctaveShift& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrAccordionRegistration& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrAccordionRegistration" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9187,7 +9187,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrAccordionRegistration& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrHarpPedalsTuning" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9204,7 +9204,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrStem& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrStem" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9228,7 +9228,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrStem& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -9238,7 +9238,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrStem& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrStem& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrStem" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9251,7 +9251,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrStem& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrBeam& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBeam" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9282,7 +9282,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrBeam& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrBeam& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBeam" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9295,7 +9295,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrBeam& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrTie& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrTie" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9319,7 +9319,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTie& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -9329,7 +9329,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrTie& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrTie& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrTie" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9342,7 +9342,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrTie& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrSegno& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrSegno" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9368,7 +9368,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrSegno& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -9381,7 +9381,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDalSegno& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrDalSegno" <<
       ", line " << inputLineNumber <<
@@ -9407,7 +9407,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDalSegno& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -9417,7 +9417,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDalSegno& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrCoda& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrCoda" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9443,7 +9443,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCoda& elt)
       "' is out of context, cannot be handled";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -9454,7 +9454,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrCoda& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrEyeGlasses& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting eyeGlasses" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9469,7 +9469,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrEyeGlasses& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrScordatura& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting scordatura" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9484,7 +9484,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrScordatura& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrPedal& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting pedal" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9499,7 +9499,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPedal& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrDamp& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting damp" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9518,7 +9518,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDamp& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrDampAll& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting dampAll" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9538,7 +9538,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrDampAll& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrBarCheck& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarCheck" <<
       ", nextBarNumber: " <<
@@ -9555,7 +9555,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrBarCheck& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrBarCheck& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9568,7 +9568,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrBarCheck& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrBarNumberCheck& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarNumberCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9583,7 +9583,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrBarNumberCheck& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrBarNumberCheck& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarNumberCheck" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9596,7 +9596,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrBarNumberCheck& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrLineBreak& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9611,7 +9611,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrLineBreak& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrLineBreak& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9624,7 +9624,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrLineBreak& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrPageBreak& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9639,7 +9639,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrPageBreak& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrPageBreak& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
@@ -9655,7 +9655,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRepeat& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeat" <<
       ", line " << inputLineNumber <<
@@ -9664,7 +9664,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRepeat& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -9685,7 +9685,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRepeat& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeat" <<
       ", line " << inputLineNumber <<
@@ -9694,7 +9694,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRepeat& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -9717,7 +9717,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRepeatCommonPart& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeatCommonPart" <<
       ", line " << inputLineNumber <<
@@ -9736,7 +9736,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRepeatCommonPart& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeatCommonPart" <<
       ", line " << inputLineNumber <<
@@ -9756,7 +9756,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRepeatEnding& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeatEnding" <<
       ", line " << inputLineNumber <<
@@ -9766,7 +9766,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRepeatEnding& elt)
 
   // handle the repeat ending start in the voice clone
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -9788,7 +9788,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRepeatEnding& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRepeatEnding" <<
       ", line " << inputLineNumber <<
@@ -9798,7 +9798,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRepeatEnding& elt)
 
   // handle the repeat ending end in the voice clone
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOah->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -9821,7 +9821,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRestMeasures& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRestMeasures" <<
       ", line " << inputLineNumber <<
@@ -9832,7 +9832,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRestMeasures& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -9853,7 +9853,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRestMeasures& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRestMeasures" <<
       ", line " << inputLineNumber <<
@@ -9864,7 +9864,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRestMeasures& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -9885,7 +9885,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRestMeasuresContents& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRestMeasuresContents" <<
       ", line " << inputLineNumber <<
@@ -9896,7 +9896,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrRestMeasuresContents& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -9915,7 +9915,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRestMeasuresContents& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrRestMeasuresContents" <<
       ", line " << inputLineNumber <<
@@ -9926,7 +9926,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrRestMeasuresContents& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -9946,7 +9946,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasuresRepeat& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeat" <<
       ", line " << inputLineNumber <<
@@ -9957,7 +9957,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasuresRepeat& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -9978,7 +9978,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeat& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasuresRepeat" <<
       ", line " << inputLineNumber <<
@@ -9991,7 +9991,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 / * JMI
   // set last segment as the measures repeat pattern segment
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measures repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -10002,7 +10002,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 * /
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -10023,7 +10023,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeatPattern" <<
       ", line " << inputLineNumber <<
@@ -10034,7 +10034,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -10053,7 +10053,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasuresRepeatPattern" <<
       ", line " << inputLineNumber <<
@@ -10064,7 +10064,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -10084,7 +10084,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasuresRepeatReplicas" <<
       ", line " << inputLineNumber <<
@@ -10095,7 +10095,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -10114,7 +10114,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting S_msrMeasuresRepeatReplicas" <<
       ", line " << inputLineNumber <<
@@ -10126,7 +10126,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -10143,7 +10143,7 @@ void msr2MxmltreeTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 void msr2MxmltreeTranslator::visitStart (S_msrMidiTempo& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -10155,7 +10155,7 @@ void msr2MxmltreeTranslator::visitStart (S_msrMidiTempo& elt)
 void msr2MxmltreeTranslator::visitEnd (S_msrMidiTempo& elt)
 {
 #ifdef TRACE_OAH
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMidiTempo" <<
       ", line " << elt->getInputLineNumber () <<
@@ -10341,7 +10341,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
         if (
           timeSymbolKind == msrTime::kTimeSymbolNone
             ||
-          globalLpsr2LilypondOah->fNumericalTime) {
+          gGlobalLpsr2LilypondOah->fNumericalTime) {
           fLilypondCodeOstream <<
             "\\numericTimeSignature ";
         }
@@ -10413,7 +10413,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
       // there are no time items
       if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
         msrInternalError (
-          globalOahOah->fInputSourceName,
+          gGlobalOahOah->fInputSourceName,
           elt->getInputLineNumber (),
           __FILE__, __LINE__,
           "time items vector is empty");

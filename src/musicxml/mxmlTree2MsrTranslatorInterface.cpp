@@ -49,7 +49,7 @@ void displayMsrScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! globalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -57,7 +57,7 @@ void displayMsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -77,7 +77,7 @@ void displayMsrScoreShort_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! globalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOah->fQuiet) {
       stringstream s;
 
       s <<
@@ -85,7 +85,7 @@ void displayMsrScoreShort_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        globalOahOah->fInputSourceName,
+        gGlobalOahOah->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -114,7 +114,7 @@ void populateMsrSkeletonFromMxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -245,7 +245,7 @@ void displayMSRPopulatedScoreSummary (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -296,7 +296,7 @@ void displayMSRPopulatedScoreNames (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOah->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

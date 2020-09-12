@@ -50,7 +50,7 @@ msrTie::~msrTie ()
 
 void msrTie::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTie::acceptIn ()" <<
       endl;
@@ -61,7 +61,7 @@ void msrTie::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTie::visitStart ()" <<
             endl;
@@ -72,7 +72,7 @@ void msrTie::acceptIn (basevisitor* v)
 
 void msrTie::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrTie::acceptOut ()" <<
       endl;
@@ -83,7 +83,7 @@ void msrTie::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrTie::visitEnd ()" <<
             endl;

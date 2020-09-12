@@ -50,7 +50,7 @@ msrStem::~msrStem ()
 
 void msrStem::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStem::acceptIn ()" <<
       endl;
@@ -61,7 +61,7 @@ void msrStem::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStem::visitStart ()" <<
             endl;
@@ -72,7 +72,7 @@ void msrStem::acceptIn (basevisitor* v)
 
 void msrStem::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrStem::acceptOut ()" <<
       endl;
@@ -83,7 +83,7 @@ void msrStem::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrStem::visitEnd ()" <<
             endl;

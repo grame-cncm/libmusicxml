@@ -97,7 +97,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
       bsrCellsList::create (
         fInputLineNumber, kCellWordSign);
 
-  if (! globalMsr2BsrOah->fNoTempos) {
+  if (! gGlobalMsr2BsrOah->fNoTempos) {
     switch (fMsrTempo->getTempoKind ()) {
       case msrTempo::k_NoTempoKind:
         break;
@@ -238,7 +238,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-          if (globalTraceOah->fTraceTempos && ! globalGeneralOah->fQuiet) {
+          if (gGlobalTraceOah->fTraceTempos && ! gGlobalGeneralOah->fQuiet) {
             gLogOstream <<
               "There are " << smSize << " matches" <<
               " for rational string '" << tempoPerMinuteString <<
@@ -281,7 +281,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-            if (globalTraceOah->fTraceTempos && ! globalGeneralOah->fQuiet) {
+            if (gGlobalTraceOah->fTraceTempos && ! gGlobalGeneralOah->fQuiet) {
               gLogOstream <<
                 "There are " << smSize << " matches" <<
                 " for rational string '" << tempoPerMinuteString <<
@@ -314,7 +314,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
                 ", line " << fInputLineNumber;
 
               msrInternalError (
-                globalOahOah->fInputSourceName,
+                gGlobalOahOah->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 s.str ());
@@ -384,7 +384,7 @@ int bsrTempo::fetchCellsNumber() const
 void bsrTempo::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTempo::acceptIn ()" <<
       endl;
@@ -397,7 +397,7 @@ void bsrTempo::acceptIn (basevisitor* v)
         S_bsrTempo elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTempo::visitStart ()" <<
             endl;
@@ -410,7 +410,7 @@ void bsrTempo::acceptIn (basevisitor* v)
 void bsrTempo::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrTempo::acceptOut ()" <<
       endl;
@@ -423,7 +423,7 @@ void bsrTempo::acceptOut (basevisitor* v)
         S_bsrTempo elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrTempo::visitEnd ()" <<
             endl;

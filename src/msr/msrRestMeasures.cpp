@@ -56,7 +56,7 @@ S_msrRestMeasuresContents msrRestMeasuresContents::createRestMeasuresContentsNew
   S_msrRestMeasures restMeasures)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Creating a newborn clone of a rest measures contents" <<
       endl;
@@ -82,7 +82,7 @@ void msrRestMeasuresContents::setRestMeasuresContentsSegment (
   S_msrSegment restMeasuresContentsSegment)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures contents segment containing " <<
       singularOrPlural (
@@ -121,7 +121,7 @@ int msrRestMeasuresContents::restMeasuresContentsMeasuresNumber () const
 
 void msrRestMeasuresContents::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRestMeasuresContents::acceptIn ()" <<
       endl;
@@ -132,7 +132,7 @@ void msrRestMeasuresContents::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRestMeasuresContents>*> (v)) {
         S_msrRestMeasuresContents elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRestMeasuresContents::visitStart ()" <<
             endl;
@@ -143,7 +143,7 @@ void msrRestMeasuresContents::acceptIn (basevisitor* v)
 
 void msrRestMeasuresContents::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRestMeasuresContents::acceptOut ()" <<
       endl;
@@ -154,7 +154,7 @@ void msrRestMeasuresContents::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRestMeasuresContents>*> (v)) {
         S_msrRestMeasuresContents elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRestMeasuresContents::visitEnd ()" <<
             endl;
@@ -165,7 +165,7 @@ void msrRestMeasuresContents::acceptOut (basevisitor* v)
 
 void msrRestMeasuresContents::browseData (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRestMeasuresContents::browseData ()" <<
       endl;
@@ -311,7 +311,7 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Creating a newborn clone of rest measures '" <<
       asString () <<
@@ -345,7 +345,7 @@ void msrRestMeasures::setRestMeasuresContents (
   S_msrRestMeasuresContents restMeasuresContents)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures contents containing " <<
       singularOrPlural (
@@ -369,7 +369,7 @@ void msrRestMeasures::setRestMeasuresNextMeasureNumber (
   string nextMeasureNumber)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures next measure number to '" <<
       "' " <<
@@ -425,14 +425,14 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
       "' ";
 
     msrInternalError (
-      globalOahOah->fInputSourceName,
+      gGlobalOahOah->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOah->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures last measure purist number to '" <<
       "' " <<
@@ -457,7 +457,7 @@ void msrRestMeasures::appendMeasureCloneToRestMeasures (
 
 void msrRestMeasures::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRestMeasures::acceptIn ()" <<
       endl;
@@ -468,7 +468,7 @@ void msrRestMeasures::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRestMeasures>*> (v)) {
         S_msrRestMeasures elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRestMeasures::visitStart ()" <<
             endl;
@@ -479,7 +479,7 @@ void msrRestMeasures::acceptIn (basevisitor* v)
 
 void msrRestMeasures::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRestMeasures::acceptOut ()" <<
       endl;
@@ -490,7 +490,7 @@ void msrRestMeasures::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRestMeasures>*> (v)) {
         S_msrRestMeasures elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrRestMeasures::visitEnd ()" <<
             endl;
@@ -501,7 +501,7 @@ void msrRestMeasures::acceptOut (basevisitor* v)
 
 void msrRestMeasures::browseData (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrRestMeasures::browseData ()" <<
       endl;
@@ -531,7 +531,7 @@ void msrRestMeasures::browseData (basevisitor* v)
       getInhibitRestMeasuresBrowsing ();
 
   if (inhibitRestMeasuresBrowsing) {
-    if (globalMsrOah->fTraceMsrVisitors || globalTraceOah->fTraceRestMeasures) {
+    if (gGlobalMsrOah->fTraceMsrVisitors || gGlobalTraceOah->fTraceRestMeasures) {
       gLogOstream <<
         "% ==> visiting rest measures is inhibited" <<
         endl;

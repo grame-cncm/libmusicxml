@@ -55,7 +55,7 @@ bsrFootNotesElement::~bsrFootNotesElement ()
 void bsrFootNotesElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrFootNotesElement::acceptIn ()" <<
       endl;
@@ -68,7 +68,7 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
         S_bsrFootNotesElement elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFootNotesElement::visitStart ()" <<
             endl;
@@ -81,7 +81,7 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
 void bsrFootNotesElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrFootNotesElement::acceptOut ()" <<
       endl;
@@ -94,7 +94,7 @@ void bsrFootNotesElement::acceptOut (basevisitor* v)
         S_bsrFootNotesElement elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFootNotesElement::visitEnd ()" <<
             endl;
@@ -159,7 +159,7 @@ bsrFootNotes::bsrFootNotes (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        globalBsr2BrailleOah->fCellsPerLine)
+        gGlobalBsr2BrailleOah->fCellsPerLine)
 {}
 
 bsrFootNotes::~bsrFootNotes ()
@@ -168,7 +168,7 @@ bsrFootNotes::~bsrFootNotes ()
 void bsrFootNotes::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrFootNotes::acceptIn ()" <<
       endl;
@@ -181,7 +181,7 @@ void bsrFootNotes::acceptIn (basevisitor* v)
         S_bsrFootNotes elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFootNotes::visitStart ()" <<
             endl;
@@ -194,7 +194,7 @@ void bsrFootNotes::acceptIn (basevisitor* v)
 void bsrFootNotes::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (globalBsrOah->fTraceBsrVisitors) {
+  if (gGlobalBsrOah->fTraceBsrVisitors) {
     gLogOstream <<
       "% ==> bsrFootNotes::acceptOut ()" <<
       endl;
@@ -207,7 +207,7 @@ void bsrFootNotes::acceptOut (basevisitor* v)
         S_bsrFootNotes elem = this;
 
 #ifdef TRACE_OAH
-        if (globalBsrOah->fTraceBsrVisitors) {
+        if (gGlobalBsrOah->fTraceBsrVisitors) {
           gLogOstream <<
             "% ==> Launching bsrFootNotes::visitEnd ()" <<
             endl;
@@ -243,7 +243,7 @@ void bsrFootNotes::print (ostream& os) const
 
   int footNotesElementsListSize = fFootNotesElementsList.size ();
 
-  if (footNotesElementsListSize || globalBsrOah->fDisplayBsrDetails) {
+  if (footNotesElementsListSize || gGlobalBsrOah->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "footNotesElementsList" << " : " <<

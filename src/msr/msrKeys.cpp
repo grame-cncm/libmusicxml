@@ -48,7 +48,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOah->fTraceKeys) {
     gLogOstream <<
       "Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
@@ -84,7 +84,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
   msrDiatonicPitchKind diatonicPitchKind)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOah->fTraceKeys) {
     gLogOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
       msrDiatonicPitchKindAsString (diatonicPitchKind) <<
@@ -100,7 +100,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
   msrAlterationKind alterationKind)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOah->fTraceKeys) {
     gLogOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
       msrAlterationKindAsString (alterationKind) <<
@@ -115,7 +115,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
 void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOah->fTraceKeys) {
     gLogOstream <<
       "Setting Humdrum/Scot key item octave to '" <<
       keyOctave <<
@@ -129,7 +129,7 @@ void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 
 void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptIn ()" <<
       endl;
@@ -140,7 +140,7 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrHumdrumScotKeyItem>*> (v)) {
         S_msrHumdrumScotKeyItem elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitStart ()" <<
             endl;
@@ -151,7 +151,7 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
 
 void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptOut ()" <<
       endl;
@@ -162,7 +162,7 @@ void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrHumdrumScotKeyItem>*> (v)) {
         S_msrHumdrumScotKeyItem elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitEnd ()" <<
             endl;
@@ -285,7 +285,7 @@ msrKey::msrKey ( // for traditional keys
   fKeyItemsOctavesAreSpecified = false;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOah->fTraceKeys) {
     gLogOstream <<
       "Creating traditional key '" <<
       this->asString () <<
@@ -306,7 +306,7 @@ msrKey::msrKey ( // for Humdrum/Scot keys
   fKeyItemsOctavesAreSpecified = false;
 
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOah->fTraceKeys) {
     gLogOstream <<
       "Creating Humdrum/Scot key '" <<
       this->asString () <<
@@ -381,7 +381,7 @@ void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
 {
 #ifdef TRACE_OAH
-  if (globalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOah->fTraceKeys) {
     gLogOstream <<
       "Append item '" <<
       item->asString () <<
@@ -403,7 +403,7 @@ void msrKey::appendHumdrumScotKeyItem (
 
 void msrKey::acceptIn (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrKey::acceptIn ()" <<
       endl;
@@ -414,7 +414,7 @@ void msrKey::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrKey::visitStart ()" <<
             endl;
@@ -425,7 +425,7 @@ void msrKey::acceptIn (basevisitor* v)
 
 void msrKey::acceptOut (basevisitor* v)
 {
-  if (globalMsrOah->fTraceMsrVisitors) {
+  if (gGlobalMsrOah->fTraceMsrVisitors) {
     gLogOstream <<
       "% ==> msrKey::acceptOut ()" <<
       endl;
@@ -436,7 +436,7 @@ void msrKey::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
 
-        if (globalMsrOah->fTraceMsrVisitors) {
+        if (gGlobalMsrOah->fTraceMsrVisitors) {
           gLogOstream <<
             "% ==> Launching msrKey::visitEnd ()" <<
             endl;
@@ -516,7 +516,7 @@ string msrKey::asString () const
     case msrKey::kTraditionalKind:
       s <<
         msrQuarterTonesPitchKindAsString (
-          globalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+          gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
           fKeyTonicQuarterTonesPitchKind) <<
         " " <<
         keyModeKindAsString (fKeyModeKind);
@@ -550,7 +550,7 @@ void msrKey::print (ostream& os) const
       os <<
         " " <<
         msrQuarterTonesPitchKindAsString (
-          globalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+          gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
           fKeyTonicQuarterTonesPitchKind) <<
         " " <<
         keyModeKindAsString (fKeyModeKind) <<
