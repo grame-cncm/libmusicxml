@@ -189,7 +189,7 @@ lilyjianpupdfclean:
 
 #########################################################################
 braille:
-	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
+	@which $(XML2LY) > /dev/null || (echo "### xml2brl (part of samples) must be available from your PATH."; false;)
 	$(MAKE) dobrl
 
 dobrl: $(brlout)
