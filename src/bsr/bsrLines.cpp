@@ -103,7 +103,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
   S_bsrLineElement lineElement)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceTimes || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Inserting line element '" <<
       lineElement->asShortString () <<
@@ -134,7 +134,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
       "' before its last element";
 
     bsrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       lineElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -531,7 +531,7 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 void bsrLine::appendKeyToLine (S_bsrKey key)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceKeys || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending key " <<
       key->asShortString () <<
@@ -548,7 +548,7 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
 void bsrLine::appendTimeToLine (S_bsrTime time)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceTimes || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending time '" <<
       time->asShortString () <<
@@ -566,7 +566,7 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
 void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceTimes || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Inserting time '" <<
       time->asShortString () <<
@@ -584,7 +584,7 @@ void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceTempos || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending tempo '" <<
       tempo->asShortString () <<
@@ -602,7 +602,7 @@ void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures || gGlobalBsrOah->fTraceLines) {
+  if (gGlobalTraceOahGroup->fTraceMeasures || gGlobalBsrOah->fTraceLines) {
     gLogOstream <<
       "Appending line '" <<
       measure->asShortString () <<
@@ -667,7 +667,7 @@ void bsrLine::appendLineElementToLastMeasureOfLine (
 void bsrLine::appendNoteToLine (S_bsrNote note)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<

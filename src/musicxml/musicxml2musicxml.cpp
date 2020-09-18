@@ -35,7 +35,7 @@
 #include "msr2LpsrOah.h"
 #include "musicxmlOah.h"
 
-#include "xml2xmlInsiderOah.h"
+#include "xml2xmlFullViewOahHandler.h"
 
 #include "msr.h"
 
@@ -75,9 +75,9 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2xmlInsiderOahHandler
+  S_xml2xmlFullViewOahHandler
     handler =
-      xml2xmlInsiderOahHandler::create (
+      xml2xmlFullViewOahHandler::create (
         fakeExecutableName,
         "xml2xml",
         out);
@@ -89,7 +89,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
         handler->
-          hangleOptionsFromOptionsVector (
+          applyOptionsFromOptionsVector (
             fakeExecutableName,
             options);
 
@@ -113,10 +113,10 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // has quiet mode been requested?
     // ------------------------------------------------------
 
-    if (gGlobalGeneralOah->fQuiet) {
+    if (gGlobalGeneralOahGroup->fQuiet) {
       // disable all trace and display options
       handler->
-        enforceOahHandlerQuietness ();
+        enforceHandlerQuietness ();
     }
 
     // get the mxmlTree
@@ -152,7 +152,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalXml2xmlOah->fExit2a) {
+    if (gGlobalXml2xmlOahGroup->fExit2a) {
       gLogOstream <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -218,7 +218,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalXml2xmlOah->fExit2b) {
+    if (gGlobalXml2xmlOahGroup->fExit2b) {
       gLogOstream <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -313,7 +313,7 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
   ofstream outFileStream;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     gLogOstream <<
       "Opening file '" << outputFileName << "' for writing" <<
       endl;
@@ -371,7 +371,7 @@ EXP xmlErr convertMsrScoreToMusicXMLScore (
 	outFileStream << endl;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     gLogOstream <<
       endl <<
       "Closing file '" << outputFileName << "'" <<
@@ -432,7 +432,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2xmlOah->fExit2a) {
+  if (gGlobalXml2xmlOahGroup->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -506,7 +506,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
 
   // should we return now?
   // ------------------------------------------------------
-  if (gGlobalXml2xmlOah->fExit2b) {
+  if (gGlobalXml2xmlOahGroup->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<

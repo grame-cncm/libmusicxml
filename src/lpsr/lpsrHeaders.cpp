@@ -527,7 +527,7 @@ void lpsrHeader::addRights (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding right \"" <<
       value <<
@@ -553,7 +553,7 @@ void lpsrHeader::addComposer (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding composer \"" <<
       value <<
@@ -579,7 +579,7 @@ void lpsrHeader::addArranger (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding arranger \"" <<
       value <<
@@ -605,7 +605,7 @@ void lpsrHeader::addLyricist (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding lyricist \"" <<
       value <<
@@ -631,7 +631,7 @@ void lpsrHeader::addPoet (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding poet \"" <<
       value <<
@@ -656,7 +656,7 @@ void lpsrHeader::removeAllPoets (
   int    inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Removing all poets from lpsrHeader" <<
       ", line " << fInputLineNumber <<
@@ -672,7 +672,7 @@ void lpsrHeader::addTranslator (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding translator \"" <<
       value <<
@@ -698,7 +698,7 @@ void lpsrHeader::addArtist (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding artist \"" <<
       value <<
@@ -724,7 +724,7 @@ void lpsrHeader::addSoftware (
   string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Adding software \"" <<
       value <<

@@ -66,7 +66,7 @@ msrStaffTuning::~ msrStaffTuning ()
 S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceStaffDetails) {
+  if (gGlobalTraceOahGroup->fTraceStaffDetails) {
     gLogOstream <<
       "Creating a newborn clone of staff tuning '" <<
       asString () <<

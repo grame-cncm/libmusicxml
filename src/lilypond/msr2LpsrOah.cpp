@@ -81,7 +81,7 @@ S_oahValuedAtom msr2LpsrScoreOutputKindAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msr2LpsrScoreOutputKindAtom" <<
       endl;
@@ -92,12 +92,12 @@ S_oahValuedAtom msr2LpsrScoreOutputKindAtom::handleOptionUnderName (
   return this;
 }
 
-void msr2LpsrScoreOutputKindAtom::handleValue (
+void msr2LpsrScoreOutputKindAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'msr2LpsrScoreOutputKindAtom'" <<
       endl;
@@ -108,7 +108,7 @@ void msr2LpsrScoreOutputKindAtom::handleValue (
   // is it in the score output kinds map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'msr2LpsrScoreOutputKindAtom'" <<
       endl;
@@ -151,7 +151,7 @@ void msr2LpsrScoreOutputKindAtom::handleValue (
 void msr2LpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrScoreOutputKindAtom::acceptIn ()" <<
       endl;
@@ -164,7 +164,7 @@ void msr2LpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
         S_msr2LpsrScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2LpsrScoreOutputKindAtom::visitStart ()" <<
             endl;
@@ -177,7 +177,7 @@ void msr2LpsrScoreOutputKindAtom::acceptIn (basevisitor* v)
 void msr2LpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrScoreOutputKindAtom::acceptOut ()" <<
       endl;
@@ -190,7 +190,7 @@ void msr2LpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
         S_msr2LpsrScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2LpsrScoreOutputKindAtom::visitEnd ()" <<
             endl;
@@ -203,7 +203,7 @@ void msr2LpsrScoreOutputKindAtom::acceptOut (basevisitor* v)
 void msr2LpsrScoreOutputKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrScoreOutputKindAtom::browseData ()" <<
       endl;
@@ -261,7 +261,7 @@ void msr2LpsrScoreOutputKindAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void msr2LpsrScoreOutputKindAtom::printAtomOptionsValues (
+void msr2LpsrScoreOutputKindAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -334,7 +334,7 @@ S_oahValuedAtom msrOmitPartAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msrOmitPartAtom" <<
       endl;
@@ -345,12 +345,12 @@ S_oahValuedAtom msrOmitPartAtom::handleOptionUnderName (
   return this;
 }
 
-void msrOmitPartAtom::handleValue (
+void msrOmitPartAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'msrOmitPartAtom'" <<
       endl;
@@ -362,7 +362,7 @@ void msrOmitPartAtom::handleValue (
   string partName = theString;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "--> partName = \"" << partName << "\", " <<
       endl;
@@ -393,7 +393,7 @@ void msrOmitPartAtom::handleValue (
 void msrOmitPartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOmitPartAtom::acceptIn ()" <<
       endl;
@@ -406,7 +406,7 @@ void msrOmitPartAtom::acceptIn (basevisitor* v)
         S_msrOmitPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrOmitPartAtom::visitStart ()" <<
             endl;
@@ -419,7 +419,7 @@ void msrOmitPartAtom::acceptIn (basevisitor* v)
 void msrOmitPartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOmitPartAtom::acceptOut ()" <<
       endl;
@@ -432,7 +432,7 @@ void msrOmitPartAtom::acceptOut (basevisitor* v)
         S_msrOmitPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrOmitPartAtom::visitEnd ()" <<
             endl;
@@ -445,7 +445,7 @@ void msrOmitPartAtom::acceptOut (basevisitor* v)
 void msrOmitPartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOmitPartAtom::browseData ()" <<
       endl;
@@ -544,7 +544,7 @@ void msrOmitPartAtom::print (ostream& os) const
   os << endl;
 }
 
-void msrOmitPartAtom::printAtomOptionsValues (
+void msrOmitPartAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -636,7 +636,7 @@ S_oahValuedAtom msrKeepPartAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msrKeepPartAtom" <<
       endl;
@@ -647,12 +647,12 @@ S_oahValuedAtom msrKeepPartAtom::handleOptionUnderName (
   return this;
 }
 
-void msrKeepPartAtom::handleValue (
+void msrKeepPartAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'msrKeepPartAtom'" <<
       endl;
@@ -664,7 +664,7 @@ void msrKeepPartAtom::handleValue (
   string partName = theString;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "--> partName = \"" << partName << "\", " <<
       endl;
@@ -695,7 +695,7 @@ void msrKeepPartAtom::handleValue (
 void msrKeepPartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrKeepPartAtom::acceptIn ()" <<
       endl;
@@ -708,7 +708,7 @@ void msrKeepPartAtom::acceptIn (basevisitor* v)
         S_msrKeepPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrKeepPartAtom::visitStart ()" <<
             endl;
@@ -721,7 +721,7 @@ void msrKeepPartAtom::acceptIn (basevisitor* v)
 void msrKeepPartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrKeepPartAtom::acceptOut ()" <<
       endl;
@@ -734,7 +734,7 @@ void msrKeepPartAtom::acceptOut (basevisitor* v)
         S_msrKeepPartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrKeepPartAtom::visitEnd ()" <<
             endl;
@@ -747,7 +747,7 @@ void msrKeepPartAtom::acceptOut (basevisitor* v)
 void msrKeepPartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrKeepPartAtom::browseData ()" <<
       endl;
@@ -846,7 +846,7 @@ void msrKeepPartAtom::print (ostream& os) const
   os << endl;
 }
 
-void msrKeepPartAtom::printAtomOptionsValues (
+void msrKeepPartAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -936,7 +936,7 @@ msr2LpsrOah::~msr2LpsrOah ()
 {}
 
 #ifdef TRACE_OAH
-void msr2LpsrOah::initializeTraceOah (
+void msr2LpsrOah::initializMsr2LpsrTraceOptions (
   bool boolOptionsInitialValue)
 {}
 #endif
@@ -1054,7 +1054,7 @@ void msr2LpsrOah::initializeMsr2LpsrOah (
 #ifdef TRACE_OAH
   // trace
   // --------------------------------------
-  initializeTraceOah (
+  initializMsr2LpsrTraceOptions (
     boolOptionsInitialValue);
 #endif
 
@@ -1116,18 +1116,18 @@ void msr2LpsrOah::setAllMsr2LpsrTraceOah (
 }
 
 //______________________________________________________________________________
-void msr2LpsrOah::enforceQuietness ()
+void msr2LpsrOah::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void msr2LpsrOah::checkOptionsConsistency ()
+void msr2LpsrOah::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
 void msr2LpsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrOah::acceptIn ()" <<
       endl;
@@ -1140,7 +1140,7 @@ void msr2LpsrOah::acceptIn (basevisitor* v)
         S_msr2LpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2LpsrOah::visitStart ()" <<
             endl;
@@ -1153,7 +1153,7 @@ void msr2LpsrOah::acceptIn (basevisitor* v)
 void msr2LpsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrOah::acceptOut ()" <<
       endl;
@@ -1166,7 +1166,7 @@ void msr2LpsrOah::acceptOut (basevisitor* v)
         S_msr2LpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2LpsrOah::visitEnd ()" <<
             endl;
@@ -1179,7 +1179,7 @@ void msr2LpsrOah::acceptOut (basevisitor* v)
 void msr2LpsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2LpsrOah::browseData ()" <<
       endl;
@@ -1239,11 +1239,11 @@ ostream& operator<< (ostream& os, const S_msr2LpsrOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeMsr2LpsrOahHandler (
+void initializeMsr2LpsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing MusicXML options handling" <<
       endl;

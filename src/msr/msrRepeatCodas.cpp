@@ -68,7 +68,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
   S_msrRepeat containingRepeat)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
@@ -103,7 +103,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   S_msrRepeat containingRepeat)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<

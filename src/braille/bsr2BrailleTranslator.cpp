@@ -83,7 +83,7 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
             string message = s.str ();
 
             bsrInternalError (
-              gGlobalOahOah->fInputSourceName,
+              gGlobalOahOahGroup->fInputSourceName,
               1, // JMI ???
               __FILE__, __LINE__,
               message);

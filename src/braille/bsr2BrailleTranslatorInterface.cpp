@@ -54,7 +54,7 @@ void generateBrailleCodeFromBsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     logOstream <<
       endl <<
       separator <<
@@ -103,7 +103,7 @@ void convertBsrScoreToBrailleText (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOahGroup->getTracePasses ()) {
         gLogOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -141,7 +141,7 @@ void convertBsrScoreToBrailleText (
         passNumber);
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOahGroup->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -154,7 +154,7 @@ void convertBsrScoreToBrailleText (
 
     else {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOahGroup->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "Braille music will be written to standard output" <<
@@ -180,7 +180,7 @@ void convertBsrScoreToBrailleText (
   }
 
   if (gIndenter != 0) {
-    if (! gGlobalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOahGroup->fQuiet) {
       stringstream s;
 
       s <<
@@ -188,7 +188,7 @@ void convertBsrScoreToBrailleText (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }

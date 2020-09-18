@@ -198,7 +198,7 @@ msrTranspose::msrTranspose (
   fTransposeDouble       = transposeDouble;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTranspositions) {
+  if (gGlobalTraceOahGroup->fTraceTranspositions) {
     gLogOstream <<
       "Creating transpose '" <<
       asString () <<

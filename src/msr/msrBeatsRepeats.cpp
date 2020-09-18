@@ -61,7 +61,7 @@ void msrBeatsRepeatElement::appendSegmentToBeatsRepeatElementsList ( // JMI ???
   string       context)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceVoices) {
     gLogOstream <<
       "Appending segment '" << segment <<
       "' to beatsRepeat element elements list '" << asString () <<
@@ -85,7 +85,7 @@ void msrBeatsRepeatElement::appendBeatsRepeatToBeatsRepeatElementsList (
   string               context)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceVoices) {
     gLogOstream <<
       "Appending beatsRepeat '" << beatsRepeat <<
       "' to beatsRepeat element elements list '" << asString () <<
@@ -109,7 +109,7 @@ void msrBeatsRepeatElement::appendVoiceElementToBeatsRepeatElementsList (
   string            context)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceVoices) {
     gLogOstream <<
       "Appending voice element '" << voiceElement <<
       "' to beatsRepeat element elements list '" << asString () <<
@@ -195,7 +195,7 @@ S_msrNote msrBeatsRepeatElement::fetchBeatsRepeatElementFirstNonGraceNote () con
           "'";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -440,7 +440,7 @@ void msrBeatsRepeatPattern::setBeatsRepeatPatternSegment (
     S_msrSegment beatsRepeatPatternSegment)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeatsRepeats) {
+  if (gGlobalTraceOahGroup->fTraceBeatsRepeats) {
     gLogOstream <<
       "Setting measures repeat pattern segment containing " <<
       singularOrPlural (
@@ -625,7 +625,7 @@ void msrBeatsRepeatReplicas::setBeatsRepeatReplicasSegment (
   S_msrSegment beatsRepeatReplicasSegment)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeatsRepeats) {
+  if (gGlobalTraceOahGroup->fTraceBeatsRepeats) {
     gLogOstream <<
       "Setting measures repeat replicas segment containing " <<
       singularOrPlural (
@@ -829,7 +829,7 @@ S_msrBeatsRepeat msrBeatsRepeat::createBeatsRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeatsRepeats) {
+  if (gGlobalTraceOahGroup->fTraceBeatsRepeats) {
     gLogOstream <<
       "Creating a newborn clone of measures repeat '" <<
       asString () <<
@@ -858,7 +858,7 @@ void msrBeatsRepeat::setBeatsRepeatPattern (
   S_msrBeatsRepeatPattern beatsRepeatPattern)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeatsRepeats) {
+  if (gGlobalTraceOahGroup->fTraceBeatsRepeats) {
     gLogOstream <<
       "Setting measures repeat pattern containing " <<
       singularOrPlural (
@@ -886,7 +886,7 @@ void msrBeatsRepeat::setBeatsRepeatReplicas (
   S_msrBeatsRepeatReplicas beatsRepeatReplicas)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeatsRepeats) {
+  if (gGlobalTraceOahGroup->fTraceBeatsRepeats) {
     gLogOstream <<
       "Setting measures repeat replicas containing " <<
       singularOrPlural (
@@ -1022,7 +1022,7 @@ void msrBeatsRepeat::browseData (basevisitor* v)
 
   if (inhibitBeatsRepeatReplicasBrowsing) {
 #ifdef TRACE_OAH
-    if (gGlobalMsrOah->fTraceMsrVisitors || gGlobalTraceOah->fTraceBeatsRepeats) {
+    if (gGlobalMsrOah->fTraceMsrVisitors || gGlobalTraceOahGroup->fTraceBeatsRepeats) {
       gLogOstream <<
         "% ==> visiting measures repeat replicas is inhibited" <<
         endl;
@@ -1141,7 +1141,7 @@ void msrBeatsRepeat::print (ostream& os) const
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeatsRepeats) {
+  if (gGlobalTraceOahGroup->fTraceBeatsRepeats) {
     // print the current measures repeat build phase
     const int fieldWidth = 36;
 

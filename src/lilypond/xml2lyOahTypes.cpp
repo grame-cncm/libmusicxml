@@ -63,7 +63,7 @@ S_oahValuedAtom xml2lyVersionOahAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a xml2lyVersionOahAtom" <<
       endl;
@@ -80,7 +80,7 @@ S_oahValuedAtom xml2lyVersionOahAtom::handleOptionUnderName (
 void xml2lyVersionOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyVersionOahAtom::acceptIn ()" <<
       endl;
@@ -93,7 +93,7 @@ void xml2lyVersionOahAtom::acceptIn (basevisitor* v)
         S_xml2lyVersionOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2lyVersionOahAtom::visitStart ()" <<
             endl;
@@ -106,7 +106,7 @@ void xml2lyVersionOahAtom::acceptIn (basevisitor* v)
 void xml2lyVersionOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyVersionOahAtom::acceptOut ()" <<
       endl;
@@ -119,7 +119,7 @@ void xml2lyVersionOahAtom::acceptOut (basevisitor* v)
         S_xml2lyVersionOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2lyVersionOahAtom::visitEnd ()" <<
             endl;
@@ -132,7 +132,7 @@ void xml2lyVersionOahAtom::acceptOut (basevisitor* v)
 void xml2lyVersionOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyVersionOahAtom::browseData ()" <<
       endl;
@@ -182,7 +182,7 @@ void xml2lyVersionOahAtom::printVersion (ostream& os) const
         setOahHandlerFoundAHelpOption ();
 }
 
-void xml2lyVersionOahAtom::printAtomOptionsValues (
+void xml2lyVersionOahAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -228,7 +228,7 @@ S_oahValuedAtom xml2lyAboutOahAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a xml2lyAboutOahAtom" <<
       endl;
@@ -245,7 +245,7 @@ S_oahValuedAtom xml2lyAboutOahAtom::handleOptionUnderName (
 void xml2lyAboutOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyAboutOahAtom::acceptIn ()" <<
       endl;
@@ -258,7 +258,7 @@ void xml2lyAboutOahAtom::acceptIn (basevisitor* v)
         S_xml2lyAboutOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2lyAboutOahAtom::visitStart ()" <<
             endl;
@@ -271,7 +271,7 @@ void xml2lyAboutOahAtom::acceptIn (basevisitor* v)
 void xml2lyAboutOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyAboutOahAtom::acceptOut ()" <<
       endl;
@@ -284,7 +284,7 @@ void xml2lyAboutOahAtom::acceptOut (basevisitor* v)
         S_xml2lyAboutOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2lyAboutOahAtom::visitEnd ()" <<
             endl;
@@ -297,7 +297,7 @@ void xml2lyAboutOahAtom::acceptOut (basevisitor* v)
 void xml2lyAboutOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyAboutOahAtom::browseData ()" <<
       endl;
@@ -359,7 +359,7 @@ R"(What xml2ly does:
         setOahHandlerFoundAHelpOption ();
 }
 
-void xml2lyAboutOahAtom::printAtomOptionsValues (
+void xml2lyAboutOahAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -405,7 +405,7 @@ S_oahValuedAtom xml2lyContactOahAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a xml2lyContactOahAtom" <<
       endl;
@@ -422,7 +422,7 @@ S_oahValuedAtom xml2lyContactOahAtom::handleOptionUnderName (
 void xml2lyContactOahAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyContactOahAtom::acceptIn ()" <<
       endl;
@@ -435,7 +435,7 @@ void xml2lyContactOahAtom::acceptIn (basevisitor* v)
         S_xml2lyContactOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2lyContactOahAtom::visitStart ()" <<
             endl;
@@ -448,7 +448,7 @@ void xml2lyContactOahAtom::acceptIn (basevisitor* v)
 void xml2lyContactOahAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyContactOahAtom::acceptOut ()" <<
       endl;
@@ -461,7 +461,7 @@ void xml2lyContactOahAtom::acceptOut (basevisitor* v)
         S_xml2lyContactOahAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2lyContactOahAtom::visitEnd ()" <<
             endl;
@@ -474,7 +474,7 @@ void xml2lyContactOahAtom::acceptOut (basevisitor* v)
 void xml2lyContactOahAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2lyContactOahAtom::browseData ()" <<
       endl;
@@ -522,7 +522,7 @@ R"(To contact xml2ly maintainers:
         setOahHandlerFoundAHelpOption ();
 }
 
-void xml2lyContactOahAtom::printAtomOptionsValues (
+void xml2lyContactOahAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {

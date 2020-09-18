@@ -57,7 +57,7 @@ msrHarmonyDegree::msrHarmonyDegree (
   fHarmonyDegreeTypeKind       = harmonyDegreeTypeKind;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     gLogOstream <<
       "Creating harmony degree '" <<
       asString () <<
@@ -423,7 +423,7 @@ msrHarmony::msrHarmony (
           "'";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -436,7 +436,7 @@ msrHarmony::msrHarmony (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     gLogOstream <<
       "Creating harmony " <<
       asString () <<
@@ -452,7 +452,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     gLogOstream <<
       "Creating a newborn clone of harmony " <<
       asShortString () <<
@@ -494,7 +494,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     gLogOstream <<
       "Creating a deep copy of harmony " <<
       asShortString () <<
@@ -531,7 +531,7 @@ void msrHarmony::setHarmonyTupletFactor (
   msrTupletFactor tupletFactor)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     gLogOstream <<
       "Setting the tuplet factor of harmony " <<
       asShortString () <<
@@ -548,7 +548,7 @@ void msrHarmony::setHarmonyTupletFactor (
 void msrHarmony::setHarmonyFrame (S_msrFrame frame)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFrames) {
+  if (gGlobalTraceOahGroup->fTraceFrames) {
     gLogOstream <<
       "Setting harmony '" << asShortString ()  << "'" <<
       " frame to '" << frame->asString () << "'" <<
@@ -574,7 +574,7 @@ void msrHarmony::setHarmonyPositionInMeasure (
   actualPositionInMeasure.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting harmony position in measure of " << asString () <<
       " to '" <<

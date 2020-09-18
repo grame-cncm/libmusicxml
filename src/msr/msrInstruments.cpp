@@ -395,7 +395,7 @@ msrHarpPedalsTuning::~msrHarpPedalsTuning ()
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
@@ -412,7 +412,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     gLogOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
@@ -448,7 +448,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       "' has already been specified";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

@@ -149,18 +149,18 @@ void msr2MxmltreeOah::setAllMusicXMLTraceOah (
 }
 
 //______________________________________________________________________________
-void msr2MxmltreeOah::enforceQuietness ()
+void msr2MxmltreeOah::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void msr2MxmltreeOah::checkOptionsConsistency ()
+void msr2MxmltreeOah::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
 void msr2MxmltreeOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2MxmltreeOah::acceptIn ()" <<
       endl;
@@ -173,7 +173,7 @@ void msr2MxmltreeOah::acceptIn (basevisitor* v)
         S_msr2MxmltreeOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2MxmltreeOah::visitStart ()" <<
             endl;
@@ -186,7 +186,7 @@ void msr2MxmltreeOah::acceptIn (basevisitor* v)
 void msr2MxmltreeOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2MxmltreeOah::acceptOut ()" <<
       endl;
@@ -199,7 +199,7 @@ void msr2MxmltreeOah::acceptOut (basevisitor* v)
         S_msr2MxmltreeOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2MxmltreeOah::visitEnd ()" <<
             endl;
@@ -212,7 +212,7 @@ void msr2MxmltreeOah::acceptOut (basevisitor* v)
 void msr2MxmltreeOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2MxmltreeOah::browseData ()" <<
       endl;
@@ -239,11 +239,11 @@ ostream& operator<< (ostream& os, const S_msr2MxmltreeOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeMsr2MxmltreeOahHandler (
+void initializeMsr2MxmltreeOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing MusicXML options handling" <<
       endl;

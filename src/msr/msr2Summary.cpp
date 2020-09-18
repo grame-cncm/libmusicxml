@@ -90,7 +90,7 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 
   fMsrSummaryOutputStream <<
     "MSR contents summary of \"" <<
-    gGlobalOahOah->fInputSourceName <<
+    gGlobalOahOahGroup->fInputSourceName <<
     "\":" <<
     endl <<
     endl;

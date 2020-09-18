@@ -64,14 +64,14 @@ class brailleOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -106,7 +106,7 @@ EXP extern S_brailleOah gGlobalBrailleOahUserChoices;
 EXP extern S_brailleOah gGlobalBrailleOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeBrailleOahHandler (
+void initializeBrailleOahHandling (
   S_oahHandler handler);
 
 

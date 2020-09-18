@@ -60,14 +60,14 @@ class mxmlTreeOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -133,7 +133,7 @@ EXP extern S_mxmlTreeOah gGlobalMxmlTreeOahUserChoices;
 EXP extern S_mxmlTreeOah gGlobalMxmlTreeOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMxmlTreeOahHandler (
+void initializeMxmlTreeOahHandling (
   S_oahHandler handler);
 
 

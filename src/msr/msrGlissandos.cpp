@@ -66,7 +66,7 @@ msrGlissando::~msrGlissando ()
 S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGlissandos) {
+  if (gGlobalTraceOahGroup->fTraceGlissandos) {
     gLogOstream <<
       "Creating a newborn clone of glissando '" <<
       asString () <<

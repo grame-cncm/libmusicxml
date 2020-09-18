@@ -300,18 +300,18 @@ void msr2BsrOah::setAllMsr2BsrTraceOah (
 }
 
 //______________________________________________________________________________
-void msr2BsrOah::enforceQuietness ()
+void msr2BsrOah::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void msr2BsrOah::checkOptionsConsistency ()
+void msr2BsrOah::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
 void msr2BsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2BsrOah::acceptIn ()" <<
       endl;
@@ -324,7 +324,7 @@ void msr2BsrOah::acceptIn (basevisitor* v)
         S_msr2BsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2BsrOah::visitStart ()" <<
             endl;
@@ -337,7 +337,7 @@ void msr2BsrOah::acceptIn (basevisitor* v)
 void msr2BsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2BsrOah::acceptOut ()" <<
       endl;
@@ -350,7 +350,7 @@ void msr2BsrOah::acceptOut (basevisitor* v)
         S_msr2BsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msr2BsrOah::visitEnd ()" <<
             endl;
@@ -363,7 +363,7 @@ void msr2BsrOah::acceptOut (basevisitor* v)
 void msr2BsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msr2BsrOah::browseData ()" <<
       endl;
@@ -454,11 +454,11 @@ ostream& operator<< (ostream& os, const S_msr2BsrOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeMsr2BsrOahHandler (
+void initializeMsr2BsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing Msr2Bsr options handling" <<
       endl;

@@ -28,7 +28,7 @@
 #include "msrOah.h"
 #include "msr2BsrOah.h"
 #include "bsrOah.h"
-#include "xml2brlInsiderOah.h"
+#include "xml2brlFullViewOahHandler.h"
 
 #include "msr.h"
 
@@ -69,9 +69,9 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2brlInsiderOahHandler
+  S_xml2brlFullViewOahHandler
     handler =
-      xml2brlInsiderOahHandler::create (
+      xml2brlFullViewOahHandler::create (
         fakeExecutableName,
         "xml2brl",
         out);
@@ -83,7 +83,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
         handler->
-          hangleOptionsFromOptionsVector (
+          applyOptionsFromOptionsVector (
             fakeExecutableName,
             options);
 
@@ -107,10 +107,10 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // has quiet mode been requested?
     // ------------------------------------------------------
 
-    if (gGlobalGeneralOah->fQuiet) {
+    if (gGlobalGeneralOahGroup->fQuiet) {
       // disable all trace and display options
       handler->
-        enforceOahHandlerQuietness ();
+        enforceHandlerQuietness ();
     }
 
     // get the mxmlTree
@@ -146,7 +146,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalXml2brlOah->fExit2a) {
+    if (gGlobalXml2brlOahGroup->fExit2a) {
       err <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -172,7 +172,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
       return kInvalidFile;
     }
 
-    if (gGlobalXml2brlOah->fExit2b) {
+    if (gGlobalXml2brlOahGroup->fExit2b) {
       err <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -428,7 +428,7 @@ EXP xmlErr convertMusicXMLToBraille (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2brlOah->fExit2a) {
+  if (gGlobalXml2brlOahGroup->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -503,7 +503,7 @@ EXP xmlErr convertMusicXMLToBraille (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2brlOah->fExit2b) {
+  if (gGlobalXml2brlOahGroup->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<

@@ -79,7 +79,7 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -103,7 +103,7 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -171,7 +171,7 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -195,7 +195,7 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -263,7 +263,7 @@ class lpsrTransposeAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -287,7 +287,7 @@ class lpsrTransposeAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -354,7 +354,7 @@ class lpsrDalSegnoAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -378,7 +378,7 @@ class lpsrDalSegnoAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -444,7 +444,7 @@ class lpsrDalSegnoAlFineAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -468,7 +468,7 @@ class lpsrDalSegnoAlFineAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -534,7 +534,7 @@ class lpsrDalSegnoAlCodaAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -558,7 +558,7 @@ class lpsrDalSegnoAlCodaAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -620,13 +620,6 @@ class lpsrOah : public oahGroup
 
   public:
 
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
-
-  public:
-
     // public services
     // ------------------------------------------------------
 
@@ -638,6 +631,12 @@ class lpsrOah : public oahGroup
 
     bool                  versionNumberGreaterThanOrEqualTo (
                             string otherVersionNumber);
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   private:
 
@@ -823,7 +822,7 @@ EXP extern S_lpsrOah gGlobalLpsrOahUserChoices;
 EXP extern S_lpsrOah gGlobalLpsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
-EXP  void initializeLpsrOahHandler (
+EXP  void initializeLpsrOahHandling (
   S_oahHandler handler);
 
 

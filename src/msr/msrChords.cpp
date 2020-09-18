@@ -35,7 +35,7 @@ S_msrChord msrChord::create (
   msrDurationKind chordGraphicDurationKind)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Creating a chord" <<
       ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
@@ -81,7 +81,7 @@ S_msrChord msrChord::createChordNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Creating a newborn clone of chord '" <<
       asString () <<
@@ -125,7 +125,7 @@ void msrChord::setChordSoundingWholeNotes (
   rational wholeNotes)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Setting chord sounding whole notes to '" <<
       wholeNotes <<
@@ -144,7 +144,7 @@ void msrChord::setChordDisplayWholeNotes (
   rational wholeNotes)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Setting chord displayed whole notes to '" <<
       wholeNotes <<
@@ -163,7 +163,7 @@ void msrChord::setChordMembersPositionInMeasure (
   rational     positionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting chord members position in measure of " << asString () <<
       " to '" <<
@@ -257,7 +257,7 @@ void msrChord::addFirstNoteToChord (
   S_msrVoice voice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Adding first note '" <<
       note->asString () <<
@@ -303,7 +303,7 @@ void msrChord::addAnotherNoteToChord (
   S_msrVoice voice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Adding another note '" <<
       note->asShortString () <<
@@ -340,7 +340,7 @@ S_msrNote msrChord::fetchChordFirstNonGraceNote () const
 
   else {
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "cannot access the first note of an empty chord");
@@ -352,7 +352,7 @@ S_msrNote msrChord::fetchChordFirstNonGraceNote () const
 void msrChord::appendDalSegnoToChord (S_msrDalSegno dalSegno)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceDalSegnos) {
+  if (gGlobalTraceOahGroup->fTraceDalSegnos) {
     gLogOstream <<
       "Appending dal segno " <<
       dalSegno->asShortString () <<
@@ -383,7 +383,7 @@ void msrChord::appendArticulationToChord (S_msrArticulation art)
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceArticulations) {
+  if (gGlobalTraceOahGroup->fTraceArticulations) {
     gLogOstream <<
       "Appending articulation '" <<
       art->articulationKindAsString () <<
@@ -413,7 +413,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSpanners) {
+  if (gGlobalTraceOahGroup->fTraceSpanners) {
     gLogOstream <<
       "Appending spanner '" <<
       span->spannerKindAsString () <<
@@ -430,7 +430,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
 void msrChord::setChordSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTremolos) {
+  if (gGlobalTraceOahGroup->fTraceTremolos) {
     gLogOstream <<
       "Adding singleTremolo '" <<
       trem->asString () <<
@@ -461,7 +461,7 @@ void msrChord::appendTechnicalToChord (S_msrTechnical tech)
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Appending technical '" <<
       tech->asString () <<
@@ -493,7 +493,7 @@ void msrChord::appendTechnicalWithIntegerToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Appending technical with integer '" <<
       tech->asString () <<
@@ -525,7 +525,7 @@ void msrChord::appendTechnicalWithFloatToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Appending technical with integer '" <<
       tech->asString () <<
@@ -557,7 +557,7 @@ void msrChord::appendTechnicalWithStringToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Appending technical with string '" <<
       tech->asString () <<
@@ -587,7 +587,7 @@ void msrChord::appendOrnamentToChord (S_msrOrnament orn)
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Appending ornament '" <<
       orn->ornamentKindAsString () <<
@@ -617,7 +617,7 @@ void msrChord::appendGlissandoToChord (S_msrGlissando gliss)
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Appending glissando '" <<
       gliss->asString () <<
@@ -647,7 +647,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Appending slide '" <<
       slide->asString () <<
@@ -662,7 +662,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
 void msrChord::appendChordSlurLinkToChord (S_msrChordSlurLink chordSlurLink)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSlurs) {
+  if (gGlobalTraceOahGroup->fTraceSlurs) {
     gLogOstream <<
       "Adding slur link '" << chordSlurLink->asString() <<
       "' to chord '" << asString () << "'" <<
@@ -692,7 +692,7 @@ void msrChord::appendStemToChord (S_msrStem stem)
 
 //      msrInternalError ( // not internal actually JMI ???
       msrInternalWarning ( // not internal actually JMI ???
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
   //      __FILE__, __LINE__,
         s.str ());
@@ -706,7 +706,7 @@ void msrChord::appendStemToChord (S_msrStem stem)
 void msrChord::appendBeamToChord (S_msrBeam beam)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeams) {
+  if (gGlobalTraceOahGroup->fTraceBeams) {
     gLogOstream <<
       "Appending beam '" <<
       beam->asString () <<
@@ -722,7 +722,7 @@ void msrChord::appendBeamToChord (S_msrBeam beam)
 void msrChord::appendChordBeamLinkToChord (S_msrChordBeamLink chordBeamLink)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeams) {
+  if (gGlobalTraceOahGroup->fTraceBeams) {
     gLogOstream <<
       "Adding beam link '" << chordBeamLink->asString() <<
       "' to chord '" << asString () << "'" <<
@@ -737,7 +737,7 @@ void msrChord::finalizeChord (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     gLogOstream <<
       "Finalizing chord '" <<
       asString () <<
@@ -1068,7 +1068,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     gLogOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
@@ -1553,7 +1553,7 @@ void msrChord::print (ostream& os) const
   // print the beam links if any
   int chordBeamLinksSize = fChordBeamLinks.size ();
 
-  if (gGlobalTraceOah->fTraceBeams || chordBeamLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (gGlobalTraceOahGroup->fTraceBeams || chordBeamLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "===> chordBeamLinks ===>";
@@ -1884,7 +1884,7 @@ void msrChord::print (ostream& os) const
   // print the slur links if any
   int chordSlurLinksSize = fChordSlurLinks.size ();
 
-  if (gGlobalTraceOah->fTraceSlurs || chordSlurLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (gGlobalTraceOahGroup->fTraceSlurs || chordSlurLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "===> chordSlurLinks ===>";
@@ -2330,7 +2330,7 @@ void msrChord::printShort (ostream& os) const
   // print the beam links if any
   int chordBeamLinksSize = fChordBeamLinks.size ();
 
-  if (gGlobalTraceOah->fTraceBeams || chordBeamLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (gGlobalTraceOahGroup->fTraceBeams || chordBeamLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordBeamLinks";
@@ -2405,7 +2405,7 @@ void msrChord::printShort (ostream& os) const
   // print the slur links if any
   int chordSlurLinksSize = fChordSlurLinks.size ();
 
-  if (gGlobalTraceOah->fTraceSlurs || chordSlurLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (gGlobalTraceOahGroup->fTraceSlurs || chordSlurLinksSize || gGlobalMsrOah->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "chordSlurLinks";
@@ -2791,7 +2791,7 @@ msrChordBeamLink::~msrChordBeamLink ()
 S_msrChordBeamLink msrChordBeamLink::createBeamNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of grace notes group link '" <<
       asShortString () <<
@@ -3000,7 +3000,7 @@ msrChordSlurLink::~msrChordSlurLink ()
 S_msrChordSlurLink msrChordSlurLink::createSlurNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of grace notes group link '" <<
       asShortString () <<
@@ -3209,7 +3209,7 @@ msrChordGraceNotesGroupLink::~msrChordGraceNotesGroupLink ()
 S_msrChordGraceNotesGroupLink msrChordGraceNotesGroupLink::createChordGraceNotesGroupLinkNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of grace notes group link '" <<
       asShortString () <<

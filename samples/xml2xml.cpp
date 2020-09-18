@@ -28,11 +28,13 @@
 #include "oahBasicTypes.h"
 #include "generalOah.h"
 
-#include "xml2xmlInsiderOah.h"
+#include "xml2xmlTwoViewOahHandler.h"
 
 #include "musicxml2musicxml.h"
 
-#include "xml2xmlOahDualHandler.h"
+#include "xml2xmlFullViewOahHandler.h"
+
+#include "xml2xmlTwoViewOahHandler.h"
 
 
 using namespace std;
@@ -82,13 +84,13 @@ int main (int argc, char *argv[])
 
 #ifdef USE_DUAL_HANDLE
 
-  // create the OAH dual handler
+  // create the OAH twoView handler
   // ------------------------------------------------------
-  S_xml2xmlOahDualHandler dualHandler;
+  S_xml2xmlOahTwoViewHandler twoViewHandler;
 
   try {
-    dualHandler =
-      xml2xmlOahDualHandler::create (
+    twoViewHandler =
+      xml2xmlOahTwoViewHandler::create (
         executableName,
         gOutputOstream);
   }
@@ -105,7 +107,7 @@ int main (int argc, char *argv[])
   try {
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
-        dualHandler->
+        twoViewHandler->
           applyOptionsAndArgumentsFromArgcAndArgv (
             argc, argv);
 
@@ -130,11 +132,11 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2xmlInsiderOahHandler handler;
+  S_xml2xmlFullViewOahHandler handler;
 
   try {
     handler =
-      xml2xmlInsiderOahHandler::create (
+      xml2xmlFullViewOahHandler::create (
         executableName,
         "xml2xml",
         gOutputOstream);
@@ -173,7 +175,7 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) { // JMI
+  if (gGlobalTraceOahGroup->getTraceOah ()) { // JMI
     handler->printKnownPrefixes (gOutputOstream);
     handler->printKnownSingleCharacterOptions (gOutputOstream);
     // handler->printKnownOptions (gOutputOstream);
@@ -184,16 +186,16 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      gGlobalOahOah->fInputSourceName;
+      gGlobalOahOahGroup->fInputSourceName;
 
   string
     outputFileName =
-      gGlobalXml2xmlOah->
+      gGlobalXml2xmlOahGroup->
         getOutputFileNameStringAtom ()->
           getStringVariable ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -210,10 +212,10 @@ int main (int argc, char *argv[])
   // has quiet mode been requested?
   // ------------------------------------------------------
 
-  if (gGlobalGeneralOah->fQuiet) {
+  if (gGlobalGeneralOahGroup->fQuiet) {
     // disable all trace and display options
     /* JMI
-    dualHandler->
+    twoViewHandler->
       enforceOahHandlerQuietness ();
       */
   }
@@ -222,7 +224,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     int
       outputFileNameSize =
         outputFileName.size ();
@@ -247,7 +249,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogOstream <<
-      "Time is " << gGlobalGeneralOah->fTranslationDateFull <<
+      "Time is " << gGlobalGeneralOahGroup->fTranslationDateFull <<
       endl;
 
     gLogOstream <<
@@ -273,7 +275,7 @@ int main (int argc, char *argv[])
 #ifdef USE_DUAL_HANDLE
 
     gLogOstream <<
-      dualHandler->
+      twoViewHandler->
         commandLineWithShortNamesAsString () <<
       endl;
 
@@ -295,7 +297,7 @@ int main (int argc, char *argv[])
 #ifdef USE_DUAL_HANDLE
 
     gLogOstream <<
-      dualHandler->
+      twoViewHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;
@@ -318,7 +320,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     gLogOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -360,7 +362,7 @@ int main (int argc, char *argv[])
   // print timing information
   // ------------------------------------------------------
 
-  if (gGlobalGeneralOah->fDisplayCPUusage)
+  if (gGlobalGeneralOahGroup->fDisplayCPUusage)
     timing::gTiming.print (
       gLogOstream);
 

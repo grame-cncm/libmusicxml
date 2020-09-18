@@ -116,7 +116,7 @@ void msr2BsrTranslator::notSupportedMessage (
 {
   // issue a warning message to the output log stream
   bsrWarning (
-    gGlobalOahOah->fInputSourceName,
+    gGlobalOahOahGroup->fInputSourceName,
     inputLineNumber,
     message);
 
@@ -246,7 +246,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
         inputLineNumber,
         "This braille music data created by "
           +
-        gGlobalOahOah->fHandlerExecutableName);
+        gGlobalOahOahGroup->fHandlerExecutableName);
 
   fBsrScore->
     getTranscriptionNotes ()->
@@ -552,7 +552,7 @@ void msr2BsrTranslator::visitStart (S_msrPart& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceParts || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceParts || gGlobalTraceOahGroup->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -572,7 +572,7 @@ void msr2BsrTranslator::visitEnd (S_msrPart& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGlobalTraceOah->fTraceParts || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceParts || gGlobalTraceOahGroup->fTraceMeasures) {
     fLogOutputStream <<
       "--> End visiting msrPart " <<
       elt->getPartCombinedName () <<
@@ -728,7 +728,7 @@ void msr2BsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBarlines) {
+  if (gGlobalTraceOahGroup->fTraceBarlines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (
@@ -1749,7 +1749,7 @@ bsrNote::bsrNoteOctaveIsNeeded msr2BsrTranslator::brailleOctaveMarkInNeeded (
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesDetails) {
+  if (gGlobalTraceOahGroup->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
     fLogOutputStream << left <<
@@ -2518,7 +2518,7 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
 
   // is a note value sign needed?
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesDetails) {
+  if (gGlobalTraceOahGroup->fTraceNotesDetails) {
     fLogOutputStream <<
       "--> fCurrentNoteValueSizeKind = " <<
       bsrNote::noteValueSizeKindAsString (fCurrentNoteValueSizeKind) <<
@@ -2988,7 +2988,7 @@ void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
      * /
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<
@@ -3061,7 +3061,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
         getMeasureFullLength ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     fLogOutputStream <<
       "Finalizing measure '" << measureNumber <<
       "' in voice \"" << voice->getVoiceName () <<
@@ -3123,7 +3123,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       originalMeasure;
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3172,7 +3172,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -3344,7 +3344,7 @@ void msr2BsrTranslator::visitStart (S_msrSyllable& elt)
 
         // create the words
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceLyrics || gGlobalTraceOah->fTraceWords) {
+        if (gGlobalTraceOahGroup->fTraceLyrics || gGlobalTraceOahGroup->fTraceWords) {
           fLogOutputStream <<
             "Changing lyrics '" <<
             wordsValue <<
@@ -3372,7 +3372,7 @@ void msr2BsrTranslator::visitStart (S_msrSyllable& elt)
 
         // append it to the current non-grace note
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceLyrics || gGlobalTraceOah->fTraceWords) {
+        if (gGlobalTraceOahGroup->fTraceLyrics || gGlobalTraceOahGroup->fTraceWords) {
           fLogOutputStream <<
             "Appending words '" <<
             words->asShortString () <<
@@ -4274,7 +4274,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   if (doCreateAGraceNoteClone) {
     // create a clone of this graceNotesGroup
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceGraceNotes) {
       fLogOutputStream <<
         "Creating a clone of grace notes group '" <<
         elt->asShortString () <<
@@ -4310,7 +4310,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 1" <<
       endl <<
@@ -4342,7 +4342,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       "' has an empty note upLink";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4353,11 +4353,11 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   // is noteNotesGroupIsAttachedTo the first one in its voice?
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceGraceNotes
+    gGlobalTraceOahGroup->fTraceGraceNotes
       ||
-    gGlobalTraceOah->fTraceNotes
+    gGlobalTraceOahGroup->fTraceNotes
       ||
-    gGlobalTraceOah->fTraceVoices
+    gGlobalTraceOahGroup->fTraceVoices
   ) {
     fLogOutputStream <<
       "The noteNotesGroupIsAttachedTo voice clone FIRST_ONE??? '" <<
@@ -4380,11 +4380,11 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceGraceNotes
+    gGlobalTraceOahGroup->fTraceGraceNotes
       ||
-    gGlobalTraceOah->fTraceNotes
+    gGlobalTraceOahGroup->fTraceNotes
       ||
-    gGlobalTraceOah->fTraceVoices
+    gGlobalTraceOahGroup->fTraceVoices
   ) {
     fLogOutputStream <<
       "The first note of voice clone KLJWLPOEF '" <<
@@ -4419,11 +4419,11 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // create the skip grace notes group
 #ifdef TRACE_OAH
         if (
-            gGlobalTraceOah->fTraceGraceNotes
+            gGlobalTraceOahGroup->fTraceGraceNotes
               ||
-            gGlobalTraceOah->fTraceNotes
+            gGlobalTraceOahGroup->fTraceNotes
               ||
-            gGlobalTraceOah->fTraceVoices
+            gGlobalTraceOahGroup->fTraceVoices
         ) {
           fLogOutputStream <<
             "Creating a skip clone of grace notes group '" <<
@@ -4457,7 +4457,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // the afterGraceNotesGroup to use
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceGraceNotesGroup) {
+      if (gGlobalTraceOahGroup->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Optimising grace notes '" <<
           elt->asShortString () <<
@@ -4505,7 +4505,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // create skip graceNotesGroup clone
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceGraceNotesGroup) {
+      if (gGlobalTraceOahGroup->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Creating a skip clone of grace notes '" <<
           elt->asShortString () <<
@@ -4538,7 +4538,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // create the after grace notes
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceGraceNotesGroup) {
+      if (gGlobalTraceOahGroup->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Converting grace notes '" <<
           elt->asShortString () <<
@@ -4563,7 +4563,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // append it to the current note clone
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceGraceNotesGroup) {
+      if (gGlobalTraceOahGroup->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Appending the after grace notes to current note clone" <<
           endl;
@@ -4593,7 +4593,7 @@ void msr2BsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 #endif
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 2" <<
       endl <<
@@ -4621,7 +4621,7 @@ void msr2BsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
     // remove the current afterGraceNotesGroup note clone
     // from the current voice clone
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceGraceNotesGroup) {
+    if (gGlobalTraceOahGroup->fTraceGraceNotesGroup) {
       fLogOutputStream <<
         "Removing the after grace notes element from the current voice clone" <<
         endl;
@@ -4669,7 +4669,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
   // but as the current grace note clone instead
 / * JMI
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceVoices) {
+        if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceVoices) {
           fLogOutputStream <<
             "The first note of voice clone GFFF '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -4707,7 +4707,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
           fCurrentNonGraceNoteClone;
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceVoices) {
+        if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceVoices) {
           fLogOutputStream <<
             "The first note of voice clone RJIRWR '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -4730,7 +4730,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
     elt->getNoteTrillOrnament ()) {
     // yes, create the after grace notes
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotesGroup) {
+    if (gGlobalTraceOahGroup->fTraceNotesGroup) {
       fLogOutputStream <<
         "Optimizing grace notes on trilled note '" <<
         elt->asShortString () <<
@@ -4770,7 +4770,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesDetails) {
+  if (gGlobalTraceOahGroup->fTraceNotesDetails) {
     fLogOutputStream <<
       "FAA fCurrentNonGraceNoteClone = " <<
       endl;
@@ -4806,7 +4806,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 
     case msrNote::kRestNote:
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending rest note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -4822,7 +4822,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 
     case msrNote::kSkipNote: // JMI
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending skip note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -4838,7 +4838,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 
     case msrNote::kUnpitchedNote:
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending unpitched note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -4854,7 +4854,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 
     case msrNote::kRegularNote:
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending regular note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -4873,7 +4873,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceNotes) {
+          if (gGlobalTraceOahGroup->fTraceNotes) {
             fLogOutputStream <<
               "Setting note '" <<
               fCurrentNonGraceNoteClone->asString () <<
@@ -4893,7 +4893,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 
         else if (fCurrentNonGraceNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceNotes) {
+          if (gGlobalTraceOahGroup->fTraceNotes) {
             fLogOutputStream <<
               "Setting note '" <<
               fCurrentNonGraceNoteClone->asString () <<
@@ -4919,7 +4919,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -4934,7 +4934,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of a double tremolo";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4959,14 +4959,14 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of grace notes";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceGraceNotes || gGlobalTraceOah->fTraceNotes) {
+        if (gGlobalTraceOahGroup->fTraceGraceNotes || gGlobalTraceOahGroup->fTraceNotes) {
           fLogOutputStream <<
             "Appending grace note '" <<
             fCurrentGraceNoteClone->asShortString () <<
@@ -4986,7 +4986,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
     / * JMI ???
       if (fCurrentGraceNotesGroupClone) {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceGraceNotes || gGlobalTraceOah->fTraceNotes) {
+        if (gGlobalTraceOahGroup->fTraceGraceNotes || gGlobalTraceOahGroup->fTraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -5003,7 +5003,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
 
       else if (fPendingAfterGraceNotes) {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceGraceNotes || gGlobalTraceOah->fTraceNotes) {
+        if (gGlobalTraceOahGroup->fTraceGraceNotes || gGlobalTraceOahGroup->fTraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -5029,7 +5029,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5054,7 +5054,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5078,7 +5078,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5090,7 +5090,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletUnpitchedMemberNote:
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "'' to voice clone " <<
@@ -5359,7 +5359,7 @@ void msr2BsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5416,7 +5416,7 @@ void msr2BsrTranslator::visitStart (S_msrTuplet& elt)
 
   // register it in this visitor
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tupletClone->asString () <<
@@ -5449,7 +5449,7 @@ void msr2BsrTranslator::visitEnd (S_msrTuplet& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet '" <<
       elt->asString () <<
@@ -5463,7 +5463,7 @@ void msr2BsrTranslator::visitEnd (S_msrTuplet& elt)
   if (fTupletClonesStack.size ()) {
     // tuplet is a nested tuplet
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "Adding nested tuplet '" <<
       elt->asString () <<
@@ -5482,7 +5482,7 @@ void msr2BsrTranslator::visitEnd (S_msrTuplet& elt)
     // tuplet is a top level tuplet
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "Adding top level tuplet '" <<
       elt->asString () <<
@@ -5727,7 +5727,7 @@ void msr2BsrTranslator::visitStart (S_msrRepeat& elt)
     * /
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start in part clone" <<
       fCurrentPartClone->getPartCombinedName () <<
@@ -5748,7 +5748,7 @@ void msr2BsrTranslator::visitStart (S_msrRepeat& elt)
 / * JMI
   // create a repeat clone
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Creating a repeat newborn clone" <<
       ", line " << inputLineNumber <<
@@ -5785,7 +5785,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeat& elt)
 / * JMI
   // append the repeat clone to the current part clone
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat to part clone " <<
       fCurrentPartClone->getPartCombinedName () << "\"" <<
@@ -5820,9 +5820,9 @@ void msr2BsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
 
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRepeats
+    gGlobalTraceOahGroup->fTraceRepeats
       ||
-    gGlobalTraceOah->fTraceVoicesDetails
+    gGlobalTraceOahGroup->fTraceVoicesDetails
   ) {
     gLogOstream <<
       endl <<
@@ -5859,9 +5859,9 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRepeats
+    gGlobalTraceOahGroup->fTraceRepeats
       ||
-    gGlobalTraceOah->fTraceVoicesDetails
+    gGlobalTraceOahGroup->fTraceVoicesDetails
   ) {
     gLogOstream <<
       endl <<
@@ -5883,7 +5883,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 
   // create a repeat and append it to voice clone
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5929,7 +5929,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 
   // create a repeat ending clone and append it to voice clone
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat ending clone to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5937,7 +5937,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatEnding& elt)
       endl;
   }
 
-  if (gGlobalTraceOah->fTraceRepeats || gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceRepeats || gGlobalTraceOahGroup->fTraceVoices) {
     gLogOstream <<
       endl <<
       "*********>> msrRepeatEnding HHH " <<
@@ -5989,7 +5989,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 
   // set last segment as the measures repeat pattern segment
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measures repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6037,7 +6037,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 
   // create a measures repeat and append it to voice clone
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Appending a measures repeat to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6091,7 +6091,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 
   // create a measures repeat replica clone and append it to voice clone
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat replica clone to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6124,7 +6124,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6135,9 +6135,9 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRestMeasures
+    gGlobalTraceOahGroup->fTraceRestMeasures
       ||
-    gGlobalTraceOah->fTraceVoicesDetails
+    gGlobalTraceOahGroup->fTraceVoicesDetails
   ) {
     gLogOstream <<
       endl <<
@@ -6163,9 +6163,9 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRestMeasures
+    gGlobalTraceOahGroup->fTraceRestMeasures
       ||
-    gGlobalTraceOah->fTraceVoicesDetails
+    gGlobalTraceOahGroup->fTraceVoicesDetails
   ) {
     gLogOstream <<
       endl <<
@@ -6203,11 +6203,11 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRest& elt)
   // create the multiple rest clone
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRestMeasures
+    gGlobalTraceOahGroup->fTraceRestMeasures
       ||
-    gGlobalTraceOah->fTraceSegments
+    gGlobalTraceOahGroup->fTraceSegments
       ||
-    gGlobalTraceOah->fTraceVoices
+    gGlobalTraceOahGroup->fTraceVoices
   ) {
     fLogOutputStream <<
       "Creating a clone of multiple rest '" <<
@@ -6241,11 +6241,11 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRest& elt)
   // containing the next, yet incomplete, measure
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRestMeasures
+    gGlobalTraceOahGroup->fTraceRestMeasures
       ||
-    gGlobalTraceOah->fTraceSegments
+    gGlobalTraceOahGroup->fTraceSegments
       ||
-    gGlobalTraceOah->fTraceVoices
+    gGlobalTraceOahGroup->fTraceVoices
   ) {
     fLogOutputStream <<
       "Creating a new last segment for the remainder of voice \"" <<
@@ -6269,9 +6269,9 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRest& elt)
 
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRestMeasures
+    gGlobalTraceOahGroup->fTraceRestMeasures
       ||
-    gGlobalTraceOah->fTraceVoicesDetails
+    gGlobalTraceOahGroup->fTraceVoicesDetails
   ) {
     gLogOstream <<
       endl <<
@@ -6311,9 +6311,9 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRestContents& elt)
 
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRestMeasures
+    gGlobalTraceOahGroup->fTraceRestMeasures
       ||
-    gGlobalTraceOah->fTraceVoicesDetails
+    gGlobalTraceOahGroup->fTraceVoicesDetails
   ) {
     gLogOstream <<
       endl <<
@@ -6357,7 +6357,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 
   // set last segment as the multiple rest contents segment
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     fLogOutputStream <<
       "Setting current last segment as multiple rest contents segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6373,9 +6373,9 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 
 #ifdef TRACE_OAH
   if (
-    gGlobalTraceOah->fTraceRestMeasures
+    gGlobalTraceOahGroup->fTraceRestMeasures
       ||
-    gGlobalTraceOah->fTraceVoicesDetails
+    gGlobalTraceOahGroup->fTraceVoicesDetails
   ) {
     gLogOstream <<
       endl <<
@@ -6525,7 +6525,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValAssoc& elt)
         "' is not handled";
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         s.str ());
       }
@@ -6667,7 +6667,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         "' is not handled";
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         s.str ());
       }

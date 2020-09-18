@@ -72,7 +72,7 @@ class msrDalSegnoAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -96,7 +96,7 @@ class msrDalSegnoAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -162,7 +162,7 @@ class msrReplaceClefAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -186,7 +186,7 @@ class msrReplaceClefAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -237,14 +237,14 @@ class mxmlTree2MsrOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -265,7 +265,7 @@ class mxmlTree2MsrOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeTraceOah (
+    void                  initializeMxmlTree2MsrTraceOptions (
                             bool boolOptionsInitialValue);
 #endif
 
@@ -455,7 +455,7 @@ EXP extern S_mxmlTree2MsrOah gGlobalMxmlTree2MsrOahUserChoices;
 EXP extern S_mxmlTree2MsrOah gGlobalMxmlTree2MsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMxmlTree2MsrOahHandler (
+void initializeMxmlTree2MsrOahHandling (
   S_oahHandler handler);
 
 

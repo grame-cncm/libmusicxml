@@ -65,7 +65,7 @@ void msrPageLayout::setOddMarginsGroup (
       this->asString ();
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -86,7 +86,7 @@ void msrPageLayout::setEvenMarginsGroup (
       this->asString ();
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -107,7 +107,7 @@ void msrPageLayout::setBothMarginsGroup (
       this->asString ();
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -830,7 +830,7 @@ msrPrintLayout::msrPrintLayout (
     : msrMeasureElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePrintLayouts) {
+  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
     gLogOstream <<
       "Creating a print layout " <<
       endl;
@@ -1068,7 +1068,7 @@ msrLineWidth::msrLineWidth (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePrintLayouts) {
+  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
     gLogOstream <<
       "Creating a print layout " <<
       endl;
@@ -1280,7 +1280,7 @@ msrNoteSize::msrNoteSize (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePrintLayouts) {
+  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
     gLogOstream <<
       "Creating a print layout " <<
       endl;
@@ -1431,7 +1431,7 @@ msrDistance::msrDistance (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePrintLayouts) {
+  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
     gLogOstream <<
       "Creating a print layout " <<
       endl;
@@ -1579,7 +1579,7 @@ msrGlyph::msrGlyph (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePrintLayouts) {
+  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
     gLogOstream <<
       "Creating a print layout " <<
       endl;
@@ -1766,7 +1766,7 @@ msrOtherAppearance::msrOtherAppearance (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePrintLayouts) {
+  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
     gLogOstream <<
       "Creating a print layout " <<
       endl;
@@ -1902,7 +1902,7 @@ msrAppearance::msrAppearance (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePrintLayouts) {
+  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
     gLogOstream <<
       "Creating an appearance" <<
       endl;

@@ -30,20 +30,20 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-S_generalOah gGlobalGeneralOah;
-S_generalOah gGlobalGeneralOahUserChoices;
+S_generalOahGroup gGlobalGeneralOahGroup;
+S_generalOahGroup gGlobalGeneralOahGroupUserChoices;
 
-S_generalOah generalOah::create (
+S_generalOahGroup generalOahGroup::create (
   S_oahHandler handlerUpLink)
 {
-  generalOah* o = new generalOah (
+  generalOahGroup* o = new generalOahGroup (
     handlerUpLink);
   assert(o!=0);
 
   return o;
 }
 
-generalOah::generalOah (
+generalOahGroup::generalOahGroup (
   S_oahHandler handlerUpLink)
   : oahGroup (
     "General",
@@ -63,10 +63,10 @@ R"()",
   initializeGeneralOah (false);
 }
 
-generalOah::~generalOah ()
+generalOahGroup::~generalOahGroup ()
 {}
 
-void generalOah::initializeGeneralWarningAndErrorsOptions (
+void generalOahGroup::initializeGeneralWarningAndErrorsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -116,7 +116,7 @@ R"(Don't show errors in the log.)",
 R"(Do not exit execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gGlobalOahOah->fHandlerExecutableName),
+          gGlobalOahOahGroup->fHandlerExecutableName),
         "dontExitOnErrors",
         fDontExitOnErrors));
 
@@ -133,12 +133,12 @@ R"(Display the source code file name and line number
 in warning and error messages.
 This is useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gGlobalOahOah->fHandlerExecutableName),
+          gGlobalOahOahGroup->fHandlerExecutableName),
         "displaySourceCodePosition",
         fDisplaySourceCodePosition));
 }
 
-void generalOah::initializeGeneralCPUUsageOptions (
+void generalOahGroup::initializeGeneralCPUUsageOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -165,7 +165,7 @@ R"(Write information about CPU usage to standard error.)",
         fDisplayCPUusage));
 }
 
-void generalOah::initializeGeneralOah (
+void generalOahGroup::initializeGeneralOah (
   bool boolOptionsInitialValue)
 {
   // register translation date
@@ -197,11 +197,11 @@ void generalOah::initializeGeneralOah (
     boolOptionsInitialValue);
 }
 
-S_generalOah generalOah::createCloneWithTrueValues ()
+S_generalOahGroup generalOahGroup::createCloneWithTrueValues ()
 {
-  S_generalOah
+  S_generalOahGroup
     clone =
-      generalOah::create (
+      generalOahGroup::create (
         nullptr);
       // nullptr not to have it inserted twice in the option handler
 
@@ -230,7 +230,7 @@ S_generalOah generalOah::createCloneWithTrueValues ()
 }
 
   /* JMI
-void generalOah::setAllGeneralTraceOah (
+void generalOahGroup::setAllGeneralTraceOah (
   bool boolOptionsInitialValue)
 {
   // warning and error handling
@@ -249,37 +249,37 @@ void generalOah::setAllGeneralTraceOah (
   */
 
 //______________________________________________________________________________
-void generalOah::enforceQuietness ()
+void generalOahGroup::enforceGroupQuietness ()
 {
   fDisplayCPUusage = false; // JMI
 }
 
 //______________________________________________________________________________
-void generalOah::checkOptionsConsistency ()
+void generalOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void generalOah::acceptIn (basevisitor* v)
+void generalOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> generalOah::acceptIn ()" <<
+      ".\\\" ==> generalOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_generalOah>*
+  if (visitor<S_generalOahGroup>*
     p =
-      dynamic_cast<visitor<S_generalOah>*> (v)) {
-        S_generalOah elem = this;
+      dynamic_cast<visitor<S_generalOahGroup>*> (v)) {
+        S_generalOahGroup elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching generalOah::visitStart ()" <<
+            ".\\\" ==> Launching generalOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -287,25 +287,25 @@ void generalOah::acceptIn (basevisitor* v)
   }
 }
 
-void generalOah::acceptOut (basevisitor* v)
+void generalOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> generalOah::acceptOut ()" <<
+      ".\\\" ==> generalOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_generalOah>*
+  if (visitor<S_generalOahGroup>*
     p =
-      dynamic_cast<visitor<S_generalOah>*> (v)) {
-        S_generalOah elem = this;
+      dynamic_cast<visitor<S_generalOahGroup>*> (v)) {
+        S_generalOahGroup elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching generalOah::visitEnd ()" <<
+            ".\\\" ==> Launching generalOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -313,19 +313,19 @@ void generalOah::acceptOut (basevisitor* v)
   }
 }
 
-void generalOah::browseData (basevisitor* v)
+void generalOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> generalOah::browseData ()" <<
+      ".\\\" ==> generalOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void generalOah::printGeneralOahValues (int fieldWidth)
+void generalOahGroup::printGeneralOahValues (int fieldWidth)
 {
   gLogOstream <<
     "The general options are:" <<
@@ -392,14 +392,14 @@ void generalOah::printGeneralOahValues (int fieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_generalOah& elt)
+ostream& operator<< (ostream& os, const S_generalOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeGeneralOahHandler (
+void initializeGeneralOahHandling (
   S_oahHandler handler)
 {
   // protect library against multiple initializations
@@ -409,12 +409,12 @@ void initializeGeneralOahHandler (
     // create the options variables
     // ------------------------------------------------------
 
-    gGlobalGeneralOahUserChoices = generalOah::create (
+    gGlobalGeneralOahGroupUserChoices = generalOahGroup::create (
       handler);
-    assert(gGlobalGeneralOahUserChoices != 0);
+    assert(gGlobalGeneralOahGroupUserChoices != 0);
 
-    gGlobalGeneralOah =
-      gGlobalGeneralOahUserChoices;
+    gGlobalGeneralOahGroup =
+      gGlobalGeneralOahGroupUserChoices;
 
 // JMI    pThisMethodHasBeenRun = true;
   }

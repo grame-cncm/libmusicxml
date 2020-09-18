@@ -72,7 +72,7 @@ class msr2LpsrScoreOutputKindAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -96,7 +96,7 @@ class msr2LpsrScoreOutputKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -162,7 +162,7 @@ class msrOmitPartAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -186,7 +186,7 @@ class msrOmitPartAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -252,7 +252,7 @@ class msrKeepPartAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -276,7 +276,7 @@ class msrKeepPartAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -326,14 +326,14 @@ class msr2LpsrOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -354,7 +354,7 @@ class msr2LpsrOah : public oahGroup
     // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-    void                  initializeTraceOah (
+    void                  initializMsr2LpsrTraceOptions (
                             bool boolOptionsInitialValue);
 #endif
 
@@ -412,7 +412,7 @@ EXP extern S_msr2LpsrOah gGlobalMsr2LpsrOahUserChoices;
 EXP extern S_msr2LpsrOah gGlobalMsr2LpsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMsr2LpsrOahHandler (
+void initializeMsr2LpsrOahHandling (
   S_oahHandler handler);
 
 

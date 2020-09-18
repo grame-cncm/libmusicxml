@@ -552,7 +552,7 @@ void mxmlTree2MsrTranslator::checkStep (
         " is not a letter from A to G";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -567,7 +567,7 @@ void mxmlTree2MsrTranslator::checkStep (
       " should be a single letter from A to G";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
       s.str ());
@@ -580,7 +580,7 @@ S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
   int staffNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceStaves) {
+  if (gGlobalTraceOahGroup->fTraceStaves) {
     fLogOutputStream <<
       "Fetching staff " <<
       staffNumber <<
@@ -606,14 +606,14 @@ S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
       fCurrentPart->getPartCombinedName ();
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceStaves) {
+  if (gGlobalTraceOahGroup->fTraceStaves) {
     fLogOutputStream <<
       "--> fetchStaffFromCurrentPart returns " <<
       staff->getStaffName () <<
@@ -631,7 +631,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   int voiceNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceVoices) {
     fLogOutputStream <<
       "Fetching voice " <<
       voiceNumber <<
@@ -671,7 +671,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
       "\"";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -684,7 +684,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
     */
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceVoices) {
     fLogOutputStream <<
       "--> fetchVoiceFromCurrentPart() returns " <<
       voice->getVoiceName () <<
@@ -747,7 +747,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_scaling& elt)
         fCurrentTenths);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGeometry) {
+  if (gGlobalTraceOahGroup->fTraceGeometry) {
     fLogOutputStream <<
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
@@ -835,7 +835,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_margins& elt )
 
   if (! fOnGoingSystemLayout) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<system-margins /> is out of context");
@@ -867,7 +867,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_distance& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       "<system-distance /> is out of context");
@@ -900,7 +900,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_top_system_distance& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<top-system-distance /> is out of context");
@@ -923,7 +923,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_system_margins& elt )
 
   if (! fOnGoingSystemLayout) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<system-margins /> is out of context");
@@ -948,11 +948,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_dividers& elt )
 
     s <<
       "<system-dividers /> is not supported yet by " <<
-      gGlobalOahOah->fHandlerExecutableName;
+      gGlobalOahOahGroup->fHandlerExecutableName;
 
 /* JMI
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       elt->getInputLineNumber (),
      s.str ());
      */
@@ -1050,7 +1050,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_height& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       "<page-height /> is out of context");
@@ -1079,7 +1079,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_width& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       "<page-width /> is out of context");
@@ -1121,7 +1121,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_margins& elt )
         "\"";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1129,7 +1129,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_page_margins& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<page-margins /> is out of context");
@@ -1225,7 +1225,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_left_margin& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<left-margin /> is out of context");
@@ -1275,7 +1275,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_right_margin& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<right-margin /> is out of context");
@@ -1312,7 +1312,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_top_margin& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<top-margin /> is out of context");
@@ -1349,7 +1349,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bottom_margin& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<bottom-margin /> is out of context");
@@ -1450,7 +1450,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staff_distance& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<staff-distance /> is out of context");
@@ -1526,7 +1526,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_distance& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<measure-distance /> is out of context");
@@ -1745,7 +1745,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_line_width& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1774,7 +1774,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_line_width& elt )
         "\" is missing";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1783,7 +1783,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_line_width& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<line-width /> is out of context");
@@ -1832,7 +1832,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note_size& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1859,7 +1859,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note_size& elt )
         "\" is missing";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1868,7 +1868,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note_size& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<note-size /> is out of context");
@@ -1915,7 +1915,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_distance& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1944,7 +1944,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_distance& elt )
         "\" is missing";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1952,7 +1952,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_distance& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<distance /> is out of context");
@@ -2023,7 +2023,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glyph& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2050,7 +2050,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glyph& elt )
         "\" is missing";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2058,7 +2058,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glyph& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<glyph /> is out of context");
@@ -2084,7 +2084,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_appearance& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<other-appearance /> is out of context");
@@ -2109,7 +2109,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   string partID = elt->getAttributeValue ("id");
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partID << "\"" <<
@@ -2153,7 +2153,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
         "' since it is the only part in the <part-list />";
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -2166,7 +2166,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
         "\" not found in score skeleton";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2174,7 +2174,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceParts) {
+  if (gGlobalTraceOahGroup->fTraceParts) {
     fLogOutputStream <<
       "--------------------------------------------" <<
       endl <<
@@ -2239,7 +2239,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 
 /*
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceParts) {
+  if (gGlobalTraceOahGroup->fTraceParts) {
     fLogOutputStream <<
       "Analyzing part " <<
       fCurrentPart->
@@ -2369,7 +2369,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
   // have the divisions been defined alright?
   if (! fCurrentDivisions) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "no <divisions/> markup found in MusicXML data, exiting");
@@ -2415,7 +2415,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_divisions& elt )
     fCurrentDivisionsPerQuarterNote > 16383
   ) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "divisions per quarter note should be between 1 and 16383");
@@ -2527,7 +2527,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2594,7 +2594,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2662,7 +2662,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -2696,7 +2696,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
             "\" is unknown";
 
           msrMusicXMLError (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -2728,7 +2728,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
             "\" is unknown";
 
           msrMusicXMLError (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -2757,7 +2757,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2908,7 +2908,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_mode& elt )
       "mode " << mode << " is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2931,7 +2931,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_step& elt )
 
   if (fCurrentHumdrumScotKeyItem) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "Humdrum/Scot key step found while another one is being handled");
@@ -2983,7 +2983,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
 
   if (! fCurrentHumdrumScotKeyItem) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "Humdrum/Scot key alter found while no key step is being handled");
@@ -3005,7 +3005,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3061,7 +3061,7 @@ If the cancel attribute is
       "An exception number " << e << " occurred";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3090,7 +3090,7 @@ If the cancel attribute is
       " not found in Humdrum/Scot key items";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3237,7 +3237,7 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
         "unknown key fifths number \"" << fCurrentKeyFifths << "\"";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -3291,7 +3291,7 @@ S_msrKey mxmlTree2MsrTranslator::handleHumdrumScotKey (
 
   else
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "Humdrum/Scot key is empty");
@@ -3348,7 +3348,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time& elt )
         "time symbol " << timeSymbol << " is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -3422,7 +3422,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_type& elt )
 
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "beat type doesn't contain any beats numbers");
@@ -3492,7 +3492,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_interchangeable& elt )
         "interchangeable symbol " << interchangeableSymbol << " is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -3529,7 +3529,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_interchangeable& elt )
         "interchangeable symbol " << interchangeableSymbol << " is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -3585,7 +3585,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_relation& elt )
         "time-relation " << timeRelation << " is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -3632,7 +3632,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_time& elt )
     // only a 'semza misura' time may be empty
     if (  fCurrentTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "time is empty");
@@ -3785,7 +3785,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt )
       " and decrementing octave change by " << octaveOffset;
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -3813,7 +3813,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt )
       " and incrementing octave change by " << octaveOffset;
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -3903,7 +3903,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
             fPendingWordsList.front();
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTempos) {
+        if (gGlobalTraceOahGroup->fTraceTempos) {
           fLogOutputStream <<
             "Attaching words '" <<
             words->asString () <<
@@ -3947,7 +3947,7 @@ void mxmlTree2MsrTranslator::visitStart (S_direction_type& elt)
 
   if (! fOnGoingDirection) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<direction-type /> is out of context");
@@ -4016,7 +4016,7 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
         " should be 'yes' or 'no'";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4032,7 +4032,7 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
 
   else if (fOnGoingHarmony) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceHarmonies) {
+    if (gGlobalTraceOahGroup->fTraceHarmonies) {
       fLogOutputStream <<
         "Harmony offset \"" << offsetValue << "\"" <<
         ", represents = \'" <<
@@ -4242,7 +4242,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
       "octave shift size absent, assuming 8";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -4272,7 +4272,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
 
   // JMI    msrMusicXMLError (
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
    //     __FILE__, __LINE__,
         s.str ());
@@ -4305,7 +4305,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
       "\"" << "is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4342,7 +4342,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 
   if (! wordsValue.size ()) {
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       "words contents is empty");
   }
@@ -4392,7 +4392,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
         " should be 'normal' or 'italic'";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4421,7 +4421,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
         " should be 'normal' or 'italic'";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4497,7 +4497,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
         " should be 'normal' or 'bold'";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4538,7 +4538,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
               fCurrentDirectionStaffNumber);
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceWords || gGlobalTraceOah->fTraceDalSegnos) {
+        if (gGlobalTraceOahGroup->fTraceWords || gGlobalTraceOahGroup->fTraceDalSegnos) {
           fLogOutputStream <<
             "Converting words '" <<
             wordsValue <<
@@ -4561,7 +4561,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
     if (! wordsHasBeenHandled) {
       // create the words
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceWords) {
+      if (gGlobalTraceOahGroup->fTraceWords) {
         fLogOutputStream <<
           "Creating words \"" << wordsValue << "\"" <<
           ", placement = \"" <<
@@ -4663,7 +4663,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_middle& elt )
       ", replaced by 1";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -4708,7 +4708,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
 
   if (fCurrentAccordionNumbersCounter == 0) {
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       "accordion-registration has 0 child element, ignoring it");
   }
@@ -4762,7 +4762,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
         " should be 'yes' or 'no'";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4842,7 +4842,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
       "beat unit dot occurs without prior beat unit";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4957,7 +4957,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
       "\"" << "is not known";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4987,7 +4987,7 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
   if (fPendingMetronomeBeamsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTempos || gGlobalTraceOah->fTraceBeams) {
+    if (gGlobalTraceOahGroup->fTraceTempos || gGlobalTraceOahGroup->fTraceBeams) {
       fLogOutputStream <<
         "Attaching current beams to tempoNote " <<
         tempoNote->asString () <<
@@ -5001,7 +5001,7 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
           fPendingMetronomeBeamsList.front();
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceTempos || gGlobalTraceOah->fTraceBeams) {
+      if (gGlobalTraceOahGroup->fTraceTempos || gGlobalTraceOahGroup->fTraceBeams) {
         fLogOutputStream <<
           "Attaching beam '" <<
           beam->asString () <<
@@ -5139,7 +5139,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -5184,14 +5184,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTuplets) {
+        if (gGlobalTraceOahGroup->fTraceTuplets) {
           stringstream s;
 
           s <<
@@ -5199,7 +5199,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
             " \"yes\" is assumed"; // option ??? JMI
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             s.str ());
         }
@@ -5227,7 +5227,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5254,7 +5254,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
     else {
       if (tupletShowNumber.size ()) {
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           "tuplet show-number \"" + tupletShowNumber + "\" is unknown");
@@ -5263,7 +5263,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos) {
+  if (gGlobalTraceOahGroup->fTraceTempos) {
     fLogOutputStream <<
       "fCurrentTempoTupletTypeKind: " <<
       msrTempoTuplet::tempoTupletTypeKindAsString (
@@ -5409,7 +5409,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
         " beat units";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -5467,7 +5467,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
   } // switch
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos) {
+  if (gGlobalTraceOahGroup->fTraceTempos) {
     fLogOutputStream <<
       "Creating tempo '" <<
       fCurrentMetronomeTempo->asString () <<
@@ -5489,7 +5489,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
             fPendingWordsList.front();
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTempos) {
+        if (gGlobalTraceOahGroup->fTraceTempos) {
           fLogOutputStream <<
             "Attaching words '" <<
             words->asString () <<
@@ -5515,7 +5515,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
         " <words/> markups";
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -5609,7 +5609,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
         inputLineNumber, fCurrentMusicXMLStaffNumber);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceStaves) {
+  if (gGlobalTraceOahGroup->fTraceStaves) {
     fLogOutputStream <<
       "--> S_staff, fCurrentMusicXMLStaffNumber = " <<
       fCurrentMusicXMLStaffNumber <<
@@ -5645,7 +5645,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
       " is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -5699,7 +5699,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
         s << "show-frets " << showFrets << " unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -5742,7 +5742,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
       s << "print-spacing " << printSpacing << " is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5750,7 +5750,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceStaves) {
+  if (gGlobalTraceOahGroup->fTraceStaves) {
     fLogOutputStream <<
       "Handling staff details:" <<
       endl <<
@@ -5836,7 +5836,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_type& elt )
     s << "staff-type" << staffType << "unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -5917,7 +5917,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
       " is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -5955,7 +5955,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_octave& elt )
       " is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -5991,7 +5991,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6012,7 +6012,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
       " is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6049,7 +6049,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
 
   // create the staff tuning
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceStaffDetails) {
+  if (gGlobalTraceOahGroup->fTraceStaffDetails) {
     fLogOutputStream <<
       "Creating staff tuning:" <<
       endl;
@@ -6146,7 +6146,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
       " is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -6367,7 +6367,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
         s << "tied type '" << fCurrentSlurType << "' inside a slur is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -6383,7 +6383,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
         s << "tied type '" << fCurrentSlurType << "' inside a ligature is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -6501,7 +6501,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSlursDetails) {
+  if (gGlobalTraceOahGroup->fTraceSlursDetails) {
     displaySlurStartsStack ("BEFORE handling slur");
   }
 #endif
@@ -6519,7 +6519,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
       "ignoring a slur in a chord member note other than the first one";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -6565,7 +6565,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 /* JMI BUGGED?
             // the stack top is in fact a phrasing slur start
 #ifdef TRACE_OAH
-            if (gGlobalTraceOah->fTraceSlurs) {
+            if (gGlobalTraceOahGroup->fTraceSlurs) {
               fLogOutputStream <<
                 "The slur start '" <<
                 containingSlur->asString () <<
@@ -6591,7 +6591,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 
       //      msrMusicXMLError ( // JMI
             msrMusicXMLWarning (
-              gGlobalOahOah->fInputSourceName,
+              gGlobalOahOahGroup->fInputSourceName,
               inputLineNumber,
       //        __FILE__, __LINE__,
               s.str ());
@@ -6616,7 +6616,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
               "a standalone slur 'stop' is meaningless, ignoring it";
 
             msrMusicXMLWarning (
-              gGlobalOahOah->fInputSourceName,
+              gGlobalOahOahGroup->fInputSourceName,
               inputLineNumber,
               s.str ());
           }
@@ -6641,7 +6641,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             case msrSlur::kPhrasingSlurStart:
               // the stack top is in fact a phrasing slur start
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceSlurs) {
+              if (gGlobalTraceOahGroup->fTraceSlurs) {
                 fLogOutputStream <<
                   "A slur stop matches a phrasing slur start, it is thus a phrasing slur stop" <<
                   ", line " << inputLineNumber <<
@@ -6679,7 +6679,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             "\" is unknown";
 
           msrMusicXMLError (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -6710,7 +6710,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     else {
       if (slurLineType.size ()) {
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           "slur line-type \"" + slurLineType + "\" is unknown");
@@ -6720,7 +6720,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSlurs) {
+    if (gGlobalTraceOahGroup->fTraceSlurs) {
       fLogOutputStream <<
         "visitStart (S_slur&)"
         ", slurNumber: " <<
@@ -6759,7 +6759,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSlursDetails) {
+  if (gGlobalTraceOahGroup->fTraceSlursDetails) {
     displaySlurStartsStack ("AFTER handling slur");
   }
 #endif
@@ -6816,7 +6816,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -6855,7 +6855,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -6885,7 +6885,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
   else {
     if (ligatureLineTypeValue.size ()) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "ligature line-type \"" + ligatureLineTypeValue + "\" is unknown");
@@ -6915,14 +6915,14 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
         case msrPlacementKind::kPlacementNone:
           {
 #ifdef TRACE_OAH
-            if (gGlobalTraceOah->fTraceLigatures) {
+            if (gGlobalTraceOahGroup->fTraceLigatures) {
               stringstream s;
 
               s <<
                 "Bracket start found with no placement, placing it above by default";
 
               msrMusicXMLWarning (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 inputLineNumber,
                 s.str ());
             }
@@ -6951,14 +6951,14 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
         case msrPlacementKind::kPlacementNone:
           {
 #ifdef TRACE_OAH
-            if (gGlobalTraceOah->fTraceLigatures) {
+            if (gGlobalTraceOahGroup->fTraceLigatures) {
               stringstream s;
 
               s <<
                 "Bracket stop found with no placement, placing it above by default";
 
               msrMusicXMLWarning (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 inputLineNumber,
                 s.str ());
             }
@@ -6974,7 +6974,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 
            // JMI   msrMusicXMLError (
               msrMusicXMLWarning (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 inputLineNumber,
            //     __FILE__, __LINE__,
                 s.str ());
@@ -7000,7 +7000,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 
          // JMI   msrMusicXMLError (
             msrMusicXMLWarning (
-              gGlobalOahOah->fInputSourceName,
+              gGlobalOahOahGroup->fInputSourceName,
               inputLineNumber,
          //     __FILE__, __LINE__,
               s.str ());
@@ -7025,7 +7025,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 
          // JMI   msrMusicXMLError (
             msrMusicXMLWarning (
-              gGlobalOahOah->fInputSourceName,
+              gGlobalOahOahGroup->fInputSourceName,
               inputLineNumber,
          //     __FILE__, __LINE__,
               s.str ());
@@ -7093,7 +7093,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
         "\", should be 'crescendo', 'diminuendo' or 'stop'";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -7122,7 +7122,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -7152,7 +7152,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
   else {
     if (wedgeLineType.size ()) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "wedge line-type \"" + wedgeLineType + "\" is unknown");
@@ -7203,7 +7203,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 
     if (fCurrentStanzaNumber.size () == 0) {
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         "lyric number is empty, using \"1\" by default");
 
@@ -7211,7 +7211,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     }
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceLyrics) {
+    if (gGlobalTraceOahGroup->fTraceLyrics) {
       fLogOutputStream <<
         "Setting fCurrentStanzaNumber to " <<
         fCurrentStanzaNumber <<
@@ -7235,7 +7235,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     if (fCurrentStanzaName.size () == 0) {
       // lyrics names are not so frequent after all...
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceLyrics) {
+      if (gGlobalTraceOahGroup->fTraceLyrics) {
         fLogOutputStream <<
           "Lyric name is empty, using \"" <<
           K_NO_STANZA_NAME <<
@@ -7248,7 +7248,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     }
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceLyrics) {
+    if (gGlobalTraceOahGroup->fTraceLyrics) {
       fLogOutputStream <<
         "Setting fCurrentStanzaName to \"" <<
         fCurrentStanzaName <<
@@ -7312,7 +7312,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -7346,7 +7346,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   fCurrentLyricTextsList.push_back (textValue);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     fLogOutputStream <<
       "textValue = \""<< textValue << "\"" <<
       ", line " << inputLineNumber <<
@@ -7358,7 +7358,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   fCurrentStanzaHasText = true;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gIndenter++;
 
     const int fieldWidth = 23;
@@ -7461,7 +7461,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -7500,7 +7500,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       "<lyric /> has no <syllabic/> component, using 'single' by default";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -7509,7 +7509,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
   if (fCurrentNoteIsARest) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceLyrics) {
+    if (gGlobalTraceOahGroup->fTraceLyrics) {
       stringstream s;
 
       s <<
@@ -7523,7 +7523,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
         " is attached to a rest";
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -7542,7 +7542,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyricsDetails) {
+  if (gGlobalTraceOahGroup->fTraceLyricsDetails) {
     fLogOutputStream <<
       "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
       msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
@@ -7671,7 +7671,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     fLogOutputStream <<
       "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
       msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
@@ -7736,7 +7736,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
             fCurrentStanzaName);
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceLyrics) {
+    if (gGlobalTraceOahGroup->fTraceLyrics) {
       fLogOutputStream <<
         "Creating a syllable '" <<
         msrSyllable::syllableKindAsString (
@@ -7829,7 +7829,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   fPartMeasuresCounter++;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresDetails) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresDetails) {
     gLogOstream <<
       "==> visitStart (S_measure" <<
       ", fPartMeasuresCounter = '" <<
@@ -7879,7 +7879,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
           "' found";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -7888,8 +7888,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   }
 
 #ifdef TRACE_OAH
-// JMI  if (gGlobalTraceOah->fTraceMeasures) {
-  if (gGlobalTraceOah->getTracePasses ()) {
+// JMI  if (gGlobalTraceOahGroup->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << fCurrentMeasureNumber <<
@@ -7936,7 +7936,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -7958,16 +7958,16 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 /* JMI
   // is this measure number in the debug set?
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceDetailed) {
+  if (gGlobalTraceOahGroup->fTraceDetailed) {
     set<int>::const_iterator
       it =
-        gGlobalGeneralOah->
+        gGlobalGeneralOahGroup->
           fTraceDetailedMeasureNumbersSet.find (fMeasuresCounter);
 
-    if (it != gGlobalTraceOah->fTraceDetailedMeasureNumbersSet.end ()) {
+    if (it != gGlobalTraceOahGroup->fTraceDetailedMeasureNumbersSet.end ()) {
       // yes, activate detailed trace for it
       gGlobalMxmlTree2MsrOah = gGlobalMxmlTree2MsrOahWithDetailedTrace;
-      gGlobalGeneralOah  = gGlobalGeneralOahWithDetailedTrace;
+      gGlobalGeneralOahGroup  = gGlobalGeneralOahGroupWithDetailedTrace;
       gGlobalMsrOah      = gGlobalMsrOahWithDetailedTrace;
       gGlobalLpsrOah     = gGlobalLpsrOahWithDetailedTrace;
       gGlobalLpsr2LilypondOah = gGlobalLilypondOahWithDetailedTrace;
@@ -8016,7 +8016,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   // is there a pending grace notes group?
   if (fPendingGraceNotesGroup) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceGraceNotes) {
       fLogOutputStream <<
         endl <<
         "fCurrentGraceNotes IS NOT NULL at the end of measure '" << // JMI
@@ -8047,7 +8047,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
         fCurrentMusicXMLVoiceNumber;
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -8117,7 +8117,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
         s >> measuresToAdd;
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceRestMeasures) {
+        if (gGlobalTraceOahGroup->fTraceRestMeasures) {
           fLogOutputStream <<
             endl <<
             "Creating " <<
@@ -8150,7 +8150,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 /* JMI
   // restore debug options in case they were set in visitStart()
   gGlobalMxmlTree2MsrOah = gGlobalMxmlTree2MsrOahUserChoices;
-  gGlobalGeneralOah  = gGlobalGeneralOahUserChoices;
+  gGlobalGeneralOahGroup  = gGlobalGeneralOahGroupUserChoices;
   gGlobalMsrOah      = gGlobalMsrOahUserChoices;
   gGlobalLpsrOah     = gGlobalLpsrOahUserChoices;
   gGlobalLpsr2LilypondOah = gGlobalLilypondOahUserChoices;
@@ -8161,7 +8161,7 @@ void mxmlTree2MsrTranslator::handleOnGoingRestMeasures (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     const int fieldWidth = 37;
 
     fLogOutputStream <<
@@ -8200,7 +8200,7 @@ void mxmlTree2MsrTranslator::handleOnGoingRestMeasures (
 
   if (fRemainingRestMeasuresMeasuresNumber <= 0) {
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "remainingRestMeasuresMeasuresNumber problem");
@@ -8230,7 +8230,7 @@ void mxmlTree2MsrTranslator::handleOnGoingRestMeasures (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     const int fieldWidth = 37;
 
     fLogOutputStream <<
@@ -8355,7 +8355,7 @@ Staff spacing between multiple staves is measured in
     if (newSystem == "yes") {
       // create a line break
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceLineBreaks) {
+      if (gGlobalTraceOahGroup->fTraceLineBreaks) {
         fLogOutputStream <<
           "Creating a line break, " <<
           "line = " << inputLineNumber <<
@@ -8384,7 +8384,7 @@ Staff spacing between multiple staves is measured in
       "\" is unknown in '<print />', should be 'yes', 'no' or empty";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -8401,7 +8401,7 @@ Staff spacing between multiple staves is measured in
     if (newPage == "yes") { // JMI
       // create a page break
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTracePageBreaks) {
+      if (gGlobalTraceOahGroup->fTracePageBreaks) {
         fLogOutputStream <<
           "Creating a page break, " <<
           "line = " << inputLineNumber <<
@@ -8429,7 +8429,7 @@ Staff spacing between multiple staves is measured in
       "\" is unknown in '<print />', should be 'yes', 'no' or empty";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -8560,7 +8560,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
 
    // JMI   msrMusicXMLError (
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
    //     __FILE__, __LINE__,
         s.str ());
@@ -8638,7 +8638,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "bar-style \"" + barStyle + "\" is unknown");
@@ -8685,7 +8685,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
     s << "<segno /> is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8728,7 +8728,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
             ", only two are meaningful";
 
           msrMusicXMLError (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -8758,7 +8758,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
     s << "<coda /> is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8796,7 +8796,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
     s << "<eyeGlasses /> is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8841,7 +8841,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     s << "pedal type '" << type << "' is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8868,7 +8868,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -8898,7 +8898,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -8924,7 +8924,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     s << "<pedal /> " << pedal->asShortString () << " is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -8954,7 +8954,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
 
     if (! fCurrentBarlineEndingNumber.size ()) {
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         "mandatory ending number is missing, assuming \"1\"");
 
@@ -8991,7 +8991,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -9038,7 +9038,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -9082,7 +9082,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -9138,7 +9138,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWingedKind);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBarlines) {
+  if (gGlobalTraceOahGroup->fTraceBarlines) {
     fLogOutputStream <<
       "Creating barline in part " <<
       fCurrentPart->getPartCombinedName () << ":" <<
@@ -9176,7 +9176,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         // ------------------------------------------------------
         if (! fCurrentBarlineEndingNumber.size ()) {
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             "mandatory ending number is missing, assuming \"1\"");
 
@@ -9308,7 +9308,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
         // append the bar line to the current part
   #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceBarlines) {
+        if (gGlobalTraceOahGroup->fTraceBarlines) {
           fLogOutputStream <<
             "Appending a standalone barline to part " <<
             fCurrentPart->getPartCombinedName () << ":" <<
@@ -9338,7 +9338,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
           " has no barline style";
 
         msrMusicXMLWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
      //     __FILE__, __LINE__,
           s.str ());
@@ -9355,7 +9355,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       barline->asString ();
 
     msrInternalWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -9373,7 +9373,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
           " has no barline category";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -9552,7 +9552,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
       "\" should contain 6 or 8 upper case hexadecimal digits prededed by a '#'";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -9614,7 +9614,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_alter& elt)
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -9642,7 +9642,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_octave& elt)
       "' is not in the 0..9 range, '0' is assumed";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       elt->getInputLineNumber (),
       s.str ());
 
@@ -9667,7 +9667,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   int duration = (int)(*elt); // divisions
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesDetails) {
+  if (gGlobalTraceOahGroup->fTraceNotesDetails) {
     fLogOutputStream <<
       "Note duration: " << duration <<
       endl;
@@ -9684,7 +9684,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 
   else if (fOnGoingNote) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotesDetails) {
+    if (gGlobalTraceOahGroup->fTraceNotesDetails) {
       fLogOutputStream <<
         "fCurrentDivisionsPerQuarterNote: " <<
         fCurrentDivisionsPerQuarterNote <<
@@ -9700,7 +9700,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
     fCurrentNoteSoundingWholeNotesFromDuration.rationalise ();
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotesDetails) {
+    if (gGlobalTraceOahGroup->fTraceNotesDetails) {
       fLogOutputStream <<
         "fCurrentNoteSoundingWholeNotesFromDuration: " <<
         fCurrentNoteSoundingWholeNotesFromDuration <<
@@ -9718,7 +9718,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 
   else if (fOnGoingFiguredBass) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceFiguredBasses) {
+    if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
       fLogOutputStream <<
         "fCurrentDivisionsPerQuarterNote: " <<
         fCurrentDivisionsPerQuarterNote <<
@@ -9734,7 +9734,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
     fCurrentFiguredBassSoundingWholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceFiguredBasses) {
+    if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
       fLogOutputStream <<
         "fCurrentFiguredBassSoundingWholeNotes: " <<
         fCurrentFiguredBassSoundingWholeNotes <<
@@ -9750,7 +9750,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
     fCurrentFiguredBassDisplayWholeNotes.rationalise ();
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceFiguredBasses) {
+    if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
       fLogOutputStream <<
         "fCurrentFiguredBassDisplayWholeNotes: " <<
         fCurrentFiguredBassDisplayWholeNotes <<
@@ -9765,7 +9765,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
     s << "<duration /> " << duration << " is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -9847,7 +9847,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
     else {
       if (noteTypeSize.size ()) {
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
             "note type size \"" + noteTypeSize + "\" is unknown");
@@ -9856,7 +9856,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesDetails) {
+  if (gGlobalTraceOahGroup->fTraceNotesDetails) {
     /* JMI
     fLogOutputStream <<
       "noteType: \"" <<
@@ -9949,7 +9949,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -9974,7 +9974,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10000,7 +10000,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10111,7 +10111,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
           "\" is unknown";
 
         msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
           s.str ());
@@ -10142,7 +10142,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
           "\" is unknown";
 
         msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
           s.str ());
@@ -10173,7 +10173,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10239,7 +10239,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -10296,7 +10296,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
       "\"" << "is not known";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -10425,7 +10425,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
       msrMeasuresRepeat::kStartMeasuresRepeat; // JMI
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Creating measures repeat from its first measures" <<
       "in part " <<
@@ -10451,7 +10451,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
       msrMeasuresRepeat::kStopMeasuresRepeat; // JMI
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Appending measures repeat " <<
       "to part " <<
@@ -10474,7 +10474,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -10515,7 +10515,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
         " is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -10562,7 +10562,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -10594,7 +10594,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -10636,7 +10636,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
   else {
     if (slashTypeSize.size ()) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
           "slash type size \"" + slashTypeSize + "\" is unknown");
@@ -10644,7 +10644,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSlashes) {
+  if (gGlobalTraceOahGroup->fTraceSlashes) {
     fLogOutputStream <<
       "slashType: \"" <<
       slashType <<
@@ -11329,7 +11329,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
         "arpeggiate direction \"" << directionString << "\"" << "is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -11399,7 +11399,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -11673,7 +11673,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -11766,7 +11766,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -11808,7 +11808,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12130,7 +12130,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12271,7 +12271,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
       "\" is empoty, '" << stringIntegerValue << "' is assumed";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -12312,7 +12312,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12535,7 +12535,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12565,7 +12565,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12626,7 +12626,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       "--> tremolo value is missing, '" << tremoloMarksNumber << "' assumed";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -12639,7 +12639,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       "\" should be between 0 and 8";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12668,7 +12668,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12735,7 +12735,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12751,7 +12751,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       // create a single tremolo, it will be attached to current note
       // in attachCurrentSingleTremoloToNote()
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceTremolos) {
+      if (gGlobalTraceOahGroup->fTraceTremolos) {
         fLogOutputStream <<
           "Creating a single tremolo" <<
           ", line " << inputLineNumber <<
@@ -12785,7 +12785,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
 
         // create a double tremolo start
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTremolos) {
+        if (gGlobalTraceOahGroup->fTraceTremolos) {
           fLogOutputStream <<
             "Creating a double tremolo" <<
             ", line " << inputLineNumber <<
@@ -12816,7 +12816,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
           "<tremolo/> start when a current double tremolo is already open";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12827,7 +12827,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
     case kTremoloTypeStop:
       if (fCurrentDoubleTremolo) {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTremolos) {
+        if (gGlobalTraceOahGroup->fTraceTremolos) {
           fLogOutputStream <<
             "Meeting a double tremolo stop" <<
             ", line " << inputLineNumber <<
@@ -12846,7 +12846,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
           "<tremolo/> stop whit no preceeding <tremolo/> start";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12935,7 +12935,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -13007,7 +13007,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -13055,7 +13055,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
           "wavy-line stop found without corresponding start, ignoring it";
 
         msrMusicXMLWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -13593,7 +13593,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14846,7 +14846,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
   else {
     if (slash.size ()) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "grace slash \"" + slash + "\" unknown, should be 'yes' or 'no'");
@@ -14932,7 +14932,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
     fCurrentNoteActualNotes = actualNotes;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "fCurrentNoteActualNotes: " <<
         fCurrentNoteActualNotes <<
@@ -14955,7 +14955,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
     fCurrentMetronomeNoteActualNotes = actualNotes;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTempos) {
+    if (gGlobalTraceOahGroup->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteActualNotes: " <<
         fCurrentMetronomeNoteActualNotes <<
@@ -14972,7 +14972,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14999,7 +14999,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
     fCurrentNoteNormalNotes = normalNotes;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "fCurrentNoteNormalNotes: " <<
         fCurrentNoteNormalNotes <<
@@ -15022,7 +15022,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
     fCurrentMetronomeNoteNormalNotes = normalNotes;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTempos) {
+    if (gGlobalTraceOahGroup->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteNormalNotes: " <<
         fCurrentMetronomeNoteNormalNotes <<
@@ -15039,7 +15039,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -15064,7 +15064,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
 
   if (fOnGoingNote) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "normalTypeString: " <<
         normalTypeString <<
@@ -15092,7 +15092,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
     fCurrentMetronomeNoteNormalType = normalTypeString;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTempos) {
+    if (gGlobalTraceOahGroup->fTraceTempos) {
       fLogOutputStream <<
         "fCurrentMetronomeNoteNormalType: " <<
         fCurrentMetronomeNoteNormalType <<
@@ -15110,7 +15110,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
       "\" is out of context";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -15158,14 +15158,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTuplets) {
+        if (gGlobalTraceOahGroup->fTraceTuplets) {
           stringstream s;
 
           s <<
@@ -15173,7 +15173,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
             " \"yes\" is assumed"; // option ??? JMI
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             s.str ());
         }
@@ -15203,7 +15203,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
           "\" is unknown";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -15223,7 +15223,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
 
     if      (tupletType == "start") {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceTuplets) {
+      if (gGlobalTraceOahGroup->fTraceTuplets) {
         fLogOutputStream <<
           "--> There is a tuplet start (kTupletTypeStart)" <<
           ", line " << inputLineNumber <<
@@ -15235,7 +15235,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     }
     else if (tupletType == "continue") {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceTuplets) {
+      if (gGlobalTraceOahGroup->fTraceTuplets) {
         fLogOutputStream <<
           "--> There is a tuplet continue (kTupletTypeContinue)" <<
           ", line " << inputLineNumber <<
@@ -15259,7 +15259,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
         // for one and the same tuplet number:
         // possible if the note is a tremolo
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTuplets) {
+        if (gGlobalTraceOahGroup->fTraceTuplets) {
           fLogOutputStream <<
             "--> There is a tuplet stop right after a tuplet start for tuplet nummber " << fCurrentTupletNumber <<
             " (kTupletTypeStartAndStopInARow)" <<
@@ -15273,7 +15273,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
       else {
         // this is a 'regular' tuplet stop
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTuplets) {
+        if (gGlobalTraceOahGroup->fTraceTuplets) {
           fLogOutputStream <<
             "--> There is a tuplet stop (kTupletTypeStop)" <<
             ", line " << inputLineNumber <<
@@ -15292,7 +15292,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15319,7 +15319,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     else {
       if (tupletShowNumber.size ()) {
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           "tuplet show-number \"" + tupletShowNumber + "\" is unknown");
@@ -15346,7 +15346,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     else {
       if (tupletShowType.size ()) {
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           "tuplet show-type \"" + tupletShowType + "\" is unknown");
@@ -15355,7 +15355,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentTupletNumber: " <<
       fCurrentTupletNumber <<
@@ -15459,7 +15459,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<tuplet-number /> out of context");
@@ -15468,7 +15468,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "tuplet number (not handled): " <<
       tupletNumberValue <<
@@ -15502,7 +15502,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<tuplet-type /> out of context");
@@ -15511,7 +15511,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
   // color JMI
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "tuplet type (not handled): " <<
       tupletTypeValue <<
@@ -15542,7 +15542,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
   }
   else {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "<tuplet-dot /> out of context");
@@ -15592,7 +15592,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -15621,7 +15621,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   else {
     if (glissandoLineType.size ()) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "glissando line-type \"" + glissandoLineType + "\" is unknown");
@@ -15629,7 +15629,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGlissandos) {
+  if (gGlobalTraceOahGroup->fTraceGlissandos) {
     fLogOutputStream <<
       "glissandoNumber: " <<
       glissandoNumber <<
@@ -15657,7 +15657,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
 
   // register glissando in this visitor
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGlissandos) {
+  if (gGlobalTraceOahGroup->fTraceGlissandos) {
     fLogOutputStream <<
       "Appending glissando '" <<
       glissando->asString () <<
@@ -15710,7 +15710,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -15739,7 +15739,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
   else {
     if (slideLineType.size ()) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "slide line-type \"" + slideLineType + "\" is unknown");
@@ -15747,7 +15747,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSlides) {
+  if (gGlobalTraceOahGroup->fTraceSlides) {
     fLogOutputStream <<
       "slideNumber: " <<
       slideNumber <<
@@ -15773,7 +15773,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
 
   // register glissando in this visitor
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSlides) {
+  if (gGlobalTraceOahGroup->fTraceSlides) {
     fLogOutputStream <<
       "Appending slide '" <<
       slide->asString () <<
@@ -15850,7 +15850,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
   else {
     if (restMeasure.size ()) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "rest measure \"" + restMeasure + "\" is unknown");
@@ -15930,7 +15930,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
     chordFirstNote->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "--> creating a chord from its first note '" <<
       chordFirstNote->asShortString () <<
@@ -15954,7 +15954,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
 
   // register note as first member of chord
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "Adding first note " <<
       chordFirstNote->
@@ -15984,7 +15984,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
         getNoteMeasureUpLink ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChordsDetails) {
+  if (gGlobalTraceOahGroup->fTraceChordsDetails) {
     fLogOutputStream << // JMI
       endl <<
       endl <<
@@ -16034,7 +16034,7 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
   S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "Registering chord '" <<
       chord->asString () <<
@@ -16054,7 +16054,7 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
       chord;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChordsDetails) {
+  if (gGlobalTraceOahGroup->fTraceChordsDetails) {
     printCurrentChord ();
   }
 #endif
@@ -16126,7 +16126,7 @@ void mxmlTree2MsrTranslator::finalizeCurrentChord (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "Finalizing current chord START:" <<
       endl <<
@@ -16142,7 +16142,7 @@ void mxmlTree2MsrTranslator::finalizeCurrentChord (
       inputLineNumber);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "Finalizing current chord END: " <<
       endl <<
@@ -16207,7 +16207,7 @@ void mxmlTree2MsrTranslator::copyNoteArticulationsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceArticulations) {
+    if (gGlobalTraceOahGroup->fTraceArticulations) {
       fLogOutputStream <<
         "Copying articulation '" <<
         (*i)->articulationKindAsString () <<
@@ -16240,7 +16240,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
   ) {
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTechnicals) {
+  if (gGlobalTraceOahGroup->fTraceTechnicals) {
     fLogOutputStream <<
       "Copying technical '" <<
       (*i)->technicalKindAsString () <<
@@ -16273,7 +16273,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
   ) {
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTechnicals) {
+  if (gGlobalTraceOahGroup->fTraceTechnicals) {
     fLogOutputStream <<
       "Copying technical '" <<
       (*i)->technicalWithIntegerKindAsString () <<
@@ -16306,7 +16306,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithFloatsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTechnicals) {
+    if (gGlobalTraceOahGroup->fTraceTechnicals) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithFloatKindAsString () <<
@@ -16339,7 +16339,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTechnicals) {
+    if (gGlobalTraceOahGroup->fTraceTechnicals) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithStringKindAsString () <<
@@ -16372,7 +16372,7 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOrnaments) {
+    if (gGlobalTraceOahGroup->fTraceOrnaments) {
       fLogOutputStream <<
         "Copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -16406,7 +16406,7 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSpanners) {
+    if (gGlobalTraceOahGroup->fTraceSpanners) {
       fLogOutputStream <<
         "Copying spanner '" <<
         (*i)->spannerKindAsString () <<
@@ -16434,7 +16434,7 @@ void mxmlTree2MsrTranslator::copyNoteSingleTremoloToChord (
 
   if (noteSingleTremolo) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTremolos) {
+    if (gGlobalTraceOahGroup->fTraceTremolos) {
       fLogOutputStream <<
         "Copying singleTremolo '" <<
         noteSingleTremolo->asString () <<
@@ -16468,7 +16468,7 @@ void mxmlTree2MsrTranslator::copyNoteDynamicsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDynamics) {
+    if (gGlobalTraceOahGroup->fTraceDynamics) {
       fLogOutputStream <<
         "Copying dynamics '" <<
         (*i)->dynamicsKindAsString () <<
@@ -16502,7 +16502,7 @@ void mxmlTree2MsrTranslator::copyNoteOtherDynamicsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDynamics) {
+    if (gGlobalTraceOahGroup->fTraceDynamics) {
       fLogOutputStream <<
         "Copying other dynamics '" <<
         (*i)->asString () <<
@@ -16536,7 +16536,7 @@ void mxmlTree2MsrTranslator::copyNoteWordsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceWords) {
+    if (gGlobalTraceOahGroup->fTraceWords) {
       fLogOutputStream <<
         "Copying words '" <<
         (*i)->asString () <<
@@ -16564,7 +16564,7 @@ void mxmlTree2MsrTranslator::copyNoteStemToChord (
 
   if (noteStem) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceStems) {
+    if (gGlobalTraceOahGroup->fTraceStems) {
       fLogOutputStream <<
         "Copying stem '" <<
         noteStem->asString () <<
@@ -16599,7 +16599,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceBeams) {
+    if (gGlobalTraceOahGroup->fTraceBeams) {
       fLogOutputStream <<
         "Copying beam '" <<
         (*i)->asString () <<
@@ -16614,7 +16614,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeams) {
+  if (gGlobalTraceOahGroup->fTraceBeams) {
     fLogOutputStream <<
       "==> AFTER copying beams to chord:" <<
       endl;
@@ -16650,7 +16650,7 @@ void mxmlTree2MsrTranslator::appendNoteBeamsLinksToChord (
     S_msrBeam beam = (*i);
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceBeams) {
+    if (gGlobalTraceOahGroup->fTraceBeams) {
       fLogOutputStream <<
         "Adding beam link of '" <<
         beam->asString () <<
@@ -16674,7 +16674,7 @@ void mxmlTree2MsrTranslator::appendNoteBeamsLinksToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeams) {
+  if (gGlobalTraceOahGroup->fTraceBeams) {
     fLogOutputStream <<
       "==> AFTER appending note's beams links to chord:" <<
       endl;
@@ -16703,7 +16703,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
 
   if (noteTie) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTies) {
+    if (gGlobalTraceOahGroup->fTraceTies) {
       fLogOutputStream <<
         "Appending tie '" <<
         noteTie->asString () <<
@@ -16718,7 +16718,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
   }
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTies) {
+    if (gGlobalTraceOahGroup->fTraceTies) {
     fLogOutputStream <<
       "==> AFTER appending tie to chord:" <<
       endl;
@@ -16754,7 +16754,7 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSlurs) {
+    if (gGlobalTraceOahGroup->fTraceSlurs) {
       fLogOutputStream <<
         "Copying slur '" <<
         (*i)->asString () <<
@@ -16790,7 +16790,7 @@ void mxmlTree2MsrTranslator::appendNoteSlursLinksToChord (
     S_msrSlur slur = (*i);
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSlurs) {
+    if (gGlobalTraceOahGroup->fTraceSlurs) {
       fLogOutputStream <<
         "Adding slur link of '" <<
         slur->asString () <<
@@ -16814,7 +16814,7 @@ void mxmlTree2MsrTranslator::appendNoteSlursLinksToChord (
   } // for
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSlurs) {
+  if (gGlobalTraceOahGroup->fTraceSlurs) {
     fLogOutputStream <<
       "==> AFTER appending note's slurs links to chord:" <<
       endl;
@@ -16849,7 +16849,7 @@ void mxmlTree2MsrTranslator::copyNoteLigaturesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceLigatures) {
+    if (gGlobalTraceOahGroup->fTraceLigatures) {
       fLogOutputStream <<
         "Copying ligature '" <<
         (*i)->ligatureKindAsString () <<
@@ -16883,7 +16883,7 @@ void mxmlTree2MsrTranslator::copyNotePedalsToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTracePedals) {
+    if (gGlobalTraceOahGroup->fTracePedals) {
       fLogOutputStream <<
         "Copying pedal '" <<
         (*i)->pedalTypeAsString () <<
@@ -16917,7 +16917,7 @@ void mxmlTree2MsrTranslator::copyNoteSlashesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSlashes) {
+    if (gGlobalTraceOahGroup->fTraceSlashes) {
       fLogOutputStream <<
         "Copying slash '" <<
         (*i)->asString () <<
@@ -16951,7 +16951,7 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceWedges) {
+    if (gGlobalTraceOahGroup->fTraceWedges) {
       fLogOutputStream <<
         "Copying wedges '" <<
         (*i)->wedgeKindAsString () <<
@@ -16985,7 +16985,7 @@ void mxmlTree2MsrTranslator::copyNoteSegnosToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSegnos) {
+    if (gGlobalTraceOahGroup->fTraceSegnos) {
       fLogOutputStream <<
         "Copying segno '" <<
         (*i)->asShortString () <<
@@ -17019,7 +17019,7 @@ void mxmlTree2MsrTranslator::copyNoteDalSegnosToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDalSegnos) {
+    if (gGlobalTraceOahGroup->fTraceDalSegnos) {
       fLogOutputStream <<
         "Copying dal degno '" <<
         (*i)->asShortString () <<
@@ -17053,7 +17053,7 @@ void mxmlTree2MsrTranslator::copyNoteCodasToChord (
   ) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceCodas) {
+    if (gGlobalTraceOahGroup->fTraceCodas) {
       fLogOutputStream <<
         "Copying coda '" <<
         (*i)->asShortString () <<
@@ -17081,7 +17081,7 @@ void mxmlTree2MsrTranslator::copyNoteOctaveShiftToChord (
 
   if (noteOctaveShift) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOctaveShifts) {
+    if (gGlobalTraceOahGroup->fTraceOctaveShifts) {
       fLogOutputStream <<
         "Copying octave shift '" <<
         noteOctaveShift->asString () <<
@@ -17108,7 +17108,7 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
   if (graceNotesGroupBefore) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceGraceNotes) {
       fLogOutputStream <<
         "Copying grace notes group before '" <<
         graceNotesGroupBefore->asShortString () <<
@@ -17130,7 +17130,7 @@ void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
 
   if (graceNotesGroupAfter) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceGraceNotes) {
       fLogOutputStream <<
         "Copying grace notes group after '" <<
         graceNotesGroupAfter->asShortString () <<
@@ -17160,7 +17160,7 @@ void mxmlTree2MsrTranslator::addNoteGraceNotesGroupsLinksToChord (
 
   if (graceNotesGroupBefore) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceGraceNotes) {
       fLogOutputStream <<
         "Adding grace notes group link before '" <<
         graceNotesGroupBefore->asShortString () <<
@@ -17192,7 +17192,7 @@ void mxmlTree2MsrTranslator::addNoteGraceNotesGroupsLinksToChord (
 
   if (graceNotesGroupAfter) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceGraceNotes) {
       fLogOutputStream <<
         "Adding grace notes group link after '" <<
         graceNotesGroupAfter->asShortString () <<
@@ -17234,7 +17234,7 @@ void mxmlTree2MsrTranslator::copyNoteHarmoniesToChord (
       S_msrHarmony harmony = (*i);
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceHarmonies) {
+      if (gGlobalTraceOahGroup->fTraceHarmonies) {
         fLogOutputStream <<
           "Copying harmony '" <<
           harmony->asString () <<
@@ -17341,7 +17341,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 
   // create a tuplet
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "Creating a '" <<
       fCurrentNoteActualNotes <<
@@ -17396,7 +17396,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
       currentVoice);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     // only after appendNoteToTuplet() has set the note's tuplet upLink
     fLogOutputStream <<
       "Adding first note " <<
@@ -17418,7 +17418,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 
   // register tuplet in this visitor
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tuplet->asString () <<
@@ -17430,7 +17430,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   fTupletsStack.push_front (tuplet);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTupletsDetails) {
+  if (gGlobalTraceOahGroup->fTraceTupletsDetails) {
     displayTupletsStack (
       "############## createTupletWithItsFirstNoteAndPushItToTupletsStack() 1");
   }
@@ -17460,7 +17460,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
     tuplet;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTupletsDetails) {
+  if (gGlobalTraceOahGroup->fTraceTupletsDetails) {
     displayLastHandledTupletInVoiceMap (
       "############## createTupletWithItsFirstNoteAndPushItToTupletsStack() 2");
   }
@@ -17472,7 +17472,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack(), " <<
       "line " << inputLineNumber <<
@@ -17481,7 +17481,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     displayTupletsStack (
       "############## Before  finalizeTupletAndPopItFromTupletsStack()");
   }
@@ -17510,7 +17510,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
 /* JMI
   // add lastNote to the tuplet
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "==> adding last note " << lastNote->asString () <<
       " to tuplets stack top " <<
@@ -17524,7 +17524,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
 
   // pop from the tuplets stack
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet:" <<
       endl;
@@ -17544,7 +17544,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
   if (fTupletsStack.size ()) {
     // tuplet is a nested tuplet
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "=== adding nested tuplet '" <<
       tuplet->asString () <<
@@ -17563,7 +17563,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
   else {
     // tuplet is a top level tuplet
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "Appending top level tuplet " <<
       tuplet->asString () <<
@@ -17590,7 +17590,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     displayTupletsStack (
       "############## After  finalizeTupletAndPopItFromTupletsStack()");
   }
@@ -17605,7 +17605,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
   if (fCurrentArticulations.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceArticulations) {
+    if (gGlobalTraceOahGroup->fTraceArticulations) {
       fLogOutputStream <<
         "Attaching current articulations to note " <<
         note->asString () <<
@@ -17619,7 +17619,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
           fCurrentArticulations.front();
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Attaching articulation '" <<
           art->articulationKindAsString () <<
@@ -17645,7 +17645,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
   if (fCurrentTechnicalsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTechnicals) {
+    if (gGlobalTraceOahGroup->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technicals to note " <<
         note->asString () <<
@@ -17659,7 +17659,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
           fCurrentTechnicalsList.front();
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceTechnicals) {
+      if (gGlobalTraceOahGroup->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical '" <<
           tech->asString () <<
@@ -17685,7 +17685,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
   if (fCurrentTechnicalWithIntegersList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTechnicals) {
+    if (gGlobalTraceOahGroup->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with integers to note " <<
         note->asString () <<
@@ -17699,7 +17699,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
           fCurrentTechnicalWithIntegersList.front();
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceTechnicals) {
+      if (gGlobalTraceOahGroup->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with integer '" <<
           tech->asString () <<
@@ -17725,7 +17725,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithFloatsToNote (
   if (fCurrentTechnicalWithFloatsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTechnicals) {
+    if (gGlobalTraceOahGroup->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with floats to note " <<
         note->asString () <<
@@ -17739,7 +17739,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithFloatsToNote (
           fCurrentTechnicalWithFloatsList.front();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTechnicals) {
+  if (gGlobalTraceOahGroup->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with integer '" <<
           tech->asString () <<
@@ -17765,7 +17765,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
   if (fCurrentTechnicalWithStringsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTechnicals) {
+    if (gGlobalTraceOahGroup->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with strings to note " <<
         note->asString () <<
@@ -17779,7 +17779,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
           fCurrentTechnicalWithStringsList.front();
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceTechnicals) {
+      if (gGlobalTraceOahGroup->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with string '" <<
           tech->asString () <<
@@ -17805,7 +17805,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
   if (fCurrentOrnamentsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOrnaments) {
+    if (gGlobalTraceOahGroup->fTraceOrnaments) {
       fLogOutputStream <<
         "Attaching current ornaments to note " <<
         note->asString () <<
@@ -17819,7 +17819,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
           fCurrentOrnamentsList.front();
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Attaching ornament '" <<
           orn->ornamentKindAsString () <<
@@ -17845,7 +17845,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
   if (fCurrentSpannersList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSpanners) {
+    if (gGlobalTraceOahGroup->fTraceSpanners) {
       fLogOutputStream <<
         "Attaching current spanners to note " <<
         note->asString () <<
@@ -17901,7 +17901,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
 
       if (doHandleSpanner) {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceSpanners) {
+        if (gGlobalTraceOahGroup->fTraceSpanners) {
           fLogOutputStream <<
             "Attaching spanner '" <<
             spanner->asShortString () <<
@@ -17923,7 +17923,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
 
       else { // check it is the same spanner kind JMI
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceSpanners) {
+        if (gGlobalTraceOahGroup->fTraceSpanners) {
           fLogOutputStream <<
             "Spanner start amd stop on one and the same note' to note " <<
             note->asString () <<
@@ -17956,7 +17956,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
   if (fCurrentSingleTremolo) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceNotes) {
       fLogOutputStream <<
         "Attaching current singleTremolo to note " <<
         note->asString () <<
@@ -17986,7 +17986,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   if (fCurrentArticulations.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceArticulations) {
+    if (gGlobalTraceOahGroup->fTraceArticulations) {
       fLogOutputStream <<
         "Attaching current articulations to chord " <<
         chord->asString () <<
@@ -18001,7 +18001,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
       i++
   ) {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceArticulations) {
+      if (gGlobalTraceOahGroup->fTraceArticulations) {
         fLogOutputStream <<
           "Attaching articulation " <<  (*i) <<
           " to chord " << chord <<
@@ -18024,7 +18024,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
   if (fCurrentOrnamentsList.size ()) {
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOrnaments) {
+    if (gGlobalTraceOahGroup->fTraceOrnaments) {
       fLogOutputStream <<
         "Attaching current ornaments to chord " <<
         chord->asString () <<
@@ -18039,7 +18039,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
       i++
   ) {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceOrnaments) {
+      if (gGlobalTraceOahGroup->fTraceOrnaments) {
         fLogOutputStream <<
           "Attaching ornament " <<  (*i) << " to chord " <<
           chord <<
@@ -18061,7 +18061,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToVoice (
   // attach the pending tempos if any to the voice
   if (fPendingTemposList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTempos) {
+    if (gGlobalTraceOahGroup->fTraceTempos) {
       fLogOutputStream <<
         "Attaching pending tempos to voice \""  <<
         voice->getVoiceName () <<
@@ -18089,7 +18089,7 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToVoice (
  // attach the pending rehearsals if any to the note
   if (fPendingRehearsalsList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceRehearsals) {
+    if (gGlobalTraceOahGroup->fTraceRehearsals) {
       fLogOutputStream <<
         "Attaching pending rehearsals to voice \""  <<
         voice->getVoiceName () <<
@@ -18117,7 +18117,7 @@ void mxmlTree2MsrTranslator::attachLineBreaksToVoice (
  // attach the pending line breaks if any to the note
   if (fPendingLineBreaksList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceLineBreaks) {
+    if (gGlobalTraceOahGroup->fTraceLineBreaks) {
       fLogOutputStream <<
         "Attaching pending line breaks to voice \""  <<
         voice->getVoiceName () <<
@@ -18147,7 +18147,7 @@ void mxmlTree2MsrTranslator::attachPageBreaksToVoice (
  // attach the pending page breaks if any to the note
   if (fPendingPageBreaksList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTracePageBreaks) {
+    if (gGlobalTraceOahGroup->fTracePageBreaks) {
       fLogOutputStream <<
         "Attaching pending page breaks to voice \""  <<
         voice->getVoiceName () <<
@@ -18178,7 +18178,7 @@ void mxmlTree2MsrTranslator::attachPendingSegnosToNote (
  // attach the pending segno if any to the note
   if (fPendingSegnosList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSegnos) {
+    if (gGlobalTraceOahGroup->fTraceSegnos) {
       fLogOutputStream <<
         "Attaching pending segno to note " <<
         note->asString () <<
@@ -18206,7 +18206,7 @@ void mxmlTree2MsrTranslator::attachPendingDalSegnosToNote (
  // attach the pending dal segno if any to the note
   if (fPendingDalSegnosList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDalSegnos) {
+    if (gGlobalTraceOahGroup->fTraceDalSegnos) {
       fLogOutputStream <<
         "Attaching pending dal segno to note " <<
         note->asString () <<
@@ -18233,7 +18233,7 @@ void mxmlTree2MsrTranslator::attachPendingDalSegnosToChord (
  // attach the pending dal segno if any to the chord
   if (fPendingDalSegnosList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDalSegnos) {
+    if (gGlobalTraceOahGroup->fTraceDalSegnos) {
       fLogOutputStream <<
         "Attaching pending dal segno to chord " <<
         chord->asString () <<
@@ -18261,7 +18261,7 @@ void mxmlTree2MsrTranslator::attachPendingCodasToNote (
  // attach the pending coda if any to the note
   if (fPendingCodasList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceCodas) {
+    if (gGlobalTraceOahGroup->fTraceCodas) {
       fLogOutputStream <<
         "Attaching pending Codas to note " <<
         note->asString () <<
@@ -18289,7 +18289,7 @@ void mxmlTree2MsrTranslator::attachPendingEyeGlassesToNote (
  // attach the pending eyeglasses if any to the note
   if (fPendingEyeGlassesList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceEyeGlasses) {
+    if (gGlobalTraceOahGroup->fTraceEyeGlasses) {
       fLogOutputStream <<
         "Attaching pending eyeglasses to note " <<
         note->asString () <<
@@ -18317,7 +18317,7 @@ void mxmlTree2MsrTranslator::attachPendingDampsToNote (
  // attach the pending damps if any to the note
   if (fPendingDampsList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDamps) {
+    if (gGlobalTraceOahGroup->fTraceDamps) {
       fLogOutputStream <<
         "Attaching pending damps to note " <<
         note->asString () <<
@@ -18345,7 +18345,7 @@ void mxmlTree2MsrTranslator::attachPendingDampAllsToNote (
  // attach the pending damp alls if any to the note
   if (fPendingDampAllsList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDampAlls) {
+    if (gGlobalTraceOahGroup->fTraceDampAlls) {
       fLogOutputStream <<
         "Attaching pending damp alls to note " <<
         note->asString () <<
@@ -18373,7 +18373,7 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToNote (
  // attach the pending octave shifts if any to the note
   if (fPendingOctaveShiftsList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOctaveShifts) {
+    if (gGlobalTraceOahGroup->fTraceOctaveShifts) {
       fLogOutputStream <<
         "Attaching pending octave shifts to note " <<
         note->asString () <<
@@ -18411,7 +18411,7 @@ void mxmlTree2MsrTranslator::attachPendingScordaturasToNote (
  // attach the pending scordatura if any to the note
   if (fPendingScordaturasList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceScordaturas) {
+    if (gGlobalTraceOahGroup->fTraceScordaturas) {
       fLogOutputStream <<
         "Attaching pending scordaturas to note " <<
         note->asString () <<
@@ -18441,7 +18441,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
     bool delayAttachment = false;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDynamics) {
+    if (gGlobalTraceOahGroup->fTraceDynamics) {
       fLogOutputStream <<
         "Attaching pending dynamics to note " <<
         note->asString () <<
@@ -18460,7 +18460,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
 
       else {
 #ifdef TRACE_OAH
-       if (gGlobalTraceOah->fTraceLyrics) {
+       if (gGlobalTraceOahGroup->fTraceLyrics) {
           stringstream s;
 
           int numberOfDynamics = fPendingDynamicsList.size ();
@@ -18477,7 +18477,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
             " attached to a rest";
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             note->getInputLineNumber (),
             s.str ());
         }
@@ -18507,7 +18507,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
     bool delayAttachment = false;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceDynamics) {
+    if (gGlobalTraceOahGroup->fTraceDynamics) {
       fLogOutputStream <<
         "Attaching pending other dynamics to note " <<
         note->asString () <<
@@ -18526,7 +18526,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
 
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceDynamics) {
+        if (gGlobalTraceOahGroup->fTraceDynamics) {
           stringstream s;
 
           int numberOfOtherDynamics = fPendingOtherDynamicsList.size ();
@@ -18543,7 +18543,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
             " attached to a rest";
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             note->getInputLineNumber (),
             s.str ());
         }
@@ -18573,7 +18573,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
     bool delayAttachment = false;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceWords) {
+    if (gGlobalTraceOahGroup->fTraceWords) {
       fLogOutputStream <<
         "Attaching pending words to note " <<
         note->asString () <<
@@ -18592,7 +18592,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
 
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceWords) {
+        if (gGlobalTraceOahGroup->fTraceWords) {
           stringstream s;
 
           int numberOfWords = fPendingWordsList.size ();
@@ -18609,7 +18609,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
             " attached to a rest";
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             note->getInputLineNumber (),
             s.str ());
         }
@@ -18640,7 +18640,7 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
     bool delayAttachment = false;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceBeams) {
+    if (gGlobalTraceOahGroup->fTraceBeams) {
       fLogOutputStream <<
         "Attaching pending beams to note " <<
         note->asString () <<
@@ -18659,7 +18659,7 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
 
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceBeams) {
+        if (gGlobalTraceOahGroup->fTraceBeams) {
           stringstream s;
 
           int numberOfBeams = fPendingBeamsList.size ();
@@ -18676,7 +18676,7 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
             " attached to a rest";
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             note->getInputLineNumber (),
             s.str ());
         }
@@ -18706,7 +18706,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
     bool delayAttachment = false;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSlurs) {
+    if (gGlobalTraceOahGroup->fTraceSlurs) {
       fLogOutputStream <<
         "Attaching pending slurs to note " <<
         note->asString () <<
@@ -18740,7 +18740,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -18778,7 +18778,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceLigatures) {
+        if (gGlobalTraceOahGroup->fTraceLigatures) {
           stringstream s;
 
           int numberOfLigatures = fPendingLigaturesList.size ();
@@ -18795,7 +18795,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
             " attached to a rest";
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             note->getInputLineNumber (),
             s.str ());
         }
@@ -18805,7 +18805,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 
     if (! delayAttachment) {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceLigatures) {
+      if (gGlobalTraceOahGroup->fTraceLigatures) {
           stringstream s;
 
           int numberOfLigatures = fPendingLigaturesList.size ();
@@ -18819,7 +18819,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
               "There is 1 pending ligature";
           }
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             note->getInputLineNumber (),
             s.str ());
       }
@@ -18891,7 +18891,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
               case 1:
               case 3:
 #ifdef TRACE_OAH
-                if (gGlobalTraceOah->fTraceLigatures) {
+                if (gGlobalTraceOahGroup->fTraceLigatures) {
                   fLogOutputStream <<
                     "Attaching pending ligature above to note '" <<
                     note->asString () <<
@@ -18915,7 +18915,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
               case 2:
               case 4:
 #ifdef TRACE_OAH
-                if (gGlobalTraceOah->fTraceLigatures) {
+                if (gGlobalTraceOahGroup->fTraceLigatures) {
                   fLogOutputStream <<
                     "Attaching pending ligature below to note '" <<
                     note->asString () <<
@@ -18952,7 +18952,7 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
     bool delayAttachment = false;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTracePedals) {
+    if (gGlobalTraceOahGroup->fTracePedals) {
       fLogOutputStream <<
         "Attaching pending pedals to note " <<
         note->asString () <<
@@ -18986,7 +18986,7 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -19014,7 +19014,7 @@ void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
     bool delayAttachment = false;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSlashes) {
+    if (gGlobalTraceOahGroup->fTraceSlashes) {
       fLogOutputStream <<
         "Attaching pending slashes to note " <<
         note->asString () <<
@@ -19048,7 +19048,7 @@ void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
           " attached to a rest";
 
         msrMusicXMLWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           note->getInputLineNumber (),
           s.str ());
       }
@@ -19076,7 +19076,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
     bool delayAttachment = false;
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceWedges) {
+    if (gGlobalTraceOahGroup->fTraceWedges) {
       fLogOutputStream <<
         "Attaching pending wedges to note " <<
         note->asString () <<
@@ -19095,7 +19095,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
 
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceWedges) {
+        if (gGlobalTraceOahGroup->fTraceWedges) {
           stringstream s;
 
           int numberOfWedges = fPendingWedgesList.size ();
@@ -19112,7 +19112,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
             " attached to a rest";
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             note->getInputLineNumber (),
             s.str ());
         }
@@ -19140,7 +19140,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
  // attach the pending glissandos if any to the note
   if (fPendingGlissandosList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceGlissandos) {
+    if (gGlobalTraceOahGroup->fTraceGlissandos) {
       fLogOutputStream <<
         "Attaching pending glissandos to note " <<
         note->asString () <<
@@ -19182,7 +19182,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
                 getVoiceStanzasMap ();
 
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceGlissandos) {
+              if (gGlobalTraceOahGroup->fTraceGlissandos) {
                 fLogOutputStream <<
                   "--> attachPendingGlissandosToNote()"
                   ", voiceStanzasMap.size () = " <<
@@ -19200,7 +19200,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
             if (! fCurrentNoteHasLyrics) {
               // append a skip to lyrics the same duration as the note
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceGlissandos) {
+              if (gGlobalTraceOahGroup->fTraceGlissandos) {
                 fLogOutputStream <<
                   "Attaching a skip syllable to note '" <<
                   note->asString () <<
@@ -19255,7 +19255,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
  // attach the pending slides if any to the note
   if (fPendingSlidesList.size ()) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceSlides) {
+    if (gGlobalTraceOahGroup->fTraceSlides) {
       fLogOutputStream <<
         "Attaching pending slides to note " <<
         note->asString () <<
@@ -19297,7 +19297,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
                 getVoiceStanzasMap ();
 
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceSlides) {
+              if (gGlobalTraceOahGroup->fTraceSlides) {
                 fLogOutputStream <<
                   "--> attachPendingSlidesToNote()"
                   ", voiceStanzasMap.size () = " <<
@@ -19315,7 +19315,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
             if (! fCurrentNoteHasLyrics) {
               // append a skip to lyrics the same duration as the note
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceSlides) {
+              if (gGlobalTraceOahGroup->fTraceSlides) {
                 fLogOutputStream <<
                   "Attaching a skip syllable to note '" <<
                   note->asString () <<
@@ -19486,7 +19486,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
           fCurrentNoteGraphicDurationKind);
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotesDetails) {
+      if (gGlobalTraceOahGroup->fTraceNotesDetails) {
         fLogOutputStream <<
           endl <<
           "(1):" <<
@@ -19523,7 +19523,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
           dots--;
 
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceNotesDetails) {
+          if (gGlobalTraceOahGroup->fTraceNotesDetails) {
             fLogOutputStream <<
               endl <<
               "(2):" <<
@@ -19546,7 +19546,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
       }
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotesDetails) {
+      if (gGlobalTraceOahGroup->fTraceNotesDetails) {
         fLogOutputStream <<
           endl <<
           "(3):" <<
@@ -19567,7 +19567,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
   } // switch
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceNotes) {
     fLogOutputStream <<
       "--> Gathered note information:" <<
       endl;
@@ -19672,7 +19672,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
         "double tremolo note lacks a <type/>"; // JMI a completer
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -19777,7 +19777,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
         fCurrentNoteHeadParenthesesKind);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesDetails) {
+  if (gGlobalTraceOahGroup->fTraceNotesDetails) {
     fLogOutputStream <<
       "Creating note:" <<
       endl;
@@ -19855,7 +19855,7 @@ void mxmlTree2MsrTranslator::populateNote (
             ", using the latter";
 
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             s.str ());
         }
@@ -19974,7 +19974,7 @@ void mxmlTree2MsrTranslator::createAStaffChangeIfNecessary (
       fCurrentNoteIsCrossStaves = true;
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceStaffChanges) {
+      if (gGlobalTraceOahGroup->fTraceStaffChanges) {
         fLogOutputStream <<
           "*** There is staff change for chord member note '" <<
           newNote->asShortString () <<
@@ -20003,7 +20003,7 @@ void mxmlTree2MsrTranslator::createAStaffChangeIfNecessary (
       // to remain in this staff and not use the note's one
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceStaffChanges) {
+      if (gGlobalTraceOahGroup->fTraceStaffChanges) {
         fLogOutputStream <<
           "*** There is staff change for note '" <<
           newNote->asShortString () <<
@@ -20099,7 +20099,7 @@ void mxmlTree2MsrTranslator::handleNote (
 
   // finalizing current chord if relevant
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "--> fCurrentNoteBelongsToAChord: " <<
       booleanAsString (fCurrentNoteBelongsToAChord) <<
@@ -20130,7 +20130,7 @@ void mxmlTree2MsrTranslator::handleNote (
 
   // register newNote as the last found note for the current voice
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
   /* JMI
     fLogOutputStream <<
       "--> STORING " <<
@@ -20164,7 +20164,7 @@ void mxmlTree2MsrTranslator::handleNote (
       newNote;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     printVoicesLastMetNoteMap (
       inputLineNumber,
       "handleNote()");
@@ -20310,7 +20310,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // set current staff number to insert into if needed JMI ???
   if (fCurrentStaffNumberToInsertInto == K_NO_STAFF_NUMBER) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceStaffChanges) {
+    if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceStaffChanges) {
       fLogOutputStream <<
         "==> setting fCurrentStaffNumberToInsertInto to " <<
         fCurrentMusicXMLStaffNumber <<
@@ -20326,7 +20326,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceStaffChanges) {
+  if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> fetching voice to insert note into" <<
       ", fCurrentStaffNumberToInsertInto = " <<
@@ -20356,7 +20356,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     "voiceToInsertNoteInto is null");
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceStaffChanges) {
+  if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> is there a staff change?" <<
       " fCurrentStaffNumberToInsertInto = " <<
@@ -20391,7 +20391,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // before the note itself is handled, because that may cause
   // tuplets or chords to be appended to the voice
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceStaffChanges) {
+  if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceStaffChanges) {
     fLogOutputStream <<
       "==> fetching voice to insert harmonies, figured basses and/or frames into" <<
       ", fCurrentStaffNumberToInsertInto = " <<
@@ -20500,7 +20500,7 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
   S_msrVoice voiceToInsertInto)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     fLogOutputStream <<
       "handlePendingHarmonies(), newNote = " <<
       endl;
@@ -20607,7 +20607,7 @@ void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
   S_msrVoice voiceToInsertInto)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     fLogOutputStream <<
       "handlePendingFiguredBasses(), newNote = " <<
       endl;
@@ -20758,7 +20758,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) { // JMI
+  if (gGlobalTraceOahGroup->fTraceChords) { // JMI
     fLogOutputStream <<
       "handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest(), newNote = " <<
       endl;
@@ -20779,7 +20779,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         fCurrentMusicXMLVoiceNumber);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceNotes) {
     fLogOutputStream <<
       "Handling a regular, double tremolo or grace note or rest" <<
       ", currentVoice = \"" <<
@@ -20807,7 +20807,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       booleanAsString (fCurrentNoteIsAGraceNote) <<
       endl;
 
-    if (gGlobalTraceOah->fTraceNotesDetails) {
+    if (gGlobalTraceOahGroup->fTraceNotesDetails) {
       fLogOutputStream <<
         setw (fieldWidth) << "fPendingGraceNotesGroup" << " : " <<
         endl <<
@@ -20851,7 +20851,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       // this is the first grace note in grace notes
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceGraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceGraceNotes) {
         fLogOutputStream <<
           "Creating grace notes for note '" <<
           newNote->asString () <<
@@ -20911,7 +20911,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
     // append newNote to the current grace notes
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceGraceNotes) {
       fLogOutputStream <<
         "Appending note " <<
         newNote->asString () <<
@@ -20938,7 +20938,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       case kTremoloTypeSingle:
         // append newNote to the current voice
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceNotes) {
+        if (gGlobalTraceOahGroup->fTraceNotes) {
           fLogOutputStream <<
             "Appending single tremolo " <<
             newNote->asString () <<
@@ -20960,7 +20960,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       case kTremoloTypeStart:
         // register newNote as first element of the current double tremolo
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceNotes) {
+        if (gGlobalTraceOahGroup->fTraceNotes) {
           fLogOutputStream <<
             "Setting regular note '" <<
             newNote->asString () <<
@@ -20981,7 +20981,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       case kTremoloTypeStop:
         // register newNote as second element of the current double tremolo
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceNotes) {
+        if (gGlobalTraceOahGroup->fTraceNotes) {
           fLogOutputStream <<
             "Setting regular note '" <<
             newNote->asString () <<
@@ -21014,7 +21014,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
     // append newNote to the current voice
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceNotes) {
       fLogOutputStream <<
         "Appending regular " <<
         newNote->asString () <<
@@ -21081,7 +21081,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
     newNote->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     fLogOutputStream <<
       "Handling lyrics for note '" <<
       newNote->asShortString () <<
@@ -21148,7 +21148,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
   if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceLyricsDetails) {
+    if (gGlobalTraceOahGroup->fTraceLyricsDetails) {
       fLogOutputStream <<
         "Note '" <<
         newNote->asShortString () <<
@@ -21293,7 +21293,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       msrNote::kChordMemberNote);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "Handling a note belonging to a chord" <<
       ", newChordNote:" <<
@@ -21310,7 +21310,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
   if (fCurrentNoteIsARest) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
@@ -21345,7 +21345,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   } // switch
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream << // JMI
       endl <<
       "***==> fCurrentStaffNumberToInsertInto = " <<
@@ -21376,7 +21376,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       "currentVoice is null");
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "Handling a chord member note" <<
       ", currentVoice = \"" <<
@@ -21389,7 +21389,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChordsDetails) {
+  if (gGlobalTraceOahGroup->fTraceChordsDetails) {
     fLogOutputStream <<
       endl <<
       "======================= handleNoteBelongingToAChord" <<
@@ -21424,7 +21424,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     // i.e the last handled note for this voice
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceChords) {
+    if (gGlobalTraceOahGroup->fTraceChords) {
       printVoicesLastMetNoteMap (
         inputLineNumber,
         "handleNoteBelongingToAChord()");
@@ -21458,14 +21458,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         "fCurrentMusicXMLVoiceNumber = " << fCurrentMusicXMLVoiceNumber;
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceChords) {
+    if (gGlobalTraceOahGroup->fTraceChords) {
       fLogOutputStream <<
         "mxmlTree2MsrTranslator::handleNoteBelongingToAChord()" <<
         ", chordFirstNote:" <<
@@ -21488,7 +21488,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         chordFirstNote->getNoteKind ();
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceChords) {
+    if (gGlobalTraceOahGroup->fTraceChords) {
       fLogOutputStream <<
         "Handling a note belonging to a chord" <<
         ", savedChordFirstNoteKind = " <<
@@ -21527,7 +21527,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       case msrNote::kRegularNote:
         // remove last handled (previous current) note from the current voice
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceChords) {
+        if (gGlobalTraceOahGroup->fTraceChords) {
           fLogOutputStream <<
             "Removing chord first note " <<
             chordFirstNote->asShortString () <<
@@ -21539,7 +21539,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceChordsDetails) {
+        if (gGlobalTraceOahGroup->fTraceChordsDetails) {
           fLogOutputStream <<
             endl << endl <<
             "&&&&&&&&&&&&&&&&&& fCurrentPart contents &&&&&&&&&&&&&&&&&&" <<
@@ -21551,7 +21551,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceStaffChanges) {
+        if (gGlobalTraceOahGroup->fTraceStaffChanges) {
           fLogOutputStream << // JMI
             endl <<
             "***==> fCurrentStaffNumberToInsertInto = " <<
@@ -21572,7 +21572,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
         // add chord to the voice instead
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceChords) {
+        if (gGlobalTraceOahGroup->fTraceChords) {
           fLogOutputStream <<
             "Appending chord " << fCurrentChord->asString () <<
             " to voice \"" <<
@@ -21599,7 +21599,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
           /* JMI
           // updating chord's divisions // JMI
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceChords) {
+          if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceChords) {
             fLogOutputStream <<
               "Updating sounding divisions for double tremolo chord '" <<
               "' " << chord->asString () <<
@@ -21639,7 +21639,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
               "' belongs to a double tremolo, but is not marked as such";
 
             msrInternalError (
-              gGlobalOahOah->fInputSourceName,
+              gGlobalOahOahGroup->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -21653,7 +21653,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       /* JMI
         // remove last handled (previous current) note from the current voice
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceChords) {
+        if (gGlobalTraceOahGroup->fTraceChords) {
           fLogOutputStream <<
             "Removing chord first note " <<
             chordFirstNote->asShortString () <<
@@ -21695,7 +21695,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
 /* JMI
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceChords) {
+    if (gGlobalTraceOahGroup->fTraceChords) {
       fLogOutputStream <<
         "is newChordNote in the same chord but in another voice?" <<
         ", currentVoice = " <<
@@ -21709,7 +21709,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
   // register newChordNote as another member of chord
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceChords) {
+    if (gGlobalTraceOahGroup->fTraceChords) {
       fLogOutputStream <<
         "Adding another note " <<
         newChordNote->asString() <<
@@ -21731,7 +21731,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     newChordNote, fCurrentChord);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChordsDetails) {
+  if (gGlobalTraceOahGroup->fTraceChordsDetails) {
     printCurrentChord ();
   }
 #endif
@@ -21746,7 +21746,7 @@ void mxmlTree2MsrTranslator::handlePendingTupletStopIfAny (
     // finalize the tuplet, only now
     // in case the last element is a chord
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "--> kTupletTypeStart: handling pending tuplet stop, note '" <<
         note->
@@ -21794,7 +21794,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "Handling a note belonging to a tuplet" <<
       ", note: " <<
@@ -21815,7 +21815,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     case msrTuplet::kTupletTypeStart:
       {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTuplets) {
+        if (gGlobalTraceOahGroup->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeStart: note = '" <<
             note->
@@ -21833,7 +21833,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           // finalize the tuplet, only now
           // in case the last element is a chord
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceTuplets) {
+          if (gGlobalTraceOahGroup->fTraceTuplets) {
             fLogOutputStream <<
               "--> kTupletTypeStart: handling pending tuplet stop, note '" <<
               note->
@@ -21871,7 +21871,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
           // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceTuplets) {
+          if (gGlobalTraceOahGroup->fTraceTuplets) {
             fLogOutputStream <<
               "--> kTupletTypeContinue: adding tuplet member note '" <<
               note->
@@ -21898,7 +21898,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               currentVoice);
 
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceTupletsDetails) {
+          if (gGlobalTraceOahGroup->fTraceTupletsDetails) {
             displayTupletsStack (
               "############## kTupletTypeContinue");
           }
@@ -21925,7 +21925,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             "' cannot be added, tuplets stack is empty";
 
           msrInternalError (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -21949,7 +21949,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                 "' cannot be added, tuplets stack is empty";
 
               msrInternalError (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 inputLineNumber,
                 __FILE__, __LINE__,
                 s.str ());
@@ -21966,7 +21966,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceTuplets) {
+              if (gGlobalTraceOahGroup->fTraceTuplets) {
                 fLogOutputStream <<
                   "--> kTupletTypeStop: adding outer-most tuplet member note '" <<
                   note->
@@ -21993,7 +21993,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                   currentVoice);
 
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceTupletsDetails) {
+              if (gGlobalTraceOahGroup->fTraceTupletsDetails) {
                 displayTupletsStack (
                   "############## kTupletTypeStop, outer-most");
               }
@@ -22003,7 +22003,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               if (fCurrentATupletStopIsPending) {
                 // end of a tuplet forces handling of the pending one
 #ifdef TRACE_OAH
-                if (gGlobalTraceOah->fTraceTuplets) {
+                if (gGlobalTraceOahGroup->fTraceTuplets) {
                   fLogOutputStream <<
                     "--> kTupletTypeStop: finalizing pending tuplet" <<
                     ", line " << inputLineNumber <<
@@ -22019,7 +22019,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               }
               else {
 #ifdef TRACE_OAH
-                if (gGlobalTraceOah->fTraceTuplets) {
+                if (gGlobalTraceOahGroup->fTraceTuplets) {
                   fLogOutputStream <<
                     "--> kTupletTypeStop: finalizing non-pending tuplet" << // JMI ???
                     ", line " << inputLineNumber <<
@@ -22049,7 +22049,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               if (fCurrentATupletStopIsPending) {
                 // end of a tuplet forces handling of the pending one
 #ifdef TRACE_OAH
-                if (gGlobalTraceOah->fTraceTuplets) {
+                if (gGlobalTraceOahGroup->fTraceTuplets) {
                   fLogOutputStream <<
                     "--> kTupletTypeStop: finalizing tuplet" <<
                     ", line " << inputLineNumber <<
@@ -22071,7 +22071,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               // populate the tuplet at the top of the stack
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceTuplets) {
+              if (gGlobalTraceOahGroup->fTraceTuplets) {
                 fLogOutputStream <<
                   "--> kTupletTypeStop: adding nested tuplet member note '" <<
                   note->
@@ -22098,7 +22098,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                   currentVoice);
 
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceTupletsDetails) {
+              if (gGlobalTraceOahGroup->fTraceTupletsDetails) {
                 displayTupletsStack (
                   "############## kTupletTypeStop, nested");
               }
@@ -22126,7 +22126,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     case msrTuplet::kTupletTypeStartAndStopInARow:
       {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceTuplets) {
+        if (gGlobalTraceOahGroup->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeStartAndStopInARow: note = '" <<
             note->
@@ -22147,7 +22147,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
      // JMI     msrMusicXMLError (
           msrMusicXMLWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
        //     __FILE__, __LINE__,
             s.str ());
@@ -22208,7 +22208,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
@@ -22220,7 +22220,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   if (fCurrentNoteIsARest) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
@@ -22256,7 +22256,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         "cannot be added, tuplets stack is empty";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -22293,7 +22293,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 */
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTupletsDetails) {
+    if (gGlobalTraceOahGroup->fTraceTupletsDetails) {
       displayTupletsStack (
         "############## After  removeLastNoteFromTuplet()");
     }
@@ -22320,7 +22320,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
     // add chord to the current tuplet instead of tupletLastNote
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceChords || gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceChords || gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "Adding chord '" <<
         fCurrentChord->asString () <<
@@ -22349,7 +22349,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
   // register note as another member of chord
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->
@@ -22370,7 +22370,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     newChordNote, fCurrentChord);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChordsDetails) {
+  if (gGlobalTraceOahGroup->fTraceChordsDetails) {
     printCurrentChord ();
   }
 #endif
@@ -22397,7 +22397,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
       msrNote::kGraceChordMemberNote);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords || gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceChords || gGlobalTraceOahGroup->fTraceGraceNotes) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in grace notes" <<
       ", newChordNote is '" <<
@@ -22410,7 +22410,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
 
   if (fCurrentNoteIsARest) {
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
@@ -22457,7 +22457,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
           newChordNote->asString ();
 
         msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
           s.str ());
@@ -22465,7 +22465,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     }
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceChords || gGlobalTraceOah->fTraceGraceNotes) {
+    if (gGlobalTraceOahGroup->fTraceChords || gGlobalTraceOahGroup->fTraceGraceNotes) {
       fLogOutputStream <<
         "The grace notes chord's first note is '" <<
         chordFirstNote->
@@ -22525,7 +22525,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
         "cannot be added, tuplets stack is empty";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -22538,7 +22538,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
 
   // register note as another member of chord
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->
@@ -22559,7 +22559,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     newChordNote, fCurrentChord);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChordsDetails) {
+  if (gGlobalTraceOahGroup->fTraceChordsDetails) {
     printCurrentChord ();
   }
 #endif
@@ -22570,7 +22570,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "Handling tuplets pending on tuplet stack" <<
       ", fCurrentStaffNumberToInsertInto = " <<
@@ -22581,7 +22581,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
       endl;
   }
 
-  if (gGlobalTraceOah->fTraceTupletsDetails) {
+  if (gGlobalTraceOahGroup->fTraceTupletsDetails) {
     displayTupletsStack (
       "############## Before  handleTupletsPendingOnTupletsStack()");
   }
@@ -22609,7 +22609,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   } // while
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTupletsDetails) {
+  if (gGlobalTraceOahGroup->fTraceTupletsDetails) {
     displayTupletsStack (
       "############## Before  handleTupletsPendingOnTupletsStack()");
   }
@@ -22666,7 +22666,7 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
     barline->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start" <<
     /* JMI
@@ -22708,7 +22708,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
         fPartFirstMeasureNumber;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat end in part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -22744,7 +22744,7 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
     barline->getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending start in part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -22754,7 +22754,7 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeatsDetails) {
+  if (gGlobalTraceOahGroup->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -22768,7 +22768,7 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
 
   // handle the repeat ending
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending upon its start in part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -22795,7 +22795,7 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
       getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat hooked ending end in part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -22805,7 +22805,7 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeatsDetails) {
+  if (gGlobalTraceOahGroup->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -22823,7 +22823,7 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
 
   // create a hooked repeat ending from the current segment
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a hooked repeat ending in part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -22857,7 +22857,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
       getInputLineNumber ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat hookless ending end in part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -22867,7 +22867,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeatsDetails) {
+  if (gGlobalTraceOahGroup->fTraceRepeatsDetails) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -22885,7 +22885,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
 
   // create a hookless repeat ending from the current segment
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a hookless repeat ending in part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -22955,7 +22955,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
         "\"" << " is not handled, ignored";
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -22963,7 +22963,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
 
   // create a rehearsal
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRehearsals) {
+  if (gGlobalTraceOahGroup->fTraceRehearsals) {
     fLogOutputStream <<
       "Creating rehearsal \"" << rehearsalValue << "\"" <<
       " in part " <<
@@ -23070,7 +23070,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_root_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -23180,14 +23180,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
   else {
     if (kind.size ()) {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "harmony kind \"" + kind + "\" os unknown");
     }
     else {
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         "empty harmony kind, replaced by 'major'");
 
@@ -23214,7 +23214,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -23241,7 +23241,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -23268,7 +23268,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -23295,7 +23295,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -23376,7 +23376,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bass_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -23437,7 +23437,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -23475,7 +23475,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_type& elt )
 
   else {
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "harmony degree-type \"" + degreeType + "\" is unknown");
@@ -23544,7 +23544,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       &&
     fCurrentHarmonyDegreesList.size () == 0) {
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       "harmony kind is 'other' but there are no harmony degrees, this is strange...");
   }
@@ -23565,7 +23565,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       "', ignoring the latter";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -23575,7 +23575,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
   if (gGlobalMxmlTree2MsrOah->fOmitHarmonies) {
  #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceHarmonies) {
+    if (gGlobalTraceOahGroup->fTraceHarmonies) {
       fLogOutputStream <<
         "Omitting harmony" <<
         ", line " <<
@@ -23587,7 +23587,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
   else {
    // create the harmony
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceHarmonies) {
+    if (gGlobalTraceOahGroup->fTraceHarmonies) {
       fLogOutputStream <<
         "Creating a harmony" <<
         ", line " << inputLineNumber << ":" <<
@@ -23682,9 +23682,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
     // append pending harmony degrees if any to the harmony
     if (! fCurrentHarmonyDegreesList.size ()) {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceHarmonies) {
+      if (gGlobalTraceOahGroup->fTraceHarmonies) {
         msrMusicXMLWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           "harmony has no degrees contents");
       }
@@ -23745,7 +23745,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
     s << "<frame /> out of context, not handled";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -23804,7 +23804,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -23916,7 +23916,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -24036,7 +24036,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
         " should be 'yes' or 'no'";
 
       msrMusicXMLError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -24116,7 +24116,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_prefix& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -24148,7 +24148,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_figure_number& elt )
       "' is greater that 13, that's strange...";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -24205,7 +24205,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_suffix& elt )
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -24257,7 +24257,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
 
   // create the figured bass
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     fLogOutputStream <<
       "Creating a figured bass" <<
       ", line " << inputLineNumber << ":" <<
@@ -24281,7 +24281,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
   // attach pending figures to the figured bass
   if (! fPendingFiguredBassFiguresList.size ()) {
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       "figured-bass has no figures contents, ignoring it");
   }
@@ -24385,7 +24385,7 @@ void mxmlTree2MsrTranslator::visitStart (S_harp_pedals& elt )
 
   // create the harp pedals tuning
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarpPedalsTunings) {
+  if (gGlobalTraceOahGroup->fTraceHarpPedalsTunings) {
     fLogOutputStream <<
       "Creating harp pedals tuning:" <<
       endl;
@@ -24468,7 +24468,7 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_alter& elt )
       "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -24491,7 +24491,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
 
   // create a harp pedals tuning
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarpPedalsTunings) {
+  if (gGlobalTraceOahGroup->fTraceHarpPedalsTunings) {
     fLogOutputStream <<
       "Creating harp pedal tuning:" <<
       endl;
@@ -24637,7 +24637,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceStaves) {
+  if (gGlobalTraceOahGroup->fTraceStaves) {
     const int fieldWidth = 29;
 
     fLogOutputStream << left <<
@@ -24874,7 +24874,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
 
 /* JMI
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceFiguredBasses) {
+    if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
       fLogOutputStream <<
         "--> figured bass" <<
         ", line " << inputLineNumber << ":" <<
@@ -24946,7 +24946,7 @@ part-symbol
 
 /* JMI
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes) { // JMI
+  if (gGlobalTraceOahGroup->fTraceNotes) { // JMI
      const int fieldWidth = 27;
 
     fLogOutputStream << left <<
@@ -24977,7 +24977,7 @@ part-symbol
 
 /* JMI
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes) { // JMI
+  if (gGlobalTraceOahGroup->fTraceNotes) { // JMI
     fLogOutputStream <<
       endl <<
       "==> BEFORE visitEnd (S_note&)" <<

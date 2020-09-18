@@ -82,7 +82,7 @@ S_oahValuedAtom lpsrPitchesLanguageAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lpsrPitchesLanguageAtom" <<
       endl;
@@ -93,12 +93,12 @@ S_oahValuedAtom lpsrPitchesLanguageAtom::handleOptionUnderName (
   return this;
 }
 
-void lpsrPitchesLanguageAtom::handleValue (
+void lpsrPitchesLanguageAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
       endl;
@@ -109,7 +109,7 @@ void lpsrPitchesLanguageAtom::handleValue (
   // is it in the pitches languages map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
       endl;
@@ -152,7 +152,7 @@ void lpsrPitchesLanguageAtom::handleValue (
 void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrPitchesLanguageAtom::acceptIn ()" <<
       endl;
@@ -165,7 +165,7 @@ void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
         S_lpsrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrPitchesLanguageAtom::visitStart ()" <<
             endl;
@@ -178,7 +178,7 @@ void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
 void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrPitchesLanguageAtom::acceptOut ()" <<
       endl;
@@ -191,7 +191,7 @@ void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
         S_lpsrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrPitchesLanguageAtom::visitEnd ()" <<
             endl;
@@ -204,7 +204,7 @@ void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
 void lpsrPitchesLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrPitchesLanguageAtom::browseData ()" <<
       endl;
@@ -264,7 +264,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lpsrPitchesLanguageAtom::printAtomOptionsValues (
+void lpsrPitchesLanguageAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -337,7 +337,7 @@ S_oahValuedAtom lpsrChordsLanguageAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lpsrChordsLanguageAtom" <<
       endl;
@@ -348,12 +348,12 @@ S_oahValuedAtom lpsrChordsLanguageAtom::handleOptionUnderName (
   return this;
 }
 
-void lpsrChordsLanguageAtom::handleValue (
+void lpsrChordsLanguageAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
       endl;
@@ -364,7 +364,7 @@ void lpsrChordsLanguageAtom::handleValue (
   // is it in the chords languages map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
       endl;
@@ -405,7 +405,7 @@ void lpsrChordsLanguageAtom::handleValue (
 void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrChordsLanguageAtom::acceptIn ()" <<
       endl;
@@ -418,7 +418,7 @@ void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
         S_lpsrChordsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrChordsLanguageAtom::visitStart ()" <<
             endl;
@@ -431,7 +431,7 @@ void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
 void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrChordsLanguageAtom::acceptOut ()" <<
       endl;
@@ -444,7 +444,7 @@ void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
         S_lpsrChordsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrChordsLanguageAtom::visitEnd ()" <<
             endl;
@@ -457,7 +457,7 @@ void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
 void lpsrChordsLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrChordsLanguageAtom::browseData ()" <<
       endl;
@@ -514,7 +514,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lpsrChordsLanguageAtom::printAtomOptionsValues (
+void lpsrChordsLanguageAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -587,7 +587,7 @@ S_oahValuedAtom lpsrTransposeAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lpsrTransposeAtom" <<
       endl;
@@ -598,12 +598,12 @@ S_oahValuedAtom lpsrTransposeAtom::handleOptionUnderName (
   return this;
 }
 
-void lpsrTransposeAtom::handleValue (
+void lpsrTransposeAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrTransposeAtom'" <<
       endl;
@@ -614,7 +614,7 @@ void lpsrTransposeAtom::handleValue (
   // is it in the chords languages map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrTransposeAtom'" <<
       endl;
@@ -636,7 +636,7 @@ void lpsrTransposeAtom::handleValue (
 void lpsrTransposeAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrTransposeAtom::acceptIn ()" <<
       endl;
@@ -649,7 +649,7 @@ void lpsrTransposeAtom::acceptIn (basevisitor* v)
         S_lpsrTransposeAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrTransposeAtom::visitStart ()" <<
             endl;
@@ -662,7 +662,7 @@ void lpsrTransposeAtom::acceptIn (basevisitor* v)
 void lpsrTransposeAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrTransposeAtom::acceptOut ()" <<
       endl;
@@ -675,7 +675,7 @@ void lpsrTransposeAtom::acceptOut (basevisitor* v)
         S_lpsrTransposeAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrTransposeAtom::visitEnd ()" <<
             endl;
@@ -688,7 +688,7 @@ void lpsrTransposeAtom::acceptOut (basevisitor* v)
 void lpsrTransposeAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrTransposeAtom::browseData ()" <<
       endl;
@@ -741,7 +741,7 @@ void lpsrTransposeAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lpsrTransposeAtom::printAtomOptionsValues (
+void lpsrTransposeAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -822,7 +822,7 @@ S_oahValuedAtom lpsrDalSegnoAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lpsrDalSegnoAtom" <<
       endl;
@@ -833,12 +833,12 @@ S_oahValuedAtom lpsrDalSegnoAtom::handleOptionUnderName (
   return this;
 }
 
-void lpsrDalSegnoAtom::handleValue (
+void lpsrDalSegnoAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrDalSegnoAtom'" <<
       endl;
@@ -848,7 +848,7 @@ void lpsrDalSegnoAtom::handleValue (
   // theString contains the dal segno specification
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrDalSegnoAtom'" <<
       endl;
@@ -856,7 +856,7 @@ void lpsrDalSegnoAtom::handleValue (
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -887,7 +887,7 @@ void lpsrDalSegnoAtom::handleValue (
 void lpsrDalSegnoAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAtom::acceptIn ()" <<
       endl;
@@ -900,7 +900,7 @@ void lpsrDalSegnoAtom::acceptIn (basevisitor* v)
         S_lpsrDalSegnoAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrDalSegnoAtom::visitStart ()" <<
             endl;
@@ -913,7 +913,7 @@ void lpsrDalSegnoAtom::acceptIn (basevisitor* v)
 void lpsrDalSegnoAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAtom::acceptOut ()" <<
       endl;
@@ -926,7 +926,7 @@ void lpsrDalSegnoAtom::acceptOut (basevisitor* v)
         S_lpsrDalSegnoAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrDalSegnoAtom::visitEnd ()" <<
             endl;
@@ -939,7 +939,7 @@ void lpsrDalSegnoAtom::acceptOut (basevisitor* v)
 void lpsrDalSegnoAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAtom::browseData ()" <<
       endl;
@@ -1038,7 +1038,7 @@ void lpsrDalSegnoAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAtom::printAtomOptionsValues (
+void lpsrDalSegnoAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1135,7 +1135,7 @@ S_oahValuedAtom lpsrDalSegnoAlFineAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lpsrDalSegnoAlFineAtom" <<
       endl;
@@ -1146,12 +1146,12 @@ S_oahValuedAtom lpsrDalSegnoAlFineAtom::handleOptionUnderName (
   return this;
 }
 
-void lpsrDalSegnoAlFineAtom::handleValue (
+void lpsrDalSegnoAlFineAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrDalSegnoAlFineAtom'" <<
       endl;
@@ -1161,7 +1161,7 @@ void lpsrDalSegnoAlFineAtom::handleValue (
   // theString contains the dal segno al fine specification
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrDalSegnoAlFineAtom'" <<
       endl;
@@ -1169,7 +1169,7 @@ void lpsrDalSegnoAlFineAtom::handleValue (
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -1200,7 +1200,7 @@ void lpsrDalSegnoAlFineAtom::handleValue (
 void lpsrDalSegnoAlFineAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAlFineAtom::acceptIn ()" <<
       endl;
@@ -1213,7 +1213,7 @@ void lpsrDalSegnoAlFineAtom::acceptIn (basevisitor* v)
         S_lpsrDalSegnoAlFineAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrDalSegnoAlFineAtom::visitStart ()" <<
             endl;
@@ -1226,7 +1226,7 @@ void lpsrDalSegnoAlFineAtom::acceptIn (basevisitor* v)
 void lpsrDalSegnoAlFineAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAlFineAtom::acceptOut ()" <<
       endl;
@@ -1239,7 +1239,7 @@ void lpsrDalSegnoAlFineAtom::acceptOut (basevisitor* v)
         S_lpsrDalSegnoAlFineAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrDalSegnoAlFineAtom::visitEnd ()" <<
             endl;
@@ -1252,7 +1252,7 @@ void lpsrDalSegnoAlFineAtom::acceptOut (basevisitor* v)
 void lpsrDalSegnoAlFineAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAlFineAtom::browseData ()" <<
       endl;
@@ -1351,7 +1351,7 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAlFineAtom::printAtomOptionsValues (
+void lpsrDalSegnoAlFineAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1448,7 +1448,7 @@ S_oahValuedAtom lpsrDalSegnoAlCodaAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lpsrDalSegnoAlCodaAtom" <<
       endl;
@@ -1459,12 +1459,12 @@ S_oahValuedAtom lpsrDalSegnoAlCodaAtom::handleOptionUnderName (
   return this;
 }
 
-void lpsrDalSegnoAlCodaAtom::handleValue (
+void lpsrDalSegnoAlCodaAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrDalSegnoAlCodaAtom'" <<
       endl;
@@ -1475,7 +1475,7 @@ void lpsrDalSegnoAlCodaAtom::handleValue (
   // decipher it to extract the old and new part names
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lpsrDalSegnoAlCodaAtom'" <<
       endl;
@@ -1483,7 +1483,7 @@ void lpsrDalSegnoAlCodaAtom::handleValue (
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "--> theString = \"" << theString << "\", " <<
       endl;
@@ -1514,7 +1514,7 @@ void lpsrDalSegnoAlCodaAtom::handleValue (
 void lpsrDalSegnoAlCodaAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAlCodaAtom::acceptIn ()" <<
       endl;
@@ -1527,7 +1527,7 @@ void lpsrDalSegnoAlCodaAtom::acceptIn (basevisitor* v)
         S_lpsrDalSegnoAlCodaAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrDalSegnoAlCodaAtom::visitStart ()" <<
             endl;
@@ -1540,7 +1540,7 @@ void lpsrDalSegnoAlCodaAtom::acceptIn (basevisitor* v)
 void lpsrDalSegnoAlCodaAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAlCodaAtom::acceptOut ()" <<
       endl;
@@ -1553,7 +1553,7 @@ void lpsrDalSegnoAlCodaAtom::acceptOut (basevisitor* v)
         S_lpsrDalSegnoAlCodaAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrDalSegnoAlCodaAtom::visitEnd ()" <<
             endl;
@@ -1566,7 +1566,7 @@ void lpsrDalSegnoAlCodaAtom::acceptOut (basevisitor* v)
 void lpsrDalSegnoAlCodaAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrDalSegnoAlCodaAtom::browseData ()" <<
       endl;
@@ -1665,7 +1665,7 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAlCodaAtom::printAtomOptionsValues (
+void lpsrDalSegnoAlCodaAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -2794,7 +2794,7 @@ bool lpsrOah::setLpsrChordsLanguage (string language)
 }
 
 //______________________________________________________________________________
-void lpsrOah::enforceQuietness ()
+void lpsrOah::enforceGroupQuietness ()
 {
 #ifdef TRACE_OAH
   fTraceLpsr = false;
@@ -2809,7 +2809,7 @@ void lpsrOah::enforceQuietness ()
 }
 
 //______________________________________________________________________________
-void lpsrOah::checkOptionsConsistency ()
+void lpsrOah::checkGroupOptionsConsistency ()
 {
   // JMI
 }
@@ -2818,7 +2818,7 @@ void lpsrOah::checkOptionsConsistency ()
 void lpsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrOah::acceptIn ()" <<
       endl;
@@ -2831,7 +2831,7 @@ void lpsrOah::acceptIn (basevisitor* v)
         S_lpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrOah::visitStart ()" <<
             endl;
@@ -2844,7 +2844,7 @@ void lpsrOah::acceptIn (basevisitor* v)
 void lpsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrOah::acceptOut ()" <<
       endl;
@@ -2857,7 +2857,7 @@ void lpsrOah::acceptOut (basevisitor* v)
         S_lpsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsrOah::visitEnd ()" <<
             endl;
@@ -2870,7 +2870,7 @@ void lpsrOah::acceptOut (basevisitor* v)
 void lpsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsrOah::browseData ()" <<
       endl;
@@ -3358,11 +3358,11 @@ ostream& operator<< (ostream& os, const S_lpsrOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeLpsrOahHandler (
+void initializeLpsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing LPSR options handling" <<
       endl;

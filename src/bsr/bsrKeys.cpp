@@ -67,7 +67,7 @@ bsrKey::bsrKey (
       "numberOfAlterations: " << fNumberOfAlterations;
 
     bsrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -76,7 +76,7 @@ bsrKey::bsrKey (
   fKeyCellsList = buildCellsList ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOahGroup->fTraceKeys) {
     gLogOstream <<
       "Creating bsrKey '" <<
       asString () <<

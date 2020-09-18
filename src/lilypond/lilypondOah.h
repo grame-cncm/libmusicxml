@@ -53,20 +53,6 @@ class lilypondOah : public oahGroup
 
   public:
 
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
-
-  public:
-
     // set and get
     // ------------------------------------------------------
 
@@ -77,6 +63,12 @@ class lilypondOah : public oahGroup
 
     // public services
     // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   private:
 
@@ -120,7 +112,7 @@ EXP extern S_lilypondOah gGlobalLilypondOahUserChoices;
 EXP extern S_lilypondOah gGlobalLilypondOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeLilypondOahHandler (
+void initializeLilypondOahHandling (
   S_oahHandler handler);
 
 

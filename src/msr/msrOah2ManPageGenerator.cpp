@@ -49,7 +49,7 @@ msrOah2ManPageGenerator::~msrOah2ManPageGenerator ()
 void msrOah2ManPageGenerator::visitStart (S_msrRenamePartAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrRenamePartAtom" <<
@@ -79,7 +79,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrRenamePartAtom& elt)
 void msrOah2ManPageGenerator::visitEnd (S_msrRenamePartAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrRenamePartAtom" <<
@@ -93,7 +93,7 @@ void msrOah2ManPageGenerator::visitEnd (S_msrRenamePartAtom& elt)
 void msrOah2ManPageGenerator::visitStart (S_msrOmitPartAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrOmitPartAtom" <<
@@ -123,7 +123,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrOmitPartAtom& elt)
 void msrOah2ManPageGenerator::visitEnd (S_msrOmitPartAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrOmitPartAtom" <<
@@ -137,7 +137,7 @@ void msrOah2ManPageGenerator::visitEnd (S_msrOmitPartAtom& elt)
 void msrOah2ManPageGenerator::visitStart (S_msrKeepPartAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrKeepPartAtom" <<
@@ -167,7 +167,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrKeepPartAtom& elt)
 void msrOah2ManPageGenerator::visitEnd (S_msrKeepPartAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrKeepPartAtom" <<
@@ -181,7 +181,7 @@ void msrOah2ManPageGenerator::visitEnd (S_msrKeepPartAtom& elt)
 void msrOah2ManPageGenerator::visitStart (S_msrPitchesLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting msrPitchesLanguageAtom" <<
@@ -211,7 +211,7 @@ void msrOah2ManPageGenerator::visitStart (S_msrPitchesLanguageAtom& elt)
 void msrOah2ManPageGenerator::visitEnd (S_msrPitchesLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting msrPitchesLanguageAtom" <<

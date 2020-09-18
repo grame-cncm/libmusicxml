@@ -74,7 +74,7 @@ class msrPitchesLanguageAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -98,7 +98,7 @@ class msrPitchesLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -162,7 +162,7 @@ class msrRenamePartAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -186,7 +186,7 @@ class msrRenamePartAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -239,14 +239,14 @@ class msrOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -364,7 +364,7 @@ EXP extern S_msrOah gGlobalMsrOahUserChoices;
 EXP extern S_msrOah gGlobalMsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMsrOahHandler (
+void initializeMsrOahHandling (
   S_oahHandler handler);
 
 

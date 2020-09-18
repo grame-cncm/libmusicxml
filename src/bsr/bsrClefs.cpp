@@ -53,7 +53,7 @@ bsrClef::bsrClef (
   fClefCellsList = buildCellsList ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceClefs) {
+  if (gGlobalTraceOahGroup->fTraceClefs) {
     gLogOstream <<
       "Creating bsrClef '" <<
       asString () <<

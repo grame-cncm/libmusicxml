@@ -53,7 +53,7 @@ void generateLilypondCodeFromLpsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     logOstream <<
       endl <<
       separator <<
@@ -111,7 +111,7 @@ void convertLpsrScoreToLilypondCode (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOahGroup->getTracePasses ()) {
         gLogOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -158,7 +158,7 @@ void convertLpsrScoreToLilypondCode (
 
     else {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOahGroup->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
@@ -185,7 +185,7 @@ void convertLpsrScoreToLilypondCode (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->getTracePasses ()) {
+      if (gGlobalTraceOahGroup->getTracePasses ()) {
         gLogOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -198,7 +198,7 @@ void convertLpsrScoreToLilypondCode (
   }
 
   if (gIndenter != 0) {
-    if (! gGlobalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOahGroup->fQuiet) {
       stringstream s;
 
       s <<
@@ -206,7 +206,7 @@ void convertLpsrScoreToLilypondCode (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }

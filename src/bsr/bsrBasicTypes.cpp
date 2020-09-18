@@ -435,7 +435,7 @@ void initializeBSRBasicTypes ()
 
   if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
       gLogOstream <<
         "Initializing BSR basic types handling" <<
         endl;

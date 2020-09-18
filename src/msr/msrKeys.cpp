@@ -48,7 +48,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOahGroup->fTraceKeys) {
     gLogOstream <<
       "Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
@@ -84,7 +84,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
   msrDiatonicPitchKind diatonicPitchKind)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOahGroup->fTraceKeys) {
     gLogOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
       msrDiatonicPitchKindAsString (diatonicPitchKind) <<
@@ -100,7 +100,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
   msrAlterationKind alterationKind)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOahGroup->fTraceKeys) {
     gLogOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
       msrAlterationKindAsString (alterationKind) <<
@@ -115,7 +115,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
 void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOahGroup->fTraceKeys) {
     gLogOstream <<
       "Setting Humdrum/Scot key item octave to '" <<
       keyOctave <<
@@ -285,7 +285,7 @@ msrKey::msrKey ( // for traditional keys
   fKeyItemsOctavesAreSpecified = false;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOahGroup->fTraceKeys) {
     gLogOstream <<
       "Creating traditional key '" <<
       this->asString () <<
@@ -306,7 +306,7 @@ msrKey::msrKey ( // for Humdrum/Scot keys
   fKeyItemsOctavesAreSpecified = false;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOahGroup->fTraceKeys) {
     gLogOstream <<
       "Creating Humdrum/Scot key '" <<
       this->asString () <<
@@ -381,7 +381,7 @@ void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceKeys) {
+  if (gGlobalTraceOahGroup->fTraceKeys) {
     gLogOstream <<
       "Append item '" <<
       item->asString () <<

@@ -201,7 +201,7 @@ void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
@@ -222,7 +222,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceVoices) {
     gLogOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName () <<
@@ -241,7 +241,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName () <<
@@ -410,7 +410,7 @@ void lpsrBookPartBlock::appendPartGroupBlockToBookPartBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
@@ -431,7 +431,7 @@ void lpsrBookPartBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceVoices) {
     gLogOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName () <<
@@ -450,7 +450,7 @@ void lpsrBookPartBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName () <<
@@ -600,7 +600,7 @@ void lpsrBookBlock::appendPartGroupBlockToBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
@@ -674,7 +674,7 @@ void lpsrBookBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVoices) {
+  if (gGlobalTraceOahGroup->fTraceVoices) {
     gLogOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName () <<
@@ -693,7 +693,7 @@ void lpsrBookBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName () <<

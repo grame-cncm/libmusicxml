@@ -79,7 +79,7 @@ class xml2lyManPageGenerateAtom : public oahAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -101,25 +101,25 @@ typedef SMARTP<xml2lyManPageGenerateAtom> S_xml2lyManPageGenerateAtom;
 EXP ostream& operator<< (ostream& os, const S_xml2lyManPageGenerateAtom& elt);
 
 //______________________________________________________________________________
-class xml2lyManPageOah : public oahGroup
+class xml2lyManPageOahGroup : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyManPageOah> create (
+    static SMARTP<xml2lyManPageOahGroup> create (
       S_oahHandler           handlerUpLink,
       S_oahVisitor theOah2ManPageGenerator);
 
-    SMARTP<xml2lyManPageOah>        createCloneWithDetailedTrace ();
+    SMARTP<xml2lyManPageOahGroup>        createCloneWithDetailedTrace ();
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeXml2lyManPageOah (
+    void                  initializeXml2lyManPageOahGroup (
                             bool boolOptionsInitialValue,
                             S_oahVisitor
                                  theOah2ManPageGenerator);
@@ -129,11 +129,11 @@ class xml2lyManPageOah : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyManPageOah (
-      S_oahHandler           handlerUpLink,
+    xml2lyManPageOahGroup (
+      S_oahHandler handlerUpLink,
       S_oahVisitor theOah2ManPageGenerator);
 
-    virtual ~xml2lyManPageOah ();
+    virtual ~xml2lyManPageOahGroup ();
 
   public:
 
@@ -142,22 +142,14 @@ class xml2lyManPageOah : public oahGroup
 
   public:
 
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
-
-  public:
-
     // public services
     // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   private:
 
@@ -200,16 +192,16 @@ class xml2lyManPageOah : public oahGroup
 
     S_oahVisitor          fOahVisitor;
 };
-typedef SMARTP<xml2lyManPageOah> S_xml2lyManPageOah;
-EXP ostream& operator<< (ostream& os, const S_xml2lyManPageOah& elt);
+typedef SMARTP<xml2lyManPageOahGroup> S_xml2lyManPageOahGroup;
+EXP ostream& operator<< (ostream& os, const S_xml2lyManPageOahGroup& elt);
 
-EXP extern S_xml2lyManPageOah gGlobalXml2lyManPageOah;
-EXP extern S_xml2lyManPageOah gGlobalXml2lyManPageOahUserChoices;
-EXP extern S_xml2lyManPageOah gGlobalXml2lyManPageOahWithDetailedTrace;
+EXP extern S_xml2lyManPageOahGroup gGlobalXml2lyManPageOahGroup;
+EXP extern S_xml2lyManPageOahGroup gGlobalXml2lyManPageOahGroupUserChoices;
+EXP extern S_xml2lyManPageOahGroup gGlobalXml2lyManPageOahGroupWithDetailedTrace;
 
 //______________________________________________________________________________
-EXP  void initializeXml2lyManPageOahHandler (
-  S_oahHandler           handler,
+EXP  void initializeXml2lyManPageOahHandling (
+  S_oahHandler handler,
   S_oahVisitor theOah2ManPageGenerator);
 
 

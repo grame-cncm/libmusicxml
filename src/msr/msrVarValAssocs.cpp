@@ -61,7 +61,7 @@ msrVarValAssoc::~msrVarValAssoc ()
 void msrVarValAssoc::setVariableValue (string value)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceVarValAssocs) {
+  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
     gLogOstream <<
       "Setting the value of marVarValAssoc \"" <<
       varValAssocKindAsString (fVarValAssocKind) <<

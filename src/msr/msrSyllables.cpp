@@ -109,7 +109,7 @@ msrSyllable::msrSyllable (
   fSyllableNextMeasurePuristNumber = -1;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Creating a syllable containing:" <<
       endl;
@@ -142,7 +142,7 @@ msrSyllable::msrSyllable (
         syllableStanzaUpLink)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Setting syllable next measure purist number to " <<
       fSyllableNextMeasurePuristNumber <<
@@ -161,7 +161,7 @@ msrSyllable::msrSyllable (
     case msrSyllable::kSyllableSkipNonRestNote:
     case msrSyllable::kSyllableMeasureEnd:
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable with next measure purist number is no line nor page break");
@@ -182,7 +182,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
@@ -231,7 +231,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
@@ -279,7 +279,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 void msrSyllable::appendLyricTextToSyllable (string text)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending text \"" <<
       text <<
@@ -317,7 +317,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
 
   // set it upLink to note
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Setting syllable note upLink for:" <<
       endl;
@@ -608,7 +608,7 @@ string msrSyllable::asString () const
   switch (fSyllableKind) {
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -700,7 +700,7 @@ void msrSyllable::print (ostream& os) const
   switch (fSyllableKind) { // JMI
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");

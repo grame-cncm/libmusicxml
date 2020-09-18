@@ -75,7 +75,7 @@ void msrStanza::initializeStanza ()
           fStanzaNumber));
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Initializing stanza " << getStanzaName () <<
       endl;
@@ -94,7 +94,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
@@ -140,7 +140,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Creating a deep copy of stanza \"" <<
       getStanzaName () <<
@@ -195,7 +195,7 @@ void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending syllable '" << syllable->asString () <<
       "' to stanza " << getStanzaName () <<
@@ -228,7 +228,7 @@ void msrStanza::appendSyllableToStanza (
 
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -253,7 +253,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   rational wholeNotes)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -291,7 +291,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   rational wholeNotes)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending 'Skip' syllable " <<
       " to stanza " << getStanzaName () <<
@@ -328,7 +328,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending 'Measure end' syllable " <<
       " to stanza " << getStanzaName () <<
@@ -370,7 +370,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   rational        wholeNotes)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending '" <<
       msrSyllable::syllableKindAsString (syllableKind) <<
@@ -410,7 +410,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int nextMeasurePuristNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending a 'LineBreak' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -449,7 +449,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   int nextMeasurePuristNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending a 'PageBreak' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -495,7 +495,7 @@ void msrStanza::appendPaddingNoteToStanza (
   rational forwardStepLength)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceLyrics) {
+  if (gGlobalTraceOahGroup->fTraceLyrics) {
     gLogOstream <<
       "Appending padding note" <<
       ", forwardStepLength: " <<

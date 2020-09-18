@@ -30,21 +30,21 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class traceOah : public oahGroup
+class traceOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<traceOah> create (
+    static SMARTP<traceOahGroup> create (
       S_oahHandler handlerUpLink);
 
-    SMARTP<traceOah>      createCloneWithTrueValues (); // JMI
+    SMARTP<traceOahGroup>      createCloneWithTrueValues (); // JMI
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeTraceOah (
+    void                  initializeTraceOahGroup (
                             bool boolOptionsInitialValue);
 
     void                  initializeOptionsTraceAndDisplayOptions (
@@ -109,24 +109,10 @@ class traceOah : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    traceOah (
+    traceOahGroup (
       S_oahHandler handlerUpLink);
 
-    virtual ~traceOah ();
-
-  public:
-
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
+    virtual ~traceOahGroup ();
 
   public:
 
@@ -496,8 +482,14 @@ class traceOah : public oahGroup
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -518,11 +510,11 @@ class traceOah : public oahGroup
 
     void                  printTraceOahValues (int fieldWidth);
 
-    virtual void          printAtomOptionsValues (
+    virtual void          printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
-  public:
+  private:
 
     // options and help trace
     // --------------------------------------
@@ -535,6 +527,9 @@ class traceOah : public oahGroup
 
     // passes
     bool                  fTracePasses;
+
+  public:
+
     // scaling
     bool                  fTraceGeometry;
     // varValAssocs
@@ -797,15 +792,15 @@ class traceOah : public oahGroup
     S_oahPrefix           fShortTracePrefix;
     S_oahPrefix           fLongTracePrefix;
 };
-typedef SMARTP<traceOah> S_traceOah;
-EXP ostream& operator<< (ostream& os, const S_traceOah& elt);
+typedef SMARTP<traceOahGroup> S_traceOahGroup;
+EXP ostream& operator<< (ostream& os, const S_traceOahGroup& elt);
 
-EXP extern S_traceOah gGlobalTraceOah;
-EXP extern S_traceOah gGlobalTraceOahUserChoices;
-EXP extern S_traceOah gGlobalTraceOahWithDetailedTrace;
+EXP extern S_traceOahGroup gGlobalTraceOahGroup;
+EXP extern S_traceOahGroup gGlobalTraceOahGroupUserChoices;
+EXP extern S_traceOahGroup gGlobalTraceOahGroupWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeTraceOahHandler (
+void initializeTraceOahHandling (
   S_oahHandler handler);
 
 

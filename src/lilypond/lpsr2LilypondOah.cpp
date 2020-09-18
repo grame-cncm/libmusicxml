@@ -84,7 +84,7 @@ S_oahValuedAtom lilypondScoreOutputKindAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondScoreOutputKindAtom" <<
       endl;
@@ -95,12 +95,12 @@ S_oahValuedAtom lilypondScoreOutputKindAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondScoreOutputKindAtom::handleValue (
+void lilypondScoreOutputKindAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondScoreOutputKindAtom'" <<
       endl;
@@ -111,7 +111,7 @@ void lilypondScoreOutputKindAtom::handleValue (
 void lilypondScoreOutputKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondScoreOutputKindAtom::acceptIn ()" <<
       endl;
@@ -124,7 +124,7 @@ void lilypondScoreOutputKindAtom::acceptIn (basevisitor* v)
         S_lilypondScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondScoreOutputKindAtom::visitStart ()" <<
             endl;
@@ -137,7 +137,7 @@ void lilypondScoreOutputKindAtom::acceptIn (basevisitor* v)
 void lilypondScoreOutputKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondScoreOutputKindAtom::acceptOut ()" <<
       endl;
@@ -150,7 +150,7 @@ void lilypondScoreOutputKindAtom::acceptOut (basevisitor* v)
         S_lilypondScoreOutputKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondScoreOutputKindAtom::visitEnd ()" <<
             endl;
@@ -163,7 +163,7 @@ void lilypondScoreOutputKindAtom::acceptOut (basevisitor* v)
 void lilypondScoreOutputKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondScoreOutputKindAtom::browseData ()" <<
       endl;
@@ -221,7 +221,7 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondScoreOutputKindAtom::printAtomOptionsValues (
+void lilypondScoreOutputKindAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -295,7 +295,7 @@ S_oahValuedAtom lilypondTransposePartNameAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondTransposePartNameAtom" <<
       endl;
@@ -306,12 +306,12 @@ S_oahValuedAtom lilypondTransposePartNameAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondTransposePartNameAtom::handleValue (
+void lilypondTransposePartNameAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondTransposePartNameAtom'" <<
       endl;
@@ -337,7 +337,7 @@ void lilypondTransposePartNameAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "There are " << smSize << " matches" <<
       " for part transpose string '" << theString <<
@@ -349,7 +349,7 @@ void lilypondTransposePartNameAtom::handleValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOah) {
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
         os <<
           "[" << sm [i] << "] ";
@@ -374,7 +374,7 @@ void lilypondTransposePartNameAtom::handleValue (
     destinationPitchName = sm [2];
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "--> partName = \"" << partName << "\", " <<
       "--> destinationPitchName = \"" << destinationPitchName << "\"" <<
@@ -411,7 +411,7 @@ void lilypondTransposePartNameAtom::handleValue (
 void lilypondTransposePartNameAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondTransposePartNameAtom::acceptIn ()" <<
       endl;
@@ -424,7 +424,7 @@ void lilypondTransposePartNameAtom::acceptIn (basevisitor* v)
         S_lilypondTransposePartNameAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondTransposePartNameAtom::visitStart ()" <<
             endl;
@@ -437,7 +437,7 @@ void lilypondTransposePartNameAtom::acceptIn (basevisitor* v)
 void lilypondTransposePartNameAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondTransposePartNameAtom::acceptOut ()" <<
       endl;
@@ -450,7 +450,7 @@ void lilypondTransposePartNameAtom::acceptOut (basevisitor* v)
         S_lilypondTransposePartNameAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondTransposePartNameAtom::visitEnd ()" <<
             endl;
@@ -463,7 +463,7 @@ void lilypondTransposePartNameAtom::acceptOut (basevisitor* v)
 void lilypondTransposePartNameAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondTransposePartNameAtom::browseData ()" <<
       endl;
@@ -565,7 +565,7 @@ void lilypondTransposePartNameAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondTransposePartNameAtom::printAtomOptionsValues (
+void lilypondTransposePartNameAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -662,7 +662,7 @@ S_oahValuedAtom lilypondTransposePartIDAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondTransposePartIDAtom" <<
       endl;
@@ -673,12 +673,12 @@ S_oahValuedAtom lilypondTransposePartIDAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondTransposePartIDAtom::handleValue (
+void lilypondTransposePartIDAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondTransposePartIDAtom'" <<
       endl;
@@ -704,7 +704,7 @@ void lilypondTransposePartIDAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "There are " << smSize << " matches" <<
       " for part transpose string '" << theString <<
@@ -716,7 +716,7 @@ void lilypondTransposePartIDAtom::handleValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOah) {
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
         os <<
           "[" << sm [i] << "] ";
@@ -741,7 +741,7 @@ void lilypondTransposePartIDAtom::handleValue (
     destinationPitchName = sm [2];
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "--> partID = \"" << partID << "\", " <<
       "--> destinationPitchName = \"" << destinationPitchName << "\"" <<
@@ -778,7 +778,7 @@ void lilypondTransposePartIDAtom::handleValue (
 void lilypondTransposePartIDAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondTransposePartIDAtom::acceptIn ()" <<
       endl;
@@ -791,7 +791,7 @@ void lilypondTransposePartIDAtom::acceptIn (basevisitor* v)
         S_lilypondTransposePartIDAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondTransposePartIDAtom::visitStart ()" <<
             endl;
@@ -804,7 +804,7 @@ void lilypondTransposePartIDAtom::acceptIn (basevisitor* v)
 void lilypondTransposePartIDAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondTransposePartIDAtom::acceptOut ()" <<
       endl;
@@ -817,7 +817,7 @@ void lilypondTransposePartIDAtom::acceptOut (basevisitor* v)
         S_lilypondTransposePartIDAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondTransposePartIDAtom::visitEnd ()" <<
             endl;
@@ -830,7 +830,7 @@ void lilypondTransposePartIDAtom::acceptOut (basevisitor* v)
 void lilypondTransposePartIDAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondTransposePartIDAtom::browseData ()" <<
       endl;
@@ -932,7 +932,7 @@ void lilypondTransposePartIDAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondTransposePartIDAtom::printAtomOptionsValues (
+void lilypondTransposePartIDAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1023,7 +1023,7 @@ S_oahValuedAtom lilypondAbsoluteOctaveEntryAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondAbsoluteOctaveEntryAtom" <<
       endl;
@@ -1040,7 +1040,7 @@ S_oahValuedAtom lilypondAbsoluteOctaveEntryAtom::handleOptionUnderName (
 void lilypondAbsoluteOctaveEntryAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondAbsoluteOctaveEntryAtom::acceptIn ()" <<
       endl;
@@ -1053,7 +1053,7 @@ void lilypondAbsoluteOctaveEntryAtom::acceptIn (basevisitor* v)
         S_lilypondAbsoluteOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondAbsoluteOctaveEntryAtom::visitStart ()" <<
             endl;
@@ -1066,7 +1066,7 @@ void lilypondAbsoluteOctaveEntryAtom::acceptIn (basevisitor* v)
 void lilypondAbsoluteOctaveEntryAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondAbsoluteOctaveEntryAtom::acceptOut ()" <<
       endl;
@@ -1079,7 +1079,7 @@ void lilypondAbsoluteOctaveEntryAtom::acceptOut (basevisitor* v)
         S_lilypondAbsoluteOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondAbsoluteOctaveEntryAtom::visitEnd ()" <<
             endl;
@@ -1092,7 +1092,7 @@ void lilypondAbsoluteOctaveEntryAtom::acceptOut (basevisitor* v)
 void lilypondAbsoluteOctaveEntryAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondAbsoluteOctaveEntryAtom::browseData ()" <<
       endl;
@@ -1123,7 +1123,7 @@ void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondAbsoluteOctaveEntryAtom::printAtomOptionsValues (
+void lilypondAbsoluteOctaveEntryAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1186,7 +1186,7 @@ S_oahValuedAtom lilypondRelativeOctaveEntryAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondRelativeOctaveEntryAtom" <<
       endl;
@@ -1200,12 +1200,12 @@ S_oahValuedAtom lilypondRelativeOctaveEntryAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondRelativeOctaveEntryAtom::handleValue (
+void lilypondRelativeOctaveEntryAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondRelativeOctaveEntryAtom'" <<
       endl;
@@ -1216,7 +1216,7 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
   // is it in the score output kinds map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondRelativeOctaveEntryAtom'" <<
       endl;
@@ -1271,7 +1271,7 @@ void lilypondRelativeOctaveEntryAtom::handleValue (
 void lilypondRelativeOctaveEntryAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondRelativeOctaveEntryAtom::acceptIn ()" <<
       endl;
@@ -1284,7 +1284,7 @@ void lilypondRelativeOctaveEntryAtom::acceptIn (basevisitor* v)
         S_lilypondRelativeOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondRelativeOctaveEntryAtom::visitStart ()" <<
             endl;
@@ -1297,7 +1297,7 @@ void lilypondRelativeOctaveEntryAtom::acceptIn (basevisitor* v)
 void lilypondRelativeOctaveEntryAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondRelativeOctaveEntryAtom::acceptOut ()" <<
       endl;
@@ -1310,7 +1310,7 @@ void lilypondRelativeOctaveEntryAtom::acceptOut (basevisitor* v)
         S_lilypondRelativeOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondRelativeOctaveEntryAtom::visitEnd ()" <<
             endl;
@@ -1323,7 +1323,7 @@ void lilypondRelativeOctaveEntryAtom::acceptOut (basevisitor* v)
 void lilypondRelativeOctaveEntryAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondRelativeOctaveEntryAtom::browseData ()" <<
       endl;
@@ -1376,7 +1376,7 @@ void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondRelativeOctaveEntryAtom::printAtomOptionsValues (
+void lilypondRelativeOctaveEntryAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1461,7 +1461,7 @@ S_oahValuedAtom lilypondFixedOctaveEntryAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondFixedOctaveEntryAtom" <<
       endl;
@@ -1475,12 +1475,12 @@ S_oahValuedAtom lilypondFixedOctaveEntryAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondFixedOctaveEntryAtom::handleValue (
+void lilypondFixedOctaveEntryAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondFixedOctaveEntryAtom'" <<
       endl;
@@ -1501,7 +1501,7 @@ void lilypondFixedOctaveEntryAtom::handleValue (
 void lilypondFixedOctaveEntryAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondFixedOctaveEntryAtom::acceptIn ()" <<
       endl;
@@ -1514,7 +1514,7 @@ void lilypondFixedOctaveEntryAtom::acceptIn (basevisitor* v)
         S_lilypondFixedOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondFixedOctaveEntryAtom::visitStart ()" <<
             endl;
@@ -1527,7 +1527,7 @@ void lilypondFixedOctaveEntryAtom::acceptIn (basevisitor* v)
 void lilypondFixedOctaveEntryAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondFixedOctaveEntryAtom::acceptOut ()" <<
       endl;
@@ -1540,7 +1540,7 @@ void lilypondFixedOctaveEntryAtom::acceptOut (basevisitor* v)
         S_lilypondFixedOctaveEntryAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondFixedOctaveEntryAtom::visitEnd ()" <<
             endl;
@@ -1553,7 +1553,7 @@ void lilypondFixedOctaveEntryAtom::acceptOut (basevisitor* v)
 void lilypondFixedOctaveEntryAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondFixedOctaveEntryAtom::browseData ()" <<
       endl;
@@ -1606,7 +1606,7 @@ void lilypondFixedOctaveEntryAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondFixedOctaveEntryAtom::printAtomOptionsValues (
+void lilypondFixedOctaveEntryAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1688,7 +1688,7 @@ S_oahValuedAtom lilypondAccidentalStyleKindAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondAccidentalStyleKindAtom" <<
       endl;
@@ -1699,12 +1699,12 @@ S_oahValuedAtom lilypondAccidentalStyleKindAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondAccidentalStyleKindAtom::handleValue (
+void lilypondAccidentalStyleKindAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondAccidentalStyleKindAtom'" <<
       endl;
@@ -1715,7 +1715,7 @@ void lilypondAccidentalStyleKindAtom::handleValue (
   // is it in the accidental styles map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondAccidentalStyleKindAtom'" <<
       endl;
@@ -1757,7 +1757,7 @@ void lilypondAccidentalStyleKindAtom::handleValue (
 void lilypondAccidentalStyleKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondAccidentalStyleKindAtom::acceptIn ()" <<
       endl;
@@ -1770,7 +1770,7 @@ void lilypondAccidentalStyleKindAtom::acceptIn (basevisitor* v)
         S_lilypondAccidentalStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondAccidentalStyleKindAtom::visitStart ()" <<
             endl;
@@ -1783,7 +1783,7 @@ void lilypondAccidentalStyleKindAtom::acceptIn (basevisitor* v)
 void lilypondAccidentalStyleKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondAccidentalStyleKindAtom::acceptOut ()" <<
       endl;
@@ -1796,7 +1796,7 @@ void lilypondAccidentalStyleKindAtom::acceptOut (basevisitor* v)
         S_lilypondAccidentalStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondAccidentalStyleKindAtom::visitEnd ()" <<
             endl;
@@ -1809,7 +1809,7 @@ void lilypondAccidentalStyleKindAtom::acceptOut (basevisitor* v)
 void lilypondAccidentalStyleKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondAccidentalStyleKindAtom::browseData ()" <<
       endl;
@@ -1867,7 +1867,7 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondAccidentalStyleKindAtom::printAtomOptionsValues (
+void lilypondAccidentalStyleKindAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1941,7 +1941,7 @@ S_oahValuedAtom lilypondChordsDisplayAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondChordsDisplayAtom" <<
       endl;
@@ -1952,12 +1952,12 @@ S_oahValuedAtom lilypondChordsDisplayAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondChordsDisplayAtom::handleValue (
+void lilypondChordsDisplayAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondChordsDisplayAtom'" <<
       endl;
@@ -2003,7 +2003,7 @@ void lilypondChordsDisplayAtom::handleValue (
   //   '<c ees ges bes> \super {"-7(" {\small\raise #0.5 \flat} "5)"}'
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondChordsDisplayAtom'" <<
       endl;
@@ -2024,7 +2024,7 @@ void lilypondChordsDisplayAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "There are " << smSize << " matches" <<
       " for chords display string '" << theString <<
@@ -2059,7 +2059,7 @@ void lilypondChordsDisplayAtom::handleValue (
   string chordsDisplaycode = sm [2];
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "FAA chordContents  = " <<
       chordContents <<
@@ -2078,7 +2078,7 @@ void lilypondChordsDisplayAtom::handleValue (
 void lilypondChordsDisplayAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondChordsDisplayAtom::acceptIn ()" <<
       endl;
@@ -2091,7 +2091,7 @@ void lilypondChordsDisplayAtom::acceptIn (basevisitor* v)
         S_lilypondChordsDisplayAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondChordsDisplayAtom::visitStart ()" <<
             endl;
@@ -2104,7 +2104,7 @@ void lilypondChordsDisplayAtom::acceptIn (basevisitor* v)
 void lilypondChordsDisplayAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondChordsDisplayAtom::acceptOut ()" <<
       endl;
@@ -2117,7 +2117,7 @@ void lilypondChordsDisplayAtom::acceptOut (basevisitor* v)
         S_lilypondChordsDisplayAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondChordsDisplayAtom::visitEnd ()" <<
             endl;
@@ -2130,7 +2130,7 @@ void lilypondChordsDisplayAtom::acceptOut (basevisitor* v)
 void lilypondChordsDisplayAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondChordsDisplayAtom::browseData ()" <<
       endl;
@@ -2224,7 +2224,7 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondChordsDisplayAtom::printAtomOptionsValues (
+void lilypondChordsDisplayAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -2317,7 +2317,7 @@ S_oahValuedAtom lilypondLyricsDurationsKindAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondLyricsDurationsKindAtom" <<
       endl;
@@ -2328,12 +2328,12 @@ S_oahValuedAtom lilypondLyricsDurationsKindAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondLyricsDurationsKindAtom::handleValue (
+void lilypondLyricsDurationsKindAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondLyricsDurationsKindAtom'" <<
       endl;
@@ -2344,7 +2344,7 @@ void lilypondLyricsDurationsKindAtom::handleValue (
   // is it in the lyrics alignment kinds map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondLyricsDurationsKindAtom'" <<
       endl;
@@ -2386,7 +2386,7 @@ void lilypondLyricsDurationsKindAtom::handleValue (
 void lilypondLyricsDurationsKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondLyricsDurationsKindAtom::acceptIn ()" <<
       endl;
@@ -2399,7 +2399,7 @@ void lilypondLyricsDurationsKindAtom::acceptIn (basevisitor* v)
         S_lilypondLyricsDurationsKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondLyricsDurationsKindAtom::visitStart ()" <<
             endl;
@@ -2412,7 +2412,7 @@ void lilypondLyricsDurationsKindAtom::acceptIn (basevisitor* v)
 void lilypondLyricsDurationsKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondLyricsDurationsKindAtom::acceptOut ()" <<
       endl;
@@ -2425,7 +2425,7 @@ void lilypondLyricsDurationsKindAtom::acceptOut (basevisitor* v)
         S_lilypondLyricsDurationsKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondLyricsDurationsKindAtom::visitEnd ()" <<
             endl;
@@ -2438,7 +2438,7 @@ void lilypondLyricsDurationsKindAtom::acceptOut (basevisitor* v)
 void lilypondLyricsDurationsKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondLyricsDurationsKindAtom::browseData ()" <<
       endl;
@@ -2496,7 +2496,7 @@ void lilypondLyricsDurationsKindAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondLyricsDurationsKindAtom::printAtomOptionsValues (
+void lilypondLyricsDurationsKindAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -3208,7 +3208,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gGlobalOahOah->fHandlerExecutableName),
+          gGlobalOahOahGroup->fHandlerExecutableName),
         "inputLineNumbers",
         fInputLineNumbers));
 
@@ -3226,7 +3226,7 @@ R"(Generate after each end of measure a comment containing
 its original MusicXML measure number.
 This is useful for adding line breaks and page breaks, and when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gGlobalOahOah->fHandlerExecutableName),
+          gGlobalOahOahGroup->fHandlerExecutableName),
         "originalMeasureNumbers",
         fOriginalMeasureNumbers));
 
@@ -3244,7 +3244,7 @@ R"(Generate after each note and barline a comment containing
 its position in the measure.
 This is useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gGlobalOahOah->fHandlerExecutableName),
+          gGlobalOahOahGroup->fHandlerExecutableName),
         "positionsInMeasures",
         fPositionsInMeasures));
 }
@@ -4057,7 +4057,7 @@ PER_SECOND=66
 EXECUTABLE -midiTempo "8. ${PER_SECOND}" .
 The default is 'DEFAULT_VALUE'.)",
             regex ("EXECUTABLE"),
-            gGlobalOahOah->fHandlerExecutableName),
+            gGlobalOahOahGroup->fHandlerExecutableName),
           regex ("DEFAULT_VALUE"),
           midiTempoDefaultValue),
         "MIDI_TEMPO_SPEC",
@@ -4451,11 +4451,11 @@ bool lpsr2LilypondOah::setAccidentalStyleKind (lpsrAccidentalStyleKind accidenta
 */
 
 //______________________________________________________________________________
-void lpsr2LilypondOah::enforceQuietness ()
+void lpsr2LilypondOah::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void lpsr2LilypondOah::checkOptionsConsistency ()
+void lpsr2LilypondOah::checkGroupOptionsConsistency ()
 {
   // JMI
 }
@@ -4464,7 +4464,7 @@ void lpsr2LilypondOah::checkOptionsConsistency ()
 void lpsr2LilypondOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsr2LilypondOah::acceptIn ()" <<
       endl;
@@ -4477,7 +4477,7 @@ void lpsr2LilypondOah::acceptIn (basevisitor* v)
         S_lpsr2LilypondOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsr2LilypondOah::visitStart ()" <<
             endl;
@@ -4490,7 +4490,7 @@ void lpsr2LilypondOah::acceptIn (basevisitor* v)
 void lpsr2LilypondOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsr2LilypondOah::acceptOut ()" <<
       endl;
@@ -4503,7 +4503,7 @@ void lpsr2LilypondOah::acceptOut (basevisitor* v)
         S_lpsr2LilypondOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lpsr2LilypondOah::visitEnd ()" <<
             endl;
@@ -4516,7 +4516,7 @@ void lpsr2LilypondOah::acceptOut (basevisitor* v)
 void lpsr2LilypondOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lpsr2LilypondOah::browseData ()" <<
       endl;
@@ -4545,7 +4545,7 @@ string lpsr2LilypondOah::scoreNotationKindAsString (
   return result;
 }
 
-void lpsr2LilypondOah::printAtomOptionsValues (
+void lpsr2LilypondOah::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -5706,13 +5706,13 @@ ostream& operator<< (ostream& os, const S_lpsr2LilypondOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeLpsr2LilypondOahHandler (
+void initializeLpsr2LilypondOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
-      "Initializing LilyPond lilypond handling" <<
+      "Initializing LilyPond OAH handling" <<
       endl;
   }
 #endif
@@ -5795,7 +5795,7 @@ S_oahValuedAtom lilypondBreakPageAfterMeasureNumberAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a lilypondBreakPageAfterMeasureNumberAtom" <<
       endl;
@@ -5806,12 +5806,12 @@ S_oahValuedAtom lilypondBreakPageAfterMeasureNumberAtom::handleOptionUnderName (
   return this;
 }
 
-void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
+void lilypondBreakPageAfterMeasureNumberAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondBreakPageAfterMeasureNumberAtom'" <<
       endl;
@@ -5822,7 +5822,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
   // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'lilypondBreakPageAfterMeasureNumberAtom'" <<
       endl;
@@ -5846,7 +5846,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "There are " << smSize << " matches" <<
       " for reset measure number string '" << theString <<
@@ -5887,7 +5887,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::handleValue (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "musicXMLMeasureNumber  = " <<
       musicXMLMeasureNumber <<
@@ -5942,7 +5942,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lilypondBreakPageAfterMeasureNumberAtom::printAtomOptionsValues (
+void lilypondBreakPageAfterMeasureNumberAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {

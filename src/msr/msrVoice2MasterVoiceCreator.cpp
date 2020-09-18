@@ -449,7 +449,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasure& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<
@@ -589,7 +589,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -673,7 +673,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasure& elt)
           "', line " << inputLineNumber;
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -908,7 +908,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrNote& elt)
           fCurrentNonGraceNoteClone;
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceVoices) {
+        if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceVoices) {
           fLogOutputStream <<
             "The first note of voice clone RJIRWR '" <<
             fMasterVoice->getVoiceName () <<
@@ -931,7 +931,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrNote& elt)
     elt->getNoteTrillOrnament ()) {
     // yes, create the after grace notes
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotesGroup) {
+    if (gGlobalTraceOahGroup->fTraceNotesGroup) {
       fLogOutputStream <<
         "Optimizing grace notes on trilled note '" <<
         elt->asShortString () <<
@@ -971,7 +971,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesDetails) {
+  if (gGlobalTraceOahGroup->fTraceNotesDetails) {
     fLogOutputStream <<
       "FAA fCurrentNonGraceNoteClone = " <<
       endl;
@@ -994,7 +994,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 
     case msrNote::kRestNote:
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending rest note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -1010,7 +1010,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 
     case msrNote::kSkipNote: // JMI
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending skip note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -1026,7 +1026,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 
     case msrNote::kUnpitchedNote:
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending unpitched note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -1042,7 +1042,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
 
     case msrNote::kRegularNote:
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending regular note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -1080,7 +1080,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1106,7 +1106,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1118,7 +1118,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrNote& elt)
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletUnpitchedMemberNote:
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceNotes) {
         fLogOutputStream <<
           "Appending note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "'' to voice clone " <<
@@ -1191,7 +1191,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1249,7 +1249,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrTuplet& elt)
 
   // register it in this visitor
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tupletClone->asString () <<
@@ -1273,7 +1273,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTuplet& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTuplets) {
+  if (gGlobalTraceOahGroup->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet '" <<
       elt->asString () <<
@@ -1287,7 +1287,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTuplet& elt)
   if (fTupletClonesStack.size ()) {
     // tuplet is a nested tuplet
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "Adding nested tuplet '" <<
       elt->asString () <<
@@ -1306,7 +1306,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrTuplet& elt)
     // tuplet is a top level tuplet
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTuplets) {
+    if (gGlobalTraceOahGroup->fTraceTuplets) {
       fLogOutputStream <<
         "Adding top level tuplet '" <<
       elt->asString () <<
@@ -1498,7 +1498,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRepeat& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1528,7 +1528,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRepeat& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat end in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1600,7 +1600,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRepeatEnding& elt)
 
   // handle the repeat ending start in the voice clone
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1632,7 +1632,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRepeatEnding& elt)
 
   // handle the repeat ending end in the voice clone
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending end in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1666,7 +1666,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRestMeasures& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1698,7 +1698,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRestMeasures& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1730,7 +1730,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrRestMeasuresContents& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1760,7 +1760,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrRestMeasuresContents& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1791,7 +1791,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeat& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat start in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1825,7 +1825,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeat& elt)
 /* JMI
   // set last segment as the measures repeat pattern segment
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measures repeat pattern segment in voice \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1836,7 +1836,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeat& elt)
 */
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat end in voice clone \"" <<
       fMasterVoice->getVoiceName () <<
@@ -1868,7 +1868,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeatPattern& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1898,7 +1898,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   gIndenter--;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1929,7 +1929,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   gIndenter++;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1960,7 +1960,7 @@ void msrVoice2MasterVoiceCreator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     fMasterVoice->
       displayVoice (
         inputLineNumber,
@@ -1991,7 +1991,7 @@ void msrVoice2MasterVoiceCreator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBarlines) {
+  if (gGlobalTraceOahGroup->fTraceBarlines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (

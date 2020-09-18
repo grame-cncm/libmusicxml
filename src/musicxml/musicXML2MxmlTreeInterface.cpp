@@ -170,7 +170,7 @@ string uncompressMXLFile (
         "' with 'popen ()'";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
@@ -198,7 +198,7 @@ string uncompressMXLFile (
       // close the stream
       if (pclose (inputStream) < 0) {
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           0, // inputLineNumber
           __FILE__, __LINE__,
           "Cannot close the input stream after 'popen ()'");
@@ -275,7 +275,7 @@ string uncompressMXLFile (
 
         if (sm.size ()) {
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->getTracePasses ()) { // JMI ???
+          if (gGlobalTraceOahGroup->getTracePasses ()) { // JMI ???
             logOstream <<
               "There are " << sm.size () - 1 << " match(es) " <<
               "with regex '" << regularExpression <<
@@ -324,7 +324,7 @@ string uncompressMXLFile (
                   "' and then '" << stringFromLine << "'";
 
                 msrInternalError (
-                  gGlobalOahOah->fInputSourceName,
+                  gGlobalOahOahGroup->fInputSourceName,
                   0, // inputLineNumber
                   __FILE__, __LINE__,
                   s.str ());
@@ -392,7 +392,7 @@ string uncompressMXLFile (
         "' with 'popen ()'";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
@@ -415,7 +415,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   string fileNameAsString = fileName;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -463,7 +463,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     string message = s.str ();
 
     msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       1, // inputLineNumber,
       __FILE__, __LINE__,
       message);
@@ -549,7 +549,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   if (encoding == desiredEncoding) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->getTracePasses ()) {
+    if (gGlobalTraceOahGroup->getTracePasses ()) {
       logOstream <<
         "% MusicXML data uses \"" <<
         desiredEncoding <<
@@ -567,7 +567,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       " doesn't contain any encoding specification; assuming it is UTF-8";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
@@ -583,7 +583,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
     msrMusicXMLWarning (
 //    msrMusicXMLError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       1, // inputLineNumber,
 //      __FILE__, __LINE__,
       s.str ());
@@ -614,7 +614,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -709,7 +709,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       ", for example with iconv or using a text editor - handling it as is";
 
     msrMusicXMLWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
@@ -740,7 +740,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -782,7 +782,7 @@ Sxmlelement convertMusicXMLToMxmlTree (
   string passNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 

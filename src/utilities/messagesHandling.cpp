@@ -81,7 +81,7 @@ void msgWarning (
   int    inputLineNumber,
   string message)
 {
-  if (! gGlobalGeneralOah->fQuiet) {
+  if (! gGlobalGeneralOahGroup->fQuiet) {
     int saveIndent = gIndenter.getIndent ();
 
     gIndenter.resetToZero ();
@@ -105,14 +105,14 @@ void msgError (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! gGlobalGeneralOah->fQuiet) {
-    if (gGlobalGeneralOah->fDisplaySourceCodePosition) {
+  if (! gGlobalGeneralOahGroup->fQuiet) {
+    if (gGlobalGeneralOahGroup->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    if (! gGlobalGeneralOah->fDontShowErrors) {
+    if (! gGlobalGeneralOahGroup->fDontShowErrors) {
       int saveIndent = gIndenter.getIndent ();
 
       gIndenter.resetToZero ();
@@ -139,12 +139,12 @@ void msrUnsupported (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGlobalGeneralOah->fQuiet && gGlobalGeneralOah->fDontShowErrors)) {
+  if (! (gGlobalGeneralOahGroup->fQuiet && gGlobalGeneralOahGroup->fDontShowErrors)) {
     int saveIndent = gIndenter.getIndent ();
 
     gIndenter.resetToZero ();
 
-    if (gGlobalGeneralOah->fDisplaySourceCodePosition) {
+    if (gGlobalGeneralOahGroup->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -220,8 +220,8 @@ void msrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGlobalGeneralOah->fDontShowErrors) {
-    if (! gGlobalGeneralOah->fDontExitOnErrors) { // JMI
+  if (! gGlobalGeneralOahGroup->fDontShowErrors) {
+    if (! gGlobalGeneralOahGroup->fDontExitOnErrors) { // JMI
       throw msrMusicXMLException (message);
     }
     else {
@@ -258,7 +258,7 @@ void lpsrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGlobalGeneralOah->fDontShowErrors) { // JMI
+  if (! gGlobalGeneralOahGroup->fDontShowErrors) { // JMI
     throw lpsrMusicXMLException (message);
   }
 
@@ -324,7 +324,7 @@ void bmmlError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGlobalGeneralOah->fDontShowErrors) { // JMI
+  if (! gGlobalGeneralOahGroup->fDontShowErrors) { // JMI
     throw bmmlException (message);
   }
 
@@ -377,7 +377,7 @@ void meiError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGlobalGeneralOah->fDontShowErrors) { // JMI
+  if (! gGlobalGeneralOahGroup->fDontShowErrors) { // JMI
     throw meiException (message);
   }
 
@@ -410,8 +410,8 @@ void msrStreamsWarning (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGlobalGeneralOah->fQuiet && gGlobalGeneralOah->fDontShowErrors)) {
-    if (gGlobalGeneralOah->fDisplaySourceCodePosition) {
+  if (! (gGlobalGeneralOahGroup->fQuiet && gGlobalGeneralOahGroup->fDontShowErrors)) {
+    if (gGlobalGeneralOahGroup->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -431,8 +431,8 @@ void msrStreamsError (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGlobalGeneralOah->fQuiet && gGlobalGeneralOah->fDontShowErrors)) {
-    if (gGlobalGeneralOah->fDisplaySourceCodePosition) {
+  if (! (gGlobalGeneralOahGroup->fQuiet && gGlobalGeneralOahGroup->fDontShowErrors)) {
+    if (gGlobalGeneralOahGroup->fDisplaySourceCodePosition) {
       gLogOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
@@ -457,7 +457,7 @@ void displayWarningsAndErrorsInputLineNumbers ()
   int warningsInputLineNumbersSize =
     gWarningsInputLineNumbers.size ();
 
-  if (warningsInputLineNumbersSize && ! gGlobalGeneralOah->fQuiet) {
+  if (warningsInputLineNumbersSize && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Warning message(s) were issued for input " <<
       singularOrPluralWithoutNumber (

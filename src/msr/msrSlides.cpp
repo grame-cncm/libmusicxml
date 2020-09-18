@@ -66,7 +66,7 @@ msrSlide::~msrSlide ()
 S_msrSlide msrSlide::createSlideNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceSlides) {
+  if (gGlobalTraceOahGroup->fTraceSlides) {
     gLogOstream <<
       "Creating a newborn clone of slide '" <<
       asString () <<

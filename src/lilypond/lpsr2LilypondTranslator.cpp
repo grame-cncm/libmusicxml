@@ -120,7 +120,7 @@ void lpsr2LilypondTranslator::setCurrentOctaveEntryReferenceFromTheLilypondOah (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
     fLogOutputStream <<
       "setCurrentOctaveEntryReferenceFromTheLilypondOah()" <<
       ", octaveEntryKind is" <<
@@ -223,7 +223,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   } // switch
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
     fLogOutputStream <<
       "lpsr2LilypondTranslator()" <<
       ", octaveEntryKind is" <<
@@ -333,7 +333,7 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   string result;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceNotes) {
     fLilypondCodeOstream <<
       endl <<
       "%{ absoluteOctave = " << absoluteOctave << " %} " <<
@@ -488,7 +488,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
     const int fieldWidth = 28;
 
     fLogOutputStream << left <<
@@ -540,7 +540,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
     fLogOutputStream <<
       "lilypondOctaveInRelativeEntryMode() 2" <<
       ", result = " << s.str () <<
@@ -579,7 +579,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInFixedEntryMode (
     noteAbsoluteOctave - referenceAbsoluteOctave;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
     fLogOutputStream << left <<
       "% noteAbsoluteOctave = " <<
       noteAbsoluteOctave <<
@@ -705,7 +705,7 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
         stringTuningAlterationKind);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceScordaturas) {
+  if (gGlobalTraceOahGroup->fTraceScordaturas) {
     int
       getStringTuningNumber =
         stringTuning->
@@ -807,7 +807,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
   // should an absolute octave be generated?
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
     int
       noteAbsoluteDisplayOctave =
         note->getNoteDisplayOctave ();
@@ -852,7 +852,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
     case kOctaveEntryRelative:
       if (! fCurrentOctaveEntryReference) {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+        if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
           fLogOutputStream <<
             "notePitchAsLilypondString() 2: fCurrentOctaveEntryReference is null" <<
             " upon note " << note->asString () <<
@@ -870,7 +870,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       }
       else {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+        if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
           fLogOutputStream <<
             "notePitchAsLilypondString() 3: fCurrentOctaveEntryReference is '" <<
             fCurrentOctaveEntryReference->asString () <<
@@ -931,7 +931,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   } // switch
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotesOctaveEntry) {
+  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
     fLogOutputStream << endl;
   }
 #endif
@@ -1012,7 +1012,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       note->getNoteDisplayOctave ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceNotes) {
     // in MusicXML, octave number is 4 for the octave starting with middle C
     int noteAbsoluteOctave =
       note->getNoteOctave ();
@@ -1131,7 +1131,7 @@ void lpsr2LilypondTranslator::generateNoteHeadColor (
         ", line " << inputLineNumber;
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1194,7 +1194,7 @@ void lpsr2LilypondTranslator::generateNoteLigatures (
             } // switch
 
 #ifdef TRACE_OAH
-            if (gGlobalTraceOah->fTraceLigatures) {
+            if (gGlobalTraceOahGroup->fTraceLigatures) {
               fLogOutputStream <<
                 "Ligature vertical flipping factore for note '" <<
                 note->asString () <<
@@ -1726,7 +1726,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         if (note->getNoteDelayedTurnOrnament ()) {
           // c2*2/3 ( s2*1/3\turn) JMI
           // we need the explicit duration in all cases,
-          // regardless of gGlobalGeneralOah->fAllDurations
+          // regardless of gGlobalGeneralOahGroup->fAllDurations
           fLilypondCodeOstream <<
             wholeNotesAsLilypondString (
               inputLineNumber,
@@ -1773,7 +1773,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         if (note->getNoteDelayedTurnOrnament ()) {
           // c2*2/3 ( s2*1/3\turn) JMI
           // we need the explicit duration in all cases,
-          // regardless of gGlobalGeneralOah->fAllDurations
+          // regardless of gGlobalGeneralOahGroup->fAllDurations
           fLilypondCodeOstream <<
           //* JMI TOO MUCH
             wholeNotesAsLilypondString (
@@ -2421,7 +2421,7 @@ void lpsr2LilypondTranslator::generateNoteArticulation (
           ", line " << articulation->getInputLineNumber ();
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           articulation->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -2566,7 +2566,7 @@ void lpsr2LilypondTranslator::generateChordArticulation (
           ", line " << articulation->getInputLineNumber ();
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           articulation->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -3245,7 +3245,7 @@ void lpsr2LilypondTranslator::transposeDiatonicError (
     "'";
 
   msrMusicXMLError (
-    gGlobalOahOah->fInputSourceName,
+    gGlobalOahOahGroup->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -3291,7 +3291,7 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTremolos) {
+  if (gGlobalTraceOahGroup->fTraceTremolos) {
     fLogOutputStream <<
       "singleTremoloDurationAsLilypondString()" <<
       ", line " << singleTremolo->getInputLineNumber () <<
@@ -4857,7 +4857,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
       fLilypondCodeOstream << left <<
         setw (fieldNameWidth) <<
         "title = \"" <<
-        gGlobalOahOah->fInputSourceName <<
+        gGlobalOahOahGroup->fInputSourceName <<
         "\"" <<
         endl;
     }
@@ -6096,7 +6096,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       } // switch
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTracePartGroups) {
+      if (gGlobalTraceOahGroup->fTracePartGroups) {
          fLilypondCodeOstream <<
           " %{ " <<
           partGroup->getPartGroupCombinedName () <<
@@ -6921,7 +6921,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
 
     // should a transposition be generated?
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceTranspositions) {
+    if (gGlobalTraceOahGroup->fTraceTranspositions) {
       fLogOutputStream <<
         endl <<
         "Considering the generation a a voice transposition for part \"" <<
@@ -6983,7 +6983,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
     if (doTransposeCurrentPart) {
       // generate the transposition
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceTranspositions) {
+      if (gGlobalTraceOahGroup->fTraceTranspositions) {
         fLogOutputStream <<
           endl <<
           "Generating a voice transposition for " <<
@@ -7595,7 +7595,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceParts) {
+  if (gGlobalTraceOahGroup->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -7858,7 +7858,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   if (gGlobalLpsr2LilypondOah->fBoxAroundBarNumberSet.size ()) {
     // yes, center the boxed bar number
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceMeasuresNumbers) {
+    if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
       fLogOutputStream <<
         endl <<
         "Centering boxed LilyPond measure numbers" <<
@@ -8088,7 +8088,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   if (fOnGoingNotesStack.size () > 0) {
   /* JMI
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceHarmonies) {
+    if (gGlobalTraceOahGroup->fTraceHarmonies) {
       fLilypondCodeOstream <<
         "%{ fOnGoingNotesStack.size () S_msrHarmony JMI " <<
         elt->asString () <<
@@ -8134,7 +8134,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFrame& elt)
 
   if (fOnGoingNotesStack.size () > 0) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceFrames) {
+    if (gGlobalTraceOahGroup->fTraceFrames) {
       fLilypondCodeOstream <<
         "%{ " << elt->asString () << " %}" <<
         endl;
@@ -8168,7 +8168,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
 
   if (fOnGoingNotesStack.size () > 0) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceFiguredBasses) {
+    if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
       fLilypondCodeOstream <<
         "%{ fOnGoingNotesStack.size () S_msrFiguredBass JMI " << fCurrentFiguredBass->asString () << " %}" <<
         endl;
@@ -8464,7 +8464,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     if (it != gGlobalLpsr2LilypondOah->fBoxAroundBarNumberSet.end ()) {
       // yes, generate a box around the bar number
   #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceMeasuresNumbers) {
+      if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
         fLogOutputStream <<
           endl <<
           "Generating a box around LilyPond measure purist number '" <<
@@ -8493,7 +8493,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
       if (to_string (lilypondMeasureNumber) != measureNumber) {
   #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceMeasuresNumbers) {
+        if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
           fLogOutputStream <<
             endl <<
             "Resetting LilyPond measure number from '" <<
@@ -8512,7 +8512,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       }
       else {
   #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceMeasuresNumbers) {
+        if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
           fLogOutputStream <<
             endl <<
             "Cannot reset measure LilyPond number from '" <<
@@ -8529,7 +8529,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
@@ -8632,13 +8632,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
 if (false) // JMI
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
 else
         msrInternalWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -8685,7 +8685,7 @@ else
         ratioToFullMeasureWholeNotesDuration.rationalise ();
 
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceMeasuresDetails) {
+        if (gGlobalTraceOahGroup->fTraceMeasuresDetails) {
           const int fieldWidth = 27;
 
           fLilypondCodeOstream << left <<
@@ -8719,7 +8719,7 @@ else
 
      // JMI       msrInternalError (
           msrInternalWarning (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
     // JMI        __FILE__, __LINE__,
             s.str ());
@@ -8882,7 +8882,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
@@ -9000,7 +9000,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     if (it != gGlobalLpsr2LilypondOah->fBreakLineAfterMeasureNumberSet.end ()) {
       // yes, generate a line break command
   #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceLineBreaks) {
+        if (gGlobalTraceOahGroup->fTraceLineBreaks) {
           fLogOutputStream <<
             endl <<
             "Adding a LilyPond line break after measure number '" <<
@@ -9018,7 +9018,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   /* JMI
     else {
   #ifdef TRACE_OAH
-     if (gGlobalTraceOah->fTraceLineBreaks) { // JMI
+     if (gGlobalTraceOahGroup->fTraceLineBreaks) { // JMI
         fLogOutputStream <<
           endl <<
           "Measure number '" <<
@@ -9042,7 +9042,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     if (it != gGlobalLpsr2LilypondOah->fBreakPageAfterMeasureNumberSet.end ()) {
       // yes, generate a page break command
   #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTracePageBreaks) {
+        if (gGlobalTraceOahGroup->fTracePageBreaks) {
           fLogOutputStream <<
             endl <<
             "Adding a LilyPond page break after measure number '" <<
@@ -9060,7 +9060,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   /* JMI
     else {
   #ifdef TRACE_OAH
-     if (gGlobalTraceOah->fTracePageBreaks) { // JMI
+     if (gGlobalTraceOahGroup->fTracePageBreaks) { // JMI
         fLogOutputStream <<
           endl <<
           "Measure number '" <<
@@ -9184,7 +9184,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             ' ';
 
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableSingle %} ";
           }
@@ -9210,7 +9210,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " -- ";
 
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableBegin %} ";
           }
@@ -9236,7 +9236,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " -- ";
 
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableMiddle %} ";
           }
@@ -9262,7 +9262,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             ' ';
 
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableEnd %} ";
           }
@@ -9278,7 +9278,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             ' ';
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
             " %{ syllableOnRestNote %} ";
           }
@@ -9290,7 +9290,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             case kLyricsDurationsImplicit:
               // LilyPond ignores the skip durations when \lyricsto is used
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceLyrics) {
+              if (gGlobalTraceOahGroup->fTraceLyrics) {
                 fLilypondCodeOstream <<
                   " %{ NOTHING for kSyllableSkipRestNote " <<
                   elt->syllableWholeNotesAsMsrString () <<
@@ -9304,7 +9304,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
                 elt->syllableWholeNotesAsMsrString () <<
                 ' ';
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceLyrics) {
+              if (gGlobalTraceOahGroup->fTraceLyrics) {
                 fLilypondCodeOstream <<
                 " %{ kLyricsDurationsExplicit %} ";
               }
@@ -9322,7 +9322,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
                 elt->syllableWholeNotesAsMsrString () <<
                 ' ';
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceLyrics) {
+              if (gGlobalTraceOahGroup->fTraceLyrics) {
                 fLilypondCodeOstream <<
                   " %{ syllableSkipNonRestNote lyricsDurationsImplicit %} ";
               }
@@ -9334,7 +9334,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
                 elt->syllableWholeNotesAsMsrString () <<
                 ' ';
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceLyrics) {
+              if (gGlobalTraceOahGroup->fTraceLyrics) {
                 fLilypondCodeOstream <<
                 " %{ syllableSkipNonRestNote lyricsDurationsExplicit %} ";
               }
@@ -9380,7 +9380,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       switch (elt->getSyllableExtendKind ()) {
         case msrSyllable::kSyllableExtendNone:
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableExtendNone %} ";
           }
@@ -9389,7 +9389,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableExtendEmpty:
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableExtendEmpty %} ";
           }
@@ -9410,7 +9410,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
               break;
           } // switch
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableExtendSingle %} ";
           }
@@ -9431,7 +9431,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
               break;
           } // switch
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableExtendStart %} ";
           }
@@ -9440,7 +9440,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableExtendContinue:
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableExtendContinue %} ";
           }
@@ -9449,7 +9449,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
         case msrSyllable::kSyllableExtendStop:
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceLyrics) {
+          if (gGlobalTraceOahGroup->fTraceLyrics) {
             fLilypondCodeOstream <<
               "%{ syllableExtendStop %} ";
           }
@@ -9519,7 +9519,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
       // this is a clef change, comment it
 
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceClefs) {
+      if (gGlobalTraceOahGroup->fTraceClefs) {
         gLogOstream <<
           "Commenting clef change from " <<
           fCurrentVoiceClef->asShortString () <<
@@ -9736,7 +9736,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
 
             else {
                 msrInternalError (
-                  gGlobalOahOah->fInputSourceName,
+                  gGlobalOahOahGroup->fInputSourceName,
                   elt->getInputLineNumber (),
                   __FILE__, __LINE__,
                   "Humdrum/Scot key items vector is empty");
@@ -9933,7 +9933,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       // there are no time items
       if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           elt->getInputLineNumber (),
           __FILE__, __LINE__,
           "time items vector is empty");
@@ -10364,7 +10364,7 @@ If the double element is present, it indicates that the music is doubled one oct
           "' is not between -12 and 12, ignored";
 
         msrMusicXMLError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           elt->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -10403,7 +10403,7 @@ If the double element is present, it indicates that the music is doubled one oct
 
 /* JMI
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTranspositions) {
+  if (gGlobalTraceOahGroup->fTraceTranspositions) {
     fLilypondCodeOstream << // JMI
       "Handlling transpose '" <<
       elt->transposeAsString () <<
@@ -11410,7 +11410,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     elt->getDoubleTremoloNumberOfRepeats ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTremolos) {
+  if (gGlobalTraceOahGroup->fTraceTremolos) {
     fLilypondCodeOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl;
@@ -11658,7 +11658,7 @@ void lpsr2LilypondTranslator::generateNoteBeams (S_msrNote note)
       S_msrBeam beam = (*i);
 
  #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceBeams) {
+      if (gGlobalTraceOahGroup->fTraceBeams) {
         gLogOstream <<
           "Considering to generate LilyPond code for beam " <<
           beam->asShortString () <<
@@ -11676,7 +11676,7 @@ void lpsr2LilypondTranslator::generateNoteBeams (S_msrNote note)
           if (beam->getBeamNumber () == 1) {
             if (! gGlobalLpsr2LilypondOah->fNoBeams) {
  #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceBeams) {
+              if (gGlobalTraceOahGroup->fTraceBeams) {
                 gLogOstream <<
                   "Generating LilyPond code for beam " <<
                   beam->asShortString () <<
@@ -11744,7 +11744,7 @@ void lpsr2LilypondTranslator::generateNoteSlurs (S_msrNote note)
       S_msrSlur slur = (*i);
 
  #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceSlurs) {
+      if (gGlobalTraceOahGroup->fTraceSlurs) {
         gLogOstream <<
           "Considering to generate LilyPond code for slur " <<
           slur->asShortString () <<
@@ -11764,7 +11764,7 @@ void lpsr2LilypondTranslator::generateNoteSlurs (S_msrNote note)
           break;
         case msrSlur::kRegularSlurStart:
  #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceSlurs) {
+          if (gGlobalTraceOahGroup->fTraceSlurs) {
             gLogOstream <<
               "Generating LilyPond code for slur " <<
               slur->asShortString () <<
@@ -11828,7 +11828,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
   */
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     fLilypondCodeOstream <<
       "% --> generating code for grace notes group " <<
       graceNotesGroup->asString () <<
@@ -11971,7 +11971,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
           ", line " << graceNotesGroup->getInputLineNumber ();
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           graceNotesGroup->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -11995,7 +11995,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
       ", line " << graceNotesGroup->getInputLineNumber ();
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       graceNotesGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -12335,14 +12335,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
               if (
                 gGlobalMsrOah->fTraceMsrVisitors
                   ||
-                gGlobalTraceOah->ffTraceRestMeasures) {
+                gGlobalTraceOahGroup->ffTraceRestMeasures) {
                 gLogOstream <<
                   "% ==> visiting rest measures is ignored" <<
                   endl;
               }
 
   #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceNotesDetails) {
+    if (gGlobalTraceOahGroup->fTraceNotesDetails) {
       gLogOstream <<
         "% ==> returning from visitStart (S_msrNote&)" <<
       endl;
@@ -12358,7 +12358,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           if (
             gGlobalMsrOah->fTraceMsrVisitors
               ||
-            gGlobalTraceOah->fTraceRestMeasures
+            gGlobalTraceOahGroup->fTraceRestMeasures
           ) {
             gLogOstream <<
               "% ==> start visiting rest notes is ignored upon note " <<
@@ -12376,7 +12376,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           if (
             gGlobalMsrOah->fTraceMsrVisitors
               ||
-            gGlobalTraceOah->fTraceNotes
+            gGlobalTraceOahGroup->fTraceNotes
           ) {
             gLogOstream <<
               "% ==> start visiting skip notes is ignored upon note " <<
@@ -12395,7 +12395,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           if (
             gGlobalMsrOah->fTraceMsrVisitors
               ||
-            gGlobalTraceOah->fTraceGraceNotes
+            gGlobalTraceOahGroup->fTraceGraceNotes
           ) {
             gLogOstream <<
               "% ==> start visiting grace notes is ignored upon note " <<
@@ -12412,7 +12412,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           if (
             gGlobalMsrOah->fTraceMsrVisitors
               ||
-            gGlobalTraceOah->fTraceGraceNotes
+            gGlobalTraceOahGroup->fTraceGraceNotes
           ) {
             gLogOstream <<
               "% ==> start visiting chord grace notes is ignored upon note " <<
@@ -13148,9 +13148,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             if (inhibitRestMeasuresBrowsing) {
 #ifdef TRACE_OAH
               if (
-                gGlobalTraceOah->fTraceNotes
+                gGlobalTraceOahGroup->fTraceNotes
                   ||
-                gGlobalTraceOah->fTraceRestMeasures
+                gGlobalTraceOahGroup->fTraceRestMeasures
               ) {
                 gLogOstream <<
                   "% ==> end visiting rest measures is ignored" <<
@@ -13159,7 +13159,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 #endif
 
 #ifdef TRACE_OAH
-              if (gGlobalTraceOah->fTraceNotesDetails) {
+              if (gGlobalTraceOahGroup->fTraceNotesDetails) {
                 gLogOstream <<
                   "% ==> returning from visitEnd (S_msrNote&)" <<
                   endl;
@@ -13177,7 +13177,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           if (
             gGlobalMsrOah->fTraceMsrVisitors
               ||
-            gGlobalTraceOah->fTraceNotes
+            gGlobalTraceOahGroup->fTraceNotes
           ) {
             gLogOstream <<
               "% ==> end visiting skip notes is ignored" <<
@@ -13195,7 +13195,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           if (
             gGlobalMsrOah->fTraceMsrVisitors
               ||
-            gGlobalTraceOah->fTraceGraceNotes) {
+            gGlobalTraceOahGroup->fTraceGraceNotes) {
             gLogOstream <<
               "% ==> end visiting grace notes is ignored" <<
               endl;
@@ -13437,7 +13437,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
                 ", line " << articulation->getInputLineNumber ();
 
               msrInternalError (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 articulation->getInputLineNumber (),
                 __FILE__, __LINE__,
                 s.str ());
@@ -13869,7 +13869,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
                 ", line " << articulation->getInputLineNumber ();
 
               msrInternalError (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 articulation->getInputLineNumber (),
                 __FILE__, __LINE__,
                 s.str ());
@@ -14288,7 +14288,7 @@ void lpsr2LilypondTranslator::generateCodeRightBeforeChordContents (
   S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLilypondCodeOstream <<
       "% --> generateCodeRightBeforeChordContents() for chord " <<
       chord->asShortString () <<
@@ -14551,7 +14551,7 @@ void lpsr2LilypondTranslator::generateCodeForChordInGraceNotesGroupContents (
   S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLilypondCodeOstream <<
       "% --> generateCodeForChordInGraceNotesGroupContents() for chord " <<
       chord->asShortString () <<
@@ -14595,7 +14595,7 @@ void lpsr2LilypondTranslator::generateCodeRightAfterChordContents (
   S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceChords) {
+  if (gGlobalTraceOahGroup->fTraceChords) {
     fLilypondCodeOstream <<
       endl <<
       "% --> generateCodeRightAfterChordContents() for chord " <<
@@ -15245,7 +15245,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       elt->asShortString ();
 
     msrInternalWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       chordInputLineNumber,
       s.str ());
 
@@ -15281,7 +15281,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
 
   if (fOnGoingGraceNotesGroup) {
     msrInternalWarning (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       "% ==> End visiting grace chords is ignored inside grace notes groups");
 
@@ -15728,7 +15728,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
           "' has no pedal type";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -15939,7 +15939,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 
   // JMI      msrInternalError (
         msrInternalWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
   // JMI        __FILE__, __LINE__,
           s.str ());
@@ -15987,7 +15987,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
     elt->getNextBarPuristNumber ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     fLilypondCodeOstream <<
       "% nextBarPuristNumber = " <<
       nextBarPuristNumber <<
@@ -16051,7 +16051,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
 #endif
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     fLilypondCodeOstream <<
       "% fOnGoingVoiceCadenza = " <<
       booleanAsString (fOnGoingVoiceCadenza) <<
@@ -16456,7 +16456,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 
 /* JMI
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRepeats) {
+  if (gGlobalTraceOahGroup->fTraceRepeats) {
     fLilypondCodeOstream <<
       "% ===**** fRepeatDescrsStack.back () = '" <<
       fRepeatDescrsStack.back ()->repeatDescrAsString () <<
@@ -16657,7 +16657,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
     elt->fetchMeasuresRepeatReplicasNumber ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresRepeats) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
     int repeatPatternMeasuresNumber =
       elt->fetchMeasuresRepeatPatternMeasuresNumber ();
 

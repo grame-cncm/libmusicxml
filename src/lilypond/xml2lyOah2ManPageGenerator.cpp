@@ -89,7 +89,7 @@ xml2lyOah2ManPageGenerator::~xml2lyOah2ManPageGenerator ()
 void xml2lyOah2ManPageGenerator::visitTheHandler ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Running xml2lyOah2ManPageGenerator::visitTheHandler()" <<
@@ -117,7 +117,7 @@ void xml2lyOah2ManPageGenerator::visitTheHandler ()
 void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyVersionOahAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting xml2lyVersionOahAtom" <<
@@ -146,7 +146,7 @@ void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyVersionOahAtom& elt)
 void xml2lyOah2ManPageGenerator::visitEnd (S_xml2lyVersionOahAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting xml2lyVersionOahAtom" <<
@@ -160,7 +160,7 @@ void xml2lyOah2ManPageGenerator::visitEnd (S_xml2lyVersionOahAtom& elt)
 void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyAboutOahAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting xml2lyAboutOahAtom" <<
@@ -190,7 +190,7 @@ void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyAboutOahAtom& elt)
 void xml2lyOah2ManPageGenerator::visitEnd (S_xml2lyAboutOahAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting xml2lyAboutOahAtom" <<
@@ -204,7 +204,7 @@ void xml2lyOah2ManPageGenerator::visitEnd (S_xml2lyAboutOahAtom& elt)
 void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyContactOahAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
      endl <<
       ".\\\" --> Start visiting xml2lyContactOahAtom" <<
@@ -235,7 +235,7 @@ void xml2lyOah2ManPageGenerator::visitStart (S_xml2lyContactOahAtom& elt)
 void xml2lyOah2ManPageGenerator::visitEnd (S_xml2lyContactOahAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting xml2lyContactOahAtom" <<

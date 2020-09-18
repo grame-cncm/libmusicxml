@@ -132,7 +132,7 @@ void displayBsrFirstScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGlobalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOahGroup->fQuiet) {
       stringstream s;
 
       s <<
@@ -140,7 +140,7 @@ void displayBsrFirstScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -162,7 +162,7 @@ void displayBsrFirstScoreShort_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGlobalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOahGroup->fQuiet) {
       stringstream s;
 
       s <<
@@ -170,7 +170,7 @@ void displayBsrFirstScoreShort_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -193,7 +193,7 @@ void displayFinalizedBsrScore_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGlobalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOahGroup->fQuiet) {
       stringstream s;
 
       s <<
@@ -201,7 +201,7 @@ void displayFinalizedBsrScore_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -223,7 +223,7 @@ void displayFinalizedBsrScoreShort_OptionalPass (
     gLogOstream);
 
   if (gIndenter != 0) {
-    if (! gGlobalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOahGroup->fQuiet) {
       stringstream s;
 
       s <<
@@ -231,7 +231,7 @@ void displayFinalizedBsrScoreShort_OptionalPass (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }
@@ -260,7 +260,7 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     logOstream <<
       endl <<
       separator <<
@@ -401,7 +401,7 @@ S_bsrScore convertBsrScoreToFinalizedBsrScore (
   }
 
   if (gIndenter != 0) {
-    if (! gGlobalGeneralOah->fQuiet) {
+    if (! gGlobalGeneralOahGroup->fQuiet) {
       stringstream s;
 
       s <<
@@ -409,7 +409,7 @@ S_bsrScore convertBsrScoreToFinalizedBsrScore (
         gIndenter.getIndent ();
 
       msrMusicXMLWarning (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         1, // JMI inputLineNumber,
         s.str ());
     }

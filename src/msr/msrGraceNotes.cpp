@@ -85,7 +85,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of grace notes group '" <<
       asShortString () <<
@@ -146,7 +146,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a skip clone of grace notes group '" <<
       asShortString () <<
@@ -188,7 +188,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
     ) {
       // create grace skip note with same duration as note
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceGraceNotes) {
+      if (gGlobalTraceOahGroup->fTraceGraceNotes) {
         gLogOstream <<
           "Creating a skip grace note" <<
           ", soundingWholeNotes: " << note->getNoteSoundingWholeNotes () <<
@@ -240,7 +240,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
 
     else {
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "grace notes element should be a note or a chord");
@@ -253,7 +253,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
 void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<
@@ -281,7 +281,7 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Appending chord '" <<
       chord->asShortString () <<
@@ -301,7 +301,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Removing last note from grace notes group '" <<
       asShortString () <<
@@ -318,7 +318,7 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
     "fGraceNotesGroupElementsList.size () == 0");
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Removing last note from grace notes '" <<
       asString () <<
@@ -337,14 +337,14 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 
   else {
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "removeLastNoteFromGraceNotesGroup (): grace notes group element should be a note");
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "This last note from grace notes '" <<
       asString () <<
@@ -365,7 +365,7 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
   rational     positionInMeasure)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting grace notes group elements position in measure of " << asString () <<
       " to '" <<

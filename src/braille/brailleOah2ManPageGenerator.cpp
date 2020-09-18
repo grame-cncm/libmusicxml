@@ -51,7 +51,7 @@ brailleOah2ManPageGenerator::~brailleOah2ManPageGenerator ()
 void brailleOah2ManPageGenerator::visitStart (S_brailleOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting brailleOutputKindAtom" <<
@@ -80,7 +80,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleOutputKindAtom& elt)
 void brailleOah2ManPageGenerator::visitEnd (S_brailleOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting brailleOutputKindAtom" <<
@@ -94,7 +94,7 @@ void brailleOah2ManPageGenerator::visitEnd (S_brailleOutputKindAtom& elt)
 void brailleOah2ManPageGenerator::visitStart (S_brailleUTFKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting brailleUTFKindAtom" <<
@@ -123,7 +123,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleUTFKindAtom& elt)
 void brailleOah2ManPageGenerator::visitEnd (S_brailleUTFKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting brailleUTFKindAtom" <<
@@ -137,7 +137,7 @@ void brailleOah2ManPageGenerator::visitEnd (S_brailleUTFKindAtom& elt)
 void brailleOah2ManPageGenerator::visitStart (S_brailleByteOrderingKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting brailleByteOrderingKindAtom" <<
@@ -166,7 +166,7 @@ void brailleOah2ManPageGenerator::visitStart (S_brailleByteOrderingKindAtom& elt
 void brailleOah2ManPageGenerator::visitEnd (S_brailleByteOrderingKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting brailleByteOrderingKindAtom" <<

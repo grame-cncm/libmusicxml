@@ -238,7 +238,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-          if (gGlobalTraceOah->fTraceTempos && ! gGlobalGeneralOah->fQuiet) {
+          if (gGlobalTraceOahGroup->fTraceTempos && ! gGlobalGeneralOahGroup->fQuiet) {
             gLogOstream <<
               "There are " << smSize << " matches" <<
               " for rational string '" << tempoPerMinuteString <<
@@ -281,7 +281,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-            if (gGlobalTraceOah->fTraceTempos && ! gGlobalGeneralOah->fQuiet) {
+            if (gGlobalTraceOahGroup->fTraceTempos && ! gGlobalGeneralOahGroup->fQuiet) {
               gLogOstream <<
                 "There are " << smSize << " matches" <<
                 " for rational string '" << tempoPerMinuteString <<
@@ -314,7 +314,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
                 ", line " << fInputLineNumber;
 
               msrInternalError (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 s.str ());

@@ -79,7 +79,7 @@ class bsrFacSimileKindAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -103,7 +103,7 @@ class bsrFacSimileKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -166,7 +166,7 @@ class bsrTextsLanguageAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -190,7 +190,7 @@ class bsrTextsLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -248,14 +248,14 @@ class bsrOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -342,7 +342,7 @@ EXP extern S_bsrOah gGlobalBsrOahUserChoices;
 EXP extern S_bsrOah gGlobalBsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
-EXP  void initializeBsrOahHandler (
+EXP  void initializeBsrOahHandling (
   S_oahHandler handler);
 
 

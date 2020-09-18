@@ -27,13 +27,12 @@
   #include "traceOah.h"
 #endif
 
-#include "oahBasicTypes.h"
+//#include "oahBasicTypes.h"
 #include "msrOah.h"
 #include "msr2LpsrOah.h"
 #include "lpsrOah.h"
 
-#include "xml2lyInsiderOah.h" // JMI
-#include "xml2lyOahDualHandler.h"
+#include "xml2lyFullViewOahHandler.h"
 
 #include "msr.h"
 
@@ -77,18 +76,18 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   indentedOstream outIndentedOstream (out, indenter::gIndenter);
   indentedOstream errIndentedOstream (err, indenter::gIndenter);
 
-//#define USE_DUAL_HANDLER
+//#define USE_TWO_VIEW_HANDLER
 
-#ifdef USE_DUAL_HANDLER
+#ifdef USE_TWO_VIEW_HANDLER
 
-  // create the OAH dual handler
+  // create the OAH twoView handler
   // ------------------------------------------------------
-  S_xml2lyOahDualHandler dualHandler;
+  S_xml2lyOahTwoViewHandler twoViewHandler;
 
 {
   try {
-    dualHandler =
-      xml2lyOahDualHandler::create (
+    twoViewHandler =
+      xml2lyOahTwoViewHandler::create (
         fakeExecutableName,
         outIndentedOstream);
   }
@@ -105,8 +104,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   try {
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
-        dualHandler->
-          hangleOptionsFromOptionsVector (
+        twoViewHandler->
+          applyOptionsFromOptionsVector (
             fakeExecutableName,
             options);
 
@@ -129,14 +128,14 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
 #else
 
-  // create the options handler
+  // create the full view options handler
   // ------------------------------------------------------
 
-  S_xml2lyInsiderOahHandler
-    handler =
-      xml2lyInsiderOahHandler::create (
+  S_xml2lyFullViewOahHandler
+    theXml2lyFullViewOahHandler =
+      xml2lyFullViewOahHandler::create (
         fakeExecutableName,
-        "xml2ly",
+        "xml2ly", // JMI
         outIndentedOstream);
 
   // analyze the options vector
@@ -145,8 +144,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   try {
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
-        handler->
-          hangleOptionsFromOptionsVector (
+        theXml2lyFullViewOahHandler->
+          applyOptionsFromOptionsVector (
             fakeExecutableName,
             options);
 
@@ -165,21 +164,20 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   catch (std::exception& e) {
     return kInvalidFile;
   }
-
 #endif
 
 	if (xmlfile) {
     // has quiet mode been requested?
     // ------------------------------------------------------
 
-    if (gGlobalGeneralOah->fQuiet) {
+    if (gGlobalGeneralOahGroup->fQuiet) {
       // disable all trace and display options
-#ifdef USE_DUAL_HANDLER
-      dualHandler->
-        enforceOahDualHandlerQuietness ();
+#ifdef USE_TWO_VIEW_HANDLER
+      twoViewHandler->
+        enforceOahTwoViewHandlerQuietness ();
 #else
-      handler->
-        enforceOahHandlerQuietness ();
+      theXml2lyFullViewOahHandler->
+        enforceHandlerQuietness ();
 #endif
     }
 
@@ -216,7 +214,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalXml2lyOah->fExit2a) {
+    if (gGlobalXml2lyOahGroup->fExit2a) {
       errIndentedOstream <<
         endl <<
         "Existing after pass 2a as requested" <<
@@ -286,7 +284,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalXml2lyOah->fExit2b) {
+    if (gGlobalXml2lyOahGroup->fExit2b) {
       errIndentedOstream <<
         endl <<
         "Existing after pass 2b as requested" <<
@@ -466,7 +464,7 @@ EXP xmlErr convertMusicXMLToLilypond (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2lyOah->fExit2a) {
+  if (gGlobalXml2lyOahGroup->fExit2a) {
     gLogOstream <<
       endl <<
       "Existing after pass 2a as requested" <<
@@ -506,7 +504,7 @@ EXP xmlErr convertMusicXMLToLilypond (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2lyOah->fExit2b) {
+  if (gGlobalXml2lyOahGroup->fExit2b) {
     gLogOstream <<
       endl <<
       "Existing after pass 2b as requested" <<

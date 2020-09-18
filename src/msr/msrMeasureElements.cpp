@@ -51,7 +51,7 @@ void msrMeasureElement::setMeasureElementSoundingWholeNotes (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Setting measure element sounding whole notes of " <<
       asString () <<
@@ -78,7 +78,7 @@ void msrMeasureElement::setMeasureElementPositionInMeasure (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in measure of " <<
       asString () <<
@@ -110,7 +110,7 @@ void msrMeasureElement::setMeasureElementPositionInVoice (
   string   context)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in voice of " <<
       asString () <<
@@ -147,7 +147,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
   string    context)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Assigning measure element position in voice of " <<
       asString () <<
@@ -168,7 +168,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
 
   // set measure element position in voice
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting measure element position in voice of " <<
       asString () <<
@@ -190,7 +190,7 @@ void msrMeasureElement::assignMeasureElementPositionInVoice (
   positionInVoice.rationalise ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Position in voice becomes " <<
       positionInVoice <<

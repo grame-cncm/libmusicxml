@@ -56,7 +56,7 @@ S_msrRestMeasuresContents msrRestMeasuresContents::createRestMeasuresContentsNew
   S_msrRestMeasures restMeasures)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     gLogOstream <<
       "Creating a newborn clone of a rest measures contents" <<
       endl;
@@ -82,7 +82,7 @@ void msrRestMeasuresContents::setRestMeasuresContentsSegment (
   S_msrSegment restMeasuresContentsSegment)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures contents segment containing " <<
       singularOrPlural (
@@ -311,7 +311,7 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     gLogOstream <<
       "Creating a newborn clone of rest measures '" <<
       asString () <<
@@ -345,7 +345,7 @@ void msrRestMeasures::setRestMeasuresContents (
   S_msrRestMeasuresContents restMeasuresContents)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures contents containing " <<
       singularOrPlural (
@@ -369,7 +369,7 @@ void msrRestMeasures::setRestMeasuresNextMeasureNumber (
   string nextMeasureNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures next measure number to '" <<
       "' " <<
@@ -425,14 +425,14 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
       "' ";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceRestMeasures) {
+  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
     gLogOstream <<
       "Setting rest measures last measure purist number to '" <<
       "' " <<
@@ -531,7 +531,7 @@ void msrRestMeasures::browseData (basevisitor* v)
       getInhibitRestMeasuresBrowsing ();
 
   if (inhibitRestMeasuresBrowsing) {
-    if (gGlobalMsrOah->fTraceMsrVisitors || gGlobalTraceOah->fTraceRestMeasures) {
+    if (gGlobalMsrOah->fTraceMsrVisitors || gGlobalTraceOahGroup->fTraceRestMeasures) {
       gLogOstream <<
         "% ==> visiting rest measures is inhibited" <<
         endl;

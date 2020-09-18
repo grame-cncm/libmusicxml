@@ -70,7 +70,7 @@ msrFrameNote::msrFrameNote (
   fFrameNoteBarreTypeKind = frameNoteBarreTypeKind;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     gLogOstream <<
       "Creating frame note '" <<
       asString () <<
@@ -235,7 +235,7 @@ msrFrame::msrFrame (
   fFrameContainsFingerings = false;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     gLogOstream <<
       "Creating frame '" <<
       asString () <<
@@ -277,7 +277,7 @@ void msrFrame::appendFrameNoteToFrame (
             frameNote;
 
           msrMusicXMLError (
-            gGlobalOahOah->fInputSourceName,
+            gGlobalOahOahGroup->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -306,7 +306,7 @@ void msrFrame::appendFrameNoteToFrame (
               barreStartFretNumber;
 
             msrMusicXMLError (
-              gGlobalOahOah->fInputSourceName,
+              gGlobalOahOahGroup->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());

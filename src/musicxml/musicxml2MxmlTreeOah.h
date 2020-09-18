@@ -54,20 +54,6 @@ class musicxml2MxmlTreeOah : public oahGroup
 
   public:
 
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
-
-  public:
-
     // set and get
     // ------------------------------------------------------
 
@@ -78,6 +64,12 @@ class musicxml2MxmlTreeOah : public oahGroup
 
     // public services
     // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   private:
 
@@ -121,7 +113,7 @@ EXP extern S_musicxml2MxmlTreeOah gGlobalMusicxml2MxmlTreeOahUserChoices;
 EXP extern S_musicxml2MxmlTreeOah gGlobalMusicxml2MxmlTreeOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMusicxml2MxmlTreeOahHandler (
+void initializeMusicxml2MxmlTreeOahHandling (
   S_oahHandler handler);
 
 

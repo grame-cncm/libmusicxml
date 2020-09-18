@@ -59,14 +59,14 @@ class msr2BsrOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -153,7 +153,7 @@ EXP extern S_msr2BsrOah gGlobalMsr2BsrOahUserChoices;
 EXP extern S_msr2BsrOah gGlobalMsr2BsrOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMsr2BsrOahHandler (
+void initializeMsr2BsrOahHandling (
   S_oahHandler handler);
 
 

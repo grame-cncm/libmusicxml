@@ -117,18 +117,18 @@ void lilypondOah::setAlllilypondOahTraceOah (
 }
 
 //______________________________________________________________________________
-void lilypondOah::enforceQuietness ()
+void lilypondOah::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void lilypondOah::checkOptionsConsistency ()
+void lilypondOah::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
 void lilypondOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondOah::acceptIn ()" <<
       endl;
@@ -141,7 +141,7 @@ void lilypondOah::acceptIn (basevisitor* v)
         S_lilypondOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondOah::visitStart ()" <<
             endl;
@@ -154,7 +154,7 @@ void lilypondOah::acceptIn (basevisitor* v)
 void lilypondOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondOah::acceptOut ()" <<
       endl;
@@ -167,7 +167,7 @@ void lilypondOah::acceptOut (basevisitor* v)
         S_lilypondOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching lilypondOah::visitEnd ()" <<
             endl;
@@ -180,7 +180,7 @@ void lilypondOah::acceptOut (basevisitor* v)
 void lilypondOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> lilypondOah::browseData ()" <<
       endl;
@@ -207,11 +207,11 @@ ostream& operator<< (ostream& os, const S_lilypondOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeLilypondOahHandler (
+void initializeLilypondOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing lilypondOah options handling" <<
       endl;

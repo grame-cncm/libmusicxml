@@ -59,7 +59,7 @@ enum oahElementIsPureHelpKind {
     kElementIsPureHelpYes,
     kElementIsPureHelpNo };
 
-static string elementIsPureHelpKindAsString (
+string elementIsPureHelpKindAsString (
   oahElementIsPureHelpKind elementIsPureHelpKind);
 
 //______________________________________________________________________________
@@ -168,12 +168,15 @@ class oahElement : public smartable
     virtual int           fetchVariableNameLength () const
                               { return 0; }
 
-    S_oahElement          fetchOptionByName (
+    S_oahElement          thisElementIfItHasName (
                             string name);
 
     virtual S_oahValuedAtom
                           handleOptionUnderName (
                             string   optionName,
+                            ostream& os);
+
+    virtual void          applyOption (
                             ostream& os);
 
     S_oahElement          aPropos (string theString);
@@ -306,7 +309,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void browse (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (gGlobalOahOah->fTraceOahVisitors) {
+      if (gGlobalOahOahGroup->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> browse()" <<
@@ -329,7 +332,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void enter (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (gGlobalOahOah->fTraceOahVisitors) {
+      if (gGlobalOahOahGroup->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> enter()" <<
@@ -343,7 +346,7 @@ template <typename T> class oahBrowser : public browser <T>
     virtual void leave (T& t) {
 /* JMI
 #ifdef TRACE_OAH
-      if (gGlobalOahOah->fTraceOahVisitors) {
+      if (gGlobalOahOahGroup->fTraceOahVisitors) {
         cout <<
           endl <<
           ".\\\" --> leave()" <<

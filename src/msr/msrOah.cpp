@@ -83,7 +83,7 @@ S_oahValuedAtom msrPitchesLanguageAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msrPitchesLanguageAtom" <<
       endl;
@@ -94,12 +94,12 @@ S_oahValuedAtom msrPitchesLanguageAtom::handleOptionUnderName (
   return this;
 }
 
-void msrPitchesLanguageAtom::handleValue (
+void msrPitchesLanguageAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'msrPitchesLanguageAtom'" <<
       endl;
@@ -110,7 +110,7 @@ void msrPitchesLanguageAtom::handleValue (
   // is it in the pitches languages map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'msrPitchesLanguageAtom'" <<
       endl;
@@ -153,7 +153,7 @@ void msrPitchesLanguageAtom::handleValue (
 void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrPitchesLanguageAtom::acceptIn ()" <<
       endl;
@@ -166,7 +166,7 @@ void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
         S_msrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrPitchesLanguageAtom::visitStart ()" <<
             endl;
@@ -179,7 +179,7 @@ void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
 void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrPitchesLanguageAtom::acceptOut ()" <<
       endl;
@@ -192,7 +192,7 @@ void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
         S_msrPitchesLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrPitchesLanguageAtom::visitEnd ()" <<
             endl;
@@ -205,7 +205,7 @@ void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
 void msrPitchesLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrPitchesLanguageAtom::browseData ()" <<
       endl;
@@ -265,7 +265,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void msrPitchesLanguageAtom::printAtomOptionsValues (
+void msrPitchesLanguageAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -338,7 +338,7 @@ S_oahValuedAtom msrRenamePartAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a msrRenamePartAtom" <<
       endl;
@@ -349,12 +349,12 @@ S_oahValuedAtom msrRenamePartAtom::handleOptionUnderName (
   return this;
 }
 
-void msrRenamePartAtom::handleValue (
+void msrRenamePartAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'msrRenamePartAtom'" <<
       endl;
@@ -365,7 +365,7 @@ void msrRenamePartAtom::handleValue (
   // decipher it to extract the old and new part names
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'msrRenamePartAtom'" <<
       endl;
@@ -385,7 +385,7 @@ void msrRenamePartAtom::handleValue (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "There are " << smSize << " matches" <<
       " for part rename string '" << theString <<
@@ -397,7 +397,7 @@ void msrRenamePartAtom::handleValue (
 
   if (smSize == 3) {
 #ifdef TRACE_OAH
-    if (gGlobalTraceOah->fTraceOah) {
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
         os <<
           "[" << sm [i] << "] ";
@@ -422,7 +422,7 @@ void msrRenamePartAtom::handleValue (
     newPartName = sm [2];
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "--> oldPartName = \"" << oldPartName << "\", " <<
       "--> newPartName = \"" << newPartName << "\"" <<
@@ -454,7 +454,7 @@ void msrRenamePartAtom::handleValue (
 void msrRenamePartAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrRenamePartAtom::acceptIn ()" <<
       endl;
@@ -467,7 +467,7 @@ void msrRenamePartAtom::acceptIn (basevisitor* v)
         S_msrRenamePartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrRenamePartAtom::visitStart ()" <<
             endl;
@@ -480,7 +480,7 @@ void msrRenamePartAtom::acceptIn (basevisitor* v)
 void msrRenamePartAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrRenamePartAtom::acceptOut ()" <<
       endl;
@@ -493,7 +493,7 @@ void msrRenamePartAtom::acceptOut (basevisitor* v)
         S_msrRenamePartAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrRenamePartAtom::visitEnd ()" <<
             endl;
@@ -506,7 +506,7 @@ void msrRenamePartAtom::acceptOut (basevisitor* v)
 void msrRenamePartAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrRenamePartAtom::browseData ()" <<
       endl;
@@ -604,7 +604,7 @@ void msrRenamePartAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void msrRenamePartAtom::printAtomOptionsValues (
+void msrRenamePartAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -916,7 +916,7 @@ DESSUS="Cor anglais"
 EXECUTABLE -msr-rename-part "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
          regex ("EXECUTABLE"),
-          gGlobalOahOah->fHandlerExecutableName),
+          gGlobalOahOahGroup->fHandlerExecutableName),
         "PART_RENAME_SPEC",
         "partsRenamingMap",
         fPartsRenamingMap));
@@ -1175,7 +1175,7 @@ bool msrOah::setMsrQuarterTonesPitchesLanguage (string language)
 }
 
 //______________________________________________________________________________
-void msrOah::enforceQuietness ()
+void msrOah::enforceGroupQuietness ()
 {
   fTraceMsr = false;
   fTraceMsrVisitors = false;
@@ -1188,14 +1188,14 @@ void msrOah::enforceQuietness ()
 }
 
 //______________________________________________________________________________
-void msrOah::checkOptionsConsistency ()
+void msrOah::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
 void msrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOah::acceptIn ()" <<
       endl;
@@ -1208,7 +1208,7 @@ void msrOah::acceptIn (basevisitor* v)
         S_msrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrOah::visitStart ()" <<
             endl;
@@ -1221,7 +1221,7 @@ void msrOah::acceptIn (basevisitor* v)
 void msrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOah::acceptOut ()" <<
       endl;
@@ -1234,7 +1234,7 @@ void msrOah::acceptOut (basevisitor* v)
         S_msrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching msrOah::visitEnd ()" <<
             endl;
@@ -1247,7 +1247,7 @@ void msrOah::acceptOut (basevisitor* v)
 void msrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> msrOah::browseData ()" <<
       endl;
@@ -1434,11 +1434,11 @@ ostream& operator<< (ostream& os, const S_msrOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeMsrOahHandler (
+void initializeMsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing MSR options handling" <<
       endl;

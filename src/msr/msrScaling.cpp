@@ -107,7 +107,7 @@ float msrScaling::fetchGlobalStaffSize () const
       optionsStaffGlobalSizeDefaultValue =
         gGlobalLpsrOah->fStaffGlobalSizeDefaultValue;
 
-    if (gGlobalTraceOah->fTraceGeometry) {
+    if (gGlobalTraceOahGroup->fTraceGeometry) {
       gLogOstream <<
         "fetchGlobalStaffSize():" <<
         endl;
@@ -159,7 +159,7 @@ float msrScaling::fetchGlobalStaffSize () const
 
     if (result < 1.0 || result > 100.0) {
 #ifdef TRACE_OAH
-      if (gGlobalTraceOah->fTraceGeometry) {
+      if (gGlobalTraceOahGroup->fTraceGeometry) {
         stringstream s;
 
         s <<
@@ -168,7 +168,7 @@ float msrScaling::fetchGlobalStaffSize () const
           endl;
 
         msrMusicXMLWarning (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           fInputLineNumber,
           s.str ());
       }

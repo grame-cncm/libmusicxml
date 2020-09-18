@@ -75,7 +75,7 @@ class xml2xmlVersionOahAtom : public oahHelpAtom
 
     void                  printVersion (ostream& os) const;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -143,7 +143,7 @@ class xml2xmlAboutOahAtom : public oahHelpAtom
 
     void                  printAbout (ostream& os) const;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -211,7 +211,7 @@ class xml2xmlContactOahAtom : public oahHelpAtom
 
     void                  printContact (ostream& os) const;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 

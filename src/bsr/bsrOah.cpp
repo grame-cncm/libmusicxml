@@ -92,12 +92,12 @@ bsrFacSimileKindAtom::bsrFacSimileKindAtom (
 bsrFacSimileKindAtom::~bsrFacSimileKindAtom ()
 {}
 
-void bsrFacSimileKindAtom::handleValue (
+void bsrFacSimileKindAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'bsrFacSimileKindAtom'" <<
       endl;
@@ -109,7 +109,7 @@ void bsrFacSimileKindAtom::handleValue (
 void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrFacSimileKindAtom::acceptIn ()" <<
       endl;
@@ -122,7 +122,7 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
         S_bsrFacSimileKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrFacSimileKindAtom::visitStart ()" <<
             endl;
@@ -135,7 +135,7 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrFacSimileKindAtom::acceptOut ()" <<
       endl;
@@ -148,7 +148,7 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
         S_bsrFacSimileKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrFacSimileKindAtom::visitEnd ()" <<
             endl;
@@ -161,7 +161,7 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 void bsrFacSimileKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrFacSimileKindAtom::browseData ()" <<
       endl;
@@ -219,7 +219,7 @@ void bsrFacSimileKindAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void bsrFacSimileKindAtom::printAtomOptionsValues (
+void bsrFacSimileKindAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -287,12 +287,12 @@ bsrTextsLanguageAtom::bsrTextsLanguageAtom (
 bsrTextsLanguageAtom::~bsrTextsLanguageAtom ()
 {}
 
-void bsrTextsLanguageAtom::handleValue (
+void bsrTextsLanguageAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'bsrTextsLanguageAtom'" <<
       endl;
@@ -304,7 +304,7 @@ void bsrTextsLanguageAtom::handleValue (
 void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrTextsLanguageAtom::acceptIn ()" <<
       endl;
@@ -317,7 +317,7 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
         S_bsrTextsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrTextsLanguageAtom::visitStart ()" <<
             endl;
@@ -330,7 +330,7 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrTextsLanguageAtom::acceptOut ()" <<
       endl;
@@ -343,7 +343,7 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
         S_bsrTextsLanguageAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrTextsLanguageAtom::visitEnd ()" <<
             endl;
@@ -356,7 +356,7 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 void bsrTextsLanguageAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrTextsLanguageAtom::browseData ()" <<
       endl;
@@ -413,7 +413,7 @@ void bsrTextsLanguageAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void bsrTextsLanguageAtom::printAtomOptionsValues (
+void bsrTextsLanguageAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -769,7 +769,7 @@ bool bsrOah::setBsrTextsLanguage (string language)
 }
 
 //______________________________________________________________________________
-void bsrOah::enforceQuietness ()
+void bsrOah::enforceGroupQuietness ()
 {
   fDisplayBsr = false;
   fDisplayBsrShort = false;
@@ -777,7 +777,7 @@ void bsrOah::enforceQuietness ()
 }
 
 //______________________________________________________________________________
-void bsrOah::checkOptionsConsistency ()
+void bsrOah::checkGroupOptionsConsistency ()
 {
   // JMI
 }
@@ -786,7 +786,7 @@ void bsrOah::checkOptionsConsistency ()
 void bsrOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrOah::acceptIn ()" <<
       endl;
@@ -799,7 +799,7 @@ void bsrOah::acceptIn (basevisitor* v)
         S_bsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrOah::visitStart ()" <<
             endl;
@@ -812,7 +812,7 @@ void bsrOah::acceptIn (basevisitor* v)
 void bsrOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrOah::acceptOut ()" <<
       endl;
@@ -825,7 +825,7 @@ void bsrOah::acceptOut (basevisitor* v)
         S_bsrOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching bsrOah::visitEnd ()" <<
             endl;
@@ -838,7 +838,7 @@ void bsrOah::acceptOut (basevisitor* v)
 void bsrOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> bsrOah::browseData ()" <<
       endl;
@@ -924,11 +924,11 @@ ostream& operator<< (ostream& os, const S_bsrOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeBsrOahHandler (
+void initializeBsrOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing BSR bsr handling" <<
       endl;

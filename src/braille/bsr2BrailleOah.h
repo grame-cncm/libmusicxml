@@ -70,7 +70,7 @@ class brailleOutputKindAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -94,7 +94,7 @@ class brailleOutputKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -149,7 +149,7 @@ class brailleUTFKindAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -173,7 +173,7 @@ class brailleUTFKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -226,7 +226,7 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -248,7 +248,7 @@ class brailleByteOrderingKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -298,14 +298,14 @@ class bsr2BrailleOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -405,7 +405,7 @@ EXP extern S_bsr2BrailleOah gGlobalBsr2BrailleOahUserChoices;
 EXP extern S_bsr2BrailleOah gGlobalBsr2BrailleOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeBsr2BrailleOahHandler (
+void initializeBsr2BrailleOahHandling (
   S_oahHandler handler);
 
 

@@ -268,18 +268,18 @@ void musicxmlOah::setAllMusicXMLTraceOah (
 }
 
 //______________________________________________________________________________
-void musicxmlOah::enforceQuietness ()
+void musicxmlOah::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void musicxmlOah::checkOptionsConsistency ()
+void musicxmlOah::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
 void musicxmlOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::acceptIn ()" <<
       endl;
@@ -292,7 +292,7 @@ void musicxmlOah::acceptIn (basevisitor* v)
         S_musicxmlOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching musicxmlOah::visitStart ()" <<
             endl;
@@ -305,7 +305,7 @@ void musicxmlOah::acceptIn (basevisitor* v)
 void musicxmlOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::acceptOut ()" <<
       endl;
@@ -318,7 +318,7 @@ void musicxmlOah::acceptOut (basevisitor* v)
         S_musicxmlOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching musicxmlOah::visitEnd ()" <<
             endl;
@@ -331,7 +331,7 @@ void musicxmlOah::acceptOut (basevisitor* v)
 void musicxmlOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> musicxmlOah::browseData ()" <<
       endl;
@@ -388,11 +388,11 @@ ostream& operator<< (ostream& os, const S_musicxmlOah& elt)
 }
 
 //______________________________________________________________________________
-void initializeMusicxmlOahHandler (
+void initializeMusicxmlOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing Musicxml2Mxml options handling" <<
       endl;

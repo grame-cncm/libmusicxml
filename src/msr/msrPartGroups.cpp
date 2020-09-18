@@ -163,7 +163,7 @@ msrPartGroup::msrPartGroup (
   fPartGroupBarlineKind     = partGroupBarlineKind;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -183,7 +183,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   S_msrScore     scoreClone)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -320,7 +320,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
       getPartGroupCombinedName ();
 
     msrMusicXMLWarning ( // JMI
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -337,7 +337,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 
   // register it in this part group
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "Appending part " <<
       part->getPartCombinedName () <<
@@ -352,7 +352,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
   fPartGroupElements.push_back (part);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroupsDetails) {
+  if (gGlobalTraceOahGroup->fTracePartGroupsDetails) {
     gLogOstream <<
       endl <<
       "After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
@@ -406,7 +406,7 @@ void msrPartGroup::appendPartToPartGroup (S_msrPart part)
 {
   // register part in this part group
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -429,7 +429,7 @@ void msrPartGroup::removePartFromPartGroup (
 {
   // register part in this part group
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "Removing part " <<
       partToBeRemoved->getPartCombinedName () <<
@@ -477,7 +477,7 @@ void msrPartGroup::removePartFromPartGroup (
         " is not a part group nor a part";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -491,7 +491,7 @@ void msrPartGroup::prependSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "Prepending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
@@ -506,7 +506,7 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroups) {
+  if (gGlobalTraceOahGroup->fTracePartGroups) {
     gLogOstream <<
       "Appending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
@@ -573,7 +573,7 @@ void msrPartGroup::printPartGroupParts (
           " is not a part group nor a part";
 
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -598,7 +598,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
   S_msrPart result;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroupsDetails) {
+  if (gGlobalTraceOahGroup->fTracePartGroupsDetails) {
     gLogOstream <<
       "fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
       endl;
@@ -666,7 +666,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
         " is not a part group nor a part";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -718,7 +718,7 @@ void msrPartGroup::collectPartGroupPartsList (
         " is not a part group nor a part";
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());

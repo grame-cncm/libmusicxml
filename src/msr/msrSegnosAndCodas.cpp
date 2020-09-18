@@ -167,7 +167,7 @@ void msrDalSegno::setDalSegnoPositionInMeasure (
   // set the dal segno position in measure
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceDalSegnos || gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTraceDalSegnos || gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting dal segno position in measure of " << asString () <<
       " to '" <<
@@ -339,7 +339,7 @@ S_msrHiddenMeasureAndBarline msrHiddenMeasureAndBarline::create (
   int inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceDalSegnos || gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTraceDalSegnos || gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Creating hiddenMeasureAndBarline" <<
       ", line " << inputLineNumber <<

@@ -53,7 +53,7 @@ bsrMeasure::bsrMeasure (
   fBrailleMeasureNumber = fPrintMeasureNumber;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Creating bsrMeasure '" <<
       asString () <<
@@ -70,7 +70,7 @@ bsrMeasure::~bsrMeasure ()
 S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Creating a newborn clone of measure " <<
       asString () <<
@@ -100,7 +100,7 @@ void bsrMeasure::appendLineElementToMeasure (
 void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceClefs || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceClefs || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending clef '" <<
       clef->asShortString () <<
@@ -117,7 +117,7 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBarlines || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceBarlines || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending barline " <<
       barline->asShortString () <<
@@ -134,7 +134,7 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 {
 #ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceNumbers || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalBsrOah->fTraceNumbers || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending number '" <<
       number->asShortString () <<
@@ -151,7 +151,7 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 {
 #ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceNumbers || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalBsrOah->fTraceNumbers || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending words '" <<
       words->asShortString () <<
@@ -168,7 +168,7 @@ void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceNotes || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending note '" <<
       note->asShortString () <<
@@ -185,7 +185,7 @@ void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceDynamics || gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceDynamics || gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Appending dynamics '" <<
       dynamics->asShortString () <<

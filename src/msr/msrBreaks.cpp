@@ -50,7 +50,7 @@ msrLineBreak::msrLineBreak (
   fNextBarNumber = nextBarNumber;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Creating a break before measure " << fNextBarNumber <<
       endl;
@@ -148,7 +148,7 @@ msrPageBreak::msrPageBreak (
     : msrMeasureElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasures) {
+  if (gGlobalTraceOahGroup->fTraceMeasures) {
     gLogOstream <<
       "Creating a page break" <<
       endl;

@@ -114,7 +114,7 @@ class oahAtom : public oahElement
 
     void                  print (ostream& os) const override;
 
-    virtual void          printAtomOptionsValues (
+    virtual void          printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -185,7 +185,7 @@ class oahAtomSynonym : public oahAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -251,7 +251,7 @@ class oahHelpAtom : public oahAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -321,7 +321,7 @@ class oahOptionsUsageAtom : public oahHelpAtom
 
 //    void                  printOptionsUsage (ostream& os) const;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -391,7 +391,7 @@ class oahOptionsSummaryAtom : public oahHelpAtom
 
     void                  printOptionsSummary (ostream& os) const;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -463,7 +463,7 @@ class oahAtomWithVariableName : public oahAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -537,11 +537,11 @@ class oahValuedAtom : public oahAtomWithVariableName
     // services
     // ------------------------------------------------------
 
-    virtual void          handleValue (
+    virtual void          handleValuedAtomValue (
                             string   theString,
-                            ostream& os) = 0;
+                            ostream& os);
 
-    virtual void          handleDefaultValue ();
+    virtual void          handleValuedAtomDefaultValue ();
                             // used only if fElementValueExpectedKind
                             // is equal to kElementValueExpectedOptional
 
@@ -568,7 +568,7 @@ class oahValuedAtom : public oahAtomWithVariableName
 
     void                  printHelp (ostream& os) override;
 
-    virtual void          printAtomOptionsValues (
+    virtual void          printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -651,7 +651,7 @@ class oahBooleanAtom : public oahValuedAtom
     // services
     // ------------------------------------------------------
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -676,7 +676,7 @@ class oahBooleanAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -739,7 +739,7 @@ class oahTwoBooleansAtom : public oahBooleanAtom
     // services
     // ------------------------------------------------------
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -764,7 +764,7 @@ class oahTwoBooleansAtom : public oahBooleanAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -830,7 +830,7 @@ class oahThreeBooleansAtom : public oahBooleanAtom
     // services
     // ------------------------------------------------------
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -855,7 +855,7 @@ class oahThreeBooleansAtom : public oahBooleanAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -943,7 +943,7 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
 
     void                  printHelp (ostream& os) override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -1135,7 +1135,7 @@ class oahMultiplexBooleansAtom : public oahAtom
 
     void                  printHelp (ostream& os) override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -1220,7 +1220,7 @@ class oahIntegerAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1244,7 +1244,7 @@ class oahIntegerAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
   protected:
@@ -1311,7 +1311,7 @@ class oahTwoIntegersAtom : public oahIntegerAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1335,7 +1335,7 @@ class oahTwoIntegersAtom : public oahIntegerAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
   private:
@@ -1403,7 +1403,7 @@ class oahFloatAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1427,7 +1427,7 @@ class oahFloatAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -1496,7 +1496,7 @@ class oahStringAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1520,7 +1520,7 @@ class oahStringAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -1600,7 +1600,7 @@ class oahMonoplexStringAtom : public oahAtom
 
     void                  printHelp (ostream& os) override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -1677,7 +1677,7 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1701,7 +1701,7 @@ class oahStringWithDefaultValueAtom : public oahStringAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -1770,7 +1770,7 @@ class oahRationalAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1794,7 +1794,7 @@ class oahRationalAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -1863,7 +1863,7 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1887,7 +1887,7 @@ class oahNaturalNumbersSetAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -1958,7 +1958,7 @@ class oahRGBColorAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1982,7 +1982,7 @@ class oahRGBColorAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2045,7 +2045,7 @@ class oahIntSetAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -2069,7 +2069,7 @@ class oahIntSetAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2138,7 +2138,7 @@ class oahStringSetAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -2162,7 +2162,7 @@ class oahStringSetAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2226,7 +2226,7 @@ class oahStringToIntMapAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -2250,7 +2250,7 @@ class oahStringToIntMapAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2330,7 +2330,7 @@ class oahStringAndIntegerAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -2354,7 +2354,7 @@ class oahStringAndIntegerAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2451,7 +2451,7 @@ class oahStringAndTwoIntegersAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -2475,7 +2475,7 @@ class oahStringAndTwoIntegersAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2547,7 +2547,7 @@ class oahLengthUnitKindAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -2571,7 +2571,7 @@ class oahLengthUnitKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2640,7 +2640,7 @@ class oahLengthAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -2664,7 +2664,7 @@ class oahLengthAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2733,7 +2733,7 @@ class oahMidiTempoAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -2757,7 +2757,7 @@ class oahMidiTempoAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -2828,11 +2828,11 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
-    void                  handleDefaultValue () override;
+    void                  handleValuedAtomDefaultValue () override;
 
   public:
 
@@ -2854,7 +2854,7 @@ class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 
     void                  print (ostream& os) const override;
 
-    virtual void          printAtomOptionsValues (
+    virtual void          printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
   private:
@@ -2928,7 +2928,7 @@ class oahSubGroup : public oahElement
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency ();
+    virtual void          checkSubGroupOptionsConsistency ();
 
   public:
 
@@ -2941,7 +2941,7 @@ class oahSubGroup : public oahElement
     void                  appendAtomToSubGroup (
                             S_oahAtom oahAtom);
 
-    S_oahElement          fetchOptionByName (
+    S_oahElement          fetchOptionByNameInSubGroup (
                             string name);
 
     S_oahValuedAtom       handleOptionUnderName (
@@ -3071,12 +3071,19 @@ class oahGroup : public oahElement
 
   public:
 
+    // quiet mode
+    // ------------------------------------------------------
+
+    virtual void          enforceGroupQuietness ();
+
+  public:
+
     // consistency check
     // ------------------------------------------------------
 
     void                  checkGroupSubGroupsOptionsConsistency ();
 
-    virtual void          checkOptionsConsistency ();
+    virtual void          checkGroupOptionsConsistency ();
 
   public:
 
@@ -3089,7 +3096,7 @@ class oahGroup : public oahElement
     void                  appendSubGroupToGroup (
                             S_oahSubGroup subGroup);
 
-    S_oahElement          fetchOptionByName (
+    S_oahElement          fetchOptionByNameInGroup (
                             string name);
 
     virtual void          handleAtomValue (
@@ -3186,7 +3193,6 @@ class EXP oahHandler : public oahElement
     static string optionsDefaultValuesStyleAsString (
       oahOptionsDefaultValuesStyle optionsDefaultValuesStyle);
 
-/* pure virtual class
   public:
 
     // creation
@@ -3203,7 +3209,6 @@ class EXP oahHandler : public oahElement
       string   handlerUsage,
       string   handlerDescription,
       ostream& handlerLogOstream);
-*/
 
   protected:
 
@@ -3224,6 +3229,13 @@ class EXP oahHandler : public oahElement
       ostream& handlerLogOstream);
 
     virtual ~oahHandler ();
+
+  protected:
+
+    // initialization
+    // ------------------------------------------------------
+
+    void                  createThePrefixes ();
 
   public:
 
@@ -3289,7 +3301,7 @@ class EXP oahHandler : public oahElement
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency ();
+    virtual void          checkHandlerOptionsConsistency ();
 
   public:
 
@@ -3319,22 +3331,27 @@ class EXP oahHandler : public oahElement
     S_oahElement          fetchNameInElementsMap (
                             string name) const;
 
-    oahHelpOptionsHaveBeenUsedKind
-                          applyOptionsAndArgumentsFromArgcAndArgv (
-                            int   argc,
-                            char* argv[]);
-
-    oahHelpOptionsHaveBeenUsedKind
-                          hangleOptionsFromOptionsVector (
-                            string               fakeExecutableName,
-                            const optionsVector& theOptionsVector);
-
     virtual void          checkOptionsAndArguments ();
 
     void                  printKnownPrefixes (ostream& os) const;
     void                  printKnownSingleCharacterOptions (ostream& os) const;
     void                  printOptionsDefaultValuesInformation (ostream& os) const;
     void                  printKnownOptions (ostream& os) const;
+
+    // argv handling
+    oahHelpOptionsHaveBeenUsedKind
+                          applyOptionsAndArgumentsFromArgcAndArgv (
+                            int   argc,
+                            char* argv[]);
+
+    // options vector handling
+    oahHelpOptionsHaveBeenUsedKind
+                          applyOptionsFromOptionsVector (
+                            string               fakeExecutableName,
+                            const optionsVector& theOptionsVector);
+
+    // quiet mode
+    virtual void          enforceHandlerQuietness ();
 
   public:
 
@@ -3375,10 +3392,10 @@ class EXP oahHandler : public oahElement
                             ostream& os) const;
 
     void                  setOahHandlerFoundAHelpOption ()
-                              { fHandlerFoundAHelpOption = true; }
+                              { fOahHandlerFoundAHelpOption = true; }
 
     bool                  getOahHandlerFoundAHelpOption () const
-                              { return fHandlerFoundAHelpOption; }
+                              { return fOahHandlerFoundAHelpOption; }
 
   private:
 
@@ -3392,7 +3409,11 @@ class EXP oahHandler : public oahElement
     void                  registerElementNamesInHandler (
                             S_oahElement element);
 
-    S_oahPrefix           fetchNameInPrefixesMap (
+    // names handling
+    S_oahElement          fetchOptionByNameInHandler (
+                            string name);
+
+    S_oahPrefix           fetchNameInHandlerPrefixesMap (
                             string name) const;
 
     void                  handlePrefixName (
@@ -3402,20 +3423,6 @@ class EXP oahHandler : public oahElement
 
     bool                  optionNameIsASingleCharacterOptionsCluster (
                             string optionName);
-
-    string                decipherOption (
-                            string currentString);
-
-    void                  decipherOptionContainingEqualSign (
-                            string currentOptionName,
-                            size_t equalsSignPosition);
-
-    void                  decipherOptionAndValue (
-                            string optionName,
-                            string optionValue);
-
-    S_oahElement          fetchOptionByName (
-                            string name);
 
     void                  handleOptionName (
                             string name);
@@ -3445,14 +3452,55 @@ class EXP oahHandler : public oahElement
                             string    atomName,
                             string    value);
 
-    void                  handleOptionValueOrArgument (
+    // argc and argv handling
+    void                  fetchOahElementsListFromArgcAndArgv (
+                            int   argc,
+                            char* argv[]);
+
+    void                  handleArgvOptionValueOrArgument (
                             string theString);
+
+    string                decipherArgvOption (
+                            string currentString);
 
     void                  checkMissingPendingValuedAtomValue (
                             string atomName,
                             string context);
 
-    void                  checkHandlerGroupsOptionsConsistency ();
+    // options vector handling
+    void                  decipherOptionsVectorOptionAndValue (
+                            string optionName,
+                            string optionValue);
+
+    void                  fetchOahElementsListFromOptionsVector (
+                            const optionsVector& theOptionsVector);
+
+    // common methods
+    void                  decipherOptionContainingEqualSign (
+                            string currentOptionName,
+                            size_t equalsSignPosition);
+
+    void                  displayHandlerOahElementsList ();
+
+    virtual void          applyOptionsFromHandlerOahElementsList ();
+
+    void                  applyHandlerOption (
+                            S_oahHandler handler);
+
+    void                  applyGroupOption (
+                            S_oahGroup group);
+
+    void                  applySubGroupOption (
+                            S_oahSubGroup subGroup);
+
+    void                  applyAtomOption (
+                            S_oahAtom atom);
+
+    void                  applyAtomOptionAndValue (
+                            S_oahAtom atom,
+                            string    value);
+
+    void                  checkHandlerOwnOptionsConsistency ();
 
   protected:
 
@@ -3492,11 +3540,11 @@ class EXP oahHandler : public oahElement
     map<string, S_oahElement>
                           fHandlerElementsMap;
 
-    // argument vector
-    vector<string>        fHandlerArgumentsVector;
-
     // executable name
     string                fHandlerExecutableName;
+
+    // argument vector
+    vector<string>        fHandlerArgumentsVector;
 
     // optional values style
     oahOptionalValuesStyleKind
@@ -3509,7 +3557,7 @@ class EXP oahHandler : public oahElement
     // this is needed to exit if the executable is launched
     // with one or more help options,
     // i.e. options that are only used to display help to the user
-    bool                  fHandlerFoundAHelpOption;
+    bool                  fOahHandlerFoundAHelpOption;
 
   private:
 
@@ -3531,6 +3579,10 @@ class EXP oahHandler : public oahElement
     list<S_oahElement>    fHandlerCommandLineElementsList;
     multiset<S_oahElement, compareOahElements>
                           fHandlerCommandLineElementsMultiset;
+
+    // elements and values handling
+    list<pair<S_oahElement, string> >
+                          fHandlerElementAndStringPairsList;
 
     // arguments handling
     bool                  fNowEverythingIsAnArgument;

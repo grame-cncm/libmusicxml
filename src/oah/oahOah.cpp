@@ -24,7 +24,7 @@
 
 #include "oahOah.h"
 
-#include "xml2lyOahDualHandler.h"
+//#include "xml2lyOahDualHandler.h" JMI
 
 
 using namespace std;
@@ -80,7 +80,7 @@ S_oahValuedAtom oahOptionalValuesStyleKindAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a oahOptionalValuesStyleKindAtom" <<
       endl;
@@ -91,12 +91,12 @@ S_oahValuedAtom oahOptionalValuesStyleKindAtom::handleOptionUnderName (
   return this;
 }
 
-void oahOptionalValuesStyleKindAtom::handleValue (
+void oahOptionalValuesStyleKindAtom::handleValuedAtomValue (
   string   theString,
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
       endl;
@@ -107,7 +107,7 @@ void oahOptionalValuesStyleKindAtom::handleValue (
   // is it in the optional values style kinds map?
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     os <<
       "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
       endl;
@@ -149,7 +149,7 @@ void oahOptionalValuesStyleKindAtom::handleValue (
 void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::acceptIn ()" <<
       endl;
@@ -162,7 +162,7 @@ void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
         S_oahOptionalValuesStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOptionalValuesStyleKindAtom::visitStart ()" <<
             endl;
@@ -175,7 +175,7 @@ void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
 void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::acceptOut ()" <<
       endl;
@@ -188,7 +188,7 @@ void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
         S_oahOptionalValuesStyleKindAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             "% ==> Launching oahOptionalValuesStyleKindAtom::visitEnd ()" <<
             endl;
@@ -201,7 +201,7 @@ void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
 void oahOptionalValuesStyleKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       "% ==> oahOptionalValuesStyleKindAtom::browseData ()" <<
       endl;
@@ -266,14 +266,14 @@ ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt)
 }
 
 //_______________________________________________________________________________
-S_oahOah gGlobalOahOah;
-S_oahOah gGlobalOahOahUserChoices;
+S_oahOahGroup gGlobalOahOahGroup;
+S_oahOahGroup gGlobalOahOahUserChoices;
 
-S_oahOah oahOah::create (
+S_oahOahGroup oahOahGroup::create (
   string       executableName,
   S_oahHandler handlerUpLink)
 {
-  oahOah* o = new oahOah (
+  oahOahGroup* o = new oahOahGroup (
     executableName,
     handlerUpLink);
   assert(o!=0);
@@ -281,7 +281,7 @@ S_oahOah oahOah::create (
   return o;
 }
 
-oahOah::oahOah (
+oahOahGroup::oahOahGroup (
   string       executableName,
   S_oahHandler handlerUpLink)
   : oahGroup (
@@ -303,10 +303,10 @@ R"()",
   initializeOahOah (false);
 }
 
-oahOah::~oahOah ()
+oahOahGroup::~oahOahGroup ()
 {}
 
-void oahOah::initializeOahBasicHelpOptions (
+void oahOahGroup::initializeOahBasicHelpOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -320,6 +320,7 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
+/* JMI
   // the 'insider' option
 
   subGroup->
@@ -333,6 +334,7 @@ in which the options are grouped as they are used by the various
 internal representations and translation passes.
 This unleashes the full set of display and trace options.
 This option should be the first one.)"));
+*/
 
   // help options
 
@@ -400,7 +402,7 @@ R"(Write the contents of the options handler to standard error.)",
         fDisplayOahHandler));
 }
 
-void oahOah::initializeOahOahAndArgumentsOptions (
+void oahOahGroup::initializeOahOahAndArgumentsOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -476,7 +478,7 @@ InOAH style:
 }
 
 #ifdef TRACE_OAH
-void oahOah::initializeOahTraceOah (
+void oahOahGroup::initializeOahTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -504,7 +506,7 @@ R"(Write a trace of the OAH tree visiting activity to standard error.)",
 }
 #endif
 
-void oahOah::initializeOahOah (
+void oahOahGroup::initializeOahOah (
   bool boolOptionsInitialValue)
 {
   // help
@@ -525,11 +527,11 @@ void oahOah::initializeOahOah (
 #endif
 }
 
-S_oahOah oahOah::createCloneWithTrueValues ()
+S_oahOahGroup oahOahGroup::createCloneWithTrueValues ()
 {
-  S_oahOah
+  S_oahOahGroup
     clone =
-      oahOah::create (
+      oahOahGroup::create (
         fHandlerExecutableName,
         nullptr);
       // nullptr not to have it inserted twice in the option handler
@@ -572,37 +574,37 @@ S_oahOah oahOah::createCloneWithTrueValues ()
 }
 
 //______________________________________________________________________________
-void oahOah::enforceQuietness ()
+void oahOahGroup::enforceGroupQuietness ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void oahOah::checkOptionsConsistency ()
+void oahOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void oahOah::acceptIn (basevisitor* v)
+void oahOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOah::acceptIn ()" <<
+      "% ==> oahOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahOah>*
+  if (visitor<S_oahOahGroup>*
     p =
-      dynamic_cast<visitor<S_oahOah>*> (v)) {
-        S_oahOah elem = this;
+      dynamic_cast<visitor<S_oahOahGroup>*> (v)) {
+        S_oahOahGroup elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahOah::visitStart ()" <<
+            "% ==> Launching oahOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -610,25 +612,25 @@ void oahOah::acceptIn (basevisitor* v)
   }
 }
 
-void oahOah::acceptOut (basevisitor* v)
+void oahOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOah::acceptOut ()" <<
+      "% ==> oahOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahOah>*
+  if (visitor<S_oahOahGroup>*
     p =
-      dynamic_cast<visitor<S_oahOah>*> (v)) {
-        S_oahOah elem = this;
+      dynamic_cast<visitor<S_oahOahGroup>*> (v)) {
+        S_oahOahGroup elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
-            "% ==> Launching oahOah::visitEnd ()" <<
+            "% ==> Launching oahOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -636,18 +638,18 @@ void oahOah::acceptOut (basevisitor* v)
   }
 }
 
-void oahOah::browseData (basevisitor* v)
+void oahOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      "% ==> oahOah::browseData ()" <<
+      "% ==> oahOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void oahOah::printAtomOptionsValues (
+void oahOahGroup::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -668,7 +670,7 @@ void oahOah::printAtomOptionsValues (
 }
 
 //______________________________________________________________________________
-void oahOah::printOahOahValues (int valueFieldWidth)
+void oahOahGroup::printOahOahValues (int valueFieldWidth)
 {
   gLogOstream <<
     "The basic options are:" <<
@@ -722,14 +724,14 @@ void oahOah::printOahOahValues (int valueFieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_oahOah& elt)
+ostream& operator<< (ostream& os, const S_oahOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeOahOahHandler (
+void initializeOahOahHandling (
   string       executableName,
   S_oahHandler handler)
 {
@@ -740,12 +742,12 @@ void initializeOahOahHandler (
     // create the options variables
     // ------------------------------------------------------
 
-    gGlobalOahOahUserChoices = oahOah::create (
+    gGlobalOahOahUserChoices = oahOahGroup::create (
       executableName,
       handler);
     assert(gGlobalOahOahUserChoices != 0);
 
-    gGlobalOahOah =
+    gGlobalOahOahGroup =
       gGlobalOahOahUserChoices;
 
 // JMI    pThisMethodHasBeenRun = true;

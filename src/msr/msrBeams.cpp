@@ -53,7 +53,7 @@ msrBeam::msrBeam (
   fBeamKind   = beamKind;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceBeams) {
+  if (gGlobalTraceOahGroup->fTraceBeams) {
     gLogOstream <<
       "Creating beam '" <<
       this->asString () <<

@@ -52,7 +52,7 @@ msrTimeItem::msrTimeItem (
   fTimeBeatValue = -1;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
@@ -100,7 +100,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Appending beat number '" <<
       beatsNumber <<
@@ -119,7 +119,7 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
 void msrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Setting beat value to '" <<
       timeBeatValue <<
@@ -206,7 +206,7 @@ string msrTimeItem::asString () const
     case 0:
     /* JMI
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
@@ -347,7 +347,7 @@ void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Append item '" <<
       timeItem->asString () <<
@@ -431,7 +431,7 @@ rational msrTime::wholeNotesPerMeasure () const
 
   else {
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "time items vector is empty");
@@ -616,7 +616,7 @@ string msrTime::asString () const
   else {
     if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time  items vector is empty");

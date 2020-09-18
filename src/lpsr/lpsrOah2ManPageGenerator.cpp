@@ -49,7 +49,7 @@ lpsrOah2ManPageGenerator::~lpsrOah2ManPageGenerator ()
 void lpsrOah2ManPageGenerator::visitStart (S_lpsrScoreOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lpsrScoreOutputKindAtom" <<
@@ -79,7 +79,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrScoreOutputKindAtom& elt)
 void lpsrOah2ManPageGenerator::visitEnd (S_lpsrScoreOutputKindAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lpsrScoreOutputKindAtom" <<
@@ -94,7 +94,7 @@ void lpsrOah2ManPageGenerator::visitEnd (S_lpsrScoreOutputKindAtom& elt)
 void lpsrOah2ManPageGenerator::visitStart (S_lpsrPitchesLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lpsrPitchesLanguageAtom" <<
@@ -124,7 +124,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrPitchesLanguageAtom& elt)
 void lpsrOah2ManPageGenerator::visitEnd (S_lpsrPitchesLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lpsrPitchesLanguageAtom" <<
@@ -138,7 +138,7 @@ void lpsrOah2ManPageGenerator::visitEnd (S_lpsrPitchesLanguageAtom& elt)
 void lpsrOah2ManPageGenerator::visitStart (S_lpsrChordsLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lpsrChordsLanguageAtom" <<
@@ -168,7 +168,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrChordsLanguageAtom& elt)
 void lpsrOah2ManPageGenerator::visitEnd (S_lpsrChordsLanguageAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lpsrChordsLanguageAtom" <<
@@ -182,7 +182,7 @@ void lpsrOah2ManPageGenerator::visitEnd (S_lpsrChordsLanguageAtom& elt)
 void lpsrOah2ManPageGenerator::visitStart (S_lpsrTransposeAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> Start visiting lpsrTransposeAtom" <<
@@ -212,7 +212,7 @@ void lpsrOah2ManPageGenerator::visitStart (S_lpsrTransposeAtom& elt)
 void lpsrOah2ManPageGenerator::visitEnd (S_lpsrTransposeAtom& elt)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     fOah2ManPageLogOstream <<
       endl <<
       ".\\\" --> End visiting lpsrTransposeAtom" <<

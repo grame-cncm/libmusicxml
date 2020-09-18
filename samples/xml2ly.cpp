@@ -27,12 +27,12 @@
 #include "oahBasicTypes.h"
 #include "generalOah.h"
 
-#include "xml2lyInsiderOah.h"
+#include "xml2lyFullViewOahHandler.h"
+
+#include "xml2lyTwoViewOahHandler.h"
 
 #include "musicxml2lilypond.h"
 #include "musicxml2musicxml.h"
-
-#include "xml2lyOahDualHandler.h"
 
 
 using namespace std;
@@ -78,17 +78,17 @@ int main (int argc, char *argv[])
 
   string executableName = argv [0];
 
-//#define USE_DUAL_HANDLER
+//#define USE_TWO_VIEW_HANDLER
 
-#ifdef USE_DUAL_HANDLER
+#ifdef USE_TWO_VIEW_HANDLER
 
-  // create the OAH dual handler
+  // create the OAH twoView handler
   // ------------------------------------------------------
-  S_xml2lyOahDualHandler dualHandler;
+  S_xml2lyOahTwoViewHandler twoViewHandler;
 
   try {
-    dualHandler =
-      xml2lyOahDualHandler::create (
+    twoViewHandler =
+      xml2lyOahTwoViewHandler::create (
         executableName,
         gOutputOstream);
   }
@@ -105,7 +105,7 @@ int main (int argc, char *argv[])
   try {
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
-        dualHandler->
+        twoViewHandler->
           applyOptionsAndArgumentsFromArgcAndArgv (
             argc, argv);
 
@@ -130,11 +130,11 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2lyInsiderOahHandler handler;
+  S_xml2lyFullViewOahHandler handler;
 
   try {
     handler =
-      xml2lyInsiderOahHandler::create (
+      xml2lyFullViewOahHandler::create (
         executableName,
         "xml2ly",
         gOutputOstream);
@@ -173,7 +173,7 @@ int main (int argc, char *argv[])
   }
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) { // JMI
+  if (gGlobalTraceOahGroup->getTraceOah ()) { // JMI
     handler->printKnownPrefixes (gOutputOstream);
     handler->printKnownSingleCharacterOptions (gOutputOstream);
     // handler->printKnownOptions (gOutputOstream);
@@ -182,18 +182,28 @@ int main (int argc, char *argv[])
 
 #endif
 
+/* JMI
+#ifdef TRACE_OAH
+  if (gGlobalTraceOahGroup->getTraceOah ()) { // JMI
+    handler->printKnownPrefixes (gOutputOstream);
+    handler->printKnownSingleCharacterOptions (gOutputOstream);
+    // handler->printKnownOptions (gOutputOstream); JMI
+  }
+#endif
+*/
+
   string
     inputSourceName =
-      gGlobalOahOah->fInputSourceName;
+      gGlobalOahOahGroup->fInputSourceName;
 
   string
     outputFileName =
-      gGlobalXml2lyOah->
+      gGlobalXml2lyOahGroup->
         getOutputFileNameStringAtom ()->
           getStringVariable ();
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     string separator =
       "%--------------------------------------------------------------";
 
@@ -210,12 +220,13 @@ int main (int argc, char *argv[])
   // has quiet mode been requested?
   // ------------------------------------------------------
 
-  if (gGlobalGeneralOah->fQuiet) {
+  if (gGlobalGeneralOahGroup->fQuiet) {
     // disable all trace and display options
-#ifdef USE_DUAL_HANDLER
+    /* JMI
+#ifdef USE_TWO_VIEW_HANDLER
 
-      dualHandler->
-        enforceOahDualHandlerQuietness ();
+      twoViewHandler->
+        enforceOahTwoViewHandlerQuietness ();
 
 #else
 
@@ -223,13 +234,17 @@ int main (int argc, char *argv[])
         enforceOahHandlerQuietness ();
 
 #endif
+*/
+
+    handler->
+      enforceHandlerQuietness ();
   }
 
   // welcome message
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     int
       outputFileNameSize =
         outputFileName.size ();
@@ -254,7 +269,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogOstream <<
-      "Time is " << gGlobalGeneralOah->fTranslationDateFull <<
+      "Time is " << gGlobalGeneralOahGroup->fTranslationDateFull <<
       endl;
 
     gLogOstream <<
@@ -277,10 +292,10 @@ int main (int argc, char *argv[])
 
     gIndenter++;
 
-#ifdef USE_DUAL_HANDLER
+#ifdef USE_TWO_VIEW_HANDLER
 
     gLogOstream <<
-      dualHandler->
+      twoViewHandler->
         commandLineWithShortNamesAsString () <<
       endl;
 
@@ -299,10 +314,10 @@ int main (int argc, char *argv[])
       endl;
     gIndenter++;
 
-#ifdef USE_DUAL_HANDLER
+#ifdef USE_TWO_VIEW_HANDLER
 
     gLogOstream <<
-      dualHandler->
+      twoViewHandler->
         commandLineWithLongNamesAsString () <<
       endl <<
       endl;
@@ -325,7 +340,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->getTracePasses ()) {
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
     gLogOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -342,7 +357,7 @@ int main (int argc, char *argv[])
       convertMusicXMLToLilypond (
         inputSourceName,
         outputFileName,
-        gGlobalXml2lyOah->fLoopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
+        gGlobalXml2lyOahGroup->fLoopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
   }
   catch (std::exception& e) {
     return kInvalidFile;
@@ -356,7 +371,7 @@ int main (int argc, char *argv[])
   // print timing information
   // ------------------------------------------------------
 
-  if (gGlobalGeneralOah->fDisplayCPUusage)
+  if (gGlobalGeneralOahGroup->fDisplayCPUusage)
     timing::gTiming.print (
       gLogOstream);
 

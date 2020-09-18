@@ -67,7 +67,7 @@ msrFigure::msrFigure (
   fFigureSuffixKind = figureSuffixKind;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating figure '" <<
       asString () <<
@@ -84,7 +84,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating a newborn clone of figure '" <<
       asString () <<
@@ -114,7 +114,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating a deep copy of figure '" <<
       asString () <<
@@ -378,7 +378,7 @@ msrFiguredBass::msrFiguredBass (
     figuredBassParenthesesKind;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating figuredBass " <<
       asString () <<
@@ -394,7 +394,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating a newborn clone of figured bass '" <<
       asShortString () <<
@@ -426,7 +426,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
  // S_msrPart containingPart)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     gLogOstream <<
       "Creating a deep copy of figuredBass '" <<
       asString () <<
@@ -462,7 +462,7 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
   // set the figured bass position in measure
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePositionsInMeasures) {
+  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
     gLogOstream <<
       "Setting figured bass position in measure of " << asString () <<
       " to '" <<
@@ -514,7 +514,7 @@ void msrFiguredBass::appendFigureToFiguredBass (
   S_msrFigure figure)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceFiguredBasses) {
+  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
     gLogOstream <<
       "Appending figure '" << figure->asString () <<
       "' to figuredBass '" <<

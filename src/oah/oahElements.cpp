@@ -133,7 +133,7 @@ oahElement::oahElement (
 oahElement::~oahElement ()
 {}
 
-S_oahElement oahElement::fetchOptionByName (
+S_oahElement oahElement::thisElementIfItHasName (
   string name)
 {
   S_oahElement result;
@@ -141,7 +141,8 @@ S_oahElement oahElement::fetchOptionByName (
   if (
     name == fShortName
      ||
-    name == fLongName) {
+    name == fLongName
+  ) {
     result = this;
   }
 
@@ -248,13 +249,29 @@ S_oahValuedAtom oahElement::handleOptionUnderName (
     "' is not handled";
 
   msrInternalError (
-    gGlobalOahOah->fInputSourceName,
+    gGlobalOahOahGroup->fInputSourceName,
     K_NO_INPUT_LINE_NUMBER,
     __FILE__, __LINE__,
     s.str ());
 
   // no option value is needed
   return nullptr;
+}
+
+void oahElement::applyOption (
+  ostream& os)
+{
+  stringstream s;
+
+  s <<
+    "### atom option '" << this->fetchNames () <<
+    "' is not handled";
+
+  msrInternalError (
+    gGlobalOahOahGroup->fInputSourceName,
+    K_NO_INPUT_LINE_NUMBER,
+    __FILE__, __LINE__,
+    s.str ());
 }
 
 S_oahElement oahElement::aPropos (string theString)
@@ -300,7 +317,7 @@ S_oahElement oahElement::aPropos (string theString)
 void oahElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::acceptIn ()" <<
       endl;
@@ -313,7 +330,7 @@ void oahElement::acceptIn (basevisitor* v)
         S_oahElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching oahElement::visitStart ()" <<
             endl;
@@ -326,7 +343,7 @@ void oahElement::acceptIn (basevisitor* v)
 void oahElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::acceptOut ()" <<
       endl;
@@ -339,7 +356,7 @@ void oahElement::acceptOut (basevisitor* v)
         S_oahElement elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching oahElement::visitEnd ()" <<
             endl;
@@ -352,7 +369,7 @@ void oahElement::acceptOut (basevisitor* v)
 void oahElement::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> oahElement::browseData ()" <<
       endl;

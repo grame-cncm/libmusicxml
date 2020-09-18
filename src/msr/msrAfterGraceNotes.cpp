@@ -68,7 +68,7 @@ S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGr
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of after grace notes group" <<
       endl;
@@ -284,7 +284,7 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNew
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceGraceNotes) {
+  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
     gLogOstream <<
       "Creating a newborn clone of after grace notes group '" <<
       asShortString () <<

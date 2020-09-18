@@ -78,7 +78,7 @@ msrDivisions::msrDivisions (
 void msrDivisions::initializeDivisions ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalMusicxmlOah->fTraceDivisions && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalMusicxmlOah->fTraceDivisions && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing divisions" <<
       ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
@@ -175,7 +175,7 @@ int msrDivisions::durationKindAsDivisions (
   printDurationKindsDivisions (s);
 
   msrInternalError (
-    gGlobalOahOah->fInputSourceName,
+    gGlobalOahOahGroup->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -288,7 +288,7 @@ string msrDivisions::divisionsAsMsrString (
       printDurationKindsDivisions (gLogOstream);
 
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());

@@ -235,7 +235,7 @@ msrTempoTuplet::msrTempoTuplet (
   fTempoTupletDisplayWholeNotes  = rational (0, 1);
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos){
+  if (gGlobalTraceOahGroup->fTraceTempos){
     gLogOstream <<
       "Creating tempo tuplet '" <<
       this->asString () <<
@@ -308,7 +308,7 @@ string msrTempoTuplet::tempoTupletShowNumberKindAsString (
 void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos) {
+  if (gGlobalTraceOahGroup->fTraceTempos) {
     gLogOstream <<
       "Adding tempoNote '" <<
       tempoNote->asShortString () <<
@@ -338,7 +338,7 @@ void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos) {
+  if (gGlobalTraceOahGroup->fTraceTempos) {
     gLogOstream <<
       "Adding tempoTuplet '" <<
       tempoTuplet->asString () <<
@@ -379,7 +379,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
   S_msrTempoNote tempoNote)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos) {
+  if (gGlobalTraceOahGroup->fTraceTempos) {
     gLogOstream <<
       "Removing first tempoNote '" <<
       tempoNote->asShortString () <<
@@ -425,7 +425,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       " since this note has not been found in fTempoTupletElements";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -441,7 +441,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       " since this note cannot be found in empty fTempoTupletElements";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -453,7 +453,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
 void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos) {
+  if (gGlobalTraceOahGroup->fTraceTempos) {
     gLogOstream <<
       "% ==> applyDisplayFactorToTempoTupletMembers ()" <<
       endl;
@@ -476,7 +476,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
   int containingTempoTupletNormalNotes)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos) {
+  if (gGlobalTraceOahGroup->fTraceTempos) {
     gLogOstream <<
       "unapplySoundingFactorToTempoTupletMembers ()" <<
       endl;
@@ -594,7 +594,7 @@ string msrTempoTuplet::asString () const
 
       else {
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");
@@ -663,7 +663,7 @@ string msrTempoTuplet::asString () const
 
       else {
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");
@@ -791,7 +791,7 @@ void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
   S_msrElement element)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTempos){
+  if (gGlobalTraceOahGroup->fTraceTempos){
     gLogOstream <<
       "Adding element '" <<
       element->asString () <<

@@ -76,7 +76,7 @@ class oahOptionalValuesStyleKindAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -112,15 +112,15 @@ typedef SMARTP<oahOptionalValuesStyleKindAtom> S_oahOptionalValuesStyleKindAtom;
 EXP ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt);
 
 //______________________________________________________________________________
-class oahOah : public oahGroup
+class oahOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<oahOah> create (
+    static SMARTP<oahOahGroup> create (
       string       executableName,
       S_oahHandler handlerUpLink);
 
-    SMARTP<oahOah> createCloneWithTrueValues (); // JMI
+    SMARTP<oahOahGroup> createCloneWithTrueValues (); // JMI
 
   public:
 
@@ -135,25 +135,11 @@ class oahOah : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahOah (
+    oahOahGroup (
       string       executableName,
       S_oahHandler handlerUpLink);
 
-    virtual ~oahOah ();
-
-  public:
-
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
+    virtual ~oahOahGroup ();
 
   public:
 
@@ -164,6 +150,12 @@ class oahOah : public oahGroup
 
     // public services
     // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   private:
 
@@ -200,7 +192,7 @@ class oahOah : public oahGroup
 
     void                  printOahOahValues (int valueFieldWidth);
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -238,15 +230,15 @@ class oahOah : public oahGroup
     bool                  fDisplayOahValues;
     bool                  fDisplayOahHandler;
 };
-typedef SMARTP<oahOah> S_oahOah;
-EXP ostream& operator<< (ostream& os, const S_oahOah& elt);
+typedef SMARTP<oahOahGroup> S_oahOahGroup;
+EXP ostream& operator<< (ostream& os, const S_oahOahGroup& elt);
 
-EXP extern S_oahOah gGlobalOahOah;
-EXP extern S_oahOah gGlobalOahOahUserChoices;
-EXP extern S_oahOah gGlobalOahOahWithDetailedTrace;
+EXP extern S_oahOahGroup gGlobalOahOahGroup;
+EXP extern S_oahOahGroup gGlobalOahOahUserChoices;
+EXP extern S_oahOahGroup gGlobalOahOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeOahOahHandler (
+void initializeOahOahHandling (
   string       executableName,
   S_oahHandler handler);
 

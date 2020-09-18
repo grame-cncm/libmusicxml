@@ -85,7 +85,7 @@ class extraShowAllHarmoniesStructuresAtom : public oahAtom
 
     void                  printAllHarmoniesStructures (ostream& os) const;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -146,7 +146,7 @@ class extraShowAllHarmoniesContentsAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -171,7 +171,7 @@ class extraShowAllHarmoniesContentsAtom : public oahValuedAtom
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind) const;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -234,7 +234,7 @@ class extraShowHarmonyDetailsAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -255,7 +255,7 @@ class extraShowHarmonyDetailsAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -318,7 +318,7 @@ class extraShowHarmonyAnalysisAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -339,7 +339,7 @@ class extraShowHarmonyAnalysisAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -386,22 +386,14 @@ class extraOah : public oahGroup
 
   public:
 
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
-
-  public:
-
     // public services
     // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   private:
 
@@ -454,7 +446,7 @@ EXP extern S_extraOah ggGlobalExtraOahUserChoices;
 EXP extern S_extraOah ggGlobalExtraOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeExtraOahHandler (
+void initializeExtraOahHandling (
   S_oahHandler handler);
 
 

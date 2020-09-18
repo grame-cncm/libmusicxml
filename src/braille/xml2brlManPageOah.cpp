@@ -71,7 +71,7 @@ S_oahValuedAtom xml2brlManPageGenerateAtom::handleOptionUnderName (
   ostream& os)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogOstream <<
       "==> option '" << optionName << "' is a xml2brlManPageGenerateAtom" <<
       endl;
@@ -88,7 +88,7 @@ S_oahValuedAtom xml2brlManPageGenerateAtom::handleOptionUnderName (
 void xml2brlManPageGenerateAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageGenerateAtom::acceptIn ()" <<
       endl;
@@ -101,7 +101,7 @@ void xml2brlManPageGenerateAtom::acceptIn (basevisitor* v)
         S_xml2brlManPageGenerateAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2brlManPageGenerateAtom::visitStart ()" <<
             endl;
@@ -114,7 +114,7 @@ void xml2brlManPageGenerateAtom::acceptIn (basevisitor* v)
 void xml2brlManPageGenerateAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageGenerateAtom::acceptOut ()" <<
       endl;
@@ -127,7 +127,7 @@ void xml2brlManPageGenerateAtom::acceptOut (basevisitor* v)
         S_xml2brlManPageGenerateAtom elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2brlManPageGenerateAtom::visitEnd ()" <<
             endl;
@@ -140,7 +140,7 @@ void xml2brlManPageGenerateAtom::acceptOut (basevisitor* v)
 void xml2brlManPageGenerateAtom::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageGenerateAtom::browseData ()" <<
       endl;
@@ -187,7 +187,7 @@ void xml2brlManPageGenerateAtom::generateManPageData (ostream& os) const
     setOahHandlerFoundAHelpOption ();
 }
 
-void xml2brlManPageGenerateAtom::printAtomOptionsValues (
+void xml2brlManPageGenerateAtom::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -282,7 +282,7 @@ R"(Write the contents of the OAH data to standard error.)",
         regex_replace (
 R"(Write man page data for EXECUTABLE to standard output.)",
           regex ("EXECUTABLE"),
-          gGlobalOahOah->fHandlerExecutableName),
+          gGlobalOahOahGroup->fHandlerExecutableName),
         fOah2ManPageGenerator));
 }
 
@@ -349,13 +349,13 @@ S_xml2brlManPageOah xml2brlManPageOah::createCloneWithDetailedTrace ()
 }
 
 //______________________________________________________________________________
-void xml2brlManPageOah::enforceQuietness ()
+void xml2brlManPageOah::enforceGroupQuietness ()
 {
 // JMI  fDisplayOah = false;
 }
 
 //______________________________________________________________________________
-void xml2brlManPageOah::checkOptionsConsistency ()
+void xml2brlManPageOah::checkGroupOptionsConsistency ()
 {
   // JMI
 }
@@ -364,7 +364,7 @@ void xml2brlManPageOah::checkOptionsConsistency ()
 void xml2brlManPageOah::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageOah::acceptIn ()" <<
       endl;
@@ -377,7 +377,7 @@ void xml2brlManPageOah::acceptIn (basevisitor* v)
         S_xml2brlManPageOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2brlManPageOah::visitStart ()" <<
             endl;
@@ -390,7 +390,7 @@ void xml2brlManPageOah::acceptIn (basevisitor* v)
 void xml2brlManPageOah::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageOah::acceptOut ()" <<
       endl;
@@ -403,7 +403,7 @@ void xml2brlManPageOah::acceptOut (basevisitor* v)
         S_xml2brlManPageOah elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
             ".\\\" ==> Launching xml2brlManPageOah::visitEnd ()" <<
             endl;
@@ -416,7 +416,7 @@ void xml2brlManPageOah::acceptOut (basevisitor* v)
 void xml2brlManPageOah::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
       ".\\\" ==> xml2brlManPageOah::browseData ()" <<
       endl;
@@ -450,7 +450,7 @@ void initializeXml2brlManPageOahHandler (
   S_oahVisitor theOah2ManPageGenerator)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceOah && ! gGlobalGeneralOah->fQuiet) {
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
     gLogOstream <<
       "Initializing man page options handling" <<
       endl;

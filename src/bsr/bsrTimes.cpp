@@ -53,7 +53,7 @@ bsrTimeItem::bsrTimeItem (
   fTimeBeatValue = -1;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
@@ -101,7 +101,7 @@ bool bsrTimeItem::isEqualTo (S_bsrTimeItem otherTimeItem) const
 void bsrTimeItem::appendBeatsNumber (int beatsNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Appending beat number '" <<
       beatsNumber <<
@@ -120,7 +120,7 @@ void bsrTimeItem::appendBeatsNumber (int beatsNumber)
 void bsrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Setting beat value to '" <<
       timeBeatValue <<
@@ -218,7 +218,7 @@ string bsrTimeItem::asString () const
     case 0:
     /* JMI
       msrInternalError (
-        gGlobalOahOah->fInputSourceName,
+        gGlobalOahOahGroup->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
@@ -289,7 +289,7 @@ bsrTime::bsrTime (
   fTimeKind = timeKind;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Creating bsrTimes '" <<
       asString () <<
@@ -306,7 +306,7 @@ bsrTime::~bsrTime ()
 void bsrTime::appendTimeItem (S_bsrTimeItem timeItem)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceTimes) {
+  if (gGlobalTraceOahGroup->fTraceTimes) {
     gLogOstream <<
       "Appending time item '" <<
       timeItem->asString () <<
@@ -369,7 +369,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
             case 0:
             /* JMI
               msrInternalError (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 "time item beats numbers vector is empty");
@@ -493,7 +493,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         "' is not supported in Braille music";
 
                       bsrWarning (
-                        gGlobalOahOah->fInputSourceName,
+                        gGlobalOahOahGroup->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
                     }
@@ -561,7 +561,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
             case 0:
             /* JMI
               msrInternalError (
-                gGlobalOahOah->fInputSourceName,
+                gGlobalOahOahGroup->fInputSourceName,
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 "time item beats numbers vector is empty");
@@ -622,7 +622,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                         "' is not supported in Braille music";
 
                       bsrWarning (
-                        gGlobalOahOah->fInputSourceName,
+                        gGlobalOahOahGroup->fInputSourceName,
                         fInputLineNumber,
                         s.str ());
                     }

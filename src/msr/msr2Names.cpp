@@ -71,7 +71,7 @@ void msr2NamesVisitor::visitStart (S_msrScore& elt)
 
   fMsrNamesOutputStream <<
     "MSR names summary of \"" <<
-    gGlobalOahOah->fInputSourceName <<
+    gGlobalOahOahGroup->fInputSourceName <<
     "\":" <<
     endl <<
     endl;

@@ -218,7 +218,7 @@ void bsrAsciiBrailleGenerator::generateCodeForBrailleCell (
           bsrCellKindAsString (cellKind) <<
           "'";
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           -999, // TICINO inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -394,7 +394,7 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
           bsrCellKindAsString (cellKind) <<
           "'";
         msrInternalError (
-          gGlobalOahOah->fInputSourceName,
+          gGlobalOahOahGroup->fInputSourceName,
           -999, // TICINO inputLineNumber,
           __FILE__, __LINE__,
           s.str ());

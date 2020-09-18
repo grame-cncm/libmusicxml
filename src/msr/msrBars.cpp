@@ -61,7 +61,7 @@ msrBarCheck::msrBarCheck (
     : msrMeasureElement (inputLineNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresNumbers) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
     gLogOstream <<
       "Creating a bar check without next bar number" <<
       endl;
@@ -79,7 +79,7 @@ msrBarCheck::msrBarCheck (
   fNextBarPuristNumber   = nextBarPuristNumber;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresNumbers) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
     gLogOstream <<
       "Creating a bar check" <<
       " with next bar original number '" <<
@@ -98,7 +98,7 @@ msrBarCheck::~msrBarCheck ()
 void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresNumbers) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
     gLogOstream <<
       "Setting bar check next bar number to '" <<
       puristNumber <<
@@ -208,7 +208,7 @@ msrBarNumberCheck::msrBarNumberCheck (
   fNextBarPuristNumber   = nextBarPuristNumber;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceMeasuresNumbers) {
+  if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
     gLogOstream <<
       "Creating a bar number check" <<
       " with next bar original number '" <<
@@ -373,7 +373,7 @@ void msrBarline::setBarlineCategory (
   msrBarlineCategoryKind barlineCategoryKind)
 {
 #ifdef TRACE_OAH
-        if (gGlobalTraceOah->fTraceBarlines) {
+        if (gGlobalTraceOahGroup->fTraceBarlines) {
           gLogOstream <<
             "Setting barline category of " <<
             this->asString () <<

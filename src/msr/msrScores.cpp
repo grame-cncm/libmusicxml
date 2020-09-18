@@ -82,7 +82,7 @@ msrScore::~msrScore ()
 S_msrScore msrScore::createScoreNewbornClone ()
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceScore) {
+  if (gGlobalTraceOahGroup->fTraceScore) {
     gLogOstream <<
       "Creating a newborn clone of a score" <<
       endl;
@@ -152,7 +152,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
       "' already exists in this score";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       partGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -166,7 +166,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 void msrScore::appendCreditToScore (S_msrCredit credit)
 {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceCredits) {
+  if (gGlobalTraceOahGroup->fTraceCredits) {
     gLogOstream <<
       "Appending credit '" <<
       credit->asString () <<
@@ -185,7 +185,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   S_msrPart result;
 
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTracePartGroupsDetails) {
+  if (gGlobalTraceOahGroup->fTracePartGroupsDetails) {
     gLogOstream <<
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
@@ -244,7 +244,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
   ) {
     string
       inputSourceName =
-        gGlobalOahOah->fInputSourceName;
+        gGlobalOahOahGroup->fInputSourceName;
 
     if (inputSourceName == "-") {
       inputSourceName = "Standard_input";
@@ -306,7 +306,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
               switch (topCreditsCounter) {
                 case 1:
 #ifdef TRACE_OAH
-                  if (gGlobalTraceOah->fTraceCredits) {
+                  if (gGlobalTraceOahGroup->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -323,7 +323,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
 
                 case 2:
 #ifdef TRACE_OAH
-                  if (gGlobalTraceOah->fTraceCredits) {
+                  if (gGlobalTraceOahGroup->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -352,7 +352,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
               switch (bottomCreditsCounter) {
                 case 1:
 #ifdef TRACE_OAH
-                  if (gGlobalTraceOah->fTraceCredits) {
+                  if (gGlobalTraceOahGroup->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -369,7 +369,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
 
                 case 2:
 #ifdef TRACE_OAH
-                  if (gGlobalTraceOah->fTraceCredits) {
+                  if (gGlobalTraceOahGroup->fTraceCredits) {
                     gLogOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<

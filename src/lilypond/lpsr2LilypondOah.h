@@ -63,14 +63,14 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     S_oahValuedAtom       handleOptionUnderName (
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -92,7 +92,7 @@ class lilypondScoreOutputKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -171,7 +171,7 @@ class lilypondTransposePartNameAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -195,7 +195,7 @@ class lilypondTransposePartNameAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -275,7 +275,7 @@ class lilypondTransposePartIDAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -299,7 +299,7 @@ class lilypondTransposePartIDAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -374,7 +374,7 @@ class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -441,7 +441,7 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -465,7 +465,7 @@ class lilypondRelativeOctaveEntryAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -535,7 +535,7 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -559,7 +559,7 @@ class lilypondFixedOctaveEntryAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -629,7 +629,7 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -653,7 +653,7 @@ class lilypondAccidentalStyleKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -725,7 +725,7 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string  theString,
                             ostream& os) override;
 
@@ -749,7 +749,7 @@ class lilypondChordsDisplayAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -817,7 +817,7 @@ class lilypondLyricsDurationsKindAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -841,7 +841,7 @@ class lilypondLyricsDurationsKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
@@ -909,22 +909,14 @@ class lpsr2LilypondOah : public oahGroup
 
   public:
 
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
-
-  public:
-
     // public services
     // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   private:
 
@@ -1013,7 +1005,7 @@ class lpsr2LilypondOah : public oahGroup
 
     void                  printLpsr2LilypondOahValues (int fieldWidth);
 
-    virtual void          printAtomOptionsValues (
+    virtual void          printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
@@ -1253,7 +1245,7 @@ EXP extern S_lpsr2LilypondOah gGlobalLpsr2LilypondOahWithDetailedTrace;
 */
 
 //______________________________________________________________________________
-void initializeLpsr2LilypondOahHandler (
+void initializeLpsr2LilypondOahHandling (
   S_oahHandler handler);
 
 
@@ -1344,7 +1336,7 @@ class lilypondBreakPageAfterMeasureNumberAtom : public oahValuedAtom
                             string   optionName,
                             ostream& os) override;
 
-    void                  handleValue (
+    void                  handleValuedAtomValue (
                             string   theString,
                             ostream& os) override;
 
@@ -1353,7 +1345,7 @@ class lilypondBreakPageAfterMeasureNumberAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printAtomOptionsValues (
+    void                  printValuedAtomOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 

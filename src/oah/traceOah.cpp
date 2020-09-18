@@ -29,20 +29,20 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-S_traceOah gGlobalTraceOah;
-S_traceOah gGlobalTraceOahUserChoices;
+S_traceOahGroup gGlobalTraceOahGroup;
+S_traceOahGroup gGlobalTraceOahGroupUserChoices;
 
-S_traceOah traceOah::create (
+S_traceOahGroup traceOahGroup::create (
   S_oahHandler handlerUpLink)
 {
-  traceOah* o = new traceOah (
+  traceOahGroup* o = new traceOahGroup (
     handlerUpLink);
   assert(o!=0);
 
   return o;
 }
 
-traceOah::traceOah (
+traceOahGroup::traceOahGroup (
   S_oahHandler handlerUpLink)
   : oahGroup (
     "Trace",
@@ -62,13 +62,13 @@ All of them imply '-tpasses, -trace-passes'.)",
   }
 
   // initialize it
-  initializeTraceOah (false);
+  initializeTraceOahGroup (false);
 }
 
-traceOah::~traceOah ()
+traceOahGroup::~traceOahGroup ()
 {}
 
-void traceOah::initializePrintLayoutsTraceOah (
+void traceOahGroup::initializePrintLayoutsTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -99,7 +99,7 @@ R"(Print layouts)",
       tracePrintLayoutsAtom);
 }
 
-void traceOah::initializeTranspositionsTraceOah (
+void traceOahGroup::initializeTranspositionsTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -148,7 +148,7 @@ R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
 */
 }
 
-void traceOah::initializeAboveStaffTraceOah (
+void traceOahGroup::initializeAboveStaffTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -273,7 +273,7 @@ R"(Eyeglasses)",
       traceEyeGlassesAtom);
 }
 
-void traceOah::initializeBreaksAndBarlinesTraceOah (
+void traceOahGroup::initializeBreaksAndBarlinesTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -420,7 +420,7 @@ R"(Bar number checks)",
       traceBarNumberChecksAtom);
 }
 
-void traceOah::initializeClefsToTemposTraceOah (
+void traceOahGroup::initializeClefsToTemposTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -526,7 +526,7 @@ R"(Tempos)",
       traceTemposAtom);
 }
 
-void traceOah::initializeInterNotesTraceOah (
+void traceOahGroup::initializeInterNotesTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -594,7 +594,7 @@ R"(Glissandos)",
       traceGlissandosAtom);
 }
 
-void traceOah::initializeSpannersTraceOah (
+void traceOahGroup::initializeSpannersTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -720,7 +720,7 @@ R"(Ligatures)",
       traceLigaturesAtom);
 }
 
-void traceOah::initializeHarmoniesTraceOah (
+void traceOahGroup::initializeHarmoniesTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -805,7 +805,7 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
       traceExtraHarmoniesAtom);
 }
 
-void traceOah::initializeFiguredBassesTraceOah (
+void traceOahGroup::initializeFiguredBassesTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -836,7 +836,7 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
       traceFiguredBasseAtom);
 }
 
-void traceOah::initializeCreditsToWordsTraceOah (
+void traceOahGroup::initializeCreditsToWordsTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -942,7 +942,7 @@ R"(Words)",
       traceWordsBooleanAtom);
 }
 
-void traceOah::initializeChordsAndTupletsTraceOah (
+void traceOahGroup::initializeChordsAndTupletsTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1050,7 +1050,7 @@ R"(Tuplets details)",
       traceTupletsDetailsBooleanAtom);
 }
 
-void traceOah::initializeInstrumentsTraceOah (
+void traceOahGroup::initializeInstrumentsTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1273,7 +1273,7 @@ R"(MIDI)",
       traceMidiBooleanAtom);
 }
 
-void traceOah::initializeNotesAttachmentsTraceOah (
+void traceOahGroup::initializeNotesAttachmentsTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1417,7 +1417,7 @@ R"(Dynamics)",
       traceDynamicsBooleanAtom);
 }
 
-void traceOah::initializeSegmentsAndMeasuresTraceOah (
+void traceOahGroup::initializeSegmentsAndMeasuresTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1565,7 +1565,7 @@ R"(Positions in measures)",
   // fTraceDetailedMeasureNumbersSet is empty
 }
 
-void traceOah::initializeScoreToVoicesTraceOah (
+void traceOahGroup::initializeScoreToVoicesTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1770,7 +1770,7 @@ This option implies '-tvoices, -trace-voices'.)",
       traceVoicesDetailsBooleanAtom);
 }
 
-void traceOah::initializeNotesTraceOah (
+void traceOahGroup::initializeNotesTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -1974,7 +1974,7 @@ R"(Tremolos)",
       traceTremolosBooleanAtom);
 }
 
-void traceOah::initializeOptionsTraceAndDisplayOptions (
+void traceOahGroup::initializeOptionsTraceAndDisplayOptions (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -2018,7 +2018,7 @@ This option should best appear early.)",
   // fTraceDetailedMeasureNumbersSet is intially empty
 }
 
-void traceOah::initializeRepeatsToSlashesTraceOah (
+void traceOahGroup::initializeRepeatsToSlashesTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -2163,7 +2163,7 @@ R"(Slashes)",
       traceSlashesBooleanAtom);
 }
 
-void traceOah::initializeOtherTraceOah (
+void traceOahGroup::initializeOtherTraceOah (
   bool boolOptionsInitialValue)
 {
   S_oahSubGroup
@@ -2267,7 +2267,7 @@ R"(Write a trace for tests to standard error.)",
       traceForTestsOahBooleanAtom);
 }
 
-void traceOah::initializeTraceOah (
+void traceOahGroup::initializeTraceOahGroup (
   bool boolOptionsInitialValue)
 {
   // fetch the 't' prefix
@@ -2367,12 +2367,12 @@ void traceOah::initializeTraceOah (
     boolOptionsInitialValue);
 }
 
-S_traceOah traceOah::createCloneWithTrueValues ()
+S_traceOahGroup traceOahGroup::createCloneWithTrueValues ()
 {
-  S_traceOah
+  S_traceOahGroup
     clone =
-      traceOah::create (0);
-      // 0 not to have it inserted twice in the option handler
+      traceOahGroup::create (nullptr);
+      // nullptr not to have it inserted twice in the option handler
 
   // set the options handler upLink
   clone->fHandlerUpLink =
@@ -2611,11 +2611,11 @@ S_traceOah traceOah::createCloneWithTrueValues ()
 }
 
 /* JMI
-void traceOah::setAllGeneralTraceOah (
+void traceOahGroup::setAllGeneralTraceOah (
   bool boolOptionsInitialValue)
 {
   // passes
-  clone->fTracePasses = boolOptionsInitialValue;
+  clone->getTracePasses () = boolOptionsInitialValue;
 
   // score
   clone->fTraceScore = boolOptionsInitialValue;
@@ -2839,35 +2839,35 @@ void traceOah::setAllGeneralTraceOah (
   */
 
 //______________________________________________________________________________
-void traceOah::enforceQuietness ()
+void traceOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void traceOah::checkOptionsConsistency ()
+void traceOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void traceOah::acceptIn (basevisitor* v)
+void traceOahGroup::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> traceOah::acceptIn ()" <<
+      ".\\\" ==> traceOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_traceOah>*
+  if (visitor<S_traceOahGroup>*
     p =
-      dynamic_cast<visitor<S_traceOah>*> (v)) {
-        S_traceOah elem = this;
+      dynamic_cast<visitor<S_traceOahGroup>*> (v)) {
+        S_traceOahGroup elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching traceOah::visitStart ()" <<
+            ".\\\" ==> Launching traceOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -2875,25 +2875,25 @@ void traceOah::acceptIn (basevisitor* v)
   }
 }
 
-void traceOah::acceptOut (basevisitor* v)
+void traceOahGroup::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> traceOah::acceptOut ()" <<
+      ".\\\" ==> traceOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_traceOah>*
+  if (visitor<S_traceOahGroup>*
     p =
-      dynamic_cast<visitor<S_traceOah>*> (v)) {
-        S_traceOah elem = this;
+      dynamic_cast<visitor<S_traceOahGroup>*> (v)) {
+        S_traceOahGroup elem = this;
 
 #ifdef TRACE_OAH
-        if (gGlobalOahOah->fTraceOahVisitors) {
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
           gLogOstream <<
-            ".\\\" ==> Launching traceOah::visitEnd ()" <<
+            ".\\\" ==> Launching traceOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -2901,12 +2901,12 @@ void traceOah::acceptOut (basevisitor* v)
   }
 }
 
-void traceOah::browseData (basevisitor* v)
+void traceOahGroup::browseData (basevisitor* v)
 {
 #ifdef TRACE_OAH
-  if (gGlobalOahOah->fTraceOahVisitors) {
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
     gLogOstream <<
-      ".\\\" ==> traceOah::browseData ()" <<
+      ".\\\" ==> traceOahGroup::browseData ()" <<
       endl;
   }
 #endif
@@ -2915,7 +2915,7 @@ void traceOah::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void traceOah::printAtomOptionsValues (
+void traceOahGroup::printValuedAtomOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -3363,7 +3363,7 @@ void traceOah::printAtomOptionsValues (
   gIndenter--;
 }
 
-void traceOah::printTraceOahValues (int fieldWidth)
+void traceOahGroup::printTraceOahValues (int fieldWidth)
 {
   gLogOstream <<
     "The trace options are:" <<
@@ -3809,18 +3809,18 @@ void traceOah::printTraceOahValues (int fieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_traceOah& elt)
+ostream& operator<< (ostream& os, const S_traceOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeTraceOahHandler (
+void initializeTraceOahHandling (
   S_oahHandler handler)
 {
 #ifdef TRACE_OAH
-  if (false && ! gGlobalGeneralOah->fQuiet) { // JMI
+  if (false && ! gGlobalGeneralOahGroup->fQuiet) { // JMI
     gLogOstream <<
       "Initializing trace options handling" <<
       endl;
@@ -3834,12 +3834,12 @@ void initializeTraceOahHandler (
     // create the options variables
     // ------------------------------------------------------
 
-    gGlobalTraceOahUserChoices = traceOah::create (
+    gGlobalTraceOahGroupUserChoices = traceOahGroup::create (
       handler);
-    assert(gGlobalTraceOahUserChoices != 0);
+    assert(gGlobalTraceOahGroupUserChoices != 0);
 
-    gGlobalTraceOah =
-      gGlobalTraceOahUserChoices;
+    gGlobalTraceOahGroup =
+      gGlobalTraceOahGroupUserChoices;
 
 // JMI    pThisMethodHasBeenRun = true;
   }

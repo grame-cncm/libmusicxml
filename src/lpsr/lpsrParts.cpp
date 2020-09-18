@@ -109,7 +109,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -227,7 +227,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -300,7 +300,7 @@ bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingStaff (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gGlobalOahOah->fInputSourceName,
+      gGlobalOahOahGroup->fInputSourceName,
       first->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -324,7 +324,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
 
   // sort the list if necessary
 #ifdef TRACE_OAH
-  if (gGlobalTraceOah->fTraceHarmonies) {
+  if (gGlobalTraceOahGroup->fTraceHarmonies) {
     gLogOstream <<
       "Sorting the voices in part block for part \"" <<
       fPart->getPartCombinedName () << "\"" <<

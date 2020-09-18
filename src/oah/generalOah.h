@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___generalOah___
-#define ___generalOah___
+#ifndef ___generalOahGroup___
+#define ___generalOahGroup___
 
 #include <set>
 
@@ -24,14 +24,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class generalOah : public oahGroup
+class generalOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<generalOah> create (
+    static SMARTP<generalOahGroup> create (
       S_oahHandler handlerUpLink);
 
-    SMARTP<generalOah>    createCloneWithTrueValues (); // JMI
+    SMARTP<generalOahGroup>    createCloneWithTrueValues (); // JMI
 
   public:
 
@@ -46,24 +46,10 @@ class generalOah : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    generalOah (
+    generalOahGroup (
       S_oahHandler handlerUpLink);
 
-    virtual ~generalOah ();
-
-  public:
-
-    // quiet mode
-    // ------------------------------------------------------
-
-    void                  enforceQuietness ();
-
-  public:
-
-    // consistency check
-    // ------------------------------------------------------
-
-    virtual void          checkOptionsConsistency () override;
+    virtual ~generalOahGroup ();
 
   public:
 
@@ -79,6 +65,12 @@ class generalOah : public oahGroup
 
     // public services
     // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
 
   private:
 
@@ -131,15 +123,15 @@ class generalOah : public oahGroup
 
     bool                  fDisplayCPUusage;
 };
-typedef SMARTP<generalOah> S_generalOah;
-EXP ostream& operator<< (ostream& os, const S_generalOah& elt);
+typedef SMARTP<generalOahGroup> S_generalOahGroup;
+EXP ostream& operator<< (ostream& os, const S_generalOahGroup& elt);
 
-EXP extern S_generalOah gGlobalGeneralOah;
-EXP extern S_generalOah gGlobalGeneralOahUserChoices;
-EXP extern S_generalOah gGlobalGeneralOahWithDetailedTrace;
+EXP extern S_generalOahGroup gGlobalGeneralOahGroup;
+EXP extern S_generalOahGroup gGlobalGeneralOahGroupUserChoices;
+EXP extern S_generalOahGroup gGlobalGeneralOahGroupWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeGeneralOahHandler (
+void initializeGeneralOahHandling (
   S_oahHandler handler);
 
 

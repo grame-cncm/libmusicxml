@@ -55,14 +55,14 @@ class musicxmlOah : public oahGroup
     // quiet mode
     // ------------------------------------------------------
 
-    void                  enforceQuietness ();
+    void                  enforceGroupQuietness () override;
 
   public:
 
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkOptionsConsistency () override;
+    virtual void          checkGroupOptionsConsistency () override;
 
   public:
 
@@ -136,7 +136,7 @@ EXP extern S_musicxmlOah gGlobalMusicxmlOahUserChoices;
 EXP extern S_musicxmlOah gGlobalMusicxmlOahWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMusicxmlOahHandler (
+void initializeMusicxmlOahHandling (
   S_oahHandler handler);
 
 
