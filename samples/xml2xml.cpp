@@ -28,13 +28,9 @@
 #include "oahBasicTypes.h"
 #include "generalOah.h"
 
-#include "xml2xmlTwoViewOahHandler.h"
-
 #include "musicxml2musicxml.h"
 
-#include "xml2xmlFullViewOahHandler.h"
-
-#include "xml2xmlTwoViewOahHandler.h"
+#include "xml2xmlInsiderOahHandler.h"
 
 
 using namespace std;
@@ -132,11 +128,11 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2xmlFullViewOahHandler handler;
+  S_xml2xmlInsiderOahHandler handler;
 
   try {
     handler =
-      xml2xmlFullViewOahHandler::create (
+      xml2xmlInsiderOahHandler::create (
         executableName,
         "xml2xml",
         gOutputOstream);

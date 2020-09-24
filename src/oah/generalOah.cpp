@@ -402,22 +402,15 @@ ostream& operator<< (ostream& os, const S_generalOahGroup& elt)
 void initializeGeneralOahHandling (
   S_oahHandler handler)
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // create the options variables
+  // ------------------------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // create the options variables
-    // ------------------------------------------------------
+  gGlobalGeneralOahGroupUserChoices = generalOahGroup::create (
+    handler);
+  assert(gGlobalGeneralOahGroupUserChoices != 0);
 
-    gGlobalGeneralOahGroupUserChoices = generalOahGroup::create (
-      handler);
-    assert(gGlobalGeneralOahGroupUserChoices != 0);
-
-    gGlobalGeneralOahGroup =
-      gGlobalGeneralOahGroupUserChoices;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalGeneralOahGroup =
+    gGlobalGeneralOahGroupUserChoices;
 }
 
 

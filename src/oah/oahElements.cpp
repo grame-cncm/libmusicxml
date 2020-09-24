@@ -456,7 +456,27 @@ void oahElement::printOptionEssentials (
     endl;
 }
 
+void oahElement::printOptionEssentialsShort (
+  ostream& os,
+  int      fieldWidth) const
+{
+  os << left <<
+    setw (fieldWidth) <<
+    fetchNames () << " : " <<
+    fDescription <<
+    endl;
+}
+
 void oahElement::print (ostream& os) const
+{
+  os <<
+    "??? oahElement ???" <<
+    endl;
+
+  printOptionEssentials (os, 40); // JMI
+}
+
+void oahElement::printShort (ostream& os) const
 {
   os <<
     "??? oahElement ???" <<

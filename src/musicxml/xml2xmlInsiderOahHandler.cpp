@@ -35,7 +35,7 @@
 
 #include "xml2xmlManPageOah.h"
 
-#include "xml2xmlFullViewOahHandler.h"
+#include "xml2xmlInsiderOahHandler.h"
 
 
 using namespace std;
@@ -43,17 +43,17 @@ using namespace std;
 namespace MusicXML2
 {
 
-//#define OAH_TESTS
+//#define OAH_TRACE
 
 //______________________________________________________________________________
-S_xml2xmlFullViewOahHandler xml2xmlFullViewOahHandler::create (
+S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::create (
   string   executableName,
   string   handlerHeader,
   ostream& os)
 {
   // create the insider handler
-  xml2xmlFullViewOahHandler* o = new
-    xml2xmlFullViewOahHandler (
+  xml2xmlInsiderOahHandler* o = new
+    xml2xmlInsiderOahHandler (
       executableName,
       handlerHeader,
       os);
@@ -64,14 +64,14 @@ S_xml2xmlFullViewOahHandler xml2xmlFullViewOahHandler::create (
   return o;
 }
 
-S_xml2xmlFullViewOahHandler xml2xmlFullViewOahHandler::createWithOnlyThePrefixes (
+S_xml2xmlInsiderOahHandler xml2xmlInsiderOahHandler::createWithOnlyThePrefixes (
   string   executableName,
   string   handlerHeader,
   ostream& os)
 {
   // create the insider handler
-  xml2xmlFullViewOahHandler* o = new
-    xml2xmlFullViewOahHandler (
+  xml2xmlInsiderOahHandler* o = new
+    xml2xmlInsiderOahHandler (
       executableName,
       handlerHeader,
       os);
@@ -82,7 +82,7 @@ S_xml2xmlFullViewOahHandler xml2xmlFullViewOahHandler::createWithOnlyThePrefixes
   return o;
 }
 
-xml2xmlFullViewOahHandler::xml2xmlFullViewOahHandler (
+xml2xmlInsiderOahHandler::xml2xmlInsiderOahHandler (
   string   executableName,
   string   handlerHeader,
   ostream& os)
@@ -106,21 +106,21 @@ Option '-h, -help' prints the full help,
     os)
 {}
 
-xml2xmlFullViewOahHandler::~xml2xmlFullViewOahHandler ()
+xml2xmlInsiderOahHandler::~xml2xmlInsiderOahHandler ()
 {}
 
-void xml2xmlFullViewOahHandler::createThePrefixesAndInitializeOahHandler (
+void xml2xmlInsiderOahHandler::createThePrefixesAndInitializeOahHandler (
   string executableName)
 {
   // create the prefixes
   createThePrefixes ();
 
   // initialize the insider OAH handling only now, since it may use prefixes
-  initializeXml2xmlFullViewOahHandler (
+  initializeXml2xmlInsiderOahHandler (
     executableName);
 }
 
-void xml2xmlFullViewOahHandler::createThePrefixes ()
+void xml2xmlInsiderOahHandler::createThePrefixes ()
 {
   // create and append the help options prefixes
   S_oahPrefix
@@ -174,13 +174,14 @@ void xml2xmlFullViewOahHandler::createThePrefixes ()
   appendPrefixToHandler (oPrefix);
 }
 
-void xml2xmlFullViewOahHandler::initializeXml2xmlFullViewOahHandler (
+void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandler (
   string executableName)
 {
   /*
     The order of the initializations below determines
     the relative order of the atoms in the help output,
-    which is retained in oahDualHandler::populateUserHandlerFromFullViewHandler()
+    which is retained in
+    xml2xmlRegularOahHandler::populateRegularViewHandlerFromInsiderHandler()
   */
 
   // protect library against multiple initializations
@@ -247,14 +248,14 @@ void xml2xmlFullViewOahHandler::initializeXml2xmlFullViewOahHandler (
       this);
 #endif
 
-    initializeXml2xmlFullViewOahHandling (
+    initializeXml2xmlInsiderOahHandling (
       this);
 
 #ifdef TRACE_OAH
-#ifdef OAH_TESTS
+#ifdef OAH_TRACE
     // print the options handler initial state
     fHandlerLogOstream <<
-      "xml2xmlFullViewOahHandler has been initialized as:" <<
+      "xml2xmlInsiderOahHandler has been initialized as:" <<
       endl;
 
     gIndenter++;
@@ -280,7 +281,7 @@ void xml2xmlFullViewOahHandler::initializeXml2xmlFullViewOahHandler (
 #ifdef TRACE_OAH
     if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
       fHandlerLogOstream <<
-        "xml2xmlFullViewOahHandler help:" <<
+        "xml2xmlInsiderOahHandler help:" <<
         endl;
 
       this->
@@ -293,12 +294,12 @@ void xml2xmlFullViewOahHandler::initializeXml2xmlFullViewOahHandler (
   }
 }
 
-void xml2xmlFullViewOahHandler::checkOptionsAndArguments ()
+void xml2xmlInsiderOahHandler::checkOptionsAndArguments ()
 {
 #ifdef TRACE_OAH
   if (gGlobalTraceOahGroup->getTraceOahDetails ()) {
     gOutputOstream <<
-      "xml2xmlFullViewOahHandler::checkOptionsAndArguments() " <<
+      "xml2xmlInsiderOahHandler::checkOptionsAndArguments() " <<
       fHandlerHeader <<
       "\"" <<
       endl;
@@ -433,7 +434,7 @@ void xml2xmlFullViewOahHandler::checkOptionsAndArguments ()
     if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
       // print the options handler initial state
       fHandlerLogOstream <<
-        "xml2xmlFullViewOahHandler::checkOptionsAndArguments(): " <<
+        "xml2xmlInsiderOahHandler::checkOptionsAndArguments(): " <<
         endl;
 
       gIndenter++;
@@ -580,7 +581,7 @@ void xml2xmlFullViewOahHandler::checkOptionsAndArguments ()
         "%--------------------------------------------------------------";
 
       gLogOstream <<
-        "xml2xmlFullViewOahHandler::checkOptionsAndArguments(): " <<
+        "xml2xmlInsiderOahHandler::checkOptionsAndArguments(): " <<
         "gGlobalOahOahGroup->fInputSourceName: \"" << gGlobalOahOahGroup->fInputSourceName << "\"" <<
         ", gGlobalOahOahGroup->fInputSourceName: \"" << gGlobalOahOahGroup->fInputSourceName << "\"" <<
         ", gGlobalXml2xmlOahGroup->fAutoOutputFileName: \"" << booleanAsString (gGlobalXml2xmlOahGroup->fAutoOutputFileName) << "\"" <<
@@ -610,7 +611,7 @@ void xml2xmlFullViewOahHandler::checkOptionsAndArguments ()
         stringstream s;
 
         s <<
-          "xml2xmlFullViewOahHandler: a MusicXML output file name must be chosen with '-o, -output-file-name";
+          "xml2xmlInsiderOahHandler: a MusicXML output file name must be chosen with '-o, -output-file-name";
 
         oahError (s.str ());
       }
@@ -622,7 +623,7 @@ void xml2xmlFullViewOahHandler::checkOptionsAndArguments ()
 }
 
 /* JMI
-void xml2xmlFullViewOahHandler::determineOutputFileNameFromInputFileName ()
+void xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName ()
 {
 #ifdef TRACE_OAH
   if (gGlobalTraceOahGroup->getTracePasses ()) {
@@ -630,7 +631,7 @@ void xml2xmlFullViewOahHandler::determineOutputFileNameFromInputFileName ()
       "%--------------------------------------------------------------";
 
     gLogOstream <<
-      "xml2xmlFullViewOahHandler::determineOutputFileNameFromInputFileName(): " <<
+      "xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName(): " <<
       endl <<
       separator <<
       endl;
@@ -665,7 +666,7 @@ void xml2xmlFullViewOahHandler::determineOutputFileNameFromInputFileName ()
       "%--------------------------------------------------------------";
 
     gLogOstream <<
-      "xml2xmlFullViewOahHandler::determineOutputFileNameFromInputFileName(): " <<
+      "xml2xmlInsiderOahHandler::determineOutputFileNameFromInputFileName(): " <<
       "gGlobalOahOahGroup->fInputSourceName: \"" << gGlobalOahOahGroup->fInputSourceName << "\"" <<
       ", inputSourceBaseName: \"" << inputSourceBaseName << "\"" <<
       ", inputSourceBaseNamePrefix: \"" << inputSourceBaseNamePrefix << "\"" <<
@@ -685,11 +686,11 @@ void xml2xmlFullViewOahHandler::determineOutputFileNameFromInputFileName ()
 */
 
 //______________________________________________________________________________
-void xml2xmlFullViewOahHandler::checkHandlerOptionsConsistency ()
+void xml2xmlInsiderOahHandler::checkHandlerOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
-void xml2xmlFullViewOahHandler::enforceHandlerQuietness ()
+void xml2xmlInsiderOahHandler::enforceHandlerQuietness ()
 {
 #ifdef TRACE_OAH
   gGlobalGeneralOahGroup->
@@ -709,7 +710,7 @@ void xml2xmlFullViewOahHandler::enforceHandlerQuietness ()
 //    enforceQuietness ();
 
 #ifdef EXTRA_OAH
-  ggGlobalExtraOah->
+  gGlobalExtraOah->
     enforceGroupQuietness ();
 #endif
 
@@ -746,12 +747,12 @@ void xml2xmlOahGroup::checkGroupOptionsConsistency ()
 }
 
 //______________________________________________________________________________
-void xml2xmlFullViewOahHandler::print (ostream& os) const
+void xml2xmlInsiderOahHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
 
   os <<
-    "xml2xmlFullViewOahHandler:" <<
+    "xml2xmlInsiderOahHandler:" <<
     endl;
 
   gIndenter++;
@@ -799,7 +800,7 @@ void xml2xmlFullViewOahHandler::print (ostream& os) const
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_xml2xmlFullViewOahHandler& elt)
+ostream& operator<< (ostream& os, const S_xml2xmlInsiderOahHandler& elt)
 {
   elt->print (os);
   return os;
@@ -1066,7 +1067,7 @@ void xml2xmlOahGroup::printXml2xmlOahGroupValues (int fieldWidth)
 }
 
 //______________________________________________________________________________
-void initializeXml2xmlFullViewOahHandling (
+void initializeXml2xmlInsiderOahHandling (
   S_oahHandler handler)
 {
   // protect library against multiple initializations

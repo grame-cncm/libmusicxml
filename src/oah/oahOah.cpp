@@ -24,8 +24,6 @@
 
 #include "oahOah.h"
 
-//#include "xml2lyOahDualHandler.h" JMI
-
 
 using namespace std;
 
@@ -319,22 +317,6 @@ R"()",
       this);
 
   appendSubGroupToGroup (subGroup);
-
-/* JMI
-  // the 'insider' option
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahDualHandlerInsiderAtom::create (
-        "insider", "",
-R"(In the default 'user' view, the options are grouped by music scoring topics,
-such a slurs, tuplets and figured bass.
-This option switches the options and help view to 'insider',
-in which the options are grouped as they are used by the various
-internal representations and translation passes.
-This unleashes the full set of display and trace options.
-This option should be the first one.)"));
-*/
 
   // help options
 
@@ -735,23 +717,16 @@ void initializeOahOahHandling (
   string       executableName,
   S_oahHandler handler)
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // create the options variables
+  // ------------------------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // create the options variables
-    // ------------------------------------------------------
+  gGlobalOahOahUserChoices = oahOahGroup::create (
+    executableName,
+    handler);
+  assert(gGlobalOahOahUserChoices != 0);
 
-    gGlobalOahOahUserChoices = oahOahGroup::create (
-      executableName,
-      handler);
-    assert(gGlobalOahOahUserChoices != 0);
-
-    gGlobalOahOahGroup =
-      gGlobalOahOahUserChoices;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalOahOahGroup =
+    gGlobalOahOahUserChoices;
 }
 
 

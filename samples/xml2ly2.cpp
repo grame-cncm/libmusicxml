@@ -12,72 +12,11 @@
 
 #include "libmusicxml.h"
 
+
 using namespace std;
 using namespace MusicXML2;
 
 //_______________________________________________________________________________
-
-static void string2StringsV (int argc, char *argv[], vector<string>& strings)
-{
-	for (int i=1; i<argc; i++) {
-		strings.push_back(argv[i]);
-	}
-}
-
-static void printOptions (optionsVector& options)
-{
-  cerr << "printOptions: options size: " << options.size() << endl;
-	cerr << "==> options:" << endl;
-	for (auto option: options) {
-	  cerr << "   \"" << option.first << "\" \"" << option.second << "\"" << endl;
-	} // for
-	cerr << endl;
-}
-
-static bool args2Options (int argc, char *argv[], optionsVector& options)
-{
-	vector<string> args;
-	string2StringsV (argc, argv, args);
-
-  cerr << "args2Options: args size: " << args.size() << endl;
-	cerr << "==> args:" << endl;
-	for (auto str: args) {
-	  cerr << "   " << str << endl;
-	} // for
-	cerr << endl;
-
-	string curOption;
-	for (int i = 0; i < args.size()-1; i++) {
-	  string str = args[i];
-
-	  cerr << "--> curOption: " << curOption << endl;
-	  cerr << "--> str      : " << str << endl;
-
-		if (curOption.empty()) {	// wait for option
-			if (str[0] == '-') curOption = str;
-			else return false;
-		}
-		else {
-			if (str[0] == '-') {
-				// option without value
-				options.push_back (make_pair (curOption, ""));
-				curOption = str;
-			}
-			else {
-			  // option with value
-				options.push_back (make_pair(curOption, str));
-				curOption = "";
-			}
-		}
-		printOptions (options);
-	} // for
-
-	if (curOption.size())
-		options.push_back (make_pair (curOption, ""));
-
-	return true;
-}
-
 static string options2String (const optionsVector& options)
 {
 	stringstream sstr;
@@ -87,63 +26,37 @@ static string options2String (const optionsVector& options)
 }
 
 //_______________________________________________________________________________
-#if 1
 int main (int argc, char *argv[])
 {
+  // the executable name
+  // ------------------------------------------------------
+  string executableName = argv [0];
+
 	optionsVector options;
+
+	options.push_back (make_pair ("-trace-oah", ""));
+//	options.push_back (make_pair ("-display-options-values", ""));
+
 //	options.push_back (make_pair ("-help", ""));
-	options.push_back (make_pair ("-hmxmlcg", ""));
-  cerr << "main - string2lily options: " << options.size() << ": " << options2String(options) << endl;
+	options.push_back (make_pair ("-option-name-help", "global-staff-size"));
+//	options.push_back (make_pair ("-hmxmlcg", ""));
+//	options.push_back (make_pair ("-help-midi-grp", ""));
+//  cerr << "main - string2lily options: " << options.size() << ": " << options2String(options) << endl;
+
+  // use insider options instead of the regular ones?
+  bool insiderOptions = false;
 
   cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
 
-	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
+	xmlErr err = musicxmlstring2lilypond ("", insiderOptions, options, cout, cerr);
 	cout << "xml2ly2 ret 1 = " << err << endl;
 
-  cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
+  if (true) {
+    cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
 
-	xmlErr err2 = musicxmlstring2lilypond ("", options, cout, cerr);
-	cout << "xml2ly2 ret 2 = " << err2 << endl;
-
-	return 0;
-}
-
-#else
-int main (int argc, char *argv[])
-{
-	optionsVector options;
-	const char* file = 0;
-	if (argc > 1)
-		file = argv[argc-1];
-	else {
-		cerr << "usage: xml2ly2 [options] file" << endl;
-		return -1;
-	}
-
-//	options.push_back (make_pair ("-trace-oah", ""));
-
-	args2Options (argc, argv, options);
-	printOptions (options);
-
-  cerr << "read file " << file << endl;
-	std::ifstream t(file);
-	std::stringstream buffer;
-	buffer << t.rdbuf();
-//	cerr << "==> buffer:" << endl << buffer.str () << endl;
-
-  cerr << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
-
-	if (buffer.str().size()) {
-		xmlErr err = musicxmlstring2lilypond (buffer.str().c_str(), options, cout, cerr);
-		cerr << "done1, result: " << err << endl;
-	}
-	else {
-		cerr << "cannot read file " << file << endl;
-		xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
-		cerr << "done2, result: " << err << endl;
-		return -1;
-	}
+    xmlErr err2 = musicxmlstring2lilypond ("", insiderOptions, options, cout, cerr);
+    cout << "xml2ly2 ret 2 = " << err2 << endl;
+  }
 
 	return 0;
 }
-#endif

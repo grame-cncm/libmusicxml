@@ -113,6 +113,7 @@ class oahAtom : public oahElement
     // ------------------------------------------------------
 
     void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
     virtual void          printValuedAtomOptionsValues (
                             ostream& os,
@@ -184,6 +185,7 @@ class oahAtomSynonym : public oahAtom
     // ------------------------------------------------------
 
     void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
     void                  printValuedAtomOptionsValues (
                             ostream& os,
@@ -462,6 +464,7 @@ class oahAtomWithVariableName : public oahAtom
     // ------------------------------------------------------
 
     void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
     void                  printValuedAtomOptionsValues (
                             ostream& os,
@@ -563,8 +566,12 @@ class oahValuedAtom : public oahAtomWithVariableName
     virtual void          printValuedAtomEssentials (
                             ostream& os,
                             int      fieldWidth) const;
+    virtual void          printValuedAtomEssentialsShort (
+                            ostream& os,
+                            int      fieldWidth) const;
 
     void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
     void                  printHelp (ostream& os) override;
 
@@ -1051,6 +1058,7 @@ to be developped into :
                             int      fieldWidth) const;
 
     virtual void          print (ostream& os) const;
+    virtual void          printShort (ostream& os) const;
 
     virtual void          printHelp (ostream& os);
 
@@ -2876,12 +2884,12 @@ class oahSubGroup : public oahElement
     // ------------------------------------------------------
 
     static SMARTP<oahSubGroup> create (
-      string                  subGroupHeader,
-      string                  shortName,
-      string                  longName,
-      string                  description,
+      string                   subGroupHeader,
+      string                   shortName,
+      string                   longName,
+      string                   description,
       oahElementVisibilityKind optionVisibilityKind,
-      S_oahGroup              groupUpLink);
+      S_oahGroup               groupUpLink);
 
   protected:
 
@@ -2889,12 +2897,12 @@ class oahSubGroup : public oahElement
     // ------------------------------------------------------
 
     oahSubGroup (
-      string                  subGroupHeader,
-      string                  shortName,
-      string                  longName,
-      string                  description,
+      string                   subGroupHeader,
+      string                   shortName,
+      string                   longName,
+      string                   description,
       oahElementVisibilityKind optionVisibilityKind,
-      S_oahGroup              groupUpLink);
+      S_oahGroup               groupUpLink);
 
     virtual ~oahSubGroup ();
 
@@ -2964,6 +2972,7 @@ class oahSubGroup : public oahElement
     // ------------------------------------------------------
 
     void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
     void                  printHelp (ostream& os) override;
 
@@ -3124,6 +3133,7 @@ class oahGroup : public oahElement
     // ------------------------------------------------------
 
     void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
     void                  printGroupHeader (ostream& os) const;
 
@@ -3260,7 +3270,12 @@ class EXP oahHandler : public oahElement
     string                getHandlerUsage () const
                               { return fHandlerUsage; }
 
-    string                getExecutableName () const
+    // prefixes
+    const map<string, S_oahPrefix>&
+                          getHandlerPrefixesMap () const
+                              { return fHandlerPrefixesMap; }
+
+    string                getHandlerExecutableName () const
                               { return fHandlerExecutableName; }
 
     ostream&              getHandlerLogOstream ()
@@ -3276,6 +3291,7 @@ class EXP oahHandler : public oahElement
                           getHandlerOptionalValuesStyleKind ()
                               { return fHandlerOptionalValuesStyleKind; }
 
+    // elements
     const list<S_oahElement>&
                           getHandlerRegisteredElementsList () const
                               { return fHandlerRegisteredElementsList; }
@@ -3283,10 +3299,12 @@ class EXP oahHandler : public oahElement
     const list<S_oahElement>&
                           getHandlerCommandLineElementsList () const
                               { return fHandlerCommandLineElementsList; }
+
     const multiset<S_oahElement, compareOahElements>&
                           getHandlerCommandLineElementsMultiset () const
                               { return fHandlerCommandLineElementsMultiset; }
 
+    // widths and sizes
     int                   getMaximumShortNameWidth () const
                               { return fMaximumShortNameWidth; }
 
@@ -3320,9 +3338,6 @@ class EXP oahHandler : public oahElement
                             S_oahGroup group);
 
     void                  registerElementInHandler (
-                            S_oahElement element);
-
-    void                  registerSpecificElementNamesInHandler (
                             S_oahElement element);
 
     S_oahPrefix           fetchPrefixNameInPrefixesMap (
@@ -3373,6 +3388,7 @@ class EXP oahHandler : public oahElement
     string                commandLineWithLongNamesAsString () const;
 
     void                  print (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
     void                  printHelp (ostream& os) override;
 
@@ -3507,7 +3523,8 @@ class EXP oahHandler : public oahElement
     // protected fields
     // ------------------------------------------------------
 
-    string                fExecutableName;
+    // executable name
+    string                fHandlerExecutableName;
 
     // command line
     string                fCommandLineAsSupplied;
@@ -3539,9 +3556,6 @@ class EXP oahHandler : public oahElement
     // elements map
     map<string, S_oahElement>
                           fHandlerElementsMap;
-
-    // executable name
-    string                fHandlerExecutableName;
 
     // argument vector
     vector<string>        fHandlerArgumentsVector;

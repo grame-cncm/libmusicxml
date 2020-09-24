@@ -216,8 +216,12 @@ class oahElement : public smartable
     virtual void          printOptionEssentials (
                             ostream& os,
                             int      fieldWidth) const;
+    virtual void          printOptionEssentialsShort (
+                            ostream& os,
+                            int      fieldWidth) const;
 
     virtual void          print (ostream& os) const;
+    virtual void          printShort (ostream& os) const;
 
     virtual void          printHelp (ostream& os);
 

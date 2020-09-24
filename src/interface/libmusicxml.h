@@ -176,7 +176,7 @@ EXP const char*   musicxml2lilypondVersionStr();
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2lilypond  (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfile2lilypond  (const char *file, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
@@ -184,7 +184,7 @@ EXP xmlErr      musicxmlfile2lilypond  (const char *file, const optionsVector& o
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the LilyPond format.
@@ -192,7 +192,7 @@ EXP xmlErr      musicxmlfd2lilypond  (FILE* fd, const optionsVector& options, st
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2lilypond(const char *buffer, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlstring2lilypond(const char *buffer, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 //_______________________________________________________________________________
 /*!

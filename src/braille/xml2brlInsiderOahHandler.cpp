@@ -16,7 +16,7 @@
 #include "traceOah.h"
 
 #include "msr.h"
-#include "lpsr.h"
+#include "bsr.h"
 
 #include "oahOah.h"
 
@@ -26,15 +26,16 @@
 #include "mxmlTreeOah.h"
 #include "mxmlTree2MsrOah.h"
 #include "msrOah.h"
-#include "msr2LpsrOah.h"
-#include "lpsrOah.h"
-#include "lpsr2LilypondOah.h"
-#include "lilypondOah.h"
-#include "msr2MxmlTreeOah.h"    // this is in case the '-loop' option is selected
+#include "msr2BsrOah.h"
+#include "bsrOah.h"
+#include "bsr2BrailleOah.h"
+#include "brailleOah.h"
 
 #include "version.h"
 
-#include "xml2lyFullViewOahHandler.h"
+#include "xml2brlOahTypes.h"
+
+#include "xml2brlInsiderOahHandler.h"
 
 
 using namespace std;
@@ -42,17 +43,17 @@ using namespace std;
 namespace MusicXML2
 {
 
-//#define TRACE_TESTS
+//#define OAH_TRACE
 
 //______________________________________________________________________________
-S_xml2lyFullViewOahHandler xml2lyFullViewOahHandler::create (
+S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::create (
   string   executableName,
   string   handlerHeader,
   ostream& os)
 {
   // create the insider handler
-  xml2lyFullViewOahHandler* o = new
-    xml2lyFullViewOahHandler (
+  xml2brlInsiderOahHandler* o = new
+    xml2brlInsiderOahHandler (
       executableName,
       handlerHeader,
       os);
@@ -63,14 +64,14 @@ S_xml2lyFullViewOahHandler xml2lyFullViewOahHandler::create (
   return o;
 }
 
-S_xml2lyFullViewOahHandler xml2lyFullViewOahHandler::createWithOnlyThePrefixes (
+S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::createWithOnlyThePrefixes (
   string   executableName,
   string   handlerHeader,
   ostream& os)
 {
   // create the insider handler
-  xml2lyFullViewOahHandler* o = new
-    xml2lyFullViewOahHandler (
+  xml2brlInsiderOahHandler* o = new
+    xml2brlInsiderOahHandler (
       executableName,
       handlerHeader,
       os);
@@ -81,7 +82,7 @@ S_xml2lyFullViewOahHandler xml2lyFullViewOahHandler::createWithOnlyThePrefixes (
   return o;
 }
 
-xml2lyFullViewOahHandler::xml2lyFullViewOahHandler (
+xml2brlInsiderOahHandler::xml2brlInsiderOahHandler (
   string   executableName,
   string   handlerHeader,
   ostream& os)
@@ -90,14 +91,14 @@ xml2lyFullViewOahHandler::xml2lyFullViewOahHandler (
       handlerHeader,
       executableName + " options values",
       "h", "help",
-      "hs","helpSummary",
-R"(                      Welcome to xml2ly,
-              the MusicXML to LilyPond translator
+      "hs", "helpSummary",
+R"(                      Welcome to xml2brl,
+            the MusicXML to Braille music translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-Usage: xml2ly [options] [MusicXMLFile|-] [options]
+Usage: xml2brl [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Option '-h, -help' prints the full help,
@@ -105,23 +106,23 @@ Option '-h, -help' prints the full help,
     os)
 {}
 
-xml2lyFullViewOahHandler::~xml2lyFullViewOahHandler ()
+xml2brlInsiderOahHandler::~xml2brlInsiderOahHandler ()
 {}
 
-void xml2lyFullViewOahHandler::createThePrefixesAndInitializeOahHandler (
+void xml2brlInsiderOahHandler::createThePrefixesAndInitializeOahHandler (
   string executableName)
 {
   // create the prefixes
   createThePrefixes ();
 
   // initialize the insider OAH handling only now, since it may use prefixes
-  initializeXml2lyFullViewOahHandler (
+  initializeXml2brlInsiderOahHandler (
     executableName);
 }
 
-void xml2lyFullViewOahHandler::createThePrefixes ()
+void xml2brlInsiderOahHandler::createThePrefixes ()
 {
-  // create and append the help options prefixes
+  // append the help options prefixes
   S_oahPrefix
     helpPrefix =
       oahPrefix::create (
@@ -138,7 +139,7 @@ void xml2lyFullViewOahHandler::createThePrefixes ()
         "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'");
   appendPrefixToHandler (hPrefix);
 
-  // create and append the trace options prefixes
+  // append the trace options prefixes
   S_oahPrefix
     tracePrefix =
       oahPrefix::create (
@@ -154,64 +155,16 @@ void xml2lyFullViewOahHandler::createThePrefixes ()
         "t",
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
   appendPrefixToHandler (tPrefix);
-
-  // create and append the display options prefixes
-  S_oahPrefix
-    displayPrefix =
-      oahPrefix::create (
-        "display",
-        "display-",
-        "'-display=abc,yz' is equivalent to '-display-abc, -display-yz'");
-  appendPrefixToHandler (displayPrefix);
-
-  S_oahPrefix
-    dPrefix =
-      oahPrefix::create (
-        "d",
-        "d",
-        "'-d=abc,wxyz' is equivalent to '-dabc, -dwxyz'");
-  appendPrefixToHandler (dPrefix);
-
-  // create and append the omit options prefixes
-  S_oahPrefix
-    omitPrefix =
-      oahPrefix::create (
-        "omit",
-        "omit-",
-        "'-omit=abc,yz' is equivalent to '-omit-abc, -omit-yz'");
-  appendPrefixToHandler (omitPrefix);
-
-  S_oahPrefix
-    oPrefix =
-      oahPrefix::create (
-        "o",
-        "o",
-        "'-o=abc,wxyz' is equivalent to '-oabc, -owxyz'");
-  appendPrefixToHandler (oPrefix);
-
-/* JMI
-  // create an xml2lyOah2ManPageGenerator
-  S_xml2lyOah2ManPageGenerator
-    generator =
-      xml2lyOah2ManPageGenerator::create (
-        this,
-        gLogOstream,
-        gOutputOstream);
-        */
 }
 
-void xml2lyFullViewOahHandler::initializeXml2lyFullViewOahHandler (
+void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandler (
   string executableName)
-/* JMI
-  ,
-  S_xml2lyOah2ManPageGenerator
-         theOah2ManPageGenerator)
-         */
 {
   /*
     The order of the initializations below determines
     the relative order of the atoms in the help output,
-    which is retained in oahDualHandler::populateUserHandlerFromFullViewHandler()
+    which is retained in
+    xml2brlRegularOahHandler::populateRegularViewHandlerFromInsiderHandler()
   */
 
   // protect library against multiple initializations
@@ -222,7 +175,7 @@ void xml2lyFullViewOahHandler::initializeXml2lyFullViewOahHandler (
   #ifdef TRACE_OAH
       if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
         gLogOstream <<
-          "Initializing xml2ly insider options handling" <<
+          "Initializing xml2brl insider options handling" <<
           endl;
       }
   #endif
@@ -247,7 +200,7 @@ void xml2lyFullViewOahHandler::initializeXml2lyFullViewOahHandler (
     // ------------------------------------------------------
 
     initializeMSR ();
-    initializeLPSR ();
+    initializeBSR ();
 
     // initialize options handling, phase 2
     // ------------------------------------------------------
@@ -264,17 +217,16 @@ void xml2lyFullViewOahHandler::initializeXml2lyFullViewOahHandler (
     initializeMsrOahHandling (
       this);
 
-    initializeMsr2LpsrOahHandling (
+    initializeMsr2BsrOahHandling (
       this);
 
-    initializeLpsrOahHandling (
+    initializeBsrOahHandling (
       this);
 
-    initializeLpsr2LilypondOahHandling (
+    initializeBsr2BrailleOahHandling (
       this);
 
-    // this is in case the '-loop' option is selected
-    initializeMsr2MxmltreeOahHandling (
+    initializeBrailleOahHandling (
       this);
 
 #ifdef EXTRA_OAH
@@ -282,20 +234,14 @@ void xml2lyFullViewOahHandler::initializeXml2lyFullViewOahHandler (
       this);
 #endif
 
-  /* JMI
-    initializeXml2lyManPageOahHandling (
-      this,
-      theOah2ManPageGenerator);
-  */
-
-    initializeXml2lyOah (
+    initializeXml2brlOahHandling (
       this);
 
 #ifdef TRACE_OAH
-#ifdef TRACE_TESTS
+#ifdef OAH_TRACE
     // print the options handler initial state
     fHandlerLogOstream <<
-      "xml2lyFullViewOahHandler has been initialized as:" <<
+      "xml2brlInsiderOahHandler has been initialized as:" <<
       endl;
 
     gIndenter++;
@@ -315,13 +261,14 @@ void xml2lyFullViewOahHandler::initializeXml2lyFullViewOahHandler (
     this->
       registerHandlerInItself ();
     // register options handler names in itself
+
     this->
       registerHandlerOptionNamesInItself ();
 
 #ifdef TRACE_OAH
     if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
       fHandlerLogOstream <<
-        "xml2lyFullViewOahHandler help:" <<
+        "xml2brlInsiderOahHandler help:" <<
         endl;
 
       this->
@@ -330,16 +277,16 @@ void xml2lyFullViewOahHandler::initializeXml2lyFullViewOahHandler (
     }
 #endif
 
-// JMI    pThisMethodHasBeenRun = true;
+  pThisMethodHasBeenRun = true;
   }
 }
 
-void xml2lyFullViewOahHandler::checkOptionsAndArguments ()
+void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
 {
 #ifdef TRACE_OAH
   if (gGlobalTraceOahGroup->getTraceOahDetails ()) {
     gOutputOstream <<
-      "xml2lyFullViewOahHandler::checkOptionsAndArguments() " <<
+      "xml2brlInsiderOahHandler::checkOptionsAndArguments() " <<
       fHandlerHeader <<
       "\"" <<
       endl;
@@ -353,7 +300,7 @@ void xml2lyFullViewOahHandler::checkOptionsAndArguments ()
       fHandlerArgumentsVector.size ();
 
 #ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
+    if (gGlobalTraceOahGroup->getTraceOahDetails () && ! gGlobalGeneralOahGroup->fQuiet) {
       if (argumentsNumber > 0) {
         fHandlerLogOstream <<
           singularOrPluralWithoutNumber (
@@ -363,8 +310,6 @@ void xml2lyFullViewOahHandler::checkOptionsAndArguments ()
           " " <<
           singularOrPluralWithoutNumber (
             argumentsNumber, "argument", "arguments") <<
-          " in handlerArgumentsVector for " <<
-          gGlobalOahOahGroup->fHandlerExecutableName <<
           ":" <<
           endl;
 
@@ -419,7 +364,7 @@ void xml2lyFullViewOahHandler::checkOptionsAndArguments ()
       default:
         fHandlerLogOstream <<
           endl <<
-          "Several input file names supplied, only the first one, \"" <<
+          "Several input file name supplied, only the first one, \"" <<
           fHandlerArgumentsVector [0] <<
           "\", will be translated" <<
           endl <<
@@ -444,19 +389,80 @@ void xml2lyFullViewOahHandler::checkOptionsAndArguments ()
       // determine potential output file name,
       // may be set differently by '--o, --outputFileName' option
       potentialOutputFileName =
-        baseName (inputSourceName);
+        baseName (
+          inputSourceName);
 
-      // set '.ly' suffix
       size_t
         posInString =
           potentialOutputFileName.rfind ('.');
 
+      // remove file extension
       if (posInString != string::npos) {
         potentialOutputFileName.replace (
           posInString,
           potentialOutputFileName.size () - posInString,
-          ".ly");
+          "");
       }
+
+      // should encoding be used by the file name?
+      if (! gGlobalBsr2BrailleOah->fDontUseEncodingInFileName) {
+        switch (gGlobalBsr2BrailleOah->fBrailleOutputKind) {
+          case kBrailleOutputAscii:
+            potentialOutputFileName += "_ASCII";
+            break;
+
+          case kBrailleOutputUTF8:
+            potentialOutputFileName += "_UTF8";
+              /* JMI
+            switch (gGlobalBsr2BrailleOah->fByteOrderingKind) {
+              case kByteOrderingNone:
+                break;
+              case kByteOrderingBigEndian:
+                potentialOutputFileName += "_BE";
+                break;
+              case kByteOrderingSmallEndian:
+                // should not occur JMI
+                break;
+            } // switch
+            */
+            break;
+
+          case kBrailleOutputUTF8Debug:
+            potentialOutputFileName += "_UTF8Debug";
+            break;
+
+          case kBrailleOutputUTF16:
+            potentialOutputFileName += "_UTF16";
+              /* JMI
+            switch (gGlobalBsr2BrailleOah->fByteOrderingKind) {
+              case kByteOrderingNone:
+                break;
+
+              case kByteOrderingBigEndian:
+                potentialOutputFileName += "_BE";
+                break;
+
+              case kByteOrderingSmallEndian:
+                potentialOutputFileName += "_SE";
+                break;
+            } // switch
+            */
+            break;
+        } // switch
+      }
+
+      // append the file extension
+      switch (gGlobalBsr2BrailleOah->fBrailleOutputKind) {
+        case kBrailleOutputAscii:
+         potentialOutputFileName += ".brf";
+          break;
+
+        case kBrailleOutputUTF8:
+        case kBrailleOutputUTF8Debug:
+        case kBrailleOutputUTF16:
+          potentialOutputFileName += ".txt";
+          break;
+      } // switch
     }
 
     // check auto output file option usage
@@ -464,19 +470,19 @@ void xml2lyFullViewOahHandler::checkOptionsAndArguments ()
 
     S_oahStringAtom
       outputFileNameStringAtom =
-        gGlobalXml2lyOahGroup->
+        gGlobalXml2brlOahGroup->
           getOutputFileNameStringAtom ();
 
     S_oahBooleanAtom
       autoOutputFileNameAtom =
-        gGlobalXml2lyOahGroup->
+        gGlobalXml2brlOahGroup->
           getAutoOutputFileNameAtom ();
 
 #ifdef TRACE_OAH
     if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
       // print the options handler initial state
       fHandlerLogOstream <<
-        "xml2lyFullViewOahHandler::checkOptionsAndArguments(): " <<
+        "xml2brlInsiderOahHandler::checkOptionsAndArguments(): " <<
         endl;
 
       gIndenter++;
@@ -618,11 +624,10 @@ void xml2lyFullViewOahHandler::checkOptionsAndArguments ()
 }
 
 //______________________________________________________________________________
-void xml2lyFullViewOahHandler::checkHandlerOptionsConsistency ()
+void xml2brlInsiderOahHandler::checkHandlerOptionsConsistency ()
 {}
 
-//______________________________________________________________________________
-void xml2lyFullViewOahHandler::enforceHandlerQuietness ()
+void xml2brlInsiderOahHandler::enforceHandlerQuietness ()
 {
 #ifdef TRACE_OAH
   gGlobalGeneralOahGroup->
@@ -638,102 +643,39 @@ void xml2lyFullViewOahHandler::enforceHandlerQuietness ()
   gGlobalMsrOah->
     enforceGroupQuietness ();
 
-  gGlobalLpsrOah->
+  gGlobalBsrOah->
     enforceGroupQuietness ();
 
-  gGlobalLpsr2LilypondOah->
+  gGlobalBrailleOah->
+    enforceGroupQuietness ();
+
+  gGlobalBsr2BrailleOah->
     enforceGroupQuietness ();
 
 #ifdef EXTRA_OAH
-  gggGlobalExtraOah->
+  gGlobalExtraOah->
     enforceGroupQuietness ();
 #endif
 
-  gGlobalXml2lyOahGroup->
+  gGlobalXml2brlOahGroup->
     enforceGroupQuietness ();
 }
 
 //______________________________________________________________________________
-void xml2lyOahGroup::enforceGroupQuietness ()
+void xml2brlOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void xml2lyOahGroup::checkGroupOptionsConsistency ()
+void xml2brlOahGroup::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
-void xml2lyOahGroup::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2lyOahGroup::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2lyOahGroup>*
-    p =
-      dynamic_cast<visitor<S_xml2lyOahGroup>*> (v)) {
-        S_xml2lyOahGroup elem = this;
-
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching xml2lyOahGroup::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void xml2lyOahGroup::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2lyOahGroup::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2lyOahGroup>*
-    p =
-      dynamic_cast<visitor<S_xml2lyOahGroup>*> (v)) {
-        S_xml2lyOahGroup elem = this;
-
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching xml2lyOahGroup::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void xml2lyOahGroup::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2lyOahGroup::browseData ()" <<
-      endl;
-  }
-#endif
-
-  oahGroup::browseData (v);
-}
-
-//______________________________________________________________________________
-void xml2lyFullViewOahHandler::print (ostream& os) const
+void xml2brlInsiderOahHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
 
   os <<
-    "xml2lyFullViewOahHandler:" <<
+    "xml2brlInsiderOahHandler:" <<
     endl;
 
   gIndenter++;
@@ -767,7 +709,7 @@ void xml2lyFullViewOahHandler::print (ostream& os) const
       iEnd   = fHandlerGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      // print the options group
+      // print the element
       os << (*i);
       if (++i == iEnd) break;
       os << endl;
@@ -776,46 +718,36 @@ void xml2lyFullViewOahHandler::print (ostream& os) const
     gIndenter--;
   }
 
-if (false) { // JMI
-  // print the known options
-  os <<
-    "xml2lyFullViewOahHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
-    endl <<
-    "xml2lyFullViewOahHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
-    endl;
-  printKnownOptions (os);
-}
-
   gIndenter--;
 
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_xml2lyFullViewOahHandler& elt)
+ostream& operator<< (ostream& os, const S_xml2brlInsiderOahHandler& elt)
 {
   elt->print (os);
   return os;
 }
 
 //_______________________________________________________________________________
-S_xml2lyOahGroup gGlobalXml2lyOahGroup;
+S_xml2brlOahGroup gGlobalXml2brlOahGroup;
 
-S_xml2lyOahGroup xml2lyOahGroup::create (
+S_xml2brlOahGroup xml2brlOahGroup::create (
   S_oahHandler handlerUpLink)
 {
-  xml2lyOahGroup* o = new xml2lyOahGroup (
+  xml2brlOahGroup* o = new xml2brlOahGroup (
     handlerUpLink);
   assert(o!=0);
 
   return o;
 }
 
-xml2lyOahGroup::xml2lyOahGroup (
+xml2brlOahGroup::xml2brlOahGroup (
   S_oahHandler handlerUpLink)
   : oahGroup (
-    "xml2ly",
-    "hxl", "help-xml2ly",
-R"(Options that are used by xml2ly are grouped here.)",
+    "xml2brl",
+    "hxb", "help-xml2brl",
+R"(Options that are used by xml2brl are grouped here.)",
     kElementVisibilityWhole,
     handlerUpLink)
 {
@@ -827,13 +759,13 @@ R"(Options that are used by xml2ly are grouped here.)",
   }
 
   // initialize it
-  initializeXml2lyOahGroup ();
+  initializeXml2brlOahGroup ();
 }
 
-xml2lyOahGroup::~xml2lyOahGroup ()
+xml2brlOahGroup::~xml2brlOahGroup ()
 {}
 
-void xml2lyOahGroup::initializeXml2lyOahGroup ()
+void xml2brlOahGroup::initializeXml2brlOahGroup ()
 {
   // version
   // --------------------------------------
@@ -843,7 +775,7 @@ void xml2lyOahGroup::initializeXml2lyOahGroup ()
       subGroup =
         oahSubGroup::create (
           "Version",
-          "hxv", "help-xml2ly-version",
+          "hxv", "help-xml2brl-version",
 R"()",
         kElementVisibilityWhole,
         this);
@@ -854,9 +786,9 @@ R"()",
 
     subGroup->
       appendAtomToSubGroup (
-        xml2lyVersionOahAtom::create (
+        xml2brlVersionOahAtom::create (
           "v", "version",
-R"(Display xml2ly's version number and history.)"));
+R"(Display xml2brl's version number and history.)"));
   }
 
   // about
@@ -867,7 +799,7 @@ R"(Display xml2ly's version number and history.)"));
       subGroup =
         oahSubGroup::create (
           "About",
-          "hxa", "help-xml2ly-about",
+          "hxa", "help-xml2brl-about",
 R"()",
         kElementVisibilityWhole,
         this);
@@ -878,9 +810,9 @@ R"()",
 
     subGroup->
       appendAtomToSubGroup (
-        xml2lyAboutOahAtom::create (
+        xml2brlAboutOahAtom::create (
           "a", "about",
-R"(Display information about xml2ly.)"));
+R"(Display information about xml2brl.)"));
   }
 
   // contact
@@ -891,7 +823,7 @@ R"(Display information about xml2ly.)"));
       subGroup =
         oahSubGroup::create (
           "Contact",
-          "hxc", "help-xml2ly-contact",
+          "hxc", "help-xml2brl-contact",
 R"()",
         kElementVisibilityWhole,
         this);
@@ -902,9 +834,9 @@ R"()",
 
     subGroup->
       appendAtomToSubGroup (
-        xml2lyContactOahAtom::create (
+        xml2brlContactOahAtom::create (
           "c", "contact",
-R"(Display information about how to contacct xml2ly maintainers.)"));
+R"(Display information about how to contacct xml2brl maintainers.)"));
   }
 
   // output file
@@ -915,7 +847,7 @@ R"(Display information about how to contacct xml2ly maintainers.)"));
       subGroup =
         oahSubGroup::create (
           "Output file",
-          "hxof", "help-xml2ly-output-file",
+          "hxof", "help-xml2brl-output-file",
 R"()",
         kElementVisibilityWhole,
         this);
@@ -927,10 +859,10 @@ R"()",
     fOutputFileNameStringAtom =
       oahStringAtom::create (
         "o", "output-file-name",
-R"(Write LilyPond code to file FILENAME instead of standard output.)",
+R"(Write Braille music to file FILENAME instead of standard output.)",
         "FILENAME",
-        "lilyPondOutputFileName",
-        fLilyPondOutputFileName);
+        "outputFileName",
+        fBrailleMusicOutputFileName);
 
     subGroup->
       appendAtomToSubGroup (
@@ -944,54 +876,16 @@ R"(Write LilyPond code to file FILENAME instead of standard output.)",
       oahBooleanAtom::create (
         "aofn", "auto-output-file-name",
 R"(This option can only be used when reading from a file.
-Write LilyPond code to a file in the current working directory.
+Write Braille music to a file in the current working directory.
 The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'ly'
-or adding '.ly' if none is present.)",
+replacing any suffix after the the '.' by 'brl'
+or adding '.brl' if none is present.)",
         "autoOutputFileName",
         fAutoOutputFileName);
 
     subGroup->
       appendAtomToSubGroup (
         fAutoOutputFileNameAtom);
-  }
-
-  // loop back to MusicXML
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "Loop",
-          "hxml2lylo", "help-xml2ly-loopback-options",
-  R"()",
-          kElementVisibilityWhole,
-          this);
-
-    appendSubGroupToGroup (subGroup);
-
-    // loop
-
-    fLoopBackToMusicXML = false;
-
-    S_oahBooleanAtom
-      loopOptionsBooleanAtom =
-        oahBooleanAtom::create (
-          "loop", "loop-back-to-musicxml",
-  R"(Close the loop, generating a MusicXML file from the MSR.
-  The file name receives a '_LOOP.xml' suffix.
-  This is equivalent to using xml2xml)",
-          "loopBackToMusicXML",
-          fLoopBackToMusicXML);
-    // make this atom imvisible
-    loopOptionsBooleanAtom->
-      setElementVisibilityKind (
-        kElementVisibilityNone);
-
-    subGroup->
-      appendAtomToSubGroup (
-        loopOptionsBooleanAtom);
   }
 
   // exit after some passes
@@ -1046,10 +940,10 @@ or adding '.ly' if none is present.)",
 }
 
 //______________________________________________________________________________
-void xml2lyOahGroup::printXml2lyOahGroupValues (int fieldWidth)
+void xml2brlOahGroup::printXml2brlOahValues (int fieldWidth)
 {
   gLogOstream <<
-    "The xml2ly options are:" <<
+    "The xml2brl options are:" <<
     endl;
 
   gIndenter++;
@@ -1064,29 +958,13 @@ void xml2lyOahGroup::printXml2lyOahGroupValues (int fieldWidth)
   gIndenter++;
 
   gLogOstream << left <<
-    setw (fieldWidth) << "lilyPondOutputFileName" << " : \"" <<
-    fLilyPondOutputFileName <<
+    setw (fieldWidth) << "brailleMusicOutputFileName" << " : \"" <<
+    fBrailleMusicOutputFileName <<
     "\"" <<
     endl <<
     setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
     booleanAsString (fAutoOutputFileName) <<
     "\"" <<
-    endl;
-
-  gIndenter--;
-
-  // loop back to MusicXML
-  // --------------------------------------
-
-  gLogOstream <<
-    "Loop:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "loopToMusicXML" << " : " <<
-    booleanAsString (fLoopBackToMusicXML) <<
     endl;
 
   gIndenter--;
@@ -1114,34 +992,41 @@ void xml2lyOahGroup::printXml2lyOahGroupValues (int fieldWidth)
 }
 
 //______________________________________________________________________________
-void initializeXml2lyOah (
+void initializeXml2brlOahHandling (
   S_oahHandler handler)
 {
+  // protect library against multiple initializations
+  static bool pThisMethodHasBeenRun = false;
+
+  if (! pThisMethodHasBeenRun) {
 #ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing xml2ly options handling" <<
-      endl;
-  }
+    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
+      gLogOstream <<
+        "Initializing xml2brl options handling" <<
+        endl;
+    }
 #endif
 
-  // enlist versions information
-  // ------------------------------------------------------
+    // enlist versions information
+    // ------------------------------------------------------
 
-  enlistVersion (
-    "Initial", "early 2016",
-    "Start as xml2lilypond, a clone of xml2guido");
+    enlistVersion (
+      "Initial", "october 2018",
+      "Derived from xml2brl, with an embryonic BSR");
 
-  enlistVersion (
-    musicxml2lilypondVersionStr (), "October 2018",
-    "First draft version");
+    enlistVersion (
+      musicxml2brailleVersionStr (), "Nobember 2018",
+      "First draft version");
 
-  // create the options variables
-  // ------------------------------------------------------
+    // create the options variables
+    // ------------------------------------------------------
 
-  gGlobalXml2lyOahGroup = xml2lyOahGroup::create (
-    handler);
-  assert (gGlobalXml2lyOahGroup != 0);
+    gGlobalXml2brlOahGroup = xml2brlOahGroup::create (
+      handler);
+    assert (gGlobalXml2brlOahGroup != 0);
+
+// JMI    pThisMethodHasBeenRun = true;
+  }
 }
 
 

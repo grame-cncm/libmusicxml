@@ -1144,7 +1144,7 @@ class msrAppearance : public msrElement
 	identical. The type attribute specifies what type of glyph
 	is being defined. The element value specifies what
 	SMuFL glyph to use, including recommended stylistic
-	alternates.
+	regulars.
 
 	Glyph type attribute values include quarter-rest,
 	g-clef-ottava-bassa, c-clef, f-clef, percussion-clef,

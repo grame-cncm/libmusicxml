@@ -1139,14 +1139,14 @@ void extraShowHarmonyAnalysisAtom::printValuedAtomOptionsValues (
 
 //_______________________________________________________________________________
 
-S_extraOah ggGlobalExtraOah;
-S_extraOah ggGlobalExtraOahUserChoices;
-S_extraOah ggGlobalExtraOahWithDetailedTrace;
+S_extraOah gGlobalExtraOah;
+S_extraOah gGlobalExtraOahUserChoices;
+S_extraOah gGlobalExtraOahWithDetailedTrace;
 
 S_extraOah extraOah::create (
   S_oahHandler handlerUpLink)
 {
-  extraOah* o = new extraOah(
+  extraOah* o = new extraOah (
     handlerUpLink);
   assert(o!=0);
   return o;
@@ -1472,29 +1472,22 @@ void initializeExtraOahHandling (
   }
 #endif
 
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // create the options variables
+  // ------------------------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // create the options variables
-    // ------------------------------------------------------
+  gGlobalExtraOahUserChoices = extraOah::create (
+    handler);
+  assert(gGlobalExtraOahUserChoices != 0);
 
-    ggGlobalExtraOahUserChoices = extraOah::create (
-      handler);
-    assert(ggGlobalExtraOahUserChoices != 0);
-
-    ggGlobalExtraOah =
-      ggGlobalExtraOahUserChoices;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalExtraOah =
+    gGlobalExtraOahUserChoices;
 
   // prepare for measure detailed trace
   // ------------------------------------------------------
 
 /* JMI
-  ggGlobalExtraOahWithDetailedTrace =
-    ggGlobalExtraOah->
+  gGlobalExtraOahWithDetailedTrace =
+    gGlobalExtraOah->
       createCloneWithDetailedTrace ();
       */
 }

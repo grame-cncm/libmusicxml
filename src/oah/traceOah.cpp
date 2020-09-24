@@ -3827,22 +3827,15 @@ void initializeTraceOahHandling (
   }
 #endif
 
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // create the options variables
+  // ------------------------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // create the options variables
-    // ------------------------------------------------------
+  gGlobalTraceOahGroupUserChoices = traceOahGroup::create (
+    handler);
+  assert(gGlobalTraceOahGroupUserChoices != 0);
 
-    gGlobalTraceOahGroupUserChoices = traceOahGroup::create (
-      handler);
-    assert(gGlobalTraceOahGroupUserChoices != 0);
-
-    gGlobalTraceOahGroup =
-      gGlobalTraceOahGroupUserChoices;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalTraceOahGroup =
+    gGlobalTraceOahGroupUserChoices;
 }
 
 

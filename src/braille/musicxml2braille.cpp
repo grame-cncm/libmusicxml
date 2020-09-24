@@ -28,7 +28,7 @@
 #include "msrOah.h"
 #include "msr2BsrOah.h"
 #include "bsrOah.h"
-#include "xml2brlFullViewOahHandler.h"
+#include "xml2brlInsiderOahHandler.h"
 
 #include "msr.h"
 
@@ -69,9 +69,9 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2brlFullViewOahHandler
+  S_xml2brlInsiderOahHandler
     handler =
-      xml2brlFullViewOahHandler::create (
+      xml2brlInsiderOahHandler::create (
         fakeExecutableName,
         "xml2brl",
         out);
@@ -149,7 +149,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     if (gGlobalXml2brlOahGroup->fExit2a) {
       err <<
         endl <<
-        "Existing after pass 2a as requested" <<
+        "Exiting after pass 2a as requested" <<
         endl;
 
       return kNoErr;
@@ -175,7 +175,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     if (gGlobalXml2brlOahGroup->fExit2b) {
       err <<
         endl <<
-        "Existing after pass 2b as requested" <<
+        "Exiting after pass 2b as requested" <<
         endl;
 
       return kNoErr;
@@ -242,7 +242,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     if (gGlobalMsr2BsrOah->fExit3a) {
       err <<
         endl <<
-        "Existing after pass 3a as requested" <<
+        "Exiting after pass 3a as requested" <<
         endl;
 
       return kNoErr;
@@ -289,7 +289,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     if (gGlobalMsr2BsrOah->fExit3b) {
       err <<
         endl <<
-        "Existing after pass 3b as requested" <<
+        "Exiting after pass 3b as requested" <<
         endl;
 
       return kNoErr;
@@ -431,7 +431,7 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gGlobalXml2brlOahGroup->fExit2a) {
     gLogOstream <<
       endl <<
-      "Existing after pass 2a as requested" <<
+      "Exiting after pass 2a as requested" <<
       endl;
 
     return kNoErr;
@@ -506,7 +506,7 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gGlobalXml2brlOahGroup->fExit2b) {
     gLogOstream <<
       endl <<
-      "Existing after pass 2b as requested" <<
+      "Exiting after pass 2b as requested" <<
       endl;
 
     return kNoErr;
@@ -536,7 +536,7 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gGlobalMsr2BsrOah->fExit3a) {
     gLogOstream <<
       endl <<
-      "Existing after pass 3a as requested" <<
+      "Exiting after pass 3a as requested" <<
       endl;
 
     return kNoErr;
@@ -583,7 +583,7 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gGlobalMsr2BsrOah->fExit3b) {
     gLogOstream <<
       endl <<
-      "Existing after pass 3b as requested" <<
+      "Exiting after pass 3b as requested" <<
       endl;
 
     return kNoErr;

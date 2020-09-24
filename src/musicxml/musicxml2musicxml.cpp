@@ -35,7 +35,7 @@
 #include "msr2LpsrOah.h"
 #include "musicxmlOah.h"
 
-#include "xml2xmlFullViewOahHandler.h"
+#include "xml2xmlInsiderOahHandler.h"
 
 #include "msr.h"
 
@@ -75,9 +75,9 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2xmlFullViewOahHandler
+  S_xml2xmlInsiderOahHandler
     handler =
-      xml2xmlFullViewOahHandler::create (
+      xml2xmlInsiderOahHandler::create (
         fakeExecutableName,
         "xml2xml",
         out);
@@ -155,7 +155,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     if (gGlobalXml2xmlOahGroup->fExit2a) {
       gLogOstream <<
         endl <<
-        "Existing after pass 2a as requested" <<
+        "Exiting after pass 2a as requested" <<
         endl;
 
       return kNoErr;
@@ -221,7 +221,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     if (gGlobalXml2xmlOahGroup->fExit2b) {
       gLogOstream <<
         endl <<
-        "Existing after pass 2b as requested" <<
+        "Exiting after pass 2b as requested" <<
         endl;
 
       return kNoErr;
@@ -435,7 +435,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   if (gGlobalXml2xmlOahGroup->fExit2a) {
     gLogOstream <<
       endl <<
-      "Existing after pass 2a as requested" <<
+      "Exiting after pass 2a as requested" <<
       endl;
 
     return kNoErr;
@@ -509,7 +509,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   if (gGlobalXml2xmlOahGroup->fExit2b) {
     gLogOstream <<
       endl <<
-      "Existing after pass 2b as requested" <<
+      "Exiting after pass 2b as requested" <<
       endl;
 
     return kNoErr;

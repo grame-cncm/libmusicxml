@@ -32,7 +32,8 @@
 #include "msr2LpsrOah.h"
 #include "lpsrOah.h"
 
-#include "xml2lyFullViewOahHandler.h"
+#include "xml2lyInsiderOahHandler.h"
+#include "xml2lyRegularOahHandler.h"
 
 #include "msr.h"
 
@@ -53,7 +54,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
+static xmlErr xml2lilypond (SXMLFile& xmlfile, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
 	Sxmlelement st;
 
@@ -76,26 +77,27 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   indentedOstream outIndentedOstream (out, indenter::gIndenter);
   indentedOstream errIndentedOstream (err, indenter::gIndenter);
 
-//#define USE_TWO_VIEW_HANDLER
-
-#ifdef USE_TWO_VIEW_HANDLER
-
-  // create the OAH twoView handler
+  // the OAH handler
   // ------------------------------------------------------
-  S_xml2lyOahTwoViewHandler twoViewHandler;
 
-{
-  try {
-    twoViewHandler =
-      xml2lyOahTwoViewHandler::create (
+  S_oahHandler handler;
+
+  if (insiderOptions) {
+    // create an insider xml2ly OAH handler
+    handler =
+      xml2lyInsiderOahHandler::create (
         fakeExecutableName,
+        "xml2ly with insider options",
         outIndentedOstream);
+
   }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
+  else {
+    // create a regular xml2ly OAH handler
+    handler =
+      xml2lyRegularOahHandler::create (
+        fakeExecutableName,
+        "xml2ly with regular options",
+        outIndentedOstream);
   }
 
   // analyze the options vector
@@ -104,7 +106,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   try {
     oahHandler::oahHelpOptionsHaveBeenUsedKind
       helpOptionsHaveBeenUsedKind =
-        twoViewHandler->
+        handler->
           applyOptionsFromOptionsVector (
             fakeExecutableName,
             options);
@@ -124,47 +126,6 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
   catch (std::exception& e) {
     return kInvalidFile;
   }
-}
-
-#else
-
-  // create the full view options handler
-  // ------------------------------------------------------
-
-  S_xml2lyFullViewOahHandler
-    theXml2lyFullViewOahHandler =
-      xml2lyFullViewOahHandler::create (
-        fakeExecutableName,
-        "xml2ly", // JMI
-        outIndentedOstream);
-
-  // analyze the options vector
-  // ------------------------------------------------------
-
-  try {
-    oahHandler::oahHelpOptionsHaveBeenUsedKind
-      helpOptionsHaveBeenUsedKind =
-        theXml2lyFullViewOahHandler->
-          applyOptionsFromOptionsVector (
-            fakeExecutableName,
-            options);
-
-    switch (helpOptionsHaveBeenUsedKind) {
-      case oahHandler::kHelpOptionsHaveBeenUsedYes:
-        return kNoErr;
-        break;
-      case oahHandler::kHelpOptionsHaveBeenUsedNo:
-        // let's go ahead!
-        break;
-    } // switch
-  }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
-  }
-#endif
 
 	if (xmlfile) {
     // has quiet mode been requested?
@@ -172,13 +133,8 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 
     if (gGlobalGeneralOahGroup->fQuiet) {
       // disable all trace and display options
-#ifdef USE_TWO_VIEW_HANDLER
-      twoViewHandler->
-        enforceOahTwoViewHandlerQuietness ();
-#else
-      theXml2lyFullViewOahHandler->
+      handler->
         enforceHandlerQuietness ();
-#endif
     }
 
     // get the mxmlTree
@@ -214,10 +170,10 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalXml2lyOahGroup->fExit2a) {
+    if (gGlobalXml2lyInsiderOahGroup->fExit2a) {
       errIndentedOstream <<
         endl <<
-        "Existing after pass 2a as requested" <<
+        "Exiting after pass 2a as requested" <<
         endl;
 
       return kNoErr;
@@ -284,10 +240,10 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalXml2lyOahGroup->fExit2b) {
+    if (gGlobalXml2lyInsiderOahGroup->fExit2b) {
       errIndentedOstream <<
         endl <<
-        "Existing after pass 2b as requested" <<
+        "Exiting after pass 2b as requested" <<
         endl;
 
       return kNoErr;
@@ -334,7 +290,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
     if (gGlobalLpsrOah->fExit3) {
       errIndentedOstream <<
         endl <<
-        "Existing after pass 3 as requested" <<
+        "Exiting after pass 3 as requested" <<
         endl;
 
       return kNoErr;
@@ -366,7 +322,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, const optionsVector& options, std
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2lilypond (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err)
+EXP xmlErr musicxmlfile2lilypond (const char *file, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -374,14 +330,14 @@ EXP xmlErr musicxmlfile2lilypond (const char *file, const optionsVector& options
 	xmlfile = r.read(file);
 
 	if (xmlfile) {
-		return xml2lilypond (xmlfile, options, out, err, file);
+		return xml2lilypond (xmlfile, insiderOptions, options, out, err, file);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2lilypond (FILE * fd, const optionsVector& options, std::ostream& out, std::ostream& err)
+EXP xmlErr musicxmlfd2lilypond (FILE * fd, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -389,14 +345,14 @@ EXP xmlErr musicxmlfd2lilypond (FILE * fd, const optionsVector& options, std::os
 	xmlfile = r.read(fd);
 
 	if (xmlfile) {
-		return xml2lilypond (xmlfile, options, out, err, 0);
+		return xml2lilypond (xmlfile, insiderOptions, options, out, err, 0);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlstring2lilypond (const char *buffer, const optionsVector& options, std::ostream& out, std::ostream& err)
+EXP xmlErr musicxmlstring2lilypond (const char *buffer, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	SXMLFile  xmlfile;
 
@@ -408,7 +364,7 @@ EXP xmlErr musicxmlstring2lilypond (const char *buffer, const optionsVector& opt
 
 	// call xml2lilypond() even if xmlfile is null,
 	// to handle the help options if any
-  return xml2lilypond (xmlfile, options, out, err, 0);
+  return xml2lilypond (xmlfile, insiderOptions, options, out, err, 0);
 
 	return kInvalidFile;
 }
@@ -464,10 +420,10 @@ EXP xmlErr convertMusicXMLToLilypond (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2lyOahGroup->fExit2a) {
+  if (gGlobalXml2lyInsiderOahGroup->fExit2a) {
     gLogOstream <<
       endl <<
-      "Existing after pass 2a as requested" <<
+      "Exiting after pass 2a as requested" <<
       endl;
 
     return kNoErr;
@@ -504,10 +460,10 @@ EXP xmlErr convertMusicXMLToLilypond (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2lyOahGroup->fExit2b) {
+  if (gGlobalXml2lyInsiderOahGroup->fExit2b) {
     gLogOstream <<
       endl <<
-      "Existing after pass 2b as requested" <<
+      "Exiting after pass 2b as requested" <<
       endl;
 
     return kNoErr;
@@ -589,7 +545,7 @@ EXP xmlErr convertMusicXMLToLilypond (
   if (gGlobalLpsrOah->fExit3) {
     gLogOstream <<
       endl <<
-      "Existing after pass 3 as requested" <<
+      "Exiting after pass 3 as requested" <<
       endl;
 
     return kNoErr;

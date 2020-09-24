@@ -27,9 +27,8 @@
 #include "oahBasicTypes.h"
 #include "generalOah.h"
 
-#include "xml2lyFullViewOahHandler.h"
-
-#include "xml2lyTwoViewOahHandler.h"
+#include "xml2lyInsiderOahHandler.h"
+#include "xml2lyRegularOahHandler.h"
 
 #include "musicxml2lilypond.h"
 #include "musicxml2musicxml.h"
@@ -39,29 +38,34 @@ using namespace std;
 
 using namespace MusicXML2;
 
+/*
+  OAH_TRACE can be used to issue trace messages
+  before gGlobalOahOahGroup->fTrace has been initialized
+*/
+//#define OAH_TRACE
+
 //_______________________________________________________________________________
 #ifndef WIN32
-
 static void _sigaction(int signal, siginfo_t *si, void *arg)
 {
-    cerr << "Signal #" << signal << " catched!" << endl;
-    exit(-2);
+  cerr << "Signal #" << signal << " catched!" << endl;
+  exit(-2);
 }
 
 static void catchsigs ()
 {
 	struct sigaction sa;
 
-    memset (&sa, 0, sizeof(struct sigaction));
+  memset (&sa, 0, sizeof(struct sigaction));
 
-    sigemptyset (&sa.sa_mask);
+  sigemptyset (&sa.sa_mask);
 
-    sa.sa_sigaction = _sigaction;
-    sa.sa_flags     = SA_SIGINFO;
+  sa.sa_sigaction = _sigaction;
+  sa.sa_flags     = SA_SIGINFO;
 
-    sigaction (SIGSEGV, &sa, NULL);
-    sigaction (SIGILL, &sa, NULL);
-    sigaction (SIGFPE, &sa, NULL);
+  sigaction (SIGSEGV, &sa, NULL);
+  sigaction (SIGILL, &sa, NULL);
+  sigaction (SIGFPE, &sa, NULL);
 }
 
 #else
@@ -78,18 +82,53 @@ int main (int argc, char *argv[])
 
   string executableName = argv [0];
 
-//#define USE_TWO_VIEW_HANDLER
+  // are insider and/or regular options present?
+  bool insiderOptions = false;
+  bool regularOptions = false;
 
-#ifdef USE_TWO_VIEW_HANDLER
+	for (int i = 1; i < argc; i++) {
+	  string argumentAsString = string (argv [i]);
 
-  // create the OAH twoView handler
+		if (argumentAsString == "-insider") {
+		  insiderOptions = true;
+		}
+		if (argumentAsString == "-regular") {
+		  regularOptions = true;
+		}
+	} // for
+
+#ifdef TRACE_OAH
+#ifdef OAH_TRACE
+  gLogOstream <<
+    "xml2ly main()" <<
+    ", insiderOptions: " << booleanAsString (insiderOptions) <<
+    ", regularOptions: " << booleanAsString (regularOptions) <<
+    endl;
+#endif
+#endif
+
+  if (insiderOptions && regularOptions) {
+    stringstream s;
+
+    s <<
+      "options '-insider' and '-regular' cannot be used together";
+
+    oahError (s.str ());
+  }
+
+  // here, at most one of insiderOptions and regularOptions is true
+
+  // create the xml2ly OAH handler
   // ------------------------------------------------------
-  S_xml2lyOahTwoViewHandler twoViewHandler;
+
+  // an xml2ly insider OAH handler is needed in all cases, create it
+  S_xml2lyInsiderOahHandler insiderOahHandler;
 
   try {
-    twoViewHandler =
-      xml2lyOahTwoViewHandler::create (
+    insiderOahHandler =
+      xml2lyInsiderOahHandler::create (
         executableName,
+        "xml2ly - insider OAH handler",
         gOutputOstream);
   }
   catch (msrOahException& e) {
@@ -99,51 +138,29 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
-  // analyze the command line options and arguments
-  // ------------------------------------------------------
+  // the OAH handler, a regular OAH handler is the default
+  S_oahHandler handler;
 
-  try {
-    oahHandler::oahHelpOptionsHaveBeenUsedKind
-      helpOptionsHaveBeenUsedKind =
-        twoViewHandler->
-          applyOptionsAndArgumentsFromArgcAndArgv (
-            argc, argv);
-
-    switch (helpOptionsHaveBeenUsedKind) {
-      case oahHandler::kHelpOptionsHaveBeenUsedYes:
-        return kNoErr;
-        break;
-      case oahHandler::kHelpOptionsHaveBeenUsedNo:
-        // let's go ahead!
-        break;
-    } // switch
-  }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
+  if (insiderOptions) {
+    handler = insiderOahHandler;
   }
 
-#else
-
-  // create the options handler
-  // ------------------------------------------------------
-
-  S_xml2lyFullViewOahHandler handler;
-
-  try {
-    handler =
-      xml2lyFullViewOahHandler::create (
-        executableName,
-        "xml2ly",
-        gOutputOstream);
-  }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
+  else {
+    // create an xml2ly regular OAH handler
+    try {
+      handler =
+        xml2lyRegularOahHandler::createFromInsiderHandler (
+          executableName,
+          "xml2ly - regular OAH handler",
+          insiderOahHandler,
+          gOutputOstream);
+    }
+    catch (msrOahException& e) {
+      return kInvalidOption;
+    }
+    catch (std::exception& e) {
+      return kInvalidFile;
+    }
   }
 
   // analyze the command line options and arguments
@@ -172,33 +189,13 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) { // JMI
-    handler->printKnownPrefixes (gOutputOstream);
-    handler->printKnownSingleCharacterOptions (gOutputOstream);
-    // handler->printKnownOptions (gOutputOstream);
-  }
-#endif
-
-#endif
-
-/* JMI
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) { // JMI
-    handler->printKnownPrefixes (gOutputOstream);
-    handler->printKnownSingleCharacterOptions (gOutputOstream);
-    // handler->printKnownOptions (gOutputOstream); JMI
-  }
-#endif
-*/
-
   string
     inputSourceName =
       gGlobalOahOahGroup->fInputSourceName;
 
   string
     outputFileName =
-      gGlobalXml2lyOahGroup->
+      gGlobalXml2lyInsiderOahGroup->
         getOutputFileNameStringAtom ()->
           getStringVariable ();
 
@@ -222,20 +219,6 @@ int main (int argc, char *argv[])
 
   if (gGlobalGeneralOahGroup->fQuiet) {
     // disable all trace and display options
-    /* JMI
-#ifdef USE_TWO_VIEW_HANDLER
-
-      twoViewHandler->
-        enforceOahTwoViewHandlerQuietness ();
-
-#else
-
-      handler->
-        enforceOahHandlerQuietness ();
-
-#endif
-*/
-
     handler->
       enforceHandlerQuietness ();
   }
@@ -283,54 +266,28 @@ int main (int argc, char *argv[])
         "standard output";
     }
     gLogOstream <<
-      endl <<
-      endl;
+      endl << endl;
 
     gLogOstream <<
       "The command line is:" <<
       endl;
 
     gIndenter++;
-
-#ifdef USE_TWO_VIEW_HANDLER
-
-    gLogOstream <<
-      twoViewHandler->
-        commandLineWithShortNamesAsString () <<
-      endl;
-
-#else
-
     gLogOstream <<
       handler->
         commandLineWithShortNamesAsString () <<
       endl;
-
-#endif
-
     gIndenter--;
+
     gLogOstream <<
       "or:" <<
       endl;
     gIndenter++;
 
-#ifdef USE_TWO_VIEW_HANDLER
-
-    gLogOstream <<
-      twoViewHandler->
-        commandLineWithLongNamesAsString () <<
-      endl <<
-      endl;
-
-#else
-
     gLogOstream <<
       handler->
         commandLineWithLongNamesAsString () <<
-      endl <<
-      endl;
-
-#endif
+      endl << endl;
 
     gIndenter--;
   }
@@ -357,7 +314,7 @@ int main (int argc, char *argv[])
       convertMusicXMLToLilypond (
         inputSourceName,
         outputFileName,
-        gGlobalXml2lyOahGroup->fLoopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
+        gGlobalXml2lyInsiderOahGroup->fLoopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
   }
   catch (std::exception& e) {
     return kInvalidFile;

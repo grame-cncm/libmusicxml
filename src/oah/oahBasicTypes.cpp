@@ -28,8 +28,11 @@
 
 namespace MusicXML2
 {
-
-#define TRACE_TESTS
+/*
+  OAH_TRACE can be used to issue trace messages
+  before gGlobalOahOahGroup->fTrace has been initialized
+*/
+//#define OAH_TRACE
 
 //______________________________________________________________________________
 S_oahAtom oahAtom::create (
@@ -173,6 +176,17 @@ void oahAtom::print (ostream& os) const
     os, fieldWidth);
 
   gIndenter--;
+}
+
+void oahAtom::printShort (ostream& os) const
+{
+  const int fieldWidth = 19;
+
+  os <<
+    "Atom: ";
+
+  oahElement::printOptionEssentialsShort (
+    os, fieldWidth);
 }
 
 void oahAtom::printValuedAtomOptionsValues (
@@ -352,6 +366,21 @@ void oahAtomSynonym::print (ostream& os) const
   gIndenter--;
 
   gIndenter--;
+}
+
+void oahAtomSynonym::printShort (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "AtomSynonym: ";
+
+  oahElement::printOptionEssentialsShort (
+    os, fieldWidth);
+
+  os <<
+    fDescription <<
+    endl;
 }
 
 void oahAtomSynonym::printValuedAtomOptionsValues (
@@ -1003,6 +1032,28 @@ void oahAtomWithVariableName::print (ostream& os) const
     endl;
 
   gIndenter--;
+}
+
+void oahAtomWithVariableName::printShort (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "AtomWithVariableName: ";
+
+  oahElement::printOptionEssentialsShort (
+    os, fieldWidth);
+
+  os <<
+    fDescription <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "variableName" << " : " <<
+    fVariableName <<
+    endl <<
+    endl;
 }
 
 void oahAtomWithVariableName::printValuedAtomOptionsValues (
@@ -2208,6 +2259,14 @@ void oahPrefix::print (ostream& os) const
   printPrefixEssentials (os, 40); // JMI
 }
 
+void oahPrefix::printShort (ostream& os) const
+{
+  os <<
+    "??? oahPrefix ???" ;
+
+  printPrefixEssentials (os, 40); // JMI
+}
+
 void oahPrefix::printHelp (ostream& os)
 {
 /*
@@ -3049,12 +3108,36 @@ void oahValuedAtom::printValuedAtomEssentials (
     endl;
 }
 
+void oahValuedAtom::printValuedAtomEssentialsShort (
+  ostream& os,
+  int      fieldWidth) const
+{
+  printOptionEssentialsShort (
+    os, fieldWidth);
+
+/* JMI
+  os << left <<
+    setw (fieldWidth) <<
+    "valueSpecification" << " : " <<
+    fValueSpecification <<
+    endl <<
+    setw (fieldWidth) <<
+    "variableHasBeenSet" << " : " <<
+    booleanAsString (fVariableHasBeenSet) <<
+    endl <<
+    setw (fieldWidth) <<
+    "elementValueExpectedKind" << " : " <<
+    elementValueExpectedKindAsString (fElementValueExpectedKind) <<
+    endl;
+    */
+}
+
 void oahValuedAtom::print (ostream& os) const
 {
   const int fieldWidth = 19;
 
   os <<
-    "ValuedAtom ???:";
+    "ValuedAtom:";
   if (fVariableHasBeenSet) {
     os <<
       ", variableHasBeenSet: " <<
@@ -3068,6 +3151,22 @@ void oahValuedAtom::print (ostream& os) const
     os, fieldWidth);
 
   gIndenter--;
+}
+
+void oahValuedAtom::printShort (ostream& os) const
+{
+  const int fieldWidth = 19;
+
+  os <<
+    "ValuedAtom: ";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+
+  printValuedAtomEssentialsShort (
+    os, fieldWidth);
 }
 
 void oahValuedAtom::printHelp (ostream& os)
@@ -8238,12 +8337,12 @@ ostream& operator<< (ostream& os, const S_oahOptionNameHelpAtom& elt)
 
 //______________________________________________________________________________
 S_oahSubGroup oahSubGroup::create (
-  string                  subGroupHeader,
-  string                  shortName,
-  string                  longName,
-  string                  description,
+  string                   subGroupHeader,
+  string                   shortName,
+  string                   longName,
+  string                   description,
   oahElementVisibilityKind optionVisibilityKind,
-  S_oahGroup              groupUpLink)
+  S_oahGroup               groupUpLink)
 {
   oahSubGroup* o = new
     oahSubGroup (
@@ -8258,12 +8357,12 @@ S_oahSubGroup oahSubGroup::create (
 }
 
 oahSubGroup::oahSubGroup (
-  string                  subGroupHeader,
-  string                  shortName,
-  string                  longName,
-  string                  description,
+  string                   subGroupHeader,
+  string                   shortName,
+  string                   longName,
+  string                   description,
   oahElementVisibilityKind optionVisibilityKind,
-  S_oahGroup              groupUpLink)
+  S_oahGroup               groupUpLink)
   : oahElement (
       shortName,
       longName,
@@ -8481,6 +8580,34 @@ void oahSubGroup::print (ostream& os) const
   }
 
   gIndenter--;
+}
+
+void oahSubGroup::printShort (ostream& os) const
+{
+  const int fieldWidth = 27;
+
+  os <<
+   "SubGroup: " ;
+
+  oahElement::printOptionEssentialsShort (
+    os, fieldWidth);
+
+  if (fAtomsList.size ()) {
+    gIndenter++;
+
+    list<S_oahAtom>::const_iterator
+      iBegin = fAtomsList.begin (),
+      iEnd   = fAtomsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the atom
+      (*i)->printShort (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
 }
 
 void oahSubGroup::underlineSubGroupHeader (ostream& os) const
@@ -9183,7 +9310,7 @@ void oahGroup::print (ostream& os) const
     os, fieldWidth);
 
   os <<
-    "SubgroupsList (" <<
+    "SubGroupsList (" <<
     singularOrPlural (
       fSubGroupsList.size (), "element",  "elements") <<
     "):" <<
@@ -9209,6 +9336,36 @@ void oahGroup::print (ostream& os) const
   }
 
   gIndenter--;
+}
+
+void oahGroup::printShort (ostream& os) const
+{
+  const int fieldWidth = 27;
+
+  os <<
+    "Group: ";
+
+  oahElement::printOptionEssentialsShort (
+    os, fieldWidth);
+
+  if (fSubGroupsList.size ()) {
+    os << endl;
+
+    gIndenter++;
+
+    list<S_oahSubGroup>::const_iterator
+      iBegin = fSubGroupsList.begin (),
+      iEnd   = fSubGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options subgroup
+      (*i)->printShort (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
 }
 
 void oahGroup::underlineGroupHeader (ostream& os) const
@@ -9664,7 +9821,7 @@ oahHandler::oahHandler (
     fHandlerLogOstream (
       handlerLogOstream)
 {
-  fExecutableName =
+  fHandlerExecutableName =
     executableName;
 
   fHandlerHeader =
@@ -9690,11 +9847,11 @@ oahHandler::oahHandler (
 void oahHandler::initializeHandler ()
 {
 #ifdef TRACE_OAH
-#ifdef TRACE_TESTS
+#ifdef OAH_TRACE
   gLogOstream <<
     "Initializing OAH handler " <<
     "\"" << fHandlerHeader << "\"" <<
-    " for \"" << fExecutableName << "\"" <<
+    " for \"" << fHandlerExecutableName << "\"" <<
     endl;
 #endif
 #endif
@@ -9730,14 +9887,6 @@ void oahHandler::registerHandlerInItself ()
 {
   this->
     registerElementInHandler (this);
-
-  /* JMI ???
-    // register the help summary names in handler
-    registerElementNamesInHandler (
-      fHandlerSummaryShortName,
-      fHandlerSummaryLongName,
-      this);
-  */
 }
 
 void oahHandler::registerHandlerOptionNamesInItself ()
@@ -9830,12 +9979,6 @@ string oahHandler::handlerOptionNamesBetweenParentheses () const
   return s.str ();
 }
 
-void oahHandler::registerSpecificElementNamesInHandler (
-  S_oahElement element)
-{
-  registerElementNamesInHandler (element);
-}
-
 void oahHandler::registerElementNamesInHandler (
   S_oahElement element)
 {
@@ -9902,10 +10045,10 @@ void oahHandler::registerElementNamesInHandler (
       s <<
         "element long name \"" << elementLongName << "\"" <<
           " for element short name \"" << elementShortName << "\"" <<
-        " is defined more that once";
+        " is defined more than once";
 
-      oahError (s.str ());
-// JMI      oahWarning (s.str ());
+//  JMI    oahError (s.str ());
+       oahWarning (s.str ());
     }
 
     // is elementShortName already in the elements names map?
@@ -9916,10 +10059,10 @@ void oahHandler::registerElementNamesInHandler (
         s <<
           "element short name \"" << elementShortName << "\"" <<
           " for element long name \"" << elementLongName << "\"" <<
-          " is defined more that once";
+          " is defined more than once";
 
-      oahError (s.str ());
-// JMI      oahWarning (s.str ());
+// JMI      oahError (s.str ());
+      oahWarning (s.str ());
       }
     }
   } // for
@@ -9972,7 +10115,7 @@ void oahHandler::registerElementInHandler (
       "Registering element " <<
       element->fetchNamesBetweenParentheses () <<
       " in \"" <<
-      fExecutableName <<
+      fHandlerExecutableName <<
       "\" OAH handler \"" <<
       fHandlerHeader <<
       "\"" <<
@@ -10014,7 +10157,7 @@ void oahHandler::checkOptionsAndArguments ()
 #ifdef TRACE_OAH
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gOutputOstream <<
-      "oahHandler::checkOptionsAndArguments() \"" << fExecutableName <<
+      "oahHandler::checkOptionsAndArguments() \"" << fHandlerExecutableName <<
       "\" " <<
       fHandlerHeader <<
       "\"" <<
@@ -10034,7 +10177,7 @@ void oahHandler::checkHandlerOptionsConsistency ()
   if (gGlobalTraceOahGroup->getTraceOahDetails ()) {
     gOutputOstream <<
       "Checking the consistency of \"" <<
-      fExecutableName <<
+      fHandlerExecutableName <<
       "\" OAH handler \"" <<
       fHandlerHeader <<
       "\"" <<
@@ -10226,6 +10369,91 @@ void oahHandler::print (ostream& os) const
     for ( ; ; ) {
       // print the options group
       os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+
+  // print the known options
+if (false) { // JMI
+  os <<
+    "oahHandler known options" <<
+    endl;
+  printKnownOptions (os);
+}
+
+  gIndenter--;
+}
+
+void oahHandler::printShort (ostream& os) const
+{
+  const int fieldWidth = 27;
+
+  os <<
+    "Handler:" <<
+    endl;
+
+  gIndenter++;
+
+  printOptionEssentialsShort (os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fHandlerSummaryShortName" << " : " <<
+    fHandlerSummaryShortName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fHandlerSummaryLongName" << " : " <<
+    fHandlerSummaryLongName <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "fShortName" << " : " <<
+    fShortName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fLongName" << " : " <<
+    fLongName <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "handlerFoundAHelpOption" << " : " <<
+    fOahHandlerFoundAHelpOption <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "optionsDefaultValuesStyle" << " : " <<
+    optionsDefaultValuesStyleAsString (
+      fOahOptionsDefaultValuesStyle) <<
+    endl;
+
+/* JMI
+  // print the options prefixes if any
+  if (fHandlerPrefixesMap.size ()) {
+    printKnownPrefixes (os);
+  }
+
+  // print the single-character options if any
+  if (fSingleCharacterShortNamesSet.size ()) {
+    printKnownSingleCharacterOptions (os);
+  }
+*/
+
+  // print the options groups if any
+  if (fHandlerGroupsList.size ()) {
+    os << endl;
+
+    gIndenter++;
+
+    list<S_oahGroup>::const_iterator
+      iBegin = fHandlerGroupsList.begin (),
+      iEnd   = fHandlerGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options group
+      (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -10441,7 +10669,9 @@ void oahHandler::printOptionNameIntrospectiveHelp (
       stringstream s;
 
       s <<
-        "option name '" << name << "' is unknown, cannot deliver specific help";
+        "option name '" << name << "' is unknown to OAH handler '" <<
+        fHandlerHeader <<
+        "', cannot deliver specific help";
 
       oahError (s.str ());
     }
@@ -10605,7 +10835,7 @@ void oahHandler::printAllOahCommandLineValues (
     " known options names for " <<
     fHandlerRegisteredElementsList.size () <<
     " registered elements in \"" <<
-    fExecutableName <<
+    fHandlerExecutableName <<
     "\" " <<
     fHandlerHeader <<
     ", " <<
@@ -10758,7 +10988,7 @@ void oahHandler::printKnownPrefixes (ostream& os) const
     "There are " <<
     oahHandlerPrefixesListSize <<
     " options prefixes in \"" <<
-    fExecutableName <<
+    fHandlerExecutableName <<
     "\" OAH handler " <<
     fHandlerHeader <<
     ":" <<
@@ -10802,7 +11032,7 @@ void oahHandler::printKnownSingleCharacterOptions (ostream& os) const
     "There are " <<
     oahHandlerPrefixesListSize <<
     " single-character options in \"" <<
-    fExecutableName <<
+    fHandlerExecutableName <<
     "\" OAH handler" <<
     fHandlerHeader <<
     ":" <<
@@ -11011,7 +11241,7 @@ void oahHandler::printKnownOptions (ostream& os) const
     " known options for the " <<
     handlerElementsMapSize << // JMI
     " registered elements in \"" <<
-    fExecutableName <<
+    fHandlerExecutableName <<
     "\" OAH handler " <<
     fHandlerHeader <<
     " are:" <<
@@ -11074,7 +11304,7 @@ void oahHandler::printKnownOptions (ostream& os) const
     " known options names for the " <<
     optionsMapElementsNamesListSize << // JMI
     " registered elements in \"" <<
-    fExecutableName <<
+    fHandlerExecutableName <<
     "\" OAH handler " <<
     fHandlerHeader <<
     " are:" <<
@@ -11322,7 +11552,9 @@ void oahHandler::handlePrefixName (
 
     s <<
       "option prefix '" << prefixName <<
-      "' is unknown, see help summary below";
+      "' is  to " <<
+        fHandlerHeader <<
+        ", see help summary below";
 
     printKnownPrefixes (s);
 
@@ -11638,7 +11870,7 @@ void oahHandler::displayHandlerOahElementsList ()
 void oahHandler::applyOptionsFromHandlerOahElementsList ()
 {
 #ifdef TRACE_OAH
-#ifdef TRACE_TESTS
+#ifdef OAH_TRACE
   gOutputOstream <<
     endl <<
     "----------------------------------------------------------" <<
@@ -11660,7 +11892,7 @@ void oahHandler::applyOptionsFromHandlerOahElementsList ()
 
       // handle the element
 #ifdef TRACE_OAH
-#ifdef TRACE_TESTS
+#ifdef OAH_TRACE
       gOutputOstream <<
         endl <<
         "----------------------------------------------------------" <<
@@ -11854,7 +12086,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
   fetchOahElementsListFromArgcAndArgv (argc, argv);
 
 #ifdef TRACE_OAH
-#ifdef TRACE_TESTS
+#ifdef OAH_TRACE
   displayHandlerOahElementsList ();
 #endif
 #endif
@@ -11922,7 +12154,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsAndArgumentsF
 
   // was this run a 'pure help' one?
 #ifdef TRACE_OAH
-#ifdef TRACE_TESTS
+#ifdef OAH_TRACE
   gOutputOstream <<
     "The value of fOahHandlerFoundAHelpOption is: " <<
     booleanAsString (fOahHandlerFoundAHelpOption) <<
@@ -12122,21 +12354,19 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsFromOptionsVe
 //  gGlobalOahOahGroup->fDisplayOahValues = false; // TEMP JMI
 
 #ifdef TRACE_OAH
-//  gGlobalTraceOahGroup->getTraceOah () = true; // TEMP JMI
+#ifdef OAH_TRACE
+  gOutputOstream << "==> theOptionsVector:" << endl;
 
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gOutputOstream << "==> theOptionsVector:" << endl;
+  for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
+    string optionName  = theOptionsVector [i].first;
+    string optionValue = theOptionsVector [i].second;
 
-    for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
-      string optionName  = theOptionsVector [i].first;
-      string optionValue = theOptionsVector [i].second;
+    gOutputOstream <<
+      "   \"" << optionName << "\" \"" << optionValue << "\"" << endl;
+  } //for
 
-      gOutputOstream <<
-        "   \"" << optionName << "\" \"" << optionValue << "\"" << endl;
-    } //for
-
-    gOutputOstream << endl;
-  }
+  gOutputOstream << endl;
+#endif
 #endif
 
   // register executable name
@@ -12147,7 +12377,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsFromOptionsVe
   fetchOahElementsListFromOptionsVector (theOptionsVector);
 
 #ifdef TRACE_OAH
-#ifdef TRACE_TESTS
+#ifdef OAH_TRACE
   displayHandlerOahElementsList ();
 #endif
 #endif
@@ -12216,7 +12446,7 @@ oahHandler::oahHelpOptionsHaveBeenUsedKind oahHandler::applyOptionsFromOptionsVe
 
   // was this run a 'pure help' one?
 #ifdef TRACE_OAH
-#ifdef TRACE_TESTS
+#ifdef OAH_TRACE
   gOutputOstream <<
     "The value of fOahHandlerFoundAHelpOption is: " <<
     booleanAsString (fOahHandlerFoundAHelpOption) <<
@@ -12322,11 +12552,7 @@ void oahHandler::fetchOahElementsListFromOptionsVector (
     else {
       // optionName is no oahElement:
       // it is an argument
-
-      // don't keep 'insider', it has been handled early
-      if (optionName != "insider") { // JMI TESTS
-        fHandlerArgumentsVector.push_back (optionName);
-      }
+      fHandlerArgumentsVector.push_back (optionName);
     }
   } // for
 }
@@ -12983,7 +13209,9 @@ void oahHandler::handleOptionName (
         endl <<
         "==> oahHandler::handleOptionName (), name = \"" <<
         name <<
-        "\" is not known" <<
+        "\" is unknown to OAH handler '" <<
+        fHandlerHeader <<
+        "'" <<
         endl;
     }
 #endif
@@ -13000,23 +13228,13 @@ void oahHandler::handleOptionName (
 
     else {
       // name is unknown to this OAH handler
-
       stringstream s;
 
       s <<
         "oahHandler::handleOptionName(): " << // JMI
-        "option name \"" << name << "\" is unknown in \"" <<
+        "option name \"" << name << "\" is unknown to OAH handler '" <<
         fHandlerHeader <<
-        "\"";
-
-      // don't keep 'insider', it has been handled early
-      if (name != "insider") { // JMI TESTS
-        fHandlerArgumentsVector.push_back (name);
-
-        if (false) { // JMI TESTS
-          printKnownOptions (gOutputOstream);
-        }
-      }
+        "'";
 
       oahError (s.str ());
     }
@@ -13179,7 +13397,8 @@ void oahHandler::handleOptionNameAndValue (
         endl <<
         "==> oahHandler::handleOptionNameAndValue (), name = \"" <<
         name <<
-        "\" is not known" <<
+        "\" is unknown to OAH handler '" <<
+        fHandlerHeader << "'" <<
         endl;
     }
 #endif
@@ -13197,27 +13416,35 @@ void oahHandler::handleOptionNameAndValue (
     else {
       // name is unknown to this OAH handler
 
+/* JMI
+#ifdef TRACE_OAH
+#ifdef OAH_TRACE
+ // JMI     if (gGlobalTraceOahGroup->getTraceOah ()) {
+        gOutputOstream <<
+          endl <<
+          "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
+          endl << endl;
+        this->printShort (gOutputOstream);
+        gOutputOstream <<
+          endl <<
+          "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
+          endl << endl;
+ //     }
+#endif
+#endif
+*/
+
       stringstream s;
 
       s <<
         "oahHandler::handleOptionNameAndValue(): " << // JMI
-        "option name '" << name << "' is unknown";
+        "option name '" <<
+        name <<
+        "' is unknown to OAH handler '" <<
+        fHandlerHeader << "'";
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
-        gOutputOstream <<
-          endl <<
-          "++++++++++++++++++++++++++++++++++++++++" <<
-          endl << endl;
-        this->print (gOutputOstream);
-        gOutputOstream <<
-          endl <<
-          "++++++++++++++++++++++++++++++++++++++++" <<
-          endl << endl;
-      }
-#endif
-
-      oahError (s.str ());
+// JMI      oahError (s.str ());
+      oahWarning (s.str ());
     }
   }
 

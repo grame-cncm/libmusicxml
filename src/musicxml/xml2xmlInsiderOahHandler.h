@@ -10,29 +10,29 @@
   research@grame.fr
 */
 
-#ifndef ___xml2lyFullViewOahHandler___
-#define ___xml2lyFullViewOahHandler___
+#ifndef ___xml2xmlOahGroup___
+#define ___xml2xmlOahGroup___
 
-#include "xml2lyOahTypes.h"
+#include "oahBasicTypes.h"
 
 
 namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-class EXP xml2lyFullViewOahHandler : public oahHandler
+class EXP xml2xmlInsiderOahHandler : public oahHandler
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lyFullViewOahHandler> create (
+    static SMARTP<xml2xmlInsiderOahHandler> create (
       string   executableName,
       string   handlerHeader,
       ostream& os);
 
-    static SMARTP<xml2lyFullViewOahHandler> createWithOnlyThePrefixes (
+    static SMARTP<xml2xmlInsiderOahHandler> createWithOnlyThePrefixes (
       string   executableName,
       string   handlerHeader,
       ostream& os);
@@ -42,12 +42,12 @@ class EXP xml2lyFullViewOahHandler : public oahHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyFullViewOahHandler (
+    xml2xmlInsiderOahHandler (
       string   executableName,
       string   handlerHeader,
       ostream& os);
 
-    virtual ~xml2lyFullViewOahHandler ();
+    virtual ~xml2xmlInsiderOahHandler ();
 
   private:
 
@@ -56,7 +56,7 @@ class EXP xml2lyFullViewOahHandler : public oahHandler
 
     void                  createThePrefixes ();
 
-    void                  initializeXml2lyFullViewOahHandler (
+    void                  initializeXml2xmlInsiderOahHandler (
                             string executableName);
 
   public:
@@ -75,6 +75,11 @@ class EXP xml2lyFullViewOahHandler : public oahHandler
     // consistency check
     virtual void          checkHandlerOptionsConsistency () override;
 
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
   public:
 
     // visitors
@@ -92,15 +97,15 @@ class EXP xml2lyFullViewOahHandler : public oahHandler
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lyFullViewOahHandler> S_xml2lyFullViewOahHandler;
-EXP ostream& operator<< (ostream& os, const S_xml2lyFullViewOahHandler& elt);
+typedef SMARTP<xml2xmlInsiderOahHandler> S_xml2xmlInsiderOahHandler;
+EXP ostream& operator<< (ostream& os, const S_xml2xmlInsiderOahHandler& elt);
 
 //______________________________________________________________________________
-class xml2lyOahGroup : public oahGroup
+class xml2xmlOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<xml2lyOahGroup> create (
+    static SMARTP<xml2xmlOahGroup> create (
       S_oahHandler handlerUpLink);
 
   public:
@@ -108,17 +113,17 @@ class xml2lyOahGroup : public oahGroup
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeXml2lyOahGroup ();
+    void                  initializeXml2xmlOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lyOahGroup (
+    xml2xmlOahGroup (
       S_oahHandler handlerUpLink);
 
-    virtual ~xml2lyOahGroup ();
+    virtual ~xml2xmlOahGroup ();
 
   public:
 
@@ -149,33 +154,21 @@ class xml2lyOahGroup : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
-
-    virtual void          browseData (basevisitor* v) override;
-
   public:
 
     // print
     // ------------------------------------------------------
 
-    void                  printXml2lyOahGroupHelp ();
+    void                  printXml2xmlOahGroupHelp ();
 
-    void                  printXml2lyOahGroupValues (int fieldWidth);
+    void                  printXml2xmlOahGroupValues (int fieldWidth);
 
   public:
-
-    // output file
-    // --------------------------------------
 
     // we store the atoms for the needs of checkOptionsAndArguments()
     S_oahBooleanAtom      fAutoOutputFileNameAtom;
 
     S_oahStringAtom       fOutputFileNameStringAtom;
-
-    // loop back to MusicXML
-    // --------------------------------------
-    bool                  fLoopBackToMusicXML;
 
     // exit after some passes
     // --------------------------------------
@@ -191,15 +184,15 @@ class xml2lyOahGroup : public oahGroup
     // these private variables are the ones accessible through the atoms
     bool                  fAutoOutputFileName;
 
-    string                fLilyPondOutputFileName;
+    string                fMusicXMLOutputFileName;
 };
-typedef SMARTP<xml2lyOahGroup> S_xml2lyOahGroup;
-EXP ostream& operator<< (ostream& os, const S_xml2lyOahGroup& elt);
+typedef SMARTP<xml2xmlOahGroup> S_xml2xmlOahGroup;
+EXP ostream& operator<< (ostream& os, const S_xml2xmlOahGroup& elt);
 
-EXP extern S_xml2lyOahGroup gGlobalXml2lyOahGroup;
+EXP extern S_xml2xmlOahGroup gGlobalXml2xmlOahGroup;
 
 //______________________________________________________________________________
-void initializeXml2lyOah (
+void initializeXml2xmlInsiderOahHandling (
   S_oahHandler handler);
 
 

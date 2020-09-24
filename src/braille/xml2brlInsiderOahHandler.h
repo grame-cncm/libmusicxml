@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___xml2xmlOahGroup___
-#define ___xml2xmlOahGroup___
+#ifndef ___xml2brlInsiderOahHandler___
+#define ___xml2brlInsiderOahHandler___
 
 #include "oahBasicTypes.h"
 
@@ -20,19 +20,19 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-class EXP xml2xmlFullViewOahHandler : public oahHandler
+class EXP xml2brlInsiderOahHandler : public oahHandler
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2xmlFullViewOahHandler> create (
+    static SMARTP<xml2brlInsiderOahHandler> create (
       string   executableName,
       string   handlerHeader,
       ostream& os);
 
-    static SMARTP<xml2xmlFullViewOahHandler> createWithOnlyThePrefixes (
+    static SMARTP<xml2brlInsiderOahHandler> createWithOnlyThePrefixes (
       string   executableName,
       string   handlerHeader,
       ostream& os);
@@ -42,12 +42,12 @@ class EXP xml2xmlFullViewOahHandler : public oahHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2xmlFullViewOahHandler (
+    xml2brlInsiderOahHandler (
       string   executableName,
       string   handlerHeader,
       ostream& os);
 
-    virtual ~xml2xmlFullViewOahHandler ();
+    virtual ~xml2brlInsiderOahHandler ();
 
   private:
 
@@ -56,29 +56,32 @@ class EXP xml2xmlFullViewOahHandler : public oahHandler
 
     void                  createThePrefixes ();
 
-    void                  initializeXml2xmlFullViewOahHandler (
+    void                  initializeXml2brlInsiderOahHandler (
                             string executableName);
 
   public:
 
-    // public services
+    // quiet mode
+    // ------------------------------------------------------
+
+    void                  enforceHandlerQuietness () override;
+
+  public:
+
+    // consistency check
+    // ------------------------------------------------------
+
+    virtual void          checkHandlerOptionsConsistency () override;
+
+  public:
+
+    // services
     // ------------------------------------------------------
 
     void                  createThePrefixesAndInitializeOahHandler (
                             string executableName);
 
     void                  checkOptionsAndArguments () override;
-
-    // quiet mode
-    void                  enforceHandlerQuietness () override;
-
-    // consistency check
-    virtual void          checkHandlerOptionsConsistency () override;
-
-  private:
-
-    // private services
-    // ------------------------------------------------------
 
   public:
 
@@ -97,15 +100,15 @@ class EXP xml2xmlFullViewOahHandler : public oahHandler
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2xmlFullViewOahHandler> S_xml2xmlFullViewOahHandler;
-EXP ostream& operator<< (ostream& os, const S_xml2xmlFullViewOahHandler& elt);
+typedef SMARTP<xml2brlInsiderOahHandler> S_xml2brlInsiderOahHandler;
+EXP ostream& operator<< (ostream& os, const S_xml2brlInsiderOahHandler& elt);
 
 //______________________________________________________________________________
-class xml2xmlOahGroup : public oahGroup
+class xml2brlOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<xml2xmlOahGroup> create (
+    static SMARTP<xml2brlOahGroup> create (
       S_oahHandler handlerUpLink);
 
   public:
@@ -113,17 +116,17 @@ class xml2xmlOahGroup : public oahGroup
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeXml2xmlOahGroup ();
+    void                  initializeXml2brlOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2xmlOahGroup (
+    xml2brlOahGroup (
       S_oahHandler handlerUpLink);
 
-    virtual ~xml2xmlOahGroup ();
+    virtual ~xml2brlOahGroup ();
 
   public:
 
@@ -138,16 +141,24 @@ class xml2xmlOahGroup : public oahGroup
 
   public:
 
-    // public services
+    // quiet mode
+    // ------------------------------------------------------
+
+    void                  enforceGroupQuietness () override;
+
+  public:
+
+    // consistency check
     // ------------------------------------------------------
 
     void                  checkOptionsAndArguments ();
 
-    // quiet mode
-    void                  enforceGroupQuietness () override;
+    void                  checkGroupOptionsConsistency () override;
 
-    // consistency check
-    virtual void          checkGroupOptionsConsistency () override;
+  public:
+
+    // services
+    // ------------------------------------------------------
 
   public:
 
@@ -159,11 +170,14 @@ class xml2xmlOahGroup : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printXml2xmlOahGroupHelp ();
+    void                  printXml2brlOahHelp ();
 
-    void                  printXml2xmlOahGroupValues (int fieldWidth);
+    void                  printXml2brlOahValues (int fieldWidth);
 
   public:
+
+    // output file
+    // --------------------------------------
 
     // we store the atoms for the needs of checkOptionsAndArguments()
     S_oahBooleanAtom      fAutoOutputFileNameAtom;
@@ -178,21 +192,22 @@ class xml2xmlOahGroup : public oahGroup
 
   private:
 
-    // LilyPond output file name
+    // Braille music output file name
     // --------------------------------------
 
     // these private variables are the ones accessible through the atoms
+
     bool                  fAutoOutputFileName;
 
-    string                fMusicXMLOutputFileName;
+    string                fBrailleMusicOutputFileName;
 };
-typedef SMARTP<xml2xmlOahGroup> S_xml2xmlOahGroup;
-EXP ostream& operator<< (ostream& os, const S_xml2xmlOahGroup& elt);
+typedef SMARTP<xml2brlOahGroup> S_xml2brlOahGroup;
+EXP ostream& operator<< (ostream& os, const S_xml2brlOahGroup& elt);
 
-EXP extern S_xml2xmlOahGroup gGlobalXml2xmlOahGroup;
+EXP extern S_xml2brlOahGroup gGlobalXml2brlOahGroup;
 
 //______________________________________________________________________________
-void initializeXml2xmlFullViewOahHandling (
+void initializeXml2brlOahHandling (
   S_oahHandler handler);
 
 
