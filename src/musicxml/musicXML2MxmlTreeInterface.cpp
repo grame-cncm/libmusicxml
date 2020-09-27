@@ -428,8 +428,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       fileNameAsString << "\"" <<
       endl <<
       separator <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -470,8 +469,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
     gLogOstream <<
       message <<
-      endl <<
-      endl;
+      endl << endl;
 
     throw musicXMLFile2mxmlTreeException (message);
   }
@@ -491,14 +489,12 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     logOstream <<
       endl <<
       "!!!!! xmlFile contents from file:" <<
-      endl <<
-      endl;
+      endl << endl;
 
     xmlFile->print (logOstream);
 
     logOstream <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -510,8 +506,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     logOstream <<
       endl <<
       "!!!!! xmlDecl contents from file:" <<
-      endl <<
-      endl;
+      endl << endl;
     xmlDecl->print (logOstream);
 
     displayXMLDeclaration (
@@ -528,8 +523,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     logOstream <<
       endl <<
       "!!!!! docType from file:" <<
-      endl <<
-      endl;
+      endl << endl;
     docType->print (logOstream);
 
     displayMusicXMLDocumentType (
@@ -658,8 +652,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     logOstream <<
       endl <<
       "xmlDecl contents:" <<
-      endl <<
-      endl;
+      endl << endl;
     xmlDecl->print (logOstream);
 
     displayXMLDeclaration (
@@ -676,8 +669,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     logOstream <<
       endl <<
       "!!!!! docType from stream:" <<
-      endl <<
-      endl;
+      endl << endl;
     docType->print (logOstream);
 
     displayMusicXMLDocumentType (

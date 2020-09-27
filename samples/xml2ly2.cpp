@@ -17,6 +17,7 @@ using namespace std;
 using namespace MusicXML2;
 
 //_______________________________________________________________________________
+/* JMI
 static string options2String (const optionsVector& options)
 {
 	stringstream sstr;
@@ -24,6 +25,7 @@ static string options2String (const optionsVector& options)
 		sstr << "'" << p.first << "': '" << p.second << "' ";
 	return sstr.str();
 }
+*/
 
 //_______________________________________________________________________________
 int main (int argc, char *argv[])

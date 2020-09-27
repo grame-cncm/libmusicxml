@@ -135,8 +135,7 @@ S_bsrScore convertMsrScoreToBsrScore (
 
     gLogOstream <<
       message <<
-      endl <<
-      endl;
+      endl << endl;
 
     throw msrScoreToBsrScoreException (message);
   }

@@ -194,6 +194,282 @@ ostream& operator<< (ostream& os, const S_xml2xmlVersionOahAtom& elt)
 }
 
 //______________________________________________________________________________
+S_xml2xmlInsiderOahAtom xml2xmlInsiderOahAtom::create (
+  string shortName,
+  string longName,
+  string description)
+{
+  xml2xmlInsiderOahAtom* o = new
+    xml2xmlInsiderOahAtom (
+      shortName,
+      longName,
+      description);
+  assert(o!=0);
+  return o;
+}
+
+xml2xmlInsiderOahAtom::xml2xmlInsiderOahAtom (
+  string shortName,
+  string longName,
+  string description)
+  : oahHelpAtom (
+      shortName,
+      longName,
+      description)
+{}
+
+xml2xmlInsiderOahAtom::~xml2xmlInsiderOahAtom ()
+{}
+
+S_oahValuedAtom xml2xmlInsiderOahAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a xml2xmlInsiderOahAtom" <<
+      endl;
+  }
+#endif
+
+  // do nothing, choosing the the insider OAH handler has been done in xml2xml.cpp
+
+  // no option value is needed
+  return nullptr;
+}
+
+void xml2xmlInsiderOahAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> xml2xmlInsiderOahAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2xmlInsiderOahAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2xmlInsiderOahAtom>*> (v)) {
+        S_xml2xmlInsiderOahAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching xml2xmlInsiderOahAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void xml2xmlInsiderOahAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> xml2xmlInsiderOahAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2xmlInsiderOahAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2xmlInsiderOahAtom>*> (v)) {
+        S_xml2xmlInsiderOahAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching xml2xmlInsiderOahAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void xml2xmlInsiderOahAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> xml2xmlInsiderOahAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+void xml2xmlInsiderOahAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "xml2xmlInsiderOahAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  oahElement::printOptionEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_xml2xmlInsiderOahAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_xml2xmlRegularOahAtom xml2xmlRegularOahAtom::create (
+  string shortName,
+  string longName,
+  string description)
+{
+  xml2xmlRegularOahAtom* o = new
+    xml2xmlRegularOahAtom (
+      shortName,
+      longName,
+      description);
+  assert(o!=0);
+  return o;
+}
+
+xml2xmlRegularOahAtom::xml2xmlRegularOahAtom (
+  string shortName,
+  string longName,
+  string description)
+  : oahHelpAtom (
+      shortName,
+      longName,
+      description)
+{}
+
+xml2xmlRegularOahAtom::~xml2xmlRegularOahAtom ()
+{}
+
+S_oahValuedAtom xml2xmlRegularOahAtom::handleOptionUnderName (
+  string   optionName,
+  ostream& os)
+{
+#ifdef TRACE_OAH
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogOstream <<
+      "==> option '" << optionName << "' is a xml2xmlRegularOahAtom" <<
+      endl;
+  }
+#endif
+
+  // do nothing, choosing the the regular OAH handler has been done in xml2xml.cpp
+
+  // no option value is needed
+  return nullptr;
+}
+
+void xml2xmlRegularOahAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> xml2xmlRegularOahAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2xmlRegularOahAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2xmlRegularOahAtom>*> (v)) {
+        S_xml2xmlRegularOahAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching xml2xmlRegularOahAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void xml2xmlRegularOahAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> xml2xmlRegularOahAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_xml2xmlRegularOahAtom>*
+    p =
+      dynamic_cast<visitor<S_xml2xmlRegularOahAtom>*> (v)) {
+        S_xml2xmlRegularOahAtom elem = this;
+
+#ifdef TRACE_OAH
+        if (gGlobalOahOahGroup->fTraceOahVisitors) {
+          gLogOstream <<
+            ".\\\" ==> Launching xml2xmlRegularOahAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void xml2xmlRegularOahAtom::browseData (basevisitor* v)
+{
+#ifdef TRACE_OAH
+  if (gGlobalOahOahGroup->fTraceOahVisitors) {
+    gLogOstream <<
+      ".\\\" ==> xml2xmlRegularOahAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+void xml2xmlRegularOahAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "xml2xmlRegularOahAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  oahElement::printOptionEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_xml2xmlRegularOahAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_xml2xmlAboutOahAtom xml2xmlAboutOahAtom::create (
   string shortName,
   string longName,

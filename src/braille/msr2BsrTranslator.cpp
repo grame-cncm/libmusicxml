@@ -1803,8 +1803,7 @@ bsrNote::bsrNoteOctaveIsNeeded msr2BsrTranslator::brailleOctaveMarkInNeeded (
       endl <<
       setw (fieldWidth) <<
       ", line " << inputLineNumber <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -5947,8 +5946,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatEnding& elt)
       elt <<
       endl <<
       "<<*********" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 

@@ -613,8 +613,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
 
     gLogOstream <<
       "<=- fetchPartFromPartGroupByItsPartID(" << partID << ")" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 

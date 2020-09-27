@@ -3258,8 +3258,7 @@ void msrVoice::displayVoiceRepeatsStackSummary (
 
     gLogOstream <<
       "===============" <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter--;
   }

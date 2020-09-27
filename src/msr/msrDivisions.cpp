@@ -465,8 +465,7 @@ string msrDivisions::divisionsAsMsrString (
   if (gGlobalMusicxmlOah->fTraceDivisions) {
     gLogOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 

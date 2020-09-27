@@ -28,7 +28,9 @@
 #include "msrOah.h"
 #include "msr2BsrOah.h"
 #include "bsrOah.h"
+
 #include "xml2brlInsiderOahHandler.h"
+#include "xml2brlRegularOahHandler.h"
 
 #include "msr.h"
 
@@ -49,7 +51,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
+static xmlErr xml2braille (SXMLFile& xmlfile, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
 	Sxmlelement st;
 
@@ -66,15 +68,33 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
 
   string fakeExecutableName = "xml2brl";
 
-  // create the options handler
+  // the indented output streams
   // ------------------------------------------------------
 
-  S_xml2brlInsiderOahHandler
+  indentedOstream outIndentedOstream (out, indenter::gIndenter);
+  indentedOstream errIndentedOstream (err, indenter::gIndenter);
+
+  // the OAH handler
+  // ------------------------------------------------------
+
+  S_oahHandler handler;
+
+  if (insiderOptions) {
+    // create an insider xml2brl OAH handler
     handler =
       xml2brlInsiderOahHandler::create (
         fakeExecutableName,
-        "xml2brl",
-        out);
+        "xml2brl with insider options",
+        outIndentedOstream);
+  }
+  else {
+    // create a regular xml2brl OAH handler
+    handler =
+      xml2brlRegularOahHandler::create (
+        fakeExecutableName,
+        "xml2brl with regular options",
+        outIndentedOstream);
+  }
 
   // analyze the coptions vector
   // ------------------------------------------------------
@@ -119,11 +139,6 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     Sxmlelement
       mxmlTree =
         xmlfile->elements ();
-/* JMI
-        convertMusicXMLToMxmlTree (
-          inputSourceName,
-          "Pass 1");
-*/
 
     // create the MSR skeleton from the mxmlTree (pass 2a)
     // ------------------------------------------------------
@@ -146,7 +161,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalXml2brlOahGroup->fExit2a) {
+    if (gGlobalXml2brlInsiderOahGroup->fExit2a) {
       err <<
         endl <<
         "Exiting after pass 2a as requested" <<
@@ -172,7 +187,51 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
       return kInvalidFile;
     }
 
-    if (gGlobalXml2brlOahGroup->fExit2b) {
+    // display the MSR score if requested
+    // ------------------------------------------------------
+
+    if (gGlobalMsrOah->fDisplayMsr) {
+      displayMsrScore_OptionalPass (
+        mScore,
+        gGlobalMsrOah);
+    }
+
+    if (gGlobalMsrOah->fDisplayMsrShort) {
+      displayMsrScoreShort_OptionalPass (
+        mScore,
+        gGlobalMsrOah);
+    }
+
+    // display the MSR score summary if requested
+    // ------------------------------------------------------
+
+    if (gGlobalMsrOah->fDisplayMsrSummary) {
+      // display the score summary
+      displayMsrPopulatedScoreSummary (
+        gGlobalMsrOah,
+        mScore,
+        errIndentedOstream);
+
+      return kNoErr;
+    }
+
+    // display the score names if requested
+    // ------------------------------------------------------
+
+    if (gGlobalMsrOah->fDisplayMsrNames) {
+      // display the score name
+      displayMsrPopulatedScoreNames (
+        gGlobalMsrOah,
+        mScore,
+        errIndentedOstream);
+
+      return kNoErr;
+    }
+
+    // should we return now?
+    // ------------------------------------------------------
+
+    if (gGlobalXml2brlInsiderOahGroup->fExit2b) {
       err <<
         endl <<
         "Exiting after pass 2b as requested" <<
@@ -181,7 +240,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
       return kNoErr;
     }
 
-    // display the MSR score summary if requested
+    // display the MSR score if requested
     // ------------------------------------------------------
 
     if (gGlobalMsrOah->fDisplayMsr) {
@@ -201,10 +260,10 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
 
     if (gGlobalMsrOah->fDisplayMsrSummary) {
       // display the score summary
-      displayMSRPopulatedScoreSummary (
+      displayMsrPopulatedScoreSummary (
         gGlobalMsrOah,
         mScore,
-        gLogOstream);
+        errIndentedOstream);
     }
 
     // display the score names if requested
@@ -212,10 +271,10 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
 
     if (gGlobalMsrOah->fDisplayMsrNames) {
       // display the score name
-      displayMSRPopulatedScoreNames (
+      displayMsrPopulatedScoreNames (
         gGlobalMsrOah,
         mScore,
-        gLogOstream);
+        errIndentedOstream);
     }
 
     // create the BSR from the MSR (pass 3a)
@@ -315,9 +374,16 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
     // generate Braille music text from the BSR (pass 4)
     // ------------------------------------------------------
 
+    string outputFileName;
+
+    // caution if file is null
+    if (file) {
+      outputFileName = file;
+    }
+
     try {
       convertBsrScoreToBrailleText (
-        file,
+        outputFileName,
         finalizedBsrScore,
         "Pass 4");
     }
@@ -335,7 +401,7 @@ static xmlErr xml2braille (SXMLFile& xmlfile, const optionsVector& options, std:
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2braille (const char *file, const optionsVector& options, ostream&                out, std::ostream& err)
+EXP xmlErr musicxmlfile2braille (const char *file, bool insiderOptions, const optionsVector& options, ostream&                out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -343,14 +409,14 @@ EXP xmlErr musicxmlfile2braille (const char *file, const optionsVector& options,
 	xmlfile = r.read(file);
 
 	if (xmlfile) {
-		return xml2braille (xmlfile, options, out, err, file);
+		return xml2braille (xmlfile, insiderOptions, options, out, err, file);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2braille (FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err)
+EXP xmlErr musicxmlfd2braille (FILE *fd, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -358,14 +424,14 @@ EXP xmlErr musicxmlfd2braille (FILE *fd, const optionsVector& options, std::ostr
 	xmlfile = r.read(fd);
 
 	if (xmlfile) {
-		return xml2braille (xmlfile, options, out, err, 0);
+		return xml2braille (xmlfile, insiderOptions, options, out, err, 0);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlstring2braille (const char *buffer, const optionsVector& options, std::ostream&           out, std::ostream& err)
+EXP xmlErr musicxmlstring2braille (const char *buffer, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	SXMLFile  xmlfile;
 
@@ -375,9 +441,9 @@ EXP xmlErr musicxmlstring2braille (const char *buffer, const optionsVector& opti
 	  xmlfile = r.readbuff (buffer);
   }
 
-	// call xml2lilypond() even if xmlfile is null,
+	// call xml2braille() even if xmlfile is null,
 	// to handle the help options if any
-  return xml2braille (xmlfile, options, out, err, 0);
+  return xml2braille (xmlfile, insiderOptions, options, out, err, 0);
 
 	return kInvalidFile;
 }
@@ -403,8 +469,7 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after convertMusicXMLToMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // create the MSR skeleton from the mxmlTree (pass 2a)
@@ -421,14 +486,13 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2brlOahGroup->fExit2a) {
+  if (gGlobalXml2brlInsiderOahGroup->fExit2a) {
     gLogOstream <<
       endl <<
       "Exiting after pass 2a as requested" <<
@@ -459,8 +523,7 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // display the MSR score if requested
@@ -483,7 +546,7 @@ EXP xmlErr convertMusicXMLToBraille (
 
   if (gGlobalMsrOah->fDisplayMsrSummary) {
     // display the score summary
-    displayMSRPopulatedScoreSummary (
+    displayMsrPopulatedScoreSummary (
       gGlobalMsrOah,
       mScore,
       gLogOstream);
@@ -494,7 +557,7 @@ EXP xmlErr convertMusicXMLToBraille (
 
   if (gGlobalMsrOah->fDisplayMsrNames) {
     // display the score name
-    displayMSRPopulatedScoreNames (
+    displayMsrPopulatedScoreNames (
       gGlobalMsrOah,
       mScore,
       gLogOstream);
@@ -503,7 +566,7 @@ EXP xmlErr convertMusicXMLToBraille (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2brlOahGroup->fExit2b) {
+  if (gGlobalXml2brlInsiderOahGroup->fExit2b) {
     gLogOstream <<
       endl <<
       "Exiting after pass 2b as requested" <<
@@ -526,8 +589,7 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after convertMsrScoreToBsrScore(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // should we return now?
@@ -573,8 +635,7 @@ EXP xmlErr convertMusicXMLToBraille (
   if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after convertBsrScoreToFinalizedBsrScore(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // should we return now?
@@ -619,8 +680,7 @@ EXP xmlErr convertMusicXMLToBraille (
    if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after convertBsrScoreToBrailleText(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
  return kNoErr;

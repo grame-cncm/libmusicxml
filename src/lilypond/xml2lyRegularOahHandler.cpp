@@ -1715,7 +1715,6 @@ void xml2lyRegularOahHandler::createLayoutRegularGroup ()
 
   fAtomNamesToRegularSubGroupsMap ["global-staff-size"] = subGroup;
   fAtomNamesToRegularSubGroupsMap ["keep-staff-size"] = subGroup;
-
 }
 
 void xml2lyRegularOahHandler::createOutputRegularGroup ()
@@ -2627,6 +2626,7 @@ ostream& operator<< (ostream& os, const S_xml2lyRegularOahHandler& elt)
   return os;
 }
 
+/* JMI
 //______________________________________________________________________________
 void xml2lyRegularOahGroup::enforceGroupQuietness ()
 {}
@@ -3054,7 +3054,6 @@ void xml2lyRegularOahGroup::printXml2lyRegularOahGroupValues (int fieldWidth)
 }
 
 //______________________________________________________________________________
-/* JMI
 void initializeXml2lyRegularOahHandling (
   S_oahHandler handler)
 {

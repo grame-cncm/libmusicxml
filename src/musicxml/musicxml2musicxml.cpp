@@ -36,6 +36,7 @@
 #include "musicxmlOah.h"
 
 #include "xml2xmlInsiderOahHandler.h"
+#include "xml2xmlRegularOahHandler.h"
 
 #include "msr.h"
 
@@ -55,7 +56,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
+static xmlErr xml2musicxml (SXMLFile& xmlfile, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err, const char* file)
 {
 	Sxmlelement st;
 
@@ -72,15 +73,34 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 
   string fakeExecutableName = "xml2xml";
 
-  // create the options handler
+  // the indented output streams
   // ------------------------------------------------------
 
-  S_xml2xmlInsiderOahHandler
+  indentedOstream outIndentedOstream (out, indenter::gIndenter);
+  indentedOstream errIndentedOstream (err, indenter::gIndenter);
+
+  // the OAH handler
+  // ------------------------------------------------------
+
+  S_oahHandler handler;
+
+  if (insiderOptions) {
+    // create an insider xml2xml OAH handler
     handler =
       xml2xmlInsiderOahHandler::create (
         fakeExecutableName,
-        "xml2xml",
-        out);
+        "xml2xml with insider options",
+        outIndentedOstream);
+
+  }
+  else {
+    // create a regular xml2xml OAH handler
+    handler =
+      xml2xmlRegularOahHandler::create (
+        fakeExecutableName,
+        "xml2xml with regular options",
+        outIndentedOstream);
+  }
 
   // analyze the coptions vector
   // ------------------------------------------------------
@@ -153,7 +173,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
     // ------------------------------------------------------
 
     if (gGlobalXml2xmlOahGroup->fExit2a) {
-      gLogOstream <<
+      errIndentedOstream <<
         endl <<
         "Exiting after pass 2a as requested" <<
         endl;
@@ -198,10 +218,10 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 
     if (gGlobalMsrOah->fDisplayMsrSummary) {
       // display the score summary
-      displayMSRPopulatedScoreSummary (
+      displayMsrPopulatedScoreSummary (
         gGlobalMsrOah,
         mScore,
-        gLogOstream);
+        errIndentedOstream);
     }
 
     // display the populated MSR score names if requested
@@ -209,17 +229,17 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 
     if (gGlobalMsrOah->fDisplayMsrNames) {
       // display the score name
-      displayMSRPopulatedScoreNames (
+      displayMsrPopulatedScoreNames (
         gGlobalMsrOah,
         mScore,
-        gLogOstream);
+        errIndentedOstream);
     }
 
     // should we return now?
     // ------------------------------------------------------
 
     if (gGlobalXml2xmlOahGroup->fExit2b) {
-      gLogOstream <<
+      errIndentedOstream <<
         endl <<
         "Exiting after pass 2b as requested" <<
         endl;
@@ -229,11 +249,19 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 
     // create MusicXML back from the MSR
     // ------------------------------------------------------
+
+    string outputFileName;
+
+    // caution if file is null
+    if (file) {
+      outputFileName = file;
+    }
+
     try {
       convertMsrScoreToMusicXMLScore (
         mScore,
         regex_replace (
-          file,
+          outputFileName,
           regex (".ly"),
           "_LOOP.xml"),
           "Pass 3",
@@ -253,7 +281,7 @@ static xmlErr xml2musicxml (SXMLFile& xmlfile, const optionsVector& options, std
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfile2musicxml (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err)
+EXP xmlErr musicxmlfile2musicxml (const char *file, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -261,14 +289,14 @@ EXP xmlErr musicxmlfile2musicxml (const char *file, const optionsVector& options
 	xmlfile = r.read(file);
 
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, options, out, err, file);
+		return xml2musicxml (xmlfile, insiderOptions, options, out, err, file);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlfd2musicxml (FILE * fd, const optionsVector& options, std::ostream& out, std::ostream& err)
+EXP xmlErr musicxmlfd2musicxml (FILE * fd, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	xmlreader r;
 	SXMLFile xmlfile;
@@ -276,14 +304,14 @@ EXP xmlErr musicxmlfd2musicxml (FILE * fd, const optionsVector& options, std::os
 	xmlfile = r.read(fd);
 
 	if (xmlfile) {
-		return xml2musicxml(xmlfile, options, out, err, 0);
+		return xml2musicxml (xmlfile, insiderOptions, options, out, err, 0);
 	}
 
 	return kInvalidFile;
 }
 
 //_______________________________________________________________________________
-EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& options, std::ostream& out, std::ostream& err)
+EXP xmlErr musicxmlstring2musicxml (const char * buffer, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err)
 {
 	SXMLFile  xmlfile;
 
@@ -293,9 +321,9 @@ EXP xmlErr musicxmlstring2musicxml (const char * buffer, const optionsVector& op
 	  xmlfile = r.readbuff (buffer);
   }
 
-	// call xml2lilypond() even if xmlfile is null,
+	// call xml2musicxml() even if xmlfile is null,
 	// to handle the help options if any
-  return xml2musicxml(xmlfile, options, out, err, 0);
+  return xml2musicxml (xmlfile, insiderOptions, options, out, err, 0);
 
 	return kInvalidFile;
 }
@@ -425,8 +453,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // should we return now?
@@ -463,8 +490,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
   if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // display the MSR score if requested
@@ -487,7 +513,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
 
   if (gGlobalMsrOah->fDisplayMsrSummary) {
     // display the score summary
-    displayMSRPopulatedScoreSummary (
+    displayMsrPopulatedScoreSummary (
       gGlobalMsrOah,
       mScore,
       gLogOstream);
@@ -498,7 +524,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
 
   if (gGlobalMsrOah->fDisplayMsrNames) {
     // display the score name
-    displayMSRPopulatedScoreNames (
+    displayMsrPopulatedScoreNames (
       gGlobalMsrOah,
       mScore,
       gLogOstream);
@@ -535,8 +561,7 @@ EXP xmlErr convertMusicXMLBackToMusicXML (
       "### gIndenter final value has changed after convertMsrScoreToMusicXMLScore(): "<<
       gIndenter.getIndent () <<
       " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   if (err != kNoErr) {

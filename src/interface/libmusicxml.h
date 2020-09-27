@@ -140,7 +140,7 @@ EXP const char*   musicxml2musicxmlVersionStr();
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2musicxml  (const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfile2musicxml  (const char *file, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the MusicXML format.
@@ -148,7 +148,7 @@ EXP xmlErr      musicxmlfile2musicxml  (const char *file, const optionsVector& o
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2musicxml  (FILE* fd, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfd2musicxml  (FILE* fd, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the MusicXML format.
@@ -156,7 +156,7 @@ EXP xmlErr      musicxmlfd2musicxml  (FILE* fd, const optionsVector& options, st
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2musicxml(const char *buffer, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlstring2musicxml(const char *buffer, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 //_______________________________________________________________________________
 /*!
@@ -212,7 +212,7 @@ EXP const char*   musicxml2brailleVersionStr();
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2braille(const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfile2braille(const char *file, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the Braille music format.
@@ -220,7 +220,7 @@ EXP xmlErr      musicxmlfile2braille(const char *file, const optionsVector& opti
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2braille(FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfd2braille(FILE *fd, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the Braille music format.
@@ -228,7 +228,7 @@ EXP xmlErr      musicxmlfd2braille(FILE *fd, const optionsVector& options, std::
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2braille(const char *bufferer, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlstring2braille(const char *buffer, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 //_______________________________________________________________________________
 /*!
@@ -259,7 +259,7 @@ EXP const char*   musicxml2bmmlVersionStr();
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2bmml(const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfile2bmml(const char *file, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the BMML music format.
@@ -267,7 +267,7 @@ EXP xmlErr      musicxmlfile2bmml(const char *file, const optionsVector& options
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2bmml(FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfd2bmml(FILE *fd, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the BMML music format.
@@ -275,7 +275,7 @@ EXP xmlErr      musicxmlfd2bmml(FILE *fd, const optionsVector& options, std::ost
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2bmml(const char *bufferer, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlstring2bmml(const char *buffer, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Gives the BMML to BMML converter version number.
@@ -328,7 +328,7 @@ EXP const char*   musicxml2meiVersionStr();
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfile2mei(const char *file, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfile2mei(const char *file, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the MEI music format.
@@ -336,7 +336,7 @@ EXP xmlErr      musicxmlfile2mei(const char *file, const optionsVector& options,
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlfd2mei(FILE *fd, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlfd2mei(FILE *fd, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Converts a MusicXML representation to the MEI music format.
@@ -344,7 +344,7 @@ EXP xmlErr      musicxmlfd2mei(FILE *fd, const optionsVector& options, std::ostr
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP xmlErr      musicxmlstring2mei(const char *bufferer, const optionsVector& options, std::ostream& out, std::ostream& err);
+EXP xmlErr      musicxmlstring2mei(const char *buffer, bool insiderOptions, const optionsVector& options, std::ostream& out, std::ostream& err);
 
 /*!
   \brief Gives the MEI to MEI converter version number.

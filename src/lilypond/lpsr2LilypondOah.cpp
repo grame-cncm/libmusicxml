@@ -3688,7 +3688,7 @@ R"###(Use SPECIFICATION to display chords using LilyPond's chordNameExceptions.
 SPECIFICATION should contain a chord contents such as '<c ees ges bes>',
 followed by code to display it, for example:
   '<c ees ges bes> \\super {"-7(" {\\small\\raise #0.5 \\flat} "5)"}'.
-The LilyPond code has to escape backslashed, thus use '\\' to obtain '\'.
+The LilyPond code has to escape backslashes, thus use '\\' to obtain '\'.
 These two elements are passed over to LilyPond verbatim, without any check.
 This option can be used any number of times.)###",
         "SPECIFICATION",
@@ -3842,7 +3842,7 @@ R"()",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "xi", "xml2ly-infos",
-R"(Generate initial comments showing the compilation date and lilypond.)",
+R"(Generate initial comments showing the compilation date.)",
         "xml2lyInfos",
         fXml2lyInfos));
 

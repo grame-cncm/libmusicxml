@@ -89,7 +89,6 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, bool insiderOptions, const option
         fakeExecutableName,
         "xml2ly with insider options",
         outIndentedOstream);
-
   }
   else {
     // create a regular xml2ly OAH handler
@@ -196,7 +195,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, bool insiderOptions, const option
       return kInvalidFile;
     }
 
-    // display the MSR score summary if requested
+    // display the MSR score if requested
     // ------------------------------------------------------
 
     if (gGlobalMsrOah->fDisplayMsr) {
@@ -216,7 +215,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, bool insiderOptions, const option
 
     if (gGlobalMsrOah->fDisplayMsrSummary) {
       // display the score summary
-      displayMSRPopulatedScoreSummary (
+      displayMsrPopulatedScoreSummary (
         gGlobalMsrOah,
         mScore,
         errIndentedOstream);
@@ -229,7 +228,7 @@ static xmlErr xml2lilypond (SXMLFile& xmlfile, bool insiderOptions, const option
 
     if (gGlobalMsrOah->fDisplayMsrNames) {
       // display the score name
-      displayMSRPopulatedScoreNames (
+      displayMsrPopulatedScoreNames (
         gGlobalMsrOah,
         mScore,
         errIndentedOstream);
@@ -393,8 +392,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<<
       gIndenter.getIndent () <<
       " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // create the MSR skeleton from the mxmlTree (pass 2a)
@@ -413,8 +411,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       "### gIndenter final value has changed after convertMxmlTreeToMsrScoreSkeleton(): "<<
       gIndenter.getIndent () <<
       " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // should we return now?
@@ -453,8 +450,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       "### gIndenter final value has changed after populateMsrSkeletonFromMxmlTree(): "<<
       gIndenter.getIndent () <<
       " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // should we return now?
@@ -489,7 +485,7 @@ EXP xmlErr convertMusicXMLToLilypond (
 
   if (gGlobalMsrOah->fDisplayMsrSummary) {
     // display the score summary
-    displayMSRPopulatedScoreSummary (
+    displayMsrPopulatedScoreSummary (
       gGlobalMsrOah,
       mScore,
       gLogOstream);
@@ -502,7 +498,7 @@ EXP xmlErr convertMusicXMLToLilypond (
 
   if (gGlobalMsrOah->fDisplayMsrNames) {
     // display the score name
-    displayMSRPopulatedScoreNames (
+    displayMsrPopulatedScoreNames (
       gGlobalMsrOah,
       mScore,
       gLogOstream);
@@ -535,8 +531,7 @@ EXP xmlErr convertMusicXMLToLilypond (
       "### gIndenter final value has changed after convertMsrScoreToLpsrScore(): "<<
       gIndenter.getIndent () <<
       " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // should we return now?
@@ -581,8 +576,7 @@ EXP xmlErr convertMusicXMLToLilypond (
   if (gIndenter != saveIndent) {
     gLogOstream <<
       "### gIndenter final value has changed after convertLpsrScoreToLilypondCode(): "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // create MusicXML back from the MSR if requested

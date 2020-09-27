@@ -336,8 +336,7 @@ void msrNote::initializeNote ()
         setw (fieldWidth) <<
         "fNoteOccupiesAFullMeasure" << " = " <<
          booleanAsString (fNoteOccupiesAFullMeasure) <<
-        endl <<
-      endl;
+        endl << endl;
 
     gIndenter--;
   }

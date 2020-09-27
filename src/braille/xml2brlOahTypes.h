@@ -90,6 +90,130 @@ typedef SMARTP<xml2brlVersionOahAtom> S_xml2brlVersionOahAtom;
 EXP ostream& operator<< (ostream& os, const S_xml2brlVersionOahAtom& elt);
 
 //______________________________________________________________________________
+class xml2brlInsiderOahAtom : public oahHelpAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<xml2brlInsiderOahAtom> create (
+      string shortName,
+      string longName,
+      string description);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    xml2brlInsiderOahAtom (
+      string shortName,
+      string longName,
+      string description);
+
+    virtual ~xml2brlInsiderOahAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const override;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<xml2brlInsiderOahAtom> S_xml2brlInsiderOahAtom;
+EXP ostream& operator<< (ostream& os, const S_xml2brlInsiderOahAtom& elt);
+
+//______________________________________________________________________________
+class xml2brlRegularOahAtom : public oahHelpAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<xml2brlRegularOahAtom> create (
+      string shortName,
+      string longName,
+      string description);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    xml2brlRegularOahAtom (
+      string shortName,
+      string longName,
+      string description);
+
+    virtual ~xml2brlRegularOahAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    S_oahValuedAtom       handleOptionUnderName (
+                            string   optionName,
+                            ostream& os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const override;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<xml2brlRegularOahAtom> S_xml2brlRegularOahAtom;
+EXP ostream& operator<< (ostream& os, const S_xml2brlRegularOahAtom& elt);
+
+//______________________________________________________________________________
 class xml2brlAboutOahAtom : public oahHelpAtom
 {
   public:

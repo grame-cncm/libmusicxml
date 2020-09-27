@@ -2454,8 +2454,7 @@ void lpsrScore::print (ostream& os) const
   if (fScoreElementsList.size ()) {
     os <<
       "Voices & Stanzas" <<
-      endl <<
-      endl;
+      endl << endl;
     gIndenter++;
 
     list<S_msrElement>::const_iterator
@@ -2476,8 +2475,7 @@ void lpsrScore::print (ostream& os) const
   if (fScoreBookBlocksList.size ()) {
     os <<
       "Book blocks" <<
-      endl <<
-      endl;
+      endl << endl;
     gIndenter++;
 
     list<S_lpsrBookBlock>::const_iterator
@@ -2560,8 +2558,7 @@ void lpsrScore::printShort (ostream& os) const
   if (fScoreElementsList.size ()) {
     os <<
       "Voices & Stanzas" <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter++;
 
@@ -2583,8 +2580,7 @@ void lpsrScore::printShort (ostream& os) const
   if (fScoreBookBlocksList.size ()) {
     os <<
       "Book blocks" <<
-      endl <<
-      endl;
+      endl << endl;
     gIndenter++;
 
     list<S_lpsrBookBlock>::const_iterator

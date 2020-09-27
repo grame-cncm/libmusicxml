@@ -47,24 +47,24 @@ EXP void populateMsrSkeletonFromMxmlTree (
   string           passNumber);
 
 //______________________________________________________________________________
-EXP void displayMSRPopulatedScore (
+EXP void displayMsrPopulatedScore (
   S_msrOah&  msrOpts,
   S_msrScore mScore,
   ostream&   logOstream);
 
-EXP void displayMSRPopulatedScoreShort (
-  S_msrOah&  msrOpts,
-  S_msrScore mScore,
-  ostream&   logOstream);
-
-//______________________________________________________________________________
-EXP void displayMSRPopulatedScoreSummary (
+EXP void displayMsrPopulatedScoreShort (
   S_msrOah&  msrOpts,
   S_msrScore mScore,
   ostream&   logOstream);
 
 //______________________________________________________________________________
-EXP void displayMSRPopulatedScoreNames (
+EXP void displayMsrPopulatedScoreSummary (
+  S_msrOah&  msrOpts,
+  S_msrScore mScore,
+  ostream&   logOstream);
+
+//______________________________________________________________________________
+EXP void displayMsrPopulatedScoreNames (
   S_msrOah&  msrOpts,
   S_msrScore mScore,
   ostream&   logOstream);

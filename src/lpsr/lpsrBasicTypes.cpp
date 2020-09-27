@@ -145,8 +145,7 @@ string wholeNotesAsLilypondString (
       "--> numerator:   " << numerator <<
       endl <<
       "--> denominator: " << denominator <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -215,8 +214,7 @@ string wholeNotesAsLilypondString (
       "--> integralNumberOfWholeNotes: " <<
       booleanAsString (
         integralNumberOfWholeNotes) <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -237,8 +235,7 @@ string wholeNotesAsLilypondString (
   if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -361,8 +358,7 @@ string wholeNotesAsLilypondString (
     gLogOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -413,8 +409,7 @@ string wholeNotesAsLilypondString (
       endl <<
       "--> numeratorDots " << " : " <<
       numeratorDots <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -506,8 +501,7 @@ string wholeNotesAsLilypondString (
       endl <<
       "--> multiplyingFactor " << " : " <<
       multiplyingFactor <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 

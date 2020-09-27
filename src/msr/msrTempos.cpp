@@ -463,8 +463,7 @@ void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
     gLogOstream <<
       "% fTempoTupletFactor = " <<
       fTempoTupletFactor <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter--;
   }
@@ -491,8 +490,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
       containingTempoTupletActualNotes <<
       ", containingTempoTupletNormalNotes = " <<
       containingTempoTupletNormalNotes <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter--;
   }

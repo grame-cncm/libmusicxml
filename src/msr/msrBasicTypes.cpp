@@ -830,8 +830,7 @@ string wholeNotesAsMsrString (
       "--> numerator:   " << numerator <<
       endl <<
       "--> denominator: " << denominator <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -889,8 +888,7 @@ string wholeNotesAsMsrString (
       "--> integralNumberOfWholeNotes: " <<
       booleanAsString (
         integralNumberOfWholeNotes) <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -911,8 +909,7 @@ string wholeNotesAsMsrString (
   if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
     gLogOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -999,8 +996,7 @@ string wholeNotesAsMsrString (
     gLogOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -1051,8 +1047,7 @@ string wholeNotesAsMsrString (
       endl <<
       "--> numeratorDots " << " : " <<
       numeratorDots <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -1152,8 +1147,7 @@ string wholeNotesAsMsrString (
       endl <<
       "--> multiplyingFactor " << " : " <<
       multiplyingFactor <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -16759,8 +16753,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
       "--> result = '" <<
       result->asShortString () <<
       "'" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 

@@ -630,8 +630,7 @@ void msrIdentification::print (ostream& os) const
   if (emptyIdentification) {
     os <<
       " " << "nothing specified" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   gIndenter--;

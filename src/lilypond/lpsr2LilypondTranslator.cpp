@@ -515,8 +515,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
       "% referenceAboluteDiatonicOrdinal" <<
       " = " <<
       referenceAboluteDiatonicOrdinal <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -544,8 +543,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
     fLogOutputStream <<
       "lilypondOctaveInRelativeEntryMode() 2" <<
       ", result = " << s.str () <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -735,8 +733,7 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
         gGlobalLpsrOah->
           fLpsrQuarterTonesPitchesLanguageKind,
           quarterTonesPitchKind) <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -5612,8 +5609,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
     }
 
     fLilypondCodeOstream <<
-      endl <<
-      endl;
+      endl << endl;
   }
 }
 
@@ -7811,8 +7807,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   if (gGlobalLpsr2LilypondOah->fGlobal) {
     fLilypondCodeOstream <<
       "\\global" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // \displayMusic?
@@ -7850,8 +7845,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       "\\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
       endl <<
       "\\override Score.BarNumber.break-visibility = ##(#f #t #t)" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // center bar number?
@@ -7878,8 +7872,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       "\\compressFullBarRests" <<
       endl <<
       "\\set restNumberThreshold = 0" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
 // JMI   \set Score.alternativeNumberingStyle = #'numbers-with-letters
@@ -7903,8 +7896,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       "\\accidentalStyle Score." <<
       lpsrAccidentalStyleKindAsString (
         gGlobalLpsr2LilypondOah->fAccidentalStyleKind) <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // reset fCurrentVoiceClef
@@ -16731,8 +16723,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
         "replica",
         "replicas") <<
       ", line " << elt->getInputLineNumber () <<
-      endl <<
-      endl;
+      endl << endl;
   }
 }
 
@@ -16825,8 +16816,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRestMeasures& elt)
         "measure",
         "measures") <<
       ", line " << inputLineNumber <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter++;
   }
@@ -16922,8 +16912,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
         "measure",
         "measures") <<
       ", line " << inputLineNumber <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   fOnGoingRestMeasures = false;
@@ -16953,8 +16942,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRestMeasuresContents& elt)
         "measures") <<
         */
       ", line " << inputLineNumber <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter++;
   }
@@ -16984,8 +16972,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasuresContents& elt)
         "measures") <<
         */
       ", line " << inputLineNumber <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter--;
   }

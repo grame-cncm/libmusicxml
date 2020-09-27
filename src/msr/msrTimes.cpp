@@ -403,8 +403,7 @@ rational msrTime::wholeNotesPerMeasure () const
       result.getNumerator () <<
       "/" <<
       result.getDenominator () <<
-      endl <<
-      endl;
+      endl << endl;
 */
 
     // iterate over the others

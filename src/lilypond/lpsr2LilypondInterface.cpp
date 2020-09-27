@@ -100,8 +100,7 @@ void convertLpsrScoreToLilypondCode (
   if (gGlobalLpsr2LilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "Option '-nolpc -no-lilypond-code' is set, no LilyPond code is created" <<
-      endl <<
-      endl;
+      endl << endl;
   }
   else {
     // open output file if need be

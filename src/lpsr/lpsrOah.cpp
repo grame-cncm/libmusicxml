@@ -2098,7 +2098,7 @@ The default value is 0.0 mm.)",
   subGroup->
     appendAtomToSubGroup (
       oahLengthAtom::create (
-        "mssp", "markup-system-spacing.padding",
+        "mssp", "markup-system-spacing-padding",
 R"(Set the LilyPond 'markup-system-spacing.padding' paper variable
 to PADDING in the LilyPond code.
 PADDING should be a floating point or integer number,

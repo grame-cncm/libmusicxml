@@ -255,8 +255,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
   if (gGlobalLpsr2LilypondOah->fNoLilypondCode) {
     gLogOstream <<
       "Option '-nolpc, -no-lilypond-code' is set, no LPSR is created" <<
-      endl <<
-      endl;
+      endl << endl;
   }
   else {
     lpScore =
@@ -290,8 +289,7 @@ S_lpsrScore convertMsrScoreToLpsrScore (
 
     gLogOstream <<
       message <<
-      endl <<
-      endl;
+      endl << endl;
 
     throw msrScoreToLpsrScoreException (message);
   }

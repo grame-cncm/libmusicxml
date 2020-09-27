@@ -104,11 +104,11 @@ typedef SMARTP<xml2brlInsiderOahHandler> S_xml2brlInsiderOahHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2brlInsiderOahHandler& elt);
 
 //______________________________________________________________________________
-class xml2brlOahGroup : public oahGroup
+class xml2brlInsiderOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<xml2brlOahGroup> create (
+    static SMARTP<xml2brlInsiderOahGroup> create (
       S_oahHandler handlerUpLink);
 
   public:
@@ -116,17 +116,17 @@ class xml2brlOahGroup : public oahGroup
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeXml2brlOahGroup ();
+    void                  initializeXml2brlInsiderOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2brlOahGroup (
+    xml2brlInsiderOahGroup (
       S_oahHandler handlerUpLink);
 
-    virtual ~xml2brlOahGroup ();
+    virtual ~xml2brlInsiderOahGroup ();
 
   public:
 
@@ -201,10 +201,10 @@ class xml2brlOahGroup : public oahGroup
 
     string                fBrailleMusicOutputFileName;
 };
-typedef SMARTP<xml2brlOahGroup> S_xml2brlOahGroup;
-EXP ostream& operator<< (ostream& os, const S_xml2brlOahGroup& elt);
+typedef SMARTP<xml2brlInsiderOahGroup> S_xml2brlInsiderOahGroup;
+EXP ostream& operator<< (ostream& os, const S_xml2brlInsiderOahGroup& elt);
 
-EXP extern S_xml2brlOahGroup gGlobalXml2brlOahGroup;
+EXP extern S_xml2brlInsiderOahGroup gGlobalXml2brlInsiderOahGroup;
 
 //______________________________________________________________________________
 void initializeXml2brlOahHandling (

@@ -249,8 +249,7 @@ void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandler (
     print (fHandlerLogOstream);
 
     fHandlerLogOstream <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter--;
 #endif
@@ -470,12 +469,12 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
 
     S_oahStringAtom
       outputFileNameStringAtom =
-        gGlobalXml2brlOahGroup->
+        gGlobalXml2brlInsiderOahGroup->
           getOutputFileNameStringAtom ();
 
     S_oahBooleanAtom
       autoOutputFileNameAtom =
-        gGlobalXml2brlOahGroup->
+        gGlobalXml2brlInsiderOahGroup->
           getAutoOutputFileNameAtom ();
 
 #ifdef TRACE_OAH
@@ -657,16 +656,16 @@ void xml2brlInsiderOahHandler::enforceHandlerQuietness ()
     enforceGroupQuietness ();
 #endif
 
-  gGlobalXml2brlOahGroup->
+  gGlobalXml2brlInsiderOahGroup->
     enforceGroupQuietness ();
 }
 
 //______________________________________________________________________________
-void xml2brlOahGroup::enforceGroupQuietness ()
+void xml2brlInsiderOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void xml2brlOahGroup::checkGroupOptionsConsistency ()
+void xml2brlInsiderOahGroup::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
@@ -730,19 +729,19 @@ ostream& operator<< (ostream& os, const S_xml2brlInsiderOahHandler& elt)
 }
 
 //_______________________________________________________________________________
-S_xml2brlOahGroup gGlobalXml2brlOahGroup;
+S_xml2brlInsiderOahGroup gGlobalXml2brlInsiderOahGroup;
 
-S_xml2brlOahGroup xml2brlOahGroup::create (
+S_xml2brlInsiderOahGroup xml2brlInsiderOahGroup::create (
   S_oahHandler handlerUpLink)
 {
-  xml2brlOahGroup* o = new xml2brlOahGroup (
+  xml2brlInsiderOahGroup* o = new xml2brlInsiderOahGroup (
     handlerUpLink);
   assert(o!=0);
 
   return o;
 }
 
-xml2brlOahGroup::xml2brlOahGroup (
+xml2brlInsiderOahGroup::xml2brlInsiderOahGroup (
   S_oahHandler handlerUpLink)
   : oahGroup (
     "xml2brl",
@@ -759,13 +758,13 @@ R"(Options that are used by xml2brl are grouped here.)",
   }
 
   // initialize it
-  initializeXml2brlOahGroup ();
+  initializeXml2brlInsiderOahGroup ();
 }
 
-xml2brlOahGroup::~xml2brlOahGroup ()
+xml2brlInsiderOahGroup::~xml2brlInsiderOahGroup ()
 {}
 
-void xml2brlOahGroup::initializeXml2brlOahGroup ()
+void xml2brlInsiderOahGroup::initializeXml2brlInsiderOahGroup ()
 {
   // version
   // --------------------------------------
@@ -789,6 +788,44 @@ R"()",
         xml2brlVersionOahAtom::create (
           "v", "version",
 R"(Display xml2brl's version number and history.)"));
+  }
+
+  // OAH view
+  // --------------------------------------
+
+  {
+    S_oahSubGroup
+      subGroup =
+        oahSubGroup::create (
+          "OAH view",
+          "ov", "help-oah-view",
+R"()",
+        kElementVisibilityWhole,
+        this);
+
+    appendSubGroupToGroup (subGroup);
+
+    // the 'insider' option
+
+    subGroup->
+      appendAtomToSubGroup (
+        xml2brlInsiderOahAtom::create (
+          "insider", "",
+R"(Use the 'insider' view for the options and help,
+in which the options are grouped as they are used by the various
+internal representations and translation passes.
+This unleashes the full set of display and trace options.)"));
+
+    // the 'regular' option
+
+    subGroup->
+      appendAtomToSubGroup (
+        xml2brlRegularOahAtom::create (
+          "regular", "",
+R"(Use the 'regular' view for the options and help,
+in which the options are grouped by topics
+such a slurs, tuplets and figured bass.
+This is the default.)"));
   }
 
   // about
@@ -940,7 +977,7 @@ or adding '.brl' if none is present.)",
 }
 
 //______________________________________________________________________________
-void xml2brlOahGroup::printXml2brlOahValues (int fieldWidth)
+void xml2brlInsiderOahGroup::printXml2brlOahValues (int fieldWidth)
 {
   gLogOstream <<
     "The xml2brl options are:" <<
@@ -1021,9 +1058,9 @@ void initializeXml2brlOahHandling (
     // create the options variables
     // ------------------------------------------------------
 
-    gGlobalXml2brlOahGroup = xml2brlOahGroup::create (
+    gGlobalXml2brlInsiderOahGroup = xml2brlInsiderOahGroup::create (
       handler);
-    assert (gGlobalXml2brlOahGroup != 0);
+    assert (gGlobalXml2brlInsiderOahGroup != 0);
 
 // JMI    pThisMethodHasBeenRun = true;
   }

@@ -423,8 +423,7 @@ S_bsrScore convertBsrScoreToFinalizedBsrScore (
 
     gLogOstream <<
       message <<
-      endl <<
-      endl;
+      endl << endl;
 
     throw bsrScoreToFinalizedBsrScoreException (message);
   }

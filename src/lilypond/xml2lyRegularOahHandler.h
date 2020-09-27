@@ -202,6 +202,7 @@ class EXP xml2lyRegularOahHandler : public oahHandler
 typedef SMARTP<xml2lyRegularOahHandler> S_xml2lyRegularOahHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2lyRegularOahHandler& elt);
 
+/* JMI
 //______________________________________________________________________________
 class xml2lyRegularOahGroup : public oahGroup
 {
@@ -305,7 +306,6 @@ EXP ostream& operator<< (ostream& os, const S_xml2lyRegularOahGroup& elt);
 
 // JMI EXP extern S_xml2lyRegularOahGroup gGlobalXml2lyRegularOahGroup;
 
-/* JMI
 //______________________________________________________________________________
 void initializeXml2lyRegularOahHandling (
   S_oahHandler handler);

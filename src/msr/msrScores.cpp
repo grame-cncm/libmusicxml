@@ -208,8 +208,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
 
     gLogOstream <<
       "<=- fetchPartFromScoreByItsPartID(" << partID << ")" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 

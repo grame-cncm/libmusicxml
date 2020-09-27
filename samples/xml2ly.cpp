@@ -118,49 +118,27 @@ int main (int argc, char *argv[])
 
   // here, at most one of insiderOptions and regularOptions is true
 
-  // create the xml2ly OAH handler
+  // create the OAH handler, a regular handler is the default
   // ------------------------------------------------------
 
-  // an xml2ly insider OAH handler is needed in all cases, create it
-  S_xml2lyInsiderOahHandler insiderOahHandler;
-
-  try {
-    insiderOahHandler =
-      xml2lyInsiderOahHandler::create (
-        executableName,
-        "xml2ly - insider OAH handler",
-        gOutputOstream);
-  }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
-  }
-
-  // the OAH handler, a regular OAH handler is the default
   S_oahHandler handler;
 
   if (insiderOptions) {
-    handler = insiderOahHandler;
-  }
+    // create an insider xml2ly OAH handler
+    handler =
+      xml2lyInsiderOahHandler::create (
+        executableName,
+        "xml2ly with insider options",
+        gOutputOstream);
 
+  }
   else {
-    // create an xml2ly regular OAH handler
-    try {
-      handler =
-        xml2lyRegularOahHandler::createFromInsiderHandler (
-          executableName,
-          "xml2ly - regular OAH handler",
-          insiderOahHandler,
-          gOutputOstream);
-    }
-    catch (msrOahException& e) {
-      return kInvalidOption;
-    }
-    catch (std::exception& e) {
-      return kInvalidFile;
-    }
+    // create a regular xml2ly OAH handler
+    handler =
+      xml2lyRegularOahHandler::create (
+        executableName,
+        "xml2ly with regular options",
+        gOutputOstream);
   }
 
   // analyze the command line options and arguments
@@ -338,8 +316,7 @@ int main (int argc, char *argv[])
   if (gIndenter != 0) {
     gLogOstream <<
       "### xml2ly gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // over!
@@ -348,8 +325,7 @@ int main (int argc, char *argv[])
   if (err != kNoErr) {
     gLogOstream <<
       "### Conversion from MusicXML to LilyPond code failed ###" <<
-      endl <<
-      endl;
+      endl << endl;
 
     return 1;
   }

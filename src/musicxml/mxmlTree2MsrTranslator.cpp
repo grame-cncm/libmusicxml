@@ -2247,8 +2247,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
         " -- end" <<
       endl <<
       "--------------------------------------------" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 */
@@ -8179,8 +8178,7 @@ void mxmlTree2MsrTranslator::handleOnGoingRestMeasures (
       setw (fieldWidth) <<
       "remainingRestMeasuresMeasuresNumber" << " : " <<
       fRemainingRestMeasuresMeasuresNumber <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter--;
   }
@@ -19646,8 +19644,7 @@ S_msrNote mxmlTree2MsrTranslator::createNote (
       setw (fieldWidth) <<
       "inputLineNumber" << " = " <<
       inputLineNumber <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter--;
   }
@@ -21398,8 +21395,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     fCurrentPart->print (fLogOutputStream);
     fLogOutputStream <<
       "=======================" <<
-      endl <<
-      endl;
+      endl << endl;
 
 /* JMI
     if (fCurrentGraceNotes) {
@@ -24969,8 +24965,7 @@ part-symbol
       currentVoice->getVoiceName () << "\"" <<
       endl <<
       "<==" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 */

@@ -236,8 +236,7 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
 
     gLogOstream <<
       message <<
-      endl <<
-      endl;
+      endl << endl;
 
     throw msrScoreToBsrScoreException (message);
   }

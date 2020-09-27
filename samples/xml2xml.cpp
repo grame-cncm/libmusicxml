@@ -31,6 +31,7 @@
 #include "musicxml2musicxml.h"
 
 #include "xml2xmlInsiderOahHandler.h"
+#include "xml2xmlRegularOahHandler.h"
 
 
 using namespace std;
@@ -76,72 +77,63 @@ int main (int argc, char *argv[])
 
   string executableName = argv [0];
 
-//#define USE_DUAL_HANDLE
+  // are insider and/or regular options present?
+  bool insiderOptions = false;
+  bool regularOptions = false;
 
-#ifdef USE_DUAL_HANDLE
+	for (int i = 1; i < argc; i++) {
+	  string argumentAsString = string (argv [i]);
 
-  // create the OAH twoView handler
-  // ------------------------------------------------------
-  S_xml2xmlOahTwoViewHandler twoViewHandler;
+		if (argumentAsString == "-insider") {
+		  insiderOptions = true;
+		}
+		if (argumentAsString == "-regular") {
+		  regularOptions = true;
+		}
+	} // for
 
-  try {
-    twoViewHandler =
-      xml2xmlOahTwoViewHandler::create (
-        executableName,
-        gOutputOstream);
-  }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
-  }
+#ifdef TRACE_OAH
+#ifdef OAH_TRACE
+  gLogOstream <<
+    "xml2xml main()" <<
+    ", insiderOptions: " << booleanAsString (insiderOptions) <<
+    ", regularOptions: " << booleanAsString (regularOptions) <<
+    endl;
+#endif
+#endif
 
-  // analyze the command line options and arguments
-  // ------------------------------------------------------
+  if (insiderOptions && regularOptions) {
+    stringstream s;
 
-  try {
-    oahHandler::oahHelpOptionsHaveBeenUsedKind
-      helpOptionsHaveBeenUsedKind =
-        twoViewHandler->
-          applyOptionsAndArgumentsFromArgcAndArgv (
-            argc, argv);
+    s <<
+      "options '-insider' and '-regular' cannot be used together";
 
-    switch (helpOptionsHaveBeenUsedKind) {
-      case oahHandler::kHelpOptionsHaveBeenUsedYes:
-        return kNoErr;
-        break;
-      case oahHandler::kHelpOptionsHaveBeenUsedNo:
-        // let's go ahead!
-        break;
-    } // switch
-  }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
+    oahError (s.str ());
   }
 
-#else
+  // here, at most one of insiderOptions and regularOptions is true
 
-  // create the options handler
+  // create the OAH handler, a regular handler is the default
   // ------------------------------------------------------
 
-  S_xml2xmlInsiderOahHandler handler;
+  S_oahHandler handler;
 
-  try {
+  if (insiderOptions) {
+    // create an insider xml2xml OAH handler
     handler =
       xml2xmlInsiderOahHandler::create (
         executableName,
-        "xml2xml",
+        "xml2xml with insider options",
         gOutputOstream);
+
   }
-  catch (msrOahException& e) {
-    return kInvalidOption;
-  }
-  catch (std::exception& e) {
-    return kInvalidFile;
+  else {
+    // create a regular xml2xml OAH handler
+    handler =
+      xml2xmlRegularOahHandler::create (
+        executableName,
+        "xml2xml with regular options",
+        gOutputOstream);
   }
 
   // analyze the command line options and arguments
@@ -169,16 +161,6 @@ int main (int argc, char *argv[])
   catch (std::exception& e) {
     return kInvalidFile;
   }
-
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) { // JMI
-    handler->printKnownPrefixes (gOutputOstream);
-    handler->printKnownSingleCharacterOptions (gOutputOstream);
-    // handler->printKnownOptions (gOutputOstream);
-  }
-#endif
-
-#endif
 
   string
     inputSourceName =
@@ -259,55 +241,28 @@ int main (int argc, char *argv[])
         "standard output";
     }
     gLogOstream <<
-      endl <<
-      endl;
+      endl << endl;
 
     gLogOstream <<
       "The command line is:" <<
       endl;
 
     gIndenter++;
-
-#ifdef USE_DUAL_HANDLE
-
-    gLogOstream <<
-      twoViewHandler->
-        commandLineWithShortNamesAsString () <<
-      endl;
-
-#else
-
     gLogOstream <<
       handler->
         commandLineWithShortNamesAsString () <<
       endl;
-
-#endif
-
     gIndenter--;
+
     gLogOstream <<
       "or:" <<
       endl;
+
     gIndenter++;
-
-#ifdef USE_DUAL_HANDLE
-
-    gLogOstream <<
-      twoViewHandler->
-        commandLineWithLongNamesAsString () <<
-      endl <<
-      endl;
-
-#else
-
     gLogOstream <<
       handler->
         commandLineWithLongNamesAsString () <<
-      endl <<
-      endl;
-
-#endif
-
+      endl << endl;
     gIndenter--;
   }
 #endif
@@ -368,8 +323,7 @@ int main (int argc, char *argv[])
   if (gIndenter != 0) {
     gLogOstream <<
       "### xml2xml gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+      endl << endl;
   }
 
   // over!
@@ -378,8 +332,7 @@ int main (int argc, char *argv[])
   if (err != kNoErr) {
     gLogOstream <<
       "### Conversion from MusicXML to MusicXML code failed ###" <<
-      endl <<
-      endl;
+      endl << endl;
 
     return 1;
   }

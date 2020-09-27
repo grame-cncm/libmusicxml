@@ -263,8 +263,7 @@ void xml2xmlInsiderOahHandler::initializeXml2xmlInsiderOahHandler (
     print (fHandlerLogOstream);
 
     fHandlerLogOstream <<
-      endl <<
-      endl;
+      endl << endl;
 
     gIndenter--;
 #endif
@@ -866,6 +865,44 @@ R"()",
         xml2xmlVersionOahAtom::create (
           "v", "version",
 R"(Display xml2xml's version number and history.)"));
+  }
+
+  // OAH view
+  // --------------------------------------
+
+  {
+    S_oahSubGroup
+      subGroup =
+        oahSubGroup::create (
+          "OAH view",
+          "ov", "help-oah-view",
+R"()",
+        kElementVisibilityWhole,
+        this);
+
+    appendSubGroupToGroup (subGroup);
+
+    // the 'insider' option
+
+    subGroup->
+      appendAtomToSubGroup (
+        xml2xmlInsiderOahAtom::create (
+          "insider", "",
+R"(Use the 'insider' view for the options and help,
+in which the options are grouped as they are used by the various
+internal representations and translation passes.
+This unleashes the full set of display and trace options.)"));
+
+    // the 'regular' option
+
+    subGroup->
+      appendAtomToSubGroup (
+        xml2xmlRegularOahAtom::create (
+          "regular", "",
+R"(Use the 'regular' view for the options and help,
+in which the options are grouped by topics
+such a slurs, tuplets and figured bass.
+This is the default.)"));
   }
 
   // about

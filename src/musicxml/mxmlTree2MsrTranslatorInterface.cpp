@@ -43,7 +43,7 @@ void displayMsrScore_OptionalPass (
   S_msrOah   msrOpts)
 {
   // display the MSR
-  displayMSRPopulatedScore (
+  displayMsrPopulatedScore (
     msrOpts,
     mScore,
     gLogOstream);
@@ -71,7 +71,7 @@ void displayMsrScoreShort_OptionalPass (
   S_msrOah   msrOpts)
 {
   // display the MSR
-  displayMSRPopulatedScoreShort (
+  displayMsrPopulatedScoreShort (
     msrOpts,
     mScore,
     gLogOstream);
@@ -154,7 +154,7 @@ void populateMsrSkeletonFromMxmlTree (
 }
 
 //_______________________________________________________________________________
-void displayMSRPopulatedScore (
+void displayMsrPopulatedScore (
   S_msrOah&  msrOpts,
   S_msrScore mScore,
   ostream&   logOstream)
@@ -192,7 +192,7 @@ void displayMSRPopulatedScore (
     endClock);
 }
 
-void displayMSRPopulatedScoreShort (
+void displayMsrPopulatedScoreShort (
   S_msrOah&  msrOpts,
   S_msrScore mScore,
   ostream&   logOstream)
@@ -232,7 +232,7 @@ void displayMSRPopulatedScoreShort (
 }
 
 //_______________________________________________________________________________
-void displayMSRPopulatedScoreSummary (
+void displayMsrPopulatedScoreSummary (
   S_msrOah&  msrOpts,
   S_msrScore mScore,
   ostream&   logOstream)
@@ -257,8 +257,7 @@ void displayMSRPopulatedScoreSummary (
       "Optional pass: outputting a summary of the MSR" <<
       endl <<
       separator <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
@@ -283,7 +282,7 @@ void displayMSRPopulatedScoreSummary (
 }
 
 //_______________________________________________________________________________
-void displayMSRPopulatedScoreNames (
+void displayMsrPopulatedScoreNames (
   S_msrOah&  msrOpts,
   S_msrScore mScore,
   ostream&   logOstream)
@@ -308,8 +307,7 @@ void displayMSRPopulatedScoreNames (
       "Optional pass: outputting the names in the MSR" <<
       endl <<
       separator <<
-      endl <<
-      endl;
+      endl << endl;
   }
 #endif
 
