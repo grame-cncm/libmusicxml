@@ -43,8 +43,6 @@ EXP void displayMxmltreeScore (
   S_msrOah          msrOpts,
   ostream&          logOstream);
 
-// FOO
-
 } // namespace MusicXML2
 
 
