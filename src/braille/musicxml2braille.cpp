@@ -382,8 +382,14 @@ static xmlErr xml2braille (SXMLFile& xmlfile, bool insiderOptions, const options
     }
 
     try {
+      string
+        outputFileNameToUse =
+          gGlobalXml2brlInsiderOahGroup->
+            getOutputFileNameStringAtom ()->
+              getStringVariable ();
+
       convertBsrScoreToBrailleText (
-        outputFileName,
+        outputFileNameToUse, // JMI ??? outputFileName,
         finalizedBsrScore,
         "Pass 4");
     }
@@ -672,8 +678,14 @@ EXP xmlErr convertMusicXMLToBraille (
 
   saveIndent = gIndenter.getIndent ();
 
+  string
+    outputFileNameToUse =
+      gGlobalXml2brlInsiderOahGroup->
+        getOutputFileNameStringAtom ()->
+          getStringVariable ();
+
   convertBsrScoreToBrailleText (
-    outputFileName,
+    outputFileNameToUse, // JMI ??? outputFileName,
     finalizedBsrScore,
     "Pass 4");
 

@@ -48,16 +48,22 @@ static bool args2Options (int argc, char *argv[], optionsVector& options)
 	cerr << endl;
 
 	string curOption;
-	for (int i = 0; i < args.size()-1; i++) {
+
+	for (int i = 0; i < args.size ()-1; i++) {
 	  string str = args[i];
 
 	  cerr << "--> curOption: " << curOption << endl;
 	  cerr << "--> str      : " << str << endl;
 
 		if (curOption.empty ()) {	// wait for option
-			if (str [0] == '-') curOption = str;
-			else return false;
+			if (str [0] == '-') {
+			  curOption = str;
+      }
+			else {
+			  return false;
+      }
 		}
+
 		else {
 			if (str[0] == '-') {
 				// option without value
@@ -70,7 +76,8 @@ static bool args2Options (int argc, char *argv[], optionsVector& options)
 				curOption = "";
 			}
 		}
-		printOptions (options);
+
+// JMI		printOptions (options);
 	} // for
 
 	if (curOption.size())
@@ -81,13 +88,17 @@ static bool args2Options (int argc, char *argv[], optionsVector& options)
 
 //_______________________________________________________________________________
 enum generatedCodeKind {
+  kNoGeneratedCode,
   kLilyPond, kBrailleMusic, kMusicXML };
 
-string generatedCodeKindAsString (generatedCodeKind generatedCode)
+string generatedCodeKindAsString (generatedCodeKind kind)
 {
   string result;
 
-  switch (generatedCode) {
+  switch (kind) {
+    case kNoGeneratedCode:
+      result = "*NoGeneratedCode*";
+      break;
     case kLilyPond:
       result = "LilyPond";
       break;
@@ -103,6 +114,20 @@ string generatedCodeKindAsString (generatedCodeKind generatedCode)
 }
 
 //_______________________________________________________________________________
+generatedCodeKind gGeneratedCodeKind = kNoGeneratedCode;
+
+void registerGeneratedCodeKind (generatedCodeKind kind)
+{
+  if (gGeneratedCodeKind != kNoGeneratedCode) {
+    cerr << "only one of '-lilypond', '-braille' and '-musicxml' can be used" << endl;
+    exit (2);
+  }
+  else {
+    gGeneratedCodeKind = kind;
+  }
+}
+
+//_______________________________________________________________________________
 int main (int argc, char *argv[])
 {
 	optionsVector options;
@@ -111,39 +136,70 @@ int main (int argc, char *argv[])
 	if (argc > 1)
 		file = argv [argc - 1];
 	else {
-		cerr << "usage: xml2ly3 [options] -|fileName" << endl;
+		cerr <<
+		  "usage: " <<
+		  argv [0] <<
+		  " [-lilypond | -braille | -musicxml] [options] -|fileName" <<
+		  endl;
 		return -1;
 	}
 
+  // fetch the options from argc/argv
 	args2Options (argc, argv, options);
-//	options.push_back (make_pair ("-trace-oah", ""));
 	printOptions (options);
+
+  // take generatedCodeKind options into account if any
+	optionsVector optionsToKeep;
+
+	for (auto option: options) {
+	  if (option.first == "-lilypond") {
+	    registerGeneratedCodeKind (kLilyPond);
+	  }
+	  else if (option.first == "-braille") {
+	    registerGeneratedCodeKind (kBrailleMusic);
+	  }
+	  else if (option.first == "-musicxml") {
+	    registerGeneratedCodeKind (kMusicXML);
+	  }
+	  else {
+	    optionsToKeep.push_back (option);
+	  }
+	} // for
+	printOptions (optionsToKeep);
+
+  // the default is '-lilypond'
+  if (gGeneratedCodeKind == kNoGeneratedCode) {
+    gGeneratedCodeKind = kLilyPond;
+  }
 
   // use insider options instead of the regular ones?
   bool insiderOptions = false;
 
   // should we generate LilyPond, braille music or MusicXML?
-//  generatedCodeKind generatedCode = kLilyPond;
-  generatedCodeKind generatedCode = kBrailleMusic;
-//  generatedCodeKind generatedCode = kMusicXML;
   cerr <<
     "==> generatedCodeKind: " <<
-    generatedCodeKindAsString (generatedCode) <<
+    generatedCodeKindAsString (gGeneratedCodeKind) <<
     endl;
 
   if (string (file) == "-") {
     xmlErr err = kNoErr;
 
     // MusicXML data comes from standard input
-    switch (generatedCode) {
+    switch (gGeneratedCodeKind) {
+      case kNoGeneratedCode:
+        // should not occur
+        break;
       case kLilyPond:
-        err = musicxmlfd2lilypond (stdin, insiderOptions, options, cout, cerr);
+        err = musicxmlfd2lilypond (
+          stdin, insiderOptions, optionsToKeep, cout, cerr);
         break;
       case kBrailleMusic:
-        err = musicxmlfd2braille (stdin, insiderOptions, options, cout, cerr);
+        err = musicxmlfd2braille (
+          stdin, insiderOptions, optionsToKeep, cout, cerr);
         break;
       case kMusicXML:
-        err = musicxmlfd2musicxml (stdin, insiderOptions, options, cout, cerr);
+        err = musicxmlfd2musicxml (
+          stdin, insiderOptions, optionsToKeep, cout, cerr);
         break;
     } // switch
 
@@ -161,15 +217,21 @@ int main (int argc, char *argv[])
     if (buffer.str ().size ()) {
       xmlErr err = kNoErr;
 
-      switch (generatedCode) {
+      switch (gGeneratedCodeKind) {
+        case kNoGeneratedCode:
+          // should not occur
+          break;
         case kLilyPond:
-          err = musicxmlstring2lilypond (buffer.str().c_str(), insiderOptions, options, cout, cerr);
+          err = musicxmlstring2lilypond (
+            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
           break;
         case kBrailleMusic:
-          err = musicxmlstring2braille (buffer.str().c_str(), insiderOptions, options, cout, cerr);
+          err = musicxmlstring2braille (
+            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
           break;
         case kMusicXML:
-          err = musicxmlstring2musicxml (buffer.str().c_str(), insiderOptions, options, cout, cerr);
+          err = musicxmlstring2musicxml (
+            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
           break;
       } // switch
 
@@ -178,19 +240,25 @@ int main (int argc, char *argv[])
 
     else {
       cerr << "cannot read file '" << file << "'" << endl;
-      // handle the options anyway, just for help
+      // handle the optionsToKeep anyway, just for help
 
       xmlErr err = kNoErr;
 
-      switch (generatedCode) {
+      switch (gGeneratedCodeKind) {
+        case kNoGeneratedCode:
+          // should not occur
+          break;
         case kLilyPond:
-          err = musicxmlstring2lilypond (buffer.str().c_str(), insiderOptions, options, cout, cerr);
+          err = musicxmlstring2lilypond (
+            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
           break;
         case kBrailleMusic:
-          err = musicxmlstring2braille (buffer.str().c_str(), insiderOptions, options, cout, cerr);
+          err = musicxmlstring2braille (
+            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
           break;
         case kMusicXML:
-          err = musicxmlstring2musicxml (buffer.str().c_str(), insiderOptions, options, cout, cerr);
+          err = musicxmlstring2musicxml (
+            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
           break;
       } // switch
 

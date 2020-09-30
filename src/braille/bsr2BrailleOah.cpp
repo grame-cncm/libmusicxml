@@ -867,16 +867,16 @@ R"()",
 
   // encoding in file name
 
-  fDontUseEncodingInFileName = false; // default value
+  fUseEncodingInFileName = false; // default value
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ueifn", "use-encoding-in-file-name",
-R"(Don't append a description of the encoding used
-and the presence of a BOM if any to the file name.)",
-        "dontUseEncodingInFileName",
-        fDontUseEncodingInFileName));
+R"(Append a description of the encoding used
+and the presence of a BOM if any to the file name before the '.'.)",
+        "useEncodingInFileName",
+        fUseEncodingInFileName));
 }
 
 void bsr2BrailleOah::initializeBraillePageParametersOptions (
@@ -1140,8 +1140,8 @@ void bsr2BrailleOah::printBsr2BrailleOahValues (int fieldWidth)
       bsrByteOrderingKindAsString (fByteOrderingKind) <<
       endl <<
 
-    setw (fieldWidth) << "dontUseEncodingInFileName" << " : " <<
-      booleanAsString (fDontUseEncodingInFileName) <<
+    setw (fieldWidth) << "useEncodingInFileName" << " : " <<
+      booleanAsString (fUseEncodingInFileName) <<
       endl <<
 
     setw (fieldWidth) << "cellsPerLine" << " : " <<

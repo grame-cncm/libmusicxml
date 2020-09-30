@@ -239,7 +239,7 @@ int main (int argc, char *argv[])
     }
     else {
       gLogOstream <<
-        "standard output";
+        "standard output 1";
     }
     gLogOstream <<
       endl << endl;
@@ -284,10 +284,16 @@ int main (int argc, char *argv[])
   xmlErr err;
 
   try {
+    string
+      outputFileNameToUse =
+        gGlobalXml2brlInsiderOahGroup->
+          getOutputFileNameStringAtom ()->
+            getStringVariable ();
+
     err =
       convertMusicXMLToBraille (
         inputSourceName,
-        outputFileName);
+        outputFileNameToUse); // JMI        outputFileName);
   }
   catch (std::exception& e) {
     return kInvalidFile;

@@ -127,8 +127,11 @@ class traceOahGroup : public oahGroup
     // options and help trace
     // --------------------------------------
 
+    void                  setTraceOah ()
+                              { fTraceOah = true; }
     bool                  getTraceOah () const
                               { return fTraceOah; }
+
     bool                  getTraceOahDetails () const
                               { return fTraceOahDetails; }
 

@@ -347,6 +347,10 @@ void xml2lyRegularOahHandler::createOahRegularGroup ()
   fAtomNamesToRegularSubGroupsMap ["display-options-values"] = subGroup;
   fAtomNamesToRegularSubGroupsMap ["show-options-and-arguments"] = subGroup;
 
+  fAtomNamesToRegularSubGroupsMap ["display-partgroups"] = subGroup;
+  fAtomNamesToRegularSubGroupsMap ["display-msr"] = subGroup;
+  fAtomNamesToRegularSubGroupsMap ["display-lpsr"] = subGroup;
+
   fAtomNamesToRegularSubGroupsMap ["trace-oah"] = subGroup;
   fAtomNamesToRegularSubGroupsMap ["trace-passes"] = subGroup;
 }

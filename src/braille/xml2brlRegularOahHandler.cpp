@@ -334,6 +334,9 @@ void xml2brlRegularOahHandler::createOahRegularGroup ()
 
   fAtomNamesToRegularSubGroupsMap [fShortName] = subGroup;
 
+  fAtomNamesToRegularSubGroupsMap ["insider"] = subGroup;
+  fAtomNamesToRegularSubGroupsMap ["regular"] = subGroup;
+
   fAtomNamesToRegularSubGroupsMap ["help-options-usage"] = subGroup;
   fAtomNamesToRegularSubGroupsMap ["option-name-help"] = subGroup;
   fAtomNamesToRegularSubGroupsMap ["display-options-values"] = subGroup;
@@ -399,6 +402,8 @@ void xml2brlRegularOahHandler::createWarningAndErrorsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -435,6 +440,8 @@ void xml2brlRegularOahHandler::createPresentationRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -515,6 +522,8 @@ void xml2brlRegularOahHandler::createFilesRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -534,6 +543,7 @@ void xml2brlRegularOahHandler::createFilesRegularGroup ()
   // atoms
 
   fAtomNamesToRegularSubGroupsMap ["output-file-name"] = subGroup;
+  fAtomNamesToRegularSubGroupsMap ["use-encoding-in-file-name"] = subGroup;
   fAtomNamesToRegularSubGroupsMap ["auto-output-file-name"] = subGroup;
   fAtomNamesToRegularSubGroupsMap ["braille-output-kind"] = subGroup;
 }
@@ -551,6 +561,8 @@ void xml2brlRegularOahHandler::createPartsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -589,6 +601,8 @@ void xml2brlRegularOahHandler::createStavesRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -623,6 +637,8 @@ void xml2brlRegularOahHandler::createVoicesRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -658,6 +674,8 @@ void xml2brlRegularOahHandler::createTranspositionsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -693,6 +711,8 @@ void xml2brlRegularOahHandler::createClefsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -729,6 +749,8 @@ void xml2brlRegularOahHandler::createKeysRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -764,6 +786,8 @@ void xml2brlRegularOahHandler::createTimesRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -799,6 +823,8 @@ void xml2brlRegularOahHandler::createRepeatsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -836,6 +862,8 @@ void xml2brlRegularOahHandler::createMeasuresRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -871,6 +899,8 @@ void xml2brlRegularOahHandler::createRestsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -908,6 +938,8 @@ void xml2brlRegularOahHandler::createNotesRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -984,6 +1016,8 @@ void xml2brlRegularOahHandler::createArticulationsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -1018,6 +1052,8 @@ void xml2brlRegularOahHandler::createOrnamentsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -1054,6 +1090,8 @@ void xml2brlRegularOahHandler::createGraceNotesRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -1090,6 +1128,8 @@ void xml2brlRegularOahHandler::createChordsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -1322,6 +1362,8 @@ void xml2brlRegularOahHandler::createTupletsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -1433,6 +1475,8 @@ void xml2brlRegularOahHandler::createHarmoniesRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -1475,6 +1519,8 @@ void xml2brlRegularOahHandler::createFiguredBassesRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -1511,6 +1557,8 @@ void xml2brlRegularOahHandler::createLyricsRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -1551,6 +1599,8 @@ void xml2brlRegularOahHandler::createOutputRegularGroup ()
         "",
         kElementVisibilityWhole,
         this);
+  group->
+    setGroupHeaderIsToBeWritten (false);
   appendGroupToHandler (group);
 
   // subgroup
@@ -2091,7 +2141,7 @@ void xml2brlRegularOahHandler::checkOptionsAndArguments ()
       potentialOutputFileName =
         baseName (inputSourceName);
 
-      // set '.ly' suffix
+      // set '.brf' suffix
       size_t
         posInString =
           potentialOutputFileName.rfind ('.');
@@ -2100,7 +2150,7 @@ void xml2brlRegularOahHandler::checkOptionsAndArguments ()
         potentialOutputFileName.replace (
           posInString,
           potentialOutputFileName.size () - posInString,
-          ".ly");
+          ".brf");
       }
     }
 
@@ -2368,463 +2418,5 @@ ostream& operator<< (ostream& os, const S_xml2brlRegularOahHandler& elt)
   return os;
 }
 
-/* JMI
-//______________________________________________________________________________
-void xml2brlRegularOahGroup::enforceGroupQuietness ()
-{}
-
-void xml2brlRegularOahGroup::checkGroupOptionsConsistency ()
-{}
-
-void xml2brlRegularOahGroup::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlRegularOahGroup::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlRegularOahGroup>*
-    p =
-      dynamic_cast<visitor<S_xml2brlRegularOahGroup>*> (v)) {
-        S_xml2brlRegularOahGroup elem = this;
-
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching xml2brlRegularOahGroup::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void xml2brlRegularOahGroup::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlRegularOahGroup::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_xml2brlRegularOahGroup>*
-    p =
-      dynamic_cast<visitor<S_xml2brlRegularOahGroup>*> (v)) {
-        S_xml2brlRegularOahGroup elem = this;
-
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching xml2brlRegularOahGroup::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void xml2brlRegularOahGroup::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> xml2brlRegularOahGroup::browseData ()" <<
-      endl;
-  }
-#endif
-
-  oahGroup::browseData (v);
-}
-
-//_______________________________________________________________________________
-// JMI S_xml2brlRegularOahGroup gGlobalXml2brlRegularOahGroup;
-
-S_xml2brlRegularOahGroup xml2brlRegularOahGroup::create (
-  S_oahHandler handlerUpLink)
-{
-  xml2brlRegularOahGroup* o = new xml2brlRegularOahGroup (
-    handlerUpLink);
-  assert(o!=0);
-
-  return o;
-}
-
-xml2brlRegularOahGroup::xml2brlRegularOahGroup (
-  S_oahHandler handlerUpLink)
-  : oahGroup (
-    "xml2brl",
-    "hxl", "help-xml2brl",
-R"(Options that are used by xml2brl are grouped here.)",
-    kElementVisibilityWhole,
-    handlerUpLink)
-{
-  // append this options group to the options handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      prependGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeXml2brlRegularOahGroup ();
-}
-
-xml2brlRegularOahGroup::~xml2brlRegularOahGroup ()
-{}
-
-void xml2brlRegularOahGroup::initializeXml2brlRegularOahGroup ()
-{
-  // version
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "Version",
-          "hxv", "help-xml2brl-version",
-R"()",
-        kElementVisibilityWhole,
-        this);
-
-    appendSubGroupToGroup (subGroup);
-
-    // version
-
-    subGroup->
-      appendAtomToSubGroup (
-        xml2brlVersionOahAtom::create (
-          "v", "version",
-R"(Display xml2brl's version number and history.)"));
-  }
-
-  // OAH view
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "OAH view",
-          "ov", "help-oah-view",
-R"()",
-        kElementVisibilityWhole,
-        this);
-
-    appendSubGroupToGroup (subGroup);
-
-    // the 'insider' option
-
-    subGroup->
-      appendAtomToSubGroup (
-        xml2brlInsiderOahAtom::create (
-          "insider", "",
-R"(Use the 'insider' view for the options and help,
-in which the options are grouped as they are used by the various
-internal representations and translation passes.
-This unleashes the full set of display and trace options.)"));
-
-    // the 'regular' option
-
-    subGroup->
-      appendAtomToSubGroup (
-        xml2brlRegularOahAtom::create (
-          "regular", "",
-R"(Use the 'regular' view for the options and help,
-in which the options are grouped by topics
-such a slurs, tuplets and figured bass.
-This is the default.)"));
-  }
-
-  // about
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "About",
-          "hxa", "help-xml2brl-about",
-R"()",
-        kElementVisibilityWhole,
-        this);
-
-    appendSubGroupToGroup (subGroup);
-
-    // about
-
-    subGroup->
-      appendAtomToSubGroup (
-        xml2brlAboutOahAtom::create (
-          "a", "about",
-R"(Display information about xml2brl.)"));
-  }
-
-  // contact
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "Contact",
-          "hxc", "help-xml2brl-contact",
-R"()",
-        kElementVisibilityWhole,
-        this);
-
-    appendSubGroupToGroup (subGroup);
-
-    // contact
-
-    subGroup->
-      appendAtomToSubGroup (
-        xml2brlContactOahAtom::create (
-          "c", "contact",
-R"(Display information about how to contacct xml2brl maintainers.)"));
-  }
-
-  // output file
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "Output file",
-          "hxof", "help-xml2brl-output-file",
-R"()",
-        kElementVisibilityWhole,
-        this);
-
-    appendSubGroupToGroup (subGroup);
-
-    // output filename
-
-    fOutputFileNameStringAtom =
-      oahStringAtom::create (
-        "o", "output-file-name",
-R"(Write LilyPond code to file FILENAME instead of standard output.)",
-        "FILENAME",
-        "lilyPondOutputFileName",
-        fLilyPondOutputFileName);
-
-    subGroup->
-      appendAtomToSubGroup (
-        fOutputFileNameStringAtom);
-
-    // auto output filename
-
-    fAutoOutputFileName = false;
-
-    fAutoOutputFileNameAtom =
-      oahBooleanAtom::create (
-        "aofn", "auto-output-file-name",
-R"(This option can only be used when reading from a file.
-Write LilyPond code to a file in the current working directory.
-The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'ly'
-or adding '.ly' if none is present.)",
-        "autoOutputFileName",
-        fAutoOutputFileName);
-
-    subGroup->
-      appendAtomToSubGroup (
-        fAutoOutputFileNameAtom);
-  }
-
-  // loop back to MusicXML
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "Loop",
-          "hxml2brllo", "help-xml2brl-loopback-options",
-  R"()",
-          kElementVisibilityWhole,
-          this);
-
-    appendSubGroupToGroup (subGroup);
-
-    // loop
-
-    fLoopBackToMusicXML = false;
-
-    S_oahBooleanAtom
-      loopOptionsBooleanAtom =
-        oahBooleanAtom::create (
-          "loop", "loop-back-to-musicxml",
-  R"(Close the loop, generating a MusicXML file from the MSR.
-  The file name receives a '_LOOP.xml' suffix.
-  This is equivalent to using xml2xml)",
-          "loopBackToMusicXML",
-          fLoopBackToMusicXML);
-    // make this atom imvisible
-    loopOptionsBooleanAtom->
-      setElementVisibilityKind (
-        kElementVisibilityNone);
-
-    subGroup->
-      appendAtomToSubGroup (
-        loopOptionsBooleanAtom);
-  }
-
-  // exit after some passes
-  // --------------------------------------
-
-  {
-    S_oahSubGroup
-      subGroup =
-        oahSubGroup::create (
-          "Exit after some passes",
-          "hmexit", "help-msr-exit",
-  R"()",
-        kElementVisibilityWhole,
-        this);
-
-    appendSubGroupToGroup (subGroup);
-
-    // exit after pass 2a
-
-    fExit2a = false;
-
-    S_oahBooleanAtom
-      exit2aOahBooleanAtom =
-        oahBooleanAtom::create (
-          "e2a", "exit-2a",
-  R"(Exit after pass 2a, i.e. after conversion
-  of the MusicXML tree to an MSR skeleton.)",
-          "exit2a",
-          fExit2a);
-
-    subGroup->
-      appendAtomToSubGroup (
-        exit2aOahBooleanAtom);
-
-    // exit after pass 2b
-
-    fExit2b = false;
-
-    S_oahBooleanAtom
-      exit2bOahBooleanAtom =
-        oahBooleanAtom::create (
-          "e2b", "exit-2b",
-  R"(Exit after pass 2b, i.e. after conversion
-  of the MusicXML tree to MSR.)",
-          "exit2b",
-          fExit2b);
-
-    subGroup->
-      appendAtomToSubGroup (
-        exit2bOahBooleanAtom);
-  }
-}
-
-//______________________________________________________________________________
-void xml2brlRegularOahGroup::printXml2brlRegularOahGroupValues (int fieldWidth)
-{
-  gLogOstream <<
-    "The xml2brl options are:" <<
-    endl;
-
-  gIndenter++;
-
-  // output file
-  // --------------------------------------
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "Output file:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "lilyPondOutputFileName" << " : \"" <<
-    fLilyPondOutputFileName <<
-    "\"" <<
-    endl <<
-    setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
-    booleanAsString (fAutoOutputFileName) <<
-    "\"" <<
-    endl;
-
-  gIndenter--;
-
-  // loop back to MusicXML
-  // --------------------------------------
-
-  gLogOstream <<
-    "Loop:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "loopToMusicXML" << " : " <<
-    booleanAsString (fLoopBackToMusicXML) <<
-    endl;
-
-  gIndenter--;
-
-  // exit after some passes
-  // --------------------------------------
-
-  gLogOstream <<
-    "Exit after some passes:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (fieldWidth) << "exit2a" << " : " <<
-    booleanAsString (fExit2a) <<
-    endl <<
-    setw (fieldWidth) << "exit2b" << " : " <<
-    booleanAsString (fExit2b) <<
-    endl;
-
-  gIndenter--;
-
-  gIndenter--;
-}
-
-//______________________________________________________________________________
-void initializeXml2brlRegularOahHandling (
-  S_oahHandler handler)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing xml2brl options handling" <<
-      endl;
-  }
-#endif
-
-  // enlist versions information
-  // ------------------------------------------------------
-
-  enlistVersion (
-    "Initial", "early 2016",
-    "Start as xml2lilypond, a clone of xml2guido");
-
-  enlistVersion (
-    musicxml2lilypondVersionStr (), "October 2018",
-    "First draft version");
-
-  // create the options variables
-  // ------------------------------------------------------
-
-  gGlobalXml2brlRegularOahGroup = xml2brlRegularOahGroup::create (
-    handler);
-  assert (gGlobalXml2brlRegularOahGroup != 0);
-}
-*/
 
 }

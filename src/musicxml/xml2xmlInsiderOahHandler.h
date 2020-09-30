@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___xml2xmlOahGroup___
-#define ___xml2xmlOahGroup___
+#ifndef ___xml2xmlInsiderOahGroup___
+#define ___xml2xmlInsiderOahGroup___
 
 #include "oahBasicTypes.h"
 
@@ -101,11 +101,11 @@ typedef SMARTP<xml2xmlInsiderOahHandler> S_xml2xmlInsiderOahHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2xmlInsiderOahHandler& elt);
 
 //______________________________________________________________________________
-class xml2xmlOahGroup : public oahGroup
+class xml2xmlInsiderOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<xml2xmlOahGroup> create (
+    static SMARTP<xml2xmlInsiderOahGroup> create (
       S_oahHandler handlerUpLink);
 
   public:
@@ -113,17 +113,17 @@ class xml2xmlOahGroup : public oahGroup
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeXml2xmlOahGroup ();
+    void                  initializeXml2xmlInsiderOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2xmlOahGroup (
+    xml2xmlInsiderOahGroup (
       S_oahHandler handlerUpLink);
 
-    virtual ~xml2xmlOahGroup ();
+    virtual ~xml2xmlInsiderOahGroup ();
 
   public:
 
@@ -159,9 +159,9 @@ class xml2xmlOahGroup : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printXml2xmlOahGroupHelp ();
+    void                  printXml2xmlInsiderOahGroupHelp ();
 
-    void                  printXml2xmlOahGroupValues (int fieldWidth);
+    void                  printXml2xmlInsiderOahGroupValues (int fieldWidth);
 
   public:
 
@@ -186,10 +186,10 @@ class xml2xmlOahGroup : public oahGroup
 
     string                fMusicXMLOutputFileName;
 };
-typedef SMARTP<xml2xmlOahGroup> S_xml2xmlOahGroup;
-EXP ostream& operator<< (ostream& os, const S_xml2xmlOahGroup& elt);
+typedef SMARTP<xml2xmlInsiderOahGroup> S_xml2xmlInsiderOahGroup;
+EXP ostream& operator<< (ostream& os, const S_xml2xmlInsiderOahGroup& elt);
 
-EXP extern S_xml2xmlOahGroup gGlobalXml2xmlOahGroup;
+EXP extern S_xml2xmlInsiderOahGroup gGlobalXml2xmlOahGroup;
 
 //______________________________________________________________________________
 void initializeXml2xmlInsiderOahHandling (

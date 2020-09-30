@@ -45,11 +45,13 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
   // the BSR score we're visiting
   fVisitedBsrScore = bsrScore;
 
+/* JMI
   // set generation to ASCII braille by default
   // should not be necessary JMI ???
   fBrailleGenerator =
     bsrAsciiBrailleGenerator::create (
       brailleCodeOutputStream);
+*/
 
   switch (gGlobalBsr2BrailleOah->fBrailleOutputKind) {
     case kBrailleOutputAscii:

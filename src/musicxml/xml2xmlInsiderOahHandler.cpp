@@ -718,18 +718,18 @@ void xml2xmlInsiderOahHandler::enforceHandlerQuietness ()
 }
 
 //______________________________________________________________________________
-void xml2xmlOahGroup::enforceGroupQuietness ()
+void xml2xmlInsiderOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void xml2xmlOahGroup::checkGroupOptionsConsistency ()
+void xml2xmlInsiderOahGroup::checkGroupOptionsConsistency ()
 {
 /* JMI
   if (! fMusicXMLOutputFileName.size ()) { // JMI
     stringstream s;
 
     s <<
-      "xml2xmlOahGroup: a MusicXML output file name must be chosen with '-o, -output-file-name";
+      "xml2xmlInsiderOahGroup: a MusicXML output file name must be chosen with '-o, -output-file-name";
 
     oahError (s.str ());
   }
@@ -806,19 +806,19 @@ ostream& operator<< (ostream& os, const S_xml2xmlInsiderOahHandler& elt)
 }
 
 //_______________________________________________________________________________
-S_xml2xmlOahGroup gGlobalXml2xmlOahGroup;
+S_xml2xmlInsiderOahGroup gGlobalXml2xmlOahGroup;
 
-S_xml2xmlOahGroup xml2xmlOahGroup::create (
+S_xml2xmlInsiderOahGroup xml2xmlInsiderOahGroup::create (
   S_oahHandler handlerUpLink)
 {
-  xml2xmlOahGroup* o = new xml2xmlOahGroup (
+  xml2xmlInsiderOahGroup* o = new xml2xmlInsiderOahGroup (
     handlerUpLink);
   assert(o!=0);
 
   return o;
 }
 
-xml2xmlOahGroup::xml2xmlOahGroup (
+xml2xmlInsiderOahGroup::xml2xmlInsiderOahGroup (
   S_oahHandler handlerUpLink)
   : oahGroup (
     "xml2xml",
@@ -835,13 +835,13 @@ R"(Options that are used by xml2xml are grouped here.)",
   }
 
   // initialize it
-  initializeXml2xmlOahGroup ();
+  initializeXml2xmlInsiderOahGroup ();
 }
 
-xml2xmlOahGroup::~xml2xmlOahGroup ()
+xml2xmlInsiderOahGroup::~xml2xmlInsiderOahGroup ()
 {}
 
-void xml2xmlOahGroup::initializeXml2xmlOahGroup ()
+void xml2xmlInsiderOahGroup::initializeXml2xmlInsiderOahGroup ()
 {
   // version
   // --------------------------------------
@@ -1056,7 +1056,7 @@ or adding '.xml' if none is present.)",
 }
 
 //______________________________________________________________________________
-void xml2xmlOahGroup::printXml2xmlOahGroupValues (int fieldWidth)
+void xml2xmlInsiderOahGroup::printXml2xmlInsiderOahGroupValues (int fieldWidth)
 {
   gLogOstream <<
     "The xml2xml options are:" <<
@@ -1130,7 +1130,7 @@ void initializeXml2xmlInsiderOahHandling (
     // create the options groups
     // ------------------------------------------------------
 
-    gGlobalXml2xmlOahGroup = xml2xmlOahGroup::create (
+    gGlobalXml2xmlOahGroup = xml2xmlInsiderOahGroup::create (
       handler);
     assert (gGlobalXml2xmlOahGroup != 0);
   }

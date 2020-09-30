@@ -383,7 +383,7 @@ class bsr2BrailleOah : public oahGroup
 
     // braille music file name
 
-    bool                  fDontUseEncodingInFileName;
+    bool                  fUseEncodingInFileName;
 
     // page parameters
 

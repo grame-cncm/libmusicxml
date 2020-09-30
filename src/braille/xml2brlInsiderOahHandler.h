@@ -170,9 +170,9 @@ class xml2brlInsiderOahGroup : public oahGroup
     // print
     // ------------------------------------------------------
 
-    void                  printXml2brlOahHelp ();
+    void                  printXml2brlInsiderOahGroupHelp ();
 
-    void                  printXml2brlOahValues (int fieldWidth);
+    void                  printXml2brlInsiderOahGroupValues (int fieldWidth);
 
   public:
 

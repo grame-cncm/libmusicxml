@@ -10669,7 +10669,7 @@ void oahHandler::printOptionNameIntrospectiveHelp (
       stringstream s;
 
       s <<
-        "option name '" << name << "' is unknown to OAH handler '" <<
+        "option name \"" << name << "\" is unknown to OAH handler '" <<
         fHandlerHeader <<
         "', cannot deliver specific help";
 
@@ -13395,7 +13395,7 @@ void oahHandler::handleOptionNameAndValue (
     if (gGlobalTraceOahGroup->getTraceOah ()) {
       gOutputOstream <<
         endl <<
-        "==> oahHandler::handleOptionNameAndValue (), name = \"" <<
+        "==> oahHandler::handleOptionNameAndValue (), option name = \"" <<
         name <<
         "\" is unknown to OAH handler '" <<
         fHandlerHeader << "'" <<
@@ -13438,9 +13438,7 @@ void oahHandler::handleOptionNameAndValue (
 
       s <<
         "oahHandler::handleOptionNameAndValue(): " << // JMI
-        "option name '" <<
-        name <<
-        "' is unknown to OAH handler '" <<
+        "option name \"" << name << "\" is unknown to OAH handler '" <<
         fHandlerHeader << "'";
 
 // JMI      oahError (s.str ());

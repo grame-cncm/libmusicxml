@@ -157,7 +157,7 @@ void convertBsrScoreToBrailleText (
       if (gGlobalTraceOahGroup->getTracePasses ()) {
         gLogOstream <<
           endl <<
-          "Braille music will be written to standard output" <<
+          "Braille music will be written to standard output 2" <<
           endl;
       }
 #endif

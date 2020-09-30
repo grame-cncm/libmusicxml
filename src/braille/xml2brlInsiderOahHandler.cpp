@@ -155,6 +155,40 @@ void xml2brlInsiderOahHandler::createThePrefixes ()
         "t",
         "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
   appendPrefixToHandler (tPrefix);
+
+  // create and append the display options prefixes
+  S_oahPrefix
+    displayPrefix =
+      oahPrefix::create (
+        "display",
+        "display-",
+        "'-display=abc,yz' is equivalent to '-display-abc, -display-yz'");
+  appendPrefixToHandler (displayPrefix);
+
+  S_oahPrefix
+    dPrefix =
+      oahPrefix::create (
+        "d",
+        "d",
+        "'-d=abc,wxyz' is equivalent to '-dabc, -dwxyz'");
+  appendPrefixToHandler (dPrefix);
+
+  // create and append the omit options prefixes
+  S_oahPrefix
+    omitPrefix =
+      oahPrefix::create (
+        "omit",
+        "omit-",
+        "'-omit=abc,yz' is equivalent to '-omit-abc, -omit-yz'");
+  appendPrefixToHandler (omitPrefix);
+
+  S_oahPrefix
+    oPrefix =
+      oahPrefix::create (
+        "o",
+        "o",
+        "'-o=abc,wxyz' is equivalent to '-oabc, -owxyz'");
+  appendPrefixToHandler (oPrefix);
 }
 
 void xml2brlInsiderOahHandler::initializeXml2brlInsiderOahHandler (
@@ -403,8 +437,8 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
           "");
       }
 
-      // should encoding be used by the file name?
-      if (! gGlobalBsr2BrailleOah->fDontUseEncodingInFileName) {
+      // should encoding be used by the potential file name?
+      if (gGlobalBsr2BrailleOah->fUseEncodingInFileName) {
         switch (gGlobalBsr2BrailleOah->fBrailleOutputKind) {
           case kBrailleOutputAscii:
             potentialOutputFileName += "_ASCII";
@@ -450,7 +484,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
         } // switch
       }
 
-      // append the file extension
+      // append the file extension to the potential file name
       switch (gGlobalBsr2BrailleOah->fBrailleOutputKind) {
         case kBrailleOutputAscii:
          potentialOutputFileName += ".brf";
@@ -459,7 +493,7 @@ void xml2brlInsiderOahHandler::checkOptionsAndArguments ()
         case kBrailleOutputUTF8:
         case kBrailleOutputUTF8Debug:
         case kBrailleOutputUTF16:
-          potentialOutputFileName += ".txt";
+          potentialOutputFileName += ".brf"; // JMI ??? ".txt";
           break;
       } // switch
     }
@@ -915,8 +949,8 @@ R"(Write Braille music to file FILENAME instead of standard output.)",
 R"(This option can only be used when reading from a file.
 Write Braille music to a file in the current working directory.
 The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'brl'
-or adding '.brl' if none is present.)",
+replacing any suffix after the the '.' by 'brf'
+or adding '.brf' if none is present.)",
         "autoOutputFileName",
         fAutoOutputFileName);
 
@@ -977,7 +1011,7 @@ or adding '.brl' if none is present.)",
 }
 
 //______________________________________________________________________________
-void xml2brlInsiderOahGroup::printXml2brlOahValues (int fieldWidth)
+void xml2brlInsiderOahGroup::printXml2brlInsiderOahGroupValues (int fieldWidth)
 {
   gLogOstream <<
     "The xml2brl options are:" <<
