@@ -64,7 +64,6 @@ namespace MusicXML2
         fCurrentDivision = 1;
         fCurrentOffset = 0;
         fPendingPops = 0;
-        fMeasNum = 0;
         fLyricsManualSpacing = false;
         fTextTagOpen = 0;
         fIgnoreWedgeWithOffset = false;
@@ -237,7 +236,7 @@ bool xmlpart2guido::checkMeasureRange() {
     void xmlpart2guido::visitStart ( S_forward& elt )
     {
         bool scanElement = (elt->getIntValue(k_voice, 0) == fTargetVoice)
-        && (elt->getIntValue(k_staff, 0) == fTargetStaff);
+        && (elt->getIntValue(k_staff, 1) == fTargetStaff);
         int duration = elt->getIntValue(k_duration, 0);
         moveMeasureTime(duration, scanElement);
         if (!scanElement) return;
@@ -434,7 +433,7 @@ bool xmlpart2guido::checkMeasureRange() {
     void xmlpart2guido::visitStart ( S_direction& elt )
     {
         // Parse Staff and Offset first
-        if (fNotesOnly || (elt->getIntValue(k_staff, 0) != fTargetStaff)) {
+        if (fNotesOnly || (elt->getIntValue(k_staff, 1) != fTargetStaff)) {
             fSkipDirection = true;
         }
         else {
@@ -1506,12 +1505,26 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
     //cerr<< "\tSearching Slur Closing for line:"<<elt->getInputLineNumber() <<" with number "<<internalXMLSlurNumber<< " on Measure:"<<fMeasNum<< " on voice:"<<fTargetVoice<<endl;
     ctree<xmlelement>::iterator nextnote = find(fCurrentPart->begin(), fCurrentPart->end(), elt);
     if (nextnote != fCurrentPart->end()) {
-        nextnote++;    // advance one step
+        nextnote.forward_up();    // advance one step
     }
     
-    // The first occurence of a slur STOP with the same NUMBER attribute should be considered as the target. Do not go beyond.
+    // Stop Conditions: (1) The first occurence of a slur STOP with the same NUMBER attribute should be considered as the target.
+    //  (2) If the measureNumber goes beyond current measure + 10 (this will greatly enhance speed!!). We can assume that slurs do not go beyond 10 measures in regular scores!
+    // Do not go beyond.
     
-    while (nextnote != fCurrentPart->end()) {
+    int seachMeasureNum = fMeasNum;
+    
+    while ((nextnote != fCurrentPart->end()) && (seachMeasureNum <= fMeasNum + 10)) {
+        // Check measure
+        if (nextnote->getType() == k_measure) {
+            std::string measNum = nextnote->getAttributeValue("number");
+            try {
+                seachMeasureNum = std::stoi(measNum);
+            } catch(...) {
+                seachMeasureNum++;
+            }
+        }
+        
         // looking for the next note on the target voice
         if ((nextnote->getType() == k_note)) {
             int thisNoteVoice = nextnote->getIntValue(k_voice,0);
@@ -1534,7 +1547,7 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                         (iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)
                         ) {
                         if (thisNoteVoice == fTargetVoice) {
-                            //cerr<< "\t\t FOUND Slur stop line:"<< iterSlur->getInputLineNumber()<< " voice:"<<thisNoteVoice<<" number:"<<iterSlur->getAttributeIntValue("number", 0)<<endl;
+                            //cerr<< "\t\t\t FOUND Slur stop line:"<< iterSlur->getInputLineNumber()<< " voice:"<<thisNoteVoice<<" number:"<<iterSlur->getAttributeIntValue("number", 0)<<endl;
 
                             return true;
                         }else {
@@ -1544,7 +1557,7 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                 }
             }
         }
-        nextnote++;
+        nextnote.forward_up();
     }
     
     return false;
