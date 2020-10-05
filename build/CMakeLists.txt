@@ -64,11 +64,12 @@ if(APPLE)
 	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "arm64") # unsupported on iOS 11.4.0: armv7 armv7s
+		set (CMAKE_OSX_ARCHITECTURES "arm64 x86_64") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
-		set (CMAKE_OSX_DEPLOYMENT_TARGET "12.3")
-		set (libtype STATIC)
-		set (FMWK "false")
+		set(IOS_DEPLOYMENT_TARGET 13.0) 
+		#set (libtype STATIC)
+		set (FMWK "true")
+		set (CMAKE_MACOSX_RPATH 1)
 	elseif( UNIVERSAL )
 		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
 		set (CMAKE_OSX_ARCHITECTURES "x86_64")
@@ -114,6 +115,11 @@ endif()
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 
+#"${SRCDIR}/elements/*H" "${SRCDIR}/visitors/visitable.h" "${SRCDIR}/visitors/basevisitor.h" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/xml2guidovisitor.h"
+#file (GLOB PRIVATEH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${SRCDIR}/*H")
+#file (GLOB PRIVATEH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${SRCDIR}/elements/*H" "${SRCDIR}/visitors/visitable.h" "${SRCDIR}/visitors/basevisitor.h" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/xml2guidovisitor.h")
+
+
 foreach(folder ${SRCFOLDERS})
   set(INCL ${INCL} "${SRCDIR}/${folder}")        # add include folders
 endforeach(folder)
@@ -133,12 +139,12 @@ else()
   set(LIBCONTENT ${CORESRC} ${COREH})
 endif()
 
-set(target musicxml2)
+set(target libmusicxml)
 set(staticlib musicxml2static)
 
 if (NOT IOS)
-add_library(${target} SHARED ${LIBCONTENT})
-set_target_properties (${target} PROPERTIES
+	add_library(${target} SHARED ${LIBCONTENT})
+	set_target_properties (${target} PROPERTIES
 			VERSION ${VERSION}
 			SOVERSION ${SOVERS}
 			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
@@ -146,12 +152,41 @@ set_target_properties (${target} PROPERTIES
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
 			PUBLIC_HEADER "${COREH}"
+			PRIVATE_HEADER "${PRIVATEH}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
+elseif(IOS)
+	add_library(${target} SHARED ${LIBCONTENT})
+	set_target_properties (${target} PROPERTIES
+			VERSION ${VERSION}
+			SOVERSION ${SOVERS}
+			FRAMEWORK ${FMWK}
+	  		FRAMEWORK_VERSION C
+			OUTPUT_NAME libmusicxml
+			RUNTIME_OUTPUT_DIRECTORY  ${LIBDIR}
+			RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
+			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
+			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
+			XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_DEPLOYMENT_TARGET}
+			PUBLIC_HEADER "${COREH}" 	
+			PRIVATE_HEADER "${PRIVATEH}"	
+			MACOSX_FRAMEWORK_IDENTIFIER "com.grame.libmusicxml"
+			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
+			MACOSX_FRAMEWORK_BUNDLE_VERSION ${VERSION}
+			INSTALL_NAME_DIR "$(LOCAL_LIBRARY_DIR)/Frameworks"
+   			BUILD_WITH_INSTALL_NAME_DIR YES
+			#XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@executable_path/Frameworks"
+			XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH YES 
+			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
+			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO" 
+			XCODE_ATTRIBUTE_DEFINES_MODULE YES
+		)
 endif()
 
-if (NOT WIN32)
+if (NOT WIN32) #AND NOT IOS
 add_library(${staticlib} STATIC ${LIBCONTENT})
 set_target_properties (${staticlib} PROPERTIES
 			VERSION ${VERSION}
@@ -171,7 +206,9 @@ if (FMWK AND APPLE AND NOT IOS)
 set_target_properties (${target} PROPERTIES
       OUTPUT_NAME libmusicxml2
       FRAMEWORK ${FMWK}
-      FRAMEWORK_VERSION ${VERSION}
+	  FRAMEWORK_VERSION C
+	  MACOSX_FRAMEWORK_IDENTIFIER "com.grame.libmusicxml"
+	  XCODE_ATTRIBUTE_DEFINES_MODULE YES
       MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
       MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
       MACOSX_FRAMEWORK_IDENTIFIER ${target}
@@ -229,6 +266,16 @@ else ()
   set (BINDEST bin)
 endif ()
 
+if (IOS)
+	install ( TARGETS ${INSTALLED}
+		RUNTIME DESTINATION ${BINDEST} 
+	    LIBRARY DESTINATION ${LIBDEST} 
+	    ARCHIVE DESTINATION ${LIBDEST} 
+	    FRAMEWORK DESTINATION lib CONFIGURATIONS Release
+	    PUBLIC_HEADER DESTINATION include/libmusicxml
+#	    PRIVATE_HEADER DESTINATION PrivateHeaders
+	)
+endif()
 
 if (NOT IOS)
 message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
