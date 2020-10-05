@@ -113,12 +113,7 @@ if (NOT LILY)
 	set (SRCFOLDERS  ${SRCFOLDERS}  interface)
 endif()
 file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
-file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
-
-#"${SRCDIR}/elements/*H" "${SRCDIR}/visitors/visitable.h" "${SRCDIR}/visitors/basevisitor.h" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/xml2guidovisitor.h"
-#file (GLOB PRIVATEH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${SRCDIR}/*H")
-#file (GLOB PRIVATEH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${SRCDIR}/elements/*H" "${SRCDIR}/visitors/visitable.h" "${SRCDIR}/visitors/basevisitor.h" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/xml2guidovisitor.h")
-
+file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS} "${SRCDIR}/elements/*H" "${SRCDIR}/visitors/*H" "${SRCDIR}/files/*H" "${SRCDIR}/parser/reader.h" "${SRCDIR}/lib/*H" "${SRCDIR}/guido/*H")
 
 foreach(folder ${SRCFOLDERS})
   set(INCL ${INCL} "${SRCDIR}/${folder}")        # add include folders
@@ -152,7 +147,6 @@ if (NOT IOS)
 			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
 			PUBLIC_HEADER "${COREH}"
-			PRIVATE_HEADER "${PRIVATEH}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
@@ -172,7 +166,6 @@ elseif(IOS)
 			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
 			XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${IOS_DEPLOYMENT_TARGET}
 			PUBLIC_HEADER "${COREH}" 	
-			PRIVATE_HEADER "${PRIVATEH}"	
 			MACOSX_FRAMEWORK_IDENTIFIER "com.grame.libmusicxml"
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
 			MACOSX_FRAMEWORK_BUNDLE_VERSION ${VERSION}
