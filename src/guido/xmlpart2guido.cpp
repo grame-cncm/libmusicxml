@@ -596,12 +596,14 @@ bool xmlpart2guido::checkMeasureRange() {
                             std::stringstream wordParameters;
                             std::stringstream parameters;
                             
-                            string font_family = element->getAttributeValue("font-family");
+//                            string font_family = element->getAttributeValue("font-family");
+//                            if (font_family.size())
+//                                parameters << ",font=\""+font_family+"\"";
+                            
                             string font_size = element->getAttributeValue("font-size");
                             string font_weight = element->getAttributeValue("font-weight");
                             string font_style = element->getAttributeValue("font-style");
-                            if (font_family.size())
-                                parameters << ",font=\""+font_family+"\"";
+                            
                             if (font_size.size())
                                 parameters << ",fsize="+font_size+"pt";
                             
