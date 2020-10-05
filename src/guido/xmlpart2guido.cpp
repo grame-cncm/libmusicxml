@@ -59,7 +59,8 @@ namespace MusicXML2
         guidonotestatus::resetall();
         fMeasNum = 0;
         fInCue = fInGrace = fInhibitNextBar = fPendingBar = fDoubleBar
-        = fBeamOpened = fBeamGrouping = fCrescPending = fSkipDirection = fWavyTrillOpened = fSingleScopeTrill = fNonStandardNoteHead = false;
+        = fBeamOpened = fBeamGrouping = fSkipDirection = fWavyTrillOpened = fSingleScopeTrill = fNonStandardNoteHead = false;
+        fCrescPending = fDiminPending = 0;
         fCurrentStemDirection = kStemUndefined;
         fCurrentDivision = 1;
         fCurrentOffset = 0;
@@ -476,6 +477,11 @@ bool xmlpart2guido::checkMeasureRange() {
                 stringstream s;
                 s << "dx=" << markDx ;
                 tag->add (guidoparam::create(s.str(), false));
+            }else {
+                // Add a default -6 as rehearsal marks usually occur in the beginning of measure!
+                stringstream s;
+                s << "dx=" << -6.0 ;
+                tag->add (guidoparam::create(s.str(), false));
             }
             xml2guidovisitor::addPosY(elt, tag, -4, 1);
             
@@ -596,12 +602,14 @@ bool xmlpart2guido::checkMeasureRange() {
                             std::stringstream wordParameters;
                             std::stringstream parameters;
                             
-                            string font_family = element->getAttributeValue("font-family");
+//                            string font_family = element->getAttributeValue("font-family");
+//                            if (font_family.size())
+//                                parameters << ",font=\""+font_family+"\"";
+                            
                             string font_size = element->getAttributeValue("font-size");
                             string font_weight = element->getAttributeValue("font-weight");
                             string font_style = element->getAttributeValue("font-style");
-                            if (font_family.size())
-                                parameters << ",font=\""+font_family+"\"";
+                            
                             if (font_size.size())
                                 parameters << ",fsize="+font_size+"pt";
                             
@@ -845,22 +853,30 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
     if (fSkipDirection) return;
         
     string type = elt->getAttributeValue("type");
+    int number = elt->getAttributeIntValue("number", 1);
     Sguidoelement tag;
     if (type == "crescendo") {
         tag = guidotag::create("crescBegin");
-        fCrescPending = true;
+        fCrescPending = number;
     }
     else if (type == "diminuendo") {
         tag = guidotag::create("dimBegin");
-        fCrescPending = false;
+        fDiminPending = number;
     }
     else if (type == "stop") {
         if (fIgnoreWedgeWithOffset) {
             fIgnoreWedgeWithOffset = false;
             return; // FIXME: Ignore Offset Wedge à la Verovio
         }
-        
-        tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
+                
+        if (fCrescPending == number) {
+            tag = guidotag::create("crescEnd");
+            fCrescPending = 0;
+        }else
+        if (fDiminPending == number) {
+            tag = guidotag::create("dimEnd");
+            fDiminPending = 0;
+        }
     }
     
     if (tag) {
@@ -3005,8 +3021,8 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
         auto timePos4measure = timePositions.find(fMeasNum);
         
         float xpos = default_x + relative_x;
-        
-        if ((xpos!=0)&&(timePos4measure != timePositions.end())) {
+                
+        if ((xpos!=0.0)&&(timePos4measure != timePositions.end())) {
             auto voiceInTimePosition = timePos4measure->second.find(fCurrentVoicePosition);
             if (voiceInTimePosition != timePos4measure->second.end()) {
                 auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
