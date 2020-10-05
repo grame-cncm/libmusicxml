@@ -77,7 +77,9 @@ public visitor<S_attributes>         // to get clef, division, staves, time and 
     bool fGenerateComments, fGenerateBars, fGeneratePositions, fGenerateAutoMeasureNum, fLyricsManualSpacing;
     
     // internal parsing state
-    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fBeamGrouping, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress, fShouldStopOctava;
+    bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fBeamGrouping, fMeasureEmpty, fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar, fTremoloInProgress, fShouldStopOctava;
+    
+    int fCrescPending, fDiminPending;   // XML Number of Crescendo or Diminuedo that have been opened (0 if none)
     
     int fTextTagOpen;
     int fTupletOpen;    // Number of opened Tuplets
