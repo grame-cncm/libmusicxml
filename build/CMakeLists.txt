@@ -64,7 +64,7 @@ if(APPLE)
 	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "arm64 x86_64") # unsupported on iOS 11.4.0: armv7 armv7s
+		#set (CMAKE_OSX_ARCHITECTURES "arm64 x86_64") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
 		set(IOS_DEPLOYMENT_TARGET 13.0) 
 		#set (libtype STATIC)
