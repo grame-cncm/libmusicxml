@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -293,7 +293,9 @@ class msrChord : public msrTupletElement
                             S_msrMeasure measure,
                             rational     positionInMeasure);
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     // notes
@@ -425,7 +427,7 @@ class msrChord : public msrTupletElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // measure upLink
@@ -610,7 +612,7 @@ class msrChordBeamLink : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrChord            fChordUpLink;
@@ -682,7 +684,7 @@ class msrChordSlurLink : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrChord            fChordUpLink;
@@ -754,7 +756,7 @@ class msrChordGraceNotesGroupLink : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrChord            fChordUpLink;

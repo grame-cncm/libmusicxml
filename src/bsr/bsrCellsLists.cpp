@@ -16,6 +16,8 @@
 
 #include "bsrCellsLists.h"
 
+#include "oahOah.h"
+
 #include "bsrOah.h"
 
 
@@ -31,7 +33,7 @@ S_bsrCellsList bsrCellsList::create (
   bsrCellsList* o =
     new bsrCellsList (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -43,7 +45,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -56,7 +58,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -70,7 +72,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -85,7 +87,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -101,7 +103,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4, cellKind5);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -118,7 +120,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4, cellKind5, cellKind6);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -244,6 +246,7 @@ void bsrCellsList::prependCellsListToCellsList (
   }
 }
 
+/* JMI
 void bsrCellsList::generateBrailleCode (ostream& os)
 {
   if (fCellsListElements.size ()) {
@@ -259,12 +262,13 @@ void bsrCellsList::generateBrailleCode (ostream& os)
     } // for
   }
 }
+*/
 
 void bsrCellsList::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrCellsList::acceptIn ()" <<
       endl;
   }
@@ -275,9 +279,9 @@ void bsrCellsList::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
         S_bsrCellsList elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrCellsList::visitStart ()" <<
             endl;
         }
@@ -288,9 +292,9 @@ void bsrCellsList::acceptIn (basevisitor* v)
 
 void bsrCellsList::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrCellsList::acceptOut ()" <<
       endl;
   }
@@ -301,9 +305,9 @@ void bsrCellsList::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
         S_bsrCellsList elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrCellsList::visitEnd ()" <<
             endl;
         }

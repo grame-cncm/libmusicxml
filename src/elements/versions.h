@@ -42,6 +42,9 @@ class EXP versions {
     static float        xml2brailleVersion();
     static const char*  xml2brailleVersionStr();
 
+    static float        xml2xmlVersion();
+    static const char*  xml2xmlVersionStr();
+
     static float        xml2bmmlVersion();
     static const char*  xml2bmmlVersionStr();
 

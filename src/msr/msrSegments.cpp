@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -37,7 +39,7 @@ S_msrSegment msrSegment::create (
     new msrSegment (
       inputLineNumber,
       segmentVoicekUpLink);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -68,9 +70,9 @@ void msrSegment::initializeSegment ()
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
   fSegmentDebugNumber    = ++gSegmentDebugNumber;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Initializing new segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -86,9 +88,9 @@ void msrSegment::initializeSegment ()
 S_msrSegment msrSegment::createSegmentNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Creating a newborn clone of segment " <<
       asString () <<
       endl;
@@ -118,9 +120,9 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
 S_msrSegment msrSegment::createSegmentDeepCopy (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Creating a deep copy of segment " <<
       asString () <<
       endl;
@@ -149,9 +151,9 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
    fSegmentMeasuresList.size () ;
 
   if (numberOfSegmentMeasures) {
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceVoices) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceVoices ()) {
+      gLogStream <<
         "There are " <<
         numberOfSegmentMeasures <<
         " measures in segment to be deep copied" <<
@@ -173,9 +175,9 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   }
 
   else {
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceSegments) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceSegments ()) {
+      gLogStream <<
         "There are no measures in segment to be deep copied" <<
         endl;
     }
@@ -200,13 +202,13 @@ void msrSegment::assertSegmentMeasuresListIsNotEmpty (
   int inputLineNumber) const
 {
   if (! fSegmentMeasuresList.size ()) {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (
-    gGlobalTraceOahGroup->fTraceMeasures
+    gGlobalTraceOahGroup->getTraceMeasures ()
       ||
-    gGlobalTraceOahGroup->fTraceSegments
+    gGlobalTraceOahGroup->getTraceSegments ()
       ||
-    gGlobalTraceOahGroup->fTraceRepeats
+    gGlobalTraceOahGroup->getTraceRepeats ()
   ) {
     fSegmentVoiceUpLink->
       displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
@@ -215,7 +217,7 @@ void msrSegment::assertSegmentMeasuresListIsNotEmpty (
   }
 #endif
 
-    gLogOstream <<
+    gLogStream <<
       "assertSegmentMeasuresListIsNotEmpty()" <<
       ", segmentMeasuresList is empty" <<
       ", segment: " <<
@@ -238,9 +240,9 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Creating and appending a measure '" << measureNumber <<
       "', to segment '" << asString () <<
       "' in voice \"" <<
@@ -269,9 +271,9 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   }
 
   // create a measure
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Creating measure '" << measureNumber <<
       "' and appending it to segment " << asString () <<
       ", in voice \"" <<
@@ -310,9 +312,9 @@ void msrSegment::setNextMeasureNumberInSegment (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Setting next measure number to '" << nextMeasureNumber <<
       "' in segment '" << asString () <<
       "' in voice \"" <<
@@ -326,9 +328,9 @@ void msrSegment::setNextMeasureNumberInSegment (
   gIndenter++;
 
   if (fSegmentMeasuresList.size ()) { // JMI ???
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceMeasures) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+      gLogStream <<
         "Setting next measure number to '" << nextMeasureNumber <<
         "' in segment '" << asString () <<
         "'s last measure " <<
@@ -351,9 +353,9 @@ void msrSegment::setNextMeasureNumberInSegment (
 void msrSegment::appendPrintLayoutToSegment (
   S_msrPrintLayout printLayout)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePrintLayouts ()) {
+    gLogStream <<
       "Appending print layout '" << printLayout->asString () <<
       "' to segment " << asString () <<
       ", in voice \"" <<
@@ -379,17 +381,17 @@ void msrSegment::appendPrintLayoutToSegment (
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";
 
-    gLogOstream <<
+    gLogStream <<
       "SegmentVoiceUpLink:" <<
       endl;
     gIndenter++;
-    gLogOstream <<
+    gLogStream <<
       fSegmentVoiceUpLink <<
       endl;
     gIndenter--;
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       printLayout->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -404,9 +406,9 @@ void msrSegment::appendPrintLayoutToSegment (
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceClefs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceClefs ()) {
+    gLogStream <<
       "Appending clef '" << clef->asString () <<
       "' to segment " << asString () <<
       ", in voice \"" <<
@@ -432,17 +434,17 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";
 
-    gLogOstream <<
+    gLogStream <<
       "SegmentVoiceUpLink:" <<
       endl;
     gIndenter++;
-    gLogOstream <<
+    gLogStream <<
       fSegmentVoiceUpLink <<
       endl;
     gIndenter--;
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
        clef->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -457,9 +459,9 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
 void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceClefs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceClefs ()) {
+    gLogStream <<
       "Prepending clef '" << clef->asString () <<
       "' to segment " << asString () <<
       ", in voice \"" <<
@@ -485,17 +487,17 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";
 
-    gLogOstream <<
+    gLogStream <<
       "SegmentVoiceUpLink:" <<
       endl;
     gIndenter++;
-    gLogOstream <<
+    gLogStream <<
       fSegmentVoiceUpLink <<
       endl;
     gIndenter--;
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       clef->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -510,9 +512,9 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceKeys) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceKeys ()) {
+    gLogStream <<
       "Appending key " << key->asString () <<
       " to segment " << asString () <<
     ", in voice \"" <<
@@ -537,20 +539,20 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 
 void msrSegment::appendTimeToSegment (S_msrTime time)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
+    gLogStream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    gLogOstream <<
+    gLogStream <<
       time;
 
     gIndenter--;
 
-    gLogOstream <<
+    gLogStream <<
       "to segment " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
@@ -574,20 +576,20 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 
 void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
+    gLogStream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    gLogOstream <<
+    gLogStream <<
       time;
 
     gIndenter--;
 
-    gLogOstream <<
+    gLogStream <<
       "to segment clone " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
@@ -613,9 +615,9 @@ void msrSegment::insertHiddenMeasureAndBarlineInSegmentClone (
   int      inputLineNumber,
   rational positionInMeasure)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDalSegnos || gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDalSegnos () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Inserting hidden measure and barline at position " <<
       positionInMeasure <<
       "to segment clone " << asString () <<
@@ -644,9 +646,9 @@ void msrSegment::insertHiddenMeasureAndBarlineInSegmentClone (
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Appending harmony " <<
       harmony->asString () <<
       " to segment " << asString () <<
@@ -675,9 +677,9 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 
 void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Appending harmony " << harmony->asString () <<
       " to segment clone " << asString () <<
       "' in voice clone \"" <<
@@ -703,9 +705,9 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 void msrSegment::appendFiguredBassToSegment (
   S_msrFiguredBass figuredBass)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Appending figured bass " <<
       figuredBass->asString () <<
       " to segment " << asString () <<
@@ -735,9 +737,9 @@ void msrSegment::appendFiguredBassToSegment (
 void msrSegment::appendFiguredBassToSegmentClone (
   S_msrFiguredBass figuredBass)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Appending figured bass " <<
       figuredBass->asString () <<
       " to segment clone " << asString () <<
@@ -763,9 +765,9 @@ void msrSegment::appendFiguredBassToSegmentClone (
 
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegnos) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegnos ()) {
+    gLogStream <<
       "Appending segno " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -790,9 +792,9 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceCodas) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceCodas ()) {
+    gLogStream <<
       "Appending coda " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -818,9 +820,9 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
 void msrSegment::appendEyeGlassesToSegment (
   S_msrEyeGlasses eyeGlasses)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceEyeGlasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceEyeGlasses ()) {
+    gLogStream <<
       "Appending eyeGlasses " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -845,9 +847,9 @@ void msrSegment::appendEyeGlassesToSegment (
 
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePedals) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePedals ()) {
+    gLogStream <<
       "Appending pedal " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -872,9 +874,9 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 
 void msrSegment::appendDampToSegment (S_msrDamp damp)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDamps) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDamps ()) {
+    gLogStream <<
       "Appending damp " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -899,9 +901,9 @@ void msrSegment::appendDampToSegment (S_msrDamp damp)
 
 void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDampAlls) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDampAlls ()) {
+    gLogStream <<
       "Appending damp all " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -927,9 +929,9 @@ void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
 void msrSegment::appendTransposeToSegment (
   S_msrTranspose transpose)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTranspositions) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTranspositions ()) {
+    gLogStream <<
       "Appending transpose " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -955,9 +957,9 @@ void msrSegment::appendTransposeToSegment (
 void msrSegment::appendPartNameDisplayToSegment (
   S_msrPartNameDisplay partNameDisplay)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Appending part name display " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -983,9 +985,9 @@ void msrSegment::appendPartNameDisplayToSegment (
 void msrSegment::appendPartAbbreviationDisplayToSegment (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Appending part abbreviation display " <<
 
       " to segment " << asString () <<
@@ -1013,16 +1015,16 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
 void msrSegment::appendStaffDetailsToSegment (
   S_msrStaffDetails staffDetails)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     staffDetails->getInputLineNumber ();
 
   if (
-    gGlobalTraceOahGroup->fTraceStaffDetails
+    gGlobalTraceOahGroup->getTraceStaffDetails ()
       ||
-    gGlobalTraceOahGroup->fTraceSegments
+    gGlobalTraceOahGroup->getTraceSegments ()
   ) {
-    gLogOstream <<
+    gLogStream <<
       "Appending staff details '" <<
       staffDetails->asShortString () <<
       "' to segment " << asString () <<
@@ -1033,11 +1035,11 @@ void msrSegment::appendStaffDetailsToSegment (
   }
 #endif
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (
-    gGlobalTraceOahGroup->fTraceStaffDetails
+    gGlobalTraceOahGroup->getTraceStaffDetails ()
       ||
-    gGlobalTraceOahGroup->fTraceSegments
+    gGlobalTraceOahGroup->getTraceSegments ()
   ) {
     fSegmentVoiceUpLink->
       displayVoice (
@@ -1056,11 +1058,11 @@ void msrSegment::appendStaffDetailsToSegment (
   fSegmentMeasuresList.back ()->
     appendStaffDetailsToMeasure (staffDetails);
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (
-    gGlobalTraceOahGroup->fTraceStaffDetails
+    gGlobalTraceOahGroup->getTraceStaffDetails ()
       ||
-    gGlobalTraceOahGroup->fTraceSegments
+    gGlobalTraceOahGroup->getTraceSegments ()
   ) {
     fSegmentVoiceUpLink->
       displayVoice (
@@ -1074,9 +1076,9 @@ void msrSegment::appendStaffDetailsToSegment (
 
 void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLineBreaks) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLineBreaks ()) {
+    gLogStream <<
       "Appending break '" <<
       lineBreak->asShortString () <<
       "' to segment " << asString () <<
@@ -1102,9 +1104,9 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 
 void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePageBreaks) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePageBreaks ()) {
+    gLogStream <<
       "Appending break " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -1130,9 +1132,9 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 void msrSegment::appendBarNumberCheckToSegment (
   S_msrBarNumberCheck barNumberCheck)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceBarNumberChecks) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceBarNumberChecks ()) {
+    gLogStream <<
       "Appending bar number check " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -1158,9 +1160,9 @@ void msrSegment::appendBarNumberCheckToSegment (
 void msrSegment::appendTempoToSegment (
   S_msrTempo tempo)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTempos) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTempos ()) {
+    gLogStream <<
       "Appending tempo " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -1186,9 +1188,9 @@ void msrSegment::appendTempoToSegment (
 void msrSegment::appendRehearsalToSegment (
   S_msrRehearsal rehearsal)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRehearsals) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRehearsals ()) {
+    gLogStream <<
       "Appending rehearsal " <<
       " to segment " << asString () <<
       "' in voice \"" <<
@@ -1214,9 +1216,9 @@ void msrSegment::appendRehearsalToSegment (
 void msrSegment::appendOctaveShiftToSegment (
   S_msrOctaveShift octaveShift)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceOctaveShifts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOctaveShifts ()) {
+    gLogStream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
       "' to segment " << asString () <<
@@ -1243,9 +1245,9 @@ void msrSegment::appendOctaveShiftToSegment (
 void msrSegment::appendScordaturaToSegment (
   S_msrScordatura scordatura)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceScordaturas) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceScordaturas ()) {
+    gLogStream <<
       "Appending scordatura '" <<
   // JMI ???    scordatura->octaveShiftKindAsString () <<
       "' to segment " << asString () <<
@@ -1273,9 +1275,9 @@ void msrSegment::appendAccordionRegistrationToSegment (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
       "' to segment " << asString () <<
@@ -1304,9 +1306,9 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Appending staff pedals tuning '" <<
       harpPedalsTuning->asString () <<
       "' to segment " << asString () <<
@@ -1335,9 +1337,9 @@ void msrSegment::padUpToPositionInMeasureInSegment (
   int      inputLineNumber,
   rational wholeNotes)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Padding up to current whole notes '" << wholeNotes <<
       "' in segment '" <<
       fSegmentAbsoluteNumber <<
@@ -1363,26 +1365,26 @@ void msrSegment::padUpToPositionInMeasureInSegment (
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";
 
-    gLogOstream <<
+    gLogStream <<
       "SegmentVoiceUpLink:" <<
       endl;
     gIndenter++;
-    gLogOstream <<
+    gLogStream <<
       fSegmentVoiceUpLink <<
       endl;
     gIndenter--;
 
-    gLogOstream <<
+    gLogStream <<
       "Part:" <<
       endl;
     gIndenter++;
-    gLogOstream <<
+    gLogStream <<
       fSegmentVoiceUpLink->fetchVoicePartUpLink () <<
       endl;
     gIndenter--;
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1401,13 +1403,13 @@ void msrSegment::backupByWholeNotesStepLengthInSegment (
   int      inputLineNumber,
   rational backupTargetMeasureElementPositionInMeasure)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (
-    gGlobalTraceOahGroup->fTraceSegments
+    gGlobalTraceOahGroup->getTraceSegments ()
       ||
-    gGlobalTraceOahGroup->fTraceMeasures
+    gGlobalTraceOahGroup->getTraceMeasures ()
   ) {
-    gLogOstream <<
+    gLogStream <<
       "Backup by a '" <<
       backupTargetMeasureElementPositionInMeasure <<
       "' whole notes step length in segment '" <<
@@ -1434,9 +1436,9 @@ void msrSegment::appendPaddingNoteToSegment (
   int      inputLineNumber,
   rational forwardStepLength)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
       "Appending padding note" <<
       ", forwardStepLength: " <<
       forwardStepLength <<
@@ -1480,20 +1482,20 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       ? ""
       : fSegmentMeasuresList.back ()->getMeasureElementMeasureNumber ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Appending measure '" << measureNumber <<
       "' to segment " << asString ();
 
     if (fSegmentMeasuresList.size () == 0)
-      gLogOstream <<
+      gLogStream <<
         ", as first measure";
     else
-      gLogOstream <<
+      gLogStream <<
       ", after measure number '" << currentMeasureNumber << "'";
 
-    gLogOstream <<
+    gLogStream <<
       "' in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"" <<
@@ -1512,7 +1514,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       "\"";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1562,24 +1564,24 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
       ? ""
       : fSegmentMeasuresList.back ()->getMeasureElementMeasureNumber ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Prepending measure " << measureNumber <<
       " to segment " << asString ();
 
     if (segmentMeasuresListSize == 0) {
-      gLogOstream <<
+      gLogStream <<
         ", as first measure FOO"; // JMI
     }
 
 /* JMI
     else
-      gLogOstream <<
+      gLogStream <<
       ", after measure number '" << currentMeasureNumber << "'";
 */
 
-    gLogOstream <<
+    gLogStream <<
       " in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"," <<
@@ -1599,7 +1601,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 
     msrInternalError (
 // JMI    msrInternalWarning (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1614,9 +1616,9 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceBarlines) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+    gLogStream <<
       "Prepending barline '" << barline->asString () <<
       "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
@@ -1641,9 +1643,9 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceBarlines) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+    gLogStream <<
       "Appending barline " << barline->asString () <<
       " to segment " << asString () << "'" <<
       " in voice \"" <<
@@ -1668,9 +1670,9 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceBarChecks) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceBarChecks ()) {
+    gLogStream <<
       "Appending bar check '" << barCheck->asString () <<
       "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
@@ -1691,9 +1693,9 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 void msrSegment::appendVoiceStaffChangeToSegment (
   S_msrVoiceStaffChange voiceStaffChange)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceStaffChanges) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceStaffChanges ()) {
+    gLogStream <<
       "Appending voice staff change '" <<
       voiceStaffChange->asString () <<
       "' to segment \"" << asString () << "\"" <<
@@ -1719,8 +1721,8 @@ void msrSegment::appendNoteToSegment (
   S_msrNote note,
   rational  partCurrentPositionInMeasure)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotes) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
     if (! fSegmentMeasuresList.size ()) { // JMI
       displaySegment (
         note->getInputLineNumber (),
@@ -1748,9 +1750,9 @@ void msrSegment::appendNoteToSegmentClone (S_msrNote note)
 void msrSegment::appendDoubleTremoloToSegment ( // JMI
   S_msrDoubleTremolo doubleTremolo)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTremolos) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTremolos ()) {
+    gLogStream <<
       "Appending double tremolo " <<
       doubleTremolo->asShortString () <<
       " to segment '" << asString () << "'" <<
@@ -1887,9 +1889,9 @@ void msrSegment::removeNoteFromSegment (
   int       inputLineNumber,
   S_msrNote note)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
       "Removing note '" <<
       note->asString () <<
       "'from segment '" <<
@@ -1920,7 +1922,7 @@ void msrSegment::removeNoteFromSegment (
       " since it is empty";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1933,9 +1935,9 @@ void msrSegment::removeElementFromSegment (
   int          inputLineNumber,
   S_msrElement element)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Removing element '" <<
       element->asString () <<
       "'from segment '" <<
@@ -1964,7 +1966,7 @@ void msrSegment::removeElementFromSegment (
       " since it is empty";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1975,9 +1977,9 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
   int    inputLineNumber,
   string context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Fetching last measure from segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -2002,7 +2004,7 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
       "' since it is empty";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2012,16 +2014,16 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
     result =
       fSegmentMeasuresList.back ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       endl <<
       "The fetched measure contains:" <<
       endl;
 
     gIndenter++;
 
-    gLogOstream <<
+    gLogStream <<
       result <<
       endl;
 
@@ -2036,9 +2038,9 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   int    inputLineNumber,
   string context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Removing last measure from segment '" <<
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
@@ -2049,8 +2051,8 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   }
 #endif
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasuresDetails) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
     fSegmentVoiceUpLink->
       displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
         inputLineNumber,
@@ -2072,7 +2074,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       "' since it is empty";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2082,16 +2084,16 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     result =
       fSegmentMeasuresList.back ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       endl <<
       "The removed measure contains:" <<
       endl;
 
     gIndenter++;
 
-    gLogOstream <<
+    gLogStream <<
       result <<
       endl;
 
@@ -2101,8 +2103,8 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
 
   fSegmentMeasuresList.pop_back ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasuresDetails) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
     fSegmentVoiceUpLink->
       displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
         inputLineNumber,
@@ -2115,8 +2117,8 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
 
 void msrSegment::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSegment::acceptIn ()" <<
       endl;
   }
@@ -2126,8 +2128,8 @@ void msrSegment::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSegment::visitStart ()" <<
             endl;
         }
@@ -2137,8 +2139,8 @@ void msrSegment::acceptIn (basevisitor* v)
 
 void msrSegment::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSegment::acceptOut ()" <<
       endl;
   }
@@ -2148,8 +2150,8 @@ void msrSegment::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSegment::visitEnd ()" <<
             endl;
         }
@@ -2159,14 +2161,14 @@ void msrSegment::acceptOut (basevisitor* v)
 
 void msrSegment::browseData (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSegment::browseData ()" <<
       endl;
   }
 
 /* JMI
-  gLogOstream <<
+  gLogStream <<
     gTab <<
     "==========>>> " <<
     fSegmentMeasuresList.size () << " measures" << endl;
@@ -2182,8 +2184,8 @@ void msrSegment::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% <== msrSegment::browseData ()" <<
       endl;
   }
@@ -2255,7 +2257,7 @@ void msrSegment::displaySegment (
   int    inputLineNumber,
   string context)
 {
-  gLogOstream <<
+  gLogStream <<
     endl <<
     "*********>> Segment '" <<
     fSegmentAbsoluteNumber <<
@@ -2279,11 +2281,11 @@ void msrSegment::displaySegment (
     endl;
 
   gIndenter++;
-  print (gLogOstream);
+  print (gLogStream);
   gIndenter--;
 
-  gLogOstream <<
-    "<<*********" <<
+  gLogStream <<
+    " <<*********" <<
     endl <<
     endl;
 }

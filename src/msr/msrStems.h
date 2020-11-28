@@ -62,7 +62,9 @@ class msrStem : public msrElement
     msrStemKind           getStemKind () const
                               { return fStemKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -86,7 +88,7 @@ class msrStem : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrStemKind           fStemKind;

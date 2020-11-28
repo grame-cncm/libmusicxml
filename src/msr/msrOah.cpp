@@ -18,13 +18,13 @@
 
 #include "utilities.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
+#include "generalOah.h"
 #include "msrOah.h"
 
 #include "messagesHandling.h"
@@ -53,7 +53,7 @@ S_msrPitchesLanguageAtom msrPitchesLanguageAtom::create (
       valueSpecification,
       variableName,
       optionsMsrPitchesLanguageKindVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -65,7 +65,7 @@ msrPitchesLanguageAtom::msrPitchesLanguageAtom (
   string             variableName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsMsrPitchesLanguageKindVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -78,29 +78,13 @@ msrPitchesLanguageAtom::msrPitchesLanguageAtom (
 msrPitchesLanguageAtom::~msrPitchesLanguageAtom ()
 {}
 
-S_oahValuedAtom msrPitchesLanguageAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a msrPitchesLanguageAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void msrPitchesLanguageAtom::handleValuedAtomValue (
+void msrPitchesLanguageAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'msrPitchesLanguageAtom'" <<
       endl;
   }
@@ -109,9 +93,9 @@ void msrPitchesLanguageAtom::handleValuedAtomValue (
   // theString contains the language name:
   // is it in the pitches languages map?
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'msrPitchesLanguageAtom'" <<
       endl;
   }
@@ -119,10 +103,10 @@ void msrPitchesLanguageAtom::handleValuedAtomValue (
 
   map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
     it =
-      gQuarterTonesPitchesLanguageKindsMap.find (
+      gGlobalQuarterTonesPitchesLanguageKindsMap.find (
         theString);
 
-  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+  if (it == gGlobalQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map
 
     stringstream s;
@@ -132,7 +116,7 @@ void msrPitchesLanguageAtom::handleValuedAtomValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size () <<
       " known MSR pitches languages are:" <<
       endl;
 
@@ -152,9 +136,9 @@ void msrPitchesLanguageAtom::handleValuedAtomValue (
 
 void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> msrPitchesLanguageAtom::acceptIn ()" <<
       endl;
   }
@@ -165,9 +149,9 @@ void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPitchesLanguageAtom>*> (v)) {
         S_msrPitchesLanguageAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching msrPitchesLanguageAtom::visitStart ()" <<
             endl;
         }
@@ -178,9 +162,9 @@ void msrPitchesLanguageAtom::acceptIn (basevisitor* v)
 
 void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> msrPitchesLanguageAtom::acceptOut ()" <<
       endl;
   }
@@ -191,9 +175,9 @@ void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPitchesLanguageAtom>*> (v)) {
         S_msrPitchesLanguageAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching msrPitchesLanguageAtom::visitEnd ()" <<
             endl;
         }
@@ -204,9 +188,9 @@ void msrPitchesLanguageAtom::acceptOut (basevisitor* v)
 
 void msrPitchesLanguageAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> msrPitchesLanguageAtom::browseData ()" <<
       endl;
   }
@@ -247,7 +231,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -265,7 +249,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void msrPitchesLanguageAtom::printValuedAtomOptionsValues (
+void msrPitchesLanguageAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -307,7 +291,7 @@ S_msrRenamePartAtom msrRenamePartAtom::create (
       valueSpecification,
       variableName,
       stringStringMapVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -318,7 +302,7 @@ msrRenamePartAtom::msrRenamePartAtom (
   string               valueSpecification,
   string               variableName,
   map<string, string>& stringStringMapVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -333,29 +317,13 @@ msrRenamePartAtom::msrRenamePartAtom (
 msrRenamePartAtom::~msrRenamePartAtom ()
 {}
 
-S_oahValuedAtom msrRenamePartAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a msrRenamePartAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void msrRenamePartAtom::handleValuedAtomValue (
+void msrRenamePartAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'msrRenamePartAtom'" <<
       endl;
   }
@@ -364,9 +332,9 @@ void msrRenamePartAtom::handleValuedAtomValue (
   // theString contains the part rename specification
   // decipher it to extract the old and new part names
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'msrRenamePartAtom'" <<
       endl;
   }
@@ -384,9 +352,9 @@ void msrRenamePartAtom::handleValuedAtomValue (
 
   unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "There are " << smSize << " matches" <<
       " for part rename string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -396,13 +364,13 @@ void msrRenamePartAtom::handleValuedAtomValue (
 #endif
 
   if (smSize == 3) {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
-        os <<
+        gLogStream <<
           "[" << sm [i] << "] ";
       } // for
-      os << endl;
+      gLogStream << endl;
     }
 #endif
   }
@@ -421,9 +389,9 @@ void msrRenamePartAtom::handleValuedAtomValue (
     oldPartName = sm [1],
     newPartName = sm [2];
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "--> oldPartName = \"" << oldPartName << "\", " <<
       "--> newPartName = \"" << newPartName << "\"" <<
       endl;
@@ -453,9 +421,9 @@ void msrRenamePartAtom::handleValuedAtomValue (
 
 void msrRenamePartAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> msrRenamePartAtom::acceptIn ()" <<
       endl;
   }
@@ -466,9 +434,9 @@ void msrRenamePartAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRenamePartAtom>*> (v)) {
         S_msrRenamePartAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching msrRenamePartAtom::visitStart ()" <<
             endl;
         }
@@ -479,9 +447,9 @@ void msrRenamePartAtom::acceptIn (basevisitor* v)
 
 void msrRenamePartAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> msrRenamePartAtom::acceptOut ()" <<
       endl;
   }
@@ -492,9 +460,9 @@ void msrRenamePartAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRenamePartAtom>*> (v)) {
         S_msrRenamePartAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching msrRenamePartAtom::visitEnd ()" <<
             endl;
         }
@@ -505,9 +473,9 @@ void msrRenamePartAtom::acceptOut (basevisitor* v)
 
 void msrRenamePartAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> msrRenamePartAtom::browseData ()" <<
       endl;
   }
@@ -574,7 +542,7 @@ void msrRenamePartAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -604,7 +572,7 @@ void msrRenamePartAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void msrRenamePartAtom::printValuedAtomOptionsValues (
+void msrRenamePartAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -652,49 +620,34 @@ ostream& operator<< (ostream& os, const S_msrRenamePartAtom& elt)
 }
 
 //_______________________________________________________________________________
-S_msrOah gGlobalMsrOah;
-S_msrOah gGlobalMsrOahUserChoices;
-S_msrOah gGlobalMsrOahWithDetailedTrace;
+S_msrOahGroup gGlobalMsrOahGroup;
 
-S_msrOah msrOah::create (
-  S_oahHandler handlerUpLink)
+S_msrOahGroup msrOahGroup::create ()
 {
-  msrOah* o = new msrOah(
-    handlerUpLink);
-  assert(o!=0);
+  msrOahGroup* o = new msrOahGroup ();
+  assert (o!=0);
   return o;
 }
 
-msrOah::msrOah (
-  S_oahHandler handlerUpLink)
+msrOahGroup::msrOahGroup ()
   : oahGroup (
     "MSR",
     "hmsr", "help-msr",
 R"(These options control the way MSR data is handled.)",
-    kElementVisibilityWhole,
-    handlerUpLink)
+    kElementVisibilityWhole)
 {
-  // append this options group to the options handler
-  // if relevant // JMI ???
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeMsrOah (false);
+  initializeMsrOahGroup ();
 }
 
-msrOah::~msrOah ()
+msrOahGroup::~msrOahGroup ()
 {}
 
-#ifdef TRACE_OAH
-void msrOah::initializeMsrTraceOah (
-  bool boolOptionsInitialValue)
+#ifdef TRACING_IS_ENABLED
+void msrOahGroup::initializeMsrTraceOah ()
 {
   S_oahSubGroup subGroup =
     oahSubGroup::create (
-      "Trace",
+      "MSR Trace",
       "hmsrt", "help-msr-trace",
 R"()",
     kElementVisibilityWhole,
@@ -704,7 +657,7 @@ R"()",
 
   // MSR
 
-  fTraceMsr          = boolOptionsInitialValue;
+  fTraceMsr          = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -716,7 +669,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   // MSR visitors
 
-  fTraceMsrVisitors  = boolOptionsInitialValue;
+  fTraceMsrVisitors  = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -728,8 +681,7 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
 }
 #endif
 
-void msrOah::initializeMsrDisplayOptions (
-  bool boolOptionsInitialValue)
+void msrOahGroup::initializeMsrDisplayOptions ()
 {
   S_oahSubGroup subGroup =
     oahSubGroup::create (
@@ -743,7 +695,7 @@ R"()",
 
   // display partgroups
 
-  fDisplayPartGroups = boolOptionsInitialValue;
+  fDisplayPartGroups = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -755,7 +707,7 @@ R"(Write the structure of the part groups to standard error.)",
 
   // display MSR
 
-  fDisplayMsr        = boolOptionsInitialValue;
+  fDisplayMsr        = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -767,7 +719,7 @@ R"(Write the contents of the MSR data to standard error.)",
 
   // display MSR short
 
-  fDisplayMsrShort        = boolOptionsInitialValue;
+  fDisplayMsrShort        = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -779,7 +731,7 @@ R"(Write the contents of the MSR data, short version, to standard error.)",
 
   // display MSR details
 
-  fDisplayMsrDetails = boolOptionsInitialValue;
+  fDisplayMsrDetails = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -792,7 +744,7 @@ R"(Write the contents of the MSR data with more details to standard error.)",
 
   // display MSR names
 
-  fDisplayMsrNames   = boolOptionsInitialValue;
+  fDisplayMsrNames   = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -805,7 +757,7 @@ This implies that no LilyPond code is generated.)",
 
   // display MSR summary
 
-  fDisplayMsrSummary = boolOptionsInitialValue;
+  fDisplayMsrSummary = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -817,8 +769,7 @@ This implies that no LilyPond code is generated.)",
         fDisplayMsrSummary));
 }
 
-void msrOah::initializeMsrLanguagesOptions (
-  bool boolOptionsInitialValue)
+void msrOahGroup::initializeMsrLanguagesOptions ()
 {
   S_oahSubGroup subGroup =
     oahSubGroup::create (
@@ -840,7 +791,7 @@ R"()",
       "MSR pitches language 'nederlands' is unknown" <<
       endl <<
       "The " <<
-      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size () <<
       " known MSR pitches languages are:" <<
       endl;
 
@@ -870,7 +821,7 @@ The NUMBER MSR pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
-              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+              to_string (gGlobalQuarterTonesPitchesLanguageKindsMap.size ())),
             regex ("PITCHES_LANGUAGES"),
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
@@ -882,8 +833,7 @@ The default is 'DEFAULT_VALUE'.)",
         fMsrQuarterTonesPitchesLanguageKind));
 }
 
-void msrOah::initializeMsrPartsOptions (
-  bool boolOptionsInitialValue)
+void msrOahGroup::initializeMsrPartsOptions ()
 {
   S_oahSubGroup subGroup =
     oahSubGroup::create (
@@ -916,14 +866,13 @@ DESSUS="Cor anglais"
 EXECUTABLE -msr-rename-part "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
          regex ("EXECUTABLE"),
-          gGlobalOahOahGroup->fHandlerExecutableName),
+          gGlobalOahOahGroup->getHandlerExecutableName ()),
         "PART_RENAME_SPEC",
         "partsRenamingMap",
         fPartsRenamingMap));
 }
 
-void msrOah::initializeMsrStavesOptions (
-  bool boolOptionsInitialValue)
+void msrOahGroup::initializeMsrStavesOptions ()
 {
   S_oahSubGroup subGroup =
     oahSubGroup::create (
@@ -937,7 +886,7 @@ R"()",
 
   // single line staves
 
-  fCreateSingleLineStavesAsRythmic = boolOptionsInitialValue;
+  fCreateSingleLineStavesAsRythmic = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -949,8 +898,7 @@ By default, drum staves are created in this case.)",
         fCreateSingleLineStavesAsRythmic));
 }
 
-void msrOah::initializeMsrVoicesOptions (
-  bool boolOptionsInitialValue)
+void msrOahGroup::initializeMsrVoicesOptions ()
 {
   S_oahSubGroup subGroup =
     oahSubGroup::create (
@@ -964,7 +912,7 @@ R"()",
 
   // staff relative numbers
 
-  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
+  fCreateVoicesStaffRelativeNumbers = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -977,8 +925,7 @@ which may be global to the score.)",
         fCreateVoicesStaffRelativeNumbers));
 }
 
-void msrOah::initializeMsrHarmoniesOptions (
-  bool boolOptionsInitialValue)
+void msrOahGroup::initializeMsrHarmoniesOptions ()
 {
   S_oahSubGroup subGroup =
     oahSubGroup::create (
@@ -993,7 +940,7 @@ R"()",
   // show harmony voices
   // --------------------------------------
 
-  fShowHarmonyVoices = boolOptionsInitialValue;
+  fShowHarmonyVoices = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1005,8 +952,7 @@ even though it does not contain music.)",
         fShowHarmonyVoices));
 }
 
-void msrOah::initializeMsrFiguredBassOptions (
-  bool boolOptionsInitialValue)
+void msrOahGroup::initializeMsrFiguredBassOptions ()
 {
   S_oahSubGroup subGroup =
     oahSubGroup::create (
@@ -1021,7 +967,7 @@ R"()",
   // show figured bass voices
   // --------------------------------------
 
-  fShowFiguredBassVoices = boolOptionsInitialValue;
+  fShowFiguredBassVoices = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1033,138 +979,55 @@ even though they do not contain music.)",
         fShowFiguredBassVoices));
 }
 
-void msrOah::initializeMsrOah (
-  bool boolOptionsInitialValue)
+void msrOahGroup::initializeMsrOahGroup ()
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-  initializeMsrTraceOah (
-    boolOptionsInitialValue);
+  initializeMsrTraceOah ();
 #endif
 
   // display
   // --------------------------------------
-  initializeMsrDisplayOptions (
-    boolOptionsInitialValue);
+  initializeMsrDisplayOptions ();
 
   // languages
   // --------------------------------------
-  initializeMsrLanguagesOptions (
-    boolOptionsInitialValue);
+  initializeMsrLanguagesOptions ();
 
   // parts
   // --------------------------------------
 
-  initializeMsrPartsOptions (
-    boolOptionsInitialValue);
+  initializeMsrPartsOptions ();
 
   // staves
   // --------------------------------------
-  initializeMsrStavesOptions (
-    boolOptionsInitialValue);
+  initializeMsrStavesOptions ();
 
   // voices
   // --------------------------------------
-  initializeMsrVoicesOptions (
-    boolOptionsInitialValue);
+  initializeMsrVoicesOptions ();
 
   // harmonies
   // --------------------------------------
 
-  initializeMsrHarmoniesOptions (
-    boolOptionsInitialValue);
+  initializeMsrHarmoniesOptions ();
 
   // figured bass
   // --------------------------------------
 
-  initializeMsrFiguredBassOptions (
-    boolOptionsInitialValue);
-}
-
-S_msrOah msrOah::createCloneWithDetailedTrace ()
-{
-  S_msrOah
-    clone =
-      msrOah::create (0);
-      // 0 not to have it inserted twice in the option handler
-
-  // set the options handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-  // trace and display
-  // --------------------------------------
-
-  clone->fTraceMsr =
-    true;
-
-  clone->fTraceMsrVisitors =
-    true;
-
-  clone->fDisplayPartGroups =
-    true;
-
-  clone->fDisplayMsr =
-    fDisplayMsr;
-  clone->fDisplayMsrShort =
-    fDisplayMsrShort;
-  clone->fDisplayMsrDetails =
-    fDisplayMsrDetails;
-
-  clone->fDisplayMsrNames =
-    fDisplayMsrNames;
-  clone->fDisplayMsrSummary =
-    fDisplayMsrSummary;
-
-  // languages
-  // --------------------------------------
-
-  clone->fMsrQuarterTonesPitchesLanguageKind =
-    fMsrQuarterTonesPitchesLanguageKind;
-
-  // parts
-  // --------------------------------------
-
-  clone->fPartsRenamingMap =
-    fPartsRenamingMap;
-
-  // staves
-  // --------------------------------------
-
-  clone->fCreateSingleLineStavesAsRythmic =
-    fCreateSingleLineStavesAsRythmic;
-
-  // voices
-  // --------------------------------------
-
-  clone->fCreateVoicesStaffRelativeNumbers =
-    fCreateVoicesStaffRelativeNumbers;
-
-  // harmonies
-  // --------------------------------------
-
-  clone->fShowHarmonyVoices =
-    fShowHarmonyVoices;
-
-  // figured bass
-  // --------------------------------------
-
-  clone->fShowFiguredBassVoices =
-    fShowFiguredBassVoices;
-
-  return clone;
+  initializeMsrFiguredBassOptions ();
 }
 
 //______________________________________________________________________________
-bool msrOah::setMsrQuarterTonesPitchesLanguage (string language)
+bool msrOahGroup::setMsrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the pitches languages map?
   map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
     it =
-      gQuarterTonesPitchesLanguageKindsMap.find (language);
+      gGlobalQuarterTonesPitchesLanguageKindsMap.find (language);
 
-  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+  if (it == gGlobalQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     return false;
   }
@@ -1175,7 +1038,7 @@ bool msrOah::setMsrQuarterTonesPitchesLanguage (string language)
 }
 
 //______________________________________________________________________________
-void msrOah::enforceGroupQuietness ()
+void msrOahGroup::enforceGroupQuietness ()
 {
   fTraceMsr = false;
   fTraceMsrVisitors = false;
@@ -1188,29 +1051,29 @@ void msrOah::enforceGroupQuietness ()
 }
 
 //______________________________________________________________________________
-void msrOah::checkGroupOptionsConsistency ()
+void msrOahGroup::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
-void msrOah::acceptIn (basevisitor* v)
+void msrOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> msrOah::acceptIn ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msrOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msrOah>*
+  if (visitor<S_msrOahGroup>*
     p =
-      dynamic_cast<visitor<S_msrOah>*> (v)) {
-        S_msrOah elem = this;
+      dynamic_cast<visitor<S_msrOahGroup>*> (v)) {
+        S_msrOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching msrOah::visitStart ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching msrOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -1218,25 +1081,25 @@ void msrOah::acceptIn (basevisitor* v)
   }
 }
 
-void msrOah::acceptOut (basevisitor* v)
+void msrOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> msrOah::acceptOut ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msrOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_msrOah>*
+  if (visitor<S_msrOahGroup>*
     p =
-      dynamic_cast<visitor<S_msrOah>*> (v)) {
-        S_msrOah elem = this;
+      dynamic_cast<visitor<S_msrOahGroup>*> (v)) {
+        S_msrOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching msrOah::visitEnd ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching msrOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1244,21 +1107,21 @@ void msrOah::acceptOut (basevisitor* v)
   }
 }
 
-void msrOah::browseData (basevisitor* v)
+void msrOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> msrOah::browseData ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> msrOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void msrOah::printMsrOahValues (int valueFieldWidth)
+void msrOahGroup::printMsrOahValues (int valueFieldWidth)
 {
-  gLogOstream <<
+  gLogStream <<
     "The MSR options are:" <<
     endl;
 
@@ -1267,13 +1130,13 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
   // trace and display
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Trace and display:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (valueFieldWidth) << "traceMsr" << " : " <<
     booleanAsString (fTraceMsr) <<
     endl <<
@@ -1309,13 +1172,13 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
   // languages
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
      "Languages:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (valueFieldWidth) << "msrPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKind) <<
@@ -1327,7 +1190,7 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
   // parts
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
      "Parts:" <<
     endl;
 
@@ -1335,11 +1198,11 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
 
   // parts renaming
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (valueFieldWidth) << "parts renaming" << " : ";
 
   if (! fPartsRenamingMap.size ()) {
-    gLogOstream <<
+    gLogStream <<
       "none";
   }
   else {
@@ -1349,25 +1212,25 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
       i != fPartsRenamingMap.end ();
       i++
   ) {
-        gLogOstream <<
+        gLogStream <<
           "\"" << ((*i).first) << "\" -> \"" << ((*i).second) << "\"";
     } // for
   }
 
-  gLogOstream << endl;
+  gLogStream << endl;
 
   gIndenter--;
 
   // staves
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Staves:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (valueFieldWidth) <<
     "createSingleLineStavesAsRythmic" << " : " <<
     booleanAsString (fCreateSingleLineStavesAsRythmic) <<
@@ -1378,13 +1241,13 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
   // voices
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Voices:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (valueFieldWidth) <<
     "createVoicesStaffRelativeNumbers" << " : " <<
     booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
@@ -1395,13 +1258,13 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
   // harmonies
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Harmonies:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (valueFieldWidth) << "showHarmonyVoices" << " : " <<
     booleanAsString (fShowHarmonyVoices) <<
     endl;
@@ -1411,13 +1274,13 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
   // figured bass
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Figured bass:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (valueFieldWidth) << "showFiguredBassVoices" << " : " <<
     booleanAsString (fShowFiguredBassVoices) <<
     endl;
@@ -1427,42 +1290,33 @@ void msrOah::printMsrOahValues (int valueFieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrOah& elt)
+ostream& operator<< (ostream& os, const S_msrOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeMsrOahHandling (
-  S_oahHandler handler)
+S_msrOahGroup createGlobalMsrOahGroup ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing MSR options handling" <<
-      endl;
-  }
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global MSR OAH group" <<
+    endl;
+#endif
 #endif
 
-  // MSR options
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  if (! gGlobalMsrOahGroup) {
+    // create the global options group
+    gGlobalMsrOahGroup =
+      msrOahGroup::create ();
+    assert (gGlobalMsrOahGroup != 0);
+  }
 
-  gGlobalMsrOahUserChoices = msrOah::create (
-    handler);
-  assert(gGlobalMsrOahUserChoices != 0);
-
-  gGlobalMsrOah =
-    gGlobalMsrOahUserChoices;
-
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
-
-/* JMI
-  gGlobalMsrOahWithDetailedTrace =
-    gGlobalMsrOah->
-      createCloneWithDetailedTrace ();
-      */
+  // return the global OAH group
+  return gGlobalMsrOahGroup;
 }
 
 

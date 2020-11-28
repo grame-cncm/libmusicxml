@@ -32,9 +32,9 @@ void msgAssert (
 
     gIndenter.resetToZero ();
 
-    gLogOstream <<
+    gLogStream <<
       "#### msgAssert failure: " << messageIfFalse <<
-      ", exiting." <<
+      ", quitting." <<
       endl;
 
     gIndenter.setIndent (saveIndent);
@@ -44,54 +44,23 @@ void msgAssert (
 }
 
 //______________________________________________________________________________
-void oahWarning (string warningMessage)
-{
-  int saveIndent = gIndenter.getIndent ();
-
-  gIndenter.resetToZero ();
-
-  gLogOstream <<
-    "*** WARNING in the options and help: " <<
-    warningMessage <<
-    endl;
-
-  gIndenter.setIndent (saveIndent);
-}
-
-void oahError (string errorMessage)
-{
-  int saveIndent = gIndenter.getIndent ();
-
-  gIndenter.resetToZero ();
-
-  gLogOstream <<
-    "### ERROR in the options and help: " <<
-    errorMessage <<
-    endl;
-
-  gIndenter.setIndent (saveIndent);
-
-  throw msrOahException (errorMessage);
-}
-
-//______________________________________________________________________________
 void msgWarning (
   string context,
   string inputSourceName,
   int    inputLineNumber,
   string message)
 {
-  if (! gGlobalGeneralOahGroup->fQuiet) {
+  if (! gGlobalGeneralOahGroup->getQuiet ()) {
     int saveIndent = gIndenter.getIndent ();
 
     gIndenter.resetToZero ();
 
-    gLogOstream <<
+    gLogStream <<
       "*** " << context << " warning *** " <<
       inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl;
 
-    gWarningsInputLineNumbers.insert (inputLineNumber);
+    gGlobalWarningsInputLineNumbers.insert (inputLineNumber);
 
     gIndenter.setIndent (saveIndent);
   }
@@ -105,30 +74,80 @@ void msgError (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! gGlobalGeneralOahGroup->fQuiet) {
-    if (gGlobalGeneralOahGroup->fDisplaySourceCodePosition) {
-      gLogOstream <<
+  if (! gGlobalGeneralOahGroup->getQuiet ()) {
+    if (gGlobalGeneralOahGroup->getDisplaySourceCodePosition ()) {
+      gLogStream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    if (! gGlobalGeneralOahGroup->fDontShowErrors) {
+    if (! gGlobalGeneralOahGroup->getDontShowErrors ()) {
       int saveIndent = gIndenter.getIndent ();
 
       gIndenter.resetToZero ();
 
-      gLogOstream <<
+      gLogStream <<
         "### " << context << " ERROR ### " <<
         inputSourceName << ":" << inputLineNumber << ": " << message <<
         endl;
 
       gIndenter.setIndent (saveIndent);
 
-      gErrorsInputLineNumbers.insert (inputLineNumber);
+      gGlobalErrorsInputLineNumbers.insert (inputLineNumber);
     }
   }
 
   throw msrMsrException (message);
+}
+
+//______________________________________________________________________________
+void oahWarning (string warningMessage)
+{
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
+  gLogStream <<
+    "*** WARNING in the options and help: " <<
+    warningMessage <<
+    endl;
+
+  gIndenter.setIndent (saveIndent);
+}
+
+void oahError (string errorMessage)
+{
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
+  gLogStream <<
+    "### ERROR in the options and help: " <<
+    errorMessage <<
+    endl;
+
+  gIndenter.setIndent (saveIndent);
+
+  throw msrOahException (errorMessage);
+}
+
+void oahInternalError (string errorMessage)
+{
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
+  gLogStream <<
+    "### INTERNAL ERROR in the options and help: " <<
+    errorMessage <<
+    endl;
+
+  if (false)
+    abort (); // JMI
+
+  gIndenter.setIndent (saveIndent);
+
+  throw msrOahException (errorMessage);
 }
 
 //______________________________________________________________________________
@@ -139,18 +158,18 @@ void msrUnsupported (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGlobalGeneralOahGroup->fQuiet && gGlobalGeneralOahGroup->fDontShowErrors)) {
+  if (! (gGlobalGeneralOahGroup->getQuiet () && gGlobalGeneralOahGroup->getDontShowErrors ())) {
     int saveIndent = gIndenter.getIndent ();
 
     gIndenter.resetToZero ();
 
-    if (gGlobalGeneralOahGroup->fDisplaySourceCodePosition) {
-      gLogOstream <<
+    if (gGlobalGeneralOahGroup->getDisplaySourceCodePosition ()) {
+      gLogStream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    gLogOstream <<
+    gLogStream <<
       "### MSR LIMITATION ### " <<
       inputSourceName << ":" << inputLineNumber << ": " << message <<
       endl;
@@ -220,8 +239,8 @@ void msrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGlobalGeneralOahGroup->fDontShowErrors) {
-    if (! gGlobalGeneralOahGroup->fDontExitOnErrors) { // JMI
+  if (! gGlobalGeneralOahGroup->getDontShowErrors ()) {
+    if (! gGlobalGeneralOahGroup->getDontQuitOnErrors ()) { // JMI
       throw msrMusicXMLException (message);
     }
     else {
@@ -258,7 +277,7 @@ void lpsrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGlobalGeneralOahGroup->fDontShowErrors) { // JMI
+  if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
     throw lpsrMusicXMLException (message);
   }
 
@@ -324,7 +343,7 @@ void bmmlError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGlobalGeneralOahGroup->fDontShowErrors) { // JMI
+  if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
     throw bmmlException (message);
   }
 
@@ -377,7 +396,7 @@ void meiError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGlobalGeneralOahGroup->fDontShowErrors) { // JMI
+  if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
     throw meiException (message);
   }
 
@@ -410,14 +429,14 @@ void msrStreamsWarning (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGlobalGeneralOahGroup->fQuiet && gGlobalGeneralOahGroup->fDontShowErrors)) {
-    if (gGlobalGeneralOahGroup->fDisplaySourceCodePosition) {
-      gLogOstream <<
+  if (! (gGlobalGeneralOahGroup->getQuiet () && gGlobalGeneralOahGroup->getDontShowErrors ())) {
+    if (gGlobalGeneralOahGroup->getDisplaySourceCodePosition ()) {
+      gLogStream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    gLogOstream <<
+    gLogStream <<
       "*** " << "MSR STREAMS" << " warning *** " <<
       " ### " << "MSR STREAMS" << " ERROR ### " <<
       "fake line number" << ":" << inputLineNumber << ": " << message <<
@@ -431,14 +450,14 @@ void msrStreamsError (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGlobalGeneralOahGroup->fQuiet && gGlobalGeneralOahGroup->fDontShowErrors)) {
-    if (gGlobalGeneralOahGroup->fDisplaySourceCodePosition) {
-      gLogOstream <<
+  if (! (gGlobalGeneralOahGroup->getQuiet () && gGlobalGeneralOahGroup->getDontShowErrors ())) {
+    if (gGlobalGeneralOahGroup->getDisplaySourceCodePosition ()) {
+      gLogStream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    gLogOstream <<
+    gLogStream <<
       "### " << "MSR STREAMS" << " ERROR ### " <<
       "fake line number" << ":" << inputLineNumber << ": " << message <<
       endl;
@@ -449,39 +468,39 @@ void msrStreamsError (
 */
 
 //______________________________________________________________________________
-std::set<int> gWarningsInputLineNumbers;
-std::set<int> gErrorsInputLineNumbers;
+std::set<int> gGlobalWarningsInputLineNumbers;
+std::set<int> gGlobalErrorsInputLineNumbers;
 
 void displayWarningsAndErrorsInputLineNumbers ()
 {
   int warningsInputLineNumbersSize =
-    gWarningsInputLineNumbers.size ();
+    gGlobalWarningsInputLineNumbers.size ();
 
-  if (warningsInputLineNumbersSize && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
+  if (warningsInputLineNumbersSize && ! gGlobalGeneralOahGroup->getQuiet ()) {
+    gLogStream <<
       "Warning message(s) were issued for input " <<
       singularOrPluralWithoutNumber (
         warningsInputLineNumbersSize, "line", "lines") <<
       " ";
 
     set<int>::const_iterator
-      iBegin = gWarningsInputLineNumbers.begin (),
-      iEnd   = gWarningsInputLineNumbers.end (),
+      iBegin = gGlobalWarningsInputLineNumbers.begin (),
+      iEnd   = gGlobalWarningsInputLineNumbers.end (),
       i      = iBegin;
     for ( ; ; ) {
-      gLogOstream << (*i);
+      gLogStream << (*i);
       if (++i == iEnd) break;
-      gLogOstream << ", ";
+      gLogStream << ", ";
     } // for
 
-    gLogOstream << endl;
+    gLogStream << endl;
   }
 
   int errorsInputLineNumbersSize =
-    gErrorsInputLineNumbers.size ();
+    gGlobalErrorsInputLineNumbers.size ();
 
   if (errorsInputLineNumbersSize) {
-    gLogOstream <<
+    gLogStream <<
       endl <<
       "Error message(s) were issued for input " <<
       singularOrPluralWithoutNumber (
@@ -489,16 +508,16 @@ void displayWarningsAndErrorsInputLineNumbers ()
       " ";
 
     set<int>::const_iterator
-      iBegin = gErrorsInputLineNumbers.begin (),
-      iEnd   = gErrorsInputLineNumbers.end (),
+      iBegin = gGlobalErrorsInputLineNumbers.begin (),
+      iEnd   = gGlobalErrorsInputLineNumbers.end (),
       i      = iBegin;
     for ( ; ; ) {
-      gLogOstream << (*i);
+      gLogStream << (*i);
       if (++i == iEnd) break;
-      gLogOstream << ", ";
+      gLogStream << ", ";
     } // for
 
-    gLogOstream << endl;
+    gLogStream << endl;
   }
 }
 

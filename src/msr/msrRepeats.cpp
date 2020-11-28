@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -53,7 +55,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::create (
     new msrRepeatCommonPart (
       inputLineNumber,
       repeatUpLink);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -78,9 +80,9 @@ void msrRepeatCommonPart::appendSegmentToRepeatCommonPart (
   S_msrSegment segment,
   string       context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSegments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSegments ()) {
+    gLogStream <<
       "Appending segment '" <<
       segment->asString () <<
       "' to repeat common part '" << asString () <<
@@ -103,9 +105,9 @@ void msrRepeatCommonPart::appendRepeatToRepeatCommonPart (
   S_msrRepeat  repeat,
   string       context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Appending repeat '" <<
     // JMI  repeat->asString () <<
       repeat <<
@@ -129,9 +131,9 @@ void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
   S_msrMeasuresRepeat measuresRepeat,
   string              context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasuresRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
+    gLogStream <<
       "Appending measures repeat '" <<
       measuresRepeat->asString () <<
       "' to repeat common part '" << asString () <<
@@ -154,9 +156,9 @@ void msrRepeatCommonPart::appendRestMeasuresToRepeatCommonPart (
   S_msrRestMeasures restMeasures,
   string            context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
+    gLogStream <<
       "Appending rest measures '" <<
       restMeasures->asString () <<
       "' to repeat common part '" << asString () <<
@@ -179,9 +181,9 @@ void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
   S_msrVoiceElement voiceElement,
   string            context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Appending voice element '" <<
       voiceElement->asString () <<
       "' to repeat common part '" << asString () <<
@@ -267,7 +269,7 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
           "'";
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -282,8 +284,8 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
 
 void msrRepeatCommonPart::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeatCommonPart::acceptIn ()" <<
       endl;
   }
@@ -293,8 +295,8 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatCommonPart>*> (v)) {
         S_msrRepeatCommonPart elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeatCommonPart::visitStart ()" <<
             endl;
         }
@@ -304,8 +306,8 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v)
 
 void msrRepeatCommonPart::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeatCommonPart::acceptOut ()" <<
       endl;
   }
@@ -315,8 +317,8 @@ void msrRepeatCommonPart::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatCommonPart>*> (v)) {
         S_msrRepeatCommonPart elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeatCommonPart::visitEnd ()" <<
             endl;
         }
@@ -491,7 +493,7 @@ S_msrRepeatEnding msrRepeatEnding::create (
       repeatEndingNumber,
       repeatEndingKind,
       repeatUpLink);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -520,9 +522,9 @@ void msrRepeatEnding::appendSegmentToRepeatEnding (
   S_msrSegment segment,
   string       context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Appending segment '" << segment <<
       "' to repeat ending '" << asString () <<
       "' (" << context << ")" <<
@@ -544,9 +546,9 @@ void msrRepeatEnding::appendRepeatToRepeatEnding (
   S_msrRepeat  repeat,
   string       context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Appending repeat '" << repeat <<
       "' to repeat ending '" << asString () <<
       "' (" << context << ")" <<
@@ -568,9 +570,9 @@ void msrRepeatEnding::appendMeasuresRepeatToRepeatEnding (
   S_msrMeasuresRepeat measuresRepeat,
   string              context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Appending measures repeat '" <<
       measuresRepeat->asShortString () <<
       "' to repeat ending '" << asString () <<
@@ -593,9 +595,9 @@ void msrRepeatEnding::appendRestMeasuresToRepeatEnding (
   S_msrRestMeasures restMeasures,
   string                    context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Appending rest measures '" <<
       restMeasures->asShortString () <<
       "' to repeat ending '" << asString () <<
@@ -618,9 +620,9 @@ void msrRepeatEnding::appendVoiceElementToRepeatEnding (
   S_msrVoiceElement voiceElement,
   string            context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Appending voice element '" << voiceElement <<
       "' to repeat ending '" << asString () <<
       "' (" << context << ")" <<
@@ -639,8 +641,8 @@ void msrRepeatEnding::appendVoiceElementToRepeatEnding (
 
 void msrRepeatEnding::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeatEnding::acceptIn ()" <<
       endl;
   }
@@ -650,8 +652,8 @@ void msrRepeatEnding::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
         S_msrRepeatEnding elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeatEnding::visitStart ()" <<
             endl;
         }
@@ -661,8 +663,8 @@ void msrRepeatEnding::acceptIn (basevisitor* v)
 
 void msrRepeatEnding::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeatEnding::acceptOut ()" <<
       endl;
   }
@@ -672,8 +674,8 @@ void msrRepeatEnding::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
         S_msrRepeatEnding elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeatEnding::visitEnd ()" <<
             endl;
         }
@@ -919,7 +921,7 @@ S_msrRepeat msrRepeat::create (
       inputLineNumber,
       repeatTimes,
       voiceUpLink);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -950,9 +952,9 @@ msrRepeat::msrRepeat (
 S_msrRepeat msrRepeat::createRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Creating a newborn clone of a repeat" <<
       endl;
   }
@@ -984,9 +986,9 @@ void msrRepeat::setRepeatCommonPart (
     repeatCommonPart != nullptr,
     "repeatCommonPart is null");
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Setting repeat common part containing " <<
       singularOrPlural (
         repeatCommonPart->
@@ -1013,9 +1015,9 @@ void msrRepeat::addRepeatEndingToRepeat (
     repeatEnding != nullptr,
     "repeatEnding is null");
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Adding ending '" <<
       repeatEnding->asString () <<
       "' to repeat" <<
@@ -1026,8 +1028,8 @@ void msrRepeat::addRepeatEndingToRepeat (
   }
 #endif
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeatsDetails) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeatsDetails ()) {
     displayRepeat (
       inputLineNumber,
       "addRepeatEndingToRepeat() 1");
@@ -1054,7 +1056,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' right after a repeat has been created";
 
             msrMusicXMLError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1077,7 +1079,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' after a repeat has been completed";
 
             msrMusicXMLError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1098,7 +1100,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' right after the repeat has been created";
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1114,7 +1116,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' right after the repeat common part";
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1133,7 +1135,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               "' after a repeat has been completed";
 
             msrMusicXMLError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1149,8 +1151,8 @@ void msrRepeat::addRepeatEndingToRepeat (
     setRepeatEndingInternalNumber (
       ++ fRepeatEndingsInternalCounter);
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeatsDetails) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeatsDetails ()) {
     displayRepeat (
       inputLineNumber,
       "addRepeatEndingToRepeat() 2");
@@ -1163,9 +1165,9 @@ void msrRepeat::appendSegmentToRepeat (
   S_msrSegment segment,
   string       context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Appending segment '" <<
       segment->asString () <<
       "' to repeat '" <<
@@ -1191,7 +1193,7 @@ void msrRepeat::appendSegmentToRepeat (
           " (" << context << ")";
 
         msrMusicXMLError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1225,7 +1227,7 @@ void msrRepeat::appendSegmentToRepeat (
           "(" << context << ")";
 
         msrMusicXMLError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1233,8 +1235,8 @@ void msrRepeat::appendSegmentToRepeat (
       break;
   } // switch
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     displayRepeat (
       inputLineNumber,
       "appendSegmentToRepeat() 2");
@@ -1247,9 +1249,9 @@ void msrRepeat::appendRepeatToRepeat (
   S_msrRepeat repeat,
   string      context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Appending repeat '" <<
       repeat->asString () <<
       "' to repeat '" <<
@@ -1275,7 +1277,7 @@ void msrRepeat::appendRepeatToRepeat (
           " (" << context << ")";
 
         msrMusicXMLError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1309,7 +1311,7 @@ void msrRepeat::appendRepeatToRepeat (
           "(" << context << ")";
 
         msrMusicXMLError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1317,8 +1319,8 @@ void msrRepeat::appendRepeatToRepeat (
       break;
   } // switch
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     displayRepeat (
       inputLineNumber,
       "appendRepeatToRepeat() 2");
@@ -1331,9 +1333,9 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
   S_msrMeasuresRepeat measuresRepeat,
   string              context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Appending measures repeat '" <<
       measuresRepeat->asString () <<
       "' to repeat '" <<
@@ -1359,7 +1361,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
           " (" << context << ")";
 
         msrMusicXMLError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1393,7 +1395,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
           "(" << context << ")";
 
         msrMusicXMLError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1401,8 +1403,8 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
       break;
   } // switch
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     displayRepeat (
       inputLineNumber,
       "appendMeasuresRepeatToRepeat() 2");
@@ -1415,9 +1417,9 @@ void msrRepeat::appendRestMeasuresToRepeat (
   S_msrRestMeasures restMeasures,
   string                    context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Appending rest measures '" <<
       restMeasures->asString () <<
       "' to repeat '" <<
@@ -1443,7 +1445,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
           " (" << context << ")";
 
         msrMusicXMLError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1477,7 +1479,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
           "(" << context << ")";
 
         msrMusicXMLError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1485,8 +1487,8 @@ void msrRepeat::appendRestMeasuresToRepeat (
       break;
   } // switch
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     displayRepeat (
       inputLineNumber,
       "appendRestMeasuresToRepeat() 2");
@@ -1509,8 +1511,8 @@ S_msrNote msrRepeat::fetchRepeatFirstNonGraceNote () const
 
 void msrRepeat::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeat::acceptIn ()" <<
       endl;
   }
@@ -1520,8 +1522,8 @@ void msrRepeat::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeat::visitStart ()" <<
             endl;
         }
@@ -1531,8 +1533,8 @@ void msrRepeat::acceptIn (basevisitor* v)
 
 void msrRepeat::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeat::acceptOut ()" <<
       endl;
   }
@@ -1542,8 +1544,8 @@ void msrRepeat::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeat::visitEnd ()" <<
             endl;
         }
@@ -1627,7 +1629,7 @@ string msrRepeat::asShortString () const
 
   if (fImmediatelyPrecedingRepeat) {
     s <<
-      ", fImmediatelyPrecedingRepeat: "<<
+      ", fImmediatelyPrecedingRepeat: " <<
       fImmediatelyPrecedingRepeat->asShortString ();
   }
 /*
@@ -1635,7 +1637,7 @@ string msrRepeat::asShortString () const
   to avoid an infinite loop
   if (fImmediatelyFollowingRepeat) {
     s <<
-      ", fImmediatelyFollowingRepeat: "<<
+      ", fImmediatelyFollowingRepeat: " <<
       fImmediatelyFollowingRepeat->asShortString ();
   }
 */
@@ -1683,12 +1685,12 @@ string msrRepeat::asString () const
 
   if (fImmediatelyPrecedingRepeat) {
     s <<
-      ", fImmediatelyPrecedingRepeat: "<<
+      ", fImmediatelyPrecedingRepeat: " <<
       fImmediatelyPrecedingRepeat->asShortString ();
   }
   if (fImmediatelyFollowingRepeat) {
     s <<
-      ", fImmediatelyFollowingRepeat: "<<
+      ", fImmediatelyFollowingRepeat: " <<
       fImmediatelyFollowingRepeat->asShortString ();
   }
 
@@ -1738,7 +1740,7 @@ void msrRepeat::displayRepeat (
   int    inputLineNumber,
   string context)
 {
-  gLogOstream <<
+  gLogStream <<
     endl <<
     "*********>> Repeat '" <<
     asShortString () <<
@@ -1748,11 +1750,11 @@ void msrRepeat::displayRepeat (
     endl;
 
   gIndenter++;
-  print (gLogOstream);
+  print (gLogStream);
   gIndenter--;
 
-  gLogOstream <<
-    "<<*********" <<
+  gLogStream <<
+    " <<*********" <<
     endl <<
     endl;
 }
@@ -1780,8 +1782,8 @@ void msrRepeat::print (ostream& os) const
     fRepeatEndings.size () <<
     endl;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     // print the current repeat build phase
     os << left <<
       setw (fieldWidth) <<
@@ -1940,7 +1942,7 @@ S_msrRepeatElement msrRepeatElement::create (
     new msrRepeatElement (
       inputLineNumber,
       repeatUpLink);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1965,9 +1967,9 @@ void msrRepeatElement::appendSegmentToRepeatElementsList ( // JMI ???
   S_msrSegment segment,
   string       context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Appending segment '" << segment <<
       "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
@@ -1989,9 +1991,9 @@ void msrRepeatElement::appendRepeatToRepeatElementsList (
   S_msrRepeat  repeat,
   string       context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Appending repeat '" << repeat <<
       "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
@@ -2013,9 +2015,9 @@ void msrRepeatElement::appendVoiceElementToRepeatElementsList (
   S_msrVoiceElement voiceElement,
   string            context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Appending voice element '" << voiceElement <<
       "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
@@ -2100,7 +2102,7 @@ S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
           "'";
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2115,8 +2117,8 @@ S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
 
 void msrRepeatElement::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeatElement::acceptIn ()" <<
       endl;
   }
@@ -2126,8 +2128,8 @@ void msrRepeatElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatElement>*> (v)) {
         S_msrRepeatElement elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeatElement::visitStart ()" <<
             endl;
         }
@@ -2137,8 +2139,8 @@ void msrRepeatElement::acceptIn (basevisitor* v)
 
 void msrRepeatElement::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeatElement::acceptOut ()" <<
       endl;
   }
@@ -2148,8 +2150,8 @@ void msrRepeatElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatElement>*> (v)) {
         S_msrRepeatElement elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeatElement::visitEnd ()" <<
             endl;
         }

@@ -14,7 +14,9 @@
 
 #include "utilities.h"
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
+
+#include "oahOah.h"
 
 #include "bsrOah.h"
 #include "brailleOah.h"
@@ -34,7 +36,7 @@ S_bsrPage bsrPage::create (
   bsrPage* o =
     new bsrPage (
       inputLineNumber, printPageNumber, linesPerPage);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -49,9 +51,9 @@ bsrPage::bsrPage (
 
   fLinesPerPage = linesPerPage;
 
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTracePages) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTracePages ()) {
+    gLogStream <<
       "Creating bsrPage '" <<
       asString () <<
       "', line " <<
@@ -66,9 +68,9 @@ bsrPage::~bsrPage ()
 
 S_bsrPage bsrPage::createPageNewbornClone ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTracePages) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTracePages ()) {
+    gLogStream <<
       "Creating a newborn clone of page " <<
       asString () <<
       endl;
@@ -106,9 +108,9 @@ int bsrPage::fetchLineContentsNumber () const
 
 void bsrPage::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrPage::acceptIn ()" <<
       endl;
   }
@@ -119,9 +121,9 @@ void bsrPage::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrPage::visitStart ()" <<
             endl;
         }
@@ -132,9 +134,9 @@ void bsrPage::acceptIn (basevisitor* v)
 
 void bsrPage::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrPage::acceptOut ()" <<
       endl;
   }
@@ -145,9 +147,9 @@ void bsrPage::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrPage::visitEnd ()" <<
             endl;
         }
@@ -214,7 +216,7 @@ void bsrPage::print (ostream& os) const
   // print the page elements if any
   int pageElementsListSize = fPageElementsList.size ();
 
-  if (pageElementsListSize || gGlobalBsrOah->fDisplayBsrDetails) {
+  if (pageElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<
 //      setw (fieldWidth) <<
       "PageElementsList" <<

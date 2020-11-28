@@ -14,6 +14,8 @@
 
 #include "lpsrVariables.h"
 
+#include "oahOah.h"
+
 #include "lpsrOah.h"
 
 
@@ -30,7 +32,7 @@ S_lpsrVariableUseCommand lpsrVariableUseCommand::create (
   lpsrVariableUseCommand* o =
     new lpsrVariableUseCommand (
       inputLineNumber, variableName);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -47,9 +49,9 @@ lpsrVariableUseCommand::~lpsrVariableUseCommand()
 
 void lpsrVariableUseCommand::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrVariableUseCommand::acceptIn()" <<
       endl;
   }
@@ -60,9 +62,9 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrVariableUseCommand::visitStart()" <<
             endl;
         }
@@ -73,9 +75,9 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v)
 
 void lpsrVariableUseCommand::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrVariableUseCommand::acceptOut()" <<
       endl;
   }
@@ -86,9 +88,9 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrVariableUseCommand::visitEnd()" <<
             endl;
         }

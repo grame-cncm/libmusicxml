@@ -94,7 +94,9 @@ class lpsrSchemeVariable : public lpsrElement
     lpsrEndlKind          getEndlKind () const
                               { return fEndlKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -116,7 +118,7 @@ class lpsrSchemeVariable : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     lpsrCommentedKind fCommentedKind;
@@ -173,7 +175,9 @@ class lpsrSchemeFunction : public lpsrElement
     string                getFunctionCode () const
                               { return fFunctionCode; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -195,7 +199,7 @@ class lpsrSchemeFunction : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string            fFunctionName;

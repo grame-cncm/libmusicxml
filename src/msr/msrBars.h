@@ -67,7 +67,9 @@ class msrBarCheck : public msrMeasureElement
     int                   getNextBarPuristNumber () const
                               { return fNextBarPuristNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -91,7 +93,7 @@ class msrBarCheck : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fNextBarOriginalNumber;
@@ -136,7 +138,9 @@ class msrBarNumberCheck : public msrMeasureElement
     int                   getNextBarPuristNumber () const
                               { return fNextBarPuristNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                asString () const override;
@@ -160,7 +164,7 @@ class msrBarNumberCheck : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fNextBarOriginalNumber;
@@ -372,7 +376,7 @@ class msrBarline : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrBarlineLocationKind

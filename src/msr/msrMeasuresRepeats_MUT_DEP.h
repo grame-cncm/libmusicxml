@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -103,7 +103,7 @@ class msrMeasuresRepeatElement : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -164,7 +164,9 @@ class msrMeasuresRepeatPattern : public msrElement
     S_msrMeasuresRepeat   getMeasuresRepeatUpLink () const
                             { return fMeasuresRepeatUpLink; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     int                   fetchMeasuresNumber () const;
@@ -193,7 +195,7 @@ class msrMeasuresRepeatPattern : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -251,7 +253,9 @@ class msrMeasuresRepeatReplicas : public msrElement
     S_msrSegment          getMeasuresRepeatReplicasSegment () const
                               { return fMeasuresRepeatReplicasSegment; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     int                   fetchMeasuresNumber () const;
@@ -282,7 +286,7 @@ class msrMeasuresRepeatReplicas : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -393,7 +397,9 @@ class msrMeasuresRepeat : public msrVoiceElement
                           getCurrentMeasuresRepeatBuildPhaseKind () const
                             { return fCurrentMeasuresRepeatBuildPhaseKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     int                   fetchMeasuresRepeatReplicasNumber () const;
@@ -429,7 +435,7 @@ class msrMeasuresRepeat : public msrVoiceElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

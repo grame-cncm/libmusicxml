@@ -18,11 +18,11 @@
 
 #include "exports.h"
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP versionInfo
+class versionInfo
 {
   public:
 
@@ -32,7 +32,7 @@ class EXP versionInfo
       std::string versionDescription);
 
     virtual ~versionInfo ();
-    
+
     void print (std::ostream& os) const;
 
   public:
@@ -44,7 +44,7 @@ class EXP versionInfo
 
 extern std::list<versionInfo> gVersionInfoList;
 
-void enlistVersion (
+void appendVersionToVersionInfoList (
   std::string versionNumber,
   std::string versionDate,
   std::string versionDescription);

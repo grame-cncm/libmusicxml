@@ -18,10 +18,12 @@
 
 #include "msrStavesDetails.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -44,7 +46,7 @@ S_msrStaffTuning msrStaffTuning::create (
       staffTuningLineNumber,
       quarterTonesPitchKind,
       staffTuningOctave);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -65,9 +67,9 @@ msrStaffTuning::~ msrStaffTuning ()
 
 S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceStaffDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceStaffDetails ()) {
+    gLogStream <<
       "Creating a newborn clone of staff tuning '" <<
       asString () <<
       "'" <<
@@ -88,8 +90,8 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 
 void msrStaffTuning::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStaffTuning::acceptIn ()" <<
       endl;
   }
@@ -99,8 +101,8 @@ void msrStaffTuning::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStaffTuning::visitStart ()" <<
             endl;
         }
@@ -110,8 +112,8 @@ void msrStaffTuning::acceptIn (basevisitor* v)
 
 void msrStaffTuning::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStaffTuning::acceptOut ()" <<
       endl;
   }
@@ -121,8 +123,8 @@ void msrStaffTuning::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStaffTuning::visitEnd ()" <<
             endl;
         }
@@ -142,7 +144,7 @@ string msrStaffTuning::asString () const
     ", line " << fStaffTuningLineNumber <<
     ", " <<
     msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
       fStaffTuningQuarterTonesPitchKind) <<
     ", octave " << fStaffTuningOctave;
 
@@ -168,7 +170,7 @@ void msrStaffTuning::print (ostream& os) const
     setw (fieldWidth) <<
     "staffTuningQuarterTonesPitch" << " : " <<
     msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
       fStaffTuningQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
@@ -200,7 +202,7 @@ S_msrStaffDetails msrStaffDetails::create (
       showFretsKind,
       printObjectKind,
       printSpacingKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -227,8 +229,8 @@ msrStaffDetails::~msrStaffDetails ()
 
 void msrStaffDetails::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStaffDetails::acceptIn ()" <<
       endl;
   }
@@ -238,8 +240,8 @@ void msrStaffDetails::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStaffDetails::visitStart ()" <<
             endl;
         }
@@ -249,8 +251,8 @@ void msrStaffDetails::acceptIn (basevisitor* v)
 
 void msrStaffDetails::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStaffDetails::acceptOut ()" <<
       endl;
   }
@@ -260,8 +262,8 @@ void msrStaffDetails::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStaffDetails::visitEnd ()" <<
             endl;
         }

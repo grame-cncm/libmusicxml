@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by bsrMutualDependencies.h,
+  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -47,7 +47,9 @@ class bsrWords : public bsrLineElement
     string                getWordContents () const
                               { return fWordContents; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     S_bsrCellsList        fetchCellsList () const override
@@ -78,7 +80,7 @@ class bsrWords : public bsrLineElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fWordContents;

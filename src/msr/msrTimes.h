@@ -62,7 +62,9 @@ class msrTimeItem : public msrElement
     int                   getTimeBeatValue () const
                               { return fTimeBeatValue; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrTimeItem otherTimeItem) const;
@@ -92,7 +94,7 @@ class msrTimeItem : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     vector<int>           fTimeBeatsNumbersVector; // 5+3+1 is possible
@@ -179,7 +181,9 @@ class msrTime : public msrMeasureElement
                           getTimeItemsVector ()
                               { return fTimeItemsVector; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrTime otherTime) const;
@@ -214,7 +218,7 @@ class msrTime : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrTimeSymbolKind     fTimeSymbolKind;

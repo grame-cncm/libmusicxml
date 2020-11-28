@@ -18,6 +18,8 @@
 
 #include "msrDynamics.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -37,7 +39,7 @@ S_msrDynamics msrDynamics::create (
       inputLineNumber,
       dynamicsKind,
       dynamicsPlacementKind);
-    assert(o!=0);
+    assert (o!=0);
   return o;
 }
 
@@ -156,8 +158,8 @@ string msrDynamics::dynamicsPlacementKindAsString () const
 
 void msrDynamics::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDynamics::acceptIn ()" <<
       endl;
   }
@@ -167,8 +169,8 @@ void msrDynamics::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDynamics::visitStart ()" <<
             endl;
         }
@@ -178,8 +180,8 @@ void msrDynamics::acceptIn (basevisitor* v)
 
 void msrDynamics::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDynamics::acceptOut ()" <<
       endl;
   }
@@ -189,8 +191,8 @@ void msrDynamics::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDynamics::visitEnd ()" <<
             endl;
         }
@@ -230,7 +232,7 @@ S_msrOtherDynamics msrOtherDynamics::create (
       inputLineNumber,
       otherDynamicsString,
       otherDynamicsPlacementKind);
-    assert(o!=0);
+    assert (o!=0);
   return o;
 }
 
@@ -257,8 +259,8 @@ string msrOtherDynamics::otherDynamicsPlacementKindAsString () const
 
 void msrOtherDynamics::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrOtherDynamics::acceptIn ()" <<
       endl;
   }
@@ -268,8 +270,8 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
         S_msrOtherDynamics elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrOtherDynamics::visitStart ()" <<
             endl;
         }
@@ -279,8 +281,8 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
 
 void msrOtherDynamics::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrOtherDynamics::acceptOut ()" <<
       endl;
   }
@@ -290,8 +292,8 @@ void msrOtherDynamics::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
         S_msrOtherDynamics elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrOtherDynamics::visitEnd ()" <<
             endl;
         }
@@ -346,7 +348,7 @@ S_msrWedge msrWedge::create (
       wedgeNienteKind,
       wedgeLineTypeKind,
       wedgePlacementKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -408,8 +410,8 @@ string msrWedge::wedgeNienteKindAsString (
 
 void msrWedge::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrWedge::acceptIn ()" <<
       endl;
   }
@@ -419,8 +421,8 @@ void msrWedge::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrWedge::visitStart ()" <<
             endl;
         }
@@ -430,8 +432,8 @@ void msrWedge::acceptIn (basevisitor* v)
 
 void msrWedge::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrWedge::acceptOut ()" <<
       endl;
   }
@@ -441,8 +443,8 @@ void msrWedge::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrWedge::visitEnd ()" <<
             endl;
         }

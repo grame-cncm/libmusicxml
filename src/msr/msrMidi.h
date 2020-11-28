@@ -66,7 +66,9 @@ class msrMidiTempo : public msrElement
     int                   getMidiTempoPerSecond () const
                               { return fMidiTempoPerSecond; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -90,7 +92,7 @@ class msrMidiTempo : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fMidiTempoDuration;

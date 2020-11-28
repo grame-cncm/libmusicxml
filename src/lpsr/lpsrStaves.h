@@ -51,7 +51,9 @@ class lpsrNewStaffgroupBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -112,7 +114,9 @@ class lpsrNewStaffTuningBlock : public lpsrElement
     S_msrStaffTuning      getStaffTuning () const
                               { return fStaffTuning; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -168,7 +172,9 @@ class lpsrNewStaffBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -285,7 +291,7 @@ class lpsrStaffBlock : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrStaff            fStaff;

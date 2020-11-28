@@ -50,7 +50,9 @@ class lpsrBarNumberCheck : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -72,7 +74,7 @@ class lpsrBarNumberCheck : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fNextBarNumber;
@@ -105,7 +107,9 @@ class lpsrBarCommand : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -127,7 +131,7 @@ class lpsrBarCommand : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 };
 typedef SMARTP<lpsrBarCommand> S_lpsrBarCommand;

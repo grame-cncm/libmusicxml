@@ -8,30 +8,31 @@
 */
 
 #include <iomanip>      // setw()), set::precision(), ...
+#include <fstream>      // ifstream, ...
 
 #ifndef WIN32
 #include <signal.h>
 #endif
 
-#include "libmusicxml.h"
 #include "version.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
 #include "oahBasicTypes.h"
+
+#include "oahOah.h"
 #include "generalOah.h"
 
 #include "xml2lyInsiderOahHandler.h"
 #include "xml2lyRegularOahHandler.h"
 
 #include "musicxml2lilypond.h"
-#include "musicxml2musicxml.h"
 
 
 using namespace std;
@@ -39,13 +40,14 @@ using namespace std;
 using namespace MusicXML2;
 
 /*
-  OAH_TRACE can be used to issue trace messages
-  before gGlobalOahOahGroup->fTrace has been initialized
+  ENFORCE_TRACE_OAH can be used to issue trace messages
+  before gLogStream has been initialized
 */
-//#define OAH_TRACE
+////#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 #ifndef WIN32
+
 static void _sigaction(int signal, siginfo_t *si, void *arg)
 {
   cerr << "Signal #" << signal << " catched!" << endl;
@@ -75,14 +77,15 @@ static void catchsigs()	{}
 //_______________________________________________________________________________
 int main (int argc, char *argv[])
 {
-  // create the signals
+  // setup signals catching
   // ------------------------------------------------------
 
 	catchsigs();
 
+  // fetch executable name
   string executableName = argv [0];
 
-  // are insider and/or regular options present?
+  // are there 'insider' and/or 'regular' options present?
   bool insiderOptions = false;
   bool regularOptions = false;
 
@@ -97,10 +100,10 @@ int main (int argc, char *argv[])
 		}
 	} // for
 
-#ifdef TRACE_OAH
-#ifdef OAH_TRACE
-  gLogOstream <<
-    "xml2ly main()" <<
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  cerr <<
+    executableName << " main()" <<
     ", insiderOptions: " << booleanAsString (insiderOptions) <<
     ", regularOptions: " << booleanAsString (regularOptions) <<
     endl;
@@ -118,45 +121,59 @@ int main (int argc, char *argv[])
 
   // here, at most one of insiderOptions and regularOptions is true
 
-  // create the OAH handler, a regular handler is the default
+  // create the global log indented output stream
+  // ------------------------------------------------------
+
+  createTheGlobalIndentedOstreams (cout, cerr);
+
+  // the oahHandler, set below
   // ------------------------------------------------------
 
   S_oahHandler handler;
 
-  if (insiderOptions) {
-    // create an insider xml2ly OAH handler
-    handler =
-      xml2lyInsiderOahHandler::create (
-        executableName,
-        "xml2ly with insider options",
-        gOutputOstream);
-
-  }
-  else {
-    // create a regular xml2ly OAH handler
-    handler =
-      xml2lyRegularOahHandler::create (
-        executableName,
-        "xml2ly with regular options",
-        gOutputOstream);
-  }
-
-  // analyze the command line options and arguments
-  // ------------------------------------------------------
-
   try {
-    oahHandler::oahHelpOptionsHaveBeenUsedKind
-      helpOptionsHaveBeenUsedKind =
+    // create an xml2ly insider OAH handler
+    // ------------------------------------------------------
+
+    S_xml2lyInsiderOahHandler
+      insiderOahHandler =
+        xml2lyInsiderOahHandler::create (
+          executableName,
+          executableName + " insider OAH handler with argc/argv");
+
+    // the OAH handler to be used, a regular handler is the default
+    // ------------------------------------------------------
+
+    if (insiderOptions) {
+      // use the insider xml2ly OAH handler
+      handler = insiderOahHandler;
+    }
+    else {
+      // create a regular xml2ly OAH handler
+      handler =
+        xml2lyRegularOahHandler::create (
+          executableName,
+          executableName + " regular OAH handler with argc/argv",
+          insiderOahHandler);
+    }
+
+    // handle the command line options and arguments
+    // ------------------------------------------------------
+
+    // handle the options and arguments from argc/argv
+    oahElementHelpOnlyKind
+      helpOnlyKind =
         handler->
-          applyOptionsAndArgumentsFromArgcAndArgv (
+          handleOptionsAndArgumentsFromArgcAndArgv (
             argc, argv);
 
-    switch (helpOptionsHaveBeenUsedKind) {
-      case oahHandler::kHelpOptionsHaveBeenUsedYes:
-        return kNoErr;
+    // have help options been used?
+    switch (helpOnlyKind) {
+      case kElementHelpOnlyYes:
+        return 0; // quit now
         break;
-      case oahHandler::kHelpOptionsHaveBeenUsedNo:
-        // let's go ahead!
+      case kElementHelpOnlyNo:
+        // go ahead
         break;
     } // switch
   }
@@ -167,35 +184,68 @@ int main (int argc, char *argv[])
     return kInvalidFile;
   }
 
+  // check indentation
+  if (gIndenter != 0) {
+    gLogStream <<
+      "### " <<
+      executableName <<
+      " gIndenter value after options ands arguments checking: " <<
+      gIndenter.getIndent () <<
+      " ###" <<
+      endl << endl;
+
+    gIndenter.resetToZero ();
+  }
+
+  // let's go ahead
+  // ------------------------------------------------------
+
   string
     inputSourceName =
-      gGlobalOahOahGroup->fInputSourceName;
+      gGlobalOahOahGroup->getInputSourceName ();
 
   string
     outputFileName =
-      gGlobalXml2lyInsiderOahGroup->
-        getOutputFileNameStringAtom ()->
-          getStringVariable ();
+      handler->
+        fetchOutputFileNameFromTheOptions ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTracePasses ()) {
-    string separator =
-      "%--------------------------------------------------------------";
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  string separator =
+    "%--------------------------------------------------------------";
 
-    gLogOstream <<
-      executableName << ": " <<
-      "inputSourceName = \"" << inputSourceName << "\"" <<
-      ", outputFileName = \"" << outputFileName << "\"" <<
-      endl <<
-      separator <<
-      endl;
-  }
+  gLogStream <<
+    executableName << ": " <<
+    "inputSourceName = \"" << inputSourceName << "\"" <<
+    ", outputFileName = \"" << outputFileName << "\"" <<
+    endl <<
+    separator <<
+    endl;
 #endif
+#endif
+
+  // what if no input source name has been supplied?
+  if (! inputSourceName.size ()) {
+    if (handler->getOahHandlerFoundAHelpOption ()) {
+      return 0; // pure help run
+    }
+    else {
+      stringstream s;
+
+      s <<
+        "this is not a pure help run, \"" <<
+        executableName <<
+        " needs an input file name: " <<
+        handler->getHandlerUsage ();
+
+      oahError (s.str ());
+    }
+  }
 
   // has quiet mode been requested?
   // ------------------------------------------------------
 
-  if (gGlobalGeneralOahGroup->fQuiet) {
+  if (gGlobalGeneralOahGroup->getQuiet ()) {
     // disable all trace and display options
     handler->
       enforceHandlerQuietness ();
@@ -204,69 +254,71 @@ int main (int argc, char *argv[])
   // welcome message
   // ------------------------------------------------------
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTracePasses ()) {
     int
       outputFileNameSize =
         outputFileName.size ();
 
-    gLogOstream <<
-      "This is xml2ly " << currentVersionNumber () <<
+    gLogStream <<
+      "This is \"" << executableName << "\" " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
-    gLogOstream <<
-      "Launching conversion of ";
+    gLogStream <<
+      "Launching the conversion of ";
 
-    if (inputSourceName == "-")
-      gLogOstream <<
+    if (inputSourceName == "-") {
+      gLogStream <<
         "standard input";
-    else
-      gLogOstream <<
+    }
+    else {
+      gLogStream <<
         "\"" << inputSourceName << "\"";
+    }
 
-    gLogOstream <<
+    gLogStream <<
       " to LilyPond" <<
       endl;
 
-    gLogOstream <<
-      "Time is " << gGlobalGeneralOahGroup->fTranslationDateFull <<
+    gLogStream <<
+      "Time is " <<
+      gGlobalGeneralOahGroup->getTranslationDateFull () <<
       endl;
 
-    gLogOstream <<
+    gLogStream <<
       "LilyPond code will be written to ";
     if (outputFileNameSize) {
-      gLogOstream <<
+      gLogStream <<
         outputFileName;
     }
     else {
-      gLogOstream <<
+      gLogStream <<
         "standard output";
     }
-    gLogOstream <<
+    gLogStream <<
       endl << endl;
 
-    gLogOstream <<
+    gLogStream <<
       "The command line is:" <<
       endl;
 
     gIndenter++;
-    gLogOstream <<
+    gLogStream <<
       handler->
         commandLineWithShortNamesAsString () <<
       endl;
     gIndenter--;
 
-    gLogOstream <<
+    gLogStream <<
       "or:" <<
       endl;
-    gIndenter++;
 
-    gLogOstream <<
+    gIndenter++;
+    gLogStream <<
       handler->
         commandLineWithLongNamesAsString () <<
       endl << endl;
-
     gIndenter--;
   }
 #endif
@@ -274,25 +326,44 @@ int main (int argc, char *argv[])
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTracePasses ()) {
-    gLogOstream <<
+    gLogStream <<
       "The command line options and arguments have been analyzed" <<
       endl;
   }
 #endif
 
-  // do the translation, creating MusicXML back from the MSR if requested
+  // do the translation
   // ------------------------------------------------------
 
   xmlErr err;
 
   try {
-    err =
-      convertMusicXMLToLilypond (
-        inputSourceName,
-        outputFileName,
-        gGlobalXml2lyInsiderOahGroup->fLoopBackToMusicXML); // loopBackToMusicXML is used by 'xml2ly -loop'
+    if (inputSourceName == "-") {
+      // MusicXML data comes from standard input
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+      cerr << "Reading standard input" << endl;
+#endif
+#endif
+
+      err =
+        musicxmlFd2lilypondWithHandler (
+          stdin, cout, cerr, handler);
+    }
+    else {
+      // MusicXML data comes from a file
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+      cerr << "Reading file \"" << inputSourceName << "\"" << endl;
+#endif
+#endif
+
+      err =
+        musicxmlFile2lilypondWithHandler (
+          inputSourceName.c_str(), cout, cerr, handler);
+    }
   }
   catch (std::exception& e) {
     return kInvalidFile;
@@ -306,24 +377,27 @@ int main (int argc, char *argv[])
   // print timing information
   // ------------------------------------------------------
 
-  if (gGlobalGeneralOahGroup->fDisplayCPUusage)
-    timing::gTiming.print (
-      gLogOstream);
+  if (gGlobalGeneralOahGroup->getDisplayCPUusage ())
+    timing::gGlobalTiming.print (gLogStream);
 
   // check indentation
   // ------------------------------------------------------
 
   if (gIndenter != 0) {
-    gLogOstream <<
-      "### xml2ly gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
+    gLogStream <<
+      "### " << executableName << " gIndenter final value: " <<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl << endl;
+
+    gIndenter.resetToZero ();
   }
 
   // over!
   // ------------------------------------------------------
 
   if (err != kNoErr) {
-    gLogOstream <<
+    gLogStream <<
       "### Conversion from MusicXML to LilyPond code failed ###" <<
       endl << endl;
 

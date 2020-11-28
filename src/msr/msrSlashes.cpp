@@ -18,6 +18,8 @@
 
 #include "msrSlashes.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -39,7 +41,7 @@ S_msrSlash msrSlash::create (
       slashTypeKind,
       useDotsKind,
       slashUseStemsKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -60,8 +62,8 @@ msrSlash::~msrSlash ()
 
 void msrSlash::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSlash::acceptIn ()" <<
       endl;
   }
@@ -71,8 +73,8 @@ void msrSlash::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSlash>*> (v)) {
         S_msrSlash elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSlash::visitStart ()" <<
             endl;
         }
@@ -82,8 +84,8 @@ void msrSlash::acceptIn (basevisitor* v)
 
 void msrSlash::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSlash::acceptOut ()" <<
       endl;
   }
@@ -93,8 +95,8 @@ void msrSlash::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSlash>*> (v)) {
         S_msrSlash elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSlash::visitEnd ()" <<
             endl;
         }

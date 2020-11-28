@@ -14,6 +14,8 @@
 
 #include "lpsrElements.h"
 
+#include "oahOah.h"
+
 #include "lpsrOah.h"
 
 
@@ -29,7 +31,7 @@ S_lpsrElement lpsrElement::create (
   lpsrElement* o =
     new lpsrElement (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -43,9 +45,9 @@ lpsrElement::~lpsrElement ()
 
 void lpsrElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrElement::acceptIn ()" <<
       endl;
   }
@@ -56,9 +58,9 @@ void lpsrElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrElement::visitStart ()" <<
             endl;
         }
@@ -69,9 +71,9 @@ void lpsrElement::acceptIn (basevisitor* v)
 
 void lpsrElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrElement::acceptOut ()" <<
       endl;
   }
@@ -82,9 +84,9 @@ void lpsrElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrElement::visitEnd ()" <<
             endl;
         }

@@ -13,34 +13,26 @@
 #ifndef ___brailleOah___
 #define ___brailleOah___
 
-#include <set>
-
-#include "oahBasicTypes.h"
-
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class brailleOah : public oahGroup
+class brailleOahGroup : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<brailleOah> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<brailleOah>    createCloneWithDetailedTrace ();
+    static SMARTP<brailleOahGroup> create ();
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeBrailleOah (
-                            bool boolOptionsInitialValue);
+    void                  initializeBrailleOahGroup ();
 
     void                  printBrailleOahHelp ();
 
@@ -51,10 +43,9 @@ class brailleOah : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    brailleOah (
-      S_oahHandler handlerUpLink);
+    brailleOahGroup ();
 
-    virtual ~brailleOah ();
+    virtual ~brailleOahGroup ();
 
     // set and get
     // ------------------------------------------------------
@@ -93,21 +84,18 @@ class brailleOah : public oahGroup
     // private services
     // ------------------------------------------------------
 
-  public:
+  private:
 
-    // fields
+    // private fields
     // --------------------------------------
 };
-typedef SMARTP<brailleOah> S_brailleOah;
-EXP ostream& operator<< (ostream& os, const S_brailleOah& elt);
+typedef SMARTP<brailleOahGroup> S_brailleOahGroup;
+EXP ostream& operator<< (ostream& os, const S_brailleOahGroup& elt);
 
-EXP extern S_brailleOah gGlobalBrailleOah;
-EXP extern S_brailleOah gGlobalBrailleOahUserChoices;
-EXP extern S_brailleOah gGlobalBrailleOahWithDetailedTrace;
+EXP extern S_brailleOahGroup gGlobalBrailleOahGroup;
 
 //______________________________________________________________________________
-void initializeBrailleOahHandling (
-  S_oahHandler handler);
+S_brailleOahGroup createGlobalBrailleOahGroup ();
 
 
 }

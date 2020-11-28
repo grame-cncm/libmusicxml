@@ -68,7 +68,9 @@ class msrBeam : public msrElement
     int                   getBeamNumber () const
                               { return fBeamNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -94,7 +96,7 @@ class msrBeam : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fBeamNumber;

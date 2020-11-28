@@ -62,7 +62,9 @@ class msrTie : public msrElement
     msrTieKind            getTieKind () const
                               { return fTieKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -88,7 +90,7 @@ class msrTie : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrTieKind            fTieKind;

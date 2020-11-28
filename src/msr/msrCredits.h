@@ -103,7 +103,9 @@ class msrCreditWords : public msrElement
     msrXMLLangKind        getCreditWordsXMLLang () const
                               { return fCreditWordsXMLLang; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -125,7 +127,7 @@ class msrCreditWords : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
 /*
@@ -186,7 +188,9 @@ class msrCredit : public msrElement
                           getCreditWordsList () const
                               { return fCreditWordsList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendCreditWordsToCredit (
@@ -213,7 +217,7 @@ class msrCredit : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fCreditPageNumber;

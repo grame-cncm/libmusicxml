@@ -30,11 +30,6 @@ EXP void msgAssert (
   std::string messageIfFalse);
 
 //______________________________________________________________________________
-EXP void oahWarning (std::string warningMessage);
-
-EXP void oahError (std::string errorMessage);
-
-//______________________________________________________________________________
 EXP void msgWarning (
   std::string context,
   std::string inputSourceName,
@@ -48,6 +43,13 @@ EXP void msgError (
   std::string sourceCodeFileName,
   int         sourceCodeLineNumber,
   std::string message);
+
+//______________________________________________________________________________
+EXP void oahWarning (std::string warningMessage);
+
+EXP void oahError (std::string errorMessage);
+
+EXP void oahInternalError (string errorMessage);
 
 //______________________________________________________________________________
 EXP void msrUnsupported (
@@ -165,8 +167,8 @@ EXP void msrStreamsWarning (
 */
 
 //______________________________________________________________________________
-EXP extern std::set<int> gWarningsInputLineNumbers;
-EXP extern std::set<int> gErrorsInputLineNumbers;
+EXP extern std::set<int> gGlobalWarningsInputLineNumbers;
+EXP extern std::set<int> gGlobalErrorsInputLineNumbers;
 
 EXP void displayWarningsAndErrorsInputLineNumbers ();
 

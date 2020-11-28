@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -81,7 +81,9 @@ class msrOrnament : public msrElement
     msrAccidentalKind getOrnamentAccidentalKind () const
                               { return fOrnamentAccidentalKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                ornamentKindAsString () const;
@@ -111,7 +113,7 @@ class msrOrnament : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrNote             fOrnamentNoteUpLink;

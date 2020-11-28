@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -82,7 +84,7 @@ S_msrNote msrNote::create (
       noteHeadKind,
       noteHeadFilledKind,
       noteHeadParenthesesKind);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -188,19 +190,19 @@ void msrNote::initializeNote ()
   // note lyrics
   // ------------------------------------------------------
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotesDetails ()) {
+    gLogStream <<
       endl <<
       "Initializing a note" <<
       ", kind: ";
     if (fNoteKind == k_NoNoteKind)
-      gLogOstream <<
+      gLogStream <<
         "not yet known";
     else
-      gLogOstream <<
+      gLogStream <<
         noteKindAsString (fNoteKind);
-    gLogOstream <<
+    gLogStream <<
       ", line " << fInputLineNumber << ":" <<
       endl;
 
@@ -208,30 +210,30 @@ void msrNote::initializeNote ()
 
     const int fieldWidth = 30;
 
-    gLogOstream <<
+    gLogStream <<
       left <<
         setw (fieldWidth) <<
         "fNoteQuarterTonesPitch" << " = " <<
         msrQuarterTonesPitchKindAsString (
-          gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+          gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
           fNoteQuarterTonesPitchKind) <<
         endl;
 
-    gLogOstream <<
+    gLogStream <<
       left <<
         setw (fieldWidth) <<
         "fMeasureElementSoundingWholeNotes" << " = " <<
         fMeasureElementSoundingWholeNotes <<
         endl;
 
-    gLogOstream <<
+    gLogStream <<
       left <<
         setw (fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
         endl;
 
-    gLogOstream <<
+    gLogStream <<
       left <<
         setw (fieldWidth) <<
         "fNoteDotsNumber" << " = " <<
@@ -242,22 +244,22 @@ void msrNote::initializeNote ()
         setw (fieldWidth) <<
         "fNoteGraphicDuration" << " = ";
       if (fNoteGraphicDurationKind != k_NoDuration) {
-        gLogOstream <<
+        gLogStream <<
           msrDurationKindAsString (
             fNoteGraphicDurationKind);
       }
       else {
-        gLogOstream << "none";
+        gLogStream << "none";
       }
 
-    gLogOstream <<
+    gLogStream <<
       left <<
         setw (fieldWidth) <<
         "fNoteTupletFactor" << " = " <<
         fNoteTupletFactor <<
         endl;
 
-    gLogOstream <<
+    gLogStream <<
       endl <<
 
       left <<
@@ -365,9 +367,9 @@ msrNote::~msrNote ()
 
 void msrNote::setNoteKind (msrNoteKind noteKind)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
       "Setting the kind of note '" <<
       asString () <<
       "' to '" <<
@@ -383,9 +385,9 @@ void msrNote::setNoteKind (msrNoteKind noteKind)
 S_msrNote msrNote::createNoteNewbornClone (
   S_msrPart containingPart)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
       "Creating a newborn clone of note '" <<
       asString () <<
       "' in part " <<
@@ -596,9 +598,9 @@ S_msrNote msrNote::createNoteNewbornClone (
 S_msrNote msrNote::createNoteDeepCopy (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
       "Creating a deep copy of note " <<
       asString () <<
       /* JMI
@@ -1143,11 +1145,11 @@ S_msrNote msrNote::createRestNote (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert(o!=0);
+  assert (o!=0);
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRestNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRestNotes ()) {
+    gLogStream <<
       "Creating rest note '" <<
       o->asShortString () <<
       ", line " << inputLineNumber <<
@@ -1195,11 +1197,11 @@ S_msrNote msrNote::createSkipNote (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert(o!=0);
+  assert (o!=0);
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSkipNotes || gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSkipNotes () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Creating skip note '" <<
       o->asString () <<
       ", staffNumber = " << staffNumber <<
@@ -1249,11 +1251,11 @@ S_msrNote msrNote::createGraceSkipNote (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert(o!=0);
+  assert (o!=0);
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSkipNotes || gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSkipNotes () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Creating skip note '" <<
       o->asString () <<
       ", staffNumber = " << staffNumber <<
@@ -1305,11 +1307,11 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert(o!=0);
+  assert (o!=0);
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
+    gLogStream <<
       "Creating note '" <<
       o->asShortString () <<
       "' from semitones pitch and octave '" <<
@@ -1402,9 +1404,9 @@ S_msrStaff msrNote::fetchNoteStaff () const
 void msrNote::setNotePositionInMeasure (
   rational positionInMeasure)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Setting note position in measure of " << asString () <<
       " to '" <<
       positionInMeasure <<
@@ -1798,9 +1800,9 @@ void msrNote::setNoteStem (S_msrStem stem)
 
 void msrNote::setNoteBelongsToAChord ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceChords) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceChords ()) {
+    gLogStream <<
       "Setting note '" <<
       asShortString () <<
       "' to belong to a chord"
@@ -1837,9 +1839,9 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
       </note>
   */
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTuplets) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTuplets ()) {
+    gLogStream <<
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
       asShortString () <<
@@ -1859,9 +1861,9 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
     actualNotes;
   fMeasureElementSoundingWholeNotes.rationalise ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTuplets) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTuplets ()) {
+    gLogStream <<
       "The result is: '" <<
       asShortString () <<
       endl;
@@ -1871,9 +1873,9 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 
 void msrNote::appendBeamToNote (S_msrBeam beam)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceBeams) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceBeams ()) {
+    gLogStream <<
       "Adding beam '" <<
       beam->asShortString () <<
       "' to note '" <<
@@ -1888,9 +1890,9 @@ void msrNote::appendBeamToNote (S_msrBeam beam)
 
 void msrNote::appendArticulationToNote (S_msrArticulation art)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceArticulations) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceArticulations ()) {
+    gLogStream <<
       "Adding articulation '" <<
       art->asShortString () <<
       "' to note '" <<
@@ -1905,9 +1907,9 @@ void msrNote::appendArticulationToNote (S_msrArticulation art)
 
 void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSpanners) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSpanners ()) {
+    gLogStream <<
       "Appending spanner '" <<
       spanner->spannerKindAsString () <<
       "' to note '" <<
@@ -1945,9 +1947,9 @@ void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 
 void msrNote::appendTechnicalToNote (S_msrTechnical technical)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTechnicals) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTechnicals ()) {
+    gLogStream <<
       "Adding technical '" <<
       technical->asString () <<
       "' to note '" << asString () <<
@@ -1963,9 +1965,9 @@ void msrNote::appendTechnicalToNote (S_msrTechnical technical)
 void msrNote::appendTechnicalWithIntegerToNote (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTechnicals) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTechnicals ()) {
+    gLogStream <<
       "Adding technical with integer '" <<
       technicalWithInteger->asString () <<
       "' to note '" << asString () <<
@@ -1982,9 +1984,9 @@ void msrNote::appendTechnicalWithIntegerToNote (
 void msrNote::appendTechnicalWithFloatToNote (
   S_msrTechnicalWithFloat technicalWithFloat)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTechnicals) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTechnicals ()) {
+    gLogStream <<
       "Adding technical with float '" <<
       technicalWithFloat->asString () <<
       "' to note '" << asString () <<
@@ -2001,9 +2003,9 @@ void msrNote::appendTechnicalWithFloatToNote (
 void msrNote::appendTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTechnicals) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTechnicals ()) {
+    gLogStream <<
       "Adding technical with string'" <<
       technicalWithString->asString () <<
       "' to note '" << asString () <<
@@ -2019,9 +2021,9 @@ void msrNote::appendTechnicalWithStringToNote (
 
 void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceOrnaments) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOrnaments ()) {
+    gLogStream <<
       "Adding ornament '" <<
       ornament->asString () <<
       "' to note '" <<
@@ -2064,9 +2066,9 @@ void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 
 void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGlissandos) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGlissandos ()) {
+    gLogStream <<
       "Adding glissando '" <<
       glissando->asShortString () <<
       "' to note '" <<
@@ -2082,9 +2084,9 @@ void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
 
 void msrNote::appendSlideToNote (S_msrSlide slide)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSlides) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSlides ()) {
+    gLogStream <<
       "Adding slide '" <<
       slide->asShortString () <<
       "' to note '" <<
@@ -2101,9 +2103,9 @@ void msrNote::appendSlideToNote (S_msrSlide slide)
 void msrNote::setNoteGraceNotesGroupBefore (
   S_msrGraceNotesGroup graceNotesGroupBefore)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Attaching grace notes group '" <<
       graceNotesGroupBefore->asString () <<
       "' before note '" <<
@@ -2125,9 +2127,9 @@ void msrNote::setNoteGraceNotesGroupBefore (
 void msrNote::setNoteGraceNotesGroupAfter (
   S_msrGraceNotesGroup graceNotesGroupAfter)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Attaching grace notes group '" <<
       graceNotesGroupAfter->asString () <<
       "' after note '" <<
@@ -2149,9 +2151,9 @@ void msrNote::setNoteGraceNotesGroupAfter (
 /* JMI
 void msrNote::setNoteAfterGraceNotesGroup (S_msrGraceNotesGroup afterGraceNotesGroup)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Attaching afterGraceNotesGroup '" << afterGraceNotesGroup->asString () <<
       "' to note '" << asShortString () <<
       "', line " << afterGraceNotesGroup->getInputLineNumber () <<
@@ -2166,9 +2168,9 @@ void msrNote::setNoteAfterGraceNotesGroup (S_msrGraceNotesGroup afterGraceNotesG
 
 void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTremolos) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTremolos ()) {
+    gLogStream <<
       "Adding singleTremolo '" << trem->asString () <<
       "' to note '" << asString () <<
       "', line " << trem->getInputLineNumber () <<
@@ -2182,9 +2184,9 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 
 void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDynamics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDynamics ()) {
+    gLogStream <<
       "Attaching dynamics '" <<
       dynamics->asString () <<
       "' to note '" <<
@@ -2208,9 +2210,9 @@ void msrNote::appendWordsToNote (S_msrWords words)
 
 void msrNote::appendSlurToNote (S_msrSlur slur)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSlurs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSlurs ()) {
+    gLogStream <<
       "Adding slur '" << slur <<
       "' to note '" << asString () << "'" <<
       endl;
@@ -2222,9 +2224,9 @@ void msrNote::appendSlurToNote (S_msrSlur slur)
 
 void msrNote::appendLigatureToNote (S_msrLigature ligature)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLigatures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLigatures ()) {
+    gLogStream <<
       "Appending ligature " << ligature << " to note " << asString () <<
        endl;
   }
@@ -2241,8 +2243,8 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
       // it may happen that a given note has a 'ligature start'
       // and a 'ligature stop' in sequence, ignore both
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceLigatures) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceLigatures ()) {
         stringstream s;
 
         s <<
@@ -2252,16 +2254,16 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
           ligature->getInputLineNumber ();
 
         msrMusicXMLWarning (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           ligature->getInputLineNumber (),
           s.str ());
       }
 #endif
 
       // remove 'ligature start'
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceLigatures) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceLigatures ()) {
+        gLogStream <<
           "Removing last ligature (start) for note '" <<
           asShortString () <<
           "'" <<
@@ -2284,9 +2286,9 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
 
 void msrNote::appendPedalToNote (S_msrPedal pedal)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePedals) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePedals ()) {
+    gLogStream <<
       "Appending pedal " << pedal << " to note " << asString () <<
        endl;
   }
@@ -2301,8 +2303,8 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
       // it may happen that a given note has a 'pedal start'
       // and a 'pedal stop' in sequence, ignore both            // JMI ???
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTracePedals) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTracePedals ()) {
         stringstream s;
 
         s <<
@@ -2312,16 +2314,16 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
           pedal->getInputLineNumber ();
 
         msrMusicXMLWarning (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           pedal->getInputLineNumber (),
           s.str ());
       }
 #endif
 
       // rmeove 'pedal start'
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTracePedals) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTracePedals ()) {
+        gLogStream <<
           "Removing last pedal (start) for note '" <<
           asShortString () <<
           "'" <<
@@ -2343,9 +2345,9 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
 
 void msrNote::appendSlashToNote (S_msrSlash slash)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSlashes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSlashes ()) {
+    gLogStream <<
       "Appending slash '" <<
       slash <<
       "' to note '" <<
@@ -2370,9 +2372,9 @@ void msrNote::appendSegnoToNote (S_msrSegno segno)
 
 void msrNote::appendDalSegnoToNote (S_msrDalSegno dalSegno)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDalSegnos) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDalSegnos ()) {
+    gLogStream <<
       "Appending dal segno " <<
       dalSegno->asShortString () <<
       " to note " <<
@@ -2413,9 +2415,9 @@ void msrNote::assignMeasureElementPositionInVoice (
   rational& positionInVoice,
   string    context)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Assigning note position in voice of " <<
       asString () <<
       " to '" << positionInVoice <<
@@ -2434,9 +2436,9 @@ void msrNote::assignMeasureElementPositionInVoice (
     "positionInVoice == K_NO_POSITION");
 
   // set measure element position in voice
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Setting note position in voice of " <<
       asString () <<
       " to '" << positionInVoice <<
@@ -2456,9 +2458,9 @@ void msrNote::assignMeasureElementPositionInVoice (
     fMeasureElementSoundingWholeNotes;
   positionInVoice.rationalise ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Position in voice becomes " <<
       positionInVoice <<
       "', context: \"" <<
@@ -2471,9 +2473,9 @@ void msrNote::assignMeasureElementPositionInVoice (
 
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDynamics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDynamics ()) {
+    gLogStream <<
       "Removing first dynamics from note '" <<
       asShortString () <<
       "'" <<
@@ -2494,9 +2496,9 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 
 S_msrWedge msrNote::removeFirstWedge () // JMI
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWedges) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWedges ()) {
+    gLogStream <<
       "Removing first wedge from note '" <<
       asShortString () <<
       endl;
@@ -2515,9 +2517,9 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending syllable '" <<
       syllable->asString () <<
       "' to note '" << asString () <<
@@ -2531,9 +2533,9 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 
 void msrNote::appendHarmonyToNoteHarmoniesList (S_msrHarmony harmony)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Append harmony " <<
       harmony->asString () <<
       " to the harmonies list of " <<
@@ -2555,9 +2557,9 @@ void msrNote::appendHarmonyToNoteHarmoniesList (S_msrHarmony harmony)
 void msrNote::appendFiguredBassToNoteFiguredBassesList (
   S_msrFiguredBass figuredBass)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Append figured bass " <<
       figuredBass->asString () <<
       " to the figured basses list of " <<
@@ -2578,8 +2580,8 @@ void msrNote::appendFiguredBassToNoteFiguredBassesList (
 
 void msrNote::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrNote::acceptIn ()" <<
       endl;
   }
@@ -2589,8 +2591,8 @@ void msrNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrNote::visitStart ()" <<
             endl;
         }
@@ -2600,8 +2602,8 @@ void msrNote::acceptIn (basevisitor* v)
 
 void msrNote::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrNote::acceptOut ()" <<
       endl;
   }
@@ -2611,8 +2613,8 @@ void msrNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrNote::visitEnd ()" <<
             endl;
         }
@@ -2638,9 +2640,9 @@ void msrNote::browseData (basevisitor* v)
       score->getInhibitGraceNotesGroupsBrowsing ();
 
     if (inhibitGraceNotesGroupsBrowsing) {
-#ifdef TRACE_OAH
-      if (gGlobalMsrOah->fTraceMsrVisitors || gGlobalTraceOahGroup->fTraceGraceNotes) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalMsrOahGroup->getTraceMsrVisitors () || gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+        gLogStream <<
           "% ==> visiting grace notes groups before is inhibited" <<
           endl;
       }
@@ -3046,9 +3048,9 @@ void msrNote::browseData (basevisitor* v)
       score->getInhibitGraceNotesGroupsBrowsing ();
 
     if (inhibitGraceNotesGroupsBrowsing) {
-#ifdef TRACE_OAH
-      if (gGlobalMsrOah->fTraceMsrVisitors || gGlobalTraceOahGroup->fTraceGraceNotes) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalMsrOahGroup->getTraceMsrVisitors () || gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+        gLogStream <<
           "% ==> visiting grace notes groups before is inhibited" <<
           endl;
       }
@@ -3081,7 +3083,7 @@ string msrNote::notePitchAsString () const
     case msrNote::kGraceTupletMemberNote:
       s <<
         msrQuarterTonesPitchKindAsString (
-          gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+          gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
           fNoteQuarterTonesPitchKind);
       break;
 
@@ -3100,7 +3102,7 @@ string msrNote::noteDisplayPitchKindAsString () const
 
   s <<
     msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
       fNoteQuarterTonesDisplayPitchKind);
 
   return s.str ();
@@ -3132,7 +3134,7 @@ string msrNote::noteDiatonicPitchKindAsString (
 {
   return
     msrDiatonicPitchKindAsString (
-      gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
       noteDiatonicPitchKind (
         fInputLineNumber));
 }
@@ -3656,7 +3658,7 @@ string msrNote::asString () const
         noteDisplayPitchKindAsString () <<
         ", " <<
         noteSoundingWholeNotesAsMsrString () <<
-        ", octave" " "<< noteDisplayOctaveAsString () <<
+        ", octave" " " << noteDisplayOctaveAsString () <<
         ")" <<
         */
         ", whole notes: " <<
@@ -3684,7 +3686,7 @@ string msrNote::asString () const
 
     case msrNote::kUnpitchedNote:
       s <<
-        "unpitchedNote"<<
+        "unpitchedNote" <<
         " " <<
         noteSoundingWholeNotesAsMsrString ();
 
@@ -3695,7 +3697,7 @@ string msrNote::asString () const
 
     case msrNote::kRegularNote:
       s <<
-        "regularNote '"<<
+        "regularNote '" <<
         notePitchAsString () <<
         /* JMI
         "', " <<
@@ -3713,7 +3715,7 @@ string msrNote::asString () const
 
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        "doubleTremoloMemberNote '"<<
+        "doubleTremoloMemberNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -3721,7 +3723,7 @@ string msrNote::asString () const
 
     case msrNote::kGraceNote:
       s <<
-        "graceNote '"<<
+        "graceNote '" <<
         notePitchAsString () <<
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
@@ -3744,7 +3746,7 @@ string msrNote::asString () const
 
     case msrNote::kGraceChordMemberNote:
       s <<
-        "graceChordMemberNote '"<<
+        "graceChordMemberNote '" <<
         notePitchAsString () <<
 //        " " <<
  // JMI       noteGraphicDurationAsMsrString () <<
@@ -3761,7 +3763,7 @@ string msrNote::asString () const
 
     case msrNote::kChordMemberNote:
       s <<
-        "chordMemberNote '"<<
+        "chordMemberNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
  // JMI       ", " << fMeasureElementSoundingWholeNotes << " sounding whole notes, " <<
@@ -3770,7 +3772,7 @@ string msrNote::asString () const
 
     case msrNote::kTupletMemberNote:
       s <<
-        "tupletMemberNote '"<<
+        "tupletMemberNote '" <<
         notePitchAsString () <<
         "' " <<
         fMeasureElementSoundingWholeNotes <<
@@ -3796,7 +3798,7 @@ string msrNote::asString () const
 
     case msrNote::kTupletRestMemberNote:
       s <<
-        "tupletRestMemberNote '"<<
+        "tupletRestMemberNote '" <<
         notePitchAsString () <<
         "' " <<
         fMeasureElementSoundingWholeNotes <<
@@ -3819,7 +3821,7 @@ string msrNote::asString () const
 
     case msrNote::kGraceTupletMemberNote:
       s <<
-        "graceTupletMemberNote '"<<
+        "graceTupletMemberNote '" <<
         notePitchAsString () <<
         fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
@@ -3849,7 +3851,7 @@ string msrNote::asString () const
 
     case msrNote::kTupletUnpitchedMemberNote:
       s <<
-        "tupletUnpitchedMemberNote "<<
+        "tupletUnpitchedMemberNote " <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
@@ -3978,7 +3980,7 @@ void msrNote::print (ostream& os) const
 
 // JMI     msrInternalError (
     msrInternalWarning (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       fInputLineNumber,
       s.str ());
   }
@@ -4207,7 +4209,7 @@ void msrNote::print (ostream& os) const
     endl;
 
   // print the grace notes group before if any
-  if (fNoteGraceNotesGroupBefore || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteGraceNotesGroupBefore || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteGraceNotesGroupBefore";
@@ -4280,7 +4282,7 @@ void msrNote::print (ostream& os) const
 
   stringstream s;
 
-// JMI  if (fNoteIsStemless || gGlobalMsrOah->fDisplayMsrDetails) {
+// JMI  if (fNoteIsStemless || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsStemless" <<
@@ -4290,7 +4292,7 @@ void msrNote::print (ostream& os) const
       endl;
 // JMI  }
 
- // JMI if (fNoteIsAChordsFirstMemberNote || gGlobalMsrOah->fDisplayMsrDetails) {
+ // JMI if (fNoteIsAChordsFirstMemberNote || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsAChordsFirstMemberNote" <<
@@ -4300,7 +4302,7 @@ void msrNote::print (ostream& os) const
       endl;
  // JMI }
 
- // JMI if (fNoteIsFirstNoteInADoubleTremolo || gGlobalMsrOah->fDisplayMsrDetails) {
+ // JMI if (fNoteIsFirstNoteInADoubleTremolo || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsFirstNoteInADoubleTremolo" <<
@@ -4309,7 +4311,7 @@ void msrNote::print (ostream& os) const
         fNoteIsFirstNoteInADoubleTremolo) <<
       endl;
 // JMI  }
- // JMI if (fNoteIsSecondNoteInADoubleTremolo || gGlobalMsrOah->fDisplayMsrDetails) {
+ // JMI if (fNoteIsSecondNoteInADoubleTremolo || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsSecondNoteInADoubleTremolo" <<
@@ -4319,7 +4321,7 @@ void msrNote::print (ostream& os) const
       endl;
 // JMI  }
 
-  if (fNoteTrillOrnament || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteTrillOrnament || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTrillOrnament" <<
@@ -4328,7 +4330,7 @@ void msrNote::print (ostream& os) const
       endl;
   }
 
-  if (fNoteDashesOrnament || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteDashesOrnament || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDashesOrnament" <<
@@ -4337,7 +4339,7 @@ void msrNote::print (ostream& os) const
       endl;
   }
 
-  if (fNoteDelayedTurnOrnament || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteDelayedTurnOrnament || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDelayedTurnOrnament" <<
@@ -4345,7 +4347,7 @@ void msrNote::print (ostream& os) const
       fNoteDelayedTurnOrnament-> asString () <<
       endl;
   }
-  if (fNoteDelayedInvertedTurnOrnament || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteDelayedInvertedTurnOrnament || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDelayedInvertedTurnOrnament" <<
@@ -4354,7 +4356,7 @@ void msrNote::print (ostream& os) const
       endl;
   }
 
-  if (fNoteWavyLineSpannerStart || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteWavyLineSpannerStart || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteWavyLineSpannerStart" <<
@@ -4362,7 +4364,7 @@ void msrNote::print (ostream& os) const
       fNoteWavyLineSpannerStart->asShortString () <<
       endl;
   }
-  if (fNoteWavyLineSpannerStop || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteWavyLineSpannerStop || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteWavyLineSpannerStop" <<
@@ -4371,7 +4373,7 @@ void msrNote::print (ostream& os) const
       endl;
   }
 
-  if (fNoteIsFollowedByGraceNotesGroup || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteIsFollowedByGraceNotesGroup || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsFollowedByGraceNotesGroup" <<
@@ -4523,7 +4525,7 @@ void msrNote::print (ostream& os) const
   } // switch
 
   // print the octave shift if any
-  if (fNoteOctaveShift || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteOctaveShift || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteOctaveShift";
@@ -4545,7 +4547,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the stem if any
-  if (fNoteStem || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteStem || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteStem";
@@ -4574,7 +4576,7 @@ void msrNote::print (ostream& os) const
     endl;
 
   // print the tie if any
-  if (fNoteTie || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteTie || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTie";
@@ -4598,7 +4600,7 @@ void msrNote::print (ostream& os) const
   // print the beams if any
   int noteBeamsSize = fNoteBeams.size ();
 
-  if (noteBeamsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteBeamsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteBeams";
@@ -4629,7 +4631,7 @@ void msrNote::print (ostream& os) const
   // print the articulations if any
   int noteArticulationsSize = fNoteArticulations.size ();
 
-  if (noteArticulationsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteArticulationsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteArticulations";
@@ -4660,7 +4662,7 @@ void msrNote::print (ostream& os) const
   // print the spanners if any
   int noteSpannersSize = fNoteSpanners.size ();
 
-  if (noteSpannersSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSpannersSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSpanners";
@@ -4691,7 +4693,7 @@ void msrNote::print (ostream& os) const
   // print the technicals if any
   int noteTechnicalsSize = fNoteTechnicals.size ();
 
-  if (noteTechnicalsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteTechnicalsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTechnicals";
@@ -4722,7 +4724,7 @@ void msrNote::print (ostream& os) const
   // print the technicals with integer if any
   int noteTechnicalWithIntegersSize = fNoteTechnicalWithIntegers.size ();
 
-  if (noteTechnicalWithIntegersSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteTechnicalWithIntegersSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithIntegers";
@@ -4753,7 +4755,7 @@ void msrNote::print (ostream& os) const
   // print the technicals with float if any
   int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
 
-  if (noteTechnicalWithFloatsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteTechnicalWithFloatsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithFloats";
@@ -4784,7 +4786,7 @@ void msrNote::print (ostream& os) const
   // print the technicals with string if any
   int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
 
-  if (noteTechnicalWithStringsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteTechnicalWithStringsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithStrings";
@@ -4815,7 +4817,7 @@ void msrNote::print (ostream& os) const
   // print the ornaments if any
   int noteOrnamentsSize = fNoteOrnaments.size ();
 
-  if (noteOrnamentsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteOrnamentsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteOrnaments";
@@ -4846,7 +4848,7 @@ void msrNote::print (ostream& os) const
   // print the glissandos if any
   int noteGlissandosSize = fNoteGlissandos.size ();
 
-  if (noteGlissandosSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteGlissandosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteGlissandos";
@@ -4877,7 +4879,7 @@ void msrNote::print (ostream& os) const
   // print the slides if any
   int noteSlidesSize = fNoteSlides.size ();
 
-  if (noteSlidesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSlidesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSlides";
@@ -4906,7 +4908,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the singleTremolo if any
-  if (fNoteSingleTremolo || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteSingleTremolo || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSingleTremolo";
@@ -4929,7 +4931,7 @@ void msrNote::print (ostream& os) const
   // print the dynamics if any
   int noteDynamicsSize = fNoteDynamics.size ();
 
-  if (noteDynamicsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteDynamicsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDynamics";
@@ -4960,7 +4962,7 @@ void msrNote::print (ostream& os) const
   // print the other dynamics if any
   int noteOtherDynamicsSize = fNoteOtherDynamics.size ();
 
-  if (noteOtherDynamicsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteOtherDynamicsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteOtherDynamics";
@@ -4991,7 +4993,7 @@ void msrNote::print (ostream& os) const
   // print the words if any
   int noteWordsSize = fNoteWords.size ();
 
-  if (noteWordsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteWordsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteWords";
@@ -5021,7 +5023,7 @@ void msrNote::print (ostream& os) const
   // print the slurs if any
   int noteSlursSize = fNoteSlurs.size ();
 
-  if (noteSlursSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSlursSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSlurs";
@@ -5052,7 +5054,7 @@ void msrNote::print (ostream& os) const
   // print the ligatures if any
   int noteLigaturesSize = fNoteLigatures.size ();
 
-  if (noteLigaturesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteLigaturesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteLigatures";
@@ -5083,7 +5085,7 @@ void msrNote::print (ostream& os) const
   // print the pedals if any
   int notePedalsSize = fNotePedals.size ();
 
-  if (notePedalsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (notePedalsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "notePedals";
@@ -5114,7 +5116,7 @@ void msrNote::print (ostream& os) const
   // print the slashes if any
   int noteSlashesSize = fNoteSlashes.size ();
 
-  if (noteSlashesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSlashesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSlashes";
@@ -5145,7 +5147,7 @@ void msrNote::print (ostream& os) const
   // print the wedges if any
   int noteWedgesSize = fNoteWedges.size ();
 
-  if (noteWedgesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteWedgesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteWedges";
@@ -5176,7 +5178,7 @@ void msrNote::print (ostream& os) const
   // print the segnos if any
   int noteSegnosSize = fNoteSegnos.size ();
 
-  if (noteSegnosSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSegnosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSegnos";
@@ -5207,7 +5209,7 @@ void msrNote::print (ostream& os) const
   // print the dal segnos if any
   int noteDalSegnosSize = fNoteDalSegnos.size ();
 
-  if (noteDalSegnosSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteDalSegnosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDalSegnos";
@@ -5238,7 +5240,7 @@ void msrNote::print (ostream& os) const
   // print the codas if any
   int noteCodasSize = fNoteCodas.size ();
 
-  if (noteCodasSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteCodasSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteCodas";
@@ -5269,7 +5271,7 @@ void msrNote::print (ostream& os) const
   // print the eyeglasses if any
   int noteEyeGlassesSize = fNoteEyeGlasses.size ();
 
-  if (noteEyeGlassesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteEyeGlassesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteEyeGlasses";
@@ -5300,7 +5302,7 @@ void msrNote::print (ostream& os) const
   // print the damps if any
   int noteDampsSize = fNoteDamps.size ();
 
-  if (noteDampsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteDampsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDamps";
@@ -5331,7 +5333,7 @@ void msrNote::print (ostream& os) const
   // print the dampAlls if any
   int noteDampAllsSize = fNoteDampAlls.size ();
 
-  if (noteDampAllsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteDampAllsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDampAlls";
@@ -5362,7 +5364,7 @@ void msrNote::print (ostream& os) const
   // print the scordaturas if any
   int noteScordaturasSize = fNoteScordaturas.size ();
 
-  if (noteScordaturasSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteScordaturasSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteScordaturas";
@@ -5393,7 +5395,7 @@ void msrNote::print (ostream& os) const
   // print the harmonies associated to this note if any
   int noteHarmoniesListSize = fNoteHarmoniesList.size ();
 
-  if (noteHarmoniesListSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteHarmoniesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteHarmonies";
@@ -5428,7 +5430,7 @@ void msrNote::print (ostream& os) const
   // print the figured basses associated to this note if any
   int noteFiguredBassesListSize = fNoteFiguredBassesList.size ();
 
-  if (noteFiguredBassesListSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteFiguredBassesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteFiguredBasses";
@@ -5463,7 +5465,7 @@ void msrNote::print (ostream& os) const
   // print the syllables associated to this note if any
   int noteSyllablesSize = fNoteSyllables.size ();
 
-  if (noteSyllablesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSyllablesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSyllables";
@@ -5519,7 +5521,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the after grace group notes after if any
-  if (fNoteGraceNotesGroupAfter || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteGraceNotesGroupAfter || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteGraceNotesGroupAfter";
@@ -5576,7 +5578,7 @@ void msrNote::printShort (ostream& os) const
 
 // JMI     msrInternalError (
     msrInternalWarning (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       fInputLineNumber,
       s.str ());
   }
@@ -5826,7 +5828,7 @@ void msrNote::printShort (ostream& os) const
 */
 
   // print the grace notes group before if any
-  if (fNoteGraceNotesGroupBefore || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteGraceNotesGroupBefore || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteGraceNotesGroupBefore";
@@ -5900,7 +5902,7 @@ void msrNote::printShort (ostream& os) const
 
   stringstream s;
 
-// JMI  if (fNoteIsStemless || gGlobalMsrOah->fDisplayMsrDetails) {
+// JMI  if (fNoteIsStemless || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsStemless" <<
@@ -5910,7 +5912,7 @@ void msrNote::printShort (ostream& os) const
       endl;
 // JMI  }
 
- // JMI if (fNoteIsAChordsFirstMemberNote || gGlobalMsrOah->fDisplayMsrDetails) {
+ // JMI if (fNoteIsAChordsFirstMemberNote || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsAChordsFirstMemberNote" <<
@@ -5920,7 +5922,7 @@ void msrNote::printShort (ostream& os) const
       endl;
  // JMI }
 
- // JMI if (fNoteIsFirstNoteInADoubleTremolo || gGlobalMsrOah->fDisplayMsrDetails) {
+ // JMI if (fNoteIsFirstNoteInADoubleTremolo || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsFirstNoteInADoubleTremolo" <<
@@ -5929,7 +5931,7 @@ void msrNote::printShort (ostream& os) const
         fNoteIsFirstNoteInADoubleTremolo) <<
       endl;
 // JMI  }
- // JMI if (fNoteIsSecondNoteInADoubleTremolo || gGlobalMsrOah->fDisplayMsrDetails) {
+ // JMI if (fNoteIsSecondNoteInADoubleTremolo || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsSecondNoteInADoubleTremolo" <<
@@ -5939,7 +5941,7 @@ void msrNote::printShort (ostream& os) const
       endl;
 // JMI  }
 
-  if (fNoteTrillOrnament || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteTrillOrnament || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTrillOrnament" <<
@@ -5948,7 +5950,7 @@ void msrNote::printShort (ostream& os) const
       endl;
   }
 
-  if (fNoteDashesOrnament || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteDashesOrnament || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDashesOrnament" <<
@@ -5957,7 +5959,7 @@ void msrNote::printShort (ostream& os) const
       endl;
   }
 
-  if (fNoteDelayedTurnOrnament || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteDelayedTurnOrnament || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDelayedTurnOrnament" <<
@@ -5965,7 +5967,7 @@ void msrNote::printShort (ostream& os) const
       fNoteDelayedTurnOrnament-> asString () <<
       endl;
   }
-  if (fNoteDelayedInvertedTurnOrnament || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteDelayedInvertedTurnOrnament || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDelayedInvertedTurnOrnament" <<
@@ -5974,7 +5976,7 @@ void msrNote::printShort (ostream& os) const
       endl;
   }
 
-  if (fNoteWavyLineSpannerStart || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteWavyLineSpannerStart || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteWavyLineSpannerStart" <<
@@ -5982,7 +5984,7 @@ void msrNote::printShort (ostream& os) const
       fNoteWavyLineSpannerStart->asShortString () <<
       endl;
   }
-  if (fNoteWavyLineSpannerStop || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteWavyLineSpannerStop || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteWavyLineSpannerStop" <<
@@ -5991,7 +5993,7 @@ void msrNote::printShort (ostream& os) const
       endl;
   }
 
-  if (fNoteIsFollowedByGraceNotesGroup || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteIsFollowedByGraceNotesGroup || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteIsFollowedByGraceNotesGroup" <<
@@ -6141,7 +6143,7 @@ void msrNote::printShort (ostream& os) const
   } // switch
 
   // print the octave shift if any
-  if (fNoteOctaveShift || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteOctaveShift || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteOctaveShift";
@@ -6163,7 +6165,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the stem if any
-  if (fNoteStem || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteStem || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteStem";
@@ -6192,7 +6194,7 @@ void msrNote::printShort (ostream& os) const
     endl;
 
   // print the tie if any
-  if (fNoteTie || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteTie || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTie";
@@ -6217,7 +6219,7 @@ void msrNote::printShort (ostream& os) const
   // print the beams if any
   int noteBeamsSize = fNoteBeams.size ();
 
-  if (noteBeamsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteBeamsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteBeams";
@@ -6249,7 +6251,7 @@ void msrNote::printShort (ostream& os) const
   // print the articulations if any
   int noteArticulationsSize = fNoteArticulations.size ();
 
-  if (noteArticulationsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteArticulationsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteArticulations";
@@ -6280,7 +6282,7 @@ void msrNote::printShort (ostream& os) const
   // print the spanners if any
   int noteSpannersSize = fNoteSpanners.size ();
 
-  if (noteSpannersSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSpannersSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSpanners";
@@ -6311,7 +6313,7 @@ void msrNote::printShort (ostream& os) const
   // print the technicals if any
   int noteTechnicalsSize = fNoteTechnicals.size ();
 
-  if (noteTechnicalsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteTechnicalsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTechnicals";
@@ -6342,7 +6344,7 @@ void msrNote::printShort (ostream& os) const
   // print the technicals with integer if any
   int noteTechnicalWithIntegersSize = fNoteTechnicalWithIntegers.size ();
 
-  if (noteTechnicalWithIntegersSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteTechnicalWithIntegersSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithIntegers";
@@ -6373,7 +6375,7 @@ void msrNote::printShort (ostream& os) const
   // print the technicals with float if any
   int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
 
-  if (noteTechnicalWithFloatsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteTechnicalWithFloatsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithFloats";
@@ -6404,7 +6406,7 @@ void msrNote::printShort (ostream& os) const
   // print the technicals with string if any
   int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
 
-  if (noteTechnicalWithStringsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteTechnicalWithStringsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithStrings";
@@ -6436,7 +6438,7 @@ void msrNote::printShort (ostream& os) const
   // print the ornaments if any
   int noteOrnamentsSize = fNoteOrnaments.size ();
 
-  if (noteOrnamentsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteOrnamentsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteOrnaments";
@@ -6468,7 +6470,7 @@ void msrNote::printShort (ostream& os) const
   // print the glissandos if any
   int noteGlissandosSize = fNoteGlissandos.size ();
 
-  if (noteGlissandosSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteGlissandosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteGlissandos";
@@ -6499,7 +6501,7 @@ void msrNote::printShort (ostream& os) const
   // print the slides if any
   int noteSlidesSize = fNoteSlides.size ();
 
-  if (noteSlidesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSlidesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSlides";
@@ -6530,7 +6532,7 @@ void msrNote::printShort (ostream& os) const
 
 /*
   // print the singleTremolo if any
-  if (fNoteSingleTremolo || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteSingleTremolo || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSingleTremolo";
@@ -6553,7 +6555,7 @@ void msrNote::printShort (ostream& os) const
   // print the dynamics if any
   int noteDynamicsSize = fNoteDynamics.size ();
 
-  if (noteDynamicsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteDynamicsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDynamics";
@@ -6584,7 +6586,7 @@ void msrNote::printShort (ostream& os) const
   // print the other dynamics if any
   int noteOtherDynamicsSize = fNoteOtherDynamics.size ();
 
-  if (noteOtherDynamicsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteOtherDynamicsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteOtherDynamics";
@@ -6616,7 +6618,7 @@ void msrNote::printShort (ostream& os) const
   // print the words if any
   int noteWordsSize = fNoteWords.size ();
 
-  if (noteWordsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteWordsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteWords";
@@ -6646,7 +6648,7 @@ void msrNote::printShort (ostream& os) const
   // print the slurs if any
   int noteSlursSize = fNoteSlurs.size ();
 
-  if (noteSlursSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSlursSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSlurs";
@@ -6677,7 +6679,7 @@ void msrNote::printShort (ostream& os) const
   // print the ligatures if any
   int noteLigaturesSize = fNoteLigatures.size ();
 
-  if (noteLigaturesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteLigaturesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteLigatures";
@@ -6708,7 +6710,7 @@ void msrNote::printShort (ostream& os) const
   // print the pedals if any
   int notePedalsSize = fNotePedals.size ();
 
-  if (notePedalsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (notePedalsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "notePedals";
@@ -6739,7 +6741,7 @@ void msrNote::printShort (ostream& os) const
   // print the slashes if any
   int noteSlashesSize = fNoteSlashes.size ();
 
-  if (noteSlashesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSlashesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSlashes";
@@ -6771,7 +6773,7 @@ void msrNote::printShort (ostream& os) const
   // print the wedges if any
   int noteWedgesSize = fNoteWedges.size ();
 
-  if (noteWedgesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteWedgesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteWedges";
@@ -6802,7 +6804,7 @@ void msrNote::printShort (ostream& os) const
   // print the segnos if any
   int noteSegnosSize = fNoteSegnos.size ();
 
-  if (noteSegnosSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSegnosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSegnos";
@@ -6833,7 +6835,7 @@ void msrNote::printShort (ostream& os) const
   // print the dal segnos if any
   int noteDalSegnosSize = fNoteDalSegnos.size ();
 
-  if (noteDalSegnosSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteDalSegnosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDalSegnos";
@@ -6864,7 +6866,7 @@ void msrNote::printShort (ostream& os) const
   // print the codas if any
   int noteCodasSize = fNoteCodas.size ();
 
-  if (noteCodasSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteCodasSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteCodas";
@@ -6895,7 +6897,7 @@ void msrNote::printShort (ostream& os) const
   // print the eyeglasses if any
   int noteEyeGlassesSize = fNoteEyeGlasses.size ();
 
-  if (noteEyeGlassesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteEyeGlassesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteEyeGlasses";
@@ -6926,7 +6928,7 @@ void msrNote::printShort (ostream& os) const
   // print the damps if any
   int noteDampsSize = fNoteDamps.size ();
 
-  if (noteDampsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteDampsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDamps";
@@ -6957,7 +6959,7 @@ void msrNote::printShort (ostream& os) const
   // print the dampAlls if any
   int noteDampAllsSize = fNoteDampAlls.size ();
 
-  if (noteDampAllsSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteDampAllsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteDampAlls";
@@ -6988,7 +6990,7 @@ void msrNote::printShort (ostream& os) const
   // print the scordaturas if any
   int noteScordaturasSize = fNoteScordaturas.size ();
 
-  if (noteScordaturasSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteScordaturasSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteScordaturas";
@@ -7020,7 +7022,7 @@ void msrNote::printShort (ostream& os) const
   // print the harmonies associated to this note if any
   int noteHarmoniesListSize = fNoteHarmoniesList.size ();
 
-  if (noteHarmoniesListSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteHarmoniesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteHarmonies";
@@ -7055,7 +7057,7 @@ void msrNote::printShort (ostream& os) const
   // print the figured basses associated to this note if any
   int noteFiguredBassesListSize = fNoteFiguredBassesList.size ();
 
-  if (noteFiguredBassesListSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteFiguredBassesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteFiguredBasses";
@@ -7090,7 +7092,7 @@ void msrNote::printShort (ostream& os) const
   // print the syllables associated to this note if any
   int noteSyllablesSize = fNoteSyllables.size ();
 
-  if (noteSyllablesSize > 0 || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (noteSyllablesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteSyllables";
@@ -7146,7 +7148,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the after grace group notes after if any
-  if (fNoteGraceNotesGroupAfter || gGlobalMsrOah->fDisplayMsrDetails) {
+  if (fNoteGraceNotesGroupAfter || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "noteGraceNotesGroupAfter";

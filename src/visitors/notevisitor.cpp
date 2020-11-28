@@ -305,7 +305,7 @@ float notevisitor::getNoteHeadDy( string fCurClef ) const
             break;
     }
     
-    //cerr<<"\t\t getNoteHeadDy withClef=\""<<fCurClef<<"\" octave:"<<display_octave<<" step:\""<<display_step<<"\""<< " kLine="<<kLine<<endl;
+    //cerr<<"\t\t getNoteHeadDy withClef=\"" <<fCurClef<<"\" octave:" <<display_octave<<" step:\"" <<display_step<<"\"" << " kLine=" <<kLine<<endl;
     // IN G CLEF: b3=-1, c4=0, D4=1, e4=2, F4=3, g4=4, A4=5, b4=6, c5=7, d5=8, f5=10, g5=11, a5=12 -> Octave is a cycle of 7
     // IN F CLEF: e4=2 , d4=1, c4=0, b3=-1, a3=-2, g3=-3, f3=-4, d3=-6, b2=-8, g2=-10 (same as G clef)
     // C CLEF: c4=6, d4=7, e4=8, f4=9, g4=10, a4=11, b4=12, c5=13

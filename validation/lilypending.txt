@@ -117,3 +117,4 @@ files/musicxml/gracenotes/GraceNotesInTuplet.xml
 files/musicxml/gracenotes/GraceNotesWithTrill.xml
 files/musicxml/multistaff/MozartAdagioKV410.xml
 files/musicxml/tremolos/DoubleTremolo.xml
+files/musicxml/barlines/BarLineProblem.xml

@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -36,7 +38,7 @@ S_msrRepeatCoda msrRepeatCoda::create (
       inputLineNumber,
       repeatCodaSegment,
       repeatUpLink);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -67,9 +69,9 @@ msrRepeatCoda::~msrRepeatCoda ()
 S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
   S_msrRepeat containingRepeat)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
@@ -102,9 +104,9 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
 S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   S_msrRepeat containingRepeat)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
@@ -152,8 +154,8 @@ void msrRepeatCoda::appendElementToRepeatCoda (
 
 void msrRepeatCoda::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeatCoda::acceptIn ()" <<
       endl;
   }
@@ -163,8 +165,8 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
         S_msrRepeatCoda elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeatCoda::visitStart ()" <<
             endl;
         }
@@ -174,8 +176,8 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
 
 void msrRepeatCoda::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrRepeatCoda::acceptOut ()" <<
       endl;
   }
@@ -185,8 +187,8 @@ void msrRepeatCoda::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
         S_msrRepeatCoda elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrRepeatCoda::visitEnd ()" <<
             endl;
         }

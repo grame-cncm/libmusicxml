@@ -19,12 +19,13 @@
 
 #include "msrScaling.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "msrOah.h"
 #include "lpsrOah.h"
@@ -46,7 +47,7 @@ S_msrScaling msrScaling::create (
       inputLineNumber,
       millimeters,
       tenths);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -79,11 +80,11 @@ float msrScaling::fetchGlobalStaffSize () const
 {
   const float
     optionsGlobalStaffSize =
-      gGlobalLpsrOah->fGlobalStaffSize;
+      gGlobalLpsrOahGroup->getGlobalStaffSize ();
 
   const bool
     staffGlobalSizeHasBeenSet =
-      gGlobalLpsrOah->fStaffGlobalSizeHasBeenSet;
+      gGlobalLpsrOahGroup->getStaffGlobalSizeHasBeenSet ();
 
   float result = 0.0;
 
@@ -102,13 +103,13 @@ float msrScaling::fetchGlobalStaffSize () const
 
     result = optionsGlobalStaffSize * ratio;
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
     const float
       optionsStaffGlobalSizeDefaultValue =
-        gGlobalLpsrOah->fStaffGlobalSizeDefaultValue;
+        gGlobalLpsrOahGroup->getStaffGlobalSizeDefaultValue ();
 
-    if (gGlobalTraceOahGroup->fTraceGeometry) {
-      gLogOstream <<
+    if (gGlobalTraceOahGroup->getTraceGeometry ()) {
+      gLogStream <<
         "fetchGlobalStaffSize():" <<
         endl;
 
@@ -116,7 +117,7 @@ float msrScaling::fetchGlobalStaffSize () const
 
       const int fieldWidth = 32;
 
-      gLogOstream << left <<
+      gLogStream << left <<
         setw (fieldWidth) <<
         "optionsGlobalStaffSize" << " : " <<
         optionsGlobalStaffSize <<
@@ -158,8 +159,8 @@ float msrScaling::fetchGlobalStaffSize () const
 #endif
 
     if (result < 1.0 || result > 100.0) {
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceGeometry) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceGeometry ()) {
         stringstream s;
 
         s <<
@@ -168,7 +169,7 @@ float msrScaling::fetchGlobalStaffSize () const
           endl;
 
         msrMusicXMLWarning (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           fInputLineNumber,
           s.str ());
       }
@@ -183,8 +184,8 @@ float msrScaling::fetchGlobalStaffSize () const
 
 void msrScaling::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrScaling::acceptIn ()" <<
       endl;
   }
@@ -194,8 +195,8 @@ void msrScaling::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrScaling>*> (v)) {
         S_msrScaling elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrScaling::visitStart ()" <<
             endl;
         }
@@ -205,8 +206,8 @@ void msrScaling::acceptIn (basevisitor* v)
 
 void msrScaling::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrScaling::acceptOut ()" <<
       endl;
   }
@@ -216,8 +217,8 @@ void msrScaling::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrScaling>*> (v)) {
         S_msrScaling elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrScaling::visitEnd ()" <<
             endl;
         }

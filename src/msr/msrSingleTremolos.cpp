@@ -17,6 +17,8 @@
 
 #include "msrSingleTremolos.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -61,8 +63,8 @@ string msrSingleTremolo::singleTremoloPlacementKindAsString () const
 
 void msrSingleTremolo::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSingleTremolo::acceptIn ()" <<
       endl;
   }
@@ -72,8 +74,8 @@ void msrSingleTremolo::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
         S_msrSingleTremolo elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSingleTremolo::visitStart ()" <<
             endl;
         }
@@ -83,8 +85,8 @@ void msrSingleTremolo::acceptIn (basevisitor* v)
 
 void msrSingleTremolo::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSingleTremolo::acceptOut ()" <<
       endl;
   }
@@ -94,8 +96,8 @@ void msrSingleTremolo::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
         S_msrSingleTremolo elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSingleTremolo::visitEnd ()" <<
             endl;
         }

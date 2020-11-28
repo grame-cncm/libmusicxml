@@ -33,16 +33,16 @@ template <int elt> class musicxml : public xmlelement
   public:
   /*
     static SMARTP<musicxml<elt> > new_musicxml()  
-      { musicxml<elt>* o = new musicxml<elt>; assert(o!=0); return o; }
+      { musicxml<elt>* o = new musicxml<elt>; assert (o!=0); return o; }
       * 
     static SMARTP<musicxml<elt> > new_musicxml(const std::vector<Sxmlelement>& elts)  
-      { musicxml<elt>* o = new musicxml<elt>(elts); assert(o!=0); return o; }
+      { musicxml<elt>* o = new musicxml<elt>(elts); assert (o!=0); return o; }
   */
   
 	static SMARTP<musicxml<elt> > new_musicxml (int inputLineNumber)  
-		{ musicxml<elt>* o = new musicxml<elt>(inputLineNumber); assert(o!=0); return o; }
+		{ musicxml<elt>* o = new musicxml<elt>(inputLineNumber); assert (o!=0); return o; }
     static SMARTP<musicxml<elt> > new_musicxml ( const std::vector<Sxmlelement>& elts, int inputLineNumber)  
-		{ musicxml<elt>* o = new musicxml<elt>(elts, inputLineNumber); assert(o!=0); return o; }
+		{ musicxml<elt>* o = new musicxml<elt>(elts, inputLineNumber); assert (o!=0); return o; }
 
     virtual void acceptIn (basevisitor& v) {
 		if (visitor<SMARTP<musicxml<elt> > >* p = dynamic_cast<visitor<SMARTP<musicxml<elt> > >*>(&v)) {

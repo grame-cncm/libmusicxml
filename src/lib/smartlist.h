@@ -30,7 +30,7 @@ class smartlist  : public smartable, public L {
 		virtual ~smartlist() {}
 	public:
 		typedef SMARTP<smartlist<T> >	ptr;
-		static ptr create() { smartlist<T> * o = new smartlist<T>; assert(o!=0); return o; }
+		static ptr create() { smartlist<T> * o = new smartlist<T>; assert (o!=0); return o; }
 };
 
 }

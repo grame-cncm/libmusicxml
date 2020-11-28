@@ -18,7 +18,7 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 /* JMI
-static string options2String (const optionsVector& options)
+static string options2string (const optionsVector& options)
 {
 	stringstream sstr;
 	for (auto p: options)
@@ -36,27 +36,26 @@ int main (int argc, char *argv[])
 
 	optionsVector options;
 
+//	options.push_back (make_pair ("-insider", ""));
 	options.push_back (make_pair ("-trace-oah", ""));
 //	options.push_back (make_pair ("-display-options-values", ""));
+//	options.push_back (make_pair ("-global-staff-size", "30"));
 
 //	options.push_back (make_pair ("-help", ""));
-	options.push_back (make_pair ("-option-name-help", "global-staff-size"));
+	options.push_back (make_pair ("-name-help", "global-staff-size"));
 //	options.push_back (make_pair ("-hmxmlcg", ""));
 //	options.push_back (make_pair ("-help-midi-grp", ""));
-//  cerr << "main - string2lily options: " << options.size() << ": " << options2String(options) << endl;
-
-  // use insider options instead of the regular ones?
-  bool insiderOptions = false;
+//  cerr << "main - string2lily options: " << options.size() << ": " << options2string(options) << endl;
 
   cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
 
-	xmlErr err = musicxmlstring2lilypond ("", insiderOptions, options, cout, cerr);
+	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
 	cout << "xml2ly2 ret 1 = " << err << endl;
 
   if (true) {
     cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
 
-    xmlErr err2 = musicxmlstring2lilypond ("", insiderOptions, options, cout, cerr);
+    xmlErr err2 = musicxmlstring2lilypond ("", options, cout, cerr);
     cout << "xml2ly2 ret 2 = " << err2 << endl;
   }
 

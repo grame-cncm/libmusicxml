@@ -12,6 +12,8 @@
 
 #include "lpsrPartGroups.h"
 
+#include "oahOah.h"
+
 #include "lpsrOah.h"
 
 
@@ -26,7 +28,7 @@ S_lpsrPartGroupBlock lpsrPartGroupBlock::create (
 {
   lpsrPartGroupBlock* o = new lpsrPartGroupBlock (
     partGroup);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -42,9 +44,9 @@ lpsrPartGroupBlock::~lpsrPartGroupBlock ()
 
 void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPartGroupBlock::acceptIn ()" <<
       endl;
   }
@@ -55,9 +57,9 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
         S_lpsrPartGroupBlock elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrPartGroupBlock::visitStart ()" <<
             endl;
         }
@@ -68,9 +70,9 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
 
 void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPartGroupBlock::acceptOut ()" <<
       endl;
   }
@@ -81,9 +83,9 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
         S_lpsrPartGroupBlock elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrPartGroupBlock::visitEnd ()" <<
             endl;
         }
@@ -94,9 +96,9 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
 
 void lpsrPartGroupBlock::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPartGroupBlock::browseData ()" <<
       endl;
   }
@@ -112,9 +114,9 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% <== lpsrPartGroupBlock::browseData ()" <<
       endl;
   }

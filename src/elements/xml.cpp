@@ -26,7 +26,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 // xmlattribute
 //______________________________________________________________________________
-Sxmlattribute xmlattribute::create() { xmlattribute * o = new xmlattribute; assert(o!=0); return o; }
+Sxmlattribute xmlattribute::create() { xmlattribute * o = new xmlattribute; assert (o!=0); return o; }
 
 //______________________________________________________________________________
 void xmlattribute::setName (const string& name) 		{ fName = name; }
@@ -63,7 +63,7 @@ xmlattribute::operator float () const	{ return (float)atof(fValue.c_str()); }
 //______________________________________________________________________________
 // xmlelement
 //______________________________________________________________________________
-Sxmlelement xmlelement::create(int lineno)			{ xmlelement * o = new xmlelement(lineno); assert(o!=0); return o; }
+Sxmlelement xmlelement::create(int lineno)			{ xmlelement * o = new xmlelement(lineno); assert (o!=0); return o; }
 void xmlelement::setValue (int value)				{ setValue((long)value); }
 void xmlelement::setValue (const string& value) 	{ fValue = value; }
 void xmlelement::setName (const string& name) 		{ fName = name; }

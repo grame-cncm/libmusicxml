@@ -17,12 +17,14 @@
 
 #include "utilities.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
 #include "generalOah.h"
+
 #include "bsrOah.h"
 
 #include "messagesHandling.h"
@@ -68,7 +70,7 @@ S_bsrFacSimileKindAtom bsrFacSimileKindAtom::create (
       valueSpecification,
       variableName,
       bsrFacSimileKindVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -79,7 +81,7 @@ bsrFacSimileKindAtom::bsrFacSimileKindAtom (
   string           valueSpecification,
   string           variableName,
   bsrFacSimileKind bsrFacSimileKindVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -92,25 +94,26 @@ bsrFacSimileKindAtom::bsrFacSimileKindAtom (
 bsrFacSimileKindAtom::~bsrFacSimileKindAtom ()
 {}
 
-void bsrFacSimileKindAtom::handleValuedAtomValue (
+void bsrFacSimileKindAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+  // JMI ???
+
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'bsrFacSimileKindAtom'" <<
       endl;
   }
 #endif
-
 }
 
 void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> bsrFacSimileKindAtom::acceptIn ()" <<
       endl;
   }
@@ -121,9 +124,9 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrFacSimileKindAtom>*> (v)) {
         S_bsrFacSimileKindAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching bsrFacSimileKindAtom::visitStart ()" <<
             endl;
         }
@@ -134,9 +137,9 @@ void bsrFacSimileKindAtom::acceptIn (basevisitor* v)
 
 void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> bsrFacSimileKindAtom::acceptOut ()" <<
       endl;
   }
@@ -147,9 +150,9 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrFacSimileKindAtom>*> (v)) {
         S_bsrFacSimileKindAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching bsrFacSimileKindAtom::visitEnd ()" <<
             endl;
         }
@@ -160,9 +163,9 @@ void bsrFacSimileKindAtom::acceptOut (basevisitor* v)
 
 void bsrFacSimileKindAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> bsrFacSimileKindAtom::browseData ()" <<
       endl;
   }
@@ -201,7 +204,7 @@ void bsrFacSimileKindAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -219,7 +222,7 @@ void bsrFacSimileKindAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void bsrFacSimileKindAtom::printValuedAtomOptionsValues (
+void bsrFacSimileKindAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -262,7 +265,7 @@ S_bsrTextsLanguageAtom bsrTextsLanguageAtom::create (
       valueSpecification,
       variableName,
       bsrTextsLanguageKindVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -274,7 +277,7 @@ bsrTextsLanguageAtom::bsrTextsLanguageAtom (
   string             variableName,
   bsrTextsLanguageKind&
                      bsrTextsLanguageKindVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -287,25 +290,26 @@ bsrTextsLanguageAtom::bsrTextsLanguageAtom (
 bsrTextsLanguageAtom::~bsrTextsLanguageAtom ()
 {}
 
-void bsrTextsLanguageAtom::handleValuedAtomValue (
+void bsrTextsLanguageAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+  // JMI ???
+
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'bsrTextsLanguageAtom'" <<
       endl;
   }
 #endif
-
 }
 
 void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> bsrTextsLanguageAtom::acceptIn ()" <<
       endl;
   }
@@ -316,9 +320,9 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTextsLanguageAtom>*> (v)) {
         S_bsrTextsLanguageAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching bsrTextsLanguageAtom::visitStart ()" <<
             endl;
         }
@@ -329,9 +333,9 @@ void bsrTextsLanguageAtom::acceptIn (basevisitor* v)
 
 void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> bsrTextsLanguageAtom::acceptOut ()" <<
       endl;
   }
@@ -342,9 +346,9 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTextsLanguageAtom>*> (v)) {
         S_bsrTextsLanguageAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching bsrTextsLanguageAtom::visitEnd ()" <<
             endl;
         }
@@ -355,9 +359,9 @@ void bsrTextsLanguageAtom::acceptOut (basevisitor* v)
 
 void bsrTextsLanguageAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> bsrTextsLanguageAtom::browseData ()" <<
       endl;
   }
@@ -396,7 +400,7 @@ void bsrTextsLanguageAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -413,7 +417,7 @@ void bsrTextsLanguageAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void bsrTextsLanguageAtom::printValuedAtomOptionsValues (
+void bsrTextsLanguageAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -439,44 +443,29 @@ ostream& operator<< (ostream& os, const S_bsrTextsLanguageAtom& elt)
 }
 
 //_______________________________________________________________________________
-S_bsrOah gGlobalBsrOah;
-S_bsrOah gGlobalBsrOahUserChoices;
-S_bsrOah gGlobalBsrOahWithDetailedTrace;
+S_bsrOahGroup gGlobalBsrOahGroup;
 
-S_bsrOah bsrOah::create (
-  S_oahHandler handlerUpLink)
+S_bsrOahGroup bsrOahGroup::create ()
 {
-  bsrOah* o = new bsrOah (
-    handlerUpLink);
-  assert(o!=0);
+  bsrOahGroup* o = new bsrOahGroup ();
+  assert (o!=0);
   return o;
 }
 
-bsrOah::bsrOah (
-  S_oahHandler handlerUpLink)
+bsrOahGroup::bsrOahGroup ()
   : oahGroup (
-    "BSR",
-    "hbsr", "help-bsr",
-R"(These bsr control the way BSR data is handled.)",
-    kElementVisibilityWhole,
-    handlerUpLink)
+      "BSR",
+      "hbsr", "help-bsr",
+  R"(These bsr control the way BSR data is handled.)",
+      kElementVisibilityWhole)
 {
-  // append this bsr group to the bsr handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeBsrOah (false);
+  initializeBsrOahGroup ();
 }
 
-bsrOah::~bsrOah ()
+bsrOahGroup::~bsrOahGroup ()
 {}
 
-void bsrOah::initializeBsrDisplayOptions (
-  bool boolOptionsInitialValue)
+void bsrOahGroup::initializeBsrDisplayOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -491,7 +480,7 @@ R"()",
 
   // display BSR
 
-  fDisplayBsr = boolOptionsInitialValue;
+  fDisplayBsr = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -503,7 +492,7 @@ R"(Write the contents of the BSR data to standard error.)",
 
   // display BSR short
 
-  fDisplayBsrShort = boolOptionsInitialValue;
+  fDisplayBsrShort = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -515,7 +504,7 @@ R"(Write the contents of the BSR data, short version, to standard error.)",
 
   // display BSR details
 
-  fDisplayBsrDetails = boolOptionsInitialValue;
+  fDisplayBsrDetails = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -527,8 +516,7 @@ R"(Write the contents of the BSR data with more details to standard error.)",
         fDisplayBsr));
 }
 
-void bsrOah::initializeBsrLanguagesOptions (
-  bool boolOptionsInitialValue)
+void bsrOahGroup::initializeBsrLanguagesOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -551,7 +539,7 @@ R"()",
       "BSR texts language 'english' is unknown" <<
       endl <<
       "The " <<
-      gBsrTextsLanguageKindsMap.size () <<
+      gGlobalBsrTextsLanguageKindsMap.size () <<
       " known BSR texts languages are:" <<
       endl;
 
@@ -582,7 +570,7 @@ The NUMBER texts languages available are:
 TEXT_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
-              to_string (gBsrTextsLanguageKindsMap.size ())),
+              to_string (gGlobalBsrTextsLanguageKindsMap.size ())),
             regex ("TEXT_LANGUAGES"),
             existingBsrTextsLanguageKinds (K_NAMES_LIST_MAX_LENGTH)),
           regex ("DEFAULT_VALUE"),
@@ -593,14 +581,13 @@ The default is 'DEFAULT_VALUE'.)",
         fBsrTextsLanguageKind));
 }
 
-#ifdef TRACE_OAH
-void bsrOah::initializeBsrTraceOah (
-  bool boolOptionsInitialValue)
+#ifdef TRACING_IS_ENABLED
+void bsrOahGroup::initializeBsrTraceOah ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Trace",
+        "BSR trace",
         "hbst", "help-bsr-trace",
 R"(  Note: the options in this subgroup imply '-tbsr, -trace-bsr'.)",
 // JMI        kElementVisibilityHeaderOnly,
@@ -611,7 +598,7 @@ R"(  Note: the options in this subgroup imply '-tbsr, -trace-bsr'.)",
 
   // BSR
 
-  fTraceBsr = boolOptionsInitialValue;
+  fTraceBsr = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -623,7 +610,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
 
   // pages
 
-  fTracePages = boolOptionsInitialValue;
+  fTracePages = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -635,7 +622,7 @@ R"()",
 
   // lines
 
-  fTraceLines = boolOptionsInitialValue;
+  fTraceLines = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -647,7 +634,7 @@ R"()",
 
   // spaces
 
-  fTraceSpaces = boolOptionsInitialValue;
+  fTraceSpaces = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -659,7 +646,7 @@ R"(Write a trace of the BSR spaces activity to standard error.)",
 
   // numbers
 
-  fTraceNumbers = boolOptionsInitialValue;
+  fTraceNumbers = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -671,7 +658,7 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
 
   // parallels
 
-  fTraceParallels = boolOptionsInitialValue;
+  fTraceParallels = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -683,7 +670,7 @@ R"()",
 
   // BSR visitors
 
-  fTraceBsrVisitors = boolOptionsInitialValue;
+  fTraceBsrVisitors = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -695,70 +682,32 @@ R"(Write a trace of the BSR tree visiting activity to standard error.)",
 }
 #endif
 
-void bsrOah::initializeBsrOah (
-  bool boolOptionsInitialValue)
+void bsrOahGroup::initializeBsrOahGroup ()
 {
   // display
   // --------------------------------------
-  initializeBsrDisplayOptions (
-    boolOptionsInitialValue);
+  initializeBsrDisplayOptions ();
 
   // languages
   // --------------------------------------
-  initializeBsrLanguagesOptions (
-    boolOptionsInitialValue);
+  initializeBsrLanguagesOptions ();
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-  initializeBsrTraceOah (
-    boolOptionsInitialValue);
+  initializeBsrTraceOah ();
 #endif
 }
 
-S_bsrOah bsrOah::createCloneWithDetailedTrace ()
-{
-  S_bsrOah
-    clone =
-      bsrOah::create (0);
-      // 0 not to have it inserted twice in the option handler
-
-  // set the bsr handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-
-  // display
-  // --------------------------------------
-
-  clone->fDisplayBsr =
-    true;
-  clone->fDisplayBsrShort =
-    true;
-  clone->fDisplayBsrDetails =
-    true;
-
-
-  // miscellaneous
-  // --------------------------------------
-
-
-  // exit after some passes
-  // --------------------------------------
-
-
-  return clone;
-}
-
 //______________________________________________________________________________
-bool bsrOah::setBsrTextsLanguage (string language)
+bool bsrOahGroup::setBsrTextsLanguage (string language)
 {
   // is language in the chords languages map?
   map<string, bsrTextsLanguageKind>::const_iterator
     it =
-      gBsrTextsLanguageKindsMap.find (language);
+      gGlobalBsrTextsLanguageKindsMap.find (language);
 
-  if (it == gBsrTextsLanguageKindsMap.end ()) {
+  if (it == gGlobalBsrTextsLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     return false;
   }
@@ -769,7 +718,7 @@ bool bsrOah::setBsrTextsLanguage (string language)
 }
 
 //______________________________________________________________________________
-void bsrOah::enforceGroupQuietness ()
+void bsrOahGroup::enforceGroupQuietness ()
 {
   fDisplayBsr = false;
   fDisplayBsrShort = false;
@@ -777,31 +726,31 @@ void bsrOah::enforceGroupQuietness ()
 }
 
 //______________________________________________________________________________
-void bsrOah::checkGroupOptionsConsistency ()
+void bsrOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void bsrOah::acceptIn (basevisitor* v)
+void bsrOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> bsrOah::acceptIn ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> bsrOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_bsrOah>*
+  if (visitor<S_bsrOahGroup>*
     p =
-      dynamic_cast<visitor<S_bsrOah>*> (v)) {
-        S_bsrOah elem = this;
+      dynamic_cast<visitor<S_bsrOahGroup>*> (v)) {
+        S_bsrOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching bsrOah::visitStart ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching bsrOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -809,25 +758,25 @@ void bsrOah::acceptIn (basevisitor* v)
   }
 }
 
-void bsrOah::acceptOut (basevisitor* v)
+void bsrOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> bsrOah::acceptOut ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> bsrOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_bsrOah>*
+  if (visitor<S_bsrOahGroup>*
     p =
-      dynamic_cast<visitor<S_bsrOah>*> (v)) {
-        S_bsrOah elem = this;
+      dynamic_cast<visitor<S_bsrOahGroup>*> (v)) {
+        S_bsrOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching bsrOah::visitEnd ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching bsrOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -835,21 +784,21 @@ void bsrOah::acceptOut (basevisitor* v)
   }
 }
 
-void bsrOah::browseData (basevisitor* v)
+void bsrOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> bsrOah::browseData ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> bsrOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void bsrOah::printBsrOahValues (int fieldWidth)
+void bsrOahGroup::printBsrOahValues (int fieldWidth)
 {
-  gLogOstream <<
+  gLogStream <<
     "The BSR bsr are:" <<
     endl;
 
@@ -857,13 +806,13 @@ void bsrOah::printBsrOahValues (int fieldWidth)
 
   // display
   // --------------------------------------
-  gLogOstream <<
+  gLogStream <<
     "Display:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "displayBsr" << " : " <<
     booleanAsString (fDisplayBsr) <<
     endl <<
@@ -881,14 +830,14 @@ void bsrOah::printBsrOahValues (int fieldWidth)
   // trace
   // --------------------------------------
 
-#ifdef TRACE_OAH
-  gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  gLogStream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "traceBsr" << " : " <<
     booleanAsString (fTraceBsr) <<
     endl <<
@@ -917,48 +866,33 @@ void bsrOah::printBsrOahValues (int fieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_bsrOah& elt)
+ostream& operator<< (ostream& os, const S_bsrOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeBsrOahHandling (
-  S_oahHandler handler)
+S_bsrOahGroup createGlobalBsrOahGroup ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing BSR bsr handling" <<
-      endl;
-  }
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global BSR OAH group" <<
+    endl;
+#endif
 #endif
 
   // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
-
-  if (! pThisMethodHasBeenRun) {
+  if (! gGlobalBsrOahGroup) {
     // create the bsr variables
-    // ------------------------------------------------------
-
-    gGlobalBsrOahUserChoices = bsrOah::create (
-      handler);
-    assert(gGlobalBsrOahUserChoices != 0);
-
-    gGlobalBsrOah =
-      gGlobalBsrOahUserChoices;
-
-    // prepare for measure detailed trace
-    // ------------------------------------------------------
-  /* JMI
-    gGlobalBsrOahWithDetailedTrace =
-      gGlobalBsrOah->
-        createCloneWithDetailedTrace ();
-        */
-
-// JMI    pThisMethodHasBeenRun = true;
+    gGlobalBsrOahGroup =
+      bsrOahGroup::create ();
+    assert (gGlobalBsrOahGroup != 0);
   }
+
+  // return the global OAH group
+  return gGlobalBsrOahGroup;
 }
 
 

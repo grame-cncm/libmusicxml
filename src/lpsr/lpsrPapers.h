@@ -136,7 +136,9 @@ class lpsrPaper : public lpsrElement
     string                getEvenFooterMarkup () const
                               { return fEvenFooterMarkup; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -161,7 +163,7 @@ class lpsrPaper : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // MSR scaling

@@ -33,7 +33,7 @@ class EXP smartable {
 		//! gives the reference count of the object
 		unsigned refs() const         { return refCount; }
 		//! addReference increments the ref count and checks for refCount overflow
-		void addReference()           { refCount++; assert(refCount != 0); }
+		void addReference()           { refCount++; assert (refCount != 0); }
 		//! removeReference delete the object when refCount is zero		
 		void removeReference()		  { if (--refCount == 0) delete this; }
 		

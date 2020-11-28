@@ -15,18 +15,18 @@
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
+
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
+  #include "traceOah.h"
+#endif
 
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
-  #include "traceOah.h"
-#endif
-
 #include "bsrOah.h"
-#include "msr2BsrOah.h"
+#include "msr2bsrOah.h"
 #include "brailleOah.h"
 
 
@@ -45,7 +45,7 @@ S_bsrLineContents bsrLineContents::create (
     new bsrLineContents (
       inputLineNumber,
       lineContentsKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -62,9 +62,9 @@ bsrLineContents::~bsrLineContents ()
 
 S_bsrLineContents bsrLineContents::createLineNewbornClone ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceLines) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceLines ()) {
+    gLogStream <<
       "Creating a newborn clone of line " <<
       asString () <<
       endl;
@@ -102,9 +102,9 @@ void bsrLineContents::appendLineElementToLineContents (
 void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
   S_bsrLineElement lineElement)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes || gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes () || gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Inserting line element '" <<
       lineElement->asShortString () <<
       "' before the last element of line contents '" <<
@@ -134,7 +134,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
       "' before its last element";
 
     bsrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       lineElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -182,9 +182,9 @@ int bsrLineContents::fetchCellsNumber () const
 
 void bsrLineContents::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrLineContents::acceptIn ()" <<
       endl;
   }
@@ -195,9 +195,9 @@ void bsrLineContents::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrLineContents>*> (v)) {
         S_bsrLineContents elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrLineContents::visitStart ()" <<
             endl;
         }
@@ -208,9 +208,9 @@ void bsrLineContents::acceptIn (basevisitor* v)
 
 void bsrLineContents::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrLineContents::acceptOut ()" <<
       endl;
   }
@@ -221,9 +221,9 @@ void bsrLineContents::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrLineContents>*> (v)) {
         S_bsrLineContents elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrLineContents::visitEnd ()" <<
             endl;
         }
@@ -312,7 +312,7 @@ void bsrLineContents::print (ostream& os) const
   os << endl;
 
   // print the line elements if any
-  if (lineElementsListSize || gGlobalBsrOah->fDisplayBsrDetails) {
+  if (lineElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<
 //      setw (fieldWidth) <<
       "LineElementsList" <<
@@ -382,7 +382,7 @@ S_bsrLine bsrLine::create (
   bsrLine* o =
     new bsrLine (
       inputLineNumber, printLineNumber, cellsPerLine);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -401,9 +401,9 @@ bsrLine::bsrLine (
 
   fASpaceIsNeededInLine = true;
 
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceLines) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceLines ()) {
+    gLogStream <<
       "Creating bsrLine '" <<
       asString () <<
       "', line " <<
@@ -418,9 +418,9 @@ bsrLine::~bsrLine ()
 
 S_bsrLine bsrLine::createLineNewbornClone ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceLines) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceLines ()) {
+    gLogStream <<
       "Creating a newborn clone of line " <<
       asString () <<
       endl;
@@ -513,9 +513,9 @@ void bsrLine::insertElementBeforeLastElementOfLine (
 
 void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceSpaces || gGlobalBsrOah->fTraceLines) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceSpaces () || gGlobalBsrOahGroup->getTraceLines ()) {
+    gLogStream <<
       "Appending spaces '" <<
       spaces->asShortString () <<
       "' to line '" <<
@@ -530,9 +530,9 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 
 void bsrLine::appendKeyToLine (S_bsrKey key)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceKeys || gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceKeys () || gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Appending key " <<
       key->asShortString () <<
       "' to line '" <<
@@ -547,9 +547,9 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
 
 void bsrLine::appendTimeToLine (S_bsrTime time)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes || gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes () || gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Appending time '" <<
       time->asShortString () <<
       "' to line '" <<
@@ -565,9 +565,9 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
 
 void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes || gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes () || gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Inserting time '" <<
       time->asShortString () <<
       "' before the last element of line '" <<
@@ -583,9 +583,9 @@ void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 
 void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTempos || gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTempos () || gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Appending tempo '" <<
       tempo->asShortString () <<
       "' to line '" <<
@@ -601,9 +601,9 @@ void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 
 void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures || gGlobalBsrOah->fTraceLines) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalBsrOahGroup->getTraceLines ()) {
+    gLogStream <<
       "Appending line '" <<
       measure->asShortString () <<
       "' to line '" <<
@@ -666,9 +666,9 @@ void bsrLine::appendLineElementToLastMeasureOfLine (
 
 void bsrLine::appendNoteToLine (S_bsrNote note)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotes || gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes () || gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Appending note '" <<
       note->asShortString () <<
       "' to line '" <<
@@ -687,7 +687,7 @@ S_bsrCellsList bsrLine::buildLineNumberCellsList () const
     result =
       bsrCellsList::create (fInputLineNumber);
 
-  if (! gGlobalMsr2BsrOah->fNoLineNumbers) {
+  if (! gGlobalMsr2bsrOahGroup->getNoLineNumbers ()) {
     // create the print line number
     S_bsrNumber
       printLineNumber =
@@ -738,9 +738,9 @@ int bsrLine::fetchCellsNumber () const
 
 void bsrLine::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrLine::acceptIn ()" <<
       endl;
   }
@@ -751,9 +751,9 @@ void bsrLine::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrLine::visitStart ()" <<
             endl;
         }
@@ -764,9 +764,9 @@ void bsrLine::acceptIn (basevisitor* v)
 
 void bsrLine::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrLine::acceptOut ()" <<
       endl;
   }
@@ -777,9 +777,9 @@ void bsrLine::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrLine::visitEnd ()" <<
             endl;
         }
@@ -869,7 +869,7 @@ void bsrLine::print (ostream& os) const
   os << endl;
 
   // print the line contents if any
-  if (lineContentsListSize || gGlobalBsrOah->fDisplayBsrDetails) {
+  if (lineContentsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<
 //      setw (fieldWidth) <<
       "LineContentsList" <<

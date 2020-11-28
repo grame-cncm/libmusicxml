@@ -34,17 +34,17 @@ class bimap {
 		//! returns the second type value indexed by the first type
 		const T2 operator[] (const T1 key) 		{ return fT1Map[key]; }
 		//! returns the first type value indexed by the second type
-		const T1 operator[] (const T2 key)		{ return fT2Map[key]; }
+		const T1 operator[] (const T2 key)		{ return fT2map[key]; }
 		//! returns the map size
 		long size()		{ return fT1Map.size(); }
 
 		//! adds a pair of values
 		bimap& add (const T1& v1, const T2& v2) 
-			{ fT1Map[v1]=v2; fT2Map[v2]=v1; return *this; }
+			{ fT1Map[v1]=v2; fT2map[v2]=v1; return *this; }
 
 	private:
 		map<T1, T2> fT1Map;
-		map<T2, T1> fT2Map;
+		map<T2, T1> fT2map;
 };
 
 template <typename T1, typename T2>

@@ -69,7 +69,9 @@ class msrStringTuning : public msrElement
     int                   getStringTuningOctave () const
                               { return fStringTuningOctave; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                stringTuningKindAsString () const;
@@ -93,7 +95,7 @@ class msrStringTuning : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fStringTuningNumber;
@@ -146,7 +148,9 @@ class msrScordatura : public msrMeasureElement
                           getScordaturaStringTuningsList ()
                               { return fScordaturaStringTuningsList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  addStringTuningToScordatura (
@@ -171,7 +175,7 @@ class msrScordatura : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     list<S_msrStringTuning>
@@ -221,7 +225,9 @@ class msrAccordionRegistration : public msrMeasureElement
     int                   getLowDotsNumber () const
                               { return fLowDotsNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                asString () const override;
@@ -245,7 +251,7 @@ class msrAccordionRegistration : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // see https://de.wikipedia.org/wiki/Register_%28Akkordeon%29
@@ -292,7 +298,9 @@ class msrHarpPedalsTuning : public msrMeasureElement
                           getHarpPedalsAlterationKindsMap ()
                               { return fHarpPedalsAlterationKindsMap; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  addPedalTuning (
@@ -393,7 +401,9 @@ class msrPedal : public msrMeasureElement
     msrPedalSignKind      getPedalSignKind () const
                               { return fPedalSignKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -421,7 +431,7 @@ class msrPedal : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrPedalTypeKind      fPedalTypeKind;
@@ -457,7 +467,9 @@ class msrDamp : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -479,7 +491,7 @@ class msrDamp : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 };
 typedef SMARTP<msrDamp> S_msrDamp;
@@ -511,7 +523,9 @@ class msrDampAll : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -533,7 +547,7 @@ class msrDampAll : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 };
 typedef SMARTP<msrDampAll> S_msrDampAll;

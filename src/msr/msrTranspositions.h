@@ -68,7 +68,9 @@ class msrOctaveShift : public msrMeasureElement
     int                   getOctaveShiftSize () const
                               { return fOctaveShiftSize; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -94,7 +96,7 @@ class msrOctaveShift : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrOctaveShiftKind    fOctaveShiftKind;
@@ -153,7 +155,9 @@ class msrTranspose : public msrMeasureElement
     bool                  getTransposeDouble () const
                               { return fTransposeDouble; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrTranspose otherTranspose) const;
@@ -179,7 +183,7 @@ class msrTranspose : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fTransposeDiatonic;

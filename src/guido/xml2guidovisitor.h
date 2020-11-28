@@ -78,7 +78,7 @@ class EXP xml2guidovisitor :
         if (fStack.size())
             fStack.pop();
         else
-            cerr<<"xml2guido: Pop() called while EMPTY! Please REPORT!"<<endl;
+            cerr<<"xml2guido: Pop() called while EMPTY! Please REPORT!" <<endl;
     }
 
 	void flushHeader	 ( scoreHeader& header );

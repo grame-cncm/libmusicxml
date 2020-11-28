@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -40,7 +42,7 @@ S_msrSlide msrSlide::create (
       slideTypeKind,
       slideLineTypeKind,
       slideTextValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -65,9 +67,9 @@ msrSlide::~msrSlide ()
 
 S_msrSlide msrSlide::createSlideNewbornClone ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceSlides) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSlides ()) {
+    gLogStream <<
       "Creating a newborn clone of slide '" <<
       asString () <<
       "'" <<
@@ -109,8 +111,8 @@ string msrSlide::slideTypeKindAsString (
 
 void msrSlide::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSlide::acceptIn ()" <<
       endl;
   }
@@ -120,8 +122,8 @@ void msrSlide::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSlide>*> (v)) {
         S_msrSlide elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSlide::visitStart ()" <<
             endl;
         }
@@ -131,8 +133,8 @@ void msrSlide::acceptIn (basevisitor* v)
 
 void msrSlide::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSlide::acceptOut ()" <<
       endl;
   }
@@ -142,8 +144,8 @@ void msrSlide::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSlide>*> (v)) {
         S_msrSlide elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSlide::visitEnd ()" <<
             endl;
         }

@@ -17,11 +17,12 @@
 
 #include "utilities.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
 #include "generalOah.h"
 #include "brailleOah.h"
 
@@ -34,61 +35,47 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-S_brailleOah gGlobalBrailleOah;
-S_brailleOah gGlobalBrailleOahUserChoices;
-S_brailleOah gGlobalBrailleOahWithDetailedTrace;
+S_brailleOahGroup gGlobalBrailleOahGroup;
 
-S_brailleOah brailleOah::create (
-  S_oahHandler handlerUpLink)
+S_brailleOahGroup brailleOahGroup::create ()
 {
-  brailleOah* o = new brailleOah (
-    handlerUpLink);
-  assert(o!=0);
+  brailleOahGroup* o = new brailleOahGroup ();
+  assert (o!=0);
   return o;
 }
 
-brailleOah::brailleOah (
-  S_oahHandler handlerUpLink)
+brailleOahGroup::brailleOahGroup ()
   : oahGroup (
     "Braille",
     "hbrl", "help-braille",
 R"(These options control how the Braille music code is generated.)",
-    kElementVisibilityWhole,
-    handlerUpLink)
+    kElementVisibilityWhole)
 {
-  // append this braille group to the braille handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeBrailleOah (false);
+  initializeBrailleOahGroup ();
 }
 
-brailleOah::~brailleOah ()
+brailleOahGroup::~brailleOahGroup ()
 {}
 
-void brailleOah::acceptIn (basevisitor* v)
+void brailleOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> brailleOah::acceptIn ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> brailleOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_brailleOah>*
+  if (visitor<S_brailleOahGroup>*
     p =
-      dynamic_cast<visitor<S_brailleOah>*> (v)) {
-        S_brailleOah elem = this;
+      dynamic_cast<visitor<S_brailleOahGroup>*> (v)) {
+        S_brailleOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching brailleOah::visitStart ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching brailleOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -96,25 +83,25 @@ void brailleOah::acceptIn (basevisitor* v)
   }
 }
 
-void brailleOah::acceptOut (basevisitor* v)
+void brailleOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> brailleOah::acceptOut ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> brailleOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_brailleOah>*
+  if (visitor<S_brailleOahGroup>*
     p =
-      dynamic_cast<visitor<S_brailleOah>*> (v)) {
-        S_brailleOah elem = this;
+      dynamic_cast<visitor<S_brailleOahGroup>*> (v)) {
+        S_brailleOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching brailleOah::visitEnd ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching brailleOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -122,48 +109,33 @@ void brailleOah::acceptOut (basevisitor* v)
   }
 }
 
-void brailleOah::browseData (basevisitor* v)
+void brailleOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> brailleOah::browseData ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> brailleOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
-void brailleOah::initializeBrailleOah (
-  bool boolOptionsInitialValue)
-{}
-
-S_brailleOah brailleOah::createCloneWithDetailedTrace ()
-{
-  S_brailleOah
-    clone =
-      brailleOah::create (0);
-      // 0 not to have it inserted twice in the option handler
-
-  // set the braille handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;;
-
-  return clone;
-}
-
-//______________________________________________________________________________
-void brailleOah::enforceGroupQuietness ()
+void brailleOahGroup::initializeBrailleOahGroup ()
 {}
 
 //______________________________________________________________________________
-void brailleOah::checkGroupOptionsConsistency ()
+void brailleOahGroup::enforceGroupQuietness ()
+{}
+
+//______________________________________________________________________________
+void brailleOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
-void brailleOah::printBrailleOahValues (int fieldWidth)
+void brailleOahGroup::printBrailleOahValues (int fieldWidth)
 {
-  gLogOstream <<
+  gLogStream <<
     "The Braille options are:" <<
     endl;
 
@@ -172,42 +144,33 @@ void brailleOah::printBrailleOahValues (int fieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_brailleOah& elt)
+ostream& operator<< (ostream& os, const S_brailleOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeBrailleOahHandling (
-  S_oahHandler handler)
+S_brailleOahGroup createGlobalBrailleOahGroup ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing Braille braille handling" <<
-      endl;
-  }
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global braille OAH group" <<
+    endl;
+#endif
 #endif
 
-  // create the braille variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  if (! gGlobalBrailleOahGroup) {
+    // create the global options group
+    gGlobalBrailleOahGroup =
+      brailleOahGroup::create ();
+    assert (gGlobalBrailleOahGroup != 0);
+  }
 
-  gGlobalBrailleOahUserChoices = brailleOah::create (
-    handler);
-  assert(gGlobalBrailleOahUserChoices != 0);
-
-  gGlobalBrailleOah =
-    gGlobalBrailleOahUserChoices;
-
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
-
-/* JMI
-  gGlobalBrailleOahWithDetailedTrace =
-    gGlobalBrailleOah->
-      createCloneWithDetailedTrace ();
-      */
+  // return the global OAH group
+  return gGlobalBrailleOahGroup;
 }
 
 
@@ -390,16 +353,16 @@ R"(Set 'copyright' to STRING in the \header.)",
   {
     // variables
 
-    fAbsoluteOctaves  = boolOptionsInitialValue;
+    fAbsoluteOctaves  = false;
 
-    fAllDurations  = boolOptionsInitialValue;
+    fAllDurations  = false;
 
-    fRomanStringNumbers = boolOptionsInitialValue;
-    fAvoidOpenStrings    = boolOptionsInitialValue;
+    fRomanStringNumbers = false;
+    fAvoidOpenStrings    = false;
 
-    fCompressMultiMeasureRests = boolOptionsInitialValue;
+    fCompressMultiMeasureRests = false;
 
-    fInputLineNumbers = boolOptionsInitialValue;
+    fInputLineNumbers = false;
 
     S_oahSubGroup
       subGroup =
@@ -458,7 +421,7 @@ R"(Generate after each note and barline a comment containing
 its MusicXML input line number.
 This is useful when debugging EXECUTABLE.)",
             regex ("EXECUTABLE"),
-            gGlobalOahOahGroup->fHandlerExecutableName),
+            gGlobalOahOahGroup->getHandlerExecutableName ()),
           "noteInputLineNumbers",
           fInputLineNumbers));
   }
@@ -470,7 +433,7 @@ This is useful when debugging EXECUTABLE.)",
   {
     // variables
 
-    fShowAllBarNumbers = boolOptionsInitialValue;
+    fShowAllBarNumbers = false;
 
     // braille
 
@@ -501,9 +464,9 @@ R"(Generate Braille code to show all bar numbers.)",
   {
     // variables
 
-    fIgnoreLineBreaks                    = boolOptionsInitialValue;
+    fIgnoreLineBreaks                    = false;
 
-    fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
+    fBreakLinesAtIncompleteRightMeasures = false;
 
     // braille
 
@@ -544,7 +507,7 @@ which is handy in popular folk dances and tunes.)",
   {
     // variables
 
-    fIgnorePageBreaks = boolOptionsInitialValue;
+    fIgnorePageBreaks = false;
 
     // braille
 

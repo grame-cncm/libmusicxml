@@ -63,7 +63,9 @@ class msrTempoNote : public msrElement
                           getTempoNoteBeams () const
                               { return fTempoNoteBeams; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendBeamToTempoNote (S_msrBeam beam);
@@ -89,7 +91,7 @@ class msrTempoNote : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     rational              fTempoNoteWholeNotes;
@@ -183,7 +185,9 @@ class msrTempoTuplet : public msrElement
     rational              getTempoTupletDisplayWholeNotes () const
                               { return fTempoTupletDisplayWholeNotes; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote);
@@ -226,7 +230,7 @@ class msrTempoTuplet : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fTempoTupletNumber;
@@ -297,7 +301,9 @@ class msrTempoRelationshipElements : public msrElement
                           getTempoRelationshipElementsList () const
                               { return fTempoRelationshipElementsList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                asString () const override;
@@ -469,7 +475,9 @@ class msrTempo : public msrMeasureElement
     msrPlacementKind      getTempoPlacementKind () const
                               { return fTempoPlacementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendWordsToTempo (S_msrWords tempoWords)
@@ -502,7 +510,7 @@ class msrTempo : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrTempoKind          fTempoKind;

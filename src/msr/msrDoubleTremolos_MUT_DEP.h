@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -171,7 +171,9 @@ class msrDoubleTremolo : public msrMeasureElement
     void                  setDoubleTremoloPositionInMeasure (
                             rational positionInMeasure);
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     // tremolo first note
@@ -206,7 +208,7 @@ class msrDoubleTremolo : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // uplink

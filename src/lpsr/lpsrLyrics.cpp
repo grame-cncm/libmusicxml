@@ -12,6 +12,8 @@
 
 #include "lpsrLyrics.h"
 
+#include "oahOah.h"
+
 #include "lpsrOah.h"
 
 
@@ -30,7 +32,7 @@ S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
     new lpsrNewLyricsBlock (
       inputLineNumber,
       stanza, voice);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -49,9 +51,9 @@ lpsrNewLyricsBlock::~lpsrNewLyricsBlock ()
 
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrNewLyricsBlock::acceptIn ()" <<
       endl;
   }
@@ -62,9 +64,9 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrNewLyricsBlock::visitStart ()" <<
             endl;
         }
@@ -75,9 +77,9 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
 
 void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrNewLyricsBlock::acceptOut ()" <<
       endl;
   }
@@ -88,9 +90,9 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrNewLyricsBlock::visitEnd ()" <<
             endl;
         }

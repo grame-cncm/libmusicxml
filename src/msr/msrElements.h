@@ -47,7 +47,9 @@ class msrElement : public smartable
     int                   getInputLineNumber ()
                               { return fInputLineNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -76,7 +78,7 @@ class msrElement : public smartable
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
 
     int                   fInputLineNumber;

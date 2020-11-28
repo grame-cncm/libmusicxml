@@ -140,12 +140,12 @@ namespace MusicXML2
             int rangeStart = fCurrentStaffIndex ;
             int rangeEnd = rangeStart + (partGroupIt->guidoRangeStop - partGroupIt->guidoRangeStart);
             std::stringstream rangeFixed;
-            rangeFixed << " range=\""<< rangeStart <<"-"<<rangeEnd<<"\"";
+            rangeFixed << " range=\"" << rangeStart <<"-" <<rangeEnd<<"\"";
             
             if (partGroupIt->bracket)
             {
                 std::stringstream accolParams;
-                accolParams << "id=1, "<< rangeFixed.str();
+                accolParams << "id=1, " << rangeFixed.str();
                 
                 Sguidoelement tag3 = guidotag::create("accol");
                 tag3->add (guidoparam::create(accolParams.str(), false));
@@ -203,7 +203,7 @@ namespace MusicXML2
         // Filter out score-part here
         if (fPartNum != 0) {
             std::stringstream s;
-            s << "P"<<fPartNum;
+            s << "P" <<fPartNum;
             std::string thisPart = elt->getAttributeValue("id");
             if ( thisPart != s.str() ) {
                 return;

@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -109,7 +109,7 @@ class msrNote : public msrTupletElement
     SMARTP<msrNote> createNoteDeepCopy (
       S_msrVoice containingVoice);
 
-    // creation from xml2Msr
+    // creation from xml2msr
     // ------------------------------------------------------
 
     static SMARTP<msrNote> createRestNote (
@@ -681,7 +681,9 @@ class msrNote : public msrTupletElement
     msrAlphaRGBColor      getNoteColor () const
                               { return fNoteColor; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     // uplinks
@@ -849,7 +851,7 @@ class msrNote : public msrTupletElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

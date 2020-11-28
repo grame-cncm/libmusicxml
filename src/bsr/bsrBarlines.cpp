@@ -13,15 +13,17 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+//#include "oahOah.h"
 
 #include "bsrOah.h"
 
@@ -53,9 +55,9 @@ bsrBarline::bsrBarline (
 
   fBarlineCellsList = buildCellsList ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceBarlines) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+    gLogStream <<
       "Creating bsrBarline '" <<
       asString () <<
       "', line " <<
@@ -114,9 +116,9 @@ int bsrBarline::fetchCellsNumber() const
 
 void bsrBarline::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrBarline::acceptIn ()" <<
       endl;
   }
@@ -127,9 +129,9 @@ void bsrBarline::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrBarline>*> (v)) {
         S_bsrBarline elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrBarline::visitStart ()" <<
             endl;
         }
@@ -140,9 +142,9 @@ void bsrBarline::acceptIn (basevisitor* v)
 
 void bsrBarline::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrBarline::acceptOut ()" <<
       endl;
   }
@@ -153,9 +155,9 @@ void bsrBarline::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrBarline>*> (v)) {
         S_bsrBarline elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrBarline::visitEnd ()" <<
             endl;
         }

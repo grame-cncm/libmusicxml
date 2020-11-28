@@ -21,11 +21,14 @@ const char* versions::libVersionStr()     { return "3.20"; }
 float   versions::xml2guidoVersion()    { return 3.1f; }
 const char* versions::xml2guidoVersionStr()   { return "3.1"; }
 
-float   versions::xml2lilypondVersion()   { return 0.93f; }
-const char* versions::xml2lilypondVersionStr()    { return "0.93"; }
+float   versions::xml2lilypondVersion()   { return 0.94f; }
+const char* versions::xml2lilypondVersionStr()    { return "0.94"; }
 
 float   versions::xml2brailleVersion()   { return 0.03f; }
 const char* versions::xml2brailleVersionStr()    { return "0.03"; }
+
+float   versions::xml2xmlVersion()   { return 0.02f; }
+const char* versions::xml2xmlVersionStr()    { return "0.02"; }
 
 float   versions::xml2bmmlVersion()   { return 0.01f; }
 const char* versions::xml2bmmlVersionStr()    { return "0.01"; }

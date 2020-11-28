@@ -128,7 +128,7 @@ template <typename T> class EXP ctree : virtual public smartable
 		typedef typename branchs::iterator	literator;	///< the current level iterator type
 		typedef treeIterator<treePtr>		iterator;	///< the top -> bottom iterator type
 
-		static treePtr new_tree() { ctree<T>* o = new ctree<T>; assert(o!=0); return o; }
+		static treePtr new_tree() { ctree<T>* o = new ctree<T>; assert (o!=0); return o; }
 		
 		branchs& elements()						{ return fElements; }		
 		const branchs& elements() const			{ return fElements; }		

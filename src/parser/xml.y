@@ -1,9 +1,9 @@
 %{
-/* 
+/*
   Basic xml grammar definition
-  This is a basic definition of the xml grammar necessary to cover 
+  This is a basic definition of the xml grammar necessary to cover
   the MusicXML format. It is a simplified form based on the XML document
-  grammar as defined in 
+  grammar as defined in
   "XML in a nutshell - 2nd edition" E.R.Harold and W.S.Means,
   O'Reilly, June 2002, pp:366--371
 */
@@ -106,7 +106,7 @@ prolog  	: xmldecl doctype
  			;
 
 element		: eltstart data eltstop
-			| emptyelt 
+			| emptyelt
 			| procinstr
 			| comment ;
 
@@ -125,7 +125,7 @@ attribute	: attrname EQ value				{ if (!gReader->newAttribute (attributeName, at
 attrname	: NAME							{ store(attributeName, libmxmltext); }
 value		: QUOTEDSTR						{ store(attributeVal, unquote(libmxmltext)); }
 
-attributes  : attribute	
+attributes  : attribute
 			| attributes SPACE attribute;
 
 data		: /* empty */
@@ -149,7 +149,7 @@ xmldecl		: /* empty */
 			| xmldecl comments
 
 decl		: /* empty */
-			| encodingdec 
+			| encodingdec
 			| stdalonedec
 			| encodingdec stdalonedec ;
 
@@ -175,7 +175,7 @@ misc		: /* empty */
 #define yy_delete_buffer	libmxml_delete_buffer
 #define yy_scan_string		libmxml_scan_string
 
-bool readbuffer (const char * buffer, reader * r) 
+bool readbuffer (const char * buffer, reader * r)
 {
 	if (!buffer) return false;		// error for empty buffers
 
@@ -191,11 +191,11 @@ bool readbuffer (const char * buffer, reader * r)
  	return ret==0;
 }
 
-bool readfile (const char * file, reader * r) 
+bool readfile (const char * file, reader * r)
 {
 	FILE * fd = fopen (file, "r");
 	if (!fd) {
-		cerr << "can't open file " << file << endl;
+		cerr << "can't open file '" << file << "'" << endl;
 		return false;
 	}
 	init(r);
@@ -207,7 +207,7 @@ bool readfile (const char * file, reader * r)
  	return ret==0;
 }
 
-bool readstream (FILE * fd, reader * r) 
+bool readstream (FILE * fd, reader * r)
 {
 	if (!fd) return false;
 	init(r);
@@ -223,7 +223,7 @@ void	yyerror(const char *s)	{ gReader->error (s, libmxmllineno); }
 #ifdef MAIN
 
 class testreader : public reader
-{ 
+{
 	public:
 		bool	xmlDecl (const char* version, const char *encoding, bool standalone) {
 			cout << "xmlDecl: " << version << " " << encoding << " " << standalone << endl;

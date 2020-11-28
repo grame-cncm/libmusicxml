@@ -17,6 +17,8 @@
 
 #include "msrClefs.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -34,7 +36,7 @@ S_msrClef msrClef::create (
   msrClef* o =
     new msrClef (
       inputLineNumber, clefKind, clefStaffNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -90,8 +92,8 @@ bool msrClef::isEqualTo (S_msrClef otherClef) const
 
 void msrClef::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrClef::acceptIn ()" <<
       endl;
   }
@@ -101,8 +103,8 @@ void msrClef::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrClef::visitStart ()" <<
             endl;
         }
@@ -112,8 +114,8 @@ void msrClef::acceptIn (basevisitor* v)
 
 void msrClef::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrClef::acceptOut ()" <<
       endl;
   }
@@ -123,8 +125,8 @@ void msrClef::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrClef::visitEnd ()" <<
             endl;
         }

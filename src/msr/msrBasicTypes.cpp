@@ -27,12 +27,13 @@
 
 #include "msrBasicTypes.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "msrOah.h"
 #include "lpsrOah.h"
@@ -71,7 +72,7 @@ msrXMLLangKind msrXMLLangKindFromString (
         "' should be 'it', 'en', 'de' or 'fr'";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -197,7 +198,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::create (
     new msrSemiTonesPitchAndOctave (
       semiTonesPitchKind,
       relativeOctave);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -220,9 +221,9 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 
   unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
+    gLogStream <<
       "There are " << smSize << " matches" <<
       " for transposition string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -231,11 +232,11 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       smSize << " elements: ";
 
       for (unsigned i = 0; i < smSize; ++i) {
-        gLogOstream <<
+        gLogStream <<
           "[" << sm [i] << "] ";
       } // for
 
-      gLogOstream << endl;
+      gLogStream << endl;
     }
 #endif
 
@@ -246,9 +247,9 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       pitch            = sm [1],
       octaveIndication = sm [2];
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceOah ()) {
-      gLogOstream <<
+      gLogStream <<
         "--> pitch = \"" << pitch << "\", " <<
         "--> octaveIndication = \"" << octaveIndication << "\"" <<
         endl;
@@ -300,9 +301,9 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       } // switch
     } // for
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceOah ()) {
-      gLogOstream <<
+      gLogStream <<
         "--> semiTonesPitchKind = \"" <<
           msrSemiTonesPitchKindAsString (
             semiTonesPitchKind) << "\", " <<
@@ -327,7 +328,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 
     msrMusicXMLError (
 //    msrMusicXMLWarning ( //  JMI
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -343,9 +344,9 @@ msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
   fSemiTonesPitchKind = semiTonesPitchKind;
   fOctave            = relativeOctave;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
       "==> Creating pitch and octave '" <<
       asString () <<
       "'" <<
@@ -468,7 +469,7 @@ msrDurationKind msrDurationKindFromString (
       "\" is unknown";
 
     msrMusicXMLError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -810,9 +811,9 @@ string wholeNotesAsMsrString (
   rational wholeNotes,
   int&     dotsNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+    gLogStream <<
       "--> wholeNotesAsMsrString() 1 -------------------------------------" <<
       ", wholeNotes: " << wholeNotes <<
       ", line " << inputLineNumber <<
@@ -824,9 +825,9 @@ string wholeNotesAsMsrString (
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+    gLogStream <<
       "--> numerator:   " << numerator <<
       endl <<
       "--> denominator: " << denominator <<
@@ -848,7 +849,7 @@ string wholeNotesAsMsrString (
 
  //   msrMusicXMLError ( JMI
     msrMusicXMLWarning (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -858,9 +859,9 @@ string wholeNotesAsMsrString (
 
   wholeNotes.rationalise ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
   }
@@ -878,9 +879,9 @@ string wholeNotesAsMsrString (
   bool
     integralNumberOfWholeNotes = denominator == 1;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
         rationalHasBeenSimplified) <<
@@ -905,9 +906,9 @@ string wholeNotesAsMsrString (
 
   int  numeratorDots = msrNumberOfDots (numerator);
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl << endl;
   }
@@ -956,8 +957,8 @@ string wholeNotesAsMsrString (
       result = s.str ();
     }
 
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
       stringstream s;
 
       s <<
@@ -981,7 +982,7 @@ string wholeNotesAsMsrString (
 
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -991,9 +992,9 @@ string wholeNotesAsMsrString (
     return result;
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
       endl << endl;
@@ -1005,9 +1006,9 @@ string wholeNotesAsMsrString (
     // adapt the duration to avoid even numerators if can be,
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3 \breve, hence '\longa.'
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
         endl;
@@ -1018,9 +1019,9 @@ string wholeNotesAsMsrString (
       numerator /= 2;
       denominatorDurationLog -= 1;
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+        gLogStream <<
           "--> numerator" << " : " <<
           numerator <<
           endl <<
@@ -1036,9 +1037,9 @@ string wholeNotesAsMsrString (
     numeratorDots = msrNumberOfDots (numerator);
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> numerator" << " : " <<
       numerator <<
       endl <<
@@ -1056,9 +1057,9 @@ string wholeNotesAsMsrString (
 
   if (numeratorDots >= 0 && denominatorDurationLog >= numeratorDots) {
     // take the dots into account
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> taking the dots into account" <<
         endl;
     }
@@ -1066,9 +1067,9 @@ string wholeNotesAsMsrString (
 
     denominatorDurationLog -= numeratorDots;
 
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
         endl <<
@@ -1081,9 +1082,9 @@ string wholeNotesAsMsrString (
   }
   else {
     // set the multiplying factor
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> setting the multiplying factor" <<
         endl;
     }
@@ -1097,9 +1098,9 @@ string wholeNotesAsMsrString (
     /* JMI
     multiplyingFactor = numerator;
 
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
         endl <<
@@ -1117,9 +1118,9 @@ string wholeNotesAsMsrString (
       // adapt multiplying factor
       multiplyingFactor /= 2;
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+        gLogStream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
           endl <<
@@ -1133,9 +1134,9 @@ string wholeNotesAsMsrString (
     */
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> numerator " << " : " <<
       numerator <<
       endl <<
@@ -1195,9 +1196,9 @@ string wholeNotesAsMsrString (
 
   string result = s.str ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+    gLogStream <<
       "--> wholeNotesAsMsrString() 2 -------------------------------------" <<
      ", result: \"" << result << "\"" <<
       ", numeratorDots" << " : " << numeratorDots <<
@@ -5709,7 +5710,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           ", line = " << inputLineNumber;
 
         msrUnsupported (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -8593,14 +8594,14 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         s <<
           "Sorry, computing intervals from quartertones pitch '" <<
           msrQuarterTonesPitchKindAsString (
-            gGlobalMsrOah->fMsrQuarterTonesPitchesLanguageKind,
+            gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
             quarterTonesPitchKind) <<
           "(" << quarterTonesPitchKind << ")" <<
           "' is not supported"
           ", line = " << inputLineNumber;
 
         msrUnsupported (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -9173,7 +9174,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 // clefs
 //______________________________________________________________________________
 map<string, msrClefKind>
-  gClefKindsMap;
+  gGlobalClefKindsMap;
 
 list<string>
   gClefKindsNamesList;
@@ -9254,7 +9255,7 @@ string clefKindAsString (
       result = "percussion";
       break;
     case kJianpuClef:
-      result = "jianpu";
+      result = "jiǎnpǔ";
       break;
   } // switch
 
@@ -9322,56 +9323,56 @@ void initializeClefKinds ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-  //  gClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
+  //  gGlobalClefKindsMap [gClefKindsNamesList.back ()] = kMajorClef;
 
     gClefKindsNamesList.push_back ("treble");
-    gClefKindsMap ["treble"] = kTrebleClef;
+    gGlobalClefKindsMap ["treble"] = kTrebleClef;
     gClefKindsNamesList.push_back ("soprano");
-    gClefKindsMap ["soprano"] = kSopranoClef;
+    gGlobalClefKindsMap ["soprano"] = kSopranoClef;
     gClefKindsNamesList.push_back ("mezzosoprano");
-    gClefKindsMap ["mezzosoprano"] = kMezzoSopranoClef;
+    gGlobalClefKindsMap ["mezzosoprano"] = kMezzoSopranoClef;
     gClefKindsNamesList.push_back ("alto");
-    gClefKindsMap ["alto"] = kAltoClef;
+    gGlobalClefKindsMap ["alto"] = kAltoClef;
     gClefKindsNamesList.push_back ("tenor");
-    gClefKindsMap ["tenor"] = kTenorClef;
+    gGlobalClefKindsMap ["tenor"] = kTenorClef;
     gClefKindsNamesList.push_back ("baritone");
-    gClefKindsMap ["baritone"] = kBaritoneClef;
+    gGlobalClefKindsMap ["baritone"] = kBaritoneClef;
     gClefKindsNamesList.push_back ("bass");
-    gClefKindsMap ["bass"] = kBassClef;
+    gGlobalClefKindsMap ["bass"] = kBassClef;
     gClefKindsNamesList.push_back ("treble1");
-    gClefKindsMap ["treble1"] = kTrebleLine1Clef;
+    gGlobalClefKindsMap ["treble1"] = kTrebleLine1Clef;
     gClefKindsNamesList.push_back ("treble-15");
-    gClefKindsMap ["treble-15"] = kTrebleMinus15Clef;
+    gGlobalClefKindsMap ["treble-15"] = kTrebleMinus15Clef;
     gClefKindsNamesList.push_back ("treble-8");
-    gClefKindsMap ["treble-8"] = kTrebleMinus8Clef;
+    gGlobalClefKindsMap ["treble-8"] = kTrebleMinus8Clef;
     gClefKindsNamesList.push_back ("treble+8");
-    gClefKindsMap ["treble+8"] = kTreblePlus8Clef;
+    gGlobalClefKindsMap ["treble+8"] = kTreblePlus8Clef;
     gClefKindsNamesList.push_back ("treble+15");
-    gClefKindsMap ["treble+15"] = kTreblePlus15Clef;
+    gGlobalClefKindsMap ["treble+15"] = kTreblePlus15Clef;
     gClefKindsNamesList.push_back ("bass-15");
-    gClefKindsMap ["bass-15"] = kBassMinus15Clef;
+    gGlobalClefKindsMap ["bass-15"] = kBassMinus15Clef;
     gClefKindsNamesList.push_back ("bass-8");
-    gClefKindsMap ["bass-8"] = kBassMinus8Clef;
+    gGlobalClefKindsMap ["bass-8"] = kBassMinus8Clef;
     gClefKindsNamesList.push_back ("bass+8");
-    gClefKindsMap ["bass+8"] = kBassPlus8Clef;
+    gGlobalClefKindsMap ["bass+8"] = kBassPlus8Clef;
     gClefKindsNamesList.push_back ("bass+15");
-    gClefKindsMap ["bass+15"] = kBassPlus15Clef;
+    gGlobalClefKindsMap ["bass+15"] = kBassPlus15Clef;
     gClefKindsNamesList.push_back ("varbaritone");
-    gClefKindsMap ["varbaritone"] = kVarbaritoneClef;
+    gGlobalClefKindsMap ["varbaritone"] = kVarbaritoneClef;
     gClefKindsNamesList.push_back ("tab4");
-    gClefKindsMap ["tab4"] = kTablature4Clef;
+    gGlobalClefKindsMap ["tab4"] = kTablature4Clef;
     gClefKindsNamesList.push_back ("tab5");
-    gClefKindsMap ["tab5"] = kTablature5Clef;
+    gGlobalClefKindsMap ["tab5"] = kTablature5Clef;
     gClefKindsNamesList.push_back ("tab6");
-    gClefKindsMap ["tab6"] = kTablature6Clef;
+    gGlobalClefKindsMap ["tab6"] = kTablature6Clef;
     gClefKindsNamesList.push_back ("tab7");
-    gClefKindsMap ["tab7"] = kTablature7Clef;
+    gGlobalClefKindsMap ["tab7"] = kTablature7Clef;
     gClefKindsNamesList.push_back ("percussion");
-    gClefKindsMap ["percussion"] = kPercussionClef;
+    gGlobalClefKindsMap ["percussion"] = kPercussionClef;
     gClefKindsNamesList.push_back ("jianpu");
-    gClefKindsMap ["jianpu"] = kJianpuClef;
+    gGlobalClefKindsMap ["jianpu"] = kJianpuClef;
 
-// JMI    pThisMethodHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -9381,7 +9382,7 @@ string existingClefKinds (int namesListMaxLength)
 
   int
     clefKindsMapSize =
-      gClefKindsMap.size ();
+      gGlobalClefKindsMap.size ();
 
   if (clefKindsMapSize) {
     int
@@ -9393,8 +9394,8 @@ string existingClefKinds (int namesListMaxLength)
 
     for (
       map<string, msrClefKind>::const_iterator i =
-        gClefKindsMap.begin ();
-      i != gClefKindsMap.end ();
+        gGlobalClefKindsMap.begin ();
+      i != gGlobalClefKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -10069,7 +10070,7 @@ msrHarmonyKind msrHarmonyKindFromString (
 }
 
 map<string, msrHarmonyKind>
-  gHarmonyKindsMap;
+  gGlobalHarmonyKindsMap;
 
 list<string>
   gHarmonyKindsNamesList;
@@ -10083,50 +10084,50 @@ void initializeHarmonyKinds ()
     // MusicXML harmonies
 
     gHarmonyKindsNamesList.push_back ("maj"); // JMI
-    gHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = kMajorHarmony;
-    gHarmonyKindsMap ["min"] = kMinorHarmony;
-    gHarmonyKindsMap ["aug"] = kAugmentedHarmony;
-    gHarmonyKindsMap ["dim"] = kDiminishedHarmony;
-    gHarmonyKindsMap ["dom"] = kDominantHarmony;
-    gHarmonyKindsMap ["maj7"] = kMajorSeventhHarmony;
-    gHarmonyKindsMap ["min7"] = kMinorSeventhHarmony;
-    gHarmonyKindsMap ["dim7"] = kDiminishedSeventhHarmony;
-    gHarmonyKindsMap ["aug7"] = kAugmentedSeventhHarmony;
-    gHarmonyKindsMap ["halfdim"] = kHalfDiminishedHarmony;
-    gHarmonyKindsMap ["minmaj7"] = kMinorMajorSeventhHarmony;
-    gHarmonyKindsMap ["maj6"] = kMajorSixthHarmony;
-    gHarmonyKindsMap ["min6"] = kMinorSixthHarmony;
-    gHarmonyKindsMap ["dom9"] = kDominantNinthHarmony;
-    gHarmonyKindsMap ["maj9"] = kMajorNinthHarmony;
-    gHarmonyKindsMap ["min9"] = kMinorNinthHarmony;
-    gHarmonyKindsMap ["dom11"] = kDominantEleventhHarmony;
-    gHarmonyKindsMap ["maj11"] = kMajorEleventhHarmony;
-    gHarmonyKindsMap ["min11"] = kMinorEleventhHarmony;
-    gHarmonyKindsMap ["dom13"] = kDominantThirteenthHarmony;
-    gHarmonyKindsMap ["maj13"] = kMajorThirteenthHarmony;
-    gHarmonyKindsMap ["min13"] = kMinorThirteenthHarmony;
-    gHarmonyKindsMap ["sus2"] = kSuspendedSecondHarmony;
-    gHarmonyKindsMap ["sus4"] = kSuspendedFourthHarmony;
-    gHarmonyKindsMap ["neapolitan"] = kNeapolitanHarmony;
-    gHarmonyKindsMap ["italian"] = kItalianHarmony;
-    gHarmonyKindsMap ["french"] = kFrenchHarmony;
-    gHarmonyKindsMap ["german"] = kGermanHarmony;
-    gHarmonyKindsMap ["pedal"] = kPedalHarmony;
-    gHarmonyKindsMap ["power"] = kPowerHarmony;
-    gHarmonyKindsMap ["tristan"] = kTristanHarmony;
+    gGlobalHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = kMajorHarmony;
+    gGlobalHarmonyKindsMap ["min"] = kMinorHarmony;
+    gGlobalHarmonyKindsMap ["aug"] = kAugmentedHarmony;
+    gGlobalHarmonyKindsMap ["dim"] = kDiminishedHarmony;
+    gGlobalHarmonyKindsMap ["dom"] = kDominantHarmony;
+    gGlobalHarmonyKindsMap ["maj7"] = kMajorSeventhHarmony;
+    gGlobalHarmonyKindsMap ["min7"] = kMinorSeventhHarmony;
+    gGlobalHarmonyKindsMap ["dim7"] = kDiminishedSeventhHarmony;
+    gGlobalHarmonyKindsMap ["aug7"] = kAugmentedSeventhHarmony;
+    gGlobalHarmonyKindsMap ["halfdim"] = kHalfDiminishedHarmony;
+    gGlobalHarmonyKindsMap ["minmaj7"] = kMinorMajorSeventhHarmony;
+    gGlobalHarmonyKindsMap ["maj6"] = kMajorSixthHarmony;
+    gGlobalHarmonyKindsMap ["min6"] = kMinorSixthHarmony;
+    gGlobalHarmonyKindsMap ["dom9"] = kDominantNinthHarmony;
+    gGlobalHarmonyKindsMap ["maj9"] = kMajorNinthHarmony;
+    gGlobalHarmonyKindsMap ["min9"] = kMinorNinthHarmony;
+    gGlobalHarmonyKindsMap ["dom11"] = kDominantEleventhHarmony;
+    gGlobalHarmonyKindsMap ["maj11"] = kMajorEleventhHarmony;
+    gGlobalHarmonyKindsMap ["min11"] = kMinorEleventhHarmony;
+    gGlobalHarmonyKindsMap ["dom13"] = kDominantThirteenthHarmony;
+    gGlobalHarmonyKindsMap ["maj13"] = kMajorThirteenthHarmony;
+    gGlobalHarmonyKindsMap ["min13"] = kMinorThirteenthHarmony;
+    gGlobalHarmonyKindsMap ["sus2"] = kSuspendedSecondHarmony;
+    gGlobalHarmonyKindsMap ["sus4"] = kSuspendedFourthHarmony;
+    gGlobalHarmonyKindsMap ["neapolitan"] = kNeapolitanHarmony;
+    gGlobalHarmonyKindsMap ["italian"] = kItalianHarmony;
+    gGlobalHarmonyKindsMap ["french"] = kFrenchHarmony;
+    gGlobalHarmonyKindsMap ["german"] = kGermanHarmony;
+    gGlobalHarmonyKindsMap ["pedal"] = kPedalHarmony;
+    gGlobalHarmonyKindsMap ["power"] = kPowerHarmony;
+    gGlobalHarmonyKindsMap ["tristan"] = kTristanHarmony;
 
     // jazz-specific Harmonies
 
-    gHarmonyKindsMap ["minmaj9"] = kMinorMajorNinth;
-    gHarmonyKindsMap ["domsus4"] = kDominantSuspendedFourthHarmony;
-    gHarmonyKindsMap ["domaug5"] = kDominantAugmentedFifthHarmony;
-    gHarmonyKindsMap ["dommin9"] = kDominantMinorNinthHarmony;
-    gHarmonyKindsMap ["domaug9dim5"] = kDominantAugmentedNinthDiminishedFifthHarmony;
-    gHarmonyKindsMap ["domaug9aug5"] = kDominantAugmentedNinthAugmentedFifthHarmony;
-    gHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
-    gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
+    gGlobalHarmonyKindsMap ["minmaj9"] = kMinorMajorNinth;
+    gGlobalHarmonyKindsMap ["domsus4"] = kDominantSuspendedFourthHarmony;
+    gGlobalHarmonyKindsMap ["domaug5"] = kDominantAugmentedFifthHarmony;
+    gGlobalHarmonyKindsMap ["dommin9"] = kDominantMinorNinthHarmony;
+    gGlobalHarmonyKindsMap ["domaug9dim5"] = kDominantAugmentedNinthDiminishedFifthHarmony;
+    gGlobalHarmonyKindsMap ["domaug9aug5"] = kDominantAugmentedNinthAugmentedFifthHarmony;
+    gGlobalHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
+    gGlobalHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
 
-// JMI    pThisMethodHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -10136,7 +10137,7 @@ string existingHarmonyKinds (int namesListMaxLength)
 
   int
     harmonyKindsMapSize =
-      gHarmonyKindsMap.size ();
+      gGlobalHarmonyKindsMap.size ();
 
   if (harmonyKindsMapSize) {
     int
@@ -10148,8 +10149,8 @@ string existingHarmonyKinds (int namesListMaxLength)
 
     for (
       map<string, msrHarmonyKind>::const_iterator i =
-        gHarmonyKindsMap.begin ();
-      i != gHarmonyKindsMap.end ();
+        gGlobalHarmonyKindsMap.begin ();
+      i != gGlobalHarmonyKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -10240,19 +10241,19 @@ void initializeHarmonyStructuresMap ()
             harmonyKind);
 
       // register it in the map
-      gHarmonyStructuresMap [harmonyKind] =
+      gGlobalHarmonyStructuresMap [harmonyKind] =
         harmonyStructure;
     } // for
 
-// JMI    pThisMethodHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
 void printHarmonyStructuresMap ()
 {
-  gLogOstream <<
+  gLogStream <<
     "Harmonies harmonies structures:" <<
-    " (" << gHarmonyStructuresMap.size () << ")" <<
+    " (" << gGlobalHarmonyStructuresMap.size () << ")" <<
     endl;
 
   gIndenter++;
@@ -10262,7 +10263,7 @@ void printHarmonyStructuresMap ()
       harmonyKind =
         msrHarmonyKind (i);
 
-    gLogOstream <<
+    gLogStream <<
 // JMI      "i:" << i << " " <<
       msrHarmonyKindAsString (harmonyKind) << ":" <<
       endl;
@@ -10271,47 +10272,47 @@ void printHarmonyStructuresMap ()
 
     S_msrHarmonyStructure
       harmonyStructure =
-        gHarmonyStructuresMap [harmonyKind];
+        gGlobalHarmonyStructuresMap [harmonyKind];
 
     if (harmonyStructure) {
-      gLogOstream <<
+      gLogStream <<
         harmonyStructure <<
         endl;
     }
     else {
-      gLogOstream <<
+      gLogStream <<
         "no intervals" <<
         endl;
     }
 
     gIndenter--;
 
-    gLogOstream << endl;
+    gLogStream << endl;
   } // for
 
   gIndenter--;
 
-  gLogOstream << endl;
+  gLogStream << endl;
 }
 
 // notes names languages
 // ------------------------------------------------------
 
 map<string, msrQuarterTonesPitchesLanguageKind>
-  gQuarterTonesPitchesLanguageKindsMap;
+  gGlobalQuarterTonesPitchesLanguageKindsMap;
 
-map<msrQuarterTonesPitchKind, string> gNederlandsPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gCatalanPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gDeutschPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gEnglishPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gEspanolPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gFrancaisPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gItalianoPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gNorskPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gPortuguesPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gSuomiPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gSvenskaPitchNamesMap;
-map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalNederlandsPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalCatalanPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalDeutschPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalEnglishPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalEspanolPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalFrancaisPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalItalianoPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalNorskPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalPortuguesPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalSuomiPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalSvenskaPitchesNamesMap;
+map<msrQuarterTonesPitchKind, string> gGlobalVlaamsPitchesNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ()
 {
@@ -10319,18 +10320,18 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-    gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
-    gQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
-    gQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
-    gQuarterTonesPitchesLanguageKindsMap ["english"]    = kEnglish;
-    gQuarterTonesPitchesLanguageKindsMap ["espanol"]    = kEspanol;
-    gQuarterTonesPitchesLanguageKindsMap ["italiano"]   = kItaliano;
-    gQuarterTonesPitchesLanguageKindsMap ["francais"]   = kFrancais;
-    gQuarterTonesPitchesLanguageKindsMap ["norsk"]      = kNorsk;
-    gQuarterTonesPitchesLanguageKindsMap ["portugues"]  = kPortugues;
-    gQuarterTonesPitchesLanguageKindsMap ["suomi"]      = kSuomi;
-    gQuarterTonesPitchesLanguageKindsMap ["svenska"]    = kSvenska;
-    gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["english"]    = kEnglish;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["espanol"]    = kEspanol;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["italiano"]   = kItaliano;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["francais"]   = kFrancais;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["norsk"]      = kNorsk;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["portugues"]  = kPortugues;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["suomi"]      = kSuomi;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["svenska"]    = kSvenska;
+    gGlobalQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
 
     initializeNederlandsPitchNamesMap ();
     initializeCatalanPitchNamesMap ();
@@ -10345,932 +10346,932 @@ void initializeQuarterTonesPitchesLanguageKinds ()
     initializeSvenskaPitchNamesMap ();
     initializeVlaamsPitchNamesMap ();
 
-// JMI    pThisMethodHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
 void initializeNederlandsPitchNamesMap ()
 {
   // nederlands
-  gNederlandsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gNederlandsPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalNederlandsPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalNederlandsPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gNederlandsPitchNamesMap [kA_DoubleFlat_QTP]  = "aeses";
-  gNederlandsPitchNamesMap [kA_SesquiFlat_QTP]  = "aeseh";
-  gNederlandsPitchNamesMap [kA_Flat_QTP]        = "aes";
-  gNederlandsPitchNamesMap [kA_SemiFlat_QTP]    = "aeh";
-  gNederlandsPitchNamesMap [kA_Natural_QTP]     = "a";
-  gNederlandsPitchNamesMap [kA_SemiSharp_QTP]   = "aih";
-  gNederlandsPitchNamesMap [kA_Sharp_QTP]       = "ais";
-  gNederlandsPitchNamesMap [kA_SesquiSharp_QTP] = "aisih";
-  gNederlandsPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
+  gGlobalNederlandsPitchesNamesMap [kA_DoubleFlat_QTP]  = "aeses";
+  gGlobalNederlandsPitchesNamesMap [kA_SesquiFlat_QTP]  = "aeseh";
+  gGlobalNederlandsPitchesNamesMap [kA_Flat_QTP]        = "aes";
+  gGlobalNederlandsPitchesNamesMap [kA_SemiFlat_QTP]    = "aeh";
+  gGlobalNederlandsPitchesNamesMap [kA_Natural_QTP]     = "a";
+  gGlobalNederlandsPitchesNamesMap [kA_SemiSharp_QTP]   = "aih";
+  gGlobalNederlandsPitchesNamesMap [kA_Sharp_QTP]       = "ais";
+  gGlobalNederlandsPitchesNamesMap [kA_SesquiSharp_QTP] = "aisih";
+  gGlobalNederlandsPitchesNamesMap [kA_DoubleSharp_QTP] = "aisis";
 
-  gNederlandsPitchNamesMap [kB_DoubleFlat_QTP]  = "beses";
-  gNederlandsPitchNamesMap [kB_SesquiFlat_QTP]  = "beseh";
-  gNederlandsPitchNamesMap [kB_Flat_QTP]        = "bes";
-  gNederlandsPitchNamesMap [kB_SemiFlat_QTP]    = "beh";
-  gNederlandsPitchNamesMap [kB_Natural_QTP]     = "b";
-  gNederlandsPitchNamesMap [kB_SemiSharp_QTP]   = "bih";
-  gNederlandsPitchNamesMap [kB_Sharp_QTP]       = "bis";
-  gNederlandsPitchNamesMap [kB_SesquiSharp_QTP] = "bisih";
-  gNederlandsPitchNamesMap [kB_DoubleSharp_QTP] = "bisis";
+  gGlobalNederlandsPitchesNamesMap [kB_DoubleFlat_QTP]  = "beses";
+  gGlobalNederlandsPitchesNamesMap [kB_SesquiFlat_QTP]  = "beseh";
+  gGlobalNederlandsPitchesNamesMap [kB_Flat_QTP]        = "bes";
+  gGlobalNederlandsPitchesNamesMap [kB_SemiFlat_QTP]    = "beh";
+  gGlobalNederlandsPitchesNamesMap [kB_Natural_QTP]     = "b";
+  gGlobalNederlandsPitchesNamesMap [kB_SemiSharp_QTP]   = "bih";
+  gGlobalNederlandsPitchesNamesMap [kB_Sharp_QTP]       = "bis";
+  gGlobalNederlandsPitchesNamesMap [kB_SesquiSharp_QTP] = "bisih";
+  gGlobalNederlandsPitchesNamesMap [kB_DoubleSharp_QTP] = "bisis";
 
-  gNederlandsPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
-  gNederlandsPitchNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
-  gNederlandsPitchNamesMap [kC_Flat_QTP]        = "ces";
-  gNederlandsPitchNamesMap [kC_SemiFlat_QTP]    = "ceh";
-  gNederlandsPitchNamesMap [kC_Natural_QTP]     = "c";
-  gNederlandsPitchNamesMap [kC_SemiSharp_QTP]   = "cih";
-  gNederlandsPitchNamesMap [kC_Sharp_QTP]       = "cis";
-  gNederlandsPitchNamesMap [kC_SesquiSharp_QTP] = "cisih";
-  gNederlandsPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
+  gGlobalNederlandsPitchesNamesMap [kC_DoubleFlat_QTP]  = "ceses";
+  gGlobalNederlandsPitchesNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
+  gGlobalNederlandsPitchesNamesMap [kC_Flat_QTP]        = "ces";
+  gGlobalNederlandsPitchesNamesMap [kC_SemiFlat_QTP]    = "ceh";
+  gGlobalNederlandsPitchesNamesMap [kC_Natural_QTP]     = "c";
+  gGlobalNederlandsPitchesNamesMap [kC_SemiSharp_QTP]   = "cih";
+  gGlobalNederlandsPitchesNamesMap [kC_Sharp_QTP]       = "cis";
+  gGlobalNederlandsPitchesNamesMap [kC_SesquiSharp_QTP] = "cisih";
+  gGlobalNederlandsPitchesNamesMap [kC_DoubleSharp_QTP] = "cisis";
 
-  gNederlandsPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
-  gNederlandsPitchNamesMap [kD_SesquiFlat_QTP]  = "deseh";
-  gNederlandsPitchNamesMap [kD_Flat_QTP]        = "des";
-  gNederlandsPitchNamesMap [kD_SemiFlat_QTP]    = "deh";
-  gNederlandsPitchNamesMap [kD_Natural_QTP]     = "d";
-  gNederlandsPitchNamesMap [kD_SemiSharp_QTP]   = "dih";
-  gNederlandsPitchNamesMap [kD_Sharp_QTP]       = "dis";
-  gNederlandsPitchNamesMap [kD_SesquiSharp_QTP] = "disih";
-  gNederlandsPitchNamesMap [kD_DoubleSharp_QTP] = "disis";
+  gGlobalNederlandsPitchesNamesMap [kD_DoubleFlat_QTP]  = "deses";
+  gGlobalNederlandsPitchesNamesMap [kD_SesquiFlat_QTP]  = "deseh";
+  gGlobalNederlandsPitchesNamesMap [kD_Flat_QTP]        = "des";
+  gGlobalNederlandsPitchesNamesMap [kD_SemiFlat_QTP]    = "deh";
+  gGlobalNederlandsPitchesNamesMap [kD_Natural_QTP]     = "d";
+  gGlobalNederlandsPitchesNamesMap [kD_SemiSharp_QTP]   = "dih";
+  gGlobalNederlandsPitchesNamesMap [kD_Sharp_QTP]       = "dis";
+  gGlobalNederlandsPitchesNamesMap [kD_SesquiSharp_QTP] = "disih";
+  gGlobalNederlandsPitchesNamesMap [kD_DoubleSharp_QTP] = "disis";
 
-  gNederlandsPitchNamesMap [kE_DoubleFlat_QTP]  = "eeses";
-  gNederlandsPitchNamesMap [kE_SesquiFlat_QTP]  = "eeseh";
-  gNederlandsPitchNamesMap [kE_Flat_QTP]        = "ees";
-  gNederlandsPitchNamesMap [kE_SemiFlat_QTP]    = "eeh";
-  gNederlandsPitchNamesMap [kE_Natural_QTP]     = "e";
-  gNederlandsPitchNamesMap [kE_SemiSharp_QTP]   = "eih";
-  gNederlandsPitchNamesMap [kE_Sharp_QTP]       = "eis";
-  gNederlandsPitchNamesMap [kE_SesquiSharp_QTP] = "eisih";
-  gNederlandsPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
+  gGlobalNederlandsPitchesNamesMap [kE_DoubleFlat_QTP]  = "eeses";
+  gGlobalNederlandsPitchesNamesMap [kE_SesquiFlat_QTP]  = "eeseh";
+  gGlobalNederlandsPitchesNamesMap [kE_Flat_QTP]        = "ees";
+  gGlobalNederlandsPitchesNamesMap [kE_SemiFlat_QTP]    = "eeh";
+  gGlobalNederlandsPitchesNamesMap [kE_Natural_QTP]     = "e";
+  gGlobalNederlandsPitchesNamesMap [kE_SemiSharp_QTP]   = "eih";
+  gGlobalNederlandsPitchesNamesMap [kE_Sharp_QTP]       = "eis";
+  gGlobalNederlandsPitchesNamesMap [kE_SesquiSharp_QTP] = "eisih";
+  gGlobalNederlandsPitchesNamesMap [kE_DoubleSharp_QTP] = "eisis";
 
-  gNederlandsPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
-  gNederlandsPitchNamesMap [kF_SesquiFlat_QTP]  = "feseh";
-  gNederlandsPitchNamesMap [kF_Flat_QTP]        = "fes";
-  gNederlandsPitchNamesMap [kF_SemiFlat_QTP]    = "feh";
-  gNederlandsPitchNamesMap [kF_Natural_QTP]     = "f";
-  gNederlandsPitchNamesMap [kF_SemiSharp_QTP]   = "fih";
-  gNederlandsPitchNamesMap [kF_Sharp_QTP]       = "fis";
-  gNederlandsPitchNamesMap [kF_SesquiSharp_QTP] = "fisih";
-  gNederlandsPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
+  gGlobalNederlandsPitchesNamesMap [kF_DoubleFlat_QTP]  = "feses";
+  gGlobalNederlandsPitchesNamesMap [kF_SesquiFlat_QTP]  = "feseh";
+  gGlobalNederlandsPitchesNamesMap [kF_Flat_QTP]        = "fes";
+  gGlobalNederlandsPitchesNamesMap [kF_SemiFlat_QTP]    = "feh";
+  gGlobalNederlandsPitchesNamesMap [kF_Natural_QTP]     = "f";
+  gGlobalNederlandsPitchesNamesMap [kF_SemiSharp_QTP]   = "fih";
+  gGlobalNederlandsPitchesNamesMap [kF_Sharp_QTP]       = "fis";
+  gGlobalNederlandsPitchesNamesMap [kF_SesquiSharp_QTP] = "fisih";
+  gGlobalNederlandsPitchesNamesMap [kF_DoubleSharp_QTP] = "fisis";
 
-  gNederlandsPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
-  gNederlandsPitchNamesMap [kG_SesquiFlat_QTP]  = "geseh";
-  gNederlandsPitchNamesMap [kG_Flat_QTP]        = "ges";
-  gNederlandsPitchNamesMap [kG_SemiFlat_QTP]    = "geh";
-  gNederlandsPitchNamesMap [kG_Natural_QTP]     = "g";
-  gNederlandsPitchNamesMap [kG_SemiSharp_QTP]   = "gih";
-  gNederlandsPitchNamesMap [kG_Sharp_QTP]       = "gis";
-  gNederlandsPitchNamesMap [kG_SesquiSharp_QTP] = "gisih";
-  gNederlandsPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+  gGlobalNederlandsPitchesNamesMap [kG_DoubleFlat_QTP]  = "geses";
+  gGlobalNederlandsPitchesNamesMap [kG_SesquiFlat_QTP]  = "geseh";
+  gGlobalNederlandsPitchesNamesMap [kG_Flat_QTP]        = "ges";
+  gGlobalNederlandsPitchesNamesMap [kG_SemiFlat_QTP]    = "geh";
+  gGlobalNederlandsPitchesNamesMap [kG_Natural_QTP]     = "g";
+  gGlobalNederlandsPitchesNamesMap [kG_SemiSharp_QTP]   = "gih";
+  gGlobalNederlandsPitchesNamesMap [kG_Sharp_QTP]       = "gis";
+  gGlobalNederlandsPitchesNamesMap [kG_SesquiSharp_QTP] = "gisih";
+  gGlobalNederlandsPitchesNamesMap [kG_DoubleSharp_QTP] = "gisis";
 }
 
 void initializeCatalanPitchNamesMap ()
 {
   // catalan
-  gCatalanPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gCatalanPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalCatalanPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalCatalanPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gCatalanPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gCatalanPitchNamesMap [kA_SesquiFlat_QTP]  = "labSesquiFlat???";
-  gCatalanPitchNamesMap [kA_Flat_QTP]        = "lab";
-  gCatalanPitchNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gCatalanPitchNamesMap [kA_Natural_QTP]     = "la";
-  gCatalanPitchNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gCatalanPitchNamesMap [kA_Sharp_QTP]       = "lad";
-  gCatalanPitchNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
-  gCatalanPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
+  gGlobalCatalanPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gGlobalCatalanPitchesNamesMap [kA_SesquiFlat_QTP]  = "labSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [kA_Flat_QTP]        = "lab";
+  gGlobalCatalanPitchesNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [kA_Natural_QTP]     = "la";
+  gGlobalCatalanPitchesNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [kA_Sharp_QTP]       = "lad";
+  gGlobalCatalanPitchesNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [kA_DoubleSharp_QTP] = "ladd";
 
-  gCatalanPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gCatalanPitchNamesMap [kB_SesquiFlat_QTP]  = "sibSesquiFlat???";
-  gCatalanPitchNamesMap [kB_Flat_QTP]        = "sib";
-  gCatalanPitchNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gCatalanPitchNamesMap [kB_Natural_QTP]     = "b";
-  gCatalanPitchNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gCatalanPitchNamesMap [kB_Sharp_QTP]       = "sid";
-  gCatalanPitchNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
-  gCatalanPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
+  gGlobalCatalanPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gGlobalCatalanPitchesNamesMap [kB_SesquiFlat_QTP]  = "sibSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [kB_Flat_QTP]        = "sib";
+  gGlobalCatalanPitchesNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [kB_Natural_QTP]     = "b";
+  gGlobalCatalanPitchesNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [kB_Sharp_QTP]       = "sid";
+  gGlobalCatalanPitchesNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [kB_DoubleSharp_QTP] = "sidd";
 
-  gCatalanPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gCatalanPitchNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
-  gCatalanPitchNamesMap [kC_Flat_QTP]        = "dob";
-  gCatalanPitchNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gCatalanPitchNamesMap [kC_Natural_QTP]     = "do";
-  gCatalanPitchNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gCatalanPitchNamesMap [kC_Sharp_QTP]       = "dod";
-  gCatalanPitchNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
-  gCatalanPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
+  gGlobalCatalanPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gGlobalCatalanPitchesNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [kC_Flat_QTP]        = "dob";
+  gGlobalCatalanPitchesNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [kC_Natural_QTP]     = "do";
+  gGlobalCatalanPitchesNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [kC_Sharp_QTP]       = "dod";
+  gGlobalCatalanPitchesNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [kC_DoubleSharp_QTP] = "dodd";
 
-  gCatalanPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gCatalanPitchNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
-  gCatalanPitchNamesMap [kD_Flat_QTP]        = "reb";
-  gCatalanPitchNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gCatalanPitchNamesMap [kD_Natural_QTP]     = "re";
-  gCatalanPitchNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gCatalanPitchNamesMap [kD_Sharp_QTP]       = "red";
-  gCatalanPitchNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
-  gCatalanPitchNamesMap [kD_DoubleSharp_QTP] = "redd";
+  gGlobalCatalanPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gGlobalCatalanPitchesNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [kD_Flat_QTP]        = "reb";
+  gGlobalCatalanPitchesNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [kD_Natural_QTP]     = "re";
+  gGlobalCatalanPitchesNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [kD_Sharp_QTP]       = "red";
+  gGlobalCatalanPitchesNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [kD_DoubleSharp_QTP] = "redd";
 
-  gCatalanPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gCatalanPitchNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
-  gCatalanPitchNamesMap [kE_Flat_QTP]        = "mib";
-  gCatalanPitchNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gCatalanPitchNamesMap [kE_Natural_QTP]     = "mi";
-  gCatalanPitchNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gCatalanPitchNamesMap [kE_Sharp_QTP]       = "mid";
-  gCatalanPitchNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
-  gCatalanPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
+  gGlobalCatalanPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gGlobalCatalanPitchesNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [kE_Flat_QTP]        = "mib";
+  gGlobalCatalanPitchesNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [kE_Natural_QTP]     = "mi";
+  gGlobalCatalanPitchesNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [kE_Sharp_QTP]       = "mid";
+  gGlobalCatalanPitchesNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [kE_DoubleSharp_QTP] = "midd";
 
-  gCatalanPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gCatalanPitchNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
-  gCatalanPitchNamesMap [kF_Flat_QTP]        = "fab";
-  gCatalanPitchNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gCatalanPitchNamesMap [kF_Natural_QTP]     = "fa";
-  gCatalanPitchNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gCatalanPitchNamesMap [kF_Sharp_QTP]       = "fad";
-  gCatalanPitchNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
-  gCatalanPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
+  gGlobalCatalanPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gGlobalCatalanPitchesNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [kF_Flat_QTP]        = "fab";
+  gGlobalCatalanPitchesNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [kF_Natural_QTP]     = "fa";
+  gGlobalCatalanPitchesNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [kF_Sharp_QTP]       = "fad";
+  gGlobalCatalanPitchesNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [kF_DoubleSharp_QTP] = "fadd";
 
-  gCatalanPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gCatalanPitchNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
-  gCatalanPitchNamesMap [kG_Flat_QTP]        = "solb";
-  gCatalanPitchNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gCatalanPitchNamesMap [kG_Natural_QTP]     = "sol";
-  gCatalanPitchNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gCatalanPitchNamesMap [kG_Sharp_QTP]       = "sold";
-  gCatalanPitchNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
-  gCatalanPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+  gGlobalCatalanPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gGlobalCatalanPitchesNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
+  gGlobalCatalanPitchesNamesMap [kG_Flat_QTP]        = "solb";
+  gGlobalCatalanPitchesNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gGlobalCatalanPitchesNamesMap [kG_Natural_QTP]     = "sol";
+  gGlobalCatalanPitchesNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gGlobalCatalanPitchesNamesMap [kG_Sharp_QTP]       = "sold";
+  gGlobalCatalanPitchesNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
+  gGlobalCatalanPitchesNamesMap [kG_DoubleSharp_QTP] = "soldd";
 }
 
 void initializeDeutschPitchNamesMap ()
 {
   // deutsch
-  gDeutschPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gDeutschPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalDeutschPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalDeutschPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gDeutschPitchNamesMap [kA_DoubleFlat_QTP]  = "asas";
-  gDeutschPitchNamesMap [kA_SesquiFlat_QTP]  = "asah";
-  gDeutschPitchNamesMap [kA_Flat_QTP]        = "as";
-  gDeutschPitchNamesMap [kA_SemiFlat_QTP]    = "aeh";
-  gDeutschPitchNamesMap [kA_Natural_QTP]     = "a";
-  gDeutschPitchNamesMap [kA_SemiSharp_QTP]   = "aih";
-  gDeutschPitchNamesMap [kA_Sharp_QTP]       = "ais";
-  gDeutschPitchNamesMap [kA_SesquiSharp_QTP] = "aisih";
-  gDeutschPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
+  gGlobalDeutschPitchesNamesMap [kA_DoubleFlat_QTP]  = "asas";
+  gGlobalDeutschPitchesNamesMap [kA_SesquiFlat_QTP]  = "asah";
+  gGlobalDeutschPitchesNamesMap [kA_Flat_QTP]        = "as";
+  gGlobalDeutschPitchesNamesMap [kA_SemiFlat_QTP]    = "aeh";
+  gGlobalDeutschPitchesNamesMap [kA_Natural_QTP]     = "a";
+  gGlobalDeutschPitchesNamesMap [kA_SemiSharp_QTP]   = "aih";
+  gGlobalDeutschPitchesNamesMap [kA_Sharp_QTP]       = "ais";
+  gGlobalDeutschPitchesNamesMap [kA_SesquiSharp_QTP] = "aisih";
+  gGlobalDeutschPitchesNamesMap [kA_DoubleSharp_QTP] = "aisis";
 
-  gDeutschPitchNamesMap [kB_DoubleFlat_QTP]  = "heses";
-  gDeutschPitchNamesMap [kB_SesquiFlat_QTP]  = "heseh";
-  gDeutschPitchNamesMap [kB_Flat_QTP]        = "b";
-  gDeutschPitchNamesMap [kB_SemiFlat_QTP]    = "beh";
-  gDeutschPitchNamesMap [kB_Natural_QTP]     = "h";
-  gDeutschPitchNamesMap [kB_SemiSharp_QTP]   = "hih";
-  gDeutschPitchNamesMap [kB_Sharp_QTP]       = "his";
-  gDeutschPitchNamesMap [kB_SesquiSharp_QTP] = "hisih";
-  gDeutschPitchNamesMap [kB_DoubleSharp_QTP] = "hisis";
+  gGlobalDeutschPitchesNamesMap [kB_DoubleFlat_QTP]  = "heses";
+  gGlobalDeutschPitchesNamesMap [kB_SesquiFlat_QTP]  = "heseh";
+  gGlobalDeutschPitchesNamesMap [kB_Flat_QTP]        = "b";
+  gGlobalDeutschPitchesNamesMap [kB_SemiFlat_QTP]    = "beh";
+  gGlobalDeutschPitchesNamesMap [kB_Natural_QTP]     = "h";
+  gGlobalDeutschPitchesNamesMap [kB_SemiSharp_QTP]   = "hih";
+  gGlobalDeutschPitchesNamesMap [kB_Sharp_QTP]       = "his";
+  gGlobalDeutschPitchesNamesMap [kB_SesquiSharp_QTP] = "hisih";
+  gGlobalDeutschPitchesNamesMap [kB_DoubleSharp_QTP] = "hisis";
 
-  gDeutschPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
-  gDeutschPitchNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
-  gDeutschPitchNamesMap [kC_Flat_QTP]        = "ces";
-  gDeutschPitchNamesMap [kC_SemiFlat_QTP]    = "ceh";
-  gDeutschPitchNamesMap [kC_Natural_QTP]     = "c";
-  gDeutschPitchNamesMap [kC_SemiSharp_QTP]   = "cih";
-  gDeutschPitchNamesMap [kC_Sharp_QTP]       = "cis";
-  gDeutschPitchNamesMap [kC_SesquiSharp_QTP] = "cisih";
-  gDeutschPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
+  gGlobalDeutschPitchesNamesMap [kC_DoubleFlat_QTP]  = "ceses";
+  gGlobalDeutschPitchesNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
+  gGlobalDeutschPitchesNamesMap [kC_Flat_QTP]        = "ces";
+  gGlobalDeutschPitchesNamesMap [kC_SemiFlat_QTP]    = "ceh";
+  gGlobalDeutschPitchesNamesMap [kC_Natural_QTP]     = "c";
+  gGlobalDeutschPitchesNamesMap [kC_SemiSharp_QTP]   = "cih";
+  gGlobalDeutschPitchesNamesMap [kC_Sharp_QTP]       = "cis";
+  gGlobalDeutschPitchesNamesMap [kC_SesquiSharp_QTP] = "cisih";
+  gGlobalDeutschPitchesNamesMap [kC_DoubleSharp_QTP] = "cisis";
 
-  gDeutschPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
-  gDeutschPitchNamesMap [kD_SesquiFlat_QTP]  = "deseh";
-  gDeutschPitchNamesMap [kD_Flat_QTP]        = "des";
-  gDeutschPitchNamesMap [kD_SemiFlat_QTP]    = "deh";
-  gDeutschPitchNamesMap [kD_Natural_QTP]     = "d";
-  gDeutschPitchNamesMap [kD_SemiSharp_QTP]   = "dih";
-  gDeutschPitchNamesMap [kD_Sharp_QTP]       = "dis";
-  gDeutschPitchNamesMap [kD_SesquiSharp_QTP] = "disih";
-  gDeutschPitchNamesMap [kD_DoubleSharp_QTP] = "disis";
+  gGlobalDeutschPitchesNamesMap [kD_DoubleFlat_QTP]  = "deses";
+  gGlobalDeutschPitchesNamesMap [kD_SesquiFlat_QTP]  = "deseh";
+  gGlobalDeutschPitchesNamesMap [kD_Flat_QTP]        = "des";
+  gGlobalDeutschPitchesNamesMap [kD_SemiFlat_QTP]    = "deh";
+  gGlobalDeutschPitchesNamesMap [kD_Natural_QTP]     = "d";
+  gGlobalDeutschPitchesNamesMap [kD_SemiSharp_QTP]   = "dih";
+  gGlobalDeutschPitchesNamesMap [kD_Sharp_QTP]       = "dis";
+  gGlobalDeutschPitchesNamesMap [kD_SesquiSharp_QTP] = "disih";
+  gGlobalDeutschPitchesNamesMap [kD_DoubleSharp_QTP] = "disis";
 
-  gDeutschPitchNamesMap [kE_DoubleFlat_QTP]  = "eses";
-  gDeutschPitchNamesMap [kE_SesquiFlat_QTP]  = "esseh";
-  gDeutschPitchNamesMap [kE_Flat_QTP]        = "es";
-  gDeutschPitchNamesMap [kE_SemiFlat_QTP]    = "eeh";
-  gDeutschPitchNamesMap [kE_Natural_QTP]     = "e";
-  gDeutschPitchNamesMap [kE_SemiSharp_QTP]   = "eih";
-  gDeutschPitchNamesMap [kE_Sharp_QTP]       = "eis";
-  gDeutschPitchNamesMap [kE_SesquiSharp_QTP] = "eisih";
-  gDeutschPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
+  gGlobalDeutschPitchesNamesMap [kE_DoubleFlat_QTP]  = "eses";
+  gGlobalDeutschPitchesNamesMap [kE_SesquiFlat_QTP]  = "esseh";
+  gGlobalDeutschPitchesNamesMap [kE_Flat_QTP]        = "es";
+  gGlobalDeutschPitchesNamesMap [kE_SemiFlat_QTP]    = "eeh";
+  gGlobalDeutschPitchesNamesMap [kE_Natural_QTP]     = "e";
+  gGlobalDeutschPitchesNamesMap [kE_SemiSharp_QTP]   = "eih";
+  gGlobalDeutschPitchesNamesMap [kE_Sharp_QTP]       = "eis";
+  gGlobalDeutschPitchesNamesMap [kE_SesquiSharp_QTP] = "eisih";
+  gGlobalDeutschPitchesNamesMap [kE_DoubleSharp_QTP] = "eisis";
 
-  gDeutschPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
-  gDeutschPitchNamesMap [kF_SesquiFlat_QTP]  = "feseh";
-  gDeutschPitchNamesMap [kF_Flat_QTP]        = "fes";
-  gDeutschPitchNamesMap [kF_SemiFlat_QTP]    = "feh";
-  gDeutschPitchNamesMap [kF_Natural_QTP]     = "f";
-  gDeutschPitchNamesMap [kF_SemiSharp_QTP]   = "fih";
-  gDeutschPitchNamesMap [kF_Sharp_QTP]       = "fis";
-  gDeutschPitchNamesMap [kF_SesquiSharp_QTP] = "fisih";
-  gDeutschPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
+  gGlobalDeutschPitchesNamesMap [kF_DoubleFlat_QTP]  = "feses";
+  gGlobalDeutschPitchesNamesMap [kF_SesquiFlat_QTP]  = "feseh";
+  gGlobalDeutschPitchesNamesMap [kF_Flat_QTP]        = "fes";
+  gGlobalDeutschPitchesNamesMap [kF_SemiFlat_QTP]    = "feh";
+  gGlobalDeutschPitchesNamesMap [kF_Natural_QTP]     = "f";
+  gGlobalDeutschPitchesNamesMap [kF_SemiSharp_QTP]   = "fih";
+  gGlobalDeutschPitchesNamesMap [kF_Sharp_QTP]       = "fis";
+  gGlobalDeutschPitchesNamesMap [kF_SesquiSharp_QTP] = "fisih";
+  gGlobalDeutschPitchesNamesMap [kF_DoubleSharp_QTP] = "fisis";
 
-  gDeutschPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
-  gDeutschPitchNamesMap [kG_SesquiFlat_QTP]  = "geseh";
-  gDeutschPitchNamesMap [kG_Flat_QTP]        = "ges";
-  gDeutschPitchNamesMap [kG_SemiFlat_QTP]    = "geh";
-  gDeutschPitchNamesMap [kG_Natural_QTP]     = "g";
-  gDeutschPitchNamesMap [kG_SemiSharp_QTP]   = "gih";
-  gDeutschPitchNamesMap [kG_Sharp_QTP]       = "gis";
-  gDeutschPitchNamesMap [kG_SesquiSharp_QTP] = "gisih";
-  gDeutschPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+  gGlobalDeutschPitchesNamesMap [kG_DoubleFlat_QTP]  = "geses";
+  gGlobalDeutschPitchesNamesMap [kG_SesquiFlat_QTP]  = "geseh";
+  gGlobalDeutschPitchesNamesMap [kG_Flat_QTP]        = "ges";
+  gGlobalDeutschPitchesNamesMap [kG_SemiFlat_QTP]    = "geh";
+  gGlobalDeutschPitchesNamesMap [kG_Natural_QTP]     = "g";
+  gGlobalDeutschPitchesNamesMap [kG_SemiSharp_QTP]   = "gih";
+  gGlobalDeutschPitchesNamesMap [kG_Sharp_QTP]       = "gis";
+  gGlobalDeutschPitchesNamesMap [kG_SesquiSharp_QTP] = "gisih";
+  gGlobalDeutschPitchesNamesMap [kG_DoubleSharp_QTP] = "gisis";
 }
 
 void initializeEnglishPitchNamesMap ()
 {
   // english
-  gEnglishPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gEnglishPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalEnglishPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalEnglishPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gEnglishPitchNamesMap [kA_DoubleFlat_QTP]  = "aff";
-  gEnglishPitchNamesMap [kA_SesquiFlat_QTP]  = "atqf";
-  gEnglishPitchNamesMap [kA_Flat_QTP]        = "af";
-  gEnglishPitchNamesMap [kA_SemiFlat_QTP]    = "aqf";
-  gEnglishPitchNamesMap [kA_Natural_QTP]     = "a";
-  gEnglishPitchNamesMap [kA_SemiSharp_QTP]   = "aqs";
-  gEnglishPitchNamesMap [kA_Sharp_QTP]       = "as";
-  gEnglishPitchNamesMap [kA_SesquiSharp_QTP] = "atqs";
-  gEnglishPitchNamesMap [kA_DoubleSharp_QTP] = "ax";
+  gGlobalEnglishPitchesNamesMap [kA_DoubleFlat_QTP]  = "aff";
+  gGlobalEnglishPitchesNamesMap [kA_SesquiFlat_QTP]  = "atqf";
+  gGlobalEnglishPitchesNamesMap [kA_Flat_QTP]        = "af";
+  gGlobalEnglishPitchesNamesMap [kA_SemiFlat_QTP]    = "aqf";
+  gGlobalEnglishPitchesNamesMap [kA_Natural_QTP]     = "a";
+  gGlobalEnglishPitchesNamesMap [kA_SemiSharp_QTP]   = "aqs";
+  gGlobalEnglishPitchesNamesMap [kA_Sharp_QTP]       = "as";
+  gGlobalEnglishPitchesNamesMap [kA_SesquiSharp_QTP] = "atqs";
+  gGlobalEnglishPitchesNamesMap [kA_DoubleSharp_QTP] = "ax";
 
-  gEnglishPitchNamesMap [kB_DoubleFlat_QTP]  = "bfqf";
-  gEnglishPitchNamesMap [kB_SesquiFlat_QTP]  = "btqf";
-  gEnglishPitchNamesMap [kB_Flat_QTP]        = "bf";
-  gEnglishPitchNamesMap [kB_SemiFlat_QTP]    = "bqf";
-  gEnglishPitchNamesMap [kB_Natural_QTP]     = "b";
-  gEnglishPitchNamesMap [kB_SemiSharp_QTP]   = "bqs";
-  gEnglishPitchNamesMap [kB_Sharp_QTP]       = "bs";
-  gEnglishPitchNamesMap [kB_SesquiSharp_QTP] = "btqs";
-  gEnglishPitchNamesMap [kB_DoubleSharp_QTP] = "bx";
+  gGlobalEnglishPitchesNamesMap [kB_DoubleFlat_QTP]  = "bfqf";
+  gGlobalEnglishPitchesNamesMap [kB_SesquiFlat_QTP]  = "btqf";
+  gGlobalEnglishPitchesNamesMap [kB_Flat_QTP]        = "bf";
+  gGlobalEnglishPitchesNamesMap [kB_SemiFlat_QTP]    = "bqf";
+  gGlobalEnglishPitchesNamesMap [kB_Natural_QTP]     = "b";
+  gGlobalEnglishPitchesNamesMap [kB_SemiSharp_QTP]   = "bqs";
+  gGlobalEnglishPitchesNamesMap [kB_Sharp_QTP]       = "bs";
+  gGlobalEnglishPitchesNamesMap [kB_SesquiSharp_QTP] = "btqs";
+  gGlobalEnglishPitchesNamesMap [kB_DoubleSharp_QTP] = "bx";
 
-  gEnglishPitchNamesMap [kC_DoubleFlat_QTP]  = "cff";
-  gEnglishPitchNamesMap [kC_SesquiFlat_QTP]  = "ctqf";
-  gEnglishPitchNamesMap [kC_Flat_QTP]        = "cf";
-  gEnglishPitchNamesMap [kC_SemiFlat_QTP]    = "cqf";
-  gEnglishPitchNamesMap [kC_Natural_QTP]     = "c";
-  gEnglishPitchNamesMap [kC_SemiSharp_QTP]   = "cqs";
-  gEnglishPitchNamesMap [kC_Sharp_QTP]       = "cs";
-  gEnglishPitchNamesMap [kC_SesquiSharp_QTP] = "ctqs";
-  gEnglishPitchNamesMap [kC_DoubleSharp_QTP] = "cx";
+  gGlobalEnglishPitchesNamesMap [kC_DoubleFlat_QTP]  = "cff";
+  gGlobalEnglishPitchesNamesMap [kC_SesquiFlat_QTP]  = "ctqf";
+  gGlobalEnglishPitchesNamesMap [kC_Flat_QTP]        = "cf";
+  gGlobalEnglishPitchesNamesMap [kC_SemiFlat_QTP]    = "cqf";
+  gGlobalEnglishPitchesNamesMap [kC_Natural_QTP]     = "c";
+  gGlobalEnglishPitchesNamesMap [kC_SemiSharp_QTP]   = "cqs";
+  gGlobalEnglishPitchesNamesMap [kC_Sharp_QTP]       = "cs";
+  gGlobalEnglishPitchesNamesMap [kC_SesquiSharp_QTP] = "ctqs";
+  gGlobalEnglishPitchesNamesMap [kC_DoubleSharp_QTP] = "cx";
 
-  gEnglishPitchNamesMap [kD_DoubleFlat_QTP]  = "dff";
-  gEnglishPitchNamesMap [kD_SesquiFlat_QTP]  = "dtqf";
-  gEnglishPitchNamesMap [kD_Flat_QTP]        = "df";
-  gEnglishPitchNamesMap [kD_SemiFlat_QTP]    = "dqf";
-  gEnglishPitchNamesMap [kD_Natural_QTP]     = "d";
-  gEnglishPitchNamesMap [kD_SemiSharp_QTP]   = "dqs";
-  gEnglishPitchNamesMap [kD_Sharp_QTP]       = "ds";
-  gEnglishPitchNamesMap [kD_SesquiSharp_QTP] = "dtqs";
-  gEnglishPitchNamesMap [kD_DoubleSharp_QTP] = "dx";
+  gGlobalEnglishPitchesNamesMap [kD_DoubleFlat_QTP]  = "dff";
+  gGlobalEnglishPitchesNamesMap [kD_SesquiFlat_QTP]  = "dtqf";
+  gGlobalEnglishPitchesNamesMap [kD_Flat_QTP]        = "df";
+  gGlobalEnglishPitchesNamesMap [kD_SemiFlat_QTP]    = "dqf";
+  gGlobalEnglishPitchesNamesMap [kD_Natural_QTP]     = "d";
+  gGlobalEnglishPitchesNamesMap [kD_SemiSharp_QTP]   = "dqs";
+  gGlobalEnglishPitchesNamesMap [kD_Sharp_QTP]       = "ds";
+  gGlobalEnglishPitchesNamesMap [kD_SesquiSharp_QTP] = "dtqs";
+  gGlobalEnglishPitchesNamesMap [kD_DoubleSharp_QTP] = "dx";
 
-  gEnglishPitchNamesMap [kE_DoubleFlat_QTP]  = "eff";
-  gEnglishPitchNamesMap [kE_SesquiFlat_QTP]  = "etqf";
-  gEnglishPitchNamesMap [kE_Flat_QTP]        = "ef";
-  gEnglishPitchNamesMap [kE_SemiFlat_QTP]    = "eqf";
-  gEnglishPitchNamesMap [kE_Natural_QTP]     = "e";
-  gEnglishPitchNamesMap [kE_SemiSharp_QTP]   = "eqs";
-  gEnglishPitchNamesMap [kE_Sharp_QTP]       = "es";
-  gEnglishPitchNamesMap [kE_SesquiSharp_QTP] = "etqs";
-  gEnglishPitchNamesMap [kE_DoubleSharp_QTP] = "ex";
+  gGlobalEnglishPitchesNamesMap [kE_DoubleFlat_QTP]  = "eff";
+  gGlobalEnglishPitchesNamesMap [kE_SesquiFlat_QTP]  = "etqf";
+  gGlobalEnglishPitchesNamesMap [kE_Flat_QTP]        = "ef";
+  gGlobalEnglishPitchesNamesMap [kE_SemiFlat_QTP]    = "eqf";
+  gGlobalEnglishPitchesNamesMap [kE_Natural_QTP]     = "e";
+  gGlobalEnglishPitchesNamesMap [kE_SemiSharp_QTP]   = "eqs";
+  gGlobalEnglishPitchesNamesMap [kE_Sharp_QTP]       = "es";
+  gGlobalEnglishPitchesNamesMap [kE_SesquiSharp_QTP] = "etqs";
+  gGlobalEnglishPitchesNamesMap [kE_DoubleSharp_QTP] = "ex";
 
-  gEnglishPitchNamesMap [kF_DoubleFlat_QTP]  = "fff";
-  gEnglishPitchNamesMap [kF_SesquiFlat_QTP]  = "ftqf";
-  gEnglishPitchNamesMap [kF_Flat_QTP]        = "ff";
-  gEnglishPitchNamesMap [kF_SemiFlat_QTP]    = "fqf";
-  gEnglishPitchNamesMap [kF_Natural_QTP]     = "f";
-  gEnglishPitchNamesMap [kF_SemiSharp_QTP]   = "fqs";
-  gEnglishPitchNamesMap [kF_Sharp_QTP]       = "fs";
-  gEnglishPitchNamesMap [kF_SesquiSharp_QTP] = "ftqs";
-  gEnglishPitchNamesMap [kF_DoubleSharp_QTP] = "fx";
+  gGlobalEnglishPitchesNamesMap [kF_DoubleFlat_QTP]  = "fff";
+  gGlobalEnglishPitchesNamesMap [kF_SesquiFlat_QTP]  = "ftqf";
+  gGlobalEnglishPitchesNamesMap [kF_Flat_QTP]        = "ff";
+  gGlobalEnglishPitchesNamesMap [kF_SemiFlat_QTP]    = "fqf";
+  gGlobalEnglishPitchesNamesMap [kF_Natural_QTP]     = "f";
+  gGlobalEnglishPitchesNamesMap [kF_SemiSharp_QTP]   = "fqs";
+  gGlobalEnglishPitchesNamesMap [kF_Sharp_QTP]       = "fs";
+  gGlobalEnglishPitchesNamesMap [kF_SesquiSharp_QTP] = "ftqs";
+  gGlobalEnglishPitchesNamesMap [kF_DoubleSharp_QTP] = "fx";
 
-  gEnglishPitchNamesMap [kG_DoubleFlat_QTP]  = "gff";
-  gEnglishPitchNamesMap [kG_SesquiFlat_QTP]  = "gtqf";
-  gEnglishPitchNamesMap [kG_Flat_QTP]        = "gf";
-  gEnglishPitchNamesMap [kG_SemiFlat_QTP]    = "gqf";
-  gEnglishPitchNamesMap [kG_Natural_QTP]     = "g";
-  gEnglishPitchNamesMap [kG_SemiSharp_QTP]   = "gqs";
-  gEnglishPitchNamesMap [kG_Sharp_QTP]       = "gs";
-  gEnglishPitchNamesMap [kG_SesquiSharp_QTP] = "gtqs";
-  gEnglishPitchNamesMap [kG_DoubleSharp_QTP] = "gx";
+  gGlobalEnglishPitchesNamesMap [kG_DoubleFlat_QTP]  = "gff";
+  gGlobalEnglishPitchesNamesMap [kG_SesquiFlat_QTP]  = "gtqf";
+  gGlobalEnglishPitchesNamesMap [kG_Flat_QTP]        = "gf";
+  gGlobalEnglishPitchesNamesMap [kG_SemiFlat_QTP]    = "gqf";
+  gGlobalEnglishPitchesNamesMap [kG_Natural_QTP]     = "g";
+  gGlobalEnglishPitchesNamesMap [kG_SemiSharp_QTP]   = "gqs";
+  gGlobalEnglishPitchesNamesMap [kG_Sharp_QTP]       = "gs";
+  gGlobalEnglishPitchesNamesMap [kG_SesquiSharp_QTP] = "gtqs";
+  gGlobalEnglishPitchesNamesMap [kG_DoubleSharp_QTP] = "gx";
 }
 
 void initializeEspanolPitchNamesMap ()
 {
   // espanol
-  gEspanolPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gEspanolPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalEspanolPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalEspanolPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gEspanolPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gEspanolPitchNamesMap [kA_SesquiFlat_QTP]  = "latcb";
-  gEspanolPitchNamesMap [kA_Flat_QTP]        = "lab";
-  gEspanolPitchNamesMap [kA_SemiFlat_QTP]    = "lacb";
-  gEspanolPitchNamesMap [kA_Natural_QTP]     = "la";
-  gEspanolPitchNamesMap [kA_SemiSharp_QTP]   = "lacs";
-  gEspanolPitchNamesMap [kA_Sharp_QTP]       = "las";
-  gEspanolPitchNamesMap [kA_SesquiSharp_QTP] = "latcs";
-  gEspanolPitchNamesMap [kA_DoubleSharp_QTP] = "lax";
+  gGlobalEspanolPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gGlobalEspanolPitchesNamesMap [kA_SesquiFlat_QTP]  = "latcb";
+  gGlobalEspanolPitchesNamesMap [kA_Flat_QTP]        = "lab";
+  gGlobalEspanolPitchesNamesMap [kA_SemiFlat_QTP]    = "lacb";
+  gGlobalEspanolPitchesNamesMap [kA_Natural_QTP]     = "la";
+  gGlobalEspanolPitchesNamesMap [kA_SemiSharp_QTP]   = "lacs";
+  gGlobalEspanolPitchesNamesMap [kA_Sharp_QTP]       = "las";
+  gGlobalEspanolPitchesNamesMap [kA_SesquiSharp_QTP] = "latcs";
+  gGlobalEspanolPitchesNamesMap [kA_DoubleSharp_QTP] = "lax";
 
-  gEspanolPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gEspanolPitchNamesMap [kB_SesquiFlat_QTP]  = "sitcb";
-  gEspanolPitchNamesMap [kB_Flat_QTP]        = "sib";
-  gEspanolPitchNamesMap [kB_SemiFlat_QTP]    = "sicb";
-  gEspanolPitchNamesMap [kB_Natural_QTP]     = "si";
-  gEspanolPitchNamesMap [kB_SemiSharp_QTP]   = "sics";
-  gEspanolPitchNamesMap [kB_Sharp_QTP]       = "sis";
-  gEspanolPitchNamesMap [kB_SesquiSharp_QTP] = "sitcs";
-  gEspanolPitchNamesMap [kB_DoubleSharp_QTP] = "six";
+  gGlobalEspanolPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gGlobalEspanolPitchesNamesMap [kB_SesquiFlat_QTP]  = "sitcb";
+  gGlobalEspanolPitchesNamesMap [kB_Flat_QTP]        = "sib";
+  gGlobalEspanolPitchesNamesMap [kB_SemiFlat_QTP]    = "sicb";
+  gGlobalEspanolPitchesNamesMap [kB_Natural_QTP]     = "si";
+  gGlobalEspanolPitchesNamesMap [kB_SemiSharp_QTP]   = "sics";
+  gGlobalEspanolPitchesNamesMap [kB_Sharp_QTP]       = "sis";
+  gGlobalEspanolPitchesNamesMap [kB_SesquiSharp_QTP] = "sitcs";
+  gGlobalEspanolPitchesNamesMap [kB_DoubleSharp_QTP] = "six";
 
-  gEspanolPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gEspanolPitchNamesMap [kC_SesquiFlat_QTP]  = "dotcb";
-  gEspanolPitchNamesMap [kC_Flat_QTP]        = "dob";
-  gEspanolPitchNamesMap [kC_SemiFlat_QTP]    = "docb";
-  gEspanolPitchNamesMap [kC_Natural_QTP]     = "do";
-  gEspanolPitchNamesMap [kC_SemiSharp_QTP]   = "docs";
-  gEspanolPitchNamesMap [kC_Sharp_QTP]       = "dos";
-  gEspanolPitchNamesMap [kC_SesquiSharp_QTP] = "dotcs";
-  gEspanolPitchNamesMap [kC_DoubleSharp_QTP] = "dox";
+  gGlobalEspanolPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gGlobalEspanolPitchesNamesMap [kC_SesquiFlat_QTP]  = "dotcb";
+  gGlobalEspanolPitchesNamesMap [kC_Flat_QTP]        = "dob";
+  gGlobalEspanolPitchesNamesMap [kC_SemiFlat_QTP]    = "docb";
+  gGlobalEspanolPitchesNamesMap [kC_Natural_QTP]     = "do";
+  gGlobalEspanolPitchesNamesMap [kC_SemiSharp_QTP]   = "docs";
+  gGlobalEspanolPitchesNamesMap [kC_Sharp_QTP]       = "dos";
+  gGlobalEspanolPitchesNamesMap [kC_SesquiSharp_QTP] = "dotcs";
+  gGlobalEspanolPitchesNamesMap [kC_DoubleSharp_QTP] = "dox";
 
-  gEspanolPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gEspanolPitchNamesMap [kD_SesquiFlat_QTP]  = "retcb";
-  gEspanolPitchNamesMap [kD_Flat_QTP]        = "reb";
-  gEspanolPitchNamesMap [kD_SemiFlat_QTP]    = "recb";
-  gEspanolPitchNamesMap [kD_Natural_QTP]     = "re";
-  gEspanolPitchNamesMap [kD_SemiSharp_QTP]   = "recs";
-  gEspanolPitchNamesMap [kD_Sharp_QTP]       = "res";
-  gEspanolPitchNamesMap [kD_SesquiSharp_QTP] = "retcs";
-  gEspanolPitchNamesMap [kD_DoubleSharp_QTP] = "rex";
+  gGlobalEspanolPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gGlobalEspanolPitchesNamesMap [kD_SesquiFlat_QTP]  = "retcb";
+  gGlobalEspanolPitchesNamesMap [kD_Flat_QTP]        = "reb";
+  gGlobalEspanolPitchesNamesMap [kD_SemiFlat_QTP]    = "recb";
+  gGlobalEspanolPitchesNamesMap [kD_Natural_QTP]     = "re";
+  gGlobalEspanolPitchesNamesMap [kD_SemiSharp_QTP]   = "recs";
+  gGlobalEspanolPitchesNamesMap [kD_Sharp_QTP]       = "res";
+  gGlobalEspanolPitchesNamesMap [kD_SesquiSharp_QTP] = "retcs";
+  gGlobalEspanolPitchesNamesMap [kD_DoubleSharp_QTP] = "rex";
 
-  gEspanolPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gEspanolPitchNamesMap [kE_SesquiFlat_QTP]  = "mitcb";
-  gEspanolPitchNamesMap [kE_Flat_QTP]        = "mib";
-  gEspanolPitchNamesMap [kE_SemiFlat_QTP]    = "micb";
-  gEspanolPitchNamesMap [kE_Natural_QTP]     = "mi";
-  gEspanolPitchNamesMap [kE_SemiSharp_QTP]   = "mics";
-  gEspanolPitchNamesMap [kE_Sharp_QTP]       = "mis";
-  gEspanolPitchNamesMap [kE_SesquiSharp_QTP] = "mitcs";
-  gEspanolPitchNamesMap [kE_DoubleSharp_QTP] = "mix";
+  gGlobalEspanolPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gGlobalEspanolPitchesNamesMap [kE_SesquiFlat_QTP]  = "mitcb";
+  gGlobalEspanolPitchesNamesMap [kE_Flat_QTP]        = "mib";
+  gGlobalEspanolPitchesNamesMap [kE_SemiFlat_QTP]    = "micb";
+  gGlobalEspanolPitchesNamesMap [kE_Natural_QTP]     = "mi";
+  gGlobalEspanolPitchesNamesMap [kE_SemiSharp_QTP]   = "mics";
+  gGlobalEspanolPitchesNamesMap [kE_Sharp_QTP]       = "mis";
+  gGlobalEspanolPitchesNamesMap [kE_SesquiSharp_QTP] = "mitcs";
+  gGlobalEspanolPitchesNamesMap [kE_DoubleSharp_QTP] = "mix";
 
-  gEspanolPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gEspanolPitchNamesMap [kF_SesquiFlat_QTP]  = "fatcb";
-  gEspanolPitchNamesMap [kF_Flat_QTP]        = "fab";
-  gEspanolPitchNamesMap [kF_SemiFlat_QTP]    = "facb";
-  gEspanolPitchNamesMap [kF_Natural_QTP]     = "fa";
-  gEspanolPitchNamesMap [kF_SemiSharp_QTP]   = "facs";
-  gEspanolPitchNamesMap [kF_Sharp_QTP]       = "fas";
-  gEspanolPitchNamesMap [kF_SesquiSharp_QTP] = "fatcs";
-  gEspanolPitchNamesMap [kF_DoubleSharp_QTP] = "fax";
+  gGlobalEspanolPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gGlobalEspanolPitchesNamesMap [kF_SesquiFlat_QTP]  = "fatcb";
+  gGlobalEspanolPitchesNamesMap [kF_Flat_QTP]        = "fab";
+  gGlobalEspanolPitchesNamesMap [kF_SemiFlat_QTP]    = "facb";
+  gGlobalEspanolPitchesNamesMap [kF_Natural_QTP]     = "fa";
+  gGlobalEspanolPitchesNamesMap [kF_SemiSharp_QTP]   = "facs";
+  gGlobalEspanolPitchesNamesMap [kF_Sharp_QTP]       = "fas";
+  gGlobalEspanolPitchesNamesMap [kF_SesquiSharp_QTP] = "fatcs";
+  gGlobalEspanolPitchesNamesMap [kF_DoubleSharp_QTP] = "fax";
 
-  gEspanolPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gEspanolPitchNamesMap [kG_SesquiFlat_QTP]  = "soltcb";
-  gEspanolPitchNamesMap [kG_Flat_QTP]        = "solb";
-  gEspanolPitchNamesMap [kG_SemiFlat_QTP]    = "solcb";
-  gEspanolPitchNamesMap [kG_Natural_QTP]     = "sol";
-  gEspanolPitchNamesMap [kG_SemiSharp_QTP]   = "solcs";
-  gEspanolPitchNamesMap [kG_Sharp_QTP]       = "sols";
-  gEspanolPitchNamesMap [kG_SesquiSharp_QTP] = "soltcs";
-  gEspanolPitchNamesMap [kG_DoubleSharp_QTP] = "solx";
+  gGlobalEspanolPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gGlobalEspanolPitchesNamesMap [kG_SesquiFlat_QTP]  = "soltcb";
+  gGlobalEspanolPitchesNamesMap [kG_Flat_QTP]        = "solb";
+  gGlobalEspanolPitchesNamesMap [kG_SemiFlat_QTP]    = "solcb";
+  gGlobalEspanolPitchesNamesMap [kG_Natural_QTP]     = "sol";
+  gGlobalEspanolPitchesNamesMap [kG_SemiSharp_QTP]   = "solcs";
+  gGlobalEspanolPitchesNamesMap [kG_Sharp_QTP]       = "sols";
+  gGlobalEspanolPitchesNamesMap [kG_SesquiSharp_QTP] = "soltcs";
+  gGlobalEspanolPitchesNamesMap [kG_DoubleSharp_QTP] = "solx";
 }
 
 void initializeFrancaisPitchNamesMap ()
 {
   // francais
-  gFrancaisPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gFrancaisPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalFrancaisPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalFrancaisPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gFrancaisPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gFrancaisPitchNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
-  gFrancaisPitchNamesMap [kA_Flat_QTP]        = "lab";
-  gFrancaisPitchNamesMap [kA_SemiFlat_QTP]    = "labqt";
-  gFrancaisPitchNamesMap [kA_Natural_QTP]     = "la";
-  gFrancaisPitchNamesMap [kA_SemiSharp_QTP]   = "lasqt";
-  gFrancaisPitchNamesMap [kA_Sharp_QTP]       = "lad";
-  gFrancaisPitchNamesMap [kA_SesquiSharp_QTP] = "lastqt";
-  gFrancaisPitchNamesMap [kA_DoubleSharp_QTP] = "lass";
+  gGlobalFrancaisPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gGlobalFrancaisPitchesNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
+  gGlobalFrancaisPitchesNamesMap [kA_Flat_QTP]        = "lab";
+  gGlobalFrancaisPitchesNamesMap [kA_SemiFlat_QTP]    = "labqt";
+  gGlobalFrancaisPitchesNamesMap [kA_Natural_QTP]     = "la";
+  gGlobalFrancaisPitchesNamesMap [kA_SemiSharp_QTP]   = "lasqt";
+  gGlobalFrancaisPitchesNamesMap [kA_Sharp_QTP]       = "lad";
+  gGlobalFrancaisPitchesNamesMap [kA_SesquiSharp_QTP] = "lastqt";
+  gGlobalFrancaisPitchesNamesMap [kA_DoubleSharp_QTP] = "lass";
 
-  gFrancaisPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gFrancaisPitchNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
-  gFrancaisPitchNamesMap [kB_Flat_QTP]        = "sib";
-  gFrancaisPitchNamesMap [kB_SemiFlat_QTP]    = "sibqt";
-  gFrancaisPitchNamesMap [kB_Natural_QTP]     = "si";
-  gFrancaisPitchNamesMap [kB_SemiSharp_QTP]   = "sisqt";
-  gFrancaisPitchNamesMap [kB_Sharp_QTP]       = "sid";
-  gFrancaisPitchNamesMap [kB_SesquiSharp_QTP] = "sistqt";
-  gFrancaisPitchNamesMap [kB_DoubleSharp_QTP] = "siss";
+  gGlobalFrancaisPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gGlobalFrancaisPitchesNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
+  gGlobalFrancaisPitchesNamesMap [kB_Flat_QTP]        = "sib";
+  gGlobalFrancaisPitchesNamesMap [kB_SemiFlat_QTP]    = "sibqt";
+  gGlobalFrancaisPitchesNamesMap [kB_Natural_QTP]     = "si";
+  gGlobalFrancaisPitchesNamesMap [kB_SemiSharp_QTP]   = "sisqt";
+  gGlobalFrancaisPitchesNamesMap [kB_Sharp_QTP]       = "sid";
+  gGlobalFrancaisPitchesNamesMap [kB_SesquiSharp_QTP] = "sistqt";
+  gGlobalFrancaisPitchesNamesMap [kB_DoubleSharp_QTP] = "siss";
 
-  gFrancaisPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gFrancaisPitchNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
-  gFrancaisPitchNamesMap [kC_Flat_QTP]        = "dob";
-  gFrancaisPitchNamesMap [kC_SemiFlat_QTP]    = "dobqt";
-  gFrancaisPitchNamesMap [kC_Natural_QTP]     = "do";
-  gFrancaisPitchNamesMap [kC_SemiSharp_QTP]   = "dosqt";
-  gFrancaisPitchNamesMap [kC_Sharp_QTP]       = "dod";
-  gFrancaisPitchNamesMap [kC_SesquiSharp_QTP] = "dostqt";
-  gFrancaisPitchNamesMap [kC_DoubleSharp_QTP] = "doss";
+  gGlobalFrancaisPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gGlobalFrancaisPitchesNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
+  gGlobalFrancaisPitchesNamesMap [kC_Flat_QTP]        = "dob";
+  gGlobalFrancaisPitchesNamesMap [kC_SemiFlat_QTP]    = "dobqt";
+  gGlobalFrancaisPitchesNamesMap [kC_Natural_QTP]     = "do";
+  gGlobalFrancaisPitchesNamesMap [kC_SemiSharp_QTP]   = "dosqt";
+  gGlobalFrancaisPitchesNamesMap [kC_Sharp_QTP]       = "dod";
+  gGlobalFrancaisPitchesNamesMap [kC_SesquiSharp_QTP] = "dostqt";
+  gGlobalFrancaisPitchesNamesMap [kC_DoubleSharp_QTP] = "doss";
 
-  gFrancaisPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gFrancaisPitchNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
-  gFrancaisPitchNamesMap [kD_Flat_QTP]        = "reb";
-  gFrancaisPitchNamesMap [kD_SemiFlat_QTP]    = "rebqt";
-  gFrancaisPitchNamesMap [kD_Natural_QTP]     = "re";
-  gFrancaisPitchNamesMap [kD_SemiSharp_QTP]   = "resqt";
-  gFrancaisPitchNamesMap [kD_Sharp_QTP]       = "red";
-  gFrancaisPitchNamesMap [kD_SesquiSharp_QTP] = "restqt";
-  gFrancaisPitchNamesMap [kD_DoubleSharp_QTP] = "ress";
+  gGlobalFrancaisPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gGlobalFrancaisPitchesNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
+  gGlobalFrancaisPitchesNamesMap [kD_Flat_QTP]        = "reb";
+  gGlobalFrancaisPitchesNamesMap [kD_SemiFlat_QTP]    = "rebqt";
+  gGlobalFrancaisPitchesNamesMap [kD_Natural_QTP]     = "re";
+  gGlobalFrancaisPitchesNamesMap [kD_SemiSharp_QTP]   = "resqt";
+  gGlobalFrancaisPitchesNamesMap [kD_Sharp_QTP]       = "red";
+  gGlobalFrancaisPitchesNamesMap [kD_SesquiSharp_QTP] = "restqt";
+  gGlobalFrancaisPitchesNamesMap [kD_DoubleSharp_QTP] = "ress";
 
-  gFrancaisPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gFrancaisPitchNamesMap [kE_SesquiFlat_QTP]  = "mibtqt";
-  gFrancaisPitchNamesMap [kE_Flat_QTP]        = "mib";
-  gFrancaisPitchNamesMap [kE_SemiFlat_QTP]    = "mibqt";
-  gFrancaisPitchNamesMap [kE_Natural_QTP]     = "mi";
-  gFrancaisPitchNamesMap [kE_SemiSharp_QTP]   = "misqt";
-  gFrancaisPitchNamesMap [kE_Sharp_QTP]       = "mid";
-  gFrancaisPitchNamesMap [kE_SesquiSharp_QTP] = "mistqt";
-  gFrancaisPitchNamesMap [kE_DoubleSharp_QTP] = "miss";
+  gGlobalFrancaisPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gGlobalFrancaisPitchesNamesMap [kE_SesquiFlat_QTP]  = "mibtqt";
+  gGlobalFrancaisPitchesNamesMap [kE_Flat_QTP]        = "mib";
+  gGlobalFrancaisPitchesNamesMap [kE_SemiFlat_QTP]    = "mibqt";
+  gGlobalFrancaisPitchesNamesMap [kE_Natural_QTP]     = "mi";
+  gGlobalFrancaisPitchesNamesMap [kE_SemiSharp_QTP]   = "misqt";
+  gGlobalFrancaisPitchesNamesMap [kE_Sharp_QTP]       = "mid";
+  gGlobalFrancaisPitchesNamesMap [kE_SesquiSharp_QTP] = "mistqt";
+  gGlobalFrancaisPitchesNamesMap [kE_DoubleSharp_QTP] = "miss";
 
-  gFrancaisPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gFrancaisPitchNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
-  gFrancaisPitchNamesMap [kF_Flat_QTP]        = "fab";
-  gFrancaisPitchNamesMap [kF_SemiFlat_QTP]    = "fabqt";
-  gFrancaisPitchNamesMap [kF_Natural_QTP]     = "fa";
-  gFrancaisPitchNamesMap [kF_SemiSharp_QTP]   = "fasqt";
-  gFrancaisPitchNamesMap [kF_Sharp_QTP]       = "fad";
-  gFrancaisPitchNamesMap [kF_SesquiSharp_QTP] = "fastqt";
-  gFrancaisPitchNamesMap [kF_DoubleSharp_QTP] = "fass";
+  gGlobalFrancaisPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gGlobalFrancaisPitchesNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
+  gGlobalFrancaisPitchesNamesMap [kF_Flat_QTP]        = "fab";
+  gGlobalFrancaisPitchesNamesMap [kF_SemiFlat_QTP]    = "fabqt";
+  gGlobalFrancaisPitchesNamesMap [kF_Natural_QTP]     = "fa";
+  gGlobalFrancaisPitchesNamesMap [kF_SemiSharp_QTP]   = "fasqt";
+  gGlobalFrancaisPitchesNamesMap [kF_Sharp_QTP]       = "fad";
+  gGlobalFrancaisPitchesNamesMap [kF_SesquiSharp_QTP] = "fastqt";
+  gGlobalFrancaisPitchesNamesMap [kF_DoubleSharp_QTP] = "fass";
 
-  gFrancaisPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gFrancaisPitchNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
-  gFrancaisPitchNamesMap [kG_Flat_QTP]        = "solb";
-  gFrancaisPitchNamesMap [kG_SemiFlat_QTP]    = "solbqt";
-  gFrancaisPitchNamesMap [kG_Natural_QTP]     = "sol";
-  gFrancaisPitchNamesMap [kG_SemiSharp_QTP]   = "solsqt";
-  gFrancaisPitchNamesMap [kG_Sharp_QTP]       = "sold";
-  gFrancaisPitchNamesMap [kG_SesquiSharp_QTP] = "solstqt";
-  gFrancaisPitchNamesMap [kG_DoubleSharp_QTP] = "solss";
+  gGlobalFrancaisPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gGlobalFrancaisPitchesNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
+  gGlobalFrancaisPitchesNamesMap [kG_Flat_QTP]        = "solb";
+  gGlobalFrancaisPitchesNamesMap [kG_SemiFlat_QTP]    = "solbqt";
+  gGlobalFrancaisPitchesNamesMap [kG_Natural_QTP]     = "sol";
+  gGlobalFrancaisPitchesNamesMap [kG_SemiSharp_QTP]   = "solsqt";
+  gGlobalFrancaisPitchesNamesMap [kG_Sharp_QTP]       = "sold";
+  gGlobalFrancaisPitchesNamesMap [kG_SesquiSharp_QTP] = "solstqt";
+  gGlobalFrancaisPitchesNamesMap [kG_DoubleSharp_QTP] = "solss";
 }
 
 void initializeItalianoPitchNamesMap ()
 {
   // italiano
-  gItalianoPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gItalianoPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalItalianoPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalItalianoPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gItalianoPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gItalianoPitchNamesMap [kA_SesquiFlat_QTP]  = "labsb";
-  gItalianoPitchNamesMap [kA_Flat_QTP]        = "lab";
-  gItalianoPitchNamesMap [kA_SemiFlat_QTP]    = "lasb";
-  gItalianoPitchNamesMap [kA_Natural_QTP]     = "la";
-  gItalianoPitchNamesMap [kA_SemiSharp_QTP]   = "lasd";
-  gItalianoPitchNamesMap [kA_Sharp_QTP]       = "lad";
-  gItalianoPitchNamesMap [kA_SesquiSharp_QTP] = "ladsd";
-  gItalianoPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
+  gGlobalItalianoPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gGlobalItalianoPitchesNamesMap [kA_SesquiFlat_QTP]  = "labsb";
+  gGlobalItalianoPitchesNamesMap [kA_Flat_QTP]        = "lab";
+  gGlobalItalianoPitchesNamesMap [kA_SemiFlat_QTP]    = "lasb";
+  gGlobalItalianoPitchesNamesMap [kA_Natural_QTP]     = "la";
+  gGlobalItalianoPitchesNamesMap [kA_SemiSharp_QTP]   = "lasd";
+  gGlobalItalianoPitchesNamesMap [kA_Sharp_QTP]       = "lad";
+  gGlobalItalianoPitchesNamesMap [kA_SesquiSharp_QTP] = "ladsd";
+  gGlobalItalianoPitchesNamesMap [kA_DoubleSharp_QTP] = "ladd";
 
-  gItalianoPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gItalianoPitchNamesMap [kB_SesquiFlat_QTP]  = "sibsb";
-  gItalianoPitchNamesMap [kB_Flat_QTP]        = "sib";
-  gItalianoPitchNamesMap [kB_SemiFlat_QTP]    = "sisb";
-  gItalianoPitchNamesMap [kB_Natural_QTP]     = "si";
-  gItalianoPitchNamesMap [kB_SemiSharp_QTP]   = "sisd";
-  gItalianoPitchNamesMap [kB_Sharp_QTP]       = "sid";
-  gItalianoPitchNamesMap [kB_SesquiSharp_QTP] = "sidsd";
-  gItalianoPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
+  gGlobalItalianoPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gGlobalItalianoPitchesNamesMap [kB_SesquiFlat_QTP]  = "sibsb";
+  gGlobalItalianoPitchesNamesMap [kB_Flat_QTP]        = "sib";
+  gGlobalItalianoPitchesNamesMap [kB_SemiFlat_QTP]    = "sisb";
+  gGlobalItalianoPitchesNamesMap [kB_Natural_QTP]     = "si";
+  gGlobalItalianoPitchesNamesMap [kB_SemiSharp_QTP]   = "sisd";
+  gGlobalItalianoPitchesNamesMap [kB_Sharp_QTP]       = "sid";
+  gGlobalItalianoPitchesNamesMap [kB_SesquiSharp_QTP] = "sidsd";
+  gGlobalItalianoPitchesNamesMap [kB_DoubleSharp_QTP] = "sidd";
 
-  gItalianoPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gItalianoPitchNamesMap [kC_SesquiFlat_QTP]  = "dobsb";
-  gItalianoPitchNamesMap [kC_Flat_QTP]        = "dob";
-  gItalianoPitchNamesMap [kC_SemiFlat_QTP]    = "dosb";
-  gItalianoPitchNamesMap [kC_Natural_QTP]     = "do";
-  gItalianoPitchNamesMap [kC_SemiSharp_QTP]   = "dosd";
-  gItalianoPitchNamesMap [kC_Sharp_QTP]       = "dod";
-  gItalianoPitchNamesMap [kC_SesquiSharp_QTP] = "dodsd";
-  gItalianoPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
+  gGlobalItalianoPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gGlobalItalianoPitchesNamesMap [kC_SesquiFlat_QTP]  = "dobsb";
+  gGlobalItalianoPitchesNamesMap [kC_Flat_QTP]        = "dob";
+  gGlobalItalianoPitchesNamesMap [kC_SemiFlat_QTP]    = "dosb";
+  gGlobalItalianoPitchesNamesMap [kC_Natural_QTP]     = "do";
+  gGlobalItalianoPitchesNamesMap [kC_SemiSharp_QTP]   = "dosd";
+  gGlobalItalianoPitchesNamesMap [kC_Sharp_QTP]       = "dod";
+  gGlobalItalianoPitchesNamesMap [kC_SesquiSharp_QTP] = "dodsd";
+  gGlobalItalianoPitchesNamesMap [kC_DoubleSharp_QTP] = "dodd";
 
-  gItalianoPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gItalianoPitchNamesMap [kD_SesquiFlat_QTP]  = "rebsb";
-  gItalianoPitchNamesMap [kD_Flat_QTP]        = "reb";
-  gItalianoPitchNamesMap [kD_SemiFlat_QTP]    = "resb";
-  gItalianoPitchNamesMap [kD_Natural_QTP]     = "re";
-  gItalianoPitchNamesMap [kD_SemiSharp_QTP]   = "resd";
-  gItalianoPitchNamesMap [kD_Sharp_QTP]       = "red";
-  gItalianoPitchNamesMap [kD_SesquiSharp_QTP] = "redsd";
-  gItalianoPitchNamesMap [kD_DoubleSharp_QTP] = "redd";
+  gGlobalItalianoPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gGlobalItalianoPitchesNamesMap [kD_SesquiFlat_QTP]  = "rebsb";
+  gGlobalItalianoPitchesNamesMap [kD_Flat_QTP]        = "reb";
+  gGlobalItalianoPitchesNamesMap [kD_SemiFlat_QTP]    = "resb";
+  gGlobalItalianoPitchesNamesMap [kD_Natural_QTP]     = "re";
+  gGlobalItalianoPitchesNamesMap [kD_SemiSharp_QTP]   = "resd";
+  gGlobalItalianoPitchesNamesMap [kD_Sharp_QTP]       = "red";
+  gGlobalItalianoPitchesNamesMap [kD_SesquiSharp_QTP] = "redsd";
+  gGlobalItalianoPitchesNamesMap [kD_DoubleSharp_QTP] = "redd";
 
-  gItalianoPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gItalianoPitchNamesMap [kE_SesquiFlat_QTP]  = "mibsb";
-  gItalianoPitchNamesMap [kE_Flat_QTP]        = "mib";
-  gItalianoPitchNamesMap [kE_SemiFlat_QTP]    = "misb";
-  gItalianoPitchNamesMap [kE_Natural_QTP]     = "mi";
-  gItalianoPitchNamesMap [kE_SemiSharp_QTP]   = "misd";
-  gItalianoPitchNamesMap [kE_Sharp_QTP]       = "mid";
-  gItalianoPitchNamesMap [kE_SesquiSharp_QTP] = "midsd";
-  gItalianoPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
+  gGlobalItalianoPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gGlobalItalianoPitchesNamesMap [kE_SesquiFlat_QTP]  = "mibsb";
+  gGlobalItalianoPitchesNamesMap [kE_Flat_QTP]        = "mib";
+  gGlobalItalianoPitchesNamesMap [kE_SemiFlat_QTP]    = "misb";
+  gGlobalItalianoPitchesNamesMap [kE_Natural_QTP]     = "mi";
+  gGlobalItalianoPitchesNamesMap [kE_SemiSharp_QTP]   = "misd";
+  gGlobalItalianoPitchesNamesMap [kE_Sharp_QTP]       = "mid";
+  gGlobalItalianoPitchesNamesMap [kE_SesquiSharp_QTP] = "midsd";
+  gGlobalItalianoPitchesNamesMap [kE_DoubleSharp_QTP] = "midd";
 
-  gItalianoPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gItalianoPitchNamesMap [kF_SesquiFlat_QTP]  = "fabsb";
-  gItalianoPitchNamesMap [kF_Flat_QTP]        = "fab";
-  gItalianoPitchNamesMap [kF_SemiFlat_QTP]    = "fasb";
-  gItalianoPitchNamesMap [kF_Natural_QTP]     = "fa";
-  gItalianoPitchNamesMap [kF_SemiSharp_QTP]   = "fasd";
-  gItalianoPitchNamesMap [kF_Sharp_QTP]       = "fad";
-  gItalianoPitchNamesMap [kF_SesquiSharp_QTP] = "fadsd";
-  gItalianoPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
+  gGlobalItalianoPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gGlobalItalianoPitchesNamesMap [kF_SesquiFlat_QTP]  = "fabsb";
+  gGlobalItalianoPitchesNamesMap [kF_Flat_QTP]        = "fab";
+  gGlobalItalianoPitchesNamesMap [kF_SemiFlat_QTP]    = "fasb";
+  gGlobalItalianoPitchesNamesMap [kF_Natural_QTP]     = "fa";
+  gGlobalItalianoPitchesNamesMap [kF_SemiSharp_QTP]   = "fasd";
+  gGlobalItalianoPitchesNamesMap [kF_Sharp_QTP]       = "fad";
+  gGlobalItalianoPitchesNamesMap [kF_SesquiSharp_QTP] = "fadsd";
+  gGlobalItalianoPitchesNamesMap [kF_DoubleSharp_QTP] = "fadd";
 
-  gItalianoPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gItalianoPitchNamesMap [kG_SesquiFlat_QTP]  = "solbsb";
-  gItalianoPitchNamesMap [kG_Flat_QTP]        = "solb";
-  gItalianoPitchNamesMap [kG_SemiFlat_QTP]    = "solsb";
-  gItalianoPitchNamesMap [kG_Natural_QTP]     = "sol";
-  gItalianoPitchNamesMap [kG_SemiSharp_QTP]   = "solsd";
-  gItalianoPitchNamesMap [kG_Sharp_QTP]       = "sold";
-  gItalianoPitchNamesMap [kG_SesquiSharp_QTP] = "soldsd";
-  gItalianoPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+  gGlobalItalianoPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gGlobalItalianoPitchesNamesMap [kG_SesquiFlat_QTP]  = "solbsb";
+  gGlobalItalianoPitchesNamesMap [kG_Flat_QTP]        = "solb";
+  gGlobalItalianoPitchesNamesMap [kG_SemiFlat_QTP]    = "solsb";
+  gGlobalItalianoPitchesNamesMap [kG_Natural_QTP]     = "sol";
+  gGlobalItalianoPitchesNamesMap [kG_SemiSharp_QTP]   = "solsd";
+  gGlobalItalianoPitchesNamesMap [kG_Sharp_QTP]       = "sold";
+  gGlobalItalianoPitchesNamesMap [kG_SesquiSharp_QTP] = "soldsd";
+  gGlobalItalianoPitchesNamesMap [kG_DoubleSharp_QTP] = "soldd";
 }
 
 void initializeNorskPitchNamesMap ()
 {
   // norsk
-  gNorskPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gNorskPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalNorskPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalNorskPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gNorskPitchNamesMap [kA_DoubleFlat_QTP]  = "aeses";
-  gNorskPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gNorskPitchNamesMap [kA_Flat_QTP]        = "aes";
-  gNorskPitchNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gNorskPitchNamesMap [kA_Natural_QTP]     = "a";
-  gNorskPitchNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gNorskPitchNamesMap [kA_Sharp_QTP]       = "ais";
-  gNorskPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gNorskPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
+  gGlobalNorskPitchesNamesMap [kA_DoubleFlat_QTP]  = "aeses";
+  gGlobalNorskPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [kA_Flat_QTP]        = "aes";
+  gGlobalNorskPitchesNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gGlobalNorskPitchesNamesMap [kA_Natural_QTP]     = "a";
+  gGlobalNorskPitchesNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gGlobalNorskPitchesNamesMap [kA_Sharp_QTP]       = "ais";
+  gGlobalNorskPitchesNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [kA_DoubleSharp_QTP] = "aisis";
 
-  gNorskPitchNamesMap [kB_DoubleFlat_QTP]  = "beses";
-  gNorskPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gNorskPitchNamesMap [kB_Flat_QTP]        = "bes";
-  gNorskPitchNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gNorskPitchNamesMap [kB_Natural_QTP]     = "b";
-  gNorskPitchNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gNorskPitchNamesMap [kB_Sharp_QTP]       = "bis";
-  gNorskPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gNorskPitchNamesMap [kB_DoubleSharp_QTP] = "bisis";
+  gGlobalNorskPitchesNamesMap [kB_DoubleFlat_QTP]  = "beses";
+  gGlobalNorskPitchesNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [kB_Flat_QTP]        = "bes";
+  gGlobalNorskPitchesNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gGlobalNorskPitchesNamesMap [kB_Natural_QTP]     = "b";
+  gGlobalNorskPitchesNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gGlobalNorskPitchesNamesMap [kB_Sharp_QTP]       = "bis";
+  gGlobalNorskPitchesNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [kB_DoubleSharp_QTP] = "bisis";
 
-  gNorskPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
-  gNorskPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gNorskPitchNamesMap [kC_Flat_QTP]        = "ces";
-  gNorskPitchNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gNorskPitchNamesMap [kC_Natural_QTP]     = "c";
-  gNorskPitchNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gNorskPitchNamesMap [kC_Sharp_QTP]       = "cis";
-  gNorskPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gNorskPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
+  gGlobalNorskPitchesNamesMap [kC_DoubleFlat_QTP]  = "ceses";
+  gGlobalNorskPitchesNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [kC_Flat_QTP]        = "ces";
+  gGlobalNorskPitchesNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gGlobalNorskPitchesNamesMap [kC_Natural_QTP]     = "c";
+  gGlobalNorskPitchesNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gGlobalNorskPitchesNamesMap [kC_Sharp_QTP]       = "cis";
+  gGlobalNorskPitchesNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [kC_DoubleSharp_QTP] = "cisis";
 
-  gNorskPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
-  gNorskPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gNorskPitchNamesMap [kD_Flat_QTP]        = "des";
-  gNorskPitchNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gNorskPitchNamesMap [kD_Natural_QTP]     = "d";
-  gNorskPitchNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gNorskPitchNamesMap [kD_Sharp_QTP]       = "dis";
-  gNorskPitchNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gNorskPitchNamesMap [kD_DoubleSharp_QTP] = "disis";
+  gGlobalNorskPitchesNamesMap [kD_DoubleFlat_QTP]  = "deses";
+  gGlobalNorskPitchesNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [kD_Flat_QTP]        = "des";
+  gGlobalNorskPitchesNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gGlobalNorskPitchesNamesMap [kD_Natural_QTP]     = "d";
+  gGlobalNorskPitchesNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gGlobalNorskPitchesNamesMap [kD_Sharp_QTP]       = "dis";
+  gGlobalNorskPitchesNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [kD_DoubleSharp_QTP] = "disis";
 
-  gNorskPitchNamesMap [kE_DoubleFlat_QTP]  = "eeses";
-  gNorskPitchNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gNorskPitchNamesMap [kE_Flat_QTP]        = "ees";
-  gNorskPitchNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gNorskPitchNamesMap [kE_Natural_QTP]     = "e";
-  gNorskPitchNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gNorskPitchNamesMap [kE_Sharp_QTP]       = "eis";
-  gNorskPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gNorskPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
+  gGlobalNorskPitchesNamesMap [kE_DoubleFlat_QTP]  = "eeses";
+  gGlobalNorskPitchesNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [kE_Flat_QTP]        = "ees";
+  gGlobalNorskPitchesNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gGlobalNorskPitchesNamesMap [kE_Natural_QTP]     = "e";
+  gGlobalNorskPitchesNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gGlobalNorskPitchesNamesMap [kE_Sharp_QTP]       = "eis";
+  gGlobalNorskPitchesNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [kE_DoubleSharp_QTP] = "eisis";
 
-  gNorskPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
-  gNorskPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gNorskPitchNamesMap [kF_Flat_QTP]        = "fes";
-  gNorskPitchNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gNorskPitchNamesMap [kF_Natural_QTP]     = "f";
-  gNorskPitchNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gNorskPitchNamesMap [kF_Sharp_QTP]       = "fis";
-  gNorskPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gNorskPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
+  gGlobalNorskPitchesNamesMap [kF_DoubleFlat_QTP]  = "feses";
+  gGlobalNorskPitchesNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [kF_Flat_QTP]        = "fes";
+  gGlobalNorskPitchesNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gGlobalNorskPitchesNamesMap [kF_Natural_QTP]     = "f";
+  gGlobalNorskPitchesNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gGlobalNorskPitchesNamesMap [kF_Sharp_QTP]       = "fis";
+  gGlobalNorskPitchesNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [kF_DoubleSharp_QTP] = "fisis";
 
-  gNorskPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
-  gNorskPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gNorskPitchNamesMap [kG_Flat_QTP]        = "ges";
-  gNorskPitchNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gNorskPitchNamesMap [kG_Natural_QTP]     = "g";
-  gNorskPitchNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gNorskPitchNamesMap [kG_Sharp_QTP]       = "gis";
-  gNorskPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gNorskPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+  gGlobalNorskPitchesNamesMap [kG_DoubleFlat_QTP]  = "geses";
+  gGlobalNorskPitchesNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gGlobalNorskPitchesNamesMap [kG_Flat_QTP]        = "ges";
+  gGlobalNorskPitchesNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gGlobalNorskPitchesNamesMap [kG_Natural_QTP]     = "g";
+  gGlobalNorskPitchesNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gGlobalNorskPitchesNamesMap [kG_Sharp_QTP]       = "gis";
+  gGlobalNorskPitchesNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gGlobalNorskPitchesNamesMap [kG_DoubleSharp_QTP] = "gisis";
 }
 
 void initializePortuguesPitchNamesMap ()
 {
   // portugues
-  gPortuguesPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gPortuguesPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalPortuguesPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalPortuguesPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gPortuguesPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gPortuguesPitchNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
-  gPortuguesPitchNamesMap [kA_Flat_QTP]        = "lab";
-  gPortuguesPitchNamesMap [kA_SemiFlat_QTP]    = "lasb";
-  gPortuguesPitchNamesMap [kA_Natural_QTP]     = "la";
-  gPortuguesPitchNamesMap [kA_SemiSharp_QTP]   = "lasd";
-  gPortuguesPitchNamesMap [kA_Sharp_QTP]       = "lad";
-  gPortuguesPitchNamesMap [kA_SesquiSharp_QTP] = "ladsd";
-  gPortuguesPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
+  gGlobalPortuguesPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gGlobalPortuguesPitchesNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
+  gGlobalPortuguesPitchesNamesMap [kA_Flat_QTP]        = "lab";
+  gGlobalPortuguesPitchesNamesMap [kA_SemiFlat_QTP]    = "lasb";
+  gGlobalPortuguesPitchesNamesMap [kA_Natural_QTP]     = "la";
+  gGlobalPortuguesPitchesNamesMap [kA_SemiSharp_QTP]   = "lasd";
+  gGlobalPortuguesPitchesNamesMap [kA_Sharp_QTP]       = "lad";
+  gGlobalPortuguesPitchesNamesMap [kA_SesquiSharp_QTP] = "ladsd";
+  gGlobalPortuguesPitchesNamesMap [kA_DoubleSharp_QTP] = "ladd";
 
-  gPortuguesPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gPortuguesPitchNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
-  gPortuguesPitchNamesMap [kB_Flat_QTP]        = "sib";
-  gPortuguesPitchNamesMap [kB_SemiFlat_QTP]    = "sisb";
-  gPortuguesPitchNamesMap [kB_Natural_QTP]     = "si";
-  gPortuguesPitchNamesMap [kB_SemiSharp_QTP]   = "sisd";
-  gPortuguesPitchNamesMap [kB_Sharp_QTP]       = "sid";
-  gPortuguesPitchNamesMap [kB_SesquiSharp_QTP] = "sidsd";
-  gPortuguesPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
+  gGlobalPortuguesPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gGlobalPortuguesPitchesNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
+  gGlobalPortuguesPitchesNamesMap [kB_Flat_QTP]        = "sib";
+  gGlobalPortuguesPitchesNamesMap [kB_SemiFlat_QTP]    = "sisb";
+  gGlobalPortuguesPitchesNamesMap [kB_Natural_QTP]     = "si";
+  gGlobalPortuguesPitchesNamesMap [kB_SemiSharp_QTP]   = "sisd";
+  gGlobalPortuguesPitchesNamesMap [kB_Sharp_QTP]       = "sid";
+  gGlobalPortuguesPitchesNamesMap [kB_SesquiSharp_QTP] = "sidsd";
+  gGlobalPortuguesPitchesNamesMap [kB_DoubleSharp_QTP] = "sidd";
 
-  gPortuguesPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gPortuguesPitchNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
-  gPortuguesPitchNamesMap [kC_Flat_QTP]        = "dob";
-  gPortuguesPitchNamesMap [kC_SemiFlat_QTP]    = "dosb";
-  gPortuguesPitchNamesMap [kC_Natural_QTP]     = "do";
-  gPortuguesPitchNamesMap [kC_SemiSharp_QTP]   = "dosd";
-  gPortuguesPitchNamesMap [kC_Sharp_QTP]       = "dod";
-  gPortuguesPitchNamesMap [kC_SesquiSharp_QTP] = "dodsd";
-  gPortuguesPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
+  gGlobalPortuguesPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gGlobalPortuguesPitchesNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
+  gGlobalPortuguesPitchesNamesMap [kC_Flat_QTP]        = "dob";
+  gGlobalPortuguesPitchesNamesMap [kC_SemiFlat_QTP]    = "dosb";
+  gGlobalPortuguesPitchesNamesMap [kC_Natural_QTP]     = "do";
+  gGlobalPortuguesPitchesNamesMap [kC_SemiSharp_QTP]   = "dosd";
+  gGlobalPortuguesPitchesNamesMap [kC_Sharp_QTP]       = "dod";
+  gGlobalPortuguesPitchesNamesMap [kC_SesquiSharp_QTP] = "dodsd";
+  gGlobalPortuguesPitchesNamesMap [kC_DoubleSharp_QTP] = "dodd";
 
-  gPortuguesPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gPortuguesPitchNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
-  gPortuguesPitchNamesMap [kD_Flat_QTP]        = "reb";
-  gPortuguesPitchNamesMap [kD_SemiFlat_QTP]    = "resb";
-  gPortuguesPitchNamesMap [kD_Natural_QTP]     = "re";
-  gPortuguesPitchNamesMap [kD_SemiSharp_QTP]   = "resd";
-  gPortuguesPitchNamesMap [kD_Sharp_QTP]       = "red";
-  gPortuguesPitchNamesMap [kD_SesquiSharp_QTP] = "redsd";
-  gPortuguesPitchNamesMap [kD_DoubleSharp_QTP] = "redd";
+  gGlobalPortuguesPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gGlobalPortuguesPitchesNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
+  gGlobalPortuguesPitchesNamesMap [kD_Flat_QTP]        = "reb";
+  gGlobalPortuguesPitchesNamesMap [kD_SemiFlat_QTP]    = "resb";
+  gGlobalPortuguesPitchesNamesMap [kD_Natural_QTP]     = "re";
+  gGlobalPortuguesPitchesNamesMap [kD_SemiSharp_QTP]   = "resd";
+  gGlobalPortuguesPitchesNamesMap [kD_Sharp_QTP]       = "red";
+  gGlobalPortuguesPitchesNamesMap [kD_SesquiSharp_QTP] = "redsd";
+  gGlobalPortuguesPitchesNamesMap [kD_DoubleSharp_QTP] = "redd";
 
-  gPortuguesPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gPortuguesPitchNamesMap [kE_SesquiFlat_QTP]  = "mibtqt";
-  gPortuguesPitchNamesMap [kE_Flat_QTP]        = "mib";
-  gPortuguesPitchNamesMap [kE_SemiFlat_QTP]    = "misb";
-  gPortuguesPitchNamesMap [kE_Natural_QTP]     = "mi";
-  gPortuguesPitchNamesMap [kE_SemiSharp_QTP]   = "misd";
-  gPortuguesPitchNamesMap [kE_Sharp_QTP]       = "mid";
-  gPortuguesPitchNamesMap [kE_SesquiSharp_QTP] = "midsd";
-  gPortuguesPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
+  gGlobalPortuguesPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gGlobalPortuguesPitchesNamesMap [kE_SesquiFlat_QTP]  = "mibtqt";
+  gGlobalPortuguesPitchesNamesMap [kE_Flat_QTP]        = "mib";
+  gGlobalPortuguesPitchesNamesMap [kE_SemiFlat_QTP]    = "misb";
+  gGlobalPortuguesPitchesNamesMap [kE_Natural_QTP]     = "mi";
+  gGlobalPortuguesPitchesNamesMap [kE_SemiSharp_QTP]   = "misd";
+  gGlobalPortuguesPitchesNamesMap [kE_Sharp_QTP]       = "mid";
+  gGlobalPortuguesPitchesNamesMap [kE_SesquiSharp_QTP] = "midsd";
+  gGlobalPortuguesPitchesNamesMap [kE_DoubleSharp_QTP] = "midd";
 
-  gPortuguesPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gPortuguesPitchNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
-  gPortuguesPitchNamesMap [kF_Flat_QTP]        = "fab";
-  gPortuguesPitchNamesMap [kF_SemiFlat_QTP]    = "fasb";
-  gPortuguesPitchNamesMap [kF_Natural_QTP]     = "fa";
-  gPortuguesPitchNamesMap [kF_SemiSharp_QTP]   = "fasd";
-  gPortuguesPitchNamesMap [kF_Sharp_QTP]       = "fad";
-  gPortuguesPitchNamesMap [kF_SesquiSharp_QTP] = "fadsd";
-  gPortuguesPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
+  gGlobalPortuguesPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gGlobalPortuguesPitchesNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
+  gGlobalPortuguesPitchesNamesMap [kF_Flat_QTP]        = "fab";
+  gGlobalPortuguesPitchesNamesMap [kF_SemiFlat_QTP]    = "fasb";
+  gGlobalPortuguesPitchesNamesMap [kF_Natural_QTP]     = "fa";
+  gGlobalPortuguesPitchesNamesMap [kF_SemiSharp_QTP]   = "fasd";
+  gGlobalPortuguesPitchesNamesMap [kF_Sharp_QTP]       = "fad";
+  gGlobalPortuguesPitchesNamesMap [kF_SesquiSharp_QTP] = "fadsd";
+  gGlobalPortuguesPitchesNamesMap [kF_DoubleSharp_QTP] = "fadd";
 
-  gPortuguesPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gPortuguesPitchNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
-  gPortuguesPitchNamesMap [kG_Flat_QTP]        = "solb";
-  gPortuguesPitchNamesMap [kG_SemiFlat_QTP]    = "solsb";
-  gPortuguesPitchNamesMap [kG_Natural_QTP]     = "sol";
-  gPortuguesPitchNamesMap [kG_SemiSharp_QTP]   = "solsd";
-  gPortuguesPitchNamesMap [kG_Sharp_QTP]       = "sold";
-  gPortuguesPitchNamesMap [kG_SesquiSharp_QTP] = "soldsd";
-  gPortuguesPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
+  gGlobalPortuguesPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gGlobalPortuguesPitchesNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
+  gGlobalPortuguesPitchesNamesMap [kG_Flat_QTP]        = "solb";
+  gGlobalPortuguesPitchesNamesMap [kG_SemiFlat_QTP]    = "solsb";
+  gGlobalPortuguesPitchesNamesMap [kG_Natural_QTP]     = "sol";
+  gGlobalPortuguesPitchesNamesMap [kG_SemiSharp_QTP]   = "solsd";
+  gGlobalPortuguesPitchesNamesMap [kG_Sharp_QTP]       = "sold";
+  gGlobalPortuguesPitchesNamesMap [kG_SesquiSharp_QTP] = "soldsd";
+  gGlobalPortuguesPitchesNamesMap [kG_DoubleSharp_QTP] = "soldd";
 }
 
 void initializeSuomiPitchNamesMap ()
 {
   // suomi
-  gSuomiPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gSuomiPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalSuomiPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalSuomiPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gSuomiPitchNamesMap [kA_DoubleFlat_QTP]  = "asas";
-  gSuomiPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gSuomiPitchNamesMap [kA_Flat_QTP]        = "as";
-  gSuomiPitchNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gSuomiPitchNamesMap [kA_Natural_QTP]     = "a";
-  gSuomiPitchNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gSuomiPitchNamesMap [kA_Sharp_QTP]       = "ais";
-  gSuomiPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gSuomiPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
+  gGlobalSuomiPitchesNamesMap [kA_DoubleFlat_QTP]  = "asas";
+  gGlobalSuomiPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [kA_Flat_QTP]        = "as";
+  gGlobalSuomiPitchesNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [kA_Natural_QTP]     = "a";
+  gGlobalSuomiPitchesNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [kA_Sharp_QTP]       = "ais";
+  gGlobalSuomiPitchesNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [kA_DoubleSharp_QTP] = "aisis";
 
-  gSuomiPitchNamesMap [kB_DoubleFlat_QTP]  = "bes";
-  gSuomiPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gSuomiPitchNamesMap [kB_Flat_QTP]        = "b";
-  gSuomiPitchNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gSuomiPitchNamesMap [kB_Natural_QTP]     = "h";
-  gSuomiPitchNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gSuomiPitchNamesMap [kB_Sharp_QTP]       = "his";
-  gSuomiPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gSuomiPitchNamesMap [kB_DoubleSharp_QTP] = "hisis";
+  gGlobalSuomiPitchesNamesMap [kB_DoubleFlat_QTP]  = "bes";
+  gGlobalSuomiPitchesNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [kB_Flat_QTP]        = "b";
+  gGlobalSuomiPitchesNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [kB_Natural_QTP]     = "h";
+  gGlobalSuomiPitchesNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [kB_Sharp_QTP]       = "his";
+  gGlobalSuomiPitchesNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [kB_DoubleSharp_QTP] = "hisis";
 
-  gSuomiPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
-  gSuomiPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gSuomiPitchNamesMap [kC_Flat_QTP]        = "ces";
-  gSuomiPitchNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gSuomiPitchNamesMap [kC_Natural_QTP]     = "c";
-  gSuomiPitchNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gSuomiPitchNamesMap [kC_Sharp_QTP]       = "cis";
-  gSuomiPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gSuomiPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
+  gGlobalSuomiPitchesNamesMap [kC_DoubleFlat_QTP]  = "ceses";
+  gGlobalSuomiPitchesNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [kC_Flat_QTP]        = "ces";
+  gGlobalSuomiPitchesNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [kC_Natural_QTP]     = "c";
+  gGlobalSuomiPitchesNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [kC_Sharp_QTP]       = "cis";
+  gGlobalSuomiPitchesNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [kC_DoubleSharp_QTP] = "cisis";
 
-  gSuomiPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
-  gSuomiPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gSuomiPitchNamesMap [kD_Flat_QTP]        = "des";
-  gSuomiPitchNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gSuomiPitchNamesMap [kD_Natural_QTP]     = "d";
-  gSuomiPitchNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gSuomiPitchNamesMap [kD_Sharp_QTP]       = "dis";
-  gSuomiPitchNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gSuomiPitchNamesMap [kD_DoubleSharp_QTP] = "disis";
+  gGlobalSuomiPitchesNamesMap [kD_DoubleFlat_QTP]  = "deses";
+  gGlobalSuomiPitchesNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [kD_Flat_QTP]        = "des";
+  gGlobalSuomiPitchesNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [kD_Natural_QTP]     = "d";
+  gGlobalSuomiPitchesNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [kD_Sharp_QTP]       = "dis";
+  gGlobalSuomiPitchesNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [kD_DoubleSharp_QTP] = "disis";
 
-  gSuomiPitchNamesMap [kE_DoubleFlat_QTP]  = "eses";
-  gSuomiPitchNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gSuomiPitchNamesMap [kE_Flat_QTP]        = "es";
-  gSuomiPitchNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gSuomiPitchNamesMap [kE_Natural_QTP]     = "e";
-  gSuomiPitchNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gSuomiPitchNamesMap [kE_Sharp_QTP]       = "eis";
-  gSuomiPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gSuomiPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
+  gGlobalSuomiPitchesNamesMap [kE_DoubleFlat_QTP]  = "eses";
+  gGlobalSuomiPitchesNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [kE_Flat_QTP]        = "es";
+  gGlobalSuomiPitchesNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [kE_Natural_QTP]     = "e";
+  gGlobalSuomiPitchesNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [kE_Sharp_QTP]       = "eis";
+  gGlobalSuomiPitchesNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [kE_DoubleSharp_QTP] = "eisis";
 
-  gSuomiPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
-  gSuomiPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gSuomiPitchNamesMap [kF_Flat_QTP]        = "fes";
-  gSuomiPitchNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gSuomiPitchNamesMap [kF_Natural_QTP]     = "f";
-  gSuomiPitchNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gSuomiPitchNamesMap [kF_Sharp_QTP]       = "fis";
-  gSuomiPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gSuomiPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
+  gGlobalSuomiPitchesNamesMap [kF_DoubleFlat_QTP]  = "feses";
+  gGlobalSuomiPitchesNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [kF_Flat_QTP]        = "fes";
+  gGlobalSuomiPitchesNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [kF_Natural_QTP]     = "f";
+  gGlobalSuomiPitchesNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [kF_Sharp_QTP]       = "fis";
+  gGlobalSuomiPitchesNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [kF_DoubleSharp_QTP] = "fisis";
 
-  gSuomiPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
-  gSuomiPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gSuomiPitchNamesMap [kG_Flat_QTP]        = "ges";
-  gSuomiPitchNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gSuomiPitchNamesMap [kG_Natural_QTP]     = "g";
-  gSuomiPitchNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gSuomiPitchNamesMap [kG_Sharp_QTP]       = "gis";
-  gSuomiPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gSuomiPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
+  gGlobalSuomiPitchesNamesMap [kG_DoubleFlat_QTP]  = "geses";
+  gGlobalSuomiPitchesNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gGlobalSuomiPitchesNamesMap [kG_Flat_QTP]        = "ges";
+  gGlobalSuomiPitchesNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gGlobalSuomiPitchesNamesMap [kG_Natural_QTP]     = "g";
+  gGlobalSuomiPitchesNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gGlobalSuomiPitchesNamesMap [kG_Sharp_QTP]       = "gis";
+  gGlobalSuomiPitchesNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gGlobalSuomiPitchesNamesMap [kG_DoubleSharp_QTP] = "gisis";
 }
 
 void initializeSvenskaPitchNamesMap ()
 {
   // svenska
-  gSvenskaPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gSvenskaPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalSvenskaPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalSvenskaPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gSvenskaPitchNamesMap [kA_DoubleFlat_QTP]  = "assess";
-  gSvenskaPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gSvenskaPitchNamesMap [kA_Flat_QTP]        = "ass";
-  gSvenskaPitchNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gSvenskaPitchNamesMap [kA_Natural_QTP]     = "a";
-  gSvenskaPitchNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gSvenskaPitchNamesMap [kA_Sharp_QTP]       = "aiss";
-  gSvenskaPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gSvenskaPitchNamesMap [kA_DoubleSharp_QTP] = "aississ";
+  gGlobalSvenskaPitchesNamesMap [kA_DoubleFlat_QTP]  = "assess";
+  gGlobalSvenskaPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kA_Flat_QTP]        = "ass";
+  gGlobalSvenskaPitchesNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kA_Natural_QTP]     = "a";
+  gGlobalSvenskaPitchesNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kA_Sharp_QTP]       = "aiss";
+  gGlobalSvenskaPitchesNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kA_DoubleSharp_QTP] = "aississ";
 
-  gSvenskaPitchNamesMap [kB_DoubleFlat_QTP]  = "hessess";
-  gSvenskaPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gSvenskaPitchNamesMap [kB_Flat_QTP]        = "b";
-  gSvenskaPitchNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gSvenskaPitchNamesMap [kB_Natural_QTP]     = "h";
-  gSvenskaPitchNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gSvenskaPitchNamesMap [kB_Sharp_QTP]       = "hiss";
-  gSvenskaPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gSvenskaPitchNamesMap [kB_DoubleSharp_QTP] = "hississ";
+  gGlobalSvenskaPitchesNamesMap [kB_DoubleFlat_QTP]  = "hessess";
+  gGlobalSvenskaPitchesNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kB_Flat_QTP]        = "b";
+  gGlobalSvenskaPitchesNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kB_Natural_QTP]     = "h";
+  gGlobalSvenskaPitchesNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kB_Sharp_QTP]       = "hiss";
+  gGlobalSvenskaPitchesNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kB_DoubleSharp_QTP] = "hississ";
 
-  gSvenskaPitchNamesMap [kC_DoubleFlat_QTP]  = "cessess";
-  gSvenskaPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gSvenskaPitchNamesMap [kC_Flat_QTP]        = "cess";
-  gSvenskaPitchNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gSvenskaPitchNamesMap [kC_Natural_QTP]     = "c";
-  gSvenskaPitchNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gSvenskaPitchNamesMap [kC_Sharp_QTP]       = "ciss";
-  gSvenskaPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gSvenskaPitchNamesMap [kC_DoubleSharp_QTP] = "cississ";
+  gGlobalSvenskaPitchesNamesMap [kC_DoubleFlat_QTP]  = "cessess";
+  gGlobalSvenskaPitchesNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kC_Flat_QTP]        = "cess";
+  gGlobalSvenskaPitchesNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kC_Natural_QTP]     = "c";
+  gGlobalSvenskaPitchesNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kC_Sharp_QTP]       = "ciss";
+  gGlobalSvenskaPitchesNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kC_DoubleSharp_QTP] = "cississ";
 
-  gSvenskaPitchNamesMap [kD_DoubleFlat_QTP]  = "dessess";
-  gSvenskaPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gSvenskaPitchNamesMap [kD_Flat_QTP]        = "dess";
-  gSvenskaPitchNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gSvenskaPitchNamesMap [kD_Natural_QTP]     = "d";
-  gSvenskaPitchNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gSvenskaPitchNamesMap [kD_Sharp_QTP]       = "diss";
-  gSvenskaPitchNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gSvenskaPitchNamesMap [kD_DoubleSharp_QTP] = "dississ";
+  gGlobalSvenskaPitchesNamesMap [kD_DoubleFlat_QTP]  = "dessess";
+  gGlobalSvenskaPitchesNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kD_Flat_QTP]        = "dess";
+  gGlobalSvenskaPitchesNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kD_Natural_QTP]     = "d";
+  gGlobalSvenskaPitchesNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kD_Sharp_QTP]       = "diss";
+  gGlobalSvenskaPitchesNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kD_DoubleSharp_QTP] = "dississ";
 
-  gSvenskaPitchNamesMap [kE_DoubleFlat_QTP]  = "essess";
-  gSvenskaPitchNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gSvenskaPitchNamesMap [kE_Flat_QTP]        = "ess";
-  gSvenskaPitchNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gSvenskaPitchNamesMap [kE_Natural_QTP]     = "e";
-  gSvenskaPitchNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gSvenskaPitchNamesMap [kE_Sharp_QTP]       = "eiss";
-  gSvenskaPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gSvenskaPitchNamesMap [kE_DoubleSharp_QTP] = "eississ";
+  gGlobalSvenskaPitchesNamesMap [kE_DoubleFlat_QTP]  = "essess";
+  gGlobalSvenskaPitchesNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kE_Flat_QTP]        = "ess";
+  gGlobalSvenskaPitchesNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kE_Natural_QTP]     = "e";
+  gGlobalSvenskaPitchesNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kE_Sharp_QTP]       = "eiss";
+  gGlobalSvenskaPitchesNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kE_DoubleSharp_QTP] = "eississ";
 
-  gSvenskaPitchNamesMap [kF_DoubleFlat_QTP]  = "fessess";
-  gSvenskaPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gSvenskaPitchNamesMap [kF_Flat_QTP]        = "fess";
-  gSvenskaPitchNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gSvenskaPitchNamesMap [kF_Natural_QTP]     = "f";
-  gSvenskaPitchNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gSvenskaPitchNamesMap [kF_Sharp_QTP]       = "fiss";
-  gSvenskaPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gSvenskaPitchNamesMap [kF_DoubleSharp_QTP] = "fississ";
+  gGlobalSvenskaPitchesNamesMap [kF_DoubleFlat_QTP]  = "fessess";
+  gGlobalSvenskaPitchesNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kF_Flat_QTP]        = "fess";
+  gGlobalSvenskaPitchesNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kF_Natural_QTP]     = "f";
+  gGlobalSvenskaPitchesNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kF_Sharp_QTP]       = "fiss";
+  gGlobalSvenskaPitchesNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kF_DoubleSharp_QTP] = "fississ";
 
-  gSvenskaPitchNamesMap [kG_DoubleFlat_QTP]  = "gessess";
-  gSvenskaPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gSvenskaPitchNamesMap [kG_Flat_QTP]        = "gess";
-  gSvenskaPitchNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gSvenskaPitchNamesMap [kG_Natural_QTP]     = "g";
-  gSvenskaPitchNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gSvenskaPitchNamesMap [kG_Sharp_QTP]       = "giss";
-  gSvenskaPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gSvenskaPitchNamesMap [kG_DoubleSharp_QTP] = "gississ";
+  gGlobalSvenskaPitchesNamesMap [kG_DoubleFlat_QTP]  = "gessess";
+  gGlobalSvenskaPitchesNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kG_Flat_QTP]        = "gess";
+  gGlobalSvenskaPitchesNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gGlobalSvenskaPitchesNamesMap [kG_Natural_QTP]     = "g";
+  gGlobalSvenskaPitchesNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kG_Sharp_QTP]       = "giss";
+  gGlobalSvenskaPitchesNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gGlobalSvenskaPitchesNamesMap [kG_DoubleSharp_QTP] = "gississ";
 }
 
 void initializeVlaamsPitchNamesMap ()
 {
   // vlaams
-  gVlaamsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
-  gVlaamsPitchNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalVlaamsPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
+  gGlobalVlaamsPitchesNamesMap [k_Rest_QTP]                 = "r";
 
-  gVlaamsPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
-  gVlaamsPitchNamesMap [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
-  gVlaamsPitchNamesMap [kA_Flat_QTP]        = "lab";
-  gVlaamsPitchNamesMap [kA_SemiFlat_QTP]    = "laSemiFlat???";
-  gVlaamsPitchNamesMap [kA_Natural_QTP]     = "la";
-  gVlaamsPitchNamesMap [kA_SemiSharp_QTP]   = "laSemiSharp???";
-  gVlaamsPitchNamesMap [kA_Sharp_QTP]       = "lak";
-  gVlaamsPitchNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
-  gVlaamsPitchNamesMap [kA_DoubleSharp_QTP] = "lakk";
+  gGlobalVlaamsPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gGlobalVlaamsPitchesNamesMap [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kA_Flat_QTP]        = "lab";
+  gGlobalVlaamsPitchesNamesMap [kA_SemiFlat_QTP]    = "laSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kA_Natural_QTP]     = "la";
+  gGlobalVlaamsPitchesNamesMap [kA_SemiSharp_QTP]   = "laSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kA_Sharp_QTP]       = "lak";
+  gGlobalVlaamsPitchesNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kA_DoubleSharp_QTP] = "lakk";
 
-  gVlaamsPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
-  gVlaamsPitchNamesMap [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
-  gVlaamsPitchNamesMap [kB_Flat_QTP]        = "sib";
-  gVlaamsPitchNamesMap [kB_SemiFlat_QTP]    = "siSemiFlat???";
-  gVlaamsPitchNamesMap [kB_Natural_QTP]     = "si";
-  gVlaamsPitchNamesMap [kB_SemiSharp_QTP]   = "siSemiSharp???";
-  gVlaamsPitchNamesMap [kB_Sharp_QTP]       = "sik";
-  gVlaamsPitchNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
-  gVlaamsPitchNamesMap [kB_DoubleSharp_QTP] = "sikk";
+  gGlobalVlaamsPitchesNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gGlobalVlaamsPitchesNamesMap [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kB_Flat_QTP]        = "sib";
+  gGlobalVlaamsPitchesNamesMap [kB_SemiFlat_QTP]    = "siSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kB_Natural_QTP]     = "si";
+  gGlobalVlaamsPitchesNamesMap [kB_SemiSharp_QTP]   = "siSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kB_Sharp_QTP]       = "sik";
+  gGlobalVlaamsPitchesNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kB_DoubleSharp_QTP] = "sikk";
 
-  gVlaamsPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
-  gVlaamsPitchNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
-  gVlaamsPitchNamesMap [kC_Flat_QTP]        = "dob";
-  gVlaamsPitchNamesMap [kC_SemiFlat_QTP]    = "doSemiFlat???";
-  gVlaamsPitchNamesMap [kC_Natural_QTP]     = "do";
-  gVlaamsPitchNamesMap [kC_SemiSharp_QTP]   = "doSemiSharp???";
-  gVlaamsPitchNamesMap [kC_Sharp_QTP]       = "dok";
-  gVlaamsPitchNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
-  gVlaamsPitchNamesMap [kC_DoubleSharp_QTP] = "dokk";
+  gGlobalVlaamsPitchesNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gGlobalVlaamsPitchesNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kC_Flat_QTP]        = "dob";
+  gGlobalVlaamsPitchesNamesMap [kC_SemiFlat_QTP]    = "doSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kC_Natural_QTP]     = "do";
+  gGlobalVlaamsPitchesNamesMap [kC_SemiSharp_QTP]   = "doSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kC_Sharp_QTP]       = "dok";
+  gGlobalVlaamsPitchesNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kC_DoubleSharp_QTP] = "dokk";
 
-  gVlaamsPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
-  gVlaamsPitchNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
-  gVlaamsPitchNamesMap [kD_Flat_QTP]        = "reb";
-  gVlaamsPitchNamesMap [kD_SemiFlat_QTP]    = "reSemiFlat???";
-  gVlaamsPitchNamesMap [kD_Natural_QTP]     = "re";
-  gVlaamsPitchNamesMap [kD_SemiSharp_QTP]   = "reSemiSharp???";
-  gVlaamsPitchNamesMap [kD_Sharp_QTP]       = "rek";
-  gVlaamsPitchNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
-  gVlaamsPitchNamesMap [kD_DoubleSharp_QTP] = "rekk";
+  gGlobalVlaamsPitchesNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gGlobalVlaamsPitchesNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kD_Flat_QTP]        = "reb";
+  gGlobalVlaamsPitchesNamesMap [kD_SemiFlat_QTP]    = "reSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kD_Natural_QTP]     = "re";
+  gGlobalVlaamsPitchesNamesMap [kD_SemiSharp_QTP]   = "reSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kD_Sharp_QTP]       = "rek";
+  gGlobalVlaamsPitchesNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kD_DoubleSharp_QTP] = "rekk";
 
-  gVlaamsPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
-  gVlaamsPitchNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
-  gVlaamsPitchNamesMap [kE_Flat_QTP]        = "mib";
-  gVlaamsPitchNamesMap [kE_SemiFlat_QTP]    = "miSemiFlat???";
-  gVlaamsPitchNamesMap [kE_Natural_QTP]     = "mi";
-  gVlaamsPitchNamesMap [kE_SemiSharp_QTP]   = "miSemiSharp???";
-  gVlaamsPitchNamesMap [kE_Sharp_QTP]       = "mik";
-  gVlaamsPitchNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
-  gVlaamsPitchNamesMap [kE_DoubleSharp_QTP] = "mikk";
+  gGlobalVlaamsPitchesNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gGlobalVlaamsPitchesNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kE_Flat_QTP]        = "mib";
+  gGlobalVlaamsPitchesNamesMap [kE_SemiFlat_QTP]    = "miSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kE_Natural_QTP]     = "mi";
+  gGlobalVlaamsPitchesNamesMap [kE_SemiSharp_QTP]   = "miSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kE_Sharp_QTP]       = "mik";
+  gGlobalVlaamsPitchesNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kE_DoubleSharp_QTP] = "mikk";
 
-  gVlaamsPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
-  gVlaamsPitchNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
-  gVlaamsPitchNamesMap [kF_Flat_QTP]        = "fab";
-  gVlaamsPitchNamesMap [kF_SemiFlat_QTP]    = "faSemiFlat???";
-  gVlaamsPitchNamesMap [kF_Natural_QTP]     = "fa";
-  gVlaamsPitchNamesMap [kF_SemiSharp_QTP]   = "faSemiSharp???";
-  gVlaamsPitchNamesMap [kF_Sharp_QTP]       = "fak";
-  gVlaamsPitchNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
-  gVlaamsPitchNamesMap [kF_DoubleSharp_QTP] = "fakk";
+  gGlobalVlaamsPitchesNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gGlobalVlaamsPitchesNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kF_Flat_QTP]        = "fab";
+  gGlobalVlaamsPitchesNamesMap [kF_SemiFlat_QTP]    = "faSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kF_Natural_QTP]     = "fa";
+  gGlobalVlaamsPitchesNamesMap [kF_SemiSharp_QTP]   = "faSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kF_Sharp_QTP]       = "fak";
+  gGlobalVlaamsPitchesNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kF_DoubleSharp_QTP] = "fakk";
 
-  gVlaamsPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
-  gVlaamsPitchNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
-  gVlaamsPitchNamesMap [kG_Flat_QTP]        = "solb";
-  gVlaamsPitchNamesMap [kG_SemiFlat_QTP]    = "solSemiFlat???";
-  gVlaamsPitchNamesMap [kG_Natural_QTP]     = "sol";
-  gVlaamsPitchNamesMap [kG_SemiSharp_QTP]   = "solSemiSharp???";
-  gVlaamsPitchNamesMap [kG_Sharp_QTP]       = "solk";
-  gVlaamsPitchNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
-  gVlaamsPitchNamesMap [kG_DoubleSharp_QTP] = "solkk";
+  gGlobalVlaamsPitchesNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gGlobalVlaamsPitchesNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kG_Flat_QTP]        = "solb";
+  gGlobalVlaamsPitchesNamesMap [kG_SemiFlat_QTP]    = "solSemiFlat???";
+  gGlobalVlaamsPitchesNamesMap [kG_Natural_QTP]     = "sol";
+  gGlobalVlaamsPitchesNamesMap [kG_SemiSharp_QTP]   = "solSemiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kG_Sharp_QTP]       = "solk";
+  gGlobalVlaamsPitchesNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
+  gGlobalVlaamsPitchesNamesMap [kG_DoubleSharp_QTP] = "solkk";
 }
 
 string msrDiatonicPitchKindAsString (
@@ -12282,7 +12283,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12335,7 +12336,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12390,7 +12391,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12443,7 +12444,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12496,7 +12497,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12549,7 +12550,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12602,7 +12603,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -12622,7 +12623,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12748,7 +12749,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12766,7 +12767,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12903,7 +12904,7 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -12921,7 +12922,7 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -13196,40 +13197,40 @@ string msrQuarterTonesPitchKindAsString (
 
   switch (languageKind) {
     case kNederlands:
-      result = gNederlandsPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalNederlandsPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kCatalan:
-      result = gCatalanPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalCatalanPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kDeutsch:
-      result = gDeutschPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalDeutschPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kEnglish:
-      result = gEnglishPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalEnglishPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kEspanol:
-      result = gEspanolPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalEspanolPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kFrancais:
-      result = gFrancaisPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalFrancaisPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kItaliano:
-      result = gItalianoPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalItalianoPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kNorsk:
-      result = gNorskPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalNorskPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kPortugues:
-      result = gPortuguesPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalPortuguesPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kSuomi:
-      result = gSuomiPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalSuomiPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kSvenska:
-      result = gSvenskaPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalSvenskaPitchesNamesMap [quarterTonesPitchKind];
       break;
     case kVlaams:
-      result = gVlaamsPitchNamesMap [quarterTonesPitchKind];
+      result = gGlobalVlaamsPitchesNamesMap [quarterTonesPitchKind];
       break;
   } // switch
 
@@ -13247,40 +13248,40 @@ msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
   // select the relevant pitch names map
   switch (languageKind) {
     case kNederlands:
-      pitchNamesMapPTR = &gNederlandsPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalNederlandsPitchesNamesMap;
       break;
     case kCatalan:
-      pitchNamesMapPTR = &gCatalanPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalCatalanPitchesNamesMap;
       break;
     case kDeutsch:
-      pitchNamesMapPTR = &gDeutschPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalDeutschPitchesNamesMap;
       break;
     case kEnglish:
-      pitchNamesMapPTR = &gEnglishPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalEnglishPitchesNamesMap;
       break;
     case kEspanol:
-      pitchNamesMapPTR = &gEspanolPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalEspanolPitchesNamesMap;
       break;
     case kFrancais:
-      pitchNamesMapPTR = &gFrancaisPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalFrancaisPitchesNamesMap;
       break;
     case kItaliano:
-      pitchNamesMapPTR = &gItalianoPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalItalianoPitchesNamesMap;
       break;
     case kNorsk:
-      pitchNamesMapPTR = &gNorskPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalNorskPitchesNamesMap;
       break;
     case kPortugues:
-      pitchNamesMapPTR = &gPortuguesPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalPortuguesPitchesNamesMap;
       break;
     case kSuomi:
-      pitchNamesMapPTR = &gSuomiPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalSuomiPitchesNamesMap;
       break;
     case kSvenska:
-      pitchNamesMapPTR = &gSvenskaPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalSvenskaPitchesNamesMap;
       break;
     case kVlaams:
-      pitchNamesMapPTR = &gVlaamsPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalVlaamsPitchesNamesMap;
       break;
   } // switch
 
@@ -13311,8 +13312,8 @@ msrSemiTonesPitchKind semiTonesPitchKindFromString (
   msrQuarterTonesPitchKind
     quarterTonesPitchKindFromString =
       msrQuarterTonesPitchKindFromString (
-        gGlobalLpsrOah->
-          fLpsrQuarterTonesPitchesLanguageKind,
+        gGlobalLpsrOahGroup->
+          getLpsrQuarterTonesPitchesLanguageKind (),
         theString);
 
   // fetch the semitones pitches kind
@@ -13329,7 +13330,7 @@ string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength)
 
   int
     quarterTonesPitchesLanguageKindsMapSize =
-      gQuarterTonesPitchesLanguageKindsMap.size ();
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size ();
 
   if (quarterTonesPitchesLanguageKindsMapSize) {
     int
@@ -13341,8 +13342,8 @@ string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength)
 
     for (
       map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator i =
-        gQuarterTonesPitchesLanguageKindsMap.begin ();
-      i != gQuarterTonesPitchesLanguageKindsMap.end ();
+        gGlobalQuarterTonesPitchesLanguageKindsMap.begin ();
+      i != gGlobalQuarterTonesPitchesLanguageKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -13995,7 +13996,7 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
 //______________________________________________________________________________
 
 map<string, msrLengthUnitKind>
-  gMsrLengthUnitKindsMap;
+  gGlobalMsrLengthUnitKindsMap;
 
 string msrLengthUnitKindAsString (
   msrLengthUnitKind lengthUnitKind)
@@ -14021,21 +14022,14 @@ string msrLengthUnitKindAsString (
 
 void initializeMsrLengthUnitKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // register the LilyPond score output kinds
+  // --------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // register the LilyPond score output kinds
-    // --------------------------------------
+  // no CamelCase here, these strings are used in the command line options
 
-    // no CamelCase here, these strings are used in the command line options
-
-    gMsrLengthUnitKindsMap ["in"] = kInchUnit;
-    gMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
-    gMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalMsrLengthUnitKindsMap ["in"] = kInchUnit;
+  gGlobalMsrLengthUnitKindsMap ["cm"] = kCentimeterUnit;
+  gGlobalMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
 }
 
 string existingMsrLengthUnitKinds (int namesListMaxLength)
@@ -14044,7 +14038,7 @@ string existingMsrLengthUnitKinds (int namesListMaxLength)
 
   int
     msrLengthUnitKindsMapSize =
-      gMsrLengthUnitKindsMap.size ();
+      gGlobalMsrLengthUnitKindsMap.size ();
 
   if (msrLengthUnitKindsMapSize) {
     int
@@ -14056,8 +14050,8 @@ string existingMsrLengthUnitKinds (int namesListMaxLength)
 
     for (
       map<string, msrLengthUnitKind>::const_iterator i =
-        gMsrLengthUnitKindsMap.begin ();
-      i != gMsrLengthUnitKindsMap.end ();
+        gGlobalMsrLengthUnitKindsMap.begin ();
+      i != gGlobalMsrLengthUnitKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -14094,7 +14088,7 @@ S_msrLength msrLength::create (
     new msrLength (
       lengthUnitKind,
       lengthValue);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -14196,7 +14190,7 @@ ostream& operator<< (ostream& os, const S_msrLength& elt)
 //______________________________________________________________________________
 
 map<string, msrMarginTypeKind>
-  gMsrMarginTypeKindsMap;
+  gGlobalMsrMarginTypeKindsMap;
 
 string msrMarginTypeKindAsString (
   msrMarginTypeKind marginTypeKind)
@@ -14222,21 +14216,14 @@ string msrMarginTypeKindAsString (
 
 void initializeMsrMarginTypeKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // register the LilyPond score output kinds
+  // --------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // register the LilyPond score output kinds
-    // --------------------------------------
+  // no CamelCase here, these strings are used in the command line options
 
-    // no CamelCase here, these strings are used in the command line options
-
-    gMsrMarginTypeKindsMap ["odd"] = kOddMargin;
-    gMsrMarginTypeKindsMap ["even"] = kEvenMargin;
-    gMsrMarginTypeKindsMap ["both"] = kBothMargins;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalMsrMarginTypeKindsMap ["odd"] = kOddMargin;
+  gGlobalMsrMarginTypeKindsMap ["even"] = kEvenMargin;
+  gGlobalMsrMarginTypeKindsMap ["both"] = kBothMargins;
 }
 
 string existingMsrMarginTypeKinds (int namesListMaxLength)
@@ -14245,7 +14232,7 @@ string existingMsrMarginTypeKinds (int namesListMaxLength)
 
   int
     msrMarginTypeKindsMapSize =
-      gMsrMarginTypeKindsMap.size ();
+      gGlobalMsrMarginTypeKindsMap.size ();
 
   if (msrMarginTypeKindsMapSize) {
     int
@@ -14257,8 +14244,8 @@ string existingMsrMarginTypeKinds (int namesListMaxLength)
 
     for (
       map<string, msrMarginTypeKind>::const_iterator i =
-        gMsrMarginTypeKindsMap.begin ();
-      i != gMsrMarginTypeKindsMap.end ();
+        gGlobalMsrMarginTypeKindsMap.begin ();
+      i != gGlobalMsrMarginTypeKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -14295,7 +14282,7 @@ S_msrMargin msrMargin::create (
     new msrMargin (
       marginTypeKind,
       marginLength);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -14346,7 +14333,7 @@ S_msrMarginsGroup msrMarginsGroup::create (
   msrMarginsGroup * o =
     new msrMarginsGroup (
       marginTypeKind);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -14379,7 +14366,7 @@ void msrMarginsGroup::setLeftMargin (
       " margins group";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14407,7 +14394,7 @@ void msrMarginsGroup::setRightMargin (
       " margins group";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14435,7 +14422,7 @@ void msrMarginsGroup::setTopMargin (
       " margins group";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14463,7 +14450,7 @@ void msrMarginsGroup::setBottomMargin (
       " margins group";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -14474,8 +14461,8 @@ void msrMarginsGroup::setBottomMargin (
 
 /* JMI
 void msrMarginsGroup::acceptIn (basevisitor* v) {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrMarginsGroup::acceptIn ()" <<
       endl;
   }
@@ -14485,8 +14472,8 @@ void msrMarginsGroup::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrMarginsGroup>*> (v)) {
         S_msrMarginsGroup elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrMarginsGroup::visitStart ()" <<
              endl;
         p->visitStart (elem);
@@ -14494,8 +14481,8 @@ void msrMarginsGroup::acceptIn (basevisitor* v) {
 }
 
 void msrMarginsGroup::acceptOut (basevisitor* v) {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrMarginsGroup::acceptOut ()" <<
       endl;
   }
@@ -14505,8 +14492,8 @@ void msrMarginsGroup::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrMarginsGroup>*> (v)) {
         S_msrMarginsGroup elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrMarginsGroup::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
@@ -14608,7 +14595,7 @@ S_msrFontSize msrFontSize::create (
   msrFontSize * o =
     new msrFontSize (
       fontSizeKind);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -14619,7 +14606,7 @@ S_msrFontSize msrFontSize::create (
   msrFontSize * o =
     new msrFontSize (
       numericFontSize);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -14730,7 +14717,7 @@ float msrFontSize::getFontNumericSize ()
           fontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           K_NO_INPUT_LINE_NUMBER, // JMI
           __FILE__, __LINE__,
           s.str ());
@@ -14788,7 +14775,7 @@ msrFontStyleKind msrFontStyleKindFromString (
         " should be 'normal' or 'italic'";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -14839,7 +14826,7 @@ msrFontWeightKind msrFontWeightKindFromString (
         " should be 'normal' or 'bold'";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -14892,7 +14879,7 @@ msrJustifyKind msrJustifyKindFromString (
         " should be 'left', 'center' or 'right'";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -14947,7 +14934,7 @@ msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
         " should be 'left', 'center' or 'right'";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15002,7 +14989,7 @@ msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
         " should be 'top', 'middle' or 'bottom'";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15065,7 +15052,7 @@ msrPrintObjectKind msrPrintObjectKindFromString (
   int    inputLineNumber,
   string printObjectString)
 {
-  msrPrintObjectKind result = kPrintObjectNone; // default value
+  msrPrintObjectKind result = kPrintObjectNone; // default value KAKA JMI
 
   if      (printObjectString == "yes")
     result = kPrintObjectYes;
@@ -15080,7 +15067,7 @@ msrPrintObjectKind msrPrintObjectKindFromString (
         "\" should be 'above' or 'below'";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15100,10 +15087,10 @@ string msrPrintObjectKindAsString (
       result = "printObjectNone";
       break;
     case msrPrintObjectKind::kPrintObjectYes:
-      result = "printObjectAbove";
+      result = "printObjectYes";
       break;
     case msrPrintObjectKind::kPrintObjectNo:
-      result = "printObjectBelow";
+      result = "printObjectNo";
       break;
   } // switch
 
@@ -15131,7 +15118,7 @@ msrPlacementKind msrPlacementKindFromString (
         "\" should be 'above' or 'below'";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15182,7 +15169,7 @@ msrUseDotsKind msrUseDotsFromString (
         "\" is unknown";
 
       msrMusicXMLError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -15357,7 +15344,7 @@ S_msrHarmonyInterval msrHarmonyInterval::create (
  //     harmonyIntervalNumber,
       harmonyIntervalIntervalKind,
       harmonyIntervalRelativeOctave);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -15372,9 +15359,9 @@ msrHarmonyInterval::msrHarmonyInterval (
 
   fHarmonyIntervalRelativeOctave = harmonyIntervalRelativeOctave;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
       "==> Creating harmony item '" <<
       harmonyIntervalAsString () <<
       "'" <<
@@ -15450,9 +15437,9 @@ void msrHarmonyInterval::deNormalizeInterval ()
 S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
   S_msrHarmonyInterval otherHarmonyInterval)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceExtraHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceExtraHarmonies ()) {
+    gLogStream <<
       endl <<
       "--> computing intervalDifference betwwen '" <<
       asShortString () <<
@@ -15477,9 +15464,9 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
   operand2->
     normalizeInterval ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceExtraHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceExtraHarmonies ()) {
+    gLogStream <<
       "--> normalized operands are '" <<
       operand1->asShortString () <<
       "' and '" <<
@@ -15536,9 +15523,9 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
     resultRelativeOctave--;
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceExtraHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceExtraHarmonies ()) {
+    gLogStream <<
       "--> permuteRelativeOctaves = " <<
       booleanAsString (permuteRelativeOctaves) <<
       ", invertInterval = " <<
@@ -16714,9 +16701,9 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
       ;
   } // switch
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceExtraHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceExtraHarmonies ()) {
+    gLogStream <<
       "--> base resultIntervalKind = '" <<
       msrIntervalKindAsString (resultIntervalKind) <<
       "'" <<
@@ -16747,9 +16734,9 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
   // greater than an augmented seventh if applicable
   result->deNormalizeInterval ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceExtraHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceExtraHarmonies ()) {
+    gLogStream <<
       "--> result = '" <<
       result->asShortString () <<
       "'" <<
@@ -17898,8 +17885,8 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalSum (
 
 /* JMI
 void msrHarmonyInterval::acceptIn (basevisitor* v) {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHarmonyInterval::acceptIn ()" <<
       endl;
   }
@@ -17909,8 +17896,8 @@ void msrHarmonyInterval::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyInterval>*> (v)) {
         S_msrHarmonyInterval elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHarmonyInterval::visitStart ()" <<
              endl;
         p->visitStart (elem);
@@ -17918,8 +17905,8 @@ void msrHarmonyInterval::acceptIn (basevisitor* v) {
 }
 
 void msrHarmonyInterval::acceptOut (basevisitor* v) {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHarmonyInterval::acceptOut ()" <<
       endl;
   }
@@ -17929,8 +17916,8 @@ void msrHarmonyInterval::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyInterval>*> (v)) {
         S_msrHarmonyInterval elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHarmonyInterval::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
@@ -18007,7 +17994,7 @@ ostream& operator<< (ostream& os, const S_msrHarmonyInterval& elt)
 
 //______________________________________________________________________________
 map<msrHarmonyKind, S_msrHarmonyStructure>
-  gHarmonyStructuresMap;
+  gGlobalHarmonyStructuresMap;
 
 S_msrHarmonyStructure msrHarmonyStructure::createBare (
   msrHarmonyKind harmonyStructureHarmonyKind)
@@ -18015,7 +18002,7 @@ S_msrHarmonyStructure msrHarmonyStructure::createBare (
   msrHarmonyStructure* o =
     new msrHarmonyStructure (
       harmonyStructureHarmonyKind);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -18038,9 +18025,9 @@ msrHarmonyStructure::msrHarmonyStructure (
 {
   fHarmonyStructureHarmonyKind = harmonyStructureHarmonyKind;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
       "==> Creating harmony intervals '" <<
       harmonyStructureAsString () <<
       "'" <<
@@ -18918,7 +18905,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
 /* JMI
   // register harmony intervals in map
-  gHarmonyStructuresMap [fHarmonyStructureHarmonyKind] = this;
+  gGlobalHarmonyStructuresMap [fHarmonyStructureHarmonyKind] = this;
   */
 }
 
@@ -18937,8 +18924,8 @@ void msrHarmonyStructure::appendHarmonyIntervalToHarmonyStructure (
 
 /* JMI
 void msrHarmonyStructure::acceptIn (basevisitor* v) {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHarmonyStructure::acceptIn ()" <<
       endl;
   }
@@ -18948,8 +18935,8 @@ void msrHarmonyStructure::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyStructure>*> (v)) {
         S_msrHarmonyStructure elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHarmonyStructure::visitStart ()" <<
              endl;
         p->visitStart (elem);
@@ -18957,8 +18944,8 @@ void msrHarmonyStructure::acceptIn (basevisitor* v) {
 }
 
 void msrHarmonyStructure::acceptOut (basevisitor* v) {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHarmonyStructure::acceptOut ()" <<
       endl;
   }
@@ -18968,8 +18955,8 @@ void msrHarmonyStructure::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyStructure>*> (v)) {
         S_msrHarmonyStructure elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHarmonyStructure::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
@@ -19005,7 +18992,7 @@ S_msrHarmonyInterval msrHarmonyStructure::bassHarmonyIntervalForHarmonyInversion
       "', line " << inputLineNumber;
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -19030,9 +19017,9 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
     harmonyStructureIntervalsSize =
       fHarmonyStructureIntervals.size ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
       "==> invertHarmonyStructure (), inversion = " << inversion <<
       ", original harmonyStructureIntervalsSize = " << harmonyStructureIntervalsSize <<
       endl;
@@ -19047,13 +19034,13 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
           fHarmonyStructureIntervals [i]->
             createHarmonyIntervalNewbornClone ();
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+        gLogStream <<
           "--> adding first item to result:" <<
           endl;
         gIndenter++;
-        gLogOstream <<
+        gLogStream <<
           harmonyIntervalClone <<
           endl;
         gIndenter--;
@@ -19064,14 +19051,14 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
         appendHarmonyIntervalToHarmonyStructure (
           harmonyIntervalClone);
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+        gLogStream <<
           "==> result harmony structure after adding first item :" <<
           endl;
 
         gIndenter++;
-        gLogOstream <<
+        gLogStream <<
           result <<
           endl;
         gIndenter--;
@@ -19089,13 +19076,13 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
       harmonyIntervalClone->
         incrementHarmonyIntervalRelativeOctave ();
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+        gLogStream <<
           "--> adding last item to resultlast item :" <<
           endl;
         gIndenter++;
-        gLogOstream <<
+        gLogStream <<
           harmonyIntervalClone <<
           endl;
         gIndenter--;
@@ -19106,14 +19093,14 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
         appendHarmonyIntervalToHarmonyStructure (
           harmonyIntervalClone);
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+        gLogStream <<
           "==> result harmony structure after  after adding last item:" <<
           endl;
 
         gIndenter++;
-        gLogOstream <<
+        gLogStream <<
           result <<
           endl;
         gIndenter--;
@@ -19194,7 +19181,7 @@ void msrHarmonyStructure::print (ostream& os) const
       S_msrHarmonyInterval
         harmonyInterval = (*i);
 
-      gLogOstream <<
+      gLogStream <<
         harmonyInterval->harmonyIntervalAsShortString () <<
         endl;
 
@@ -19202,7 +19189,7 @@ void msrHarmonyStructure::print (ostream& os) const
     } // for
   }
   else {
-    gLogOstream <<
+    gLogStream <<
       "no intervals" <<
       endl;
   }
@@ -19254,7 +19241,7 @@ S_msrSemiTonesPitchAndAbsoluteOctave msrSemiTonesPitchAndAbsoluteOctave::create 
     new msrSemiTonesPitchAndAbsoluteOctave (
       semiTonesPitchKind,
       absoluteOctave);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -19267,9 +19254,9 @@ msrSemiTonesPitchAndAbsoluteOctave::msrSemiTonesPitchAndAbsoluteOctave (
 
   fAbsoluteOctave = absoluteOctave;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
       "==> Creating harmony item '" <<
       asString () <<
       "'" <<
@@ -19345,7 +19332,7 @@ S_msrSemiTonesPitchAndRelativeOctave msrSemiTonesPitchAndRelativeOctave::create 
     new msrSemiTonesPitchAndRelativeOctave (
       semiTonesPitchKind,
       relativeOctave);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -19358,9 +19345,9 @@ msrSemiTonesPitchAndRelativeOctave::msrSemiTonesPitchAndRelativeOctave (
 
   fRelativeOctave = relativeOctave;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
       "==> Creating harmony item '" <<
       asString () <<
       "'" <<
@@ -19439,7 +19426,7 @@ S_msrHarmonyContents msrHarmonyContents::create (
  //     inputLineNumber,
       harmonyContentsRootNote,
       harmonyContentsHarmonyKind);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -19452,9 +19439,9 @@ msrHarmonyContents::msrHarmonyContents (
   fHarmonyContentsRootNote    = harmonyContentsRootNote;
   fHarmonyContentsHarmonyKind = harmonyContentsHarmonyKind;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
       "==> Creating harmonyContents '" <<
       harmonyContentsAsString () <<
       "'" <<
@@ -19551,7 +19538,7 @@ msrSemiTonesPitchKind msrHarmonyContents::bassSemiTonesPitchKindForHarmonyInvers
       "', line " << inputLineNumber;
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -19575,8 +19562,8 @@ void msrHarmonyContents::printAllHarmoniesContents (
   os <<
     "All the known harmonies contents with diatonic root '" <<
     msrQuarterTonesPitchKindAsString (
-      gGlobalLpsrOah->
-        fLpsrQuarterTonesPitchesLanguageKind,
+      gGlobalLpsrOahGroup->
+        getLpsrQuarterTonesPitchesLanguageKind (),
       rootQuarterTonesPitchKind) <<
       /* JMI
     "' (" <<
@@ -19586,8 +19573,8 @@ void msrHarmonyContents::printAllHarmoniesContents (
     */
     "' in language '" <<
     msrQuarterTonesPitchesLanguageKindAsString (
-      gGlobalLpsrOah->
-        fLpsrQuarterTonesPitchesLanguageKind) <<
+      gGlobalLpsrOahGroup->
+        getLpsrQuarterTonesPitchesLanguageKind ()) <<
     "' 'are:" <<
     endl <<
     endl;
@@ -19655,8 +19642,8 @@ void msrHarmonyContents::printAllHarmoniesContents (
         os << left <<
           setw (fieldWidth2) <<
           msrQuarterTonesPitchKindAsString (
-            gGlobalLpsrOah->
-              fLpsrQuarterTonesPitchesLanguageKind,
+            gGlobalLpsrOahGroup->
+              getLpsrQuarterTonesPitchesLanguageKind (),
             noteQuarterTonesPitchKind) <<
           " : " <<
           msrIntervalKindAsString (intervalKind) <<
@@ -19678,8 +19665,8 @@ void msrHarmonyContents::printAllHarmoniesContents (
 
 /* JMI
 void msrHarmonyContents::acceptIn (basevisitor* v) {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHarmonyContents::acceptIn ()" <<
       endl;
   }
@@ -19689,8 +19676,8 @@ void msrHarmonyContents::acceptIn (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyContents>*> (v)) {
         S_msrHarmonyContents elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHarmonyContents::visitStart ()" <<
              endl;
         p->visitStart (elem);
@@ -19698,8 +19685,8 @@ void msrHarmonyContents::acceptIn (basevisitor* v) {
 }
 
 void msrHarmonyContents::acceptOut (basevisitor* v) {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHarmonyContents::acceptOut ()" <<
       endl;
   }
@@ -19709,8 +19696,8 @@ void msrHarmonyContents::acceptOut (basevisitor* v) {
       dynamic_cast<visitor<S_msrHarmonyContents>*> (v)) {
         S_msrHarmonyContents elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHarmonyContents::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
@@ -19795,8 +19782,8 @@ void printHarmonyDetails (
   string
     rootQuarterTonesPitchKindAsString =
       msrQuarterTonesPitchKindAsString (
-        gGlobalLpsrOah->
-          fLpsrQuarterTonesPitchesLanguageKind,
+        gGlobalLpsrOahGroup->
+          getLpsrQuarterTonesPitchesLanguageKind (),
         rootQuarterTonesPitchKind);
 
   string
@@ -19841,8 +19828,8 @@ void printHarmonyDetails (
           harmonyStructure->
             invertHarmonyStructure (inversion);
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
         os <<
           "==> inversion = " << inversion <<
           ", initial invertedHarmonyStructure:" <<
@@ -19891,7 +19878,7 @@ void printHarmonyDetails (
       }
 
       os <<
-        " contents, "<<
+        " contents, " <<
         invertedHarmonyStructureIntervals.size () <<
         " intervals:" <<
         endl;
@@ -19934,8 +19921,8 @@ void printHarmonyDetails (
         os << left <<
           setw (fieldWidth2) <<
           msrQuarterTonesPitchKindAsString (
-            gGlobalLpsrOah->
-              fLpsrQuarterTonesPitchesLanguageKind,
+            gGlobalLpsrOahGroup->
+              getLpsrQuarterTonesPitchesLanguageKind (),
             noteQuarterTonesPitchKind) <<
             /* JMI
           ", octave " << relativeOctave <<
@@ -19976,8 +19963,8 @@ void printHarmonyAnalysis (
   string
     rootQuarterTonesPitchKindAsString =
       msrQuarterTonesPitchKindAsString (
-        gGlobalLpsrOah->
-          fLpsrQuarterTonesPitchesLanguageKind,
+        gGlobalLpsrOahGroup->
+          getLpsrQuarterTonesPitchesLanguageKind (),
         rootQuarterTonesPitchKind);
 
   string
@@ -20024,8 +20011,8 @@ void printHarmonyAnalysis (
           harmonyStructure->
             invertHarmonyStructure (inversion);
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceHarmoniesDetails) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
         os <<
           "==> inversion = " << inversion <<
           ", initial invertedHarmonyStructure:" <<
@@ -20064,7 +20051,7 @@ void printHarmonyAnalysis (
         }
 
         os <<
-          " contents, "<<
+          " contents, " <<
           invertedHarmonyStructureIntervals.size () <<
           " intervals:" <<
           endl;
@@ -20105,8 +20092,8 @@ void printHarmonyAnalysis (
           os << left <<
             setw (fieldWidth2) <<
             msrQuarterTonesPitchKindAsString (
-              gGlobalLpsrOah->
-                fLpsrQuarterTonesPitchesLanguageKind,
+              gGlobalLpsrOahGroup->
+                getLpsrQuarterTonesPitchesLanguageKind (),
               noteQuarterTonesPitchKind) <<
             " : " <<
             msrIntervalKindAsString (intervalKind) <<
@@ -20237,16 +20224,16 @@ void printHarmonyAnalysis (
             os << left <<
               setw (fieldWidth1) <<
               msrQuarterTonesPitchKindAsString (
-                gGlobalLpsrOah->
-                  fLpsrQuarterTonesPitchesLanguageKind,
+                gGlobalLpsrOahGroup->
+                  getLpsrQuarterTonesPitchesLanguageKind (),
                 noteQuarterTonesPitchKind1) <<
 
               " -> " <<
 
               setw (fieldWidth1) <<
               msrQuarterTonesPitchKindAsString (
-                gGlobalLpsrOah->
-                  fLpsrQuarterTonesPitchesLanguageKind,
+                gGlobalLpsrOahGroup->
+                  getLpsrQuarterTonesPitchesLanguageKind (),
                 noteQuarterTonesPitchKind2) <<
 
               " : " <<
@@ -20344,9 +20331,9 @@ msrRGBColor::msrRGBColor (
 
   unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
+    gLogStream <<
       "There are " << smSize << " matches" <<
       " for RGB color string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -20356,13 +20343,13 @@ msrRGBColor::msrRGBColor (
 #endif
 
   if (smSize == 4) {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceOah ()) {
       for (unsigned i = 0; i < smSize; ++i) {
-        gLogOstream <<
+        gLogStream <<
           "[" << sm [i] << "] ";
       } // for
-      gLogOstream << endl;
+      gLogStream << endl;
     }
 #endif
   }
@@ -20382,9 +20369,9 @@ msrRGBColor::msrRGBColor (
     GString = sm [2],
     BString = sm [3];
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
+    gLogStream <<
       "--> RString = \"" << RString << "\", " <<
       "--> GString = \"" << GString << "\"" <<
       "--> BString = \"" << BString << "\"" <<
@@ -20400,7 +20387,7 @@ msrRGBColor::msrRGBColor (
     s >> fR;
 
     if (fR < 0.0 || fR > 1.0) {
-      gLogOstream <<
+      gLogStream <<
         "### ERROR: the R component " << fR <<
         " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
         endl;
@@ -20413,7 +20400,7 @@ msrRGBColor::msrRGBColor (
     s >> fG;
 
     if (fG < 0.0 || fG > 1.0) {
-      gLogOstream <<
+      gLogStream <<
         "### ERROR: the G component " << fG <<
         " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
         endl;
@@ -20426,7 +20413,7 @@ msrRGBColor::msrRGBColor (
     s >> fB;
 
     if (fB < 0.0 || fB > 1.0) {
-      gLogOstream <<
+      gLogStream <<
         "### ERROR: the B component " << fB <<
         " is not in the [0.0..1.0] interval in RGB color '" << theString << "'" <<
         endl;
@@ -20536,9 +20523,9 @@ void initializeMSRBasicTypes ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+      gLogStream <<
         "Initializing MSR basic types handling" <<
         endl;
   }
@@ -20574,7 +20561,7 @@ void initializeMSRBasicTypes ()
 
     initializeMsrMarginTypeKindsMap ();
 
-// JMI    pThisMethodHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
@@ -20584,9 +20571,9 @@ void initializeMSRBasicTypes ()
 /* JMI
     // Iterate over a map using std::for_each and Lambda function
     for_each (
-      gQuarterTonesPitchesLanguageKindsMap.begin(),
-      gQuarterTonesPitchesLanguageKindsMap.end(),
-        [] (pair<string, gQuarterTonesPitchesLanguageKindsMap> element) {
+      gGlobalQuarterTonesPitchesLanguageKindsMap.begin(),
+      gGlobalQuarterTonesPitchesLanguageKindsMap.end(),
+        [] (pair<string, gGlobalQuarterTonesPitchesLanguageKindsMap> element) {
           string theString = (element).first;
 
           count++;

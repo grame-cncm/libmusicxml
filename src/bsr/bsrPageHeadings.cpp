@@ -14,10 +14,12 @@
 
 #include "utilities.h"
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
+
+#include "oahOah.h"
 
 #include "bsrOah.h"
-#include "bsr2BrailleOah.h"
+#include "bsr2brailleOah.h"
 
 
 using namespace std;
@@ -36,7 +38,7 @@ S_bsrPageHeading bsrPageHeading::create (
     new bsrPageHeading (
       inputLineNumber,
       pageHeadingTitle, pageHeadingPagination, pageHeadingNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -48,7 +50,7 @@ bsrPageHeading::bsrPageHeading (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gGlobalBsr2BrailleOah->fCellsPerLine)
+        gGlobalBsr2brailleOahGroup->getCellsPerLine ())
 {
   fPageHeadingTitle = pageHeadingTitle;
 
@@ -106,9 +108,9 @@ S_bsrCellsList bsrPageHeading::buildCellsList () const
 
 void bsrPageHeading::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrPageHeading::acceptIn ()" <<
       endl;
   }
@@ -119,9 +121,9 @@ void bsrPageHeading::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrPageHeading::visitStart ()" <<
             endl;
         }
@@ -132,9 +134,9 @@ void bsrPageHeading::acceptIn (basevisitor* v)
 
 void bsrPageHeading::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrPageHeading::acceptOut ()" <<
       endl;
   }
@@ -145,9 +147,9 @@ void bsrPageHeading::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrPageHeading::visitEnd ()" <<
             endl;
         }
@@ -158,9 +160,9 @@ void bsrPageHeading::acceptOut (basevisitor* v)
 
 void bsrPageHeading::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
   }
@@ -172,9 +174,9 @@ void bsrPageHeading::browseData (basevisitor* v)
     browser.browse (*fPageHeadingPagination);
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% <== bsrScore::browseData ()" <<
       endl;
   }

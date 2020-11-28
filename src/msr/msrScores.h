@@ -229,7 +229,7 @@ class msrScore : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  addPartGroupToScore (
@@ -277,7 +277,7 @@ class msrScore : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // identification

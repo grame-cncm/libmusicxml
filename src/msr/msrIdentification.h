@@ -145,7 +145,9 @@ class msrIdentification : public msrElement
     S_msrVarValsListAssoc getSoftwares () const
                               { return fSoftwares; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     // composers
@@ -207,7 +209,7 @@ class msrIdentification : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // identification creator

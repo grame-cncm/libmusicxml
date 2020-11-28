@@ -19,7 +19,7 @@ OAH basics:
     and a description.
 
   - an oahHandler contains oahGroup's, each handled in a pair or .h/.cpp files,
-    such as msrOah.h and msrOah.cpp, and a list of options prefixes.
+    such as msrOah.h and msrOahGroup.cpp, and a list of options prefixes.
 
   - an oahGroup contains oahSubGroup's and an upLink to the containing oahHandler.
 
@@ -38,16 +38,16 @@ Features:
   - oahThreeBooleansAtom, for example, allows for three boolean settings
     to be controlled at once with a single option.
 
-  - oahValuedAtom describes options for which a value is supplied in the command line.
+  - oahAtomWithValue describes options for which a value is supplied in the command line.
 
   - a class such as optionsLpsrPitchesLanguageOption is used
     to supply a string value to be converted into an internal enumerated type.
 
   - oahCombinedBooleansAtom contains a list of boolean atoms to manipulate several such atoms as a single one,
-    see the 'cubase' combined booleans atom in mxmlTreeOah.cpp.
+    see the 'cubase' combined booleans atom in mxmlTreeOahGroup.cpp.
 
   - oahMultiplexBooleansAtom contains a list of boolean atoms sharing a common prefix to display such atoms in a compact manner,
-    see the 'cubase' combined booleans atom in mxmlTreeOah.cpp.
+    see the 'cubase' combined booleans atom in mxmlTreeOahGroup.cpp.
 
   - storing options and the corresponding help in oahGroup's makes it easy to re-use them.
     For example, xml2ly and xml2lbr have their three first passes in common,
@@ -69,7 +69,7 @@ Handling:
     and delegates the handling to the corresponding object.
 
   - handleOptionValueOrArgument() associatiates the value
-    to the (preceding) fPendingValuedAtom if not null,
+    to the (preceding) fPendingAtomWithValue if not null,
     or appends it fHandlerArgumentsVector to otherwise.
 
   - the printOptionsSummary() methods are used when there are errors in the options used.
@@ -81,7 +81,7 @@ Handling:
       - in the various options groups for those specific to the latter.
 
   - the value following the option name, if any, is taken care of
-    by the handle*AtomValue() methods, using fPendingValuedAtom
-    to hold the valuedAtom until the corresponding value is found.
+    by the handle*AtomValue() methods, using fPendingAtomWithValue
+    to hold the atomWithValue until the corresponding value is found.
 */
 

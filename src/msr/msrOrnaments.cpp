@@ -10,7 +10,9 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -51,8 +53,8 @@ msrOrnament::~msrOrnament ()
 
 void msrOrnament::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrOrnament::acceptIn ()" <<
       endl;
   }
@@ -62,8 +64,8 @@ void msrOrnament::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrOrnament::visitStart ()" <<
             endl;
         }
@@ -73,8 +75,8 @@ void msrOrnament::acceptIn (basevisitor* v)
 
 void msrOrnament::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrOrnament::acceptOut ()" <<
       endl;
   }
@@ -84,8 +86,8 @@ void msrOrnament::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrOrnament::visitEnd ()" <<
             endl;
         }

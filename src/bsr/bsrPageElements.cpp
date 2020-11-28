@@ -14,7 +14,9 @@
 
 #include "utilities.h"
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
+
+#include "oahOah.h"
 
 #include "bsrOah.h"
 #include "brailleOah.h"
@@ -33,7 +35,7 @@ S_bsrPageElement bsrPageElement::create (
   bsrPageElement* o =
     new bsrPageElement (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 */
@@ -64,9 +66,9 @@ S_bsrLine bsrPageElement::getBsrLineUpLink () const
 
 void bsrPageElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrPageElement::acceptIn ()" <<
       endl;
   }
@@ -77,9 +79,9 @@ void bsrPageElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
         S_bsrPageElement elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrPageElement::visitStart ()" <<
             endl;
         }
@@ -90,9 +92,9 @@ void bsrPageElement::acceptIn (basevisitor* v)
 
 void bsrPageElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrPageElement::acceptOut ()" <<
       endl;
   }
@@ -103,9 +105,9 @@ void bsrPageElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
         S_bsrPageElement elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrPageElement::visitEnd ()" <<
             endl;
         }

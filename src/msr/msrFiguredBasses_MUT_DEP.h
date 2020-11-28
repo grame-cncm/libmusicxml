@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -82,7 +82,9 @@ class msrFigure : public msrElement
                           getFigureSuffixKind () const
                               { return fFigureSuffixKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -109,7 +111,7 @@ class msrFigure : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -220,7 +222,9 @@ class msrFiguredBass : public msrMeasureElement
     void                  setFiguredBassPositionInMeasure (
                             rational positionInMeasure);
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendFigureToFiguredBass (
@@ -247,7 +251,7 @@ class msrFiguredBass : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

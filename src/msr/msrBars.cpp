@@ -18,10 +18,12 @@
 
 #include "msrBars.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -38,7 +40,7 @@ S_msrBarCheck msrBarCheck::create (
   msrBarCheck* o =
     new msrBarCheck (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -52,7 +54,7 @@ S_msrBarCheck msrBarCheck::createWithNextBarPuristNumber (
       inputLineNumber,
       nextBarOriginalNumber,
       nextBarPuristNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -60,9 +62,9 @@ msrBarCheck::msrBarCheck (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasuresNumbers ()) {
+    gLogStream <<
       "Creating a bar check without next bar number" <<
       endl;
   }
@@ -78,9 +80,9 @@ msrBarCheck::msrBarCheck (
   fNextBarOriginalNumber = nextBarOriginalNumber;
   fNextBarPuristNumber   = nextBarPuristNumber;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasuresNumbers ()) {
+    gLogStream <<
       "Creating a bar check" <<
       " with next bar original number '" <<
       nextBarOriginalNumber <<
@@ -97,9 +99,9 @@ msrBarCheck::~msrBarCheck ()
 
 void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasuresNumbers ()) {
+    gLogStream <<
       "Setting bar check next bar number to '" <<
       puristNumber <<
       "'" <<
@@ -112,8 +114,8 @@ void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 
 void msrBarCheck::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrBarCheck::acceptIn ()" <<
       endl;
   }
@@ -123,8 +125,8 @@ void msrBarCheck::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrBarCheck::visitStart ()" <<
             endl;
         }
@@ -134,8 +136,8 @@ void msrBarCheck::acceptIn (basevisitor* v)
 
 void msrBarCheck::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrBarCheck::acceptOut ()" <<
       endl;
   }
@@ -145,8 +147,8 @@ void msrBarCheck::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrBarCheck::visitEnd ()" <<
             endl;
         }
@@ -194,7 +196,7 @@ S_msrBarNumberCheck msrBarNumberCheck::create (
       inputLineNumber,
       nextBarOriginalNumber,
       nextBarPuristNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -207,9 +209,9 @@ msrBarNumberCheck::msrBarNumberCheck (
   fNextBarOriginalNumber = nextBarOriginalNumber;
   fNextBarPuristNumber   = nextBarPuristNumber;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasuresNumbers) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasuresNumbers ()) {
+    gLogStream <<
       "Creating a bar number check" <<
       " with next bar original number '" <<
       nextBarOriginalNumber <<
@@ -226,8 +228,8 @@ msrBarNumberCheck::~msrBarNumberCheck ()
 
 void msrBarNumberCheck::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrBarNumberCheck::acceptIn ()" <<
       endl;
   }
@@ -237,8 +239,8 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrBarNumberCheck::visitStart ()" <<
             endl;
         }
@@ -248,8 +250,8 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
 
 void msrBarNumberCheck::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrBarNumberCheck::acceptOut ()" <<
       endl;
   }
@@ -259,8 +261,8 @@ void msrBarNumberCheck::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrBarNumberCheck::visitEnd ()" <<
             endl;
         }
@@ -323,7 +325,7 @@ S_msrBarline msrBarline::create (
       barlineHasSegnoKind,
       barlineHasCodaKind,
       barlineRepeatWingedKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -372,9 +374,9 @@ msrBarline::~msrBarline ()
 void msrBarline::setBarlineCategory (
   msrBarlineCategoryKind barlineCategoryKind)
 {
-#ifdef TRACE_OAH
-        if (gGlobalTraceOahGroup->fTraceBarlines) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalTraceOahGroup->getTraceBarlines ()) {
+          gLogStream <<
             "Setting barline category of " <<
             this->asString () <<
             " to '" <<
@@ -389,8 +391,8 @@ void msrBarline::setBarlineCategory (
 
 void msrBarline::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrBarline::acceptIn ()" <<
       endl;
   }
@@ -400,8 +402,8 @@ void msrBarline::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrBarline::visitStart ()" <<
             endl;
         }
@@ -411,8 +413,8 @@ void msrBarline::acceptIn (basevisitor* v)
 
 void msrBarline::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrBarline::acceptOut ()" <<
       endl;
   }
@@ -422,8 +424,8 @@ void msrBarline::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrBarline::visitEnd ()" <<
             endl;
         }

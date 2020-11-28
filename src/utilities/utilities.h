@@ -16,6 +16,8 @@
 #include <string>
 #include <cassert>
 
+#include <string.h>
+
 #include <iostream>
 #include <sstream>
 
@@ -23,11 +25,6 @@
 
 #include <set>
 #include <list>
-
-#include <functional>
-#include <algorithm>
-
-#include <string.h>
 
 /* JMI
 #ifdef WIN32
@@ -46,7 +43,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP timingItem : public smartable
+class timingItem : public smartable
 {
   public:
     enum timingItemKind { kMandatory, kOptional };
@@ -74,13 +71,13 @@ class EXP timingItem : public smartable
 
 typedef SMARTP<timingItem> S_timingItem;
 
-class EXP timing {
+class timing {
   public:
        timing ();
     virtual ~timing ();
 
     // global variable for general use
-    static timing gTiming;
+    static timing gGlobalTiming;
 
     // add an item
     void                  appendTimingItem (
@@ -102,12 +99,12 @@ class EXP timing {
 EXP std::ostream& operator<< (std::ostream& os, const timing& tim);
 
 //______________________________________________________________________________
-class EXP indenter
+class outputIndenter
 {
   public:
 
-    indenter (std::string spacer = "  ");
-    virtual ~indenter ();
+    outputIndenter (std::string spacer = "  ");
+    virtual ~outputIndenter ();
 
     // set the indent
     void                  setIndent (int indent)
@@ -118,13 +115,13 @@ class EXP indenter
                               { return fIndent; }
 
     // increase the indentation by 1
-    indenter&             operator++ (const int value);
+    outputIndenter&        operator++ (const int value);
 
     // decrease the indentation by 1
-    indenter&             operator-- (const int value);
+    outputIndenter&       operator-- (const int value);
 
-    indenter&             increment (int value);
-    indenter&             decrement (int value);
+    outputIndenter&       increment (int value);
+    outputIndenter&       decrement (int value);
 
     // reset the indentation
     void                  resetToZero ()
@@ -146,19 +143,19 @@ class EXP indenter
     // indent a multiline 'R"(...)"' std::string
     std::string           indentMultiLineString (std::string value);
 
-    // global variable for general use
-    static indenter       gIndenter;
+    // global variables for general use
+    static outputIndenter gGlobalOStreamIndenter;
 
   private:
     int                   fIndent;
     std::string           fSpacer;
 };
 
-EXP std::ostream& operator<< (std::ostream& os, const indenter& idtr);
+EXP std::ostream& operator<< (std::ostream& os, const outputIndenter& theIndenter);
 
 // useful shortcut macros
-#define gIndenter indenter::gIndenter
-#define gTab      indenter::gIndenter.getSpacer ()
+#define gIndenter outputIndenter::gGlobalOStreamIndenter
+#define gTab      outputIndenter::gGlobalOStreamIndenter.getSpacer ()
 
 //______________________________________________________________________________
 // a stream buffer that prefixes each line
@@ -190,21 +187,23 @@ class indentedStreamBuf: public std::stringbuf
   private:
 
     std::ostream&         fOutputSteam;
-    indenter&             fIndenter;
+    outputIndenter&       fOutputIndenter;
 
   public:
 
     // constructor
     indentedStreamBuf (
-      std::ostream& outputStream,
-      indenter&     idtr)
-      : fOutputSteam (outputStream),
-        fIndenter (idtr)
+      std::ostream&   outputStream,
+      outputIndenter& theIndenter)
+      : fOutputSteam (
+          outputStream),
+        fOutputIndenter (
+          theIndenter)
         {}
 
     // indentation
-    indenter&             getIndenter ()
-                              { return fIndenter; }
+    outputIndenter&       getOutputIndenter ()
+                              { return fOutputIndenter; }
 
     // flush
     void                  flush ()
@@ -214,7 +213,7 @@ class indentedStreamBuf: public std::stringbuf
 };
 
 //______________________________________________________________________________
-class EXP indentedOstream: public std::ostream
+class indentedOstream: public std::ostream, public smartable
 {
 /*
 Reference for this class:
@@ -235,45 +234,59 @@ Usage:
 
   public:
 
+    static SMARTP<indentedOstream> create (
+      std::ostream&   theOStream,
+      outputIndenter& theIndenter)
+    {
+      indentedOstream* o = new indentedOstream (
+        theOStream,
+        theIndenter);
+      assert (o!=0);
+
+      return o;
+    }
+
     // constructor
     indentedOstream (
-      std::ostream&  str,
-      indenter&      idtr)
-      : std::ostream (&fIndentedStreamBuf),
-        fIndentedStreamBuf (str, idtr)
+      std::ostream&   theOStream,
+      outputIndenter& theIndenter)
+      : std::ostream (
+          & fIndentedStreamBuf),
+        fIndentedStreamBuf (
+          theOStream,
+          theIndenter)
         {}
 
     // destructor
-    virtual ~indentedOstream ()
-        {};
+    virtual ~indentedOstream () {};
 
     // flush
     void                  flush ()
                               { fIndentedStreamBuf.flush (); }
 
     // indentation
-    indenter&             getIndenter ()
-                              { return fIndentedStreamBuf.getIndenter (); }
+    outputIndenter&       getIndenter ()
+                              { return fIndentedStreamBuf.getOutputIndenter (); }
 
     void                  incrIdentation ()
-                              { fIndentedStreamBuf.getIndenter ()++; }
+                              { fIndentedStreamBuf.getOutputIndenter ()++; }
 
     void                  decrIdentation ()
-                              { fIndentedStreamBuf.getIndenter ()--; }
-
-    // global variables for general use
-    static indentedOstream
-                          gOutputIndentedOstream;
-    static indentedOstream
-                          gLogIndentedOstream;
-    static indentedOstream
-                          gNullIndentedOstream;
+                              { fIndentedStreamBuf.getOutputIndenter ()--; }
 };
+typedef SMARTP<indentedOstream> S_indentedOstream;
 
-// useful shortcut macros
-#define gOutputOstream indentedOstream::gOutputIndentedOstream
-#define gLogOstream    indentedOstream::gLogIndentedOstream
-#define gNullOstream   indentedOstream::gNullIndentedOstream
+//______________________________________________________________________________
+// the global log indented stream
+extern S_indentedOstream gGlobalOutputIndentedOstream;
+extern S_indentedOstream gGlobalLogIndentedOstream;
+
+#define gOutputStream *gGlobalOutputIndentedOstream
+#define gLogStream    *gGlobalLogIndentedOstream
+
+extern void createTheGlobalIndentedOstreams (
+  std::ostream& theOutputStream,
+  std::ostream& theLogStream);
 
 //______________________________________________________________________________
 struct stringQuoteEscaper
@@ -438,6 +451,12 @@ std::string doubleQuoteString (
   std::string theString);
 
 std::string quoteString (
+  std::string theString);
+
+std::string stringToLowerCase (
+  std::string theString);
+
+std::string stringToUpperCase (
   std::string theString);
 
 //______________________________________________________________________________

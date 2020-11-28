@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -40,7 +42,7 @@ S_msrGlissando msrGlissando::create (
       glissandoTypeKind,
       glissandoLineTypeKind,
       glissandoTextValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -65,9 +67,9 @@ msrGlissando::~msrGlissando ()
 
 S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGlissandos) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGlissandos ()) {
+    gLogStream <<
       "Creating a newborn clone of glissando '" <<
       asString () <<
       "'" <<
@@ -109,8 +111,8 @@ string msrGlissando::glissandoTypeKindAsString (
 
 void msrGlissando::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrGlissando::acceptIn ()" <<
       endl;
   }
@@ -120,8 +122,8 @@ void msrGlissando::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrGlissando>*> (v)) {
         S_msrGlissando elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrGlissando::visitStart ()" <<
             endl;
         }
@@ -131,8 +133,8 @@ void msrGlissando::acceptIn (basevisitor* v)
 
 void msrGlissando::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrGlissando::acceptOut ()" <<
       endl;
   }
@@ -142,8 +144,8 @@ void msrGlissando::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrGlissando>*> (v)) {
         S_msrGlissando elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrGlissando::visitEnd ()" <<
             endl;
         }

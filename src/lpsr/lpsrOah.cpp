@@ -18,12 +18,14 @@
 
 #include "utilities.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
 #include "generalOah.h"
+
 #include "lpsrOah.h"
 
 #include "messagesHandling.h"
@@ -52,7 +54,7 @@ S_lpsrPitchesLanguageAtom lpsrPitchesLanguageAtom::create (
       valueSpecification,
       variableName,
       lpsrPitchesLanguageKindVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -64,7 +66,7 @@ lpsrPitchesLanguageAtom::lpsrPitchesLanguageAtom (
   string             variableName,
   msrQuarterTonesPitchesLanguageKind&
                      lpsrPitchesLanguageKindVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -77,29 +79,14 @@ lpsrPitchesLanguageAtom::lpsrPitchesLanguageAtom (
 lpsrPitchesLanguageAtom::~lpsrPitchesLanguageAtom ()
 {}
 
-S_oahValuedAtom lpsrPitchesLanguageAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a lpsrPitchesLanguageAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void lpsrPitchesLanguageAtom::handleValuedAtomValue (
+void lpsrPitchesLanguageAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
       endl;
   }
@@ -108,9 +95,9 @@ void lpsrPitchesLanguageAtom::handleValuedAtomValue (
   // theString contains the language name:
   // is it in the pitches languages map?
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrPitchesLanguageAtom'" <<
       endl;
   }
@@ -118,10 +105,10 @@ void lpsrPitchesLanguageAtom::handleValuedAtomValue (
 
   map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
     it =
-      gQuarterTonesPitchesLanguageKindsMap.find (
+      gGlobalQuarterTonesPitchesLanguageKindsMap.find (
         theString);
 
-  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+  if (it == gGlobalQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map
 
     stringstream s;
@@ -131,7 +118,7 @@ void lpsrPitchesLanguageAtom::handleValuedAtomValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size () <<
       " known LPSR pitches languages are:" <<
       endl;
 
@@ -151,9 +138,9 @@ void lpsrPitchesLanguageAtom::handleValuedAtomValue (
 
 void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrPitchesLanguageAtom::acceptIn ()" <<
       endl;
   }
@@ -164,9 +151,9 @@ void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPitchesLanguageAtom>*> (v)) {
         S_lpsrPitchesLanguageAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrPitchesLanguageAtom::visitStart ()" <<
             endl;
         }
@@ -177,9 +164,9 @@ void lpsrPitchesLanguageAtom::acceptIn (basevisitor* v)
 
 void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrPitchesLanguageAtom::acceptOut ()" <<
       endl;
   }
@@ -190,9 +177,9 @@ void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPitchesLanguageAtom>*> (v)) {
         S_lpsrPitchesLanguageAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrPitchesLanguageAtom::visitEnd ()" <<
             endl;
         }
@@ -203,9 +190,9 @@ void lpsrPitchesLanguageAtom::acceptOut (basevisitor* v)
 
 void lpsrPitchesLanguageAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrPitchesLanguageAtom::browseData ()" <<
       endl;
   }
@@ -246,7 +233,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -264,7 +251,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lpsrPitchesLanguageAtom::printValuedAtomOptionsValues (
+void lpsrPitchesLanguageAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -307,7 +294,7 @@ S_lpsrChordsLanguageAtom lpsrChordsLanguageAtom::create (
       valueSpecification,
       variableName,
       lpsrChordsLanguageKindVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -319,7 +306,7 @@ lpsrChordsLanguageAtom::lpsrChordsLanguageAtom (
   string             variableName,
   lpsrChordsLanguageKind&
                      lpsrChordsLanguageKindVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -332,29 +319,13 @@ lpsrChordsLanguageAtom::lpsrChordsLanguageAtom (
 lpsrChordsLanguageAtom::~lpsrChordsLanguageAtom ()
 {}
 
-S_oahValuedAtom lpsrChordsLanguageAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a lpsrChordsLanguageAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void lpsrChordsLanguageAtom::handleValuedAtomValue (
+void lpsrChordsLanguageAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
       endl;
   }
@@ -363,9 +334,9 @@ void lpsrChordsLanguageAtom::handleValuedAtomValue (
   // theString contains the language name:
   // is it in the chords languages map?
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrChordsLanguageAtom'" <<
       endl;
   }
@@ -373,9 +344,9 @@ void lpsrChordsLanguageAtom::handleValuedAtomValue (
 
   map<string, lpsrChordsLanguageKind>::const_iterator
     it =
-      gLpsrChordsLanguageKindsMap.find (theString);
+      gGlobalLpsrChordsLanguageKindsMap.find (theString);
 
-  if (it == gLpsrChordsLanguageKindsMap.end ()) {
+  if (it == gGlobalLpsrChordsLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     stringstream s;
 
@@ -384,7 +355,7 @@ void lpsrChordsLanguageAtom::handleValuedAtomValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gLpsrChordsLanguageKindsMap.size () - 1 <<
+      gGlobalLpsrChordsLanguageKindsMap.size () - 1 <<
       " known LPSR chords languages apart from the default Ignatzek are:" <<
       endl;
 
@@ -404,9 +375,9 @@ void lpsrChordsLanguageAtom::handleValuedAtomValue (
 
 void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrChordsLanguageAtom::acceptIn ()" <<
       endl;
   }
@@ -417,9 +388,9 @@ void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrChordsLanguageAtom>*> (v)) {
         S_lpsrChordsLanguageAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrChordsLanguageAtom::visitStart ()" <<
             endl;
         }
@@ -430,9 +401,9 @@ void lpsrChordsLanguageAtom::acceptIn (basevisitor* v)
 
 void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrChordsLanguageAtom::acceptOut ()" <<
       endl;
   }
@@ -443,9 +414,9 @@ void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrChordsLanguageAtom>*> (v)) {
         S_lpsrChordsLanguageAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrChordsLanguageAtom::visitEnd ()" <<
             endl;
         }
@@ -456,9 +427,9 @@ void lpsrChordsLanguageAtom::acceptOut (basevisitor* v)
 
 void lpsrChordsLanguageAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrChordsLanguageAtom::browseData ()" <<
       endl;
   }
@@ -497,7 +468,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -514,7 +485,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void lpsrChordsLanguageAtom::printValuedAtomOptionsValues (
+void lpsrChordsLanguageAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -557,7 +528,7 @@ S_lpsrTransposeAtom lpsrTransposeAtom::create (
       valueSpecification,
       variableName,
       lpsrTransposeVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -569,7 +540,7 @@ lpsrTransposeAtom::lpsrTransposeAtom (
   string  variableName,
   S_msrSemiTonesPitchAndOctave&
           lpsrTransposeVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -582,29 +553,14 @@ lpsrTransposeAtom::lpsrTransposeAtom (
 lpsrTransposeAtom::~lpsrTransposeAtom ()
 {}
 
-S_oahValuedAtom lpsrTransposeAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a lpsrTransposeAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void lpsrTransposeAtom::handleValuedAtomValue (
+void lpsrTransposeAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrTransposeAtom'" <<
       endl;
   }
@@ -613,9 +569,9 @@ void lpsrTransposeAtom::handleValuedAtomValue (
   // theString contains the language name:
   // is it in the chords languages map?
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrTransposeAtom'" <<
       endl;
   }
@@ -635,9 +591,9 @@ void lpsrTransposeAtom::handleValuedAtomValue (
 
 void lpsrTransposeAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrTransposeAtom::acceptIn ()" <<
       endl;
   }
@@ -648,9 +604,9 @@ void lpsrTransposeAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrTransposeAtom>*> (v)) {
         S_lpsrTransposeAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrTransposeAtom::visitStart ()" <<
             endl;
         }
@@ -661,9 +617,9 @@ void lpsrTransposeAtom::acceptIn (basevisitor* v)
 
 void lpsrTransposeAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrTransposeAtom::acceptOut ()" <<
       endl;
   }
@@ -674,9 +630,9 @@ void lpsrTransposeAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrTransposeAtom>*> (v)) {
         S_lpsrTransposeAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrTransposeAtom::visitEnd ()" <<
             endl;
         }
@@ -687,9 +643,9 @@ void lpsrTransposeAtom::acceptOut (basevisitor* v)
 
 void lpsrTransposeAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrTransposeAtom::browseData ()" <<
       endl;
   }
@@ -728,20 +684,13 @@ void lpsrTransposeAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printOptionEssentials (
+  oahElement::printOahElementEssentials (
     os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
 
   gIndenter--;
 }
 
-void lpsrTransposeAtom::printValuedAtomOptionsValues (
+void lpsrTransposeAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -790,7 +739,7 @@ S_lpsrDalSegnoAtom lpsrDalSegnoAtom::create (
       valueSpecification,
       variableName,
       stringDalSegnoKindMapVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -802,7 +751,7 @@ lpsrDalSegnoAtom::lpsrDalSegnoAtom (
   string              variableName,
   map<string, msrDalSegno::msrDalSegnoKind>&
                       stringDalSegnoKindMapVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -817,29 +766,13 @@ lpsrDalSegnoAtom::lpsrDalSegnoAtom (
 lpsrDalSegnoAtom::~lpsrDalSegnoAtom ()
 {}
 
-S_oahValuedAtom lpsrDalSegnoAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a lpsrDalSegnoAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void lpsrDalSegnoAtom::handleValuedAtomValue (
+void lpsrDalSegnoAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAtom'" <<
       endl;
   }
@@ -847,17 +780,17 @@ void lpsrDalSegnoAtom::handleValuedAtomValue (
 
   // theString contains the dal segno specification
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAtom'" <<
       endl;
   }
 #endif
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "--> theString = \"" << theString << "\", " <<
       endl;
   }
@@ -886,9 +819,9 @@ void lpsrDalSegnoAtom::handleValuedAtomValue (
 
 void lpsrDalSegnoAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAtom::acceptIn ()" <<
       endl;
   }
@@ -899,9 +832,9 @@ void lpsrDalSegnoAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrDalSegnoAtom>*> (v)) {
         S_lpsrDalSegnoAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrDalSegnoAtom::visitStart ()" <<
             endl;
         }
@@ -912,9 +845,9 @@ void lpsrDalSegnoAtom::acceptIn (basevisitor* v)
 
 void lpsrDalSegnoAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAtom::acceptOut ()" <<
       endl;
   }
@@ -925,9 +858,9 @@ void lpsrDalSegnoAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrDalSegnoAtom>*> (v)) {
         S_lpsrDalSegnoAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrDalSegnoAtom::visitEnd ()" <<
             endl;
         }
@@ -938,9 +871,9 @@ void lpsrDalSegnoAtom::acceptOut (basevisitor* v)
 
 void lpsrDalSegnoAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAtom::browseData ()" <<
       endl;
   }
@@ -1007,7 +940,7 @@ void lpsrDalSegnoAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1038,7 +971,7 @@ void lpsrDalSegnoAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAtom::printValuedAtomOptionsValues (
+void lpsrDalSegnoAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1103,7 +1036,7 @@ S_lpsrDalSegnoAlFineAtom lpsrDalSegnoAlFineAtom::create (
       valueSpecification,
       variableName,
       stringDalSegnoKindMapVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1115,7 +1048,7 @@ lpsrDalSegnoAlFineAtom::lpsrDalSegnoAlFineAtom (
   string              variableName,
   map<string, msrDalSegno::msrDalSegnoKind>&
                       stringDalSegnoKindMapVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -1130,29 +1063,13 @@ lpsrDalSegnoAlFineAtom::lpsrDalSegnoAlFineAtom (
 lpsrDalSegnoAlFineAtom::~lpsrDalSegnoAlFineAtom ()
 {}
 
-S_oahValuedAtom lpsrDalSegnoAlFineAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a lpsrDalSegnoAlFineAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void lpsrDalSegnoAlFineAtom::handleValuedAtomValue (
+void lpsrDalSegnoAlFineAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAlFineAtom'" <<
       endl;
   }
@@ -1160,17 +1077,17 @@ void lpsrDalSegnoAlFineAtom::handleValuedAtomValue (
 
   // theString contains the dal segno al fine specification
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAlFineAtom'" <<
       endl;
   }
 #endif
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "--> theString = \"" << theString << "\", " <<
       endl;
   }
@@ -1199,9 +1116,9 @@ void lpsrDalSegnoAlFineAtom::handleValuedAtomValue (
 
 void lpsrDalSegnoAlFineAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAlFineAtom::acceptIn ()" <<
       endl;
   }
@@ -1212,9 +1129,9 @@ void lpsrDalSegnoAlFineAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrDalSegnoAlFineAtom>*> (v)) {
         S_lpsrDalSegnoAlFineAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrDalSegnoAlFineAtom::visitStart ()" <<
             endl;
         }
@@ -1225,9 +1142,9 @@ void lpsrDalSegnoAlFineAtom::acceptIn (basevisitor* v)
 
 void lpsrDalSegnoAlFineAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAlFineAtom::acceptOut ()" <<
       endl;
   }
@@ -1238,9 +1155,9 @@ void lpsrDalSegnoAlFineAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrDalSegnoAlFineAtom>*> (v)) {
         S_lpsrDalSegnoAlFineAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrDalSegnoAlFineAtom::visitEnd ()" <<
             endl;
         }
@@ -1251,9 +1168,9 @@ void lpsrDalSegnoAlFineAtom::acceptOut (basevisitor* v)
 
 void lpsrDalSegnoAlFineAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAlFineAtom::browseData ()" <<
       endl;
   }
@@ -1320,7 +1237,7 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1351,7 +1268,7 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAlFineAtom::printValuedAtomOptionsValues (
+void lpsrDalSegnoAlFineAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1416,7 +1333,7 @@ S_lpsrDalSegnoAlCodaAtom lpsrDalSegnoAlCodaAtom::create (
       valueSpecification,
       variableName,
       stringDalSegnoKindMapVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1428,7 +1345,7 @@ lpsrDalSegnoAlCodaAtom::lpsrDalSegnoAlCodaAtom (
   string              variableName,
   map<string, msrDalSegno::msrDalSegnoKind>&
                       stringDalSegnoKindMapVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -1443,29 +1360,13 @@ lpsrDalSegnoAlCodaAtom::lpsrDalSegnoAlCodaAtom (
 lpsrDalSegnoAlCodaAtom::~lpsrDalSegnoAlCodaAtom ()
 {}
 
-S_oahValuedAtom lpsrDalSegnoAlCodaAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a lpsrDalSegnoAlCodaAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void lpsrDalSegnoAlCodaAtom::handleValuedAtomValue (
+void lpsrDalSegnoAlCodaAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAlCodaAtom'" <<
       endl;
   }
@@ -1474,17 +1375,17 @@ void lpsrDalSegnoAlCodaAtom::handleValuedAtomValue (
   // theString contains the dal segno specification
   // decipher it to extract the old and new part names
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'lpsrDalSegnoAlCodaAtom'" <<
       endl;
   }
 #endif
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "--> theString = \"" << theString << "\", " <<
       endl;
   }
@@ -1513,9 +1414,9 @@ void lpsrDalSegnoAlCodaAtom::handleValuedAtomValue (
 
 void lpsrDalSegnoAlCodaAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAlCodaAtom::acceptIn ()" <<
       endl;
   }
@@ -1526,9 +1427,9 @@ void lpsrDalSegnoAlCodaAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrDalSegnoAlCodaAtom>*> (v)) {
         S_lpsrDalSegnoAlCodaAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrDalSegnoAlCodaAtom::visitStart ()" <<
             endl;
         }
@@ -1539,9 +1440,9 @@ void lpsrDalSegnoAlCodaAtom::acceptIn (basevisitor* v)
 
 void lpsrDalSegnoAlCodaAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAlCodaAtom::acceptOut ()" <<
       endl;
   }
@@ -1552,9 +1453,9 @@ void lpsrDalSegnoAlCodaAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrDalSegnoAlCodaAtom>*> (v)) {
         S_lpsrDalSegnoAlCodaAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching lpsrDalSegnoAlCodaAtom::visitEnd ()" <<
             endl;
         }
@@ -1565,9 +1466,9 @@ void lpsrDalSegnoAlCodaAtom::acceptOut (basevisitor* v)
 
 void lpsrDalSegnoAlCodaAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> lpsrDalSegnoAlCodaAtom::browseData ()" <<
       endl;
   }
@@ -1634,7 +1535,7 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1665,7 +1566,7 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
   os << endl;
 }
 
-void lpsrDalSegnoAlCodaAtom::printValuedAtomOptionsValues (
+void lpsrDalSegnoAlCodaAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1714,50 +1615,35 @@ ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlCodaAtom& elt)
 */
 
 //_______________________________________________________________________________
-S_lpsrOah gGlobalLpsrOah;
-S_lpsrOah gGlobalLpsrOahUserChoices;
-S_lpsrOah gGlobalLpsrOahWithDetailedTrace;
+S_lpsrOahGroup gGlobalLpsrOahGroup;
 
-S_lpsrOah lpsrOah::create (
-  S_oahHandler handlerUpLink)
+S_lpsrOahGroup lpsrOahGroup::create ()
 {
-  lpsrOah* o = new lpsrOah (
-    handlerUpLink);
-  assert(o!=0);
+  lpsrOahGroup* o = new lpsrOahGroup ();
+  assert (o!=0);
   return o;
 }
 
-lpsrOah::lpsrOah (
-  S_oahHandler handlerUpLink)
+lpsrOahGroup::lpsrOahGroup ()
   : oahGroup (
     "LPSR",
     "hlpsr", "help-lpsr",
 R"(These options control the way LPSR data is handled.)",
-    kElementVisibilityWhole,
-    handlerUpLink)
+    kElementVisibilityWhole)
 {
-  // append this options group to the options handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeLpsrOah (false);
+  initializeLpsrOahGroup ();
 }
 
-lpsrOah::~lpsrOah ()
+lpsrOahGroup::~lpsrOahGroup ()
 {}
 
-#ifdef TRACE_OAH
-void lpsrOah::initializeLpsrTraceOah (
-  bool boolOptionsInitialValue)
+#ifdef TRACING_IS_ENABLED
+void lpsrOahGroup::initializeLpsrTraceOah ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Trace",
+        "LPSR Trace",
         "hlpsrtrace", "help-lpsr-trace",
 R"()",
       kElementVisibilityWhole,
@@ -1767,7 +1653,7 @@ R"()",
 
   // trace- lpsr
 
-  fTraceLpsr            = boolOptionsInitialValue;
+  fTraceLpsr            = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1779,7 +1665,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   // trace lilypond version
 
-  fTraceLilypondVersion = boolOptionsInitialValue;
+  fTraceLilypondVersion = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1791,7 +1677,7 @@ R"(Write a trace of the LilyPond version to standard error.)",
 
   // trace lpsr visitors
 
-  fTraceLpsrVisitors    = boolOptionsInitialValue;
+  fTraceLpsrVisitors    = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1803,7 +1689,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 
   // trace lpsr blocks
 
-  fTraceLpsrBlocks      = boolOptionsInitialValue;
+  fTraceLpsrBlocks      = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1815,7 +1701,7 @@ R"(Write a trace of the LPSR blocks to standard error.)",
 
   // trace scheme functions
 
-  fTraceSchemeFunctions = boolOptionsInitialValue;
+  fTraceSchemeFunctions = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1827,8 +1713,7 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
 }
 #endif
 
-void lpsrOah::initializeLpsrDisplayOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrDisplayOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1843,7 +1728,7 @@ R"()",
 
   // display LPSR
 
-  fDisplayLpsr = boolOptionsInitialValue;
+  fDisplayLpsr = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1855,7 +1740,7 @@ R"(Write the contents of the LPSR data to standard error.)",
 
   // display LPSR short
 
-  fDisplayLpsrShort = boolOptionsInitialValue;
+  fDisplayLpsrShort = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1866,8 +1751,7 @@ R"(Write the contents of the LPSR data, short version, to standard error.)",
         fDisplayLpsrShort));
 }
 
-void lpsrOah::initializeLpsrLilypondVersionOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrLilypondVersionOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1900,8 +1784,7 @@ The default is 'DEFAULT_VALUE'.)",
         fLilyPondVersion));
 }
 
-void lpsrOah::initializeLpsrGlobalStaffSizeOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrGlobalStaffSizeOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1935,8 +1818,7 @@ The default is 'DEFAULT_VALUE'.)",
         fGlobalStaffSize));
 }
 
-void lpsrOah::initializeLpsrPaperOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrPaperOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1951,7 +1833,7 @@ R"()",
 
   // all paper variables
 
-  fAllPaperVariables = boolOptionsInitialValue;
+  fAllPaperVariables = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -1983,7 +1865,7 @@ This option should precede options that set paper size and indents
 if they don't specify a unit.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
-              to_string (gMsrLengthUnitKindsMap.size ())),
+              to_string (gGlobalMsrLengthUnitKindsMap.size ())),
             regex ("LENTGTH_UNITS"),
             gIndenter.indentMultiLineString (
               existingMsrLengthUnitKinds (K_NAMES_LIST_MAX_LENGTH))),
@@ -2110,7 +1992,7 @@ LilyPond's default value is 0.0 mm.)",
 
   // ragged bottom
 
-  fRaggedBottom = boolOptionsInitialValue;
+  fRaggedBottom = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2123,7 +2005,7 @@ LilyPond's default value is '##t'.)",
 
   // ragged last
 
-  fRaggedLast = boolOptionsInitialValue;
+  fRaggedLast = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2136,7 +2018,7 @@ LilyPond's default value is '##t'.)",
 
   // ragged last bottom
 
-  fRaggedLastBottom = boolOptionsInitialValue;
+  fRaggedLastBottom = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2149,7 +2031,7 @@ LilyPond's default value is '##t'.)",
 
   // ragged right
 
-  fRaggedRight = boolOptionsInitialValue;
+  fRaggedRight = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2163,7 +2045,7 @@ LilyPond's default value is '##t'.)",
 /* LPSR or LilyPond option?"
   // tagline
 
-  fTagline = boolOptionsInitialValue;
+  fTagline = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2206,8 +2088,7 @@ By default, this is left to LilyPond'.)",
         fSystemCount));
 }
 
-void lpsrOah::initializeLpsrMeasuresOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrMeasuresOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -2245,8 +2126,7 @@ This option can be used any number of times.)###",
         fReplicateEmptyMeasureReplicas));
 }
 
-void lpsrOah::initializeLpsrTemposOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrTemposOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -2261,7 +2141,7 @@ R"()",
 
   // convert tempos to rehearsal marks
 
-  fConvertTemposToRehearsalMarks = boolOptionsInitialValue;
+  fConvertTemposToRehearsalMarks = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2274,8 +2154,7 @@ from scanned instrumental music images.)",
         fConvertTemposToRehearsalMarks));
 }
 
-void lpsrOah::initializeLpsrWordsOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrWordsOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -2290,7 +2169,7 @@ R"()",
 
   // convert words to tempo
 
-  fConvertWordsToTempo = boolOptionsInitialValue;
+  fConvertWordsToTempo = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2304,7 +2183,7 @@ from scanned instrumental music images.)",
 
   // add words from the lyrics
 
-  fAddWordsFromTheLyrics = boolOptionsInitialValue;
+  fAddWordsFromTheLyrics = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2317,7 +2196,7 @@ This may come in handy when MusicXML data has been obtained from scanned images.
 
   // convert words to rehearsal marks
 
-  fConvertWordsToRehearsalMarks = boolOptionsInitialValue;
+  fConvertWordsToRehearsalMarks = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2372,7 +2251,7 @@ The NUMBER LilyPond pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
-              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+              to_string (gGlobalQuarterTonesPitchesLanguageKindsMap.size ())),
             regex ("PITCHES_LANGUAGES"),
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
@@ -2388,8 +2267,7 @@ The default is 'DEFAULT_VALUE'.)",
                           */
 }
 
-void lpsrOah::initializeLpsrLanguagesOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrLanguagesOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -2412,7 +2290,7 @@ R"()",
       "LPSR pitches language 'nederlands' is unknown" <<
       endl <<
       "The " <<
-      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      gGlobalQuarterTonesPitchesLanguageKindsMap.size () <<
       " known LPSR pitches languages are:" <<
       endl;
 
@@ -2446,7 +2324,7 @@ The NUMBER LPSR pitches languages available are:
 PITCHES_LANGUAGES.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
-              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+              to_string (gGlobalQuarterTonesPitchesLanguageKindsMap.size ())),
             regex ("PITCHES_LANGUAGES"),
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
@@ -2480,7 +2358,7 @@ CHORDS_LANGUAGES.
 'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
 The default is 'DEFAULT_VALUE'.)",
               regex ("NUMBER"),
-              to_string (gLpsrChordsLanguageKindsMap.size ())),
+              to_string (gGlobalLpsrChordsLanguageKindsMap.size ())),
             regex ("CHORDS_LANGUAGES"),
             gIndenter.indentMultiLineString (
               existingLpsrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
@@ -2492,8 +2370,7 @@ The default is 'DEFAULT_VALUE'.)",
         fLpsrChordsLanguageKind));
 }
 
-void lpsrOah::initializeLpsrTransposeOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrTransposeOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -2524,248 +2401,97 @@ for instruments in 'a', 'f' and B flat respectively)",
         fTransposeSemiTonesPitchAndOctave));
 }
 
-void lpsrOah::initializeLpsrExitAfterSomePassesOptions (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrQuitAfterSomePassesOptions ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Exit after some passes",
-        "hlexit", "help-lpsr-exit",
+        "Quit after some passes",
+        "hlquit", "help-lpsr-quit",
 R"()",
       kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
 
-  // exit after pass 3
+  // quit after pass 3
 
-  fExit3 = boolOptionsInitialValue;
+  fQuitAfterPass3 = false;
 
   S_oahBooleanAtom
-    exit3OahBooleanAtom =
+    quit3OahBooleanAtom =
       oahBooleanAtom::create (
-        "e3", "exit-3",
-R"(Exit after pass 3, i.e. after conversion
+        "q3", "quitAfterPass-3",
+R"(Quit after pass 3, i.e. after conversion
 of the MSR to LPSR.)",
-        "exit3",
-        fExit3);
+        "quitAfterPass3",
+        fQuitAfterPass3);
 
   subGroup->
     appendAtomToSubGroup (
-      exit3OahBooleanAtom);
+      quit3OahBooleanAtom);
 }
 
-void lpsrOah::initializeLpsrOah (
-  bool boolOptionsInitialValue)
+void lpsrOahGroup::initializeLpsrOahGroup ()
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   // trace and display
   // --------------------------------------
-  initializeLpsrTraceOah (
-    boolOptionsInitialValue);
+  initializeLpsrTraceOah ();
 #endif
 
   // display
   // --------------------------------------
-  initializeLpsrDisplayOptions (
-    boolOptionsInitialValue);
+  initializeLpsrDisplayOptions ();
 
   // LilyPond score output
   // --------------------------------------
-  initializeLpsrLilypondVersionOptions (
-    boolOptionsInitialValue);
+  initializeLpsrLilypondVersionOptions ();
 
   // global staff size
   // --------------------------------------
-  initializeLpsrGlobalStaffSizeOptions (
-    boolOptionsInitialValue);
+  initializeLpsrGlobalStaffSizeOptions ();
 
   // paper
   // --------------------------------------
-  initializeLpsrPaperOptions (
-    boolOptionsInitialValue);
+  initializeLpsrPaperOptions ();
 
   // measures
   // --------------------------------------
-  initializeLpsrMeasuresOptions (
-    boolOptionsInitialValue);
+  initializeLpsrMeasuresOptions ();
 
   // tempos
   // --------------------------------------
-  initializeLpsrTemposOptions (
-    boolOptionsInitialValue);
+  initializeLpsrTemposOptions ();
 
   // words
   // --------------------------------------
-  initializeLpsrWordsOptions (
-    boolOptionsInitialValue);
+  initializeLpsrWordsOptions ();
 
   // languages
   // --------------------------------------
-  initializeLpsrLanguagesOptions (
-    boolOptionsInitialValue);
+  initializeLpsrLanguagesOptions ();
 
 /* superfluous JMI ???
   // transpose
   // --------------------------------------
-  initializeLpsrTransposeOptions (
-    boolOptionsInitialValue);
+  initializeLpsrTransposeOptions ();
 */
 
-  // exit after some passes
+  // quit after some passes
   // --------------------------------------
-  initializeLpsrExitAfterSomePassesOptions (
-    boolOptionsInitialValue);
-}
-
-S_lpsrOah lpsrOah::createCloneWithDetailedTrace ()
-{
-  S_lpsrOah
-    clone =
-      lpsrOah::create (0);
-      // 0 not to have it inserted twice in the option handler
-
-  // set the options handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-  // trace
-  // --------------------------------------
-
-#ifdef TRACE_OAH
-  clone->fTraceLpsr =
-    true;
-
-  clone->fTraceLilypondVersion =
-    true;
-
-  clone->fTraceLpsrVisitors =
-    true;
-
-  clone->fTraceLpsrBlocks =
-    true;
-
-  clone->fTraceSchemeFunctions =
-    true;
-#endif
-
-  // display
-  // --------------------------------------
-
-  clone->fDisplayLpsr =
-    true;
-  clone->fDisplayLpsrShort =
-    true;
-
-  // LilyPond version
-  // --------------------------------------
-
-  clone->fLilyPondVersion =
-    fLilyPondVersion;
-
-  // global staff size
-  // --------------------------------------
-
-  clone->fGlobalStaffSize =
-    fGlobalStaffSize;
-
-  // paper
-  // --------------------------------------
-
-  clone->fAllPaperVariables =
-    fAllPaperVariables;
-
-  clone->fLengthUnitKind =
-    fLengthUnitKind;
-  clone->fLengthUnitKindDefaultValue =
-    fLengthUnitKindDefaultValue;
-
-  clone->fPaperHeight =
-    fPaperHeight;
-  clone->fPaperWidth =
-    fPaperWidth;
-
-  clone->fPaperIndent =
-    fPaperIndent;
-  clone->fPaperShortIndent =
-    fPaperShortIndent;
-
-  clone->fMarkupSystemSpacingPadding =
-    fMarkupSystemSpacingPadding;
-
-  clone->fRaggedBottom =
-    fRaggedBottom;
-  clone->fRaggedLast =
-    fRaggedLast;
-  clone->fRaggedLastBottom =
-    fRaggedLastBottom;
-  clone->fRaggedRight =
-    fRaggedRight;
-
-  clone->fTagline =
-    fTagline;
-
-  clone->fPageCount =
-    fPageCount;
-  clone->fSystemCount =
-    fSystemCount;
-
-  // measures
-  // --------------------------------------
-
-  clone->fReplicateEmptyMeasureNumber =
-    fReplicateEmptyMeasureNumber;
-  clone->fReplicateEmptyMeasureReplicas =
-    fReplicateEmptyMeasureReplicas;
-
-//  clone->fAddEmptyMeasuresStringToIntMap =
-//    fAddEmptyMeasuresStringToIntMap;
-
-  // tempos
-  // --------------------------------------
-
-  clone->fConvertTemposToRehearsalMarks =
-    true;
-
-  // words
-  // --------------------------------------
-
-  clone->fConvertWordsToTempo =
-    true;
-  clone->fAddWordsFromTheLyrics =
-    true;
-
-  clone->fConvertWordsToRehearsalMarks =
-    true;
-
-  // languages
-  // --------------------------------------
-
-  clone->fLpsrQuarterTonesPitchesLanguageKind =
-    fLpsrQuarterTonesPitchesLanguageKind;
-
-  clone->fLpsrChordsLanguageKind =
-    fLpsrChordsLanguageKind;
-
-  // transpose
-  // --------------------------------------
-
-  clone->fTransposeSemiTonesPitchAndOctave =
-    fTransposeSemiTonesPitchAndOctave;
-
-  return clone;
+  initializeLpsrQuitAfterSomePassesOptions ();
 }
 
 //______________________________________________________________________________
-bool lpsrOah::setLpsrQuarterTonesPitchesLanguage (string language)
+bool lpsrOahGroup::setLpsrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
   map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
     it =
-      gQuarterTonesPitchesLanguageKindsMap.find (language);
+      gGlobalQuarterTonesPitchesLanguageKindsMap.find (language);
 
-  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+  if (it == gGlobalQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     return false;
   }
@@ -2776,14 +2502,14 @@ bool lpsrOah::setLpsrQuarterTonesPitchesLanguage (string language)
 }
 
 //______________________________________________________________________________
-bool lpsrOah::setLpsrChordsLanguage (string language)
+bool lpsrOahGroup::setLpsrChordsLanguage (string language)
 {
   // is language in the chords languages map?
   map<string, lpsrChordsLanguageKind>::const_iterator
     it =
-      gLpsrChordsLanguageKindsMap.find (language);
+      gGlobalLpsrChordsLanguageKindsMap.find (language);
 
-  if (it == gLpsrChordsLanguageKindsMap.end ()) {
+  if (it == gGlobalLpsrChordsLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     return false;
   }
@@ -2794,9 +2520,9 @@ bool lpsrOah::setLpsrChordsLanguage (string language)
 }
 
 //______________________________________________________________________________
-void lpsrOah::enforceGroupQuietness ()
+void lpsrOahGroup::enforceGroupQuietness ()
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   fTraceLpsr = false;
   fTraceLilypondVersion = false;
   fTraceLpsrVisitors = false;
@@ -2809,31 +2535,31 @@ void lpsrOah::enforceGroupQuietness ()
 }
 
 //______________________________________________________________________________
-void lpsrOah::checkGroupOptionsConsistency ()
+void lpsrOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void lpsrOah::acceptIn (basevisitor* v)
+void lpsrOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lpsrOah::acceptIn ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> lpsrOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lpsrOah>*
+  if (visitor<S_lpsrOahGroup>*
     p =
-      dynamic_cast<visitor<S_lpsrOah>*> (v)) {
-        S_lpsrOah elem = this;
+      dynamic_cast<visitor<S_lpsrOahGroup>*> (v)) {
+        S_lpsrOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching lpsrOah::visitStart ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching lpsrOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -2841,25 +2567,25 @@ void lpsrOah::acceptIn (basevisitor* v)
   }
 }
 
-void lpsrOah::acceptOut (basevisitor* v)
+void lpsrOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lpsrOah::acceptOut ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> lpsrOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lpsrOah>*
+  if (visitor<S_lpsrOahGroup>*
     p =
-      dynamic_cast<visitor<S_lpsrOah>*> (v)) {
-        S_lpsrOah elem = this;
+      dynamic_cast<visitor<S_lpsrOahGroup>*> (v)) {
+        S_lpsrOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching lpsrOah::visitEnd ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching lpsrOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -2867,36 +2593,36 @@ void lpsrOah::acceptOut (basevisitor* v)
   }
 }
 
-void lpsrOah::browseData (basevisitor* v)
+void lpsrOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lpsrOah::browseData ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> lpsrOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void lpsrOah::printLpsrOahValues (int fieldWidth)
+void lpsrOahGroup::printLpsrOahValues (int fieldWidth)
 {
-  gLogOstream <<
+  gLogStream <<
     "The LPSR options are:" <<
     endl;
 
   gIndenter++;
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-  gLogOstream <<
+  gLogStream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "traceLpsr" << " : " <<
     booleanAsString (fTraceLpsr) <<
     endl <<
@@ -2922,13 +2648,13 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
 
   // display
   // --------------------------------------
-  gLogOstream <<
+  gLogStream <<
     "Display:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "displayLpsr" << " : " <<
     booleanAsString (fDisplayLpsr) <<
     endl <<
@@ -2941,13 +2667,13 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // LilyPond version
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "LilyPond version:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "lilyPondVersion" << " : " <<
     fLilyPondVersion <<
     endl;
@@ -2957,13 +2683,13 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // global staff size
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Global staff size:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "fGlobalStaffSize" << " : " <<
     fGlobalStaffSize <<
     endl;
@@ -2973,13 +2699,13 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // paper
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Paper:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "allPaperVariables" << " : " <<
     booleanAsString (fAllPaperVariables) <<
     endl <<
@@ -3036,16 +2762,16 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // measures
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Measures:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "resetMeasureElementMeasureNumberMap" << " : ";
   if (! fAddEmptyMeasuresStringToIntMap.size ()) {
-    gLogOstream << "empty";
+    gLogStream << "empty";
   }
   else {
     map<string, int>::const_iterator
@@ -3053,12 +2779,12 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
       iEnd   = fAddEmptyMeasuresStringToIntMap.end (),
       i      = iBegin;
     for ( ; ; ) {
-      gLogOstream << (*i).first << "=" << (*i).second;
+      gLogStream << (*i).first << "=" << (*i).second;
       if (++i == iEnd) break;
-      gLogOstream << ",";
+      gLogStream << ",";
     } // for
   }
-  gLogOstream << endl;
+  gLogStream << endl;
 
   gIndenter--;
 */
@@ -3066,13 +2792,13 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // tempos
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Tempos:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "convertTemposToRehearsalMarks" << " : " <<
     booleanAsString (fConvertTemposToRehearsalMarks) <<
     endl <<
@@ -3083,13 +2809,13 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // words
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Words:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "convertWordsToTempo" << " : " <<
     booleanAsString (fConvertWordsToTempo) <<
     endl <<
@@ -3106,13 +2832,13 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // languages
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Languages:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fLpsrQuarterTonesPitchesLanguageKind) <<
@@ -3130,31 +2856,31 @@ void lpsrOah::printLpsrOahValues (int fieldWidth)
   // transpose
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Transpose:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "transposeSemiTonesPitchAndOctave" << " : ";
 
     if (fTransposeSemiTonesPitchAndOctave) {
-      gLogOstream <<
+      gLogStream <<
         fTransposeSemiTonesPitchAndOctave->asString ();
     }
     else {
-      gLogOstream <<
+      gLogStream <<
         "none";
     }
-  gLogOstream << endl;
+  gLogStream << endl;
 
   gIndenter--;
 
   gIndenter--;
 }
 
-void lpsrOah::crackLilypondVersionNumber (
+void lpsrOahGroup::crackLilypondVersionNumber (
   string theString,
   int&   generationNumber,
   int&   majorNumber,
@@ -3177,9 +2903,9 @@ void lpsrOah::crackLilypondVersionNumber (
 
   unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLilypondVersion) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
+    gLogStream <<
       "There are " << smSize << " matches" <<
       " for version string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -3188,11 +2914,11 @@ void lpsrOah::crackLilypondVersionNumber (
       smSize << " elements: ";
 
       for (unsigned i = 0; i < smSize; ++i) {
-        gLogOstream <<
+        gLogStream <<
           "[" << sm [i] << "] ";
       } // for
 
-      gLogOstream << endl;
+      gLogStream << endl;
     }
 #endif
 
@@ -3203,9 +2929,9 @@ void lpsrOah::crackLilypondVersionNumber (
       majorNumberValue      = sm [2],
       minorNumberValue      = sm [3];
 
-#ifdef TRACE_OAH
-    if (gGlobalLpsrOah->fTraceLilypondVersion) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
+      gLogStream <<
         "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
         "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
         "--> minorNumberValue = \"" << minorNumberValue << "\"" <<
@@ -3232,9 +2958,9 @@ void lpsrOah::crackLilypondVersionNumber (
 
     unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
-    if (gGlobalLpsrOah->fTraceLilypondVersion) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
+      gLogStream <<
         "There are " << smSize << " matches" <<
         " for chord details string '" << theString <<
         "' with regex '" << regularExpression <<
@@ -3243,11 +2969,11 @@ void lpsrOah::crackLilypondVersionNumber (
         smSize << " elements: ";
 
         for (unsigned i = 0; i < smSize; ++i) {
-          gLogOstream <<
+          gLogStream <<
             "[" << sm [i] << "] ";
         } // for
 
-        gLogOstream << endl;
+        gLogStream << endl;
       }
 #endif
 
@@ -3258,9 +2984,9 @@ void lpsrOah::crackLilypondVersionNumber (
         generationNumberValue = sm [1],
         majorNumberValue      = sm [2];
 
-#ifdef TRACE_OAH
-      if (gGlobalLpsrOah->fTraceLilypondVersion) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
+        gLogStream <<
           "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
           "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
           endl;
@@ -3284,7 +3010,7 @@ void lpsrOah::crackLilypondVersionNumber (
   }
 }
 
-bool lpsrOah::versionNumberGreaterThanOrEqualTo (
+bool lpsrOahGroup::versionNumberGreaterThanOrEqualTo (
   string otherVersionNumber)
 {
   bool result = false;
@@ -3312,7 +3038,7 @@ bool lpsrOah::versionNumberGreaterThanOrEqualTo (
     otherVersionNumbeMinorNumber);
 
   if (otherVersionNumbeGenerationNumber != 2) {
-    gLogOstream <<
+    gLogStream <<
       "Using verstion \"" <<
       otherVersionNumbeGenerationNumber << ".x.y\" " <<
       "is probably not such a good idea" <<
@@ -3320,7 +3046,7 @@ bool lpsrOah::versionNumberGreaterThanOrEqualTo (
   }
 
   if (otherVersionNumbeMajorNumber < 19) {
-    gLogOstream <<
+    gLogStream <<
       "Using a verstion older than \"" <<
       otherVersionNumbeGenerationNumber << ".19.y\" " <<
       "is not a good idea: the generated LilyPond code uses features introduced in the latter" <<
@@ -3351,42 +3077,33 @@ bool lpsrOah::versionNumberGreaterThanOrEqualTo (
   return result;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrOah& elt)
+ostream& operator<< (ostream& os, const S_lpsrOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeLpsrOahHandling (
-  S_oahHandler handler)
+S_lpsrOahGroup createGlobalLpsrOahGroup ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing LPSR options handling" <<
-      endl;
-  }
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global LPSR OAH group" <<
+    endl;
+#endif
 #endif
 
-  // create the options variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  if (! gGlobalLpsrOahGroup) {
+    // create the global options group
+    gGlobalLpsrOahGroup =
+      lpsrOahGroup::create ();
+    assert (gGlobalLpsrOahGroup != 0);
+  }
 
-  gGlobalLpsrOahUserChoices = lpsrOah::create (
-    handler);
-  assert(gGlobalLpsrOahUserChoices != 0);
-
-  gGlobalLpsrOah =
-    gGlobalLpsrOahUserChoices;
-
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
-
-/* JMI
-  gGlobalLpsrOahWithDetailedTrace =
-    gGlobalLpsrOah->
-      createCloneWithDetailedTrace ();
-      */
+  // return the global OAH group
+  return gGlobalLpsrOahGroup;
 }
 
 

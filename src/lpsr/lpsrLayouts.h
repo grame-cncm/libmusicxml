@@ -55,7 +55,7 @@ class lpsrLayout : public lpsrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
 /* JMI
@@ -91,7 +91,7 @@ class lpsrLayout : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     float                 fLayoutGlobalStaffSize;

@@ -13,51 +13,41 @@
 #ifndef ___lilypondOah___
 #define ___lilypondOah___
 
-#include "msrSegnosAndCodas.h"
-
 #include "oahBasicTypes.h"
 
 
 namespace MusicXML2
 {
 //______________________________________________________________________________
-class lilypondOah : public oahGroup
+class lilypondOahGroup : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<lilypondOah> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<lilypondOah>   createCloneWithDetailedTrace ();
+    static SMARTP<lilypondOahGroup> create ();
 
   private:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeLilypondOah (
-                            bool boolOptionsInitialValue);
+    void                  initializeLilypondOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondOah (
-      S_oahHandler handlerUpLink);
+    lilypondOahGroup ();
 
-    virtual ~lilypondOah ();
+    virtual ~lilypondOahGroup ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
-
-    void                  setAlllilypondOahTraceOah (
-                            bool boolOptionsInitialValue);
 
   public:
 
@@ -75,9 +65,8 @@ class lilypondOah : public oahGroup
     // private services
     // ------------------------------------------------------
 
-#ifdef TRACE_OAH
-    void                  initializelilypondOahTraceOah (
-                            bool boolOptionsInitialValue);
+#ifdef TRACING_IS_ENABLED
+// JMI    void                  initializelilypondOahTraceOah ();
 #endif
 
   public:
@@ -99,21 +88,18 @@ class lilypondOah : public oahGroup
 
     void                  printLilypondOahValues (int fieldWidth);
 
-  public:
+  private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 };
-typedef SMARTP<lilypondOah> S_lilypondOah;
-EXP ostream& operator<< (ostream& os, const S_lilypondOah& elt);
+typedef SMARTP<lilypondOahGroup> S_lilypondOahGroup;
+EXP ostream& operator<< (ostream& os, const S_lilypondOahGroup& elt);
 
-EXP extern S_lilypondOah gGlobalLilypondOah;
-EXP extern S_lilypondOah gGlobalLilypondOahUserChoices;
-EXP extern S_lilypondOah gGlobalLilypondOahWithDetailedTrace;
+EXP extern S_lilypondOahGroup gGlobalLilypondOahGroup;
 
 //______________________________________________________________________________
-void initializeLilypondOahHandling (
-  S_oahHandler handler);
+S_lilypondOahGroup createGlobalLilypondOahGroup ();
 
 
 }

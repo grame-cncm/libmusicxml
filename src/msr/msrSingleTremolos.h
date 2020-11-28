@@ -77,7 +77,9 @@ class msrSingleTremolo : public msrElement
                                 return fSingleTremoloGraphicDurationKind;
                               }
         
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -103,7 +105,7 @@ class msrSingleTremolo : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fSingleTremoloMarksNumber;

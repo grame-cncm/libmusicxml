@@ -69,11 +69,15 @@ class msrRehearsal : public msrMeasureElement
     msrPlacementKind      getRehearsalPlacementKind () const
                               { return fRehearsalPlacementKind; }
 
-    // services
+  public:
+
+    // public services
     string                getRehearsalText () const
                               { return fRehearsalText; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -95,7 +99,7 @@ class msrRehearsal : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrRehearsalKind      fRehearsalKind;

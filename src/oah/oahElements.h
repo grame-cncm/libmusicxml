@@ -13,11 +13,13 @@
 #ifndef ___oahElements___
 #define ___oahElements___
 
+#include "browser.h"
+
+
 using namespace std;
 
 namespace MusicXML2
 {
-
 // layout settings
 //______________________________________________________________________________
 const int K_OAH_ELEMENTS_INDENTER_OFFSET = 3;
@@ -25,44 +27,38 @@ const int K_OAH_ELEMENTS_INDENTER_OFFSET = 3;
 
 const int K_OAH_FIELD_WIDTH = 40;
 
-// PRE-declarations for class dependencies
-//______________________________________________________________________________
-class oahElement;
-typedef SMARTP<oahElement> S_oahElement;
-
-class oahValuedAtom;
-typedef SMARTP<oahValuedAtom> S_oahValuedAtom;
-
-class EXP oahHandler;
-typedef SMARTP<oahHandler> S_oahHandler;
-
 // data types
 // ------------------------------------------------------
 
-enum oahElementValueExpectedKind {
-  kElementValueExpectedYes,
-  kElementValueExpectedNo,
-  kElementValueExpectedOptional };
+enum oahElementKind {
+  kElementWithoutValue,        // i.e. -cpu
+  kElementWithMandatoryValue,  // i.e. -global-staff-size 30
+  kElementWithOptionalValue }; // i.e. -name-help, -name-help=cpu
 
-string elementValueExpectedKindAsString (
-  oahElementValueExpectedKind elementValueExpectedKind);
+string elementKindAsString (
+  oahElementKind elementKind);
 
 enum oahElementVisibilityKind {
+  kElementVisibilityNone, // default value
   kElementVisibilityWhole,
   kElementVisibilityHeaderOnly,
-  kElementVisibilityNone };
+  kElementVisibilityHidden };
 
 string elementVisibilityKindAsString (
   oahElementVisibilityKind elementVisibilityKind);
 
-enum oahElementIsPureHelpKind {
-    kElementIsPureHelpYes,
-    kElementIsPureHelpNo };
+enum oahElementHelpOnlyKind {
+    kElementHelpOnlyYes,
+    kElementHelpOnlyNo };
 
-string elementIsPureHelpKindAsString (
-  oahElementIsPureHelpKind elementIsPureHelpKind);
+string elementHelpOnlyKindAsString (
+  oahElementHelpOnlyKind elementHelpOnlyKind);
 
 //______________________________________________________________________________
+// PRE-declaration for class self dependency
+class oahElement;
+typedef SMARTP<oahElement> S_oahElement;
+
 class oahElement : public smartable
 {
   public:
@@ -72,11 +68,11 @@ class oahElement : public smartable
     // ------------------------------------------------------
 
     static SMARTP<oahElement> create (
-      string                      shortName,
-      string                      longName,
-      string                      description,
-      oahElementValueExpectedKind elementValueExpectedKind,
-      oahElementVisibilityKind    elementVisibilityKind);
+      string                   shortName,
+      string                   longName,
+      string                   description,
+      oahElementKind           elementKind,
+      oahElementVisibilityKind elementVisibilityKind);
 */
 
   protected:
@@ -85,11 +81,11 @@ class oahElement : public smartable
     // ------------------------------------------------------
 
     oahElement (
-      string                      shortName,
-      string                      longName,
-      string                      description,
-      oahElementValueExpectedKind elementValueExpectedKind,
-      oahElementVisibilityKind    elementVisibilityKind);
+      string                   shortName,
+      string                   longName,
+      string                   description,
+      oahElementKind           elementKind,
+      oahElementVisibilityKind elementVisibilityKind);
 
     virtual ~oahElement ();
 
@@ -97,14 +93,6 @@ class oahElement : public smartable
 
     // set and get
     // ------------------------------------------------------
-
-    // uplink
-    void                  setHandlerUpLink (
-                            S_oahHandler handlerUpLink)
-                              { fHandlerUpLink = handlerUpLink; }
-
-    S_oahHandler          getHandlerUpLink () const
-                              { return fHandlerUpLink; }
 
     string                getShortName () const
                               { return fShortName; }
@@ -115,13 +103,16 @@ class oahElement : public smartable
     string                getDescription () const
                               { return fDescription; }
 
-    void                  setElementValueExpectedKind (
-                            oahElementValueExpectedKind elementValueExpectedKind)
-                              { fElementValueExpectedKind = elementValueExpectedKind; }
+    void                  setElementKind (
+                            oahElementKind elementKind)
+                              { fElementKind = elementKind; }
 
-    oahElementValueExpectedKind
-                          getElementValueExpectedKind () const
-                              { return fElementValueExpectedKind; }
+    oahElementKind        getElementKind () const
+                              { return fElementKind; }
+
+    oahElementHelpOnlyKind
+                          getElementHelpOnlyKind () const
+                              { return fElementHelpOnlyKind; }
 
     void                  setElementVisibilityKind (
                             oahElementVisibilityKind elementVisibilityKind)
@@ -131,39 +122,43 @@ class oahElement : public smartable
                           getElementVisibilityKind () const
                               { return fElementVisibilityKind; }
 
-    void                  setIsHidden ()
-                              { /* JMI fIsHidden = true; */ }
-
-    bool                  getIsHidden () const
-                              { return fIsHidden; }
-
     void                  setMultipleOccurrencesAllowed ()
                               { fMultipleOccurrencesAllowed = true; }
 
     bool                  getMultipleOccurrencesAllowed () const
                               { return fMultipleOccurrencesAllowed; }
 
-    void                  setOahElementIsPureHelpKind (
-                            oahElementIsPureHelpKind elementIsPureHelpKind)
-                              {
-                                fOahElementIsPureHelpKind = elementIsPureHelpKind;
-                              }
-
-    bool                  getOahElementIsPureHelpKind () const
-                              { return fOahElementIsPureHelpKind; }
-
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     string                fetchNames () const;
     string                fetchNamesInColumns (
                             int subGroupsShortNameFieldWidth) const;
 
+    string                fetchNamesBetweenQuotes () const;
+
     string                fetchNamesBetweenParentheses () const;
     string                fetchNamesInColumnsBetweenParentheses (
                             int subGroupsShortNameFieldWidth) const;
+
+    string                fetchMostSignificantName () const
+                              {
+                                return
+                                  fLongName.size ()
+                                    ? fLongName
+                                    : fShortName;
+                              }
+
+    bool                  nameIsANameForElement (
+                            string name)
+                              {
+                                return
+                                  name == fShortName
+                                    ||
+                                  name == fLongName;
+                              }
 
     virtual int           fetchVariableNameLength () const
                               { return 0; }
@@ -171,15 +166,7 @@ class oahElement : public smartable
     S_oahElement          thisElementIfItHasName (
                             string name);
 
-    virtual S_oahValuedAtom
-                          handleOptionUnderName (
-                            string   optionName,
-                            ostream& os);
-
-    virtual void          applyOption (
-                            ostream& os);
-
-    S_oahElement          aPropos (string theString);
+    virtual void          applyElement (ostream& os) = 0;
 
   public:
 
@@ -199,71 +186,122 @@ class oahElement : public smartable
     virtual string        asShortNamedOptionString () const;
     virtual string        asActualLongNamedOptionString () const;
 
-    string                asLongNamedOptionString () const
-                              {
-                                if (fLongName.size ()) {
-                                  return asActualLongNamedOptionString ();
-                                }
-                                else {
-                                  return asShortNamedOptionString ();
-                                }
-                              }
+    string                asLongNamedOptionString () const;
 
     string                asString () const;
 
     virtual void          printOptionHeader (ostream& os) const;
 
-    virtual void          printOptionEssentials (
+    virtual void          printOahElementEssentials (
                             ostream& os,
                             int      fieldWidth) const;
-    virtual void          printOptionEssentialsShort (
+    virtual void          printOahElementEssentialsShort (
                             ostream& os,
                             int      fieldWidth) const;
 
     virtual void          print (ostream& os) const;
     virtual void          printShort (ostream& os) const;
 
-    virtual void          printHelp (ostream& os);
+    virtual void          printHelp (ostream& os) const;
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
-
-    // uplink
-    S_oahHandler          fHandlerUpLink;
 
     string                fShortName;
     string                fLongName;
     string                fDescription;
 
-    oahElementValueExpectedKind
-                          fElementValueExpectedKind;
+    oahElementKind        fElementKind;
+
+    oahElementHelpOnlyKind
+                          fElementHelpOnlyKind;
 
     oahElementVisibilityKind
                           fElementVisibilityKind;
 
-    bool                  fIsHidden;
-
     bool                  fMultipleOccurrencesAllowed;
-
-    oahElementIsPureHelpKind
-                          fOahElementIsPureHelpKind;
-
 };
 typedef SMARTP<oahElement> S_oahElement;
 EXP ostream& operator<< (ostream& os, const S_oahElement& elt);
 
+//______________________________________________________________________________
 /*
 Because the set needs a comparison functor to work with. If you don't specify one, it will make a default-constructed one. In this case, since you're using a function-pointer type, the default-constructed one will be a null pointer, which can't be called; so instead, you have to provide the correct function pointer at run time.
 
 A better approach might be to use a function class type (a.k.a. functor type); then the function call can be resolved at compile time, and a default-constructed object will do the right thing.
 */
+
 struct compareOahElements {
   bool operator() (
     const S_oahElement firstElement,
     const S_oahElement secondElement) const;
 };
+
+//______________________________________________________________________________
+class oahElementUse : public smartable
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<oahElementUse> create (
+      S_oahElement elementUsed,
+      string       nameUsed,
+      string       valueUsed);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahElementUse (
+      S_oahElement elementUsed,
+      string       nameUsed,
+      string       valueUsed);
+
+    virtual ~oahElementUse ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_oahElement          getElementUsed () const
+                              { return fElementUsed; }
+
+    string                getNameUsed () const
+                              { return fNameUsed; }
+
+    void                  setValueUsed (string value)
+                              { fValueUsed = value; }
+
+    string                getValueUsed () const
+                              { return fValueUsed; }
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    S_oahElement          fElementUsed;
+
+    string                fNameUsed;
+    string                fValueUsed;
+};
+typedef SMARTP<oahElementUse> S_oahElementUse;
+EXP ostream& operator<< (ostream& os, const S_oahElementUse& elt);
 
 /* JMI
 //______________________________________________________________________________
@@ -312,8 +350,8 @@ template <typename T> class oahBrowser : public browser <T>
 
     virtual void browse (T& t) {
 /* JMI
-#ifdef TRACE_OAH
-      if (gGlobalOahOahGroup->fTraceOahVisitors) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
         cout <<
           endl <<
           ".\\\" --> browse()" <<
@@ -335,8 +373,8 @@ template <typename T> class oahBrowser : public browser <T>
 
     virtual void enter (T& t) {
 /* JMI
-#ifdef TRACE_OAH
-      if (gGlobalOahOahGroup->fTraceOahVisitors) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
         cout <<
           endl <<
           ".\\\" --> enter()" <<
@@ -349,8 +387,8 @@ template <typename T> class oahBrowser : public browser <T>
     }
     virtual void leave (T& t) {
 /* JMI
-#ifdef TRACE_OAH
-      if (gGlobalOahOahGroup->fTraceOahVisitors) {
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
         cout <<
           endl <<
           ".\\\" --> leave()" <<

@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -42,7 +44,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::create (
       graceNotesGroupIsBeamed,
       graceNotesGroupMeasureNumber,
       graceNotesGroupVoiceUpLink);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -84,9 +86,9 @@ msrGraceNotesGroup::~msrGraceNotesGroup ()
 S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Creating a newborn clone of grace notes group '" <<
       asShortString () <<
       "'" <<
@@ -145,9 +147,9 @@ string msrGraceNotesGroup::graceNotesGroupKindAsString (
 S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Creating a skip clone of grace notes group '" <<
       asShortString () <<
       "'" <<
@@ -187,9 +189,9 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
     ) {
       // create grace skip note with same duration as note
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+        gLogStream <<
           "Creating a skip grace note" <<
           ", soundingWholeNotes: " << note->getNoteSoundingWholeNotes () <<
           ", displayWholeNotes: " << note->getNoteDisplayWholeNotes () <<
@@ -240,7 +242,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
 
     else {
       msrInternalError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,
         __FILE__, __LINE__,
         "grace notes element should be a note or a chord");
@@ -252,9 +254,9 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
 
 void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Appending note '" <<
       note->asShortString () <<
       "' to grace notes group" <<
@@ -280,9 +282,9 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 
 void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Appending chord '" <<
       chord->asShortString () <<
       "' to grace notes group '" <<
@@ -300,9 +302,9 @@ void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
 S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
   int inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Removing last note from grace notes group '" <<
       asShortString () <<
       "' in voice \"" <<
@@ -317,9 +319,9 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
     fGraceNotesGroupElementsList.size () != 0,
     "fGraceNotesGroupElementsList.size () == 0");
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Removing last note from grace notes '" <<
       asString () <<
       "'" <<
@@ -337,15 +339,15 @@ S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
 
   else {
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       fInputLineNumber,
       __FILE__, __LINE__,
       "removeLastNoteFromGraceNotesGroup (): grace notes group element should be a note");
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "This last note from grace notes '" <<
       asString () <<
       "' turns out to be '" <<
@@ -364,9 +366,9 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
   S_msrMeasure measure,
   rational     positionInMeasure)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Setting grace notes group elements position in measure of " << asString () <<
       " to '" <<
       positionInMeasure <<
@@ -456,8 +458,8 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
 
 void msrGraceNotesGroup::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrGraceNotesGroup::acceptIn ()" <<
       endl;
   }
@@ -467,8 +469,8 @@ void msrGraceNotesGroup::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrGraceNotesGroup>*> (v)) {
         S_msrGraceNotesGroup elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrGraceNotesGroup::visitStart ()" <<
             endl;
         }
@@ -478,8 +480,8 @@ void msrGraceNotesGroup::acceptIn (basevisitor* v)
 
 void msrGraceNotesGroup::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrGraceNotesGroup::acceptOut ()" <<
       endl;
   }
@@ -489,8 +491,8 @@ void msrGraceNotesGroup::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrGraceNotesGroup>*> (v)) {
         S_msrGraceNotesGroup elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrGraceNotesGroup::visitEnd ()" <<
             endl;
         }

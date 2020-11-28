@@ -39,7 +39,7 @@ namespace MusicXML2
                               partID) != partGroupIt->second.partIDs.end() )
                 {
                     // this partID is in group number partGroupIt->first
-                    //cerr << "\t ID found in group " << partGroupIt->first <<" "<<endl;
+                    //cerr << "\t ID found in group " << partGroupIt->first <<" " <<endl;
                     break;
                     
                 }

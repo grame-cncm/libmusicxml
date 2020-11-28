@@ -60,7 +60,7 @@ class msrException: public exception
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual const char*   what () const throw ()
@@ -205,6 +205,14 @@ class musicXMLFile2mxmlTreeException : public msrException
 {
   public:
     musicXMLFile2mxmlTreeException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class msrScoreToMusicXMLException : public msrException
+{
+  public:
+    msrScoreToMusicXMLException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };

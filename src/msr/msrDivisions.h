@@ -70,10 +70,10 @@ class msrDivisions : public msrElement
     int                   getDivisionsPerQuarterNote () const
                               { return fDivisionsPerQuarterNote; }
 
-    // services
-    // ------------------------------------------------------
+  public:
 
-    string                divisionsAsString () const;
+    // public services
+    // ------------------------------------------------------
 
     // durations
     int                   durationKindAsDivisions (
@@ -133,11 +133,13 @@ class msrDivisions : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const override;
+
     virtual void          print (ostream& os) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fDivisionsPerQuarterNote;

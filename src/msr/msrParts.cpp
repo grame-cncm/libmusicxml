@@ -13,12 +13,14 @@
 #include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // setw, setprecision, ...
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
@@ -41,7 +43,7 @@ S_msrPart msrPart::create (
       inputLineNumber,
       partID,
       partPartGroupUpLink);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -76,22 +78,22 @@ msrPart::msrPart (
 
 void msrPart::initializePart ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Creating part \"" << asString () << "\"" <<
       endl;
 
-    gGlobalMsrOah->printMsrOahValues (40); // JMI
+    gGlobalMsrOahGroup->printMsrOahValues (40); // JMI
   }
 #endif
 
   // is this part name in the part renaming map?
   map<string, string>::const_iterator
     it =
-      gGlobalMsrOah->fPartsRenamingMap.find (fPartID);
+      gGlobalMsrOahGroup->getPartsRenamingMap ().find (fPartID);
 
-  if (it != gGlobalMsrOah->fPartsRenamingMap.end ()) {
+  if (it != gGlobalMsrOahGroup->getPartsRenamingMap ().end ()) {
     // yes, rename the part accordinglingly
     fPartMsrName = (*it).second;
   }
@@ -114,9 +116,9 @@ void msrPart::initializePart ()
   fPartShortestNoteDuration     = rational (INT_MAX, 1);
   fPartShortestNoteTupletFactor = rational (1, 1);
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Creating part \"" << asString () << "\"" <<
       endl;
   }
@@ -128,9 +130,9 @@ msrPart::~msrPart ()
 
 S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Creating a newborn clone of part " <<
       getPartCombinedName () <<
       endl;
@@ -179,9 +181,9 @@ void msrPart::setPartCurrentPositionInMeasure (
   int      inputLineNumber,
   rational positionInMeasure)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Setting part current position in measure to " <<
       positionInMeasure <<
       " in part " <<
@@ -201,7 +203,7 @@ void msrPart::setPartCurrentPositionInMeasure (
       " since it is negative";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -218,9 +220,9 @@ void msrPart::incrementPartCurrentPositionInMeasure (
   fPartCurrentPositionInMeasure += duration;
   fPartCurrentPositionInMeasure.rationalise ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Incrementing part current position in measure by " <<
       duration <<
       " in part " <<
@@ -236,9 +238,9 @@ void msrPart::decrementPartCurrentPositionInMeasure (
   int      inputLineNumber,
   rational duration)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Decrementing part current position in measure by " <<
       duration <<
       " in part " <<
@@ -263,15 +265,15 @@ void msrPart::decrementPartCurrentPositionInMeasure (
       ", which is negative ";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "The new part current position in measure is " <<
       fPartCurrentPositionInMeasure <<
       " in part " <<
@@ -284,9 +286,9 @@ void msrPart::decrementPartCurrentPositionInMeasure (
 void msrPart::assignSequentialNumbersToRegularVoicesInPart (
   int inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts || gGlobalTraceOahGroup->fTraceVoices) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts () || gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
       "Assigning sequential numbers to the regular voices in part \"" <<
       fPartID <<
       ", " <<
@@ -329,15 +331,15 @@ void msrPart::setPartMsrName (string partMsrName)
   // is this part name in the part renaming map?
   map<string, string>::const_iterator
     it =
-      gGlobalMsrOah->fPartsRenamingMap.find (fPartMsrName);
+      gGlobalMsrOahGroup->getPartsRenamingMap ().find (fPartMsrName);
 
-  if (it != gGlobalMsrOah->fPartsRenamingMap.end ()) {
+  if (it != gGlobalMsrOahGroup->getPartsRenamingMap ().end ()) {
     // yes, rename the part accordinglingly
     fPartMsrName = (*it).second;
 
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceParts) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceParts ()) {
+      gLogStream <<
         "Setting part name of " << getPartCombinedName () <<
         " to \"" << fPartMsrName << "\"" <<
          endl;
@@ -348,9 +350,9 @@ void msrPart::setPartMsrName (string partMsrName)
     // use the argument
     fPartMsrName = partMsrName;
 
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceParts) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceParts ()) {
+      gLogStream <<
         "Keeping partID \"" << partMsrName <<
         "\" as part name  for " << getPartCombinedName () <<
       endl;
@@ -395,9 +397,9 @@ void msrPart::createMeasureAndAppendItToPart (
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Creating measure '" <<
       measureNumber <<
       "' and appending it to part " <<
@@ -451,9 +453,9 @@ void msrPart::setNextMeasureNumberInPart (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
       "' in part " <<
@@ -500,9 +502,9 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
   int      measureOrdinalNumber,
   rational wholeNotesDuration)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Registering the whole notes duration of ordinal measure number \"" <<
       measureOrdinalNumber <<
       " as " <<
@@ -523,9 +525,9 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
   if (currentValue.getNumerator () != 0) {
     if (currentValue != wholeNotesDuration) {
       // allow for polymetrics in non-MusicXML contexts? JMI
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceMeasures ||  gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceMeasures () ||  gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+        gLogStream <<
           "The measure with ordinal number " <<
           measureOrdinalNumber <<
           " was known with a whole notes duration of " <<
@@ -548,9 +550,9 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
 void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceStaffDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceStaffDetails ()) {
+    gLogStream <<
       "Appending staff details\"" <<
       staffDetails->asShortString () <<
       "\" to part " << getPartCombinedName () <<
@@ -578,9 +580,9 @@ void msrPart::appendStaffDetailsToPart (
 
 void msrPart::appendClefToPart (S_msrClef clef)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceClefs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceClefs ()) {
+    gLogStream <<
       "Appending clef '" <<
       clef->asString () <<
       "' to part " << getPartCombinedName () <<
@@ -615,9 +617,9 @@ void msrPart::appendClefToPart (S_msrClef clef)
 
 void msrPart::appendKeyToPart  (S_msrKey  key)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceKeys) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceKeys ()) {
+    gLogStream <<
       "Appending key " <<
       key->asString () <<
       " to part " << getPartCombinedName () <<
@@ -658,9 +660,9 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 
 void msrPart::appendTimeToPart (S_msrTime time)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
+    gLogStream <<
       "Appending time '" <<
       time->asString () <<
       "' to part " << getPartCombinedName () <<
@@ -701,9 +703,9 @@ void msrPart::appendTimeToPart (S_msrTime time)
 
 void msrPart::appendTimeToPartClone (S_msrTime time)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
+    gLogStream <<
       "Appending time '" <<
       time->asString () <<
       "' to part clone " << getPartCombinedName () <<
@@ -736,9 +738,9 @@ void msrPart::insertHiddenMeasureAndBarlineInPartClone (
   int      inputLineNumber,
   rational positionInMeasure)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDalSegnos || gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDalSegnos () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Inserting hidden measure and barline at position " <<
       positionInMeasure <<
       "' in part clone " << getPartCombinedName () <<
@@ -770,9 +772,9 @@ void msrPart::insertHiddenMeasureAndBarlineInPartClone (
 void msrPart::appendTransposeToPart (
   S_msrTranspose transpose)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTranspositions) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTranspositions ()) {
+    gLogStream <<
       "Appending transpose \"" <<
       transpose->asString () <<
       "\" to part " << getPartCombinedName () <<
@@ -800,9 +802,9 @@ void msrPart::appendTransposeToPart (
 void msrPart::appendPartNameDisplayToPart (
   S_msrPartNameDisplay partNameDisplay)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Appending part name display \"" <<
       partNameDisplay->asString () <<
       "\" to part " << getPartCombinedName () <<
@@ -830,9 +832,9 @@ void msrPart::appendPartNameDisplayToPart (
 void msrPart::appendPartAbbreviationDisplayToPart (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Appending part abbreviation display \"" <<
       partAbbreviationDisplay->asString () <<
       "\" to part " << getPartCombinedName () <<
@@ -876,9 +878,9 @@ void msrPart::nestContentsIntoNewRepeatInPart (
 void msrPart::handleRepeatStartInPart (
   int inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Handling a repeat start in part \"" <<
       getPartCombinedName () <<
       "\", line " << inputLineNumber <<
@@ -906,9 +908,9 @@ void msrPart::handleRepeatEndInPart (
   string measureNumber,
   int    repeatTimes)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Handling a repeat end in part \"" <<
       getPartCombinedName () <<
       "\"" <<
@@ -937,9 +939,9 @@ void msrPart::handleRepeatEndInPart (
 void msrPart::handleRepeatEndingStartInPart (
   int    inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Handling a repeat ending start in part \"" <<
       getPartCombinedName () <<
       "\"" <<
@@ -969,9 +971,9 @@ void msrPart::handleRepeatEndingEndInPart (
   msrRepeatEnding::msrRepeatEndingKind
             repeatEndingKind)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Handling a " <<
       msrRepeatEnding::repeatEndingKindAsString (
         repeatEndingKind) <<
@@ -1006,9 +1008,9 @@ void msrPart::finalizeRepeatEndInPart (
   string measureNumber,
   int    repeatTimes)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Finalizing a repeat upon its end in part \"" <<
       getPartCombinedName () <<
       "\"" <<
@@ -1128,9 +1130,9 @@ void msrPart::createRestMeasuresInPart (
   int inputLineNumber,
   int multipleRestMeasuresMeasuresNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
+    gLogStream <<
       "Creating multiple rest measures in part " <<
       getPartCombinedName () <<
       ", " <<
@@ -1160,9 +1162,9 @@ void msrPart::addRestMeasuresToPart (
   string previousMeasureNumber,
   int    restMeasuresNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
+    gLogStream <<
       "Creating multiple rest measures in part " <<
       getPartCombinedName () <<
       ", " <<
@@ -1191,9 +1193,9 @@ void msrPart::addRestMeasuresToPart (
 void msrPart::appendPendingRestMeasuresToPart (
   int inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
+    gLogStream <<
       "Appending the pending multiple rest to part " <<
       getPartCombinedName () <<
       endl;
@@ -1216,9 +1218,9 @@ void msrPart::appendRestMeasuresCloneToPart (
   int               inputLineNumber,
   S_msrRestMeasures multipleRestMeasures)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRestMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
+    gLogStream <<
       "Appending multiple rest '" <<
       multipleRestMeasures->asString () <<
       "' to part clone " <<
@@ -1266,7 +1268,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
       ", line " << inputLineNumber;
 
     msrInternalError ( // JMI ???
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1274,9 +1276,9 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     return fPartStavesMap [staffNumber];
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceStaves) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceStaves ()) {
+    gLogStream <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
       " staff " << staffNumber <<
@@ -1338,7 +1340,7 @@ S_msrStaff msrPart::addPartLevelStaffToPart (
       ", line " << inputLineNumber;
 
     msrInternalError ( // JMI ???
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1347,9 +1349,9 @@ S_msrStaff msrPart::addPartLevelStaffToPart (
   }
 */
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceStaves) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceStaves ()) {
+    gLogStream <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
       " staff " << staffNumber <<
@@ -1400,9 +1402,9 @@ S_msrStaff msrPart::addPartLevelStaffToPart (
 
 void msrPart::addStaffToPartCloneByItsNumber (S_msrStaff staff)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceStaves) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceStaves ()) {
+    gLogStream <<
       "Adding staff \"" << staff->getStaffName () <<
       "\" to part clone " << getPartCombinedName () <<
       endl;
@@ -1449,7 +1451,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
       "\" already has a harmony voice";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1459,9 +1461,9 @@ S_msrVoice msrPart::createPartHarmonyVoice (
   int partHarmonyStaffNumber =
     K_PART_HARMONY_STAFF_NUMBER;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Creating harmony staff for part \"" <<
       getPartCombinedName () <<
       "\" with staff number " <<
@@ -1481,9 +1483,9 @@ S_msrVoice msrPart::createPartHarmonyVoice (
   int partHarmonyVoiceNumber =
     K_PART_HARMONY_VOICE_NUMBER;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Creating harmony voice for part \"" <<
       getPartCombinedName () <<
       "\" with voice number " <<
@@ -1526,9 +1528,9 @@ void msrPart::appendHarmonyToPart (
   switch (harmonySupplierVoice->getVoiceKind ()) {
     case msrVoice::kVoiceRegular:
       // append the figured bass to the part figured bass voice
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceHarmonies) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+        gLogStream <<
           "Appending figured bass " <<
           harmony->asString () <<
           " to part " <<
@@ -1556,7 +1558,7 @@ void msrPart::appendHarmonyToPart (
           "\"";
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1575,9 +1577,9 @@ void msrPart::appendHarmonyToPartClone (
   switch (harmonySupplierVoice->getVoiceKind ()) {
     case msrVoice::kVoiceFiguredBass:
       // append the figured bass to the part figured bass voice
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceHarmonies) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+        gLogStream <<
           "Appending figured bass " <<
           harmony->asString () <<
           " to part clone " <<
@@ -1605,7 +1607,7 @@ void msrPart::appendHarmonyToPartClone (
           "\"";
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1627,7 +1629,7 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
       "\" already has a figured bass voice";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1637,9 +1639,9 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
   int partFiguredBassStaffNumber =
     K_PART_FIGURED_BASS_STAFF_NUMBER;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Creating figured bass staff for part \"" <<
       getPartCombinedName () <<
       "\" with staff number " <<
@@ -1659,9 +1661,9 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
   int partFiguredBassVoiceNumber =
     K_PART_FIGURED_BASS_VOICE_NUMBER;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Creating figured bass voice for part \"" <<
       getPartCombinedName () <<
       "\" with voice number " <<
@@ -1704,9 +1706,9 @@ void msrPart::appendFiguredBassToPart (
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
     case msrVoice::kVoiceRegular:
       // append the figured bass to the part figured bass voice
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+        gLogStream <<
           "Appending figured bass " <<
           figuredBass->asString () <<
           " to part " <<
@@ -1734,7 +1736,7 @@ void msrPart::appendFiguredBassToPart (
           "\"";
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1753,9 +1755,9 @@ void msrPart::appendFiguredBassToPartClone (
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
     case msrVoice::kVoiceFiguredBass:
       // append the figured bass to the part figured bass voice
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+        gLogStream <<
           "Appending figured bass " <<
           figuredBass->asString () <<
           " to part clone " <<
@@ -1783,7 +1785,7 @@ void msrPart::appendFiguredBassToPartClone (
           "\"";
 
         msrInternalError (
-          gGlobalOahOahGroup->fInputSourceName,
+          gGlobalOahOahGroup->getInputSourceName (),
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -1795,9 +1797,9 @@ void msrPart::appendFiguredBassToPartClone (
 void msrPart::appendScordaturaToPart (
   S_msrScordatura scordatura)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Appending scordatura '" <<
       scordatura->asString () <<
       "' to part " <<
@@ -1821,9 +1823,9 @@ void msrPart::appendAccordionRegistrationToPart (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
       "' to part " <<
@@ -1847,9 +1849,9 @@ void msrPart::appendHarpPedalsTuningToPart (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->asString () <<
       "' to part " <<
@@ -1873,20 +1875,20 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   S_msrVoice           graceNotesGroupOriginVoice,
   S_msrGraceNotesGroup skipGraceNotesGroup)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   int inputLineNumber =
     skipGraceNotesGroup->getInputLineNumber ();
 #endif
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (
-    gGlobalTraceOahGroup->fTraceMeasures
+    gGlobalTraceOahGroup->getTraceMeasures ()
       ||
-    gGlobalTraceOahGroup->fTraceGraceNotes
+    gGlobalTraceOahGroup->getTraceGraceNotes ()
       ||
-    gGlobalTraceOahGroup->fTraceParts
+    gGlobalTraceOahGroup->getTraceParts ()
     ) {
-    gLogOstream <<
+    gLogStream <<
       "addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded () in " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -1935,9 +1937,9 @@ void msrPart::handleBackupInPart (
 void msrPart::finalizeLastAppendedMeasureInPart (
   int    inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Finalizing last appended measure in part " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -2011,9 +2013,9 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
 void msrPart::finalizePart (
   int inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Finalizing part " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -2032,7 +2034,7 @@ void msrPart::finalizePart (
       " appears in the part list, but doesn't contain any stave";
 
     msrMusicXMLWarning (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       s.str ());
   }
@@ -2059,9 +2061,9 @@ void msrPart::finalizePart (
 void msrPart::finalizePartClone (
   int inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceParts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
       "Finalizing part clone " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -2075,8 +2077,8 @@ void msrPart::finalizePartClone (
 
 void msrPart::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPart::acceptIn ()" <<
       endl;
   }
@@ -2086,8 +2088,8 @@ void msrPart::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPart::visitStart ()" <<
             endl;
         }
@@ -2097,8 +2099,8 @@ void msrPart::acceptIn (basevisitor* v)
 
 void msrPart::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPart::acceptOut ()" <<
       endl;
   }
@@ -2108,8 +2110,8 @@ void msrPart::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPart::visitEnd ()" <<
             endl;
         }
@@ -2119,8 +2121,8 @@ void msrPart::acceptOut (basevisitor* v)
 
 void msrPart::browseData (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPart::browseData ()" <<
       endl;
   }
@@ -2297,8 +2299,8 @@ void msrPart::print (ostream& os) const
     endl;
 
   // print current the part clef if any
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceClefs) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceClefs ()) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentClef" << " : ";
@@ -2319,8 +2321,8 @@ void msrPart::print (ostream& os) const
 #endif
 
   // print the current part key if any
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceKeys) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceKeys ()) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentKey" << " : ";
@@ -2341,8 +2343,8 @@ void msrPart::print (ostream& os) const
 #endif
 
   // print the current part time if any
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentTime" << " : ";
@@ -2479,12 +2481,12 @@ void msrPart::print (ostream& os) const
           break;
 
         case msrStaff::kStaffHarmony:
-    // JMI      if (gGlobalMsrOah->fShowHarmonyVoices) {}
+    // JMI      if (gGlobalMsrOahGroup->getShowHarmonyVoices ()) {}
           os << staff;
           break;
 
         case msrStaff::kStaffFiguredBass:
-    // JMI      if (gGlobalMsrOah->fShowFiguredBassVoices) {}
+    // JMI      if (gGlobalMsrOahGroup->getShowFiguredBassVoices ()) {}
           os << staff;
           break;
 
@@ -2598,8 +2600,8 @@ void msrPart::printShort (ostream& os) const
     endl;
 
   // print current the part clef if any
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceClefs) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceClefs ()) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentClef" << " : ";
@@ -2620,8 +2622,8 @@ void msrPart::printShort (ostream& os) const
 #endif
 
   // print the current part key if any
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceKeys) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceKeys ()) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentKey" << " : ";
@@ -2642,8 +2644,8 @@ void msrPart::printShort (ostream& os) const
 #endif
 
   // print the current part time if any
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentTime" << " : ";
@@ -2775,12 +2777,12 @@ void msrPart::printShort (ostream& os) const
           break;
 
         case msrStaff::kStaffHarmony:
-    // JMI      if (gGlobalMsrOah->fShowHarmonyVoices) {}
+    // JMI      if (gGlobalMsrOahGroup->getShowHarmonyVoices ()) {}
           staff->printShort (os);
           break;
 
         case msrStaff::kStaffFiguredBass:
-    // JMI      if (gGlobalMsrOah->fShowFiguredBassVoices) {}
+    // JMI      if (gGlobalMsrOahGroup->getShowFiguredBassVoices ()) {}
           staff->printShort (os);
           break;
 

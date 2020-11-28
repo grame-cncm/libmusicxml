@@ -13,10 +13,12 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
+
+#include "oahOah.h"
 
 #include "bsrOah.h"
 
@@ -77,7 +79,7 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList () const
     int mod = n % 10;
 
 /* JMI
-    gLogOstream << // JMI
+    gLogStream << // JMI
       "% ==> numberValueAsCellsList ()" <<
       ", n = " << n <<
       ", div = " << div <<
@@ -152,9 +154,9 @@ int bsrNumber::fetchCellsNumber() const
 
 void bsrNumber::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrNumber::acceptIn ()" <<
       endl;
   }
@@ -165,9 +167,9 @@ void bsrNumber::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrNumber>*> (v)) {
         S_bsrNumber elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrNumber::visitStart ()" <<
             endl;
         }
@@ -178,9 +180,9 @@ void bsrNumber::acceptIn (basevisitor* v)
 
 void bsrNumber::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrNumber::acceptOut ()" <<
       endl;
   }
@@ -191,9 +193,9 @@ void bsrNumber::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrNumber>*> (v)) {
         S_bsrNumber elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrNumber::visitEnd ()" <<
             endl;
         }

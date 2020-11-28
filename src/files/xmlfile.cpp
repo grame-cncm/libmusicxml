@@ -21,7 +21,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-SXMLFile TXMLFile::create ()  { TXMLFile* o = new TXMLFile; assert(o!=0); return o; }
+SXMLFile TXMLFile::create ()  { TXMLFile* o = new TXMLFile; assert (o!=0); return o; }
 
 //______________________________________________________________________________
 TDocType::TDocType (const string start) : fStartElement(start), fPublic(true) 

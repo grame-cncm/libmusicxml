@@ -11,14 +11,13 @@
 */
 
 #include <iomanip>      // setw, setprecision, ...
-
 #include <regex>
 
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
@@ -29,7 +28,704 @@ using namespace std;
 
 namespace MusicXML2
 {
+//______________________________________________________________________________
+S_insiderOahAtom insiderOahAtom::create (
+  string shortName,
+  string longName,
+  string description)
+{
+  insiderOahAtom* o = new
+    insiderOahAtom (
+      shortName,
+      longName,
+      description);
+  assert (o!=0);
+  return o;
+}
 
+insiderOahAtom::insiderOahAtom (
+  string shortName,
+  string longName,
+  string description)
+  : oahAtom (
+      shortName,
+      longName,
+      description,
+      kElementWithoutValue)
+{}
+
+insiderOahAtom::~insiderOahAtom ()
+{}
+
+void insiderOahAtom::applyElement (ostream& os)
+{
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "==> option '" << fetchNames () << "' is a insiderOahAtom" <<
+      endl;
+  }
+#endif
+
+  // do nothing, choosing the the insider OAH handler has been done in xml2xml.cpp
+}
+
+void insiderOahAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> insiderOahAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_insiderOahAtom>*
+    p =
+      dynamic_cast<visitor<S_insiderOahAtom>*> (v)) {
+        S_insiderOahAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching insiderOahAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void insiderOahAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> insiderOahAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_insiderOahAtom>*
+    p =
+      dynamic_cast<visitor<S_insiderOahAtom>*> (v)) {
+        S_insiderOahAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching insiderOahAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void insiderOahAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> insiderOahAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+void insiderOahAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "insiderOahAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  oahElement::printOahElementEssentials (
+    os, fieldWidth);
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_insiderOahAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_regularOahAtom regularOahAtom::create (
+  string shortName,
+  string longName,
+  string description)
+{
+  regularOahAtom* o = new
+    regularOahAtom (
+      shortName,
+      longName,
+      description);
+  assert (o!=0);
+  return o;
+}
+
+regularOahAtom::regularOahAtom (
+  string shortName,
+  string longName,
+  string description)
+  : oahAtom (
+      shortName,
+      longName,
+      description,
+      kElementWithoutValue)
+{}
+
+regularOahAtom::~regularOahAtom ()
+{}
+
+void regularOahAtom::applyElement (ostream& os)
+{
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "==> option '" << fetchNames () << "' is a regularOahAtom" <<
+      endl;
+  }
+#endif
+
+  // do nothing, choosing the the regular OAH handler has been done in xml2xml.cpp
+}
+
+void regularOahAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> regularOahAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_regularOahAtom>*
+    p =
+      dynamic_cast<visitor<S_regularOahAtom>*> (v)) {
+        S_regularOahAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching regularOahAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void regularOahAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> regularOahAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_regularOahAtom>*
+    p =
+      dynamic_cast<visitor<S_regularOahAtom>*> (v)) {
+        S_regularOahAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching regularOahAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void regularOahAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> regularOahAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+void regularOahAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "regularOahAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  oahElement::printOahElementEssentials (
+    os, fieldWidth);
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_regularOahAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//_______________________________________________________________________________
+S_oahOahGroup gGlobalOahOahGroup;
+
+S_oahOahGroup oahOahGroup::create (
+  string executableName)
+{
+  oahOahGroup* o = new oahOahGroup (
+    executableName);
+  assert (o!=0);
+
+  return o;
+}
+
+oahOahGroup::oahOahGroup (
+  string executableName)
+  : oahGroup (
+      "Options and help",
+      "hoah", "help-options-and-help",
+  R"()",
+      kElementVisibilityWhole),
+    fHandlerExecutableName (
+      executableName)
+{
+  initializeOahOahGroup ();
+}
+
+oahOahGroup::~oahOahGroup ()
+{}
+
+void oahOahGroup::initializeOahBasicHelpOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Options help",
+        "hoh", "help-options-help",
+R"()",
+      kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // the 'regular' option
+
+  subGroup->
+    appendAtomToSubGroup (
+      regularOahAtom::create (
+        K_REGULAR_OPTION_NAME, "",
+R"(Use the 'regular' view for the options and help,
+in which the options are grouped by topics
+such a slurs, tuplets and figured bass.
+This is the default.)"));
+
+  // the 'insider' option
+
+  subGroup->
+    appendAtomToSubGroup (
+      insiderOahAtom::create (
+        K_INSIDER_OPTION_NAME, "",
+R"(Use the 'insider' view for the options and help,
+in which the options are grouped as they are used by the various
+internal representations and translation passes.
+This unleashes the full set of display and trace options.)"));
+
+  // help
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahHelpAtom::create (
+        "h", "help",
+R"(Display xml2xml's full help.)",
+        "oahOah EXECUTABLE_NAME"));
+
+  // help options usage
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahOptionsUsageAtom::create (
+        "hou", "help-options-usage",
+R"(Print options usage help.)",
+        "oahOah EXECUTABLE_NAME"));
+
+  // help summary
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahHelpSummaryAtom::create (
+        "hs", "help-summary",
+R"(Display a help summary and quit.)",
+        "oahOah EXECUTABLE_NAME"));
+
+  // about
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahAboutAtom::create (
+        "a", "about",
+R"(Display information about xml2ly.)",
+        "oahOah EXECUTABLE_NAME"));
+
+  // version
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahVersionAtom::create (
+        "v", "version",
+R"(Display xml2ly's version number and history.)",
+        "oahOah EXECUTABLE_NAME"));
+
+  // contact
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahContactAtom::create (
+        "c", "contact",
+R"(Display information about how to contacct xml2ly maintainers.)",
+        "oahOah EXECUTABLE_NAME"));
+
+  // name help
+
+  string defaultOptionName = "name-help";
+
+  fNameToProvideHelpAbout = defaultOptionName;
+
+  fNameHelpAtom =
+    oahNameHelpAtom::create (
+      "nh", defaultOptionName,
+      regex_replace (
+R"(Print help about OPTION_NAME.
+OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
+        regex ("DEFAULT_VALUE"),
+        defaultOptionName),
+      "OPTION_NAME",
+      "optionName",
+      fNameToProvideHelpAbout,
+      defaultOptionName);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fNameHelpAtom);
+
+  // find name
+
+  fFindStringAtom =
+    oahFindStringAtom::create (
+      "find", "find-string",
+R"(Find string STRING in the help.
+The search is case insensitive, and a '-' is added in front of options name for clarity.)",
+      "STRING",
+      "stringToBeFound",
+      fStringToBeFound);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fFindStringAtom);
+
+  // display options values
+
+  fDisplayOahValues = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "dov", "display-options-values",
+R"(Write the chosen options values to standard error.
+This option is best placed early in the command line)",
+        "displayOptionsValues",
+        fDisplayOahValues));
+
+  // display options handler
+
+  fDisplayOahHandler = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "doh", "display-options-handler",
+R"(Write the contents of the options handler to standard error.)",
+        "displayOahHandler",
+        fDisplayOahHandler));
+}
+
+void oahOahGroup::initializeOahOahAndArgumentsOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Options and arguments",
+        "oaa", "options-and-arguments",
+R"()",
+        kElementVisibilityWhole,
+        this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // options and arguments
+
+  fShowOptionsAndArguments = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "soaa", "show-options-and-arguments",
+        regex_replace (
+R"(Print the options and arguments to EXECUTABLE.)",
+          regex ("EXECUTABLE"),
+          fHandlerExecutableName),
+        "showOptionsAndArguments",
+        fShowOptionsAndArguments));
+}
+
+#ifdef TRACING_IS_ENABLED
+void oahOahGroup::initializeOahTraceOah ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Options visitors trace",
+        "htov", "help-trace-options-visitors",
+R"()",
+    kElementVisibilityHeaderOnly,
+    this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // trace oah visitors
+
+  fTraceOahVisitors    = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "toahv", "trace-oah-visitors",
+R"(Write a trace of the OAH tree visiting activity to standard error.)",
+        "traceOahVisitors",
+        fTraceOahVisitors));
+}
+#endif
+
+void oahOahGroup::initializeOahOahGroup ()
+{
+  // help
+  // --------------------------------------
+  initializeOahBasicHelpOptions ();
+
+  // options and arguments
+  // --------------------------------------
+  initializeOahOahAndArgumentsOptions ();
+
+#ifdef TRACING_IS_ENABLED
+  // trace
+  // --------------------------------------
+  initializeOahTraceOah ();
+#endif
+}
+
+//______________________________________________________________________________
+void oahOahGroup::enforceGroupQuietness ()
+{
+  // JMI
+}
+
+//______________________________________________________________________________
+void oahOahGroup::checkGroupOptionsConsistency ()
+{
+  // JMI
+}
+
+//______________________________________________________________________________
+void oahOahGroup::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      "% ==> oahOahGroup::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOahGroup>*
+    p =
+      dynamic_cast<visitor<S_oahOahGroup>*> (v)) {
+        S_oahOahGroup elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            "% ==> Launching oahOahGroup::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahOahGroup::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      "% ==> oahOahGroup::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahOahGroup>*
+    p =
+      dynamic_cast<visitor<S_oahOahGroup>*> (v)) {
+        S_oahOahGroup elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            "% ==> Launching oahOahGroup::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahOahGroup::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      "% ==> oahOahGroup::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+void oahOahGroup::printAtomWithValueOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+  /* JMI
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    oahOptionalValuesStyleKindAsString (
+      fOahOptionalValuesStyleKindVariable) <<
+    "\"" <<
+    endl <<
+*/
+
+    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
+    booleanAsString (fTraceOahVisitors) <<
+    endl;
+}
+
+//______________________________________________________________________________
+void oahOahGroup::printOahOahValues (int valueFieldWidth)
+{
+  gLogStream <<
+    "The basic options are:" <<
+    endl;
+
+  gIndenter++;
+
+  // command line
+  // --------------------------------------
+
+  gLogStream << left <<
+    setw (valueFieldWidth) << "Command line:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogStream << left <<
+    setw (valueFieldWidth) << "inputSourceName" << " : " <<
+    fInputSourceName <<
+    endl <<
+
+    setw (valueFieldWidth) << "showOptionsAndArguments" << " : " <<
+    booleanAsString (fShowOptionsAndArguments) <<
+    endl;
+
+  gIndenter--;
+
+  // options and help display
+  // --------------------------------------
+
+  gLogStream << left <<
+    setw (valueFieldWidth) << "Options trace and display:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogStream << left <<
+    setw (valueFieldWidth) << "displayOptionsValues" << " : " <<
+    booleanAsString (fDisplayOahValues) <<
+    endl <<
+    setw (valueFieldWidth) << "displayOahHandler" << " : " <<
+    booleanAsString (fDisplayOahHandler) <<
+    endl <<
+
+    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
+    booleanAsString (fTraceOahVisitors) <<
+    endl;
+
+  gIndenter--;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_oahOahGroup& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahOahGroup createGlobalOahOahGroup (
+  string executableName)
+{
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global global OAH group" <<
+    endl;
+#endif
+#endif
+
+  // protect library against multiple initializations
+  if (! gGlobalOahOahGroup) {
+    // create the global options group
+    gGlobalOahOahGroup =
+      oahOahGroup::create (
+        executableName);
+    assert (gGlobalOahOahGroup != 0);
+  }
+
+  // return it
+  return gGlobalOahOahGroup;
+}
+
+
+}
+
+/* JMI
 //______________________________________________________________________________
 S_oahOptionalValuesStyleKindAtom oahOptionalValuesStyleKindAtom::create (
   string             shortName,
@@ -48,7 +744,7 @@ S_oahOptionalValuesStyleKindAtom oahOptionalValuesStyleKindAtom::create (
       valueSpecification,
       variableName,
       oahOptionalValuesStyleKindVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -60,7 +756,7 @@ oahOptionalValuesStyleKindAtom::oahOptionalValuesStyleKindAtom (
   string             variableName,
   oahOptionalValuesStyleKind&
                      oahOptionalValuesStyleKindVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -73,29 +769,13 @@ oahOptionalValuesStyleKindAtom::oahOptionalValuesStyleKindAtom (
 oahOptionalValuesStyleKindAtom::~oahOptionalValuesStyleKindAtom ()
 {}
 
-S_oahValuedAtom oahOptionalValuesStyleKindAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a oahOptionalValuesStyleKindAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void oahOptionalValuesStyleKindAtom::handleValuedAtomValue (
+void oahOptionalValuesStyleKindAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
       endl;
   }
@@ -104,9 +784,9 @@ void oahOptionalValuesStyleKindAtom::handleValuedAtomValue (
   // theString contains the language name:
   // is it in the optional values style kinds map?
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'oahOptionalValuesStyleKindAtom'" <<
       endl;
   }
@@ -114,10 +794,10 @@ void oahOptionalValuesStyleKindAtom::handleValuedAtomValue (
 
   map<string, oahOptionalValuesStyleKind>::const_iterator
     it =
-      gOahOptionalValuesStyleKindsMap.find (
+      gGlobalOahOptionalValuesStyleKindsMap.find (
         theString);
 
-  if (it == gOahOptionalValuesStyleKindsMap.end ()) {
+  if (it == gGlobalOahOptionalValuesStyleKindsMap.end ()) {
     // no, optional values style kind is unknown in the map
     stringstream s;
 
@@ -126,7 +806,7 @@ void oahOptionalValuesStyleKindAtom::handleValuedAtomValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gOahOptionalValuesStyleKindsMap.size () - 1 <<
+      gGlobalOahOptionalValuesStyleKindsMap.size () - 1 <<
       " known OAH optional values style kind are:" <<
       endl;
 
@@ -146,9 +826,9 @@ void oahOptionalValuesStyleKindAtom::handleValuedAtomValue (
 
 void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       "% ==> oahOptionalValuesStyleKindAtom::acceptIn ()" <<
       endl;
   }
@@ -159,9 +839,9 @@ void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_oahOptionalValuesStyleKindAtom>*> (v)) {
         S_oahOptionalValuesStyleKindAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             "% ==> Launching oahOptionalValuesStyleKindAtom::visitStart ()" <<
             endl;
         }
@@ -172,9 +852,9 @@ void oahOptionalValuesStyleKindAtom::acceptIn (basevisitor* v)
 
 void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       "% ==> oahOptionalValuesStyleKindAtom::acceptOut ()" <<
       endl;
   }
@@ -185,9 +865,9 @@ void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_oahOptionalValuesStyleKindAtom>*> (v)) {
         S_oahOptionalValuesStyleKindAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             "% ==> Launching oahOptionalValuesStyleKindAtom::visitEnd ()" <<
             endl;
         }
@@ -198,9 +878,9 @@ void oahOptionalValuesStyleKindAtom::acceptOut (basevisitor* v)
 
 void oahOptionalValuesStyleKindAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       "% ==> oahOptionalValuesStyleKindAtom::browseData ()" <<
       endl;
   }
@@ -239,7 +919,7 @@ void oahOptionalValuesStyleKindAtom::print (ostream& os) const
 
   gIndenter++;
 
-  printValuedAtomEssentials (
+  printAtomWithValueEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -262,156 +942,7 @@ ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt)
   elt->print (os);
   return os;
 }
-
-//_______________________________________________________________________________
-S_oahOahGroup gGlobalOahOahGroup;
-S_oahOahGroup gGlobalOahOahUserChoices;
-
-S_oahOahGroup oahOahGroup::create (
-  string       executableName,
-  S_oahHandler handlerUpLink)
-{
-  oahOahGroup* o = new oahOahGroup (
-    executableName,
-    handlerUpLink);
-  assert(o!=0);
-
-  return o;
-}
-
-oahOahGroup::oahOahGroup (
-  string       executableName,
-  S_oahHandler handlerUpLink)
-  : oahGroup (
-    "Options and help",
-    "hoah", "help-options-and-help",
-R"()",
-    kElementVisibilityWhole,
-    handlerUpLink),
-    fHandlerExecutableName (executableName)
-{
-  // append this options group to the options handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeOahOah (false);
-}
-
-oahOahGroup::~oahOahGroup ()
-{}
-
-void oahOahGroup::initializeOahBasicHelpOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Options help",
-        "hoh", "help-options-help",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // help options
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahOptionsUsageAtom::create (
-        "hou", "help-options-usage",
-R"(Print options usage help.)"));
-
-  // help summary
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahOptionsSummaryAtom::create (
-        "hs", "help-summary",
-R"(Display a help summary and exit.)"));
-
-  // option name help
-
-  string defaultOptionName = "onh";
-
-  fOptionName = defaultOptionName;
-
-  S_oahOptionNameHelpAtom
-    optionNameHelpAtom =
-      oahOptionNameHelpAtom::create (
-        "onh", "option-name-help",
-        regex_replace (
-R"(Print help about OPTION_NAME.
-OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
-          regex ("DEFAULT_VALUE"),
-          defaultOptionName),
-        "OPTION_NAME",
-        "optionName",
-        fOptionName,
-        defaultOptionName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      optionNameHelpAtom);
-
-  // options values
-
-  fDisplayOahValues = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "dov", "display-options-values",
-R"(Write the chosen options values to standard error.
-This option is best placed early in the command line)",
-        "displayOptionsValues",
-        fDisplayOahValues));
-
-  // options handler
-
-  fDisplayOahHandler = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "doh", "display-options-handler",
-R"(Write the contents of the options handler to standard error.)",
-        "displayOahHandler",
-        fDisplayOahHandler));
-}
-
-void oahOahGroup::initializeOahOahAndArgumentsOptions (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Options and arguments",
-        "oaa", "options-and-arguments",
-R"()",
-        kElementVisibilityWhole,
-        this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // options and arguments
-
-  fShowOptionsAndArguments = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "soaa", "show-options-and-arguments",
-        regex_replace (
-R"(Print the options and arguments to EXECUTABLE.)",
-          regex ("EXECUTABLE"),
-          fHandlerExecutableName),
-        "showOptionsAndArguments",
-        fShowOptionsAndArguments));
+*/
 
 /* JMI ???
   // optional values style
@@ -447,7 +978,7 @@ InOAH style:
     in the command line uses the default value;
   - otherwise, the following argument supplies the option value.)",
               regex ("NUMBER"),
-              to_string (gOahOptionalValuesStyleKindsMap.size ())),
+              to_string (gGlobalOahOptionalValuesStyleKindsMap.size ())),
             regex ("OPTIONAL_VALUES_STYLES"),
             existingOahOptionalValuesStyleKinds (K_NAMES_LIST_MAX_LENGTH)),
           regex ("DEFAULT_VALUE"),
@@ -457,277 +988,3 @@ InOAH style:
         "optionalValuesStyleKind",
         optionalValuesStyleKind));
 */
-}
-
-#ifdef TRACE_OAH
-void oahOahGroup::initializeOahTraceOah (
-  bool boolOptionsInitialValue)
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Options visitors trace",
-        "htov", "help-trace-options-visitors",
-R"()",
-    kElementVisibilityHeaderOnly,
-    this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // trace oah visitors
-
-  fTraceOahVisitors    = boolOptionsInitialValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "toahv", "trace-oah-visitors",
-R"(Write a trace of the OAH tree visiting activity to standard error.)",
-        "traceOahVisitors",
-        fTraceOahVisitors));
-}
-#endif
-
-void oahOahGroup::initializeOahOah (
-  bool boolOptionsInitialValue)
-{
-  // help
-  // --------------------------------------
-  initializeOahBasicHelpOptions (
-    boolOptionsInitialValue);
-
-  // options and arguments
-  // --------------------------------------
-  initializeOahOahAndArgumentsOptions (
-    boolOptionsInitialValue);
-
-#ifdef TRACE_OAH
-  // trace
-  // --------------------------------------
-  initializeOahTraceOah (
-    boolOptionsInitialValue);
-#endif
-}
-
-S_oahOahGroup oahOahGroup::createCloneWithTrueValues ()
-{
-  S_oahOahGroup
-    clone =
-      oahOahGroup::create (
-        fHandlerExecutableName,
-        nullptr);
-      // nullptr not to have it inserted twice in the option handler
-
-  // set the options handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-  // command line
-  // --------------------------------------
-
-  clone->fHandlerExecutableName =
-    fHandlerExecutableName;
-
-  clone->fShowOptionsAndArguments =
-    fShowOptionsAndArguments;
-
-  clone->fCommandLineAsSupplied =
-    fCommandLineAsSupplied;
-  clone->fCommandLineWithShortOptionsNames =
-    fCommandLineWithShortOptionsNames;
-  clone->fCommandLineWithLongOptionsNames =
-    fCommandLineWithLongOptionsNames;
-
-  // options and help display
-  // --------------------------------------
-
-  clone->fDisplayOahValues =
-    fDisplayOahValues;
-  clone->fDisplayOahHandler =
-    fDisplayOahHandler;
-
-  // trace
-  // --------------------------------------
-
-  clone->fTraceOahVisitors =
-    fTraceOahVisitors;
-
-  return clone;
-}
-
-//______________________________________________________________________________
-void oahOahGroup::enforceGroupQuietness ()
-{
-  // JMI
-}
-
-//______________________________________________________________________________
-void oahOahGroup::checkGroupOptionsConsistency ()
-{
-  // JMI
-}
-
-//______________________________________________________________________________
-void oahOahGroup::acceptIn (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahOahGroup::acceptIn ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahOahGroup>*
-    p =
-      dynamic_cast<visitor<S_oahOahGroup>*> (v)) {
-        S_oahOahGroup elem = this;
-
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching oahOahGroup::visitStart ()" <<
-            endl;
-        }
-#endif
-        p->visitStart (elem);
-  }
-}
-
-void oahOahGroup::acceptOut (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahOahGroup::acceptOut ()" <<
-      endl;
-  }
-#endif
-
-  if (visitor<S_oahOahGroup>*
-    p =
-      dynamic_cast<visitor<S_oahOahGroup>*> (v)) {
-        S_oahOahGroup elem = this;
-
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            "% ==> Launching oahOahGroup::visitEnd ()" <<
-            endl;
-        }
-#endif
-        p->visitEnd (elem);
-  }
-}
-
-void oahOahGroup::browseData (basevisitor* v)
-{
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      "% ==> oahOahGroup::browseData ()" <<
-      endl;
-  }
-#endif
-}
-
-void oahOahGroup::printValuedAtomOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-  /* JMI
-    setw (valueFieldWidth) <<
-    fVariableName <<
-    " : \"" <<
-    oahOptionalValuesStyleKindAsString (
-      fOahOptionalValuesStyleKindVariable) <<
-    "\"" <<
-    endl <<
-*/
-
-    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
-    booleanAsString (fTraceOahVisitors) <<
-    endl;
-}
-
-//______________________________________________________________________________
-void oahOahGroup::printOahOahValues (int valueFieldWidth)
-{
-  gLogOstream <<
-    "The basic options are:" <<
-    endl;
-
-  gIndenter++;
-
-  // command line
-  // --------------------------------------
-
-  gLogOstream << left <<
-    setw (valueFieldWidth) << "Command line:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (valueFieldWidth) << "inputSourceName" << " : " <<
-    fInputSourceName <<
-    endl <<
-
-    setw (valueFieldWidth) << "showOptionsAndArguments" << " : " <<
-    booleanAsString (fShowOptionsAndArguments) <<
-    endl;
-
-  gIndenter--;
-
-  // options and help display
-  // --------------------------------------
-
-  gLogOstream << left <<
-    setw (valueFieldWidth) << "Options trace and display:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogOstream << left <<
-    setw (valueFieldWidth) << "displayOptionsValues" << " : " <<
-    booleanAsString (fDisplayOahValues) <<
-    endl <<
-    setw (valueFieldWidth) << "displayOahHandler" << " : " <<
-    booleanAsString (fDisplayOahHandler) <<
-    endl <<
-
-    setw (valueFieldWidth) << "traceOahVisitors" << " : " <<
-    booleanAsString (fTraceOahVisitors) <<
-    endl;
-
-  gIndenter--;
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_oahOahGroup& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-void initializeOahOahHandling (
-  string       executableName,
-  S_oahHandler handler)
-{
-  // create the options variables
-  // ------------------------------------------------------
-
-  gGlobalOahOahUserChoices = oahOahGroup::create (
-    executableName,
-    handler);
-  assert(gGlobalOahOahUserChoices != 0);
-
-  gGlobalOahOahGroup =
-    gGlobalOahOahUserChoices;
-}
-
-
-}

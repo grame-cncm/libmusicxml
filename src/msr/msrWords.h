@@ -114,7 +114,9 @@ class msrWords : public msrElement
     int                   getWordsStaffNumber () const
                               { return fWordsStaffNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -151,7 +153,7 @@ class msrWords : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrPlacementKind      fWordsPlacementKind;

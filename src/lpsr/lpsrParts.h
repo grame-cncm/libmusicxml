@@ -119,8 +119,6 @@ class lpsrPartBlock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-
-  public:
   
     // print
     // ------------------------------------------------------
@@ -129,7 +127,7 @@ class lpsrPartBlock : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrPart             fPart;

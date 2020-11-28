@@ -69,7 +69,9 @@ class msrStaffTuning : public msrElement
     int                   getStaffTuningOctave () const
                               { return fStaffTuningOctave; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -186,7 +188,9 @@ class msrStaffDetails : public msrMeasureElement
     msrPrintSpacingKind   getPrintSpacingKind () const
                               { return fPrintSpacingKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  addStaffTuningToStaffDetails (
@@ -216,7 +220,7 @@ class msrStaffDetails : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrStaffTypeKind      fStaffTypeKind;

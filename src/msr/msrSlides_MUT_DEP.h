@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -74,7 +74,9 @@ class msrSlide : public msrElement
     S_msrMeasure          getSlideMeasureUpLink () const
                               { return fSlideMeasureUpLink; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -98,7 +100,7 @@ class msrSlide : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLink

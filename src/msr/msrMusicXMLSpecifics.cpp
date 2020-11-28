@@ -19,14 +19,14 @@
 
 #include "msrMusicXMLSpecifics.h"
 
-#include "msrOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
 #include "oahOah.h"
+
+#include "msrOah.h"
 
 
 using namespace std;
@@ -41,7 +41,7 @@ S_msrPageLayout msrPageLayout::create (
   msrPageLayout* o =
     new msrPageLayout (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -65,7 +65,7 @@ void msrPageLayout::setOddMarginsGroup (
       this->asString ();
 
     msrMusicXMLError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -86,7 +86,7 @@ void msrPageLayout::setEvenMarginsGroup (
       this->asString ();
 
     msrMusicXMLError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -107,7 +107,7 @@ void msrPageLayout::setBothMarginsGroup (
       this->asString ();
 
     msrMusicXMLError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -191,8 +191,8 @@ S_msrMargin msrPageLayout::getSingleBottomMargin ()
 
 void msrPageLayout::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPageLayout::acceptIn ()" <<
       endl;
   }
@@ -202,8 +202,8 @@ void msrPageLayout::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPageLayout>*> (v)) {
         S_msrPageLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPageLayout::visitStart ()" <<
             endl;
         }
@@ -213,8 +213,8 @@ void msrPageLayout::acceptIn (basevisitor* v)
 
 void msrPageLayout::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPageLayout::acceptOut ()" <<
       endl;
   }
@@ -224,8 +224,8 @@ void msrPageLayout::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPageLayout>*> (v)) {
         S_msrPageLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPageLayout::visitEnd ()" <<
             endl;
         }
@@ -346,7 +346,7 @@ S_msrSystemLayout msrSystemLayout::create (
   msrSystemLayout* o =
     new msrSystemLayout (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -360,8 +360,8 @@ msrSystemLayout::~msrSystemLayout ()
 
 void msrSystemLayout::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSystemLayout::acceptIn ()" <<
       endl;
   }
@@ -371,8 +371,8 @@ void msrSystemLayout::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSystemLayout>*> (v)) {
         S_msrSystemLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSystemLayout::visitStart ()" <<
             endl;
         }
@@ -382,8 +382,8 @@ void msrSystemLayout::acceptIn (basevisitor* v)
 
 void msrSystemLayout::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSystemLayout::acceptOut ()" <<
       endl;
   }
@@ -393,8 +393,8 @@ void msrSystemLayout::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSystemLayout>*> (v)) {
         S_msrSystemLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSystemLayout::visitEnd ()" <<
             endl;
         }
@@ -497,7 +497,7 @@ S_msrSystemDividers msrSystemDividers::create (
   msrSystemDividers* o =
     new msrSystemDividers (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -514,8 +514,8 @@ msrSystemDividers::~msrSystemDividers ()
 
 void msrSystemDividers::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSystemDividers::acceptIn ()" <<
       endl;
   }
@@ -525,8 +525,8 @@ void msrSystemDividers::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSystemDividers>*> (v)) {
         S_msrSystemDividers elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSystemDividers::visitStart ()" <<
             endl;
         }
@@ -536,8 +536,8 @@ void msrSystemDividers::acceptIn (basevisitor* v)
 
 void msrSystemDividers::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSystemDividers::acceptOut ()" <<
       endl;
   }
@@ -547,8 +547,8 @@ void msrSystemDividers::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSystemDividers>*> (v)) {
         S_msrSystemDividers elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSystemDividers::visitEnd ()" <<
             endl;
         }
@@ -605,7 +605,7 @@ S_msrStaffLayout msrStaffLayout::create (
     new msrStaffLayout (
       inputLineNumber,
       staffNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -622,8 +622,8 @@ msrStaffLayout::~msrStaffLayout ()
 
 void msrStaffLayout::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStaffLayout::acceptIn ()" <<
       endl;
   }
@@ -633,8 +633,8 @@ void msrStaffLayout::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffLayout>*> (v)) {
         S_msrStaffLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStaffLayout::visitStart ()" <<
             endl;
         }
@@ -644,8 +644,8 @@ void msrStaffLayout::acceptIn (basevisitor* v)
 
 void msrStaffLayout::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStaffLayout::acceptOut ()" <<
       endl;
   }
@@ -655,8 +655,8 @@ void msrStaffLayout::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffLayout>*> (v)) {
         S_msrStaffLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStaffLayout::visitEnd ()" <<
             endl;
         }
@@ -719,7 +719,7 @@ S_msrMeasureLayout msrMeasureLayout::create (
   msrMeasureLayout* o =
     new msrMeasureLayout (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -733,8 +733,8 @@ msrMeasureLayout::~msrMeasureLayout ()
 
 void msrMeasureLayout::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrMeasureLayout::acceptIn ()" <<
       endl;
   }
@@ -744,8 +744,8 @@ void msrMeasureLayout::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasureLayout>*> (v)) {
         S_msrMeasureLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrMeasureLayout::visitStart ()" <<
             endl;
         }
@@ -755,8 +755,8 @@ void msrMeasureLayout::acceptIn (basevisitor* v)
 
 void msrMeasureLayout::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrMeasureLayout::acceptOut ()" <<
       endl;
   }
@@ -766,8 +766,8 @@ void msrMeasureLayout::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMeasureLayout>*> (v)) {
         S_msrMeasureLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrMeasureLayout::visitEnd ()" <<
             endl;
         }
@@ -821,7 +821,7 @@ S_msrPrintLayout msrPrintLayout::create (
   msrPrintLayout* o =
     new msrPrintLayout (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -829,9 +829,9 @@ msrPrintLayout::msrPrintLayout (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePrintLayouts ()) {
+    gLogStream <<
       "Creating a print layout " <<
       endl;
   }
@@ -852,8 +852,8 @@ msrPrintLayout::~msrPrintLayout ()
 
 void msrPrintLayout::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPrintLayout::acceptIn ()" <<
       endl;
   }
@@ -863,8 +863,8 @@ void msrPrintLayout::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPrintLayout>*> (v)) {
         S_msrPrintLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPrintLayout::visitStart ()" <<
             endl;
         }
@@ -874,8 +874,8 @@ void msrPrintLayout::acceptIn (basevisitor* v)
 
 void msrPrintLayout::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPrintLayout::acceptOut ()" <<
       endl;
   }
@@ -885,8 +885,8 @@ void msrPrintLayout::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPrintLayout>*> (v)) {
         S_msrPrintLayout elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPrintLayout::visitEnd ()" <<
             endl;
         }
@@ -1057,7 +1057,7 @@ S_msrLineWidth msrLineWidth::create (
       inputLineNumber,
       lineWidthTypeKind,
       lineWidthValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1067,9 +1067,9 @@ msrLineWidth::msrLineWidth (
   S_msrLength          lineWidthValue)
     : msrElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePrintLayouts ()) {
+    gLogStream <<
       "Creating a print layout " <<
       endl;
   }
@@ -1084,8 +1084,8 @@ msrLineWidth::~msrLineWidth ()
 
 void msrLineWidth::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrLineWidth::acceptIn ()" <<
       endl;
   }
@@ -1095,8 +1095,8 @@ void msrLineWidth::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrLineWidth>*> (v)) {
         S_msrLineWidth elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrLineWidth::visitStart ()" <<
             endl;
         }
@@ -1106,8 +1106,8 @@ void msrLineWidth::acceptIn (basevisitor* v)
 
 void msrLineWidth::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrLineWidth::acceptOut ()" <<
       endl;
   }
@@ -1117,8 +1117,8 @@ void msrLineWidth::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrLineWidth>*> (v)) {
         S_msrLineWidth elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrLineWidth::visitEnd ()" <<
             endl;
         }
@@ -1269,7 +1269,7 @@ S_msrNoteSize msrNoteSize::create (
       inputLineNumber,
       noteSizeTypeKind,
       noteSizeValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1279,9 +1279,9 @@ msrNoteSize::msrNoteSize (
   float               noteSizeValue)
     : msrElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePrintLayouts ()) {
+    gLogStream <<
       "Creating a print layout " <<
       endl;
   }
@@ -1296,8 +1296,8 @@ msrNoteSize::~msrNoteSize ()
 
 void msrNoteSize::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrNoteSize::acceptIn ()" <<
       endl;
   }
@@ -1307,8 +1307,8 @@ void msrNoteSize::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrNoteSize>*> (v)) {
         S_msrNoteSize elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrNoteSize::visitStart ()" <<
             endl;
         }
@@ -1318,8 +1318,8 @@ void msrNoteSize::acceptIn (basevisitor* v)
 
 void msrNoteSize::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrNoteSize::acceptOut ()" <<
       endl;
   }
@@ -1329,8 +1329,8 @@ void msrNoteSize::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrNoteSize>*> (v)) {
         S_msrNoteSize elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrNoteSize::visitEnd ()" <<
             endl;
         }
@@ -1420,7 +1420,7 @@ S_msrDistance msrDistance::create (
       inputLineNumber,
       distanceTypeKind,
       distanceValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1430,9 +1430,9 @@ msrDistance::msrDistance (
   S_msrLength         distanceValue)
     : msrElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePrintLayouts ()) {
+    gLogStream <<
       "Creating a print layout " <<
       endl;
   }
@@ -1447,8 +1447,8 @@ msrDistance::~msrDistance ()
 
 void msrDistance::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDistance::acceptIn ()" <<
       endl;
   }
@@ -1458,8 +1458,8 @@ void msrDistance::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDistance>*> (v)) {
         S_msrDistance elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDistance::visitStart ()" <<
             endl;
         }
@@ -1469,8 +1469,8 @@ void msrDistance::acceptIn (basevisitor* v)
 
 void msrDistance::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDistance::acceptOut ()" <<
       endl;
   }
@@ -1480,8 +1480,8 @@ void msrDistance::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDistance>*> (v)) {
         S_msrDistance elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDistance::visitEnd ()" <<
             endl;
         }
@@ -1568,7 +1568,7 @@ S_msrGlyph msrGlyph::create (
       inputLineNumber,
       glyphTypeKind,
       glyphValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1578,9 +1578,9 @@ msrGlyph::msrGlyph (
   string           glyphValue)
     : msrElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePrintLayouts ()) {
+    gLogStream <<
       "Creating a print layout " <<
       endl;
   }
@@ -1595,8 +1595,8 @@ msrGlyph::~msrGlyph ()
 
 void msrGlyph::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrGlyph::acceptIn ()" <<
       endl;
   }
@@ -1606,8 +1606,8 @@ void msrGlyph::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrGlyph>*> (v)) {
         S_msrGlyph elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrGlyph::visitStart ()" <<
             endl;
         }
@@ -1617,8 +1617,8 @@ void msrGlyph::acceptIn (basevisitor* v)
 
 void msrGlyph::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrGlyph::acceptOut ()" <<
       endl;
   }
@@ -1628,8 +1628,8 @@ void msrGlyph::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrGlyph>*> (v)) {
         S_msrGlyph elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrGlyph::visitEnd ()" <<
             endl;
         }
@@ -1755,7 +1755,7 @@ S_msrOtherAppearance msrOtherAppearance::create (
       inputLineNumber,
       otherAppearanceTypeKind,
       otherAppearanceValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1765,9 +1765,9 @@ msrOtherAppearance::msrOtherAppearance (
   string                     otherAppearanceValue)
     : msrElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePrintLayouts ()) {
+    gLogStream <<
       "Creating a print layout " <<
       endl;
   }
@@ -1782,8 +1782,8 @@ msrOtherAppearance::~msrOtherAppearance ()
 
 void msrOtherAppearance::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrOtherAppearance::acceptIn ()" <<
       endl;
   }
@@ -1793,8 +1793,8 @@ void msrOtherAppearance::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrOtherAppearance>*> (v)) {
         S_msrOtherAppearance elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrOtherAppearance::visitStart ()" <<
             endl;
         }
@@ -1804,8 +1804,8 @@ void msrOtherAppearance::acceptIn (basevisitor* v)
 
 void msrOtherAppearance::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrOtherAppearance::acceptOut ()" <<
       endl;
   }
@@ -1815,8 +1815,8 @@ void msrOtherAppearance::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrOtherAppearance>*> (v)) {
         S_msrOtherAppearance elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrOtherAppearance::visitEnd ()" <<
             endl;
         }
@@ -1893,7 +1893,7 @@ S_msrAppearance msrAppearance::create (
   msrAppearance* o =
     new msrAppearance (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -1901,9 +1901,9 @@ msrAppearance::msrAppearance (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePrintLayouts) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePrintLayouts ()) {
+    gLogStream <<
       "Creating an appearance" <<
       endl;
   }
@@ -1915,8 +1915,8 @@ msrAppearance::~msrAppearance ()
 
 void msrAppearance::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrAppearance::acceptIn ()" <<
       endl;
   }
@@ -1926,8 +1926,8 @@ void msrAppearance::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrAppearance>*> (v)) {
         S_msrAppearance elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrAppearance::visitStart ()" <<
             endl;
         }
@@ -1937,8 +1937,8 @@ void msrAppearance::acceptIn (basevisitor* v)
 
 void msrAppearance::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrAppearance::acceptOut ()" <<
       endl;
   }
@@ -1948,8 +1948,8 @@ void msrAppearance::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrAppearance>*> (v)) {
         S_msrAppearance elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrAppearance::visitEnd ()" <<
             endl;
         }

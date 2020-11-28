@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by bsrMutualDependencies.h,
+  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -52,7 +52,7 @@ class bsrPageElement : public bsrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual int           fetchLineContentsNumber () const  // JMI ???
@@ -81,7 +81,7 @@ class bsrPageElement : public bsrElement
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
 
     S_bsrPage             fBsrPageUpLink;

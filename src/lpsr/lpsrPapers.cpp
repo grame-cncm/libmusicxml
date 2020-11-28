@@ -16,10 +16,12 @@
 
 #include "lpsrPapers.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "lpsrOah.h"
 
@@ -40,7 +42,7 @@ S_lpsrPaper lpsrPaper::create (
       inputLineNumber,
       scaling,
       pageLayout);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -116,9 +118,9 @@ lpsrPaper::~lpsrPaper ()
 
 void lpsrPaper::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPaper::acceptIn ()" <<
       endl;
   }
@@ -129,9 +131,9 @@ void lpsrPaper::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrPaper::visitStart ()" <<
             endl;
         }
@@ -142,9 +144,9 @@ void lpsrPaper::acceptIn (basevisitor* v)
 
 void lpsrPaper::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPaper::acceptOut ()" <<
       endl;
   }
@@ -155,9 +157,9 @@ void lpsrPaper::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrPaper::visitEnd ()" <<
             endl;
         }
@@ -168,9 +170,9 @@ void lpsrPaper::acceptOut (basevisitor* v)
 
 void lpsrPaper::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPaper::browseData ()" <<
       endl;
   }
@@ -188,9 +190,9 @@ void lpsrPaper::browseData (basevisitor* v)
     browser.browse (*fPageLayout);
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% <== lpsrPaper::browseData ()" <<
       endl;
   }

@@ -47,7 +47,7 @@ class lpsrElement : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:

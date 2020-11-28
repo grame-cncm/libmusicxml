@@ -12,12 +12,13 @@
 
 #include "lpsrParts.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "lpsrOah.h"
 
@@ -33,7 +34,7 @@ S_lpsrPartBlock lpsrPartBlock::create (
 {
   lpsrPartBlock* o = new lpsrPartBlock (
     part);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -109,14 +110,14 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
   }
 
 /* JMI
-  gLogOstream <<
+  gLogStream <<
     endl <<
     "!!!!!!!!!!!!!!!!!!!!!!!!!" <<
     endl <<
@@ -227,14 +228,14 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
   }
 
 /* JMI
-  gLogOstream <<
+  gLogStream <<
     endl <<
     "!!!!!!!!!!!!!!!!!!!!!!!!!" <<
     endl <<
@@ -300,7 +301,7 @@ bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingStaff (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       first->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -323,9 +324,9 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   fPartBlockElementsList.push_back (chordNamesContext);
 
   // sort the list if necessary
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Sorting the voices in part block for part \"" <<
       fPart->getPartCombinedName () << "\"" <<
       ", line " << inputLineNumber <<
@@ -334,7 +335,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
 #endif
 
 /* JMI
-  gLogOstream <<
+  gLogStream <<
     endl <<
     endl <<
     "@@@@@@@@@@@@@@@@ fPartBlockElementsList contains initially:" <<
@@ -349,11 +350,11 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
     S_msrElement
       element = (*i);
 
-    gLogOstream <<
+    gLogStream <<
       element->asShortString () <<
       endl;
   } // for
-  gLogOstream <<
+  gLogStream <<
     endl <<
     endl;
 */
@@ -366,7 +367,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   }
 
 /* JMI
-  gLogOstream <<
+  gLogStream <<
     endl <<
     endl <<
     "@@@@@@@@@@@@@@@@ fPartBlockElementsList contains after sort:" <<
@@ -381,11 +382,11 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
     S_msrElement
       element = (*i);
 
-    gLogOstream <<
+    gLogStream <<
       element->asShortString () <<
       endl;
   } // for
-  gLogOstream <<
+  gLogStream <<
     endl <<
     endl;
 */
@@ -399,9 +400,9 @@ void lpsrPartBlock::appendFiguredBassContextToPartBlock (
 
 void lpsrPartBlock::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPartBlock::acceptIn ()" <<
       endl;
   }
@@ -412,9 +413,9 @@ void lpsrPartBlock::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrPartBlock::visitStart ()" <<
             endl;
         }
@@ -425,9 +426,9 @@ void lpsrPartBlock::acceptIn (basevisitor* v)
 
 void lpsrPartBlock::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPartBlock::acceptOut ()" <<
       endl;
   }
@@ -438,9 +439,9 @@ void lpsrPartBlock::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrPartBlock::visitEnd ()" <<
             endl;
         }
@@ -451,9 +452,9 @@ void lpsrPartBlock::acceptOut (basevisitor* v)
 
 void lpsrPartBlock::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrPartBlock::browseData ()" <<
       endl;
   }
@@ -469,9 +470,9 @@ void lpsrPartBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% <== lpsrPartBlock::browseData ()" <<
       endl;
   }

@@ -15,15 +15,19 @@
 #include "version.h"
 #include "utilities.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
 #include "messagesHandling.h"
 
+#include "oahOah.h"
 #include "generalOah.h"
+
 #include "musicxmlOah.h"
+
+#include "oahAtomsCollection.h"
 
 
 using namespace std;
@@ -33,87 +37,41 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 
-S_musicxmlOah gGlobalMusicxmlOah;
-S_musicxmlOah gGlobalMusicxmlOahUserChoices;
-S_musicxmlOah gGlobalMusicxmlOahWithDetailedTrace;
+S_musicxmlOahGroup gGlobalMusicxmlOahGroup;
 
-S_musicxmlOah musicxmlOah::create (
-  S_oahHandler handlerUpLink)
+S_musicxmlOahGroup musicxmlOahGroup::create ()
 {
-  musicxmlOah* o = new musicxmlOah(
-    handlerUpLink);
-  assert(o!=0);
+  musicxmlOahGroup* o = new musicxmlOahGroup ();
+  assert (o!=0);
   return o;
 }
 
-musicxmlOah::musicxmlOah (
-  S_oahHandler handlerUpLink)
+musicxmlOahGroup::musicxmlOahGroup ()
   : oahGroup (
     "MusicXML",
     "hmxml", "help-mxml",
 R"(These options control the way MusicXML data is handled.)",
-    kElementVisibilityWhole,
-    handlerUpLink)
+    kElementVisibilityWhole)
 {
-/* JMI
-  // sanity check
-  msgAssert (
-    handlerUpLink != nullptr,
-    "handlerUpLink is null");
-*/
-
-  // append this options group to the options handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeMusicxmlOah (false);
+  initializeMusicxmlOahGroup ();
 }
 
-musicxmlOah::~musicxmlOah ()
+musicxmlOahGroup::~musicxmlOahGroup ()
 {}
 
-#ifdef TRACE_OAH
-void musicxmlOah::initializeMusicxmlTraceOah (
-  bool boolOptionsInitialValue)
+#ifdef TRACING_IS_ENABLED
+void musicxmlOahGroup::initializeMusicxmlTraceOah ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Trace",
+        "MusicXML Trace",
         "hmxmltr", "help-musicxml-trace",
 R"()",
         kElementVisibilityWhole,
         this);
 
   appendSubGroupToGroup (subGroup);
-
-  // fetch the 't' prefix
-
-  S_oahPrefix
-    shortTracePrefix =
-      fHandlerUpLink->
-        fetchPrefixNameInPrefixesMap (
-          "t");
-
-  msgAssert (
-    shortTracePrefix != nullptr,
-    "shortTracePrefix is null");
-
-  // fetch the 'trace' prefix
-
-  S_oahPrefix
-    longTracePrefix =
-      fHandlerUpLink->
-        fetchPrefixNameInPrefixesMap (
-          "trace");
-
-  msgAssert (
-    longTracePrefix != nullptr,
-    "longTracePrefix is null");
 
   // the 'MusicXML' multiplex booleans atom
 
@@ -123,8 +81,8 @@ R"()",
         "Trace SHORT_NAME/LONG_NAME when handling MusicXML data.",
         "SHORT_NAME",
         "LONG_NAME",
-        shortTracePrefix,
-        longTracePrefix);
+        gGlobalTraceOahGroup->getShortTracePrefix (),
+        gGlobalTraceOahGroup->getLongTracePrefix ());
 
   subGroup->
     appendAtomToSubGroup (
@@ -132,7 +90,7 @@ R"()",
 
   // encoding
 
-  fTraceEncoding = boolOptionsInitialValue;
+  fTraceEncoding = false;
 
   S_oahBooleanAtom
     traceEncodingAtom =
@@ -150,7 +108,7 @@ R"(Encoding)",
 
   // divisions
 
-  fTraceDivisions = boolOptionsInitialValue;
+  fTraceDivisions = false;
 
   S_oahBooleanAtom
     traceDivisionsAtom =
@@ -168,7 +126,7 @@ R"(Divisions)",
 
   // backup
 
-  fTraceBackup = boolOptionsInitialValue;
+  fTraceBackup = false;
 
   S_oahBooleanAtom
     traceBackupAtom =
@@ -186,7 +144,7 @@ R"(Backup)",
 
   // forward
 
-  fTraceForward = boolOptionsInitialValue;
+  fTraceForward = false;
 
   S_oahBooleanAtom
     traceForwardAtom =
@@ -204,97 +162,43 @@ R"(Forward)",
 }
 #endif
 
-void musicxmlOah::initializeMusicxmlOah (
-  bool boolOptionsInitialValue)
+void musicxmlOahGroup::initializeMusicxmlOahGroup ()
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-  initializeMusicxmlTraceOah (
-    boolOptionsInitialValue);
-#endif
-}
-
-S_musicxmlOah musicxmlOah::createCloneWithDetailedTrace ()
-{
-  S_musicxmlOah
-    clone =
-      musicxmlOah::create (0);
-      // 0 not to have it inserted twice in the option handler
-
-  // set the options handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-  // trace
-  // --------------------------------------
-
-#ifdef TRACE_OAH
-  clone->fTraceEncoding =
-    fTraceEncoding;
-
-  clone->fTraceDivisions =
-    fTraceDivisions;
-
-  clone->fTraceBackup =
-    fTraceBackup;
-
-  clone->fTraceForward =
-    fTraceForward;
-#endif
-  return clone;
-}
-
-//______________________________________________________________________________
-void musicxmlOah::setAllMusicXMLTraceOah (
-  bool boolOptionsInitialValue)
-{
-#ifdef TRACE_OAH
-  // specific trace
-  // JMI
-
-  // encoding
-  fTraceEncoding = boolOptionsInitialValue;
-
-  // divisions
-  fTraceDivisions = boolOptionsInitialValue;
-
-  // backup
-  fTraceBackup = boolOptionsInitialValue;
-
-  // forward
-  fTraceForward = boolOptionsInitialValue;
+  initializeMusicxmlTraceOah ();
 #endif
 }
 
 //______________________________________________________________________________
-void musicxmlOah::enforceGroupQuietness ()
+void musicxmlOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void musicxmlOah::checkGroupOptionsConsistency ()
+void musicxmlOahGroup::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
-void musicxmlOah::acceptIn (basevisitor* v)
+void musicxmlOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> musicxmlOah::acceptIn ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> musicxmlOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_musicxmlOah>*
+  if (visitor<S_musicxmlOahGroup>*
     p =
-      dynamic_cast<visitor<S_musicxmlOah>*> (v)) {
-        S_musicxmlOah elem = this;
+      dynamic_cast<visitor<S_musicxmlOahGroup>*> (v)) {
+        S_musicxmlOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching musicxmlOah::visitStart ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching musicxmlOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -302,25 +206,25 @@ void musicxmlOah::acceptIn (basevisitor* v)
   }
 }
 
-void musicxmlOah::acceptOut (basevisitor* v)
+void musicxmlOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> musicxmlOah::acceptOut ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> musicxmlOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_musicxmlOah>*
+  if (visitor<S_musicxmlOahGroup>*
     p =
-      dynamic_cast<visitor<S_musicxmlOah>*> (v)) {
-        S_musicxmlOah elem = this;
+      dynamic_cast<visitor<S_musicxmlOahGroup>*> (v)) {
+        S_musicxmlOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching musicxmlOah::visitEnd ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching musicxmlOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -328,37 +232,37 @@ void musicxmlOah::acceptOut (basevisitor* v)
   }
 }
 
-void musicxmlOah::browseData (basevisitor* v)
+void musicxmlOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> musicxmlOah::browseData ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> musicxmlOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void musicxmlOah::printMusicxmlValues (int fieldWidth)
+void musicxmlOahGroup::printMusicxmlValues (int fieldWidth)
 {
-  gLogOstream <<
+  gLogStream <<
     "The MusicXML options are:" <<
     endl;
 
   gIndenter++;
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
 
-  gLogOstream <<
+  gLogStream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "traceEncoding" << " : " <<
     booleanAsString (fTraceEncoding) <<
     endl <<
@@ -381,49 +285,33 @@ void musicxmlOah::printMusicxmlValues (int fieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_musicxmlOah& elt)
+ostream& operator<< (ostream& os, const S_musicxmlOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeMusicxmlOahHandling (
-  S_oahHandler handler)
+S_musicxmlOahGroup createGlobalMusicxmlOahGroup ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing Musicxml2Mxml options handling" <<
-      endl;
-  }
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+      "Creating global MusicXML OAH group" <<
+    endl;
+#endif
 #endif
 
   // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
-
-  if (! pThisMethodHasBeenRun) {
-    // create the Musicxml options
-    // ------------------------------------------------------
-
-    gGlobalMusicxmlOahUserChoices = musicxmlOah::create (
-      handler);
-    assert(gGlobalMusicxmlOahUserChoices != 0);
-
-    gGlobalMusicxmlOah =
-      gGlobalMusicxmlOahUserChoices;
-
-    // prepare for measure detailed trace
-    // ------------------------------------------------------
-
-  /* JMI
-    gGlobalMusicxmlOahWithDetailedTrace =
-      gGlobalMusicxmlOah->
-        createCloneWithDetailedTrace ();
-        */
-
-// JMI    pThisMethodHasBeenRun = true;
+  if (! gGlobalMusicxmlOahGroup) {
+    // create the global MusicXml options group
+    gGlobalMusicxmlOahGroup =
+      musicxmlOahGroup::create ();
+    assert (gGlobalMusicxmlOahGroup != 0);
   }
+
+  // return global OAH group
+  return gGlobalMusicxmlOahGroup;
 }
 
 

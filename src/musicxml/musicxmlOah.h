@@ -20,35 +20,30 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class musicxmlOah : public oahGroup
+class musicxmlOahGroup : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<musicxmlOah> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<musicxmlOah>   createCloneWithDetailedTrace ();
+    static SMARTP<musicxmlOahGroup> create ();
 
   private:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMusicxmlOah (
-                            bool boolOptionsInitialValue);
+    void                  initializeMusicxmlOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    musicxmlOah (
-      S_oahHandler handlerUpLink);
+    musicxmlOahGroup ();
 
-    virtual ~musicxmlOah ();
+    virtual ~musicxmlOahGroup ();
 
   public:
 
@@ -69,8 +64,26 @@ class musicxmlOah : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    void                  setAllMusicXMLTraceOah (
-                            bool boolOptionsInitialValue);
+#ifdef TRACING_IS_ENABLED
+    // specific trace
+    // --------------------------------------
+
+    // encoding
+    bool                  getTraceEncoding () const
+                              { return fTraceEncoding; }
+
+    // divisions
+    bool                  getTraceDivisions () const
+                              { return fTraceDivisions; }
+
+    // backup
+    bool                  getTraceBackup () const
+                              { return fTraceBackup; }
+
+    // forward
+    bool                  getTraceForward () const
+                              { return fTraceForward; }
+#endif
 
   public:
 
@@ -82,9 +95,8 @@ class musicxmlOah : public oahGroup
     // private services
     // ------------------------------------------------------
 
-#ifdef TRACE_OAH
-    void                  initializeMusicxmlTraceOah (
-                            bool boolOptionsInitialValue);
+#ifdef TRACING_IS_ENABLED
+    void                  initializeMusicxmlTraceOah ();
 #endif
 
   public:
@@ -106,12 +118,12 @@ class musicxmlOah : public oahGroup
 
     void                  printMusicxmlValues (int fieldWidth);
 
-  public:
+  private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
     // specific trace
     // --------------------------------------
 
@@ -128,16 +140,13 @@ class musicxmlOah : public oahGroup
     bool                  fTraceForward;
 #endif
 };
-typedef SMARTP<musicxmlOah> S_musicxmlOah;
-EXP ostream& operator<< (ostream& os, const S_musicxmlOah& elt);
+typedef SMARTP<musicxmlOahGroup> S_musicxmlOahGroup;
+EXP ostream& operator<< (ostream& os, const S_musicxmlOahGroup& elt);
 
-EXP extern S_musicxmlOah gGlobalMusicxmlOah;
-EXP extern S_musicxmlOah gGlobalMusicxmlOahUserChoices;
-EXP extern S_musicxmlOah gGlobalMusicxmlOahWithDetailedTrace;
+EXP extern S_musicxmlOahGroup gGlobalMusicxmlOahGroup;
 
 //______________________________________________________________________________
-void initializeMusicxmlOahHandling (
-  S_oahHandler handler);
+S_musicxmlOahGroup createGlobalMusicxmlOahGroup ();
 
 
 }

@@ -14,21 +14,21 @@
 #define ___extraOah___
 
 
-#include "setExtraOahIfDesired.h"
+#include "enableExtraOahIfDesired.h"
 
-#ifdef EXTRA_OAH
+#ifdef EXTRA_OAH_IS_ENABLED
 
+
+#include "msrBasicTypes.h"
 
 #include "oahBasicTypes.h"
-
-#include "exports.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class extraShowAllHarmoniesStructuresAtom : public oahAtom
+class extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
 {
   public:
 
@@ -59,11 +59,11 @@ class extraShowAllHarmoniesStructuresAtom : public oahAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
+    void                  applyAtomWithValue (
+                            string   theString,
                             ostream& os) override;
 
   public:
@@ -85,20 +85,22 @@ class extraShowAllHarmoniesStructuresAtom : public oahAtom
 
     void                  printAllHarmoniesStructures (ostream& os) const;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
+
+    //  JMI ???
 };
 typedef SMARTP<extraShowAllHarmoniesStructuresAtom> S_extraShowAllHarmoniesStructuresAtom;
 EXP ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesStructuresAtom& elt);
 
 //______________________________________________________________________________
-class extraShowAllHarmoniesContentsAtom : public oahValuedAtom
+class extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
 {
   public:
 
@@ -139,14 +141,10 @@ class extraShowAllHarmoniesContentsAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -171,13 +169,13 @@ class extraShowAllHarmoniesContentsAtom : public oahValuedAtom
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind) const;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string&               fStringVariable;
@@ -186,7 +184,7 @@ typedef SMARTP<extraShowAllHarmoniesContentsAtom> S_extraShowAllHarmoniesContent
 EXP ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesContentsAtom& elt);
 
 //______________________________________________________________________________
-class extraShowHarmonyDetailsAtom : public oahValuedAtom
+class extraShowHarmonyDetailsAtom : public oahAtomWithValue
 {
   public:
 
@@ -227,14 +225,10 @@ class extraShowHarmonyDetailsAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -255,13 +249,13 @@ class extraShowHarmonyDetailsAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string&               fStringVariable;
@@ -270,7 +264,7 @@ typedef SMARTP<extraShowHarmonyDetailsAtom> S_extraShowHarmonyDetailsAtom;
 EXP ostream& operator<< (ostream& os, const S_extraShowHarmonyDetailsAtom& elt);
 
 //______________________________________________________________________________
-class extraShowHarmonyAnalysisAtom : public oahValuedAtom
+class extraShowHarmonyAnalysisAtom : public oahAtomWithValue
 {
   public:
 
@@ -311,14 +305,10 @@ class extraShowHarmonyAnalysisAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -339,13 +329,13 @@ class extraShowHarmonyAnalysisAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string&               fStringVariable;
@@ -354,35 +344,30 @@ typedef SMARTP<extraShowHarmonyAnalysisAtom> S_extraShowHarmonyAnalysisAtom;
 EXP ostream& operator<< (ostream& os, const S_extraShowHarmonyAnalysisAtom& elt);
 
 //______________________________________________________________________________
-class extraOah : public oahGroup
+class extraOahGroup : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<extraOah> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<extraOah>      createCloneWithDetailedTrace ();
+    static SMARTP<extraOahGroup> create ();
 
   private:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeExtraOah (
-                            bool boolOptionsInitialValue);
+    void                  initializeExtraOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    extraOah (
-      S_oahHandler handlerUpLink);
+    extraOahGroup ();
 
-    virtual ~extraOah ();
+    virtual ~extraOahGroup ();
 
   public:
 
@@ -400,17 +385,13 @@ class extraOah : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  initializeExtraShowAllHarmoniesStructuresOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeExtraShowAllHarmoniesStructuresOptions ();
 
-    void                  initializeExtraShowAllHarmoniesContentsOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeExtraShowAllHarmoniesContentsOptions ();
 
-    void                  initializeExtraShowHarmonyDetailsOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeExtraShowHarmonyDetailsOptions ();
 
-    void                  initializeExtraShowHarmonyAnalysisOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeExtraShowHarmonyAnalysisOptions ();
 
   public:
 
@@ -438,16 +419,13 @@ class extraOah : public oahGroup
 
     string                fHarmoniesRootAsString; // JMI
 };
-typedef SMARTP<extraOah> S_extraOah;
-EXP ostream& operator<< (ostream& os, const S_extraOah& elt);
+typedef SMARTP<extraOahGroup> S_extraOahGroup;
+EXP ostream& operator<< (ostream& os, const S_extraOahGroup& elt);
 
-EXP extern S_extraOah gGlobalExtraOah;
-EXP extern S_extraOah gGlobalExtraOahUserChoices;
-EXP extern S_extraOah gGlobalExtraOahWithDetailedTrace;
+EXP extern S_extraOahGroup gGlobalExtraOahGroup;
 
 //______________________________________________________________________________
-void initializeExtraOahHandling (
-  S_oahHandler handler);
+S_extraOahGroup createGlobalExtraOahGroup ();
 
 
 }

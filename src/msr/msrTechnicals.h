@@ -109,7 +109,9 @@ class msrTechnical : public msrElement
                               { return fTechnicalAccidentalMarkKind; }
 */
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                technicalKindAsString () const;
@@ -139,7 +141,7 @@ class msrTechnical : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrTechnicalKind      fTechnicalKind;
@@ -212,7 +214,9 @@ class msrTechnicalWithInteger : public msrElement
     msrPlacementKind      getTechnicalWithIntegerPlacementKind () const
                               { return fTechnicalWithIntegerPlacementKind; }
         
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                technicalWithIntegerKindAsString () const;
@@ -242,7 +246,7 @@ class msrTechnicalWithInteger : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrTechnicalWithIntegerKind     fTechnicalWithIntegerKind;
@@ -313,7 +317,9 @@ class msrTechnicalWithFloat : public msrElement
     msrPlacementKind      getTechnicalWithFloatPlacementKind () const
                               { return fTechnicalWithFloatPlacementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                technicalWithFloatKindAsString () const;
@@ -343,7 +349,7 @@ class msrTechnicalWithFloat : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrTechnicalWithFloatKind       fTechnicalWithFloatKind;
@@ -423,7 +429,9 @@ class msrTechnicalWithString : public msrElement
     msrPlacementKind      getTechnicalWithStringPlacementKind () const
                               { return fTechnicalWithStringPlacementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                technicalWithStringKindAsString () const;
@@ -455,7 +463,7 @@ class msrTechnicalWithString : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrTechnicalWithStringKind

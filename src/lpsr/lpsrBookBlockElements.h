@@ -86,7 +86,9 @@ class lpsrBookBlockElement : public lpsrElement
                                   fBookBlockElementParallelMusicBlock;
                               }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendPartGroupBlockToBlockElement (
@@ -111,7 +113,7 @@ class lpsrBookBlockElement : public lpsrElement
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
 
     S_lpsrHeader          fBookBlockElementHeader;
@@ -154,7 +156,9 @@ class lpsrScoreBlock : public lpsrBookBlockElement
     S_msrMidiTempo        getScoreBlockMidiTempo () const
                               { return fScoreBlockMidiTempo; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendPartGroupBlockToScoreBlock (
@@ -179,7 +183,7 @@ class lpsrScoreBlock : public lpsrBookBlockElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_lpsrLayout          fScoreBlockLayout;
@@ -215,7 +219,9 @@ class lpsrBookPartBlock : public lpsrBookBlockElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendPartGroupBlockToBookPartBlock (
@@ -240,7 +246,7 @@ class lpsrBookPartBlock : public lpsrBookBlockElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 };
 typedef SMARTP<lpsrBookPartBlock> S_lpsrBookPartBlock;
@@ -328,7 +334,7 @@ class lpsrBookBlock : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_lpsrHeader          fBookBlockHeader;

@@ -18,12 +18,13 @@
 
 #include "msrTranspositions.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "msrOah.h"
 
@@ -42,7 +43,7 @@ S_msrOctaveShift msrOctaveShift::create (
   msrOctaveShift* o =
     new msrOctaveShift (
       inputLineNumber, octaveShiftKind, octaveShiftSize);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -62,8 +63,8 @@ msrOctaveShift::~msrOctaveShift ()
 
 void msrOctaveShift::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrOctaveShift::acceptIn ()" <<
       endl;
   }
@@ -73,8 +74,8 @@ void msrOctaveShift::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrOctaveShift::visitStart ()" <<
             endl;
         }
@@ -84,8 +85,8 @@ void msrOctaveShift::acceptIn (basevisitor* v)
 
 void msrOctaveShift::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrOctaveShift::acceptOut ()" <<
       endl;
   }
@@ -95,8 +96,8 @@ void msrOctaveShift::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrOctaveShift::visitEnd ()" <<
             endl;
         }
@@ -197,9 +198,9 @@ msrTranspose::msrTranspose (
   fTransposeOctaveChange = transposeOctaveChange;
   fTransposeDouble       = transposeDouble;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTranspositions) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTranspositions ()) {
+    gLogStream <<
       "Creating transpose '" <<
       asString () <<
       "'" <<
@@ -233,8 +234,8 @@ bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
 
 void msrTranspose::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTranspose::acceptIn ()" <<
       endl;
   }
@@ -244,8 +245,8 @@ void msrTranspose::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTranspose::visitStart ()" <<
             endl;
         }
@@ -255,8 +256,8 @@ void msrTranspose::acceptIn (basevisitor* v)
 
 void msrTranspose::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTranspose::acceptOut ()" <<
       endl;
   }
@@ -266,8 +267,8 @@ void msrTranspose::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTranspose::visitEnd ()" <<
             endl;
         }

@@ -60,7 +60,9 @@ class msrClef : public msrMeasureElement
     int                   getClefStaffNumber () const
                               { return fClefStaffNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrClef otherClef) const;
@@ -81,7 +83,7 @@ class msrClef : public msrMeasureElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -95,7 +97,7 @@ class msrClef : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrClefKind           fClefKind;

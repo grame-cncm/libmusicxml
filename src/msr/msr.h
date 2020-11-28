@@ -78,11 +78,9 @@
 #include "msrScores.h"
 #include "msrPartGroups.h"
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
 #include "msrMidi.h"
-
-#include "generalOah.h"
 
 
 namespace MusicXML2

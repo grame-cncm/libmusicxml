@@ -30,7 +30,7 @@ namespace MusicXML2
 class EXP factory : public singleton<factory>{
 
 	std::map<std::string, functor<Sxmlelement>*> fMap;
-	std::map<int, const char*>	fType2Name;
+	std::map<int, const char*>	fType2name;
 	public:
 				 factory();
 		virtual ~factory() {}
@@ -38,7 +38,7 @@ class EXP factory : public singleton<factory>{
 		Sxmlelement create(const std::string& elt) const;
 		Sxmlelement create(int type) const;
 
-	  const std::map<int, const char*>& getType2Name() const { return fType2Name; }
+	  const std::map<int, const char*>& getType2name() const { return fType2name; }
 };
 
 }

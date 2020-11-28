@@ -24,12 +24,12 @@ namespace MusicXML2
 void initializeMSR ()
 {
   // protect library against multiple initializations
-  static bool initializeMSRHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeMSRHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     initializeMSRBasicTypes ();
 
-    initializeMSRHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 
