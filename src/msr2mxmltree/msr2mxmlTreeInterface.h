@@ -25,7 +25,6 @@
 #include "generalOah.h"
 #include "msrOah.h"
 
-// KAKA
 
 namespace MusicXML2
 {
