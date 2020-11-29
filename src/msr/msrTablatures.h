@@ -86,7 +86,9 @@ class msrFrameNote : public msrElement
     msrBarreTypeKind      getFrameNoteBarreTypeKind () const
                               { return fFrameNoteBarreTypeKind; }
                               
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
     
   public:
@@ -110,7 +112,7 @@ class msrFrameNote : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fFrameNoteStringNumber;
@@ -240,7 +242,7 @@ class msrFrame : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fFrameStringsNumber;

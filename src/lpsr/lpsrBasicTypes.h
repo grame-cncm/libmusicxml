@@ -41,7 +41,7 @@ string lpsrScoreOutputKindAsString (
   lpsrScoreOutputKind scoreOutputKind);
 
 extern map<string, lpsrScoreOutputKind>
-  gLpsrScoreOutputKindsMap;
+  gGlobalLpsrScoreOutputKindsMap;
 
 string existingLpsrScoreOutputKinds (int namesListMaxLength);
 
@@ -58,7 +58,7 @@ string lpsrOctaveEntryKindAsString (
   lpsrOctaveEntryKind octaveEntryKind);
 
 extern map<string, lpsrOctaveEntryKind>
-  gLpsrOctaveEntryKindsMap;
+  gGlobalLpsrOctaveEntryKindsMap;
 
 string existingLpsrOctaveEntryKinds (int namesListMaxLength);
 
@@ -84,7 +84,7 @@ string lpsrAccidentalStyleKindAsLilypondString (
   lpsrAccidentalStyleKind accidentalStyleKind);
 
 extern map<string, lpsrAccidentalStyleKind>
-  gLpsrAccidentalStyleKindsMap;
+  gGlobalLpsrAccidentalStyleKindsMap;
 
 string existingLpsrAccidentalStyleKinds (int namesListMaxLength);
 
@@ -100,7 +100,7 @@ string lpsrChordsLanguageKindAsString (
   lpsrChordsLanguageKind languageKind);
 
 extern map<string, lpsrChordsLanguageKind>
-  gLpsrChordsLanguageKindsMap;
+  gGlobalLpsrChordsLanguageKindsMap;
 
 string existingLpsrChordsLanguageKinds (int namesListMaxLength);
 
@@ -160,7 +160,7 @@ string lpsrLyricsDurationsKindAsString (
   lpsrLyricsDurationsKind lyricsDurationsKind);
 
 extern map<string, lpsrLyricsDurationsKind>
-  gLpsrLyricsDurationsKindsMap;
+  gGlobalLpsrLyricsDurationsKindsMap;
 
 string existingLpsrLyricsDurationsKinds (int namesListMaxLength);
 

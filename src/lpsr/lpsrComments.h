@@ -66,7 +66,9 @@ class lpsrComment : public lpsrElement
     lpsrCommentGapKind    getCommentGapKind  () const
                               { return fCommentGapKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -88,7 +90,7 @@ class lpsrComment : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string              fContents;

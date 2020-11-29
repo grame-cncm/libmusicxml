@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by bsrMutualDependencies.h,
+  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -42,7 +42,7 @@ class bsrFootNotesElement : public bsrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -66,7 +66,7 @@ class bsrFootNotesElement : public bsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fFootNoteText;
@@ -104,7 +104,7 @@ class bsrFootNotes : public bsrLine
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  appendElementToFootNotes (
@@ -136,7 +136,7 @@ class bsrFootNotes : public bsrLine
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     list<S_bsrFootNotesElement>

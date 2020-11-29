@@ -19,6 +19,8 @@
 
 #include "msrLigatures.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -44,7 +46,7 @@ S_msrLigature msrLigature::create (
       ligatureLineEndKind,
       ligatureLineTypeKind,
       ligaturePlacementKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -85,8 +87,8 @@ void msrLigature::setLigatureOtherEndSideLink (
 
 void msrLigature::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrLigature::acceptIn ()" <<
       endl;
   }
@@ -96,8 +98,8 @@ void msrLigature::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrLigature::visitStart ()" <<
             endl;
         }
@@ -107,8 +109,8 @@ void msrLigature::acceptIn (basevisitor* v)
 
 void msrLigature::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrLigature::acceptOut ()" <<
       endl;
   }
@@ -118,8 +120,8 @@ void msrLigature::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrLigature::visitEnd ()" <<
             endl;
         }

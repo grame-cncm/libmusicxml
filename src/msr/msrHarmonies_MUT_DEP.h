@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -65,7 +65,9 @@ class msrHarmonyDegree : public msrElement
                           getHarmonyDegreeTypeKind () const
                               { return fHarmonyDegreeTypeKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
 // JMI ???    int                   harmonyDegreeAsSemitones () const;
@@ -94,7 +96,7 @@ class msrHarmonyDegree : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -267,7 +269,7 @@ class msrHarmony : public msrMeasureElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  appendHarmonyDegreeToHarmony (
@@ -298,7 +300,7 @@ class msrHarmony : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // uplinks

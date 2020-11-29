@@ -10,50 +10,90 @@
 #include <fstream>      // ifstream, ...
 #include <sstream>
 
+#ifndef WIN32
+#include <signal.h>
+#endif
+
 #include "libmusicxml.h"
+
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
+  #include "traceOah.h"
+#endif
+
+#include "generalOah.h"
+
+#include "messagesHandling.h"
 
 
 using namespace std;
 using namespace MusicXML2;
 
-//_______________________________________________________________________________
+/*
+  ENFORCE_TRACE_OAH can be used to issue trace messages
+  before gGlobalOahOahGroup->fTrace has been initialized
+*/
+//#define ENFORCE_TRACE_OAH
 
-static void string2StringsV (int argc, char *argv[], vector<string>& strings)
+//_______________________________________________________________________________
+static void argvElements2stringsVector (
+  int argc, char *argv[],
+  vector<string>& stringsVector)
 {
 	for (int i=1; i<argc; i++) {
-		strings.push_back (argv [i]);
+		stringsVector.push_back (argv [i]);
 	} // for
 }
 
-static void printOptions (optionsVector& options)
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+static void printOptionsVector (optionsVector& theOptionsVector)
 {
-  cerr << "printOptions: options size: " << options.size() << endl;
-	cerr << "==> options:" << endl;
-	for (auto option: options) {
+	cerr <<
+    "The options vector contains " <<
+    theOptionsVector.size () <<
+    " elements: " <<
+    endl;
+
+	for (auto option: theOptionsVector) {
 	  cerr << "   \"" << option.first << "\" \"" << option.second << "\"" << endl;
 	} // for
 	cerr << endl;
 }
+#endif
+#endif
 
-static bool args2Options (int argc, char *argv[], optionsVector& options)
+//_______________________________________________________________________________
+static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVector)
 {
-	vector<string> args;
-	string2StringsV (argc, argv, args);
+  // create a strings vector from the elements in argv
+	vector<string> stringsVector;
 
-  cerr << "args2Options: args size: " << args.size() << endl;
-	cerr << "==> args:" << endl;
-	for (auto str: args) {
+	argvElements2stringsVector (argc, argv, stringsVector);
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  cerr << "args2Options: stringsVector size: " << stringsVector.size() << endl;
+	cerr << "==> stringsVector:" << endl;
+	for (auto str: stringsVector) {
 	  cerr << "   " << str << endl;
 	} // for
 	cerr << endl;
+#endif
+#endif
 
+  // populate the optionsVector
 	string curOption;
 
-	for (int i = 0; i < args.size ()-1; i++) {
-	  string str = args[i];
+	for (int i = 0; i < stringsVector.size () - 1; i++) {
+	  string str = stringsVector [i];
 
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
 	  cerr << "--> curOption: " << curOption << endl;
 	  cerr << "--> str      : " << str << endl;
+#endif
+#endif
 
 		if (curOption.empty ()) {	// wait for option
 			if (str [0] == '-') {
@@ -67,21 +107,19 @@ static bool args2Options (int argc, char *argv[], optionsVector& options)
 		else {
 			if (str[0] == '-') {
 				// option without value
-				options.push_back (make_pair (curOption, ""));
+				theOptionsVector.push_back (make_pair (curOption, ""));
 				curOption = str;
 			}
 			else {
 			  // option with value
-				options.push_back (make_pair(curOption, str));
+				theOptionsVector.push_back (make_pair(curOption, str));
 				curOption = "";
 			}
 		}
-
-// JMI		printOptions (options);
 	} // for
 
 	if (curOption.size())
-		options.push_back (make_pair (curOption, ""));
+		theOptionsVector.push_back (make_pair (curOption, ""));
 
 	return true;
 }
@@ -128,30 +166,72 @@ void registerGeneratedCodeKind (generatedCodeKind kind)
 }
 
 //_______________________________________________________________________________
+#ifndef WIN32
+
+static void _sigaction(int signal, siginfo_t *si, void *arg)
+{
+  cerr << "Signal #" << signal << " catched!" << endl;
+  exit(-2);
+}
+
+static void catchsigs ()
+{
+	struct sigaction sa;
+
+  memset (&sa, 0, sizeof(struct sigaction));
+
+  sigemptyset (&sa.sa_mask);
+
+  sa.sa_sigaction = _sigaction;
+  sa.sa_flags     = SA_SIGINFO;
+
+  sigaction (SIGSEGV, &sa, NULL);
+  sigaction (SIGILL, &sa, NULL);
+  sigaction (SIGFPE, &sa, NULL);
+}
+
+#else
+static void catchsigs()	{}
+#endif
+
+//_______________________________________________________________________________
 int main (int argc, char *argv[])
 {
-	optionsVector options;
-	const char* file = 0;
+  // setup signals catching
+  // ------------------------------------------------------
 
-	if (argc > 1)
-		file = argv [argc - 1];
+	catchsigs();
+
+  // fetch the input filename
+	const char* fileName = 0;
+
+	if (argc > 1) {
+		fileName = argv [argc - 1];
+  }
 	else {
 		cerr <<
 		  "usage: " <<
 		  argv [0] <<
-		  " [-lilypond | -braille | -musicxml] [options] -|fileName" <<
+		  "[-lilypond | -braille | -musicxml] [options] -|fileName " <<
 		  endl;
 		return -1;
 	}
 
-  // fetch the options from argc/argv
-	args2Options (argc, argv, options);
-	printOptions (options);
+  // fetch the theOptionsVector from argc/argv
+	optionsVector theOptionsVector;
+
+	args2Options (argc, argv, theOptionsVector);
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+	printOptionsVector (theOptionsVector);
+#endif
+#endif
 
   // take generatedCodeKind options into account if any
-	optionsVector optionsToKeep;
+	optionsVector keptOptions;
 
-	for (auto option: options) {
+	for (auto option: theOptionsVector) {
 	  if (option.first == "-lilypond") {
 	    registerGeneratedCodeKind (kLilyPond);
 	  }
@@ -162,109 +242,145 @@ int main (int argc, char *argv[])
 	    registerGeneratedCodeKind (kMusicXML);
 	  }
 	  else {
-	    optionsToKeep.push_back (option);
+	    keptOptions.push_back (option);
 	  }
 	} // for
-	printOptions (optionsToKeep);
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+	printOptionsVector (theOptionsVector);
+#endif
+#endif
 
   // the default is '-lilypond'
   if (gGeneratedCodeKind == kNoGeneratedCode) {
     gGeneratedCodeKind = kLilyPond;
   }
 
-  // use insider options instead of the regular ones?
-  bool insiderOptions = false;
-
   // should we generate LilyPond, braille music or MusicXML?
+  // ------------------------------------------------------
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
   cerr <<
     "==> generatedCodeKind: " <<
     generatedCodeKindAsString (gGeneratedCodeKind) <<
     endl;
+#endif
+#endif
 
-  if (string (file) == "-") {
+  if (string (fileName) == "-") {
     xmlErr err = kNoErr;
 
     // MusicXML data comes from standard input
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+    cerr << "Reading standard input" << endl;
+#endif
+#endif
+
     switch (gGeneratedCodeKind) {
       case kNoGeneratedCode:
         // should not occur
         break;
       case kLilyPond:
         err = musicxmlfd2lilypond (
-          stdin, insiderOptions, optionsToKeep, cout, cerr);
+          stdin, keptOptions, cout, cerr);
         break;
       case kBrailleMusic:
         err = musicxmlfd2braille (
-          stdin, insiderOptions, optionsToKeep, cout, cerr);
+          stdin, keptOptions, cout, cerr);
         break;
       case kMusicXML:
         err = musicxmlfd2musicxml (
-          stdin, insiderOptions, optionsToKeep, cout, cerr);
+          stdin, keptOptions, cout, cerr);
         break;
     } // switch
 
-    cout << "xml2ly3 ret 1 = " << err << endl;
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+    if (err != 0) {
+      cerr << "xml2Any, " <<
+        generatedCodeKindAsString (gGeneratedCodeKind) <<
+        ", from stdin, err = " <<
+        err <<
+        endl;
+    }
+#endif
+#endif
   }
 
   else {
     // MusicXML data comes from a file
-    cerr << "read file '" << file << "'" << endl;
-    std::ifstream t (file);
-    std::stringstream buffer;
-    buffer << t.rdbuf ();
-  //	cerr << "==> buffer:" << endl << buffer.str () << endl;
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+    cerr << "Reading file '" << fileName << "'" << endl;
+#endif
+#endif
 
-    if (buffer.str ().size ()) {
-      xmlErr err = kNoErr;
+    xmlErr err = kNoErr;
 
-      switch (gGeneratedCodeKind) {
-        case kNoGeneratedCode:
-          // should not occur
-          break;
-        case kLilyPond:
-          err = musicxmlstring2lilypond (
-            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
-          break;
-        case kBrailleMusic:
-          err = musicxmlstring2braille (
-            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
-          break;
-        case kMusicXML:
-          err = musicxmlstring2musicxml (
-            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
-          break;
-      } // switch
+    switch (gGeneratedCodeKind) {
+      case kNoGeneratedCode:
+        // should not occur
+        break;
+      case kLilyPond:
+        err =
+          musicxmlfile2lilypond (
+            fileName, keptOptions, cout, cerr);
+        break;
+      case kBrailleMusic:
+        err =
+          musicxmlfile2braille (
+            fileName, keptOptions, cout, cerr);
+        break;
+      case kMusicXML:
+        err =
+          musicxmlfile2musicxml (
+            fileName, keptOptions, cout, cerr);
+        break;
+    } // switch
 
-      cout << "xml2ly3 ret 2 = " << err << endl;
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+    if (err != 0) {
+      cerr << "xml2Any, " <<
+        generatedCodeKindAsString (gGeneratedCodeKind) <<
+        ", from a file \"" << fileName << "\", err = " <<
+        err <<
+        endl;
     }
+#endif
+#endif
+  }
 
-    else {
-      cerr << "cannot read file '" << file << "'" << endl;
-      // handle the optionsToKeep anyway, just for help
+  // display the input line numbers for which messages have been issued
+  // ------------------------------------------------------
 
-      xmlErr err = kNoErr;
+  displayWarningsAndErrorsInputLineNumbers ();
 
-      switch (gGeneratedCodeKind) {
-        case kNoGeneratedCode:
-          // should not occur
-          break;
-        case kLilyPond:
-          err = musicxmlstring2lilypond (
-            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
-          break;
-        case kBrailleMusic:
-          err = musicxmlstring2braille (
-            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
-          break;
-        case kMusicXML:
-          err = musicxmlstring2musicxml (
-            buffer.str().c_str(), insiderOptions, optionsToKeep, cout, cerr);
-          break;
-      } // switch
+  // print timing information
+  // ------------------------------------------------------
 
-      cout << "xml2ly3 ret 3 = " << err << endl;
-      return -1;
+
+  // necessary test, in case this run terminates before any OAH handler is created
+  if (gGlobalGeneralOahGroup) {
+    if (gGlobalGeneralOahGroup->getDisplayCPUusage ()) {
+      timing::gGlobalTiming.print (cerr);
     }
+  }
+
+  // check indentation
+  // ------------------------------------------------------
+
+  if (gIndenter != 0) {
+    cerr <<
+      "### xml2Any gIndenter final value: " <<
+      gIndenter.getIndent () <<
+      " ###" <<
+      endl << endl;
+
+    gIndenter.resetToZero ();
   }
 
 	return 0;

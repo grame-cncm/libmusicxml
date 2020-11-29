@@ -18,6 +18,8 @@
 
 #include "msrWords.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -53,7 +55,7 @@ S_msrWords msrWords::create (
       wordsFontWeightKind,
       wordsXMLLangKind,
       wordsStaffNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -94,8 +96,8 @@ msrWords::~msrWords ()
 
 void msrWords::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrWords::acceptIn ()" <<
       endl;
   }
@@ -105,8 +107,8 @@ void msrWords::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrWords::visitStart ()" <<
             endl;
         }
@@ -116,8 +118,8 @@ void msrWords::acceptIn (basevisitor* v)
 
 void msrWords::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrWords::acceptOut ()" <<
       endl;
   }
@@ -127,8 +129,8 @@ void msrWords::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrWords::visitEnd ()" <<
             endl;
         }

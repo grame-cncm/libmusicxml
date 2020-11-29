@@ -17,7 +17,7 @@
 
 #include "exports.h"
 
-#include "oahOah.h"
+#include "oahBasicTypes.h"
 
 
 namespace MusicXML2
@@ -28,26 +28,21 @@ class generalOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<generalOahGroup> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<generalOahGroup>    createCloneWithTrueValues (); // JMI
+    static SMARTP<generalOahGroup> create ();
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeGeneralOah (
-                            bool boolOptionsInitialValue);
+    void                  initializeGeneralOah ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    generalOahGroup (
-      S_oahHandler handlerUpLink);
+    generalOahGroup ();
 
     virtual ~generalOahGroup ();
 
@@ -56,10 +51,31 @@ class generalOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-/* JMI ???
-    void                  setAllGeneralTraceOah (
-                            bool boolOptionsInitialValue);
-                            */
+    // translation date
+    // --------------------------------------
+
+    string                getTranslationDateFull () const
+                              { return fTranslationDateFull;  }
+    string                getTranslationDateYYYYMMDD () const
+                              { return fTranslationDateYYYYMMDD;  }
+
+    // warning and error handling
+    // --------------------------------------
+
+    bool                  getQuiet () const
+                              { return fQuiet;  }
+    bool                  getDontShowErrors () const
+                              { return fDontShowErrors;  }
+    bool                  getDontQuitOnErrors () const
+                              { return fDontQuitOnErrors;  }
+    bool                  getDisplaySourceCodePosition () const
+                              { return fDisplaySourceCodePosition;  }
+
+    // CPU usage
+    // --------------------------------------
+
+    bool                  getDisplayCPUusage () const
+                              { return fDisplayCPUusage;  }
 
   public:
 
@@ -77,11 +93,9 @@ class generalOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  initializeGeneralWarningAndErrorsOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeGeneralWarningAndErrorsOptions ();
 
-    void                  initializeGeneralCPUUsageOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeGeneralCPUUsageOptions ();
 
   public:
 
@@ -102,7 +116,7 @@ class generalOahGroup : public oahGroup
 
     void                  printGeneralOahValues (int fieldWidth);
 
-  public:
+  private:
 
     // translation date
     // --------------------------------------
@@ -114,8 +128,10 @@ class generalOahGroup : public oahGroup
     // --------------------------------------
 
     bool                  fQuiet;
+
     bool                  fDontShowErrors;
-    bool                  fDontExitOnErrors;
+    bool                  fDontQuitOnErrors;
+
     bool                  fDisplaySourceCodePosition;
 
     // CPU usage
@@ -127,12 +143,9 @@ typedef SMARTP<generalOahGroup> S_generalOahGroup;
 EXP ostream& operator<< (ostream& os, const S_generalOahGroup& elt);
 
 EXP extern S_generalOahGroup gGlobalGeneralOahGroup;
-EXP extern S_generalOahGroup gGlobalGeneralOahGroupUserChoices;
-EXP extern S_generalOahGroup gGlobalGeneralOahGroupWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeGeneralOahHandling (
-  S_oahHandler handler);
+S_generalOahGroup createGlobalGeneralOahGroup ();
 
 
 }

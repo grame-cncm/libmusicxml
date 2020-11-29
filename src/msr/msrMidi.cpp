@@ -18,6 +18,8 @@
 
 #include "msrMidi.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -37,7 +39,7 @@ S_msrMidiTempo msrMidiTempo::create (
       inputLineNumber,
       midiTempoDuration,
       midiTempoPerSecond);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -75,8 +77,8 @@ S_msrMidiTempo msrMidiTempo::createMsrMidiTempoNewbornClone ()
 
 void msrMidiTempo::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrMidiTempo::acceptIn ()" <<
       endl;
   }
@@ -86,8 +88,8 @@ void msrMidiTempo::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrMidiTempo>*> (v)) {
         S_msrMidiTempo elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrMidiTempo::visitStart ()" <<
             endl;
         }
@@ -97,8 +99,8 @@ void msrMidiTempo::acceptIn (basevisitor* v)
 
 void msrMidiTempo::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrMidiTempo::acceptOut ()" <<
       endl;
   }
@@ -108,8 +110,8 @@ void msrMidiTempo::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrMidiTempo>*> (v)) {
         S_msrMidiTempo elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrMidiTempo::visitEnd ()" <<
             endl;
         }

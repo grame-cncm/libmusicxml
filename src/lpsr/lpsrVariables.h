@@ -51,7 +51,9 @@ class lpsrVariableUseCommand : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:

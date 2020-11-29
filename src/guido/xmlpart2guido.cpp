@@ -204,7 +204,7 @@ namespace MusicXML2
         else if (diff.getNumerator() < 0)
         {
             if (!fInCue)
-                cerr << "warning! checkVoiceTime: measure time behind voice time " << string(diff) << "(measure "<< fMeasNum<<")" << endl;
+                cerr << "warning! checkVoiceTime: measure time behind voice time " << string(diff) << "(measure " << fMeasNum<<")" << endl;
         }
     }
     
@@ -325,7 +325,7 @@ namespace MusicXML2
                 Sguidoelement tag2 = guidotag::create("staffFormat");
                 float HalfSpaceDistance = ((float)(xmlStaffDistance) / 10) * 2 ;
                 stringstream s;
-                s << "distance="<< HalfSpaceDistance;
+                s << "distance=" << HalfSpaceDistance;
                 tag2->add (guidoparam::create(s.str().c_str(), false));
                 add (tag2);
             }
@@ -427,10 +427,10 @@ namespace MusicXML2
         
         /// Skip already visited Direction in case of grace notes (GUID-153)
         if ((!fDirectionEraserStack.empty())) {
-            //cerr<<"\t stack top="<<fDirectionEraserStack.front()<<endl;
+            //cerr<<"\t stack top=" <<fDirectionEraserStack.front()<<endl;
             if (fDirectionEraserStack.front() == elt->getInputLineNumber()) {
                 fDirectionEraserStack.pop();
-                //cerr<<"\tS_direction Skipping"<<endl;
+                //cerr<<"\tS_direction Skipping" <<endl;
                 return;
             }
         }
@@ -520,7 +520,7 @@ namespace MusicXML2
                                     }
                                     
                                 }else {
-                                    cerr << "UNABLE to find current element in S_direction. PLEASE REPORT!"<<endl;
+                                    cerr << "UNABLE to find current element in S_direction. PLEASE REPORT!" <<endl;
                                 }
                             }
                             
@@ -548,12 +548,12 @@ namespace MusicXML2
                             if (generateTempo) {
                                 // Convert dy to Guido Tempo Tag origin which is +4hs from top of the staff
                                 float tempoDy = xml2guidovisitor::getYposition(element, -4, true);
-                                parameters << ", dy="<<tempoDy<<"hs";
+                                parameters << ", dy=" <<tempoDy<<"hs";
                                 tempoTextParameters = parameters.str();
                                 break;
                             }
                             
-                            wordParameters << wordPrefix <<"\"" << element->getValue() << "\""<< parameters.str();
+                            wordParameters << wordPrefix <<"\"" << element->getValue() << "\"" << parameters.str();
                             
                             if (generateCompositeDynamic) {
                                 if (tag) {
@@ -656,7 +656,7 @@ namespace MusicXML2
                             stringstream tempoParams;
                             if (tempoWording.size())
                             {
-                                tempoParams << "\""<<tempoWording<<" "<<tempoMetronome<<"\"";
+                                tempoParams << "\"" <<tempoWording<<" " <<tempoMetronome<<"\"";
                             }
                             else
                                 tempoParams << "\""+tempoMetronome+"\"";
@@ -719,7 +719,7 @@ namespace MusicXML2
         if (generateTempo && tempoWording.size()) {
             Sguidoelement tempotag = guidotag::create("tempo");
             std::stringstream tempoParameters;
-            tempoParameters <<"\"" << tempoWording << "\""<< tempoTextParameters;
+            tempoParameters <<"\"" << tempoWording << "\"" << tempoTextParameters;
 
             tempotag->add (guidoparam::create(tempoParameters.str(), false));
             
@@ -844,7 +844,7 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
                     nextevent++;
                 }
                 
-                //cerr<< "Measure:"<< fMeasNum <<" Wedge has "<< numberOfNotesInWedge<< " events!"<<endl;
+                //cerr<< "Measure:" << fMeasNum <<" Wedge has " << numberOfNotesInWedge<< " events!" <<endl;
                 
                 if (fCurrentOffset) {
                     // FIXME: Impossible for now to handle Wedges with Direction Offset! Ignoring... .
@@ -852,7 +852,7 @@ void xmlpart2guido::visitStart ( S_wedge& elt )
                 }
                 if (fIgnoreWedgeWithOffset)
                 {
-                    //cerr <<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
+                    //cerr <<"\tIgnoring Wedge with Offset on measure " <<fMeasNum<<endl;
                     return;         // FIXME: Ignoring Offset wedges à la Verovio
                 }
                 
@@ -1343,9 +1343,9 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
                 }
                 string num = (*i)->getAttributeValue ("number");
                 if (num.size()) {
-                    tagName << "tieBegin" << ":"<< num;
+                    tagName << "tieBegin" << ":" << num;
                 }else{
-                    tagName << "tieBegin" << ":"<< fTiedOpen.back();
+                    tagName << "tieBegin" << ":" << fTiedOpen.back();
                 }
                 Sguidoelement tag = guidotag::create(tagName.str());
                 string placement = (*i)->getAttributeValue("orientation");
@@ -1369,9 +1369,9 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
                 stringstream tagName;
                 string num = (*i)->getAttributeValue ("number");
                 if (num.size()) {
-                    tagName << "tieEnd" << ":"<< num;
+                    tagName << "tieEnd" << ":" << num;
                 }else{
-                    tagName << "tieEnd" << ":"<< fTiedOpen.front();
+                    tagName << "tieEnd" << ":" << fTiedOpen.front();
                 }
                 
                 Sguidoelement tag = guidotag::create(tagName.str());
@@ -1410,7 +1410,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
                                 
                 // Skip Slur creation, if the CLOSING Slur is not on the same voice/staff (Guido limitation)
                 if (isSlurClosing(*i)==false) {
-                    cerr<< "XML Slur at line:"<< (*i)->getInputLineNumber()<<" measure:"<<fMeasNum << " not closing on same voice! Skipping!"<<endl;
+                    cerr<< "XML Slur at line:" << (*i)->getInputLineNumber()<<" measure:" <<fMeasNum << " not closing on same voice! Skipping!" <<endl;
 
                     counter++;
                     continue;
@@ -1418,7 +1418,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
                 
                 
                 stringstream tagName;
-                tagName << "slurBegin" << ":"<< lastSlurInternalNumber;
+                tagName << "slurBegin" << ":" << lastSlurInternalNumber;
                 Sguidoelement tag = guidotag::create(tagName.str());
                 string placement = (*i)->getAttributeValue("placement");
                 string orientation = (*i)->getAttributeValue("placement");
@@ -1439,7 +1439,7 @@ std::string xmlpart2guido::parseMetronome ( metronomevisitor &mv )
 bool xmlpart2guido::isSlurClosing(S_slur elt) {
     int internalXMLSlurNumber = elt->getAttributeIntValue("number", 0);
 
-    //cerr<< "\tSearching Slur Closing for line:"<<elt->getInputLineNumber() <<" with number "<<internalXMLSlurNumber<< " on Measure:"<<fMeasNum<< " on voice:"<<fTargetVoice<<endl;
+    //cerr<< "\tSearching Slur Closing for line:" <<elt->getInputLineNumber() <<" with number " <<internalXMLSlurNumber<< " on Measure:" <<fMeasNum<< " on voice:" <<fTargetVoice<<endl;
     ctree<xmlelement>::iterator nextnote = find(fCurrentPart->begin(), fCurrentPart->end(), elt);
     if (nextnote != fCurrentPart->end()) {
         nextnote++;    // advance one step
@@ -1470,7 +1470,7 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                         (iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)
                         ) {
                         if (thisNoteVoice == fTargetVoice) {
-                            //cerr<< "\t\t FOUND Slur stop line:"<< iterSlur->getInputLineNumber()<< " voice:"<<thisNoteVoice<<" number:"<<iterSlur->getAttributeIntValue("number", 0)<<endl;
+                            //cerr<< "\t\t FOUND Slur stop line:" << iterSlur->getInputLineNumber()<< " voice:" <<thisNoteVoice<<" number:" <<iterSlur->getAttributeIntValue("number", 0)<<endl;
 
                             return true;
                         }else {
@@ -1504,12 +1504,12 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                     }
 
                 }else {
-                    cerr<< "XML2Guido SlurEnd, measure "<<fMeasNum<<" xmlLine "<<(*i)->getInputLineNumber() <<": Got Slur Stop with number:"<< (*i)->getAttributeIntValue("number", 0)  <<" without a Slur in Stack. Skipping!"<<endl;
+                    cerr<< "XML2Guido SlurEnd, measure " <<fMeasNum<<" xmlLine " <<(*i)->getInputLineNumber() <<": Got Slur Stop with number:" << (*i)->getAttributeIntValue("number", 0)  <<" without a Slur in Stack. Skipping!" <<endl;
                     continue;
                 }
                 
                 stringstream tagName;
-                tagName << "slurEnd" << ":"<< lastSlurInternalNumber;
+                tagName << "slurEnd" << ":" << lastSlurInternalNumber;
                 Sguidoelement tag = guidotag::create(tagName.str());
                 add(tag);
                 
@@ -1551,13 +1551,13 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             if (fInGrace && fBeamOpened) {
                 beamNumber = 2;
             }
-            tagName << "beamBegin" << ":"<<beamNumber;     // This is the initial beam!
+            tagName << "beamBegin" << ":" <<beamNumber;     // This is the initial beam!
             Sguidoelement tag = guidotag::create(tagName.str());
             add (tag);
             if ( (!fInCue) && (!fInGrace)) {
                 fBeamOpened = true;
             }
-            //cerr << "Measure "<< fMeasNum << " beam BEGIN Beam-level="<<(*began)->getAttributeIntValue("number", 0)<< " fBeamOpened?="<<fBeamOpened<< " Grace?"<<fInGrace<< " Line:"<<(*began)->getInputLineNumber()<<endl;
+            //cerr << "Measure " << fMeasNum << " beam BEGIN Beam-level=" <<(*began)->getAttributeIntValue("number", 0)<< " fBeamOpened?=" <<fBeamOpened<< " Grace?" <<fInGrace<< " Line:" <<(*began)->getInputLineNumber()<<endl;
             /// Check for grouping is one is not already initiated
             if (!fBeamGrouping) {
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
@@ -1566,23 +1566,23 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                     if (( (nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice) )) {
                         // Check if there is a beam end with a beam Continue, it can be a Grouping candidate!
                         if (nextnote->hasSubElement(k_beam, "end") && nextnote->hasSubElement(k_beam, "continue") ) {
-                            //cerr << " \tNextNote with beam end, line:"<<nextnote->getInputLineNumber()<<" type="<<nextnote->getValue(k_type)<<endl;
+                            //cerr << " \tNextNote with beam end, line:" <<nextnote->getInputLineNumber()<<" type=" <<nextnote->getValue(k_type)<<endl;
                             // Get its Type
                             string endingType = nextnote->getValue(k_type);
                             // Check if the Next note has a beam Begin and if it has the same "type"
                             ctree<xmlelement>::iterator postnote;
                             if (findNextNote(nextnote, postnote)) {
-                                //cerr << " \tPostnote with beam end, line:"<<postnote->getInputLineNumber()<<" type="<<postnote->getValue(k_type) <<endl;
+                                //cerr << " \tPostnote with beam end, line:" <<postnote->getInputLineNumber()<<" type=" <<postnote->getValue(k_type) <<endl;
                                 if (postnote->hasSubElement(k_beam, "continue")) {
                                     string postType = postnote->getValue(k_type);
                                     if (postType == endingType) {
                                         // We are in a grouping continuity!
                                         stringstream tagName2;
-                                        tagName2 << "beamBegin" << ":"<< (beamNumber+1);
+                                        tagName2 << "beamBegin" << ":" << (beamNumber+1);
                                         tag = guidotag::create(tagName2.str());
                                         add (tag);
                                         fBeamGrouping = true;
-                                        //cerr << " \t\t CONTINUITY CREATED! Line:"<<postnote->getInputLineNumber()<<endl;
+                                        //cerr << " \t\t CONTINUITY CREATED! Line:" <<postnote->getInputLineNumber()<<endl;
                                         break;
                                     }
                                 }
@@ -1624,7 +1624,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             if (fInGrace && fBeamOpened) {
                 beamNumber = 2;
             }
-            tagName << "beamEnd" << ":"<<beamNumber;
+            tagName << "beamEnd" << ":" <<beamNumber;
             Sguidoelement tag = guidotag::create(tagName.str());
             add (tag);
             if ((fBeamOpened) && (!fInCue) && (!fInGrace)) {
@@ -1634,7 +1634,7 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
             // If there is a grouping, close it!
             if (fBeamGrouping) {
                 stringstream tagName2;
-                tagName2 << "beamEnd" << ":"<<beamNumber+1;
+                tagName2 << "beamEnd" << ":" <<beamNumber+1;
                 tag = guidotag::create(tagName2.str());
                 add (tag);
                 fBeamGrouping = false;
@@ -2590,7 +2590,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
             /// Add Placement
             std::string placement = fingerings[0]->getAttributeValue("placement");
             if (placement.size() > 0) {
-                s << "position=\""<<placement<<"\"";
+                s << "position=\"" <<placement<<"\"";
             }
 
             // Add Fingering "Text"
@@ -2939,7 +2939,7 @@ void xmlpart2guido::newChord(const deque<notevisitor>& nvs, rational posInMeasur
                     return finalDx;
                 }
             }//else {
-            //    cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
+            //    cerr<<"ERROR: NO TIME POS FOR VOICE POSITION" <<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!" <<endl;
             //}
         }
         return -999;        // This is when the xpos can not be computed
@@ -2979,7 +2979,7 @@ void xmlpart2guido::addPosYforNoteHead(const notevisitor& nv, Sxmlelement elt, S
         tag->add (guidoparam::create(s.str(), false));
     }
     
-    //cerr << "addPosYforNoteHead for "<< elt->getName()<<" line:"<< elt->getInputLineNumber()<<" meas:"<<fMeasNum<< " note:"<<nv.getStep()<<nv.getOctave() <<" xmlY="<<xmlY<<" noteHeadDy="<<noteHeadDy<< " noteDistanceFromStaffTop="<<noteDistanceFromStaffTop <<" ->pos="<<posy<<endl;
+    //cerr << "addPosYforNoteHead for " << elt->getName()<<" line:" << elt->getInputLineNumber()<<" meas:" <<fMeasNum<< " note:" <<nv.getStep()<<nv.getOctave() <<" xmlY=" <<xmlY<<" noteHeadDy=" <<noteHeadDy<< " noteDistanceFromStaffTop=" <<noteDistanceFromStaffTop <<" ->pos=" <<posy<<endl;
 
 }
 

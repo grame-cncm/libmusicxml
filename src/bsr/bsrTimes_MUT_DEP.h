@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by bsrMutualDependencies.h,
+  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -47,7 +47,9 @@ class bsrTimeItem : public bsrElement
     int                   getTimeBeatValue () const
                               { return fTimeBeatValue; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_bsrTimeItem otherTimeItem) const;
@@ -77,7 +79,7 @@ class bsrTimeItem : public bsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     vector<int>           fTimeBeatsNumbersVector; // 5+3+1 is possible
@@ -184,7 +186,7 @@ class bsrTime : public bsrLineElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     bsrTimeKind           fTimeKind;

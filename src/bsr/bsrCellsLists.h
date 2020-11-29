@@ -134,7 +134,9 @@ class bsrCellsList : public smartable
                           getCellsListElements () const
                               { return fCellsListElements; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendCellKindToCellsList (bsrCellKind cellKind)
@@ -149,7 +151,7 @@ class bsrCellsList : public smartable
     int                   fetchCellsNumber () const
                               { return fCellsListElements.size (); }
 
-    void                  generateBrailleCode (ostream& os);
+// JMI    void                  generateBrailleCode (ostream& os);
 
   public:
 
@@ -174,7 +176,7 @@ class bsrCellsList : public smartable
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
 
     list<bsrCellKind>     fCellsListElements;

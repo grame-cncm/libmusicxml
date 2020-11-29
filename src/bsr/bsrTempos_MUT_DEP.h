@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by bsrMutualDependencies.h,
+  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -92,7 +92,7 @@ class bsrTempo : public bsrLineElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrTempo            fMsrTempo;

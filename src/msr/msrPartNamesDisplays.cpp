@@ -17,6 +17,8 @@
 
 #include "msrPartNamesDisplays.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -33,7 +35,7 @@ S_msrPartNameDisplay msrPartNameDisplay::create (
   msrPartNameDisplay* o =
     new msrPartNameDisplay (
       inputLineNumber, partNameDisplayValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -50,8 +52,8 @@ msrPartNameDisplay::~msrPartNameDisplay ()
 
 void msrPartNameDisplay::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPartNameDisplay::acceptIn ()" <<
       endl;
   }
@@ -61,8 +63,8 @@ void msrPartNameDisplay::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPartNameDisplay>*> (v)) {
         S_msrPartNameDisplay elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPartNameDisplay::visitStart ()" <<
             endl;
         }
@@ -72,8 +74,8 @@ void msrPartNameDisplay::acceptIn (basevisitor* v)
 
 void msrPartNameDisplay::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPartNameDisplay::acceptOut ()" <<
       endl;
   }
@@ -83,8 +85,8 @@ void msrPartNameDisplay::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPartNameDisplay>*> (v)) {
         S_msrPartNameDisplay elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPartNameDisplay::visitEnd ()" <<
             endl;
         }
@@ -128,7 +130,7 @@ S_msrPartAbbreviationDisplay msrPartAbbreviationDisplay::create (
   msrPartAbbreviationDisplay* o =
     new msrPartAbbreviationDisplay (
       inputLineNumber, partAbbreviationDisplayValue);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -145,8 +147,8 @@ msrPartAbbreviationDisplay::~msrPartAbbreviationDisplay ()
 
 void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPartAbbreviationDisplay::acceptIn ()" <<
       endl;
   }
@@ -156,8 +158,8 @@ void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPartAbbreviationDisplay>*> (v)) {
         S_msrPartAbbreviationDisplay elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPartAbbreviationDisplay::visitStart ()" <<
             endl;
         }
@@ -167,8 +169,8 @@ void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
 
 void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPartAbbreviationDisplay::acceptOut ()" <<
       endl;
   }
@@ -178,8 +180,8 @@ void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPartAbbreviationDisplay>*> (v)) {
         S_msrPartAbbreviationDisplay elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPartAbbreviationDisplay::visitEnd ()" <<
             endl;
         }

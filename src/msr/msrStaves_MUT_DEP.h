@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -43,7 +43,9 @@ class msrVoiceStaffChange : public msrMeasureElement
     S_msrStaff            getStaffToChangeTo () const
                               { return fStaffToChangeTo; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -67,7 +69,7 @@ class msrVoiceStaffChange : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrStaff            fStaffToChangeTo;
@@ -126,7 +128,7 @@ class msrStaff : public msrElement
 
   private:
 
-    // initialization
+    // private initialization
     // ------------------------------------------------------
 
     void                  initializeStaff ();
@@ -186,7 +188,7 @@ class msrStaff : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     // staff details
@@ -415,7 +417,7 @@ class msrStaff : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

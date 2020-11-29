@@ -16,6 +16,8 @@
 
 #include "bsrParallels.h"
 
+#include "oahOah.h"
+
 #include "bsrOah.h"
 #include "brailleOah.h"
 
@@ -32,7 +34,7 @@ S_bsrParallel bsrParallel::create (
   bsrParallel* o =
     new bsrParallel (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -44,9 +46,9 @@ bsrParallel::bsrParallel (
 
 bsrParallel::~bsrParallel ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceParallels) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceParallels ()) {
+    gLogStream <<
       "Creating bsrParallel '" <<
       asString () <<
       "', line " <<
@@ -58,9 +60,9 @@ bsrParallel::~bsrParallel ()
 
 void bsrParallel::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrParallel::acceptIn ()" <<
       endl;
   }
@@ -71,9 +73,9 @@ void bsrParallel::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrParallel::visitStart ()" <<
             endl;
         }
@@ -84,9 +86,9 @@ void bsrParallel::acceptIn (basevisitor* v)
 
 void bsrParallel::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrParallel::acceptOut ()" <<
       endl;
   }
@@ -97,9 +99,9 @@ void bsrParallel::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrParallel::visitEnd ()" <<
             endl;
         }
@@ -160,7 +162,7 @@ void bsrParallel::print (ostream& os) const
   // print the parallel elements if any
   int parallelElementsListSize = fParallelElementsList.size ();
 
-  if (parallelElementsListSize || gGlobalBsrOah->fDisplayBsrDetails) {
+  if (parallelElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "fParallelElementsList";

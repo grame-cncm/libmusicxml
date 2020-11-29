@@ -15,7 +15,7 @@
 
 #include "msrPartGroupElements.h"
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
 
 namespace MusicXML2
@@ -225,7 +225,7 @@ class msrPartGroup : public msrPartGroupElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     S_msrPart             appendPartToPartGroupByItsPartID ( // JMI superflous
@@ -297,7 +297,7 @@ class msrPartGroup : public msrPartGroupElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

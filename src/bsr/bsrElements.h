@@ -31,7 +31,7 @@ class bsrElement : public msrElement
       int inputLineNumber);
 
   protected:
-         
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -47,11 +47,11 @@ class bsrElement : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -66,42 +66,41 @@ class bsrElement : public msrElement
     // ------------------------------------------------------
 
     virtual std::string   asString () const override;
-    
+
     virtual std::string   asShortString () const override;
 
     virtual void          print (ostream& os) const override;
-
 };
 typedef SMARTP<bsrElement> S_bsrElement;
 EXP ostream& operator<< (ostream& os, const S_bsrElement& elt);
 
 //______________________________________________________________________________
-template <typename T> class bsrBrowser : public browser<T> 
+template <typename T> class bsrBrowser : public browser<T>
 {
   protected:
-  
+
     basevisitor*  fVisitor;
 
     virtual void enter (T& t) { t.acceptIn  (fVisitor); }
     virtual void leave (T& t) { t.acceptOut (fVisitor); }
 
   public:
-    
+
     bsrBrowser (basevisitor* v) : fVisitor (v)
     {}
-    
+
     virtual ~bsrBrowser ()
     {}
 
     virtual void          set (basevisitor* v)
                             { fVisitor = v; }
-    
+
     virtual               void browse (T& t)
                             {
                               enter (t);
 
                               t.browseData (fVisitor);
-                              
+
                               leave (t);
                             }
 };

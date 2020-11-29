@@ -17,20 +17,21 @@
 #include "msrBasicTypes.h"
 #include "msrTempos.h"
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
+#include "generalOah.h"
+
 #include "bsrOah.h"
-#include "msr2BsrOah.h"
+#include "msr2bsrOah.h"
 
 
 using namespace std;
@@ -97,7 +98,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
       bsrCellsList::create (
         fInputLineNumber, kCellWordSign);
 
-  if (! gGlobalMsr2BsrOah->fNoTempos) {
+  if (! gGlobalMsr2bsrOahGroup->getNoTempos ()) {
     switch (fMsrTempo->getTempoKind ()) {
       case msrTempo::k_NoTempoKind:
         break;
@@ -128,13 +129,9 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             for ( ; ; ) {
               S_msrWords words = (*i);
 
-  //            fLilypondCodeOstream <<
-     //           "\"" << words->getWordsContents () << "\"";
+              // JMI ???
 
               if (++i == iEnd) break;
-
-       //       fLilypondCodeOstream <<
-       //         " ";
             } // for
           }
 
@@ -237,9 +234,9 @@ S_bsrCellsList bsrTempo::buildCellsList () const
 
           unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
-          if (gGlobalTraceOahGroup->fTraceTempos && ! gGlobalGeneralOahGroup->fQuiet) {
-            gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+          if (gGlobalTraceOahGroup->getTraceTempos () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+            gLogStream <<
               "There are " << smSize << " matches" <<
               " for rational string '" << tempoPerMinuteString <<
               "' with regex '" << regularExpression <<
@@ -247,11 +244,11 @@ S_bsrCellsList bsrTempo::buildCellsList () const
               endl;
 
             for (unsigned i = 0; i < smSize; ++i) {
-              gLogOstream <<
+              gLogStream <<
                 "[" << sm [i] << "] ";
             } // for
 
-            gLogOstream << endl;
+            gLogStream << endl;
           }
 #endif
 
@@ -280,9 +277,9 @@ S_bsrCellsList bsrTempo::buildCellsList () const
 
             unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
-            if (gGlobalTraceOahGroup->fTraceTempos && ! gGlobalGeneralOahGroup->fQuiet) {
-              gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+            if (gGlobalTraceOahGroup->getTraceTempos () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+              gLogStream <<
                 "There are " << smSize << " matches" <<
                 " for rational string '" << tempoPerMinuteString <<
                 "' with regex '" << regularExpression <<
@@ -290,11 +287,11 @@ S_bsrCellsList bsrTempo::buildCellsList () const
                 endl;
 
               for (unsigned i = 0; i < smSize; ++i) {
-                gLogOstream <<
+                gLogStream <<
                   "[" << sm [i] << "] ";
               } // for
 
-              gLogOstream << endl;
+              gLogStream << endl;
             }
 #endif
 
@@ -314,7 +311,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
                 ", line " << fInputLineNumber;
 
               msrInternalError (
-                gGlobalOahOahGroup->fInputSourceName,
+                gGlobalOahOahGroup->getInputSourceName (),
                 fInputLineNumber,
                 __FILE__, __LINE__,
                 s.str ());
@@ -322,7 +319,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           }
 
 /* JMI
-          gLogOstream << // JMI
+          gLogStream << // JMI
             "% ==> bsrTempo::buildCellsList ()" <<
             ", tempoPerMinuteString = " << tempoPerMinuteString <<
             ", perMinuteMin = " << perMinuteMin <<
@@ -383,9 +380,9 @@ int bsrTempo::fetchCellsNumber() const
 
 void bsrTempo::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrTempo::acceptIn ()" <<
       endl;
   }
@@ -396,9 +393,9 @@ void bsrTempo::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTempo>*> (v)) {
         S_bsrTempo elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrTempo::visitStart ()" <<
             endl;
         }
@@ -409,9 +406,9 @@ void bsrTempo::acceptIn (basevisitor* v)
 
 void bsrTempo::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrTempo::acceptOut ()" <<
       endl;
   }
@@ -422,9 +419,9 @@ void bsrTempo::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTempo>*> (v)) {
         S_bsrTempo elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrTempo::visitEnd ()" <<
             endl;
         }

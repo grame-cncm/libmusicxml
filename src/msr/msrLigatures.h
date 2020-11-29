@@ -105,7 +105,9 @@ class msrLigature : public msrElement
                             msrPlacementKind placementKind)
                               { fLigaturePlacementKind = placementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:

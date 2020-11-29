@@ -55,7 +55,9 @@ class lpsrUseVoiceCommand : public lpsrElement
 
     S_msrVoice            getVoice () const { return fVoice; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:

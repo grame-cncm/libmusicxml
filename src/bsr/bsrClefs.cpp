@@ -13,15 +13,17 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "bsrOah.h"
 
@@ -52,9 +54,9 @@ bsrClef::bsrClef (
 
   fClefCellsList = buildCellsList ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceClefs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceClefs ()) {
+    gLogStream <<
       "Creating bsrClef '" <<
       asString () <<
       "', line " <<
@@ -156,9 +158,9 @@ int bsrClef::fetchCellsNumber() const
 
 void bsrClef::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrClef::acceptIn ()" <<
       endl;
   }
@@ -169,9 +171,9 @@ void bsrClef::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrClef>*> (v)) {
         S_bsrClef elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrClef::visitStart ()" <<
             endl;
         }
@@ -182,9 +184,9 @@ void bsrClef::acceptIn (basevisitor* v)
 
 void bsrClef::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrClef::acceptOut ()" <<
       endl;
   }
@@ -195,9 +197,9 @@ void bsrClef::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrClef>*> (v)) {
         S_bsrClef elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrClef::visitEnd ()" <<
             endl;
         }

@@ -50,7 +50,7 @@ class msrStaffLevelElement : public msrMeasureElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -72,7 +72,7 @@ class msrStaffLevelElement : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fStaffLevelElementStaffNumber;
@@ -113,7 +113,7 @@ class msrSegno : public msrMeasureElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -137,7 +137,7 @@ class msrSegno : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fStaffNumber;
@@ -206,7 +206,7 @@ class msrDalSegno : public msrMeasureElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -230,7 +230,7 @@ class msrDalSegno : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
 
@@ -271,7 +271,7 @@ class msrHiddenMeasureAndBarline : public msrMeasureElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -295,7 +295,7 @@ class msrHiddenMeasureAndBarline : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 };
 typedef SMARTP<msrHiddenMeasureAndBarline> S_msrHiddenMeasureAndBarline;
@@ -346,7 +346,7 @@ class msrCoda : public msrMeasureElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -370,7 +370,7 @@ class msrCoda : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fStaffNumber;
@@ -406,7 +406,9 @@ class msrEyeGlasses : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -430,7 +432,7 @@ class msrEyeGlasses : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 };
 typedef SMARTP<msrEyeGlasses> S_msrEyeGlasses;

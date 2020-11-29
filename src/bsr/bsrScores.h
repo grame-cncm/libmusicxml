@@ -111,7 +111,7 @@ class bsrScore : public bsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // MSR data

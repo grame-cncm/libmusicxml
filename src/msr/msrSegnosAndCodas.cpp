@@ -18,12 +18,14 @@
 
 #include "msrSegnosAndCodas.h"
 
-#include "msrOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+
+#include "msrOah.h"
 
 
 using namespace std;
@@ -40,7 +42,7 @@ S_msrSegno msrSegno::create (
     new msrSegno (
       inputLineNumber,
       staffNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -57,8 +59,8 @@ msrSegno::~msrSegno ()
 
 void msrSegno::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSegno::acceptIn ()" <<
       endl;
   }
@@ -68,8 +70,8 @@ void msrSegno::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSegno::visitStart ()" <<
             endl;
         }
@@ -79,8 +81,8 @@ void msrSegno::acceptIn (basevisitor* v)
 
 void msrSegno::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSegno::acceptOut ()" <<
       endl;
   }
@@ -90,8 +92,8 @@ void msrSegno::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSegno::visitEnd ()" <<
             endl;
         }
@@ -140,7 +142,7 @@ S_msrDalSegno msrDalSegno::create (
       dalSegnoKind,
       dalSegnoString,
       staffNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -166,9 +168,9 @@ void msrDalSegno::setDalSegnoPositionInMeasure (
 {
   // set the dal segno position in measure
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDalSegnos || gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDalSegnos () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Setting dal segno position in measure of " << asString () <<
       " to '" <<
       positionInMeasure <<
@@ -213,8 +215,8 @@ void msrDalSegno::setDalSegnoPositionInMeasure (
 
 void msrDalSegno::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDalSegno::acceptIn ()" <<
       endl;
   }
@@ -224,8 +226,8 @@ void msrDalSegno::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDalSegno>*> (v)) {
         S_msrDalSegno elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDalSegno::visitStart ()" <<
             endl;
         }
@@ -235,8 +237,8 @@ void msrDalSegno::acceptIn (basevisitor* v)
 
 void msrDalSegno::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDalSegno::acceptOut ()" <<
       endl;
   }
@@ -246,8 +248,8 @@ void msrDalSegno::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDalSegno>*> (v)) {
         S_msrDalSegno elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDalSegno::visitEnd ()" <<
             endl;
         }
@@ -338,9 +340,9 @@ ostream& operator<< (ostream& os, const S_msrDalSegno& elt)
 S_msrHiddenMeasureAndBarline msrHiddenMeasureAndBarline::create (
   int inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceDalSegnos || gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDalSegnos () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Creating hiddenMeasureAndBarline" <<
       ", line " << inputLineNumber <<
       endl;
@@ -350,7 +352,7 @@ S_msrHiddenMeasureAndBarline msrHiddenMeasureAndBarline::create (
   msrHiddenMeasureAndBarline* o =
     new msrHiddenMeasureAndBarline (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -364,8 +366,8 @@ msrHiddenMeasureAndBarline::~msrHiddenMeasureAndBarline ()
 
 void msrHiddenMeasureAndBarline::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHiddenMeasureAndBarline::acceptIn ()" <<
       endl;
   }
@@ -375,8 +377,8 @@ void msrHiddenMeasureAndBarline::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrHiddenMeasureAndBarline>*> (v)) {
         S_msrHiddenMeasureAndBarline elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHiddenMeasureAndBarline::visitStart ()" <<
             endl;
         }
@@ -386,8 +388,8 @@ void msrHiddenMeasureAndBarline::acceptIn (basevisitor* v)
 
 void msrHiddenMeasureAndBarline::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHiddenMeasureAndBarline::acceptOut ()" <<
       endl;
   }
@@ -397,8 +399,8 @@ void msrHiddenMeasureAndBarline::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrHiddenMeasureAndBarline>*> (v)) {
         S_msrHiddenMeasureAndBarline elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHiddenMeasureAndBarline::visitEnd ()" <<
             endl;
         }
@@ -445,7 +447,7 @@ S_msrCoda msrCoda::create (
       inputLineNumber,
       staffNumber,
       codaKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -465,8 +467,8 @@ msrCoda::~msrCoda ()
 
 void msrCoda::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrCoda::acceptIn ()" <<
       endl;
   }
@@ -476,8 +478,8 @@ void msrCoda::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrCoda::visitStart ()" <<
             endl;
         }
@@ -487,8 +489,8 @@ void msrCoda::acceptIn (basevisitor* v)
 
 void msrCoda::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrCoda::acceptOut ()" <<
       endl;
   }
@@ -498,8 +500,8 @@ void msrCoda::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrCoda::visitEnd ()" <<
             endl;
         }
@@ -560,7 +562,7 @@ S_msrEyeGlasses msrEyeGlasses::create (
   msrEyeGlasses* o =
     new msrEyeGlasses (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -574,8 +576,8 @@ msrEyeGlasses::~msrEyeGlasses ()
 
 void msrEyeGlasses::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrEyeGlasses::acceptIn ()" <<
       endl;
   }
@@ -585,8 +587,8 @@ void msrEyeGlasses::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
         S_msrEyeGlasses elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrEyeGlasses::visitStart ()" <<
             endl;
         }
@@ -596,8 +598,8 @@ void msrEyeGlasses::acceptIn (basevisitor* v)
 
 void msrEyeGlasses::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrEyeGlasses::acceptOut ()" <<
       endl;
   }
@@ -607,8 +609,8 @@ void msrEyeGlasses::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
         S_msrEyeGlasses elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrEyeGlasses::visitEnd ()" <<
             endl;
         }

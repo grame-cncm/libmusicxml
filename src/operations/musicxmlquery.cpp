@@ -127,7 +127,7 @@ namespace MusicXML2
     
     void musicxmlQuery::visitEnd ( S_rehearsal& elt )
     {
-        //cout<< " Rehearsal Mark \""<< elt->getValue() <<"\" at beat-pos "<<beatCum<<endl;
+        //cout<< " Rehearsal Mark \"" << elt->getValue() <<"\" at beat-pos " <<beatCum<<endl;
     }
     
     //________________________________________________________________________

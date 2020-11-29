@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -47,7 +47,7 @@ class msrStanza : public msrElement
 
   private:
 
-    // initialization
+    // private initialization
     // ------------------------------------------------------
 
     void                  initializeStanza ();
@@ -80,7 +80,9 @@ class msrStanza : public msrElement
     S_msrVoice            getStanzaVoiceUpLink () const
                               { return fStanzaVoiceUpLink; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendSyllableToStanza (
@@ -168,7 +170,7 @@ class msrStanza : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

@@ -17,12 +17,13 @@
 
 #include "bsrBasicTypes.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
 #include "oahBasicTypes.h"
+
 
 namespace MusicXML2
 {
@@ -35,7 +36,7 @@ string bsrFacSimileKindAsString (
   bsrFacSimileKind facSimileKind);
 
 //______________________________________________________________________________
-class bsrFacSimileKindAtom : public oahValuedAtom
+class bsrFacSimileKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -76,10 +77,10 @@ class bsrFacSimileKindAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -103,13 +104,13 @@ class bsrFacSimileKindAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     bsrFacSimileKind      fBsrFacSimileKindVariable;
@@ -118,7 +119,7 @@ typedef SMARTP<bsrFacSimileKindAtom> S_bsrFacSimileKindAtom;
 EXP ostream& operator<< (ostream& os, const S_bsrFacSimileKindAtom& elt);
 
 //______________________________________________________________________________
-class bsrTextsLanguageAtom : public oahValuedAtom
+class bsrTextsLanguageAtom : public oahAtomWithValue
 {
   public:
 
@@ -163,10 +164,10 @@ class bsrTextsLanguageAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -190,13 +191,13 @@ class bsrTextsLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     bsrTextsLanguageKind& fBsrTextsLanguageKindVariable;
@@ -205,35 +206,30 @@ typedef SMARTP<bsrTextsLanguageAtom> S_bsrTextsLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_bsrTextsLanguageAtom& elt);
 
 //______________________________________________________________________________
-class bsrOah : public oahGroup
+class bsrOahGroup : public oahGroup
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrOah> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<bsrOah>        createCloneWithDetailedTrace ();
+    static SMARTP<bsrOahGroup> create ();
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeBsrOah (
-                            bool boolOptionsInitialValue);
+    void                  initializeBsrOahGroup ();
 
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrOah (
-      S_oahHandler handlerUpLink);
+    bsrOahGroup ();
 
-    virtual ~bsrOah ();
+    virtual ~bsrOahGroup ();
 
   public:
 
@@ -242,6 +238,49 @@ class bsrOah : public oahGroup
 
     bool                  setBsrTextsLanguage (
                             string language);
+
+    // display
+
+    bool                  getDisplayBsr () const
+                              { return fDisplayBsr; }
+    bool                  getDisplayBsrShort () const
+                              { return fDisplayBsrShort; }
+    bool                  getDisplayBsrDetails () const
+                              { return fDisplayBsrDetails; }
+
+    // languages
+
+    bsrTextsLanguageKind  getBsrTextsLanguageKind () const // JMI
+                              { return fBsrTextsLanguageKind; }
+
+    // trace
+    // --------------------------------------
+
+#ifdef TRACING_IS_ENABLED
+    // BSR
+    bool                  getTraceBsr () const
+                              { return fTraceBsr; }
+
+    // pages & lines
+    bool                  getTracePages () const
+                              { return fTracePages; }
+
+    bool                  getTraceLines () const
+                              { return fTraceLines; }
+
+    bool                  getTraceSpaces () const
+                              { return fTraceSpaces; }
+    bool                  getTraceNumbers () const
+                              { return fTraceNumbers; }
+
+    // parallels
+    bool                  getTraceParallels () const
+                              { return fTraceParallels; }
+
+    // visitors
+    bool                  getTraceBsrVisitors () const
+                              { return fTraceBsrVisitors; }
+#endif
 
   public:
 
@@ -267,15 +306,12 @@ class bsrOah : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  initializeBsrDisplayOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeBsrDisplayOptions ();
 
-    void                  initializeBsrLanguagesOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeBsrLanguagesOptions ();
 
-#ifdef TRACE_OAH
-    void                  initializeBsrTraceOah (
-                            bool boolOptionsInitialValue);
+#ifdef TRACING_IS_ENABLED
+    void                  initializeBsrTraceOah ();
 #endif
 
   public:
@@ -297,9 +333,9 @@ class bsrOah : public oahGroup
 
     void                  printBsrOahValues (int fieldWidth);
 
-  public:
+  private:
 
-    // fileds
+    // private fields
     // --------------------------------------
 
     // display
@@ -315,7 +351,8 @@ class bsrOah : public oahGroup
     // trace
     // --------------------------------------
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
+
     // BSR
     bool                  fTraceBsr;
 
@@ -334,16 +371,13 @@ class bsrOah : public oahGroup
     bool                  fTraceBsrVisitors;
 #endif
 };
-typedef SMARTP<bsrOah> S_bsrOah;
-EXP ostream& operator<< (ostream& os, const S_bsrOah& elt);
+typedef SMARTP<bsrOahGroup> S_bsrOahGroup;
+EXP ostream& operator<< (ostream& os, const S_bsrOahGroup& elt);
 
-EXP extern S_bsrOah gGlobalBsrOah;
-EXP extern S_bsrOah gGlobalBsrOahUserChoices;
-EXP extern S_bsrOah gGlobalBsrOahWithDetailedTrace;
+EXP extern S_bsrOahGroup gGlobalBsrOahGroup;
 
 //______________________________________________________________________________
-EXP  void initializeBsrOahHandling (
-  S_oahHandler handler);
+EXP  S_bsrOahGroup createGlobalBsrOahGroup ();
 
 
 }

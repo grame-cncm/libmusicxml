@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -50,7 +50,9 @@ class msrRepeatCoda : public msrElement
     S_msrRepeat           getRepeatCodaRepeatUpLink () const
                               { return fRepeatCodaRepeatUpLink; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
  //  JMI void                  appendElementToRepeatCoda (S_msrElement elem);
@@ -76,7 +78,7 @@ class msrRepeatCoda : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // segment

@@ -13,14 +13,14 @@
 #ifndef ___bsr___
 #define ___bsr___
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "bsrScores.h"
 
 #include "bsrTranscriptionNotes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________

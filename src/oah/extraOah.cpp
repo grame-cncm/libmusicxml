@@ -12,20 +12,21 @@
 
 #include "extraOah.h"
 
-#ifdef EXTRA_OAH
+#ifdef EXTRA_OAH_IS_ENABLED
 
 
 #include <iomanip>      // setw, setprecision, ...
-
 #include <regex>
 
 #include "version.h"
 #include "utilities.h"
 
+#ifdef TRACING_IS_ENABLED
+  #include "traceOah.h"
+#endif
+
 #include "oahOah.h"
 #include "generalOah.h"
-
-#include "traceOah.h"
 
 #include "lpsrOah.h"
 
@@ -48,7 +49,7 @@ S_extraShowAllHarmoniesStructuresAtom extraShowAllHarmoniesStructuresAtom::creat
       shortName,
       longName,
       description);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -56,40 +57,52 @@ extraShowAllHarmoniesStructuresAtom::extraShowAllHarmoniesStructuresAtom (
   string shortName,
   string longName,
   string description)
-  : oahAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
-      kElementValueExpectedNo)
+      "valueSpecification JMI",
+      "variableName JMI")
 {}
 
 extraShowAllHarmoniesStructuresAtom::~extraShowAllHarmoniesStructuresAtom ()
 {}
 
-S_oahValuedAtom extraShowAllHarmoniesStructuresAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
+/* JMI
+void extraShowAllHarmoniesStructuresAtom::applyElement (ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a extraShowAllHarmoniesStructuresAtom" <<
+    gLogStream <<
+      "==> option '" << fetchNames () << "' is a extraShowAllHarmoniesStructuresAtom" <<
       endl;
   }
 #endif
 
-  // handle it at once
   printAllHarmoniesStructures (os);
+}
+*/
 
-  // no option value is needed
-  return nullptr;
+void extraShowAllHarmoniesStructuresAtom::applyAtomWithValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "==> option '" << fetchNames () << "' is a extraShowAllHarmoniesStructuresAtom" <<
+      endl;
+  }
+#endif
+
+  printAllHarmoniesStructures (os);
 }
 
 void extraShowAllHarmoniesStructuresAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowAllHarmoniesStructuresAtom::acceptIn ()" <<
       endl;
   }
@@ -100,9 +113,9 @@ void extraShowAllHarmoniesStructuresAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_extraShowAllHarmoniesStructuresAtom>*> (v)) {
         S_extraShowAllHarmoniesStructuresAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching extraShowAllHarmoniesStructuresAtom::visitStart ()" <<
             endl;
         }
@@ -113,9 +126,9 @@ void extraShowAllHarmoniesStructuresAtom::acceptIn (basevisitor* v)
 
 void extraShowAllHarmoniesStructuresAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowAllHarmoniesStructuresAtom::acceptOut ()" <<
       endl;
   }
@@ -126,9 +139,9 @@ void extraShowAllHarmoniesStructuresAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_extraShowAllHarmoniesStructuresAtom>*> (v)) {
         S_extraShowAllHarmoniesStructuresAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching extraShowAllHarmoniesStructuresAtom::visitEnd ()" <<
             endl;
         }
@@ -139,9 +152,9 @@ void extraShowAllHarmoniesStructuresAtom::acceptOut (basevisitor* v)
 
 void extraShowAllHarmoniesStructuresAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowAllHarmoniesStructuresAtom::browseData ()" <<
       endl;
   }
@@ -158,15 +171,8 @@ void extraShowAllHarmoniesStructuresAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printOptionEssentials (
+  oahElement::printOahElementEssentials (
     os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
 
   gIndenter--;
 }
@@ -176,7 +182,7 @@ void extraShowAllHarmoniesStructuresAtom::printAllHarmoniesStructures (ostream& 
   msrHarmonyStructure::printAllHarmoniesStructures (os);
 }
 
-void extraShowAllHarmoniesStructuresAtom::printValuedAtomOptionsValues (
+void extraShowAllHarmoniesStructuresAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -206,7 +212,7 @@ S_extraShowAllHarmoniesContentsAtom extraShowAllHarmoniesContentsAtom::create (
       valueSpecification,
       variableName,
       extraShowAllHarmoniesContentsVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -217,7 +223,7 @@ extraShowAllHarmoniesContentsAtom::extraShowAllHarmoniesContentsAtom (
   string  valueSpecification,
   string  variableName,
   string& extraShowAllHarmoniesContentsVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -225,34 +231,20 @@ extraShowAllHarmoniesContentsAtom::extraShowAllHarmoniesContentsAtom (
       variableName),
     fStringVariable (
       extraShowAllHarmoniesContentsVariable)
-{}
+{
+  fElementHelpOnlyKind = kElementHelpOnlyYes;
+}
 
 extraShowAllHarmoniesContentsAtom::~extraShowAllHarmoniesContentsAtom ()
 {}
 
-S_oahValuedAtom extraShowAllHarmoniesContentsAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a extraShowAllHarmoniesContentsAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void extraShowAllHarmoniesContentsAtom::handleValuedAtomValue (
+void extraShowAllHarmoniesContentsAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'extraShowAllHarmoniesContentsAtom'" <<
       endl;
   }
@@ -261,9 +253,9 @@ void extraShowAllHarmoniesContentsAtom::handleValuedAtomValue (
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'extraShowAllHarmoniesContentsAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
@@ -286,8 +278,8 @@ void extraShowAllHarmoniesContentsAtom::handleValuedAtomValue (
           "' is no diatonic (semitones) pitch" <<
           " in pitch language '" <<
           msrQuarterTonesPitchesLanguageKindAsString (
-            gGlobalLpsrOah->
-              fLpsrQuarterTonesPitchesLanguageKind) <<
+            gGlobalLpsrOahGroup->
+              getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<
           endl;
 
@@ -339,21 +331,15 @@ void extraShowAllHarmoniesContentsAtom::handleValuedAtomValue (
 
   // print all the harmonies notes
   printAllHarmoniesContents (
-    os,
+    gLogStream,
     semiTonesPitchKind);
-
-  // register 'show all harmonies contents' action in options groups's options handler upLink
-  fSubGroupUpLink->
-    getGroupUpLink ()->
-      getHandlerUpLink ()->
-        setOahHandlerFoundAHelpOption ();
 }
 
 void extraShowAllHarmoniesContentsAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowAllHarmoniesContentsAtom::acceptIn ()" <<
       endl;
   }
@@ -364,9 +350,9 @@ void extraShowAllHarmoniesContentsAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_extraShowAllHarmoniesContentsAtom>*> (v)) {
         S_extraShowAllHarmoniesContentsAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching extraShowAllHarmoniesContentsAtom::visitStart ()" <<
             endl;
         }
@@ -377,9 +363,9 @@ void extraShowAllHarmoniesContentsAtom::acceptIn (basevisitor* v)
 
 void extraShowAllHarmoniesContentsAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowAllHarmoniesContentsAtom::acceptOut ()" <<
       endl;
   }
@@ -390,9 +376,9 @@ void extraShowAllHarmoniesContentsAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_extraShowAllHarmoniesContentsAtom>*> (v)) {
         S_extraShowAllHarmoniesContentsAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching extraShowAllHarmoniesContentsAtom::visitEnd ()" <<
             endl;
         }
@@ -403,9 +389,9 @@ void extraShowAllHarmoniesContentsAtom::acceptOut (basevisitor* v)
 
 void extraShowAllHarmoniesContentsAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowAllHarmoniesContentsAtom::browseData ()" <<
       endl;
   }
@@ -422,15 +408,8 @@ void extraShowAllHarmoniesContentsAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printOptionEssentials (
+  oahElement::printOahElementEssentials (
     os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
 
   gIndenter--;
 }
@@ -444,7 +423,7 @@ void extraShowAllHarmoniesContentsAtom::printAllHarmoniesContents (
     semiTonesPitchKind);
 }
 
-void extraShowAllHarmoniesContentsAtom::printValuedAtomOptionsValues (
+void extraShowAllHarmoniesContentsAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -474,7 +453,7 @@ S_extraShowHarmonyDetailsAtom extraShowHarmonyDetailsAtom::create (
       valueSpecification,
       variableName,
       extraShowHarmonyDetailsVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -485,7 +464,7 @@ extraShowHarmonyDetailsAtom::extraShowHarmonyDetailsAtom (
   string  valueSpecification,
   string  variableName,
   string& extraShowHarmonyDetailsVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -493,34 +472,20 @@ extraShowHarmonyDetailsAtom::extraShowHarmonyDetailsAtom (
       variableName),
     fStringVariable (
       extraShowHarmonyDetailsVariable)
-{}
+{
+  fElementHelpOnlyKind = kElementHelpOnlyYes;
+}
 
 extraShowHarmonyDetailsAtom::~extraShowHarmonyDetailsAtom ()
 {}
 
-S_oahValuedAtom extraShowHarmonyDetailsAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a extraShowHarmonyDetailsAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void extraShowHarmonyDetailsAtom::handleValuedAtomValue (
+void extraShowHarmonyDetailsAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'extraShowHarmonyDetailsAtom'" <<
       endl;
   }
@@ -528,9 +493,9 @@ void extraShowHarmonyDetailsAtom::handleValuedAtomValue (
 
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'extraShowHarmonyDetailsAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
@@ -552,9 +517,9 @@ void extraShowHarmonyDetailsAtom::handleValuedAtomValue (
 
   unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "There are " << smSize << " matches" <<
       " for Harmony details string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -563,15 +528,15 @@ void extraShowHarmonyDetailsAtom::handleValuedAtomValue (
   }
 #endif
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       smSize << " elements: ";
     for (unsigned i = 0; i < smSize; ++i) {
-      os <<
+      gLogStream <<
         "[" << sm [i] << "] ";
     } // for
-    os << endl;
+    gLogStream << endl;
   }
 #endif
 
@@ -592,9 +557,9 @@ void extraShowHarmonyDetailsAtom::handleValuedAtomValue (
     rootName    = sm [1],
     harmonyName = sm [2];
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "--> rootName = \"" << rootName << "\", " <<
       "--> harmonyName = \"" << harmonyName << "\"" <<
       endl;
@@ -617,8 +582,8 @@ void extraShowHarmonyDetailsAtom::handleValuedAtomValue (
           "' is no diatonic (semitones) root pitch" <<
           " in pitch language '" <<
           msrQuarterTonesPitchesLanguageKindAsString (
-            gGlobalLpsrOah->
-              fLpsrQuarterTonesPitchesLanguageKind) <<
+            gGlobalLpsrOahGroup->
+              getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<
           endl;
 
@@ -676,22 +641,16 @@ void extraShowHarmonyDetailsAtom::handleValuedAtomValue (
 
   // print the Harmony details
   printHarmonyDetails (
-    os,
+    gLogStream,
     semiTonesPitchKind,
     harmonyKind);
-
-  // register 'show all harmonies contents' action in options groups's options handler upLink
-  fSubGroupUpLink->
-    getGroupUpLink ()->
-      getHandlerUpLink ()->
-        setOahHandlerFoundAHelpOption ();
 }
 
 void extraShowHarmonyDetailsAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowHarmonyDetailsAtom::acceptIn ()" <<
       endl;
   }
@@ -702,9 +661,9 @@ void extraShowHarmonyDetailsAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_extraShowHarmonyDetailsAtom>*> (v)) {
         S_extraShowHarmonyDetailsAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching extraShowHarmonyDetailsAtom::visitStart ()" <<
             endl;
         }
@@ -715,9 +674,9 @@ void extraShowHarmonyDetailsAtom::acceptIn (basevisitor* v)
 
 void extraShowHarmonyDetailsAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowHarmonyDetailsAtom::acceptOut ()" <<
       endl;
   }
@@ -728,9 +687,9 @@ void extraShowHarmonyDetailsAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_extraShowHarmonyDetailsAtom>*> (v)) {
         S_extraShowHarmonyDetailsAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching extraShowHarmonyDetailsAtom::visitEnd ()" <<
             endl;
         }
@@ -741,9 +700,9 @@ void extraShowHarmonyDetailsAtom::acceptOut (basevisitor* v)
 
 void extraShowHarmonyDetailsAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowHarmonyDetailsAtom::browseData ()" <<
       endl;
   }
@@ -760,20 +719,13 @@ void extraShowHarmonyDetailsAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printOptionEssentials (
+  oahElement::printOahElementEssentials (
     os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
 
   gIndenter--;
 }
 
-void extraShowHarmonyDetailsAtom::printValuedAtomOptionsValues (
+void extraShowHarmonyDetailsAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -797,7 +749,7 @@ S_extraShowHarmonyAnalysisAtom extraShowHarmonyAnalysisAtom::create (
       valueSpecification,
       variableName,
       extraShowHarmonyAnalysisVariable);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -808,7 +760,7 @@ extraShowHarmonyAnalysisAtom::extraShowHarmonyAnalysisAtom (
   string  valueSpecification,
   string  variableName,
   string& extraShowHarmonyAnalysisVariable)
-  : oahValuedAtom (
+  : oahAtomWithValue (
       shortName,
       longName,
       description,
@@ -816,34 +768,20 @@ extraShowHarmonyAnalysisAtom::extraShowHarmonyAnalysisAtom (
       variableName),
     fStringVariable (
       extraShowHarmonyAnalysisVariable)
-{}
+{
+  fElementHelpOnlyKind = kElementHelpOnlyYes;
+}
 
 extraShowHarmonyAnalysisAtom::~extraShowHarmonyAnalysisAtom ()
 {}
 
-S_oahValuedAtom extraShowHarmonyAnalysisAtom::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gLogOstream <<
-      "==> option '" << optionName << "' is a extraShowHarmonyAnalysisAtom" <<
-      endl;
-  }
-#endif
-
-  // an option value is needed
-  return this;
-}
-
-void extraShowHarmonyAnalysisAtom::handleValuedAtomValue (
+void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
   string   theString,
   ostream& os)
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'extraShowHarmonyAnalysisAtom'" <<
       endl;
   }
@@ -852,9 +790,9 @@ void extraShowHarmonyAnalysisAtom::handleValuedAtomValue (
   // theString contains the pitch name in the current language
   // is it in the accidental styles map?
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "==> oahAtom is of type 'extraShowHarmonyAnalysisAtom'" <<
       ", theString = \"" << theString << "\"" <<
       endl;
@@ -878,9 +816,9 @@ void extraShowHarmonyAnalysisAtom::handleValuedAtomValue (
 
   unsigned smSize = sm.size ();
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "There are " << smSize << " matches" <<
       " for Harmony analysis string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -890,15 +828,15 @@ void extraShowHarmonyAnalysisAtom::handleValuedAtomValue (
 #endif
 
   if (smSize == 4) {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceOah ()) {
-      os <<
+      gLogStream <<
         smSize << " elements: ";
       for (unsigned i = 0; i < smSize; ++i) {
-        os <<
+        gLogStream <<
           "[" << sm [i] << "] ";
       } // for
-      os << endl;
+      gLogStream << endl;
     }
 #endif
   }
@@ -914,7 +852,7 @@ void extraShowHarmonyAnalysisAtom::handleValuedAtomValue (
 
 /* JMI ??? should work...
     printSubGroupSpecificHelp (
-      os,
+      gLogStream,
       showHarmonyAnalysisAtom->
         getSubGroupUpLink ());
 */
@@ -934,9 +872,9 @@ void extraShowHarmonyAnalysisAtom::handleValuedAtomValue (
 
   s >> inversion;
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    os <<
+    gLogStream <<
       "--> rootName = \"" << rootName << "\", " <<
       "--> harmonyName = \"" << harmonyName << "\"" <<
       "--> inversion = " << inversion <<
@@ -960,8 +898,8 @@ void extraShowHarmonyAnalysisAtom::handleValuedAtomValue (
           "' is no diatonic (semitones) root pitch" <<
           " in pitch language '" <<
           msrQuarterTonesPitchesLanguageKindAsString (
-            gGlobalLpsrOah->
-              fLpsrQuarterTonesPitchesLanguageKind) <<
+            gGlobalLpsrOahGroup->
+              getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<
           endl;
 
@@ -1032,23 +970,17 @@ void extraShowHarmonyAnalysisAtom::handleValuedAtomValue (
 
   // print the Harmony analysis
   printHarmonyAnalysis (
-    os,
+    gLogStream,
     semiTonesPitchKind,
     harmonyKind,
     inversion);
-
-  // register 'show all harmonies contents' action in options groups's options handler upLink
-  fSubGroupUpLink->
-    getGroupUpLink ()->
-      getHandlerUpLink ()->
-        setOahHandlerFoundAHelpOption ();
 }
 
 void extraShowHarmonyAnalysisAtom::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowHarmonyAnalysisAtom::acceptIn ()" <<
       endl;
   }
@@ -1059,9 +991,9 @@ void extraShowHarmonyAnalysisAtom::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_extraShowHarmonyAnalysisAtom>*> (v)) {
         S_extraShowHarmonyAnalysisAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching extraShowHarmonyAnalysisAtom::visitStart ()" <<
             endl;
         }
@@ -1072,9 +1004,9 @@ void extraShowHarmonyAnalysisAtom::acceptIn (basevisitor* v)
 
 void extraShowHarmonyAnalysisAtom::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowHarmonyAnalysisAtom::acceptOut ()" <<
       endl;
   }
@@ -1085,9 +1017,9 @@ void extraShowHarmonyAnalysisAtom::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_extraShowHarmonyAnalysisAtom>*> (v)) {
         S_extraShowHarmonyAnalysisAtom elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching extraShowHarmonyAnalysisAtom::visitEnd ()" <<
             endl;
         }
@@ -1098,9 +1030,9 @@ void extraShowHarmonyAnalysisAtom::acceptOut (basevisitor* v)
 
 void extraShowHarmonyAnalysisAtom::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> extraShowHarmonyAnalysisAtom::browseData ()" <<
       endl;
   }
@@ -1117,20 +1049,13 @@ void extraShowHarmonyAnalysisAtom::print (ostream& os) const
 
   gIndenter++;
 
-  oahElement::printOptionEssentials (
+  oahElement::printOahElementEssentials (
     os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fDescription) <<
-    endl;
-  gIndenter--;
 
   gIndenter--;
 }
 
-void extraShowHarmonyAnalysisAtom::printValuedAtomOptionsValues (
+void extraShowHarmonyAnalysisAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1139,21 +1064,16 @@ void extraShowHarmonyAnalysisAtom::printValuedAtomOptionsValues (
 
 //_______________________________________________________________________________
 
-S_extraOah gGlobalExtraOah;
-S_extraOah gGlobalExtraOahUserChoices;
-S_extraOah gGlobalExtraOahWithDetailedTrace;
+S_extraOahGroup gGlobalExtraOahGroup;
 
-S_extraOah extraOah::create (
-  S_oahHandler handlerUpLink)
+S_extraOahGroup extraOahGroup::create ()
 {
-  extraOah* o = new extraOah (
-    handlerUpLink);
-  assert(o!=0);
+  extraOahGroup* o = new extraOahGroup ();
+  assert (o!=0);
   return o;
 }
 
-extraOah::extraOah (
-  S_oahHandler handlerUpLink)
+extraOahGroup::extraOahGroup ()
   : oahGroup (
     "Extra",
     "he", "help-extra",
@@ -1174,25 +1094,15 @@ In the text below:
         "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.)",
-    kElementVisibilityWhole,
-    handlerUpLink)
+    kElementVisibilityWhole)
 {
-  // append this extra group to the extra handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeExtraOah (false);
+  initializeExtraOahGroup ();
 }
 
-extraOah::~extraOah ()
+extraOahGroup::~extraOahGroup ()
 {}
 
-void extraOah::initializeExtraShowAllHarmoniesStructuresOptions (
-  bool boolOptionsInitialValue)
+void extraOahGroup::initializeExtraShowAllHarmoniesStructuresOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1212,8 +1122,7 @@ R"()",
 R"(Write all known harmonies structures to standard output.)"));
 }
 
-void extraOah::initializeExtraShowAllHarmoniesContentsOptions (
-  bool boolOptionsInitialValue)
+void extraOahGroup::initializeExtraShowAllHarmoniesContentsOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1241,8 +1150,7 @@ supplied in the current language to standard output.)",
         fHarmoniesRootAsString));
 }
 
-void extraOah::initializeExtraShowHarmonyDetailsOptions (
-  bool boolOptionsInitialValue)
+void extraOahGroup::initializeExtraShowHarmonyDetailsOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1270,14 +1178,13 @@ Using double quotes allows for shell variables substitutions, as in:
 HARMONY="maj7"
 EXECUTABLE -show-harmony-details "bes ${HARMONY}")",
          regex ("EXECUTABLE"),
-          gGlobalOahOahGroup->fHandlerExecutableName),
+          gGlobalOahOahGroup->getHandlerExecutableName ()),
         "HARMONY_SPEC",
         "diatonic (semitones) pitch",
         fHarmoniesRootAsString));
 }
 
-void extraOah::initializeExtraShowHarmonyAnalysisOptions (
-  bool boolOptionsInitialValue)
+void extraOahGroup::initializeExtraShowHarmonyAnalysisOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1306,92 +1213,62 @@ HARMONY="maj7"
 INVERSION=2
 EXECUTABLE -show-harmony-analysis "bes ${HARMONY} ${INVERSION}")",
           regex ("EXECUTABLE"),
-          gGlobalOahOahGroup->fHandlerExecutableName),
+          gGlobalOahOahGroup->getHandlerExecutableName ()),
         "HARMONY_SPEC",
         "diatonic (semitones) pitch",
         fHarmoniesRootAsString));
 }
 
-void extraOah::initializeExtraOah (
-  bool boolOptionsInitialValue)
+void extraOahGroup::initializeExtraOahGroup ()
 {
   // show all harmonies structures
   // --------------------------------------
-  initializeExtraShowAllHarmoniesStructuresOptions (
-    boolOptionsInitialValue);
+  initializeExtraShowAllHarmoniesStructuresOptions ();
 
   // show all harmonies contents
   // --------------------------------------
-  initializeExtraShowAllHarmoniesContentsOptions (
-    boolOptionsInitialValue);
+  initializeExtraShowAllHarmoniesContentsOptions ();
 
   // show harmony details
   // --------------------------------------
-  initializeExtraShowHarmonyDetailsOptions (
-    boolOptionsInitialValue);
+  initializeExtraShowHarmonyDetailsOptions ();
 
   // show harmony analysis
   // --------------------------------------
-  initializeExtraShowHarmonyAnalysisOptions (
-    boolOptionsInitialValue);
-}
-
-S_extraOah extraOah::createCloneWithDetailedTrace ()
-{
-  S_extraOah
-    clone =
-      extraOah::create (0);
-      // 0 not to have it inserted twice in the option handler
-
-  // set the extra handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-
-  // harmony intervals
-  // --------------------------------------
-
-  // JMI
-
-  // harmony notes
-  // --------------------------------------
-
-  // JMI
-
-  return clone;
+  initializeExtraShowHarmonyAnalysisOptions ();
 }
 
 //______________________________________________________________________________
-void extraOah::enforceGroupQuietness ()
+void extraOahGroup::enforceGroupQuietness ()
 {
 }
 
 //______________________________________________________________________________
-void extraOah::checkGroupOptionsConsistency ()
+void extraOahGroup::checkGroupOptionsConsistency ()
 {
   // JMI
 }
 
 //______________________________________________________________________________
-void extraOah::acceptIn (basevisitor* v)
+void extraOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> extraOah::acceptIn ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> extraOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraOah>*
+  if (visitor<S_extraOahGroup>*
     p =
-      dynamic_cast<visitor<S_extraOah>*> (v)) {
-        S_extraOah elem = this;
+      dynamic_cast<visitor<S_extraOahGroup>*> (v)) {
+        S_extraOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching extraOah::visitStart ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching extraOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -1399,25 +1276,25 @@ void extraOah::acceptIn (basevisitor* v)
   }
 }
 
-void extraOah::acceptOut (basevisitor* v)
+void extraOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> extraOah::acceptOut ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> extraOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_extraOah>*
+  if (visitor<S_extraOahGroup>*
     p =
-      dynamic_cast<visitor<S_extraOah>*> (v)) {
-        S_extraOah elem = this;
+      dynamic_cast<visitor<S_extraOahGroup>*> (v)) {
+        S_extraOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching extraOah::visitEnd ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching extraOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -1425,21 +1302,21 @@ void extraOah::acceptOut (basevisitor* v)
   }
 }
 
-void extraOah::browseData (basevisitor* v)
+void extraOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> extraOah::browseData ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> extraOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void extraOah::printExtraOahValues (int fieldWidth)
+void extraOahGroup::printExtraOahValues (int fieldWidth)
 {
-  gLogOstream <<
+  gLogStream <<
     "The extra extra are:" << // JMI
     endl;
 
@@ -1454,45 +1331,37 @@ void extraOah::printExtraOahValues (int fieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_extraOah& elt)
+ostream& operator<< (ostream& os, const S_extraOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeExtraOahHandling (
-  S_oahHandler handler)
+S_extraOahGroup createGlobalExtraOahGroup ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing extra extra handling" <<
-      endl;
-  }
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global extra OAH group" <<
+    endl;
+#endif
 #endif
 
-  // create the options variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  if (! gGlobalExtraOahGroup) {
+    // create the global OAH group
+    gGlobalExtraOahGroup =
+      extraOahGroup::create ();
+    assert (gGlobalExtraOahGroup != 0);
+  }
 
-  gGlobalExtraOahUserChoices = extraOah::create (
-    handler);
-  assert(gGlobalExtraOahUserChoices != 0);
-
-  gGlobalExtraOah =
-    gGlobalExtraOahUserChoices;
-
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
-
-/* JMI
-  gGlobalExtraOahWithDetailedTrace =
-    gGlobalExtraOah->
-      createCloneWithDetailedTrace ();
-      */
+  // return the global OAH group
+  return gGlobalExtraOahGroup;
 }
 
 
 }
+
 
 #endif

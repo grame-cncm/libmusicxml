@@ -17,6 +17,8 @@
 
 #include "msrStems.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -33,7 +35,7 @@ S_msrStem msrStem::create (
   msrStem* o =
     new msrStem (
       inputLineNumber, stemKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -50,8 +52,8 @@ msrStem::~msrStem ()
 
 void msrStem::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStem::acceptIn ()" <<
       endl;
   }
@@ -61,8 +63,8 @@ void msrStem::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStem::visitStart ()" <<
             endl;
         }
@@ -72,8 +74,8 @@ void msrStem::acceptIn (basevisitor* v)
 
 void msrStem::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStem::acceptOut ()" <<
       endl;
   }
@@ -83,8 +85,8 @@ void msrStem::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStem::visitEnd ()" <<
             endl;
         }

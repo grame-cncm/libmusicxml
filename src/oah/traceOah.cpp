@@ -10,18 +10,23 @@
   research@grame.fr
 */
 
-#include "traceOah.h"
-
-#ifdef TRACE_OAH
-
-
 #include <iomanip>      // setw, setprecision, ...
 
 #include "utilities.h"
 
+#include "enableTracingIfDesired.h"
+
+#ifdef TRACING_IS_ENABLED
+
+#include "traceOah.h"
+
+#include "oahOah.h"
 #include "generalOah.h"
 
 #include "messagesHandling.h"
+
+#include "oahAtomsCollection.h"
+
 
 using namespace std;
 
@@ -30,46 +35,42 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 S_traceOahGroup gGlobalTraceOahGroup;
-S_traceOahGroup gGlobalTraceOahGroupUserChoices;
 
 S_traceOahGroup traceOahGroup::create (
-  S_oahHandler handlerUpLink)
+  S_oahPrefix shortTracePrefix,
+  S_oahPrefix longTracePrefix)
 {
   traceOahGroup* o = new traceOahGroup (
-    handlerUpLink);
-  assert(o!=0);
+    shortTracePrefix,
+    longTracePrefix);
+  assert (o!=0);
 
   return o;
 }
 
 traceOahGroup::traceOahGroup (
-  S_oahHandler handlerUpLink)
+  S_oahPrefix shortTracePrefix,
+  S_oahPrefix longTracePrefix)
   : oahGroup (
-    "Trace",
-    "ht", "help-trace",
-R"(There are trace options transversal to the successive passes,
-showing what's going on in the various translation activities.
-They're provided as a help to the maintainers, as well as for the curious.
-The options in this group can be quite verbose, use them with small input data!
-All of them imply '-tpasses, -trace-passes'.)",
-    kElementVisibilityHeaderOnly,
-    handlerUpLink)
+      "OAH Trace",
+      "ht", "help-trace",
+  R"(There are trace options transversal to the successive passes,
+  showing what's going on in the various translation activities.
+  They're provided as a help to the maintainers, as well as for the curious.
+  The options in this group can be quite verbose, use them with small input data!
+  All of them imply '-tpasses, -trace-passes'.)",
+      kElementVisibilityHeaderOnly)
 {
-  // append this options group to the options handler if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
+  fShortTracePrefix = shortTracePrefix;
+  fLongTracePrefix  = longTracePrefix;
 
-  // initialize it
-  initializeTraceOahGroup (false);
+  initializeTraceOahGroup ();
 }
 
 traceOahGroup::~traceOahGroup ()
 {}
 
-void traceOahGroup::initializePrintLayoutsTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializePrintLayoutsTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -84,7 +85,7 @@ R"()",
 
   // print layouts
 
-  fTracePrintLayouts = boolOptionsInitialValue;
+  fTracePrintLayouts = false;
 
   S_oahTwoBooleansAtom
     tracePrintLayoutsAtom =
@@ -99,8 +100,7 @@ R"(Print layouts)",
       tracePrintLayoutsAtom);
 }
 
-void traceOahGroup::initializeTranspositionsTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeTranspositionsTraceOah ()
 {
   S_oahSubGroup
    subGroup =
@@ -115,7 +115,7 @@ R"()",
 
   // transpositions
 
-  fTraceTranspositions = boolOptionsInitialValue;
+  fTraceTranspositions = false;
 
   S_oahTwoBooleansAtom
     traceTranspositionsAtom =
@@ -131,7 +131,7 @@ R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
 
   // octave shifts
 
-  fTraceOctaveShifts = boolOptionsInitialValue;
+  fTraceOctaveShifts = false;
 
   S_oahTwoBooleansAtom
     traceOctaveShiftsAtom =
@@ -148,8 +148,7 @@ R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
 */
 }
 
-void traceOahGroup::initializeAboveStaffTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeAboveStaffTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -179,7 +178,7 @@ R"()",
 
   // rehearsals
 
-  fTraceRehearsals = boolOptionsInitialValue;
+  fTraceRehearsals = false;
 
   S_oahTwoBooleansAtom
     traceRehearsalsAtom =
@@ -198,7 +197,7 @@ R"(Rehearsals)",
 
   // segnos
 
-  fTraceSegnos = boolOptionsInitialValue;
+  fTraceSegnos = false;
 
   S_oahTwoBooleansAtom
     traceSegnosAtom =
@@ -217,7 +216,7 @@ R"(Segnos)",
 
   // dal segnos
 
-  fTraceDalSegnos = boolOptionsInitialValue;
+  fTraceDalSegnos = false;
 
   S_oahTwoBooleansAtom
     traceDalSegnosAtom =
@@ -236,7 +235,7 @@ R"(Dal segnos)",
 
   // codas
 
-  fTraceCodas = boolOptionsInitialValue;
+  fTraceCodas = false;
 
   S_oahTwoBooleansAtom
     traceCodasAtom =
@@ -255,7 +254,7 @@ R"(Codas)",
 
   // eyeglasses
 
-  fTraceEyeGlasses = boolOptionsInitialValue;
+  fTraceEyeGlasses = false;
 
   S_oahTwoBooleansAtom
     traceEyeGlassesAtom =
@@ -273,8 +272,7 @@ R"(Eyeglasses)",
       traceEyeGlassesAtom);
 }
 
-void traceOahGroup::initializeBreaksAndBarlinesTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeBreaksAndBarlinesTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -304,7 +302,7 @@ R"()",
 
   // line breaks
 
-  fTraceLineBreaks = boolOptionsInitialValue;
+  fTraceLineBreaks = false;
 
   S_oahTwoBooleansAtom
     traceLineBreaksAtom =
@@ -323,7 +321,7 @@ R"(Line breaks)",
 
   // page breaks
 
-  fTracePageBreaks = boolOptionsInitialValue;
+  fTracePageBreaks = false;
 
   S_oahTwoBooleansAtom
     tracePageBreaksAtom =
@@ -342,7 +340,7 @@ R"(Page breaks)",
 
   // barlines
 
-  fTraceBarlines = boolOptionsInitialValue;
+  fTraceBarlines = false;
 
   S_oahTwoBooleansAtom
     traceBarlinesAtom =
@@ -361,7 +359,7 @@ R"(Barlines)",
 
   // barlines details
 
-  fTraceBarlinesDetails = boolOptionsInitialValue;
+  fTraceBarlinesDetails = false;
 
   S_oahThreeBooleansAtom
     traceBarlinesDetailsAtom =
@@ -381,7 +379,7 @@ R"(Barlines details)",
 
   // bar checks
 
-  fTraceBarChecks = boolOptionsInitialValue;
+  fTraceBarChecks = false;
 
   S_oahThreeBooleansAtom
     traceBarChecksAtom =
@@ -401,7 +399,7 @@ R"(Bar checks)",
 
   // bar number checks
 
-  fTraceBarNumberChecks = boolOptionsInitialValue;
+  fTraceBarNumberChecks = false;
 
   S_oahThreeBooleansAtom
     traceBarNumberChecksAtom =
@@ -420,8 +418,7 @@ R"(Bar number checks)",
       traceBarNumberChecksAtom);
 }
 
-void traceOahGroup::initializeClefsToTemposTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeClefsToTemposTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -451,7 +448,7 @@ R"()",
 
   // clefs
 
-  fTraceClefs = boolOptionsInitialValue;
+  fTraceClefs = false;
 
   S_oahTwoBooleansAtom
     traceClefsAtom =
@@ -470,7 +467,7 @@ R"(Clefs)",
 
   // keys
 
-  fTraceKeys  = boolOptionsInitialValue;
+  fTraceKeys  = false;
 
   S_oahTwoBooleansAtom
     traceKeysAtom =
@@ -489,7 +486,7 @@ R"(Keys)",
 
   // times
 
-  fTraceTimes = boolOptionsInitialValue;
+  fTraceTimes = false;
 
   S_oahTwoBooleansAtom
     traceTimesAtom =
@@ -508,7 +505,7 @@ R"(Times)",
 
   // tempos
 
-  fTraceTempos = boolOptionsInitialValue;
+  fTraceTempos = false;
 
   S_oahTwoBooleansAtom
     traceTemposAtom =
@@ -526,8 +523,7 @@ R"(Tempos)",
       traceTemposAtom);
 }
 
-void traceOahGroup::initializeInterNotesTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeInterNotesTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -557,7 +553,7 @@ R"()",
 
   // ties
 
-  fTraceTies = boolOptionsInitialValue;
+  fTraceTies = false;
 
   S_oahTwoBooleansAtom
     traceTiesAtom =
@@ -576,7 +572,7 @@ R"(Ties)",
 
   // glissandos
 
-  fTraceGlissandos = boolOptionsInitialValue;
+  fTraceGlissandos = false;
 
   S_oahTwoBooleansAtom
     traceGlissandosAtom =
@@ -594,8 +590,7 @@ R"(Glissandos)",
       traceGlissandosAtom);
 }
 
-void traceOahGroup::initializeSpannersTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeSpannersTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -625,7 +620,7 @@ R"()",
 
   // spanners
 
-  fTraceSpanners = boolOptionsInitialValue;
+  fTraceSpanners = false;
 
   S_oahTwoBooleansAtom
     traceSpannersAtom =
@@ -644,7 +639,7 @@ R"(Spanners)",
 
   // wedges
 
-  fTraceWedges = boolOptionsInitialValue;
+  fTraceWedges = false;
 
   S_oahTwoBooleansAtom
     traceWedgesAtom =
@@ -663,7 +658,7 @@ R"(Wedges)",
 
   // slurs
 
-  fTraceSlurs = boolOptionsInitialValue;
+  fTraceSlurs = false;
 
   S_oahTwoBooleansAtom
     traceSlursAtom =
@@ -682,7 +677,7 @@ R"(Slurs)",
 
   // slurs details
 
-  fTraceSlursDetails = boolOptionsInitialValue;
+  fTraceSlursDetails = false;
 
   S_oahThreeBooleansAtom
     traceSlursDetailsAtom =
@@ -702,7 +697,7 @@ R"(Slurs details)",
 
   // ligatures
 
-  fTraceLigatures = boolOptionsInitialValue;
+  fTraceLigatures = false;
 
   S_oahTwoBooleansAtom
     traceLigaturesAtom =
@@ -720,8 +715,7 @@ R"(Ligatures)",
       traceLigaturesAtom);
 }
 
-void traceOahGroup::initializeHarmoniesTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeHarmoniesTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -753,7 +747,7 @@ R"()",
 
   // harmonies
 
-  fTraceHarmonies = boolOptionsInitialValue;
+  fTraceHarmonies = false;
 
   S_oahTwoBooleansAtom
     traceHarmoniesAtom =
@@ -774,7 +768,7 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
 
   // harmonies details
 
-  fTraceHarmoniesDetails = boolOptionsInitialValue;
+  fTraceHarmoniesDetails = false;
 
   S_oahTwoBooleansAtom
     traceHarmoniesDetailsAtom =
@@ -790,7 +784,7 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
 
   // extra harmonies
 
-  fTraceExtraHarmonies = boolOptionsInitialValue;
+  fTraceExtraHarmonies = false;
 
   S_oahTwoBooleansAtom
     traceExtraHarmoniesAtom =
@@ -805,8 +799,7 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
       traceExtraHarmoniesAtom);
 }
 
-void traceOahGroup::initializeFiguredBassesTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeFiguredBassesTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -821,7 +814,7 @@ R"()",
 
   // figured basses
 
-  fTraceFiguredBasses = boolOptionsInitialValue;
+  fTraceFiguredBasses = false;
 
   S_oahTwoBooleansAtom
     traceFiguredBasseAtom =
@@ -836,8 +829,7 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
       traceFiguredBasseAtom);
 }
 
-void traceOahGroup::initializeCreditsToWordsTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeCreditsToWordsTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -867,7 +859,7 @@ R"()",
 
   // credits
 
-  fTraceCredits = boolOptionsInitialValue;
+  fTraceCredits = false;
 
   S_oahTwoBooleansAtom
     traceCreditsBooleanAtom =
@@ -886,7 +878,7 @@ R"(Credits)",
 
   // lyrics
 
-  fTraceLyrics = boolOptionsInitialValue;
+  fTraceLyrics = false;
 
   S_oahTwoBooleansAtom
     traceLyricsBooleanAtom =
@@ -905,7 +897,7 @@ R"(Lyrics)",
 
   // lyrics details
 
-  fTraceLyricsDetails = boolOptionsInitialValue;
+  fTraceLyricsDetails = false;
 
   S_oahTwoBooleansAtom
     traceLyricsDetailsBooleanAtom =
@@ -924,7 +916,7 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
 
   // words
 
-  fTraceWords = boolOptionsInitialValue;
+  fTraceWords = false;
 
   S_oahTwoBooleansAtom
     traceWordsBooleanAtom =
@@ -942,8 +934,7 @@ R"(Words)",
       traceWordsBooleanAtom);
 }
 
-void traceOahGroup::initializeChordsAndTupletsTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeChordsAndTupletsTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -973,7 +964,7 @@ R"()",
 
   // chords
 
-  fTraceChords = boolOptionsInitialValue;
+  fTraceChords = false;
 
   S_oahTwoBooleansAtom
     taceChordsBooleanAtom =
@@ -992,7 +983,7 @@ R"(Chords)",
 
   // chords details
 
-  fTraceChordsDetails = boolOptionsInitialValue;
+  fTraceChordsDetails = false;
 
   S_oahThreeBooleansAtom
     traceChordsDetailsBooleanAtom =
@@ -1012,7 +1003,7 @@ R"(Chords details)",
 
   // tuplets
 
-  fTraceTuplets = boolOptionsInitialValue;
+  fTraceTuplets = false;
 
   S_oahTwoBooleansAtom
     traceTupletsBooleanAtom =
@@ -1031,7 +1022,7 @@ R"(Tuplets)",
 
   // tuplets details
 
-  fTraceTupletsDetails = boolOptionsInitialValue;
+  fTraceTupletsDetails = false;
 
   S_oahThreeBooleansAtom
     traceTupletsDetailsBooleanAtom =
@@ -1050,8 +1041,7 @@ R"(Tuplets details)",
       traceTupletsDetailsBooleanAtom);
 }
 
-void traceOahGroup::initializeInstrumentsTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeInstrumentsTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -1081,7 +1071,7 @@ R"()",
 
   // frames
 
-  fTraceFrames = boolOptionsInitialValue;
+  fTraceFrames = false;
 
   S_oahTwoBooleansAtom
     traceFramesBooleanAtom =
@@ -1102,7 +1092,7 @@ R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
 
   // scordaturas
 
-  fTraceScordaturas = boolOptionsInitialValue;
+  fTraceScordaturas = false;
 
   S_oahTwoBooleansAtom
     traceScordaturasBooleanAtom =
@@ -1121,7 +1111,7 @@ R"(Scordaturas)",
 
   // slides
 
-  fTraceSlides = boolOptionsInitialValue;
+  fTraceSlides = false;
 
   S_oahTwoBooleansAtom
     traceSlidesBooleanAtom =
@@ -1140,7 +1130,7 @@ R"(Slides)",
 
   // pedals
 
-  fTracePedals = boolOptionsInitialValue;
+  fTracePedals = false;
 
   S_oahTwoBooleansAtom
     tracePedalsBooleanAtom =
@@ -1159,7 +1149,7 @@ R"(Pedals)",
 
   // accordion registrations
 
-  fTraceAccordionRegistrations = boolOptionsInitialValue;
+  fTraceAccordionRegistrations = false;
 
   // accordion registrations
   S_oahTwoBooleansAtom
@@ -1179,7 +1169,7 @@ R"(Accordion registrations)",
 
   // harp pedals
 
-  fTraceHarpPedals = boolOptionsInitialValue;
+  fTraceHarpPedals = false;
 
   S_oahTwoBooleansAtom
     traceHarpPedalsBooleanAtom =
@@ -1198,7 +1188,7 @@ R"(Harp pedals)",
 
   // harp pedals tuning
 
-  fTraceHarpPedalsTunings = boolOptionsInitialValue;
+  fTraceHarpPedalsTunings = false;
 
   S_oahTwoBooleansAtom
     traceHarpPedalsTuningsBooleanAtom =
@@ -1217,7 +1207,7 @@ R"(Harp pedals tuning)",
 
   // damps
 
-  fTraceDamps = boolOptionsInitialValue;
+  fTraceDamps = false;
 
   S_oahTwoBooleansAtom
     traceDampsBooleanAtom =
@@ -1236,7 +1226,7 @@ R"(Damps)",
 
   // dampalls
 
-  fTraceDampAlls = boolOptionsInitialValue;
+  fTraceDampAlls = false;
 
   S_oahTwoBooleansAtom
     traceDampAllsBooleanAtom =
@@ -1255,7 +1245,7 @@ R"(Dampalls)",
 
   // MIDI
 
-  fTraceMidi = boolOptionsInitialValue;
+  fTraceMidi = false;
 
   S_oahTwoBooleansAtom
     traceMidiBooleanAtom =
@@ -1273,8 +1263,7 @@ R"(MIDI)",
       traceMidiBooleanAtom);
 }
 
-void traceOahGroup::initializeNotesAttachmentsTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeNotesAttachmentsTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -1304,7 +1293,7 @@ R"()",
 
   // stems
 
-  fTraceStems = boolOptionsInitialValue;
+  fTraceStems = false;
 
   S_oahTwoBooleansAtom
     traceStemsBooleanAtom =
@@ -1323,7 +1312,7 @@ R"(Stems)",
 
   // beams
 
-  fTraceBeams = boolOptionsInitialValue;
+  fTraceBeams = false;
 
   S_oahTwoBooleansAtom
     traceBeamsBooleanAtom =
@@ -1342,7 +1331,7 @@ R"(Beams)",
 
   // articulations
 
-  fTraceArticulations = boolOptionsInitialValue;
+  fTraceArticulations = false;
 
   S_oahTwoBooleansAtom
     traceArticulationsBooleanAtom =
@@ -1361,7 +1350,7 @@ R"(Articulations)",
 
   // technicals
 
-  fTraceTechnicals = boolOptionsInitialValue;
+  fTraceTechnicals = false;
 
   S_oahTwoBooleansAtom
     traceTechnicalsBooleanAtom =
@@ -1380,7 +1369,7 @@ R"(Technicals)",
 
   // ornaments
 
-  fTraceOrnaments = boolOptionsInitialValue;
+  fTraceOrnaments = false;
 
   S_oahTwoBooleansAtom
     traceOrnamentsBooleanAtom =
@@ -1399,7 +1388,7 @@ R"(Ornaments)",
 
   // dynamics
 
-  fTraceDynamics = boolOptionsInitialValue;
+  fTraceDynamics = false;
 
   S_oahTwoBooleansAtom
     traceDynamicsBooleanAtom =
@@ -1417,8 +1406,7 @@ R"(Dynamics)",
       traceDynamicsBooleanAtom);
 }
 
-void traceOahGroup::initializeSegmentsAndMeasuresTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeSegmentsAndMeasuresTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -1448,7 +1436,7 @@ R"()",
 
   // segments
 
-  fTraceSegments = boolOptionsInitialValue;
+  fTraceSegments = false;
 
   S_oahTwoBooleansAtom
     traceSegmentsBooleanAtom =
@@ -1467,7 +1455,7 @@ R"(Voices segments)",
 
   // segments details
 
-  fTraceSegmentsDetails = boolOptionsInitialValue;
+  fTraceSegmentsDetails = false;
 
   S_oahThreeBooleansAtom
     traceSegmentsDetailsBooleanAtom =
@@ -1487,7 +1475,7 @@ R"(Voices segments details)",
 
   // measure numbers
 
-  fTraceMeasuresNumbers = boolOptionsInitialValue;
+  fTraceMeasuresNumbers = false;
 
   S_oahTwoBooleansAtom
     traceMeasuresNumbersBooleanAtom =
@@ -1506,7 +1494,7 @@ R"(Measure numberss)",
 
   // measures
 
-  fTraceMeasures = boolOptionsInitialValue;
+  fTraceMeasures = false;
 
   S_oahTwoBooleansAtom
     traceMeasuresBooleanAtom =
@@ -1525,7 +1513,7 @@ R"(Measures)",
 
   // measures details
 
-  fTraceMeasuresDetails = boolOptionsInitialValue;
+  fTraceMeasuresDetails = false;
 
   S_oahThreeBooleansAtom
     traceMeasuresDetailsBooleanAtom =
@@ -1545,7 +1533,7 @@ R"(Measures details)",
 
   // positions in measures
 
-  fTracePositionsInMeasures = boolOptionsInitialValue;
+  fTracePositionsInMeasures = false;
 
   S_oahTwoBooleansAtom
     tracePositionsInMeasuresBooleanAtom =
@@ -1565,8 +1553,7 @@ R"(Positions in measures)",
   // fTraceDetailedMeasureNumbersSet is empty
 }
 
-void traceOahGroup::initializeScoreToVoicesTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeScoreToVoicesTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -1596,7 +1583,7 @@ R"()",
 
   // score
 
-  fTraceScore = boolOptionsInitialValue;
+  fTraceScore = false;
 
   S_oahTwoBooleansAtom
     traceScoreBooleanAtom =
@@ -1615,7 +1602,7 @@ R"(Score)",
 
   // part groups
 
-  fTracePartGroups = boolOptionsInitialValue;
+  fTracePartGroups = false;
 
   S_oahTwoBooleansAtom
     tracePartGroupsBooleanAtom =
@@ -1634,7 +1621,7 @@ R"(Part groups)",
 
   // part groups details
 
-  fTracePartGroupsDetails = boolOptionsInitialValue;
+  fTracePartGroupsDetails = false;
 
   S_oahThreeBooleansAtom
     tracePartGroupsDetailsBooleanAtom =
@@ -1655,7 +1642,7 @@ This option implies '-tpgrps, -trace-part-groups'.)",
 
   // parts
 
-  fTraceParts = boolOptionsInitialValue;
+  fTraceParts = false;
 
   S_oahTwoBooleansAtom
     tracePartsBooleanAtom =
@@ -1674,7 +1661,7 @@ R"(Parts)",
 
   // staves
 
-  fTraceStaves = boolOptionsInitialValue;
+  fTraceStaves = false;
 
   S_oahTwoBooleansAtom
     traceStavesBooleanAtom =
@@ -1693,7 +1680,7 @@ R"(Staves)",
 
   // staff details
 
-  fTraceStaffDetails = boolOptionsInitialValue;
+  fTraceStaffDetails = false;
 
   S_oahTwoBooleansAtom
     traceStaffDetailsBooleanAtom =
@@ -1712,7 +1699,7 @@ R"(Staff details)",
 
   // staff changes
 
-  fTraceStaffChanges = boolOptionsInitialValue;
+  fTraceStaffChanges = false;
 
   S_oahTwoBooleansAtom
     traceStaffChangesBooleanAtom =
@@ -1731,7 +1718,7 @@ R"(Staff changes)",
 
   // voices
 
-  fTraceVoices = boolOptionsInitialValue;
+  fTraceVoices = false;
 
   S_oahTwoBooleansAtom
     traceVoicesBooleanAtom =
@@ -1750,7 +1737,7 @@ R"(Voices)",
 
   // voices details
 
-  fTraceVoicesDetails = boolOptionsInitialValue;
+  fTraceVoicesDetails = false;
 
   S_oahThreeBooleansAtom
     traceVoicesDetailsBooleanAtom =
@@ -1770,8 +1757,7 @@ This option implies '-tvoices, -trace-voices'.)",
       traceVoicesDetailsBooleanAtom);
 }
 
-void traceOahGroup::initializeNotesTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeNotesTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -1801,7 +1787,7 @@ R"()",
 
   // notes
 
-  fTraceNotes = boolOptionsInitialValue;
+  fTraceNotes = false;
 
   S_oahTwoBooleansAtom
     traceNotesBooleanAtom =
@@ -1820,7 +1806,7 @@ R"(Notes)",
 
   // notes details
 
-  fTraceNotesDetails = boolOptionsInitialValue;
+  fTraceNotesDetails = false;
 
   S_oahThreeBooleansAtom
     traceNotesDetailsBooleanAtom =
@@ -1841,7 +1827,7 @@ This option implies '-tnotes, -trace-notes'.)",
 
   // whole notes
 
-  fTraceWholeNotes = boolOptionsInitialValue;
+  fTraceWholeNotes = false;
 
   S_oahTwoBooleansAtom
     traceWholeNotesBooleanAtom =
@@ -1860,7 +1846,7 @@ R"(Whole notes computations (quite verbose)...)",
 
   // whole notes details
 
-  fTraceWholeNotesDetails = boolOptionsInitialValue;
+  fTraceWholeNotesDetails = false;
 
   S_oahThreeBooleansAtom
     traceWholeNotesDetailsBooleanAtom =
@@ -1880,7 +1866,7 @@ R"(Whole notes computations details (event more verbose)...)",
 
   // rest notes
 
-  fTraceRestNotes = boolOptionsInitialValue;
+  fTraceRestNotes = false;
 
   S_oahTwoBooleansAtom
     traceRestNotesBooleanAtom =
@@ -1899,7 +1885,7 @@ R"(Rest notes)",
 
   // skip notes
 
-  fTraceSkipNotes = boolOptionsInitialValue;
+  fTraceSkipNotes = false;
 
   S_oahTwoBooleansAtom
     traceSkipNotesBooleanAtom =
@@ -1918,7 +1904,7 @@ R"(Skip notes)",
 
   // notes octave entry
 
-  fTraceNotesOctaveEntry = boolOptionsInitialValue;
+  fTraceNotesOctaveEntry = false;
 
   S_oahTwoBooleansAtom
     traceNotesOctaveEntryBooleanAtom =
@@ -1937,7 +1923,7 @@ R"(Notes octave entry)",
 
   // grace notes
 
-  fTraceGraceNotes = boolOptionsInitialValue;
+  fTraceGraceNotes = false;
 
   S_oahTwoBooleansAtom
     traceGraceNotesBooleanAtom =
@@ -1956,7 +1942,7 @@ R"(Grace notes)",
 
   // tremolos
 
-  fTraceTremolos = boolOptionsInitialValue;
+  fTraceTremolos = false;
 
   S_oahTwoBooleansAtom
     traceTremolosBooleanAtom =
@@ -1974,8 +1960,7 @@ R"(Tremolos)",
       traceTremolosBooleanAtom);
 }
 
-void traceOahGroup::initializeOptionsTraceAndDisplayOptions (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeOptionsTraceAndDisplayOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -1990,20 +1975,23 @@ R"()",
 
   // trace options
 
-  fTraceOah = boolOptionsInitialValue;
+  fTraceOah = false;
+
+  fTraceOahAtom =
+    oahBooleanAtom::create (
+      "toah", "trace-oah",
+R"(Write a trace of options and help handling to standard error.
+This option should best appear early.)",
+      "traceOah",
+      fTraceOah);
 
   subGroup->
     appendAtomToSubGroup (
-      oahBooleanAtom::create (
-        "toah", "trace-oah",
-R"(Write a trace of options and help handling to standard error.
-This option should best appear early.)",
-        "traceOah",
-        fTraceOah));
+      fTraceOahAtom);
 
-  // options details
+ // options details
 
-  fTraceOahDetails = boolOptionsInitialValue;
+  fTraceOahDetails = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -2018,8 +2006,7 @@ This option should best appear early.)",
   // fTraceDetailedMeasureNumbersSet is intially empty
 }
 
-void traceOahGroup::initializeRepeatsToSlashesTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeRepeatsToSlashesTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -2049,7 +2036,7 @@ R"()",
 
   // repeats
 
-  fTraceRepeats = boolOptionsInitialValue;
+  fTraceRepeats = false;
 
   S_oahTwoBooleansAtom
     traceRepeatsBooleanAtom =
@@ -2068,7 +2055,7 @@ R"(Repeats)",
 
   // repeats details
 
-  fTraceRepeatsDetails = boolOptionsInitialValue;
+  fTraceRepeatsDetails = false;
 
   S_oahThreeBooleansAtom
     traceRepeatsDetailsBooleanAtom =
@@ -2088,7 +2075,7 @@ R"(Repeats details)",
 
   // measures repeats
 
-  fTraceMeasuresRepeats = boolOptionsInitialValue;
+  fTraceMeasuresRepeats = false;
 
   S_oahTwoBooleansAtom
     traceMeasuresRepeatsBooleanAtom =
@@ -2107,7 +2094,7 @@ R"(Measures repeats)",
 
   // rest measures
 
-  fTraceRestMeasures = boolOptionsInitialValue;
+  fTraceRestMeasures = false;
 
   S_oahTwoBooleansAtom
     traceRestMeasuresBooleanAtom =
@@ -2126,7 +2113,7 @@ R"(Multiple rests)",
 
   // beats repeats
 
-  fTraceBeatsRepeats = boolOptionsInitialValue;
+  fTraceBeatsRepeats = false;
 
   S_oahTwoBooleansAtom
     traceBeatsRepeatsBooleanAtom =
@@ -2145,7 +2132,7 @@ R"(Beats repeatss)",
 
   // slashes
 
-  fTraceSlashes = boolOptionsInitialValue;
+  fTraceSlashes = false;
 
   S_oahTwoBooleansAtom
     traceSlashesBooleanAtom =
@@ -2163,8 +2150,7 @@ R"(Slashes)",
       traceSlashesBooleanAtom);
 }
 
-void traceOahGroup::initializeOtherTraceOah (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeOtherTraceOah ()
 {
   S_oahSubGroup
     subGroup =
@@ -2194,7 +2180,7 @@ R"()",
 
   // passes
 
-  fTracePasses = boolOptionsInitialValue;
+  fTracePasses = false;
 
   S_oahBooleanAtom
     tracePassesBooleanAtom =
@@ -2212,7 +2198,7 @@ R"(Write a trace of the passes to standard error.)",
 
   // scaling
 
-  fTraceGeometry = boolOptionsInitialValue;
+  fTraceGeometry = false;
 
   S_oahTwoBooleansAtom
     traceGeometryBooleanAtom =
@@ -2231,7 +2217,7 @@ R"(Scaling)",
 
   // varValAssocs
 
-  fTraceVarValAssocs = boolOptionsInitialValue;
+  fTraceVarValAssocs = false;
 
   S_oahTwoBooleansAtom
     traceVarValAssocsBooleanAtom =
@@ -2250,7 +2236,7 @@ R"(VarValAssocs)",
 
   // '-tft, -trace-for-tests' is hidden...
 
-  fTraceForTests = boolOptionsInitialValue;
+  fTraceForTests = false;
 
   S_oahBooleanAtom
     traceForTestsOahBooleanAtom =
@@ -2260,583 +2246,73 @@ R"(Write a trace for tests to standard error.)",
         "traceForTests",
         fTraceForTests);
   traceForTestsOahBooleanAtom->
-    setIsHidden ();
+    setElementVisibilityKind (
+      kElementVisibilityHidden);
 
   subGroup->
     appendAtomToSubGroup (
       traceForTestsOahBooleanAtom);
 }
 
-void traceOahGroup::initializeTraceOahGroup (
-  bool boolOptionsInitialValue)
+void traceOahGroup::initializeTraceOahGroup ()
 {
-  // fetch the 't' prefix
-
-  fShortTracePrefix =
-    fHandlerUpLink->
-      fetchPrefixNameInPrefixesMap (
-        "t");
-  msgAssert (
-    fShortTracePrefix != nullptr,
-    "fShortTracePrefix is null");
-
-  // fetch the 'trace' prefix
-
-  fLongTracePrefix =
-    fHandlerUpLink->
-      fetchPrefixNameInPrefixesMap (
-        "trace");
-  msgAssert (
-    fLongTracePrefix != nullptr,
-    "fLongTracePrefix is null");
-
   // options and help trace and display
-  initializeOptionsTraceAndDisplayOptions (
-    boolOptionsInitialValue);
+  initializeOptionsTraceAndDisplayOptions ();
 
   // score to voices
-  initializeScoreToVoicesTraceOah (
-    boolOptionsInitialValue);
+  initializeScoreToVoicesTraceOah ();
 
   // print layouts
-  initializePrintLayoutsTraceOah (
-    boolOptionsInitialValue);
+  initializePrintLayoutsTraceOah ();
 
   // segments and measures
-  initializeSegmentsAndMeasuresTraceOah (
-    boolOptionsInitialValue);
+  initializeSegmentsAndMeasuresTraceOah ();
 
   // notes
-  initializeNotesTraceOah (
-    boolOptionsInitialValue);
+  initializeNotesTraceOah ();
 
   // notes attachments
-  initializeNotesAttachmentsTraceOah (
-    boolOptionsInitialValue);
+  initializeNotesAttachmentsTraceOah ();
 
   // repeats to slashes
-  initializeRepeatsToSlashesTraceOah (
-    boolOptionsInitialValue);
+  initializeRepeatsToSlashesTraceOah ();
 
   // instruments
-  initializeInstrumentsTraceOah (
-    boolOptionsInitialValue);
+  initializeInstrumentsTraceOah ();
 
   // chords and tuplets
-  initializeChordsAndTupletsTraceOah (
-    boolOptionsInitialValue);
+  initializeChordsAndTupletsTraceOah ();
 
   // texts
-  initializeCreditsToWordsTraceOah (
-    boolOptionsInitialValue);
+  initializeCreditsToWordsTraceOah ();
 
   // harmonies
-  initializeHarmoniesTraceOah (
-    boolOptionsInitialValue);
+  initializeHarmoniesTraceOah ();
 
   // figured basses
-  initializeFiguredBassesTraceOah (
-    boolOptionsInitialValue);
+  initializeFiguredBassesTraceOah ();
 
   // spanners
-  initializeSpannersTraceOah (
-    boolOptionsInitialValue);
+  initializeSpannersTraceOah ();
 
   // inter-notes
-  initializeInterNotesTraceOah (
-    boolOptionsInitialValue);
+  initializeInterNotesTraceOah ();
 
   // clefs to tempos
-  initializeClefsToTemposTraceOah (
-    boolOptionsInitialValue);
+  initializeClefsToTemposTraceOah ();
 
   // breaks
-  initializeBreaksAndBarlinesTraceOah (
-    boolOptionsInitialValue);
+  initializeBreaksAndBarlinesTraceOah ();
 
   // above staff
-  initializeAboveStaffTraceOah (
-    boolOptionsInitialValue);
+  initializeAboveStaffTraceOah ();
 
   //transpositions
-  initializeTranspositionsTraceOah (
-    boolOptionsInitialValue);
+  initializeTranspositionsTraceOah ();
 
   // other trace
-  initializeOtherTraceOah (
-    boolOptionsInitialValue);
+  initializeOtherTraceOah ();
 }
-
-S_traceOahGroup traceOahGroup::createCloneWithTrueValues ()
-{
-  S_traceOahGroup
-    clone =
-      traceOahGroup::create (nullptr);
-      // nullptr not to have it inserted twice in the option handler
-
-  // set the options handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-  // options and help trace and display
-  clone->fTraceOah =
-    fTraceOah;
-  clone->fTraceOahDetails =
-    fTraceOahDetails;
-
-  // passes
-  clone->fTracePasses = true;
-
-  // score
-  clone->fTraceScore = true;
-
-  // for tests, hidden
-  clone->fTraceForTests = true;
-
-  // varValAssocs
-  clone->fTraceVarValAssocs = true;
-
-  // credits
-  clone->fTraceCredits = true;
-
-  // scaling
-  clone->fTraceGeometry = true;
-
-  // part groups
-  clone->fTracePartGroups = true;
-  clone->fTracePartGroupsDetails = true;
-
-  // parts
-  clone->fTraceParts = true;
-
-  // staves
-  clone->fTraceStaves = true;
-
-  // voices
-  clone->fTraceVoices = true;
-  clone->fTraceVoicesDetails = true;
-
-  // measures
-  clone->fTraceMeasuresNumbers = true;
-  clone->fTraceMeasures = true;
-  clone->fTraceMeasuresDetails = true;
-  clone->fTracePositionsInMeasures = true;
-  clone->fTraceDetailedMeasureNumbersSet =
-    fTraceDetailedMeasureNumbersSet;
-
-  // segments
-  clone->fTraceSegments = true;
-  clone->fTraceSegmentsDetails = true;
-
-  // clefs
-  clone->fTraceClefs = true;
-
-  // keys
-  clone->fTraceKeys = true;
-
-  // times
-  clone->fTraceTimes = true;
-
-  // tempos
-  clone->fTraceTempos = true;
-
-  // rehearsals
-  clone->fTraceRehearsals = true;
-
-  // line breaks
-  clone->fTraceLineBreaks = true;
-
-  // page breaks
-  clone->fTracePageBreaks = true;
-
-  // staff changes
-  clone->fTraceStaffChanges = true;
-
-  // transpositions
-  clone->fTraceTranspositions = true;
-
-  // octave shifts
-  clone->fTraceOctaveShifts = true;
-
-  // barlines
-  clone->fTraceBarlines = true;
-  clone->fTraceBarlinesDetails = true;
-
-  // bar checks
-  clone->fTraceBarChecks = true;
-
-  // bar number checks
-  clone->fTraceBarNumberChecks = true;
-
-  // repeats trace
-  clone->fTraceRepeats = true;
-  clone->fTraceRepeatsDetails = true;
-
-  // measures repeats
-  clone->fTraceMeasuresRepeats = true;
-
-  // rest measures
-  clone->fTraceRestMeasures = true;
-
-  // slashes
-  clone->fTraceSlashes = true;
-
-  // notes trace
-  clone->fTraceNotes = true;
-  clone->fTraceNotesDetails = true;
-  clone->fTraceWholeNotes = true;
-  clone->fTraceWholeNotesDetails = true;
-  clone->fTraceRestNotes = true;
-  clone->fTraceSkipNotes = true;
-  clone->fTraceNotesOctaveEntry = true;
-
-  // stems
-  clone->fTraceStems = true;
-
-  // beams
-  clone->fTraceBeams = true;
-
-  // articulations
-  clone->fTraceArticulations = true;
-
-  // technicals
-  clone->fTraceTechnicals = true;
-
-  // ornaments
-  clone->fTraceOrnaments = true;
-
-  // dynamics
-  clone->fTraceDynamics = true;
-
-  // spanners
-  clone->fTraceSpanners = true;
-
-  // words
-  clone->fTraceWords = true;
-
-  // tremolos
-  clone->fTraceTremolos = true;
-
-  // chords
-  clone->fTraceChords = true;
-  clone->fTraceChordsDetails = true;
-
-  // tuplets
-  clone->fTraceTuplets = true;
-  clone->fTraceTupletsDetails = true;
-
-  // glissandos
-  clone->fTraceTuplets = true;
-
-  // eyeglases
-  clone->fTraceGlissandos = true;
-
-  // damps
-  clone->fTraceDamps = true;
-
-  // dampalls
-  clone->fTraceDampAlls = true;
-
-  // slides
-  clone->fTraceSlides = true;
-
-  // grace notes
-  clone->fTraceGraceNotes = true;
-
-  // lyrics
-  clone->fTraceLyrics        = true;
-  clone->fTraceLyricsDetails = true;
-
-  // harmonies
-  clone->fTraceHarmonies = true;
-  clone->fTraceExtraHarmonies = true;
-
-  // frames
-  clone->fTraceFrames = true;
-
-  // figured basses
-  clone->fTraceFiguredBasses = true;
-
-  // ties
-  clone->fTraceTies = true;
-
-  // slurs
-  clone->fTraceSlurs = true;
-
-  // ligatures
-  clone->fTraceLigatures = true;
-
-  // pedals
-  clone->fTracePedals = true;
-
-  // wedges
-  clone->fTraceWedges = true;
-
-  // staff details
-  clone->fTraceStaffDetails = true;
-
-  // scordaturas
-  clone->fTraceScordaturas = true;
-
-  // segnos
-  clone->fTraceSegnos = true;
-
-  // dal segnos
-  clone->fTraceDalSegnos = true;
-
-  // codas
-  clone->fTraceCodas = true;
-
-  // accordion registrations
-  clone->fTraceAccordionRegistrations = true;
-
-  // harp pedals
-  clone->fTraceHarpPedals = true;
-
-  // harp pedals tuning
-  clone->fTraceHarpPedalsTunings = true;
-
-  // extra harmonies
-  clone->fTraceExtraHarmonies = true;
-
-/* JMI
-  // msrStreams
-  clone->fTraceMsrStreams = true;
-*/
-
-  // midi
-  clone->fTraceMidi = true;
-
-  return clone;
-}
-
-/* JMI
-void traceOahGroup::setAllGeneralTraceOah (
-  bool boolOptionsInitialValue)
-{
-  // passes
-  clone->getTracePasses () = boolOptionsInitialValue;
-
-  // score
-  clone->fTraceScore = boolOptionsInitialValue;
-
-  // for tests, hidden
-  clone->fTraceForTests = boolOptionsInitialValue;
-
-  // varValAssocs
-  fTraceVarValAssocs = boolOptionsInitialValue;
-
-  // credits
-  clone->fTraceCredits = boolOptionsInitialValue;
-
-  // scaling
-  fTraceGeometry = boolOptionsInitialValue;
-
-  // part groups
-  fTracePartGroups = boolOptionsInitialValue;
-  fTracePartGroupsDetails = boolOptionsInitialValue;
-
-  // parts
-  fTraceParts = boolOptionsInitialValue;
-
-  // staves
-  fTraceStaves = boolOptionsInitialValue;
-
-  // voices
-  fTraceVoices = boolOptionsInitialValue;
-  fTraceVoicesDetails = boolOptionsInitialValue;
-
-  // measures
-  clone->fTraceMeasuresNumbers = boolOptionsInitialValue;
-  clone->fTraceMeasures = boolOptionsInitialValue;
-  clone->fTraceMeasuresDetails = boolOptionsInitialValue;
-  clone->fTracePositionsInMeasures = boolOptionsInitialValue;
-  clone->fTraceDetailedMeasureNumbersSet =
-    fTraceDetailedMeasureNumbersSet;
-
-  // segments
-  fTraceSegments = boolOptionsInitialValue;
-  fTraceSegmentsDetails = boolOptionsInitialValue;
-
-  // clefs
-  fTraceClefs = boolOptionsInitialValue;
-
-  // keys
-  fTraceKeys  = boolOptionsInitialValue;
-
-  // times
-  fTraceTimes = boolOptionsInitialValue;
-
-  // tempos
-  fTraceTempos = boolOptionsInitialValue;
-
-  // rehearsals
-  fTraceRehearsals = boolOptionsInitialValue;
-
-  // line breaks
-  fTraceLineBreaks = boolOptionsInitialValue;
-
-  // page breaks
-  fTracePageBreaks = boolOptionsInitialValue;
-
-  // staff changes
-  fTraceStaffChanges = boolOptionsInitialValue;
-
-  // transpositions
-  fTraceTranspositions = boolOptionsInitialValue;
-
-  // octave shifts
-  fTraceOctaveShifts = boolOptionsInitialValue;
-
-  // barlines
-  fTraceBarlines = boolOptionsInitialValue;
-  fTraceBarlinesDetails = boolOptionsInitialValue;
-
-    // bar number checks
-    // --------------------------------------
-
- fTraceBarChecks
- bool                  fTraceBarNumberChecks
-
-  // repeats
-  fTraceRepeats = boolOptionsInitialValue;
-  fTraceRepeatsDetails = boolOptionsInitialValue;
-
-  // measures repeats
-  fTraceMeasuresRepeats = boolOptionsInitialValue;
-
-  // rest measures
-  fTraceRestMeasures = boolOptionsInitialValue;
-
-  // slashes
-  fTraceSlashes = boolOptionsInitialValue;
-
-  // notes
-  fTraceNotes = boolOptionsInitialValue;
-  fTraceNotesDetails = boolOptionsInitialValue;
-  fTraceWholeNotes = boolOptionsInitialValue;
-  fTraceWholeNotesDetails = boolOptionsInitialValue;
-  fTraceRestNotes = boolOptionsInitialValue;
-  fTraceSkipNotes = boolOptionsInitialValue;
-  fTraceNotesOctaveEntry = boolOptionsInitialValue;
-
-  // stems
-  fTraceStems = boolOptionsInitialValue;
-
-  // beams
-  fTraceBeams = boolOptionsInitialValue;
-
-  // articulations
-  fTraceArticulations = boolOptionsInitialValue;
-
-  // technicals
-  fTraceTechnicals = boolOptionsInitialValue;
-
-  // ornaments
-  fTraceOrnaments = boolOptionsInitialValue;
-
-  // dynamics
-  fTraceDynamics = boolOptionsInitialValue;
-
-  // spanners
-  fTraceSpanners = boolOptionsInitialValue;
-
-  // words
-  fTraceWords = boolOptionsInitialValue;
-
-  // tremolos
-  fTraceTremolos = boolOptionsInitialValue;
-
-  // chords
-  fTraceChords = boolOptionsInitialValue;
-  fTraceChordsDetails = boolOptionsInitialValue;
-
-  // tuplets
-  fTraceTuplets = boolOptionsInitialValue;
-  fTraceTupletsDetails = boolOptionsInitialValue;
-
-  // glissandos
-  fTraceGlissandos = boolOptionsInitialValue;
-
-  // eyeglasses
-  fTraceEyeGlasses = boolOptionsInitialValue;
-
-  // damps
-  fTraceDamps = boolOptionsInitialValue;
-
-  // dampalls
-  fTraceDampAlls = boolOptionsInitialValue;
-
-  // slides
-  fTraceSlides = boolOptionsInitialValue;
-
-  // grace notes
-  fTraceGraceNotes = boolOptionsInitialValue;
-
-  // lyrics
-  fTraceLyrics        = boolOptionsInitialValue;
-  fTraceLyricsDetails = boolOptionsInitialValue;
-
-  // harmonies
-  fTraceHarmonies = boolOptionsInitialValue;
-  fTraceExtraHarmonies = boolOptionsInitialValue;
-
-  // frames
-  fTraceFrames = boolOptionsInitialValue;
-
-  // figured basses
-  fTraceFiguredBasses = boolOptionsInitialValue;
-
-  // ties
-  fTraceTies = boolOptionsInitialValue;
-
-  // slurs
-  fTraceSlurs = boolOptionsInitialValue;
-
-  // ligatures
-  fTraceLigatures = boolOptionsInitialValue;
-
-  // pedals
-  fTracePedals = boolOptionsInitialValue;
-
-  // wedges
-  fTraceWedges = boolOptionsInitialValue;
-
-  // staff details
-  fTraceStaffDetails = boolOptionsInitialValue;
-
-  // scordaturas
-  fTraceScordaturas = boolOptionsInitialValue;
-
-  // segnos
-  fTraceSegnos = boolOptionsInitialValue;
-
-  // dal segnos
-  fTraceDalSegnos = boolOptionsInitialValue;
-
-  // codas
-  fTraceCodas = boolOptionsInitialValue;
-
-  // accordion registrations
-  fTraceAccordionRegistrations = boolOptionsInitialValue;
-
-  // harp pedals
-  fTraceScordaturas = boolOptionsInitialValue;
-
-  // harp pedals tuning
-  fTraceHarpPedals = boolOptionsInitialValue;
-
-  // extra harmonies
-  fTraceExtraHarmonies = boolOptionsInitialValue;
-
-/ * JMI
-  // msrStreams
-  fTraceMsrStreams = boolOptionsInitialValue;
-* /
-
-  fTraceMidi = boolOptionsInitialValue;
-}
-  */
 
 //______________________________________________________________________________
 void traceOahGroup::enforceGroupQuietness ()
@@ -2851,9 +2327,9 @@ void traceOahGroup::checkGroupOptionsConsistency ()
 //______________________________________________________________________________
 void traceOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> traceOahGroup::acceptIn ()" <<
       endl;
   }
@@ -2864,9 +2340,9 @@ void traceOahGroup::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_traceOahGroup>*> (v)) {
         S_traceOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching traceOahGroup::visitStart ()" <<
             endl;
         }
@@ -2877,9 +2353,9 @@ void traceOahGroup::acceptIn (basevisitor* v)
 
 void traceOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> traceOahGroup::acceptOut ()" <<
       endl;
   }
@@ -2890,9 +2366,9 @@ void traceOahGroup::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_traceOahGroup>*> (v)) {
         S_traceOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching traceOahGroup::visitEnd ()" <<
             endl;
         }
@@ -2903,9 +2379,9 @@ void traceOahGroup::acceptOut (basevisitor* v)
 
 void traceOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> traceOahGroup::browseData ()" <<
       endl;
   }
@@ -2915,7 +2391,7 @@ void traceOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void traceOahGroup::printValuedAtomOptionsValues (
+void traceOahGroup::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -3365,19 +2841,19 @@ void traceOahGroup::printValuedAtomOptionsValues (
 
 void traceOahGroup::printTraceOahValues (int fieldWidth)
 {
-  gLogOstream <<
+  gLogStream <<
     "The trace options are:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     // options and help display
     setw (fieldWidth) << "traceOah" << " : " <<
     booleanAsString (fTraceOah) <<
@@ -3456,7 +2932,7 @@ void traceOahGroup::printTraceOahValues (int fieldWidth)
     booleanAsString (fTracePositionsInMeasures) <<
     endl;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "traceDetailedMeasureNumbersSet" << " : " <<
     endl;
 
@@ -3469,7 +2945,7 @@ void traceOahGroup::printTraceOahValues (int fieldWidth)
     gIndenter++;
 
     for ( ; ; ) {
-      gLogOstream << "v " << (*i);
+      gLogStream << "v " << (*i);
       if (++i == iEnd) break;
       // no endl here
     } // for
@@ -3477,13 +2953,13 @@ void traceOahGroup::printTraceOahValues (int fieldWidth)
     gIndenter--;
   }
   else {
-    gLogOstream <<
+    gLogStream <<
       "none";
   }
-  gLogOstream << endl;
+  gLogStream << endl;
 
     // segments
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "traceSegments" << " : " <<
     booleanAsString (fTraceSegments) <<
     endl <<
@@ -3816,26 +3292,30 @@ ostream& operator<< (ostream& os, const S_traceOahGroup& elt)
 }
 
 //______________________________________________________________________________
-void initializeTraceOahHandling (
-  S_oahHandler handler)
+S_traceOahGroup createGlobalTraceOahGroup (
+  S_oahPrefix shortTracePrefix,
+  S_oahPrefix longTracePrefix)
 {
-#ifdef TRACE_OAH
-  if (false && ! gGlobalGeneralOahGroup->fQuiet) { // JMI
-    gLogOstream <<
-      "Initializing trace options handling" <<
-      endl;
-  }
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global trace OAH group" <<
+    endl;
+#endif
 #endif
 
-  // create the options variables
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  if (! gGlobalTraceOahGroup) {
+    // create the global OAH group
+    gGlobalTraceOahGroup =
+      traceOahGroup::create (
+        shortTracePrefix,
+        longTracePrefix);
+    assert (gGlobalTraceOahGroup != 0);
+  }
 
-  gGlobalTraceOahGroupUserChoices = traceOahGroup::create (
-    handler);
-  assert(gGlobalTraceOahGroupUserChoices != 0);
-
-  gGlobalTraceOahGroup =
-    gGlobalTraceOahGroupUserChoices;
+  // return the global OAH group
+  return gGlobalTraceOahGroup;
 }
 
 

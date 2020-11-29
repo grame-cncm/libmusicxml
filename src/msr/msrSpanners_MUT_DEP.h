@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -82,7 +82,9 @@ class msrSpanner : public msrElement
     msrPlacementKind      getSpannerPlacementKind () const
                               { return fSpannerPlacementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:

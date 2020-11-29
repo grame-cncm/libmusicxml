@@ -18,10 +18,12 @@
 
 #include "msrVarValAssocs.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -41,7 +43,7 @@ S_msrVarValAssoc msrVarValAssoc::create (
     new msrVarValAssoc(
       inputLineNumber,
       varValAssocKind, value);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -60,9 +62,9 @@ msrVarValAssoc::~msrVarValAssoc ()
 
 void msrVarValAssoc::setVariableValue (string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Setting the value of marVarValAssoc \"" <<
       varValAssocKindAsString (fVarValAssocKind) <<
       "\" to '" <<
@@ -77,8 +79,8 @@ void msrVarValAssoc::setVariableValue (string value)
 
 void msrVarValAssoc::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrVarValAssoc::acceptIn ()" <<
       endl;
   }
@@ -88,8 +90,8 @@ void msrVarValAssoc::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrVarValAssoc::visitStart ()" <<
             endl;
         }
@@ -99,8 +101,8 @@ void msrVarValAssoc::acceptIn (basevisitor* v)
 
 void msrVarValAssoc::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrVarValAssoc::acceptOut ()" <<
       endl;
   }
@@ -110,8 +112,8 @@ void msrVarValAssoc::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrVarValAssoc::visitEnd ()" <<
             endl;
         }
@@ -202,7 +204,7 @@ S_msrVarValsListAssoc msrVarValsListAssoc::create (
     new msrVarValsListAssoc(
       inputLineNumber,
       varValsListAssocKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -219,8 +221,8 @@ msrVarValsListAssoc::~msrVarValsListAssoc ()
 
 void msrVarValsListAssoc::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrVarValsListAssoc::acceptIn ()" <<
       endl;
   }
@@ -230,8 +232,8 @@ void msrVarValsListAssoc::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
         S_msrVarValsListAssoc elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrVarValsListAssoc::visitStart ()" <<
             endl;
         }
@@ -241,8 +243,8 @@ void msrVarValsListAssoc::acceptIn (basevisitor* v)
 
 void msrVarValsListAssoc::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrVarValsListAssoc::acceptOut ()" <<
       endl;
   }
@@ -252,8 +254,8 @@ void msrVarValsListAssoc::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
         S_msrVarValsListAssoc elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrVarValsListAssoc::visitEnd ()" <<
             endl;
         }

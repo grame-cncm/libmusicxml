@@ -64,7 +64,7 @@ class msrScaling : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     float                 fetchGlobalStaffSize () const;
@@ -89,7 +89,7 @@ class msrScaling : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // relative to absolute lengths conversion

@@ -15,19 +15,19 @@
 
 #include "lpsrBasicTypes.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
-#include "oahBasicTypes.h"
+#include "oahAtomsCollection.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrPitchesLanguageAtom : public oahValuedAtom
+class lpsrPitchesLanguageAtom : public oahAtomWithValue
 {
   public:
 
@@ -72,14 +72,10 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -103,13 +99,13 @@ class lpsrPitchesLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrQuarterTonesPitchesLanguageKind&
@@ -119,7 +115,7 @@ typedef SMARTP<lpsrPitchesLanguageAtom> S_lpsrPitchesLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
-class lpsrChordsLanguageAtom : public oahValuedAtom
+class lpsrChordsLanguageAtom : public oahAtomWithValue
 {
   public:
 
@@ -164,14 +160,10 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -195,13 +187,13 @@ class lpsrChordsLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     lpsrChordsLanguageKind&
@@ -211,7 +203,7 @@ typedef SMARTP<lpsrChordsLanguageAtom> S_lpsrChordsLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrChordsLanguageAtom& elt);
 
 //______________________________________________________________________________
-class lpsrTransposeAtom : public oahValuedAtom
+class lpsrTransposeAtom : public oahAtomWithValue
 {
   public:
 
@@ -256,14 +248,10 @@ class lpsrTransposeAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -287,13 +275,13 @@ class lpsrTransposeAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrSemiTonesPitchAndOctave&
@@ -304,7 +292,7 @@ EXP ostream& operator<< (ostream& os, const S_lpsrTransposeAtom& elt);
 
 /* JMI
 //______________________________________________________________________________
-class lpsrDalSegnoAtom : public oahValuedAtom
+class lpsrDalSegnoAtom : public oahAtomWithValue
 {
   public:
 
@@ -347,14 +335,10 @@ class lpsrDalSegnoAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -378,13 +362,13 @@ class lpsrDalSegnoAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     map<string, msrDalSegno::msrDalSegnoKind>&
@@ -394,7 +378,7 @@ typedef SMARTP<lpsrDalSegnoAtom> S_lpsrDalSegnoAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAtom& elt);
 
 //______________________________________________________________________________
-class lpsrDalSegnoAlFineAtom : public oahValuedAtom
+class lpsrDalSegnoAlFineAtom : public oahAtomWithValue
 {
   public:
 
@@ -437,14 +421,10 @@ class lpsrDalSegnoAlFineAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -468,13 +448,13 @@ class lpsrDalSegnoAlFineAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     map<string, msrDalSegno::msrDalSegnoKind>&
@@ -484,7 +464,7 @@ typedef SMARTP<lpsrDalSegnoAlFineAtom> S_lpsrDalSegnoAlFineAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlFineAtom& elt);
 
 //______________________________________________________________________________
-class lpsrDalSegnoAlCodaAtom : public oahValuedAtom
+class lpsrDalSegnoAlCodaAtom : public oahAtomWithValue
 {
   public:
 
@@ -527,14 +507,10 @@ class lpsrDalSegnoAlCodaAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -558,13 +534,13 @@ class lpsrDalSegnoAlCodaAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     map<string, msrDalSegno::msrDalSegnoKind>&
@@ -575,35 +551,186 @@ EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlCodaAtom& elt);
 */
 
 //______________________________________________________________________________
-class lpsrOah : public oahGroup
+class lpsrOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<lpsrOah> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<lpsrOah>       createCloneWithDetailedTrace ();
+    static SMARTP<lpsrOahGroup> create ();
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeLpsrOah (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrOahGroup ();
 
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrOah (
-      S_oahHandler handlerUpLink);
+    lpsrOahGroup ();
 
-    virtual ~lpsrOah ();
+    virtual ~lpsrOahGroup ();
 
     // set and get
     // ------------------------------------------------------
+
+    // trace
+    // --------------------------------------
+
+#ifdef TRACING_IS_ENABLED
+    bool                  getTraceLpsr () const
+                              { return fTraceLpsr; }
+
+    bool                  getTraceLilypondVersion () const
+                              { return fTraceLilypondVersion; }
+
+    bool                  getTraceLpsrVisitors () const
+                              { return fTraceLpsrVisitors; }
+
+    bool                  getTraceLpsrBlocks () const
+                              { return fTraceLpsrBlocks; }
+
+    bool                  getTraceSchemeFunctions () const
+                              { return fTraceSchemeFunctions; }
+#endif
+
+    // display
+    // --------------------------------------
+
+    bool                  getDisplayLpsr () const
+                              { return fDisplayLpsr; }
+    bool                  getDisplayLpsrShort () const
+                              { return fDisplayLpsrShort; }
+
+    // LilyPond version
+    // --------------------------------------
+
+    string                getLilyPondVersion () const
+                              { return fLilyPondVersion; }
+
+    // global staff size
+    // --------------------------------------
+
+    float                 getGlobalStaffSize () const
+                              { return fGlobalStaffSize; }
+    float                 getStaffGlobalSizeDefaultValue () const
+                              { return fStaffGlobalSizeDefaultValue; }
+    bool                  getStaffGlobalSizeHasBeenSet () const // JMI ???
+                              { return fStaffGlobalSizeHasBeenSet; }
+
+    // paper
+    // --------------------------------------
+
+    bool                  getAllPaperVariables () const
+                              { return fAllPaperVariables; }
+
+    msrLengthUnitKind     getLengthUnitKind () const
+                              { return fLengthUnitKind; }
+    msrLengthUnitKind     getLengthUnitKindDefaultValue () const
+                              { return fLengthUnitKindDefaultValue; }
+
+    msrLength             getPaperHeight () const
+                              { return fPaperHeight; }
+    S_oahLengthAtom       getPaperHeightAtom () const
+                              { return fPaperHeightAtom; }
+
+    msrLength             getPaperWidth () const
+                              { return fPaperWidth; }
+    S_oahLengthAtom       getPaperWidthAtom () const
+                              { return fPaperWidthAtom; }
+
+    // indents
+    msrLength             getPaperHorizontalShift () const
+                              { return fPaperHorizontalShift; }
+    msrLength             getPaperIndent () const
+                              { return fPaperIndent; }
+    msrLength             getPaperShortIndent () const
+                              { return fPaperShortIndent; }
+
+    // spaces
+    msrLength             getMarkupSystemSpacingPadding () const
+                              { return fMarkupSystemSpacingPadding; }
+    msrLength             getBetweenSystemSpace () const
+                              { return fBetweenSystemSpace; }
+    msrLength             getPageTopSpace () const
+                              { return fPageTopSpace; }
+
+    // counts
+    int                   getPageCount () const
+                              { return fPageCount; }
+    int                   getSystemCount () const
+                              { return fSystemCount; }
+
+    bool                  getRaggedBottom () const
+                              { return fRaggedBottom; }
+    bool                  getRaggedLast () const
+                              { return fRaggedLast; }
+    bool                  getRaggedLastBottom () const
+                              { return fRaggedLastBottom; }
+    bool                  getRaggedRight () const
+                              { return fRaggedRight; }
+
+    bool                  getTagline () const
+                              { return fTagline; }
+
+    // measures
+    // --------------------------------------
+
+    // replicate empty measure JMI ???
+    string                getReplicateEmptyMeasureNumber () const
+                              { return fReplicateEmptyMeasureNumber; }
+    int                   getReplicateEmptyMeasureReplicas () const
+                              { return fReplicateEmptyMeasureReplicas; }
+
+    // add empty measures
+// JMI    map<string,int>       getAddEmptyMeasuresStringToIntMap;
+
+    // tempos
+    // --------------------------------------
+
+    // convert tempos to rehearsal marks
+    bool                  getConvertTemposToRehearsalMarks () const
+                              { return fConvertTemposToRehearsalMarks; }
+
+    // words
+    // --------------------------------------
+
+    // convert words to tempo
+    bool                  getConvertWordsToTempo () const
+                              { return fConvertWordsToTempo; }
+    // add words from the lyrics
+    bool                  getAddWordsFromTheLyrics () const
+                              { return fAddWordsFromTheLyrics; }
+
+    // convert words to rehearsal marks
+    bool                  getConvertWordsToRehearsalMarks () const
+                              { return fConvertWordsToRehearsalMarks; }
+
+    // languages
+    // --------------------------------------
+
+    msrQuarterTonesPitchesLanguageKind
+                          getLpsrQuarterTonesPitchesLanguageKind () const
+                              { return fLpsrQuarterTonesPitchesLanguageKind; }
+
+    lpsrChordsLanguageKind
+                          getLpsrChordsLanguageKind () const
+                              { return fLpsrChordsLanguageKind; }
+
+    // transpose
+    // --------------------------------------
+
+    S_msrSemiTonesPitchAndOctave
+                          getTransposeSemiTonesPitchAndOctave () const
+                              { return fTransposeSemiTonesPitchAndOctave; }
+
+    // quit after some passes
+    // --------------------------------------
+
+    bool                  getQuit3 () const
+                              { return fQuitAfterPass3; }
 
     bool                  setLpsrQuarterTonesPitchesLanguage (
                             string language);
@@ -643,40 +770,29 @@ class lpsrOah : public oahGroup
     // private
     // ------------------------------------------------------
 
-#ifdef TRACE_OAH
-    void                  initializeLpsrTraceOah (
-                            bool boolOptionsInitialValue);
+#ifdef TRACING_IS_ENABLED
+    void                  initializeLpsrTraceOah ();
 #endif
 
-    void                  initializeLpsrDisplayOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrDisplayOptions ();
 
-    void                  initializeLpsrLilypondVersionOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrLilypondVersionOptions ();
 
-    void                  initializeLpsrGlobalStaffSizeOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrGlobalStaffSizeOptions ();
 
-    void                  initializeLpsrPaperOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrPaperOptions ();
 
-    void                  initializeLpsrMeasuresOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrMeasuresOptions ();
 
-    void                  initializeLpsrTemposOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrTemposOptions ();
 
-    void                  initializeLpsrWordsOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrWordsOptions ();
 
-    void                  initializeLpsrLanguagesOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrLanguagesOptions ();
 
-    void                  initializeLpsrTransposeOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrTransposeOptions ();
 
-    void                  initializeLpsrExitAfterSomePassesOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeLpsrQuitAfterSomePassesOptions ();
 
   public:
 
@@ -697,12 +813,15 @@ class lpsrOah : public oahGroup
 
     void                  printLpsrOahValues (int fieldWidth);
 
-  public:
+  private:
+
+    // private fields
+    // --------------------------------------
 
     // trace
     // --------------------------------------
 
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
     bool                  fTraceLpsr;
 
     bool                  fTraceLilypondVersion;
@@ -809,21 +928,18 @@ class lpsrOah : public oahGroup
     S_msrSemiTonesPitchAndOctave
                           fTransposeSemiTonesPitchAndOctave;
 
-    // exit after some passes
+    // quit after some passes
     // --------------------------------------
 
-    bool                  fExit3;
+    bool                  fQuitAfterPass3;
 };
-typedef SMARTP<lpsrOah> S_lpsrOah;
-EXP ostream& operator<< (ostream& os, const S_lpsrOah& elt);
+typedef SMARTP<lpsrOahGroup> S_lpsrOahGroup;
+EXP ostream& operator<< (ostream& os, const S_lpsrOahGroup& elt);
 
-EXP extern S_lpsrOah gGlobalLpsrOah;
-EXP extern S_lpsrOah gGlobalLpsrOahUserChoices;
-EXP extern S_lpsrOah gGlobalLpsrOahWithDetailedTrace;
+EXP extern S_lpsrOahGroup gGlobalLpsrOahGroup;
 
 //______________________________________________________________________________
-EXP  void initializeLpsrOahHandling (
-  S_oahHandler handler);
+EXP S_lpsrOahGroup createGlobalLpsrOahGroup ();
 
 
 }

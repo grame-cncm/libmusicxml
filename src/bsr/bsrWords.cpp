@@ -13,10 +13,12 @@
 
 #include <sstream>
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
+
+#include "oahOah.h"
 
 #include "bsrOah.h"
 
@@ -218,9 +220,9 @@ bsrWords::~bsrWords ()
 
 void bsrWords::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrWords::acceptIn ()" <<
       endl;
   }
@@ -231,9 +233,9 @@ void bsrWords::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrWords>*> (v)) {
         S_bsrWords elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrWords::visitStart ()" <<
             endl;
         }
@@ -249,9 +251,9 @@ int bsrWords::fetchCellsNumber () const
 
 void bsrWords::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrWords::acceptOut ()" <<
       endl;
   }
@@ -262,9 +264,9 @@ void bsrWords::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrWords>*> (v)) {
         S_bsrWords elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrWords::visitEnd ()" <<
             endl;
         }

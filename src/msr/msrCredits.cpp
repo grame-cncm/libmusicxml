@@ -18,6 +18,8 @@
 
 #include "msrCredits.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -55,7 +57,7 @@ S_msrCreditWords msrCreditWords::create (
       creditWordsHorizontalAlignmentKind,
       creditWordsVerticalAlignmentKind,
       creditWordsXMLLang);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -97,8 +99,8 @@ msrCreditWords::~msrCreditWords ()
 
 void msrCreditWords::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrCreditWords::acceptIn ()" <<
       endl;
   }
@@ -108,8 +110,8 @@ void msrCreditWords::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrCreditWords::visitStart ()" <<
             endl;
         }
@@ -119,8 +121,8 @@ void msrCreditWords::acceptIn (basevisitor* v)
 
 void msrCreditWords::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrCreditWords::acceptOut ()" <<
       endl;
   }
@@ -130,8 +132,8 @@ void msrCreditWords::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrCreditWords::visitEnd ()" <<
             endl;
         }
@@ -226,7 +228,7 @@ S_msrCredit msrCredit::create (
   msrCredit* o =
     new msrCredit (
       inputLineNumber, creditPageNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -249,8 +251,8 @@ void msrCredit::appendCreditWordsToCredit (
 
 void msrCredit::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrCredit::acceptIn ()" <<
       endl;
   }
@@ -260,8 +262,8 @@ void msrCredit::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrCredit::visitStart ()" <<
             endl;
         }
@@ -271,8 +273,8 @@ void msrCredit::acceptIn (basevisitor* v)
 
 void msrCredit::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrCredit::acceptOut ()" <<
       endl;
   }
@@ -282,8 +284,8 @@ void msrCredit::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrCredit::visitEnd ()" <<
             endl;
         }

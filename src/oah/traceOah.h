@@ -14,10 +14,9 @@
 #define ___traceOah___
 
 
-#include "setTraceOahIfDesired.h"
+#include "enableTracingIfDesired.h"
 
-#ifdef TRACE_OAH
-
+#ifdef TRACING_IS_ENABLED
 
 #include <set>
 
@@ -35,74 +34,8 @@ class traceOahGroup : public oahGroup
   public:
 
     static SMARTP<traceOahGroup> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<traceOahGroup>      createCloneWithTrueValues (); // JMI
-
-  public:
-
-    // initialisation
-    // ------------------------------------------------------
-
-    void                  initializeTraceOahGroup (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeOptionsTraceAndDisplayOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializePrintLayoutsTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeRepeatsToSlashesTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeNotesTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeNotesAttachmentsTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeScoreToVoicesTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeSegmentsAndMeasuresTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeInstrumentsTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeChordsAndTupletsTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeCreditsToWordsTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeHarmoniesTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeFiguredBassesTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeSpannersTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeInterNotesTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeClefsToTemposTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeBreaksAndBarlinesTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeAboveStaffTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeTranspositionsTraceOah (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeOtherTraceOah (
-                            bool boolOptionsInitialValue);
+      S_oahPrefix shortTracePrefix,
+      S_oahPrefix longTracePrefix);
 
   protected:
 
@@ -110,27 +43,76 @@ class traceOahGroup : public oahGroup
     // ------------------------------------------------------
 
     traceOahGroup (
-      S_oahHandler handlerUpLink);
+      S_oahPrefix shortTracePrefix,
+      S_oahPrefix longTracePrefix);
 
     virtual ~traceOahGroup ();
+
+  public:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeTraceOahGroup ();
+
+    void                  initializeOptionsTraceAndDisplayOptions ();
+
+    void                  initializePrintLayoutsTraceOah ();
+
+    void                  initializeRepeatsToSlashesTraceOah ();
+
+    void                  initializeNotesTraceOah ();
+
+    void                  initializeNotesAttachmentsTraceOah ();
+
+    void                  initializeScoreToVoicesTraceOah ();
+
+    void                  initializeSegmentsAndMeasuresTraceOah ();
+
+    void                  initializeInstrumentsTraceOah ();
+
+    void                  initializeChordsAndTupletsTraceOah ();
+
+    void                  initializeCreditsToWordsTraceOah ();
+
+    void                  initializeHarmoniesTraceOah ();
+
+    void                  initializeFiguredBassesTraceOah ();
+
+    void                  initializeSpannersTraceOah ();
+
+    void                  initializeInterNotesTraceOah ();
+
+    void                  initializeClefsToTemposTraceOah ();
+
+    void                  initializeBreaksAndBarlinesTraceOah ();
+
+    void                  initializeAboveStaffTraceOah ();
+
+    void                  initializeTranspositionsTraceOah ();
+
+    void                  initializeOtherTraceOah ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-   /* JMI
-   void                  setAllGeneralTraceOah (
-                            bool boolOptionsInitialValue);
-                            */
-
     // options and help trace
     // --------------------------------------
+
+    S_oahPrefix           getShortTracePrefix () const
+                              { return fShortTracePrefix; }
+    S_oahPrefix           getLongTracePrefix () const
+                              { return fLongTracePrefix; }
 
     void                  setTraceOah ()
                               { fTraceOah = true; }
     bool                  getTraceOah () const
                               { return fTraceOah; }
+
+    S_oahAtom             getTraceOahAtom () const
+                              { return fTraceOahAtom; }
 
     bool                  getTraceOahDetails () const
                               { return fTraceOahDetails; }
@@ -513,16 +495,26 @@ class traceOahGroup : public oahGroup
 
     void                  printTraceOahValues (int fieldWidth);
 
-    virtual void          printValuedAtomOptionsValues (
+    virtual void          printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
 
   private:
 
     // options and help trace
     // --------------------------------------
 
+    S_oahPrefix           fShortTracePrefix;
+    S_oahPrefix           fLongTracePrefix;
+
     bool                  fTraceOah;
+    S_oahAtom             fTraceOahAtom; // to detect its use early
+
     bool                  fTraceOahDetails;
 
     // other
@@ -786,25 +778,16 @@ class traceOahGroup : public oahGroup
 
     // layout
 */
-
-  private:
-
-    // private work fields
-    // --------------------------------------
-
-    S_oahPrefix           fShortTracePrefix;
-    S_oahPrefix           fLongTracePrefix;
 };
 typedef SMARTP<traceOahGroup> S_traceOahGroup;
 EXP ostream& operator<< (ostream& os, const S_traceOahGroup& elt);
 
 EXP extern S_traceOahGroup gGlobalTraceOahGroup;
-EXP extern S_traceOahGroup gGlobalTraceOahGroupUserChoices;
-EXP extern S_traceOahGroup gGlobalTraceOahGroupWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeTraceOahHandling (
-  S_oahHandler handler);
+S_traceOahGroup createGlobalTraceOahGroup (
+  S_oahPrefix shortTracePrefix,
+  S_oahPrefix longTracePrefix);
 
 
 }

@@ -19,10 +19,15 @@
 #include <vector>
 #include <map>
 
+#include <algorithm>
+
 #include <iomanip>      // setw, ...
 
 #include "rational.h"
 #include "utilities.h"
+
+#include "oahOah.h"
+
 
 using namespace std;
 
@@ -43,7 +48,7 @@ S_timingItem timingItem::createTimingItem (
     kind,
     startClock,
     endClock);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -198,28 +203,28 @@ void timing::print (ostream& os) const
     endl;
 }
 
-timing timing::gTiming;
+timing timing::gGlobalTiming;
 
 //______________________________________________________________________________
 //#define DEBUG_INDENTER
 
-indenter indenter::gIndenter;
+outputIndenter outputIndenter::gGlobalOStreamIndenter;
 
-indenter::indenter (string spacer)
+outputIndenter::outputIndenter (string spacer)
 {
   fIndent = 0;
   fSpacer = spacer;
 }
 
-indenter::~indenter ()
+outputIndenter::~outputIndenter ()
 {}
 
-indenter& indenter::operator++ (const int value)
+outputIndenter& outputIndenter::operator++ (const int value)
 {
   fIndent++;
 
 #ifdef DEBUG_INDENTER
-  gLogOstream <<
+  gLogStream <<
     "% INDENTER: " << fIndent <<
     endl;
 #endif
@@ -227,24 +232,24 @@ indenter& indenter::operator++ (const int value)
   return *this;
 }
 
-indenter& indenter::operator-- (const int value)
+outputIndenter& outputIndenter::operator-- (const int value)
 {
   fIndent--;
 
   if (fIndent < 0) {
-    gLogOstream <<
+    gLogStream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
 
 #ifdef DEBUG_INDENTER
-    assert(false);
+    assert (false);
 #endif
   }
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogOstream <<
+    gLogStream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -253,24 +258,24 @@ indenter& indenter::operator-- (const int value)
   return *this;
 }
 
-indenter& indenter::increment (int value)
+outputIndenter& outputIndenter::increment (int value)
 {
   fIndent += value;
 
   if (fIndent < 0) {
-    gLogOstream <<
+    gLogStream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
 
 #ifdef DEBUG_INDENTER
-    assert(false);
+    assert (false);
 #endif
   }
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogOstream <<
+    gLogStream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -279,24 +284,24 @@ indenter& indenter::increment (int value)
   return *this;
 }
 
-indenter& indenter::decrement (int value)
+outputIndenter& outputIndenter::decrement (int value)
 {
   fIndent -= value;
 
   if (fIndent < 0) {
-    gLogOstream <<
+    gLogStream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
 
 #ifdef DEBUG_INDENTER
-    assert(false);
+    assert (false);
 #endif
   }
 
 #ifdef DEBUG_INDENTER
   else {
-    gLogOstream <<
+    gLogStream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -305,7 +310,7 @@ indenter& indenter::decrement (int value)
   return *this;
 }
 
-string indenter::indentMultiLineString (string value)
+string outputIndenter::indentMultiLineString (string value)
 {
   stringstream  s;
 
@@ -325,12 +330,12 @@ string indenter::indentMultiLineString (string value)
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const indenter& idtr) {
+ostream& operator<< (ostream& os, const outputIndenter& idtr) {
   idtr.print(os);
   return os;
 }
 
-void indenter::print (ostream& os) const
+void outputIndenter::print (ostream& os) const
 {
   int i = fIndent;
 
@@ -355,7 +360,7 @@ int indentedStreamBuf::sync ()
   // fOutputSteam << "% strSize: " << strSize << ", found: " << found << '\n';
 
   // output the indenter
-  fOutputSteam << fIndenter;
+  fOutputSteam << fOutputIndenter;
 
   // output the buffer
   if (found == strSize - 3) {
@@ -377,12 +382,26 @@ int indentedStreamBuf::sync ()
 }
 
 //______________________________________________________________________________
-indentedOstream indentedOstream::gOutputIndentedOstream (
-  cout, indenter::gIndenter);
+// the global indented streams
+S_indentedOstream gGlobalOutputIndentedOstream;
+S_indentedOstream gGlobalLogIndentedOstream;
 
-indentedOstream indentedOstream::gLogIndentedOstream (
-  cerr, indenter::gIndenter);
+void createTheGlobalIndentedOstreams (
+  std::ostream& theOutputStream,
+  std::ostream& theLogStream)
+{
+  gGlobalOutputIndentedOstream =
+    indentedOstream::create (
+      theOutputStream,
+      outputIndenter::gGlobalOStreamIndenter);
 
+  gGlobalLogIndentedOstream =
+    indentedOstream::create (
+      theLogStream,
+      outputIndenter::gGlobalOStreamIndenter);
+}
+
+//______________________________________________________________________________
 // code taken from:
 // http://comp.lang.cpp.moderated.narkive.com/fylLGJgp/redirect-output-to-dev-null
 template<typename Ch, typename Traits = std::char_traits<Ch> >
@@ -407,9 +426,6 @@ nullbuf cnull_obj;
 
 std::ostream cnull  (& cnull_obj);
 //std::wostream wcnull (& wcnull_obj);
-
-indentedOstream indentedOstream::gNullIndentedOstream (
-  cnull, indenter::gIndenter);
 
 //______________________________________________________________________________
 string replicateString (
@@ -447,7 +463,7 @@ string replaceSubstringInString (
 string int2EnglishWord (int n)
 {
   if (n == -9) {
-    assert(false); // JMI
+    assert (false); // JMI
   }
 
   stringstream s;
@@ -656,7 +672,7 @@ int consumeDecimalNumber (
   int    result = 0;
 
   if (! isdigit (*cursor)) {
-    gLogOstream <<
+    gLogStream <<
       "consumeDecimalNumber (" << *cursor <<
       "), " << *cursor << " is no decimal digit!" <<
       endl;
@@ -664,7 +680,7 @@ int consumeDecimalNumber (
 
   while (isdigit (*cursor)) {
     if (debugMode) {
-      gLogOstream <<
+      gLogStream <<
         "--> consumeDecimalNumber: cursor = |" <<
         *cursor <<
         "|" <<
@@ -679,7 +695,7 @@ int consumeDecimalNumber (
   remainingStringIterator = cursor;
 
   if (debugMode) {
-    gLogOstream <<
+    gLogStream <<
       "--> consumeDecimalNumber: result = " << result <<
       ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
@@ -699,7 +715,7 @@ set<int> decipherNaturalNumbersSetSpecification (
   set<int> result;
 
   if (debugMode) {
-    gLogOstream <<
+    gLogStream <<
       "--> decipherNaturalNumbersSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
@@ -711,7 +727,7 @@ set<int> decipherNaturalNumbersSetSpecification (
 
     while (1) {
       if (debugMode) {
-        gLogOstream <<
+        gLogStream <<
           "--> decipherNaturalNumbersSetSpecification: cursor = |" <<
           *cursor << "|" <<
           endl;
@@ -733,7 +749,7 @@ set<int> decipherNaturalNumbersSetSpecification (
         cursor++;
 
         if (debugMode) {
-          gLogOstream <<
+          gLogStream <<
             "--> decipherNaturalNumbersSetSpecification after '-' : cursor = |" <<
             *cursor <<
             "|" <<
@@ -750,7 +766,7 @@ set<int> decipherNaturalNumbersSetSpecification (
       }
 
       if (debugMode) {
-        gLogOstream <<
+        gLogStream <<
           "--> decipherNaturalNumbersSetSpecification" <<
           ", intervalStartNumber = " << intervalStartNumber <<
           ", intervalEndNumber = " << intervalEndNumber <<
@@ -769,7 +785,7 @@ set<int> decipherNaturalNumbersSetSpecification (
 
       if (*cursor != ',') {
         if (debugMode) {
-          gLogOstream <<
+          gLogStream <<
             "--> decipherNaturalNumbersSetSpecification, after non ',' : cursor = |" <<
             *cursor <<
             "|" <<
@@ -782,7 +798,7 @@ set<int> decipherNaturalNumbersSetSpecification (
       cursor++;
 
       if (debugMode) {
-        gLogOstream <<
+        gLogStream <<
           "--> decipherNaturalNumbersSetSpecification after ',' : cursor = |" <<
           *cursor <<
           "|"
@@ -792,7 +808,7 @@ set<int> decipherNaturalNumbersSetSpecification (
     } // while
 
     if (* cursor != '\0') {
-      gLogOstream <<
+      gLogStream <<
         "--> Extraneous characters |" << *cursor <<
         "| in numbers spec" <<
         endl << endl;
@@ -815,7 +831,7 @@ string consumeString (
 
   while ((*cursor) != ',') {
     if (debugMode) {
-      gLogOstream <<
+      gLogStream <<
         "--> consumeString: cursor = |" <<
         *cursor <<
         "|" <<
@@ -830,7 +846,7 @@ string consumeString (
   remainingStringIterator = cursor;
 
   if (debugMode) {
-    gLogOstream <<
+    gLogStream <<
       "--> consumeString: result = " << result <<
       ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
@@ -852,7 +868,7 @@ std::set<string> decipherStringsSetSpecification (
 
 /* JMI
   if (debugMode) {
-    gLogOstream <<
+    gLogStream <<
       "--> decipherStringsSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
@@ -863,7 +879,7 @@ std::set<string> decipherStringsSetSpecification (
 
   while (1) {
     if (debugMode) {
-      gLogOstream <<
+      gLogStream <<
         "--> decipherStringsSetSpecification: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -874,7 +890,7 @@ std::set<string> decipherStringsSetSpecification (
         consumeString (cursor, theString.end (), debugMode);
 
     if (debugMode) {
-      gLogOstream <<
+      gLogStream <<
         "--> decipherStringsSetSpecification" <<
         ", currentString = " << currentString <<
         ": *cursor = |" << *cursor << "|" <<
@@ -885,7 +901,7 @@ std::set<string> decipherStringsSetSpecification (
 
     if (*cursor != ',') {
       if (debugMode) {
-        gLogOstream <<
+        gLogStream <<
           "--> decipherStringsSetSpecification, after non ',' : cursor = |" <<
           *cursor <<
           "|" <<
@@ -898,7 +914,7 @@ std::set<string> decipherStringsSetSpecification (
     if (++cursor == theString.end ()) break;
 
     if (debugMode) {
-      gLogOstream <<
+      gLogStream <<
         "--> decipherStringsSetSpecification after ',' : cursor = |" <<
         *cursor <<
         "|"
@@ -908,7 +924,7 @@ std::set<string> decipherStringsSetSpecification (
   } // while
 
   if (* cursor != '\0') {
-    gLogOstream <<
+    gLogStream <<
       "--> Extraneous characters |" << *cursor <<
       "| in numbers spec" <<
       endl << endl;
@@ -926,7 +942,7 @@ list<int> extractNumbersFromString (
   list<int> foundNumbers;
 
   if (debugMode) {
-    gLogOstream <<
+    gLogStream <<
       "--> extractNumbersFromString, theString = |" << theString <<
       "|" <<
       endl;
@@ -941,7 +957,7 @@ list<int> extractNumbersFromString (
         break;
 
       if (debugMode) {
-        gLogOstream <<
+        gLogStream <<
           "--> extractNumbersFromString: cursor = |" <<
           *cursor << "|" <<
           endl;
@@ -978,7 +994,7 @@ pair<string, string> extractNamesPairFromString (
   string name2;
 
   if (debugMode) {
-    gLogOstream <<
+    gLogStream <<
       "--> extractNamesPairFromString, theString = |" << theString <<
       "|" <<
       endl;
@@ -994,7 +1010,7 @@ pair<string, string> extractNamesPairFromString (
         break;
 
       if (debugMode) {
-        gLogOstream <<
+        gLogStream <<
           "--> extractNamesPairFromString: cursor = |" <<
           *cursor << "|" <<
           endl;
@@ -1013,14 +1029,14 @@ pair<string, string> extractNamesPairFromString (
     name1 = trim (name1);
     if (! name1.size ()) {
       // found an empty name1
-      gLogOstream <<
+      gLogStream <<
         "### ERROR: the first name before the " << separator <<
         " separator is empty in '" << theString << "'" <<
         endl;
     }
 
     if (cursor == theString.end ())
-      gLogOstream <<
+      gLogStream <<
         "### ERROR: the " << separator <<
         " separator is missing in string '" <<
         theString << "'" <<
@@ -1035,7 +1051,7 @@ pair<string, string> extractNamesPairFromString (
         break;
 
       if (debugMode) {
-        gLogOstream <<
+        gLogStream <<
           "--> extractNamesPairFromString: cursor = |" <<
           *cursor << "|" <<
           endl;
@@ -1043,7 +1059,7 @@ pair<string, string> extractNamesPairFromString (
 
       if ((*cursor) == '=') {
         // found the separator
-        gLogOstream <<
+        gLogStream <<
           "### ERROR: the " << separator <<
           " separator occurs more than once in string '" <<
           theString << "'" <<
@@ -1059,7 +1075,7 @@ pair<string, string> extractNamesPairFromString (
     name2 = trim (name2);
     if (! name2.size ()) {
       // found an empty name2
-      gLogOstream <<
+      gLogStream <<
         "### ERROR: the second name after the " << separator <<
         " separator is empty in '" << theString << "'" <<
         endl;
@@ -1234,6 +1250,39 @@ string quoteString (
 }
 
 //______________________________________________________________________________
+string stringToLowerCase (
+  string theString)
+{
+  string result = theString;
+
+  for_each (
+    result.begin(),
+    result.end(),
+    [] (char & c) {
+      c = ::tolower (c);
+      }
+    );
+
+  return result;
+}
+
+string stringToUpperCase (
+  string theString)
+{
+  string result = theString;
+
+  for_each (
+    result.begin(),
+    result.end(),
+    [] (char & c) {
+      c = ::toupper (c);
+      }
+    );
+
+  return result;
+}
+
+//______________________________________________________________________________
 string booleanAsString (bool value)
 {
   return
@@ -1349,7 +1398,7 @@ void splitStringIntoChunks (
   //#define DEBUG_SPLITTING
 
 #ifdef DEBUG_SPLITTING
-  gLogOstream <<
+  gLogStream <<
     "---> splitting |" << theString << "|" <<
     endl <<
     endl;
@@ -1387,7 +1436,7 @@ void splitStringIntoChunks (
         chunk);
 
 #ifdef DEBUG_SPLITTING
-      gLogOstream <<
+      gLogStream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1432,7 +1481,7 @@ void splitStringIntoChunks (
         theString.substr (
           currentPosition);
 
-      gLogOstream <<
+      gLogStream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1459,7 +1508,7 @@ void splitRegularStringAtEndOfLines (
 //#define DEBUG_SPLITTING
 
 #ifdef DEBUG_SPLITTING
-  gLogOstream <<
+  gLogStream <<
     "---> splitting |" << theString << "|" <<
     endl <<
     endl;
@@ -1504,7 +1553,7 @@ void splitRegularStringAtEndOfLines (
         chunk);
 
 #ifdef DEBUG_SPLITTING
-      gLogOstream <<
+      gLogStream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1549,7 +1598,7 @@ void splitRegularStringAtEndOfLines (
         theString.substr (
           currentPosition);
 
-      gLogOstream <<
+      gLogStream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1577,7 +1626,7 @@ void splitHTMLStringContainingEndOfLines (
 //#define DEBUG_SPLITTING
 
 #ifdef DEBUG_SPLITTING
-  gLogOstream <<
+  gLogStream <<
     "---> splitting |" << theString << "|" <<
     endl <<
     endl;
@@ -1634,7 +1683,7 @@ void splitHTMLStringContainingEndOfLines (
         chunk);
 
 #ifdef DEBUG_SPLITTING
-      gLogOstream <<
+      gLogStream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1679,7 +1728,7 @@ void splitHTMLStringContainingEndOfLines (
         theString.substr (
           currentPosition);
 
-      gLogOstream <<
+      gLogStream <<
         "theStringSize = " << theStringSize <<
         endl <<
         "currentPosition = " << currentPosition <<
@@ -1808,7 +1857,7 @@ Usage:
                               { return fIndentedOstream; }
 
     // indentation
-    indenter&             getIndenter ()
+    outputIndenter&       getIndenter ()
                               { return fIndentedOstream.getIndenter (); }
 
     void                  incrIdentation ()

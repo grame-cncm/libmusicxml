@@ -20,24 +20,24 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 Sguidoparam guidoparam::create(string value, bool quote) 
-    { guidoparam * o = new guidoparam(value, quote); assert(o!=0); return o; }
+    { guidoparam * o = new guidoparam(value, quote); assert (o!=0); return o; }
 Sguidoparam guidoparam::create(long value, bool quote) 
-    { guidoparam * o = new guidoparam(value, quote); assert(o!=0); return o; }
+    { guidoparam * o = new guidoparam(value, quote); assert (o!=0); return o; }
 
 Sguidoelement guidoelement::create(string name, string sep)	
-		{  guidoelement * o = new guidoelement(name, sep); assert(o!=0); return o; }
+		{  guidoelement * o = new guidoelement(name, sep); assert (o!=0); return o; }
 Sguidonote guidonote::create(unsigned short voice) {
     guidonotestatus * status = guidonotestatus::get(voice);
 	guidonote * o = new guidonote (voice,"", status->fOctave, status->fDur, ""); 
-	assert(o!=0); 
+	assert (o!=0); 
 	return o;
 }
 Sguidonote guidonote::create(unsigned short voice, string name, char oct, guidonoteduration& dur, string acc)
-		{ guidonote * o = new guidonote (voice, name, oct, dur, acc); assert(o!=0); return o; }
-Sguidoseq guidoseq::create()			{ guidoseq* o = new guidoseq(); assert(o!=0); return o;}
-Sguidochord guidochord::create()		{ guidochord* o = new guidochord(); assert(o!=0); return o;}
-Sguidotag guidotag::create(string name)	{ guidotag* o = new guidotag(name); assert(o!=0); return o;}
-Sguidotag guidotag::create(string name, string sep)	{ guidotag* o = new guidotag(name, sep); assert(o!=0); return o;}
+		{ guidonote * o = new guidonote (voice, name, oct, dur, acc); assert (o!=0); return o; }
+Sguidoseq guidoseq::create()			{ guidoseq* o = new guidoseq(); assert (o!=0); return o;}
+Sguidochord guidochord::create()		{ guidochord* o = new guidochord(); assert (o!=0); return o;}
+Sguidotag guidotag::create(string name)	{ guidotag* o = new guidotag(name); assert (o!=0); return o;}
+Sguidotag guidotag::create(string name, string sep)	{ guidotag* o = new guidotag(name, sep); assert (o!=0); return o;}
 
 //______________________________________________________________________________
 guidonotestatus* guidonotestatus::fInstances[kMaxInstances] = { 0 };

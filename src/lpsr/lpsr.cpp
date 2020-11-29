@@ -23,12 +23,12 @@ namespace MusicXML2
 void initializeLPSR ()
 {
   // protect library against multiple initializations
-  static bool initializeLPSRHasBeenRun = false;
+  static bool pThisMethodHasBeenRun = false;
 
-  if (! initializeLPSRHasBeenRun) {
+  if (! pThisMethodHasBeenRun) {
     initializeLPSRBasicTypes ();
 
-    initializeLPSRHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

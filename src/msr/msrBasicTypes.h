@@ -362,7 +362,7 @@ string existingClefKinds (int namesListMaxLength);
 string existingClefKindsNames (int namesListMaxLength);
 
 extern map<string, msrClefKind>
-  gClefKindsMap;
+  gGlobalClefKindsMap;
 
 extern list<string>
   gClefKindsNamesList;
@@ -438,7 +438,7 @@ string existingHarmonyKindsNames (int namesListMaxLength);
 const int K_HARMONY_NO_INVERSION = -1;
 
 extern map<string, msrHarmonyKind>
-  gHarmonyKindsMap;
+  gGlobalHarmonyKindsMap;
 
 extern list<string>
   gHarmonyKindsNamesList;
@@ -554,7 +554,9 @@ class msrDottedDuration
     int                   getDotsNumber () const
                               { return fDotsNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  incrDotsNumber ()
@@ -585,7 +587,7 @@ class msrDottedDuration
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrDurationKind       fDurationKind;
@@ -646,7 +648,7 @@ class msrSemiTonesPitchAndOctave : public smartable
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     string                semiTonesPitchKindAsString () const;
@@ -663,7 +665,7 @@ class msrSemiTonesPitchAndOctave : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrSemiTonesPitchKind fSemiTonesPitchKind;
@@ -684,7 +686,7 @@ string msrLengthUnitKindAsString (
 string existingMsrLengthUnitKinds (int namesListMaxLength);
 
 extern map<string, msrLengthUnitKind>
-  gMsrLengthUnitKindsMap;
+  gGlobalMsrLengthUnitKindsMap;
 
 void initializeMsrLengthUnitKindsMap ();
 
@@ -734,7 +736,7 @@ class msrLength : public smartable
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
                           bool operator== (
@@ -764,7 +766,7 @@ class msrLength : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrLengthUnitKind     fLengthUnitKind;
@@ -786,7 +788,7 @@ string msrMarginTypeKindAsString (
 string existingMsrMarginTypeKinds (int namesListMaxLength);
 
 extern map<string, msrMarginTypeKind>
-  gMsrMarginTypeKindsMap;
+  gGlobalMsrMarginTypeKindsMap;
 
 void initializeMsrMarginTypeKindsMap ();
 
@@ -836,7 +838,7 @@ class msrMargin : public smartable
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
                           bool operator== (
@@ -863,7 +865,7 @@ class msrMargin : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
 
@@ -938,7 +940,7 @@ class msrMarginsGroup : public smartable
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -964,7 +966,7 @@ class msrMarginsGroup : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // margins type
@@ -1030,7 +1032,9 @@ class msrFontSize : public smartable
 
     float                 getFontNumericSize ();
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                fontSizeKindAsString () const;
@@ -1045,7 +1049,7 @@ class msrFontSize : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrFontSizeKind       fFontSizeKind;
@@ -1135,7 +1139,8 @@ string msrDirectionKindAsString (
 //______________________________________________________________________________
 enum msrPrintObjectKind {
   kPrintObjectNone,
-  kPrintObjectYes, kPrintObjectNo};
+  kPrintObjectYes,
+  kPrintObjectNo};
 
 msrPrintObjectKind msrPrintObjectKindFromString (
   int    inputLineNumber,
@@ -1259,7 +1264,7 @@ class msrTupletFactor
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     bool                  isEqualToOne () const
@@ -1298,7 +1303,7 @@ class msrTupletFactor
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fTupletActualNotes;
@@ -1354,7 +1359,9 @@ class msrHarmonyInterval : public smartable
     int                   getHarmonyIntervalRelativeOctave () const
                               { return fHarmonyIntervalRelativeOctave; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     int                   harmonyIntervalAsSemitones () const
@@ -1406,7 +1413,7 @@ class msrHarmonyInterval : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrIntervalKind       fHarmonyIntervalIntervalKind;
@@ -1448,7 +1455,7 @@ class msrHarmonyStructure : public smartable
 
   private:
 
-    // initialization
+    // private initialization
     // ------------------------------------------------------
 
   public:
@@ -1463,7 +1470,9 @@ class msrHarmonyStructure : public smartable
                           getHarmonyStructureIntervals () const
                               { return fHarmonyStructureIntervals; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendHarmonyIntervalToHarmonyStructure (
@@ -1501,7 +1510,7 @@ class msrHarmonyStructure : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrHarmonyKind        fHarmonyStructureHarmonyKind;
@@ -1553,7 +1562,9 @@ class msrHarmonyContents : public smartable
                           getHarmonyElementsVector () const
                               { return fHarmonyElementsVector; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                harmonyContentsAsString () const;
@@ -1586,7 +1597,7 @@ class msrHarmonyContents : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrSemiTonesPitchKind fHarmonyContentsRootNote;
@@ -1643,7 +1654,7 @@ class msrRGBColor {
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     bool                  isEmpty () const
@@ -1667,7 +1678,7 @@ class msrRGBColor {
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     float                 fR;
@@ -1705,7 +1716,9 @@ class msrAlphaRGBColor
     string                getColorAlpha () const
                               { return fColorAlpha; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     bool                  isEmpty () const
@@ -1727,7 +1740,7 @@ class msrAlphaRGBColor
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fColorRGB;   // hexadecimal, 6 digits
@@ -1748,27 +1761,27 @@ string msrScoreNotationKindAsString (
 // global variables
 //______________________________________________________________________________
 extern map<msrHarmonyKind, S_msrHarmonyStructure>
-  gHarmonyStructuresMap;
+  gGlobalHarmonyStructuresMap;
 
 void initializeHarmonyStructuresMap ();
 
 void printHarmonyStructuresMap ();
 
 extern map<string, msrQuarterTonesPitchesLanguageKind>
-  gQuarterTonesPitchesLanguageKindsMap;
+  gGlobalQuarterTonesPitchesLanguageKindsMap;
 
-extern map<msrQuarterTonesPitchKind, string> gNederlandsPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gCatalanPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gDeutschPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gEnglishPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gEspanolPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gFrancaisPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gItalianoPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gNorskPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gPortuguesPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gSuomiPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gSvenskaPitchNamesMap;
-extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalNederlandsPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalCatalanPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalDeutschPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalEnglishPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalEspanolPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalFrancaisPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalItalianoPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalNorskPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalPortuguesPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalSuomiPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalSvenskaPitchesNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gGlobalVlaamsPitchesNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ();
 

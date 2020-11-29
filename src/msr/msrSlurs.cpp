@@ -17,6 +17,8 @@
 
 #include "msrSlurs.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 #include "messagesHandling.h"
@@ -37,7 +39,7 @@ S_msrSlur msrSlur::create (
   msrSlur* o =
     new msrSlur (
       inputLineNumber, slurNumber, slurTypeKind, slurLineTypeKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -58,8 +60,8 @@ msrSlur::~msrSlur ()
 
 void msrSlur::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSlur::acceptIn ()" <<
       endl;
   }
@@ -69,8 +71,8 @@ void msrSlur::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSlur::visitStart ()" <<
             endl;
         }
@@ -80,8 +82,8 @@ void msrSlur::acceptIn (basevisitor* v)
 
 void msrSlur::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSlur::acceptOut ()" <<
       endl;
   }
@@ -91,8 +93,8 @@ void msrSlur::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSlur::visitEnd ()" <<
             endl;
         }

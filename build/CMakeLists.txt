@@ -37,7 +37,8 @@ get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 option ( XML 		      "Generates the musicxml library by default"	on )
 option ( LILY         "Generates lilypond part"       	          on )
 option ( BRAILLE      "Generates braille part"	                  on )
-option ( ALL 		      "set XML, LILY and BSR on"	                off )
+option ( MXML         "Generates MusicXML part"	                  on )
+option ( ALL 		      "set XML, LILY, BSR and MXML on"	          off )
 option ( FMWK 	  	  "Generates a framework on MacOS by default"	off )
 option ( GDB 		      "Activates ggdb3 option"	                  off )
 option ( APPLEDEBUG   "Activates Apple debug option"	            on )
@@ -46,9 +47,10 @@ if (ALL)
 	set (XML on)
 	set (LILY on)
 	set (BRAILLE on)
+	set (MXML on)
 endif()
 
-if (LILY OR BRAILLE)
+if (LILY OR BRAILLE OR MXML)
 	set (MSR on)
 endif()
 
@@ -60,6 +62,9 @@ if (LILY)
 endif()
 if (BRAILLE)
 	message (STATUS "Generates the braille part")
+endif()
+if (MXML)
+	message (STATUS "Generates the MusicXML part")
 endif()
 
 
@@ -127,15 +132,19 @@ if (XML)
 endif()
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml msr)
+	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml mxml2mxmltree mxmltree mxmltree2msr msr oah2manpage)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} lpsr lilypond)
+	set (SRCFOLDERS ${SRCFOLDERS} msr2lpsr lpsr lpsr2lilypond lilypond musicxml2lilypond)
 endif()
 
 if (BRAILLE)
-	set (SRCFOLDERS ${SRCFOLDERS} bsr braille)
+	set (SRCFOLDERS ${SRCFOLDERS} msr2bsr bsr bsr2braille braille musicxml2braille)
+endif()
+
+if (MXML)
+	set (SRCFOLDERS ${SRCFOLDERS} msr2mxmltree musicxml2musicxml)
 endif()
 
 foreach(folder ${SRCFOLDERS})
@@ -150,7 +159,7 @@ file (GLOB CORESRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SRC})
 file (GLOB COREH   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${HEADERS})
 
 foreach(folder ${SRCFOLDERS})
-  set(INCL ${INCL} "${SRCDIR}/${folder}")        # add include folders
+  set(INCL ${INCL} "${SRCDIR}/${folder}")              # add include folders
 endforeach(folder)
 
 
@@ -218,7 +227,7 @@ endif()
 set (SAMPLES xmlversion RandomMusic RandomChords MusicAndHarmonies xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmlread xmltranspose xmlversion)
 if (LILY)
-	set (SAMPLES ${SAMPLES} xml2xml xml2ly xml2ly2 xml2Any)
+	set (SAMPLES ${SAMPLES} libMultipleInitsTest xml2Any xml2xml xml2ly)
 	set (TOOLS   ${TOOLS}   xml2xml xml2ly)
 endif()
 if (BRAILLE)

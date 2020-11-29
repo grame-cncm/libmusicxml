@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -34,7 +36,7 @@ S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::create (
     new msrAfterGraceNotesGroupContents (
       inputLineNumber,
       afterGraceNotesGroupContentsVoiceUpLink);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -67,9 +69,9 @@ S_msrPart msrAfterGraceNotesGroupContents::fetchAfterGraceNotesGroupContentsPart
 S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGraceNotesGroupContentsNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Creating a newborn clone of after grace notes group" <<
       endl;
   }
@@ -103,8 +105,8 @@ void msrAfterGraceNotesGroupContents::appendNoteToAfterGraceNotesGroupContents (
 
 void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrAfterGraceNotesGroupContents::acceptIn ()" <<
       endl;
   }
@@ -114,8 +116,8 @@ void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrAfterGraceNotesGroupContents>*> (v)) {
         S_msrAfterGraceNotesGroupContents elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrAfterGraceNotesGroupContents::visitStart ()" <<
             endl;
         }
@@ -125,8 +127,8 @@ void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
 
 void msrAfterGraceNotesGroupContents::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrAfterGraceNotesGroupContents::acceptOut ()" <<
       endl;
   }
@@ -136,8 +138,8 @@ void msrAfterGraceNotesGroupContents::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrAfterGraceNotesGroupContents>*> (v)) {
         S_msrAfterGraceNotesGroupContents elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrAfterGraceNotesGroupContents::visitEnd ()" <<
             endl;
         }
@@ -234,7 +236,7 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::create (
       afterGraceNotesGroupElement,
       afterGraceNotesGroupIsSlashed,
       afterGraceNotesGroupVoiceUpLink);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -283,9 +285,9 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNew
   S_msrNote  noteClone,
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceGraceNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceGraceNotes ()) {
+    gLogStream <<
       "Creating a newborn clone of after grace notes group '" <<
       asShortString () <<
       "'" <<
@@ -324,8 +326,8 @@ void msrAfterGraceNotesGroup::appendNoteToAfterGraceNotesGroupContents (
 
 void msrAfterGraceNotesGroup::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrAfterGraceNotesGroup::acceptIn ()" <<
       endl;
   }
@@ -335,8 +337,8 @@ void msrAfterGraceNotesGroup::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrAfterGraceNotesGroup>*> (v)) {
         S_msrAfterGraceNotesGroup elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrAfterGraceNotesGroup::visitStart ()" <<
             endl;
         }
@@ -346,8 +348,8 @@ void msrAfterGraceNotesGroup::acceptIn (basevisitor* v)
 
 void msrAfterGraceNotesGroup::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrAfterGraceNotesGroup::acceptOut ()" <<
       endl;
   }
@@ -357,8 +359,8 @@ void msrAfterGraceNotesGroup::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrAfterGraceNotesGroup>*> (v)) {
         S_msrAfterGraceNotesGroup elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrAfterGraceNotesGroup::visitEnd ()" <<
             endl;
         }

@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -47,7 +47,9 @@ class msrAfterGraceNotesGroupContents : public msrElement
                                   fAfterGraceNotesGroupContentsNotesList;
                               }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     // upLinks
@@ -80,7 +82,7 @@ class msrAfterGraceNotesGroupContents : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -140,7 +142,9 @@ class msrAfterGraceNotesGroup : public msrElement
                           getAfterGraceNotesGroupContents () const
                               { return fAfterGraceNotesGroupContents; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     // upLinks
@@ -171,7 +175,7 @@ class msrAfterGraceNotesGroup : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

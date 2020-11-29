@@ -17,14 +17,316 @@
 
 #include "exports.h"
 
-#include "oahBasicTypes.h"
+#include "oahAtomsCollection.h"
 
 
 namespace MusicXML2
 {
+//______________________________________________________________________________
+#define K_INSIDER_OPTION_NAME "insider"
+
+class insiderOahAtom : public oahAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<insiderOahAtom> create (
+      string shortName,
+      string longName,
+      string description);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    insiderOahAtom (
+      string shortName,
+      string longName,
+      string description);
+
+    virtual ~insiderOahAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  applyElement (ostream& os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<insiderOahAtom> S_insiderOahAtom;
+EXP ostream& operator<< (ostream& os, const S_insiderOahAtom& elt);
 
 //______________________________________________________________________________
-class oahOptionalValuesStyleKindAtom : public oahValuedAtom
+#define K_REGULAR_OPTION_NAME "regular"
+
+class regularOahAtom : public oahAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<regularOahAtom> create (
+      string shortName,
+      string longName,
+      string description);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    regularOahAtom (
+      string shortName,
+      string longName,
+      string description);
+
+    virtual ~regularOahAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  applyElement (ostream& os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<regularOahAtom> S_regularOahAtom;
+EXP ostream& operator<< (ostream& os, const S_regularOahAtom& elt);
+
+//______________________________________________________________________________
+class oahOahGroup : public oahGroup
+{
+  public:
+
+    static SMARTP<oahOahGroup> create (
+      string executableName);
+
+  public:
+
+    // initialisation
+    // ------------------------------------------------------
+
+    void                  initializeOahOahGroup ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahOahGroup (
+      string executableName);
+
+    virtual ~oahOahGroup ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // command line
+    string                getHandlerExecutableName () const
+                              { return fHandlerExecutableName; }
+
+    void                  setInputSourceName (string name)
+                              { fInputSourceName = name; }
+
+    string                getInputSourceName () const
+                              { return fInputSourceName; }
+
+    // options and arguments
+    bool                  getShowOptionsAndArguments () const
+                              { return fShowOptionsAndArguments; }
+
+    string                getCommandLineAsSupplied () const
+                              { return fCommandLineAsSupplied; }
+    string                getCommandLineWithShortOptionsNames () const
+                              { return fCommandLineWithShortOptionsNames; }
+    string                getCommandLineWithLongOptionsNames () const
+                              { return fCommandLineWithLongOptionsNames; }
+
+    // name help
+    string                getNameToProvideHelpAbout () const
+                              { return fNameToProvideHelpAbout; }
+
+    // find name
+    string                getStringToBeFound () const
+                              { return fStringToBeFound; }
+
+
+    S_oahNameHelpAtom     getNameHelpAtom () const
+                              { return fNameHelpAtom; }
+    S_oahFindStringAtom     getFindStringAtom () const
+                              { return fFindStringAtom; }
+
+    // trace
+    bool                  getTraceOahVisitors () const
+                              { return fTraceOahVisitors; }
+
+    // display
+    bool                  getDisplayOahValues () const
+                              { return fDisplayOahValues; }
+    bool                  getDisplayOahHandler () const
+                              { return fDisplayOahHandler; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    // quiet mode
+    void                  enforceGroupQuietness () override;
+
+    // consistency check
+    virtual void          checkGroupOptionsConsistency () override;
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  initializeOahBasicHelpOptions ();
+
+    void                  initializeOahOahAndArgumentsOptions ();
+
+#ifdef TRACING_IS_ENABLED
+    void                  initializeOahTraceOah ();
+#endif
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printOahOahHelp ();
+
+    void                  printOahOahValues (int valueFieldWidth);
+
+    void                  printAtomWithValueOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // private work fields
+    // --------------------------------------
+
+    // command line
+    string                fHandlerExecutableName;
+
+    string                fInputSourceName;
+
+    // name help
+    string                fNameToProvideHelpAbout;
+
+    S_oahNameHelpAtom     fNameHelpAtom;
+
+
+    // find name
+    string                fStringToBeFound;
+
+    S_oahFindStringAtom   fFindStringAtom;
+
+  private:
+
+    // private fields
+    // --------------------------------------
+
+    // options and arguments
+    bool                  fShowOptionsAndArguments;
+
+    string                fCommandLineAsSupplied;
+    string                fCommandLineWithShortOptionsNames;
+    string                fCommandLineWithLongOptionsNames;
+
+    // trace
+    bool                  fTraceOahVisitors;
+
+    // display
+    bool                  fDisplayOahValues;
+    bool                  fDisplayOahHandler;
+
+};
+typedef SMARTP<oahOahGroup> S_oahOahGroup;
+EXP ostream& operator<< (ostream& os, const S_oahOahGroup& elt);
+
+EXP extern S_oahOahGroup gGlobalOahOahGroup;
+
+//______________________________________________________________________________
+S_oahOahGroup createGlobalOahOahGroup (
+  string executableName);
+
+
+}
+
+
+#endif
+
+/* JMI
+//______________________________________________________________________________
+class oahOptionalValuesStyleKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -69,14 +371,10 @@ class oahOptionalValuesStyleKindAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -102,7 +400,7 @@ class oahOptionalValuesStyleKindAtom : public oahValuedAtom
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     oahOptionalValuesStyleKind&
@@ -110,140 +408,5 @@ class oahOptionalValuesStyleKindAtom : public oahValuedAtom
 };
 typedef SMARTP<oahOptionalValuesStyleKindAtom> S_oahOptionalValuesStyleKindAtom;
 EXP ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt);
+*/
 
-//______________________________________________________________________________
-class oahOahGroup : public oahGroup
-{
-  public:
-
-    static SMARTP<oahOahGroup> create (
-      string       executableName,
-      S_oahHandler handlerUpLink);
-
-    SMARTP<oahOahGroup> createCloneWithTrueValues (); // JMI
-
-  public:
-
-    // initialisation
-    // ------------------------------------------------------
-
-    void                  initializeOahOah (
-                            bool boolOptionsInitialValue);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    oahOahGroup (
-      string       executableName,
-      S_oahHandler handlerUpLink);
-
-    virtual ~oahOahGroup ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-  public:
-
-    // public services
-    // ------------------------------------------------------
-
-    // quiet mode
-    void                  enforceGroupQuietness () override;
-
-    // consistency check
-    virtual void          checkGroupOptionsConsistency () override;
-
-  private:
-
-    // private services
-    // ------------------------------------------------------
-
-    void                  initializeOahBasicHelpOptions (
-                            bool boolOptionsInitialValue);
-
-    void                  initializeOahOahAndArgumentsOptions (
-                            bool boolOptionsInitialValue);
-
-#ifdef TRACE_OAH
-    void                  initializeOahTraceOah (
-                            bool boolOptionsInitialValue);
-#endif
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
-
-    virtual void          browseData (basevisitor* v) override;
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    void                  printOahOahHelp ();
-
-    void                  printOahOahValues (int valueFieldWidth);
-
-    void                  printValuedAtomOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  public:
-
-    // command line
-    // --------------------------------------
-
-    string                fHandlerExecutableName;
-
-    string                fInputSourceName;
-
-    // options and arguments
-    // --------------------------------------
-
-    bool                  fShowOptionsAndArguments;
-
-    string                fCommandLineAsSupplied;
-    string                fCommandLineWithShortOptionsNames;
-    string                fCommandLineWithLongOptionsNames;
-
-    // option name
-    // --------------------------------------
-
-    string                fOptionName;
-
-    // trace
-    // --------------------------------------
-
-    bool                  fTraceOahVisitors;
-
-    // display
-    // --------------------------------------
-
-    bool                  fDisplayOahValues;
-    bool                  fDisplayOahHandler;
-};
-typedef SMARTP<oahOahGroup> S_oahOahGroup;
-EXP ostream& operator<< (ostream& os, const S_oahOahGroup& elt);
-
-EXP extern S_oahOahGroup gGlobalOahOahGroup;
-EXP extern S_oahOahGroup gGlobalOahOahUserChoices;
-EXP extern S_oahOahGroup gGlobalOahOahWithDetailedTrace;
-
-//______________________________________________________________________________
-void initializeOahOahHandling (
-  string       executableName,
-  S_oahHandler handler);
-
-
-}
-
-
-#endif

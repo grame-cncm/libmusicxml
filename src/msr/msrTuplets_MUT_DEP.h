@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -154,7 +154,9 @@ class msrTuplet : public msrTupletElement
     rational              getTupletDisplayWholeNotes () const
                               { return fTupletDisplayWholeNotes; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendNoteToTuplet (
@@ -208,7 +210,7 @@ class msrTuplet : public msrTupletElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // measure upLink

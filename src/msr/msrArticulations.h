@@ -76,7 +76,9 @@ class msrArticulation : public msrElement
     msrPlacementKind      getArticulationPlacementKind () const
                               { return fArticulationPlacementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     virtual string        articulationKindAsString () const;
@@ -102,7 +104,7 @@ class msrArticulation : public msrElement
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
 
     msrArticulationKind   fArticulationKind;
@@ -164,7 +166,9 @@ class msrFermata : public msrArticulation
     msrFermataTypeKind    getFermataTypeKind () const
                               { return fFermataTypeKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                asString () const override;
@@ -188,7 +192,7 @@ class msrFermata : public msrArticulation
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrFermataKind        fFermataKind;
@@ -236,7 +240,9 @@ class msrArpeggiato : public msrArticulation
     int                   getArpeggiatoNumber () const
                               { return fArpeggiatoNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     virtual string        arpeggiatoDirectionKindAsString () const;
@@ -260,7 +266,7 @@ class msrArpeggiato : public msrArticulation
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrDirectionKind      fArpeggiatoDirectionKind;
@@ -319,7 +325,9 @@ class msrNonArpeggiato : public msrArticulation
     int                   getNonArpeggiatoNumber () const
                               { return fNonArpeggiatoNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     virtual string        nonArpeggiatoTypeKindAsString () const;
@@ -343,7 +351,7 @@ class msrNonArpeggiato : public msrArticulation
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrNonArpeggiatoTypeKind

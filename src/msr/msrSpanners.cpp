@@ -10,7 +10,9 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -82,8 +84,8 @@ void msrSpanner::setSpannerOtherEndSideLink (
 
 void msrSpanner::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSpanner::acceptIn ()" <<
       endl;
   }
@@ -93,8 +95,8 @@ void msrSpanner::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSpanner>*> (v)) {
         S_msrSpanner elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSpanner::visitStart ()" <<
             endl;
         }
@@ -104,8 +106,8 @@ void msrSpanner::acceptIn (basevisitor* v)
 
 void msrSpanner::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSpanner::acceptOut ()" <<
       endl;
   }
@@ -115,8 +117,8 @@ void msrSpanner::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSpanner>*> (v)) {
         S_msrSpanner elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSpanner::visitEnd ()" <<
             endl;
         }

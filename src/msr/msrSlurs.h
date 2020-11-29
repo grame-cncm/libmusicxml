@@ -77,7 +77,9 @@ class msrSlur : public msrElement
     msrLineTypeKind       getSlurLineTypeKind () const
                               { return fSlurLineTypeKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -103,7 +105,7 @@ class msrSlur : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fSlurNumber;

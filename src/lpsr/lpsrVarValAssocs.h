@@ -183,7 +183,7 @@ class lpsrVarValAssoc : public lpsrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -214,7 +214,7 @@ class lpsrVarValAssoc : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     lpsrCommentedKind     fCommentedKind;
@@ -306,7 +306,9 @@ class lpsrVarValsListAssoc : public lpsrElement
     const list<string>&   getVariableValuesList ()
                               { return fVariableValuesList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  addAssocVariableValue (string value)
@@ -344,7 +346,7 @@ class lpsrVarValsListAssoc : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     lpsrVarValsListAssocKind

@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -141,7 +141,9 @@ class msrSyllable : public msrMeasureElement
     int                   getSyllableNextMeasurePuristNumber () const
                               { return fSyllableNextMeasurePuristNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendSyllableToNoteAndSetItsNoteUpLink (
@@ -184,7 +186,7 @@ class msrSyllable : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

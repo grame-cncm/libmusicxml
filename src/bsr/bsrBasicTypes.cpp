@@ -21,8 +21,8 @@
 
 #include "messagesHandling.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
@@ -207,21 +207,14 @@ string bsrCellKindAsString (bsrCellKind cellKind)
 // braille output kinds
 //______________________________________________________________________________
 map<string, bsrBrailleOutputKind>
-  gBsrBrailleOutputKindsMap;
+  gGlobalBsrBrailleOutputKindsMap;
 
 void initializeBsrBrailleOutputKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
-
-  if (! pThisMethodHasBeenRun) {
-    gBsrBrailleOutputKindsMap ["ascii"] = kBrailleOutputAscii; // default
-    gBsrBrailleOutputKindsMap ["utf8"]  = kBrailleOutputUTF8;
-    gBsrBrailleOutputKindsMap ["utf8d"] = kBrailleOutputUTF8Debug;
-    gBsrBrailleOutputKindsMap ["utf16"] = kBrailleOutputUTF16;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalBsrBrailleOutputKindsMap ["ascii"] = kBrailleOutputAscii; // default
+  gGlobalBsrBrailleOutputKindsMap ["utf8"]  = kBrailleOutputUTF8;
+  gGlobalBsrBrailleOutputKindsMap ["utf8d"] = kBrailleOutputUTF8Debug;
+  gGlobalBsrBrailleOutputKindsMap ["utf16"] = kBrailleOutputUTF16;
 }
 
 string bsrBrailleOutputKindAsString (
@@ -254,7 +247,7 @@ string existingBsrBrailleOutputKinds (int namesListMaxLength)
 
   int
     brailleOutputKindsMapSize =
-      gBsrBrailleOutputKindsMap.size ();
+      gGlobalBsrBrailleOutputKindsMap.size ();
 
   if (brailleOutputKindsMapSize) {
     int
@@ -266,8 +259,8 @@ string existingBsrBrailleOutputKinds (int namesListMaxLength)
 
     for (
       map<string, bsrBrailleOutputKind>::const_iterator i =
-        gBsrBrailleOutputKindsMap.begin ();
-      i != gBsrBrailleOutputKindsMap.end ();
+        gGlobalBsrBrailleOutputKindsMap.begin ();
+      i != gGlobalBsrBrailleOutputKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -298,21 +291,14 @@ string existingBsrBrailleOutputKinds (int namesListMaxLength)
 //______________________________________________________________________________
 
 map<string, bsrTextsLanguageKind>
-  gBsrTextsLanguageKindsMap;
+  gGlobalBsrTextsLanguageKindsMap;
 
 void initializeBsrTextsLanguageKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
-
-  if (! pThisMethodHasBeenRun) {
-    gBsrTextsLanguageKindsMap ["english"] = kTextsEnglish; // default
-    gBsrTextsLanguageKindsMap ["german"]  = kTextsGerman;
-    gBsrTextsLanguageKindsMap ["italian"] = kTextsItalian;
-    gBsrTextsLanguageKindsMap ["french"]  = kTextsFrench;
-
-    pThisMethodHasBeenRun= true;
-  }
+  gGlobalBsrTextsLanguageKindsMap ["english"] = kTextsEnglish; // default
+  gGlobalBsrTextsLanguageKindsMap ["german"]  = kTextsGerman;
+  gGlobalBsrTextsLanguageKindsMap ["italian"] = kTextsItalian;
+  gGlobalBsrTextsLanguageKindsMap ["french"]  = kTextsFrench;
 }
 
 string bsrTextsLanguageKindAsString (
@@ -344,7 +330,7 @@ string existingBsrTextsLanguageKinds (int namesListMaxLength)
 
   int
     textsLanguageKindsMapSize =
-      gBsrTextsLanguageKindsMap.size ();
+      gGlobalBsrTextsLanguageKindsMap.size ();
 
   if (textsLanguageKindsMapSize) {
     int
@@ -356,8 +342,8 @@ string existingBsrTextsLanguageKinds (int namesListMaxLength)
 
     for (
       map<string, bsrTextsLanguageKind>::const_iterator i =
-        gBsrTextsLanguageKindsMap.begin ();
-      i != gBsrTextsLanguageKindsMap.end ();
+        gGlobalBsrTextsLanguageKindsMap.begin ();
+      i != gGlobalBsrTextsLanguageKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -434,9 +420,9 @@ void initializeBSRBasicTypes ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+      gLogStream <<
         "Initializing BSR basic types handling" <<
         endl;
     }
@@ -452,7 +438,7 @@ void initializeBSRBasicTypes ()
 
     initializeBsrTextsLanguageKindsMap ();
 
-// JMI    pThisMethodHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

@@ -384,7 +384,7 @@ class lpsrHeader : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // MusicXML informations

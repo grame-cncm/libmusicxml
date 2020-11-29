@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -118,7 +118,9 @@ class msrGraceNotesGroup : public msrElement
                             S_msrMeasure measure,
                             rational     positionInMeasure);
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     S_msrPart             fetchGraceNotesGroupPartUpLink () const;
@@ -154,7 +156,7 @@ class msrGraceNotesGroup : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

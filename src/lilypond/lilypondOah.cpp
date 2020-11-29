@@ -15,13 +15,14 @@
 #include "version.h"
 #include "utilities.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
 #include "messagesHandling.h"
 
+#include "oahOah.h"
 #include "generalOah.h"
 #include "lilypondOah.h"
 
@@ -32,118 +33,65 @@ namespace MusicXML2
 {
 //_______________________________________________________________________________
 
-S_lilypondOah gGlobalLilypondOah;
-S_lilypondOah gGlobalLilypondOahUserChoices;
-S_lilypondOah gGlobalLilypondOahWithDetailedTrace;
+S_lilypondOahGroup gGlobalLilypondOahGroup;
 
-S_lilypondOah lilypondOah::create (
-  S_oahHandler handlerUpLink)
+S_lilypondOahGroup lilypondOahGroup::create ()
 {
-  lilypondOah* o = new lilypondOah(
-    handlerUpLink);
-  assert(o!=0);
+  lilypondOahGroup* o = new lilypondOahGroup ();
+  assert (o!=0);
   return o;
 }
 
-lilypondOah::lilypondOah (
-  S_oahHandler handlerUpLink)
+lilypondOahGroup::lilypondOahGroup ()
   : oahGroup (
     "LilyPond",
     "hlily", "help-lilypond",
 R"(These options control the way LilyPond data is handled.)",
-    kElementVisibilityWhole,
-    handlerUpLink)
+    kElementVisibilityWhole)
 {
-/* JMI
-  // sanity check
-  msgAssert (
-    handlerUpLink != nullptr,
-    "handlerUpLink is null");
-*/
-
-  // append this options group to the options handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeLilypondOah (false);
+  initializeLilypondOahGroup ();
 }
 
-lilypondOah::~lilypondOah ()
+lilypondOahGroup::~lilypondOahGroup ()
 {}
 
-#ifdef TRACE_OAH
-void lilypondOah::initializelilypondOahTraceOah (
-  bool boolOptionsInitialValue)
-{}
-#endif
-
-void lilypondOah::initializeLilypondOah (
-  bool boolOptionsInitialValue)
+void lilypondOahGroup::initializeLilypondOahGroup ()
 {
-#ifdef TRACE_OAH
+#ifdef TRACING_IS_ENABLED
   // trace
   // --------------------------------------
-  initializelilypondOahTraceOah (
-    boolOptionsInitialValue);
-#endif
-}
-
-S_lilypondOah lilypondOah::createCloneWithDetailedTrace ()
-{
-  S_lilypondOah
-    clone =
-      lilypondOah::create (0);
-      // 0 not to have it inserted twice in the option handler
-
-  // set the options handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-  return clone;
-}
-
-//______________________________________________________________________________
-void lilypondOah::setAlllilypondOahTraceOah (
-  bool boolOptionsInitialValue)
-{
-#ifdef TRACE_OAH
-  // specific trace
-  // JMI
+// JMI  initializelilypondOahTraceOah ();
 #endif
 }
 
 //______________________________________________________________________________
-void lilypondOah::enforceGroupQuietness ()
+void lilypondOahGroup::enforceGroupQuietness ()
 {}
 
 //______________________________________________________________________________
-void lilypondOah::checkGroupOptionsConsistency ()
+void lilypondOahGroup::checkGroupOptionsConsistency ()
 {}
 
 //______________________________________________________________________________
-void lilypondOah::acceptIn (basevisitor* v)
+void lilypondOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lilypondOah::acceptIn ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> lilypondOahGroup::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lilypondOah>*
+  if (visitor<S_lilypondOahGroup>*
     p =
-      dynamic_cast<visitor<S_lilypondOah>*> (v)) {
-        S_lilypondOah elem = this;
+      dynamic_cast<visitor<S_lilypondOahGroup>*> (v)) {
+        S_lilypondOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching lilypondOah::visitStart ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching lilypondOahGroup::visitStart ()" <<
             endl;
         }
 #endif
@@ -151,25 +99,25 @@ void lilypondOah::acceptIn (basevisitor* v)
   }
 }
 
-void lilypondOah::acceptOut (basevisitor* v)
+void lilypondOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lilypondOah::acceptOut ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> lilypondOahGroup::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_lilypondOah>*
+  if (visitor<S_lilypondOahGroup>*
     p =
-      dynamic_cast<visitor<S_lilypondOah>*> (v)) {
-        S_lilypondOah elem = this;
+      dynamic_cast<visitor<S_lilypondOahGroup>*> (v)) {
+        S_lilypondOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
-            ".\\\" ==> Launching lilypondOah::visitEnd ()" <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching lilypondOahGroup::visitEnd ()" <<
             endl;
         }
 #endif
@@ -177,22 +125,22 @@ void lilypondOah::acceptOut (basevisitor* v)
   }
 }
 
-void lilypondOah::browseData (basevisitor* v)
+void lilypondOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
-      ".\\\" ==> lilypondOah::browseData ()" <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> lilypondOahGroup::browseData ()" <<
       endl;
   }
 #endif
 }
 
 //______________________________________________________________________________
-void lilypondOah::printLilypondOahValues (int fieldWidth)
+void lilypondOahGroup::printLilypondOahValues (int fieldWidth)
 {
-  gLogOstream <<
-    "The lilypondOah options are:" <<
+  gLogStream <<
+    "The lilypondOahGroup options are:" <<
     endl;
 
   gIndenter++;
@@ -200,42 +148,33 @@ void lilypondOah::printLilypondOahValues (int fieldWidth)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_lilypondOah& elt)
+ostream& operator<< (ostream& os, const S_lilypondOahGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-void initializeLilypondOahHandling (
-  S_oahHandler handler)
+S_lilypondOahGroup createGlobalLilypondOahGroup ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-    gLogOstream <<
-      "Initializing lilypondOah options handling" <<
-      endl;
-  }
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global xml2xml OAH group" <<
+    endl;
+#endif
 #endif
 
-  // create the lilypondOah options
-  // ------------------------------------------------------
+  // protect library against multiple initializations
+  if (! gGlobalLilypondOahGroup) {
+    // create the global OAH group
+    gGlobalLilypondOahGroup =
+      lilypondOahGroup::create ();
+    assert (gGlobalLilypondOahGroup != 0);
+  }
 
-  gGlobalLilypondOahUserChoices = lilypondOah::create (
-    handler);
-  assert(gGlobalLilypondOahUserChoices != 0);
-
-  gGlobalLilypondOah =
-    gGlobalLilypondOahUserChoices;
-
-  // prepare for measure detailed trace
-  // ------------------------------------------------------
-
-/* JMI
-  gGlobalLilypondOahWithDetailedTrace =
-    gGlobalLilypondOah->
-      createCloneWithDetailedTrace ();
-      */
+  // return the global OAH group
+  return gGlobalLilypondOahGroup;
 }
 
 

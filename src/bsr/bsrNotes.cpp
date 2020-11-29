@@ -13,10 +13,12 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
+
+#include "oahOah.h"
 
 #include "bsrOah.h"
 
@@ -832,9 +834,9 @@ int bsrNote::fetchCellsNumber() const
 
 void bsrNote::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrNote::acceptIn ()" <<
       endl;
   }
@@ -845,9 +847,9 @@ void bsrNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrNote::visitStart ()" <<
             endl;
         }
@@ -858,9 +860,9 @@ void bsrNote::acceptIn (basevisitor* v)
 
 void bsrNote::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrNote::acceptOut ()" <<
       endl;
   }
@@ -871,9 +873,9 @@ void bsrNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrNote::visitEnd ()" <<
             endl;
         }
@@ -1132,7 +1134,7 @@ string bsrNote::noteOctaveKindAsDebugString (
   string result;
 
   switch (noteOctaveKind) {
-    case kNoteOctaveNone: break; // should be "_", fix noteOctaveIsNeeded in mxml2BsrTranslator.cpp for rests JMI
+    case kNoteOctaveNone: break; // should be "_", fix noteOctaveIsNeeded in mxml2bsrTranslator.cpp for rests JMI
     case kNoteOctaveBelow1: result = "oB1"; break;
     case kNoteOctave1:      result = "o1"; break;
     case kNoteOctave2:      result = "o2"; break;

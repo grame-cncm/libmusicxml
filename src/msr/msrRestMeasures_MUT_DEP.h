@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -54,7 +54,9 @@ class msrRestMeasuresContents : public msrElement
     S_msrSegment          getRestMeasuresContentsSegment () const
                               { return fRestMeasuresContentsSegment; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     int                   restMeasuresContentsMeasuresNumber () const;
@@ -83,7 +85,7 @@ class msrRestMeasuresContents : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLink
@@ -181,7 +183,9 @@ class msrRestMeasures : public msrVoiceElement
     rational              getRestMeasuresMeasureSoundingNotes () const
                               { return fRestMeasuresMeasureSoundingNotes; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendMeasureCloneToRestMeasures (
@@ -222,7 +226,7 @@ class msrRestMeasures : public msrVoiceElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrVoice            fRestMeasuresVoiceUpLink;

@@ -26,7 +26,7 @@ static void usage() {
 	cerr << "usage: xml2guido [options]  <musicxml file>" << endl;
 	cerr << "       reads stdin when <musicxml file> is '-'" << endl;
 	cerr << "       options: --autobars don't generates barlines" << endl;
-	cerr << "                --version print version and exit" << endl;
+	cerr << "                --version print version and quit" << endl;
 	cerr << "                -o file   : write output to file" << endl;
 	cerr << "                -h --help : print this help" << endl;
 	exit(1);

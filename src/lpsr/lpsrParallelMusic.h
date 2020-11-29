@@ -81,7 +81,9 @@ class lpsrParallelMusicBLock : public lpsrElement
                           getParallelMusicBLockPartGroupBlocks () const
                               { return fParallelMusicBLockPartGroupBlocks; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendPartGroupBlockToParallelMusicBLock ( // JMI

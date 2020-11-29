@@ -383,7 +383,7 @@ class lpsrScore : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // MSR data

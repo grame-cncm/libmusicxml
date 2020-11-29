@@ -13,7 +13,7 @@
 #ifndef ___bsrParallels___
 #define ___bsrParallels___
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "bsrOah.h"
 
@@ -90,7 +90,7 @@ class bsrParallel : public bsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     int                   fPrintParallelNumber;

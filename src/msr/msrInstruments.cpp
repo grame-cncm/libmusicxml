@@ -19,12 +19,13 @@
 
 #include "msrInstruments.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "msrOah.h"
 
@@ -49,7 +50,7 @@ S_msrStringTuning msrStringTuning::create (
       stringTuningDiatonicPitchKind,
       stringTuningAlterationKind,
       stringTuningOctave);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -73,8 +74,8 @@ msrStringTuning::~msrStringTuning ()
 
 void msrStringTuning::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStringTuning::acceptIn ()" <<
       endl;
   }
@@ -84,8 +85,8 @@ void msrStringTuning::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStringTuning>*> (v)) {
         S_msrStringTuning elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStringTuning::visitStart ()" <<
             endl;
         }
@@ -95,8 +96,8 @@ void msrStringTuning::acceptIn (basevisitor* v)
 
 void msrStringTuning::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStringTuning::acceptOut ()" <<
       endl;
   }
@@ -106,8 +107,8 @@ void msrStringTuning::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStringTuning>*> (v)) {
         S_msrStringTuning elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStringTuning::visitEnd ()" <<
             endl;
         }
@@ -159,7 +160,7 @@ S_msrScordatura msrScordatura::create (
   msrScordatura* o =
     new msrScordatura (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -180,8 +181,8 @@ void msrScordatura::addStringTuningToScordatura (
 
 void msrScordatura::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrScordatura::acceptIn ()" <<
       endl;
   }
@@ -191,8 +192,8 @@ void msrScordatura::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrScordatura>*> (v)) {
         S_msrScordatura elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrScordatura::visitStart ()" <<
             endl;
         }
@@ -202,8 +203,8 @@ void msrScordatura::acceptIn (basevisitor* v)
 
 void msrScordatura::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrScordatura::acceptOut ()" <<
       endl;
   }
@@ -213,8 +214,8 @@ void msrScordatura::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrScordatura>*> (v)) {
         S_msrScordatura elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrScordatura::visitEnd ()" <<
             endl;
         }
@@ -275,7 +276,7 @@ S_msrAccordionRegistration msrAccordionRegistration::create (
     new msrAccordionRegistration (
       inputLineNumber,
       highDotsNumber, middleDotsNumber, lowDotsNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -296,8 +297,8 @@ msrAccordionRegistration::~msrAccordionRegistration ()
 
 void msrAccordionRegistration::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrAccordionRegistration::acceptIn ()" <<
       endl;
   }
@@ -307,8 +308,8 @@ void msrAccordionRegistration::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrAccordionRegistration>*> (v)) {
         S_msrAccordionRegistration elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrAccordionRegistration::visitStart ()" <<
             endl;
         }
@@ -318,8 +319,8 @@ void msrAccordionRegistration::acceptIn (basevisitor* v)
 
 void msrAccordionRegistration::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrAccordionRegistration::acceptOut ()" <<
       endl;
   }
@@ -329,8 +330,8 @@ void msrAccordionRegistration::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrAccordionRegistration>*> (v)) {
         S_msrAccordionRegistration elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrAccordionRegistration::visitEnd ()" <<
             endl;
         }
@@ -379,7 +380,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::create (
   msrHarpPedalsTuning* o =
     new msrHarpPedalsTuning (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -394,9 +395,9 @@ msrHarpPedalsTuning::~msrHarpPedalsTuning ()
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
@@ -411,9 +412,9 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceRepeats) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRepeats ()) {
+    gLogStream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
@@ -448,7 +449,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       "' has already been specified";
 
     msrMusicXMLError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -459,8 +460,8 @@ void msrHarpPedalsTuning::addPedalTuning (
 
 void msrHarpPedalsTuning::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHarpPedalsTuning::acceptIn ()" <<
       endl;
   }
@@ -470,8 +471,8 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrHarpPedalsTuning>*> (v)) {
         S_msrHarpPedalsTuning elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHarpPedalsTuning::visitStart ()" <<
             endl;
         }
@@ -481,8 +482,8 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v)
 
 void msrHarpPedalsTuning::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrHarpPedalsTuning::acceptOut ()" <<
       endl;
   }
@@ -492,8 +493,8 @@ void msrHarpPedalsTuning::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrHarpPedalsTuning>*> (v)) {
         S_msrHarpPedalsTuning elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrHarpPedalsTuning::visitEnd ()" <<
             endl;
         }
@@ -601,7 +602,7 @@ S_msrPedal msrPedal::create (
     new msrPedal (
       inputLineNumber,
       pedalTypeKind, pedalLineKind, pedalSignKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -622,8 +623,8 @@ msrPedal::~msrPedal ()
 
 void msrPedal::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPedal::acceptIn ()" <<
       endl;
   }
@@ -633,8 +634,8 @@ void msrPedal::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPedal::visitStart ()" <<
             endl;
         }
@@ -644,8 +645,8 @@ void msrPedal::acceptIn (basevisitor* v)
 
 void msrPedal::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPedal::acceptOut ()" <<
       endl;
   }
@@ -655,8 +656,8 @@ void msrPedal::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPedal::visitEnd ()" <<
             endl;
         }
@@ -751,7 +752,7 @@ S_msrDamp msrDamp::create (
   msrDamp* o =
     new msrDamp (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -765,8 +766,8 @@ msrDamp::~msrDamp ()
 
 void msrDamp::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDamp::acceptIn ()" <<
       endl;
   }
@@ -776,8 +777,8 @@ void msrDamp::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDamp>*> (v)) {
         S_msrDamp elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDamp::visitStart ()" <<
             endl;
         }
@@ -787,8 +788,8 @@ void msrDamp::acceptIn (basevisitor* v)
 
 void msrDamp::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDamp::acceptOut ()" <<
       endl;
   }
@@ -798,8 +799,8 @@ void msrDamp::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDamp>*> (v)) {
         S_msrDamp elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDamp::visitEnd ()" <<
             endl;
         }
@@ -831,7 +832,7 @@ S_msrDampAll msrDampAll::create (
   msrDampAll* o =
     new msrDampAll (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -845,8 +846,8 @@ msrDampAll::~msrDampAll ()
 
 void msrDampAll::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDampAll::acceptIn ()" <<
       endl;
   }
@@ -856,8 +857,8 @@ void msrDampAll::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrDampAll>*> (v)) {
         S_msrDampAll elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDampAll::visitStart ()" <<
             endl;
         }
@@ -867,8 +868,8 @@ void msrDampAll::acceptIn (basevisitor* v)
 
 void msrDampAll::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrDampAll::acceptOut ()" <<
       endl;
   }
@@ -878,8 +879,8 @@ void msrDampAll::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrDampAll>*> (v)) {
         S_msrDampAll elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrDampAll::visitEnd ()" <<
             endl;
         }

@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by bsrMutualDependencies.h,
+  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -48,7 +48,7 @@ class bsrLineElement : public bsrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
 
@@ -82,7 +82,7 @@ class bsrLineElement : public bsrElement
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
 
     S_bsrLine             fBsrLineUpLink;

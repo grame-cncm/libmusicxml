@@ -17,6 +17,8 @@
 
 #include "msrTies.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -33,7 +35,7 @@ S_msrTie msrTie::create (
   msrTie* o =
     new msrTie (
       inputLineNumber, tieKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -50,8 +52,8 @@ msrTie::~msrTie ()
 
 void msrTie::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTie::acceptIn ()" <<
       endl;
   }
@@ -61,8 +63,8 @@ void msrTie::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTie::visitStart ()" <<
             endl;
         }
@@ -72,8 +74,8 @@ void msrTie::acceptIn (basevisitor* v)
 
 void msrTie::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTie::acceptOut ()" <<
       endl;
   }
@@ -83,8 +85,8 @@ void msrTie::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTie::visitEnd ()" <<
             endl;
         }

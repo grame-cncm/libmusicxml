@@ -74,7 +74,9 @@ class msrVarValAssoc : public msrElement
     string                getVariableValue () const
                               { return fVariableValue; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -103,7 +105,7 @@ class msrVarValAssoc : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrVarValAssocKind    fVarValAssocKind;
@@ -160,7 +162,9 @@ class msrVarValsListAssoc : public msrElement
     const list<string>&   getVariableValuesList ()
                               { return fVariableValuesList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  addAssocVariableValue (string value)
@@ -196,7 +200,7 @@ class msrVarValsListAssoc : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrVarValsListAssocKind

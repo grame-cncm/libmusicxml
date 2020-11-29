@@ -19,12 +19,13 @@
 
 #include "msrTablatures.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "msrOah.h"
 
@@ -49,7 +50,7 @@ S_msrFrameNote msrFrameNote::create (
       frameNoteFretNumber,
       frameNoteFingering,
       frameNoteBarreTypeKind);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -69,9 +70,9 @@ msrFrameNote::msrFrameNote (
 
   fFrameNoteBarreTypeKind = frameNoteBarreTypeKind;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Creating frame note '" <<
       asString () <<
       "'" <<
@@ -122,8 +123,8 @@ string msrFrameNote::asString () const
 
 void msrFrameNote::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFrameNote::acceptIn ()" <<
       endl;
   }
@@ -133,8 +134,8 @@ void msrFrameNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
         S_msrFrameNote elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFrameNote::visitStart ()" <<
             endl;
         }
@@ -144,8 +145,8 @@ void msrFrameNote::acceptIn (basevisitor* v)
 
 void msrFrameNote::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFrameNote::acceptOut ()" <<
       endl;
   }
@@ -155,8 +156,8 @@ void msrFrameNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
         S_msrFrameNote elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFrameNote::visitEnd ()" <<
             endl;
         }
@@ -216,7 +217,7 @@ S_msrFrame msrFrame::create (
       frameStringsNumber,
       frameFretsNumber,
       frameFirstFretNumber);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -234,9 +235,9 @@ msrFrame::msrFrame (
 
   fFrameContainsFingerings = false;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceHarmonies) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
+    gLogStream <<
       "Creating frame '" <<
       asString () <<
       "'" <<
@@ -277,7 +278,7 @@ void msrFrame::appendFrameNoteToFrame (
             frameNote;
 
           msrMusicXMLError (
-            gGlobalOahOahGroup->fInputSourceName,
+            gGlobalOahOahGroup->getInputSourceName (),
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -306,7 +307,7 @@ void msrFrame::appendFrameNoteToFrame (
               barreStartFretNumber;
 
             msrMusicXMLError (
-              gGlobalOahOahGroup->fInputSourceName,
+              gGlobalOahOahGroup->getInputSourceName (),
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -354,8 +355,8 @@ string msrFrame::asString () const
 
 void msrFrame::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFrame::acceptIn ()" <<
       endl;
   }
@@ -365,8 +366,8 @@ void msrFrame::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFrame>*> (v)) {
         S_msrFrame elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFrame::visitStart ()" <<
             endl;
         }
@@ -376,8 +377,8 @@ void msrFrame::acceptIn (basevisitor* v)
 
 void msrFrame::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFrame::acceptOut ()" <<
       endl;
   }
@@ -387,8 +388,8 @@ void msrFrame::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFrame>*> (v)) {
         S_msrFrame elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFrame::visitEnd ()" <<
             endl;
         }

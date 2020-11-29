@@ -62,7 +62,9 @@ class msrSlash : public msrElement
     msrSlashUseStemsKind  getSlashUseStemsKind () const
                               { return fSlashUseStemsKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -86,7 +88,7 @@ class msrSlash : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
     
     msrSlashTypeKind      fSlashTypeKind;

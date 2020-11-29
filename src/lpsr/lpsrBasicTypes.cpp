@@ -20,12 +20,14 @@
 #include "msrBasicTypes.h"
 #include "lpsrBasicTypes.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
 #include "generalOah.h"
+
 #include "lpsrOah.h"
 
 #include "messagesHandling.h"
@@ -125,9 +127,9 @@ string wholeNotesAsLilypondString (
 {
   // this algorithm is inspired by musicxml2ly
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+    gLogStream <<
       "--> wholeNotesAsLilypondString() 1 -------------------------------------" <<
       ", wholeNotes: " << wholeNotes <<
       ", line " << inputLineNumber <<
@@ -139,9 +141,9 @@ string wholeNotesAsLilypondString (
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+    gLogStream <<
       "--> numerator:   " << numerator <<
       endl <<
       "--> denominator: " << denominator <<
@@ -174,7 +176,7 @@ string wholeNotesAsLilypondString (
 
  //   msrMusicXMLError ( JMI
     msrMusicXMLWarning (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
   //    __FILE__, __LINE__,
       s.str ());
@@ -184,9 +186,9 @@ string wholeNotesAsLilypondString (
 
   wholeNotes.rationalise ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
   }
@@ -204,9 +206,9 @@ string wholeNotesAsLilypondString (
   bool
     integralNumberOfWholeNotes = denominator == 1;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
         rationalHasBeenSimplified) <<
@@ -231,9 +233,9 @@ string wholeNotesAsLilypondString (
 
   int  numeratorDots = lpsrNumberOfDots (numerator);
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl << endl;
   }
@@ -266,7 +268,7 @@ string wholeNotesAsLilypondString (
             " it will be represented using a multiplying factor";
 
           msrMusicXMLWarning (
-            gGlobalOahOahGroup->fInputSourceName,
+            gGlobalOahOahGroup->getInputSourceName (),
             inputLineNumber,
             s.str ());
 
@@ -318,8 +320,8 @@ string wholeNotesAsLilypondString (
       result = s.str ();
     }
 
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
       stringstream s;
 
       s <<
@@ -343,7 +345,7 @@ string wholeNotesAsLilypondString (
 
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -353,9 +355,9 @@ string wholeNotesAsLilypondString (
     return result;
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
       endl << endl;
@@ -367,9 +369,9 @@ string wholeNotesAsLilypondString (
     // adapt the duration to avoid even numerators if can be,
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3\breve, hence \longa.
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
         endl;
@@ -380,9 +382,9 @@ string wholeNotesAsLilypondString (
       numerator /= 2;
       denominatorDurationLog -= 1;
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+        gLogStream <<
           "--> numerator" << " : " <<
           numerator <<
           endl <<
@@ -398,9 +400,9 @@ string wholeNotesAsLilypondString (
     numeratorDots = lpsrNumberOfDots (numerator);
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> numerator" << " : " <<
       numerator <<
       endl <<
@@ -420,9 +422,9 @@ string wholeNotesAsLilypondString (
     // take the dots into account
     denominatorDurationLog -= numeratorDots;
 
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
         endl <<
@@ -435,9 +437,9 @@ string wholeNotesAsLilypondString (
   }
   else {
     // set the multiplying factor
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> setting the multiplying factor" <<
         endl;
     }
@@ -451,9 +453,9 @@ string wholeNotesAsLilypondString (
     /* JMI
     multiplyingFactor = numerator;
 
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+      gLogStream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
         endl <<
@@ -471,9 +473,9 @@ string wholeNotesAsLilypondString (
       // adapt multiplying factor
       multiplyingFactor /= 2;
 
-#ifdef TRACE_OAH
-      if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-        gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+        gLogStream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
           endl <<
@@ -487,9 +489,9 @@ string wholeNotesAsLilypondString (
     */
   }
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotesDetails) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotesDetails ()) {
+    gLogStream <<
       "--> numerator " << " : " <<
       numerator <<
       endl <<
@@ -549,9 +551,9 @@ string wholeNotesAsLilypondString (
 
   string result = s.str ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceWholeNotes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceWholeNotes ()) {
+    gLogStream <<
       "--> wholeNotesAsLilypondString() 2 -------------------------------------" <<
      ", result: \"" << result << "\"" <<
       ", numeratorDots" << " : " << numeratorDots <<
@@ -669,7 +671,7 @@ void writeTextsListAsLilypondString (
 //______________________________________________________________________________
 
 map<string, lpsrScoreOutputKind>
-  gLpsrScoreOutputKindsMap;
+  gGlobalLpsrScoreOutputKindsMap;
 
 string lpsrScoreOutputKindAsString (
   lpsrScoreOutputKind scoreOutputKind)
@@ -707,25 +709,18 @@ string lpsrScoreOutputKindAsString (
 
 void initializeLpsrScoreOutputKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // register the LilyPond score output kinds
+  // --------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // register the LilyPond score output kinds
-    // --------------------------------------
+  // no CamelCase here, these strings are used in the command line options
 
-    // no CamelCase here, these strings are used in the command line options
-
-    gLpsrScoreOutputKindsMap ["score-only"] = kScoreOnly;
-    gLpsrScoreOutputKindsMap ["score-and-parts"] = kScoreAndParts;
-    gLpsrScoreOutputKindsMap ["parts-and-score"] = kPartsAndScore;
-    gLpsrScoreOutputKindsMap ["parts-only"] = kPartsOnly;
-    gLpsrScoreOutputKindsMap ["score-and-parts-one-file"] = kScoreAndPartsOneFile;
-    gLpsrScoreOutputKindsMap ["parts-and-score-one-file"] = kPartsAndScoreOneFile;
-    gLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalLpsrScoreOutputKindsMap ["score-only"] = kScoreOnly;
+  gGlobalLpsrScoreOutputKindsMap ["score-and-parts"] = kScoreAndParts;
+  gGlobalLpsrScoreOutputKindsMap ["parts-and-score"] = kPartsAndScore;
+  gGlobalLpsrScoreOutputKindsMap ["parts-only"] = kPartsOnly;
+  gGlobalLpsrScoreOutputKindsMap ["score-and-parts-one-file"] = kScoreAndPartsOneFile;
+  gGlobalLpsrScoreOutputKindsMap ["parts-and-score-one-file"] = kPartsAndScoreOneFile;
+  gGlobalLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
 }
 
 string existingLpsrScoreOutputKinds (int namesListMaxLength)
@@ -734,7 +729,7 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
 
   int
     lpsrScoreOutputKindsMapSize =
-      gLpsrScoreOutputKindsMap.size ();
+      gGlobalLpsrScoreOutputKindsMap.size ();
 
   if (lpsrScoreOutputKindsMapSize) {
     int
@@ -746,8 +741,8 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
 
     for (
       map<string, lpsrScoreOutputKind>::const_iterator i =
-        gLpsrScoreOutputKindsMap.begin ();
-      i != gLpsrScoreOutputKindsMap.end ();
+        gGlobalLpsrScoreOutputKindsMap.begin ();
+      i != gGlobalLpsrScoreOutputKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -778,7 +773,7 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
 //______________________________________________________________________________
 
 map<string, lpsrOctaveEntryKind>
-  gLpsrOctaveEntryKindsMap;
+  gGlobalLpsrOctaveEntryKindsMap;
 
 string lpsrOctaveEntryKindAsString (
   lpsrOctaveEntryKind octaveEntryKind)
@@ -804,21 +799,14 @@ string lpsrOctaveEntryKindAsString (
 
 void initializeLpsrOctaveEntryKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // register the LilyPond score output kinds
+  // --------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // register the LilyPond score output kinds
-    // --------------------------------------
+  // no CamelCase here, these strings are used in the command line options
 
-    // no CamelCase here, these strings are used in the command line options
-
-    gLpsrOctaveEntryKindsMap ["relative"] = kOctaveEntryRelative;
-    gLpsrOctaveEntryKindsMap ["absolute"] = kOctaveEntryAbsolute;
-    gLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalLpsrOctaveEntryKindsMap ["relative"] = kOctaveEntryRelative;
+  gGlobalLpsrOctaveEntryKindsMap ["absolute"] = kOctaveEntryAbsolute;
+  gGlobalLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
 }
 
 string existingLpsrOctaveEntryKinds (int namesListMaxLength)
@@ -827,7 +815,7 @@ string existingLpsrOctaveEntryKinds (int namesListMaxLength)
 
   int
     lpsrOctaveEntryKindsMapSize =
-      gLpsrOctaveEntryKindsMap.size ();
+      gGlobalLpsrOctaveEntryKindsMap.size ();
 
   if (lpsrOctaveEntryKindsMapSize) {
     int
@@ -839,8 +827,8 @@ string existingLpsrOctaveEntryKinds (int namesListMaxLength)
 
     for (
       map<string, lpsrOctaveEntryKind>::const_iterator i =
-        gLpsrOctaveEntryKindsMap.begin ();
-      i != gLpsrOctaveEntryKindsMap.end ();
+        gGlobalLpsrOctaveEntryKindsMap.begin ();
+      i != gGlobalLpsrOctaveEntryKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -871,7 +859,7 @@ string existingLpsrOctaveEntryKinds (int namesListMaxLength)
 //______________________________________________________________________________
 
 map<string, lpsrAccidentalStyleKind>
-  gLpsrAccidentalStyleKindsMap;
+  gGlobalLpsrAccidentalStyleKindsMap;
 
 string lpsrAccidentalStyleKindAsString (
   lpsrAccidentalStyleKind accidentalStyleKind)
@@ -1005,34 +993,27 @@ string lpsrAccidentalStyleKindAsLilypondString (
 
 void initializeLpsrAccidentalStyleKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // register the LilyPond accidental styles
+  // --------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // register the LilyPond accidental styles
-    // --------------------------------------
-
-    gLpsrAccidentalStyleKindsMap ["default"] = kDefault;
-    gLpsrAccidentalStyleKindsMap ["voice"] = kVoice;
-    gLpsrAccidentalStyleKindsMap ["modern"] = kModern;
-    gLpsrAccidentalStyleKindsMap ["modern-cautionary"] = kModernCautionary;
-    gLpsrAccidentalStyleKindsMap ["modern-voice"] = kModernVoice;
-    gLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = kModernVoiceCautionary;
-    gLpsrAccidentalStyleKindsMap ["piano"] = kPiano;
-    gLpsrAccidentalStyleKindsMap ["piano-cautionary"] = kPianoCautionary;
-    gLpsrAccidentalStyleKindsMap ["neo-modern"] = kNeoModern;
-    gLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = kNeoModernCautionary;
-    gLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = kNeoModernVoice;
-    gLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionary;
-    gLpsrAccidentalStyleKindsMap ["dodecaphonic"] = kDodecaphonic;
-    gLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeat;
-    gLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = kDodecaphonicFirst;
-    gLpsrAccidentalStyleKindsMap ["teaching"] = kTeaching;
-    gLpsrAccidentalStyleKindsMap ["no-reset"] = kNoReset;
-    gLpsrAccidentalStyleKindsMap ["forget"] = kForget;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalLpsrAccidentalStyleKindsMap ["default"] = kDefault;
+  gGlobalLpsrAccidentalStyleKindsMap ["voice"] = kVoice;
+  gGlobalLpsrAccidentalStyleKindsMap ["modern"] = kModern;
+  gGlobalLpsrAccidentalStyleKindsMap ["modern-cautionary"] = kModernCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["modern-voice"] = kModernVoice;
+  gGlobalLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = kModernVoiceCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["piano"] = kPiano;
+  gGlobalLpsrAccidentalStyleKindsMap ["piano-cautionary"] = kPianoCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern"] = kNeoModern;
+  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = kNeoModernCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = kNeoModernVoice;
+  gGlobalLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionary;
+  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic"] = kDodecaphonic;
+  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeat;
+  gGlobalLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = kDodecaphonicFirst;
+  gGlobalLpsrAccidentalStyleKindsMap ["teaching"] = kTeaching;
+  gGlobalLpsrAccidentalStyleKindsMap ["no-reset"] = kNoReset;
+  gGlobalLpsrAccidentalStyleKindsMap ["forget"] = kForget;
 }
 
 string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
@@ -1041,7 +1022,7 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
 
   int
     accidentalStyleKindsMapSize =
-      gLpsrAccidentalStyleKindsMap.size ();
+      gGlobalLpsrAccidentalStyleKindsMap.size ();
 
   if (accidentalStyleKindsMapSize) {
     int
@@ -1053,8 +1034,8 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
 
     for (
       map<string, lpsrAccidentalStyleKind>::const_iterator i =
-        gLpsrAccidentalStyleKindsMap.begin ();
-      i != gLpsrAccidentalStyleKindsMap.end ();
+        gGlobalLpsrAccidentalStyleKindsMap.begin ();
+      i != gGlobalLpsrAccidentalStyleKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -1085,22 +1066,15 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
 //______________________________________________________________________________
 
 map<string, lpsrChordsLanguageKind>
-  gLpsrChordsLanguageKindsMap;
+  gGlobalLpsrChordsLanguageKindsMap;
 
 void initializeLpsrChordsLanguageKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
-
-  if (! pThisMethodHasBeenRun) {
-    gLpsrChordsLanguageKindsMap ["ignatzek"]   = k_IgnatzekChords; // default
-    gLpsrChordsLanguageKindsMap ["german"]     = k_GermanChords;
-    gLpsrChordsLanguageKindsMap ["semiGerman"] = k_SemiGermanChords;
-    gLpsrChordsLanguageKindsMap ["italian"]    = k_ItalianChords;
-    gLpsrChordsLanguageKindsMap ["french"]     = k_FrenchChords;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalLpsrChordsLanguageKindsMap ["ignatzek"]   = k_IgnatzekChords; // default
+  gGlobalLpsrChordsLanguageKindsMap ["german"]     = k_GermanChords;
+  gGlobalLpsrChordsLanguageKindsMap ["semiGerman"] = k_SemiGermanChords;
+  gGlobalLpsrChordsLanguageKindsMap ["italian"]    = k_ItalianChords;
+  gGlobalLpsrChordsLanguageKindsMap ["french"]     = k_FrenchChords;
 }
 
 string lpsrChordsLanguageKindAsString (
@@ -1135,7 +1109,7 @@ string existingLpsrChordsLanguageKinds (int namesListMaxLength)
 
   int
     lpsrChordsLanguageKindsMapSize =
-      gLpsrChordsLanguageKindsMap.size ();
+      gGlobalLpsrChordsLanguageKindsMap.size ();
 
   if (lpsrChordsLanguageKindsMapSize) {
     int
@@ -1147,8 +1121,8 @@ string existingLpsrChordsLanguageKinds (int namesListMaxLength)
 
     for (
       map<string, lpsrChordsLanguageKind>::const_iterator i =
-        gLpsrChordsLanguageKindsMap.begin ();
-      i != gLpsrChordsLanguageKindsMap.end ();
+        gGlobalLpsrChordsLanguageKindsMap.begin ();
+      i != gGlobalLpsrChordsLanguageKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -1188,45 +1162,45 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 
   map<msrQuarterTonesPitchKind, string>
     *pitchNamesMapPTR =
-      &gNederlandsPitchNamesMap; // default LilyPond value
+      &gGlobalNederlandsPitchesNamesMap; // default LilyPond value
 
   // is quarterTonesPitchName in the part renaming map?
   switch (languageKind) {
     case kNederlands:
-      pitchNamesMapPTR = &gNederlandsPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalNederlandsPitchesNamesMap;
       break;
     case kCatalan:
-      pitchNamesMapPTR = &gCatalanPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalCatalanPitchesNamesMap;
       break;
     case kDeutsch:
-      pitchNamesMapPTR = &gDeutschPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalDeutschPitchesNamesMap;
       break;
     case kEnglish:
-      pitchNamesMapPTR = &gEnglishPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalEnglishPitchesNamesMap;
       break;
     case kEspanol:
-      pitchNamesMapPTR = &gEspanolPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalEspanolPitchesNamesMap;
       break;
     case kFrancais:
-      pitchNamesMapPTR = &gFrancaisPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalFrancaisPitchesNamesMap;
       break;
     case kItaliano:
-      pitchNamesMapPTR = &gItalianoPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalItalianoPitchesNamesMap;
       break;
     case kNorsk:
-      pitchNamesMapPTR = &gNorskPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalNorskPitchesNamesMap;
       break;
     case kPortugues:
-      pitchNamesMapPTR = &gPortuguesPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalPortuguesPitchesNamesMap;
       break;
     case kSuomi:
-      pitchNamesMapPTR = &gSuomiPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalSuomiPitchesNamesMap;
       break;
     case kSvenska:
-      pitchNamesMapPTR = &gSvenskaPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalSvenskaPitchesNamesMap;
       break;
     case kVlaams:
-      pitchNamesMapPTR = &gVlaamsPitchNamesMap;
+      pitchNamesMapPTR = &gGlobalVlaamsPitchesNamesMap;
       break;
   } // switch
 
@@ -1309,8 +1283,8 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
       s << "!!!";
   } // switch
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceNotesOctaveEntry) {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
     s <<
       " %{ " <<
       semiTonesPitchAndOctave->asString () <<
@@ -1344,7 +1318,7 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 //______________________________________________________________________________
 
 map<string, lpsrLyricsDurationsKind>
-  gLpsrLyricsDurationsKindsMap;
+  gGlobalLpsrLyricsDurationsKindsMap;
 
 string lpsrLyricsDurationsKindAsString (
   lpsrLyricsDurationsKind lyricsDurationsKind)
@@ -1367,20 +1341,13 @@ string lpsrLyricsDurationsKindAsString (
 
 void initializeLpsrLyricsDurationsKindsMap ()
 {
-  // protect library against multiple initializations
-  static bool pThisMethodHasBeenRun = false;
+  // register the LilyPond score output kinds
+  // --------------------------------------
 
-  if (! pThisMethodHasBeenRun) {
-    // register the LilyPond score output kinds
-    // --------------------------------------
+  // no CamelCase here, these strings are used in the command line options
 
-    // no CamelCase here, these strings are used in the command line options
-
-    gLpsrLyricsDurationsKindsMap ["implicit"] = kLyricsDurationsImplicit;
-    gLpsrLyricsDurationsKindsMap ["explicit"] = kLyricsDurationsExplicit;
-
-// JMI    pThisMethodHasBeenRun = true;
-  }
+  gGlobalLpsrLyricsDurationsKindsMap ["implicit"] = kLyricsDurationsImplicit;
+  gGlobalLpsrLyricsDurationsKindsMap ["explicit"] = kLyricsDurationsExplicit;
 }
 
 string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
@@ -1389,7 +1356,7 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
 
   int
     lpsrLyricsDurationsKindsMapSize =
-      gLpsrLyricsDurationsKindsMap.size ();
+      gGlobalLpsrLyricsDurationsKindsMap.size ();
 
   if (lpsrLyricsDurationsKindsMapSize) {
     int
@@ -1401,8 +1368,8 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
 
     for (
       map<string, lpsrLyricsDurationsKind>::const_iterator i =
-        gLpsrLyricsDurationsKindsMap.begin ();
-      i != gLpsrLyricsDurationsKindsMap.end ();
+        gGlobalLpsrLyricsDurationsKindsMap.begin ();
+      i != gGlobalLpsrLyricsDurationsKindsMap.end ();
       i++
     ) {
       string theString = (*i).first;
@@ -1435,9 +1402,9 @@ void initializeLPSRBasicTypes ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-#ifdef TRACE_OAH
-    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->fQuiet) {
-      gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+      gLogStream <<
         "Initializing LPSR basic types handling" <<
         endl;
     }
@@ -1468,7 +1435,7 @@ void initializeLPSRBasicTypes ()
 
     initializeLpsrLyricsDurationsKindsMap ();
 
-// JMI    pThisMethodHasBeenRun = true;
+    pThisMethodHasBeenRun = true;
   }
 }
 

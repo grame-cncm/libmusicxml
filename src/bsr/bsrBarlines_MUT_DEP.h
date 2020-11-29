@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by bsrMutualDependencies.h,
+  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -97,7 +97,7 @@ class bsrBarline : public bsrLineElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     bsrBarlineKind        fBarlineKind;

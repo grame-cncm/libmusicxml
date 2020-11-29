@@ -17,10 +17,12 @@
 
 #include "msrBreaks.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -38,7 +40,7 @@ S_msrLineBreak msrLineBreak::create (
   msrLineBreak* o =
     new msrLineBreak (
       inputLineNumber, nextBarNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -49,9 +51,9 @@ msrLineBreak::msrLineBreak (
 {
   fNextBarNumber = nextBarNumber;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Creating a break before measure " << fNextBarNumber <<
       endl;
   }
@@ -63,8 +65,8 @@ msrLineBreak::~msrLineBreak ()
 
 void msrLineBreak::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrLineBreak::acceptIn ()" <<
       endl;
   }
@@ -74,8 +76,8 @@ void msrLineBreak::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
         S_msrLineBreak elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrLineBreak::visitStart ()" <<
             endl;
         }
@@ -85,8 +87,8 @@ void msrLineBreak::acceptIn (basevisitor* v)
 
 void msrLineBreak::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrLineBreak::acceptOut ()" <<
       endl;
   }
@@ -96,8 +98,8 @@ void msrLineBreak::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
         S_msrLineBreak elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrLineBreak::visitEnd ()" <<
             endl;
         }
@@ -139,7 +141,7 @@ S_msrPageBreak msrPageBreak::create (
   msrPageBreak* o =
     new msrPageBreak (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -147,9 +149,9 @@ msrPageBreak::msrPageBreak (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
       "Creating a page break" <<
       endl;
   }
@@ -161,8 +163,8 @@ msrPageBreak::~msrPageBreak ()
 
 void msrPageBreak::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPageBreak::acceptIn ()" <<
       endl;
   }
@@ -172,8 +174,8 @@ void msrPageBreak::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
         S_msrPageBreak elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPageBreak::visitStart ()" <<
             endl;
         }
@@ -183,8 +185,8 @@ void msrPageBreak::acceptIn (basevisitor* v)
 
 void msrPageBreak::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrPageBreak::acceptOut ()" <<
       endl;
   }
@@ -194,8 +196,8 @@ void msrPageBreak::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
         S_msrPageBreak elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrPageBreak::visitEnd ()" <<
             endl;
         }

@@ -18,6 +18,8 @@
 
 #include "msrTechnicals.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -140,8 +142,8 @@ string msrTechnical::technicalAccidentalMarkKindAsString () const
 
 void msrTechnical::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTechnical::acceptIn ()" <<
       endl;
   }
@@ -151,8 +153,8 @@ void msrTechnical::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTechnical>*> (v)) {
         S_msrTechnical elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTechnical::visitStart ()" <<
             endl;
         }
@@ -162,8 +164,8 @@ void msrTechnical::acceptIn (basevisitor* v)
 
 void msrTechnical::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTechnical::acceptOut ()" <<
       endl;
   }
@@ -173,8 +175,8 @@ void msrTechnical::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTechnical>*> (v)) {
         S_msrTechnical elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTechnical::visitEnd ()" <<
             endl;
         }
@@ -270,8 +272,8 @@ string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () con
 
 void msrTechnicalWithInteger::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTechnicalWithInteger::acceptIn ()" <<
       endl;
   }
@@ -281,8 +283,8 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
         S_msrTechnicalWithInteger elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTechnicalWithInteger::visitStart ()" <<
             endl;
         }
@@ -292,8 +294,8 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v)
 
 void msrTechnicalWithInteger::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTechnicalWithInteger::acceptOut ()" <<
       endl;
   }
@@ -303,8 +305,8 @@ void msrTechnicalWithInteger::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
         S_msrTechnicalWithInteger elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTechnicalWithInteger::visitEnd ()" <<
             endl;
         }
@@ -420,8 +422,8 @@ string msrTechnicalWithFloat::technicalWithFloatPlacementKindAsString () const
 
 void msrTechnicalWithFloat::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTechnicalWithFloat::acceptIn ()" <<
       endl;
   }
@@ -431,8 +433,8 @@ void msrTechnicalWithFloat::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTechnicalWithFloat>*> (v)) {
         S_msrTechnicalWithFloat elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTechnicalWithFloat::visitStart ()" <<
             endl;
         }
@@ -442,8 +444,8 @@ void msrTechnicalWithFloat::acceptIn (basevisitor* v)
 
 void msrTechnicalWithFloat::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTechnicalWithFloat::acceptOut ()" <<
       endl;
   }
@@ -453,8 +455,8 @@ void msrTechnicalWithFloat::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTechnicalWithFloat>*> (v)) {
         S_msrTechnicalWithFloat elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTechnicalWithFloat::visitEnd ()" <<
             endl;
         }
@@ -597,8 +599,8 @@ string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
 
 void msrTechnicalWithString::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTechnicalWithString::acceptIn ()" <<
       endl;
   }
@@ -608,8 +610,8 @@ void msrTechnicalWithString::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
         S_msrTechnicalWithString elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTechnicalWithString::visitStart ()" <<
             endl;
         }
@@ -619,8 +621,8 @@ void msrTechnicalWithString::acceptIn (basevisitor* v)
 
 void msrTechnicalWithString::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTechnicalWithString::acceptOut ()" <<
       endl;
   }
@@ -630,8 +632,8 @@ void msrTechnicalWithString::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
         S_msrTechnicalWithString elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTechnicalWithString::visitEnd ()" <<
             endl;
         }

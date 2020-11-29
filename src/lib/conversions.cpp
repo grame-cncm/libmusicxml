@@ -23,60 +23,60 @@ namespace MusicXML2
 //--------------------------------------------------------------------------------
 TrillStart::type TrillStart::fSNTbl[]		= { upper, main, below };
 string TrillStart::fSNStrings[]				= { "upper", "main", "below" };
-bimap<string, TrillStart::type> TrillStart::fSN2String(fSNStrings, fSNTbl, last);
+bimap<string, TrillStart::type> TrillStart::fSN2string(fSNStrings, fSNTbl, last);
 
-const string TrillStart::xml (type d)					{ return fSN2String[d]; }
-TrillStart::type TrillStart::xml (const string str) 	{ return fSN2String[str]; }
+const string TrillStart::xml (type d)					{ return fSN2string[d]; }
+TrillStart::type TrillStart::xml (const string str) 	{ return fSN2string[str]; }
 
 //--------------------------------------------------------------------------------
 TrillStep::type TrillStep::fTSTbl[]		= { whole, half, unison, none };
 string TrillStep::fTSStrings[]			= { "whole", "half", "unison", "none" };
-bimap<string, TrillStep::type> TrillStep::fTS2String(fTSStrings, fTSTbl, last);
+bimap<string, TrillStep::type> TrillStep::fTS2string(fTSStrings, fTSTbl, last);
 
-const string TrillStep::xml (type d)				{ return fTS2String[d]; }
-TrillStep::type TrillStep::xml (const string str) 	{ return fTS2String[str]; }
+const string TrillStep::xml (type d)				{ return fTS2string[d]; }
+TrillStep::type TrillStep::xml (const string str) 	{ return fTS2string[str]; }
 
 //--------------------------------------------------------------------------------
 FullCue::type FullCue::fFCTbl[]			= { full, cue };
 string FullCue::fFCStrings[]			= { "full", "cue" };
-bimap<string, FullCue::type> FullCue::fFC2String(fFCStrings, fFCTbl, last);
+bimap<string, FullCue::type> FullCue::fFC2string(fFCStrings, fFCTbl, last);
 
-const string FullCue::xml (type d) 				{ return fFC2String[d]; }
-FullCue::type FullCue::xml (const string str) 	{ return fFC2String[str]; }
+const string FullCue::xml (type d) 				{ return fFC2string[d]; }
+FullCue::type FullCue::xml (const string str) 	{ return fFC2string[str]; }
 
 //--------------------------------------------------------------------------------
 YesNo::type YesNo::fYNTbl[]				= { yes, no };
 string YesNo::fYNStrings[]				= { "yes", "no" };
-bimap<string, YesNo::type> YesNo::fYN2String(fYNStrings, fYNTbl, last);
+bimap<string, YesNo::type> YesNo::fYN2string(fYNStrings, fYNTbl, last);
 
-const string YesNo::xml (type d) 			{ return fYN2String[d]; }
-YesNo::type YesNo::xml (const string str) 	{ return fYN2String[str]; }
+const string YesNo::xml (type d) 			{ return fYN2string[d]; }
+YesNo::type YesNo::xml (const string str) 	{ return fYN2string[str]; }
 
 //--------------------------------------------------------------------------------
 StartStop::type StartStop::fStartStopTbl[]	= { start, stop, cont };
 string StartStop::fStartStopStrings[]		= { "start", "stop", "continue" };
-bimap<string, StartStop::type> StartStop::fStartStop2String(fStartStopStrings, fStartStopTbl, last);
+bimap<string, StartStop::type> StartStop::fStartStop2string(fStartStopStrings, fStartStopTbl, last);
 
-const string StartStop::xml (type d) 				{ return fStartStop2String[d]; }
-StartStop::type StartStop::xml (const string str) 	{ return fStartStop2String[str]; }
+const string StartStop::xml (type d) 				{ return fStartStop2string[d]; }
+StartStop::type StartStop::xml (const string str) 	{ return fStartStop2string[str]; }
 
 //--------------------------------------------------------------------------------
 LineType::type LineType::fLineTypeTbl[]		= { solid, dashed, dotted, wavy };
 string LineType::fLineTypeStrings[]			= { "solid", "dashed", "dotted", "wavy" };
-bimap<string, LineType::type> LineType::fLineType2String(fLineTypeStrings, fLineTypeTbl, last);
+bimap<string, LineType::type> LineType::fLineType2string(fLineTypeStrings, fLineTypeTbl, last);
 
-const string LineType::xml (type d) 			{ return fLineType2String[d]; }
-LineType::type LineType::xml (const string str) { return fLineType2String[str]; }
+const string LineType::xml (type d) 			{ return fLineType2string[d]; }
+LineType::type LineType::xml (const string str) { return fLineType2string[str]; }
 
 //--------------------------------------------------------------------------------
 NoteType::type NoteType::fTypeTbl[]	= { t256th, t128th, t64th, t32nd, t16th, eighth, 
                                         quarter, half, whole, breve, tlong };
 string NoteType::fTypeStrings[]		= { "256th", "128th", "64th", "32nd", "16th", "eighth", 
                                         "quarter", "half", "whole", "breve", "longa" };
-bimap<string, NoteType::type> NoteType::fType2String(fTypeStrings, fTypeTbl, count);
+bimap<string, NoteType::type> NoteType::fType2string(fTypeStrings, fTypeTbl, count);
 
-const string NoteType::xml (type d)  				{ return fType2String[d]; }
-NoteType::type NoteType::xml (const string str)  	{ return fType2String[str]; }
+const string NoteType::xml (type d)  				{ return fType2string[d]; }
+NoteType::type NoteType::xml (const string str)  	{ return fType2string[str]; }
 rational NoteType::type2rational(type d) {
 	rational r, ratio(1,256);
 	int i = 1;

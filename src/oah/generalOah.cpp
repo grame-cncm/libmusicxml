@@ -11,17 +11,20 @@
 */
 
 #include <iomanip>      // setw, setprecision, ...
-
 #include <regex>
 
 #include "utilities.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
+
 #include "generalOah.h"
+
+#include "oahAtomsCollection.h"
 
 
 using namespace std;
@@ -31,43 +34,29 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 S_generalOahGroup gGlobalGeneralOahGroup;
-S_generalOahGroup gGlobalGeneralOahGroupUserChoices;
 
-S_generalOahGroup generalOahGroup::create (
-  S_oahHandler handlerUpLink)
+S_generalOahGroup generalOahGroup::create ()
 {
-  generalOahGroup* o = new generalOahGroup (
-    handlerUpLink);
-  assert(o!=0);
+  generalOahGroup* o = new generalOahGroup ();
+  assert (o!=0);
 
   return o;
 }
 
-generalOahGroup::generalOahGroup (
-  S_oahHandler handlerUpLink)
+generalOahGroup::generalOahGroup ()
   : oahGroup (
     "General",
     "hg", "help-general",
 R"()",
-    kElementVisibilityWhole,
-    handlerUpLink)
+    kElementVisibilityWhole)
 {
-  // append this options group to the options handler
-  // if relevant
-  if (handlerUpLink) {
-    handlerUpLink->
-      appendGroupToHandler (this);
-  }
-
-  // initialize it
-  initializeGeneralOah (false);
+  initializeGeneralOah ();
 }
 
 generalOahGroup::~generalOahGroup ()
 {}
 
-void generalOahGroup::initializeGeneralWarningAndErrorsOptions (
-  bool boolOptionsInitialValue)
+void generalOahGroup::initializeGeneralWarningAndErrorsOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -82,7 +71,7 @@ R"()",
 
   // quiet
 
-  fQuiet = boolOptionsInitialValue;
+  fQuiet = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -94,7 +83,7 @@ R"(Don't issue any warning or error messages.)",
 
   // don't show errors
 
-  fDontShowErrors = boolOptionsInitialValue;
+  fDontShowErrors = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -104,25 +93,25 @@ R"(Don't show errors in the log.)",
         "dontShowErrors",
         fDontShowErrors));
 
-  // do not exit on errors
+  // do not quit on errors
 
-  fDontExitOnErrors = boolOptionsInitialValue;
+  fDontQuitOnErrors = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "deoe", "dont-exit-on-errors",
+        "deoe", "dont-quit-on-errors",
         regex_replace (
-R"(Do not exit execution on errors and go ahead.
+R"(Do not quit execution on errors and go ahead.
 This may be useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gGlobalOahOahGroup->fHandlerExecutableName),
-        "dontExitOnErrors",
-        fDontExitOnErrors));
+          gGlobalOahOahGroup->getHandlerExecutableName ()),
+        "dontQuitOnErrors",
+        fDontQuitOnErrors));
 
   // display the source code position
 
-  fDisplaySourceCodePosition = boolOptionsInitialValue;
+  fDisplaySourceCodePosition = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -133,13 +122,12 @@ R"(Display the source code file name and line number
 in warning and error messages.
 This is useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
-          gGlobalOahOahGroup->fHandlerExecutableName),
+          gGlobalOahOahGroup->getHandlerExecutableName ()),
         "displaySourceCodePosition",
         fDisplaySourceCodePosition));
 }
 
-void generalOahGroup::initializeGeneralCPUUsageOptions (
-  bool boolOptionsInitialValue)
+void generalOahGroup::initializeGeneralCPUUsageOptions ()
 {
   S_oahSubGroup
     subGroup =
@@ -154,7 +142,7 @@ R"()",
 
   // CPU usage
 
-  fDisplayCPUusage = boolOptionsInitialValue;
+  fDisplayCPUusage = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -165,8 +153,7 @@ R"(Write information about CPU usage to standard error.)",
         fDisplayCPUusage));
 }
 
-void generalOahGroup::initializeGeneralOah (
-  bool boolOptionsInitialValue)
+void generalOahGroup::initializeGeneralOah ()
 {
   // register translation date
   // ------------------------------------------------------
@@ -188,65 +175,12 @@ void generalOahGroup::initializeGeneralOah (
 
   // warning and error handling
   // --------------------------------------
-  initializeGeneralWarningAndErrorsOptions (
-    boolOptionsInitialValue);
+  initializeGeneralWarningAndErrorsOptions ();
 
   // CPU usage
   // --------------------------------------
-  initializeGeneralCPUUsageOptions (
-    boolOptionsInitialValue);
+  initializeGeneralCPUUsageOptions ();
 }
-
-S_generalOahGroup generalOahGroup::createCloneWithTrueValues ()
-{
-  S_generalOahGroup
-    clone =
-      generalOahGroup::create (
-        nullptr);
-      // nullptr not to have it inserted twice in the option handler
-
-  // set the options handler upLink
-  clone->fHandlerUpLink =
-    fHandlerUpLink;
-
-  // warning and error handling
-  // --------------------------------------
-
-  clone->fQuiet =
-    fQuiet;
-  clone->fDontShowErrors =
-    fDontShowErrors;
-  clone->fDontExitOnErrors =
-    fDontExitOnErrors;
-  clone->fDisplaySourceCodePosition =
-    fDisplaySourceCodePosition;
-
-  // CPU usage
-  // --------------------------------------
-
-  clone->fDisplayCPUusage = true;
-
-  return clone;
-}
-
-  /* JMI
-void generalOahGroup::setAllGeneralTraceOah (
-  bool boolOptionsInitialValue)
-{
-  // warning and error handling
-  // --------------------------------------
-
-  fQuiet = boolOptionsInitialValue;
-  fDontShowErrors = boolOptionsInitialValue;
-  fDontExitOnErrors = boolOptionsInitialValue;
-  fDisplaySourceCodePosition = boolOptionsInitialValue;
-
-  // CPU usage
-  // --------------------------------------
-
-  fDisplayCPUusage = boolOptionsInitialValue;
-}
-  */
 
 //______________________________________________________________________________
 void generalOahGroup::enforceGroupQuietness ()
@@ -263,9 +197,9 @@ void generalOahGroup::checkGroupOptionsConsistency ()
 //______________________________________________________________________________
 void generalOahGroup::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> generalOahGroup::acceptIn ()" <<
       endl;
   }
@@ -276,9 +210,9 @@ void generalOahGroup::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_generalOahGroup>*> (v)) {
         S_generalOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching generalOahGroup::visitStart ()" <<
             endl;
         }
@@ -289,9 +223,9 @@ void generalOahGroup::acceptIn (basevisitor* v)
 
 void generalOahGroup::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> generalOahGroup::acceptOut ()" <<
       endl;
   }
@@ -302,9 +236,9 @@ void generalOahGroup::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_generalOahGroup>*> (v)) {
         S_generalOahGroup elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching generalOahGroup::visitEnd ()" <<
             endl;
         }
@@ -315,9 +249,9 @@ void generalOahGroup::acceptOut (basevisitor* v)
 
 void generalOahGroup::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> generalOahGroup::browseData ()" <<
       endl;
   }
@@ -327,7 +261,7 @@ void generalOahGroup::browseData (basevisitor* v)
 //______________________________________________________________________________
 void generalOahGroup::printGeneralOahValues (int fieldWidth)
 {
-  gLogOstream <<
+  gLogStream <<
     "The general options are:" <<
     endl;
 
@@ -336,11 +270,11 @@ void generalOahGroup::printGeneralOahValues (int fieldWidth)
   // translation date
   // --------------------------------------
 
-  gLogOstream << left <<
+  gLogStream << left <<
 
   gIndenter++;
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "translationDate" << " : " <<
     fTranslationDateFull <<
     endl;
@@ -350,21 +284,21 @@ void generalOahGroup::printGeneralOahValues (int fieldWidth)
   // warning and error handling
   // --------------------------------------
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "Warning and error handling:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream <<
+  gLogStream <<
     setw (fieldWidth) << "quiet" << " : " <<
     booleanAsString (fQuiet) <<
     endl <<
     setw (fieldWidth) << "dontShowErrors" << " : " <<
     booleanAsString (fDontShowErrors) <<
     endl <<
-    setw (fieldWidth) << "dontExitOnErrors" << " : " <<
-    booleanAsString (fDontExitOnErrors) <<
+    setw (fieldWidth) << "dontQuitOnErrors" << " : " <<
+    booleanAsString (fDontQuitOnErrors) <<
     endl <<
     setw (fieldWidth) << "displaySourceCodePosition" << " : " <<
     booleanAsString (fDisplaySourceCodePosition) <<
@@ -376,13 +310,13 @@ void generalOahGroup::printGeneralOahValues (int fieldWidth)
   // CPU usage
   // --------------------------------------
 
-  gLogOstream << left <<
+  gLogStream << left <<
     setw (fieldWidth) << "CPU usage:" <<
     endl;
 
   gIndenter++;
 
-  gLogOstream <<
+  gLogStream <<
     setw (fieldWidth) << "displayCPUusage" << " : " <<
     booleanAsString (fDisplayCPUusage) <<
     endl;
@@ -399,18 +333,26 @@ ostream& operator<< (ostream& os, const S_generalOahGroup& elt)
 }
 
 //______________________________________________________________________________
-void initializeGeneralOahHandling (
-  S_oahHandler handler)
+S_generalOahGroup createGlobalGeneralOahGroup ()
 {
-  // create the options variables
-  // ------------------------------------------------------
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating global general OAH group" <<
+    endl;
+#endif
+#endif
 
-  gGlobalGeneralOahGroupUserChoices = generalOahGroup::create (
-    handler);
-  assert(gGlobalGeneralOahGroupUserChoices != 0);
+  // protect library against multiple initializations
+  if (! gGlobalGeneralOahGroup) {
+    // create the global general options group
+    gGlobalGeneralOahGroup =
+      generalOahGroup::create ();
+    assert (gGlobalGeneralOahGroup != 0);
+  }
 
-  gGlobalGeneralOahGroup =
-    gGlobalGeneralOahGroupUserChoices;
+  // return the global OAH group
+  return gGlobalGeneralOahGroup;
 }
 
 

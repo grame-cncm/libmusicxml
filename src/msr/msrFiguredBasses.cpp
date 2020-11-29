@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -40,7 +42,7 @@ S_msrFigure msrFigure::create (
       figurePrefixKind,
       figureNumber,
       figureSuffixKind);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -66,9 +68,9 @@ msrFigure::msrFigure (
   fFigureNumber     = figureNumber;
   fFigureSuffixKind = figureSuffixKind;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Creating figure '" <<
       asString () <<
       "'" <<
@@ -83,9 +85,9 @@ msrFigure::~msrFigure ()
 S_msrFigure msrFigure::createFigureNewbornClone (
   S_msrPart containingPart)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Creating a newborn clone of figure '" <<
       asString () <<
       "'" <<
@@ -113,9 +115,9 @@ S_msrFigure msrFigure::createFigureNewbornClone (
 S_msrFigure msrFigure::createFigureDeepCopy (
   S_msrPart containingPart)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Creating a deep copy of figure '" <<
       asString () <<
       "'" <<
@@ -242,8 +244,8 @@ string msrFigure::asString () const
 
 void msrFigure::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFigure::acceptIn ()" <<
       endl;
   }
@@ -253,8 +255,8 @@ void msrFigure::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFigure>*> (v)) {
         S_msrFigure elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFigure::visitStart ()" <<
             endl;
         }
@@ -264,8 +266,8 @@ void msrFigure::acceptIn (basevisitor* v)
 
 void msrFigure::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFigure::acceptOut ()" <<
       endl;
   }
@@ -275,8 +277,8 @@ void msrFigure::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFigure>*> (v)) {
         S_msrFigure elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFigure::visitEnd ()" <<
             endl;
         }
@@ -322,7 +324,7 @@ S_msrFiguredBass msrFiguredBass::create (
       rational (0, 1),           // figuredBassDisplayWholeNotes
       kFiguredBassParenthesesNo,
       msrTupletFactor (1, 1));
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -343,7 +345,7 @@ S_msrFiguredBass msrFiguredBass::create (
       figuredBassDisplayWholeNotes,
       figuredBassParenthesesKind,
       figuredBassTupletFactor);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -377,9 +379,9 @@ msrFiguredBass::msrFiguredBass (
   fFiguredBassParenthesesKind =
     figuredBassParenthesesKind;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Creating figuredBass " <<
       asString () <<
       endl;
@@ -393,9 +395,9 @@ msrFiguredBass::~msrFiguredBass ()
 S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Creating a newborn clone of figured bass '" <<
       asShortString () <<
       "'" <<
@@ -425,9 +427,9 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
  // S_msrPart containingPart)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Creating a deep copy of figuredBass '" <<
       asString () <<
       "'" <<
@@ -461,9 +463,9 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
 {
   // set the figured bass position in measure
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTracePositionsInMeasures) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
+    gLogStream <<
       "Setting figured bass position in measure of " << asString () <<
       " to '" <<
       positionInMeasure <<
@@ -513,9 +515,9 @@ void msrFiguredBass::setFiguredBassPositionInMeasure (
 void msrFiguredBass::appendFigureToFiguredBass (
   S_msrFigure figure)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceFiguredBasses) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
+    gLogStream <<
       "Appending figure '" << figure->asString () <<
       "' to figuredBass '" <<
       asString () <<
@@ -529,8 +531,8 @@ void msrFiguredBass::appendFigureToFiguredBass (
 
 void msrFiguredBass::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFiguredBass::acceptIn ()" <<
       endl;
   }
@@ -540,8 +542,8 @@ void msrFiguredBass::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
         S_msrFiguredBass elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFiguredBass::visitStart ()" <<
             endl;
         }
@@ -551,8 +553,8 @@ void msrFiguredBass::acceptIn (basevisitor* v)
 
 void msrFiguredBass::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFiguredBass::acceptOut ()" <<
       endl;
   }
@@ -562,8 +564,8 @@ void msrFiguredBass::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
         S_msrFiguredBass elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFiguredBass::visitEnd ()" <<
             endl;
         }

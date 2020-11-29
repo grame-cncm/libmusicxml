@@ -56,7 +56,9 @@ class lpsrNewLyricsBlock : public lpsrElement
     S_msrStanza           getStanza () const { return fStanza; }
     S_msrVoice            getVoice  () const { return fVoice; }
     
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:

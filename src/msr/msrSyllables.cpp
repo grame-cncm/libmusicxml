@@ -10,12 +10,14 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -44,7 +46,7 @@ S_msrSyllable msrSyllable::create (
       syllableWholeNotes,
       syllableTupletFactor,
       syllableStanzaUpLink);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -69,7 +71,7 @@ S_msrSyllable msrSyllable::createWithNextMeasurePuristNumber (
       syllableTupletFactor,
       syllableStanzaUpLink,
       syllableNextMeasurePuristNumber);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -108,15 +110,15 @@ msrSyllable::msrSyllable (
 
   fSyllableNextMeasurePuristNumber = -1;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Creating a syllable containing:" <<
       endl;
 
     gIndenter++;
 
-    print (gLogOstream);
+    print (gLogStream);
 
     gIndenter--;
   }
@@ -141,9 +143,9 @@ msrSyllable::msrSyllable (
         syllableTupletFactor,
         syllableStanzaUpLink)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Setting syllable next measure purist number to " <<
       fSyllableNextMeasurePuristNumber <<
       endl;
@@ -161,7 +163,7 @@ msrSyllable::msrSyllable (
     case msrSyllable::kSyllableSkipNonRestNote:
     case msrSyllable::kSyllableMeasureEnd:
       msrInternalError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable with next measure purist number is no line nor page break");
@@ -181,9 +183,9 @@ msrSyllable::~msrSyllable ()
 S_msrSyllable msrSyllable::createSyllableNewbornClone (
   S_msrPart containingPart)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
       "'" <<
@@ -230,9 +232,9 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 S_msrSyllable msrSyllable::createSyllableDeepCopy (
   S_msrPart containingPart)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
       "'" <<
@@ -278,9 +280,9 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 
 void msrSyllable::appendLyricTextToSyllable (string text)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending text \"" <<
       text <<
       "\" to the texts list of syllable '" <<
@@ -316,15 +318,15 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
     appendSyllableToNote (this);
 
   // set it upLink to note
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Setting syllable note upLink for:" <<
       endl;
 
     gIndenter++;
 
-    gLogOstream <<
+    gLogStream <<
       asString () <<
     // JMI    "to '" << note->asString () <<
       ", line " << note->getInputLineNumber () <<
@@ -337,8 +339,8 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
 
 void msrSyllable::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSyllable::acceptIn ()" <<
       endl;
   }
@@ -348,8 +350,8 @@ void msrSyllable::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSyllable::visitStart ()" <<
             endl;
         }
@@ -359,8 +361,8 @@ void msrSyllable::acceptIn (basevisitor* v)
 
 void msrSyllable::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrSyllable::acceptOut ()" <<
       endl;
   }
@@ -370,8 +372,8 @@ void msrSyllable::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrSyllable::visitEnd ()" <<
             endl;
         }
@@ -608,7 +610,7 @@ string msrSyllable::asString () const
   switch (fSyllableKind) {
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -700,7 +702,7 @@ void msrSyllable::print (ostream& os) const
   switch (fSyllableKind) { // JMI
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");

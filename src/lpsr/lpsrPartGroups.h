@@ -86,7 +86,7 @@ class lpsrPartGroupBlock : public lpsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrPartGroup        fPartGroup;

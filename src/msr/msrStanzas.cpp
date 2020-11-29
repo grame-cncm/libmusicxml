@@ -10,14 +10,15 @@
   research@grame.fr
 */
 
-#include "msrMutualDependencies.h"
+#include "msr_MUTUAL_DEPENDENCIES.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "msrOah.h"
 
@@ -38,7 +39,7 @@ S_msrStanza msrStanza::create (
       inputLineNumber,
       stanzaNumber,
       stanzaVoiceUpLink);
-  assert(o!=0);
+  assert (o!=0);
 
   return o;
 }
@@ -74,9 +75,9 @@ void msrStanza::initializeStanza ()
         makeSingleWordFromString (
           fStanzaNumber));
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Initializing stanza " << getStanzaName () <<
       endl;
   }
@@ -93,9 +94,9 @@ msrStanza::~msrStanza ()
 S_msrStanza msrStanza::createStanzaNewbornClone (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
@@ -139,9 +140,9 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
 S_msrStanza msrStanza::createStanzaDeepCopy (
   S_msrVoice containingVoice)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Creating a deep copy of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
@@ -194,9 +195,9 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending syllable '" << syllable->asString () <<
       "' to stanza " << getStanzaName () <<
       endl;
@@ -228,7 +229,7 @@ void msrStanza::appendSyllableToStanza (
 
     case msrSyllable::kSyllableNone:
       msrInternalError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -252,9 +253,9 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -290,9 +291,9 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending 'Skip' syllable " <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -327,9 +328,9 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
 S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   int inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending 'Measure end' syllable " <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
@@ -369,9 +370,9 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
                   syllableKind,
   rational        wholeNotes)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending '" <<
       msrSyllable::syllableKindAsString (syllableKind) <<
       "' syllable" <<
@@ -409,9 +410,9 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int inputLineNumber,
   int nextMeasurePuristNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending a 'LineBreak' syllable" <<
       " to stanza " << getStanzaName () <<
       ", nextMeasurePuristNumber: " << nextMeasurePuristNumber <<
@@ -448,9 +449,9 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   int inputLineNumber,
   int nextMeasurePuristNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending a 'PageBreak' syllable" <<
       " to stanza " << getStanzaName () <<
       ", nextMeasurePuristNumber: " << nextMeasurePuristNumber <<
@@ -494,9 +495,9 @@ void msrStanza::appendPaddingNoteToStanza (
   int      inputLineNumber,
   rational forwardStepLength)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceLyrics) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
+    gLogStream <<
       "Appending padding note" <<
       ", forwardStepLength: " <<
       forwardStepLength <<
@@ -518,8 +519,8 @@ void msrStanza::appendPaddingNoteToStanza (
 
 void msrStanza::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStanza::acceptIn ()" <<
       endl;
   }
@@ -529,8 +530,8 @@ void msrStanza::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStanza::visitStart ()" <<
             endl;
         }
@@ -540,8 +541,8 @@ void msrStanza::acceptIn (basevisitor* v)
 
 void msrStanza::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStanza::acceptOut ()" <<
       endl;
   }
@@ -551,8 +552,8 @@ void msrStanza::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrStanza::visitEnd ()" <<
             endl;
         }
@@ -562,8 +563,8 @@ void msrStanza::acceptOut (basevisitor* v)
 
 void msrStanza::browseData (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrStanza::browseData ()" <<
       endl;
   }
@@ -580,8 +581,8 @@ void msrStanza::browseData (basevisitor* v)
 
   gIndenter--;
 
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% <== msrStanza::browseData ()" <<
       endl;
   }

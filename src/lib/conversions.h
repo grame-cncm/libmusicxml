@@ -40,7 +40,7 @@ class EXP TrillStart {
     static       type	xml (const string str);
 
     private:
-	static bimap<string, type> fSN2String;
+	static bimap<string, type> fSN2string;
 	static type 		fSNTbl[];
 	static string 		fSNStrings[];        
 };
@@ -58,7 +58,7 @@ class EXP TrillStep {
     static       type	xml (const string str);
 
     private:
-	static bimap<string, type> fTS2String;
+	static bimap<string, type> fTS2string;
 	static type 		fTSTbl[];
 	static string 		fTSStrings[];        
 };
@@ -76,7 +76,7 @@ class EXP FullCue {
     static       type	xml (const string str);
 
     private:
-	static bimap<string, type> fFC2String;
+	static bimap<string, type> fFC2string;
 	static type 		fFCTbl[];
 	static string 		fFCStrings[];        
 };
@@ -94,7 +94,7 @@ class EXP YesNo {
     static       type	xml (const string str);
 
     private:
-	static bimap<string, type> fYN2String;
+	static bimap<string, type> fYN2string;
 	static type 	fYNTbl[];
 	static string 	fYNStrings[];        
 };
@@ -112,7 +112,7 @@ class EXP StartStop {
     static       type	xml (const string str);
 
     private:
-	static bimap<string, type> fStartStop2String;
+	static bimap<string, type> fStartStop2string;
 	static type 	fStartStopTbl[];
 	static string 	fStartStopStrings[];        
 };
@@ -130,7 +130,7 @@ class EXP LineType {
     static       type	xml (const string str);
 
     private:
-	static bimap<string, type> fLineType2String;
+	static bimap<string, type> fLineType2string;
 	static type 	fLineTypeTbl[];
 	static string 	fLineTypeStrings[];        
 };
@@ -158,7 +158,7 @@ class EXP NoteType {
     static       type	xml (const string str);
 
     private:
-	static bimap<string, type> fType2String;
+	static bimap<string, type> fType2string;
 	static type 	fTypeTbl[];
 	static string 	fTypeStrings[];        
 };

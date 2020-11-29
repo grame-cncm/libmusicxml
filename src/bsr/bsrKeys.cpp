@@ -13,18 +13,18 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "oahOah.h"
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "bsrOah.h"
 
@@ -67,7 +67,7 @@ bsrKey::bsrKey (
       "numberOfAlterations: " << fNumberOfAlterations;
 
     bsrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -75,9 +75,9 @@ bsrKey::bsrKey (
 
   fKeyCellsList = buildCellsList ();
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceKeys) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceKeys ()) {
+    gLogStream <<
       "Creating bsrKey '" <<
       asString () <<
       "', line " <<
@@ -171,9 +171,9 @@ int bsrKey::fetchCellsNumber() const
 
 void bsrKey::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrKey::acceptIn ()" <<
       endl;
   }
@@ -184,9 +184,9 @@ void bsrKey::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrKey>*> (v)) {
         S_bsrKey elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrKey::visitStart ()" <<
             endl;
         }
@@ -197,9 +197,9 @@ void bsrKey::acceptIn (basevisitor* v)
 
 void bsrKey::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrKey::acceptOut ()" <<
       endl;
   }
@@ -210,9 +210,9 @@ void bsrKey::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrKey>*> (v)) {
         S_bsrKey elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrKey::visitEnd ()" <<
             endl;
         }

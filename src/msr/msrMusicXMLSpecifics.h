@@ -100,7 +100,7 @@ class msrPageLayout : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     // LilyPond knows inner/outer margins and binding offset,
@@ -133,7 +133,7 @@ class msrPageLayout : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // page size
@@ -198,7 +198,7 @@ class msrSystemLayout : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -222,7 +222,7 @@ class msrSystemLayout : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // margins
@@ -316,7 +316,7 @@ class msrSystemDividers : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -340,7 +340,7 @@ class msrSystemDividers : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     bool                  fLeftDivider;
@@ -409,7 +409,7 @@ class msrStaffLayout : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -433,7 +433,7 @@ class msrStaffLayout : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // staff number
@@ -489,7 +489,9 @@ class msrMeasureLayout : public msrElement
     S_msrLength           getMeasureDistance () const
                               { return fMeasureDistance; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -513,7 +515,7 @@ class msrMeasureLayout : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // measure distance
@@ -650,7 +652,9 @@ class msrPrintLayout : public msrMeasureElement
     int                   getPageNumber () const
                               { return fPageNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendStaffLayout (
@@ -682,7 +686,7 @@ class msrPrintLayout : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     S_msrPageLayout       fPageLayout;
@@ -783,7 +787,7 @@ class msrLineWidth : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrLineWidthTypeKind  fLineWidthTypeKind;
@@ -859,7 +863,7 @@ class msrNoteSize : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrNoteSizeTypeKind   fNoteSizeTypeKind;
@@ -934,7 +938,7 @@ class msrDistance : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrDistanceTypeKind   fDistanceTypeKind;
@@ -1017,7 +1021,7 @@ class msrGlyph : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrGlyphTypeKind      fGlyphTypeKind;
@@ -1092,7 +1096,7 @@ class msrOtherAppearance : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrOtherAppearanceTypeKind
@@ -1243,7 +1247,9 @@ class msrAppearance : public msrElement
                           getOtherAppearancesList () const
                               { return fOtherAppearancesList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendLineWidth (S_msrLineWidth lineWidth)
@@ -1285,7 +1291,7 @@ class msrAppearance : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     list<S_msrLineWidth>  fLineWidthsList;

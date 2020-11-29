@@ -16,13 +16,15 @@
 
 #include "lpsrHeaders.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
+
 #include "lpsrOah.h"
-#include "lpsr2LilypondOah.h"
+#include "lpsr2lilypondOah.h"
 
 
 using namespace std;
@@ -37,7 +39,7 @@ S_lpsrHeader lpsrHeader::create (
   lpsrHeader* o =
     new lpsrHeader (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -46,78 +48,78 @@ lpsrHeader::lpsrHeader (
     : lpsrElement (inputLineNumber)
 {
   // grab values from the LilyPond options if any
-  if (gGlobalLpsr2LilypondOah->fDedication.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getDedication ().size ()) {
     setLilypondDedication (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fDedication,
+      gGlobalLpsr2lilypondOahGroup->getDedication (),
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gGlobalLpsr2LilypondOah->fPiece.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getPiece ().size ()) {
     setLilypondPiece (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fPiece,
+      gGlobalLpsr2lilypondOahGroup->getPiece (),
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gGlobalLpsr2LilypondOah->fOpus.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getOpus ().size ()) {
     setLilypondOpus (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fOpus,
+      gGlobalLpsr2lilypondOahGroup->getOpus (),
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gGlobalLpsr2LilypondOah->fTitle.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getTitle ().size ()) {
     setLilypondTitle (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fTitle,
+      gGlobalLpsr2lilypondOahGroup->getTitle (),
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gGlobalLpsr2LilypondOah->fSubTitle.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getSubTitle ().size ()) {
     setLilypondSubTitle (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fSubTitle,
+      gGlobalLpsr2lilypondOahGroup->getSubTitle (),
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gGlobalLpsr2LilypondOah->fSubSubTitle.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getSubSubTitle ().size ()) {
     setLilypondSubSubTitle (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fSubSubTitle,
+      gGlobalLpsr2lilypondOahGroup->getSubSubTitle (),
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gGlobalLpsr2LilypondOah->fInstrument.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getInstrument ().size ()) {
     setLilypondInstrument (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fInstrument,
+      gGlobalLpsr2lilypondOahGroup->getInstrument (),
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gGlobalLpsr2LilypondOah->fMeter.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getMeter ().size ()) {
     setLilypondMeter (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fMeter,
+      gGlobalLpsr2lilypondOahGroup->getMeter (),
       kFontStyleNone,
       kFontWeightNone);
   }
 
-  if (gGlobalLpsr2LilypondOah->fCopyright.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getCopyright ().size ()) {
     setLilypondCopyright (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fCopyright,
+      gGlobalLpsr2lilypondOahGroup->getCopyright (),
       kFontStyleNone,
       kFontWeightNone);
   }
-  if (gGlobalLpsr2LilypondOah->fTagline.size ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getTagline ().size ()) {
     setLilypondTagline (
       inputLineNumber,
-      gGlobalLpsr2LilypondOah->fTagline,
+      gGlobalLpsr2lilypondOahGroup->getTagline (),
       kFontStyleNone,
       kFontWeightNone);
   }
@@ -526,9 +528,9 @@ void lpsrHeader::addRights (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Adding right \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -552,9 +554,9 @@ void lpsrHeader::addComposer (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Adding composer \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -578,9 +580,9 @@ void lpsrHeader::addArranger (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Adding arranger \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -604,9 +606,9 @@ void lpsrHeader::addLyricist (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Adding lyricist \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -630,9 +632,9 @@ void lpsrHeader::addPoet (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Adding poet \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -655,9 +657,9 @@ void lpsrHeader::addPoet (
 void lpsrHeader::removeAllPoets (
   int    inputLineNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Removing all poets from lpsrHeader" <<
       ", line " << fInputLineNumber <<
       endl;
@@ -671,9 +673,9 @@ void lpsrHeader::addTranslator (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Adding translator \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -697,9 +699,9 @@ void lpsrHeader::addArtist (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Adding artist \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -723,9 +725,9 @@ void lpsrHeader::addSoftware (
   int    inputLineNumber,
   string value)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceVarValAssocs) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+    gLogStream <<
       "Adding software \"" <<
       value <<
       "\" to lpsrHeader" <<
@@ -1012,9 +1014,9 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
 
 void lpsrHeader::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrHeader::acceptIn ()" <<
       endl;
   }
@@ -1025,9 +1027,9 @@ void lpsrHeader::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrHeader::visitStart ()" <<
             endl;
         }
@@ -1038,9 +1040,9 @@ void lpsrHeader::acceptIn (basevisitor* v)
 
 void lpsrHeader::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrHeader::acceptOut ()" <<
       endl;
   }
@@ -1051,9 +1053,9 @@ void lpsrHeader::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrHeader::visitEnd ()" <<
             endl;
         }

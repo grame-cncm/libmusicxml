@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -42,7 +42,7 @@ class msrRepeatCommonPart : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  appendVoiceElementToRepeatCommonPart (
@@ -98,7 +98,7 @@ class msrRepeatCommonPart : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -188,7 +188,9 @@ class msrRepeatEnding : public msrElement
                           getRepeatEndingElementsList ()
                               { return fRepeatEndingElementsList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendVoiceElementToRepeatEnding ( // JMI
@@ -242,7 +244,7 @@ class msrRepeatEnding : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -425,7 +427,7 @@ class msrRepeat : public msrVoiceElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -530,7 +532,9 @@ struct msrRepeatDescr : public smartable
                                   fRepeatDescrStartInputLineNumber;
                               }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                repeatDescrAsString () const;
@@ -542,7 +546,7 @@ struct msrRepeatDescr : public smartable
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // the repeat
@@ -656,7 +660,7 @@ class msrRepeatElement : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

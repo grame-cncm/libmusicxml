@@ -18,12 +18,13 @@
 
 #include "msrTimes.h"
 
-#include "generalOah.h"
-
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
+#include "generalOah.h"
 
 #include "msrOah.h"
 
@@ -51,9 +52,9 @@ msrTimeItem::msrTimeItem (
 {
   fTimeBeatValue = -1;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
+    gLogStream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
@@ -99,9 +100,9 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
 
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
+    gLogStream <<
       "Appending beat number '" <<
       beatsNumber <<
       "' to time item '" <<
@@ -118,9 +119,9 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
 
 void msrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
+    gLogStream <<
       "Setting beat value to '" <<
       timeBeatValue <<
       "' in time item '" <<
@@ -147,8 +148,8 @@ int msrTimeItem::getTimeBeatsNumber () const
 
 void msrTimeItem::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTimeItem::acceptIn ()" <<
       endl;
   }
@@ -158,8 +159,8 @@ void msrTimeItem::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTimeItem::visitStart ()" <<
             endl;
         }
@@ -169,8 +170,8 @@ void msrTimeItem::acceptIn (basevisitor* v)
 
 void msrTimeItem::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTimeItem::acceptOut ()" <<
       endl;
   }
@@ -180,8 +181,8 @@ void msrTimeItem::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTimeItem::visitEnd ()" <<
             endl;
         }
@@ -206,7 +207,7 @@ string msrTimeItem::asString () const
     case 0:
     /* JMI
       msrInternalError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
@@ -346,9 +347,9 @@ msrTime::~msrTime ()
 void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
 {
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceTimes) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTimes ()) {
+    gLogStream <<
       "Append item '" <<
       timeItem->asString () <<
       "' to time '" <<
@@ -396,7 +397,7 @@ rational msrTime::wholeNotesPerMeasure () const
 */
 
 /* JMI
-    gLogOstream <<
+    gLogStream <<
       endl <<
       endl <<
       "result1 = " <<
@@ -414,7 +415,7 @@ rational msrTime::wholeNotesPerMeasure () const
           fTimeItemsVector [i]->getTimeBeatValue ());
 
 /* JMI
-      gLogOstream <<
+      gLogStream <<
         endl <<
         endl <<
         "result2 = " <<
@@ -430,7 +431,7 @@ rational msrTime::wholeNotesPerMeasure () const
 
   else {
     msrInternalError (
-      gGlobalOahOahGroup->fInputSourceName,
+      gGlobalOahOahGroup->getInputSourceName (),
       fInputLineNumber,
       __FILE__, __LINE__,
       "time items vector is empty");
@@ -445,8 +446,8 @@ rational msrTime::wholeNotesPerMeasure () const
 
 void msrTime::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTime::acceptIn ()" <<
       endl;
   }
@@ -456,8 +457,8 @@ void msrTime::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTime::visitStart ()" <<
             endl;
         }
@@ -467,8 +468,8 @@ void msrTime::acceptIn (basevisitor* v)
 
 void msrTime::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrTime::acceptOut ()" <<
       endl;
   }
@@ -478,8 +479,8 @@ void msrTime::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrTime::visitEnd ()" <<
             endl;
         }
@@ -615,7 +616,7 @@ string msrTime::asString () const
   else {
     if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
-        gGlobalOahOahGroup->fInputSourceName,
+        gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,
         __FILE__, __LINE__,
         "time  items vector is empty");

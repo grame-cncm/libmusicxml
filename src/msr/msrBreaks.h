@@ -52,7 +52,9 @@ class msrLineBreak : public msrMeasureElement
     string                getNextBarNumber () const
                               { return fNextBarNumber; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -76,7 +78,7 @@ class msrLineBreak : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fNextBarNumber;
@@ -110,7 +112,9 @@ class msrPageBreak : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -134,7 +138,7 @@ class msrPageBreak : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 };
 typedef SMARTP<msrPageBreak> S_msrPageBreak;

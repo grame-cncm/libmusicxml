@@ -87,7 +87,9 @@ class msrHumdrumScotKeyItem : public msrElement
     int                   getKeyItemOctave () const
                               { return fKeyOctave; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     bool                  isEqualTo (
@@ -211,7 +213,9 @@ class msrKey : public msrMeasureElement
                               { return fHumdrumScotKeyItemsVector; }
 
     
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrKey otherKey) const;
@@ -240,7 +244,7 @@ class msrKey : public msrMeasureElement
   
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrKeyKind            fKeyKind;

@@ -84,7 +84,9 @@ class lpsrContext : public lpsrElement
     string                getContextName () const
                               { return fContextName; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -168,7 +170,9 @@ class lpsrChordNamesContext : public lpsrContext
     S_msrVoice            getContextVoice () const
                               { return fContextVoice; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -233,7 +237,9 @@ class lpsrFiguredBassContext : public lpsrContext
     S_msrStaff            getContextStaff () const
                               { return fContextStaff; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:

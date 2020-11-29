@@ -1,5 +1,5 @@
 /*
-  This file is to be included only by msrMutualDependencies.h,
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
   to satisfy declarations mutual dependencies.
 */
 
@@ -53,7 +53,9 @@ class msrBeatsRepeatPattern : public msrElement
     S_msrBeatsRepeat      getBeatsRepeatUpLink () const
                             { return fBeatsRepeatUpLink; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     int                   fetchMeasuresNumber () const;
@@ -82,7 +84,7 @@ class msrBeatsRepeatPattern : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -140,7 +142,9 @@ class msrBeatsRepeatReplicas : public msrElement
     S_msrSegment          getBeatsRepeatReplicasSegment () const
                               { return fBeatsRepeatReplicasSegment; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     int                   fetchMeasuresNumber () const;
@@ -171,7 +175,7 @@ class msrBeatsRepeatReplicas : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks
@@ -282,7 +286,9 @@ class msrBeatsRepeat : public msrVoiceElement
                           getCurrentBeatsRepeatBuildPhaseKind () const
                             { return fCurrentBeatsRepeatBuildPhaseKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     int                   fetchBeatsRepeatReplicasNumber () const;
@@ -318,7 +324,7 @@ class msrBeatsRepeat : public msrVoiceElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     // upLinks

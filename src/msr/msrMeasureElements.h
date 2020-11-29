@@ -85,7 +85,7 @@ class msrMeasureElement : public msrElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     static bool           compareMeasureElementsByIncreasingPositionInMeasure (
@@ -120,7 +120,7 @@ class msrMeasureElement : public msrElement
 
   protected:
 
-    // fields
+    // protected fields
     // ------------------------------------------------------
 
     /*

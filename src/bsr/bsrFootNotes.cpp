@@ -13,12 +13,13 @@
 #include <sstream>
 #include <iomanip> // for 'setw()'
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 
+#include "oahOah.h"
 #include "bsrOah.h"
-#include "bsr2BrailleOah.h"
+#include "bsr2brailleOah.h"
 
 
 using namespace std;
@@ -34,7 +35,7 @@ S_bsrFootNotesElement bsrFootNotesElement::create (
   bsrFootNotesElement* o =
     new bsrFootNotesElement (
       inputLineNumber, footNoteText);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -54,9 +55,9 @@ bsrFootNotesElement::~bsrFootNotesElement ()
 
 void bsrFootNotesElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrFootNotesElement::acceptIn ()" <<
       endl;
   }
@@ -67,9 +68,9 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrFootNotesElement>*> (v)) {
         S_bsrFootNotesElement elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrFootNotesElement::visitStart ()" <<
             endl;
         }
@@ -80,9 +81,9 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
 
 void bsrFootNotesElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrFootNotesElement::acceptOut ()" <<
       endl;
   }
@@ -93,9 +94,9 @@ void bsrFootNotesElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrFootNotesElement>*> (v)) {
         S_bsrFootNotesElement elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrFootNotesElement::visitEnd ()" <<
             endl;
         }
@@ -150,7 +151,7 @@ S_bsrFootNotes bsrFootNotes::create (
   bsrFootNotes* o =
     new bsrFootNotes (
       inputLineNumber);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -159,7 +160,7 @@ bsrFootNotes::bsrFootNotes (
     : bsrLine (
         inputLineNumber,
         0, // JMI ???
-        gGlobalBsr2BrailleOah->fCellsPerLine)
+        gGlobalBsr2brailleOahGroup->getCellsPerLine ())
 {}
 
 bsrFootNotes::~bsrFootNotes ()
@@ -167,9 +168,9 @@ bsrFootNotes::~bsrFootNotes ()
 
 void bsrFootNotes::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrFootNotes::acceptIn ()" <<
       endl;
   }
@@ -180,9 +181,9 @@ void bsrFootNotes::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrFootNotes>*> (v)) {
         S_bsrFootNotes elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrFootNotes::visitStart ()" <<
             endl;
         }
@@ -193,9 +194,9 @@ void bsrFootNotes::acceptIn (basevisitor* v)
 
 void bsrFootNotes::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrFootNotes::acceptOut ()" <<
       endl;
   }
@@ -206,9 +207,9 @@ void bsrFootNotes::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrFootNotes>*> (v)) {
         S_bsrFootNotes elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrFootNotes::visitEnd ()" <<
             endl;
         }
@@ -243,7 +244,7 @@ void bsrFootNotes::print (ostream& os) const
 
   int footNotesElementsListSize = fFootNotesElementsList.size ();
 
-  if (footNotesElementsListSize || gGlobalBsrOah->fDisplayBsrDetails) {
+  if (footNotesElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "footNotesElementsList" << " : " <<

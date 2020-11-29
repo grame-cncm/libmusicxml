@@ -15,8 +15,8 @@
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
@@ -28,20 +28,20 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-string elementValueExpectedKindAsString (
-  oahElementValueExpectedKind elementValueExpectedKind)
+string elementKindAsString (
+  oahElementKind elementKind)
 {
   string result;
 
-  switch (elementValueExpectedKind) {
-    case kElementValueExpectedYes:
-      result = "elementValueExpectedYes";
+  switch (elementKind) {
+    case kElementWithoutValue:
+      result = "elementWithoutValue";
       break;
-    case kElementValueExpectedNo:
-      result = "elementValueExpectedNo";
+    case kElementWithMandatoryValue:
+      result = "elementWithMandatoryValue";
       break;
-    case kElementValueExpectedOptional:
-      result = "elementValueExpectedOptional";
+    case kElementWithOptionalValue:
+      result = "elementWithOptionalValue";
       break;
   } // switch
 
@@ -54,6 +54,10 @@ string elementVisibilityKindAsString (
   string result;
 
   switch (elementVisibilityKind) {
+    case kElementVisibilityNone:
+      result = "elementVisibilityNone";
+      break;
+
     case kElementVisibilityWhole:
       result = "elementVisibilityWhole";
       break;
@@ -62,25 +66,25 @@ string elementVisibilityKindAsString (
       result = "elementVisibilityHeaderOnly";
       break;
 
-    case kElementVisibilityNone:
-      result = "elementVisibilityNone";
+    case kElementVisibilityHidden:
+      result = "elementVisibilityHidden";
       break;
   } // switch
 
   return result;
 }
 
-string elementIsPureHelpKindAsString (
-  oahElementIsPureHelpKind elementIsPureHelpKind)
+string elementHelpOnlyKindAsString (
+  oahElementHelpOnlyKind elementHelpOnlyKind)
 {
   string result;
 
-  switch (elementIsPureHelpKind) {
-    case kElementIsPureHelpYes:
-      result = "elementIsPureHelpYes";
+  switch (elementHelpOnlyKind) {
+    case kElementHelpOnlyYes:
+      result = "elementHelpOnlyYes";
       break;
-    case kElementIsPureHelpNo:
-      result = "elementIsPureHelpNo";
+    case kElementHelpOnlyNo:
+      result = "elementHelpOnlyNo";
       break;
   } // switch
 
@@ -88,46 +92,44 @@ string elementIsPureHelpKindAsString (
 }
 
 //______________________________________________________________________________
-/* JMI
+/* this class is purely virtual
 S_oahElement oahElement::create (
-  string                      shortName,
-  string                      longName,
-  string                      description,
-  oahElementValueExpectedKind elementValueExpectedKind,
-  oahElementVisibilityKind    elementVisibilityKind)
+  string                   shortName,
+  string                   longName,
+  string                   description,
+  oahElementKind           elementKind,
+  oahElementVisibilityKind elementVisibilityKind)
 {
   oahElement* o = new
     oahElement (
       shortName,
       longName,
       description,
-      elementValueExpectedKind,
+      elementKind,
       elementVisibilityKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 */
 
 oahElement::oahElement (
-  string                      shortName,
-  string                      longName,
-  string                      description,
-  oahElementValueExpectedKind elementValueExpectedKind,
-  oahElementVisibilityKind    elementVisibilityKind)
+  string                   shortName,
+  string                   longName,
+  string                   description,
+  oahElementKind           elementKind,
+  oahElementVisibilityKind elementVisibilityKind)
 {
   fShortName   = shortName;
   fLongName    = longName;
   fDescription = description;
 
-  fElementValueExpectedKind = elementValueExpectedKind;
+  fElementKind = elementKind;
+
+  fElementHelpOnlyKind = kElementHelpOnlyNo; // default value
 
   fElementVisibilityKind = elementVisibilityKind;
 
-  fIsHidden = false;
-
   fMultipleOccurrencesAllowed = false;
-
-  fOahElementIsPureHelpKind = kElementIsPureHelpNo; // default value
 }
 
 oahElement::~oahElement ()
@@ -210,6 +212,18 @@ string oahElement::fetchNamesInColumns (
   return s.str ();
 }
 
+string oahElement::fetchNamesBetweenQuotes () const
+{
+  stringstream s;
+
+  s <<
+    "'" <<
+    fetchNames () <<
+    "'";
+
+  return s.str ();
+}
+
 string oahElement::fetchNamesBetweenParentheses () const
 {
   stringstream s;
@@ -236,89 +250,11 @@ string oahElement::fetchNamesInColumnsBetweenParentheses (
   return s.str ();
 }
 
-S_oahValuedAtom oahElement::handleOptionUnderName (
-  string   optionName,
-  ostream& os)
-{
-  stringstream s;
-
-  s <<
-    "### atom option name " << optionName <<
-    " attached to '" <<
-    this->asString () <<
-    "' is not handled";
-
-  msrInternalError (
-    gGlobalOahOahGroup->fInputSourceName,
-    K_NO_INPUT_LINE_NUMBER,
-    __FILE__, __LINE__,
-    s.str ());
-
-  // no option value is needed
-  return nullptr;
-}
-
-void oahElement::applyOption (
-  ostream& os)
-{
-  stringstream s;
-
-  s <<
-    "### atom option '" << this->fetchNames () <<
-    "' is not handled";
-
-  msrInternalError (
-    gGlobalOahOahGroup->fInputSourceName,
-    K_NO_INPUT_LINE_NUMBER,
-    __FILE__, __LINE__,
-    s.str ());
-}
-
-S_oahElement oahElement::aPropos (string theString)
-{
-  // return this element if its names or description contain theString,
-  // and nullptr otherwise
-
-  S_oahElement result;
-
-  // convert theString to lower case for comparison
-  string theStringToLower = theString;
-
-  transform (
-    theStringToLower.begin (),
-    theStringToLower.end (),
-    theStringToLower.begin (),
-    ::tolower);
-
-  // fShortName and fLongName are always in lower case
-
-  // convert fDescription to lower case for comparison
-  string descriptionToLower = fDescription;
-
-  transform (
-    descriptionToLower.begin (),
-    descriptionToLower.end (),
-    descriptionToLower.begin (),
-    ::tolower);
-
-  if (
-    fShortName.find (theStringToLower) != string::npos
-      &&
-    fLongName.find (theStringToLower) != string::npos
-      &&
-    descriptionToLower.find (theStringToLower) != string::npos
-  ) {
-    result = this;
-  }
-
-  return result;
-}
-
 void oahElement::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> oahElement::acceptIn ()" <<
       endl;
   }
@@ -329,9 +265,9 @@ void oahElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_oahElement>*> (v)) {
         S_oahElement elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching oahElement::visitStart ()" <<
             endl;
         }
@@ -342,9 +278,9 @@ void oahElement::acceptIn (basevisitor* v)
 
 void oahElement::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> oahElement::acceptOut ()" <<
       endl;
   }
@@ -355,9 +291,9 @@ void oahElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_oahElement>*> (v)) {
         S_oahElement elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalOahOahGroup->fTraceOahVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
             ".\\\" ==> Launching oahElement::visitEnd ()" <<
             endl;
         }
@@ -368,9 +304,9 @@ void oahElement::acceptOut (basevisitor* v)
 
 void oahElement::browseData (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalOahOahGroup->fTraceOahVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
       ".\\\" ==> oahElement::browseData ()" <<
       endl;
   }
@@ -385,6 +321,16 @@ string oahElement::asShortNamedOptionString () const
 string oahElement::asActualLongNamedOptionString () const
 {
   return "-" + fLongName;
+}
+
+string oahElement::asLongNamedOptionString () const
+{
+  if (fLongName.size ()) {
+    return asActualLongNamedOptionString ();
+  }
+  else {
+    return asShortNamedOptionString ();
+  }
 }
 
 string oahElement::asString () const
@@ -418,45 +364,59 @@ void oahElement::printOptionHeader (ostream& os) const
   }
 }
 
-void oahElement::printOptionEssentials (
+void oahElement::printOahElementEssentials (
   ostream& os,
   int      fieldWidth) const
 {
   os << left <<
     setw (fieldWidth) <<
     "shortName" << " : " <<
-    fShortName <<
+    "\"" << fShortName << "\"" <<
     endl <<
     setw (fieldWidth) <<
     "longName" << " : " <<
-    fLongName <<
+    "\"" << fLongName << "\"" <<
     endl <<
     setw (fieldWidth) <<
     "description" << " : " <<
-    fDescription <<
+    "\"" << fDescription << "\"" <<
     endl <<
+
+/* JMI
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fDescription) <<
+    endl;
+  gIndenter--;
+*/
+
+    setw (fieldWidth) <<
+    "elementKind" << " : " <<
+    elementKindAsString (
+      fElementKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "oahElementHelpOnlyKind" << " : " <<
+    elementHelpOnlyKindAsString (
+      fElementHelpOnlyKind) <<
+    endl <<
+
     setw (fieldWidth) <<
     "elementVisibilityKind" << " : " <<
     elementVisibilityKindAsString (
       fElementVisibilityKind) <<
     endl <<
-    "isHidden" << " : " <<
-    booleanAsString (
-      fIsHidden) <<
-    endl <<
+
     setw (fieldWidth) <<
     "multipleOccurrencesAllowed" << " : " <<
     booleanAsString (
       fMultipleOccurrencesAllowed) <<
-    endl <<
-    setw (fieldWidth) <<
-    "oahElementIsPureHelpKind" << " : " <<
-    elementIsPureHelpKindAsString (
-      fOahElementIsPureHelpKind) <<
     endl;
 }
 
-void oahElement::printOptionEssentialsShort (
+void oahElement::printOahElementEssentialsShort (
   ostream& os,
   int      fieldWidth) const
 {
@@ -473,7 +433,7 @@ void oahElement::print (ostream& os) const
     "??? oahElement ???" <<
     endl;
 
-  printOptionEssentials (os, 40); // JMI
+  printOahElementEssentials (os, 40); // JMI
 }
 
 void oahElement::printShort (ostream& os) const
@@ -482,10 +442,10 @@ void oahElement::printShort (ostream& os) const
     "??? oahElement ???" <<
     endl;
 
-  printOptionEssentials (os, 40); // JMI
+  printOahElementEssentials (os, 40); // JMI
 }
 
-void oahElement::printHelp (ostream& os)
+void oahElement::printHelp (ostream& os) const
 {
   os <<
     fetchNames () <<
@@ -502,12 +462,105 @@ void oahElement::printHelp (ostream& os)
 
     gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
   }
-
-  // register help print action in options handler upLink JMI ???
-//  fHandlerUpLink->setOahHandlerFoundAHelpOption ();
 }
 
 ostream& operator<< (ostream& os, const S_oahElement& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+bool compareOahElements::operator() (
+  const S_oahElement firstElement,
+  const S_oahElement secondElement) const
+{
+/*
+  Compare:
+  A binary predicate that takes two arguments of the same type as the elements and returns a bool. The expression comp(a,b), where comp is an object of this type and a and b are key values, shall return true if a is considered to go before b in the strict weak ordering the function defines.
+  The multiset object uses this expression to determine both the order the elements follow in the container and whether two element keys are equivalent (by comparing them reflexively: they are equivalent if !comp(a,b) && !comp(b,a)).
+  This can be a function pointer or a function object (see constructor for an example). This defaults to less<T>, which returns the same as applying the less-than operator (a<b).
+  Aliased as member types multiset::key_compare and multiset::value_compare.
+*/
+
+  // let's decide that nullptr (which shouldn't occur too often...)
+  // should go after all non null S_oahElement values
+
+  bool result;
+
+  if (firstElement) {
+    if (secondElement) {
+      result =
+        firstElement->getShortName () < secondElement->getShortName ();
+    }
+    else {
+      result = true;
+    }
+  }
+  else {
+    result = false;
+  }
+
+  return result;
+}
+
+//______________________________________________________________________________
+S_oahElementUse oahElementUse::create (
+  S_oahElement elementUsed,
+  string       nameUsed,
+  string       valueUsed)
+{
+  oahElementUse* o =
+    new oahElementUse (
+      elementUsed,
+      nameUsed,
+      valueUsed);
+  assert (o!=0);
+  return o;
+}
+
+oahElementUse::oahElementUse (
+  S_oahElement elementUsed,
+  string       nameUsed,
+  string       valueUsed)
+{
+  fElementUsed = elementUsed;
+  fNameUsed    = nameUsed;
+  fValueUsed   = valueUsed;
+}
+
+oahElementUse::~oahElementUse ()
+{}
+
+string oahElementUse::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Atom use" <<
+    ": " << fElementUsed->fetchNamesBetweenQuotes () <<
+    ", nameUsed: \"" << fNameUsed << "\"" <<
+    ", valueUsed: \"" << fValueUsed << "\"" <<
+    ", elementKind: " <<
+    ", oahElementHelpOnlyKind: " <<
+    elementHelpOnlyKindAsString (fElementUsed->getElementHelpOnlyKind ()) <<
+    elementKindAsString (fElementUsed->getElementKind ()) <<
+    ", elementVisibilityKind: " <<
+    elementVisibilityKindAsString (fElementUsed->getElementVisibilityKind ()) <<
+    ", multipleOccurrencesAllowed: " <<
+    booleanAsString (fElementUsed->getMultipleOccurrencesAllowed ());
+
+  return s.str ();
+}
+
+void oahElementUse::print (ostream& os) const
+{
+  os <<
+    asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_oahElementUse& elt)
 {
   elt->print (os);
   return os;

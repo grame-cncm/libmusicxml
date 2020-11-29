@@ -17,10 +17,12 @@
 
 #include "msrBeams.h"
 
-#include "setTraceOahIfDesired.h"
-#ifdef TRACE_OAH
+#include "enableTracingIfDesired.h"
+#ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
+
+#include "oahOah.h"
 
 #include "msrOah.h"
 
@@ -39,7 +41,7 @@ S_msrBeam msrBeam::create (
   msrBeam* o =
     new msrBeam (
       inputLineNumber, number, beamKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -52,9 +54,9 @@ msrBeam::msrBeam (
   fBeamNumber = number;
   fBeamKind   = beamKind;
 
-#ifdef TRACE_OAH
-  if (gGlobalTraceOahGroup->fTraceBeams) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceBeams ()) {
+    gLogStream <<
       "Creating beam '" <<
       this->asString () <<
       "'" <<
@@ -68,8 +70,8 @@ msrBeam::~msrBeam ()
 
 void msrBeam::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrBeam::acceptIn ()" <<
       endl;
   }
@@ -79,8 +81,8 @@ void msrBeam::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrBeam::visitStart ()" <<
             endl;
         }
@@ -90,8 +92,8 @@ void msrBeam::acceptIn (basevisitor* v)
 
 void msrBeam::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrBeam::acceptOut ()" <<
       endl;
   }
@@ -101,8 +103,8 @@ void msrBeam::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrBeam::visitEnd ()" <<
             endl;
         }

@@ -97,7 +97,7 @@ class msrDynamics : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrDynamicsKind       fDynamicsKind;
@@ -143,7 +143,9 @@ class msrOtherDynamics : public msrElement
     msrPlacementKind      getOtherDynamicsPlacementKind () const
                               { return fOtherDynamicsPlacementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -169,7 +171,7 @@ class msrOtherDynamics : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fOtherDynamicsString;
@@ -243,7 +245,9 @@ class msrWedge : public msrElement
     msrPlacementKind      getWedgePlacementKind () const
                               { return fWedgePlacementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -267,7 +271,7 @@ class msrWedge : public msrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrWedgeKind          fWedgeKind;

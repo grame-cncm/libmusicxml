@@ -52,7 +52,9 @@ class msrPartNameDisplay : public msrMeasureElement
     string                getPartNameDisplayValue () const
                               { return fPartNameDisplayValue; }
                         
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                asString () const override;
@@ -76,7 +78,7 @@ class msrPartNameDisplay : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fPartNameDisplayValue;
@@ -115,7 +117,9 @@ class msrPartAbbreviationDisplay : public msrMeasureElement
     string                getPartAbbreviationDisplayValue () const
                               { return fPartAbbreviationDisplayValue; }
                         
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -139,7 +143,7 @@ class msrPartAbbreviationDisplay : public msrMeasureElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fPartAbbreviationDisplayValue;

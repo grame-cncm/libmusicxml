@@ -17,6 +17,8 @@
 
 #include "msrArticulations.h"
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 
 
@@ -139,8 +141,8 @@ string msrArticulation::articulationPlacementKindAsString () const
 
 void msrArticulation::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrArticulation::acceptIn ()" <<
       endl;
   }
@@ -150,8 +152,8 @@ void msrArticulation::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrArticulation::visitStart ()" <<
             endl;
         }
@@ -161,8 +163,8 @@ void msrArticulation::acceptIn (basevisitor* v)
 
 void msrArticulation::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrArticulation::acceptOut ()" <<
       endl;
   }
@@ -172,8 +174,8 @@ void msrArticulation::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrArticulation::visitEnd ()" <<
             endl;
         }
@@ -234,8 +236,8 @@ msrFermata::~msrFermata ()
 
 void msrFermata::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFermata::acceptIn ()" <<
       endl;
   }
@@ -245,8 +247,8 @@ void msrFermata::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrFermata>*> (v)) {
         S_msrFermata elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFermata::visitStart ()" <<
             endl;
         }
@@ -256,8 +258,8 @@ void msrFermata::acceptIn (basevisitor* v)
 
 void msrFermata::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrFermata::acceptOut ()" <<
       endl;
   }
@@ -267,8 +269,8 @@ void msrFermata::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrFermata>*> (v)) {
         S_msrFermata elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrFermata::visitEnd ()" <<
             endl;
         }
@@ -390,8 +392,8 @@ string msrArpeggiato::arpeggiatoDirectionKindAsString () const
 
 void msrArpeggiato::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrArpeggiato::acceptIn ()" <<
       endl;
   }
@@ -401,8 +403,8 @@ void msrArpeggiato::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrArpeggiato>*> (v)) {
         S_msrArpeggiato elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrArpeggiato::visitStart ()" <<
             endl;
         }
@@ -412,8 +414,8 @@ void msrArpeggiato::acceptIn (basevisitor* v)
 
 void msrArpeggiato::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrArpeggiato::acceptOut ()" <<
       endl;
   }
@@ -423,8 +425,8 @@ void msrArpeggiato::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrArpeggiato>*> (v)) {
         S_msrArpeggiato elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrArpeggiato::visitEnd ()" <<
             endl;
         }
@@ -519,8 +521,8 @@ string msrNonArpeggiato::nonArpeggiatoTypeKindAsString () const
 
 void msrNonArpeggiato::acceptIn (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrNonArpeggiato::acceptIn ()" <<
       endl;
   }
@@ -530,8 +532,8 @@ void msrNonArpeggiato::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrNonArpeggiato>*> (v)) {
         S_msrNonArpeggiato elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrNonArpeggiato::visitStart ()" <<
             endl;
         }
@@ -541,8 +543,8 @@ void msrNonArpeggiato::acceptIn (basevisitor* v)
 
 void msrNonArpeggiato::acceptOut (basevisitor* v)
 {
-  if (gGlobalMsrOah->fTraceMsrVisitors) {
-    gLogOstream <<
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
       "% ==> msrNonArpeggiato::acceptOut ()" <<
       endl;
   }
@@ -552,8 +554,8 @@ void msrNonArpeggiato::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_msrNonArpeggiato>*> (v)) {
         S_msrNonArpeggiato elem = this;
 
-        if (gGlobalMsrOah->fTraceMsrVisitors) {
-          gLogOstream <<
+        if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching msrNonArpeggiato::visitEnd ()" <<
             endl;
         }

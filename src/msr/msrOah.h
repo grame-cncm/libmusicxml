@@ -15,14 +15,14 @@
 
 #include "msrBasicTypes.h"
 
-#include "oahBasicTypes.h"
+#include "oahAtomsCollection.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrPitchesLanguageAtom : public oahValuedAtom
+class msrPitchesLanguageAtom : public oahAtomWithValue
 {
   public:
 
@@ -67,14 +67,10 @@ class msrPitchesLanguageAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -98,13 +94,13 @@ class msrPitchesLanguageAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     msrQuarterTonesPitchesLanguageKind&
@@ -114,7 +110,7 @@ typedef SMARTP<msrPitchesLanguageAtom> S_msrPitchesLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_msrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
-class msrRenamePartAtom : public oahValuedAtom
+class msrRenamePartAtom : public oahAtomWithValue
 {
   public:
 
@@ -155,14 +151,10 @@ class msrRenamePartAtom : public oahValuedAtom
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_oahValuedAtom       handleOptionUnderName (
-                            string   optionName,
-                            ostream& os) override;
-
-    void                  handleValuedAtomValue (
+    void                  applyAtomWithValue (
                             string   theString,
                             ostream& os) override;
 
@@ -186,13 +178,13 @@ class msrRenamePartAtom : public oahValuedAtom
 
     void                  print (ostream& os) const override;
 
-    void                  printValuedAtomOptionsValues (
+    void                  printAtomWithValueOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const override;
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     map<string, string>&  fStringStringMapVariable;
@@ -201,35 +193,90 @@ typedef SMARTP<msrRenamePartAtom> S_msrRenamePartAtom;
 EXP ostream& operator<< (ostream& os, const S_msrRenamePartAtom& elt);
 
 //______________________________________________________________________________
-class msrOah : public oahGroup
+class msrOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<msrOah> create (
-      S_oahHandler handlerUpLink);
-
-    SMARTP<msrOah>        createCloneWithDetailedTrace ();
+    static SMARTP<msrOahGroup> create ();
 
   public:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMsrOah (
-                            bool boolOptionsInitialValue);
+    void                  initializeMsrOahGroup ();
 
   public:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOah (
-      S_oahHandler handlerUpLink);
+    msrOahGroup ();
 
-    virtual ~msrOah ();
+    virtual ~msrOahGroup ();
 
     // set and get
     // ------------------------------------------------------
+
+    // trace
+    bool                  getTraceMsr () const
+                              { return fTraceMsr; }
+
+    bool                  getTraceMsrVisitors () const
+                              { return fTraceMsrVisitors; }
+
+
+    // display
+    bool                  getDisplayPartGroups () const
+                              { return fDisplayPartGroups; }
+
+
+    bool                  getDisplayMsr () const
+                              { return fDisplayMsr; }
+
+    bool                  getDisplayMsrShort () const
+                              { return fDisplayMsrShort; }
+
+    bool                  getDisplayMsrDetails () const
+                              { return fDisplayMsrDetails; }
+
+
+    bool                  getDisplayMsrNames () const
+                              { return fDisplayMsrNames; }
+
+    bool                  getDisplayMsrSummary () const
+                              { return fDisplayMsrSummary; }
+
+
+
+    // languages
+    msrQuarterTonesPitchesLanguageKind
+                          getMsrQuarterTonesPitchesLanguageKind () const
+                              { return fMsrQuarterTonesPitchesLanguageKind; }
+
+    // parts
+    const map<string, string>&
+                          getPartsRenamingMap () const
+                              { return fPartsRenamingMap; }
+
+    // staves
+    bool                  getCreateSingleLineStavesAsRythmic () const
+                              { return fCreateSingleLineStavesAsRythmic; }
+
+
+    // voices
+    bool                  getCreateVoicesStaffRelativeNumbers () const
+                              { return fCreateVoicesStaffRelativeNumbers; }
+
+
+    // harmonies
+    bool                  getShowHarmonyVoices () const
+                              { return fShowHarmonyVoices; }
+
+
+    // figured bass
+    bool                  getShowFiguredBassVoices () const
+                              { return fShowFiguredBassVoices; }
 
     bool                  setMsrQuarterTonesPitchesLanguage (
                             string language);
@@ -258,31 +305,23 @@ class msrOah : public oahGroup
     // private services
     // ------------------------------------------------------
 
-#ifdef TRACE_OAH
-    void                  initializeMsrTraceOah (
-                            bool boolOptionsInitialValue);
+#ifdef TRACING_IS_ENABLED
+    void                  initializeMsrTraceOah ();
 #endif
 
-    void                  initializeMsrDisplayOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeMsrDisplayOptions ();
 
-    void                  initializeMsrLanguagesOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeMsrLanguagesOptions ();
 
-    void                  initializeMsrPartsOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeMsrPartsOptions ();
 
-    void                  initializeMsrStavesOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeMsrStavesOptions ();
 
-    void                  initializeMsrVoicesOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeMsrVoicesOptions ();
 
-    void                  initializeMsrHarmoniesOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeMsrHarmoniesOptions ();
 
-    void                  initializeMsrFiguredBassOptions (
-                            bool boolOptionsInitialValue);
+    void                  initializeMsrFiguredBassOptions ();
 
   public:
 
@@ -303,18 +342,17 @@ class msrOah : public oahGroup
 
     void                  printMsrOahValues (int valueFieldWidth);
 
-  public:
+  private:
+
+    // private fields
+    // ------------------------------------------------------
 
     // trace
-    // --------------------------------------
-
     bool                  fTraceMsr;
 
     bool                  fTraceMsrVisitors;
 
     // display
-    // --------------------------------------
-
     bool                  fDisplayPartGroups;
 
     bool                  fDisplayMsr;
@@ -326,46 +364,31 @@ class msrOah : public oahGroup
 
 
     // languages
-    // --------------------------------------
-
     msrQuarterTonesPitchesLanguageKind
                           fMsrQuarterTonesPitchesLanguageKind;
 
     // parts
-    // --------------------------------------
-
     map<string, string>   fPartsRenamingMap;
 
     // staves
-    // --------------------------------------
-
     bool                  fCreateSingleLineStavesAsRythmic;
 
     // voices
-    // --------------------------------------
-
     bool                  fCreateVoicesStaffRelativeNumbers;
 
     // harmonies
-    // --------------------------------------
-
     bool                  fShowHarmonyVoices;
 
     // figured bass
-    // --------------------------------------
-
     bool                  fShowFiguredBassVoices;
 };
-typedef SMARTP<msrOah> S_msrOah;
-EXP ostream& operator<< (ostream& os, const S_msrOah& elt);
+typedef SMARTP<msrOahGroup> S_msrOahGroup;
+EXP ostream& operator<< (ostream& os, const S_msrOahGroup& elt);
 
-EXP extern S_msrOah gGlobalMsrOah;
-EXP extern S_msrOah gGlobalMsrOahUserChoices;
-EXP extern S_msrOah gGlobalMsrOahWithDetailedTrace;
+EXP extern S_msrOahGroup gGlobalMsrOahGroup;
 
 //______________________________________________________________________________
-void initializeMsrOahHandling (
-  S_oahHandler handler);
+S_msrOahGroup createGlobalMsrOahGroup ();
 
 
 }

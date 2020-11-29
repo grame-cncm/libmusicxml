@@ -13,7 +13,6 @@
 #ifndef ___bsrBasicTypes___
 #define ___bsrBasicTypes___
 
-#include <list>
 #include <map>
 
 #include "msrBasicTypes.h"
@@ -223,7 +222,7 @@ string bsrBrailleOutputKindAsString (
   bsrBrailleOutputKind brailleOutputKind);
 
 extern map<string, bsrBrailleOutputKind>
-  gBsrBrailleOutputKindsMap;
+  gGlobalBsrBrailleOutputKindsMap;
 
 string existingBsrBrailleOutputKinds (int namesListMaxLength);
 
@@ -239,7 +238,7 @@ string bsrTextsLanguageKindAsString (
   bsrTextsLanguageKind languageKind);
 
 extern map<string, bsrTextsLanguageKind>
-  gBsrTextsLanguageKindsMap;
+  gGlobalBsrTextsLanguageKindsMap;
 
 string existingBsrTextsLanguageKinds (int namesListMaxLength);
 
@@ -426,7 +425,7 @@ char \X39 (  3 5   )  #  57   9  digit nine
 
      #Hex    Dots       Dec Char Description
 char \X2E (   4 6  )  #  46   .  full stop
-char \X2B (  34 6  )  #  43   +  plus sign
+char \X2b (  34 6  )  #  43   +  plus sign
 char \X2D (  3  6  )  #  45   -  hyphen-minus
 char \X2A (1    6  )  #  42   *  asterisk
 char \X2F (  34    )  #  47   /  solidus
@@ -866,7 +865,7 @@ U+2827  ⠧ e2 a0 a7  BRAILLE PATTERN DOTS-1236
 U+2828  ⠨ e2 a0 a8  BRAILLE PATTERN DOTS-46
 U+2829  ⠩ e2 a0 a9  BRAILLE PATTERN DOTS-146
 U+282A  ⠪ e2 a0 aa  BRAILLE PATTERN DOTS-246
-U+282B  ⠫ e2 a0 ab  BRAILLE PATTERN DOTS-1246
+U+282b  ⠫ e2 a0 ab  BRAILLE PATTERN DOTS-1246
 U+282C  ⠬ e2 a0 ac  BRAILLE PATTERN DOTS-346
 U+282D  ⠭ e2 a0 ad  BRAILLE PATTERN DOTS-1346
 U+282E  ⠮ e2 a0 ae  BRAILLE PATTERN DOTS-2346
@@ -926,7 +925,7 @@ Example: “<SC2> wyjÛcie” where <SC2> indicates the byte 0x12 and “Û” c
 
 A: The following table summarizes some of the properties of each of the UTFs.
 
-Name  UTF-8 UTF-16  UTF-16BE  UTF-16LE  UTF-32  UTF-32BE  UTF-32LE
+Name  UTF-8 UTF-16  UTF-16BE  UTF-16LE  UTF-32  UTF-32bE  UTF-32lE
 Smallest code point 0000  0000  0000  0000  0000  0000  0000
 Largest code point  10FFFF  10FFFF  10FFFF  10FFFF  10FFFF  10FFFF  10FFFF
 Code unit size  8 bits  16 bits 16 bits 16 bits 32 bits 32 bits 32 bits

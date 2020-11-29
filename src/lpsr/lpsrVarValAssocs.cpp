@@ -16,6 +16,8 @@
 
 #include "lpsrVarValAssocs.h"
 
+#include "oahOah.h"
+
 #include "lpsrOah.h"
 
 
@@ -57,7 +59,7 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
       varValFontWeightKind,
       comment,
       endlKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -99,9 +101,9 @@ lpsrVarValAssoc::~lpsrVarValAssoc ()
 
 void lpsrVarValAssoc::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrVarValAssoc::acceptIn ()" <<
       endl;
   }
@@ -112,9 +114,9 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
         S_lpsrVarValAssoc elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
             endl;
         }
@@ -125,9 +127,9 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
 
 void lpsrVarValAssoc::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrVarValAssoc::acceptOut ()" <<
       endl;
   }
@@ -138,9 +140,9 @@ void lpsrVarValAssoc::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
         S_lpsrVarValAssoc elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
             endl;
         }
@@ -556,7 +558,7 @@ S_lpsrVarValsListAssoc lpsrVarValsListAssoc::create (
     new lpsrVarValsListAssoc (
       inputLineNumber,
       varValsListAssocKind);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -573,9 +575,9 @@ lpsrVarValsListAssoc::~lpsrVarValsListAssoc ()
 
 void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
       endl;
   }
@@ -586,9 +588,9 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
         S_lpsrVarValsListAssoc elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
             endl;
         }
@@ -599,9 +601,9 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 
 void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrVarValsListAssoc::acceptOut ()" <<
       endl;
   }
@@ -612,9 +614,9 @@ void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
         S_lpsrVarValsListAssoc elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
             endl;
         }

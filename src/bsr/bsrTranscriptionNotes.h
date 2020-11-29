@@ -13,7 +13,7 @@
 #ifndef ___bsrTranscriptionNotes___
 #define ___bsrTranscriptionNotes___
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 
 namespace MusicXML2
@@ -86,7 +86,7 @@ class bsrTranscriptionNotesElement : public bsrElement
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     string                fTranscriptionNoteText;
@@ -122,7 +122,7 @@ class bsrTranscriptionNotes : public bsrLine
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  appendElementToTranscriptionNotes (
@@ -154,7 +154,7 @@ class bsrTranscriptionNotes : public bsrLine
 
   private:
 
-    // fields
+    // private fields
     // ------------------------------------------------------
 
     list<S_bsrTranscriptionNotesElement>

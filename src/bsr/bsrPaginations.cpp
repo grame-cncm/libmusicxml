@@ -13,10 +13,12 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrMutualDependencies.h"
+#include "bsr_MUTUAL_DEPENDENCIES.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
+
+#include "oahOah.h"
 
 #include "bsrOah.h"
 
@@ -104,9 +106,9 @@ int bsrPagination::fetchCellsNumber () const
 
 void bsrPagination::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrPagination::acceptIn ()" <<
       endl;
   }
@@ -117,9 +119,9 @@ void bsrPagination::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPagination>*> (v)) {
         S_bsrPagination elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrPagination::visitStart ()" <<
             endl;
         }
@@ -130,9 +132,9 @@ void bsrPagination::acceptIn (basevisitor* v)
 
 void bsrPagination::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalBsrOah->fTraceBsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+    gLogStream <<
       "% ==> bsrPagination::acceptOut ()" <<
       endl;
   }
@@ -143,9 +145,9 @@ void bsrPagination::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPagination>*> (v)) {
         S_bsrPagination elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalBsrOah->fTraceBsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalBsrOahGroup->getTraceBsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching bsrPagination::visitEnd ()" <<
             endl;
         }

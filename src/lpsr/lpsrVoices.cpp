@@ -12,6 +12,8 @@
 
 #include "lpsrVoices.h"
 
+#include "oahOah.h"
+
 #include "lpsrOah.h"
 
 
@@ -29,7 +31,7 @@ S_lpsrUseVoiceCommand lpsrUseVoiceCommand::create (
     new lpsrUseVoiceCommand (
       inputLineNumber,
       voice);
-  assert(o!=0);
+  assert (o!=0);
   return o;
 }
 
@@ -46,9 +48,9 @@ lpsrUseVoiceCommand::~lpsrUseVoiceCommand ()
 
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrUseVoiceCommand::acceptIn ()" <<
       endl;
   }
@@ -59,9 +61,9 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrUseVoiceCommand::visitStart ()" <<
             endl;
         }
@@ -72,9 +74,9 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
 
 void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
 {
-#ifdef TRACE_OAH
-  if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-    gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    gLogStream <<
       "% ==> lpsrUseVoiceCommand::acceptOut ()" <<
       endl;
   }
@@ -85,9 +87,9 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
 
-#ifdef TRACE_OAH
-        if (gGlobalLpsrOah->fTraceLpsrVisitors) {
-          gLogOstream <<
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+          gLogStream <<
             "% ==> Launching lpsrUseVoiceCommand::visitEnd ()" <<
             endl;
         }
