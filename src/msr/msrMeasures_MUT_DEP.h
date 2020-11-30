@@ -110,7 +110,7 @@ class msrMeasure : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    // upLinks
+    // uplink
 
     S_msrSegment          getMeasureSegmentUpLink () const
                               { return fMeasureSegmentUpLink; }
@@ -268,9 +268,15 @@ class msrMeasure : public msrElement
 
     // upLinks
 
-    S_msrPart             fetchMeasurePartUpLink () const; // JMI ???
-
     S_msrVoice            fetchMeasureVoiceUpLink () const;
+
+    S_msrStaff            fetchMeasureStaffUpLink () const;
+
+    S_msrPart             fetchMeasurePartUpLink () const;
+
+    S_msrPartGroup        fetchMeasurePartGroupUpLink () const;
+
+    S_msrScore            fetchMeasureScoreUpLink () const;
 
     // lengthes
 

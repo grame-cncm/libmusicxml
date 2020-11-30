@@ -321,6 +321,20 @@ S_msrStaff msrStaff::createStaffNewbornClone (
   return newbornClone;
 }
 
+S_msrPartGroup msrStaff::fetchStaffPartGroupUpLink () const
+{
+  return
+    fStaffPartUpLink->
+      getPartPartGroupUpLink ();
+}
+
+S_msrScore msrStaff::fetchStaffScoreUpLink () const
+{
+  return
+    fStaffPartUpLink->
+      fetchPartScoreUpLink ();
+}
+
 void msrStaff::setStaffCurrentClef (S_msrClef clef)
 {
   fStaffCurrentClef = clef;

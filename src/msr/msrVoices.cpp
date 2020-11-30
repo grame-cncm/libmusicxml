@@ -159,6 +159,20 @@ S_msrPart msrVoice::fetchVoicePartUpLink () const
     getStaffPartUpLink ();
 }
 
+S_msrPartGroup msrVoice::fetchVoicePartGroupUpLink () const
+{
+  return
+    fVoiceStaffUpLink->
+      fetchStaffPartGroupUpLink ();
+}
+
+S_msrScore msrVoice::fetchVoiceScoreUpLink () const
+{
+  return
+    fVoiceStaffUpLink->
+      fetchStaffScoreUpLink ();
+}
+
 void msrVoice::setRegularVoiceStaffSequentialNumber (
   int regularVoiceStaffSequentialNumber)
 {
@@ -479,6 +493,7 @@ void msrVoice::initializeVoice (
 
     // position in voice
   fCurrentPositionInVoice = rational (0, 1);
+  fCurrentMomentInVoice = msrMoment (rational (0,1), rational (0,1));
 
   // voice finalization
   fVoiceHasBeenFinalized = false;
@@ -9788,6 +9803,9 @@ void msrVoice::print (ostream& os) const
   os << left <<
     setw (fieldWidth) << "currentPositionInVoice" << " : " <<
     fCurrentPositionInVoice <<
+    endl <<
+    setw (fieldWidth) << "currentMomentInVoice" << " : " <<
+    fCurrentMomentInVoice <<
     endl;
 
   os << left <<
@@ -10186,6 +10204,9 @@ void msrVoice::printShort (ostream& os) const
   os << left <<
     setw (fieldWidth) << "currentPositionInVoice" << " : " <<
     fCurrentPositionInVoice <<
+    endl <<
+    setw (fieldWidth) << "currentMomentInVoice" << " : " <<
+    fCurrentMomentInVoice <<
     endl;
 
   os << left <<

@@ -23,6 +23,7 @@
 
 #include <ctime>
 
+#include <algorithm>    // for_each JMI
 #include <functional>
 
 #include <set>
@@ -40,6 +41,7 @@
 #include "basevisitor.h"
 #include "exports.h"
 
+using namespace std;
 
 namespace MusicXML2
 {
@@ -51,21 +53,21 @@ class timingItem : public smartable
     enum timingItemKind { kMandatory, kOptional };
 
     static SMARTP<timingItem> createTimingItem (
-      std::string    activity,
-      std::string    description,
+      string    activity,
+      string    description,
       timingItemKind kind,
-      std::clock_t   startClock,
-      std::clock_t   endClock);
+      clock_t   startClock,
+      clock_t   endClock);
 
     timingItem (
-      std::string    activity,
-      std::string    description,
+      string    activity,
+      string    description,
       timingItemKind kind,
-      std::clock_t   startClock,
-      std::clock_t   endClock);
+      clock_t   startClock,
+      clock_t   endClock);
 
-    std::string           fActivity;
-    std::string           fDescription;
+    string           fActivity;
+    string           fDescription;
     timingItemKind        fKind;
     clock_t               fStartClock;
     clock_t               fEndClock;
@@ -83,29 +85,29 @@ class timing {
 
     // add an item
     void                  appendTimingItem (
-                            std::string    activity,
-                            std::string    description,
+                            string    activity,
+                            string    description,
                             timingItem::timingItemKind
                                            kind,
                             clock_t        startClock,
                             clock_t        endClock);
 
     // print
-    void                  print (std::ostream& os) const;
+    void                  print (ostream& os) const;
 
   private:
 
-    std::list<S_timingItem>
+    list<S_timingItem>
                           fTimingItemsList;
 };
-EXP std::ostream& operator<< (std::ostream& os, const timing& tim);
+EXP ostream& operator<< (ostream& os, const timing& tim);
 
 //______________________________________________________________________________
 class outputIndenter
 {
   public:
 
-    outputIndenter (std::string spacer = "  ");
+    outputIndenter (string spacer = "  ");
     virtual ~outputIndenter ();
 
     // set the indent
@@ -136,24 +138,24 @@ class outputIndenter
                               { return fIndent != value; }
 
     // output as much space as specified
-    void                  print (std::ostream& os) const;
+    void                  print (ostream& os) const;
 
     // get a spacer for adhoc uses, without increasing the indentation
-    std::string           getSpacer () const
+    string           getSpacer () const
                               { return fSpacer; }
 
-    // indent a multiline 'R"(...)"' std::string
-    std::string           indentMultiLineString (std::string value);
+    // indent a multiline 'R"(...)"' string
+    string           indentMultiLineString (string value);
 
     // global variables for general use
     static outputIndenter gGlobalOStreamIndenter;
 
   private:
     int                   fIndent;
-    std::string           fSpacer;
+    string           fSpacer;
 };
 
-EXP std::ostream& operator<< (std::ostream& os, const outputIndenter& theIndenter);
+EXP ostream& operator<< (ostream& os, const outputIndenter& theIndenter);
 
 // useful shortcut macros
 #define gIndenter outputIndenter::gGlobalOStreamIndenter
@@ -164,9 +166,9 @@ EXP std::ostream& operator<< (std::ostream& os, const outputIndenter& theIndente
 // with the current indentation, i.e. spaces
 
 /*
-std::endl declaration:
+endl declaration:
 
-  std::endl for ostream
+  endl for ostream
   ostream& endl (ostream& os);
 
   basic template
@@ -184,18 +186,18 @@ Reference for this class:
   https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 */
 
-class indentedStreamBuf: public std::stringbuf
+class indentedStreamBuf: public stringbuf
 {
   private:
 
-    std::ostream&         fOutputSteam;
+    ostream&         fOutputSteam;
     outputIndenter&       fOutputIndenter;
 
   public:
 
     // constructor
     indentedStreamBuf (
-      std::ostream&   outputStream,
+      ostream&   outputStream,
       outputIndenter& theIndenter)
       : fOutputSteam (
           outputStream),
@@ -215,19 +217,19 @@ class indentedStreamBuf: public std::stringbuf
 };
 
 //______________________________________________________________________________
-class indentedOstream: public std::ostream, public smartable
+class indentedOstream: public ostream, public smartable
 {
 /*
 Reference for this class:
   https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:
-  indentedOstream myStream (std::cout);
+  indentedOstream myStream (cout);
 
   myStream <<
-    1 << 2 << 3 << std::endl <<
-    5 << 6 << std::endl <<
-    7 << 8 << std::endl;
+    1 << 2 << 3 << endl <<
+    5 << 6 << endl <<
+    7 << 8 << endl;
 */
 
   private:
@@ -237,7 +239,7 @@ Usage:
   public:
 
     static SMARTP<indentedOstream> create (
-      std::ostream&   theOStream,
+      ostream&   theOStream,
       outputIndenter& theIndenter)
     {
       indentedOstream* o = new indentedOstream (
@@ -250,9 +252,9 @@ Usage:
 
     // constructor
     indentedOstream (
-      std::ostream&   theOStream,
+      ostream&   theOStream,
       outputIndenter& theIndenter)
-      : std::ostream (
+      : ostream (
           & fIndentedStreamBuf),
         fIndentedStreamBuf (
           theOStream,
@@ -287,8 +289,8 @@ extern S_indentedOstream gGlobalLogIndentedOstream;
 #define gLogStream    *gGlobalLogIndentedOstream
 
 extern void createTheGlobalIndentedOstreams (
-  std::ostream& theOutputStream,
-  std::ostream& theLogStream);
+  ostream& theOutputStream,
+  ostream& theLogStream);
 
 //______________________________________________________________________________
 struct stringQuoteEscaper
@@ -298,9 +300,9 @@ struct stringQuoteEscaper
       for_each( source.begin (), source.end (), stringQuoteEscaper (dest));
   */
 
-  std::string&            target;
+  string&            target;
 
-  explicit                stringQuoteEscaper (std::string& t)
+  explicit                stringQuoteEscaper (string& t)
                             : target (t)
                               {}
 
@@ -319,16 +321,16 @@ struct stringQuoteEscaper
 struct stringSpaceRemover
 {
   /* usage:
-      std::string dest = "";
+      string dest = "";
       for_each (
         source.begin (),
         source.end (),
         stringSpaceRemover (dest));
   */
 
-  std::string&            target;
+  string&            target;
 
-  explicit                stringSpaceRemover (std::string& t)
+  explicit                stringSpaceRemover (string& t)
                             : target (t)
                               {}
 
@@ -344,17 +346,17 @@ struct stringSpaceRemover
 struct stringSpaceReplacer
 {
   /* usage:
-      std::string dest = "";
+      string dest = "";
       for_each (
         source.begin (),
         source.end (),
         stringSpaceReplacer (dest, ersatz));
   */
 
-  std::string&            target;
+  string&            target;
   char                    ersatz;
 
-  explicit                stringSpaceReplacer (std::string& t, char ch)
+  explicit                stringSpaceReplacer (string& t, char ch)
                             : target (t), ersatz (ch)
                               {}
 
@@ -368,36 +370,36 @@ struct stringSpaceReplacer
 };
 
 //______________________________________________________________________________
-std::string replicateString (
-  std::string str,
+string replicateString (
+  string str,
   int         times);
 
 //______________________________________________________________________________
-std::string int2EnglishWord (int n);
+string int2EnglishWord (int n);
 
 //______________________________________________________________________________
-std::string stringNumbersToEnglishWords (std::string str);
+string stringNumbersToEnglishWords (string str);
 
 //______________________________________________________________________________
-std::set<int> decipherNaturalNumbersSetSpecification (
-  std::string theSpecification,
+set<int> decipherNaturalNumbersSetSpecification (
+  string theSpecification,
   bool        debugMode = false);
 
 //______________________________________________________________________________
-std::set<std::string> decipherStringsSetSpecification (
-  std::string theSpecification,
+set<string> decipherStringsSetSpecification (
+  string theSpecification,
   bool        debugMode = false);
 
 //______________________________________________________________________________
-std::list<int> extractNumbersFromString (
-  std::string theString, // can contain "1, 2, 17"
+list<int> extractNumbersFromString (
+  string theString, // can contain "1, 2, 17"
   bool        debugMode = false);
 
 //______________________________________________________________________________
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 // trim string from start
-inline std::string &ltrim (std::string &s) {
-  std::function <int (int)>
+inline string &ltrim (string &s) {
+  function <int (int)>
     checkSpace =
       [] (int x) { return isspace (x); };
 
@@ -406,7 +408,7 @@ inline std::string &ltrim (std::string &s) {
     find_if (
       s.begin (),
       s.end (),
-      std::not1 (checkSpace)
+      not1 (checkSpace)
       )
     );
 
@@ -414,8 +416,8 @@ inline std::string &ltrim (std::string &s) {
 }
 
 // trim string from end
-inline std::string &rtrim (std::string &s) {
-  std::function <int (int)>
+inline string &rtrim (string &s) {
+  function <int (int)>
     checkSpace =
       [] (int x) { return isspace (x); };
 
@@ -423,7 +425,7 @@ inline std::string &rtrim (std::string &s) {
     find_if (
       s.rbegin (),
       s.rend (),
-      std::not1 (checkSpace)
+      not1 (checkSpace)
       ).base(),
     s.end ()
     );
@@ -432,71 +434,71 @@ inline std::string &rtrim (std::string &s) {
 }
 
 // trim string from both ends
-inline std::string &trim (std::string &s) {
+inline string &trim (string &s) {
   return ltrim (rtrim (s));
 }
 
 //______________________________________________________________________________
-std::pair<std::string, std::string> extractNamesPairFromString (
-  std::string theString, // may contain "P1 = Bassoon"
+pair<string, string> extractNamesPairFromString (
+  string theString, // may contain "P1 = Bassoon"
   char        separator,
   bool        debugMode = false);
 
 //______________________________________________________________________________
-std::string doubleQuoteStringIfNonAlpha (
-  std::string theString);
+string doubleQuoteStringIfNonAlpha (
+  string theString);
 
-std::string quoteStringIfNonAlpha (
-  std::string theString);
+string quoteStringIfNonAlpha (
+  string theString);
 
-std::string doubleQuoteString (
-  std::string theString);
+string doubleQuoteString (
+  string theString);
 
-std::string quoteString (
-  std::string theString);
+string quoteString (
+  string theString);
 
-std::string stringToLowerCase (
-  std::string theString);
+string stringToLowerCase (
+  string theString);
 
-std::string stringToUpperCase (
-  std::string theString);
-
-//______________________________________________________________________________
-std::string booleanAsString (bool value);
+string stringToUpperCase (
+  string theString);
 
 //______________________________________________________________________________
-std::string singularOrPlural (
-  int number, std::string singularName, std::string pluralName);
-
-std::string singularOrPluralWithoutNumber (
-  int number, std::string singularName, std::string pluralName);
+string booleanAsString (bool value);
 
 //______________________________________________________________________________
-std::string escapeDoubleQuotes (std::string s);
+string singularOrPlural (
+  int number, string singularName, string pluralName);
+
+string singularOrPluralWithoutNumber (
+  int number, string singularName, string pluralName);
 
 //______________________________________________________________________________
-void convertHTMLEntitiesToPlainCharacters (std::string& s);
+string escapeDoubleQuotes (string s);
+
+//______________________________________________________________________________
+void convertHTMLEntitiesToPlainCharacters (string& s);
 
 //______________________________________________________________________________
 void splitStringIntoChunks (
-  std::string             theString,
-  std::string             theSeparator,
-  std::list<std::string>& chunksList);
+  string             theString,
+  string             theSeparator,
+  list<string>& chunksList);
 
 void splitRegularStringAtEndOfLines (
-  std::string             theString,
-  std::list<std::string>& chunksList);
+  string             theString,
+  list<string>& chunksList);
 
 void splitHTMLStringContainingEndOfLines ( // JMI
-  std::string             theString,
-  std::list<std::string>& chunksList);
+  string             theString,
+  list<string>& chunksList);
 
 //______________________________________________________________________________
-std::string baseName (const std::string &filename);
+string baseName (const string &filename);
   // wait until c++17 for a standard library containing basename()...
 
 //______________________________________________________________________________
-std::string makeSingleWordFromString (const std::string& theString);
+string makeSingleWordFromString (const string& theString);
 
 
 } // namespace MusicXML2

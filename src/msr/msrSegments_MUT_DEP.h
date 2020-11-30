@@ -47,7 +47,7 @@ class msrSegment : public msrVoiceElement
     // set and get
     // ------------------------------------------------------
 
-    // upLinks
+    // uplink
 
     S_msrVoice            getSegmentVoiceUpLink () const
                               { return fSegmentVoiceUpLink; }
@@ -73,7 +73,13 @@ class msrSegment : public msrVoiceElement
 
     // upLinks
 
+    S_msrStaff            fetchSegmentStaffUpLink () const;
+
     S_msrPart             fetchSegmentPartUpLink () const;
+
+    S_msrPartGroup        fetchSegmentPartGroupUpLink () const;
+
+    S_msrScore            fetchSegmentScoreUpLink () const;
 
     // print layout MusicXML specific??? JMI
 

@@ -85,6 +85,34 @@ void msrSegment::initializeSegment ()
 #endif
 }
 
+S_msrStaff msrSegment::fetchSegmentStaffUpLink () const
+{
+  return
+    fSegmentVoiceUpLink->
+      getVoiceStaffUpLink ();
+}
+
+S_msrPart msrSegment::fetchSegmentPartUpLink () const
+{
+  return
+    fSegmentVoiceUpLink->
+      fetchVoicePartUpLink ();
+}
+
+S_msrPartGroup msrSegment::fetchSegmentPartGroupUpLink () const
+{
+  return
+    fSegmentVoiceUpLink->
+      fetchVoicePartGroupUpLink ();
+}
+
+S_msrScore msrSegment::fetchSegmentScoreUpLink () const
+{
+  return
+    fSegmentVoiceUpLink->
+      fetchVoiceScoreUpLink ();
+}
+
 S_msrSegment msrSegment::createSegmentNewbornClone (
   S_msrVoice containingVoice)
 {
@@ -189,13 +217,6 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
     containingVoice;
 
   return segmentDeepCopy;
-}
-
-S_msrPart msrSegment::fetchSegmentPartUpLink () const
-{
-  return
-    fSegmentVoiceUpLink->
-      fetchVoicePartUpLink ();
 }
 
 void msrSegment::assertSegmentMeasuresListIsNotEmpty (
@@ -2267,10 +2288,7 @@ void msrSegment::displaySegment (
     "', score:" <<
     endl <<
     fSegmentVoiceUpLink->
-      getVoiceStaffUpLink ()->
-        getStaffPartUpLink ()->
-          getPartPartGroupUpLink ()->
-            getPartGroupScoreUpLink () <<
+      fetchVoiceGroupScoreUpLink () <<
             */
     "', voice:" <<
     endl <<

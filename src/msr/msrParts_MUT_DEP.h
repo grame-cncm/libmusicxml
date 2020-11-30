@@ -245,6 +245,9 @@ class msrPart : public msrPartGroupElement
     // public services
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrScore            fetchPartScoreUpLink () const;
+
     void                  assignSequentialNumbersToRegularVoicesInPart (
                             int inputLineNumber);
 

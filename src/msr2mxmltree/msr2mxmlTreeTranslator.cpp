@@ -4556,13 +4556,16 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (S_msrNote note)
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
     S_msrVoice
       noteVoice =
-        note->fetchNoteVoice ();
+        note->fetchNoteVoiceUpLink ();
 
     int
       noteStaffNumber =
-        note->fetchNoteStaff ()->getStaffNumber (),
+        note->
+          fetchNoteStaffUpLink ()->
+            getStaffNumber (),
       previousMSRNoteStaffNumber =
-        fPreviousMSRNoteStaff->getStaffNumber ();
+        fPreviousMSRNoteStaff->
+          getStaffNumber ();
 
     stringstream s;
     s <<
@@ -4629,21 +4632,27 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (S_msrNote note)
 
   int
     noteStaffNumber =
-      note->fetchNoteStaff ()->getStaffNumber (),
+      note->
+        fetchNoteStaffUpLink ()->
+          getStaffNumber (),
     noteVoiceNumber =
-      note->fetchNoteVoice ()->getVoiceNumber ();
+      note->
+        fetchNoteVoiceUpLink ()->
+          getVoiceNumber ();
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
     int
       previousMSRNoteStaffNumber =
-        fPreviousMSRNoteStaff->getStaffNumber (),
+        fPreviousMSRNoteStaff->
+          getStaffNumber (),
       previousMSRNoteVoiceNumber =
-        fPreviousMSRNoteVoice->getVoiceNumber ();
+        fPreviousMSRNoteVoice->
+          getVoiceNumber ();
 
     // createMxml a forward comment
     S_msrVoice
       noteVoice =
-        note->fetchNoteVoice ();
+        note->fetchNoteVoiceUpLink ();
 
     stringstream s;
     s <<
@@ -4695,9 +4704,13 @@ void msr2mxmlTreeTranslator:: appendABackupOrForwardToMeasureIfNeeded (
 
   int
     noteStaffNumber =
-      note->fetchNoteStaff ()->getStaffNumber (),
+      note->
+        fetchNoteStaffUpLink ()->
+          getStaffNumber (),
     noteVoiceNumber =
-      note->fetchNoteVoice ()->getVoiceNumber (),
+      note->
+        fetchNoteVoiceUpLink ()->
+          getVoiceNumber (),
     previousMSRNoteStaffNumber =
       fPreviousMSRNoteStaff
         ? fPreviousMSRNoteStaff->getStaffNumber ()
@@ -5975,7 +5988,7 @@ void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
   S_msrStaff
     noteStaff =
       note->
-        fetchNoteVoice ()->
+        fetchNoteVoiceUpLink ()->
           getVoiceStaffUpLink ();
 
 #ifdef TRACING_IS_ENABLED
@@ -6030,7 +6043,7 @@ void msr2mxmlTreeTranslator::appendVoiceToNoteIfRelevant (
   // fetch the note voice
   S_msrVoice
     noteVoice =
-      note->fetchNoteVoice ();
+      note->fetchNoteVoiceUpLink ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
@@ -6860,17 +6873,23 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
         // createMxml a note comment
         S_msrVoice
           noteVoice =
-            note->fetchNoteVoice ();
+            note->fetchNoteVoiceUpLink ();
 
         stringstream s;
         s <<
           " ===== " <<
           "Note " <<
           note->notePitchAndSoundingWholeNotesAsString () <<
-          ", staff: " << noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
-          ", voice: " << noteVoice->getVoiceNumber () <<
-          ", position: " << note->getMeasureElementPositionInMeasure () <<
-          ", sounding: " << note->getNoteSoundingWholeNotes () <<
+          ", staff: " <<
+            noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
+          ", voice: " <<
+            noteVoice->getVoiceNumber () <<
+          ", position: " <<
+            note->getMeasureElementPositionInMeasure () <<
+          ", moment: " <<
+            note->getMeasureElementMomentInMeasure () <<
+          ", sounding: " <<
+            note->getNoteSoundingWholeNotes () <<
           ", line " << inputLineNumber <<
           " ===== ";
         Sxmlelement comment = createMxmlElement (kComment, s.str ());
@@ -7095,7 +7114,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrNote& elt)
 #endif
 
     fPreviousMSRNote = elt;
-    fPreviousMSRNoteVoice = fPreviousMSRNote->fetchNoteVoice ();
+    fPreviousMSRNoteVoice = fPreviousMSRNote->fetchNoteVoiceUpLink ();
     fPreviousMSRNoteStaff = fPreviousMSRNoteVoice->getVoiceStaffUpLink ();
   }
 

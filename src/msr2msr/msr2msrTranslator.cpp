@@ -1983,7 +1983,7 @@ void msr2msrTranslator::visitStart (S_msrSyllable& elt)
               kXMLLangIt,                    // default value
               elt->
                 getSyllableNoteUpLink ()->
-                  fetchNoteStaff ()->
+                  fetchNoteStaffUpLink ()->
                     getStaffNumber ());
 
         // append it to the current non-grace note

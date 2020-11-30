@@ -129,6 +129,13 @@ void msrPart::initializePart ()
 msrPart::~msrPart ()
 {}
 
+S_msrScore  msrPart::fetchPartScoreUpLink () const
+{
+  return
+    fPartPartGroupUpLink->
+      getPartGroupScoreUpLink ();
+}
+
 S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 {
 #ifdef TRACING_IS_ENABLED

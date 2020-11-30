@@ -138,7 +138,7 @@ class msrStaff : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    // upLinks
+    // upLink
 
     S_msrPart             getStaffPartUpLink () const
                               { return fStaffPartUpLink; }
@@ -190,6 +190,12 @@ class msrStaff : public msrElement
 
     // public services
     // ------------------------------------------------------
+
+    // upLinks
+
+    S_msrPartGroup        fetchStaffPartGroupUpLink () const;
+
+    S_msrScore            fetchStaffScoreUpLink () const;
 
     // staff details
 

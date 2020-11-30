@@ -365,6 +365,98 @@ void msrNote::initializeNote ()
 msrNote::~msrNote ()
 {}
 
+//________________________________________________________________________
+S_msrVoice msrNote::fetchNoteVoiceUpLink () const
+{
+  S_msrVoice result;
+
+  switch (fNoteKind) {
+    case msrNote::k_NoNoteKind:
+      break;
+
+    case msrNote::kRestNote:
+    case msrNote::kSkipNote:
+      result =
+        fetchNoteVoiceUpLink ();
+      break;
+
+    case msrNote::kUnpitchedNote:
+      break;
+
+    case msrNote::kRegularNote:
+    case msrNote::kChordMemberNote:
+      result =
+        fetchNoteVoiceUpLink ();
+      break;
+
+    case msrNote::kTupletMemberNote:
+    case msrNote::kTupletRestMemberNote:
+      result =
+        fNoteTupletUpLink->
+          getTupletMeasureUpLink ()->
+            fetchMeasureVoiceUpLink ();
+      break;
+
+    case msrNote::kDoubleTremoloMemberNote:
+      break;
+
+    case msrNote::kGraceNote:
+    case msrNote::kGraceSkipNote:
+      result =
+        fNoteGraceNotesGroupUpLink->
+          getGraceNotesGroupVoiceUpLink ();
+            /* JMI
+            getGraceNotesGroupNoteUpLink ()->
+            fetchNoteVoiceUpLink ();
+                */
+      break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
+
+    case msrNote::kGraceTupletMemberNote:
+      break;
+
+    case msrNote::kTupletUnpitchedMemberNote:
+      break;
+  } // switch
+
+  // sanity check
+  msgAssert (
+    result != nullptr,
+    "result is null");
+
+  return result;
+}
+
+S_msrStaff msrNote::fetchNoteStaffUpLink () const
+{
+  return
+    fNoteMeasureUpLink->
+      fetchMeasureStaffUpLink ();
+}
+
+S_msrPart msrNote::fetchNotePartUpLink () const
+{
+  return
+    fNoteMeasureUpLink->
+      fetchMeasurePartUpLink ();
+}
+
+S_msrPartGroup msrNote::fetchNotePartGroupUpLink () const
+{
+  return
+    fNoteMeasureUpLink->
+      fetchMeasurePartGroupUpLink ();
+}
+
+S_msrScore msrNote::fetchNoteScoreUpLink () const
+{
+  return
+    fNoteMeasureUpLink->
+      fetchMeasureScoreUpLink ();
+}
+
 void msrNote::setNoteKind (msrNoteKind noteKind)
 {
 #ifdef TRACING_IS_ENABLED
@@ -1322,82 +1414,6 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
 #endif
 
   return o;
-}
-
-//________________________________________________________________________
-S_msrVoice msrNote::fetchNoteVoice () const
-{
-  S_msrVoice result;
-
-  switch (fNoteKind) {
-    case msrNote::k_NoNoteKind:
-      break;
-
-    case msrNote::kRestNote:
-    case msrNote::kSkipNote:
-      result =
-        fNoteMeasureUpLink->
-          getMeasureSegmentUpLink ()->
-            getSegmentVoiceUpLink ();
-      break;
-
-    case msrNote::kUnpitchedNote:
-      break;
-
-    case msrNote::kRegularNote:
-    case msrNote::kChordMemberNote:
-      result =
-        fNoteMeasureUpLink->
-          getMeasureSegmentUpLink ()->
-            getSegmentVoiceUpLink ();
-      break;
-
-    case msrNote::kTupletMemberNote:
-    case msrNote::kTupletRestMemberNote:
-      result =
-        fNoteTupletUpLink->
-          getTupletMeasureUpLink ()->
-            getMeasureSegmentUpLink ()->
-              getSegmentVoiceUpLink ();
-      break;
-
-    case msrNote::kDoubleTremoloMemberNote:
-      break;
-
-    case msrNote::kGraceNote:
-    case msrNote::kGraceSkipNote:
-      result =
-        fNoteGraceNotesGroupUpLink->
-          getGraceNotesGroupVoiceUpLink ();
-            /* JMI
-            getGraceNotesGroupNoteUpLink ()->
-            getNoteMeasureUpLink ()->
-              getMeasureSegmentUpLink ()->
-                getSegmentVoiceUpLink ();
-                */
-      break;
-
-    case msrNote::kGraceChordMemberNote:
-      break;
-
-    case msrNote::kGraceTupletMemberNote:
-      break;
-
-    case msrNote::kTupletUnpitchedMemberNote:
-      break;
-  } // switch
-
-  // sanity check
-  msgAssert (
-    result != nullptr,
-    "result is null");
-
-  return result;
-}
-
-S_msrStaff msrNote::fetchNoteStaff () const
-{
-  return fetchNoteVoice ()->getVoiceStaffUpLink ();
 }
 
 //________________________________________________________________________
@@ -2629,12 +2645,7 @@ void msrNote::browseData (basevisitor* v)
     // fetch the score
     S_msrScore
       score =
-        fNoteMeasureUpLink->
-          getMeasureSegmentUpLink ()->
-            getSegmentVoiceUpLink () ->
-              fetchVoicePartUpLink ()->
-                getPartPartGroupUpLink ()->
-                  getPartGroupScoreUpLink ();
+        fetchNoteScoreUpLink ();
 
     bool inhibitGraceNotesGroupsBrowsing =
       score->getInhibitGraceNotesGroupsBrowsing ();
@@ -3038,11 +3049,7 @@ void msrNote::browseData (basevisitor* v)
     S_msrScore
       score =
         fNoteMeasureUpLink->
-          getMeasureSegmentUpLink ()->
-            getSegmentVoiceUpLink () ->
-              fetchVoicePartUpLink ()->
-                getPartPartGroupUpLink ()->
-                  getPartGroupScoreUpLink ();
+          fetchMeasureScoreUpLink ();
 
     bool inhibitGraceNotesGroupsBrowsing =
       score->getInhibitGraceNotesGroupsBrowsing ();

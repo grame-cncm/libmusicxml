@@ -90,7 +90,8 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
         <
       secondChordNamesContext->
         getContextVoice ()->
-          getVoiceStaffUpLink ()->getStaffNumber ();
+          getVoiceStaffUpLink ()->
+            getStaffNumber ();
   }
 
   else if (

@@ -3039,8 +3039,7 @@ void msr2bsrTranslator::finalizeCurrentMeasureClone (
   S_msrVoice
     voice =
       fCurrentMeasureClone->
-        getMeasureSegmentUpLink ()->
-          getSegmentVoiceUpLink ();
+        fetchMeasureVoiceUpLink ();
 
   // get the measure number
   string

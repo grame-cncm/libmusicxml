@@ -1014,9 +1014,7 @@ void msrBeatsRepeat::browseData (basevisitor* v)
   S_msrScore
     score =
       fBeatsRepeatVoiceUpLink->
-        fetchVoicePartUpLink ()->
-          getPartPartGroupUpLink ()->
-            getPartGroupScoreUpLink ();
+        fetchVoiceScoreUpLink ();
 
 /* JMI
   bool inhibitBeatsRepeatReplicasBrowsing =

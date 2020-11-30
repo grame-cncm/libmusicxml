@@ -350,11 +350,11 @@ int indentedStreamBuf::sync ()
   // 2) reset the buffer
   // 3) flush the actual output stream we are using.
 
-  std::size_t strSize = str ().size ();
+  size_t strSize = str ().size ();
 
   // fetch the last non-space character in the buffer
   // caution: the '\n' is present as the last character!
-  std::size_t found = str ().find_last_not_of(' ', strSize - 2);
+  size_t found = str ().find_last_not_of(' ', strSize - 2);
 
   // this can be uncommented to see low level informations
   // fOutputSteam << "% strSize: " << strSize << ", found: " << found << '\n';
@@ -387,8 +387,8 @@ S_indentedOstream gGlobalOutputIndentedOstream;
 S_indentedOstream gGlobalLogIndentedOstream;
 
 void createTheGlobalIndentedOstreams (
-  std::ostream& theOutputStream,
-  std::ostream& theLogStream)
+  ostream& theOutputStream,
+  ostream& theLogStream)
 {
   gGlobalOutputIndentedOstream =
     indentedOstream::create (
@@ -404,10 +404,10 @@ void createTheGlobalIndentedOstreams (
 //______________________________________________________________________________
 // code taken from:
 // http://comp.lang.cpp.moderated.narkive.com/fylLGJgp/redirect-output-to-dev-null
-template<typename Ch, typename Traits = std::char_traits<Ch> >
-struct basic_nullbuf : std::basic_streambuf<Ch, Traits>
+template<typename Ch, typename Traits = char_traits<Ch> >
+struct basic_nullbuf : basic_streambuf<Ch, Traits>
 {
-  typedef std::basic_streambuf<Ch, Traits> base_type;
+  typedef basic_streambuf<Ch, Traits> base_type;
   typedef typename base_type::int_type int_type;
   typedef typename base_type::traits_type traits_type;
 
@@ -424,8 +424,8 @@ typedef basic_nullbuf <char>    nullbuf;
 nullbuf cnull_obj;
 //wnullbuf wcnull_obj;
 
-std::ostream cnull  (& cnull_obj);
-//std::wostream wcnull (& wcnull_obj);
+ostream cnull  (& cnull_obj);
+//wostream wcnull (& wcnull_obj);
 
 //______________________________________________________________________________
 string replicateString (
@@ -443,9 +443,9 @@ string replicateString (
 //______________________________________________________________________________
 /* JMI
 string replaceSubstringInString (
-  std::string str,
-  std::string subString,
-  std::string ersatz)
+  string str,
+  string subString,
+  string ersatz)
 {
   string result = str;
 
@@ -858,7 +858,7 @@ string consumeString (
 }
 
 //______________________________________________________________________________
-std::set<string> decipherStringsSetSpecification (
+set<string> decipherStringsSetSpecification (
   string theString,
   bool   debugMode)
 {
@@ -1391,9 +1391,9 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
 
 //______________________________________________________________________________
 void splitStringIntoChunks (
-  std::string             theString,
-  std::string             theSeparator,
-  std::list<std::string>& chunksList)
+  string        theString,
+  string        theSeparator,
+  list<string>& chunksList)
 {
   //#define DEBUG_SPLITTING
 
@@ -1821,12 +1821,12 @@ Reference for this class:
   https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:
-  segmentedLinesOstream myStream (std::cout);
+  segmentedLinesOstream myStream (cout);
 
   myStream <<
-    1 << 2 << 3 << std::endl <<
-    5 << 6 << std::endl <<
-    7 << 8 << std::endl;
+    1 << 2 << 3 << endl <<
+    5 << 6 << endl <<
+    7 << 8 << endl;
 * /
 
   private:
@@ -1878,7 +1878,7 @@ EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch);
 EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i);
 EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i);
 EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f);
-EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const std::string& str);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const string& str);
 EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str);
 
 // the manipulators

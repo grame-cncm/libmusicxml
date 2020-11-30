@@ -529,9 +529,8 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       " from tuplet " << asString () <<
       " in voice \"" <<
       fTupletMeasureUpLink->
-        getMeasureSegmentUpLink ()->
-          getSegmentVoiceUpLink ()->
-            getVoiceName () <<
+        fetchMeasureVoiceUpLink ()->
+          getVoiceName () <<
       "\"," <<
       " since this note has not been found in fTupletElementsList";
 
@@ -550,9 +549,8 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       "cannot remove the first note of an empty tuplet " <<
       " in voice \"" <<
       fTupletMeasureUpLink->
-        getMeasureSegmentUpLink ()->
-          getSegmentVoiceUpLink ()->
-            getVoiceName () <<
+        fetchMeasureVoiceUpLink ()->
+          getVoiceName () <<
       "\"";
 
     msrInternalError (
@@ -620,9 +618,8 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
       "cannot remove the last note of an empty tuplet " <<
       " in voice \"" <<
       fTupletMeasureUpLink->
-        getMeasureSegmentUpLink ()->
-          getSegmentVoiceUpLink ()->
-            getVoiceName () <<
+        fetchMeasureVoiceUpLink ()->
+          getVoiceName () <<
       "\"";
 
     msrInternalError (

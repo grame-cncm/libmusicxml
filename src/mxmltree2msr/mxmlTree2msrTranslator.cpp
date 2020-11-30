@@ -16000,10 +16000,8 @@ S_msrChord mxmlTree2msrTranslator::createChordFromItsFirstNote (
     // register the chord as non cross staff
     fCurrentChordStaffNumber =
       chordFirstNoteMeasureUpLink->
-        getMeasureSegmentUpLink ()->
-          getSegmentVoiceUpLink ()->
-            getVoiceStaffUpLink ()->
-              getStaffNumber ();
+        fetchMeasureStaffUpLink ()->
+          getStaffNumber ();
   }
     */
 
@@ -16033,8 +16031,11 @@ void mxmlTree2msrTranslator::registerVoiceCurrentChordInMap (
  // fVoicesCurrentChordMap [voice] = chord;
   fVoicesCurrentChordMap [
     make_pair (
-      voice->getVoiceStaffUpLink ()->getStaffNumber (),
-      voice->getVoiceNumber ())] =
+      voice->
+        getVoiceStaffUpLink ()->
+          getStaffNumber (),
+      voice->
+        getVoiceNumber ())] =
       chord;
 
 #ifdef TRACING_IS_ENABLED

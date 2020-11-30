@@ -687,12 +687,18 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     // uplinks
-    S_msrVoice            fetchNoteVoice () const;
-    S_msrStaff            fetchNoteStaff () const;
+    S_msrVoice            fetchNoteVoiceUpLink () const;
 
+    S_msrStaff            fetchNoteStaffUpLink () const;
+
+    S_msrPart             fetchNotePartUpLink () const;
+
+    S_msrPartGroup        fetchNotePartGroupUpLink () const;
+
+    S_msrScore            fetchNoteScoreUpLink () const;
+
+    // a pitched rest?
     bool                  noteIsAPitchedRest () const;
-
-    string                asShortStringWithRawWholeNotes () const;
 
     // diatonic pitch
     msrDiatonicPitchKind  noteDiatonicPitchKind (
@@ -844,6 +850,8 @@ class msrNote : public msrTupletElement
     string                asString () const override;
 
     string                asShortString () const override;
+
+    string                asShortStringWithRawWholeNotes () const;
 
     virtual void          print (ostream& os) const override;
 

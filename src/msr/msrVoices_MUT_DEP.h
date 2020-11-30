@@ -112,7 +112,7 @@ class msrVoice : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    // upLinks
+    // uplink
 
     S_msrStaff            getVoiceStaffUpLink () const
                               { return fVoiceStaffUpLink; }
@@ -284,6 +284,10 @@ class msrVoice : public msrElement
     // upLinks
 
     S_msrPart             fetchVoicePartUpLink () const;
+
+    S_msrPartGroup        fetchVoicePartGroupUpLink () const;
+
+    S_msrScore            fetchVoiceScoreUpLink () const;
 
     // identity
 
@@ -754,6 +758,9 @@ class msrVoice : public msrElement
 
     rational              getCurrentPositionInVoice () const
                               { return fCurrentPositionInVoice; }
+
+    const msrMoment&      getCurrentMomentInVoice () const
+                              { return fCurrentMomentInVoice; }
 
     // finalization
 
@@ -1244,6 +1251,7 @@ class msrVoice : public msrElement
     // current position in voice
 
     rational              fCurrentPositionInVoice;
+    msrMoment             fCurrentMomentInVoice;
 
     // voice finalization
 

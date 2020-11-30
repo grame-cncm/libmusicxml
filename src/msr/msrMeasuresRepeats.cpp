@@ -1014,9 +1014,7 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
   S_msrScore
     score =
       fMeasuresRepeatVoiceUpLink->
-        fetchVoicePartUpLink ()->
-          getPartPartGroupUpLink ()->
-            getPartGroupScoreUpLink ();
+        fetchVoiceScoreUpLink ();
 
   bool inhibitMeasuresRepeatReplicasBrowsing =
     score->getInhibitMeasuresRepeatReplicasBrowsing ();

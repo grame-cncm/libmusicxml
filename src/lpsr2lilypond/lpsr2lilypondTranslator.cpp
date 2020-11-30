@@ -1168,9 +1168,7 @@ void lpsr2lilypondTranslator::generateNoteLigatures (
             S_msrVoice
               noteVoice =
                 note->
-                  getNoteMeasureUpLink ()->
-                    getMeasureSegmentUpLink ()->
-                      getSegmentVoiceUpLink ();
+                  fetchNoteVoiceUpLink ();
 
             // determine vertical flipping factor
             int ligatureVerticalFlippingFactor = 0;
@@ -1604,9 +1602,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
           S_msrVoice
             noteVoice =
               note->
-                getNoteMeasureUpLink ()->
-                  getMeasureSegmentUpLink ()->
-                    getSegmentVoiceUpLink ();
+                fetchNoteVoiceUpLink ();
 
           // print the rest name and duration
           if (note->getNoteOccupiesAFullMeasure ()) {
@@ -8769,8 +8765,7 @@ else
         S_msrVoice
           measureVoice =
             elt->
-              getMeasureSegmentUpLink ()->
-                getSegmentVoiceUpLink ();
+              fetchMeasureVoiceUpLink ();
 
         // fetch measure's part
         S_msrPart
@@ -9090,7 +9085,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrStanza& elt)
         // both double hyphens and double underscores can be used
         // to draw hyphenated lines and extenders under melismata correctly
         "\\set associatedVoice = #\"" <<
-        elt->getStanzaVoiceUpLink ()->getVoiceName () <<
+        elt->
+          getStanzaVoiceUpLink ()->
+            getVoiceName () <<
         "\"" <<
         endl <<
         "\\set ignoreMelismata = ##t" <<
@@ -12488,11 +12485,9 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 
       fLilypondCodeStream <<
         "\\new Staff \\with { alignAboveContext = \"" <<
-        elt->getNoteMeasureUpLink ()->
-          getMeasureSegmentUpLink ()->
-            getSegmentVoiceUpLink ()->
-              getVoiceStaffUpLink ()->
-                getStaffName () <<
+        elt->
+          fetchNoteStaffUpLink ()->
+            getStaffName () <<
         "\" } {" <<
         endl;
 

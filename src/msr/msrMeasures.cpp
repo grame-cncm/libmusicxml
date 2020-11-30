@@ -166,6 +166,41 @@ void msrMeasure::initializeMeasure ()
 msrMeasure::~msrMeasure ()
 {}
 
+S_msrVoice msrMeasure::fetchMeasureVoiceUpLink () const
+{
+  return
+    fMeasureSegmentUpLink->
+      getSegmentVoiceUpLink ();
+}
+
+S_msrStaff msrMeasure::fetchMeasureStaffUpLink () const
+{
+  return
+    fMeasureSegmentUpLink->
+      fetchSegmentStaffUpLink ();
+}
+
+S_msrPart msrMeasure::fetchMeasurePartUpLink () const
+{
+  return
+    fMeasureSegmentUpLink->
+      fetchSegmentPartUpLink ();
+}
+
+S_msrPartGroup msrMeasure::fetchMeasurePartGroupUpLink () const
+{
+  return
+    fMeasureSegmentUpLink->
+      fetchSegmentPartGroupUpLink ();
+}
+
+S_msrScore msrMeasure::fetchMeasureScoreUpLink () const
+{
+  return
+    fMeasureSegmentUpLink->
+      fetchSegmentScoreUpLink ();
+}
+
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
 {
@@ -601,20 +636,6 @@ S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
   return measureCopy;
 }
 
-S_msrPart msrMeasure::fetchMeasurePartUpLink () const
-{
-  return
-    fMeasureSegmentUpLink->
-      fetchSegmentPartUpLink ();
-}
-
-S_msrVoice msrMeasure::fetchMeasureVoiceUpLink () const
-{
-  return
-    fMeasureSegmentUpLink->
-      getSegmentVoiceUpLink ();
-}
-
 void msrMeasure::setMeasureEndRegularKind (
   msrMeasureEndRegularKind measureEndRegularKind)
 {
@@ -705,8 +726,8 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
       " to measure " <<
       asShortString () <<
       " in voice \"" <<
-      fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink ()->getVoiceName () <<
+      fetchMeasureVoiceUpLink ()->
+        getVoiceName () <<
       "\", currentMeasureWholeNotesDuration = " <<
       fCurrentMeasureWholeNotesDuration <<
       ", line " << inputLineNumber <<
@@ -1248,7 +1269,8 @@ void msrMeasure::appendPrintLayoutToMeasure (
       " to measure " <<
       this->asShortString () <<
       ", in voice \"" <<
-      fetchMeasureVoiceUpLink ()->getVoiceName () <<
+      fetchMeasureVoiceUpLink ()->
+        getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -1270,7 +1292,8 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
       " to measure " <<
       this->asShortString () <<
       ", in voice \"" <<
-      fetchMeasureVoiceUpLink ()->getVoiceName () <<
+      fetchMeasureVoiceUpLink ()->
+        getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -1289,7 +1312,8 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
       " to measure " <<
       this->asShortString () <<
       ", in voice \"" <<
-      fetchMeasureVoiceUpLink ()->getVoiceName () <<
+      fetchMeasureVoiceUpLink ()->
+        getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -1788,7 +1812,8 @@ void msrMeasure::appendNoteToMeasure (
           positionsDelta,
           0, // dots number JMI ???
           voice->
-            getVoiceStaffUpLink ()->getStaffNumber (),
+            getVoiceStaffUpLink ()->
+              getStaffNumber (),
           voice->
             getVoiceNumber ());
 
@@ -1809,7 +1834,8 @@ void msrMeasure::appendNoteToMeasure (
       this->asShortString () <<
       ", cannot padup in voice \"" <<
       fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink ()->getVoiceName () <<
+        getSegmentVoiceUpLink ()->
+          getVoiceName () <<
       "\"" <<
       ", fCurrentMeasureWholeNotesDuration " <<
       fCurrentMeasureWholeNotesDuration <<
@@ -2512,7 +2538,8 @@ S_msrNote msrMeasure::createPaddingSkipNoteForVoice (
         duration,
         0, // dots number JMI ???
         voice->
-          getVoiceStaffUpLink ()->getStaffNumber (),
+          getVoiceStaffUpLink ()->
+            getStaffNumber (),
         voice->
           getVoiceNumber ());
 
@@ -2889,9 +2916,7 @@ void msrMeasure::removeNoteFromMeasure (
 
   S_msrPart
     segmentVoicePart =
-      segmentVoiceUpLink->
-        getVoiceStaffUpLink ()->
-        getStaffPartUpLink ();
+      fetchMeasurePartUpLink ();
 
   gLogStream <<
     endl <<
@@ -3582,8 +3607,7 @@ void msrMeasure::finalizeRegularMeasure (
   S_msrPart
     regularPart =
       voice->
-        getVoiceStaffUpLink ()->
-          getStaffPartUpLink ();
+        fetchVoicePartUpLink ();
 
   rational
     measureWholeNotesDuration =
@@ -4926,8 +4950,7 @@ void msrMeasure::finalizeHarmonyMeasure (
   S_msrPart
     harmonyPart =
       harmonyVoice->
-        getVoiceStaffUpLink ()->
-          getStaffPartUpLink ();
+        fetchVoicePartUpLink ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -5019,8 +5042,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
   S_msrPart
     figuredBassPart =
       figuredBassVoice->
-        getVoiceStaffUpLink ()->
-          getStaffPartUpLink ();
+        fetchVoicePartUpLink ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
@@ -5113,7 +5135,9 @@ void msrMeasure::finalizeMeasure (
       "', context: " << context <<
       "', measureFinalizationContext: " << fMeasureFinalizationContext <<
       " in voice \"" <<
-      fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ()->
+          getVoiceName () <<
       "\" (" << context << ")" <<
       ", line " << inputLineNumber;
 
@@ -5137,7 +5161,9 @@ void msrMeasure::finalizeMeasure (
         " in segment '" <<
         fMeasureSegmentUpLink->getSegmentAbsoluteNumber () <<
         "' in voice \"" <<
-        fMeasureSegmentUpLink->getSegmentVoiceUpLink ()->getVoiceName () <<
+        fMeasureSegmentUpLink->
+          getSegmentVoiceUpLink ()->
+            getVoiceName () <<
         "\" (" << context << ")" <<
         ", line " << inputLineNumber <<
         endl;
@@ -5192,9 +5218,8 @@ void msrMeasure::finalizeMeasure (
     // position in voice
     rational
       positionInVoice =
-        fMeasureSegmentUpLink->
-          getSegmentVoiceUpLink ()->
-            getCurrentPositionInVoice ();
+        fetchMeasureVoiceUpLink ()->
+          getCurrentPositionInVoice ();
 
     // increment position in voice if relevant
     for (
