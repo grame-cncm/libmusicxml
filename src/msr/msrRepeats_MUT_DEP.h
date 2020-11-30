@@ -37,7 +37,7 @@ class msrRepeatCommonPart : public msrElement
 
     // elements
     const list<S_msrVoiceElement>&
-                          getRepeatCommonPartElementsList ()
+                          getRepeatCommonPartElementsList () const
                               { return fRepeatCommonPartElementsList; }
 
   public:
@@ -185,7 +185,7 @@ class msrRepeatEnding : public msrElement
 
     // elements
     const list<S_msrVoiceElement>&
-                          getRepeatEndingElementsList ()
+                          getRepeatEndingElementsList () const
                               { return fRepeatEndingElementsList; }
 
   public:
@@ -594,7 +594,7 @@ class msrRepeatElement : public msrElement
 
     // elements
     const list<S_msrVoiceElement>&
-                          getRepeatElementElementsList ()
+                          getRepeatElementElementsList () const
                               { return fRepeatElementElementsList; }
 
   public:

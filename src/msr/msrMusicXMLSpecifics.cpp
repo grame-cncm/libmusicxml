@@ -117,7 +117,7 @@ void msrPageLayout::setBothMarginsGroup (
 }
 
 
-S_msrMargin msrPageLayout::getSingleLeftMargin ()
+S_msrMargin msrPageLayout::getSingleLeftMargin () const
 {
   // heuristic, could be refined with suitable options JMI
   S_msrMargin result;
@@ -135,7 +135,7 @@ S_msrMargin msrPageLayout::getSingleLeftMargin ()
   return result;
 }
 
-S_msrMargin msrPageLayout::getSingleRightMargin ()
+S_msrMargin msrPageLayout::getSingleRightMargin () const
 {
   // heuristic, could be refined with suitable options JMI
   S_msrMargin result;
@@ -153,7 +153,7 @@ S_msrMargin msrPageLayout::getSingleRightMargin ()
   return result;
 }
 
-S_msrMargin msrPageLayout::getSingleTopMargin ()
+S_msrMargin msrPageLayout::getSingleTopMargin () const
 {
   // heuristic, could be refined with suitable options JMI
   S_msrMargin result;
@@ -171,7 +171,7 @@ S_msrMargin msrPageLayout::getSingleTopMargin ()
   return result;
 }
 
-S_msrMargin msrPageLayout::getSingleBottomMargin ()
+S_msrMargin msrPageLayout::getSingleBottomMargin () const
 {
   // heuristic, could be refined with suitable options JMI
   S_msrMargin result;

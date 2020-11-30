@@ -202,7 +202,7 @@ class indentedStreamBuf: public std::stringbuf
         {}
 
     // indentation
-    outputIndenter&       getOutputIndenter ()
+    outputIndenter&       getOutputIndenter () const
                               { return fOutputIndenter; }
 
     // flush
@@ -265,7 +265,7 @@ Usage:
                               { fIndentedStreamBuf.flush (); }
 
     // indentation
-    outputIndenter&       getIndenter ()
+    outputIndenter&       getIndenter () const
                               { return fIndentedStreamBuf.getOutputIndenter (); }
 
     void                  incrIdentation ()

@@ -862,7 +862,7 @@ class oahCombinedBooleansAtom : public oahAtomWithVariableName
     // ------------------------------------------------------
 
     const list<S_oahBooleanAtom>&
-                          getBooleanAtomsList ()
+                          getBooleanAtomsList () const
                               { return fBooleanAtomsList; }
 
   public:
@@ -958,7 +958,7 @@ class oahMultiplexBooleansAtom : public oahAtom
     // ------------------------------------------------------
 
     const list<S_oahBooleanAtom>&
-                          getBooleanAtomsList ()
+                          getBooleanAtomsList () const
                               { return fBooleanAtomsList; }
 
   public:
@@ -1390,7 +1390,7 @@ class oahMonoplexStringAtom : public oahAtom
     // ------------------------------------------------------
 
     const list<S_oahStringAtom>&
-                          getStringAtomsList ()
+                          getStringAtomsList () const
                               { return fStringAtomsList; }
 
   public:

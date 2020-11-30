@@ -65,6 +65,11 @@ string oahHandlerUsedThruKindAsString (
   oahHandlerUsedThruKind handlerUsedThruKind);
 
 //______________________________________________________________________________
+void displayOptionsVector (
+  const optionsVector& theOptionsVector,
+  ostream&             os);
+
+//______________________________________________________________________________
 class oahPrefix;
 typedef SMARTP<oahPrefix> S_oahPrefix;
 
@@ -1000,9 +1005,6 @@ class oahHandler : public smartable
     string                commandLineAsSuppliedAsString () const;
     string                commandLineWithShortNamesAsString () const;
     string                commandLineWithLongNamesAsString () const;
-
-    void                  displayOptionsVector (
-                            const optionsVector& theOptionsVector);
 
     void                  displayArgumentsVector (
                             const vector<string>& theArgumentsVector);

@@ -107,10 +107,10 @@ class msrPageLayout : public msrElement
     // but no odd, even nor both margins settings,
     // so we need methods to obtain a single margin from
     // fOddMarginsGroup, fEvenMarginsGroup and fBothMarginsGroup
-    S_msrMargin           getSingleLeftMargin ();
-    S_msrMargin           getSingleRightMargin ();
-    S_msrMargin           getSingleTopMargin ();
-    S_msrMargin           getSingleBottomMargin ();
+    S_msrMargin           getSingleLeftMargin () const;
+    S_msrMargin           getSingleRightMargin () const;
+    S_msrMargin           getSingleTopMargin () const;
+    S_msrMargin           getSingleBottomMargin () const;
 
   public:
 

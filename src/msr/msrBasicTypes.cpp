@@ -1253,6 +1253,199 @@ string multipleRestMeasuresWholeNotesAsMsrString (
   return s.str ();
 }
 
+// moments
+//______________________________________________________________________________
+msrMoment::msrMoment ()
+{
+  fPositionInMeasure = rational (-1, 1);
+  fRelativeOffset    = rational (-1, 1);
+}
+
+msrMoment::msrMoment (
+  rational positionInMeasure,
+  rational relativeOffset)
+{
+  fPositionInMeasure = positionInMeasure;
+  fRelativeOffset    = relativeOffset;
+}
+
+msrMoment::msrMoment (
+  rational positionInMeasure)
+{
+  fPositionInMeasure = positionInMeasure;
+  fRelativeOffset    = rational (0, 1);
+}
+
+msrMoment::~msrMoment ()
+{}
+
+void msrMoment::testMsrMomentComparisons (ostream& os)
+{
+	msrMoment m0 (rational (3, 4));
+	msrMoment m1 (rational (3, 4), rational (-1, 16));
+	msrMoment m2 (rational (3, 4), rational (2, 16));
+
+  os <<
+    "m1: " << m1 << endl <<
+    "m0: " << m0 << endl <<
+    "m2: " << m2 << endl <<
+    endl <<
+
+    "m0 == m0: " << booleanAsString (m0 == m0) << endl <<
+    "m1 == m1: " << booleanAsString (m1 == m1) << endl <<
+    "m2 == m2: " << booleanAsString (m2 == m2) << endl <<
+    endl <<
+
+    "m0 != m0: " << booleanAsString (m0 != m0) << endl <<
+    "m1 != m1: " << booleanAsString (m1 != m1) << endl <<
+    "m2 != m2: " << booleanAsString (m2 != m2) << endl <<
+    endl <<
+
+    "m0 < m0: " << booleanAsString (m0 < m0) << endl <<
+    "m1 < m1: " << booleanAsString (m1 < m1) << endl <<
+    "m2 < m2: " << booleanAsString (m2 < m2) << endl <<
+    endl <<
+
+    "m0 <= m0: " << booleanAsString (m0 <= m0) << endl <<
+    "m1 <= m1: " << booleanAsString (m1 <= m1) << endl <<
+    "m2 <= m2: " << booleanAsString (m2 <= m2) << endl <<
+    endl <<
+
+    "m0 >= m0: " << booleanAsString (m0 >= m0) << endl <<
+    "m1 >= m1: " << booleanAsString (m1 >= m1) << endl <<
+    "m2 >= m2: " << booleanAsString (m2 >= m2) << endl <<
+    endl <<
+
+    "m0 > m0: " << booleanAsString (m0 > m0) << endl <<
+    "m1 > m1: " << booleanAsString (m1 > m1) << endl <<
+    "m2 > m2: " << booleanAsString (m2 > m2) << endl <<
+    endl <<
+    endl <<
+
+    "m1 == m0: " << booleanAsString (m1 == m0) << endl <<
+    "m1 == m1: " << booleanAsString (m1 == m1) << endl <<
+    "m1 == m2: " << booleanAsString (m1 == m2) << endl <<
+    endl <<
+
+    "m1 != m0: " << booleanAsString (m1 != m0) << endl <<
+    "m1 != m1: " << booleanAsString (m1 != m1) << endl <<
+    "m1 != m2: " << booleanAsString (m1 != m2) << endl <<
+    endl <<
+
+    "m1 < m0: " << booleanAsString (m1 < m0) << endl <<
+    "m1 < m1: " << booleanAsString (m1 < m1) << endl <<
+    "m1 < m2: " << booleanAsString (m1 < m2) << endl <<
+    endl <<
+
+    "m1 <= m0: " << booleanAsString (m1 <= m0) << endl <<
+    "m1 <= m1: " << booleanAsString (m1 <= m1) << endl <<
+    "m1 <= m2: " << booleanAsString (m1 <= m2) << endl <<
+    endl <<
+
+    "m1 >= m0: " << booleanAsString (m1 >= m0) << endl <<
+    "m1 >= m1: " << booleanAsString (m1 >= m1) << endl <<
+    "m1 >= m2: " << booleanAsString (m1 >= m2) << endl <<
+    endl <<
+
+    "m1 > m0: " << booleanAsString (m1 > m0) << endl <<
+    "m1 > m1: " << booleanAsString (m1 > m1) << endl <<
+    "m1 > m2: " << booleanAsString (m1 > m2) << endl <<
+    endl <<
+
+    endl;
+
+/* output:
+*/
+}
+
+bool msrMoment::operator== (const msrMoment& other) const
+{
+  bool result;
+
+  if (fPositionInMeasure != other.fPositionInMeasure) {
+    result = false;
+  }
+  else {
+    result = fRelativeOffset == other.fRelativeOffset;
+  }
+
+  return result;
+}
+
+bool msrMoment::operator< (const msrMoment& other) const
+{
+  bool result;
+
+  if (fPositionInMeasure > other.fPositionInMeasure) {
+    result = false;
+  }
+  else if (fPositionInMeasure == other.fPositionInMeasure) {
+    result = fRelativeOffset < other.fRelativeOffset;
+  }
+  else {
+    result = true;
+  }
+
+  return result;
+}
+
+bool msrMoment::operator> (const msrMoment& other) const
+{
+  bool result;
+
+  if (fPositionInMeasure < other.fPositionInMeasure) {
+    result = false;
+  }
+  else if (fPositionInMeasure == other.fPositionInMeasure) {
+    result = fRelativeOffset > other.fRelativeOffset;
+  }
+  else {
+    result = true;
+  }
+
+  return result;
+}
+
+string msrMoment::asString () const
+{
+  stringstream s;
+
+  s <<
+    "[Moment" <<
+    ", positionInMeasure: " << fPositionInMeasure <<
+    ", relativeOffset: " << fRelativeOffset <<
+    "]";
+
+  return s.str ();
+}
+
+void msrMoment::print (ostream& os) const
+{
+  os <<
+    "Moment" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 11;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : " << fPositionInMeasure <<
+    endl <<
+    setw (fieldWidth) <<
+    "relativeOffset" << " : " << fRelativeOffset <<
+    endl;
+
+  gIndenter--;
+};
+
+ostream& operator<< (ostream& os, const msrMoment& elt)
+{
+  elt.print (os);
+  return os;
+}
+
 // tuplet factors
 //______________________________________________________________________________
 msrTupletFactor::msrTupletFactor ()
@@ -14696,7 +14889,7 @@ string msrFontSize::fontSizeAsString () const
   return result;
 }
 
-float msrFontSize::getFontNumericSize ()
+float msrFontSize::getFontNumericSize () const
 {
   float result = 12; // JMI
 
@@ -20569,6 +20762,8 @@ void initializeMSRBasicTypes ()
 }
 
 /* JMI
+#include <algorithm>    // for_each
+
     // Iterate over a map using std::for_each and Lambda function
     for_each (
       gGlobalQuarterTonesPitchesLanguageKindsMap.begin(),

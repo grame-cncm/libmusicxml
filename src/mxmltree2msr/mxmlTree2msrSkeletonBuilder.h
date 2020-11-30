@@ -88,11 +88,10 @@ struct mxmlPartGroupDescr : public smartable
 
     string                partGroupDescrAsString () const;
 
-    string                getPartGroupCombinedName () const
+    string                getPartGroupDescrCombinedName () const
                               {
-                               return
-                                fPartGroup->
-                                  getPartGroupCombinedName ();
+                                return
+                                  fPartGroup->getPartGroupCombinedName ();
                               }
 
   public:

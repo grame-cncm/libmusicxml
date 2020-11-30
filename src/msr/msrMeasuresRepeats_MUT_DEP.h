@@ -41,7 +41,7 @@ class msrMeasuresRepeatElement : public msrElement
 
     // elements
     const list<S_msrVoiceElement>&
-                          getMeasuresRepeatElementElementsList ()
+                          getMeasuresRepeatElementElementsList () const
                               { return fMeasuresRepeatElementElementsList; }
 
   public:

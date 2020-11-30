@@ -181,12 +181,17 @@ class traceOahGroup : public oahGroup
     // measures
     bool                  getTraceMeasuresNumbers () const
                               { return fTraceMeasuresNumbers; }
+
     bool                  getTraceMeasures () const
                               { return fTraceMeasures; }
     bool                  getTraceMeasuresDetails () const
                               { return fTraceMeasuresDetails; }
+
     bool                  getTracePositionsInMeasures () const
                               { return fTracePositionsInMeasures; }
+    bool                  getTraceMomentsInMeasures () const
+                              { return fTraceMomentsInMeasures; }
+
     set<int>              getTraceDetailedMeasureNumbersSet () const
                               { return fTraceDetailedMeasureNumbersSet; }
 
@@ -567,9 +572,13 @@ class traceOahGroup : public oahGroup
     bool                  fTraceSegmentsDetails;
     // measures
     bool                  fTraceMeasuresNumbers;
+
     bool                  fTraceMeasures;
     bool                  fTraceMeasuresDetails;
+
     bool                  fTracePositionsInMeasures;
+    bool                  fTraceMomentsInMeasures;
+
     set<int>              fTraceDetailedMeasureNumbersSet;
 
 

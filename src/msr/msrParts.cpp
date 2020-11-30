@@ -12,6 +12,7 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // setw, setprecision, ...
+#include <algorithm>    // for_each
 
 #include "msr_MUTUAL_DEPENDENCIES.h"
 

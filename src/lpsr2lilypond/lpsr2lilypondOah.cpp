@@ -3081,7 +3081,7 @@ This is useful for adding line breaks and page breaks, and when debugging EXECUT
         "originalMeasureNumbers",
         fOriginalMeasureNumbers));
 
-  // positions in the measures
+  // moments in the measures
   // --------------------------------------
 
   fPositionsInMeasures = false;
@@ -3089,10 +3089,10 @@ This is useful for adding line breaks and page breaks, and when debugging EXECUT
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "pim", "positions-in-measures",
+        "mom", "moments-in-measures",
         regex_replace (
 R"(Generate after each note and barline a comment containing
-its position in the measure.
+its moment in the measure.
 This is useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
           gGlobalOahOahGroup->getHandlerExecutableName ()),

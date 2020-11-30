@@ -1527,7 +1527,7 @@ void xml2lyRegularOahHandler::createOutputRegularGroup ()
   registerAtomInRegularSubgroup ("ambitus", subGroup);
 
   registerAtomInRegularSubgroup ("input-line-numbers", subGroup);
-  registerAtomInRegularSubgroup ("positions-in-measures", subGroup);
+  registerAtomInRegularSubgroup ("moments-in-measures", subGroup);
 
   registerAtomInRegularSubgroup ("all-bar-numbers", subGroup);
   registerAtomInRegularSubgroup ("all-measure-numbers", subGroup);

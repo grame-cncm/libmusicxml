@@ -11861,7 +11861,7 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
   fLastMetWholeNotes = rational (0, 1);
 
   // generate the notes in the grace notes group
-  list<S_msrMeasureElement>&
+  const list<S_msrMeasureElement>&
     graceNotesGroupElementsList =
       graceNotesGroup->
         getGraceNotesGroupElementsList ();

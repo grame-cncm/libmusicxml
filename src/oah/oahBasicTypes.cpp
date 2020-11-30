@@ -62,6 +62,44 @@ string oahHandlerUsedThruKindAsString (
 }
 
 //______________________________________________________________________________
+void displayOptionsVector (
+  const optionsVector& theOptionsVector,
+  ostream&             os)
+{
+  os <<
+    "The options vector contains " <<
+    singularOrPlural (
+      theOptionsVector.size (), "element", "elements");
+
+  if (theOptionsVector.size ()) {
+    os << ":" << endl;
+
+    gIndenter++;
+
+    for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
+      string optionName  = theOptionsVector [i].first;
+      string optionValue = theOptionsVector [i].second;
+
+      os <<
+        right << setw (2) << i <<
+        ": \"" <<
+        optionName <<
+        "\" \"" <<
+        optionValue <<
+        "\"" <<
+        endl;
+    } //for
+
+    os << endl;
+
+    gIndenter--;
+  }
+  else {
+    os << endl;
+  }
+}
+
+//______________________________________________________________________________
 S_oahPrefix oahPrefix::create (
   string prefixName,
   string prefixErsatz,
@@ -3177,42 +3215,6 @@ void oahHandler::checkHandlerOptionsConsistency ()
 void oahHandler::enforceHandlerQuietness ()
 {}
 
-void oahHandler::displayOptionsVector (
-  const optionsVector& theOptionsVector)
-{
-  gLogStream <<
-    "The options vector contains " <<
-    singularOrPlural (
-      theOptionsVector.size (), "element", "elements");
-
-  if (theOptionsVector.size ()) {
-    gLogStream << ":" << endl;
-
-    gIndenter++;
-
-    for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
-      string optionName  = theOptionsVector [i].first;
-      string optionValue = theOptionsVector [i].second;
-
-      gLogStream <<
-        right << setw (2) << i <<
-        ": \"" <<
-        optionName <<
-        "\" \"" <<
-        optionValue <<
-        "\"" <<
-        endl;
-    } //for
-
-    gLogStream << endl;
-
-    gIndenter--;
-  }
-  else {
-    gLogStream << endl;
-  }
-}
-
 void oahHandler::displayArgumentsVector (
   const vector<string>& theArgumentsVector)
 {
@@ -5700,7 +5702,9 @@ void oahHandler::createElementUsesListFromOptionsVector (
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
-  displayOptionsVector (theOptionsVector);
+  displayOptionsVector (
+    theOptionsVector,
+    gLogStream);
 #endif
 #endif
 

@@ -82,6 +82,8 @@ int main (int argc, char *argv[])
 
 	catchsigs();
 
+// JMI  msrMoment::testMsrMomentComparisons (cerr); // BLARK
+
   // fetch executable name
   string executableName = argv [0];
 
@@ -139,7 +141,8 @@ int main (int argc, char *argv[])
       insiderOahHandler =
         xml2lyInsiderOahHandler::create (
           executableName,
-          executableName + " insider OAH handler with argc/argv");
+          executableName + " insider OAH handler with argc/argv",
+          kHandlerUsedThruArgcAndArgv);
 
     // the OAH handler to be used, a regular handler is the default
     // ------------------------------------------------------

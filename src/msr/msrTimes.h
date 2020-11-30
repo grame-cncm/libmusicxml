@@ -178,7 +178,7 @@ class msrTime : public msrMeasureElement
                               { return fTimeIsCompound; }
 
     const vector<S_msrTimeItem>&
-                          getTimeItemsVector ()
+                          getTimeItemsVector () const
                               { return fTimeItemsVector; }
 
   public:

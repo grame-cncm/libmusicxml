@@ -79,8 +79,8 @@ class msrGraceNotesGroup : public msrElement
                             msrGraceNotesGroupKind graceNotesGroupKind)
                               { fGraceNotesGroupKind = graceNotesGroupKind; }
 
-    list<S_msrMeasureElement>&
-                          getGraceNotesGroupElementsList ()
+    const list<S_msrMeasureElement>&
+                          getGraceNotesGroupElementsList () const
                               { return fGraceNotesGroupElementsList; }
 
     bool                  getGraceNotesGroupIsSlashed () const

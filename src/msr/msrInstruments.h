@@ -145,7 +145,7 @@ class msrScordatura : public msrMeasureElement
     // ------------------------------------------------------
 
     const list<S_msrStringTuning>&
-                          getScordaturaStringTuningsList ()
+                          getScordaturaStringTuningsList () const
                               { return fScordaturaStringTuningsList; }
 
   public:
@@ -295,7 +295,7 @@ class msrHarpPedalsTuning : public msrMeasureElement
     // ------------------------------------------------------
 
     const map<msrDiatonicPitchKind, msrAlterationKind>&
-                          getHarpPedalsAlterationKindsMap ()
+                          getHarpPedalsAlterationKindsMap () const
                               { return fHarpPedalsAlterationKindsMap; }
 
   public:

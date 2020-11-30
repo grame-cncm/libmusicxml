@@ -20,7 +20,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -31,13 +31,13 @@ typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
 class msrHumdrumScotKeyItem : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
     enum msrHumdrumScotKeyItemKind {
         kTraditionalKind, kHumdrumScotKind };
-        
+
     static string HumdrumScotKeyItemKindAsString (
       msrHumdrumScotKeyItemKind HumdrumScotKeyItemKind);
 
@@ -48,13 +48,13 @@ class msrHumdrumScotKeyItem : public msrElement
 
     static string HumdrumScotKeyItemModeKindAsString (
       msrHumdrumScotKeyItemModeKind HumdrumScotKeyItemModeKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrHumdrumScotKeyItem> create (
       int inputLineNumber);
-      
+
   protected:
 
     // constructors/destructor
@@ -62,7 +62,7 @@ class msrHumdrumScotKeyItem : public msrElement
 
     msrHumdrumScotKeyItem (
       int inputLineNumber);
-            
+
     virtual ~msrHumdrumScotKeyItem ();
 
   public:
@@ -72,18 +72,18 @@ class msrHumdrumScotKeyItem : public msrElement
 
     void                  setKeyItemDiatonicPitchKind (
                             msrDiatonicPitchKind diatonicPitchKind);
-                              
+
     msrDiatonicPitchKind  getKeyItemDiatonicPitchKind () const
                               { return fKeyDiatonicPitchKind; }
 
     void                  setKeyItemAlterationKind (
                             msrAlterationKind alterationKind);
-                              
+
     msrAlterationKind     getKeyItemAlterationKind () const
                               { return fKeyAlterationKind; }
 
     void                  setKeyItemOctave (int keyOctave);
-                              
+
     int                   getKeyItemOctave () const
                               { return fKeyOctave; }
 
@@ -95,7 +95,7 @@ class msrHumdrumScotKeyItem : public msrElement
     bool                  isEqualTo (
                             S_msrHumdrumScotKeyItem
                               otherHumdrumScotKeyItem) const;
-                            
+
   public:
 
     // visitors
@@ -114,9 +114,9 @@ class msrHumdrumScotKeyItem : public msrElement
     string                asString () const override;
 
     virtual void          print (ostream& os) const override;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -134,13 +134,13 @@ typedef SMARTP<msrKey> S_msrKey;
 class msrKey : public msrMeasureElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
     enum msrKeyKind {
         kTraditionalKind, kHumdrumScotKind };
-        
+
     static string keyKindAsString (
       msrKeyKind keyKind);
 
@@ -151,7 +151,7 @@ class msrKey : public msrMeasureElement
 
     static string keyModeKindAsString (
       msrKeyModeKind keyModeKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -160,7 +160,7 @@ class msrKey : public msrMeasureElement
       msrQuarterTonesPitchKind keyTonicPitchKind,
       msrKeyModeKind           keyModeKind,
       int                      keyCancel);
-      
+
     static SMARTP<msrKey> createHumdrumScot (
       int                  inputLineNumber);
 
@@ -174,10 +174,10 @@ class msrKey : public msrMeasureElement
       msrQuarterTonesPitchKind keyTonicPitchKind,
       msrKeyModeKind           keyModeKind,
       int                      keyCancel);
-      
+
     msrKey ( // for Humdrum/Scot keys
       int                  inputLineNumber);
-      
+
     virtual ~msrKey ();
 
   public:
@@ -189,14 +189,14 @@ class msrKey : public msrMeasureElement
                               { return fKeyKind; }
 
     // traditional keys
-    
+
     msrQuarterTonesPitchKind
                           getKeyTonicQuarterTonesPitchKind () const
                               { return fKeyTonicQuarterTonesPitchKind; }
-                              
+
     msrKeyModeKind        getKeyModeKind () const
                               { return fKeyModeKind; }
-                            
+
     int                   getKeyCancel () const
                               { return fKeyCancel; }
 
@@ -204,24 +204,24 @@ class msrKey : public msrMeasureElement
 
  //   void                  setKeyItemsOctavesAreSpecified ()
  //                           { fKeyItemsOctavesAreSpecified = true; }
-                              
+
     bool                  getKeyItemsOctavesAreSpecified () const
                               { return fKeyItemsOctavesAreSpecified; }
 
     const vector<S_msrHumdrumScotKeyItem>&
-                          getHumdrumScotKeyItemsVector ()
+                          getHumdrumScotKeyItemsVector () const
                               { return fHumdrumScotKeyItemsVector; }
 
-    
+
   public:
 
     // public services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrKey otherKey) const;
-                            
+
     void                  appendHumdrumScotKeyItem (
-                            S_msrHumdrumScotKeyItem item);                                
+                            S_msrHumdrumScotKeyItem item);
 
   public:
 
@@ -241,14 +241,14 @@ class msrKey : public msrMeasureElement
     string                asString () const override;
 
     virtual void          print (ostream& os) const override;
-  
+
   private:
 
     // private fields
     // ------------------------------------------------------
 
     msrKeyKind            fKeyKind;
-    
+
     // traditional keys
 
     msrQuarterTonesPitchKind

@@ -10,22 +10,83 @@
   research@grame.fr
 */
 
-#ifndef ___msr2lpsrTranslator___
-#define ___msr2lpsrTranslator___
+#ifndef ___msr2msrTranslator___
+#define ___msr2msrTranslator___
 
 #include <map>
 #include <vector>
 
-#include "msr2msrTranslator.h"
-
-#include "lpsr.h"
+#include "msr.h"
 
 
 namespace MusicXML2
 {
 
 //________________________________________________________________________
-class msr2lpsrTranslator :
+struct msrHiddenMeasureAndBarlineDescr : public smartable
+{
+/*
+ * positions represent the order in which the parts appear in <part-list />
+*/
+
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrHiddenMeasureAndBarlineDescr> create (
+      int           inputLineNumber,
+      S_msrDalSegno dalSegno);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHiddenMeasureAndBarlineDescr (
+      int           inputLineNumber,
+      S_msrDalSegno dalSegno);
+
+    virtual ~msrHiddenMeasureAndBarlineDescr ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getInputLineNumber () const
+                              { return fInputLineNumber; }
+
+    S_msrDalSegno         getDalSegno () const
+                              { return fDalSegno; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    string                hiddenMeasureAndBarlineDescrAsString () const;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    int                   fInputLineNumber;
+    S_msrDalSegno         fDalSegno;
+};
+typedef SMARTP<msrHiddenMeasureAndBarlineDescr> S_msrHiddenMeasureAndBarlineDescr;
+EXP ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarlineDescr& elt);
+
+//________________________________________________________________________
+class msr2msrTranslator :
 
   public visitor<S_msrScore>,
 
@@ -273,15 +334,15 @@ class msr2lpsrTranslator :
 {
   public:
 
-    msr2lpsrTranslator (
+    msr2msrTranslator (
       S_msrScore mScore);
 
-    virtual ~msr2lpsrTranslator ();
+    virtual ~msr2msrTranslator ();
 
-    void buildLpsrScoreFromMsrScore ();
+    void buildMsrScoreFromMsrScore ();
 
-    S_lpsrScore getLpsrScore () const
-        { return fLpsrScore; }
+    S_msrScore getResultingMsrScore () const
+        { return fResultingMsrScore; }
 
   protected:
 
@@ -551,15 +612,9 @@ class msr2lpsrTranslator :
     S_msrScore                fVisitedMsrScore;
 
 
-    // the LPSR score we're building (it is always built)
+    // the MSR score we're building (it is always built)
     // ------------------------------------------------------
-    S_lpsrScore               fLpsrScore;
-    S_lpsrScoreBlock          fCurrentScoreBlock;
-
-
-    // its header
-    // ------------------------------------------------------
-    S_lpsrHeader              fCurrentLpsrScoreHeader;
+    S_msrScore                fResultingMsrScore;
 
 
     // score
@@ -573,28 +628,9 @@ class msr2lpsrTranslator :
     S_msrIdentification       fCurrentIdentification;
 
 
-    // header
-    // ------------------------------------------------------
-    bool                      fWorkNumberKnown;
-    bool                      fWorkTitleKnown;
-    bool                      fOpusKnown;
-    bool                      fMovementNumberKnown;
-    bool                      fMovementTitleKnown;
-
-
-    // paper
-    // ------------------------------------------------------
-    void                      setPaperIndentsIfNeeded (
-                                S_msrScaling scaling);
-
     // credits
     // ------------------------------------------------------
     S_msrCredit               fCurrentCredit;
-
-
-    // books
-    // ------------------------------------------------------
-    S_lpsrBookBlock           fCurrentLpsrBookBlock;
 
 
     // part groups
@@ -605,18 +641,10 @@ class msr2lpsrTranslator :
     // the current partGroup is the top of the stack
     stack<S_msrPartGroup>     fPartGroupsStack;
 
-    // part groups block are nested as the partGroup's are
-    // the current partGroup block is the top of the stack
-    stack<S_lpsrPartGroupBlock>
-                              fPartGroupBlocksStack;
-
-    S_lpsrBookPartBlock       fCurrentBookPartBlock;
-
 
     // parts
     // ------------------------------------------------------
     S_msrPart                 fCurrentPartClone;
-    S_lpsrPartBlock           fCurrentPartBlock;
 
 
     // staff details
@@ -628,7 +656,6 @@ class msr2lpsrTranslator :
     // staves
     // ------------------------------------------------------
     S_msrStaff                fCurrentStaffClone;
-    S_lpsrStaffBlock          fCurrentStaffBlock;
     // prevent clef, key and time from being handled twice
     bool                      fOnGoingStaff;
 
@@ -703,7 +730,7 @@ class msr2lpsrTranslator :
     // is being visited too
     S_msrNote                 fCurrentNonGraceNoteClone;
 
-    // to help workaround LilyPond issue #34
+    // to help workaround LilyPond issue #34 JMI ???
     S_msrNote                 fFirstNoteCloneInVoice;
 
     S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
@@ -763,6 +790,8 @@ class msr2lpsrTranslator :
 
     // tuplets
     // ------------------------------------------------------
+//    S_msrTuplet             fCurrentTupletClone;
+ //   bool                      fOnGoingTuplet;
     stack<S_msrTuplet>        fTupletClonesStack;
 
 

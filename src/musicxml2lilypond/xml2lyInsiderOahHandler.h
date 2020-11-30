@@ -37,8 +37,9 @@ class xml2lyInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2lyInsiderOahHandler> create (
-      string   executableName,
-      string   handlerHeader);
+      string                 executableName,
+      string                 handlerHeader,
+      oahHandlerUsedThruKind handlerUsedThruKind);
 
   protected:
 
@@ -46,8 +47,9 @@ class xml2lyInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     xml2lyInsiderOahHandler (
-      string   executableName,
-      string   handlerHeader);
+      string                 executableName,
+      string                 handlerHeader,
+      oahHandlerUsedThruKind handlerUsedThruKind);
 
     virtual ~xml2lyInsiderOahHandler ();
 
@@ -89,6 +91,13 @@ class xml2lyInsiderOahHandler : public oahHandler
 
     void                  print (ostream& os) const;
 
+  private:
+
+    // private methods
+    // ------------------------------------------------------
+
+    string               usageFromUsedThruKind (
+                           oahHandlerUsedThruKind handlerUsedThruKind) const;
   private:
 
     // private fields

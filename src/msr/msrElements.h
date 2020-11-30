@@ -44,7 +44,7 @@ class msrElement : public smartable
     // set and get
     // ------------------------------------------------------
 
-    int                   getInputLineNumber ()
+    int                   getInputLineNumber () const
                               { return fInputLineNumber; }
 
   public:

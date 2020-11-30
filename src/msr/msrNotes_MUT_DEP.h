@@ -280,7 +280,7 @@ class msrNote : public msrTupletElement
                             msrAccidentalKind accidentalKind)
                               { fNoteAccidentalKind = accidentalKind; }
 
-    msrAccidentalKind     getNoteAccidentalKind ()
+    msrAccidentalKind     getNoteAccidentalKind () const
                               { return fNoteAccidentalKind; }
 
     // editorial accidentals
@@ -293,7 +293,7 @@ class msrNote : public msrTupletElement
                               }
 
     msrEditorialAccidentalKind
-                          getNoteEditorialAccidentalKind ()
+                          getNoteEditorialAccidentalKind () const
                               { return fNoteEditorialAccidentalKind; }
 
     // cautionary accidentals
@@ -306,7 +306,7 @@ class msrNote : public msrTupletElement
                               }
 
     msrCautionaryAccidentalKind
-                          getNoteCautionaryAccidentalKind ()
+                          getNoteCautionaryAccidentalKind () const
                               { return fNoteCautionaryAccidentalKind; }
 
     // note whole notes
@@ -315,7 +315,7 @@ class msrNote : public msrTupletElement
                             rational wholeNotes)
                               { fMeasureElementSoundingWholeNotes = wholeNotes; }
 
-    rational              getNoteSoundingWholeNotes ()
+    rational              getNoteSoundingWholeNotes () const
                               { return fMeasureElementSoundingWholeNotes; }
 
     // note display
@@ -328,7 +328,7 @@ class msrNote : public msrTupletElement
                             rational wholeNotes)
                               { fNoteDisplayWholeNotes = wholeNotes; }
 
-    rational              getNoteDisplayWholeNotes ()
+    rational              getNoteDisplayWholeNotes () const
                               { return fNoteDisplayWholeNotes; }
 
     // dots

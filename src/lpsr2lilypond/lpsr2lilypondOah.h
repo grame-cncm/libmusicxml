@@ -152,7 +152,7 @@ class lilypondTransposePartNameAtom : public oahAtomWithValue
                               }
 
     const map<string, S_msrSemiTonesPitchAndOctave>&
-                          getStringMsrSemiTonesPitchAndOctaveVariable ()
+                          getStringMsrSemiTonesPitchAndOctaveVariable () const
                               {
                                 return
                                   fStringMsrSemiTonesPitchAndOctaveVariable;
@@ -252,7 +252,7 @@ class lilypondTransposePartIDAtom : public oahAtomWithValue
                               }
 
     const map<string, S_msrSemiTonesPitchAndOctave>&
-                          getStringMsrSemiTonesPitchAndOctaveVariable ()
+                          getStringMsrSemiTonesPitchAndOctaveVariable () const
                               {
                                 return
                                   fStringMsrSemiTonesPitchAndOctaveVariable;
@@ -687,7 +687,7 @@ class lilypondChordsDisplayAtom : public oahAtomWithValue
                               }
 
     const list<pair<string, string> >&
-                          getStringsPairListVariable ()
+                          getStringsPairListVariable () const
                               { return fStringsPairListVariable; }
 
   public:
@@ -1159,7 +1159,7 @@ class lpsr2lilypondOahGroup : public oahGroup
     // score notation
     // --------------------------------------
 
-    // scoreNotationKind     getScoreNotationKind; JMI ???
+    // scoreNotationKind     getScoreNotationKind () const JMI ???
     bool                  getJianpu () const
                               { return fJianpu; }
 

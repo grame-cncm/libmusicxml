@@ -14,7 +14,7 @@
 #define ___msrOah2manPageGenerator___
 
 #include "msrOah.h"
-#include "msr2lpsrOah.h"
+#include "msr2msrOah.h"
 
 #include "oah2manPageGenerators.h"
 

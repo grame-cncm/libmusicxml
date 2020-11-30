@@ -34,23 +34,40 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
   string executableName = argv [0];
 
+  cout << "Launching " << executableName << endl;
+
+  // the options vector
+  // ------------------------------------------------------
 	optionsVector options;
 
 //	options.push_back (make_pair ("-insider", ""));
 	options.push_back (make_pair ("-trace-oah", ""));
 //	options.push_back (make_pair ("-display-options-values", ""));
 //	options.push_back (make_pair ("-global-staff-size", "30"));
-
-//	options.push_back (make_pair ("-help", ""));
-	options.push_back (make_pair ("-name-help", "global-staff-size"));
 //	options.push_back (make_pair ("-hmxmlcg", ""));
 //	options.push_back (make_pair ("-help-midi-grp", ""));
-//  cerr << "main - string2lily options: " << options.size() << ": " << options2string(options) << endl;
 
-  cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
+  if (true) {
+    options.push_back (make_pair ("-help", ""));
+	}
+	else {
+    options.push_back (make_pair ("-name-help", "global-staff-size"));
+	}
+
+  displayOptionsVector (
+    theOptionsVector,
+    cout);
+
+  // first run
+  // ------------------------------------------------------
+
+cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;
 
 	xmlErr err = musicxmlstring2lilypond ("", options, cout, cerr);
 	cout << "xml2ly2 ret 1 = " << err << endl;
+
+  // second run
+  // ------------------------------------------------------
 
   if (true) {
     cerr << endl << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl << endl;

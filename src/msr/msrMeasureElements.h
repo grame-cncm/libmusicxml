@@ -15,6 +15,8 @@
 
 #include "msrElements.h"
 
+#include "msrBasicTypes.h"
+
 
 namespace MusicXML2
 {
@@ -33,8 +35,6 @@ class msrMeasureElement : public msrElement
     // ------------------------------------------------------
 
     #define K_NO_MEASURE_NUMBER "K_NO_MEASURE_NUMBER"
-
-    #define K_NO_POSITION       rational (-222222, 1)
 
     #define K_NO_WHOLE_NOTES    rational (-444444, 1)
 
@@ -66,22 +66,36 @@ class msrMeasureElement : public msrElement
                                 fMeasureElementMeasureNumber = positionInMeasure;
                               }
 
-    string                getMeasureElementMeasureNumber ()
+    string                getMeasureElementMeasureNumber () const
                               { return fMeasureElementMeasureNumber; }
 
     void                  setMeasureElementPositionInMeasure (
                             rational positionInMeasure,
                             string   context);
 
-    rational              getMeasureElementPositionInMeasure ()
+    rational              getMeasureElementPositionInMeasure () const
                               { return fMeasureElementPositionInMeasure; }
 
     void                  setMeasureElementPositionInVoice (
                             rational positionInVoice,
                             string   context);
 
-    rational              getMeasureElementPositionInVoice ()
+    rational              getMeasureElementPositionInVoice () const
                               { return fMeasureElementPositionInVoice; }
+
+    void                  setMeasureElementMomentInMeasure (
+                            const msrMoment& momentInMeasure,
+                            string           context);
+
+    const msrMoment&      getMeasureElementMomentInMeasure () const
+                              { return fMeasureElementMomentInMeasure; }
+
+    void                  setMeasureElementMomentInVoice (
+                            const msrMoment& momentInVoice,
+                            string           context);
+
+    const msrMoment&      getMeasureElementMomentInVoice () const
+                              { return fMeasureElementMomentInVoice; }
 
   public:
 
@@ -134,6 +148,9 @@ class msrMeasureElement : public msrElement
 
     rational              fMeasureElementPositionInMeasure;
     rational              fMeasureElementPositionInVoice;
+
+    msrMoment             fMeasureElementMomentInMeasure;
+    msrMoment             fMeasureElementMomentInVoice;
 };
 typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureElement& elt);

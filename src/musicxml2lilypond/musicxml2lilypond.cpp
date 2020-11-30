@@ -468,7 +468,8 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
     insiderOahHandler =
       xml2lyInsiderOahHandler::create (
         fakeExecutableName,
-        fakeExecutableName + " insider OAH handler with options vector");
+        fakeExecutableName + " insider OAH handler with options vector",
+        kHandlerUsedThruOptionsVector);
 
   // the OAH handler to be used, a regular handler is the default
   // ------------------------------------------------------

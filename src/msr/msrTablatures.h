@@ -20,7 +20,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -37,7 +37,7 @@ class msrFrameNote : public msrElement
 
     static string barreTypeKindAsString (
       msrBarreTypeKind barreTypeKind);
-      
+
 /*
           <frame-note>
             <string>6</string>
@@ -68,7 +68,7 @@ class msrFrameNote : public msrElement
       msrBarreTypeKind frameNoteBarreTypeKind);
 
     virtual ~msrFrameNote ();
-  
+
   public:
 
     // set and get
@@ -76,21 +76,21 @@ class msrFrameNote : public msrElement
 
     int                   getFrameNoteStringNumber () const
                               { return fFrameNoteStringNumber; }
-                              
+
     int                   getFrameNoteFretNumber () const
                               { return fFrameNoteFretNumber; }
-                              
+
     int                   getFrameNoteFingering () const
                               { return fFrameNoteFingering; }
-                              
+
     msrBarreTypeKind      getFrameNoteBarreTypeKind () const
                               { return fFrameNoteBarreTypeKind; }
-                              
+
   public:
 
     // public services
     // ------------------------------------------------------
-    
+
   public:
 
     // visitors
@@ -107,7 +107,7 @@ class msrFrameNote : public msrElement
     // ------------------------------------------------------
 
     string                asString () const override;
-   
+
     virtual void          print (ostream& os) const override;
 
   private:
@@ -144,7 +144,7 @@ struct msrBarre {
 
     // fields
     // ------------------------------------------------------
-    
+
     int                   fBarreStartString;
     int                   fBarreStopString;
     int                   fBarreFretNumber;
@@ -157,13 +157,13 @@ class msrFrame : public msrElement
 
     // creation from MusicXML
     // ------------------------------------------------------
-      
+
     static SMARTP<msrFrame> create (
       int inputLineNumber,
       int frameStringsNumber,
       int frameFretsNumber,
       int frameFirstFretNumber);
-    
+
   protected:
 
     // constructors/destructor
@@ -176,13 +176,13 @@ class msrFrame : public msrElement
       int frameFirstFretNumber);
 
     virtual ~msrFrame ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
-                
+
     int                   getFrameStringsNumber () const
                               { return fFrameStringsNumber; }
 
@@ -193,12 +193,12 @@ class msrFrame : public msrElement
                               { return fFrameFirstFretNumber; }
 
     const list<S_msrFrameNote>&
-                          getFrameFrameNotesList ()
+                          getFrameFrameNotesList () const
                               { return fFrameFrameNotesList; }
-                                              
+
     const list<msrBarre>& getFrameBarresList ()
                               { return fFrameBarresList; }
-                                              
+
     bool                  getFrameContainsFingerings () const
                               { return fFrameContainsFingerings; }
 
@@ -209,7 +209,7 @@ class msrFrame : public msrElement
 
     void                  appendFrameNoteToFrame (
                             S_msrFrameNote frameNote);
-    
+
   private:
 
     // private services
@@ -220,7 +220,7 @@ class msrFrame : public msrElement
                               {
                                 fFrameBarresList.push_back (barre);
                               }
-    
+
   public:
 
     // visitors
@@ -237,7 +237,7 @@ class msrFrame : public msrElement
     // ------------------------------------------------------
 
     string                asString () const override;
-   
+
     virtual void          print (ostream& os) const override;
 
   private:
@@ -252,11 +252,11 @@ class msrFrame : public msrElement
     list<S_msrFrameNote>  fFrameFrameNotesList;
 
     list<msrBarre >       fFrameBarresList;
-    
+
     // a barre start remains pending
     // until the matching stop is appended to the frame
     stack<S_msrFrameNote> fPendingBarreStartFrameNotes;
-                              
+
     // optimizing computation
     bool                  fFrameContainsFingerings;
 };

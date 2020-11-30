@@ -204,7 +204,7 @@ class msrPart : public msrPartGroupElement
     // staves map
 
     const map<int, S_msrStaff>&
-                          getPartStavesMap ()
+                          getPartStavesMap () const
                               { return fPartStavesMap; }
 
     // staff position in measure

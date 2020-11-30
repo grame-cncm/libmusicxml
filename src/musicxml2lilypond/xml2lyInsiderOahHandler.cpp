@@ -56,22 +56,25 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::create (
-  string   executableName,
-  string   handlerHeader)
+  string                 executableName,
+  string                 handlerHeader,
+  oahHandlerUsedThruKind handlerUsedThruKind)
 {
   // create the insider handler
   xml2lyInsiderOahHandler* o = new
     xml2lyInsiderOahHandler (
       executableName,
-      handlerHeader);
+      handlerHeader,
+      handlerUsedThruKind);
   assert (o!=0);
 
   return o;
 }
 
 xml2lyInsiderOahHandler::xml2lyInsiderOahHandler (
-  string   executableName,
-  string   handlerHeader)
+  string                 executableName,
+  string                 handlerHeader,
+  oahHandlerUsedThruKind handlerUsedThruKind)
   : oahHandler (
       executableName,
       handlerHeader,
@@ -80,9 +83,13 @@ R"(                      Welcome to xml2ly,
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
+/* JMI
 R"(
 Usage: xml2ly [options] [MusicXMLFile|-] [options]
-)")
+)"
+*/
+      usageFromUsedThruKind (handlerUsedThruKind)
+    )
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -104,6 +111,38 @@ Usage: xml2ly [options] [MusicXMLFile|-] [options]
 
 xml2lyInsiderOahHandler::~xml2lyInsiderOahHandler ()
 {}
+
+//______________________________________________________________________________
+string xml2lyInsiderOahHandler::usageFromUsedThruKind (
+   oahHandlerUsedThruKind handlerUsedThruKind) const
+{
+  string result;
+
+  switch (handlerUsedThruKind) {
+    case kHandlerUsedThruUnknown:
+      {
+        stringstream s;
+
+        s <<
+          "kHandlerUsedThruUnknown found in usageFromUsedThruKind() in handler \"" <<
+          fHandlerHeader <<
+          "\"";
+
+        oahInternalError (s.str ());
+      }
+      break;
+    case kHandlerUsedThruArgcAndArgv:
+      result = fHandlerExecutableName + " [options] [MusicXMLFile|-] [options]";
+      break;
+    case kHandlerUsedThruOptionsVector:
+      result = "Usage: [options]";
+      break;
+  } // switch
+
+  result = "Usage: " + result;
+
+  return result;
+}
 
 //______________________________________________________________________________
 void xml2lyInsiderOahHandler::createTheXml2lyPrefixes ()

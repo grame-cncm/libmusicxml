@@ -141,7 +141,7 @@ class bsrTime : public bsrLineElement
                               { return fTimeKind; }
 
     const vector<S_bsrTimeItem>&
-                          getTimeItemsVector ()
+                          getTimeItemsVector () const
                               { return fTimeItemsVector; }
 
   public:

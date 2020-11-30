@@ -229,7 +229,7 @@ class msrHarmony : public msrMeasureElement
 
     // degrees
     const list<S_msrHarmonyDegree>&
-                          getHarmonyDegreesList ()
+                          getHarmonyDegreesList () const
                               { return fHarmonyDegreesList; }
 
     // inversion

@@ -142,6 +142,14 @@ class msrMsrUnsupportedException: public msrException
     {}
 };
 
+class msrScoreToMsrScoreException: public msrException
+{
+  public:
+    msrScoreToMsrScoreException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
 //______________________________________________________________________________
 class lpsrMusicXMLException: public msrException
 {

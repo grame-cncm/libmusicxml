@@ -33,7 +33,7 @@ using namespace MusicXML2;
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
-//#define ENFORCE_TRACE_OAH
+#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 static void argvElements2stringsVector (
@@ -83,6 +83,8 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 #endif
 
   // populate the optionsVector
+  // ------------------------------------------------------
+
 	string curOption;
 
 	for (int i = 0; i < stringsVector.size () - 1; i++) {
@@ -203,6 +205,8 @@ int main (int argc, char *argv[])
 	catchsigs();
 
   // fetch the input filename
+  // ------------------------------------------------------
+
 	const char* fileName = 0;
 
 	if (argc > 1) {
@@ -218,6 +222,8 @@ int main (int argc, char *argv[])
 	}
 
   // fetch the theOptionsVector from argc/argv
+  // ------------------------------------------------------
+
 	optionsVector theOptionsVector;
 
 	args2Options (argc, argv, theOptionsVector);
@@ -229,6 +235,8 @@ int main (int argc, char *argv[])
 #endif
 
   // take generatedCodeKind options into account if any
+  // ------------------------------------------------------
+
 	optionsVector keptOptions;
 
 	for (auto option: theOptionsVector) {
@@ -249,6 +257,11 @@ int main (int argc, char *argv[])
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
 	printOptionsVector (theOptionsVector);
+
+  displayOptionsVector (
+    theOptionsVector,
+    cout);
+
 #endif
 #endif
 

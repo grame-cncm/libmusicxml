@@ -330,7 +330,7 @@ class lpsrDalSegnoAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     const map<string, msrDalSegno::msrDalSegnoKind>&
-                          getStringDalSegnoKindMapVariable ()
+                          getStringDalSegnoKindMapVariable () const
                               { return fStringDalSegnoKindMapVariable; }
 
   public:
@@ -416,7 +416,7 @@ class lpsrDalSegnoAlFineAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     const map<string, msrDalSegno::msrDalSegnoKind>&
-                          getStringDalSegnoKindMapVariable ()
+                          getStringDalSegnoKindMapVariable () const
                               { return fStringDalSegnoKindMapVariable; }
 
   public:
@@ -502,7 +502,7 @@ class lpsrDalSegnoAlCodaAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     const map<string, msrDalSegno::msrDalSegnoKind>&
-                          getStringDalSegnoKindMapVariable ()
+                          getStringDalSegnoKindMapVariable () const
                               { return fStringDalSegnoKindMapVariable; }
 
   public:
@@ -615,8 +615,10 @@ class lpsrOahGroup : public oahGroup
 
     float                 getGlobalStaffSize () const
                               { return fGlobalStaffSize; }
+
     float                 getStaffGlobalSizeDefaultValue () const
                               { return fStaffGlobalSizeDefaultValue; }
+
     bool                  getStaffGlobalSizeHasBeenSet () const // JMI ???
                               { return fStaffGlobalSizeHasBeenSet; }
 
@@ -685,7 +687,7 @@ class lpsrOahGroup : public oahGroup
                               { return fReplicateEmptyMeasureReplicas; }
 
     // add empty measures
-// JMI    map<string,int>       getAddEmptyMeasuresStringToIntMap;
+// JMI    map<string,int>       getAddEmptyMeasuresStringToIntMap () const;
 
     // tempos
     // --------------------------------------

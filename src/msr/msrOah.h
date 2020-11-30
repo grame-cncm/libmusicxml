@@ -146,7 +146,7 @@ class msrRenamePartAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     const map<string, string>&
-                          getStringStringMapVariable ()
+                          getStringStringMapVariable () const
                               { return fStringStringMapVariable; }
 
   public:

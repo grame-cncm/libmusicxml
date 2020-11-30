@@ -55,8 +55,8 @@ class msrTupletElement : public msrMeasureElement
                             int positionInTuplet)
                               { fPositionInTuplet = positionInTuplet; }
 
-    list<S_msrTupletElement>::size_type
-                          getPositionInTuplet ()
+    const list<S_msrTupletElement>::size_type
+                          getPositionInTuplet () const
                               { return fPositionInTuplet; }
 
   protected:

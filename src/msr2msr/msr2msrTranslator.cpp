@@ -16,7 +16,7 @@
 
 #include "conversions.h"
 
-#include "msr2lpsrTranslator.h"
+#include "msr2msrTranslator.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -28,9 +28,7 @@
 
 #include "mxmlTreeOah.h"
 #include "msrOah.h"
-#include "msr2lpsrOah.h"
-#include "lpsrOah.h"
-#include "lpsr2lilypondOah.h"
+#include "msr2msrOah.h"
 
 
 using namespace std;
@@ -38,70 +36,84 @@ using namespace std;
 namespace MusicXML2
 {
 
+//______________________________________________________________________________
+S_msrHiddenMeasureAndBarlineDescr msrHiddenMeasureAndBarlineDescr::create (
+  int           inputLineNumber,
+  S_msrDalSegno dalSegno)
+{
+  msrHiddenMeasureAndBarlineDescr* o = new
+    msrHiddenMeasureAndBarlineDescr (
+      inputLineNumber,
+      dalSegno);
+  assert (o!=0);
+  return o;
+}
+
+msrHiddenMeasureAndBarlineDescr::msrHiddenMeasureAndBarlineDescr (
+  int           inputLineNumber,
+  S_msrDalSegno dalSegno)
+{
+  fInputLineNumber = inputLineNumber;
+  fDalSegno        = dalSegno;
+}
+
+msrHiddenMeasureAndBarlineDescr::~msrHiddenMeasureAndBarlineDescr ()
+{}
+
+string msrHiddenMeasureAndBarlineDescr::hiddenMeasureAndBarlineDescrAsString () const
+{
+  stringstream s;
+
+  s <<
+    "hiddenMeasureAndBarlineDescr" <<
+    ", inputLineNumber: " << fInputLineNumber <<
+    ", dalSegno: " << fDalSegno->asString ();
+
+  return s.str ();
+}
+
+void msrHiddenMeasureAndBarlineDescr::print (ostream& os) const
+{
+  const int fieldWidth = 14;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "inputLineNumber" << " : " <<
+    fInputLineNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "dalSegno" << " : " <<
+    fDalSegno->asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarlineDescr& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //________________________________________________________________________
-msr2lpsrTranslator::msr2lpsrTranslator (
+msr2msrTranslator::msr2msrTranslator (
   S_msrScore mScore)
 {
   // the MSR score we're visiting
   fVisitedMsrScore = mScore;
 
-  // create an empty clone of fVisitedMsrScore for use by the LPSR score
+  // create an empty clone of fVisitedMsrScore for use by the MSR score
   // not sharing the visitiged MSR score allows cleaner data handling
-  // and optimisations of the LPSR data
+  // and optimisations of the MSR data
   fCurrentMsrScoreClone =
     fVisitedMsrScore->
       createScoreNewbornClone ();
 
-  // create the current LPSR score
-  fLpsrScore =
-    lpsrScore::create (
-      K_NO_INPUT_LINE_NUMBER,
-      fCurrentMsrScoreClone);
-
-  // create the current book block
-  fCurrentLpsrBookBlock =
-    lpsrBookBlock::create (
+  // create the current MSR score
+  fResultingMsrScore =
+    msrScore::create (
       K_NO_INPUT_LINE_NUMBER);
-
-  // append it to the current book blocks list
-  fLpsrScore->
-    appendBookBlockToBookBlocksList (
-      fCurrentLpsrBookBlock);
-
-  // create the current score block if relevant
-  switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-    case kScoreOnly:
-    case kScoreAndParts:
-    case kPartsAndScore:
-    case kScoreAndPartsOneFile:
-    case kPartsAndScoreOneFile:
-      {
-        // create the current score block
-        fCurrentScoreBlock =
-          lpsrScoreBlock::create (
-            K_NO_INPUT_LINE_NUMBER);
-
-        // append it to the book block elements list
-        fCurrentLpsrBookBlock->
-          appendLpsrScoreBlockToBookBlockElementsList (
-            fCurrentScoreBlock);
-      }
-      break;
-    case kPartsOnly:
-    case kPartsOnlyOneFile:
-      break;
-  } // switch
 
   // identification
   fOnGoingIdentification = false;
-
-  // header
-  fWorkNumberKnown       = false;
-  fWorkTitleKnown        = false;
-  fOpusKnown             = false;
-
-  fMovementNumberKnown   = false;
-  fMovementTitleKnown    = false;
 
   // staves
   fOnGoingStaff = false;
@@ -140,11 +152,11 @@ msr2lpsrTranslator::msr2lpsrTranslator (
   fOnGoingSyllableExtend = false;
 };
 
-msr2lpsrTranslator::~msr2lpsrTranslator ()
+msr2msrTranslator::~msr2msrTranslator ()
 {}
 
 //________________________________________________________________________
-void msr2lpsrTranslator::buildLpsrScoreFromMsrScore ()
+void msr2msrTranslator::buildMsrScoreFromMsrScore ()
 {
   if (fVisitedMsrScore) {
     // create a msrScore browser
@@ -156,7 +168,7 @@ void msr2lpsrTranslator::buildLpsrScoreFromMsrScore ()
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::displayCurrentOnGoingValues ()
+void msr2msrTranslator::displayCurrentOnGoingValues ()
 {
   gLogStream <<
     "Current ongoing values:" <<
@@ -208,7 +220,7 @@ void msr2lpsrTranslator::displayCurrentOnGoingValues ()
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
+void msr2msrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
 {
   gLogStream <<
     "fPartHiddenMeasureAndBarlineDescrList:" <<
@@ -258,7 +270,7 @@ void msr2lpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::displayOnGoingNotesStack (
+void msr2msrTranslator::displayOnGoingNotesStack (
   string context)
 {
   int onGoingNotesStackSize = fOnGoingNotesStack.size ();
@@ -306,7 +318,7 @@ void msr2lpsrTranslator::displayOnGoingNotesStack (
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::handlePartHiddenMeasureAndBarlineDescrList ()
+void msr2msrTranslator::handlePartHiddenMeasureAndBarlineDescrList ()
 {
   gLogStream <<
     "fPartHiddenMeasureAndBarlineDescrList:" <<
@@ -342,147 +354,7 @@ void msr2lpsrTranslator::handlePartHiddenMeasureAndBarlineDescrList ()
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::setPaperIndentsIfNeeded (
-  S_msrScaling scaling)
-{
-  S_lpsrPaper
-    paper =
-      fLpsrScore->getScorePaper ();
-
-  int
-    scorePartGroupNamesMaxLength =
-      fCurrentMsrScoreClone->
-        getScorePartGroupNamesMaxLength ();
-
-  int
-    scorePartNamesMaxLength =
-      fCurrentMsrScoreClone->
-        getScorePartNamesMaxLength ();
-
-  int
-    scoreInstrumentNamesMaxLength =
-      fCurrentMsrScoreClone->
-        getScoreInstrumentNamesMaxLength ();
-
-  int
-    scoreInstrumentAbbreviationsMaxLength =
-      fCurrentMsrScoreClone->
-        getScoreInstrumentAbbreviationsMaxLength ();
-
-  // compute the maximum value
-  int maxValue = -1;
-
-  if (scorePartGroupNamesMaxLength > maxValue) {
-    maxValue = scorePartGroupNamesMaxLength;
-  }
-
-  if (scorePartNamesMaxLength > maxValue) {
-    maxValue = scorePartNamesMaxLength;
-  }
-
-  if (scoreInstrumentNamesMaxLength > maxValue) {
-    maxValue = scoreInstrumentNamesMaxLength;
-  }
-
-  // compute the maximum short value
-  int maxShortValue = -1;
-
-  if (scoreInstrumentAbbreviationsMaxLength > maxShortValue) {
-    maxShortValue = scoreInstrumentAbbreviationsMaxLength;
-  }
-
-  // heuristics to determine the number of characters per centimeter
-//  float charactersPerCemtimeter = 4.0; // JMI ???
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceGeometry ()) {
-  /*
-    // get the paper width
-    S_msrLength
-      paperWidth =
-        scaling->
-          getPageLayout ()->
-            getPageWidth ();
-
-    if (paperWidth) {
-      gLogStream <<
-        "setPaperIndentsIfNeeded()" << // JMI ???
-        endl;
-    }
-*/
-    gIndenter++;
-
-    const int fieldWidth = 40;
-
-    gLogStream << left <<
-      setw (fieldWidth) <<
-      "scorePartGroupNamesMaxLength" << " : " <<
-      scorePartGroupNamesMaxLength <<
-      endl <<
-      setw (fieldWidth) <<
-      "scorePartNamesMaxLength" << " : " <<
-      scorePartNamesMaxLength <<
-      endl <<
-
-      setw (fieldWidth) <<
-      "scoreInstrumentNamesMaxLength" << " : " <<
-      scoreInstrumentNamesMaxLength <<
-      endl <<
-      setw (fieldWidth) <<
-      "scoreInstrumentAbbreviationsMaxLength" << " : " <<
-      scoreInstrumentAbbreviationsMaxLength <<
-      endl <<
-
-      setw (fieldWidth) <<
-      "maxValue" << " : " <<
-      maxValue <<
-      endl <<
-      setw (fieldWidth) <<
-      "maxShortValue" << " : " <<
-      maxShortValue <<
-      /* JMI
-      endl <<
-
-      setw (fieldWidth) <<
-      "charactersPerCemtimeter" << " : " <<
-      charactersPerCemtimeter <<
-      */
-      endl;
-/*
-    gLogStream << left <<
-      setw (fieldWidth) <<
-      "paperWidth" << " : ";
-    if (paperWidth) {
-      gLogStream << paperWidth;
-    }
-    else {
-      gLogStream << "none";
-    }
-    gLogStream << endl;
-*/
-    gIndenter--;
-  }
-#endif
-
-/* JMI
-  // set indent if relevant
-  if (maxValue > 0) {
-    paper->
-      setIndent (
-        maxValue / charactersPerCemtimeter);
-  }
-
-  // set short indent if relevant
-  if (maxShortValue > 0) {
-    paper->
-      setShortIndent (
-        maxShortValue / charactersPerCemtimeter);
-  }
-  */
-}
-
-//________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrScore& elt)
+void msr2msrTranslator::visitStart (S_msrScore& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -495,201 +367,9 @@ void msr2lpsrTranslator::visitStart (S_msrScore& elt)
       endl;
   }
 #endif
-
-  // fetch score header
-  fCurrentLpsrScoreHeader =
-    fLpsrScore-> getScoreHeader();
-
-  // is there a rights option?
-  if (gGlobalLpsr2lilypondOahGroup->getRights ().size ()) {
-    // define rights
-    fCurrentLpsrScoreHeader->
-      addRights (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getRights ());
-  }
-
-  // is there a composer option?
-  if (gGlobalLpsr2lilypondOahGroup->getComposer ().size ()) {
-    // define composer
-    fCurrentLpsrScoreHeader->
-      addComposer (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getComposer ());
-  }
-
-  // is there an arranger option?
-  if (gGlobalLpsr2lilypondOahGroup->getArranger ().size ()) {
-    // define arranger
-    fCurrentLpsrScoreHeader->
-      addArranger (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getArranger ());
-  }
-
-  // is there a poet option?
-  if (gGlobalLpsr2lilypondOahGroup->getPoetAtom ()->getVariableHasBeenSet ()) {
-    // remove all poets
-    fCurrentLpsrScoreHeader->
-      removeAllPoets (inputLineNumber);
-    // add poet
-    fCurrentLpsrScoreHeader->
-      addPoet (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getPoet ());
-  }
-
-  // is there a lyricist option?
-  if (gGlobalLpsr2lilypondOahGroup->getLyricist ().size ()) {
-    // define lyricist
-    fCurrentLpsrScoreHeader->
-      addLyricist (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getLyricist ());
-  }
-
-  // is there a software option?
-  if (gGlobalLpsr2lilypondOahGroup->getSoftware ().size ()) {
-    // define software
-
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getSoftware ());
-  }
-
-  // is there a dedication?
-  if (gGlobalLpsr2lilypondOahGroup->getDedication ().size ()) {
-    // define dedication
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getDedication ());
-  }
-
-  // is there a piece?
-  if (gGlobalLpsr2lilypondOahGroup->getPiece ().size ()) {
-    // define piece
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getPiece ());
-  }
-
-  // is there an opus?
-  if (gGlobalLpsr2lilypondOahGroup->getOpus ().size ()) {
-    // define opus
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getOpus ());
-  }
-
-  // is there a title?
-  if (gGlobalLpsr2lilypondOahGroup->getTitle ().size ()) {
-    // define title
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getTitle ());
-  }
-
-  // is there a subtitle?
-  if (gGlobalLpsr2lilypondOahGroup->getSubTitle ().size ()) {
-    // define subtitle
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getSubTitle ());
-  }
-
-  // is there a subsubtitle?
-  if (gGlobalLpsr2lilypondOahGroup->getSubSubTitle ().size ()) {
-    // define subsubtitle
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getSubSubTitle ());
-  }
-
-  // is there a meter?
-  if (gGlobalLpsr2lilypondOahGroup->getMeter ().size ()) {
-    // define meter
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getMeter ());
-  }
-
-  // is there a tagline?
-  if (gGlobalLpsr2lilypondOahGroup->getTagline ().size ()) {
-    // define tagline
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getTagline ());
-  }
-
-  // is there a copyright?
-  if (gGlobalLpsr2lilypondOahGroup->getCopyright ().size ()) {
-    // define copyright
-    fCurrentLpsrScoreHeader->
-      addSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getCopyright ());
-  }
-
-  // are the rests to be merged?
-  if (gGlobalLpsr2lilypondOahGroup->getMergeRests ()) {
-    fLpsrScore->
-      // this score needs the 'merge rests' Scheme functions
-      setMergeRestsIsNeeded ();
-  }
-
-  // is the LilyPond macro 'boxAroundNextBarNumber' to be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getBoxAroundBarNumberSet ().size ()) {
-    fLpsrScore->
-      // this score needs the 'boxAroundNextBarNumber' Scheme function
-      setBoxAroundNextBarNumberIsNeeded ();
-  }
-
-  // is the Scheme function 'whiteNoteHeads' to be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getWhiteNoteHeads ()) {
-    fLpsrScore->
-      // this score needs the 'whiteNoteHeads' Scheme function
-      setWhiteNoteHeadsIsNeeded ();
-  }
-
-  // is the Scheme function 'jazzChordsDisplay' to be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getJazzChordsDisplay ()) {
-    fLpsrScore->
-      // this score needs the 'jazzChordsDisplay' Scheme function
-      setJazzChordsDisplayIsNeeded ();
-  }
-
-  // is jiǎnpǔ notation to be generated?
-  if (gGlobalLpsr2lilypondOahGroup->getJianpu ()) {
-    fLpsrScore->
-      // this score needs the 'jianpu file include' Scheme function
-      setJianpuFileIncludeIsNeeded ();
-  }
-
-  // are colored ledger lines to be generated?
-  if (! gGlobalLpsr2lilypondOahGroup->getLedgerLinesRGBColor ().isEmpty ()) {
-    fLpsrScore->
-      // this score needs the 'colored ledger lines' Scheme function
-      setColoredLedgerLinesIsNeeded ();
-  }
-
-/* JMI
-  // push it onto this visitors's stack,
-  // making it the current partGroup
-  fPartGroupBlocksStack.push (
-    partGroupBlock);
-    */
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrScore& elt)
+void msr2msrTranslator::visitEnd (S_msrScore& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -702,181 +382,10 @@ void msr2lpsrTranslator::visitEnd (S_msrScore& elt)
       endl;
   }
 #endif
-
-// fOpusKnown ???  JMI
-
-  if (fWorkTitleKnown && fMovementTitleKnown) {
-    string
-      workTitle =
-        fCurrentIdentification->
-          getWorkTitle ()->
-            getVariableValue (),
-      movementTitle =
-        fCurrentIdentification->
-          getMovementTitle ()->
-            getVariableValue ();
-
-    if (
-      workTitle.size () == 0
-        &&
-      movementTitle.size () > 0
-    ) {
-      // use the movement title as the work title
-      fCurrentIdentification->
-        setWorkTitle (
-          inputLineNumber, movementTitle);
-
-      fCurrentLpsrScoreHeader->
-        setWorkTitle (
-          inputLineNumber,
-          movementTitle,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      // forget the movement title
-      fCurrentIdentification->
-        setMovementTitle (
-          inputLineNumber, "");
-
-      fCurrentLpsrScoreHeader->
-        setMovementTitle (
-          inputLineNumber,
-          "",
-          kFontStyleNone,
-          kFontWeightNone);
-    }
-  }
-
-  else if (! fWorkTitleKnown && fMovementTitleKnown) {
-    string
-      movementTitle =
-        fCurrentIdentification->
-          getMovementTitle ()->
-            getVariableValue ();
-
-    // use the movement title as the work title
-    fCurrentIdentification->
-      setWorkTitle (
-        inputLineNumber, movementTitle);
-
-    fCurrentLpsrScoreHeader->
-      setWorkTitle (
-        inputLineNumber,
-        movementTitle,
-        kFontStyleNone,
-        kFontWeightNone);
-
-    // forget the movement title
-    fCurrentIdentification->
-      setMovementTitle (
-        inputLineNumber, "");
-
-    fCurrentLpsrScoreHeader->
-      setMovementTitle (
-        inputLineNumber,
-        "",
-        kFontStyleNone,
-        kFontWeightNone);
-  }
-
-  if (fWorkNumberKnown && fMovementNumberKnown) {
-    string
-      workNumber =
-        fCurrentIdentification->
-          getWorkNumber ()->
-            getVariableValue (),
-      movementNumber =
-        fCurrentIdentification->
-          getMovementNumber ()->
-            getVariableValue ();
-
-    if (
-      workNumber.size () == 0
-        &&
-      movementNumber.size () > 0
-    ) {
-      // use the movement number as the work number
-      fCurrentIdentification->
-        setWorkNumber (
-          inputLineNumber, movementNumber);
-
-      fCurrentLpsrScoreHeader->
-        setWorkNumber (
-          inputLineNumber,
-          movementNumber,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      // forget the movement number
-      fCurrentIdentification->
-        setMovementNumber (
-          inputLineNumber, "");
-
-      fCurrentLpsrScoreHeader->
-        setMovementNumber (
-          inputLineNumber,
-          "",
-          kFontStyleNone,
-          kFontWeightNone);
-    }
-  }
-
-  else if (! fWorkNumberKnown && fMovementNumberKnown) {
-    string
-      movementNumber =
-        fCurrentIdentification->
-          getMovementNumber ()->
-            getVariableValue ();
-
-    // use the movement number as the work number
-    fCurrentIdentification->
-      setWorkNumber (
-        inputLineNumber, movementNumber);
-
-    fCurrentLpsrScoreHeader->
-      setWorkNumber (
-        inputLineNumber,
-        movementNumber,
-        kFontStyleNone,
-        kFontWeightNone);
-
-    // forget the movement number
-    fCurrentIdentification->
-      setMovementNumber (
-        inputLineNumber, "");
-
-    fCurrentLpsrScoreHeader->
-      setMovementNumber (
-        inputLineNumber,
-        "",
-        kFontStyleNone,
-        kFontWeightNone);
-  }
-
-  // set ident and short indent if needed
-  setPaperIndentsIfNeeded ( // JMI ??? BLARK
-    elt->getScaling ());
-
-/* JMI
-  // get top level partgroup block from the stack
-  S_lpsrPartGroupBlock
-    partGroupBlock =
-      fPartGroupBlocksStack.top ();
-
-  // pop it from the stack
-  fPartGroupBlocksStack.top ();
-
-  // the stack should now be empty
-  if (fPartGroupBlocksStack.size ()) {
-    msrInternalError (
-      1,
-      "the partGroup block stack is not exmpty at the end of the visit");
-  }
-   */
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrIdentification& elt)
+void msr2msrTranslator::visitStart (S_msrIdentification& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -890,14 +399,13 @@ void msr2lpsrTranslator::visitStart (S_msrIdentification& elt)
   gIndenter++;
 
   fCurrentIdentification =
-    fLpsrScore->
-      getMsrScore ()->
-        getIdentification ();
+    fResultingMsrScore->
+      getIdentification ();
 
   fOnGoingIdentification = true;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrIdentification& elt)
+void msr2msrTranslator::visitEnd (S_msrIdentification& elt)
 {
   fOnGoingIdentification = false;
 
@@ -914,7 +422,7 @@ void msr2lpsrTranslator::visitEnd (S_msrIdentification& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrScaling& elt)
+void msr2msrTranslator::visitStart (S_msrScaling& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -936,86 +444,9 @@ void msr2lpsrTranslator::visitStart (S_msrScaling& elt)
   fCurrentMsrScoreClone-> // JMI BLARK ???
     setScaling (
       scalingClone);
-
-  // get LPSR score paper
-  S_lpsrPaper
-    paper =
-      fLpsrScore->getScorePaper ();
-
-  // sanity check
-  msgAssert (
-    paper != nullptr,
-    "paper is null");
-
-  // set the current book block's paper as a newborn clone of paper
-  fCurrentLpsrBookBlock ->
-    setBookBlockPaper (
-      paper->
-        createPaperNewbornClone ());
-
-  // get LPSR score layout
-  S_lpsrLayout
-    scoreLayout =
-      fLpsrScore->getScoreLayout ();
-
-  // populate layout JMI ???
-  /*
-  scoreLayout->
-    setMillimeters (elt->getMillimeters ());
-  scoreLayout->
-    setTenths (elt->getTenths ());
-    */
-
-  // populate LPSR score global staff size
-  float globalStaffSize = 0.0;
-
-  if (
-    gGlobalLpsrOahGroup->getGlobalStaffSize ()
-      !=
-    gGlobalLpsrOahGroup->getStaffGlobalSizeDefaultValue ()
-  ) {
-    // the LPSR option value takes precedence
-    globalStaffSize =
-      gGlobalLpsrOahGroup->getGlobalStaffSize ();
-  }
-
-  else {
-    // fetch LPSR score global staff size
-    globalStaffSize =
-      elt->fetchGlobalStaffSize ();
-  }
-
-  // set score global staff size Scheme variable
-  fLpsrScore->
-    setScoreGlobalStaffSizeSchemeVariable (
-      globalStaffSize);
-
-  // get LPSR score block layout
-  S_lpsrLayout
-    scoreBlockLayout =
-      fLpsrScore->getScoreLayout ();
-
-  // create the score block layout staff-size Scheme assoc
-  stringstream s;
-
-  s << globalStaffSize;
-
-  S_lpsrSchemeVariable
-    assoc =
-      lpsrSchemeVariable::create (
-        K_NO_INPUT_LINE_NUMBER, // JMI
-        lpsrSchemeVariable::kCommentedYes,
-        "layout-set-staff-size",
-        s.str (),
-        "Uncomment and adapt next line as needed (default is 20)",
-        lpsrSchemeVariable::kEndlOnce);
-
-  // populate score block layout
-  scoreBlockLayout->
-    addSchemeVariable (assoc);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrScaling& elt)
+void msr2msrTranslator::visitEnd (S_msrScaling& elt)
 {
   gIndenter--;
 
@@ -1030,7 +461,7 @@ void msr2lpsrTranslator::visitEnd (S_msrScaling& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSystemLayout& elt)
+void msr2msrTranslator::visitStart (S_msrSystemLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1047,7 +478,7 @@ void msr2lpsrTranslator::visitStart (S_msrSystemLayout& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrSystemLayout& elt)
+void msr2msrTranslator::visitEnd (S_msrSystemLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1060,7 +491,7 @@ void msr2lpsrTranslator::visitEnd (S_msrSystemLayout& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrStaffLayout& elt)
+void msr2msrTranslator::visitStart (S_msrStaffLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1077,7 +508,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaffLayout& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrStaffLayout& elt)
+void msr2msrTranslator::visitEnd (S_msrStaffLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1090,7 +521,7 @@ void msr2lpsrTranslator::visitEnd (S_msrStaffLayout& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrAppearance& elt)
+void msr2msrTranslator::visitStart (S_msrAppearance& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1107,7 +538,7 @@ void msr2lpsrTranslator::visitStart (S_msrAppearance& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrAppearance& elt)
+void msr2msrTranslator::visitEnd (S_msrAppearance& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1120,7 +551,7 @@ void msr2lpsrTranslator::visitEnd (S_msrAppearance& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrPageLayout& elt)
+void msr2msrTranslator::visitStart (S_msrPageLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1137,7 +568,7 @@ void msr2lpsrTranslator::visitStart (S_msrPageLayout& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrPageLayout& elt)
+void msr2msrTranslator::visitEnd (S_msrPageLayout& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1150,7 +581,7 @@ void msr2lpsrTranslator::visitEnd (S_msrPageLayout& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrCredit& elt)
+void msr2msrTranslator::visitStart (S_msrCredit& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1163,13 +594,12 @@ void msr2lpsrTranslator::visitStart (S_msrCredit& elt)
 
   fCurrentCredit = elt;
 
-  // set elt as credit of the MSR score part of the LPSR score
-  fLpsrScore->
-    getMsrScore ()->
-      appendCreditToScore (fCurrentCredit);
+  // set elt as credit of the MSR score part of the MSR score
+  fResultingMsrScore->
+    appendCreditToScore (fCurrentCredit);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrCredit& elt)
+void msr2msrTranslator::visitEnd (S_msrCredit& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1183,7 +613,7 @@ void msr2lpsrTranslator::visitEnd (S_msrCredit& elt)
   fCurrentCredit = nullptr;
 }
 
-void msr2lpsrTranslator::visitStart (S_msrCreditWords& elt)
+void msr2msrTranslator::visitStart (S_msrCreditWords& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1202,7 +632,7 @@ void msr2lpsrTranslator::visitStart (S_msrCreditWords& elt)
       */
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrCreditWords& elt)
+void msr2msrTranslator::visitEnd (S_msrCreditWords& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1215,7 +645,7 @@ void msr2lpsrTranslator::visitEnd (S_msrCreditWords& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrPartGroup& elt)
+void msr2msrTranslator::visitStart (S_msrPartGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1236,10 +666,10 @@ void msr2lpsrTranslator::visitStart (S_msrPartGroup& elt)
         fPartGroupsStack.size ()
           ? fPartGroupsStack.top ()
           : nullptr,
-        fLpsrScore->getMsrScore ());
+        fResultingMsrScore);
 
   // push it onto this visitors's stack,
-  // making it the current partGroup block
+  // making it the current partGroup
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTracePartGroups ()) {
     gLogStream <<
@@ -1258,28 +688,9 @@ void msr2lpsrTranslator::visitStart (S_msrPartGroup& elt)
   fCurrentMsrScoreClone->
     addPartGroupToScore (fCurrentPartGroupClone);
 */
-
-  // create a partGroup block refering to the part group clone
-  S_lpsrPartGroupBlock
-    partGroupBlock =
-      lpsrPartGroupBlock::create (
-        partGroupClone);
-
-  // push it onto this visitors's stack,
-  // making it the current partGroup block
-  fPartGroupBlocksStack.push (
-    partGroupBlock);
-
-  // get the LPSR store block
-  S_lpsrScoreBlock
-    scoreBlock =
-      fLpsrScore->getScoreScoreBlock ();
-
-  // don't append the partgroup block to the score/bookpart block now:
-  // this will be done when it gets popped from the stack
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrPartGroup& elt)
+void msr2msrTranslator::visitEnd (S_msrPartGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1336,136 +747,10 @@ void msr2lpsrTranslator::visitEnd (S_msrPartGroup& elt)
       appendSubPartGroupToPartGroup (
         currentPartGroup);
   }
-
-  S_lpsrPartGroupBlock
-    currentPartGroupBlock =
-      fPartGroupBlocksStack.top ();
-
-  if (fPartGroupBlocksStack.size () == 1) {
-    // add the current partgroup clone to the LPSR score's parallel music
-    // if it is the top-level one, i.e it's alone in the stack
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTracePartGroups ()) {
-      gLogStream <<
-        "Adding part group block clone for part group " <<
-        currentPartGroupBlock->
-          getPartGroup ()->
-            getPartGroupCombinedName () <<
-        " to LPSR score" <<
-        endl;
-    }
-#endif
-
-    // append the current partgroup block to the current score block if relevant
-    switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-      case kScoreOnly:
-      case kScoreAndParts:
-      case kPartsAndScore:
-      case kScoreAndPartsOneFile:
-      case kPartsAndScoreOneFile:
-        {
-          // sanity check
-          msgAssert (
-            fCurrentScoreBlock != nullptr,
-            "fCurrentScoreBlock is null");
-
-          // append the current partgroup block to the current score block
-          // if it is the top-level one, i.e it's alone in the stack JMI
-          // JMI BOF if (fPartGroupBlocksStack.size () == 1)
-#ifdef TRACING_IS_ENABLED
-          if (gGlobalLpsrOahGroup->getTraceLpsrBlocks ()) {
-            gLogStream <<
-              "Appending part group block for part group " <<
-              currentPartGroupBlock->
-                getPartGroup ()->
-                  getPartGroupCombinedName () <<
-              " to the current score block '" <<
-              fCurrentScoreBlock->asShortString () <<
-              "'" <<
-              endl;
-          }
-#endif
-          fCurrentScoreBlock->
-            appendPartGroupBlockToScoreBlock (
-              fPartGroupBlocksStack.top ());
-        }
-        break;
-      case kPartsOnly:
-      case kPartsOnlyOneFile:
-        break;
-    } // switch
-
-    // append the current partgroup block to the current bookpart block if relevant
-    switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-      case kScoreOnly:
-        break;
-      case kScoreAndParts:
-      case kPartsAndScore:
-      case kScoreAndPartsOneFile:
-      case kPartsAndScoreOneFile:
-      case kPartsOnly:
-      case kPartsOnlyOneFile:
-        {
-          // sanity check
-          msgAssert (
-            fCurrentBookPartBlock != nullptr,
-            "fCurrentBookPartBlock is null");
-
-          // append the current partgroup block to the current bookpart block
-          // if it is the top-level one, i.e it's alone in the stack JMI
-          // JMI BOF if (fPartGroupBlocksStack.size () == 1)
-#ifdef TRACING_IS_ENABLED
-          if (gGlobalLpsrOahGroup->getTraceLpsrBlocks ()) {
-            gLogStream <<
-              "Appending part group block for part group " <<
-              currentPartGroupBlock->
-                getPartGroup ()->
-                  getPartGroupCombinedName () <<
-              " to the current bookpart block '" <<
-              fCurrentScoreBlock->asShortString () <<
-              "'" <<
-              endl;
-          }
-#endif
-          fCurrentBookPartBlock->
-            appendPartGroupBlockToBookPartBlock (
-              fPartGroupBlocksStack.top ());
-        }
-        break;
-    } // switch
-
-    // pop current partGroup block from this visitors's stack,
-    // only now to restore the appearence order
-    fPartGroupBlocksStack.pop ();
-  }
-
-  else {
-    // pop current partGroup block from this visitors's stack
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTracePartGroups ()) {
-      gLogStream <<
-        "Popping part group block clone for part group " <<
-        currentPartGroupBlock->
-          getPartGroup ()->
-            getPartGroupCombinedName () <<
-        " from stack" <<
-        endl;
-    }
-#endif
-
-    fPartGroupBlocksStack.pop ();
-
-    // append the current part group block to the one one level higher,
-    // i.e. the new current part group block
-    fPartGroupBlocksStack.top ()->
-      appendElementToPartGroupBlock (
-        currentPartGroupBlock);
-  }
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrPart& elt)
+void msr2msrTranslator::visitStart (S_msrPart& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -1516,53 +801,9 @@ void msr2lpsrTranslator::visitStart (S_msrPart& elt)
 
   fPartGroupsStack.top ()->
     appendPartToPartGroup (fCurrentPartClone);
-
-  // create a part block
-  fCurrentPartBlock =
-    lpsrPartBlock::create (
-      fCurrentPartClone);
-
-  // append it to the current partGroup block
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceParts ()) {
-    gLogStream <<
-      "Appending part block " <<
-      fPartGroupsStack.top ()->getPartGroupCombinedName () <<
-      " to part group blocks stack top" <<
-      endl;
-  }
-#endif
-
-  fPartGroupBlocksStack.top ()->
-    appendElementToPartGroupBlock (
-      fCurrentPartBlock);
-
-  // create a bookpart block if relevant
-  switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-    case kScoreOnly:
-      break;
-    case kScoreAndParts:
-    case kPartsAndScore:
-    case kScoreAndPartsOneFile:
-    case kPartsAndScoreOneFile:
-    case kPartsOnly:
-    case kPartsOnlyOneFile:
-      {
-        // create the current score block
-        fCurrentBookPartBlock =
-          lpsrBookPartBlock::create (
-            inputLineNumber);
-
-        // append it to the book block elements list
-        fCurrentLpsrBookBlock->
-          appendLpsrBookPartBlockToBookBlockElementsList (
-            fCurrentBookPartBlock);
-      }
-      break;
-  } // switch
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrPart& elt)
+void msr2msrTranslator::visitEnd (S_msrPart& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -1620,17 +861,11 @@ void msr2lpsrTranslator::visitEnd (S_msrPart& elt)
     // forget about this skip grace notes group
     fCurrentSkipGraceNotesGroup = nullptr;
   }
-
-  // forget about the current part block
-  fCurrentPartBlock = nullptr;
-
-  // forget about the current book part block
-  fCurrentBookPartBlock = nullptr;
 }
 
 //________________________________________________________________________
 /* JMI
-void msr2lpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
+void msr2msrTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1649,7 +884,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
 */
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrStaffTuning& elt)
+void msr2msrTranslator::visitStart (S_msrStaffTuning& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1667,7 +902,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaffTuning& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrStaffDetails& elt)
+void msr2msrTranslator::visitStart (S_msrStaffDetails& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1681,7 +916,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaffDetails& elt)
   fCurrentStaffTuningClone = nullptr;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrStaffDetails& elt)
+void msr2msrTranslator::visitEnd (S_msrStaffDetails& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1699,7 +934,7 @@ void msr2lpsrTranslator::visitEnd (S_msrStaffDetails& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
+void msr2msrTranslator::visitStart (S_msrStaff& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1728,71 +963,6 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
         fCurrentPartClone->
           addStaffToPartCloneByItsNumber (
             fCurrentStaffClone);
-
-        // create a staff block
-        fCurrentStaffBlock =
-          lpsrStaffBlock::create (
-            fCurrentStaffClone);
-
-        string
-          partName =
-            fCurrentPartClone->getPartName (),
-          partAbbreviation =
-            fCurrentPartClone->getPartAbbreviation ();
-
-        string staffBlockInstrumentName;
-        string staffBlockShortInstrumentName;
-
-        // don't set instrument name nor short instrument name // JMI
-        // if the staff belongs to a piano part where they're already set
-        if (! partName.size ()) {
-          staffBlockInstrumentName = partName;
-        }
-        if (! partAbbreviation.size ()) {
-          staffBlockShortInstrumentName = partAbbreviation;
-        }
-
-        if (staffBlockInstrumentName.size ()) {
-          fCurrentStaffBlock->
-            setStaffBlockInstrumentName (staffBlockInstrumentName);
-        }
-
-        if (staffBlockShortInstrumentName.size ()) {
-          fCurrentStaffBlock->
-            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
-        }
-
-        // append the staff block to the current part block
-        fCurrentPartBlock->
-          appendStaffBlockToPartBlock (
-            fCurrentStaffBlock);
-
-        // handle the current staff block
-        switch (gGlobalMsr2lpsrOahGroup->getScoreOutputKind ()) {
-          case kScoreOnly: // default value
-            break;
-          case kScoreAndParts:
-          case kPartsAndScore:
-          case kScoreAndPartsOneFile:
-          case kPartsAndScoreOneFile:
-            {
-            /* JMI
-              // create the current score block
-              fCurrentScoreBlock =
-                lpsrScoreBlock::create (
-                  K_NO_INPUT_LINE_NUMBER);
-
-              // append it to the book block elements list
-              fCurrentLpsrBookBlock->
-                appendLpsrScoreBlockToBookBlockElementsList (
-                  fCurrentScoreBlock);
-                */
-            }
-            break;
-          case kPartsOnly:
-          case kPartsOnlyOneFile:
-            break;
-        } // switch
 
         fOnGoingStaff = true;
       }
@@ -1836,7 +1006,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
   } // switch
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrStaff& elt)
+void msr2msrTranslator::visitEnd (S_msrStaff& elt)
 {
   gIndenter--;
 
@@ -1874,7 +1044,7 @@ void msr2lpsrTranslator::visitEnd (S_msrStaff& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
+void msr2msrTranslator::visitStart (S_msrVoice& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -1906,15 +1076,6 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
         registerVoiceInStaffClone (
           inputLineNumber,
           fCurrentVoiceClone);
-
-      // append the voice clone to the LPSR score elements list
-      fLpsrScore ->
-        appendVoiceToLpsrScoreElementsList (fCurrentVoiceClone);
-
-      // append a use of the voice to the current staff block
-      fCurrentStaffBlock->
-        appendVoiceUseToStaffBlock (
-          fCurrentVoiceClone);
       break;
 
     case msrVoice::kVoiceHarmony:
@@ -1945,11 +1106,6 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
         if (
           elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {
-          // append the voice clone to the LPSR score elements list
-          fLpsrScore ->
-            appendVoiceToLpsrScoreElementsList (
-              fCurrentVoiceClone);
-
           // create a ChordNames context
           string voiceName =
             elt->getVoiceName ();
@@ -1966,30 +1122,6 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
               endl;
           }
 #endif
-
-          S_lpsrChordNamesContext
-            chordNamesContext =
-              lpsrChordNamesContext::create (
-                inputLineNumber,
-                lpsrContext::kExistingContextYes,
-                voiceName,
-// JMI                elt->getHarmonyVoiceRegularVoiceBackwardLink ());
-                elt);
-
-          // append it to the current part block
-#ifdef TRACING_IS_ENABLED
-          if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
-            gLogStream <<
-              "Appending the ChordNames context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-
-          fCurrentPartBlock->
-            appendChordNamesContextToPartBlock (
-              inputLineNumber,
-              chordNamesContext);
 
           fOnGoingHarmonyVoice = true;
         }
@@ -2016,11 +1148,6 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
         if (
           elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {
-          // append the voice clone to the LPSR score elements list
-          fLpsrScore ->
-            appendVoiceToLpsrScoreElementsList (
-              fCurrentVoiceClone);
-
           // create a FiguredBass context
           string voiceName =
             elt->getVoiceName ();
@@ -2038,28 +1165,6 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
           }
 #endif
 
-          S_lpsrFiguredBassContext
-            figuredBassContext =
-              lpsrFiguredBassContext::create (
-                inputLineNumber,
-                lpsrContext::kExistingContextYes,
-                voiceName,
-                elt-> getVoiceStaffUpLink ());
-
-          // append it to the current part block
-#ifdef TRACING_IS_ENABLED
-          if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
-            gLogStream <<
-              "Appending the FiguredBass context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-
-          fCurrentPartBlock->
-            appendFiguredBassContextToPartBlock (
-              figuredBassContext);
-
           fOnGoingFiguredBassVoice = true;
         }
       }
@@ -2072,7 +1177,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
   fFirstNoteCloneInVoice = nullptr;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrVoice& elt)
+void msr2msrTranslator::visitEnd (S_msrVoice& elt)
 {
   gIndenter--;
 
@@ -2102,7 +1207,7 @@ void msr2lpsrTranslator::visitEnd (S_msrVoice& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
+void msr2msrTranslator::visitStart (S_msrVoiceStaffChange& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2127,7 +1232,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSegment& elt)
+void msr2msrTranslator::visitStart (S_msrSegment& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2150,7 +1255,7 @@ void msr2lpsrTranslator::visitStart (S_msrSegment& elt)
       fCurrentSegmentClone);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrSegment& elt)
+void msr2msrTranslator::visitEnd (S_msrSegment& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -2175,7 +1280,7 @@ void msr2lpsrTranslator::visitEnd (S_msrSegment& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrHarmony& elt)
+void msr2msrTranslator::visitStart (S_msrHarmony& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2265,7 +1370,7 @@ void msr2lpsrTranslator::visitStart (S_msrHarmony& elt)
   fOnGoingHarmony = true;
 }
 
-void msr2lpsrTranslator::visitStart (S_msrHarmonyDegree& elt)
+void msr2msrTranslator::visitStart (S_msrHarmonyDegree& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2287,7 +1392,7 @@ void msr2lpsrTranslator::visitStart (S_msrHarmonyDegree& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrHarmony& elt)
+void msr2msrTranslator::visitEnd (S_msrHarmony& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2305,7 +1410,7 @@ void msr2lpsrTranslator::visitEnd (S_msrHarmony& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrFrame& elt)
+void msr2msrTranslator::visitStart (S_msrFrame& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2341,7 +1446,7 @@ void msr2lpsrTranslator::visitStart (S_msrFrame& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrFiguredBass& elt)
+void msr2msrTranslator::visitStart (S_msrFiguredBass& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2408,7 +1513,7 @@ void msr2lpsrTranslator::visitStart (S_msrFiguredBass& elt)
   }
 }
 
-void msr2lpsrTranslator::visitStart (S_msrFigure& elt)
+void msr2msrTranslator::visitStart (S_msrFigure& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2427,7 +1532,7 @@ void msr2lpsrTranslator::visitStart (S_msrFigure& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrFiguredBass& elt)
+void msr2msrTranslator::visitEnd (S_msrFiguredBass& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2444,7 +1549,7 @@ void msr2lpsrTranslator::visitEnd (S_msrFiguredBass& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrMeasure& elt)
+void msr2msrTranslator::visitStart (S_msrMeasure& elt)
 {
   int
     inputLineNumber =
@@ -2488,13 +1593,13 @@ void msr2lpsrTranslator::visitStart (S_msrMeasure& elt)
     elt->
       createMeasureNewbornClone (
         fCurrentSegmentClone);
-/* JMI
+
   // is this a full measures rest?
   if (elt->getMeasureIsAFullMeasureRest ()) {
     // yes
 
     // should we compress full measures rests?
-    if (gGlobalLpsr2lilypondOahGroup->getCompressFullMeasureRests ()) {
+    if (gGlobalMsr2msrOahGroup->getCompressFullMeasureRests ()) {
       // yes
 
       if (! fCurrentRestMeasure) {
@@ -2507,13 +1612,13 @@ void msr2lpsrTranslator::visitStart (S_msrMeasure& elt)
             fCurrentMeasureClone,
             fCurrentVoiceClone);
 
-/ * JMI
+/* JMI
         // append the current rest measures to the current voice clone
         fCurrentVoiceClone->
           appendRestMeasuresToVoice (
             inputLineNumber,
             fCurrentRestMeasures);
-            * /
+            */
       }
 
       else {
@@ -2546,7 +1651,6 @@ void msr2lpsrTranslator::visitStart (S_msrMeasure& elt)
         inputLineNumber,
         fCurrentMeasureClone);
   }
-  */
 
   // append current measure clone to the current voice clone
   fCurrentVoiceClone->
@@ -2569,7 +1673,7 @@ void msr2lpsrTranslator::visitStart (S_msrMeasure& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
+void msr2msrTranslator::visitEnd (S_msrMeasure& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -2619,7 +1723,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
           elt->
             fetchMeasureVoiceUpLink ()->
               getVoiceName () <<
-          "\" is of unknown kind in msr2lpsrTranslator";
+          "\" is of unknown kind in msr2msrTranslator";
 
       // JMI  msrInternalError (
         msrInternalWarning (
@@ -2679,7 +1783,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
     // no
 
     // should we compress full measures rests?
-    if (gGlobalLpsr2lilypondOahGroup->getCompressFullMeasureRests ()) {
+    if (gGlobalMsr2msrOahGroup->getCompressFullMeasureRests ()) {
       // yes
 
       if (fCurrentRestMeasures) {
@@ -2749,7 +1853,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrStanza& elt)
+void msr2msrTranslator::visitStart (S_msrStanza& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2769,23 +1873,20 @@ void msr2lpsrTranslator::visitStart (S_msrStanza& elt)
       elt->createStanzaNewbornClone (
         fCurrentVoiceClone);
 
-    // append the stanza clone to the LPSR score elements list
-    fLpsrScore ->
+    // append the stanza clone to the MSR score elements list
+/* JMI ???
+    fResultingMsrScore ->
       appendStanzaToLpsrScoreElementsList (
         fCurrentStanzaClone);
-
-    // append a use of the stanza to the current staff block
-    fCurrentStaffBlock ->
-      appendLyricsUseToStaffBlock (
-        fCurrentStanzaClone);
+*/
 //  }
 //  else
-  //  fCurrentStanzaClone = nullptr; // JMI
+  //  fCurrentStanzaClone = msr; // JMI
 
   fOnGoingStanza = true;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrStanza& elt)
+void msr2msrTranslator::visitEnd (S_msrStanza& elt)
 {
   gIndenter--;
 
@@ -2807,7 +1908,7 @@ void msr2lpsrTranslator::visitEnd (S_msrStanza& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSyllable& elt)
+void msr2msrTranslator::visitStart (S_msrSyllable& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -2840,7 +1941,7 @@ void msr2lpsrTranslator::visitStart (S_msrSyllable& elt)
       appendSyllableToNoteAndSetItsNoteUpLink (
         fCurrentNonGraceNoteClone);
 
-    if (gGlobalLpsrOahGroup->getAddWordsFromTheLyrics ()) {
+    if (gGlobalMsr2msrOahGroup->getAddWordsFromTheLyrics ()) {
       // get the syllable texts list
       const list<string>&
         syllableTextsList =
@@ -2937,7 +2038,7 @@ void msr2lpsrTranslator::visitStart (S_msrSyllable& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrSyllable& elt)
+void msr2msrTranslator::visitEnd (S_msrSyllable& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2950,7 +2051,7 @@ void msr2lpsrTranslator::visitEnd (S_msrSyllable& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrClef& elt)
+void msr2msrTranslator::visitStart (S_msrClef& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2965,7 +2066,7 @@ void msr2lpsrTranslator::visitStart (S_msrClef& elt)
     appendClefToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrClef& elt)
+void msr2msrTranslator::visitEnd (S_msrClef& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2978,7 +2079,7 @@ void msr2lpsrTranslator::visitEnd (S_msrClef& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrKey& elt)
+void msr2msrTranslator::visitStart (S_msrKey& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2993,7 +2094,7 @@ void msr2lpsrTranslator::visitStart (S_msrKey& elt)
     appendKeyToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrKey& elt)
+void msr2msrTranslator::visitEnd (S_msrKey& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3006,7 +2107,7 @@ void msr2lpsrTranslator::visitEnd (S_msrKey& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTime& elt)
+void msr2msrTranslator::visitStart (S_msrTime& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3022,7 +2123,7 @@ void msr2lpsrTranslator::visitStart (S_msrTime& elt)
     appendTimeToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTime& elt)
+void msr2msrTranslator::visitEnd (S_msrTime& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3035,7 +2136,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTime& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTranspose& elt)
+void msr2msrTranslator::visitStart (S_msrTranspose& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3051,7 +2152,7 @@ void msr2lpsrTranslator::visitStart (S_msrTranspose& elt)
     appendTransposeToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTranspose& elt)
+void msr2msrTranslator::visitEnd (S_msrTranspose& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3064,7 +2165,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTranspose& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrPartNameDisplay& elt)
+void msr2msrTranslator::visitStart (S_msrPartNameDisplay& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3081,7 +2182,7 @@ void msr2lpsrTranslator::visitStart (S_msrPartNameDisplay& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
+void msr2msrTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3098,7 +2199,7 @@ void msr2lpsrTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTempo& elt)
+void msr2msrTranslator::visitStart (S_msrTempo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3109,27 +2210,7 @@ void msr2lpsrTranslator::visitStart (S_msrTempo& elt)
   }
 #endif
 
-  switch (elt->getTempoKind ()) {
-    case msrTempo::k_NoTempoKind:
-      break;
-
-    case msrTempo::kTempoBeatUnitsWordsOnly:
-      break;
-
-    case msrTempo::kTempoBeatUnitsPerMinute:
-      break;
-
-    case msrTempo::kTempoBeatUnitsEquivalence:
-      break;
-
-    case msrTempo::kTempoNotesRelationShip:
-      fLpsrScore->
-        // this score needs the 'tempo relationship' Scheme function
-        setTempoRelationshipSchemeFunctionIsNeeded ();
-      break;
-  } // switch
-
-  if (gGlobalLpsrOahGroup->getConvertTemposToRehearsalMarks ()) {
+  if (gGlobalMsr2msrOahGroup->getConvertTemposToRehearsalMarks ()) {
     // create a rehearsal mark containing elt's words
 
     S_msrRehearsal
@@ -3163,7 +2244,7 @@ void msr2lpsrTranslator::visitStart (S_msrTempo& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTempo& elt)
+void msr2msrTranslator::visitEnd (S_msrTempo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3176,7 +2257,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrRehearsal& elt)
+void msr2msrTranslator::visitStart (S_msrRehearsal& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3191,7 +2272,7 @@ void msr2lpsrTranslator::visitStart (S_msrRehearsal& elt)
     appendRehearsalToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrRehearsal& elt)
+void msr2msrTranslator::visitEnd (S_msrRehearsal& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3204,7 +2285,7 @@ void msr2lpsrTranslator::visitEnd (S_msrRehearsal& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrArticulation& elt)
+void msr2msrTranslator::visitStart (S_msrArticulation& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3239,7 +2320,7 @@ void msr2lpsrTranslator::visitStart (S_msrArticulation& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrArticulation& elt)
+void msr2msrTranslator::visitEnd (S_msrArticulation& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3252,7 +2333,7 @@ void msr2lpsrTranslator::visitEnd (S_msrArticulation& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrFermata& elt)
+void msr2msrTranslator::visitStart (S_msrFermata& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3290,7 +2371,7 @@ void msr2lpsrTranslator::visitStart (S_msrFermata& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrArpeggiato& elt)
+void msr2msrTranslator::visitStart (S_msrArpeggiato& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3328,7 +2409,7 @@ void msr2lpsrTranslator::visitStart (S_msrArpeggiato& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
+void msr2msrTranslator::visitStart (S_msrNonArpeggiato& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3366,7 +2447,7 @@ void msr2lpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTechnical& elt)
+void msr2msrTranslator::visitStart (S_msrTechnical& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3399,49 +2480,9 @@ void msr2lpsrTranslator::visitStart (S_msrTechnical& elt)
       __FILE__, __LINE__,
       s.str ());
   }
-
-  // doest the score need the 'tongue' function?
-  switch (elt->getTechnicalKind ()) {
-    case msrTechnical::kArrow:
-      break;
-    case msrTechnical::kDoubleTongue:
-      fLpsrScore->
-        // this score needs the 'tongue' Scheme function
-        setTongueSchemeFunctionIsNeeded ();
-      break;
-    case msrTechnical::kDownBow:
-      break;
-    case msrTechnical::kFingernails:
-      break;
-    case msrTechnical::kHarmonic:
-      break;
-    case msrTechnical::kHeel:
-      break;
-    case msrTechnical::kHole:
-      break;
-    case msrTechnical::kOpenString:
-      break;
-    case msrTechnical::kSnapPizzicato:
-      break;
-    case msrTechnical::kStopped:
-      break;
-    case msrTechnical::kTap:
-      break;
-    case msrTechnical::kThumbPosition:
-      break;
-    case msrTechnical::kToe:
-      break;
-    case msrTechnical::kTripleTongue:
-      fLpsrScore->
-        // this score needs the 'tongue' Scheme function
-        setTongueSchemeFunctionIsNeeded ();
-      break;
-    case msrTechnical::kUpBow:
-      break;
-  } // switch
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTechnical& elt)
+void msr2msrTranslator::visitEnd (S_msrTechnical& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3454,7 +2495,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTechnical& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
+void msr2msrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3489,7 +2530,7 @@ void msr2lpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
+void msr2msrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3502,7 +2543,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
+void msr2msrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3537,7 +2578,7 @@ void msr2lpsrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
+void msr2msrTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3550,7 +2591,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
+void msr2msrTranslator::visitStart (S_msrTechnicalWithString& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3583,20 +2624,9 @@ void msr2lpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
       __FILE__, __LINE__,
       s.str ());
   }
-
-  switch (elt->getTechnicalWithStringKind ()) {
-    case msrTechnicalWithString::kHammerOn:
-    case msrTechnicalWithString::kPullOff:
-      // this score needs the 'after' Scheme function
-      fLpsrScore->
-        setAfterSchemeFunctionIsNeeded ();
-      break;
-    default:
-      ;
-  } // switch
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTechnicalWithString& elt)
+void msr2msrTranslator::visitEnd (S_msrTechnicalWithString& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3609,7 +2639,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTechnicalWithString& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrOrnament& elt)
+void msr2msrTranslator::visitStart (S_msrOrnament& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3651,7 +2681,7 @@ void msr2lpsrTranslator::visitStart (S_msrOrnament& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrOrnament& elt)
+void msr2msrTranslator::visitEnd (S_msrOrnament& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3665,7 +2695,7 @@ void msr2lpsrTranslator::visitEnd (S_msrOrnament& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSpanner& elt)
+void msr2msrTranslator::visitStart (S_msrSpanner& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3712,7 +2742,7 @@ void msr2lpsrTranslator::visitStart (S_msrSpanner& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrSpanner& elt)
+void msr2msrTranslator::visitEnd (S_msrSpanner& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3725,7 +2755,7 @@ void msr2lpsrTranslator::visitEnd (S_msrSpanner& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrGlissando& elt)
+void msr2msrTranslator::visitStart (S_msrGlissando& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3758,15 +2788,9 @@ void msr2lpsrTranslator::visitStart (S_msrGlissando& elt)
       __FILE__, __LINE__,
       s.str ());
   }
-
-  if (elt->getGlissandoTextValue ().size ()) {
-    fLpsrScore->
-      // this score needs the 'glissandoWithText' Scheme functions
-      addGlissandoWithTextSchemeFunctionsToScore ();
-  }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrGlissando& elt)
+void msr2msrTranslator::visitEnd (S_msrGlissando& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3779,7 +2803,7 @@ void msr2lpsrTranslator::visitEnd (S_msrGlissando& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSlide& elt)
+void msr2msrTranslator::visitStart (S_msrSlide& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3814,7 +2838,7 @@ void msr2lpsrTranslator::visitStart (S_msrSlide& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrSlide& elt)
+void msr2msrTranslator::visitEnd (S_msrSlide& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3827,7 +2851,7 @@ void msr2lpsrTranslator::visitEnd (S_msrSlide& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSingleTremolo& elt)
+void msr2msrTranslator::visitStart (S_msrSingleTremolo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3862,7 +2886,7 @@ void msr2lpsrTranslator::visitStart (S_msrSingleTremolo& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrSingleTremolo& elt)
+void msr2msrTranslator::visitEnd (S_msrSingleTremolo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3875,7 +2899,7 @@ void msr2lpsrTranslator::visitEnd (S_msrSingleTremolo& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
+void msr2msrTranslator::visitStart (S_msrDoubleTremolo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3899,7 +2923,7 @@ void msr2lpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
   fOnGoingDoubleTremolo = true;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
+void msr2msrTranslator::visitEnd (S_msrDoubleTremolo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3922,7 +2946,7 @@ void msr2lpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrDynamics& elt)
+void msr2msrTranslator::visitStart (S_msrDynamics& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3936,30 +2960,6 @@ void msr2lpsrTranslator::visitStart (S_msrDynamics& elt)
   if (fOnGoingNonGraceNote) {
     fCurrentNonGraceNoteClone->
       appendDynamicsToNote (elt);
-
-    // is this a non LilyPond native dynamics?
-    bool knownToLilyPondNatively = true;
-
-    switch (elt->getDynamicsKind ()) {
-      case msrDynamics::kFFFFF:
-      case msrDynamics::kFFFFFF:
-      case msrDynamics::kPPPPP:
-      case msrDynamics::kPPPPPP:
-      case msrDynamics::kRF:
-      case msrDynamics::kSFPP:
-      case msrDynamics::kSFFZ:
-      case msrDynamics::k_NoDynamics:
-        knownToLilyPondNatively = false;
-
-      default:
-        ;
-    } // switch
-
-    if (! knownToLilyPondNatively) {
-      // this score needs the 'dynamics' Scheme function
-      fLpsrScore->
-        setDynamicsSchemeFunctionIsNeeded ();
-    }
   }
 
   else if (fOnGoingChord) {
@@ -3983,7 +2983,7 @@ void msr2lpsrTranslator::visitStart (S_msrDynamics& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrDynamics& elt)
+void msr2msrTranslator::visitEnd (S_msrDynamics& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -3996,7 +2996,7 @@ void msr2lpsrTranslator::visitEnd (S_msrDynamics& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrOtherDynamics& elt)
+void msr2msrTranslator::visitStart (S_msrOtherDynamics& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4029,13 +3029,9 @@ void msr2lpsrTranslator::visitStart (S_msrOtherDynamics& elt)
       __FILE__, __LINE__,
       s.str ());
   }
-
-  fLpsrScore->
-    // this score needs the 'otherDynamic' Scheme function
-    setOtherDynamicSchemeFunctionIsNeeded ();
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrOtherDynamics& elt)
+void msr2msrTranslator::visitEnd (S_msrOtherDynamics& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4048,7 +3044,7 @@ void msr2lpsrTranslator::visitEnd (S_msrOtherDynamics& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrWords& elt)
+void msr2msrTranslator::visitStart (S_msrWords& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -4065,7 +3061,7 @@ void msr2lpsrTranslator::visitStart (S_msrWords& elt)
   if (fOnGoingNonGraceNote || fOnGoingChord) {
     bool wordsHasBeenHandled = false;
 
-    if (gGlobalLpsrOahGroup->getConvertWordsToTempo ()) {
+    if (gGlobalMsr2msrOahGroup->getConvertWordsToTempo ()) {
       // create a tempo containing elt
       S_msrTempo
         tempo =
@@ -4092,7 +3088,7 @@ void msr2lpsrTranslator::visitStart (S_msrWords& elt)
       wordsHasBeenHandled = true;
     }
 
-    else if (gGlobalLpsrOahGroup->getConvertWordsToRehearsalMarks ()) {
+    else if (gGlobalMsr2msrOahGroup->getConvertWordsToRehearsalMarks ()) {
       // create a rehearsal mark containing elt's words contents
       S_msrRehearsal
         rehearsal =
@@ -4128,9 +3124,9 @@ void msr2lpsrTranslator::visitStart (S_msrWords& elt)
       // is this words contents in the string to dal segno kind map?
       map<string, msrDalSegno::msrDalSegnoKind>::iterator
         it =
-          gGlobalLpsrOahGroup->getConvertWordsToDalSegno ().find (wordsContents);
+          gGlobalMsrOahGroup->getConvertWordsToDalSegno ().find (wordsContents);
 
-      if (it != gGlobalLpsrOahGroup->getConvertWordsToDalSegno ().end ()) {
+      if (it != gGlobalMsrOahGroup->getConvertWordsToDalSegno ().end ()) {
         // yes
         msrDalSegno::msrDalSegnoKind
           dalSegnoKind =
@@ -4199,7 +3195,7 @@ void msr2lpsrTranslator::visitStart (S_msrWords& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrWords& elt)
+void msr2msrTranslator::visitEnd (S_msrWords& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4212,7 +3208,7 @@ void msr2lpsrTranslator::visitEnd (S_msrWords& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSlur& elt)
+void msr2msrTranslator::visitStart (S_msrSlur& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -4291,7 +3287,7 @@ void msr2lpsrTranslator::visitStart (S_msrSlur& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrSlur& elt)
+void msr2msrTranslator::visitEnd (S_msrSlur& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4305,7 +3301,7 @@ void msr2lpsrTranslator::visitEnd (S_msrSlur& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrChordSlurLink& elt)
+void msr2msrTranslator::visitStart (S_msrChordSlurLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4362,7 +3358,7 @@ void msr2lpsrTranslator::visitStart (S_msrChordSlurLink& elt)
   fOnGoingChordSlurLink = true;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrChordSlurLink& elt)
+void msr2msrTranslator::visitEnd (S_msrChordSlurLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4378,7 +3374,7 @@ void msr2lpsrTranslator::visitEnd (S_msrChordSlurLink& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrLigature& elt)
+void msr2msrTranslator::visitStart (S_msrLigature& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4413,7 +3409,7 @@ void msr2lpsrTranslator::visitStart (S_msrLigature& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrLigature& elt)
+void msr2msrTranslator::visitEnd (S_msrLigature& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4426,7 +3422,7 @@ void msr2lpsrTranslator::visitEnd (S_msrLigature& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSlash& elt)
+void msr2msrTranslator::visitStart (S_msrSlash& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4462,7 +3458,7 @@ void msr2lpsrTranslator::visitStart (S_msrSlash& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrWedge& elt)
+void msr2msrTranslator::visitStart (S_msrWedge& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4497,7 +3493,7 @@ void msr2lpsrTranslator::visitStart (S_msrWedge& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrWedge& elt)
+void msr2msrTranslator::visitEnd (S_msrWedge& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4510,7 +3506,7 @@ void msr2lpsrTranslator::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
+void msr2msrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber () ;
@@ -4712,7 +3708,7 @@ void msr2lpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
           gLogStream <<
             "Creating a skip clone of grace notes group '" <<
             elt->asShortString () <<
-            "' to work around LilyPond issue #34" <<
+            "' to work around LilyPond issue #34" << // JMI ???
             endl;
         }
 #endif
@@ -4729,7 +3725,7 @@ void msr2lpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   // in visitEnd (S_msrPart&)
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
+void msr2msrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4795,7 +3791,7 @@ void msr2lpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
+void msr2msrTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
@@ -4871,7 +3867,7 @@ void msr2lpsrTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
   fOnGoingChordGraceNotesGroupLink = true;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrChordGraceNotesGroupLink& elt)
+void msr2msrTranslator::visitEnd (S_msrChordGraceNotesGroupLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
     S_msrGraceNotesGroup
@@ -4896,7 +3892,7 @@ void msr2lpsrTranslator::visitEnd (S_msrChordGraceNotesGroupLink& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrNote& elt)
+void msr2msrTranslator::visitStart (S_msrNote& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5012,7 +4008,7 @@ void msr2lpsrTranslator::visitStart (S_msrNote& elt)
 //*/
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
+void msr2msrTranslator::visitEnd (S_msrNote& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -5310,7 +4306,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
 
         s <<
-          "msr2lpsrTranslator::visitEnd (S_msrNote& elt): chord member note " <<
+          "msr2msrTranslator::visitEnd (S_msrNote& elt): chord member note " <<
           elt->asString () <<
           " appears outside of a chord";
 
@@ -5334,7 +4330,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
 
         s <<
-          "msr2lpsrTranslator::visitEnd (S_msrNote& elt): chord member note " <<
+          "msr2msrTranslator::visitEnd (S_msrNote& elt): chord member note " <<
           elt->asString () <<
           " appears outside of a chord";
 
@@ -5366,27 +4362,6 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentVoiceClone);
       break;
   } // switch
-
-  if (fCurrentNonGraceNoteClone) { // JMI
-    // handle editorial accidentals
-    switch (fCurrentNonGraceNoteClone->getNoteEditorialAccidentalKind ()) {
-      case kEditorialAccidentalYes:
-        fLpsrScore->
-          // this score needs the 'editorial accidental' Scheme function
-          setEditorialAccidentalSchemeFunctionIsNeeded ();
-        break;
-      case kEditorialAccidentalNo:
-        break;
-    } // switch
-
-    // handle cautionary accidentals // JMI ???
-    switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
-      case kCautionaryAccidentalYes:
-        break;
-      case kCautionaryAccidentalNo:
-        break;
-    } // switch
-  }
 
 /* JMI
   // handle melisma
@@ -5442,7 +4417,7 @@ void msr2lpsrTranslator::visitEnd (S_msrNote& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrOctaveShift& elt)
+void msr2msrTranslator::visitStart (S_msrOctaveShift& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5477,7 +4452,7 @@ void msr2lpsrTranslator::visitStart (S_msrOctaveShift& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrOctaveShift& elt)
+void msr2msrTranslator::visitEnd (S_msrOctaveShift& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5490,7 +4465,7 @@ void msr2lpsrTranslator::visitEnd (S_msrOctaveShift& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
+void msr2msrTranslator::visitStart (S_msrAccordionRegistration& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5504,14 +4479,10 @@ void msr2lpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
   // append the accordion registration to the voice clone
   fCurrentVoiceClone->
     appendAccordionRegistrationToVoice (elt);
-
-  // the generated code needs modules scm and accreg
-  fLpsrScore->
-    setScmAndAccregSchemeModulesAreNeeded ();
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrHarpPedalsTuning& elt)
+void msr2msrTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5528,7 +4499,7 @@ void msr2lpsrTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrStem& elt)
+void msr2msrTranslator::visitStart (S_msrStem& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5564,7 +4535,7 @@ void msr2lpsrTranslator::visitStart (S_msrStem& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrStem& elt)
+void msr2msrTranslator::visitEnd (S_msrStem& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5577,7 +4548,7 @@ void msr2lpsrTranslator::visitEnd (S_msrStem& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrBeam& elt)
+void msr2msrTranslator::visitStart (S_msrBeam& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5622,7 +4593,7 @@ void msr2lpsrTranslator::visitStart (S_msrBeam& elt)
       */
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrBeam& elt)
+void msr2msrTranslator::visitEnd (S_msrBeam& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5635,7 +4606,7 @@ void msr2lpsrTranslator::visitEnd (S_msrBeam& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrChordBeamLink& elt)
+void msr2msrTranslator::visitStart (S_msrChordBeamLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5692,7 +4663,7 @@ void msr2lpsrTranslator::visitStart (S_msrChordBeamLink& elt)
   fOnGoingChordBeamLink = true;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrChordBeamLink& elt)
+void msr2msrTranslator::visitEnd (S_msrChordBeamLink& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5708,7 +4679,7 @@ void msr2lpsrTranslator::visitEnd (S_msrChordBeamLink& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrChord& elt)
+void msr2msrTranslator::visitStart (S_msrChord& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -5781,7 +4752,7 @@ void msr2lpsrTranslator::visitStart (S_msrChord& elt)
   fOnGoingChord = true;
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrChord& elt)
+void msr2msrTranslator::visitEnd (S_msrChord& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5796,7 +4767,7 @@ void msr2lpsrTranslator::visitEnd (S_msrChord& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTuplet& elt)
+void msr2msrTranslator::visitStart (S_msrTuplet& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5824,19 +4795,9 @@ void msr2lpsrTranslator::visitStart (S_msrTuplet& elt)
 #endif
 
   fTupletClonesStack.push (tupletClone);
-
-  switch (elt->getTupletLineShapeKind ()) {
-    case msrTuplet::kTupletLineShapeStraight:
-      break;
-    case msrTuplet::kTupletLineShapeCurved:
-      fLpsrScore->
-        // this score needs the 'tuplets curved brackets' Scheme function
-        setTupletsCurvedBracketsSchemeFunctionIsNeeded ();
-      break;
-  } // switch
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTuplet& elt)
+void msr2msrTranslator::visitEnd (S_msrTuplet& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5897,7 +4858,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTuplet& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrTie& elt)
+void msr2msrTranslator::visitStart (S_msrTie& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5932,7 +4893,7 @@ void msr2lpsrTranslator::visitStart (S_msrTie& elt)
   }
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrTie& elt)
+void msr2msrTranslator::visitEnd (S_msrTie& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5945,7 +4906,7 @@ void msr2lpsrTranslator::visitEnd (S_msrTie& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrSegno& elt)
+void msr2msrTranslator::visitStart (S_msrSegno& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -5982,7 +4943,7 @@ void msr2lpsrTranslator::visitStart (S_msrSegno& elt)
   }
 }
 
-void msr2lpsrTranslator::visitStart (S_msrDalSegno& elt)
+void msr2msrTranslator::visitStart (S_msrDalSegno& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6021,10 +4982,6 @@ void msr2lpsrTranslator::visitStart (S_msrDalSegno& elt)
       s.str ());
   }
 
-  // this score needs hiddenMeasureAndBarline
-  fLpsrScore->
-    setHiddenMeasureAndBarlineIsNeeded ();
-
 /* JMI
   // create a hidden measure and barline
   S_msrHiddenMeasureAndBarline
@@ -6054,7 +5011,7 @@ void msr2lpsrTranslator::visitStart (S_msrDalSegno& elt)
      // */
 }
 
-void msr2lpsrTranslator::visitStart (S_msrCoda& elt)
+void msr2msrTranslator::visitStart (S_msrCoda& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6091,7 +5048,7 @@ void msr2lpsrTranslator::visitStart (S_msrCoda& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrEyeGlasses& elt)
+void msr2msrTranslator::visitStart (S_msrEyeGlasses& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6106,7 +5063,7 @@ void msr2lpsrTranslator::visitStart (S_msrEyeGlasses& elt)
     appendEyeGlassesToNote (elt);
 }
 
-void msr2lpsrTranslator::visitStart (S_msrScordatura& elt)
+void msr2msrTranslator::visitStart (S_msrScordatura& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6121,7 +5078,7 @@ void msr2lpsrTranslator::visitStart (S_msrScordatura& elt)
     appendScordaturaToNote (elt);
 }
 
-void msr2lpsrTranslator::visitStart (S_msrPedal& elt)
+void msr2msrTranslator::visitStart (S_msrPedal& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6136,7 +5093,7 @@ void msr2lpsrTranslator::visitStart (S_msrPedal& elt)
     appendPedalToNote (elt);
 }
 
-void msr2lpsrTranslator::visitStart (S_msrDamp& elt)
+void msr2msrTranslator::visitStart (S_msrDamp& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6149,13 +5106,9 @@ void msr2lpsrTranslator::visitStart (S_msrDamp& elt)
 
   fCurrentNonGraceNoteClone->
     appendDampToNote (elt);
-
-  fLpsrScore->
-    // this score needs the 'custom short barline' Scheme function
-    setDampMarkupIsNeeded ();
 }
 
-void msr2lpsrTranslator::visitStart (S_msrDampAll& elt)
+void msr2msrTranslator::visitStart (S_msrDampAll& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6168,14 +5121,10 @@ void msr2lpsrTranslator::visitStart (S_msrDampAll& elt)
 
   fCurrentNonGraceNoteClone->
     appendDampAllToNote (elt);
-
-  fLpsrScore->
-    // this score needs the 'custom short barline' Scheme function
-    setDampAllMarkupIsNeeded ();
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrBarCheck& elt)
+void msr2msrTranslator::visitStart (S_msrBarCheck& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6192,7 +5141,7 @@ void msr2lpsrTranslator::visitStart (S_msrBarCheck& elt)
     appendBarCheckToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrBarCheck& elt)
+void msr2msrTranslator::visitEnd (S_msrBarCheck& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6205,7 +5154,7 @@ void msr2lpsrTranslator::visitEnd (S_msrBarCheck& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrBarNumberCheck& elt)
+void msr2msrTranslator::visitStart (S_msrBarNumberCheck& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6220,7 +5169,7 @@ void msr2lpsrTranslator::visitStart (S_msrBarNumberCheck& elt)
     appendBarNumberCheckToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrBarNumberCheck& elt)
+void msr2msrTranslator::visitEnd (S_msrBarNumberCheck& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6233,7 +5182,7 @@ void msr2lpsrTranslator::visitEnd (S_msrBarNumberCheck& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrLineBreak& elt)
+void msr2msrTranslator::visitStart (S_msrLineBreak& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6248,7 +5197,7 @@ void msr2lpsrTranslator::visitStart (S_msrLineBreak& elt)
     appendLineBreakToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrLineBreak& elt)
+void msr2msrTranslator::visitEnd (S_msrLineBreak& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6261,7 +5210,7 @@ void msr2lpsrTranslator::visitEnd (S_msrLineBreak& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrPageBreak& elt)
+void msr2msrTranslator::visitStart (S_msrPageBreak& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6276,7 +5225,7 @@ void msr2lpsrTranslator::visitStart (S_msrPageBreak& elt)
     appendPageBreakToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrPageBreak& elt)
+void msr2msrTranslator::visitEnd (S_msrPageBreak& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6289,7 +5238,7 @@ void msr2lpsrTranslator::visitEnd (S_msrPageBreak& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrRepeat& elt)
+void msr2msrTranslator::visitStart (S_msrRepeat& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6319,7 +5268,7 @@ void msr2lpsrTranslator::visitStart (S_msrRepeat& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrRepeat& elt)
+void msr2msrTranslator::visitEnd (S_msrRepeat& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6351,7 +5300,7 @@ void msr2lpsrTranslator::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
+void msr2msrTranslator::visitStart (S_msrRepeatCommonPart& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6370,7 +5319,7 @@ void msr2lpsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
       inputLineNumber);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
+void msr2msrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6390,7 +5339,7 @@ void msr2lpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrRepeatEnding& elt)
+void msr2msrTranslator::visitStart (S_msrRepeatEnding& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6422,7 +5371,7 @@ void msr2lpsrTranslator::visitStart (S_msrRepeatEnding& elt)
       elt->getRepeatEndingNumber ());
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
+void msr2msrTranslator::visitEnd (S_msrRepeatEnding& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6455,7 +5404,7 @@ void msr2lpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrRestMeasures& elt)
+void msr2msrTranslator::visitStart (S_msrRestMeasures& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6487,7 +5436,7 @@ void msr2lpsrTranslator::visitStart (S_msrRestMeasures& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrRestMeasures& elt)
+void msr2msrTranslator::visitEnd (S_msrRestMeasures& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6519,7 +5468,7 @@ void msr2lpsrTranslator::visitEnd (S_msrRestMeasures& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
+void msr2msrTranslator::visitStart (S_msrRestMeasuresContents& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6549,7 +5498,7 @@ void msr2lpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
       inputLineNumber);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
+void msr2msrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6580,7 +5529,7 @@ void msr2lpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
+void msr2msrTranslator::visitStart (S_msrMeasuresRepeat& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6612,7 +5561,7 @@ void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
       elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
+void msr2msrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6657,7 +5606,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
+void msr2msrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6687,7 +5636,7 @@ void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
       inputLineNumber);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
+void msr2msrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6718,7 +5667,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
+void msr2msrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6748,7 +5697,7 @@ void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
       inputLineNumber);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
+void msr2msrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6780,7 +5729,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrBarline& elt)
+void msr2msrTranslator::visitStart (S_msrBarline& elt)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
@@ -6808,44 +5757,12 @@ void msr2lpsrTranslator::visitStart (S_msrBarline& elt)
   }
 #endif
 
-  switch (elt->getBarlineStyleKind ()) {
-    case msrBarline::kBarlineStyleNone:
-      break;
-    case msrBarline::kBarlineStyleRegular:
-      break;
-    case msrBarline::kBarlineStyleDotted:
-      break;
-    case msrBarline::kBarlineStyleDashed:
-      break;
-    case msrBarline::kBarlineStyleHeavy:
-      break;
-    case msrBarline::kBarlineStyleLightLight:
-      break;
-    case msrBarline::kBarlineStyleLightHeavy:
-      break;
-    case msrBarline::kBarlineStyleHeavyLight:
-      break;
-    case msrBarline::kBarlineStyleHeavyHeavy:
-      break;
-    case msrBarline::kBarlineStyleTick:
-      break;
-    case msrBarline::kBarlineStyleShort:
-      fLpsrScore->
-        // this score needs the 'custom short barline' Scheme function
-        setCustomShortBarlineSchemeFunctionIsNeeded ();
-      break;
-      /* JMI
-    case msrBarline::kBarlineStyleNone:
-      break;
-      */
-  } // switch
-
   // append the barline to the current voice clone
   fCurrentVoiceClone->
     appendBarlineToVoice (elt);
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrBarline& elt)
+void msr2msrTranslator::visitEnd (S_msrBarline& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6858,7 +5775,7 @@ void msr2lpsrTranslator::visitEnd (S_msrBarline& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrVarValAssoc& elt)
+void msr2msrTranslator::visitStart (S_msrVarValAssoc& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -6889,60 +5806,24 @@ void msr2lpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       fCurrentIdentification->
         setWorkNumber (
           inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setWorkNumber (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fWorkNumberKnown = true;
       break;
 
     case msrVarValAssoc::kWorkTitle:
       fCurrentIdentification->
         setWorkTitle (
           inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setWorkTitle (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fWorkTitleKnown = true;
       break;
 
     case msrVarValAssoc::kOpus:
       fCurrentIdentification->
         setOpus (
           inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setOpus (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fOpusKnown = true;
       break;
 
     case msrVarValAssoc::kMovementNumber:
       fCurrentIdentification->
         setMovementNumber (
           inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setMovementNumber (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fMovementNumberKnown = true;
       break;
 
     case msrVarValAssoc::kMovementTitle:
@@ -6950,53 +5831,24 @@ void msr2lpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         setMovementTitle (
           inputLineNumber, variableValue);
 
-      fCurrentLpsrScoreHeader->
-        setMovementTitle (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
-
-      fMovementTitleKnown = true;
       break;
 
     case msrVarValAssoc::kEncodingDate:
       fCurrentIdentification->
         setEncodingDate (
           inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setEncodingDate (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
       break;
 
     case msrVarValAssoc::kScoreInstrument:
       fCurrentIdentification->
         setScoreInstrument (
           inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setScoreInstrument (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
       break;
 
     case msrVarValAssoc::kMiscellaneousField:
       fCurrentIdentification->
         setMiscellaneousField (
           inputLineNumber, variableValue);
-
-      fCurrentLpsrScoreHeader->
-        setMiscellaneousField (
-          inputLineNumber,
-          variableValue,
-          kFontStyleNone,
-          kFontWeightNone);
       break;
 
     default:
@@ -7017,7 +5869,7 @@ void msr2lpsrTranslator::visitStart (S_msrVarValAssoc& elt)
   } // switch
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
+void msr2msrTranslator::visitEnd (S_msrVarValAssoc& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -7030,7 +5882,7 @@ void msr2lpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
+void msr2msrTranslator::visitStart (S_msrVarValsListAssoc& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -7043,7 +5895,7 @@ void msr2lpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       endl;
   }
 #endif
-
+/* JMI
   msrVarValsListAssoc::msrVarValsListAssocKind
     varValsListAssocKind =
       elt->getVarValsListAssocKind ();
@@ -7051,116 +5903,10 @@ void msr2lpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
   const list<string>&
     variableValuesList =
       elt->getVariableValuesList ();
-
-  switch (varValsListAssocKind) {
-    case msrVarValsListAssoc::kRights:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addRights (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kComposer:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addComposer (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kArranger:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addArranger (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kLyricist:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addLyricist (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kPoet:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addPoet (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kTranslator:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addTranslator (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kArtist:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addArtist (
-            inputLineNumber, (*i));
-      } // for
-      break;
-
-    case msrVarValsListAssoc::kSoftware:
-      for (list<string>::const_iterator i = variableValuesList.begin ();
-        i != variableValuesList.end ();
-        i++
-      ) {
-        fCurrentLpsrScoreHeader->
-          addSoftware (
-            inputLineNumber, (*i));
-      } // for
-      break;
-/* JMI
-    default:
-      {
-      stringstream s;
-
-      s <<
-        "### msrVarValsListAssoc kind '" <<
-        msrVarValsListAssoc::varValsListAssocKindAsString (
-          varValsListAssocKind) <<
-        "' is not handled";
-
-      msrMusicXMLWarning (
-        gGlobalOahOahGroup->getInputSourceName (),
-        inputLineNumber,
-        s.str ());
-      }
       */
-  } // switch
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
+void msr2msrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -7173,7 +5919,7 @@ void msr2lpsrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
 }
 
 //________________________________________________________________________
-void msr2lpsrTranslator::visitStart (S_msrMidiTempo& elt)
+void msr2msrTranslator::visitStart (S_msrMidiTempo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -7185,7 +5931,7 @@ void msr2lpsrTranslator::visitStart (S_msrMidiTempo& elt)
 #endif
 }
 
-void msr2lpsrTranslator::visitEnd (S_msrMidiTempo& elt)
+void msr2msrTranslator::visitEnd (S_msrMidiTempo& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -7202,7 +5948,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMidiTempo& elt)
 
 //________________________________________________________________________
 /* JMI
-void msr2lpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
+void msr2msrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
   S_msrPart            partClone,
   S_msrVoice           voiceClone,
   S_msrGraceNotesGroup skipGraceNotesGroup)

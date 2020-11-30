@@ -209,7 +209,7 @@ class msrFiguredBass : public msrMeasureElement
                               { return fFiguredBassParenthesesKind; }
 
     const list<S_msrFigure>&
-                          getFiguredBassFiguresList ()
+                          getFiguredBassFiguresList () const
                               { return fFiguredBassFiguresList;  }
 
     void                  setFiguredBassTupletFactor (

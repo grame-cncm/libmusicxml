@@ -132,7 +132,7 @@ if (XML)
 endif()
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml mxml2mxmltree mxmltree mxmltree2msr msr oah2manpage)
+	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml mxml2mxmltree mxmltree mxmltree2msr msr msr2msr oah2manpage)
 endif()
 
 if (LILY)
@@ -140,7 +140,7 @@ if (LILY)
 endif()
 
 if (BRAILLE)
-	set (SRCFOLDERS ${SRCFOLDERS} msr2bsr bsr bsr2braille braille musicxml2braille)
+	set (SRCFOLDERS ${SRCFOLDERS} msr2bsr bsr bsr2bsr bsr2braille braille musicxml2braille)
 endif()
 
 if (MXML)

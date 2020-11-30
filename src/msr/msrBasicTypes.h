@@ -739,17 +739,16 @@ class msrLength : public smartable
     // public services
     // ------------------------------------------------------
 
-                          bool operator== (
-                            const msrLength& other) const
+    bool                  operator== (const msrLength& other) const
                               {
+                                // JMI convert to same length unit kind before comparing BLARK
                                 return
                                   fLengthUnitKind == other.fLengthUnitKind
                                    &&
                                   fLengthValue == other.fLengthValue;
                               }
 
-                          bool operator!= (
-                            const msrLength& other) const
+    bool                  operator!= (const msrLength& other) const
                               { return ! ((*this) == other); }
 
     void                  convertToLengthUnit (
@@ -841,7 +840,7 @@ class msrMargin : public smartable
     // public services
     // ------------------------------------------------------
 
-                          bool operator== (
+    bool                  operator== (
                             const msrMargin& other) const
                               {
                                 return
@@ -850,7 +849,7 @@ class msrMargin : public smartable
                                   fMarginLength == other.fMarginLength;
                               }
 
-                          bool operator!= (
+    bool                  operator!= (
                             const msrMargin& other) const
                               { return ! ((*this) == other); }
 
@@ -1030,7 +1029,7 @@ class msrFontSize : public smartable
     msrFontSizeKind       getFontSizeKind () const
                               { return fFontSizeKind; }
 
-    float                 getFontNumericSize ();
+    float                 getFontNumericSize () const;
 
   public:
 
@@ -1224,6 +1223,104 @@ enum msrSpannerTypeKind {
 
 string msrSpannerTypeKindAsString (
   msrSpannerTypeKind spannerTypeKind);
+
+// moments
+//______________________________________________________________________________
+class msrMoment
+{
+  public:
+
+    // constants
+    // ------------------------------------------------------
+
+    #define K_NO_POSITION rational (-222222, 1)
+
+    #define K_NO_MOMENT   msrMoment (K_NO_POSITION, K_NO_POSITION)
+
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMoment ();
+
+    msrMoment (
+      rational positionInMeasure,
+      rational relativeOffset);
+
+    msrMoment (
+      rational positionInMeasure);
+
+    virtual ~msrMoment ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setPositionInMeasure (rational actualNotes)
+                              { fPositionInMeasure = actualNotes; }
+
+    rational              getPositionInMeasure () const
+                              { return fPositionInMeasure; }
+
+    void                  setRelativeOffset (rational normalNotes)
+                              { fRelativeOffset = normalNotes; }
+
+    rational              getRelativeOffset () const
+                              { return fRelativeOffset; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    bool                  operator== (const msrMoment& other) const;
+
+    bool                  operator!= (const msrMoment& other) const
+                              { return ! ((*this) == other); }
+
+    bool                  operator< (const msrMoment& other) const;
+
+    bool                  operator>= (const msrMoment& other) const
+                              { return ! ((*this) < other); }
+
+    bool                  operator> (const msrMoment& other) const;
+
+    bool                  operator<= (const msrMoment& other) const
+                              { return ! ((*this) > other); }
+
+    static void           testMsrMomentComparisons (ostream& os);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+/* JMI
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+*/
+
+  public:
+
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    rational              fPositionInMeasure;
+    rational              fRelativeOffset;
+};
+EXP ostream& operator<< (ostream& os, const msrMoment& elt);
 
 // tuplet factors
 //______________________________________________________________________________

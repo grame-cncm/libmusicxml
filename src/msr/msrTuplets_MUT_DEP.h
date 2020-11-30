@@ -132,7 +132,7 @@ class msrTuplet : public msrTupletElement
 
     // tuplet factor
     const msrTupletFactor&
-                          getTupletFactor ()
+                          getTupletFactor () const
                               { return fTupletFactor; }
 
     // member notes durations

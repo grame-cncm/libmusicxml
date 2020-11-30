@@ -19,7 +19,8 @@
 #include <vector>
 #include <map>
 
-#include <algorithm>
+#include <algorithm>    // for_each
+#include <functional>
 
 #include <iomanip>      // setw, ...
 

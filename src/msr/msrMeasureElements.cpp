@@ -35,11 +35,15 @@ namespace MusicXML2
 //______________________________________________________________________________
 msrMeasureElement::msrMeasureElement (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrElement (inputLineNumber),
+      fMeasureElementMomentInMeasure (
+        K_NO_POSITION, K_NO_POSITION),
+      fMeasureElementMomentInVoice (
+        K_NO_POSITION, K_NO_POSITION)
 {
   fMeasureElementSoundingWholeNotes = rational (0, 1);
 
-  fMeasureElementMeasureNumber      = K_NO_MEASURE_NUMBER;
+  fMeasureElementMeasureNumber = K_NO_MEASURE_NUMBER;
 
   fMeasureElementPositionInMeasure = K_NO_POSITION;
   fMeasureElementPositionInVoice   = K_NO_POSITION;
@@ -132,6 +136,57 @@ void msrMeasureElement::setMeasureElementPositionInVoice (
     "positionInVoice == K_NO_POSITION");
 
   fMeasureElementPositionInVoice = positionInVoice;
+}
+
+void msrMeasureElement::setMeasureElementMomentInMeasure (
+  const msrMoment& momentInMeasure,
+  string           context)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMomentsInMeasures ()) {
+    gLogStream <<
+      "Setting measure element moment in measure of " <<
+      asString () <<
+      " to '" << momentInMeasure <<
+      "' (was '" <<
+      fMeasureElementMomentInMeasure.asString () <<
+      "') in measure '" <<
+      fMeasureElementMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  fMeasureElementMomentInMeasure = momentInMeasure;
+}
+
+void msrMeasureElement::setMeasureElementMomentInVoice (
+  const msrMoment& momentInVoice,
+  string           context)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMomentsInMeasures ()) {
+    gLogStream <<
+      "Setting measure element moment in voice of " <<
+      asString () <<
+      " to '" << momentInVoice <<
+      "' in measure '" <<
+      fMeasureElementMeasureNumber <<
+      "', context: \"" <<
+      context <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msgAssert (
+    momentInVoice != K_NO_MOMENT,
+    "momentInVoice == K_NO_MOMENT");
+
+  fMeasureElementMomentInVoice = momentInVoice;
 }
 
 bool msrMeasureElement::compareMeasureElementsByIncreasingPositionInMeasure (

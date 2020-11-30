@@ -1550,6 +1550,25 @@ R"(Positions in measures)",
     addBooleanAtom (
       tracePositionsInMeasuresBooleanAtom);
 
+  // moments in measures
+
+  fTraceMomentsInMeasures = false;
+
+  S_oahTwoBooleansAtom
+    traceMomentsInMeasuresBooleanAtom =
+      oahTwoBooleansAtom::create (
+        "tmim", "trace-moments-in-measures",
+R"(Moments in measures)",
+        "traceMomentsInMeasures",
+        fTraceMomentsInMeasures,
+        fTracePasses);
+  subGroup->
+    appendAtomToSubGroup (
+      traceMomentsInMeasuresBooleanAtom);
+  segmentsAndMeasuresMultiplexBooleansAtom->
+    addBooleanAtom (
+      traceMomentsInMeasuresBooleanAtom);
+
   // fTraceDetailedMeasureNumbersSet is empty
 }
 

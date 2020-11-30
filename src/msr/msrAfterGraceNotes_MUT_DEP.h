@@ -41,7 +41,7 @@ class msrAfterGraceNotesGroupContents : public msrElement
     // ------------------------------------------------------
 
     const list<S_msrMeasureElement>&
-                          getAfterGraceNotesGroupContentsNotesList ()
+                          getAfterGraceNotesGroupContentsNotesList () const
                               {
                                 return
                                   fAfterGraceNotesGroupContentsNotesList;

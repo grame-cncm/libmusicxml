@@ -12,6 +12,8 @@
 
 #include "libmusicxml.h"
 
+#include "oahBasicTypes.h"
+
 
 using namespace std;
 using namespace MusicXML2;
@@ -56,38 +58,56 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
   string executableName = argv [0];
 
-	optionsVector options;
+  cout << "Launching " << executableName << endl;
 
-//	options.push_back (make_pair ("-insider", ""));
-	options.push_back (make_pair ("-trace-oah", ""));
-//	options.push_back (make_pair ("-display-options-values", ""));
-//	options.push_back (make_pair ("-global-staff-size", "30"));
+  // the options vector
+  // ------------------------------------------------------
+	optionsVector theOptionsVector;
 
-//	options.push_back (make_pair ("-help", ""));
-	options.push_back (make_pair ("-name-help", "global-staff-size"));
-//	options.push_back (make_pair ("-hmxmlcg", ""));
-//	options.push_back (make_pair ("-help-midi-grp", ""));
-//  cerr << "main - string2lily options: " << options.size() << ": " << options2string(options) << endl;
+//	theOptionsVector.push_back (make_pair ("-insider", ""));
+	theOptionsVector.push_back (make_pair ("-trace-oah", ""));
+//	theOptionsVector.push_back (make_pair ("-display-theOptionsVector-values", ""));
+//	theOptionsVector.push_back (make_pair ("-global-staff-size", "30"));
 
-	options.push_back (make_pair ("-version", ""));
+//	theOptionsVector.push_back (make_pair ("-help", ""));
+	theOptionsVector.push_back (make_pair ("-name-help", "global-staff-size"));
+//	theOptionsVector.push_back (make_pair ("-hmxmlcg", ""));
+//	theOptionsVector.push_back (make_pair ("-help-midi-grp", ""));
+//  cerr << "main - string2lily theOptionsVector: " << theOptionsVector.size() << ": " << theOptionsVector2string(theOptionsVector) << endl;
+
+	theOptionsVector.push_back (make_pair ("-version", ""));
+
+  displayOptionsVector (
+    theOptionsVector,
+    cout);
 
   // first run
+  // ------------------------------------------------------
+
   cerr << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" <<
     endl << endl;
 	xmlErr
 	  err1 =
       musicxmlfile2lilypond (
-        "/Users/menu//libmusicxml-git/files/musicxml/basic/HelloWorld.xml", options, cout, cerr);
+        "/Users/menu//libmusicxml-git/files/musicxml/basic/HelloWorld.xml",
+        theOptionsVector,
+        cout,
+        cerr);
 	cout << "xml2ly2 ret 1 = " << xmlErrToString (err1) << endl;
 
   // second run
+  // ------------------------------------------------------
+
   cerr << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" <<
     endl << endl;
 
   xmlErr
     err2 =
       musicxmlfile2lilypond (
-        "NO_FILE_NAME2", options, cout, cerr);
+        "NO_FILE_NAME2",
+        theOptionsVector,
+        cout,
+        cerr);
   cout << "xml2ly2 ret 2 = " << xmlErrToString (err2) << endl;
 
 	return 0;

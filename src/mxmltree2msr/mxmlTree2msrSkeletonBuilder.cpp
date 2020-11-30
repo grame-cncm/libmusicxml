@@ -660,7 +660,7 @@ void mxmlTree2msrSkeletonBuilder::registerPartGroupDescrAsStarted (
   if (gGlobalTraceOahGroup->getTracePartGroups ()) {
     gLogStream <<
       "Registering part group descr '" <<
-      partGroupDescr->getPartGroupCombinedName () <<
+      partGroupDescr->getPartGroupDescrCombinedName () <<
       " as started" <<
       ", line " << inputLineNumber <<
       endl;
@@ -927,7 +927,7 @@ void mxmlTree2msrSkeletonBuilder::registerPartGroupDescrAsStopped (
   if (gGlobalTraceOahGroup->getTracePartGroups ()) {
     gLogStream <<
       "Registering part group descr '" <<
-      partGroupDescr->getPartGroupCombinedName () <<
+      partGroupDescr->getPartGroupDescrCombinedName () <<
       " as stopped" <<
       ", line " << inputLineNumber <<
       endl;
@@ -1325,7 +1325,7 @@ void mxmlTree2msrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
 
             s <<
               "Cannot 'stop' part group descr " <<
-              partGroupDescr->getPartGroupCombinedName () <<
+              partGroupDescr->getPartGroupDescrCombinedName () <<
               " at position " << k <<
               ", since the stack is empty";
 
@@ -1347,7 +1347,7 @@ void mxmlTree2msrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               gLogStream <<
                 "Popping part group " <<
                 partGroupDescr->
-                  getPartGroupCombinedName () <<
+                  getPartGroupDescrCombinedName () <<
                 "' from the stack" <<
                 ", line " << stopInputLineNumber <<
                 endl;

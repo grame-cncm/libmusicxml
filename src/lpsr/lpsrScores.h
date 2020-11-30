@@ -285,11 +285,11 @@ class lpsrScore : public lpsrElement
     // public services
     // ------------------------------------------------------
 
-    void                  appendVoiceToScoreElementsList (
+    void                  appendVoiceToLpsrScoreElementsList (
                             S_msrVoice voice)
                               { fScoreElementsList.push_back (voice); }
 
-    void                  appendStanzaToScoreElementsList (
+    void                  appendStanzaToLpsrScoreElementsList (
                             S_msrStanza stanza)
                               { fScoreElementsList.push_back (stanza); }
 

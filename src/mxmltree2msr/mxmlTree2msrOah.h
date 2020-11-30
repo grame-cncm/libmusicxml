@@ -62,7 +62,7 @@ class msrDalSegnoAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     const map<string, msrDalSegno::msrDalSegnoKind>&
-                          getStringDalSegnoKindMapVariable ()
+                          getStringDalSegnoKindMapVariable () const
                               { return fStringDalSegnoKindMapVariable; }
 
   public:
@@ -148,7 +148,7 @@ class msrReplaceClefAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     const map<msrClefKind, msrClefKind>&
-                          getClefKindClefKindMapVariable ()
+                          getClefKindClefKindMapVariable () const
                               { return fClefKindClefKindMapVariable; }
 
   public:

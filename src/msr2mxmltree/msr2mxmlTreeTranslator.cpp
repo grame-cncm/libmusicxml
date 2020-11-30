@@ -7781,7 +7781,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStanza& elt)
 
     // append the stanza clone to the LPSR score elements list
     fScorePartWiseElement->
-      appendStanzaToScoreElementsList (
+      appendStanzaToLpsrScoreElementsList (
         fCurrentStanzaClone);
 
     // append a use of the stanza to the current staff block
