@@ -101,14 +101,14 @@ static string options2String (const optionsVector& options)
 
 string	libMusicXMLAdapter::string2lily(const string& buff, const string& args)
 {
-cerr << "libMusicXMLAdapter::string2lily args: " << args << endl;
+//cerr << "libMusicXMLAdapter::string2lily args: " << args << endl;
 	stringstream sstr;
 	optionsVector options;
 	if (!args2Options (args, options)) {
 		cerr << "musicxmlstring2lilypond: bad option sequence: " << args << endl;
 		return "";
 	}
-cerr << "libMusicXMLAdapter::string2lily options: " << options.size() << ": " << options2String(options) << endl;
+//cerr << "libMusicXMLAdapter::string2lily options: " << options.size() << ": " << options2String(options) << endl;
 	return ::musicxmlstring2lilypond (buff.c_str(), options, sstr, cerr) ? "" : sstr.str();
 }
 
