@@ -20,7 +20,6 @@
 #include <map>
 
 #include <algorithm>    // for_each
-#include <functional>
 
 #include <iomanip>      // setw, ...
 

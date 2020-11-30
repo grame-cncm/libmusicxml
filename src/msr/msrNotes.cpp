@@ -4006,6 +4006,9 @@ void msrNote::print (ostream& os) const
   os << left <<
     setw (fieldWidth) << "measureElementPositionInVoice" << " : " <<
     fMeasureElementPositionInVoice <<
+    endl <<
+    setw (fieldWidth) << "measureElementMomentInVoice" << " : " <<
+    fMeasureElementMomentInVoice <<
     endl;
 
   // print note measure uplink

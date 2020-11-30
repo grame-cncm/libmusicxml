@@ -153,6 +153,11 @@ void msrMeasure::initializeMeasure ()
       getSegmentVoiceUpLink ()->
         getCurrentPositionInVoice ();
 
+  fMeasureMomentInVoice =
+    fMeasureSegmentUpLink->
+      getSegmentVoiceUpLink ()->
+        getCurrentMomentInVoice ();
+
   // measure finalization
   fMeasureHasBeenFinalized = false;
   fMeasureKindAndPuristNumberHaveBeenDetermined = false;
@@ -5842,6 +5847,10 @@ void msrMeasure::print (ostream& os) const
     "measurePositionInVoice" << " : " <<
     fMeasurePositionInVoice <<
     endl <<
+    setw (fieldWidth) <<
+    "measureMomentInVoice" << " : " <<
+    fMeasureMomentInVoice.asString () <<
+    endl <<
 
     setw (fieldWidth) <<
     "measureHasBeenFinalized" << " : " <<
@@ -6049,6 +6058,10 @@ void msrMeasure::printShort (ostream& os) const
     setw (fieldWidth) <<
     "measurePositionInVoice" << " : " <<
     fMeasurePositionInVoice <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureMomentInVoice" << " : " <<
+    fMeasureMomentInVoice.asString () <<
     endl <<
 
     setw (fieldWidth) <<

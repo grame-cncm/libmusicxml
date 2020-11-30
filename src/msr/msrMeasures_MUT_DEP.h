@@ -254,6 +254,13 @@ class msrMeasure : public msrElement
     rational              getMeasurePositionInVoice () const
                               { return fMeasurePositionInVoice; }
 
+    void                  setMeasureMomentInVoice (
+                            msrMoment value)
+                              { fMeasureMomentInVoice = value; }
+
+    const msrMoment&      getMeasureMomentInVoice () const
+                              { return fMeasureMomentInVoice; }
+
   public:
 
     // public services
@@ -687,6 +694,7 @@ class msrMeasure : public msrElement
 
     // position in voice
     rational              fMeasurePositionInVoice;
+    msrMoment             fMeasureMomentInVoice;
 
   public:
 

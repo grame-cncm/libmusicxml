@@ -23,6 +23,8 @@
 
 #include <ctime>
 
+#include <functional>
+
 #include <set>
 #include <list>
 

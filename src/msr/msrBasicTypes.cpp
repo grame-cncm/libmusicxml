@@ -1411,9 +1411,8 @@ string msrMoment::asString () const
   stringstream s;
 
   s <<
-    "[Moment" <<
-    ", positionInMeasure: " << fPositionInMeasure <<
-    ", relativeOffset: " << fRelativeOffset <<
+    "[Moment [" <<
+    fPositionInMeasure << ", " << fRelativeOffset <<
     "]";
 
   return s.str ();
