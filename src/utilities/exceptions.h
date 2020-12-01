@@ -151,10 +151,10 @@ class msrScoreToMsrScoreException: public msrException
 };
 
 //______________________________________________________________________________
-class lpsrMusicXMLException: public msrException
+class lpsrLilypondException: public msrException
 {
   public:
-    lpsrMusicXMLException (string const& exceptionDescription) throw ()
+    lpsrLilypondException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };
@@ -171,6 +171,15 @@ class lpsrScoreToLilypondException : public msrException
 {
   public:
     lpsrScoreToLilypondException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+//______________________________________________________________________________
+class lpsrMusicXMLException: public msrException
+{
+  public:
+    lpsrMusicXMLException (string const& exceptionDescription) throw ()
       : msrException (exceptionDescription)
     {}
 };

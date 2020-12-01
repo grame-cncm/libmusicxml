@@ -250,6 +250,44 @@ void msrMusicXMLError (
 }
 
 //______________________________________________________________________________
+void lpsrLilypondWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msgWarning (
+    "LilyPond",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+void lpsrLilypondError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msgError (
+    "LilyPond",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  if (! gGlobalGeneralOahGroup->getDontShowErrors ()) {
+    if (! gGlobalGeneralOahGroup->getDontQuitOnErrors ()) { // JMI
+      throw lpsrScoreToLilypondException (message);
+    }
+    else {
+      throw lpsrScoreToLilypondException (message);
+    }
+  }
+}
+
+//______________________________________________________________________________
 void lpsrMusicXMLWarning (
   string inputSourceName,
   int    inputLineNumber,

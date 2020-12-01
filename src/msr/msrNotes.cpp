@@ -374,19 +374,16 @@ S_msrVoice msrNote::fetchNoteVoiceUpLink () const
     case msrNote::k_NoNoteKind:
       break;
 
+    case msrNote::kRegularNote:
     case msrNote::kRestNote:
     case msrNote::kSkipNote:
+    case msrNote::kChordMemberNote:
       result =
-        fetchNoteVoiceUpLink ();
+        fNoteMeasureUpLink->
+          fetchMeasureVoiceUpLink ();
       break;
 
     case msrNote::kUnpitchedNote:
-      break;
-
-    case msrNote::kRegularNote:
-    case msrNote::kChordMemberNote:
-      result =
-        fetchNoteVoiceUpLink ();
       break;
 
     case msrNote::kTupletMemberNote:

@@ -12209,6 +12209,9 @@ void lpsr2lilypondTranslator::generateAfterNoteSpannersIfAny (
 //________________________________________________________________________
 void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
     fLilypondCodeStream <<
@@ -12217,7 +12220,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
       ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -12421,7 +12424,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       ", fOnGoingChord: " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingGraceNotesGroup: " << booleanAsString (fOnGoingGraceNotesGroup) <<
       ", fOnGoingChordGraceNotesGroupLink: " << booleanAsString (fOnGoingChordGraceNotesGroupLink) <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -12517,7 +12520,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
 
           fLilypondCodeStream <<
             stringTuningAsLilypondString (
-              elt->getInputLineNumber (),
+              inputLineNumber,
               stringTuning);
 
           if (++i == iEnd) break;
@@ -12567,10 +12570,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           */
         break;
       case kPrintObjectNo:
+      /* JMI IGNORE kPrintObjectNo, maybe an option to dim it?
         fLilypondCodeStream <<
           endl <<
           "\\once\\override NoteHead.color = #(rgb-color 0.5 0.5 0.5)" <<
           endl;
+          */
+          lpsrLilypondWarning (
+            gGlobalOahOahGroup->getInputSourceName (),
+            inputLineNumber,
+            "Ignoring 'kPrintObjectNo' in LilyPond code generation");
         break;
     } // switch
 
@@ -12984,7 +12993,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
                 fLilypondCodeStream <<
                   "\\after " <<
                   wholeNotesAsLilypondString (
-                    elt->getInputLineNumber (),
+                    inputLineNumber,
                     halfWholeNotes) <<
                   " ^\"H\" ";
               }
@@ -13016,7 +13025,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
                 fLilypondCodeStream <<
                   "\\after " <<
                   wholeNotesAsLilypondString (
-                    elt->getInputLineNumber (),
+                    inputLineNumber,
                     halfWholeNotes) <<
                   " ^\"P\" ";
               }

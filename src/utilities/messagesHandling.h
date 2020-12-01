@@ -86,6 +86,19 @@ EXP void msrMusicXMLError (
   std::string message);
 
 //______________________________________________________________________________
+EXP void lpsrLilypondWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+EXP void lpsrLilypondError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
 EXP void lpsrMusicXMLWarning (
   std::string inputSourceName,
   int         inputLineNumber,
