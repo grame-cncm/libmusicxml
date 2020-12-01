@@ -75,7 +75,7 @@ class timingItem : public smartable
 
 typedef SMARTP<timingItem> S_timingItem;
 
-class timing {
+class EXP timing {
   public:
        timing ();
     virtual ~timing ();
@@ -103,7 +103,7 @@ class timing {
 EXP ostream& operator<< (ostream& os, const timing& tim);
 
 //______________________________________________________________________________
-class outputIndenter
+class EXP outputIndenter
 {
   public:
 
@@ -217,7 +217,7 @@ class indentedStreamBuf: public stringbuf
 };
 
 //______________________________________________________________________________
-class indentedOstream: public ostream, public smartable
+class EXP indentedOstream: public ostream, public smartable
 {
 /*
 Reference for this class:
@@ -288,7 +288,7 @@ extern S_indentedOstream gGlobalLogIndentedOstream;
 #define gOutputStream *gGlobalOutputIndentedOstream
 #define gLogStream    *gGlobalLogIndentedOstream
 
-extern void createTheGlobalIndentedOstreams (
+EXP extern void createTheGlobalIndentedOstreams (
   ostream& theOutputStream,
   ostream& theLogStream);
 
@@ -370,15 +370,15 @@ struct stringSpaceReplacer
 };
 
 //______________________________________________________________________________
-string replicateString (
+EXP string replicateString (
   string str,
-  int         times);
+  int    times);
 
 //______________________________________________________________________________
-string int2EnglishWord (int n);
+EXP string int2EnglishWord (int n);
 
 //______________________________________________________________________________
-string stringNumbersToEnglishWords (string str);
+EXP string stringNumbersToEnglishWords (string str);
 
 //______________________________________________________________________________
 set<int> decipherNaturalNumbersSetSpecification (
@@ -398,7 +398,7 @@ list<int> extractNumbersFromString (
 //______________________________________________________________________________
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 // trim string from start
-inline string &ltrim (string &s) {
+EXP inline string& ltrim (string& s) {
   function <int (int)>
     checkSpace =
       [] (int x) { return isspace (x); };
@@ -416,7 +416,7 @@ inline string &ltrim (string &s) {
 }
 
 // trim string from end
-inline string &rtrim (string &s) {
+EXP inline string& rtrim (string& s) {
   function <int (int)>
     checkSpace =
       [] (int x) { return isspace (x); };
@@ -434,7 +434,7 @@ inline string &rtrim (string &s) {
 }
 
 // trim string from both ends
-inline string &trim (string &s) {
+EXP inline string& trim (string& s) {
   return ltrim (rtrim (s));
 }
 
@@ -445,36 +445,36 @@ pair<string, string> extractNamesPairFromString (
   bool        debugMode = false);
 
 //______________________________________________________________________________
-string doubleQuoteStringIfNonAlpha (
+EXP string doubleQuoteStringIfNonAlpha (
   string theString);
 
-string quoteStringIfNonAlpha (
+EXP string quoteStringIfNonAlpha (
   string theString);
 
-string doubleQuoteString (
+EXP string doubleQuoteString (
   string theString);
 
-string quoteString (
+EXP string quoteString (
   string theString);
 
-string stringToLowerCase (
+EXP string stringToLowerCase (
   string theString);
 
-string stringToUpperCase (
+EXP string stringToUpperCase (
   string theString);
 
 //______________________________________________________________________________
-string booleanAsString (bool value);
+EXP string booleanAsString (bool value);
 
 //______________________________________________________________________________
-string singularOrPlural (
+EXP string singularOrPlural (
   int number, string singularName, string pluralName);
 
-string singularOrPluralWithoutNumber (
+EXP string singularOrPluralWithoutNumber (
   int number, string singularName, string pluralName);
 
 //______________________________________________________________________________
-string escapeDoubleQuotes (string s);
+EXP string escapeDoubleQuotes (string s);
 
 //______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (string& s);
@@ -494,11 +494,11 @@ void splitHTMLStringContainingEndOfLines ( // JMI
   list<string>& chunksList);
 
 //______________________________________________________________________________
-string baseName (const string &filename);
+EXP string baseName (const string& filename);
   // wait until c++17 for a standard library containing basename()...
 
 //______________________________________________________________________________
-string makeSingleWordFromString (const string& theString);
+EXP string makeSingleWordFromString (const string& theString);
 
 
 } // namespace MusicXML2

@@ -17,7 +17,7 @@
 #include <string.h>
 
 //______________________________________________________________________________
-rational::rational (const string &str)
+rational::rational (const string& str)
 {
   const char *cstr;
   cstr = str.c_str();

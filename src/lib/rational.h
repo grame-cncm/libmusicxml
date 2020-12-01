@@ -36,7 +36,7 @@ class EXP rational {
 
         rational(long int num = 0, long int denom = 1);
         rational(const rational& d);
-        rational(const string &str);
+        rational(const string& str);
 
         long int getNumerator()	const		{ return fNumerator; }
         long int getDenominator() const		{ return fDenominator; }

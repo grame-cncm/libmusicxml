@@ -40,11 +40,11 @@ namespace MusicXML2
 enum msrXMLLangKind {
   kXMLLangIt, kXMLLangEn, kXMLLangDe, kXMLLangFr, kXMLLangJa, kXMLLangLa };
 
-msrXMLLangKind msrXMLLangKindFromString (
+EXP msrXMLLangKind msrXMLLangKindFromString (
   int    inputLineNumber,
   string XMLLangString);
 
-string msrXMLLangKindAsString (
+EXP string msrXMLLangKindAsString (
   msrXMLLangKind XMLLangKind);
 
 // diatonic pitches
@@ -54,10 +54,10 @@ enum msrDiatonicPitchKind {
   kC, kD, kE, kF, kG, kA, kB,
   k_NoDiatonicPitch };
 
-msrDiatonicPitchKind msrDiatonicPitchKindFromString (
+EXP msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   char diatonicNoteName);
 
-string msrDiatonicPitchKindAsString (
+EXP string msrDiatonicPitchKindAsString (
   msrDiatonicPitchKind diatonicPitchKind);
 
 // alterations
@@ -69,13 +69,13 @@ enum msrAlterationKind {
   kNatural,
   kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp, kTripleSharp };
 
-msrAlterationKind msrAlterationKindFromMusicXMLAlter (
+EXP msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   float alter);
 
-float msrMusicXMLAlterFromAlterationKind (
+EXP float msrMusicXMLAlterFromAlterationKind (
   msrAlterationKind alterationKind);
 
-string msrAlterationKindAsString (
+EXP string msrAlterationKindAsString (
   msrAlterationKind alterationKind);
 
 // accidentals
@@ -105,10 +105,10 @@ enum msrAccidentalKind {
 
   kAccidentalOther};
 
-string accidentalKindAsString (
+EXP string accidentalKindAsString (
   msrAccidentalKind accidentalKind);
 
-string accidentalKindAsMusicXMLString (
+EXP string accidentalKindAsMusicXMLString (
   msrAccidentalKind accidentalKind);
 
 // editorial accidentals
@@ -117,7 +117,7 @@ string accidentalKindAsMusicXMLString (
 enum msrEditorialAccidentalKind {
   kEditorialAccidentalYes, kEditorialAccidentalNo };
 
-string editorialAccidentalKindAsString (
+EXP string editorialAccidentalKindAsString (
   msrEditorialAccidentalKind noteEditorialAccidentalKind);
 
 // cautionary accidentals
@@ -126,7 +126,7 @@ string editorialAccidentalKindAsString (
 enum msrCautionaryAccidentalKind {
   kCautionaryAccidentalYes, kCautionaryAccidentalNo };
 
-string cautionaryAccidentalKindAsString (
+EXP string cautionaryAccidentalKindAsString (
   msrCautionaryAccidentalKind noteCautionaryAccidentalKind);
 
 // semi tones pitches
@@ -176,7 +176,7 @@ enum msrSemiTonesPitchKind {
   kB_Sharp_STP, kB_DoubleSharp_STP,
   kB_TripleSharp_STP };
 
-string msrSemiTonesPitchKindAsString (
+EXP string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind);
 
 // quarter tones pitches
@@ -228,32 +228,32 @@ enum msrQuarterTonesPitchKind {
   kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP,
   kG_TripleSharp_QTP };
 
-void fetchDiatonicPitchKindAndAlterationKindFromQuarterTonesPitchKind (
+EXP void fetchDiatonicPitchKindAndAlterationKindFromQuarterTonesPitchKind (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind quarterTonesPitchKind,
   msrDiatonicPitchKind&    diatonicPitchKind,
   msrAlterationKind&       alterationKind);
 
-msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
+EXP msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
   int                  inputLineNumber,
   msrDiatonicPitchKind diatonicPitchKind,
   msrAlterationKind    alterationKind);
 
-msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
+EXP msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
-msrAlterationKind alterationKindFromQuarterTonesPitchKind (
+EXP msrAlterationKind alterationKindFromQuarterTonesPitchKind (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
-msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
+EXP msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
   msrSemiTonesPitchKind semiTonesPitchKind);
 
-msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
+EXP msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
-msrSemiTonesPitchKind semiTonesPitchKindFromString (
+EXP msrSemiTonesPitchKind semiTonesPitchKindFromString (
   string theString);
 
 // alterations preferences
@@ -261,7 +261,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromString (
 enum msrAlterationPreferenceKind {
   kPreferFlat, kPreferNatural, kPreferSharp };
 
-msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
+EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 
@@ -296,42 +296,42 @@ enum msrIntervalKind {
 
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
-int msrIntervalKindAsSemiTones (
+EXP int msrIntervalKindAsSemiTones (
   msrIntervalKind intervalKind);
 
-int msrIntervalKindAsQuarterTones (
+EXP int msrIntervalKindAsQuarterTones (
   msrIntervalKind intervalKind);
 
-string msrIntervalKindAsString (
+EXP string msrIntervalKindAsString (
   msrIntervalKind intervaKindl);
 
-string msrIntervalKindAsShortString (
+EXP string msrIntervalKindAsShortString (
   msrIntervalKind intervalKind);
 
-msrIntervalKind invertIntervalKind (
+EXP msrIntervalKind invertIntervalKind (
   msrIntervalKind intervalKind);
 
-int intervalKindAsSemitones (
+EXP int intervalKindAsSemitones (
   msrIntervalKind intervalKind);
 
 /* JMI
-msrSemiTonesPitchKind noteAtIntervalKindFromNote (
+EXP msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrIntervalKind             intervalKind,
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 */
 
-msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
+EXP msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
   int                   inputLineNumber,
   msrIntervalKind       intervalKind,
   msrSemiTonesPitchKind semiTonesPitchKind);
 
-msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
+EXP msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
   int                      inputLineNumber,
   msrIntervalKind          intervalKind,
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
-msrIntervalKind intervalBetweenSemiTonesPitches (
+EXP msrIntervalKind intervalBetweenSemiTonesPitches (
   msrSemiTonesPitchKind semiTonesPitch1,
   msrSemiTonesPitchKind semiTonesPitch2);
 
@@ -353,13 +353,13 @@ enum msrClefKind {
   kPercussionClef,
   kJianpuClef };
 
-string clefKindAsString (
+EXP string clefKindAsString (
   msrClefKind clefKind);
 
-msrClefKind clefKindFromString (string theString);
+EXP msrClefKind clefKindFromString (string theString);
 
-string existingClefKinds (int namesListMaxLength);
-string existingClefKindsNames (int namesListMaxLength);
+EXP string existingClefKinds (int namesListMaxLength);
+EXP string existingClefKindsNames (int namesListMaxLength);
 
 extern map<string, msrClefKind>
   gGlobalClefKindsMap;
@@ -419,28 +419,28 @@ enum msrHarmonyKind {
 
   kNoneHarmony };
 
-string msrHarmonyKindAsString (
+EXP string msrHarmonyKindAsString (
   msrHarmonyKind harmonyKind);
 
-string msrHarmonyKindAsShortString (
+EXP string msrHarmonyKindAsShortString (
   msrHarmonyKind harmonyKind);
 
-string msrHarmonyKindShortName (
+EXP string msrHarmonyKindShortName (
   msrHarmonyKind harmonyKind);
 
-msrHarmonyKind msrHarmonyKindFromString (
+EXP msrHarmonyKind msrHarmonyKindFromString (
   string theString);
 
-string existingHarmonyKinds (int namesListMaxLength);
-string existingHarmonyKindsNames (int namesListMaxLength);
+EXP string existingHarmonyKinds (int namesListMaxLength);
+EXP string existingHarmonyKindsNames (int namesListMaxLength);
 
 // constant
 const int K_HARMONY_NO_INVERSION = -1;
 
-extern map<string, msrHarmonyKind>
+EXP extern map<string, msrHarmonyKind>
   gGlobalHarmonyKindsMap;
 
-extern list<string>
+EXP extern list<string>
   gHarmonyKindsNamesList;
 
 void initializeHarmonyKinds ();
@@ -451,28 +451,28 @@ enum msrQuarterTonesPitchesLanguageKind {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais,
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams };
 
-string msrQuarterTonesPitchesLanguageKindAsString (
+EXP string msrQuarterTonesPitchesLanguageKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind);
 
-string msrDiatonicPitchKindAsString ( // JMI
+EXP string msrDiatonicPitchKindAsString ( // JMI
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrDiatonicPitchKind               diatonicPitchKind);
 
-string msrQuarterTonesPitchKindAsString (
+EXP string msrQuarterTonesPitchKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrQuarterTonesPitchKind           quarterTonesPitchKind);
 
-msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
+EXP msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   string                             quarterTonesPitchName);
 
 /* JMI
-string msrSemiTonesPitchKindAsString (
+EXP string msrSemiTonesPitchKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrSemiTonesPitchKind              semiTonesPitchKind);
   */
 
-string msrSemiTonesPitchKindAsFlatsAndSharps (
+EXP string msrSemiTonesPitchKindAsFlatsAndSharps (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrSemiTonesPitchKind              semiTonesPitchKind);
 
@@ -484,7 +484,7 @@ string msrQuarterTonesPitchKindAsFlatsAndSharps (
 
 // enharmonies
 //______________________________________________________________________________
-msrSemiTonesPitchKind enharmonicSemiTonesPitch (
+EXP msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 
@@ -497,31 +497,31 @@ enum msrDurationKind {
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
   k_NoDuration };
 
-msrDurationKind msrDurationKindFromString (
+EXP msrDurationKind msrDurationKindFromString (
   int    inputLineNumber,
   string durationString);
 
-rational msrDurationKindAsWholeNotes (
+EXP rational msrDurationKindAsWholeNotes (
   msrDurationKind durationKind);
 
-msrDurationKind wholeNotesAsDurationKind (rational wholeNotes);
+EXP msrDurationKind wholeNotesAsDurationKind (rational wholeNotes);
 
-string msrDurationKindAsMusicXMLType (msrDurationKind durationKind);
+EXP string msrDurationKindAsMusicXMLType (msrDurationKind durationKind);
 
-string msrDurationKindAsString (msrDurationKind durationKind);
+EXP string msrDurationKindAsString (msrDurationKind durationKind);
 
 // whole notes
 //______________________________________________________________________________
-string wholeNotesAsMsrString (
+EXP string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes,
   int&     dotsNumber);
 
-string wholeNotesAsMsrString (
+EXP string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes);
 
-string multipleRestMeasuresWholeNotesAsMsrString (
+EXP string multipleRestMeasuresWholeNotesAsMsrString (
   int      inputLineNumber, // JMI
   rational wholeNotes);
 

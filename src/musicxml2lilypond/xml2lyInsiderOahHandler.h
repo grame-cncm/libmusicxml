@@ -29,7 +29,7 @@ namespace MusicXML2
 #define K_REGULAR_OPTION_NAME "regular"
 #define K_INSIDER_OPTION_NAME "insider"
 
-class xml2lyInsiderOahHandler : public oahHandler
+class EXP xml2lyInsiderOahHandler : public oahHandler
 {
   public:
 

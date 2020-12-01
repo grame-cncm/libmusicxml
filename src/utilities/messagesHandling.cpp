@@ -385,7 +385,7 @@ void bmmlError (
     throw bmmlException (message);
   }
 
-  throw lpsrMusicXMLException (message);
+  throw bmmlException (message);
 }
 
 void bmmlInternalError (
@@ -438,7 +438,7 @@ void meiError (
     throw meiException (message);
   }
 
-  throw lpsrMusicXMLException (message);
+  throw meiExceptionå (message);
 }
 
 void meiInternalError (

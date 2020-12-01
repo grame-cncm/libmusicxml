@@ -37,7 +37,7 @@ enum lpsrScoreOutputKind {
   kPartsAndScoreOneFile,
   kPartsOnlyOneFile };
 
-string lpsrScoreOutputKindAsString (
+EXP string lpsrScoreOutputKindAsString (
   lpsrScoreOutputKind scoreOutputKind);
 
 extern map<string, lpsrScoreOutputKind>
@@ -54,13 +54,13 @@ enum lpsrOctaveEntryKind {
   kOctaveEntryAbsolute,
   kOctaveEntryFixed };
 
-string lpsrOctaveEntryKindAsString (
+EXP string lpsrOctaveEntryKindAsString (
   lpsrOctaveEntryKind octaveEntryKind);
 
 extern map<string, lpsrOctaveEntryKind>
   gGlobalLpsrOctaveEntryKindsMap;
 
-string existingLpsrOctaveEntryKinds (int namesListMaxLength);
+EXP string existingLpsrOctaveEntryKinds (int namesListMaxLength);
 
 void initializeLpsrOctaveEntryKindsMap ();
 
@@ -77,16 +77,16 @@ enum lpsrAccidentalStyleKind {
   kDodecaphonic, kDodecaphonicNoRepeat,
   kDodecaphonicFirst, kTeaching, kNoReset, kForget };
 
-string lpsrAccidentalStyleKindAsString (
+EXP string lpsrAccidentalStyleKindAsString (
   lpsrAccidentalStyleKind accidentalStyleKind);
 
-string lpsrAccidentalStyleKindAsLilypondString (
+EXP string lpsrAccidentalStyleKindAsLilypondString (
   lpsrAccidentalStyleKind accidentalStyleKind);
 
 extern map<string, lpsrAccidentalStyleKind>
   gGlobalLpsrAccidentalStyleKindsMap;
 
-string existingLpsrAccidentalStyleKinds (int namesListMaxLength);
+EXP string existingLpsrAccidentalStyleKinds (int namesListMaxLength);
 
 void initializeLpsrAccidentalStyleKindsMap ();
 
@@ -96,57 +96,57 @@ enum lpsrChordsLanguageKind {
   k_IgnatzekChords, // LilyPond default
   k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
 
-string lpsrChordsLanguageKindAsString (
+EXP string lpsrChordsLanguageKindAsString (
   lpsrChordsLanguageKind languageKind);
 
 extern map<string, lpsrChordsLanguageKind>
   gGlobalLpsrChordsLanguageKindsMap;
 
-string existingLpsrChordsLanguageKinds (int namesListMaxLength);
+EXP string existingLpsrChordsLanguageKinds (int namesListMaxLength);
 
 void initializeLpsrChordsLanguageKindsMap ();
 
 // whole notes
 //______________________________________________________________________________
-string wholeNotesAsLilypondString (
+EXP string wholeNotesAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes,
   int&     dotsNumber);
 
-string wholeNotesAsLilypondString (
+EXP string wholeNotesAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes);
 
 // dotted durations
 //______________________________________________________________________________
 
-string dottedDurationAsLilypondString (
+EXP string dottedDurationAsLilypondString (
   int               inputLineNumber,
   msrDottedDuration dottedDuration);
 
-string dottedDurationAsLilypondStringWithoutBackSlash (
+EXP string dottedDurationAsLilypondStringWithoutBackSlash (
   int               inputLineNumber,
   msrDottedDuration dottedDuration);
 
 // rests measures
 //______________________________________________________________________________
-string restMeasuresWholeNoteAsLilypondString (
+EXP string restMeasuresWholeNoteAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes);
 
 // texts lists
 //______________________________________________________________________________
-void writeTextsListAsLilypondString (
+EXP void writeTextsListAsLilypondString (
   const list<string>& textsList,
   ostream&            os);
 
 // pitches and octaves
 //______________________________________________________________________________
-string msrSemiTonesPitchKindAsLilypondString (
+EXP string msrSemiTonesPitchKindAsLilypondString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrSemiTonesPitchKind              semiTonesPitchKind);
 
-string msrSemiTonesPitchAndOctaveAsLilypondString (
+EXP string msrSemiTonesPitchAndOctaveAsLilypondString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   S_msrSemiTonesPitchAndOctave       quarterTonesPitchAndOctave);
 
@@ -156,13 +156,13 @@ enum lpsrLyricsDurationsKind {
   kLyricsDurationsImplicit, // default value
   kLyricsDurationsExplicit };
 
-string lpsrLyricsDurationsKindAsString (
+EXP string lpsrLyricsDurationsKindAsString (
   lpsrLyricsDurationsKind lyricsDurationsKind);
 
 extern map<string, lpsrLyricsDurationsKind>
   gGlobalLpsrLyricsDurationsKindsMap;
 
-string existingLpsrLyricsDurationsKinds (int namesListMaxLength);
+EXP string existingLpsrLyricsDurationsKinds (int namesListMaxLength);
 
 void initializeLpsrLyricsDurationsKindsMap ();
 

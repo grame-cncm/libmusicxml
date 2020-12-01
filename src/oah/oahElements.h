@@ -51,7 +51,7 @@ enum oahElementHelpOnlyKind {
     kElementHelpOnlyYes,
     kElementHelpOnlyNo };
 
-string elementHelpOnlyKindAsString (
+EXP string elementHelpOnlyKindAsString (
   oahElementHelpOnlyKind elementHelpOnlyKind);
 
 //______________________________________________________________________________

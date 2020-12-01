@@ -21,7 +21,7 @@
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-class xml2lyRegularOahHandler : public oahRegularOahHandler
+class EXP xml2lyRegularOahHandler : public oahRegularOahHandler
 /*
   An xml2ly regular OAH handler can rely on the existence of an insider handler,
   whose creation initialized gGlobalXml2lyInsiderOahGroup.

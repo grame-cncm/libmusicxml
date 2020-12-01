@@ -1748,7 +1748,7 @@ void splitHTMLStringContainingEndOfLines (
 }
 
 //______________________________________________________________________________
-string baseName (const string &filename)
+string baseName (const string& filename)
 {
   if (! filename.size ()) {
       return {};

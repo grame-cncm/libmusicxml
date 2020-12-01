@@ -51,7 +51,7 @@ enum oahOptionsDefaultValuesStyle {
   kGNUStyle,
   kOAHStyle };
 
-string optionsDefaultValuesStyleAsString (
+EXP string optionsDefaultValuesStyleAsString (
   oahOptionsDefaultValuesStyle optionsDefaultValuesStyle);
 
 // handler used thru...?
@@ -61,11 +61,11 @@ enum oahHandlerUsedThruKind {
   kHandlerUsedThruArgcAndArgv,
   kHandlerUsedThruOptionsVector };
 
-string oahHandlerUsedThruKindAsString (
+EXP string oahHandlerUsedThruKindAsString (
   oahHandlerUsedThruKind handlerUsedThruKind);
 
 //______________________________________________________________________________
-void displayOptionsVector (
+EXP void displayOptionsVector (
   const optionsVector& theOptionsVector,
   ostream&             os);
 
