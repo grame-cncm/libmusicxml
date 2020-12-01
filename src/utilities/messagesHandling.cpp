@@ -438,7 +438,7 @@ void meiError (
     throw meiException (message);
   }
 
-  throw meiExceptionå (message);
+  throw meiException (message);
 }
 
 void meiInternalError (
