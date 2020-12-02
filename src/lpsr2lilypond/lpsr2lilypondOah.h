@@ -995,10 +995,18 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     bool                  getInputLineNumbers () const
                               { return fInputLineNumbers; }
+
     bool                  getOriginalMeasureNumbers () const
                               { return fOriginalMeasureNumbers; }
+
     bool                  getPositionsInMeasures () const
                               { return fPositionsInMeasures; }
+
+    bool                  getMomentsInMeasures () const
+                              { return fMomentsInMeasures; }
+
+    const msrRGBColor&    getNonPrintNotesHeadRGBColor () const
+                              { return fNonPrintNotesHeadRGBColor; }
 
 
     // measure numbers
@@ -1066,10 +1074,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  getKeepStaffSize () const
                               { return fKeepStaffSize; }
 
-    msrRGBColor           getLedgerLinesRGBColor () const
+    const msrRGBColor&    getLedgerLinesRGBColor () const
                               { return fLedgerLinesRGBColor; }
-    bool                  getLedgerLinesRGBColorHasBeenSet () const // JMI ???
-                              { return fLedgerLinesRGBColorHasBeenSet; }
 
     // chords
     // --------------------------------------
@@ -1372,9 +1378,14 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  fMergeRests;
 
     bool                  fInputLineNumbers;
-    bool                  fOriginalMeasureNumbers;
-    bool                  fPositionsInMeasures;
 
+    bool                  fOriginalMeasureNumbers;
+
+    bool                  fPositionsInMeasures;
+    bool                  fMomentsInMeasures;
+
+    msrRGBColor           fNonPrintNotesHeadRGBColor; // #(rgb-color 1.0 0.9 0.5)
+                            // for MusicXML's <note print-object="no">
 
     // measure numbers
     // --------------------------------------
@@ -1432,7 +1443,6 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  fKeepStaffSize;
 
     msrRGBColor           fLedgerLinesRGBColor; // #(rgb-color 1.0 0.9 0.5)
-    bool                  fLedgerLinesRGBColorHasBeenSet;
 
     // chords
     // --------------------------------------

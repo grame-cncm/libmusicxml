@@ -26,32 +26,32 @@ namespace MusicXML2
 {
 //_______________________________________________________________________________
 S_msrScore convertMsrScoreToMsrScore (
-  S_msrScore mScore,
-  S_msrOahGroup   msrOpts,
-  S_lpsrOahGroup  lpsrOpts,
-  string     passNumber);
+  S_msrScore        originalMsrScore,
+  S_msrOahGroup     msrOpts,
+  S_msr2msrOahGroup msr2msrOpts,
+  string            passNumber);
 
 //_______________________________________________________________________________
 EXP void displayMsrScore (
-  const S_msrScore lpScore,
-  S_msrOahGroup          msrOpts,
-  S_lpsrOahGroup         lpsrOpts);
+  const S_msrScore originalMsrScore,
+  S_msrOahGroup    msrOpts,
+  S_msr2msrOahGroup   msr2msrOpts);
 
 EXP void displayMsrScoreShort (
-  const S_msrScore lpScore,
-  S_msrOahGroup          msrOpts,
-  S_lpsrOahGroup         lpsrOpts);
+  const S_msrScore  originalMsrScore,
+  S_msrOahGroup     msrOpts,
+  S_msr2msrOahGroup msr2msrOpts);
 
 //_______________________________________________________________________________
 void displayMsrScore_OptionalPass (
-  S_msrScore lpScore,
-  S_msrOahGroup    msrOpts,
-  S_lpsrOahGroup   lpsrOpts);
+  const S_msrScore  originalMsrScore,
+  S_msrOahGroup     msrOpts,
+  S_msr2msrOahGroup msr2msrOpts);
 
 void displayMsrScoreShort_OptionalPass (
-  S_msrScore lpScore,
-  S_msrOahGroup    msrOpts,
-  S_lpsrOahGroup   lpsrOpts);
+  const S_msrScore  originalMsrScore,
+  S_msrOahGroup     msrOpts,
+  S_msr2msrOahGroup msr2msrOpts);
 
 
 } // namespace MusicXML2

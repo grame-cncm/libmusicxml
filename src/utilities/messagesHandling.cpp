@@ -12,6 +12,8 @@
 
 #include "utilities.h"
 
+#include "enableAbortOnInternalErrors.h"
+
 #include "messagesHandling.h"
 
 #include "generalOah.h"
@@ -21,7 +23,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-
 //______________________________________________________________________________
 void msgAssert (
   bool   condition,
@@ -66,7 +67,8 @@ void msgWarning (
   }
 }
 
-void msgError (
+// private function
+void msgErrorWithoutException (
   string context,
   string inputSourceName,
   int    inputLineNumber,
@@ -96,6 +98,23 @@ void msgError (
       gGlobalErrorsInputLineNumbers.insert (inputLineNumber);
     }
   }
+}
+
+void msgError (
+  string context,
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msgErrorWithoutException (
+    context,
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
 
   throw msrMsrException (message);
 }
@@ -142,8 +161,9 @@ void oahInternalError (string errorMessage)
     errorMessage <<
     endl;
 
-  if (false)
-    abort (); // JMI
+#ifdef ABORT_ON_INTENAL_ERRORS
+  abort ();
+#endif
 
   gIndenter.setIndent (saveIndent);
 
@@ -200,13 +220,23 @@ void msrInternalError (
   int    sourceCodeLineNumber,
   string message)
 {
-  msgError (
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
+  msgErrorWithoutException (
     "MSR INTERNAL",
     inputSourceName,
     inputLineNumber,
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+#ifdef ABORT_ON_INTENAL_ERRORS
+  abort ();
+#endif
+
+  gIndenter.setIndent (saveIndent);
 
   throw msrMsrInternalException (message);
 }
@@ -342,13 +372,23 @@ void bsrInternalError (
   int    sourceCodeLineNumber,
   string message)
 {
-  msgError (
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
+  msgErrorWithoutException (
     "BSR INTERNAL",
     inputSourceName,
     inputLineNumber,
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+#ifdef ABORT_ON_INTENAL_ERRORS
+  abort ();
+#endif
+
+  gIndenter.setIndent (saveIndent);
 
   throw bsrInternalException (message);
 }
@@ -395,13 +435,23 @@ void bmmlInternalError (
   int    sourceCodeLineNumber,
   string message)
 {
-  msgError (
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
+  msgErrorWithoutException (
     "BMML INTERNAL",
     inputSourceName,
     inputLineNumber,
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+#ifdef ABORT_ON_INTENAL_ERRORS
+  abort ();
+#endif
+
+  gIndenter.setIndent (saveIndent);
 
   throw bmmlInternalException (message);
 }
@@ -448,7 +498,11 @@ void meiInternalError (
   int    sourceCodeLineNumber,
   string message)
 {
-  msgError (
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
+  msgErrorWithoutException (
     "MEI INTERNAL",
     inputSourceName,
     inputLineNumber,
@@ -456,54 +510,14 @@ void meiInternalError (
     sourceCodeLineNumber,
     message);
 
+#ifdef ABORT_ON_INTENAL_ERRORS
+  abort ();
+#endif
+
+  gIndenter.setIndent (saveIndent);
+
   throw meiInternalException (message);
 }
-
-//______________________________________________________________________________
-/*
-void msrStreamsWarning (
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string  message)
-{
-  if (! (gGlobalGeneralOahGroup->getQuiet () && gGlobalGeneralOahGroup->getDontShowErrors ())) {
-    if (gGlobalGeneralOahGroup->getDisplaySourceCodePosition ()) {
-      gLogStream <<
-        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-        " ";
-    }
-
-    gLogStream <<
-      "*** " << "MSR STREAMS" << " warning *** " <<
-      " ### " << "MSR STREAMS" << " ERROR ### " <<
-      "fake line number" << ":" << inputLineNumber << ": " << message <<
-      endl;
-  }
-}
-
-void msrStreamsError (
-  int    inputLineNumber,
-  string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  string  message)
-{
-  if (! (gGlobalGeneralOahGroup->getQuiet () && gGlobalGeneralOahGroup->getDontShowErrors ())) {
-    if (gGlobalGeneralOahGroup->getDisplaySourceCodePosition ()) {
-      gLogStream <<
-        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-        " ";
-    }
-
-    gLogStream <<
-      "### " << "MSR STREAMS" << " ERROR ### " <<
-      "fake line number" << ":" << inputLineNumber << ": " << message <<
-      endl;
-  }
-
-  throw msrStreamsException (message);
-}
-*/
 
 //______________________________________________________________________________
 std::set<int> gGlobalWarningsInputLineNumbers;
@@ -561,3 +575,51 @@ void displayWarningsAndErrorsInputLineNumbers ()
 
 
 }
+
+
+//______________________________________________________________________________
+/*
+void msrStreamsWarning (
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string  message)
+{
+  if (! (gGlobalGeneralOahGroup->getQuiet () && gGlobalGeneralOahGroup->getDontShowErrors ())) {
+    if (gGlobalGeneralOahGroup->getDisplaySourceCodePosition ()) {
+      gLogStream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
+    gLogStream <<
+      "*** " << "MSR STREAMS" << " warning *** " <<
+      " ### " << "MSR STREAMS" << " ERROR ### " <<
+      "fake line number" << ":" << inputLineNumber << ": " << message <<
+      endl;
+  }
+}
+
+void msrStreamsError (
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string  message)
+{
+  if (! (gGlobalGeneralOahGroup->getQuiet () && gGlobalGeneralOahGroup->getDontShowErrors ())) {
+    if (gGlobalGeneralOahGroup->getDisplaySourceCodePosition ()) {
+      gLogStream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
+    gLogStream <<
+      "### " << "MSR STREAMS" << " ERROR ### " <<
+      "fake line number" << ":" << inputLineNumber << ": " << message <<
+      endl;
+  }
+
+  throw msrStreamsException (message);
+}
+*/
+

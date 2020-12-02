@@ -1529,7 +1529,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     stringstream s;
 
     s <<
-      "measure number '" << measureNumber <<
+      "appending measure number '" << measureNumber <<
       "' occurs twice in a row in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";
@@ -1615,7 +1615,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
     stringstream s;
 
     s <<
-      "measure number '" << measureNumber <<
+      "prepending measure number '" << measureNumber <<
       "' occurs twice in a row in voice \"" <<
       fSegmentVoiceUpLink->getVoiceName () <<
       "\"";

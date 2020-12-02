@@ -38,7 +38,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-Sxmlelement convertMsrScoreTodMxmltree (
+Sxmlelement convertMsrScoreToMxmltree (
   const S_msrScore           mScore,
   S_msrOahGroup                   msrOpts,
   string                     passNumber,

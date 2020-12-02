@@ -29,7 +29,7 @@
 namespace MusicXML2
 {
 //______________________________________________________________________________
-EXP Sxmlelement convertMsrScoreTodMxmltree (
+EXP Sxmlelement convertMsrScoreToMxmltree (
   const S_msrScore           mScore,
   S_msrOahGroup                   msrOpts,
   string                     passNumber,

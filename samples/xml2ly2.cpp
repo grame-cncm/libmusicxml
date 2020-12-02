@@ -54,9 +54,7 @@ int main (int argc, char *argv[])
     options.push_back (make_pair ("-name-help", "global-staff-size"));
 	}
 
-  displayOptionsVector (
-    theOptionsVector,
-    cout);
+  displayOptionsVector (theOptionsVector, err);
 
   // first run
   // ------------------------------------------------------

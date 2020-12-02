@@ -3084,7 +3084,7 @@ This is useful for adding line breaks and page breaks, and when debugging EXECUT
   // moments in the measures
   // --------------------------------------
 
-  fPositionsInMeasures = false;
+  fMomentsInMeasures = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -3096,8 +3096,26 @@ its moment in the measure.
 This is useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
           gGlobalOahOahGroup->getHandlerExecutableName ()),
-        "positionsInMeasures",
-        fPositionsInMeasures));
+        "momentsInMeasures",
+        fMomentsInMeasures));
+
+  // non-print notes head color
+  // --------------------------------------
+
+  fNonPrintNotesHeadRGBColor =
+    msrRGBColor (0.0, 0.0, 0.0); // black by default
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahRGBColorAtom::create (
+        "npnhc", "non-print-notes-head-color",
+R"(Use RGB_COLOR for non print notes head color,
+for MusicXML's <note print-object="no"> for example.
+RGB_COLOR should be of the form 'r,g,b',
+with r, g and b being float numbers between 0.0 and 1.0 inclusive.)",
+        "RGB_COLOR",
+        "nonPrintNotesHeadRGBColor",
+        fNonPrintNotesHeadRGBColor));
 }
 
 void lpsr2lilypondOahGroup::initializeBarsOptions ()
@@ -3390,7 +3408,8 @@ R"(Use the staff size value found in the MusicXML data.)",
   // ledger lines
   // --------------------------------------
 
-  fKeepStaffSize = false;
+  fLedgerLinesRGBColor =
+    msrRGBColor (0.0, 0.0, 0.0); // black by default
 
   subGroup->
     appendAtomToSubGroup (
@@ -3401,8 +3420,7 @@ RGB_COLOR should be of the form 'r,g,b',
 with r, g and b being float numbers between 0.0 and 1.0 inclusive.)",
         "RGB_COLOR",
         "ledgerLinesRGBColor",
-        fLedgerLinesRGBColor,
-        fLedgerLinesRGBColorHasBeenSet));
+        fLedgerLinesRGBColor));
 }
 
 void lpsr2lilypondOahGroup::initializeChordsOptions ()
@@ -4505,6 +4523,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
 
     setw (valueFieldWidth) << "positionsInMeasures" << " : " <<
       booleanAsString (fPositionsInMeasures) <<
+      endl <<
+
+    setw (valueFieldWidth) << "momentsInMeasures" << " : " <<
+      booleanAsString (fMomentsInMeasures) <<
+      endl <<
+
+    setw (valueFieldWidth) << "nonPrintNotesHeadRGBColor" << " : " <<
+      fNonPrintNotesHeadRGBColor.asString () <<
       endl;
 
   gIndenter--;
@@ -5064,8 +5090,16 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (int fieldWidth)
       booleanAsString (fOriginalMeasureNumbers) <<
       endl <<
 
-    setw (fieldWidth) << "notesPositionsInMeasures" << " : " <<
+    setw (fieldWidth) << "positionsInMeasures" << " : " <<
       booleanAsString (fPositionsInMeasures) <<
+      endl <<
+
+    setw (fieldWidth) << "momentsInMeasures" << " : " <<
+      booleanAsString (fMomentsInMeasures) <<
+      endl <<
+
+    setw (fieldWidth) << "nonPrintNotesHeadRGBColor" << " : " <<
+      fNonPrintNotesHeadRGBColor.asString () <<
       endl;
 
   gIndenter--;

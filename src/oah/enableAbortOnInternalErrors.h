@@ -10,14 +10,16 @@
   research@grame.fr
 */
 
-#ifndef ___enableTracingIfDesired___
-#define ___enableTracingIfDesired___
+#ifndef ___enableAbortOnInternalErrorsIfDesired___
+#define ___enableAbortOnInternalErrorsIfDesired___
 
 
-// comment the following definition if no tracing is desired
+// comment the following definition if abort on internal errors is desired
+// CAUTION: DON'T USE THIS IN PRODUCTION CODE,
+// since that could kill a session on a web server, for example
 
-#ifndef TRACING_IS_ENABLED
-  #define TRACING_IS_ENABLED
+#ifndef ABORT_ON_INTENAL_ERRORS
+//  #define ABORT_ON_INTENAL_ERRORS
 #endif
 
 #endif

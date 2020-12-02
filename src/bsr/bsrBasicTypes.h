@@ -101,9 +101,9 @@ enum bsrCellKind {
 };
 
 //______________________________________________________________________________
-EXP string bsrCellKindAsShortString (bsrCellKind cellKind);
+string bsrCellKindAsShortString (bsrCellKind cellKind);
 
-EXP string bsrCellKindAsString (bsrCellKind cellKind);
+string bsrCellKindAsString (bsrCellKind cellKind);
 
 // lower case letters
 //______________________________________________________________________________
@@ -213,18 +213,18 @@ void brailleCellKind (bsrCellKind cellKind, ostream& os);
 // braille output kinds
 //______________________________________________________________________________
 enum bsrBrailleOutputKind {
-    kBrailleOutputAscii,     // default value
-    kBrailleOutputUTF8,
-    kBrailleOutputUTF8Debug, // for... debugging!
-    kBrailleOutputUTF16 };
+  kBrailleOutputAscii,     // default value
+  kBrailleOutputUTF8,
+  kBrailleOutputUTF8Debug, // for... debugging!
+  kBrailleOutputUTF16 };
 
-EXP string bsrBrailleOutputKindAsString (
+string bsrBrailleOutputKindAsString (
   bsrBrailleOutputKind brailleOutputKind);
 
 extern map<string, bsrBrailleOutputKind>
   gGlobalBsrBrailleOutputKindsMap;
 
-EXP string existingBsrBrailleOutputKinds (int namesListMaxLength);
+string existingBsrBrailleOutputKinds (int namesListMaxLength);
 
 void initializeBsrBrailleOutputKindsMap ();
 
@@ -234,13 +234,13 @@ enum bsrTextsLanguageKind {
   kTextsEnglish, // BANA's default
   kTextsGerman, kTextsItalian, kTextsFrench };
 
-EXP string bsrTextsLanguageKindAsString (
+string bsrTextsLanguageKindAsString (
   bsrTextsLanguageKind languageKind);
 
 extern map<string, bsrTextsLanguageKind>
   gGlobalBsrTextsLanguageKindsMap;
 
-EXP string existingBsrTextsLanguageKinds (int namesListMaxLength);
+string existingBsrTextsLanguageKinds (int namesListMaxLength);
 
 void initializeBsrTextsLanguageKindsMap ();
 

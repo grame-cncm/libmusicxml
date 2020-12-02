@@ -141,18 +141,18 @@ class EXP outputIndenter
     void                  print (ostream& os) const;
 
     // get a spacer for adhoc uses, without increasing the indentation
-    string           getSpacer () const
+    string                getSpacer () const
                               { return fSpacer; }
 
     // indent a multiline 'R"(...)"' string
-    string           indentMultiLineString (string value);
+    string                indentMultiLineString (string value);
 
     // global variables for general use
     static outputIndenter gGlobalOStreamIndenter;
 
   private:
     int                   fIndent;
-    string           fSpacer;
+    string                fSpacer;
 };
 
 EXP ostream& operator<< (ostream& os, const outputIndenter& theIndenter);
@@ -370,15 +370,15 @@ struct stringSpaceReplacer
 };
 
 //______________________________________________________________________________
-EXP string replicateString (
+string replicateString (
   string str,
   int    times);
 
 //______________________________________________________________________________
-EXP string int2EnglishWord (int n);
+string int2EnglishWord (int n);
 
 //______________________________________________________________________________
-EXP string stringNumbersToEnglishWords (string str);
+string stringNumbersToEnglishWords (string str);
 
 //______________________________________________________________________________
 set<int> decipherNaturalNumbersSetSpecification (
@@ -445,36 +445,36 @@ pair<string, string> extractNamesPairFromString (
   bool        debugMode = false);
 
 //______________________________________________________________________________
-EXP string doubleQuoteStringIfNonAlpha (
+string doubleQuoteStringIfNonAlpha (
   string theString);
 
-EXP string quoteStringIfNonAlpha (
+string quoteStringIfNonAlpha (
   string theString);
 
-EXP string doubleQuoteString (
+string doubleQuoteString (
   string theString);
 
-EXP string quoteString (
+string quoteString (
   string theString);
 
-EXP string stringToLowerCase (
+string stringToLowerCase (
   string theString);
 
-EXP string stringToUpperCase (
+string stringToUpperCase (
   string theString);
 
 //______________________________________________________________________________
-EXP string booleanAsString (bool value);
+string booleanAsString (bool value);
 
 //______________________________________________________________________________
-EXP string singularOrPlural (
+string singularOrPlural (
   int number, string singularName, string pluralName);
 
-EXP string singularOrPluralWithoutNumber (
+string singularOrPluralWithoutNumber (
   int number, string singularName, string pluralName);
 
 //______________________________________________________________________________
-EXP string escapeDoubleQuotes (string s);
+string escapeDoubleQuotes (string s);
 
 //______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (string& s);
@@ -494,11 +494,11 @@ void splitHTMLStringContainingEndOfLines ( // JMI
   list<string>& chunksList);
 
 //______________________________________________________________________________
-EXP string baseName (const string& filename);
+string  baseName (const string& filename);
   // wait until c++17 for a standard library containing basename()...
 
 //______________________________________________________________________________
-EXP string makeSingleWordFromString (const string& theString);
+string  makeSingleWordFromString (const string& theString);
 
 
 } // namespace MusicXML2

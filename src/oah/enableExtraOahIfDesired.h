@@ -15,7 +15,10 @@
 
 
 // comment the following definition if no extra options are wanted
-#define EXTRA_OAH_IS_ENABLED
+
+#ifndef EXTRA_OAH_IS_ENABLED
+  #define EXTRA_OAH_IS_ENABLED
+#endif
 
 
 #endif

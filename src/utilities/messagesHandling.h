@@ -165,6 +165,17 @@ EXP void meiInternalError (
   std::string message);
 
 //______________________________________________________________________________
+EXP extern std::set<int> gGlobalWarningsInputLineNumbers;
+EXP extern std::set<int> gGlobalErrorsInputLineNumbers;
+
+EXP void displayWarningsAndErrorsInputLineNumbers ();
+
+}
+
+
+#endif
+
+//______________________________________________________________________________
 /*
 EXP void msrStreamsError (
   int         inputLineNumber,
@@ -179,13 +190,3 @@ EXP void msrStreamsWarning (
   std::string message);
 */
 
-//______________________________________________________________________________
-EXP extern std::set<int> gGlobalWarningsInputLineNumbers;
-EXP extern std::set<int> gGlobalErrorsInputLineNumbers;
-
-EXP void displayWarningsAndErrorsInputLineNumbers ();
-
-}
-
-
-#endif

@@ -1808,7 +1808,7 @@ string makeSingleWordFromString (const string& theString)
 
 /* JMI
 //______________________________________________________________________________
-class EXP segmentedLinesOstream
+class segmentedLinesOstream
 {
 / * JMI NOT DONE
   // in order to avoid spaces at the end of a line,

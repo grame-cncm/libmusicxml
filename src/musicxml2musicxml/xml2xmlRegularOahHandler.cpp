@@ -27,11 +27,7 @@
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 #include "msrOah.h"
-#include "msr2lpsrOah.h"
-/* JMI this is in case pass5 msr2lpsr is used
-#include "msr2lpsrOah.h"
-#include "lpsrOah.h"
-*/
+#include "msr2msrOah.h"
 #include "msr2mxmlTreeOah.h"
 
 #include "version.h"

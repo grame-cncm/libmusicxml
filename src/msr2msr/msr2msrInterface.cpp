@@ -41,17 +41,15 @@ namespace MusicXML2
 {
 //_______________________________________________________________________________
 S_msrScore convertMsrScoreToMsrScore (
-  S_msrScore mScore,
-  S_msrOahGroup   msrOpts,
-  S_lpsrOahGroup  lpsrOpts,
-  string     passNumber)
+  S_msrScore        originalMsrScore,
+  S_msrOahGroup     msrOpts,
+  S_msr2msrOahGroup msr2msrOpts,
+  string            passNumber)
 {
   // sanity check
   msgAssert (
-    mScore != 0,
-    "mScore is null");
-
-  S_msrScore lpScore;
+    originalMsrScore != 0,
+    "originalMsrScore is null");
 
   // start the clock
 clock_t startClock = clock ();
@@ -76,9 +74,9 @@ clock_t startClock = clock ();
   // create an msr2msrTranslator
   msr2msrTranslator
     translator (
-      mScore);
+      originalMsrScore);
 
-  // build the MSR score
+  // build the resulting MSR score
   translator.buildMsrScoreFromMsrScore ();
 
   clock_t endClock = clock ();
@@ -91,7 +89,7 @@ clock_t startClock = clock ();
     startClock,
     endClock);
 
-  // get the MSR score
+  // get the resulting MSR score
   S_msrScore
     resultingMsrScore =
       translator.getResultingMsrScore ();
@@ -124,19 +122,19 @@ clock_t startClock = clock ();
     gIndenter.resetToZero ();
   }
 
-  return lpScore;
+  return resultingMsrScore;
 }
 
 //_______________________________________________________________________________
 void displayMsrScore (
-  const S_msrScore lpScore,
-  S_msrOahGroup          msrOpts,
-  S_lpsrOahGroup         lpsrOpts)
+  const S_msrScore  originalMsrScore,
+  S_msrOahGroup     msrOpts,
+  S_msr2msrOahGroup msr2msrOpts)
 {
   // sanity check
   msgAssert (
-    lpScore != 0,
-    "lpScore is null");
+    originalMsrScore != 0,
+    "originalMsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -153,7 +151,7 @@ void displayMsrScore (
     separator <<
     endl <<
     endl <<
-    lpScore <<
+    originalMsrScore <<
     separator <<
     endl <<
     endl;
@@ -170,14 +168,14 @@ void displayMsrScore (
 }
 
 void displayMsrScoreShort (
-  const S_msrScore lpScore,
-  S_msrOahGroup          msrOpts,
-  S_lpsrOahGroup         lpsrOpts)
+  const S_msrScore  originalMsrScore,
+  S_msrOahGroup     msrOpts,
+  S_msr2msrOahGroup msr2msrOpts)
 {
   // sanity check
   msgAssert (
-    lpScore != 0,
-    "lpScore is null");
+    originalMsrScore != 0,
+    "originalMsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -195,7 +193,7 @@ void displayMsrScoreShort (
     endl <<
     endl;
 
-  lpScore->printShort (gLogStream);
+  originalMsrScore->printShort (gLogStream);
 
   gLogStream <<
     separator <<
@@ -215,15 +213,15 @@ void displayMsrScoreShort (
 
 //_______________________________________________________________________________
 void displayMsrScore_OptionalPass (
-  S_msrScore lpScore,
-  S_msrOahGroup    msrOpts,
-  S_lpsrOahGroup   lpsrOpts)
+  const S_msrScore  originalMsrScore,
+  S_msrOahGroup     msrOpts,
+  S_msr2msrOahGroup msr2msrOpts)
 {
   // display it
   displayMsrScore (
-    lpScore,
+    originalMsrScore,
     msrOpts,
-    lpsrOpts);
+    msr2msrOpts);
 
   if (gIndenter != 0) {
     if (! gGlobalGeneralOahGroup->getQuiet ()) {
@@ -244,15 +242,15 @@ void displayMsrScore_OptionalPass (
 }
 
 void displayMsrScoreShort_OptionalPass (
-  S_msrScore lpScore,
+  S_msrScore       originalMsrScore,
   S_msrOahGroup    msrOpts,
-  S_lpsrOahGroup   lpsrOpts)
+  S_msr2msrOahGroup msr2msrOpts)
 {
   // display it
   displayMsrScoreShort (
-    lpScore,
+    originalMsrScore,
     msrOpts,
-    lpsrOpts);
+    msr2msrOpts);
 
   if (gIndenter != 0) {
     if (! gGlobalGeneralOahGroup->getQuiet ()) {

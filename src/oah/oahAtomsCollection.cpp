@@ -4992,8 +4992,7 @@ S_oahRGBColorAtom oahRGBColorAtom::create (
   string       description,
   string       valueSpecification,
   string       variableName,
-  msrRGBColor& RGBColorVariable,
-  bool&        hasBeenSetVariable)
+  msrRGBColor& RGBColorVariable)
 {
   oahRGBColorAtom* o = new
     oahRGBColorAtom (
@@ -5002,8 +5001,7 @@ S_oahRGBColorAtom oahRGBColorAtom::create (
       description,
       valueSpecification,
       variableName,
-      RGBColorVariable,
-      hasBeenSetVariable);
+      RGBColorVariable);
   assert (o!=0);
   return o;
 }
@@ -5014,8 +5012,7 @@ oahRGBColorAtom::oahRGBColorAtom (
   string       description,
   string       valueSpecification,
   string       variableName,
-  msrRGBColor& RGBColorVariable,
-  bool&        hasBeenSetVariable)
+  msrRGBColor& RGBColorVariable)
   : oahAtomWithValue (
       shortName,
       longName,

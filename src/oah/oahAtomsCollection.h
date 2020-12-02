@@ -1723,8 +1723,7 @@ class oahRGBColorAtom : public oahAtomWithValue
       string       description,
       string       valueSpecification,
       string       variableName,
-      msrRGBColor& RGBColorVariable,
-      bool&        hasBeenSetVariable);
+      msrRGBColor& RGBColorVariable);
 
   protected:
 
@@ -1737,8 +1736,7 @@ class oahRGBColorAtom : public oahAtomWithValue
       string       description,
       string       valueSpecification,
       string       variableName,
-      msrRGBColor& RGBColorVariable,
-      bool&        hasBeenSetVariable);
+      msrRGBColor& RGBColorVariable);
 
     virtual ~oahRGBColorAtom ();
 

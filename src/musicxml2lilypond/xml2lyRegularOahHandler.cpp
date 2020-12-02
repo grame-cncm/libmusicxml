@@ -448,6 +448,8 @@ void xml2lyRegularOahHandler::createStavesRegularGroup ()
   // atoms
 
   registerAtomInRegularSubgroup ("create-voices-staff-relative-numbers", subGroup);
+
+  registerAtomInRegularSubgroup ("ledger-lines-color", subGroup);
 }
 
 void xml2lyRegularOahHandler::createVoicesRegularGroup ()
@@ -764,6 +766,8 @@ void xml2lyRegularOahHandler::createNotesRegularGroup ()
   registerAtomInRegularSubgroup ("white-note-heads", subGroup);
 
   registerAtomInRegularSubgroup ("accidental-style", subGroup);
+
+  registerAtomInRegularSubgroup ("non-print-notes-head-color", subGroup);
 }
 
 void xml2lyRegularOahHandler::creatBeamsRegularGroup ()
@@ -1545,8 +1549,6 @@ void xml2lyRegularOahHandler::createOutputRegularGroup ()
   registerAtomInRegularSubgroup ("length-unit", subGroup);
 
   registerAtomInRegularSubgroup ("all-durations", subGroup);
-
-  registerAtomInRegularSubgroup ("ledger-lines-color", subGroup);
 
   registerAtomInRegularSubgroup ("jazz-fonts", subGroup);
 

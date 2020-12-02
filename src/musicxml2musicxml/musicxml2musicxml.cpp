@@ -27,7 +27,7 @@
 #endif
 
 #include "msrOah.h"
-#include "msr2lpsrOah.h"
+#include "msr2msrOah.h"
 #include "musicxmlOah.h"
 
 #include "xml2xmlInsiderOahHandler.h"
@@ -36,6 +36,7 @@
 #include "musicxml2mxmlTreeInterface.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"
 #include "mxmlTree2msrTranslatorInterface.h"
+#include "msr2msrInterface.h"
 #include "msr2mxmlTreeInterface.h"
 
 #include "mxmlTree.h"
@@ -51,25 +52,6 @@ namespace MusicXML2
   before gGlobalOahOahGroup->fTrace has been initialized
 */
 //#define ENFORCE_TRACE_OAH
-
-//_______________________________________________________________________________
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-static void printOptionsVector (const optionsVector& theOptionsVector)
-{
-	cerr <<
-    "The options vector for xmlFile2musicxml contains " <<
-    theOptionsVector.size () <<
-    " elements: " <<
-    endl;
-
-	for (auto option: theOptionsVector) {
-	  cerr << "   \"" << option.first << "\" \"" << option.second << "\"" << endl;
-	} // for
-	cerr << endl;
-}
-#endif
-#endif
 
 //_______________________________________________________________________________
 static xmlErr xmlFile2musicxmlWithHandler (
@@ -97,13 +79,13 @@ static xmlErr xmlFile2musicxmlWithHandler (
   // the MSR score
   // ------------------------------------------------------
 
-  S_msrScore mScore;
+  S_msrScore firstMsrScore;
 
-  // create the MSR skeleton from the originalMxmlTree (pass 2a)
+  // create the skeleton of the first MSR from the originalMxmlTree (pass 2a)
   // ------------------------------------------------------
 
   try {
-    mScore =
+    firstMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (
         originalMxmlTree,
         gGlobalMsrOahGroup,
@@ -128,13 +110,13 @@ static xmlErr xmlFile2musicxmlWithHandler (
     return kNoErr;
   }
 
-  // populate the MSR from MusicXML contents (pass 2b)
+  // populate the first MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
   try {
     populateMsrSkeletonFromMxmlTree (
       originalMxmlTree,
-      mScore,
+      firstMsrScore,
       "Pass 2b");
   }
   catch (mxmlTreeToMsrException& e) {
@@ -156,17 +138,37 @@ static xmlErr xmlFile2musicxmlWithHandler (
     return kNoErr;
   }
 
-  // convert the MSR score into a new mxmlTree
+  // convert the first MSR score into a new, second MSR score (pass 3)
   // ------------------------------------------------------
 
-  Sxmlelement newMxmlTree;
+  S_msrScore secondMsrScore;
 
   try {
-    newMxmlTree =
-      convertMsrScoreTodMxmltree (
-        mScore,
+    secondMsrScore =
+      convertMsrScoreToMsrScore (
+        firstMsrScore,
         gGlobalMsrOahGroup,
-        "Pass 3",
+        gGlobalMsr2msrOahGroup,
+        "Pass 3");
+  }
+  catch (mxmlTreeToMsrException& e) {
+    return kInvalidFile;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  // convert the second MSR score into a new, second mxmlTree (pass 4)
+  // ------------------------------------------------------
+
+  Sxmlelement secondMxmlTree;
+
+  try {
+    secondMxmlTree =
+      convertMsrScoreToMxmltree (
+        secondMsrScore,
+        gGlobalMsrOahGroup,
+        "Pass 4",
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
@@ -176,7 +178,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
     return kInvalidFile;
   }
 
-  // generate MusicXML back from the newMxmlTree (pass 4)
+  // generate MusicXML back from the second mxmlTree (pass 5)
   // ------------------------------------------------------
 {
   // start the clock
@@ -185,8 +187,8 @@ static xmlErr xmlFile2musicxmlWithHandler (
   // create the MusicXML data
   SXMLFile xmlFile = createMxmlFile ();
 
-  // insert the newMxmlTree into it
-  xmlFile->set (newMxmlTree);
+  // insert the secondMxmlTree into it
+  xmlFile->set (secondMxmlTree);
 
   string
     outputFileName =
@@ -342,7 +344,7 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
 	// print the options vector
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
-      printOptionsVector (options);
+      displayOptionsVector (options, err);
 #endif
 #endif
 

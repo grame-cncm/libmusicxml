@@ -55,25 +55,6 @@ namespace MusicXML2
 ////#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-static void printOptionsVector (const optionsVector& theOptionsVector)
-{
-	cerr <<
-    "The options vector for xmlFile2braille contains " <<
-    theOptionsVector.size () <<
-    " elements: " <<
-    endl;
-
-	for (auto option: theOptionsVector) {
-	  cerr << "   \"" << option.first << "\" \"" << option.second << "\"" << endl;
-	} // for
-	cerr << endl;
-}
-#endif
-#endif
-
-//_______________________________________________________________________________
 static xmlErr xmlFile2brailleWithHandler (
   SXMLFile&            xmlfile,
   std::ostream&        out,
@@ -469,7 +450,7 @@ static xmlErr xmlFile2brailleWithOptionsVector (
 	// print the options vector
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
-      printOptionsVector (options);
+      displayOptionsVector (options, err);
 #endif
 #endif
 

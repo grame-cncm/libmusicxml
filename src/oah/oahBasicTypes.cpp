@@ -6612,13 +6612,14 @@ void oahHandler::handleUnknownOptionName (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
-      "Handling unknown valueless option name \"" <<
+      "Handling unknown option name \"" <<
       optionName <<
       "\"" <<
       endl;
   }
 #endif
 
+  // is optionName an options cluster?
   bool nameIsAnOptionsCluster = false;
 
   if (optionName.size () > 1) {
@@ -6627,17 +6628,19 @@ void oahHandler::handleUnknownOptionName (
     nameIsAnOptionsCluster =
       nameIsASingleCharacterOptionsCluster (
         optionName);
-    // the work has just been done, nothing more here
   }
 
-  if (! nameIsAnOptionsCluster) {
+  if (nameIsAnOptionsCluster) {
+    // the cluster has just been handled, nothing more here
+  }
+  else {
     // optionName is unknown to this handler
     stringstream s;
 
     s <<
-      "unknown option name \"" <<
+      "option name \"" <<
       optionName <<
-      "\" is no options cluster and not known otherwise in \"" <<
+      "\" is unknown to \"" <<
       fHandlerHeader <<
       "\"";
 

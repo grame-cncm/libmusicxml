@@ -77,9 +77,7 @@ int main (int argc, char *argv[])
 
 	theOptionsVector.push_back (make_pair ("-version", ""));
 
-  displayOptionsVector (
-    theOptionsVector,
-    cout);
+  displayOptionsVector (theOptionsVector, cerr);
 
   // first run
   // ------------------------------------------------------

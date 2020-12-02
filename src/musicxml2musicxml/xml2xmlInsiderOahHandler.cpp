@@ -20,7 +20,6 @@
 #endif
 
 #include "msr.h"
-//#include "lpsr.h" // JMI only if pass5 msr2lpsr is run
 
 #include "oahOah.h"
 
@@ -30,10 +29,9 @@
 #include "mxmlTreeOah.h"
 #include "msr2mxmlTreeOah.h"
 #include "msrOah.h"
+#include "msr2msrOah.h"
 #include "msr2mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
-//#include "msr2lpsrOah.h" //  JMI only if pass5 msr2lpsr is run
-//#include "lpsrOah.h"     // JMI only if pass5 msr2lpsr is run
 
 #include "version.h"
 
@@ -250,7 +248,6 @@ void xml2xmlInsiderOahHandler::createTheXml2xmlOptionGroups (
   // ------------------------------------------------------
 
   initializeMSR ();
-//  initializeLPSR (); // JMI only if pass5 msr2lpsr is run
 
   // initialize options handling, phase 2
   // ------------------------------------------------------
@@ -279,15 +276,9 @@ void xml2xmlInsiderOahHandler::createTheXml2xmlOptionGroups (
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
 
-/*  JMI only if pass 5 msr2lpsr is run
-  // create the msr2lpsr OAH group
+  // create the msr2msr OAH group
   appendGroupToHandler (
-    createGlobalMsr2lpsrOahGroup ());
-
-  // create the LPSR OAH group
-  appendGroupToHandler (
-    createGlobalLpsrOahGroup ());
-*/
+    createGlobalMsr2msrOahGroup ());
 
   // create the msr2mxmlTree OAH group
   appendGroupToHandler (

@@ -945,6 +945,8 @@ void msrVoice::appendMeasureCloneToVoiceClone (
   }
 #endif
 
+  gIndenter++;
+
   // append measureClone to the voice last segment
   fVoiceLastSegment->
     appendMeasureToSegment (
@@ -952,6 +954,8 @@ void msrVoice::appendMeasureCloneToVoiceClone (
 
   // measureClone is the new voice last appended measure
   fVoiceLastAppendedMeasure = measureClone;
+
+  gIndenter--;
 }
 
 void msrVoice::setWholeNotesSinceLastRegularMeasureEnd (

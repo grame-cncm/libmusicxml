@@ -47,6 +47,7 @@ static void argvElements2stringsVector (
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
+/* JMI
 static void printOptionsVector (optionsVector& theOptionsVector)
 {
 	cerr <<
@@ -60,6 +61,7 @@ static void printOptionsVector (optionsVector& theOptionsVector)
 	} // for
 	cerr << endl;
 }
+*/
 #endif
 #endif
 
@@ -230,7 +232,7 @@ int main (int argc, char *argv[])
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
-	printOptionsVector (theOptionsVector);
+  displayOptionsVector (theOptionsVector, cerr);
 #endif
 #endif
 
@@ -256,12 +258,7 @@ int main (int argc, char *argv[])
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
-	printOptionsVector (theOptionsVector);
-
-  displayOptionsVector (
-    theOptionsVector,
-    cout);
-
+  displayOptionsVector (theOptionsVector, cerr);
 #endif
 #endif
 
