@@ -282,8 +282,8 @@ typedef SMARTP<indentedOstream> S_indentedOstream;
 
 //______________________________________________________________________________
 // the global log indented stream
-extern S_indentedOstream gGlobalOutputIndentedOstream;
-extern S_indentedOstream gGlobalLogIndentedOstream;
+EXP extern S_indentedOstream gGlobalOutputIndentedOstream;
+EXP extern S_indentedOstream gGlobalLogIndentedOstream;
 
 #define gOutputStream *gGlobalOutputIndentedOstream
 #define gLogStream    *gGlobalLogIndentedOstream

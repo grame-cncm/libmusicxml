@@ -24,21 +24,21 @@ namespace MusicXML2
 */
 
 //_______________________________________________________________________________
-xmlErr musicxmlFile2lilypondWithHandler (
+EXP xmlErr musicxmlFile2lilypondWithHandler (
   const char *  fileName,
   std::ostream& out,
   std::ostream& err,
   S_oahHandler  handler);
 
 //_______________________________________________________________________________
-xmlErr musicxmlFd2lilypondWithHandler (
+EXP xmlErr musicxmlFd2lilypondWithHandler (
   FILE *        fd,
   std::ostream& out,
   std::ostream& err,
   S_oahHandler  handler);
 
 //_______________________________________________________________________________
-xmlErr musicxmlString2lilypondWithHandler (
+EXP xmlErr musicxmlString2lilypondWithHandler (
   const char *  buffer,
   std::ostream& out,
   std::ostream& err,

@@ -819,7 +819,7 @@ typedef SMARTP<oahGroup> S_oahGroup;
 EXP ostream& operator<< (ostream& os, const S_oahGroup& elt);
 
 //_______________________________________________________________________________
-class oahHandler : public smartable
+class EXP oahHandler : public smartable
 {
   public:
 

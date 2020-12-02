@@ -47,7 +47,7 @@ enum oahElementVisibilityKind {
 string elementVisibilityKindAsString (
   oahElementVisibilityKind elementVisibilityKind);
 
-enum oahElementHelpOnlyKind {
+enum EXP oahElementHelpOnlyKind {
     kElementHelpOnlyYes,
     kElementHelpOnlyNo };
 

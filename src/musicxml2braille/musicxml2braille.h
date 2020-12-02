@@ -23,21 +23,21 @@ namespace MusicXML2
 */
 
 //_______________________________________________________________________________
-xmlErr musicxmlFile2brailleWithHandler (
+EXP xmlErr musicxmlFile2brailleWithHandler (
   const char *         fileName,
   std::ostream&        out,
   std::ostream&        err,
   S_oahHandler         handler);
 
 //_______________________________________________________________________________
-xmlErr musicxmlFd2brailleWithHandler (
+EXP xmlErr musicxmlFd2brailleWithHandler (
   FILE *               fd,
   std::ostream&        out,
   std::ostream&        err,
   S_oahHandler         handler);
 
 //_______________________________________________________________________________
-xmlErr musicxmlString2brailleWithHandler (
+EXP xmlErr musicxmlString2brailleWithHandler (
   const char *         buffer,
   std::ostream&        out,
   std::ostream&        err,
