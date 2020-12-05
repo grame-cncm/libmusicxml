@@ -21,8 +21,6 @@
 
 #include "exports.h"
 
-#include "utilities.h"
-
 namespace MusicXML2
 {
 enum xmlErr { kNoErr, kInvalidFile, kInvalidOption, kUnsupported };
