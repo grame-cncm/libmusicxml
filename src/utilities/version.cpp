@@ -70,10 +70,12 @@ void appendVersionToVersionInfoList (
       versionDescription));
 }
 
-void printVersionsHistory (ostream& os)
+void printVersionsHistory (
+  std::string   executable,
+  std::ostream& os)
 {
   os <<
-    "Versions history:" <<
+    executable + " versions history:" <<
     endl;
 
   outputIndenter::gGlobalOStreamIndenter++;

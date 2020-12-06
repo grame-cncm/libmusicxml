@@ -14,7 +14,10 @@
 #include <signal.h>
 #endif
 
-#include "libmusicxml.h"
+// #include "libmusicxml.h"
+#include "libxml2ly.h"
+#include "libxml2brl.h"
+#include "libxml2xml.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -25,7 +28,6 @@
 
 #include "messagesHandling.h"
 
-
 using namespace std;
 using namespace MusicXML2;
 
@@ -33,7 +35,7 @@ using namespace MusicXML2;
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
-#define ENFORCE_TRACE_OAH
+//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 static void argvElements2stringsVector (
@@ -175,7 +177,7 @@ void registerGeneratedCodeKind (generatedCodeKind kind)
 static void _sigaction(int signal, siginfo_t *si, void *arg)
 {
   cerr << "Signal #" << signal << " catched!" << endl;
-  exit(-2);
+  exit (-2);
 }
 
 static void catchsigs ()
@@ -388,7 +390,7 @@ int main (int argc, char *argv[])
       "### xml2Any gIndenter final value: " <<
       gIndenter.getIndent () <<
       " ###" <<
-      endl << endl;
+      endl;
 
     gIndenter.resetToZero ();
   }

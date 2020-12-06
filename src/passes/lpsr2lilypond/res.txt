@@ -1,0 +1,439 @@
+FILENAME: lpsr2lilypondTranslator.cpp
+40 :  S_lpsrRepeatDescr lpsrRepeatDescr::create (
+52 :  lpsrRepeatDescr::lpsrRepeatDescr (
+67 :  string lpsrRepeatDescr::repeatDescrAsString () const
+83 :  void lpsrRepeatDescr::print (ostream& os) const
+109 :  void lpsr2lilypondTranslator::setCurrentOctaveEntryReferenceFromTheLilypondOah ()
+114 :        msrNote::createNoteFromSemiTonesPitchAndOctave (
+147 :  lpsr2lilypondTranslator::lpsr2lilypondTranslator (
+217 :          msrNote::createNoteFromSemiTonesPitchAndOctave (
+318 :  void lpsr2lilypondTranslator::convertLpsrScoreToLilypondCode ()
+328 :  string lpsr2lilypondTranslator::absoluteOctaveAsLilypondString (
+388 :  string lpsr2lilypondTranslator::alterationKindAsLilypondString (
+436 :  string lpsr2lilypondTranslator::lilypondOctaveInRelativeEntryMode (
+552 :  string lpsr2lilypondTranslator::lilypondOctaveInFixedEntryMode (
+676 :  string lpsr2lilypondTranslator::stringTuningAsLilypondString (
+752 :  string lpsr2lilypondTranslator::notePitchAsLilypondString (
+938 :  string lpsr2lilypondTranslator::durationAsLilypondString (
+966 :  string lpsr2lilypondTranslator::pitchedRestAsLilypondString (
+1084 :  void lpsr2lilypondTranslator::generateNoteHeadColor (
+1136 :  void lpsr2lilypondTranslator::generateNoteLigatures (
+1320 :  string lpsr2lilypondTranslator::stemAsLilypondString (
+1321 :    msrStem::msrStemKind stemKind)
+1342 :  void lpsr2lilypondTranslator::generateNoteStemIfNeeded (
+1349 :      msrStem::msrStemKind
+1367 :  void lpsr2lilypondTranslator::generateNoteHead (
+1371 :      msrNote::msrNoteHeadKind
+1460 :  void lpsr2lilypondTranslator::generateCoda (S_msrCoda coda)
+1477 :  void lpsr2lilypondTranslator::generateSegno (S_msrSegno segno)
+1485 :  void lpsr2lilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
+1547 :  void lpsr2lilypondTranslator::generateCodeForNote (
+1578 :            // in the msrNote::msrNote () constructor,
+2175 :  void lpsr2lilypondTranslator::generateCodeRightAfterNote (
+2226 :  void lpsr2lilypondTranslator::generateNoteArticulation (
+2445 :  void lpsr2lilypondTranslator::generateChordArticulation (
+2592 :  string lpsr2lilypondTranslator::technicalAsLilypondString (
+2649 :  string lpsr2lilypondTranslator::technicalWithIntegerAsLilypondString (
+2676 :  string lpsr2lilypondTranslator::technicalWithFloatAsLilypondString (
+2694 :  string lpsr2lilypondTranslator::technicalWithStringAsLilypondString (
+2729 :  void lpsr2lilypondTranslator::generateOrnament (
+2998 :  void lpsr2lilypondTranslator::generateCodeForSpannerBeforeNote (
+3068 :  void lpsr2lilypondTranslator::generateCodeForSpannerAfterNote (
+3164 :  string lpsr2lilypondTranslator::dynamicsAsLilypondString (
+3174 :  string lpsr2lilypondTranslator::harpPedalTuningAsLilypondString (
+3222 :  void lpsr2lilypondTranslator::transposeDiatonicError (
+3243 :  string lpsr2lilypondTranslator::singleTremoloDurationAsLilypondString (
+3309 :  string lpsr2lilypondTranslator::harmonyDegreeAlterationKindAsLilypondString (
+3356 :  string lpsr2lilypondTranslator::harmonyAsLilypondString (
+3599 :        msrHarmonyDegree::msrHarmonyDegreeTypeKind
+3654 :          msrHarmonyDegree::msrHarmonyDegreeTypeKind
+3704 :  string lpsr2lilypondTranslator::figureAsLilypondString (
+3712 :    msrFiguredBass::msrFiguredBassParenthesesKind
+3806 :  string lpsr2lilypondTranslator::figuredBassAsLilypondString (
+3875 :  string lpsr2lilypondTranslator::frameAsLilypondString (
+4029 :  void lpsr2lilypondTranslator::generateInputLineNumberAndOrPositionInMeasureAsAComment (
+4054 :  string lpsr2lilypondTranslator::generateAColumnForMarkup (
+4108 :  string lpsr2lilypondTranslator::generateMultilineMarkup (
+4126 :  void lpsr2lilypondTranslator::visitStart (S_lpsrScore& elt)
+4142 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrScore& elt)
+4160 :  string lpsr2lilypondTranslator::nameAsLilypondString (
+4180 :  string lpsr2lilypondTranslator::lpsrVarValAssocKindAsLilypondString (
+4181 :    lpsrVarValAssoc::lpsrVarValAssocKind
+4271 :  string lpsr2lilypondTranslator::lpsrVarValAssocAsLilypondString (
+4344 :  string lpsr2lilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
+4345 :    lpsrVarValsListAssoc::lpsrVarValsListAssocKind
+4382 :  void lpsr2lilypondTranslator::generateLpsrVarValsListAssocValues (
+4409 :        gIndenter++;
+4415 :        gIndenter++;
+4431 :        gIndenter--;
+4437 :        gIndenter--;
+4446 :  void lpsr2lilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
+4486 :    lpsrVarValAssoc::lpsrVarValAssocKind
+4566 :    lpsrVarValAssoc::lpsrQuotesKind
+4623 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrVarValAssoc& elt)
+4636 :  void lpsr2lilypondTranslator::visitStart (S_lpsrVarValsListAssoc& elt)
+4674 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrVarValsListAssoc& elt)
+4687 :  void lpsr2lilypondTranslator::visitStart (S_lpsrSchemeVariable& elt)
+4737 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrSchemeVariable& elt)
+4750 :  string lpsr2lilypondTranslator::lengthUnitAsLilypondString (
+4771 :  void lpsr2lilypondTranslator::visitStart (S_lpsrHeader& elt)
+4786 :    gIndenter++; // decremented in visitEnd (S_lpsrHeader&)
+4973 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrHeader& elt)
+4975 :    gIndenter--; // incremented in visitStart (S_lpsrHeader&)
+5003 :  void lpsr2lilypondTranslator::generatePaperPageSize (
+5078 :  void lpsr2lilypondTranslator::generatePaperMargins (
+5234 :  void lpsr2lilypondTranslator::generatePaperIndents (
+5311 :  void lpsr2lilypondTranslator::generatePaperSpaces (
+5388 :  void lpsr2lilypondTranslator::generatePaperCounts (
+5424 :  void lpsr2lilypondTranslator::generatePaperHeadersAndFooters (
+5492 :  void lpsr2lilypondTranslator::visitStart (S_lpsrPaper& elt)
+5522 :      gIndenter++; // decremented in visitEnd (S_lpsrPaper& elt)
+5579 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrPaper& elt)
+5591 :      gIndenter--; // incremented in visitStart (S_lpsrPaper& elt)
+5608 :  void lpsr2lilypondTranslator::visitStart (S_lpsrLayout& elt)
+5623 :    gIndenter++; // decremented in visitEnd (S_lpsrLayout& elt)
+5662 :        gIndenter.indentMultiLineString (
+5678 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrLayout& elt)
+5694 :      gIndenter++;
+5708 :      gIndenter--;
+5720 :      gIndenter++;
+5728 :      gIndenter--;
+5742 :    gIndenter--; // incremented in visitStart (S_lpsrLayout& elt)
+5758 :  void lpsr2lilypondTranslator::visitStart (S_lpsrBookBlock& elt)
+5773 :    gIndenter++; // decremented in visitEnd (S_lpsrBookBlock& elt)
+5778 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
+5789 :    gIndenter--; // incremented in visitStart (S_lpsrBookBlock& elt)
+5806 :  void lpsr2lilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
+5821 :    gIndenter++; // decremented in visitEnd (S_lpsrScoreBlock& elt)
+5826 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
+5837 :    gIndenter--; // incremented in visitStart (S_lpsrScoreBlock& elt)
+5856 :  void lpsr2lilypondTranslator::visitStart (S_lpsrBookPartBlock& elt)
+5871 :    gIndenter++; //  // decremented in visitEnd (S_lpsrBookPartBlock& elt)
+5876 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
+5887 :    gIndenter--; // incremented in visitStart (S_lpsrBookPartBlock& elt)
+5906 :  void lpsr2lilypondTranslator::visitStart (S_lpsrParallelMusicBLock& elt)
+5936 :      gIndenter++; //  // decremented in visitEnd (S_lpsrParallelMusicBLock& elt)
+5942 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
+5956 :      gIndenter--; // incremented in visitStart (S_lpsrParallelMusicBLock& elt)
+5975 :  void lpsr2lilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
+6000 :    msrPartGroup::msrPartGroupImplicitKind
+6005 :    msrPartGroup::msrPartGroupSymbolKind
+6010 :    msrPartGroup::msrPartGroupBarlineKind
+6148 :        gIndenter++;
+6201 :        gIndenter--;
+6243 :      gIndenter++; //  // decremented in visitEnd (S_lpsrPartGroupBlock& elt)
+6247 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
+6264 :      gIndenter--; // incremented in visitEnd (S_lpsrPartGroupBlock& elt)
+6294 :  void lpsr2lilypondTranslator::visitStart (S_lpsrPartBlock& elt)
+6349 :      gIndenter++;
+6373 :      gIndenter--;
+6386 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
+6424 :  void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
+6485 :    gIndenter++;
+6587 :    gIndenter--;
+6610 :        gIndenter++;
+6634 :        gIndenter--;
+6652 :        gIndenter.indentMultiLineString (
+6690 :    gIndenter++; // decremented in visitEnd (S_lpsrStaffBlock& elt)
+6693 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
+6704 :    gIndenter--; // incremented in visitStart (S_lpsrStaffBlock& elt)
+6726 :  void lpsr2lilypondTranslator::visitStart (S_lpsrNewStaffgroupBlock& elt)
+6741 :    gIndenter++; // decremented in visitEnd (S_lpsrStaffBlock& elt)
+6744 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
+6755 :    gIndenter--; // incremented in visitStart (S_lpsrStaffBlock& elt)
+6763 :  void lpsr2lilypondTranslator::visitStart (S_lpsrNewStaffBlock& elt)
+6774 :    gIndenter++; // decremented in visitEnd (S_lpsrNewStaffBlock& elt)
+6777 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
+6788 :    gIndenter--; // incremented in visitStart (S_lpsrNewStaffBlock& elt)
+6793 :  void lpsr2lilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
+6810 :    msrStaff::msrStaffKind
+6856 :      gIndenter++;
+7000 :      gIndenter--;
+7008 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
+7021 :  void lpsr2lilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
+7039 :      gIndenter++;
+7073 :      gIndenter--;
+7077 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
+7094 :  void lpsr2lilypondTranslator::visitStart (S_lpsrVariableUseCommand& elt)
+7105 :    gIndenter++; // decremented in visitEnd (S_lpsrVariableUseCommand& elt)
+7108 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
+7119 :    gIndenter--; // incremented in visitStart (S_lpsrVariableUseCommand& elt)
+7123 :  void lpsr2lilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
+7151 :      gIndenter++;
+7159 :      gIndenter--;
+7173 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrChordNamesContext& elt)
+7186 :  void lpsr2lilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
+7214 :      gIndenter++;
+7222 :      gIndenter--;
+7236 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrFiguredBassContext& elt)
+7249 :  void lpsr2lilypondTranslator::visitStart (S_lpsrBarCommand& elt)
+7261 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
+7275 :  void lpsr2lilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
+7296 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
+7310 :  void lpsr2lilypondTranslator::visitStart (S_msrScore& elt)
+7322 :  void lpsr2lilypondTranslator::visitEnd (S_msrScore& elt)
+7335 :  void lpsr2lilypondTranslator::visitStart (S_msrScaling& elt)
+7347 :  void lpsr2lilypondTranslator::visitEnd (S_msrScaling& elt)
+7360 :  void lpsr2lilypondTranslator::visitStart (S_msrPageLayout& elt)
+7395 :  void lpsr2lilypondTranslator::visitEnd (S_msrPageLayout& elt)
+7408 :  void lpsr2lilypondTranslator::visitStart (S_msrSystemLayout& elt)
+7420 :  void lpsr2lilypondTranslator::visitEnd (S_msrSystemLayout& elt)
+7433 :  void lpsr2lilypondTranslator::visitStart (S_msrStaffLayout& elt)
+7445 :  void lpsr2lilypondTranslator::visitEnd (S_msrStaffLayout& elt)
+7458 :  void lpsr2lilypondTranslator::visitStart (S_msrAppearance& elt)
+7470 :  void lpsr2lilypondTranslator::visitEnd (S_msrAppearance& elt)
+7483 :  void lpsr2lilypondTranslator::visitStart (S_msrCredit& elt)
+7495 :  void lpsr2lilypondTranslator::visitEnd (S_msrCredit& elt)
+7507 :  void lpsr2lilypondTranslator::visitStart (S_msrCreditWords& elt)
+7519 :  void lpsr2lilypondTranslator::visitEnd (S_msrCreditWords& elt)
+7532 :  void lpsr2lilypondTranslator::visitStart (S_msrPartGroup& elt)
+7546 :  void lpsr2lilypondTranslator::visitEnd (S_msrPartGroup& elt)
+7560 :  void lpsr2lilypondTranslator::visitStart (S_msrPart& elt)
+7593 :  void lpsr2lilypondTranslator::visitEnd (S_msrPart& elt)
+7610 :  void lpsr2lilypondTranslator::visitStart (S_msrStaff& elt)
+7626 :  void lpsr2lilypondTranslator::visitEnd (S_msrStaff& elt)
+7642 :  void lpsr2lilypondTranslator::visitStart (S_msrStaffTuning& elt)
+7688 :  void lpsr2lilypondTranslator::visitStart (S_msrStaffDetails& elt)
+7715 :  void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
+7787 :    gIndenter++; // decremented in visitEnd (S_msrVoice& elt)
+7802 :      gIndenter++; // decremented in visitEnd (S_msrVoice& elt)
+7926 :  void lpsr2lilypondTranslator::visitEnd (S_msrVoice& elt)
+7928 :    gIndenter--; // incremented in visitStart (S_msrVoice& elt)
+7966 :      gIndenter--; // incremented in visitStart (S_msrVoice& elt)
+8016 :  void lpsr2lilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
+8047 :  void lpsr2lilypondTranslator::visitStart (S_msrHarmony& elt)
+8097 :  void lpsr2lilypondTranslator::visitStart (S_msrFrame& elt)
+8126 :  void lpsr2lilypondTranslator::visitStart (S_msrFiguredBass& elt)
+8175 :  void lpsr2lilypondTranslator::visitStart (S_msrFigure& elt)
+8193 :      msrFiguredBass::msrFiguredBassParenthesesKind
+8287 :  void lpsr2lilypondTranslator::visitEnd (S_msrFiguredBass& elt)
+8339 :  void lpsr2lilypondTranslator::visitStart (S_msrSegment& elt)
+8359 :      gIndenter++; // decremented in visitEnd (S_msrSegment& elt)
+8363 :  void lpsr2lilypondTranslator::visitEnd (S_msrSegment& elt)
+8375 :      gIndenter--; // incremented in visitStart (S_msrSegment& elt)
+8388 :  void lpsr2lilypondTranslator::visitStart (S_msrMeasure& elt)
+8398 :    msrMeasure::msrMeasureKind
+8407 :    msrMeasure::msrMeasureEndRegularKind
+8418 :        msrMeasure::measureKindAsString (measureKind) <<
+8420 :        msrMeasure::measureEndRegularKindAsString (
+8512 :        msrMeasure::measureEndRegularKindAsString (
+8529 :        msrMeasure::measureKindAsString (elt->getMeasureKind ()) <<
+8535 :      gIndenter++; // decremented in visitEnd (S_msrMeasure& elt)
+8814 :  void lpsr2lilypondTranslator::visitEnd (S_msrMeasure& elt)
+8824 :    msrMeasure::msrMeasureKind
+8833 :    msrMeasure::msrMeasureEndRegularKind
+8844 :        msrMeasure::measureKindAsString (measureKind) <<
+8846 :        msrMeasure::measureEndRegularKindAsString (
+8864 :        msrMeasure::measureEndRegularKindAsString (
+8939 :        gIndenter--; // incremented in visitStart (S_msrMeasure& elt)
+8944 :          msrMeasure::measureKindAsString (elt->getMeasureKind ()) <<
+9053 :  void lpsr2lilypondTranslator::visitStart (S_msrStanza& elt)
+9078 :        gIndenter++; // decremented in visitEnd (S_msrStanza& elt)
+9096 :  void lpsr2lilypondTranslator::visitEnd (S_msrStanza& elt)
+9111 :        gIndenter--; // incremented in visitStart (S_msrStanza& elt)
+9125 :  void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
+9448 :  void lpsr2lilypondTranslator::visitEnd (S_msrSyllable& elt)
+9463 :  void lpsr2lilypondTranslator::visitStart (S_msrClef& elt)
+9608 :  void lpsr2lilypondTranslator::visitEnd (S_msrClef& elt)
+9623 :  void lpsr2lilypondTranslator::visitStart (S_msrKey& elt)
+9647 :              msrKey::keyModeKindAsString (
+9731 :  void lpsr2lilypondTranslator::visitEnd (S_msrKey& elt)
+9746 :  void lpsr2lilypondTranslator::visitStart (S_msrTime& elt)
+9758 :    msrTime::msrTimeSymbolKind
+9921 :  void lpsr2lilypondTranslator::visitEnd (S_msrTime& elt)
+9935 :  void lpsr2lilypondTranslator::visitStart (S_msrTranspose& elt)
+10414 :  void lpsr2lilypondTranslator::visitEnd (S_msrTranspose& elt)
+10427 :  void lpsr2lilypondTranslator::visitStart (S_msrPartNameDisplay& elt)
+10457 :  void lpsr2lilypondTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
+10478 :  void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
+10501 :    msrTempo::msrTempoParenthesizedKind
+10557 :            gIndenter++;
+10563 :            gIndenter++;
+10565 :            gIndenter++;
+10619 :            gIndenter--;
+10623 :            gIndenter--;
+10629 :            gIndenter--;
+10642 :          gIndenter++;
+10667 :          gIndenter++;
+10699 :        gIndenter--;
+10705 :        gIndenter--;
+10741 :        gIndenter++;
+10747 :        gIndenter++;
+10759 :        gIndenter++;
+10816 :        gIndenter--;
+10828 :        gIndenter--;
+10834 :        gIndenter--;
+10885 :  void lpsr2lilypondTranslator::visitStart (S_msrTempoRelationshipElements& elt)
+10900 :    gIndenter++; // decremented in visitEnd (S_msrTempoRelationshipElements& elt)
+10903 :  void lpsr2lilypondTranslator::visitEnd (S_msrTempoRelationshipElements& elt)
+10914 :    gIndenter--; // incremented in visitStart (S_msrTempoRelationshipElements& elt)
+10922 :  void lpsr2lilypondTranslator::visitStart (S_msrTempoNote& elt)
+10941 :  void lpsr2lilypondTranslator::visitStart (S_msrTempoTuplet& elt)
+10963 :  void lpsr2lilypondTranslator::visitEnd (S_msrTempoTuplet& elt)
+10978 :  void lpsr2lilypondTranslator::visitEnd (S_msrTempo& elt)
+10991 :  void lpsr2lilypondTranslator::visitStart (S_msrArticulation& elt)
+11006 :  void lpsr2lilypondTranslator::visitEnd (S_msrArticulation& elt)
+11019 :  void lpsr2lilypondTranslator::visitStart (S_msrFermata& elt)
+11076 :  void lpsr2lilypondTranslator::visitEnd (S_msrFermata& elt)
+11089 :  void lpsr2lilypondTranslator::visitStart (S_msrArpeggiato& elt)
+11104 :  void lpsr2lilypondTranslator::visitEnd (S_msrArpeggiato& elt)
+11117 :  void lpsr2lilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
+11132 :  void lpsr2lilypondTranslator::visitEnd (S_msrNonArpeggiato& elt)
+11145 :  void lpsr2lilypondTranslator::visitStart (S_msrTechnical& elt)
+11160 :  void lpsr2lilypondTranslator::visitEnd (S_msrTechnical& elt)
+11173 :  void lpsr2lilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
+11190 :  void lpsr2lilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
+11203 :  void lpsr2lilypondTranslator::visitStart (S_msrTechnicalWithFloat& elt)
+11220 :  void lpsr2lilypondTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
+11233 :  void lpsr2lilypondTranslator::visitStart (S_msrTechnicalWithString& elt)
+11248 :  void lpsr2lilypondTranslator::visitEnd (S_msrTechnicalWithString& elt)
+11261 :  void lpsr2lilypondTranslator::visitStart (S_msrOrnament& elt)
+11276 :  void lpsr2lilypondTranslator::visitEnd (S_msrOrnament& elt)
+11289 :  void lpsr2lilypondTranslator::visitStart (S_msrGlissando& elt)
+11304 :  void lpsr2lilypondTranslator::visitEnd (S_msrGlissando& elt)
+11317 :  void lpsr2lilypondTranslator::visitStart (S_msrSlide& elt)
+11332 :  void lpsr2lilypondTranslator::visitEnd (S_msrSlide& elt)
+11345 :  void lpsr2lilypondTranslator::visitStart (S_msrSingleTremolo& elt)
+11360 :  void lpsr2lilypondTranslator::visitEnd (S_msrSingleTremolo& elt)
+11373 :  void lpsr2lilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
+11394 :      gIndenter++;
+11413 :      gIndenter--;
+11420 :    gIndenter++; // decremented in visitEnd (S_msrDoubleTremolo& elt)
+11423 :  void lpsr2lilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
+11434 :    gIndenter--; // incremented in visitStart (S_msrDoubleTremolo& elt)
+11442 :  void lpsr2lilypondTranslator::visitStart (S_msrDynamics& elt)
+11454 :  void lpsr2lilypondTranslator::visitEnd (S_msrDynamics& elt)
+11467 :  void lpsr2lilypondTranslator::visitStart (S_msrOtherDynamics& elt)
+11479 :  void lpsr2lilypondTranslator::visitEnd (S_msrOtherDynamics& elt)
+11492 :  void lpsr2lilypondTranslator::visitStart (S_msrWords& elt)
+11504 :  void lpsr2lilypondTranslator::visitEnd (S_msrWords& elt)
+11517 :  void lpsr2lilypondTranslator::visitStart (S_msrSlur& elt)
+11530 :  void lpsr2lilypondTranslator::visitEnd (S_msrSlur& elt)
+11544 :  void lpsr2lilypondTranslator::visitStart (S_msrChordSlurLink& elt)
+11557 :  void lpsr2lilypondTranslator::visitEnd (S_msrChordSlurLink& elt)
+11572 :  void lpsr2lilypondTranslator::visitStart (S_msrLigature& elt)
+11584 :  void lpsr2lilypondTranslator::visitEnd (S_msrLigature& elt)
+11597 :  void lpsr2lilypondTranslator::visitStart (S_msrWedge& elt)
+11609 :  void lpsr2lilypondTranslator::visitEnd (S_msrWedge& elt)
+11622 :  void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
+11707 :  void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
+11796 :  void lpsr2lilypondTranslator::generateGraceNotesGroup (
+11986 :  void lpsr2lilypondTranslator::visitStart (S_msrGraceNotesGroup& elt)
+12004 :  void lpsr2lilypondTranslator::visitEnd (S_msrGraceNotesGroup& elt)
+12020 :  void lpsr2lilypondTranslator::visitStart (S_msrChordGraceNotesGroupLink& elt)
+12035 :  void lpsr2lilypondTranslator::visitEnd (S_msrChordGraceNotesGroupLink& elt)
+12051 :  void lpsr2lilypondTranslator::visitStart (S_msrAfterGraceNotesGroup& elt)
+12068 :  void lpsr2lilypondTranslator::visitStart (S_msrAfterGraceNotesGroupContents& elt)
+12089 :  void lpsr2lilypondTranslator::visitEnd (S_msrAfterGraceNotesGroupContents& elt)
+12105 :  void lpsr2lilypondTranslator::visitEnd (S_msrAfterGraceNotesGroup& elt)
+12119 :  void lpsr2lilypondTranslator::generateBeforeNoteSpannersIfAny (
+12163 :  void lpsr2lilypondTranslator::generateAfterNoteSpannersIfAny (
+12207 :  void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
+12469 :      gIndenter++;
+12484 :        gIndenter++;
+12494 :        gIndenter++;
+12533 :        gIndenter--;
+12539 :        gIndenter--;
+12545 :        gIndenter++;
+12968 :    msrNote::msrNoteHeadParenthesesKind
+13120 :  void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
+13365 :                gIndenter.indentMultiLineString (
+14002 :      gIndenter--;
+14009 :      gIndenter--;
+14044 :  void lpsr2lilypondTranslator::visitStart (S_msrOctaveShift& elt)
+14056 :  void lpsr2lilypondTranslator::visitEnd (S_msrOctaveShift& elt)
+14069 :  void lpsr2lilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
+14120 :  void lpsr2lilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
+14136 :      gIndenter++;
+14158 :      gIndenter--;
+14167 :  void lpsr2lilypondTranslator::visitStart (S_msrStem& elt)
+14179 :  void lpsr2lilypondTranslator::visitEnd (S_msrStem& elt)
+14192 :  void lpsr2lilypondTranslator::visitStart (S_msrBeam& elt)
+14204 :  void lpsr2lilypondTranslator::visitEnd (S_msrBeam& elt)
+14217 :  void lpsr2lilypondTranslator::generateCodeForOctaveShift (
+14220 :    msrOctaveShift::msrOctaveShiftKind
+14255 :  void lpsr2lilypondTranslator::generateCodeAHeadOfChordContents (
+14287 :  void lpsr2lilypondTranslator::generateCodeRightBeforeChordContents (
+14550 :  void lpsr2lilypondTranslator::generateCodeForChordInGraceNotesGroupContents (
+14594 :  void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
+15206 :  void lpsr2lilypondTranslator::generateChordInGraceNotesGroup (S_msrChord chord)
+15224 :  void lpsr2lilypondTranslator::visitStart (S_msrChord& elt)
+15268 :  void lpsr2lilypondTranslator::visitEnd (S_msrChord& elt)
+15317 :  void lpsr2lilypondTranslator::visitStart (S_msrTuplet& elt)
+15351 :    msrTuplet::msrTupletBracketKind
+15371 :    msrTuplet::msrTupletLineShapeKind
+15386 :    msrTuplet::msrTupletShowNumberKind
+15411 :    msrTuplet::msrTupletShowTypeKind
+15461 :    gIndenter++; // decremented in visitEnd (S_msrTuplet& elt)
+15468 :  void lpsr2lilypondTranslator::visitEnd (S_msrTuplet& elt)
+15479 :    gIndenter--; // incremented in visitStart (S_msrTuplet& elt)
+15490 :    msrTuplet::msrTupletLineShapeKind
+15513 :  void lpsr2lilypondTranslator::visitStart (S_msrTie& elt)
+15547 :  void lpsr2lilypondTranslator::visitEnd (S_msrTie& elt)
+15560 :  void lpsr2lilypondTranslator::visitStart (S_msrSegno& elt)
+15572 :  void lpsr2lilypondTranslator::visitStart (S_msrHiddenMeasureAndBarline& elt)
+15589 :  void lpsr2lilypondTranslator::visitStart (S_msrCoda& elt)
+15602 :  void lpsr2lilypondTranslator::visitStart (S_msrEyeGlasses& elt)
+15617 :  void lpsr2lilypondTranslator::visitStart (S_msrScordatura& elt)
+15633 :    gIndenter++;
+15639 :    gIndenter++;
+15676 :    gIndenter--;
+15682 :    gIndenter--;
+15686 :  void lpsr2lilypondTranslator::visitStart (S_msrPedal& elt)
+15742 :  void lpsr2lilypondTranslator::visitStart (S_msrDamp& elt)
+15757 :  void lpsr2lilypondTranslator::visitStart (S_msrDampAll& elt)
+15773 :  void lpsr2lilypondTranslator::visitStart (S_msrBarline& elt)
+15956 :  void lpsr2lilypondTranslator::visitEnd (S_msrBarline& elt)
+15970 :  void lpsr2lilypondTranslator::visitStart (S_msrBarCheck& elt)
+16026 :  void lpsr2lilypondTranslator::visitEnd (S_msrBarCheck& elt)
+16039 :  void lpsr2lilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
+16091 :  void lpsr2lilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)
+16104 :  void lpsr2lilypondTranslator::visitStart (S_msrLineBreak& elt)
+16129 :  void lpsr2lilypondTranslator::visitEnd (S_msrLineBreak& elt)
+16142 :  void lpsr2lilypondTranslator::visitStart (S_msrPageBreak& elt)
+16159 :  void lpsr2lilypondTranslator::visitEnd (S_msrPageBreak& elt)
+16172 :  void lpsr2lilypondTranslator::visitStart (S_msrRepeat& elt)
+16190 :      lpsrRepeatDescr::create (
+16220 :    gIndenter++; // decremented in visitEnd (S_msrRepeat& elt)
+16229 :  void lpsr2lilypondTranslator::visitEnd (S_msrRepeat& elt)
+16249 :      gIndenter--;
+16266 :    //   gIndenter--; // incremented in visitStart (S_msrRepeat& elt) JMI ???
+16272 :  void lpsr2lilypondTranslator::visitStart (S_msrRepeatCommonPart& elt)
+16284 :  void lpsr2lilypondTranslator::visitEnd (S_msrRepeatCommonPart& elt)
+16297 :  void lpsr2lilypondTranslator::visitStart (S_msrRepeatEnding& elt)
+16316 :      gIndenter--;
+16352 :      gIndenter++;
+16386 :    gIndenter++;
+16413 :  void lpsr2lilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
+16424 :    gIndenter--;
+16476 :      gIndenter--; // JMI ???
+16496 :  void lpsr2lilypondTranslator::visitStart (S_lpsrComment& elt)
+16515 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrComment& elt)
+16528 :  void lpsr2lilypondTranslator::visitStart (S_lpsrSchemeFunction& elt)
+16550 :  void lpsr2lilypondTranslator::visitEnd (S_lpsrSchemeFunction& elt)
+16563 :  void lpsr2lilypondTranslator::visitStart (S_msrRehearsal& elt)
+16629 :  void lpsr2lilypondTranslator::visitEnd (S_msrRehearsal& elt)
+16642 :  void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
+16705 :    gIndenter++; // decremented in visitEnd (S_msrMeasuresRepeat&)
+16708 :  void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
+16719 :    gIndenter--; // incremented in visitStart (S_msrMeasuresRepeat&)
+16740 :  void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
+16751 :  void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
+16762 :  void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
+16786 :    gIndenter++; // decremented in visitEnd (S_msrMeasuresRepeat&)
+16789 :  void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
+16799 :    gIndenter--; // incremented in visitStart (S_msrMeasuresRepeatReplicas&)
+16803 :  void lpsr2lilypondTranslator::visitStart (S_msrRestMeasures& elt)
+16831 :      gIndenter++; // decremented in visitEnd (S_msrRestMeasures&)
+16837 :  void lpsr2lilypondTranslator::visitEnd (S_msrRestMeasures& elt)
+16915 :      gIndenter--; // incremented in visitStart (S_msrRestMeasures&)
+16931 :  void lpsr2lilypondTranslator::visitStart (S_msrRestMeasuresContents& elt)
+16957 :      gIndenter++; // decremented in visitEnd (S_msrRestMeasures&)
+16961 :  void lpsr2lilypondTranslator::visitEnd (S_msrRestMeasuresContents& elt)
+16987 :      gIndenter--; // incremented in visitStart (S_msrRestMeasures&)
+16992 :  void lpsr2lilypondTranslator::visitStart (S_msrMidiTempo& elt)
+17008 :       gIndenter++;
+17015 :    gIndenter++;
+17029 :    gIndenter--;
+17036 :      gIndenter--;
+17044 :  void lpsr2lilypondTranslator::visitEnd (S_msrMidiTempo& elt)

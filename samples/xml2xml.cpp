@@ -34,9 +34,7 @@
 
 #include "musicxml2musicxml.h"
 
-
 using namespace std;
-
 using namespace MusicXML2;
 
 /*
@@ -51,7 +49,7 @@ using namespace MusicXML2;
 static void _sigaction(int signal, siginfo_t *si, void *arg)
 {
   cerr << "Signal #" << signal << " catched!" << endl;
-  exit(-2);
+  exit (-2);
 }
 
 static void catchsigs ()
@@ -126,6 +124,13 @@ int main (int argc, char *argv[])
 
   createTheGlobalIndentedOstreams (cout, cerr);
 
+  // the about information
+  // ------------------------------------------------------
+
+  string
+    aboutInformation =
+      xml2xmlAboutInformation ();
+
   // the oahHandler, set below
   // ------------------------------------------------------
 
@@ -139,6 +144,7 @@ int main (int argc, char *argv[])
       insiderOahHandler =
         xml2xmlInsiderOahHandler::create (
           executableName,
+          aboutInformation,
           executableName + " insider OAH handler with argc/argv");
 
     // the OAH handler to be used, a regular handler is the default
@@ -153,6 +159,7 @@ int main (int argc, char *argv[])
       handler =
         xml2xmlRegularOahHandler::create (
           executableName,
+          aboutInformation,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler);
     }
@@ -192,7 +199,7 @@ int main (int argc, char *argv[])
       " gIndenter value after options ands arguments checking: " <<
       gIndenter.getIndent () <<
       " ###" <<
-      endl << endl;
+      endl;
 
     gIndenter.resetToZero ();
   }
@@ -297,7 +304,7 @@ int main (int argc, char *argv[])
         "standard output";
     }
     gLogStream <<
-      endl << endl;
+      endl;
 
     gLogStream <<
       "The command line is:" <<
@@ -318,7 +325,7 @@ int main (int argc, char *argv[])
     gLogStream <<
       handler->
         commandLineWithLongNamesAsString () <<
-      endl << endl;
+      endl;
     gIndenter--;
   }
 #endif
@@ -401,7 +408,7 @@ int main (int argc, char *argv[])
       "### " << executableName << " gIndenter final value: " <<
       gIndenter.getIndent () <<
       " ###" <<
-      endl << endl;
+      endl;
 
     gIndenter.resetToZero ();
   }
@@ -412,7 +419,7 @@ int main (int argc, char *argv[])
   if (err != kNoErr) {
     gLogStream <<
       "### Conversion from MusicXML back to MusicXML code failed ###" <<
-      endl << endl;
+      endl;
 
     return 1;
   }

@@ -10,10 +10,9 @@
 #include <fstream>      // setw()), set::precision(), ...
 #include <sstream>
 
-#include "libmusicxml.h"
+#include "libxml2ly.h"
 
 #include "oahBasicTypes.h"
-
 
 using namespace std;
 using namespace MusicXML2;
@@ -72,7 +71,7 @@ int main (int argc, char *argv[])
 //	theOptionsVector.push_back (make_pair ("-help", ""));
 	theOptionsVector.push_back (make_pair ("-name-help", "global-staff-size"));
 //	theOptionsVector.push_back (make_pair ("-hmxmlcg", ""));
-//	theOptionsVector.push_back (make_pair ("-help-midi-grp", ""));
+//	theOptionsVector.push_back (make_pair ("-help-midi-group", ""));
 //  cerr << "main - string2lily theOptionsVector: " << theOptionsVector.size() << ": " << theOptionsVector2string(theOptionsVector) << endl;
 
 	theOptionsVector.push_back (make_pair ("-version", ""));

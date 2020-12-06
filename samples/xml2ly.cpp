@@ -34,16 +34,14 @@
 
 #include "musicxml2lilypond.h"
 
-
 using namespace std;
-
 using namespace MusicXML2;
 
 /*
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gLogStream has been initialized
 */
-////#define ENFORCE_TRACE_OAH
+//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 #ifndef WIN32
@@ -51,7 +49,7 @@ using namespace MusicXML2;
 static void _sigaction(int signal, siginfo_t *si, void *arg)
 {
   cerr << "Signal #" << signal << " catched!" << endl;
-  exit(-2);
+  exit (-2);
 }
 
 static void catchsigs ()
@@ -128,6 +126,13 @@ int main (int argc, char *argv[])
 
   createTheGlobalIndentedOstreams (cout, cerr);
 
+  // the about information
+  // ------------------------------------------------------
+
+  string
+    aboutInformation =
+      xml2lyAboutInformation ();
+
   // the oahHandler, set below
   // ------------------------------------------------------
 
@@ -141,6 +146,7 @@ int main (int argc, char *argv[])
       insiderOahHandler =
         xml2lyInsiderOahHandler::create (
           executableName,
+          aboutInformation,
           executableName + " insider OAH handler with argc/argv",
           kHandlerUsedThruArgcAndArgv);
 
@@ -156,6 +162,7 @@ int main (int argc, char *argv[])
       handler =
         xml2lyRegularOahHandler::create (
           executableName,
+          aboutInformation,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler);
     }
@@ -195,7 +202,7 @@ int main (int argc, char *argv[])
       " gIndenter value after options ands arguments checking: " <<
       gIndenter.getIndent () <<
       " ###" <<
-      endl << endl;
+      endl;
 
     gIndenter.resetToZero ();
   }
@@ -299,8 +306,7 @@ int main (int argc, char *argv[])
       gLogStream <<
         "standard output";
     }
-    gLogStream <<
-      endl << endl;
+    gLogStream << endl;
 
     gLogStream <<
       "The command line is:" <<
@@ -321,7 +327,7 @@ int main (int argc, char *argv[])
     gLogStream <<
       handler->
         commandLineWithLongNamesAsString () <<
-      endl << endl;
+      endl;
     gIndenter--;
   }
 #endif
@@ -391,7 +397,7 @@ int main (int argc, char *argv[])
       "### " << executableName << " gIndenter final value: " <<
       gIndenter.getIndent () <<
       " ###" <<
-      endl << endl;
+      endl;
 
     gIndenter.resetToZero ();
   }
@@ -402,7 +408,7 @@ int main (int argc, char *argv[])
   if (err != kNoErr) {
     gLogStream <<
       "### Conversion from MusicXML to LilyPond code failed ###" <<
-      endl << endl;
+      endl;
 
     return 1;
   }
