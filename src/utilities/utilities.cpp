@@ -319,7 +319,7 @@ string outputIndenter::indentMultiLineString (string value)
   while (getline (inputStream, line)) {
     s << line;
 
-    if (inputStream.eof()) break;
+    if (inputStream.eof ()) break;
 
     s << endl;
     this->print (s);

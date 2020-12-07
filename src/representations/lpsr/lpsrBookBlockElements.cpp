@@ -174,10 +174,12 @@ lpsrScoreBlock::lpsrScoreBlock (
       inputLineNumber,
       lpsrParallelMusicBLock::kEndOfLine);
 
-  // create the score block layout
-  fScoreBlockLayout =
-    lpsrLayout::create (
-      inputLineNumber);
+  // create the score block layout?
+  if (true || gGlobalLpsr2lilypondOahGroup->getCreateTopLevelLayoutBlock ()) {
+    fScoreBlockLayout =
+      lpsrLayout::create (
+        inputLineNumber);
+  }
 
   /*
   // create the score block midi tempo
@@ -191,8 +193,10 @@ lpsrScoreBlock::lpsrScoreBlock (
       midiTempoPerSecond);
       */
   // create the score block midi tempo
-  fScoreBlockMidiTempo =
-    gGlobalLpsr2lilypondOahGroup->getMidiTempo ().createMsrMidiTempoNewbornClone ();
+  fScoreBlockMidiTempo = // options for this ???
+    gGlobalLpsr2lilypondOahGroup->
+      getMidiTempo ().
+        createMsrMidiTempoNewbornClone ();
 }
 
 lpsrScoreBlock::~lpsrScoreBlock ()
@@ -335,14 +339,14 @@ void lpsrScoreBlock::browseData (basevisitor* v)
  //   browser.browse (*(*i));
   } // for
 */
-  {
+
+  if (fScoreBlockLayout) {
     // browse the score block layout
     msrBrowser<lpsrLayout> browser (v);
     browser.browse (*fScoreBlockLayout);
   }
 
-  {
-    // browse the score block midi tempo
+  if (fScoreBlockMidiTempo) {
     msrBrowser<msrMidiTempo> browser (v);
     browser.browse (*fScoreBlockMidiTempo);
   }
@@ -366,9 +370,11 @@ void lpsrScoreBlock::print (ostream& os) const
     fBookBlockElementParallelMusicBlock <<
     endl;
 
-  os <<
-    fScoreBlockLayout <<
-    endl;
+  if (fScoreBlockLayout) {
+    os <<
+      fScoreBlockLayout <<
+      endl;
+  }
 
   os <<
     fScoreBlockMidiTempo <<

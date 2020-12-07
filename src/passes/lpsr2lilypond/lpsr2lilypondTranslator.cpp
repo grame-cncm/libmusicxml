@@ -1673,7 +1673,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       break;
 
     case msrNote::kSkipNote:
-      if (gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()) {
+      if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
         // print the rest name to help pin-point bugs
         fLilypondCodeStream << "r%{3%}";
       }
@@ -1887,7 +1887,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
 
     case msrNote::kGraceSkipNote:
       // print the note name
-      if (gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()) {
+      if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
         // print the rest name to help pin-point bugs
         fLilypondCodeStream << "r%{333%}";
       }
@@ -4038,7 +4038,7 @@ void lpsr2lilypondTranslator::generateInputLineNumberAndOrPositionInMeasureAsACo
       "line " << measureElement->getInputLineNumber () << " ";
   }
 
-  if (gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()) {
+  if (gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()) {
     // print the position in measure as a comment
     fLilypondCodeStream <<
       "pim: " <<
@@ -5635,23 +5635,34 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrLayout& elt)
 
   gIndenter++; // decremented in visitEnd (S_lpsrLayout& elt)
 
-  // score context
-  fLilypondCodeStream <<
-    "\\context {" <<
-    endl <<
-    gTab << "\\Score" <<
-    endl <<
-    gTab << "autoBeaming = ##f % to display tuplets brackets" <<
-    endl <<
-    "}" <<
-    endl;
+  // score context?
+  if (! gGlobalLpsr2lilypondOahGroup->getNoLayoutScoreContext ()) {
+    fLilypondCodeStream <<
+      "\\context {" <<
+      endl <<
+      gTab << "\\Score" <<
+      endl <<
+      gTab << "autoBeaming = ##f % to display tuplets brackets" <<
+      endl <<
+      "}";
 
-  // voice context
-  fLilypondCodeStream <<
-    "\\context {" <<
-    endl <<
-    gTab << "\\Voice" <<
-    endl;
+    if (gGlobalLpsr2lilypondOahGroup->getLilyPondComments ()) {
+      fLilypondCodeStream << left <<
+        setw (commentFieldWidth) <<
+        " % score context";
+      }
+
+    fLilypondCodeStream << endl;
+  }
+
+  // voice context?
+  if (! gGlobalLpsr2lilypondOahGroup->getNoLayoutVoiceContext ()) {
+    fLilypondCodeStream <<
+      "\\context {" <<
+      endl <<
+      gTab << "\\Voice" <<
+      endl;
+  }
 
   if (gGlobalLpsr2lilypondOahGroup->getAmbitusEngraver ()) {
     fLilypondCodeStream <<
@@ -5665,9 +5676,19 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrLayout& elt)
         endl;
   }
 
-  fLilypondCodeStream <<
-    "}" <<
-    endl;
+  if (! gGlobalLpsr2lilypondOahGroup->getNoLayoutVoiceContext ()) {
+    fLilypondCodeStream <<
+      "}";
+
+
+    if (gGlobalLpsr2lilypondOahGroup->getLilyPondComments ()) {
+      fLilypondCodeStream << left <<
+        setw (commentFieldWidth) <<
+        " % voice context";
+      }
+
+    fLilypondCodeStream << endl;
+  }
 
   // ChordNames context
   if (fVisitedLpsrScore->getJazzChordsDisplayIsNeeded ()) {
@@ -5741,7 +5762,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrLayout& elt)
     gIndenter--;
 
     fLilypondCodeStream <<
-      "}";
+      "}" " % staff contact";
 
     if (gGlobalLpsr2lilypondOahGroup->getLilyPondComments ()) {
       fLilypondCodeStream << left <<
@@ -8051,7 +8072,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
   if (
     gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()
       ||
-    gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()
+    gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()
   ) {
     generateInputLineNumberAndOrPositionInMeasureAsAComment (
       elt);
@@ -8102,7 +8123,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarmony& elt)
     if (
       gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()
         ||
-      gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()
+      gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()
     ) {
       generateInputLineNumberAndOrPositionInMeasureAsAComment (
         elt);
@@ -8179,7 +8200,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrFiguredBass& elt)
     if (
       gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()
         ||
-      gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()
+      gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()
     ) {
       generateInputLineNumberAndOrPositionInMeasureAsAComment (
         fCurrentFiguredBass);
@@ -9449,7 +9470,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrSyllable& elt)
     if (
       gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()
         ||
-      gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()
+      gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()
     ) {
       generateInputLineNumberAndOrPositionInMeasureAsAComment (
         elt);
@@ -11905,7 +11926,7 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
           if ( // JMI
             gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()
               ||
-            gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()
+            gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()
           ) {
             generateInputLineNumberAndOrPositionInMeasureAsAComment (
               note);
@@ -13123,7 +13144,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
   if (
     gGlobalLpsr2lilypondOahGroup->getInputLineNumbers ()
       ||
-    gGlobalLpsr2lilypondOahGroup->getPositionsInMeasures ()
+    gGlobalLpsr2lilypondOahGroup->getGeneratePositionsInMeasures ()
   ) {
     generateInputLineNumberAndOrPositionInMeasureAsAComment (
       elt);

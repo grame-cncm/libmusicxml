@@ -489,10 +489,12 @@ R"(
         s.str ());
   }
 
-  // create the score layout // JMI ???
-  fScoreLayout =
-    lpsrLayout::create (
-      inputLineNumber);
+  // create the score layout
+  if (gGlobalLpsr2lilypondOahGroup->getCreateTopLevelLayoutBlock ()) {
+    fScoreLayout =
+      lpsrLayout::create (
+        inputLineNumber);
+  }
 
   // create the 'myBreakIsBreak' assoc?
   {
@@ -2448,10 +2450,13 @@ void lpsrScore::print (ostream& os) const
     // no endl here
 
     fScorePaper <<
-    endl <<
-
-    fScoreLayout <<
     endl;
+
+  if (fScoreLayout) {
+    os <<
+      fScoreLayout <<
+      endl;
+  }
 
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
@@ -2549,8 +2554,10 @@ void lpsrScore::printShort (ostream& os) const
   fScorePaper->printShort (os);
   os << endl;
 
-  fScoreLayout->printShort (os);
-  os << endl;
+  if (fScoreLayout) {
+    fScoreLayout->printShort (os);
+    os << endl;
+  }
 
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 

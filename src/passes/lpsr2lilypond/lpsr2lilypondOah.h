@@ -927,6 +927,22 @@ class lpsr2lilypondOahGroup : public oahGroup
     S_oahBooleanAtom      getNoHeaderBlockAtom () const
                               { return fNoHeaderBlockAtom; }
 
+    // layout block
+    // --------------------------------------
+
+    bool                  getNoLayoutScoreContext () const
+                              { return fNoLayoutScoreContext; }
+    S_oahBooleanAtom      getNoLayoutScoreContextAtom () const
+                              { return fNoLayoutScoreContextAtom; }
+
+    bool                  getNoLayoutVoiceContext () const
+                              { return fNoLayoutVoiceContext; }
+    S_oahBooleanAtom      getNoLayoutVoiceContextAtom () const
+                              { return fNoLayoutVoiceContextAtom; }
+
+    bool                  getCreateTopLevelLayoutBlock () const
+                              { return fCreateTopLevelLayoutBlock; }
+
     // paper block
     // --------------------------------------
 
@@ -1018,11 +1034,10 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  getOriginalMeasureNumbers () const
                               { return fOriginalMeasureNumbers; }
 
-    bool                  getPositionsInMeasures () const
-                              { return fPositionsInMeasures; }
-
-    bool                  getMomentsInMeasures () const
-                              { return fMomentsInMeasures; }
+    bool                  getGeneratePositionsInMeasures () const
+                              { return fGeneratePositionsInMeasures; }
+    bool                  getGenerateMomentsInMeasures () const
+                              { return fGenerateMomentsInMeasures; }
 
     const msrRGBColor&    getNonPrintNotesHeadRGBColor () const
                               { return fNonPrintNotesHeadRGBColor; }
@@ -1212,6 +1227,11 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  getNoMidi () const
                               { return fNoMidi; }
 
+/* JMI ???
+    bool                  getCreateScoreBlockMidiBlock () const
+                              { return fetCreateScoreBlockMidiBlock; }
+*/
+
     // combined options, minimal
     // --------------------------------------
 
@@ -1347,6 +1367,17 @@ class lpsr2lilypondOahGroup : public oahGroup
     // this atom is used by the '-minimal' combined option
     S_oahBooleanAtom      fNoHeaderBlockAtom;
 
+    // layout block
+    // --------------------------------------
+
+    bool                  fNoLayoutScoreContext;
+    S_oahBooleanAtom      fNoLayoutScoreContextAtom;
+
+    bool                  fNoLayoutVoiceContext;
+    S_oahBooleanAtom      fNoLayoutVoiceContextAtom;
+
+    bool                  fCreateTopLevelLayoutBlock;
+
     // paper block
     // --------------------------------------
 
@@ -1413,8 +1444,8 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     bool                  fOriginalMeasureNumbers;
 
-    bool                  fPositionsInMeasures;
-    bool                  fMomentsInMeasures;
+    bool                  fGeneratePositionsInMeasures;
+    bool                  fGenerateMomentsInMeasures;
 
     // for MusicXML's <note print-object="no">
     msrRGBColor           fNonPrintNotesHeadRGBColor; // #(rgb-color 1.0 0.9 0.5)

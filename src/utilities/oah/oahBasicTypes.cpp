@@ -1198,12 +1198,16 @@ void oahSubGroup::applyElement (ostream& os)
     "\" in group \"" <<
     fGroupUpLink->getGroupHeader () <<
     "\" ---" <<
-    endl << endl;
+    endl;
+
+  gIndenter++;
 
   fGroupUpLink->
     printGroupAndSubGroupHelp (
       os,
       this);
+
+  gIndenter--;
 
   gIndenter.setIndent (saveIndent);
 }
@@ -1587,8 +1591,6 @@ void oahSubGroup::printSubGroupHelp (ostream& os) const
         fDescription) <<
       endl;
     gIndenter--;
-
-    os << endl;
   }
 
   if (fSubGroupAtomsList.size ()) {
@@ -1607,8 +1609,6 @@ void oahSubGroup::printSubGroupHelp (ostream& os) const
 
     gIndenter--;
   }
-
-  os << endl;
 }
 
 void oahSubGroup::printOptionsSummary (
@@ -1695,22 +1695,6 @@ void oahSubGroup::printSubGroupAndAtomHelp (
   ostream&  os,
   S_oahAtom targetAtom) const
 {
-/* JMI ONH
-  // print the header
-  os <<
-    fSubGroupHeader <<
-    " " <<
-    fetchNamesBetweenParentheses () <<
-    ":" <<
-    endl;
-
-  if (! fGroupUpLink->getGroupHeaderIsToBeWritten ()) {
-    // underline the options subgroup header
-    underlineSubGroupHeader (os);
-  }
-  os << endl;
-*/
-
   // print the subgroup atoms
   if (fSubGroupAtomsList.size ()) {
     gIndenter++;
@@ -1728,9 +1712,6 @@ void oahSubGroup::printSubGroupAndAtomHelp (
         (*i)->printHelp (os);
       }
       if (++i == iEnd) break;
-      if (atom == targetAtom) {
-        os << endl;
-      }
     } // for
 
     gIndenter--;
@@ -2073,9 +2054,13 @@ void oahGroup::applyElement (ostream& os)
     "--- Help for group \"" <<
     fGroupHeader <<
     "\" ---" <<
-    endl << endl;
+    endl;
+
+  gIndenter++;
 
   printHelp (os);
+
+  gIndenter--;
 
   gIndenter.setIndent (saveIndent);
 }
@@ -2413,8 +2398,6 @@ void oahGroup::printGroupAndSubGroupHelp (
         fDescription) <<
       endl;
     gIndenter--;
-
-    os << endl;
   }
 
   // underline the options group header
@@ -2437,9 +2420,6 @@ void oahGroup::printGroupAndSubGroupHelp (
         subGroup->printSubGroupHelp (os);
       }
       if (++i == iEnd) break;
-      if (subGroup == targetSubGroup) {
-        os << endl;
-      }
     } // for
 
     gIndenter--;
@@ -2451,37 +2431,8 @@ void oahGroup::printGroupAndSubGroupAndAtomHelp (
   S_oahSubGroup targetSubGroup,
   S_oahAtom     targetAtom) const
 {
-/* JMI ONH
-  if (fGroupHeaderIsToBeWritten) {
-    // print the header and option names
-    os <<
-      fGroupHeader <<
-      " " <<
-      fetchNamesBetweenParentheses () <<
-      ":" <<
-      endl;
-
-    // print the description if any
-    if (fDescription.size ()) {
-      gIndenter++;
-      os <<
-        gIndenter.indentMultiLineString (
-          fDescription) <<
-        endl;
-      gIndenter--;
-
-      os << endl;
-    }
-
-    // underline the options group header
-    underlineGroupHeader (os);
-  }
-*/
-
   // print the target options subgroup
   if (fGroupSubGroupsList.size ()) {
-    gIndenter++;
-
     list<S_oahSubGroup>::const_iterator
       iBegin = fGroupSubGroupsList.begin (),
       iEnd   = fGroupSubGroupsList.end (),
@@ -2499,14 +2450,7 @@ void oahGroup::printGroupAndSubGroupAndAtomHelp (
       }
 
       if (++i == iEnd) break;
-      if (subGroup == targetSubGroup) {
-        os << endl;
-      }
     } // for
-
-    os << endl;
-
-    gIndenter--;
   }
 }
 
@@ -3885,9 +3829,13 @@ void oahHandler::printNameIntrospectiveHelp (
       "--- Help for prefix \"" <<
       name <<
       "\" ---" <<
-      endl << endl;
+      endl;
+
+    gIndenter++;
 
     prefix->printHelp (os);
+
+    gIndenter--;
 
     gIndenter.setIndent (saveIndent);
 
@@ -3919,9 +3867,13 @@ void oahHandler::printNameIntrospectiveHelp (
         "\" at help top level ---" <<
         endl;
 
+      gIndenter++;
+
       group->printHelp (os);
 
-    gIndenter.setIndent (saveIndent);
+      gIndenter--;
+
+      gIndenter.setIndent (saveIndent);
     }
 
     else if (
@@ -3949,10 +3901,14 @@ void oahHandler::printNameIntrospectiveHelp (
         "\" ---" <<
         endl;
 
+      gIndenter++;
+
       group->
         printGroupAndSubGroupHelp (
           gLogStream,
           subGroup);
+
+      gIndenter--;
 
       gIndenter.setIndent (saveIndent);
     }
@@ -3979,7 +3935,7 @@ void oahHandler::printNameIntrospectiveHelp (
 
       gIndenter.resetToZero ();
 
-     // print the help
+      // print the help
       gLogStream <<
         "--- Help for atom \"" <<
         name <<
@@ -3987,21 +3943,23 @@ void oahHandler::printNameIntrospectiveHelp (
         subGroup->
           getSubGroupHeader () <<
         "\"";
-
       if (group->getGroupHeaderIsToBeWritten ()) {
         gLogStream <<
           " of group \"" <<
           group->getGroupHeader () <<
           "\" ---";
       }
-
       gLogStream << endl;
+
+      gIndenter++;
 
       group->
         printGroupAndSubGroupAndAtomHelp (
           gLogStream,
           subGroup,
           atom);
+
+      gIndenter--;
 
       gIndenter.setIndent (saveIndent);
     }

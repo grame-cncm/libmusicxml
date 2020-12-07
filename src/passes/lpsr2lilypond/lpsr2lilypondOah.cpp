@@ -3081,23 +3081,41 @@ This is useful for adding line breaks and page breaks, and when debugging EXECUT
         "originalMeasureNumbers",
         fOriginalMeasureNumbers));
 
-  // moments in the measures
+  // generate positions in measures
   // --------------------------------------
 
-  fMomentsInMeasures = false;
+  fGeneratePositionsInMeasures = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "mom", "moments-in-measures",
+        "agpim", "generate-positions-in-measures",
+        regex_replace (
+R"(Generate after each note and barline a comment containing
+its position in the measure.
+This is useful when debugging EXECUTABLE.)",
+          regex ("EXECUTABLE"),
+          gGlobalOahOahGroup->getHandlerExecutableName ()),
+        "generatePositionsInMeasures",
+        fGeneratePositionsInMeasures));
+
+  // generate moments in measures
+  // --------------------------------------
+
+  fGenerateMomentsInMeasures = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "gmim", "generate-moments-in-measures",
         regex_replace (
 R"(Generate after each note and barline a comment containing
 its moment in the measure.
 This is useful when debugging EXECUTABLE.)",
           regex ("EXECUTABLE"),
           gGlobalOahOahGroup->getHandlerExecutableName ()),
-        "momentsInMeasures",
-        fMomentsInMeasures));
+        "generateMomentsInMeasures",
+        fGenerateMomentsInMeasures));
 
   // non-print notes head color
   // --------------------------------------
@@ -3815,6 +3833,48 @@ R"(Don't generate a \header block.)",
     appendAtomToSubGroup (
       fNoHeaderBlockAtom);
 
+  // layout block
+  // --------------------------------------
+
+  // layout score context
+  fNoLayoutScoreContext = false;
+
+  fNoLayoutScoreContextAtom =
+    oahBooleanAtom::create (
+      "nlsc", "no-layout-score-context",
+R"(Don't generate a \score context in the \layout block.)",
+      "noLayoutScoreContext",
+      fNoLayoutScoreContext);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fNoLayoutScoreContextAtom);
+
+  // layout voice context
+  fNoLayoutVoiceContext = false;
+
+  fNoLayoutVoiceContextAtom =
+    oahBooleanAtom::create (
+        "nlvc", "no-layout-voice-context",
+  R"(Don't generate a \voice context in the \layout block.)",
+        "noLayoutVoiceContext",
+        fNoLayoutVoiceContext);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fNoLayoutVoiceContextAtom);
+
+  // create block layout block
+  fCreateTopLevelLayoutBlock = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "ctllb", "create-top-level-layout-block",
+  R"(Create a top-level \layout block.)",
+        "createTopLevelLayoutBlock",
+        fCreateTopLevelLayoutBlock));
+
   // paper block
   // --------------------------------------
 
@@ -4076,6 +4136,14 @@ R"(Useful settings for LilyPond code generation.)",
   fMinimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoHeaderBlockAtom);
+
+  fMinimalCombinedBooleansAtom->
+    addBooleanAtom (
+      fNoLayoutScoreContextAtom);
+
+  fMinimalCombinedBooleansAtom->
+    addBooleanAtom (
+      fNoLayoutVoiceContextAtom);
 
   fMinimalCombinedBooleansAtom->
     addBooleanAtom (
@@ -4567,12 +4635,12 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       booleanAsString (fOriginalMeasureNumbers) <<
       endl <<
 
-    setw (valueFieldWidth) << "positionsInMeasures" << " : " <<
-      booleanAsString (fPositionsInMeasures) <<
+    setw (valueFieldWidth) << "generatePositionsInMeasures" << " : " <<
+      booleanAsString (fGeneratePositionsInMeasures) <<
       endl <<
 
-    setw (valueFieldWidth) << "momentsInMeasures" << " : " <<
-      booleanAsString (fMomentsInMeasures) <<
+    setw (valueFieldWidth) << "generateMomentsInMeasures" << " : " <<
+      booleanAsString (fGenerateMomentsInMeasures) <<
       endl <<
 
     setw (valueFieldWidth) << "nonPrintNotesHeadRGBColor" << " : " <<
@@ -5142,12 +5210,12 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (int fieldWidth)
       booleanAsString (fOriginalMeasureNumbers) <<
       endl <<
 
-    setw (fieldWidth) << "positionsInMeasures" << " : " <<
-      booleanAsString (fPositionsInMeasures) <<
+    setw (fieldWidth) << "generatePositionsInMeasures" << " : " <<
+      booleanAsString (fGeneratePositionsInMeasures) <<
       endl <<
 
-    setw (fieldWidth) << "momentsInMeasures" << " : " <<
-      booleanAsString (fMomentsInMeasures) <<
+    setw (fieldWidth) << "generateMomentsInMeasures" << " : " <<
+      booleanAsString (fGenerateMomentsInMeasures) <<
       endl <<
 
     setw (fieldWidth) << "nonPrintNotesHeadRGBColor" << " : " <<
