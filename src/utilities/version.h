@@ -49,7 +49,9 @@ void appendVersionToVersionInfoList (
   std::string versionDate,
   std::string versionDescription);
 
-void printVersionsHistory (std::ostream& os);
+void printVersionsHistory (
+  std::string   executable,
+  std::ostream& os);
 
 std::string EXP currentVersionNumber ();
 

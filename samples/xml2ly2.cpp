@@ -12,7 +12,6 @@
 
 #include "libmusicxml.h"
 
-
 using namespace std;
 using namespace MusicXML2;
 
@@ -45,7 +44,7 @@ int main (int argc, char *argv[])
 //	options.push_back (make_pair ("-display-options-values", ""));
 //	options.push_back (make_pair ("-global-staff-size", "30"));
 //	options.push_back (make_pair ("-hmxmlcg", ""));
-//	options.push_back (make_pair ("-help-midi-grp", ""));
+//	options.push_back (make_pair ("-help-midi-group", ""));
 
   if (true) {
     options.push_back (make_pair ("-help", ""));

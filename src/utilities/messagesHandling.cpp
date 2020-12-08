@@ -12,7 +12,7 @@
 
 #include "utilities.h"
 
-#include "enableAbortOnInternalErrors.h"
+#include "enableAbortToDebugErrors.h"
 
 #include "messagesHandling.h"
 
@@ -145,6 +145,10 @@ void oahError (string errorMessage)
     errorMessage <<
     endl;
 
+#ifdef ABORT_TO_DEBUG_ERRORS
+  abort ();
+#endif
+
   gIndenter.setIndent (saveIndent);
 
   throw msrOahException (errorMessage);
@@ -161,7 +165,7 @@ void oahInternalError (string errorMessage)
     errorMessage <<
     endl;
 
-#ifdef ABORT_ON_INTENAL_ERRORS
+#ifdef ABORT_TO_DEBUG_ERRORS
   abort ();
 #endif
 
@@ -232,7 +236,7 @@ void msrInternalError (
     sourceCodeLineNumber,
     message);
 
-#ifdef ABORT_ON_INTENAL_ERRORS
+#ifdef ABORT_TO_DEBUG_ERRORS
   abort ();
 #endif
 
@@ -384,7 +388,7 @@ void bsrInternalError (
     sourceCodeLineNumber,
     message);
 
-#ifdef ABORT_ON_INTENAL_ERRORS
+#ifdef ABORT_TO_DEBUG_ERRORS
   abort ();
 #endif
 
@@ -447,7 +451,7 @@ void bmmlInternalError (
     sourceCodeLineNumber,
     message);
 
-#ifdef ABORT_ON_INTENAL_ERRORS
+#ifdef ABORT_TO_DEBUG_ERRORS
   abort ();
 #endif
 
@@ -510,7 +514,7 @@ void meiInternalError (
     sourceCodeLineNumber,
     message);
 
-#ifdef ABORT_ON_INTENAL_ERRORS
+#ifdef ABORT_TO_DEBUG_ERRORS
   abort ();
 #endif
 

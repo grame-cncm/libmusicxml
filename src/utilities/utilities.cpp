@@ -126,8 +126,7 @@ void timing::print (ostream& os) const
     setw (descriptionWidth) << replicateString ("-", descriptionWidth) << "  " <<
     setw (kindWidth) << replicateString ("-", kindWidth) << "  " <<
     setw (secondsWidth) << replicateString ("-", secondsWidth) <<
-    endl <<
-    endl;
+    endl << endl;
 
   for (
     list<S_timingItem>::const_iterator i=fTimingItemsList.begin ();
@@ -199,8 +198,7 @@ void timing::print (ostream& os) const
     "  " <<
     setw (totalOptionalClockWidth) <<
     float(totalOptionalClock) / CLOCKS_PER_SEC <<
-    endl <<
-    endl;
+    endl << endl;
 }
 
 timing timing::gGlobalTiming;
@@ -321,7 +319,7 @@ string outputIndenter::indentMultiLineString (string value)
   while (getline (inputStream, line)) {
     s << line;
 
-    if (inputStream.eof()) break;
+    if (inputStream.eof ()) break;
 
     s << endl;
     this->print (s);
@@ -753,8 +751,7 @@ set<int> decipherNaturalNumbersSetSpecification (
             "--> decipherNaturalNumbersSetSpecification after '-' : cursor = |" <<
             *cursor <<
             "|" <<
-            endl <<
-            endl;
+            endl << endl;
         }
 
         intervalEndNumber =
@@ -789,8 +786,7 @@ set<int> decipherNaturalNumbersSetSpecification (
             "--> decipherNaturalNumbersSetSpecification, after non ',' : cursor = |" <<
             *cursor <<
             "|" <<
-            endl <<
-            endl;
+            endl << endl;
         }
         break;
       }
@@ -905,8 +901,7 @@ set<string> decipherStringsSetSpecification (
           "--> decipherStringsSetSpecification, after non ',' : cursor = |" <<
           *cursor <<
           "|" <<
-          endl <<
-          endl;
+          endl << endl;
       }
       break;
     }
@@ -1400,8 +1395,7 @@ void splitStringIntoChunks (
 #ifdef DEBUG_SPLITTING
   gLogStream <<
     "---> splitting |" << theString << "|" <<
-    endl <<
-    endl;
+    endl << endl;
 #endif
 
   int theStringSize = theString.size ();
@@ -1446,8 +1440,7 @@ void splitStringIntoChunks (
         "chunkLength = " << chunkLength <<
         endl <<
         "chunk = \"" << chunk << "\"" <<
-        endl <<
-        endl;
+        endl << endl;
 #endif
 
       break;
@@ -1493,8 +1486,7 @@ void splitStringIntoChunks (
         "chunkLength = " << chunkLength <<
         endl <<
         "chunk = \"" << chunk << "\"" <<
-        endl <<
-        endl;
+        endl << endl;
 #endif
     }
   } // while
@@ -1510,8 +1502,7 @@ void splitRegularStringAtEndOfLines (
 #ifdef DEBUG_SPLITTING
   gLogStream <<
     "---> splitting |" << theString << "|" <<
-    endl <<
-    endl;
+    endl << endl;
 #endif
 
   splitStringIntoChunks (
@@ -1563,8 +1554,7 @@ void splitRegularStringAtEndOfLines (
         "chunkLength = " << chunkLength <<
         endl <<
         "chunk = \"" << chunk << "\"" <<
-        endl <<
-        endl;
+        endl << endl;
 #endif
 
       break;
@@ -1610,8 +1600,7 @@ void splitRegularStringAtEndOfLines (
         "chunkLength = " << chunkLength <<
         endl <<
         "chunk = \"" << chunk << "\"" <<
-        endl <<
-        endl;
+        endl << endl;
 #endif
     }
   } // while
@@ -1628,8 +1617,7 @@ void splitHTMLStringContainingEndOfLines (
 #ifdef DEBUG_SPLITTING
   gLogStream <<
     "---> splitting |" << theString << "|" <<
-    endl <<
-    endl;
+    endl << endl;
 #endif
 
   int theStringSize = theString.size ();
@@ -1693,8 +1681,7 @@ void splitHTMLStringContainingEndOfLines (
         "chunkLength = " << chunkLength <<
         endl <<
         "chunk = \"" << chunk << "\"" <<
-        endl <<
-        endl;
+        endl << endl;
 #endif
 
       break;
@@ -1740,8 +1727,7 @@ void splitHTMLStringContainingEndOfLines (
         "chunkLength = " << chunkLength <<
         endl <<
         "chunk = \"" << chunk << "\"" <<
-        endl <<
-        endl;
+        endl << endl;
 #endif
     }
   } // while
@@ -1906,7 +1892,7 @@ segmentedLinesOstream& endseg (segmentedLinesOstream& os);
     endl;
 
   testSegmentedLinesOstream <<
-    "FOO" << endl; // <<
+    "FOO JMI" << endl; // <<
  //   endline;
 
   testSegmentedLinesOstream.getIndentedOstream () << flush;

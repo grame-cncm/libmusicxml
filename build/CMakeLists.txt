@@ -132,19 +132,19 @@ if (XML)
 endif()
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} utilities oah musicxml mxml2mxmltree mxmltree mxmltree2msr msr msr2msr oah2manpage)
+	set (SRCFOLDERS ${SRCFOLDERS} utilities utilities/oah utilities/oah2manpage representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} msr2lpsr lpsr lpsr2lilypond lilypond musicxml2lilypond)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2lpsr representations/lpsr passes/lpsr2lilypond representations/lilypond translators/musicxml2lilypond)
 endif()
 
 if (BRAILLE)
-	set (SRCFOLDERS ${SRCFOLDERS} msr2bsr bsr bsr2bsr bsr2braille braille musicxml2braille)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2bsr representations/bsr passes/bsr2bsr passes/bsr2braille representations/braille translators/musicxml2braille)
 endif()
 
 if (MXML)
-	set (SRCFOLDERS ${SRCFOLDERS} msr2mxmltree musicxml2musicxml)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2mxmltree passes/mxmltree2mxml translators/musicxml2musicxml)
 endif()
 
 foreach(folder ${SRCFOLDERS})
