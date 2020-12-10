@@ -20,7 +20,7 @@
 
 #include "smartpointer.h"
 
-#include "libmusicxml.h"  // for optionsVector
+#include "liboptionsvector.h"
 #include "utilities.h"
 
 #include "oahElements.h"

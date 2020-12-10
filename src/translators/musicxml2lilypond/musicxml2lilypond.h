@@ -13,6 +13,8 @@
 #ifndef ___musicxml2lilypond___
 #define ___musicxml2lilypond___
 
+#include "libmusicxml.h" // for xmlErr
+
 
 using namespace std;
 

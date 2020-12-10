@@ -13,22 +13,6 @@
 #ifndef ___oahRegularHandlers___
 #define ___oahRegularHandlers___
 
-/* JMI
-#include "list"
-#include "map"
-#include "vector"
-#include "set"
-
-#include "smartpointer.h"
-#include "rational.h"
-#include "visitor.h"
-
-#include "msrBasicTypes.h"
-#include "msrMidi.h"
-
-#include "libmusicxml.h"  // for optionsVector
-*/
-
 #include "oahBasicTypes.h"
 
 

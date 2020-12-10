@@ -13,6 +13,9 @@
 #ifndef ___musicxml2musicxml___
 #define ___musicxml2musicxml___
 
+#include "libmusicxml.h" // for xmlErr
+
+
 using namespace std;
 
 namespace MusicXML2
