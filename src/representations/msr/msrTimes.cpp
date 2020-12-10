@@ -320,7 +320,7 @@ S_msrTime msrTime::createFourQuartersTime (
     time =
       msrTime::create (
         inputLineNumber,
-        msrTime::kTimeSymbolNone);
+        kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -488,96 +488,6 @@ void msrTime::acceptOut (basevisitor* v)
 void msrTime::browseData (basevisitor* v)
 {}
 
-string msrTime::timeSymbolKindAsString (
-  msrTimeSymbolKind timeSymbolKind)
-{
-  string result;
-
-  switch (timeSymbolKind) {
-    case msrTime::kTimeSymbolCommon:
-      result = "timeSymbolCommon";
-      break;
-    case msrTime::kTimeSymbolCut:
-      result = "timeSymbolCut";
-      break;
-    case msrTime::kTimeSymbolNote:
-      result = "timeSymbolNote";
-      break;
-    case msrTime::kTimeSymbolDottedNote:
-      result = "timeSymbolDottedNote";
-      break;
-    case msrTime::kTimeSymbolSingleNumber:
-      result = "timeSymbolSingleNumber";
-      break;
-    case msrTime::kTimeSymbolSenzaMisura:
-      result = "timeSymbolSenzaMisura";
-      break;
-    case msrTime::kTimeSymbolNone:
-      result = "timeSymbolNone";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrTime::timeSeparatorKindAsString (
-  msrTimeSeparatorKind timeSeparatorKind)
-{
-  string result;
-
-  switch (timeSeparatorKind) {
-    case msrTime::kTimeSeparatorNone:
-      result = "timeSeparatorNone";
-      break;
-    case msrTime::kTimeSeparatorHorizontal:
-      result = "timeSeparatorHorizontal";
-      break;
-    case msrTime::kTimeSeparatorDiagonal:
-      result = "timeSeparatorDiagonal";
-      break;
-    case msrTime::kTimeSeparatorVertical:
-      result = "timeSeparatorVertical";
-      break;
-    case msrTime::kTimeSeparatorAdjacent:
-      result = "timeSeparatorAdjacent";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrTime::timeRelationKindAsString (
-  msrTimeRelationKind timeRelationKind)
-{
-  string result;
-
-  switch (timeRelationKind) {
-    case msrTime::kTimeRelationNone:
-      result = "timeRelationNone";
-      break;
-    case msrTime::kTimeRelationParentheses:
-      result = "timeRelationParentheses";
-      break;
-    case msrTime::kTimeRelationBracket:
-      result = "timeRelationBracket";
-      break;
-    case msrTime::kTimeRelationEquals:
-      result = "timeRelationEquals";
-      break;
-    case msrTime::kTimeRelationSlash:
-      result = "timeRelationSlash";
-      break;
-    case msrTime::kTimeRelationSpace:
-      result = "timeRelationSpace";
-      break;
-    case msrTime::kTimeRelationHyphen:
-      result = "timeRelationHyphen";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrTime::asString () const
 {
   stringstream s;
@@ -611,7 +521,7 @@ string msrTime::asString () const
     } // for
   }
   else {
-    if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+    if (fTimeSymbolKind != kTimeSymbolSenzaMisura) {
       msrInternalError (
         gGlobalOahOahGroup->getInputSourceName (),
         fInputLineNumber,

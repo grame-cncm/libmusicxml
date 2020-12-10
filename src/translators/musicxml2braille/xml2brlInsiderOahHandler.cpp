@@ -111,13 +111,13 @@ xml2brlInsiderOahHandler::xml2brlInsiderOahHandler (
       executableName,
       executableAboutInformation,
       handlerHeader,
-R"(                      Welcome to xml2brl,
-              the MusicXML to LilyPond translator
+R"(                         Welcome to xml2brl,
+             the MusicXML to braille music translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-Usage: xml2brl [options] [MusicXMLFile|-] [options]
+Usage: xml2brl ([options] | [MusicXMLFile|-])+
 )")
 {
 #ifdef TRACING_IS_ENABLED

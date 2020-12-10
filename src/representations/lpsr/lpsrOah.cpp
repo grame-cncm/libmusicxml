@@ -857,73 +857,6 @@ R"(Write the contents of the LPSR data, short version, to standard error.)",
         fDisplayLpsrShort));
 }
 
-void lpsrOahGroup::initializeLpsrLilypondVersionOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "LilyPond version",
-        "hlpv", "help-lilypond-version",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // LilyPond version
-
-  string lilyPondVersionDefaultValue = "2.19.83";
-
-  fLilyPondVersion = lilyPondVersionDefaultValue;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahStringAtom::create (
-        "lpv", "lilypond-version",
-        regex_replace (
-R"(Set the LilyPond '\version' to STRING in the LilyPond code.
-The default is 'DEFAULT_VALUE'.)",
-          regex ("DEFAULT_VALUE"),
-          lilyPondVersionDefaultValue),
-        "STRING",
-        "lilyPondVersion",
-        fLilyPondVersion));
-}
-
-void lpsrOahGroup::initializeLpsrGlobalStaffSizeOptions ()
-{
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Global staff size",
-        "hlpsrgss", "help-lpsr-gss",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // global staff size
-
-  fStaffGlobalSizeDefaultValue = 20; // LilyPond default
-  fGlobalStaffSize = fStaffGlobalSizeDefaultValue;
-  fStaffGlobalSizeHasBeenSet = false;
-
-  subGroup->
-    appendAtomToSubGroup (
-      oahFloatAtom::create (
-        "gss", "global-staff-size",
-        regex_replace (
-R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
-FLOAT should be a floating point or integer number.
-The default is 'DEFAULT_VALUE'.)",
-          regex ("DEFAULT_VALUE"),
-          to_string (fStaffGlobalSizeDefaultValue)),
-        "FLOAT",
-        "globalStaffSize",
-        fGlobalStaffSize));
-}
-
 void lpsrOahGroup::initializeLpsrPaperOptions ()
 {
   S_oahSubGroup
@@ -1019,6 +952,82 @@ By default, LilyPond uses 210 mm (A4 format).)",
   subGroup->
     appendAtomToSubGroup (
       fPaperWidthAtom);
+
+  // left margin
+
+  fPaperLeftMargin.setLengthUnitKind (kMillimeterUnit);
+  fPaperLeftMargin.setLengthValue (15);
+
+  fPaperLeftMarginAtom =
+    oahLengthAtom::create (
+      "left-margin", "",
+R"(Set the LilyPond 'left-margin' paper variable to MARGIN in the LilyPond code.
+WIDTH should be a positive floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
+By default, this is left to LilyPond'.)",
+      "MARGIN",
+      "paperLeftMargin",
+      fPaperLeftMargin);
+  subGroup->
+    appendAtomToSubGroup (
+      fPaperLeftMarginAtom);
+
+  // right margin
+
+  fPaperRightMargin.setLengthUnitKind (kMillimeterUnit);
+  fPaperRightMargin.setLengthValue (15);
+
+  fPaperRightMarginAtom =
+    oahLengthAtom::create (
+      "right-margin", "",
+R"(Set the LilyPond 'right-margin' paper variable to MARGIN in the LilyPond code.
+WIDTH should be a positive floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
+By default, this is left to LilyPond'.)",
+      "MARGIN",
+      "paperRightMargin",
+      fPaperRightMargin);
+  subGroup->
+    appendAtomToSubGroup (
+      fPaperRightMarginAtom);
+
+  // top margin
+
+  fPaperTopMargin.setLengthUnitKind (kMillimeterUnit);
+  fPaperTopMargin.setLengthValue (15);
+
+  fPaperTopMarginAtom =
+    oahLengthAtom::create (
+      "top-margin", "",
+R"(Set the LilyPond 'top-margin' paper variable to MARGIN in the LilyPond code.
+WIDTH should be a positive floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
+By default, this is left to LilyPond'.)",
+      "MARGIN",
+      "paperTopMargin",
+      fPaperTopMargin);
+  subGroup->
+    appendAtomToSubGroup (
+      fPaperTopMarginAtom);
+
+  // bottom margin
+
+  fPaperBottomMargin.setLengthUnitKind (kMillimeterUnit);
+  fPaperBottomMargin.setLengthValue (15);
+
+  fPaperBottomMarginAtom =
+    oahLengthAtom::create (
+      "bottom-margin", "",
+R"(Set the LilyPond 'bottom-margin' paper variable to MARGIN in the LilyPond code.
+WIDTH should be a positive floating point or integer number,
+immediately followed by a unit name, i.e. 'in', 'mm' or 'cm'.
+By default, this is left to LilyPond'.)",
+      "MARGIN",
+      "paperBottomMargin",
+      fPaperBottomMargin);
+  subGroup->
+    appendAtomToSubGroup (
+      fPaperBottomMarginAtom);
 
 /* JMI superflous
   // a4
@@ -1550,14 +1559,6 @@ void lpsrOahGroup::initializeLpsrOahGroup ()
   // --------------------------------------
   initializeLpsrDisplayOptions ();
 
-  // LilyPond score output
-  // --------------------------------------
-  initializeLpsrLilypondVersionOptions ();
-
-  // global staff size
-  // --------------------------------------
-  initializeLpsrGlobalStaffSizeOptions ();
-
   // paper
   // --------------------------------------
   initializeLpsrPaperOptions ();
@@ -1770,38 +1771,6 @@ void lpsrOahGroup::printLpsrOahValues (int fieldWidth)
 
   gIndenter--;
 
-  // LilyPond version
-  // --------------------------------------
-
-  gLogStream <<
-    "LilyPond version:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "lilyPondVersion" << " : " <<
-    fLilyPondVersion <<
-    endl;
-
-  gIndenter--;
-
-  // global staff size
-  // --------------------------------------
-
-  gLogStream <<
-    "Global staff size:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "fGlobalStaffSize" << " : " <<
-    fGlobalStaffSize <<
-    endl;
-
-  gIndenter--;
-
   // paper
   // --------------------------------------
 
@@ -1825,6 +1794,19 @@ void lpsrOahGroup::printLpsrOahValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "paperWidth" << " : " <<
     fPaperWidth.asString () <<
+    endl <<
+
+    setw (fieldWidth) << "paperLeftMargin" << " : " <<
+    fPaperLeftMargin.asString () <<
+    endl <<
+    setw (fieldWidth) << "paperRightMargin" << " : " <<
+    fPaperRightMargin.asString () <<
+    endl <<
+    setw (fieldWidth) << "paperTopMargin" << " : " <<
+    fPaperTopMargin.asString () <<
+    endl <<
+    setw (fieldWidth) << "paperBottomMargin" << " : " <<
+    fPaperBottomMargin.asString () <<
     endl <<
 
     setw (fieldWidth) << "paperIndent" << " : " <<
@@ -1983,203 +1965,6 @@ void lpsrOahGroup::printLpsrOahValues (int fieldWidth)
   gIndenter--;
 
   gIndenter--;
-}
-
-void lpsrOahGroup::crackLilypondVersionNumber (
-  string theString,
-  int&   generationNumber,
-  int&   majorNumber,
-  int&   minorNumber)
-{
-  // obtains the three numbers in "2.19.83" or "2.20" for example
-
-  // decipher theString with a three-number regular expression
-  string regularExpression (
-    "([[:digit:]]+)"
-    "."
-    "([[:digit:]]+)"
-    "."
-    "([[:digit:]]+)");
-
-  regex  e (regularExpression);
-  smatch sm;
-
-  regex_match (theString, sm, e);
-
-  unsigned smSize = sm.size ();
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
-    gLogStream <<
-      "There are " << smSize << " matches" <<
-      " for version string '" << theString <<
-      "' with regex '" << regularExpression <<
-      "'" <<
-      endl <<
-      smSize << " elements: ";
-
-      for (unsigned i = 0; i < smSize; ++i) {
-        gLogStream <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      gLogStream << endl;
-    }
-#endif
-
-  if (smSize == 4) {
-    // found an n.x.y specification
-    string
-      generationNumberValue = sm [1],
-      majorNumberValue      = sm [2],
-      minorNumberValue      = sm [3];
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
-      gLogStream <<
-        "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
-        "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
-        "--> minorNumberValue = \"" << minorNumberValue << "\"" <<
-        endl;
-    }
-#endif
-
-    generationNumber = stoi (generationNumberValue);
-    majorNumber      = stoi (majorNumberValue);
-    minorNumber      = stoi (minorNumberValue);
-  }
-
-  else {
-    // decipher theString with a two-number regular expression
-    string regularExpression (
-      "([[:digit:]]+)"
-      "."
-      "([[:digit:]]+)");
-
-    regex  e (regularExpression);
-    smatch sm;
-
-    regex_match (theString, sm, e);
-
-    unsigned smSize = sm.size ();
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
-      gLogStream <<
-        "There are " << smSize << " matches" <<
-        " for chord details string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl <<
-        smSize << " elements: ";
-
-        for (unsigned i = 0; i < smSize; ++i) {
-          gLogStream <<
-            "[" << sm [i] << "] ";
-        } // for
-
-        gLogStream << endl;
-      }
-#endif
-
-    if (smSize == 3) {
-      // found an n.x specification
-      // assume implicit 0 minor number
-      string
-        generationNumberValue = sm [1],
-        majorNumberValue      = sm [2];
-
-#ifdef TRACING_IS_ENABLED
-      if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
-        gLogStream <<
-          "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
-          "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
-          endl;
-      }
-#endif
-
-      generationNumber = stoi (generationNumberValue);
-      majorNumber      = stoi (majorNumberValue);
-      minorNumber      = 0;
-    }
-
-    else {
-      stringstream s;
-
-      s <<
-        "version number argument '" << theString <<
-        "' is ill-formed";
-
-      oahError (s.str ());
-    }
-  }
-}
-
-bool lpsrOahGroup::versionNumberGreaterThanOrEqualTo (
-  string otherVersionNumber)
-{
-  bool result = false;
-
-  int
-    lilyPondVersionGenerationNumber,
-    lilyPondVersionMajorNumber,
-    lilyPondVersionMinorNumber;
-
-  crackLilypondVersionNumber (
-    fLilyPondVersion,
-    lilyPondVersionGenerationNumber,
-    lilyPondVersionMajorNumber,
-    lilyPondVersionMinorNumber);
-
-  int
-    otherVersionNumbeGenerationNumber,
-    otherVersionNumbeMajorNumber,
-    otherVersionNumbeMinorNumber;
-
-  crackLilypondVersionNumber (
-    otherVersionNumber,
-    otherVersionNumbeGenerationNumber,
-    otherVersionNumbeMajorNumber,
-    otherVersionNumbeMinorNumber);
-
-  if (otherVersionNumbeGenerationNumber != 2) {
-    gLogStream <<
-      "Using verstion \"" <<
-      otherVersionNumbeGenerationNumber << ".x.y\" " <<
-      "is probably not such a good idea" <<
-      endl;
-  }
-
-  if (otherVersionNumbeMajorNumber < 19) {
-    gLogStream <<
-      "Using a verstion older than \"" <<
-      otherVersionNumbeGenerationNumber << ".19.y\" " <<
-      "is not a good idea: the generated LilyPond code uses features introduced in the latter" <<
-      endl;
-  }
-
-  if (lilyPondVersionGenerationNumber < otherVersionNumbeGenerationNumber) {
-    result = false;
-  }
-  else if (lilyPondVersionGenerationNumber > otherVersionNumbeGenerationNumber) {
-    result = true;
-  }
-  else {
-    // same generation number
-    if (lilyPondVersionMajorNumber < otherVersionNumbeMajorNumber) {
-      result = false;
-    }
-    else if (lilyPondVersionMajorNumber > otherVersionNumbeMajorNumber) {
-      result = true;
-    }
-    else {
-      // same major number
-      result =
-        lilyPondVersionMinorNumber >= otherVersionNumbeMinorNumber;
-    }
-  }
-
-  return result;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrOahGroup& elt)

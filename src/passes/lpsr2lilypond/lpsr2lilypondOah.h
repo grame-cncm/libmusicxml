@@ -869,6 +869,40 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  setScoreOutputKind (
                             string outputKind);
 
+    // LilyPond version
+    // --------------------------------------
+
+    string                getLilypondVersion () const
+                              { return fLilypondVersion; }
+    S_oahStringAtom       getLilypondVersionAtom () const
+                              { return fLilypondVersionAtom; }
+
+    string                getLilypondVersionDefaultValue () const
+                              { return fLilypondVersionDefaultValue; }
+    // global staff size
+    // --------------------------------------
+
+    float                 getGlobalStaffSize () const
+                              { return fGlobalStaffSize; }
+    S_oahFloatAtom        getGlobalStaffSizeAtom () const
+                              { return fGlobalStaffSizeAtom; }
+
+    float                 getStaffGlobalSizeDefaultValue () const
+                              { return fStaffGlobalSizeDefaultValue; }
+
+    bool                  getNoSetGlobalStaffSize () const
+                              { return fNoSetGlobalStaffSize; }
+    S_oahBooleanAtom      getNoSetGlobalStaffSizeAtom () const
+                              { return fNoSetGlobalStaffSizeAtom; }
+
+    // languages
+    // --------------------------------------
+
+    bool                  getUseLilypondDefaultLanguages () const
+                              { return fUseLilypondDefaultLanguages; }
+    S_oahBooleanAtom      getUseLilypondDefaultLanguagesAtom () const
+                              { return fUseLilypondDefaultLanguagesAtom; }
+
     // identification
     // --------------------------------------
 
@@ -889,7 +923,7 @@ class lpsr2lilypondOahGroup : public oahGroup
     string                getSoftware () const
                               { return fSoftware; }
 
-    // LilyPond informations
+    // Lilypond informations
     string                getDedication () const
                               { return fDedication; }
     string                getPiece () const
@@ -974,16 +1008,29 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  getCustosEngraver () const
                               { return fCustosEngraver; }
 
-
-    // clefs, keys, times
+    // clefs
     // --------------------------------------
+
+    bool                  getNoInitialTrebleClef () const
+                              { return fNoInitialTrebleClef; }
 
     bool                  getCommentClefChanges () const
                               { return fCommentClefChanges; }
 
+    // keys
+    // --------------------------------------
+
+    bool                  getNoInitialCMajorKey () const
+                              { return fNoInitialCMajorKey; }
+
+    // times
+    // --------------------------------------
+
+    bool                  getNoInitialCommonTime () const
+                              { return fNoInitialCommonTime; }
+
     bool                  getNumericalTime () const
                               { return fNumericalTime; }
-
 
     // notes
     // --------------------------------------
@@ -1171,8 +1218,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  getXml2lyInfos () const
                               { return fXml2lyInfos; }
 
-    bool                  getLilyPondComments () const
-                              { return fLilyPondComments; }
+    bool                  getLilypondComments () const
+                              { return fLilypondComments; }
 
     bool                  getGlobal () const
                               { return fGlobal; }
@@ -1197,6 +1244,9 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     bool                  getWhiteNoteHeads () const
                               { return fWhiteNoteHeads; }
+
+    bool                  getGenerateCommentedOutVariables () const
+                              { return fGenerateCommentedOutVariables; }
 
 
     // score notation
@@ -1243,6 +1293,16 @@ class lpsr2lilypondOahGroup : public oahGroup
     // public services
     // ------------------------------------------------------
 
+    // LilyPond version
+    bool                  versionNumberGreaterThanOrEqualTo (
+                            string otherVersionNumber);
+
+    void                  setOctaveEntryKindToAbsolute () // JMI ???
+                              {
+                                fOctaveEntryKind =
+                                  kOctaveEntryAbsolute;
+                              }
+
     // quiet mode
     void                  enforceGroupQuietness () override;
 
@@ -1253,6 +1313,10 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     // private services
     // ------------------------------------------------------
+
+    void                  initializeLilypondVersionOptions ();
+
+    void                  initializeGlobalStaffSizeOptions ();
 
     void                  initializeIdentificationOptions ();
 
@@ -1294,11 +1358,11 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     void                  initializeCombinedOptionsOptions ();
 
-    void                  setOctaveEntryKindToAbsolute () // JMI ???
-                              {
-                                fOctaveEntryKind =
-                                  kOctaveEntryAbsolute;
-                              }
+    void                  crackLilypondVersionNumber (
+                            string theString,
+                            int&   generationNumber,
+                            int&   majorNumber,
+                            int&   minorNumber);
 
   public:
 
@@ -1327,6 +1391,31 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     // private fields
     // --------------------------------------
+
+    // LilyPond version
+    // --------------------------------------
+
+    string                fLilypondVersion;
+    S_oahStringAtom       fLilypondVersionAtom;
+
+    string                fLilypondVersionDefaultValue;
+
+    // global staff size
+    // --------------------------------------
+
+    float                 fGlobalStaffSize;
+    S_oahFloatAtom        fGlobalStaffSizeAtom;
+
+    float                 fStaffGlobalSizeDefaultValue;
+
+    bool                  fNoSetGlobalStaffSize;
+    S_oahBooleanAtom      fNoSetGlobalStaffSizeAtom;
+
+    // languages
+    // --------------------------------------
+
+    bool                  fUseLilypondDefaultLanguages;
+    S_oahBooleanAtom      fUseLilypondDefaultLanguagesAtom;
 
     // identification
     // --------------------------------------
@@ -1402,10 +1491,22 @@ class lpsr2lilypondOahGroup : public oahGroup
     bool                  fAmbitusEngraver;
     bool                  fCustosEngraver;
 
-    // clefs, keys, times
+    // clefs
     // --------------------------------------
 
+    bool                  fNoInitialTrebleClef;
+
     bool                  fCommentClefChanges;
+
+    // keys
+    // --------------------------------------
+
+    bool                  fNoInitialCMajorKey;
+
+    // times
+    // --------------------------------------
+
+    bool                  fNoInitialCommonTime;
 
     bool                  fNumericalTime;
 
@@ -1555,7 +1656,7 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     bool                  fXml2lyInfos;
 
-    bool                  fLilyPondComments;
+    bool                  fLilypondComments;
 
     bool                  fGlobal;
 
@@ -1573,6 +1674,8 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     bool                  fWhiteNoteHeads;
 
+    bool                  fGenerateCommentedOutVariables;
+                            // this is to avoid having to add them by hand
 
     // score notation
     // --------------------------------------
@@ -1597,9 +1700,10 @@ class lpsr2lilypondOahGroup : public oahGroup
 
     bool                  fNoMidi;
 
-    // combined options, minimal
+    // combined options
     // --------------------------------------
 
+    // minimal
     bool                  fMinimal;
     S_oahCombinedBooleansAtom
                           fMinimalCombinedBooleansAtom;

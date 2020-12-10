@@ -220,6 +220,8 @@ void xml2brlRegularOahHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("show-options-and-arguments", subGroup);
 
   registerAtomInRegularSubgroup ("display-partgroups", subGroup);
+
+  registerAtomInRegularSubgroup ("display-msr-skeleton", subGroup);
   registerAtomInRegularSubgroup ("display-msr", subGroup);
   registerAtomInRegularSubgroup ("display-bsr", subGroup);
 

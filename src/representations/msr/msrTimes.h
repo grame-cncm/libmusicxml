@@ -108,43 +108,6 @@ class msrTime : public msrMeasureElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrTimeSymbolKind {
-        kTimeSymbolNone,
-        kTimeSymbolCommon,
-        kTimeSymbolCut,
-        kTimeSymbolNote,
-        kTimeSymbolDottedNote,
-        kTimeSymbolSingleNumber,
-        kTimeSymbolSenzaMisura };
-
-    static string timeSymbolKindAsString (
-      msrTimeSymbolKind timeSymbolKind);
-
-    enum msrTimeSeparatorKind {
-        kTimeSeparatorNone,
-        kTimeSeparatorHorizontal,
-        kTimeSeparatorDiagonal,
-        kTimeSeparatorVertical,
-        kTimeSeparatorAdjacent };
-
-    static string timeSeparatorKindAsString (
-      msrTimeSeparatorKind timeSeparatorKind);
-
-    enum msrTimeRelationKind {
-        kTimeRelationNone,
-        kTimeRelationParentheses,
-        kTimeRelationBracket,
-        kTimeRelationEquals,
-        kTimeRelationSlash,
-        kTimeRelationSpace,
-        kTimeRelationHyphen };
-
-    static string timeRelationKindAsString (
-      msrTimeRelationKind timeRelationKind);
-
     // creation from MusicXML
     // ------------------------------------------------------
 

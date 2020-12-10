@@ -229,6 +229,8 @@ void xml2lyRegularOahHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("show-options-and-arguments", subGroup);
 
   registerAtomInRegularSubgroup ("display-partgroups", subGroup);
+
+  registerAtomInRegularSubgroup ("display-msr-skeleton", subGroup);
   registerAtomInRegularSubgroup ("display-msr", subGroup);
   registerAtomInRegularSubgroup ("display-lpsr", subGroup);
 
@@ -737,6 +739,7 @@ void xml2lyRegularOahHandler::createNotesRegularGroup ()
   registerAtomInRegularSubgroup ("fixed", subGroup);
 
   registerAtomInRegularSubgroup ("white-note-heads", subGroup);
+  registerAtomInRegularSubgroup ("generate-commented-out-variables", subGroup);
 
   registerAtomInRegularSubgroup ("accidental-style", subGroup);
 
@@ -1404,6 +1407,11 @@ void xml2lyRegularOahHandler::createPaperRegularGroup ()
   registerAtomInRegularSubgroup ("paper-height", subGroup);
   registerAtomInRegularSubgroup ("paper-width", subGroup);
 
+  registerAtomInRegularSubgroup ("left-margin", subGroup);
+  registerAtomInRegularSubgroup ("right-margin", subGroup);
+  registerAtomInRegularSubgroup ("top-margin", subGroup);
+  registerAtomInRegularSubgroup ("bottom-margin", subGroup);
+
   registerAtomInRegularSubgroup ("ragged-bottom", subGroup);
   registerAtomInRegularSubgroup ("ragged-last", subGroup);
   registerAtomInRegularSubgroup ("ragged-last-bottom", subGroup);
@@ -1489,6 +1497,8 @@ void xml2lyRegularOahHandler::createOutputRegularGroup ()
   registerAtomInRegularSubgroup ("lilypond-version", subGroup);
   registerAtomInRegularSubgroup ("lilypond-compile-date", subGroup);
   registerAtomInRegularSubgroup ("lilypond-comments", subGroup);
+
+  registerAtomInRegularSubgroup ("no-set-global-staff-size", subGroup);
 
   registerAtomInRegularSubgroup ("msr2lpsr-score-output-kind", subGroup);
 

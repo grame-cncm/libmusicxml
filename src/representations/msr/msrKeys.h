@@ -32,23 +32,6 @@ class msrHumdrumScotKeyItem : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrHumdrumScotKeyItemKind {
-        kTraditionalKind, kHumdrumScotKind };
-
-    static string HumdrumScotKeyItemKindAsString (
-      msrHumdrumScotKeyItemKind HumdrumScotKeyItemKind);
-
-    enum msrHumdrumScotKeyItemModeKind {
-        kMajorMode, kMinorMode,
-        kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
-        kMixolydianMode, kAeolianMode, kLocrianMode };
-
-    static string HumdrumScotKeyItemModeKindAsString (
-      msrHumdrumScotKeyItemModeKind HumdrumScotKeyItemModeKind);
-
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -134,23 +117,6 @@ typedef SMARTP<msrKey> S_msrKey;
 class msrKey : public msrMeasureElement
 {
   public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrKeyKind {
-        kTraditionalKind, kHumdrumScotKind };
-
-    static string keyKindAsString (
-      msrKeyKind keyKind);
-
-    enum msrKeyModeKind {
-        kMajorMode, kMinorMode,
-        kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
-        kMixolydianMode, kAeolianMode, kLocrianMode };
-
-    static string keyModeKindAsString (
-      msrKeyModeKind keyModeKind);
 
     // creation from MusicXML
     // ------------------------------------------------------

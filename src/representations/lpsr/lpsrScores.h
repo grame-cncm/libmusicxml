@@ -84,12 +84,6 @@ class lpsrScore : public lpsrElement
     S_msrScore            getMsrScore () const
                               { return fMsrScore; }
 
-    S_lpsrVarValAssoc
-                          getLilypondVersion () const
-                              { return fLilypondVersion; }
-
-    void                  setScoreGlobalStaffSizeSchemeVariable (float size);
-
     S_lpsrSchemeVariable
                           getScoreGlobalStaffSizeSchemeVariable () const
                               { return fScoreGlobalStaffSizeSchemeVariable; }
@@ -388,9 +382,6 @@ class lpsrScore : public lpsrElement
 
     // MSR data
     S_msrScore            fMsrScore;
-
-    // general information
-    S_lpsrVarValAssoc     fLilypondVersion;
 
     // command line
     S_lpsrComment         fInputSourceNameComment;

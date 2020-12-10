@@ -967,6 +967,14 @@ class lpsr2lilypondTranslator :
     // ------------------------------------------------------
     bool                  fOnGoingHeader;
 
+    // LilyPond version
+    // ------------------------------------------------------
+    void                  generateLilypondVersion ();
+
+    // global staff size
+    // ------------------------------------------------------
+    void                  generateGlobalStaffSize ();
+
     // paper handling
     // ------------------------------------------------------
     void                  generatePaperPageSize (
@@ -1015,8 +1023,14 @@ class lpsr2lilypondTranslator :
     // ------------------------------------------------------
     S_msrClef             fCurrentVoiceClef;
 
+    // keys
+    // ------------------------------------------------------
+    S_msrClef             fCurrentVoiceKey;
+
     // time
     // ------------------------------------------------------
+    S_msrTime             fCurrentVoiceTime;
+
     bool                  fVoiceIsCurrentlySenzaMisura; // JMI
     bool                  fOnGoingVoiceCadenza;
 

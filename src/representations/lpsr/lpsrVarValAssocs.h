@@ -150,8 +150,8 @@ class lpsrVarValAssoc : public lpsrElement
                               { return fBackSlashKind; }
 
     lpsrVarValAssocKind
-                          getLilyPondVarValAssocKind () const
-                              { return fLilyPondVarValAssocKind; }
+                          getLilypondVarValAssocKind () const
+                              { return fLilypondVarValAssocKind; }
 
     lpsrVarValSeparatorKind
                           getVarValSeparatorKind () const
@@ -205,7 +205,7 @@ class lpsrVarValAssoc : public lpsrElement
                               {
                                 return
                                   lilyPondVarValAssocKindAsString (
-                                    fLilyPondVarValAssocKind);
+                                    fLilypondVarValAssocKind);
                               }
 
     virtual void          print (ostream& os) const override;
@@ -220,7 +220,7 @@ class lpsrVarValAssoc : public lpsrElement
     lpsrCommentedKind     fCommentedKind;
     lpsrBackSlashKind     fBackSlashKind;
     lpsrVarValAssocKind
-                          fLilyPondVarValAssocKind;
+                          fLilypondVarValAssocKind;
     lpsrVarValSeparatorKind
                           fVarValSeparatorKind;
     lpsrQuotesKind        fQuotesKind;

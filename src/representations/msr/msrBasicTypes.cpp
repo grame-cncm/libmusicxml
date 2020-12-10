@@ -9655,6 +9655,156 @@ string existingClefKindsNames (int namesListMaxLength)
   return s.str ();
 }
 
+// keys
+// ------------------------------------------------------
+
+string keyKindAsString (
+  msrKeyKind keyKind)
+{
+  string result;
+
+  switch (keyKind) {
+    case kTraditionalKind:
+      result = "traditional";
+      break;
+    case kHumdrumScotKind:
+      result = "Humdrum/Scot";
+      break;
+  } // switch
+
+  return result;
+}
+
+string keyModeKindAsString (
+  msrKeyModeKind keyModeKind)
+{
+  string result;
+
+  switch (keyModeKind) {
+    case kMajorMode:
+      result = "major";
+      break;
+    case kMinorMode:
+      result = "minor";
+      break;
+    case kIonianMode:
+      result = "ionian";
+      break;
+    case kDorianMode:
+      result = "dorian";
+      break;
+    case kPhrygianMode:
+      result = "phrygian";
+      break;
+    case kLydianMode:
+      result = "lydian";
+      break;
+    case kMixolydianMode:
+      result = "mixolydian";
+      break;
+    case kAeolianMode:
+      result = "aeolian";
+      break;
+    case kLocrianMode:
+      result = "locrian";
+      break;
+  } // switch
+
+  return result;
+}
+
+// times
+//______________________________________________________________________________
+string timeSymbolKindAsString (
+  msrTimeSymbolKind timeSymbolKind)
+{
+  string result;
+
+  switch (timeSymbolKind) {
+    case kTimeSymbolCommon:
+      result = "timeSymbolCommon";
+      break;
+    case kTimeSymbolCut:
+      result = "timeSymbolCut";
+      break;
+    case kTimeSymbolNote:
+      result = "timeSymbolNote";
+      break;
+    case kTimeSymbolDottedNote:
+      result = "timeSymbolDottedNote";
+      break;
+    case kTimeSymbolSingleNumber:
+      result = "timeSymbolSingleNumber";
+      break;
+    case kTimeSymbolSenzaMisura:
+      result = "timeSymbolSenzaMisura";
+      break;
+    case kTimeSymbolNone:
+      result = "timeSymbolNone";
+      break;
+  } // switch
+
+  return result;
+}
+
+string timeSeparatorKindAsString (
+  msrTimeSeparatorKind timeSeparatorKind)
+{
+  string result;
+
+  switch (timeSeparatorKind) {
+    case kTimeSeparatorNone:
+      result = "timeSeparatorNone";
+      break;
+    case kTimeSeparatorHorizontal:
+      result = "timeSeparatorHorizontal";
+      break;
+    case kTimeSeparatorDiagonal:
+      result = "timeSeparatorDiagonal";
+      break;
+    case kTimeSeparatorVertical:
+      result = "timeSeparatorVertical";
+      break;
+    case kTimeSeparatorAdjacent:
+      result = "timeSeparatorAdjacent";
+      break;
+  } // switch
+
+  return result;
+}
+
+string timeRelationKindAsString (
+  msrTimeRelationKind timeRelationKind)
+{
+  string result;
+
+  switch (timeRelationKind) {
+    case kTimeRelationNone:
+      result = "timeRelationNone";
+      break;
+    case kTimeRelationParentheses:
+      result = "timeRelationParentheses";
+      break;
+    case kTimeRelationBracket:
+      result = "timeRelationBracket";
+      break;
+    case kTimeRelationEquals:
+      result = "timeRelationEquals";
+      break;
+    case kTimeRelationSlash:
+      result = "timeRelationSlash";
+      break;
+    case kTimeRelationSpace:
+      result = "timeRelationSpace";
+      break;
+    case kTimeRelationHyphen:
+      result = "timeRelationHyphen";
+      break;
+  } // switch
+
+  return result;
+}
+
 // harmonies
 //______________________________________________________________________________
 string msrHarmonyKindAsString (

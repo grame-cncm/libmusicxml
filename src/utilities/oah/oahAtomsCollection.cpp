@@ -2271,8 +2271,6 @@ void oahCombinedBooleansAtom::printHelp (ostream& os) const
 //      os << endl;
     } // for
 
-    os << endl;
-
     gIndenter--;
   }
 
@@ -7849,7 +7847,7 @@ void oahFindStringAtom::applyAtomWithValue (
       foundStringsListSize, "occurrence", "occurrences") <<
     " of string \"" <<
     theString <<
-    "\"" <<
+    "\" " <<
     singularOrPluralWithoutNumber (
       foundStringsListSize, "has", "have") <<
     " been found";
@@ -7877,11 +7875,14 @@ void oahFindStringAtom::applyAtomWithValue (
         setw (2) << counter << ": " <<
         endl;
 
-      gIndenter++;
+      // indent a bit more for readability
+      gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
+
       os <<
         gIndenter.indentMultiLineString (theString) <<
         endl;
-      gIndenter--;
+
+      gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
 
       if (++i == iEnd) break;
 // JMI      os << endl;

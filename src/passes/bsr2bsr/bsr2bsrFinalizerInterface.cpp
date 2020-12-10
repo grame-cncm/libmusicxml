@@ -169,7 +169,7 @@ void displayFirstBsrScore (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the first BSR as text",
+    "Display the first BSR as text",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -211,7 +211,7 @@ void displayFirstBsrScoreShort (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the first BSR as text, short version",
+    "Display the first BSR as text, short version",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -310,7 +310,7 @@ void displayFinalizedBsrScore (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the finalized BSR as text",
+    "Display the finalized BSR as text",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -352,7 +352,7 @@ void displayFinalizedBsrScoreShort (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the finalized BSR as text, short version",
+    "Display the finalized BSR as text, short version",
     timingItem::kOptional,
     startClock,
     endClock);

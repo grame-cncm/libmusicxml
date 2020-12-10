@@ -125,8 +125,8 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
     throw msrScoreToBsrScoreException (message);
   }
 
-  if (msrOpts->getDisplayMsr ()) {
-    // display the MSR skeleton
+  if (msrOpts->getDisplayMsrSkeleton ()) {
+    // Display the MSR skeleton
     displayMsrSkeleton (
       msrOpts,
       scoreSkeleton,
@@ -169,7 +169,7 @@ void displayMsrSkeleton (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the MSR skeleton as text",
+    "Display the MSR skeleton as text",
     timingItem::kOptional,
     startClock,
     endClock);

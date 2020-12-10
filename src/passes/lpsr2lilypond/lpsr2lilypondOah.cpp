@@ -2416,6 +2416,79 @@ lpsr2lilypondOahGroup::lpsr2lilypondOahGroup ()
 lpsr2lilypondOahGroup::~lpsr2lilypondOahGroup ()
 {}
 
+void lpsr2lilypondOahGroup::initializeLilypondVersionOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "LilyPond version",
+        "hlpv", "help-lilypond-version",
+R"()",
+      kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // LilyPond version
+
+  fLilypondVersionDefaultValue = "2.19.83";
+
+  fLilypondVersion = fLilypondVersionDefaultValue;
+
+  fLilypondVersionAtom =
+    oahStringAtom::create (
+      "lpv", "lilypond-version",
+      regex_replace (
+R"(Set the Lilypond '\version' to STRING in the Lilypond code.
+The default is 'DEFAULT_VALUE'.)",
+        regex ("DEFAULT_VALUE"),
+        fLilypondVersionDefaultValue),
+      "STRING",
+      "lilyPondVersion",
+      fLilypondVersion);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fLilypondVersionAtom);
+}
+
+void lpsr2lilypondOahGroup::initializeGlobalStaffSizeOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Global staff size",
+        "hgss", "help-global-staff-size",
+R"()",
+      kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // global staff size
+
+  fStaffGlobalSizeDefaultValue = 20; // LilyPond default
+
+  fGlobalStaffSize = fStaffGlobalSizeDefaultValue;
+
+  fGlobalStaffSizeAtom =
+    oahFloatAtom::create (
+      "gss", "global-staff-size",
+      regex_replace (
+R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
+FLOAT should be a floating point or integer number.
+The default is 'DEFAULT_VALUE'.)",
+        regex ("DEFAULT_VALUE"),
+        to_string (fStaffGlobalSizeDefaultValue)),
+      "FLOAT",
+      "globalStaffSize",
+      fGlobalStaffSize);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fGlobalStaffSizeAtom);
+}
+
 void lpsr2lilypondOahGroup::initializeIdentificationOptions ()
 {
   S_oahSubGroup
@@ -2819,6 +2892,16 @@ R"()",
   // clefs
   // --------------------------------------
 
+  fNoInitialTrebleClef = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nitc", "no-initial-treble-clef",
+R"(Don't generate an initial treble clef, which is LiyPond's default clef.)",
+        "noInitialTrebleClef",
+        fNoInitialTrebleClef));
+
   fCommentClefChanges = false;
 
   subGroup->
@@ -2833,8 +2916,28 @@ They won't show up in the score, but the information is not lost.)",
   // keys
   // --------------------------------------
 
+  fNoInitialCMajorKey = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nicmk", "no-initial-c-major-key",
+R"(Don't generate an initial C major key, which is LiyPond's default key.)",
+        "noInitialCMajorKey",
+        fNoInitialCMajorKey));
+
   // times
   // --------------------------------------
+
+  fNoInitialCommonTime = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "nict", "no-initial-common-time",
+R"(Don't generate an initial common time (4/4) time, which is LiyPond's default time.)",
+        "noInitialCommonTime",
+        fNoInitialCommonTime));
 
   fNumericalTime = false;
 
@@ -3776,7 +3879,7 @@ R"(Generate initial comments showing the compilation date.)",
   // comments
   // --------------------------------------
 
-  fLilyPondComments = false;
+  fLilypondComments = false;
 
   subGroup->
     appendAtomToSubGroup (
@@ -3785,7 +3888,7 @@ R"(Generate initial comments showing the compilation date.)",
 R"(Generate comments showing the structure of the score
 such as '% part P_POne (P1).)",
         "LilyPondComments",
-        fLilyPondComments));
+        fLilypondComments));
 
   // global
   // --------------------------------------
@@ -3800,6 +3903,39 @@ R"(Generate a 'global' empty variable and place a use of it
 at the beginning of all voices.)",
         "global",
         fGlobal));
+
+  // staff size
+  // --------------------------------------
+
+  fNoSetGlobalStaffSize = false;
+
+  fNoSetGlobalStaffSizeAtom =
+    oahBooleanAtom::create (
+      "nsgss", "no-set-global-staff-size",
+R"(Don't generate #(set-global-staff-size ...).)",
+      "noSetGlobalStaffSize",
+      fNoSetGlobalStaffSize);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fNoSetGlobalStaffSizeAtom);
+
+
+  // languages
+  // --------------------------------------
+
+  fUseLilypondDefaultLanguages = false;
+
+  fUseLilypondDefaultLanguagesAtom =
+    oahBooleanAtom::create (
+      "uldf", "use-lilypond-default-languages",
+R"(Don't generate a \book block.)",
+      "useLilyPondDefaultLanguages",
+      fUseLilypondDefaultLanguages);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fUseLilypondDefaultLanguagesAtom);
 
   // book block
   // --------------------------------------
@@ -3994,6 +4130,20 @@ R"(Generate Scheme function 'whiteNoteHeads'
 at the beginning of the LilyPond code.)",
         "whiteNoteHeads",
         fWhiteNoteHeads));
+
+  // generate commented out variables
+  // --------------------------------------
+
+  fGenerateCommentedOutVariables = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "gcov", "generate-commented-out-variables",
+R"(Generate LilyPond variables as comment,
+to avoid having to add them by hand afterwards.)",
+        "generateCommentedOutVariables",
+        fGenerateCommentedOutVariables));
 }
 
 void lpsr2lilypondOahGroup::initializeScoreNotationOptions ()
@@ -4131,8 +4281,18 @@ R"(Useful settings for LilyPond code generation.)",
   // populate the 'minimal' combined atom
   fMinimalCombinedBooleansAtom->
     addBooleanAtom (
+      fNoSetGlobalStaffSizeAtom);
+
+  fMinimalCombinedBooleansAtom->
+    addBooleanAtom (
+      fUseLilypondDefaultLanguagesAtom);
+
+  fMinimalCombinedBooleansAtom->
+    addBooleanAtom (
       fNoBookBlockAtom);
 
+/* JMI, cf Jean Abou-Samra
+*/
   fMinimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoHeaderBlockAtom);
@@ -4164,6 +4324,14 @@ R"(Useful settings for LilyPond code generation.)",
 
 void lpsr2lilypondOahGroup::initializeLpsr2lilypondOahGroup ()
 {
+  // LilyPond version
+  // --------------------------------------
+  initializeLilypondVersionOptions ();
+
+  // global staff size
+  // --------------------------------------
+  initializeGlobalStaffSizeOptions ();
+
   // identification
   // --------------------------------------
   initializeIdentificationOptions ();
@@ -4263,6 +4431,204 @@ bool lpsr2lilypondOahGroup::setAccidentalStyleKind (lpsrAccidentalStyleKind acci
   return true;
 }
 */
+
+//______________________________________________________________________________
+void lpsr2lilypondOahGroup::crackLilypondVersionNumber (
+  string theString,
+  int&   generationNumber,
+  int&   majorNumber,
+  int&   minorNumber)
+{
+  // obtains the three numbers in "2.19.83" or "2.20" for example
+
+  // decipher theString with a three-number regular expression
+  string regularExpression (
+    "([[:digit:]]+)"
+    "."
+    "([[:digit:]]+)"
+    "."
+    "([[:digit:]]+)");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
+    gLogStream <<
+      "There are " << smSize << " matches" <<
+      " for version string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl <<
+      smSize << " elements: ";
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        gLogStream <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      gLogStream << endl;
+    }
+#endif
+
+  if (smSize == 4) {
+    // found an n.x.y specification
+    string
+      generationNumberValue = sm [1],
+      majorNumberValue      = sm [2],
+      minorNumberValue      = sm [3];
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
+      gLogStream <<
+        "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
+        "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
+        "--> minorNumberValue = \"" << minorNumberValue << "\"" <<
+        endl;
+    }
+#endif
+
+    generationNumber = stoi (generationNumberValue);
+    majorNumber      = stoi (majorNumberValue);
+    minorNumber      = stoi (minorNumberValue);
+  }
+
+  else {
+    // decipher theString with a two-number regular expression
+    string regularExpression (
+      "([[:digit:]]+)"
+      "."
+      "([[:digit:]]+)");
+
+    regex  e (regularExpression);
+    smatch sm;
+
+    regex_match (theString, sm, e);
+
+    unsigned smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
+      gLogStream <<
+        "There are " << smSize << " matches" <<
+        " for chord details string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl <<
+        smSize << " elements: ";
+
+        for (unsigned i = 0; i < smSize; ++i) {
+          gLogStream <<
+            "[" << sm [i] << "] ";
+        } // for
+
+        gLogStream << endl;
+      }
+#endif
+
+    if (smSize == 3) {
+      // found an n.x specification
+      // assume implicit 0 minor number
+      string
+        generationNumberValue = sm [1],
+        majorNumberValue      = sm [2];
+
+#ifdef TRACING_IS_ENABLED
+      if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
+        gLogStream <<
+          "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
+          "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
+          endl;
+      }
+#endif
+
+      generationNumber = stoi (generationNumberValue);
+      majorNumber      = stoi (majorNumberValue);
+      minorNumber      = 0;
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "version number argument '" << theString <<
+        "' is ill-formed";
+
+      oahError (s.str ());
+    }
+  }
+}
+
+bool lpsr2lilypondOahGroup::versionNumberGreaterThanOrEqualTo (
+  string otherVersionNumber)
+{
+  bool result = false;
+
+  int
+    lilyPondVersionGenerationNumber,
+    lilyPondVersionMajorNumber,
+    lilyPondVersionMinorNumber;
+
+  crackLilypondVersionNumber (
+    fLilypondVersion,
+    lilyPondVersionGenerationNumber,
+    lilyPondVersionMajorNumber,
+    lilyPondVersionMinorNumber);
+
+  int
+    otherVersionNumbeGenerationNumber,
+    otherVersionNumbeMajorNumber,
+    otherVersionNumbeMinorNumber;
+
+  crackLilypondVersionNumber (
+    otherVersionNumber,
+    otherVersionNumbeGenerationNumber,
+    otherVersionNumbeMajorNumber,
+    otherVersionNumbeMinorNumber);
+
+  if (otherVersionNumbeGenerationNumber != 2) {
+    gLogStream <<
+      "Using verstion \"" <<
+      otherVersionNumbeGenerationNumber << ".x.y\" " <<
+      "is probably not such a good idea" <<
+      endl;
+  }
+
+  if (otherVersionNumbeMajorNumber < 19) {
+    gLogStream <<
+      "Using a verstion older than \"" <<
+      otherVersionNumbeGenerationNumber << ".19.y\" " <<
+      "is not a good idea: the generated LilyPond code uses features introduced in the latter" <<
+      endl;
+  }
+
+  if (lilyPondVersionGenerationNumber < otherVersionNumbeGenerationNumber) {
+    result = false;
+  }
+  else if (lilyPondVersionGenerationNumber > otherVersionNumbeGenerationNumber) {
+    result = true;
+  }
+  else {
+    // same generation number
+    if (lilyPondVersionMajorNumber < otherVersionNumbeMajorNumber) {
+      result = false;
+    }
+    else if (lilyPondVersionMajorNumber > otherVersionNumbeMajorNumber) {
+      result = true;
+    }
+    else {
+      // same major number
+      result =
+        lilyPondVersionMinorNumber >= otherVersionNumbeMinorNumber;
+    }
+  }
+
+  return result;
+}
 
 //______________________________________________________________________________
 void lpsr2lilypondOahGroup::enforceGroupQuietness ()
@@ -4368,6 +4734,27 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     endl;
 
   gIndenter++;
+
+  // LilyPond version
+  // --------------------------------------
+
+  gLogStream <<
+    "LilyPond version:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogStream << left <<
+    setw (valueFieldWidth) << "lilyPondVersion" << " : " <<
+    fLilypondVersion <<
+    /* JMI
+    endl <<
+    setw (fieldWidth) << "lilyPondVersionHasBeenSet" << " : " <<
+    fLilypondVersionHasBeenSet <<
+    */
+    endl;
+
+  gIndenter--;
 
   // identification
   // --------------------------------------
@@ -4510,6 +4897,22 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
 
 
   // clefs
+  // --------------------------------------
+  os <<
+    "Clefs:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "commentClefChanges" << " : " <<
+      booleanAsString (fCommentClefChanges) <<
+      endl;
+
+  gIndenter--;
+
+
+  // keys
   // --------------------------------------
   os <<
     "Clefs:" <<
@@ -4945,7 +5348,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       endl <<
 
     setw (valueFieldWidth) << "LilyPondComments" << " : " <<
-      booleanAsString (fLilyPondComments) <<
+      booleanAsString (fLilypondComments) <<
       endl <<
 
     setw (valueFieldWidth) << "global" << " : " <<
@@ -5033,6 +5436,25 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (int fieldWidth)
     endl;
 
   gIndenter++;
+
+  // global staff size
+  // --------------------------------------
+
+  gLogStream <<
+    "Global staff size:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogStream << left <<
+    setw (fieldWidth) << "globalStaffSize" << " : " <<
+    fGlobalStaffSize <<
+    endl <<
+    setw (fieldWidth) << "staffGlobalSizeDefaultValue" << " : " <<
+    fStaffGlobalSizeDefaultValue <<
+    endl;
+
+  gIndenter--;
 
   // identification
   // --------------------------------------
@@ -5132,8 +5554,27 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (int fieldWidth)
   gIndenter++;
 
   gLogStream << left <<
+    setw (fieldWidth) << "noInitialTrebleClef" << " : " <<
+      booleanAsString (fNoInitialTrebleClef) <<
+      endl <<
     setw (fieldWidth) << "commentClefChanges" << " : " <<
       booleanAsString (fCommentClefChanges) <<
+      endl;
+
+  gIndenter--;
+
+
+  // keys
+  // --------------------------------------
+  gLogStream <<
+    "Keys:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogStream << left <<
+    setw (fieldWidth) << "noInitialCMajorKey" << " : " <<
+      booleanAsString (fNoInitialCMajorKey) <<
       endl;
 
   gIndenter--;
@@ -5148,6 +5589,9 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (int fieldWidth)
   gIndenter++;
 
   gLogStream << left <<
+    setw (fieldWidth) << "noInitialCommonTime" << " : " <<
+      booleanAsString (fNoInitialCommonTime) <<
+      endl <<
     setw (fieldWidth) << "numericalTime" << " : " <<
       booleanAsString (fNumericalTime) <<
       endl;
@@ -5468,7 +5912,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (int fieldWidth)
       endl <<
 
     setw (fieldWidth) << "LilyPondComments" << " : " <<
-      booleanAsString (fLilyPondComments) <<
+      booleanAsString (fLilypondComments) <<
       endl <<
 
     setw (fieldWidth) << "global" << " : " <<
@@ -5501,6 +5945,10 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (int fieldWidth)
 
     setw (fieldWidth) << "whiteNoteHeads" << " : " <<
       booleanAsString (fWhiteNoteHeads) <<
+      endl <<
+
+    setw (fieldWidth) << "generateCommentedOutVariables" << " : " <<
+      booleanAsString (fGenerateCommentedOutVariables) <<
       endl;
 
   gIndenter--;

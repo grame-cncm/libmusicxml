@@ -105,7 +105,7 @@ R"(                      Welcome to xml2xml,
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
 R"(
-Usage: xml2xml [options] [MusicXMLFile|-] [options]
+Usage: xml2xml ([options] | [MusicXMLFile|-])+
 )")
 {
 #ifdef TRACING_IS_ENABLED

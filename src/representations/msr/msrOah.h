@@ -231,6 +231,9 @@ class msrOahGroup : public oahGroup
                               { return fDisplayPartGroups; }
 
 
+    bool                  getDisplayMsrSkeleton () const
+                              { return fDisplayMsrSkeleton; }
+
     bool                  getDisplayMsr () const
                               { return fDisplayMsr; }
 
@@ -355,6 +358,7 @@ class msrOahGroup : public oahGroup
     // display
     bool                  fDisplayPartGroups;
 
+    bool                  fDisplayMsrSkeleton;
     bool                  fDisplayMsr;
     bool                  fDisplayMsrShort;
     bool                  fDisplayMsrDetails;

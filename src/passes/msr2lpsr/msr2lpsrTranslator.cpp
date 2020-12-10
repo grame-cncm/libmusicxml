@@ -974,6 +974,7 @@ void msr2lpsrTranslator::visitStart (S_msrScaling& elt)
     setTenths (elt->getTenths ());
     */
 
+/* JMI
   // populate LPSR score global staff size
   float globalStaffSize = 0.0;
 
@@ -1021,6 +1022,7 @@ void msr2lpsrTranslator::visitStart (S_msrScaling& elt)
   // populate score block layout
   scoreBlockLayout->
     addSchemeVariable (assoc);
+*/
 }
 
 void msr2lpsrTranslator::visitEnd (S_msrScaling& elt)

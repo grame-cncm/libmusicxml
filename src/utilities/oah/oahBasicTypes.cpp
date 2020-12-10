@@ -510,18 +510,36 @@ void oahAtom::findStringInAtom (
   list<string>& foundStringsList,
   ostream&      os) const
 {
-  // do this atom's names match?
-  if (stringToLowerCase (fShortName).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back ("-" + fShortName);
-  }
+  // does this atom's short name match?
+  bool shortNameMatches =
+    stringToLowerCase (fShortName).find (lowerCaseString) != string::npos;
 
-  if (stringToLowerCase (fLongName).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back ("-" + fLongName);
-  }
+  // does this atom's long name match?
+  bool longNameMatches =
+    stringToLowerCase (fLongName).find (lowerCaseString) != string::npos;
 
   // does this atom's description match?
-  if (stringToLowerCase (fDescription).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fDescription);
+  bool descriptionMatches =
+    stringToLowerCase (fDescription).find (lowerCaseString) != string::npos;
+
+  if (shortNameMatches || longNameMatches || descriptionMatches) {
+    stringstream s;
+
+    s <<
+      fetchNames () <<
+        endl;
+
+    // indent a bit more for readability
+ // JMI    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
+
+    s <<
+ //     gIndenter.indentMultiLineString ( // JMI
+//        fDescription) <<
+      fDescription;
+
+ // JMI    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
+
+    foundStringsList.push_back (s.str ());
   }
 }
 
@@ -5611,7 +5629,7 @@ oahElementHelpOnlyKind oahHandler::handleOptionsFromOptionsVector (
 
   timing::gGlobalTiming.appendTimingItem (
     "Pass 0",
-    "handle the options from the options vector",
+    "Handle the options from the options vector",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -5703,7 +5721,7 @@ oahElementHelpOnlyKind oahHandler::handleOptionsAndArgumentsFromArgcAndArgv (
 
   timing::gGlobalTiming.appendTimingItem (
     "Pass 0",
-    "handle the options and arguments from the argc/argv",
+    "Handle the options and arguments from the argc/argv",
     timingItem::kMandatory,
     startClock,
     endClock);

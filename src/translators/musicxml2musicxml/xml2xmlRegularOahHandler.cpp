@@ -293,6 +293,8 @@ void xml2xmlRegularOahHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("show-options-and-arguments", subGroup);
 
   registerAtomInRegularSubgroup ("display-partgroups", subGroup);
+
+  registerAtomInRegularSubgroup ("display-msr-skeleton", subGroup);
   registerAtomInRegularSubgroup ("display-msr", subGroup);
 
   registerAtomInRegularSubgroup ("trace-oah", subGroup);

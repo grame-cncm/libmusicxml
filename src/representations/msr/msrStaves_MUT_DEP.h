@@ -175,12 +175,12 @@ class msrStaff : public msrElement
     // staff voices
 
     const map<int, S_msrVoice>&
-                          getStaffAllVoicesMap () const
-                              { return fStaffAllVoicesMap; }
+                          getStaffVoiceNumberToAnyVoiceMap () const
+                              { return fStaffVoiceNumberToAnyVoiceMap; }
 
     const map<int, S_msrVoice>&
-                          getStaffRegularVoicesMap () const
-                              { return fStaffRegularVoicesMap; }
+                          getStaffVoiceNumberToVoicesMap () const
+                              { return fStaffVoiceNumberToVoicesMap; }
 
     const list<S_msrVoice>&
                           getStaffAllVoicesVector () const
@@ -431,34 +431,37 @@ class msrStaff : public msrElement
     S_msrPart             fStaffPartUpLink;
 
     // staff name
-
     string                fStaffName;
 
     // staff kind
-
     msrStaffKind          fStaffKind;
 
     // staff number
-
     int                   fStaffNumber;
 
     // staff instrument name
-
     string                fStaffInstrumentName;
     string                fStaffInstrumentAbbreviation;
 
-    // staff voices
+    /*
+      There are 'regular', harmonyes and figured voices.
+      A voice in and 'All' or 'Any' data structure can be any of these.
+    */
 
+    // the staff regular (i.e. not harmonies nor figured bass) voices
     static int            gStaffMaxRegularVoices;
 
-    // the dictionary of all the voices in the staff
-    map<int, S_msrVoice>  fStaffAllVoicesMap;
+    // the mapping of all the voices in the staff,
+    // including harmonies and figured bass voices
+    map<int, S_msrVoice>  fStaffVoiceNumberToAnyVoiceMap;
+
+    // the mapping of voice numbers to voices
+    map<int, S_msrVoice>  fStaffVoiceNumberToVoicesMap;
 
     // we need to handle the regular voice specifically
     // to assign them sequencing numbers from 1 to gMaxStaffVoices,
     // needed to set the beams orientation (up or down)
     int                   fStaffRegularVoicesCounter;
-    map<int, S_msrVoice>  fStaffRegularVoicesMap;
 
     // harmonies and figured basses should be placed
     // in the first regular voice of the staff, hence:

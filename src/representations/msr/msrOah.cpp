@@ -705,6 +705,18 @@ R"(Write the structure of the part groups to standard error.)",
         "displayPartGroups",
         fDisplayPartGroups));
 
+  // display MSR skeleton
+
+  fDisplayMsrSkeleton        = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "dmsrsk", "display-msr-skeleton",
+R"(Write the contents of the MSR skeleton data to standard error.)",
+        "displayMsrSkeleton",
+        fDisplayMsrSkeleton));
+
   // display MSR
 
   fDisplayMsr        = false;

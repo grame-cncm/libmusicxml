@@ -81,7 +81,7 @@ lpsrVarValAssoc::lpsrVarValAssoc (
     : lpsrElement (inputLineNumber)
 {
   fBackSlashKind           = backSlashKind;
-  fLilyPondVarValAssocKind = lilyPondVarValAssocKind;
+  fLilypondVarValAssocKind = lilyPondVarValAssocKind;
   fVarValSeparatorKind     = varValSeparatorKind;
   fQuotesKind              = quotesKind;
 
@@ -164,85 +164,85 @@ string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
     // library
 
     case lpsrVarValAssoc::kLibraryVersion:
-      result = "version";
+      result = "libraryVersion";
       break;
 
     // MusicXML informations
 
     case lpsrVarValAssoc::kMusicXMLWorkNumber:
-      result = "workNumber";
+      result = "musicXMLWorkNumber";
       break;
     case lpsrVarValAssoc::kMusicXMLWorkTitle:
-      result = "workTitle";
+      result = "musicXMLWorkTitle";
       break;
     case lpsrVarValAssoc::kMusicXMLOpus:
-      result = "opus";
+      result = "musicXMLOpus";
       break;
     case lpsrVarValAssoc::kMusicXMLMovementNumber:
-      result = "movementNumber";
+      result = "musicXMLMovementNumber";
       break;
     case lpsrVarValAssoc::kMusicXMLMovementTitle:
-      result = "movementTitle";
+      result = "musicXMLMovementTitle";
       break;
 
     case lpsrVarValAssoc::kMusicXMLEncodingDate:
-      result = "encodingDate";
+      result = "musicXMLEncodingDate";
       break;
 
     case lpsrVarValAssoc::kMusicXMLScoreInstrument:
-      result = "scoreInstrument";
+      result = "musicXMLScoreInstrument";
       break;
 
     case lpsrVarValAssoc::kMusicXMLMiscellaneousField:
-      result = "miscellaneousField";
+      result = "musicXMLMiscellaneousField";
       break;
 
     // LilyPond informations
 
     case lpsrVarValAssoc::kLilypondDedication:
-      result = "dedication";
+      result = "lilypondDedication";
       break;
 
     case lpsrVarValAssoc::kLilypondPiece:
-      result = "piece";
+      result = "lilypondPiece";
       break;
     case lpsrVarValAssoc::kLilypondOpus:
-      result = "opus";
+      result = "lilypondOpus";
       break;
 
     case lpsrVarValAssoc::kLilypondTitle:
-      result = "title";
+      result = "lilypondTitle";
       break;
     case lpsrVarValAssoc::kLilypondSubTitle:
-      result = "subTitle";
+      result = "lilypondSubTitle";
       break;
     case lpsrVarValAssoc::kLilypondSubSubTitle:
-      result = "subSubTitle";
+      result = "lilypondSubSubTitle";
       break;
 
     case lpsrVarValAssoc::kLilypondInstrument:
-      result = "instrument";
+      result = "lilypondInstrument";
       break;
     case lpsrVarValAssoc::kLilypondMeter:
-      result = "meter";
+      result = "lilypondMeter";
       break;
 
     case lpsrVarValAssoc::kLilypondTagline:
-      result = "tagline";
+      result = "lilypondTagline";
       break;
     case lpsrVarValAssoc::kLilypondCopyright:
-      result = "copyright";
+      result = "lilypondCopyright";
       break;
 
     case lpsrVarValAssoc::kLilypondMyBreak:
-      result = "myBreak";
+      result = "lilypondMyBreak";
       break;
     case lpsrVarValAssoc::kLilypondMyPageBreak:
-      result = "myPageBreak";
+      result = "lilypondMyPageBreak";
       break;
 
     case lpsrVarValAssoc::kLilypondGlobal:
-      result = "global";
+      result = "lilypondGlobal";
       break;
   } // switch
 

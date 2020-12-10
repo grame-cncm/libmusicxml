@@ -338,9 +338,6 @@ EXP msrIntervalKind intervalBetweenSemiTonesPitches (
 // clefs
 //______________________________________________________________________________
 
-//______________________________________________________________________________
-// data types
-
 enum msrClefKind {
   k_NoClef,
   kTrebleClef,
@@ -368,6 +365,59 @@ extern list<string>
   gClefKindsNamesList;
 
 void initializeClefKinds ();
+
+// keys
+//______________________________________________________________________________
+
+enum msrKeyKind {
+  kTraditionalKind, kHumdrumScotKind };
+
+string keyKindAsString (
+  msrKeyKind keyKind);
+
+enum msrKeyModeKind {
+  kMajorMode, kMinorMode,
+  kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
+  kMixolydianMode, kAeolianMode, kLocrianMode };
+
+string keyModeKindAsString (
+  msrKeyModeKind keyModeKind);
+
+// times
+//______________________________________________________________________________
+enum msrTimeSymbolKind {
+  kTimeSymbolNone,
+  kTimeSymbolCommon,
+  kTimeSymbolCut,
+  kTimeSymbolNote,
+  kTimeSymbolDottedNote,
+  kTimeSymbolSingleNumber,
+  kTimeSymbolSenzaMisura };
+
+string timeSymbolKindAsString (
+  msrTimeSymbolKind timeSymbolKind);
+
+enum msrTimeSeparatorKind {
+  kTimeSeparatorNone,
+  kTimeSeparatorHorizontal,
+  kTimeSeparatorDiagonal,
+  kTimeSeparatorVertical,
+  kTimeSeparatorAdjacent };
+
+string timeSeparatorKindAsString (
+  msrTimeSeparatorKind timeSeparatorKind);
+
+enum msrTimeRelationKind {
+  kTimeRelationNone,
+  kTimeRelationParentheses,
+  kTimeRelationBracket,
+  kTimeRelationEquals,
+  kTimeRelationSlash,
+  kTimeRelationSpace,
+  kTimeRelationHyphen };
+
+string timeRelationKindAsString (
+  msrTimeRelationKind timeRelationKind);
 
 // harmonies
 //______________________________________________________________________________

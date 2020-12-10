@@ -199,7 +199,8 @@ void msrVoice::setVoiceNameFromNumber (
     gLogStream <<
       "Setting the name of '" <<
       voiceKindAsString () <<
-      "' voice from number " << voiceNumber <<
+      "' voice from voice number '" << voiceNumber <<
+      "'" <<
       endl;
   }
 #endif
@@ -9644,8 +9645,10 @@ void msrVoice::displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
 void msrVoice::print (ostream& os) const
 {
   os <<
-    "Voice \"" << getVoiceName () << "\", " <<
-    voiceKindAsString (fVoiceKind) <<
+    "Voice number '" <<
+    fVoiceNumber <<
+    "', \"" << getVoiceName () <<
+    "\", " << voiceKindAsString (fVoiceKind) <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -9679,11 +9682,6 @@ void msrVoice::print (ostream& os) const
     setw (fieldWidth) <<
     "staffUpLink" << " : " <<
     fVoiceStaffUpLink->getStaffName () <<
-    endl <<
-
-    setw (fieldWidth) <<
-    "voiceNumber" << " : " <<
-    voiceNumberAsString () <<
     endl <<
 
     setw (fieldWidth) <<
@@ -10044,8 +10042,10 @@ void msrVoice::print (ostream& os) const
 void msrVoice::printShort (ostream& os) const
 {
   os <<
-    "Voice \"" << getVoiceName () << "\", " <<
-    voiceKindAsString (fVoiceKind) <<
+    "Voice number '" <<
+    fVoiceNumber <<
+    "', \"" << getVoiceName () <<
+    "\", " << voiceKindAsString (fVoiceKind) <<
     ", line " << fInputLineNumber <<
     endl;
 

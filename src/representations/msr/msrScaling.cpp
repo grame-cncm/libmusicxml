@@ -78,6 +78,9 @@ S_msrScaling msrScaling::createMsrScalingNewbornClone ()
 
 float msrScaling::fetchGlobalStaffSize () const
 {
+  float result = 20; // JMI
+
+  /* JMI
   const float
     optionsGlobalStaffSize =
       gGlobalLpsrOahGroup->getGlobalStaffSize ();
@@ -178,6 +181,7 @@ float msrScaling::fetchGlobalStaffSize () const
       result = optionsGlobalStaffSize;
     }
   }
+*/
 
   return result;
 }

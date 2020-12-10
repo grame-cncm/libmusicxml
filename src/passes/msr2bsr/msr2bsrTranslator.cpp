@@ -913,7 +913,7 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
 
   // get MSR key attributes
 
-  msrKey::msrKeyKind
+  msrKeyKind
     mKeyKind = elt->getKeyKind ();
 
   msrQuarterTonesPitchKind
@@ -925,7 +925,7 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
       semiTonesPitchKindFromQuarterTonesPitchKind (
         mTonicQuarterTonesPitchKind);
 
-  msrKey::msrKeyModeKind
+  msrKeyModeKind
     mKeyModeKind =
       elt->getKeyModeKind ();
 
@@ -935,7 +935,7 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
   int                numberOfAlterations = 0;
 
   switch (mKeyKind) {
-    case msrKey::kTraditionalKind:
+    case kTraditionalKind:
 
       // traditional keys
       switch (mSemiTonesPitchKind) {
@@ -950,53 +950,53 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kC_Natural_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindNaturals;
               numberOfAlterations = 0;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 3;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
         case kC_Sharp_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 7;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 4;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
@@ -1011,53 +1011,53 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kD_Flat_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 5;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 8;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
         case kD_Natural_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 2;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 1;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
@@ -1074,53 +1074,53 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kE_Flat_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 3;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 6;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
         case kE_Natural_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 4;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 1;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
@@ -1138,53 +1138,53 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kF_Natural_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 1;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 4;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
         case kF_Sharp_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 6;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 3;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
@@ -1201,27 +1201,27 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kG_Natural_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 1;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 2;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
@@ -1238,53 +1238,53 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kA_Flat_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 4;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 7;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
         case kA_Natural_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 3;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindNaturals;
               numberOfAlterations = 0;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
@@ -1301,53 +1301,53 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kB_Flat_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 2;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 5;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
         case kB_Natural_STP:
           switch (mKeyModeKind) {
-            case msrKey::kMajorMode:
+            case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 5;
               break;
-            case msrKey::kMinorMode:
+            case kMinorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 2;
               break;
-            case msrKey::kIonianMode:
+            case kIonianMode:
               break;
-            case msrKey::kDorianMode:
+            case kDorianMode:
               break;
-            case msrKey::kPhrygianMode:
+            case kPhrygianMode:
               break;
-            case msrKey::kLydianMode:
+            case kLydianMode:
               break;
-            case msrKey::kMixolydianMode:
+            case kMixolydianMode:
               break;
-            case msrKey::kAeolianMode:
+            case kAeolianMode:
               break;
-            case msrKey::kLocrianMode:
+            case kLocrianMode:
               break;
           } // switch
           break;
@@ -1360,7 +1360,7 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
       } // switch
       break;
 
-    case msrKey::kHumdrumScotKind:
+    case kHumdrumScotKind:
       // JMI
       break;
   } // switch
@@ -1371,7 +1371,7 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
 
     s <<
       "MSR key kind '" <<
-      msrKey::keyKindAsString (mKeyKind) <<
+      keyKindAsString (mKeyKind) <<
       ", " <<
      msrSemiTonesPitchKindAsString (mSemiTonesPitchKind) <<
       "' is not supported in Braille music";
@@ -1431,7 +1431,7 @@ void msr2bsrTranslator::visitStart (S_msrTime& elt)
 
   // get MSR time attributes
 
-  msrTime::msrTimeSymbolKind
+  msrTimeSymbolKind
     mTimeSymbolKind =
       elt->getTimeSymbolKind ();
 
@@ -1450,28 +1450,28 @@ void msr2bsrTranslator::visitStart (S_msrTime& elt)
   bsrTime::bsrTimeKind bTimeKind = bsrTime::kTimeNone;
 
   switch (mTimeSymbolKind) {
-    case msrTime::kTimeSymbolNone:
+    case kTimeSymbolNone:
       bTimeKind = bsrTime::kTimeNone;
 
-    case msrTime::kTimeSymbolCommon:
+    case kTimeSymbolCommon:
       bTimeKind = bsrTime::kTimeCommon;
       break;
-    case msrTime::kTimeSymbolCut:
+    case kTimeSymbolCut:
       bTimeKind = bsrTime::kTimeCut;
       break;
 
-    case msrTime::kTimeSymbolNote:
+    case kTimeSymbolNote:
       bTimeKind = bsrTime::kTimeNote;
       break;
-    case msrTime::kTimeSymbolDottedNote:
+    case kTimeSymbolDottedNote:
       bTimeKind = bsrTime::kTimeDottedNote;
       break;
 
-    case msrTime::kTimeSymbolSingleNumber:
+    case kTimeSymbolSingleNumber:
       bTimeKind = bsrTime::kTimeSingleNumber;
       break;
 
-    case msrTime::kTimeSymbolSenzaMisura:
+    case kTimeSymbolSenzaMisura:
       bTimeKind = bsrTime::kTimeSenzaMisura;
       break;
     break;

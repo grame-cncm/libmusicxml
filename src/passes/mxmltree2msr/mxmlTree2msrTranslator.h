@@ -1221,13 +1221,13 @@ class mxmlTree2msrTranslator :
     // key handling
     // ------------------------------------------------------
 
-    msrKey::msrKeyKind        fCurrentKeyKind;
+    msrKeyKind                fCurrentKeyKind;
 
     // traditional
     int                       fCurrentKeyStaffNumber;
     int                       fCurrentKeyFifths;
     int                       fCurrentKeyCancelFifths;
-    msrKey::msrKeyModeKind    fCurrentKeyModeKind;
+    msrKeyModeKind            fCurrentKeyModeKind;
 
     S_msrKey                  handleTraditionalKey (
                                 int inputLineNumber);
@@ -1492,7 +1492,7 @@ class mxmlTree2msrTranslator :
     // time handling
     // ------------------------------------------------------
 
-    msrTime::msrTimeSymbolKind
+    msrTimeSymbolKind
                               fCurrentTimeSymbolKind;
 
     int                       fCurrentTimeStaffNumber;
@@ -1503,11 +1503,11 @@ class mxmlTree2msrTranslator :
 
     S_msrTime                 fCurrentTime;
 
-    msrTime::msrTimeSymbolKind
+    msrTimeSymbolKind
                               fCurrentInterchangeableSymbolKind;
-    msrTime::msrTimeSeparatorKind
+    msrTimeSeparatorKind
                               fCurrentInterchangeableSeparatorKind;
-    msrTime::msrTimeRelationKind
+    msrTimeRelationKind
                               fCurrentInterchangeableRelationKind;
 
     bool                      fOnGoingInterchangeable;

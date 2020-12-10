@@ -94,22 +94,6 @@ lpsrScore::lpsrScore (
 {
   fMsrScore = mScore;
 
-  // create the LilyPond version assoc
-  fLilypondVersion =
-    lpsrVarValAssoc::create (
-      inputLineNumber,
-      lpsrVarValAssoc::kCommentedNo,
-      lpsrVarValAssoc::kWithBackSlashYes,
-      lpsrVarValAssoc::kLibraryVersion,
-      lpsrVarValAssoc::kVarValSeparatorSpace,
-      lpsrVarValAssoc::kQuotesAroundValueYes,
-      gGlobalLpsrOahGroup->getLilyPondVersion (),
-      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
-      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kEndlOnce);
-
   // should the initial comments about the executable and the options used
   // be generated?
   if (gGlobalLpsr2lilypondOahGroup->getXml2lyInfos ()) {
@@ -220,18 +204,6 @@ lpsrScore::lpsrScore (
           lpsrComment::kGapAfterwards);
     }
   }
-
-  // create the global staff size variable
-  // too early to benefit from gGlobalLpsrOahGroup->getGlobalStaffSize ()... JMI
-  // needs to be updated later in msrScaling::globalStaffSize()
-  fScoreGlobalStaffSizeSchemeVariable =
-    lpsrSchemeVariable::create (
-      inputLineNumber,
-      lpsrSchemeVariable::kCommentedNo,
-      "set-global-staff-size",
-      to_string (gGlobalLpsrOahGroup->getGlobalStaffSize ()),
-      "Comment or adapt next line as needed (default is 20)",
-      lpsrSchemeVariable::kEndlTwice);
 
   // initialize Scheme functions informations
   // ----------------------------------------
@@ -621,28 +593,6 @@ R"(
 
 lpsrScore::~lpsrScore ()
 {}
-
-void lpsrScore::setScoreGlobalStaffSizeSchemeVariable (float size)
-{
-  stringstream s;
-
-  s << size;
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceGeometry ()) {
-    gLogStream <<
-      "Setting score global staff size Scheme variable to '" <<
-      size <<
-      "'" <<
-      endl;
-  }
-#endif
-
-  string sizeAsString = s.str ();
-
-  fScoreGlobalStaffSizeSchemeVariable->
-    setVariableValue (sizeAsString);
-}
 
 void lpsrScore::setJianpuFileIncludeIsNeeded ()
 {
@@ -2273,12 +2223,6 @@ void lpsrScore::browseData (basevisitor* v)
   }
 #endif
 
-  {
-    // browse the score LilyPond version
-    msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fLilypondVersion);
-  }
-
   if (fInputSourceNameComment) {
     // browse the input source name comment
     msrBrowser<lpsrComment> browser (v);
@@ -2309,7 +2253,7 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fCommandLineShortOptionsComment);
   }
 
-  {
+  if (fScoreGlobalStaffSizeSchemeVariable) {
     // browse the score global staff size
     msrBrowser<lpsrSchemeVariable> browser (v);
     browser.browse (*fScoreGlobalStaffSizeSchemeVariable);
@@ -2322,20 +2266,20 @@ void lpsrScore::browseData (basevisitor* v)
         fScoreSchemeFunctionsMap.begin ();
       i != fScoreSchemeFunctionsMap.end ();
       i++
-  ) {
+    ) {
       // browse the Scheme function
       msrBrowser<lpsrSchemeFunction> browser (v);
       browser.browse (*(*i).second);
     } // for
   }
 
-  {
+  if (fScoreHeader) {
     // browse the score header
     msrBrowser<lpsrHeader> browser (v);
     browser.browse (*fScoreHeader);
   }
 
-  {
+  if (fScorePaper) {
     // browse the score paper
     msrBrowser<lpsrPaper> browser (v);
     browser.browse (*fScorePaper);
@@ -2440,9 +2384,6 @@ void lpsrScore::print (ostream& os) const
 
   // print LPSR basic information
   os <<
-    fLilypondVersion <<
-    endl <<
-
     fScoreGlobalStaffSizeSchemeVariable <<
     endl <<
 
@@ -2543,9 +2484,6 @@ void lpsrScore::printShort (ostream& os) const
 
   // print LPSR basic information
   fScoreHeader->printShort (os);
-  os << endl;
-
-  fLilypondVersion->printShort (os);
   os << endl;
 
   fScoreGlobalStaffSizeSchemeVariable->printShort (os);

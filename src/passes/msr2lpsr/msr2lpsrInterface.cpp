@@ -175,7 +175,7 @@ void displayLpsrScore (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the LPSR as text",
+    "Display the LPSR as text",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -217,7 +217,7 @@ void displayLpsrScoreShort (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the LPSR as text, short version",
+    "Display the LPSR as text, short version",
     timingItem::kOptional,
     startClock,
     endClock);

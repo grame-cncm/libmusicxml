@@ -167,7 +167,7 @@ void displayMsrScore (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the MSR as text",
+    "Display the MSR as text",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -209,7 +209,7 @@ void displayMsrScoreShort (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the MSR as text, short version",
+    "Display the MSR as text, short version",
     timingItem::kOptional,
     startClock,
     endClock);

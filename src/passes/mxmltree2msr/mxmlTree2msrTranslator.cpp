@@ -156,16 +156,16 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fCurrentClefOctaveChange = -77;
 
   // key handling
-  fCurrentKeyKind = msrKey::kTraditionalKind;
+  fCurrentKeyKind = kTraditionalKind;
 
   fCurrentKeyStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentKeyFifths = -1;
   fCurrentKeyCancelFifths = -37;
-  fCurrentKeyModeKind = msrKey::kMajorMode;
+  fCurrentKeyModeKind = kMajorMode;
 
   // time handling
   fCurrentTimeSymbolKind =
-    msrTime::kTimeSymbolNone; // default value
+    kTimeSymbolNone; // default value
 
   fOnGoingInterchangeable = false;
 
@@ -660,8 +660,10 @@ S_msrVoice mxmlTree2msrTranslator::fetchVoiceFromCurrentPart (
 
   // sanity check
   if (! voice) {
-    stringstream s;
+      staff->print (gLogStream); // JMI
 
+    stringstream s;
+abort ();
     s <<
       "voice '" << voiceNumber <<
       "' not found in score skeleton's staff \"" <<
@@ -749,8 +751,10 @@ void mxmlTree2msrTranslator::visitEnd ( S_scaling& elt)
     gLogStream <<
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
+      /*
       " millimeters, hence the global staff size is " <<
       fMsrScore->getScaling ()->fetchGlobalStaffSize () <<
+      */
       endl;
   }
 #endif
@@ -2808,13 +2812,13 @@ void mxmlTree2msrTranslator::visitStart ( S_key& elt )
   fCurrentKeyStaffNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  fCurrentKeyKind = msrKey::kTraditionalKind;
+  fCurrentKeyKind = kTraditionalKind;
 
   // traditional
   fCurrentKeyFifths       = 0;
   fCurrentKeyCancelFifths = 0;
 
-  fCurrentKeyModeKind = msrKey::kMajorMode;
+  fCurrentKeyModeKind = kMajorMode;
 
   // Humdrum-Scot
 
@@ -2846,7 +2850,7 @@ void mxmlTree2msrTranslator::visitStart ( S_fifths& elt )
   }
 #endif
 
-  fCurrentKeyKind = msrKey::kTraditionalKind;
+  fCurrentKeyKind = kTraditionalKind;
 
   fCurrentKeyFifths = (int)(*elt);
 }
@@ -2868,31 +2872,31 @@ void mxmlTree2msrTranslator::visitStart ( S_mode& elt )
   string mode = elt->getValue();
 
   if       (mode == "major") {
-    fCurrentKeyModeKind = msrKey::kMajorMode;
+    fCurrentKeyModeKind = kMajorMode;
   }
   else  if (mode == "minor") {
-    fCurrentKeyModeKind = msrKey::kMinorMode;
+    fCurrentKeyModeKind = kMinorMode;
   }
   else  if (mode == "ionian") {
-    fCurrentKeyModeKind = msrKey::kIonianMode;
+    fCurrentKeyModeKind = kIonianMode;
   }
   else  if (mode == "dorian") {
-    fCurrentKeyModeKind = msrKey::kDorianMode;
+    fCurrentKeyModeKind = kDorianMode;
   }
   else  if (mode == "phrygian") {
-    fCurrentKeyModeKind = msrKey::kPhrygianMode;
+    fCurrentKeyModeKind = kPhrygianMode;
   }
   else  if (mode == "lydian") {
-    fCurrentKeyModeKind = msrKey::kLydianMode;
+    fCurrentKeyModeKind = kLydianMode;
   }
   else  if (mode == "mixolydian") {
-    fCurrentKeyModeKind = msrKey::kMixolydianMode;
+    fCurrentKeyModeKind = kMixolydianMode;
   }
   else  if (mode == "aeolian") {
-    fCurrentKeyModeKind = msrKey::kAeolianMode;
+    fCurrentKeyModeKind = kAeolianMode;
   }
   else  if (mode == "locrian") {
-    fCurrentKeyModeKind = msrKey::kLocrianMode;
+    fCurrentKeyModeKind = kLocrianMode;
   }
   else {
     stringstream s;
@@ -2930,7 +2934,7 @@ void mxmlTree2msrTranslator::visitStart ( S_key_step& elt )
       "Humdrum/Scot key step found while another one is being handled");
   }
 
-  fCurrentKeyKind = msrKey::kHumdrumScotKind;
+  fCurrentKeyKind = kHumdrumScotKind;
 
   string step = elt->getValue();
 
@@ -3113,12 +3117,12 @@ void mxmlTree2msrTranslator::visitEnd ( S_key& elt )
   S_msrKey key;
 
   switch (fCurrentKeyKind) {
-    case msrKey::kTraditionalKind:
+    case kTraditionalKind:
       key =
         handleTraditionalKey (inputLineNumber);
       break;
 
-    case msrKey::kHumdrumScotKind:
+    case kHumdrumScotKind:
       key =
         handleHumdrumScotKey (inputLineNumber);
       break;
@@ -3315,22 +3319,22 @@ void mxmlTree2msrTranslator::visitStart ( S_time& elt )
     elt->getAttributeValue ("symbol");
 
   fCurrentTimeSymbolKind =
-    msrTime::kTimeSymbolNone; // default value
+    kTimeSymbolNone; // default value
 
   if       (timeSymbol == "common") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;
+    fCurrentTimeSymbolKind = kTimeSymbolCommon;
   }
   else  if (timeSymbol == "cut") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCut;
+    fCurrentTimeSymbolKind = kTimeSymbolCut;
   }
   else  if (timeSymbol == "note") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolNote;
+    fCurrentTimeSymbolKind = kTimeSymbolNote;
   }
   else  if (timeSymbol == "dotted-note") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolDottedNote;
+    fCurrentTimeSymbolKind = kTimeSymbolDottedNote;
   }
   else  if (timeSymbol == "single-number") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
+    fCurrentTimeSymbolKind = kTimeSymbolSingleNumber;
   }
 
   else {
@@ -3438,7 +3442,7 @@ void mxmlTree2msrTranslator::visitStart ( S_senza_misura& elt )
   }
 #endif
 
-  fCurrentTimeSymbolKind = msrTime::kTimeSymbolSenzaMisura;
+  fCurrentTimeSymbolKind = kTimeSymbolSenzaMisura;
 }
 
 void mxmlTree2msrTranslator::visitStart ( S_interchangeable& elt )
@@ -3459,22 +3463,22 @@ void mxmlTree2msrTranslator::visitStart ( S_interchangeable& elt )
     elt->getAttributeValue ("symbol");
 
   fCurrentInterchangeableSymbolKind =
-    msrTime::kTimeSymbolNone; // default value
+    kTimeSymbolNone; // default value
 
   if       (interchangeableSymbol == "common") {
-    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolCommon;
+    fCurrentInterchangeableSymbolKind = kTimeSymbolCommon;
   }
   else  if (interchangeableSymbol == "cut") {
-    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolCut;
+    fCurrentInterchangeableSymbolKind = kTimeSymbolCut;
   }
   else  if (interchangeableSymbol == "note") {
-    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolNote;
+    fCurrentInterchangeableSymbolKind = kTimeSymbolNote;
   }
   else  if (interchangeableSymbol == "dotted-note") {
-    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolDottedNote;
+    fCurrentInterchangeableSymbolKind = kTimeSymbolDottedNote;
   }
   else  if (interchangeableSymbol == "single-number") {
-    fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolSingleNumber;
+    fCurrentInterchangeableSymbolKind = kTimeSymbolSingleNumber;
   }
 
   else {
@@ -3496,22 +3500,22 @@ void mxmlTree2msrTranslator::visitStart ( S_interchangeable& elt )
     elt->getAttributeValue ("separator");
 
   fCurrentInterchangeableSeparatorKind =
-    msrTime::kTimeSeparatorNone; // default value
+    kTimeSeparatorNone; // default value
 
   if       (interchangeableSymbol == "none") {
-    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorNone;
+    fCurrentInterchangeableSeparatorKind = kTimeSeparatorNone;
   }
   else  if (interchangeableSymbol == "horizontal") {
-    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorHorizontal;
+    fCurrentInterchangeableSeparatorKind = kTimeSeparatorHorizontal;
   }
   else  if (interchangeableSymbol == "diagonal") {
-    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorDiagonal;
+    fCurrentInterchangeableSeparatorKind = kTimeSeparatorDiagonal;
   }
   else  if (interchangeableSymbol == "vertical") {
-    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorVertical;
+    fCurrentInterchangeableSeparatorKind = kTimeSeparatorVertical;
   }
   else  if (interchangeableSymbol == "adjacent") {
-    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorAdjacent;
+    fCurrentInterchangeableSeparatorKind = kTimeSeparatorAdjacent;
   }
 
   else {
@@ -3549,25 +3553,25 @@ void mxmlTree2msrTranslator::visitStart ( S_time_relation& elt )
   string timeRelation = elt->getValue ();
 
   fCurrentInterchangeableRelationKind =
-    msrTime::kTimeRelationNone; // default value
+    kTimeRelationNone; // default value
 
   if       (timeRelation == "parentheses") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
+    fCurrentInterchangeableRelationKind = kTimeRelationParentheses;
   }
   else  if (timeRelation == "bracket") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationBracket;
+    fCurrentInterchangeableRelationKind = kTimeRelationBracket;
   }
   else  if (timeRelation == "equals") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationEquals;
+    fCurrentInterchangeableRelationKind = kTimeRelationEquals;
   }
   else  if (timeRelation == "slash") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationSlash;
+    fCurrentInterchangeableRelationKind = kTimeRelationSlash;
   }
   else  if (timeRelation == "space") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationSpace;
+    fCurrentInterchangeableRelationKind = kTimeRelationSpace;
   }
   else  if (timeRelation == "hyphen") {
-    fCurrentInterchangeableRelationKind = msrTime::kTimeRelationHyphen;
+    fCurrentInterchangeableRelationKind = kTimeRelationHyphen;
   }
 
   else {
@@ -3623,7 +3627,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_time& elt )
 
   else {
     // only a 'semza misura' time may be empty
-    if (  fCurrentTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+    if (  fCurrentTimeSymbolKind != kTimeSymbolSenzaMisura) {
       msrMusicXMLError (
         gGlobalOahOahGroup->getInputSourceName (),
         inputLineNumber,

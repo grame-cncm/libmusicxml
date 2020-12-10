@@ -3557,7 +3557,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
 
     // populate it
     switch (elt->getKeyKind ()) {
-      case msrKey::kTraditionalKind:
+      case kTraditionalKind:
         {
           // compute the number of fifths
           const int K_NO_FIFTHS_NUMBER = -99;
@@ -3661,7 +3661,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
             fKeyElement->push (
               createMxmlElement (
                 k_mode,
-                msrKey::keyModeKindAsString (elt->getKeyModeKind ())));
+                keyModeKindAsString (elt->getKeyModeKind ())));
           }
 
           else {
@@ -3680,7 +3680,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
         }
         break;
 
-      case msrKey::kHumdrumScotKind:
+      case kHumdrumScotKind:
         {
           // JMI
         }
@@ -3739,7 +3739,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTime& elt)
 
     // populate it
     switch (elt->getTimeSymbolKind ()) {
-      case msrTime::kTimeSymbolCommon:
+      case kTimeSymbolCommon:
         {
           fTimeElement->add (createMxmlAttribute ("symbol", "common"));
 
@@ -3754,7 +3754,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTime& elt)
         }
         break;
 
-      case msrTime::kTimeSymbolCut:
+      case kTimeSymbolCut:
          {
           fTimeElement->add (createMxmlAttribute ("symbol", "cut"));
 
@@ -3769,19 +3769,19 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTime& elt)
         }
        break;
 
-      case msrTime::kTimeSymbolNote:
+      case kTimeSymbolNote:
         break;
 
-      case msrTime::kTimeSymbolDottedNote:
+      case kTimeSymbolDottedNote:
         break;
 
-      case msrTime::kTimeSymbolSingleNumber:
+      case kTimeSymbolSingleNumber:
         break;
 
-      case msrTime::kTimeSymbolSenzaMisura:
+      case kTimeSymbolSenzaMisura:
         break;
 
-      case msrTime::kTimeSymbolNone:
+      case kTimeSymbolNone:
         {
           const vector<S_msrTimeItem>&
             timeItemsVector =
@@ -10314,23 +10314,23 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
 
 /*
   if       (timeSymbol == "common") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;
+    fCurrentTimeSymbolKind = kTimeSymbolCommon;
   }
   else  if (timeSymbol == "cut") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolCut;
+    fCurrentTimeSymbolKind = kTimeSymbolCut;
   }
   else  if (timeSymbol == "note") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolNote;
+    fCurrentTimeSymbolKind = kTimeSymbolNote;
   }
   else  if (timeSymbol == "dotted-note") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolDottedNote;
+    fCurrentTimeSymbolKind = kTimeSymbolDottedNote;
   }
   else  if (timeSymbol == "single-number") {
-    fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
+    fCurrentTimeSymbolKind = kTimeSymbolSingleNumber;
   }
 
   // handle the time
-  if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
+  if (timeSymbolKind == kTimeSymbolSenzaMisura) {
     // senza misura time
 
     fVoiceIsCurrentlySenzaMisura = true;
@@ -10345,22 +10345,22 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
     if (timesItemsNumber) {
       // should there be a single number?
       switch (timeSymbolKind) {
-        case msrTime::kTimeSymbolCommon:
+        case kTimeSymbolCommon:
           break;
-        case msrTime::kTimeSymbolCut:
+        case kTimeSymbolCut:
           break;
-        case msrTime::kTimeSymbolNote:
+        case kTimeSymbolNote:
           break;
-        case msrTime::kTimeSymbolDottedNote:
+        case kTimeSymbolDottedNote:
           break;
-        case msrTime::kTimeSymbolSingleNumber:
+        case kTimeSymbolSingleNumber:
           fOutputStream <<
             "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
             endl;
           break;
-        case msrTime::kTimeSymbolSenzaMisura:
+        case kTimeSymbolSenzaMisura:
           break;
-        case msrTime::kTimeSymbolNone:
+        case kTimeSymbolNone:
           break;
       } // switch
 
@@ -10381,7 +10381,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
 
         // should the time be numeric?
         if (
-          timeSymbolKind == msrTime::kTimeSymbolNone
+          timeSymbolKind == kTimeSymbolNone
             ||
           gGlobalLpsr2lilypondOahGroup->getNumericalTime ()) {
           fOutputStream <<
@@ -10453,7 +10453,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
 
     else {
       // there are no time items
-      if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+      if (timeSymbolKind != kTimeSymbolSenzaMisura) {
         msrInternalError (
           gGlobalOahOahGroup->getInputSourceName (),
           elt->getInputLineNumber (),

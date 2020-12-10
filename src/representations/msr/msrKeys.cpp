@@ -256,28 +256,28 @@ msrKey::msrKey ( // for traditional keys
   fKeyTonicQuarterTonesPitchKind = keyTonicQuarterTonesPitchKind;
 
   switch (fKeyModeKind) {
-    case msrKey::kMajorMode:
+    case kMajorMode:
       break;
-    case msrKey::kMinorMode:
+    case kMinorMode:
       fKeyTonicQuarterTonesPitchKind =
         noteAtIntervalFromQuarterTonesPitch (
           inputLineNumber,
           kMajorSixth, // a minor third below actually
           fKeyTonicQuarterTonesPitchKind);
       break;
-    case msrKey::kIonianMode:
+    case kIonianMode:
       break;
-    case msrKey::kDorianMode:
+    case kDorianMode:
       break;
-    case msrKey::kPhrygianMode:
+    case kPhrygianMode:
       break;
-    case msrKey::kLydianMode:
+    case kLydianMode:
       break;
-    case msrKey::kMixolydianMode:
+    case kMixolydianMode:
       break;
-    case msrKey::kAeolianMode:
+    case kAeolianMode:
       break;
-    case msrKey::kLocrianMode:
+    case kLocrianMode:
       break;
   } // switch
 
@@ -344,9 +344,9 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
   }
 
   switch (fKeyKind) {
-    case msrKey::kTraditionalKind:
+    case kTraditionalKind:
       break;
-    case msrKey::kHumdrumScotKind:
+    case kHumdrumScotKind:
       {
         if (
           ! (
@@ -450,61 +450,6 @@ void msrKey::acceptOut (basevisitor* v)
 void msrKey::browseData (basevisitor* v)
 {}
 
-string msrKey::keyKindAsString (
-  msrKeyKind keyKind)
-{
-  string result;
-
-  switch (keyKind) {
-    case msrKey::kTraditionalKind:
-      result = "traditional";
-      break;
-    case msrKey::kHumdrumScotKind:
-      result = "Humdrum/Scot";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrKey::keyModeKindAsString (
-  msrKeyModeKind keyModeKind)
-{
-  string result;
-
-  switch (keyModeKind) {
-    case msrKey::kMajorMode:
-      result = "major";
-      break;
-    case msrKey::kMinorMode:
-      result = "minor";
-      break;
-    case msrKey::kIonianMode:
-      result = "ionian";
-      break;
-    case msrKey::kDorianMode:
-      result = "dorian";
-      break;
-    case msrKey::kPhrygianMode:
-      result = "phrygian";
-      break;
-    case msrKey::kLydianMode:
-      result = "lydian";
-      break;
-    case msrKey::kMixolydianMode:
-      result = "mixolydian";
-      break;
-    case msrKey::kAeolianMode:
-      result = "aeolian";
-      break;
-    case msrKey::kLocrianMode:
-      result = "locrian";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrKey::asString () const
 {
   stringstream s;
@@ -515,7 +460,7 @@ string msrKey::asString () const
     ", ";
 
   switch (fKeyKind) {
-    case msrKey::kTraditionalKind:
+    case kTraditionalKind:
       s <<
         msrQuarterTonesPitchKindAsString (
           gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
@@ -524,7 +469,7 @@ string msrKey::asString () const
         keyModeKindAsString (fKeyModeKind);
       break;
 
-    case msrKey::kHumdrumScotKind:
+    case kHumdrumScotKind:
       s <<
         fHumdrumScotKeyItemsVector.size () << "items" <<
         ", keyItemsOctavesAreSpecified: " <<
@@ -548,7 +493,7 @@ void msrKey::print (ostream& os) const
     ",";
 
   switch (fKeyKind) {
-    case msrKey::kTraditionalKind:
+    case kTraditionalKind:
       os <<
         " " <<
         msrQuarterTonesPitchKindAsString (
@@ -560,7 +505,7 @@ void msrKey::print (ostream& os) const
         endl;
       break;
 
-    case msrKey::kHumdrumScotKind:
+    case kHumdrumScotKind:
       os <<
         ", keyItemsOctavesAreSpecified: " <<
         booleanAsString (

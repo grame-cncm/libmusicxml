@@ -344,24 +344,6 @@ class lpsrOahGroup : public oahGroup
     bool                  getDisplayLpsrShort () const
                               { return fDisplayLpsrShort; }
 
-    // LilyPond version
-    // --------------------------------------
-
-    string                getLilyPondVersion () const
-                              { return fLilyPondVersion; }
-
-    // global staff size
-    // --------------------------------------
-
-    float                 getGlobalStaffSize () const
-                              { return fGlobalStaffSize; }
-
-    float                 getStaffGlobalSizeDefaultValue () const
-                              { return fStaffGlobalSizeDefaultValue; }
-
-    bool                  getStaffGlobalSizeHasBeenSet () const // JMI ???
-                              { return fStaffGlobalSizeHasBeenSet; }
-
     // paper
     // --------------------------------------
 
@@ -373,6 +355,7 @@ class lpsrOahGroup : public oahGroup
     msrLengthUnitKind     getLengthUnitKindDefaultValue () const
                               { return fLengthUnitKindDefaultValue; }
 
+    // size
     msrLength             getPaperHeight () const
                               { return fPaperHeight; }
     S_oahLengthAtom       getPaperHeightAtom () const
@@ -382,6 +365,27 @@ class lpsrOahGroup : public oahGroup
                               { return fPaperWidth; }
     S_oahLengthAtom       getPaperWidthAtom () const
                               { return fPaperWidthAtom; }
+
+    // margins
+    msrLength             getPaperLeftMargin () const
+                              { return fPaperLeftMargin; }
+    S_oahLengthAtom       getPaperLeftMarginAtom () const
+                              { return fPaperLeftMarginAtom; }
+
+    msrLength             getPaperRightMargin () const
+                              { return fPaperRightMargin; }
+    S_oahLengthAtom       getPaperRightMarginAtom () const
+                              { return fPaperRightMarginAtom; }
+
+    msrLength             getPaperTopMargin () const
+                              { return fPaperTopMargin; }
+    S_oahLengthAtom       getPaperTopMarginAtom () const
+                              { return fPaperTopMarginAtom; }
+
+    msrLength             getPaperBottomMargin () const
+                              { return fPaperBottomMargin; }
+    S_oahLengthAtom       getPaperBottomMarginAtom () const
+                              { return fPaperBottomMarginAtom; }
 
     // indents
     msrLength             getPaperHorizontalShift () const
@@ -492,49 +496,11 @@ class lpsrOahGroup : public oahGroup
     // public services
     // ------------------------------------------------------
 
-    void                  crackLilypondVersionNumber (
-                            string theString,
-                            int&   generationNumber,
-                            int&   majorNumber,
-                            int&   minorNumber);
-
-    bool                  versionNumberGreaterThanOrEqualTo (
-                            string otherVersionNumber);
-
     // quiet mode
     void                  enforceGroupQuietness () override;
 
     // consistency check
     virtual void          checkGroupOptionsConsistency () override;
-
-  private:
-
-    // private
-    // ------------------------------------------------------
-
-#ifdef TRACING_IS_ENABLED
-    void                  initializeLpsrTraceOah ();
-#endif
-
-    void                  initializeLpsrDisplayOptions ();
-
-    void                  initializeLpsrLilypondVersionOptions ();
-
-    void                  initializeLpsrGlobalStaffSizeOptions ();
-
-    void                  initializeLpsrPaperOptions ();
-
-    void                  initializeLpsrMeasuresOptions ();
-
-    void                  initializeLpsrTemposOptions ();
-
-    void                  initializeLpsrWordsOptions ();
-
-    void                  initializeLpsrLanguagesOptions ();
-
-    void                  initializeLpsrTransposeOptions ();
-
-    void                  initializeLpsrQuitAfterSomePassesOptions ();
 
   public:
 
@@ -554,6 +520,31 @@ class lpsrOahGroup : public oahGroup
     void                  printLpsrOahHelp ();
 
     void                  printLpsrOahValues (int fieldWidth);
+
+  private:
+
+    // private methods
+    // ------------------------------------------------------
+
+#ifdef TRACING_IS_ENABLED
+    void                  initializeLpsrTraceOah ();
+#endif
+
+    void                  initializeLpsrDisplayOptions ();
+
+    void                  initializeLpsrPaperOptions ();
+
+    void                  initializeLpsrMeasuresOptions ();
+
+    void                  initializeLpsrTemposOptions ();
+
+    void                  initializeLpsrWordsOptions ();
+
+    void                  initializeLpsrLanguagesOptions ();
+
+    void                  initializeLpsrTransposeOptions ();
+
+    void                  initializeLpsrQuitAfterSomePassesOptions ();
 
   private:
 
@@ -581,18 +572,6 @@ class lpsrOahGroup : public oahGroup
     bool                  fDisplayLpsr;
     bool                  fDisplayLpsrShort;
 
-    // LilyPond version
-    // --------------------------------------
-
-    string                fLilyPondVersion;
-
-    // global staff size
-    // --------------------------------------
-
-    float                 fGlobalStaffSize;
-    float                 fStaffGlobalSizeDefaultValue;
-    bool                  fStaffGlobalSizeHasBeenSet;
-
     // paper
     // --------------------------------------
 
@@ -601,19 +580,35 @@ class lpsrOahGroup : public oahGroup
     msrLengthUnitKind     fLengthUnitKind;
     msrLengthUnitKind     fLengthUnitKindDefaultValue;
 
+    // size
     msrLength             fPaperHeight;
     S_oahLengthAtom       fPaperHeightAtom;
 
     msrLength             fPaperWidth;
     S_oahLengthAtom       fPaperWidthAtom;
 
+    // margins
+    msrLength             fPaperLeftMargin;
+    S_oahLengthAtom       fPaperLeftMarginAtom;
+
+    msrLength             fPaperRightMargin;
+    S_oahLengthAtom       fPaperRightMarginAtom;
+
+    msrLength             fPaperTopMargin;
+    S_oahLengthAtom       fPaperTopMarginAtom;
+
+    msrLength             fPaperBottomMargin;
+    S_oahLengthAtom       fPaperBottomMarginAtom;
+
     // indents
     msrLength             fPaperHorizontalShift;
+
     msrLength             fPaperIndent;
     msrLength             fPaperShortIndent;
 
     // spaces
     msrLength             fMarkupSystemSpacingPadding;
+
     msrLength             fBetweenSystemSpace;
     msrLength             fPageTopSpace;
 
@@ -621,11 +616,13 @@ class lpsrOahGroup : public oahGroup
     int                   fPageCount;   // null if not specified
     int                   fSystemCount; // null if not specified
 
+    // ragging
     bool                  fRaggedBottom;
     bool                  fRaggedLast;
     bool                  fRaggedLastBottom;
     bool                  fRaggedRight;
 
+    // tag line
     bool                  fTagline;
 
     // measures

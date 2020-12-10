@@ -415,7 +415,7 @@ SXMLFile createXMLFileFromFile (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "build the MusicXML elements tree from a file",
+    "Build the MusicXML elements tree from a file",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -442,7 +442,7 @@ SXMLFile createXMLFileFromFd (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "build the MusicXML elements tree from a file descriptor",
+    "Build the MusicXML elements tree from a file descriptor",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -473,7 +473,7 @@ SXMLFile createXMLFileFromString (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "build the MusicXML elements tree from a string",
+    "Build the MusicXML elements tree from a string",
     timingItem::kMandatory,
     startClock,
     endClock);

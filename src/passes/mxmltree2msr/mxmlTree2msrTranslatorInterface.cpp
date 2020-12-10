@@ -176,7 +176,7 @@ void displayMsrScore_OptionalPass (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the MSR as text",
+    "Display the MSR as text",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -232,7 +232,7 @@ void displayMsrScoreShort_OptionalPass (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "display the MSR as short text",
+    "Display the MSR as short text",
     timingItem::kOptional,
     startClock,
     endClock);

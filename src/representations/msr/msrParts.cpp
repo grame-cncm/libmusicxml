@@ -1913,7 +1913,7 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
     map<int, S_msrVoice>
       staffAllVoicesMap =
         (*i).second->
-          getStaffAllVoicesMap ();
+          getStaffVoiceNumberToAnyVoiceMap ();
 
     for (
       map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();

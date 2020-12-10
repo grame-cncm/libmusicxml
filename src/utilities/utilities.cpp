@@ -103,7 +103,7 @@ void timing::print (ostream& os) const
   // printing the details
   const int
     activityWidth     =  8,
-    descriptionWidth  = 50,
+    descriptionWidth  = 52,
     kindWidth         =  9,
     secondsWidth      =  9,
     secondsPrecision  = secondsWidth - 4; // to leave room for large numbers

@@ -1487,12 +1487,12 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
   gIndenter++;
 
   switch (time->getTimeSymbolKind ()) {
-    case msrTime::kTimeSymbolCommon:
-    case msrTime::kTimeSymbolCut:
-    case msrTime::kTimeSymbolNote:
-    case msrTime::kTimeSymbolDottedNote:
-    case msrTime::kTimeSymbolSingleNumber:
-    case msrTime::kTimeSymbolNone:
+    case kTimeSymbolCommon:
+    case kTimeSymbolCut:
+    case kTimeSymbolNote:
+    case kTimeSymbolDottedNote:
+    case kTimeSymbolSingleNumber:
+    case kTimeSymbolNone:
       {
         // this measure is con misura
 
@@ -1559,7 +1559,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
       }
       break;
 
-    case msrTime::kTimeSymbolSenzaMisura:
+    case kTimeSymbolSenzaMisura:
 
       // this measure is senza misura
 
