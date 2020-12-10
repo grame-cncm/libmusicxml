@@ -21,6 +21,7 @@
 #include "smartpointer.h"
 
 #include "libmusicxml.h"  // for optionsVector
+#include "utilities.h"
 
 #include "oahElements.h"
 

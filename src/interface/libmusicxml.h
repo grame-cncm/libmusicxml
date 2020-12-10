@@ -21,8 +21,6 @@
 
 #include "exports.h"
 
-#include "utilities.h"
-
 namespace MusicXML2
 {
 
@@ -69,7 +67,7 @@ typedef std::vector<std::pair<std::string, std::string> > optionsVector;
 
 The library includes a high level API to convert from the MusicXML format to the
 Guido Music Notation (GMN) format. For more information about this format,
-see  http://guidolib.sourceforge.net
+see  https://guidodoc.grame.fr
 @{
 */
 
