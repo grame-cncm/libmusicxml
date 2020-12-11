@@ -1489,8 +1489,7 @@ void xmlpart2guido::parseTime(ctree<xmlelement>::iterator &iter) {
                                 
                 // Skip Slur creation, if the CLOSING Slur is not on the same voice/staff (Guido limitation)
                 if (isSlurClosing(*i)==false) {
-                    cerr<< "XML Slur at line:"<< (*i)->getInputLineNumber()<<" measure:"<<fMeasNum << " not closing on same voice! Skipping!"<<endl;
-
+                    //cerr<< "XML Slur at line:"<< (*i)->getInputLineNumber()<<" measure:"<<fMeasNum << " not closing on same voice! Skipping!"<<endl;
                     counter++;
                     continue;
                 }
@@ -1528,17 +1527,19 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
     //  (2) If the measureNumber goes beyond current measure + 10 (this will greatly enhance speed!!). We can assume that slurs do not go beyond 10 measures in regular scores!
     // Do not go beyond.
     
-    int seachMeasureNum = fMeasNum;
+    int searchMeasureNum = fMeasNum;
     
-    while ((nextnote != fCurrentPart->end()) && (seachMeasureNum <= fMeasNum + 10)) {
+    while ((nextnote != fCurrentPart->end()) && (searchMeasureNum <= fMeasNum + 10)) {
         // Check measure
         if (nextnote->getType() == k_measure) {
             std::string measNum = nextnote->getAttributeValue("number");
             try {
-                seachMeasureNum = std::stoi(measNum);
+                searchMeasureNum = std::stoi(measNum);
             } catch(...) {
-                seachMeasureNum++;
+                searchMeasureNum++;
             }
+            // Move to the first sub-element
+            nextnote.forward();
         }
         
         // looking for the next note on the target voice
@@ -1553,11 +1554,11 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                 if (iterSlur != iter->end())
                 {
                     
-                    if ((iterSlur->getAttributeValue("type")=="start") &&
-                        ((iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)) &&
-                        (thisNoteVoice == fTargetVoice)) {
-                        return false;
-                    }
+//                    if ((iterSlur->getAttributeValue("type")=="start") &&
+//                        ((iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)) &&
+//                        (thisNoteVoice == fTargetVoice)) {
+//                        return false;
+//                    }
                     
                     if ((iterSlur->getAttributeValue("type")=="stop") &&
                         (iterSlur->getAttributeIntValue("number", 0) == internalXMLSlurNumber)
@@ -1566,8 +1567,6 @@ bool xmlpart2guido::isSlurClosing(S_slur elt) {
                             //cerr<< "\t\t\t FOUND Slur stop line:"<< iterSlur->getInputLineNumber()<< " voice:"<<thisNoteVoice<<" number:"<<iterSlur->getAttributeIntValue("number", 0)<<endl;
 
                             return true;
-                        }else {
-                            return false;
                         }
                     }
                 }
