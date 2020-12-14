@@ -76,9 +76,6 @@ class msr2summaryVisitor :
 
   public visitor<S_msrRepeat>,
 
-  public visitor<S_msrVarValAssoc>,
-  public visitor<S_msrVarValsListAssoc>,
-
   public visitor<S_msrScaling>,
   public visitor<S_msrPageLayout>,
 
@@ -174,11 +171,6 @@ class msr2summaryVisitor :
 
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
-
-    virtual void visitStart (S_msrVarValAssoc& elt);
-    virtual void visitEnd   (S_msrVarValAssoc& elt);
-    virtual void visitStart (S_msrVarValsListAssoc& elt);
-    virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
     virtual void visitStart (S_msrScaling& elt);
     virtual void visitEnd   (S_msrScaling& elt);

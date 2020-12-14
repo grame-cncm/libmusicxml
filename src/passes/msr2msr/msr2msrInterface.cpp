@@ -86,7 +86,7 @@ clock_t startClock = clock ();
   // register time spent
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "translate MSR to MSR",
+    "Translate the MSR to another MSR",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -154,7 +154,7 @@ void displayMsrScore (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR as text" <<
+    "Optional pass: displaying the MSR as text 2" <<
     endl <<
     separator <<
     endl << endl <<

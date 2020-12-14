@@ -13,8 +13,6 @@
 #ifndef ___lpsrLayouts___
 #define ___lpsrLayouts___
 
-#include "lpsrVarValAssocs.h"
-
 #include "lpsrScheme.h"
 
 
@@ -58,18 +56,10 @@ class lpsrLayout : public lpsrElement
     // public services
     // ------------------------------------------------------
 
-/* JMI
-    void                  addLilypondVarValAssoc (
-                            S_lpsrVarValAssoc assoc)
-                              {
-                                fLpsrVarValAssocsVector.push_back (assoc);
-                              }
-*/
-
     void                  addSchemeVariable (
-                            S_lpsrSchemeVariable assoc)
+                            S_lpsrSchemeVariable schemeVariable)
                               {
-                                fLpsrSchemeVariablesVector.push_back (assoc);
+                                fLpsrSchemeVariablesVector.push_back (schemeVariable);
                               }
 
   public:
@@ -96,10 +86,6 @@ class lpsrLayout : public lpsrElement
 
     float                 fLayoutGlobalStaffSize;
 
-/* JMI
-    vector<S_lpsrVarValAssoc>
-                          fLpsrVarValAssocsVector;
-                          */
     vector<S_lpsrSchemeVariable>
                           fLpsrSchemeVariablesVector;
 };

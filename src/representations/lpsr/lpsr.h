@@ -17,8 +17,6 @@
 
 #include "lpsrComments.h"
 
-#include "lpsrVarValAssocs.h"
-
 #include "lpsrScheme.h"
 
 #include "lpsrHeaders.h"

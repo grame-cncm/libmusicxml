@@ -421,7 +421,7 @@ leads to an error if the environment is read-only access,
 as is the case of https://libmusicxml.grame.fr .)",
           regex ("OPTION_NAME_HELP_NAMES"),
           gGlobalOahOahGroup->
-            getNameHelpAtom ()->
+            getOptionNameHelpAtom ()->
               fetchNamesBetweenQuotes ()
           ),
         regex ("EXECUTABLE_NAME"),
@@ -2341,7 +2341,11 @@ ostream& operator<< (ostream& os, const S_oahCombinedBooleansAtom& elt)
 }
 
 //______________________________________________________________________________
+int sMultiplexAtomsCounter = 0;
+
 S_oahMultiplexBooleansAtom oahMultiplexBooleansAtom::create (
+  string      shortName,
+  string      longName,
   string      description,
   string      shortSuffixDescriptor,
   string      longSuffixDescriptor,
@@ -2350,6 +2354,8 @@ S_oahMultiplexBooleansAtom oahMultiplexBooleansAtom::create (
 {
   oahMultiplexBooleansAtom* o = new
     oahMultiplexBooleansAtom (
+      shortName,
+      longName,
       description,
       shortSuffixDescriptor,
       longSuffixDescriptor,
@@ -2360,16 +2366,16 @@ S_oahMultiplexBooleansAtom oahMultiplexBooleansAtom::create (
 }
 
 oahMultiplexBooleansAtom::oahMultiplexBooleansAtom (
+  string      shortName,
+  string      longName,
   string      description,
   string      shortSuffixDescriptor,
   string      longSuffixDescriptor,
   S_oahPrefix shortNamesPrefix,
   S_oahPrefix longNamesPrefix)
   : oahAtom (
-      "multiplexBooleansAtom_ShortName_" +
-        shortSuffixDescriptor + "_" + description, // should be a unique shortName
-      "multiplexBooleansAtom_LongName_" +
-        longSuffixDescriptor + "_" + description,  // should be a unique longName
+      shortName,
+      longName,
       description,
       kElementWithoutValue)
 {
@@ -3908,12 +3914,16 @@ ostream& operator<< (ostream& os, const S_oahStringAtom& elt)
 
 //______________________________________________________________________________
 S_oahMonoplexStringAtom oahMonoplexStringAtom::create (
-  string      description,
-  string      atomNameDescriptor,
-  string      stringValueDescriptor)
+  string shortName,
+  string longName,
+  string description,
+  string atomNameDescriptor,
+  string stringValueDescriptor)
 {
   oahMonoplexStringAtom* o = new
     oahMonoplexStringAtom (
+      shortName,
+      longName,
       description,
       atomNameDescriptor,
       stringValueDescriptor);
@@ -3922,14 +3932,14 @@ S_oahMonoplexStringAtom oahMonoplexStringAtom::create (
 }
 
 oahMonoplexStringAtom::oahMonoplexStringAtom (
-  string      description,
-  string      atomNameDescriptor,
-  string      stringValueDescriptor)
+  string shortName,
+  string longName,
+  string description,
+  string atomNameDescriptor,
+  string stringValueDescriptor)
   : oahAtom (
-      "unusedShortName_" + atomNameDescriptor + "_" + description,
-        // should be a unique shortName
-      "unusedLongName_" + atomNameDescriptor + "_" + description,
-        // should be a unique longName
+      shortName,
+      longName,
       description,
       kElementWithoutValue),
     fAtomNameDescriptor (
@@ -7573,7 +7583,7 @@ ostream& operator<< (ostream& os, const S_oahMidiTempoAtom& elt)
 }
 
 //______________________________________________________________________________
-S_oahNameHelpAtom oahNameHelpAtom::create (
+S_oahOptionNameHelpAtom oahOptionNameHelpAtom::create (
   string shortName,
   string longName,
   string description,
@@ -7582,8 +7592,8 @@ S_oahNameHelpAtom oahNameHelpAtom::create (
   string& stringVariable,
   string  defaultOptionName)
 {
-  oahNameHelpAtom* o = new
-    oahNameHelpAtom (
+  oahOptionNameHelpAtom* o = new
+    oahOptionNameHelpAtom (
       shortName,
       longName,
       description,
@@ -7595,7 +7605,7 @@ S_oahNameHelpAtom oahNameHelpAtom::create (
   return o;
 }
 
-oahNameHelpAtom::oahNameHelpAtom (
+oahOptionNameHelpAtom::oahOptionNameHelpAtom (
   string shortName,
   string longName,
   string description,
@@ -7619,10 +7629,10 @@ oahNameHelpAtom::oahNameHelpAtom (
   this->setMultipleOccurrencesAllowed ();
 }
 
-oahNameHelpAtom::~oahNameHelpAtom ()
+oahOptionNameHelpAtom::~oahOptionNameHelpAtom ()
 {}
 
-void oahNameHelpAtom::applyAtomWithValueDefaultValue (ostream& os)
+void oahOptionNameHelpAtom::applyAtomWithValueDefaultValue (ostream& os)
 {
   // delegate this to the handler
   fetchAtomHandlerUpLink ()->
@@ -7631,16 +7641,16 @@ void oahNameHelpAtom::applyAtomWithValueDefaultValue (ostream& os)
       fDefaultStringValue);
 }
 
-void oahNameHelpAtom::applyAtomWithValue (
+void oahOptionNameHelpAtom::applyAtomWithValue (
   string   theString,
-  ostream& os) // JMI NO ???
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "Handling option name '" <<
       fetchNames () <<
-      "' which is a oahNameHelpAtom" <<
+      "' which is a oahOptionNameHelpAtom" <<
       endl;
   }
 #endif
@@ -7652,25 +7662,25 @@ void oahNameHelpAtom::applyAtomWithValue (
       theString);
 }
 
-void oahNameHelpAtom::acceptIn (basevisitor* v)
+void oahOptionNameHelpAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahNameHelpAtom::acceptIn ()" <<
+      ".\\\" ==> oahOptionNameHelpAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahNameHelpAtom>*
+  if (visitor<S_oahOptionNameHelpAtom>*
     p =
-      dynamic_cast<visitor<S_oahNameHelpAtom>*> (v)) {
-        S_oahNameHelpAtom elem = this;
+      dynamic_cast<visitor<S_oahOptionNameHelpAtom>*> (v)) {
+        S_oahOptionNameHelpAtom elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching oahNameHelpAtom::visitStart ()" <<
+            ".\\\" ==> Launching oahOptionNameHelpAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -7678,25 +7688,25 @@ void oahNameHelpAtom::acceptIn (basevisitor* v)
   }
 }
 
-void oahNameHelpAtom::acceptOut (basevisitor* v)
+void oahOptionNameHelpAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahNameHelpAtom::acceptOut ()" <<
+      ".\\\" ==> oahOptionNameHelpAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahNameHelpAtom>*
+  if (visitor<S_oahOptionNameHelpAtom>*
     p =
-      dynamic_cast<visitor<S_oahNameHelpAtom>*> (v)) {
-        S_oahNameHelpAtom elem = this;
+      dynamic_cast<visitor<S_oahOptionNameHelpAtom>*> (v)) {
+        S_oahOptionNameHelpAtom elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching oahNameHelpAtom::visitEnd ()" <<
+            ".\\\" ==> Launching oahOptionNameHelpAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -7704,18 +7714,18 @@ void oahNameHelpAtom::acceptOut (basevisitor* v)
   }
 }
 
-void oahNameHelpAtom::browseData (basevisitor* v)
+void oahOptionNameHelpAtom::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahNameHelpAtom::browseData ()" <<
+      ".\\\" ==> oahOptionNameHelpAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-string oahNameHelpAtom::asShortNamedOptionString () const
+string oahOptionNameHelpAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
@@ -7725,7 +7735,7 @@ string oahNameHelpAtom::asShortNamedOptionString () const
   return s.str ();
 }
 
-string oahNameHelpAtom::asActualLongNamedOptionString () const
+string oahOptionNameHelpAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
@@ -7735,12 +7745,12 @@ string oahNameHelpAtom::asActualLongNamedOptionString () const
   return s.str ();
 }
 
-void oahNameHelpAtom::print (ostream& os) const
+void oahOptionNameHelpAtom::print (ostream& os) const
 {
   const int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "NameHelpAtom:" <<
+    "OptionNameHelpAtom:" <<
     endl;
 
   gIndenter++;
@@ -7751,14 +7761,193 @@ void oahNameHelpAtom::print (ostream& os) const
   gIndenter--;
 }
 
-void oahNameHelpAtom::printAtomWithValueOptionsValues (
+void oahOptionNameHelpAtom::printAtomWithValueOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_oahNameHelpAtom& elt)
+ostream& operator<< (ostream& os, const S_oahOptionNameHelpAtom& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_oahAProposOptionNameAtom oahAProposOptionNameAtom::create (
+  string shortName,
+  string longName,
+  string description,
+  string valueSpecification,
+  string variableName,
+  string& stringVariable)
+{
+  oahAProposOptionNameAtom* o = new
+    oahAProposOptionNameAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringVariable);
+  assert (o!=0);
+  return o;
+}
+
+oahAProposOptionNameAtom::oahAProposOptionNameAtom (
+  string shortName,
+  string longName,
+  string description,
+  string valueSpecification,
+  string variableName,
+  string& stringVariable)
+  : oahStringAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      stringVariable)
+{
+  this->setElementKind (kElementWithMandatoryValue);
+
+  fElementHelpOnlyKind = kElementHelpOnlyYes;
+
+  this->setMultipleOccurrencesAllowed ();
+}
+
+oahAProposOptionNameAtom::~oahAProposOptionNameAtom ()
+{}
+
+void oahAProposOptionNameAtom::applyAtomWithValue (
+  string   theString,
+  ostream& os)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "Handling option name '" <<
+      fetchNames () <<
+      "' which is a oahAProposOptionNameAtom" <<
+      endl;
+  }
+#endif
+
+  // delegate this to the handler
+  fetchAtomHandlerUpLink ()->
+    printNameIntrospectiveHelp (
+      os,
+      theString);
+}
+
+void oahAProposOptionNameAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAProposOptionNameAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAProposOptionNameAtom>*
+    p =
+      dynamic_cast<visitor<S_oahAProposOptionNameAtom>*> (v)) {
+        S_oahAProposOptionNameAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahAProposOptionNameAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahAProposOptionNameAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAProposOptionNameAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAProposOptionNameAtom>*
+    p =
+      dynamic_cast<visitor<S_oahAProposOptionNameAtom>*> (v)) {
+        S_oahAProposOptionNameAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahAProposOptionNameAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahAProposOptionNameAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAProposOptionNameAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string oahAProposOptionNameAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " << fVariableName;
+
+  return s.str ();
+}
+
+string oahAProposOptionNameAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " << fVariableName;
+
+  return s.str ();
+}
+
+void oahAProposOptionNameAtom::print (ostream& os) const
+{
+  const int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "AProposOptionNameAtom:" <<
+    endl;
+
+  gIndenter++;
+
+  printOahElementEssentials (
+    gLogStream, fieldWidth);
+
+  gIndenter--;
+}
+
+void oahAProposOptionNameAtom::printAtomWithValueOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+
+ostream& operator<< (ostream& os, const S_oahAProposOptionNameAtom& elt)
 {
   elt->print (os);
   return os;
@@ -7812,7 +8001,7 @@ oahFindStringAtom::~oahFindStringAtom ()
 
 void oahFindStringAtom::applyAtomWithValue (
   string   theString,
-  ostream& os) // JMI NO ???
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -7876,13 +8065,15 @@ void oahFindStringAtom::applyAtomWithValue (
         endl;
 
       // indent a bit more for readability
-      gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
+//      gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
+      gIndenter++;
 
       os <<
         gIndenter.indentMultiLineString (theString) <<
         endl;
 
-      gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
+//      gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
+      gIndenter--;
 
       if (++i == iEnd) break;
 // JMI      os << endl;

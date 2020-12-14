@@ -90,7 +90,7 @@ void populateMsrSkeletonFromMxmlTree (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "populate the MSR skeleton",
+    "Populate the MSR skeleton",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -111,11 +111,10 @@ void populateMsrSkeletonFromMxmlTree (
 
   if (gGlobalMsrOahGroup->getDisplayMsr ()) {
     displayMsrScore_OptionalPass (
-      scoreSkeletonToBePopulated,
-      gGlobalMsrOahGroup);
+      scoreSkeletonToBePopulated);
   }
 
-  if (gGlobalMsrOahGroup->getDisplayMsrShort ()) {
+  else if (gGlobalMsrOahGroup->getDisplayMsrShort ()) {
     displayMsrScoreShort_OptionalPass (
       scoreSkeletonToBePopulated,
       gGlobalMsrOahGroup);
@@ -144,13 +143,12 @@ void populateMsrSkeletonFromMxmlTree (
 
 //_______________________________________________________________________________
 void displayMsrScore_OptionalPass (
-  S_msrScore mScore,
-  S_msrOahGroup   msrOpts)
+  S_msrScore theMsrScore)
 {
   // sanity check
   msgAssert (
-    mScore != nullptr,
-    "mScore is null");
+    theMsrScore != nullptr,
+    "theMsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -163,13 +161,11 @@ void displayMsrScore_OptionalPass (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR as text" <<
+    "Optional pass: displaying the MSR as text 1" <<
     endl <<
     separator <<
     endl << endl <<
-    mScore;
-
-  mScore->print (gLogStream);
+    theMsrScore;
 
   // register time spent
   clock_t endClock = clock ();
@@ -201,13 +197,13 @@ void displayMsrScore_OptionalPass (
 
 //_______________________________________________________________________________
 void displayMsrScoreShort_OptionalPass (
-  S_msrScore mScore,
+  S_msrScore theMsrScore,
   S_msrOahGroup   msrOpts)
 {
   // sanity check
   msgAssert (
-    mScore != nullptr,
-    "mScore is null");
+    theMsrScore != nullptr,
+    "theMsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -225,7 +221,7 @@ void displayMsrScoreShort_OptionalPass (
     separator <<
     endl << endl;
 
-  mScore->printShort (gLogStream);
+  theMsrScore->printShort (gLogStream);
 
   // register time spent
   clock_t endClock = clock ();
@@ -258,12 +254,12 @@ void displayMsrScoreShort_OptionalPass (
 //_______________________________________________________________________________
 void displayMsrScoreSummary (
   S_msrOahGroup&  msrOpts,
-  S_msrScore mScore)
+  S_msrScore theMsrScore)
 {
   // sanity check
   msgAssert (
-    mScore != nullptr,
-    "mScore is null");
+    theMsrScore != nullptr,
+    "theMsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -291,7 +287,7 @@ void displayMsrScoreSummary (
       msrOpts);
 
   summaryVisitor.printSummaryFromMsrScore (
-    mScore);
+    theMsrScore);
 
   // register time spent
   clock_t endClock = clock ();
@@ -307,12 +303,12 @@ void displayMsrScoreSummary (
 //_______________________________________________________________________________
 void displayMsrScoreNames (
   S_msrOahGroup&  msrOpts,
-  S_msrScore mScore)
+  S_msrScore theMsrScore)
 {
   // sanity check
   msgAssert (
-    mScore != nullptr,
-    "mScore is null");
+    theMsrScore != nullptr,
+    "theMsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -340,7 +336,7 @@ void displayMsrScoreNames (
       msrOpts);
 
   namesVisitor.printNamesFromMsrScore (
-    mScore);
+    theMsrScore);
 
   // register time spent
   clock_t endClock = clock ();

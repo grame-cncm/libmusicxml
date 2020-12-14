@@ -209,16 +209,37 @@ void oahPrefix::findStringInPrefix (
   list<string>& foundStringsList,
   ostream&      os) const
 {
-  if (stringToLowerCase (fPrefixName).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fPrefixName);
-  }
+  // does this element's short name match?
+  bool prefixNameMatches =
+    stringToLowerCase (fPrefixName).find (lowerCaseString) != string::npos;
 
-  if (stringToLowerCase (fPrefixErsatz).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fPrefixErsatz);
-  }
+  // does this element's long name match?
+  bool prefixErsatzMatches =
+    stringToLowerCase (fPrefixErsatz).find (lowerCaseString) != string::npos;
 
-  if (stringToLowerCase (fPrefixDescription).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fPrefixDescription);
+  // does this element's description match?
+  bool prefixDescriptionMatches =
+    stringToLowerCase (fPrefixDescription).find (lowerCaseString) != string::npos;
+
+  if (prefixNameMatches || prefixErsatzMatches || prefixDescriptionMatches) {
+    stringstream s;
+
+    s <<
+      fetchPrefixNames () <<
+        endl;
+
+    // indent a bit more for readability
+ // JMI    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
+
+    s <<
+ //     gIndenter.indentMultiLineString ( // JMI
+//        fDescription) <<
+      fPrefixDescription;
+
+ // JMI    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
+
+    // append the string
+    foundStringsList.push_back (s.str ());
   }
 }
 
@@ -510,37 +531,10 @@ void oahAtom::findStringInAtom (
   list<string>& foundStringsList,
   ostream&      os) const
 {
-  // does this atom's short name match?
-  bool shortNameMatches =
-    stringToLowerCase (fShortName).find (lowerCaseString) != string::npos;
-
-  // does this atom's long name match?
-  bool longNameMatches =
-    stringToLowerCase (fLongName).find (lowerCaseString) != string::npos;
-
-  // does this atom's description match?
-  bool descriptionMatches =
-    stringToLowerCase (fDescription).find (lowerCaseString) != string::npos;
-
-  if (shortNameMatches || longNameMatches || descriptionMatches) {
-    stringstream s;
-
-    s <<
-      fetchNames () <<
-        endl;
-
-    // indent a bit more for readability
- // JMI    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
-
-    s <<
- //     gIndenter.indentMultiLineString ( // JMI
-//        fDescription) <<
-      fDescription;
-
- // JMI    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
-
-    foundStringsList.push_back (s.str ());
-  }
+  findStringInElement (
+    lowerCaseString,
+    foundStringsList,
+    os);
 }
 
 void oahAtom::printAtomWithValueOptionsValues (
@@ -1741,19 +1735,10 @@ void oahSubGroup::findStringInSubGroup (
   list<string>& foundStringsList,
   ostream&      os) const
 {
-  // do this subgroup's names match?
-  if (stringToLowerCase (fShortName).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back ("-" + fShortName);
-  }
-
-  if (stringToLowerCase (fLongName).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back ("-" + fLongName);
-  }
-
-  // does this subgroup's description match?
-  if (stringToLowerCase (fDescription).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fDescription);
-  }
+  findStringInElement (
+    lowerCaseString,
+    foundStringsList,
+    os);
 
   // do this subgroups's atoms match?
   if (fSubGroupAtomsList.size ()) {
@@ -2632,7 +2617,7 @@ void oahGroup::findStringInGroup (
   list<string>& foundStringsList,
   ostream&      os) const
 {
-  switch (fElementVisibilityKind) {
+  switch (fElementVisibilityKind) { // JMI remove???
     case kElementVisibilityNone:
     case kElementVisibilityWhole:
     case kElementVisibilityHeaderOnly:
@@ -2644,19 +2629,10 @@ void oahGroup::findStringInGroup (
       break;
   } // switch
 
-  // do this group's names match?
-  if (stringToLowerCase (fShortName).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back ("-" + fShortName);
-  }
-
-  if (stringToLowerCase (fLongName).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back ("-" + fLongName);
-  }
-
-  // does this group's description match?
-  if (stringToLowerCase (fDescription).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fDescription);
-  }
+  findStringInElement (
+    lowerCaseString,
+    foundStringsList,
+    os);
 
   // do this groups's subgroups match?
   if (fGroupSubGroupsList.size ()) {
@@ -4024,35 +4000,33 @@ void oahHandler::findStringInHandler (
       fHandlerHeader <<
       "\"" <<
       endl;
-if (false) // JMI
-    os <<
-      "lowerCaseString:" <<
-      endl <<
-      gTab << lowerCaseString <<
-      endl <<
-      "fHandlerHeader:" <<
-      endl <<
-      gTab << fHandlerHeader <<
-      endl <<
-      "stringToLowerCase (fHandlerHeader):" <<
-      endl <<
-      gTab <<
-      stringToLowerCase (fHandlerHeader) <<
-      endl;
   }
 #endif
 
-  // do this handler's informations match?
-  if (stringToLowerCase (fHandlerHeader).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fHandlerHeader);
-  }
+  // does this handler's header match?
+  bool headerMatches =
+    stringToLowerCase (fHandlerHeader).find (lowerCaseString) != string::npos;
 
-  if (stringToLowerCase (fHandlerDescription).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fHandlerDescription);
-  }
+  // does this handler's description match?
+  bool descriptionMatches =
+    stringToLowerCase (fHandlerDescription).find (lowerCaseString) != string::npos;
 
-  if (stringToLowerCase (fHandlerUsage).find (lowerCaseString) != string::npos) {
-    foundStringsList.push_back (fHandlerUsage);
+  // does this handler's usage match?
+  bool usageMatches =
+    stringToLowerCase (fHandlerUsage).find (lowerCaseString) != string::npos;
+
+  if (headerMatches || descriptionMatches || usageMatches) {
+    stringstream s;
+
+    s <<
+      fHandlerHeader <<
+      " " <<
+      fHandlerDescription <<
+      " " <<
+      fHandlerUsage;
+
+    // append the string
+    foundStringsList.push_back (s.str ());
   }
 
   // do this handler's prefixes match?

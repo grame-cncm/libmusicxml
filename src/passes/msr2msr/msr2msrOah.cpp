@@ -620,7 +620,7 @@ S_msr2msrOahGroup msr2msrOahGroup::create ()
 
 msr2msrOahGroup::msr2msrOahGroup ()
   : oahGroup (
-    "Msr2lPSR",
+    "Msr2lpsr",
     "hmsr2msr", "help-msr-to-msr",
 R"(These options control the way MSR data is translated to MSR.)",
     kElementVisibilityWhole)

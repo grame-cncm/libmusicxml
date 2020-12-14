@@ -126,9 +126,9 @@ class traceOahGroup : public oahGroup
     // scaling
     bool                  getTraceGeometry () const
                               { return fTraceGeometry; }
-    // varValAssocs
-    bool                  getTraceVarValAssocs () const
-                              { return fTraceVarValAssocs; } // specialize ??? JMI
+    // identification
+    bool                  getTraceIdentification () const
+                              { return fTraceIdentification; } // specialize ??? JMI
     // for tests, hidden
     bool                  getTraceForTests () const
                               { return fTraceForTests; }
@@ -532,8 +532,8 @@ class traceOahGroup : public oahGroup
 
     // scaling
     bool                  fTraceGeometry;
-    // varValAssocs
-    bool                  fTraceVarValAssocs; // specialize ??? JMI
+    // identification
+    bool                  fTraceIdentification; // specialize ??? JMI
     // for tests, hidden
     bool                  fTraceForTests;
 

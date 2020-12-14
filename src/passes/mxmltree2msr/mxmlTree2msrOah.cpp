@@ -914,6 +914,7 @@ There can be several occurrences of this option.)",
 
   fIgnoreRedundantMultiplexBooleansAtom =
     oahMultiplexBooleansAtom::create (
+      "ism", "ignore-same-elements",
       "Ignore ELEMENTS that are the same as the current one.",
       "ELEMENTS",
       "ELEMENTS",
@@ -1238,6 +1239,7 @@ R"(Add a beam to all grace notes)",
   S_oahMultiplexBooleansAtom
     delayRestsMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+      "dtnn", "delay-to-next-note",
         "Delay SHORT_NAME/LONG_NAME that occur on a rest until the next note.",
         "SHORT_NAME",
         "LONG_NAME",

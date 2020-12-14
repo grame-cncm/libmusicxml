@@ -823,6 +823,7 @@ class msrLength : public smartable
     float                 fLengthValue;
 };
 typedef SMARTP<msrLength> S_msrLength;
+EXP ostream& operator<< (ostream& os, const msrLength& elt);
 EXP ostream& operator<< (ostream& os, const S_msrLength& elt);
 
 // margins types
@@ -1283,7 +1284,7 @@ class msrMoment
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_POSITION rational (-222222, 1)
+    #define K_NO_POSITION rational (-22, 1)
 
     #define K_NO_MOMENT   msrMoment (K_NO_POSITION, K_NO_POSITION)
 
@@ -1295,11 +1296,11 @@ class msrMoment
     msrMoment ();
 
     msrMoment (
-      rational positionInMeasure,
-      rational relativeOffset);
+      rational writtenPositionInMeseasur,
+      rational soundingRelativeOffset);
 
     msrMoment (
-      rational positionInMeasure);
+      rational writtenPositionInMeseasur);
 
     virtual ~msrMoment ();
 
@@ -1308,17 +1309,17 @@ class msrMoment
     // set and get
     // ------------------------------------------------------
 
-    void                  setPositionInMeasure (rational actualNotes)
-                              { fPositionInMeasure = actualNotes; }
+    void                  setWrittenPositionInMeseasure (rational position)
+                              { fWrittenPositionInMeseasure = position; }
 
-    rational              getPositionInMeasure () const
-                              { return fPositionInMeasure; }
+    rational              getWrittenPositionInMeseasure () const
+                              { return fWrittenPositionInMeseasure; }
 
-    void                  setRelativeOffset (rational normalNotes)
-                              { fRelativeOffset = normalNotes; }
+    void                  setSoundingRelativeOffset (rational offset)
+                              { fSoundingRelativeOffset = offset; }
 
-    rational              getRelativeOffset () const
-                              { return fRelativeOffset; }
+    rational              getSoundingRelativeOffset () const
+                              { return fSoundingRelativeOffset; }
 
   public:
 
@@ -1367,8 +1368,8 @@ class msrMoment
     // private fields
     // ------------------------------------------------------
 
-    rational              fPositionInMeasure;
-    rational              fRelativeOffset;
+    rational              fWrittenPositionInMeseasure;
+    rational              fSoundingRelativeOffset;
 };
 EXP ostream& operator<< (ostream& os, const msrMoment& elt);
 

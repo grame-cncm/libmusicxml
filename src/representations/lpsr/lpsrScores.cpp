@@ -467,128 +467,6 @@ R"(
       lpsrLayout::create (
         inputLineNumber);
   }
-
-  // create the 'myBreakIsBreak' assoc?
-  {
-    if (! gGlobalLpsr2lilypondOahGroup->getSuppressMusicXMLLineBreaks ()) {
-      lpsrVarValAssoc::lpsrCommentedKind
-        commentedKind =
-          gGlobalLpsr2lilypondOahGroup->getIgnoreMusicXMLLineBreaks ()
-            ? lpsrVarValAssoc::kCommentedYes
-            : lpsrVarValAssoc::kCommentedNo;
-
-      fMyBreakIsBreakAssoc =
-        lpsrVarValAssoc::create (
-          inputLineNumber,
-          commentedKind,
-          lpsrVarValAssoc::kWithBackSlashNo,
-          lpsrVarValAssoc::kLilypondMyBreak,
-          lpsrVarValAssoc::kVarValSeparatorEqualSign,
-          lpsrVarValAssoc::kQuotesAroundValueNo,
-          "{ \\break }",
-          lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-          kFontStyleNone,
-          kFontWeightNone,
-          "Pick your choice from the next two lines as needed",
-          lpsrVarValAssoc::kEndlNone);
-    }
-  }
-
-  // create the 'myBreakIsEmpty' assoc?
-    {
-      if (! gGlobalLpsr2lilypondOahGroup->getSuppressMusicXMLLineBreaks ()) {
-        lpsrVarValAssoc::lpsrCommentedKind
-          commentedKind =
-            gGlobalLpsr2lilypondOahGroup->getIgnoreMusicXMLLineBreaks ()
-              ? lpsrVarValAssoc::kCommentedNo
-              : lpsrVarValAssoc::kCommentedYes;
-
-        fMyBreakIsEmptyAssoc =
-          lpsrVarValAssoc::create (
-            inputLineNumber,
-            commentedKind,
-            lpsrVarValAssoc::kWithBackSlashNo,
-            lpsrVarValAssoc::kLilypondMyBreak,
-            lpsrVarValAssoc::kVarValSeparatorEqualSign,
-            lpsrVarValAssoc::kQuotesAroundValueNo,
-            "{ }",
-            lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-            kFontStyleNone,
-            kFontWeightNone,
-            lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-            lpsrVarValAssoc::kEndlOnce);
-      }
-    }
-
-  // create the 'myPageBreakIsPageBreak' assoc?
-  {
-    if (! gGlobalLpsr2lilypondOahGroup->getSuppressMusicXMLPageBreaks ()) {
-      lpsrVarValAssoc::lpsrCommentedKind
-        commentedKind =
-          gGlobalLpsr2lilypondOahGroup->getIgnoreMusicXMLLineBreaks ()
-            ? lpsrVarValAssoc::kCommentedYes
-            : lpsrVarValAssoc::kCommentedNo;
-
-      fMyPageBreakIsPageBreakAssoc =
-        lpsrVarValAssoc::create (
-          inputLineNumber,
-          commentedKind,
-          lpsrVarValAssoc::kWithBackSlashNo,
-          lpsrVarValAssoc::kLilypondMyPageBreak,
-          lpsrVarValAssoc::kVarValSeparatorEqualSign,
-          lpsrVarValAssoc::kQuotesAroundValueNo,
-          "{ \\pageBreak }",
-          lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-          kFontStyleNone,
-          kFontWeightNone,
-          "Pick your choice from the next two lines as needed",
-          lpsrVarValAssoc::kEndlNone);
-    }
-  }
-
-  // create the 'myPageBreakIsEmpty' assoc?
-  {
-    if (! gGlobalLpsr2lilypondOahGroup->getSuppressMusicXMLPageBreaks ()) {
-      lpsrVarValAssoc::lpsrCommentedKind
-        commentedKind =
-          gGlobalLpsr2lilypondOahGroup->getIgnoreMusicXMLLineBreaks ()
-            ? lpsrVarValAssoc::kCommentedNo
-            : lpsrVarValAssoc::kCommentedYes;
-
-      fMyPageBreakIsEmptyAssoc =
-        lpsrVarValAssoc::create (
-          inputLineNumber,
-          commentedKind,
-          lpsrVarValAssoc::kWithBackSlashNo,
-          lpsrVarValAssoc::kLilypondMyPageBreak,
-          lpsrVarValAssoc::kVarValSeparatorEqualSign,
-          lpsrVarValAssoc::kQuotesAroundValueNo,
-          "{ }",
-          lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-          kFontStyleNone,
-          kFontWeightNone,
-          lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-          lpsrVarValAssoc::kEndlOnce);
-    }
-  }
-
-  if (gGlobalLpsr2lilypondOahGroup->getGlobal ()) {
-    // create the 'global' assoc
-    fScoreGlobalAssoc =
-      lpsrVarValAssoc::create (
-        inputLineNumber,
-        lpsrVarValAssoc::kCommentedNo,
-        lpsrVarValAssoc::kWithBackSlashNo,
-        lpsrVarValAssoc::kLilypondGlobal,
-        lpsrVarValAssoc::kVarValSeparatorEqualSign,
-        lpsrVarValAssoc::kQuotesAroundValueNo,
-        "{ }",
-        lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-        kFontStyleNone,
-        kFontWeightNone,
-        "Place whatever you need in the 'global' variable",
-        lpsrVarValAssoc::kEndlOnce);
-  }
 }
 
 lpsrScore::~lpsrScore ()
@@ -2253,12 +2131,6 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fCommandLineShortOptionsComment);
   }
 
-  if (fScoreGlobalStaffSizeSchemeVariable) {
-    // browse the score global staff size
-    msrBrowser<lpsrSchemeVariable> browser (v);
-    browser.browse (*fScoreGlobalStaffSizeSchemeVariable);
-  }
-
   {
     // browse the Scheme function map
     for (
@@ -2289,34 +2161,6 @@ void lpsrScore::browseData (basevisitor* v)
     // browse the score layout
     msrBrowser<lpsrLayout> browser (v);
     browser.browse (*fScoreLayout);
-  }
-
-  if (fMyBreakIsBreakAssoc) {
-    // browse the myBreakIsBreak assoc
-    msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fMyBreakIsBreakAssoc);
-  }
-  if (fMyBreakIsEmptyAssoc) {
-    // browse the myBreakIsEmpty assoc
-    msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fMyBreakIsEmptyAssoc);
-  }
-
-  if (fMyPageBreakIsPageBreakAssoc) {
-    // browse the myPageBreakIsPageBreak assoc
-    msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fMyPageBreakIsPageBreakAssoc);
-  }
-  if (fMyPageBreakIsEmptyAssoc) {
-    // browse the myPageBreakIsEmpty assoc
-    msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fMyPageBreakIsEmptyAssoc);
-  }
-
-  if (fScoreGlobalAssoc) {
-    // browse the 'global' assoc
-    msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fScoreGlobalAssoc);
   }
 
   {
@@ -2365,7 +2209,6 @@ void lpsrScore::print (ostream& os) const
   // print the MSR structure (without the voices)
   fMsrScore->
     printSummary (os);
-  os << endl;
 
   // are some Scheme functions needed?
   const int fieldWidth = 42;
@@ -2384,11 +2227,8 @@ void lpsrScore::print (ostream& os) const
 
   // print LPSR basic information
   os <<
-    fScoreGlobalStaffSizeSchemeVariable <<
-    endl <<
-
     fScoreHeader <<
-    // no endl here
+    endl <<
 
     fScorePaper <<
     endl;
@@ -2398,8 +2238,6 @@ void lpsrScore::print (ostream& os) const
       fScoreLayout <<
       endl;
   }
-
-// myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
   // print the voices and stanzas
   if (fScoreElementsList.size ()) {
@@ -2418,7 +2256,6 @@ void lpsrScore::print (ostream& os) const
       os << endl;
     } // for
 
-    os << endl;
     gIndenter--;
   }
 
@@ -2439,7 +2276,6 @@ void lpsrScore::print (ostream& os) const
       os << endl;
     } // for
 
-    os << endl;
     gIndenter--;
   }
 
@@ -2486,9 +2322,6 @@ void lpsrScore::printShort (ostream& os) const
   fScoreHeader->printShort (os);
   os << endl;
 
-  fScoreGlobalStaffSizeSchemeVariable->printShort (os);
-  os << endl;
-
   fScorePaper->printShort (os);
   os << endl;
 
@@ -2496,8 +2329,6 @@ void lpsrScore::printShort (ostream& os) const
     fScoreLayout->printShort (os);
     os << endl;
   }
-
-// myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
   gIndenter--;
 

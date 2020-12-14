@@ -198,18 +198,24 @@ class oahOahGroup : public oahGroup
     string                getCommandLineWithLongOptionsNames () const
                               { return fCommandLineWithLongOptionsNames; }
 
-    // name help
-    string                getNameToProvideHelpAbout () const
-                              { return fNameToProvideHelpAbout; }
+    // help about option name
+    string                getOptionNameToProvideHelpAbout () const
+                              { return fOptionNameToProvideHelpAbout; }
+    S_oahOptionNameHelpAtom
+                          getOptionNameHelpAtom () const
+                              { return fOptionNameHelpAtom; }
 
-    // find name
+    // apropos about option name
+    string                getOptionNameToProvideAProposAbout () const
+                              { return fOptionNameToProvideAProposAbout; }
+    S_oahAProposOptionNameAtom
+                          getAProposOptionNameAtom () const
+                              { return fAProposOptionNameAtom; }
+
+    // find string
     string                getStringToBeFound () const
                               { return fStringToBeFound; }
-
-
-    S_oahNameHelpAtom     getNameHelpAtom () const
-                              { return fNameHelpAtom; }
-    S_oahFindStringAtom     getFindStringAtom () const
+    S_oahFindStringAtom   getFindStringAtom () const
                               { return fFindStringAtom; }
 
     // trace
@@ -280,15 +286,18 @@ class oahOahGroup : public oahGroup
 
     string                fInputSourceName;
 
-    // name help
-    string                fNameToProvideHelpAbout;
+    // help about option name
+    string                fOptionNameToProvideHelpAbout;
+    S_oahOptionNameHelpAtom
+                          fOptionNameHelpAtom;
 
-    S_oahNameHelpAtom     fNameHelpAtom;
+    // apropos about option name
+    string                fOptionNameToProvideAProposAbout;
+    S_oahAProposOptionNameAtom
+                          fAProposOptionNameAtom;
 
-
-    // find name
+    // find string
     string                fStringToBeFound;
-
     S_oahFindStringAtom   fFindStringAtom;
 
   private:

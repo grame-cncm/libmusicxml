@@ -82,7 +82,7 @@ void convertLpsrScoreToLilypondCode (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "translate LPSR to LilyPond",
+    "Translate the LPSR into LilyPond code",
     timingItem::kMandatory,
     startClock,
     endClock);

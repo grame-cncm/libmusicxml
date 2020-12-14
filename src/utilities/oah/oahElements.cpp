@@ -250,6 +250,46 @@ string oahElement::fetchNamesInColumnsBetweenParentheses (
   return s.str ();
 }
 
+void oahElement::findStringInElement (
+  string        lowerCaseString,
+  list<string>& foundStringsList,
+  ostream&      os) const
+{
+  // does this element's short name match?
+  bool shortNameMatches =
+    stringToLowerCase (fShortName).find (lowerCaseString) != string::npos;
+
+  // does this element's long name match?
+  bool longNameMatches =
+    stringToLowerCase (fLongName).find (lowerCaseString) != string::npos;
+
+  // does this element's description match?
+  bool descriptionMatches =
+    stringToLowerCase (fDescription).find (lowerCaseString) != string::npos;
+
+  if (shortNameMatches || longNameMatches || descriptionMatches) {
+    stringstream s;
+
+    // add the element's names
+    s <<
+      fetchNames () <<
+      endl;
+
+    // indent a bit more for readability
+    gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
+
+    // add the element's description
+    s <<
+      gIndenter.indentMultiLineString ( // JMI
+        fDescription);
+
+    gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
+
+    // append the string
+    foundStringsList.push_back (s.str ());
+  }
+}
+
 void oahElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
@@ -533,7 +573,7 @@ string oahElementUse::asString () const
   stringstream s;
 
   s <<
-    "Atom use" <<
+    "Element use" <<
     ": " << fElementUsed->fetchNamesBetweenQuotes () <<
     ", nameUsed: \"" << fNameUsed << "\"" <<
     ", valueUsed: \"" << fValueUsed << "\"" <<

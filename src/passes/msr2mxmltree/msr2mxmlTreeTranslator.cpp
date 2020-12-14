@@ -896,454 +896,284 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
 #endif
 
   // work number
-  S_msrVarValAssoc
-    workNumber = elt->getWorkNumber ();
+  string
+    workNumber =
+      elt->getWorkNumber ();
 
-  if (workNumber) {
-    string
-      variableValue =
-        workNumber->getVariableValue ();
+  // createMxml the work number element
+  Sxmlelement
+    workNumberElement =
+      createMxmlElement (
+        k_work_number,
+        workNumber);
 
-    // createMxml the work number element
-    Sxmlelement
-      workNumberElement =
-        createMxmlElement (
-          k_work_number,
-          variableValue);
-
-    // append it to the score part wise element
-    appendToScoreWork (workNumberElement);
-  }
+  // append it to the score part wise element
+  appendToScoreWork (workNumberElement);
 
   // work title
-  S_msrVarValAssoc
-    workTitle = elt->getWorkTitle ();
+  string
+    workTitle =
+      elt->getWorkTitle ();
 
-  if (workTitle) {
-    string
-      variableValue =
-        workTitle->getVariableValue ();
+  // createMxml the work title element
+  Sxmlelement
+    workTitleElement =
+      createMxmlElement (
+        k_work_title,
+        workTitle);
 
-    // createMxml the work title element
-    Sxmlelement
-      workTitleElement =
-        createMxmlElement (
-          k_work_title,
-          variableValue);
-
-    // append it to the score work element
-    appendToScoreWork (workTitleElement);
-  }
+  // append it to the score work element
+  appendToScoreWork (workTitleElement);
 
   // opus
-  S_msrVarValAssoc
-    opus = elt->getOpus ();
+  string
+    opus =
+      elt->getOpus ();
 
-  if (opus) {
-    string
-      variableValue =
-        opus->getVariableValue ();
-
-    // createMxml the opus element
-    Sxmlelement
-      opusElement =
-        createMxmlElement (
-          k_opus,
-          variableValue);
+  // createMxml the opus element
+  Sxmlelement
+    opusElement =
+      createMxmlElement (
+        k_opus,
+        opus);
 
     // append it to the score part wise element
     appendToScoreWork (opusElement);
-  }
 
   // movement number
-  S_msrVarValAssoc
+  string
     movementNumber = elt->getMovementNumber ();
 
-  if (movementNumber) {
-    string
-      variableValue =
-        movementNumber->getVariableValue ();
+  // createMxml the movement number element
+  Sxmlelement
+    movementNumberElement =
+      createMxmlElement (
+        k_movement_number,
+        movementNumber);
 
-    // createMxml the movement number element
-    Sxmlelement
-      movementNumberElement =
-        createMxmlElement (
-          k_movement_number,
-          variableValue);
-
-    // append it to the score part wise element
-    fResultingMusicxmlElement->push (movementNumberElement);
-  }
+  // append it to the score part wise element
+  fResultingMusicxmlElement->push (movementNumberElement);
 
   // movement title
-  S_msrVarValAssoc
+  string
     movementTitle = elt->getMovementTitle ();
 
-  if (movementTitle) {
-    string
-      variableValue =
-        movementTitle->getVariableValue ();
+  // createMxml the movement title element
+  Sxmlelement
+    movementTitleElement =
+      createMxmlElement (
+        k_movement_title,
+        movementTitle);
 
-    // createMxml the movement title element
-    Sxmlelement
-      movementTitleElement =
-        createMxmlElement (
-          k_movement_title,
-          variableValue);
-
-    // append it to the score part wise element
-    fResultingMusicxmlElement->push (movementTitleElement);
-  }
+  // append it to the score part wise element
+  fResultingMusicxmlElement->push (movementTitleElement);
 
   // miscellaneous field
-  S_msrVarValAssoc
-    miscellaneousField = elt->getMiscellaneousField ();
+  string
+    miscellaneousField =
+      elt->getMiscellaneousField ();
 
-  if (miscellaneousField) {
-    string
-      variableValue =
-        miscellaneousField->getVariableValue ();
+  // createMxml the miscellaneous field element
+  Sxmlelement
+    miscellaneousFieldElement =
+      createMxmlElement (
+        k_miscellaneous_field,
+        miscellaneousField);
 
-    // createMxml the miscellaneous field element
-    Sxmlelement
-      miscellaneousFieldElement =
-        createMxmlElement (
-          k_miscellaneous_field,
-          variableValue);
+  // set its "name" attribute
+  miscellaneousFieldElement->add (
+    createMxmlAttribute ("name", "description")); // ??? JMI sometines "comment"
 
-    // set its "name" attribute
-    miscellaneousFieldElement->add (
-      createMxmlAttribute ("name", "description")); // ??? JMI sometines "comment"
+  // createMxml a miscellaneous element
+  fIdentificationMiscellaneousElement = createMxmlElement (k_miscellaneous, "");
 
-    // createMxml a miscellaneous element
-    fIdentificationMiscellaneousElement = createMxmlElement (k_miscellaneous, "");
-
-    // append the miscellaneous field element to it
-    fIdentificationMiscellaneousElement->push (miscellaneousFieldElement);
-  }
+  // append the miscellaneous field element to it
+  fIdentificationMiscellaneousElement->push (miscellaneousFieldElement);
 
   // score instrument
-  S_msrVarValAssoc
-    scoreInstrument = elt->getScoreInstrument ();
+  string
+    scoreInstrument =
+      elt->getScoreInstrument ();
 
-  if (scoreInstrument) {
-    string
-      variableValue =
-        scoreInstrument->getVariableValue ();
+  // createMxml the score instrument element
+  Sxmlelement
+    scoreInstrumentElement =
+      createMxmlElement (
+        k_score_instrument,
+        scoreInstrument);
 
-    // createMxml the score instrument element
-    Sxmlelement
-      scoreInstrumentElement =
-        createMxmlElement (
-          k_score_instrument,
-          variableValue);
-
-    // append it to the score part wise element
-    fResultingMusicxmlElement->push (scoreInstrumentElement);
-  }
-
-/*
-<!--
-	Identification contains basic metadata about the score.
-	It includes the information in MuseData headers that
-	may apply at a score-wide, movement-wide, or part-wide
-	level. The creator, rights, source, and relation elements
-	are based on Dublin Core.
--->
-<!ELEMENT identification (creator*, rights*, encoding?,
-	source?, relation*, miscellaneous?)>
-
-<!--
-	The creator element is borrowed from Dublin Core. It is
-	used for the creators of the score. The type attribute is
-	used to distinguish different creative contributions. Thus,
-	there can be multiple creators within an identification.
-	Standard type values are composer, lyricist, and arranger.
-	Other type values may be used for different types of
-	creative roles. The type attribute should usually be used
-	even if there is just a single creator element. The MusicXML
-	format does not use the creator / contributor distinction
-	from Dublin Core.
--->
-<!ELEMENT creator (#PCDATA)>
-<!ATTLIST creator
-    type CDATA #IMPLIED
->
-
-<!--
-	Rights is borrowed from Dublin Core. It contains
-	copyright and other intellectual property notices.
-	Words, music, and derivatives can have different types,
-	so multiple rights tags with different type attributes
-	are supported. Standard type values are music, words,
-	and arrangement, but other types may be used. The
-	type attribute is only needed when there are multiple
-	rights elements.
--->
-<!ELEMENT rights (#PCDATA)>
-<!ATTLIST rights
-    type CDATA #IMPLIED
->
-
-
-
-<!--
-	Encoding contains information about who did the digital
-	encoding, when, with what software, and in what aspects.
-	Standard type values for the encoder element are music,
-	words, and arrangement, but other types may be used. The
-	type attribute is only needed when there are multiple
-	encoder elements.
-
-	The supports element indicates if the encoding supports
-	a particular MusicXML element. This is recommended for
-	elements like beam, stem, and accidental, where the
-	absence of an element is ambiguous if you do not know
-	if the encoding supports that element. For Version 2.0,
-	the supports element is expanded to allow programs to
-	indicate support for particular attributes or particular
-	values. This lets applications communicate, for example,
-	that all system and/or page breaks are contained in the
-	MusicXML file.
--->
-<!ELEMENT encoding ((encoding-date | encoder | software |
-	encoding-description | supports)*)>
-<!ELEMENT encoding-date %yyyy-mm-dd;>
-<!ELEMENT encoder (#PCDATA)>
-<!ATTLIST encoder
-    type CDATA #IMPLIED
->
-<!ELEMENT software (#PCDATA)>
-<!ELEMENT encoding-description (#PCDATA)>
-<!ELEMENT supports EMPTY>
-<!ATTLIST supports
-    type %yes-no; #REQUIRED
-    element CDATA #REQUIRED
-    attribute CDATA #IMPLIED
-    value CDATA #IMPLIED
->
-
-<!--
-	The source for the music that is encoded. This is similar
-	to the Dublin Core source element.
--->
-<!ELEMENT source (#PCDATA)>
-
-<!--
-	A related resource for the music that is encoded. This is
-	similar to the Dublin Core relation element. Standard type
-	values are music, words, and arrangement, but other
-	types may be used.
--->
-<!ELEMENT relation (#PCDATA)>
-<!ATTLIST relation
-    type CDATA #IMPLIED
->
-
-<!--
-	If a program has other metadata not yet supported in the
-	MusicXML format, it can go in the miscellaneous area.
--->
-<!ELEMENT miscellaneous (miscellaneous-field*)>
-<!ELEMENT miscellaneous-field (#PCDATA)>
-<!ATTLIST miscellaneous-field
-    name CDATA #REQUIRED
->
-*/
+  // append it to the score part wise element
+  fResultingMusicxmlElement->push (scoreInstrumentElement);
 
   // composers
-  S_msrVarValsListAssoc
-    composers = elt->getComposers ();
+  const list<string>&
+    composersList =
+      elt->getComposersList ();
 
-  if (composers) {
-    const list<string>&
-      variableValuesList =
-        composers->getVariableValuesList ();
+  for (
+    list<string>::const_iterator i=composersList.begin ();
+    i!=composersList.end ();
+    i++
+  ) {
+    string variableValue = (*i);
 
-    list<string>::const_iterator i;
+    // append a creator element
+    Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
 
-    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
-      string variableValue = (*i);
+    // set its "type" attribute
+    creatorElement->add (createMxmlAttribute ("type", "composer"));
 
-      // append a creator element
-      Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
-
-      // set its "type" attribute
-      creatorElement->add (createMxmlAttribute ("type", "composer"));
-
-      // append it to the composers elements list
-      fComposersElementsList.push_back (creatorElement);
-    } // for
-  }
+    // append it to the composers elements list
+    fComposersElementsList.push_back (creatorElement);
+  } // for
 
   // arrangers
-  S_msrVarValsListAssoc
-    arrangers = elt->getArrangers ();
+  const list<string>&
+    arrangersList =
+      elt->getArrangersList ();
 
-  if (arrangers) {
-    const list<string>&
-      variableValuesList =
-        arrangers->getVariableValuesList ();
+  for (
+    list<string>::const_iterator i=arrangersList.begin ();
+    i!=arrangersList.end ();
+    i++
+  ) {
+    string variableValue = (*i);
 
-    list<string>::const_iterator i;
+    // append a creator element
+    Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
 
-    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
-      string variableValue = (*i);
+    // set its "type" attribute
+    creatorElement->add (createMxmlAttribute ("type", "arranger"));
 
-      // append a creator element
-      Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
-
-      // set its "type" attribute
-      creatorElement->add (createMxmlAttribute ("type", "arranger"));
-
-      // append it to the composers elements list
-      fComposersElementsList.push_back (creatorElement);
-    } // for
-  }
+    // append it to the composers elements list
+    fComposersElementsList.push_back (creatorElement);
+  } // for
 
   // lyricists
-  S_msrVarValsListAssoc
-    lyricists = elt->getLyricists ();
+  const list<string>&
+    lyricistsList =
+      elt->getLyricistsList ();
 
-  if (lyricists) {
-    const list<string>&
-      variableValuesList =
-        lyricists->getVariableValuesList ();
+  for (
+    list<string>::const_iterator i=lyricistsList.begin ();
+    i!=lyricistsList.end ();
+    i++
+  ) {
+    string variableValue = (*i);
 
-    list<string>::const_iterator i;
+    // append a creator element
+    Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
 
-    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
-      string variableValue = (*i);
+    // set its "type" attribute
+    creatorElement->add (createMxmlAttribute ("type", "lyricist"));
 
-      // append a creator element
-      Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
-
-      // set its "type" attribute
-      creatorElement->add (createMxmlAttribute ("type", "lyricist"));
-
-      // append it to the composers elements list
-      fComposersElementsList.push_back (creatorElement);
-    } // for
-  }
+    // append it to the composers elements list
+    fComposersElementsList.push_back (creatorElement);
+  } // for
 
   // poets
-  S_msrVarValsListAssoc
-    poets = elt->getPoets ();
+  const list<string>&
+    poetsList =
+      elt->getPoetsList ();
 
-  if (poets) {
-    const list<string>&
-      variableValuesList =
-        poets->getVariableValuesList ();
+  for (
+    list<string>::const_iterator i=poetsList.begin ();
+    i!=poetsList.end ();
+    i++
+  ) {
+    string variableValue = (*i);
 
-    list<string>::const_iterator i;
+    // append a creator element
+    Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
 
-    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
-      string variableValue = (*i);
+    // set its "type" attribute
+    creatorElement->add (createMxmlAttribute ("type", "poet"));
 
-      // append a creator element
-      Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
-
-      // set its "type" attribute
-      creatorElement->add (createMxmlAttribute ("type", "poet"));
-
-      // append it to the composers elements list
-      fComposersElementsList.push_back (creatorElement);
-    } // for
-  }
+    // append it to the composers elements list
+    fComposersElementsList.push_back (creatorElement);
+  } // for
 
   // translators
-  S_msrVarValsListAssoc
-    translators = elt->getTranslators ();
+  const list<string>&
+    translatorsList =
+      elt->getTranslatorsList ();
 
-  if (translators) {
-    const list<string>&
-      variableValuesList =
-        translators->getVariableValuesList ();
+  for (
+    list<string>::const_iterator i=translatorsList.begin ();
+    i!=translatorsList.end ();
+    i++
+  ) {
+    string variableValue = (*i);
 
-    list<string>::const_iterator i;
+    // append a creator element
+    Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
 
-    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
-      string variableValue = (*i);
+    // set its "type" attribute
+    creatorElement->add (createMxmlAttribute ("type", "translator"));
 
-      // append a creator element
-      Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
-
-      // set its "type" attribute
-      creatorElement->add (createMxmlAttribute ("type", "translator"));
-
-      // append it to the composers elements list
-      fComposersElementsList.push_back (creatorElement);
-    } // for
-  }
+    // append it to the composers elements list
+    fComposersElementsList.push_back (creatorElement);
+  } // for
 
   // artists
-  S_msrVarValsListAssoc
-    artists = elt->getArtists ();
+  const list<string>&
+    artistsList =
+      elt->getArtistsList ();
 
-  if (artists) {
-    const list<string>&
-      variableValuesList =
-        artists->getVariableValuesList ();
+  for (
+    list<string>::const_iterator i=artistsList.begin ();
+    i!=artistsList.end ();
+    i++
+  ) {
+    string variableValue = (*i);
 
-    list<string>::const_iterator i;
+    // append a creator element
+    Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
 
-    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
-      string variableValue = (*i);
+    // set its "type" attribute
+    creatorElement->add (createMxmlAttribute ("type", "artist"));
 
-      // append a creator element
-      Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
-
-      // set its "type" attribute
-      creatorElement->add (createMxmlAttribute ("type", "artist"));
-
-      // append it to the composers elements list
-      fComposersElementsList.push_back (creatorElement);
-    } // for
-  }
+    // append it to the composers elements list
+    fComposersElementsList.push_back (creatorElement);
+  } // for
 
   // softwares
-  S_msrVarValsListAssoc
-    softwares = elt->getSoftwares ();
+  const list<string>&
+    softwaresList =
+      elt->getSoftwaresList ();
 
-  if (softwares) {
-    const list<string>&
-      variableValuesList =
-        softwares->getVariableValuesList ();
+  for (
+    list<string>::const_iterator i=softwaresList.begin ();
+    i!=softwaresList.end ();
+    i++
+  ) {
+    string variableValue = (*i);
 
-    list<string>::const_iterator i;
-
-    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
-      string variableValue = (*i);
-
-      // append a software element to the softwares elements list
-      fSoftwaresElementsList.push_back (
-        createMxmlElement (
-        k_software,
-        variableValue));
-    } // for
-  }
+    // append a software element to the softwares elements list
+    fSoftwaresElementsList.push_back (
+      createMxmlElement (
+      k_software,
+      variableValue));
+  } // for
 
   // rights
-  S_msrVarValsListAssoc
-    rights = elt->getRights ();
+  const list<string>&
+    rightsList =
+      elt->getRightsList ();
 
-  if (rights) {
-    const list<string>&
-      variableValuesList =
-        rights->getVariableValuesList ();
+  for (
+    list<string>::const_iterator i=rightsList.begin ();
+    i!=rightsList.end ();
+    i++
+  ) {
+    string variableValue = (*i);
 
-    list<string>::const_iterator i;
-
-    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
-      string variableValue = (*i);
-
-      // append a rights element to the rights elements list
-      fRightsElementsList.push_back (
-        createMxmlElement (
-        k_rights,
-        variableValue));
-    } // for
-  }
+    // append a rights element to the rights elements list
+    fRightsElementsList.push_back (
+      createMxmlElement (
+      k_rights,
+      variableValue));
+  } // for
 }
 
 void msr2mxmlTreeTranslator::visitEnd (S_msrIdentification& elt)
@@ -1361,7 +1191,10 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrIdentification& elt)
     // append the rights elements to the score identification element
     list<Sxmlelement>::const_iterator i;
 
-    for (i=fRightsElementsList.begin (); i!=fRightsElementsList.end (); i++) {
+    for (
+      i=fRightsElementsList.begin ();
+      i!=fRightsElementsList.end ();
+      i++) {
       Sxmlelement rightsElement = (*i);
 
       appendToScoreIdentification (rightsElement);

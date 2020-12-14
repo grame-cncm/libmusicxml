@@ -78,6 +78,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     musicXMLMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tmd", "trace-musicxml-data",
         "Trace SHORT_NAME/LONG_NAME when converting MusicXML data to an xmlelement tree.",
         "SHORT_NAME",
         "LONG_NAME",

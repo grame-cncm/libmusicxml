@@ -66,6 +66,9 @@ class msrScore : public msrElement
     // ------------------------------------------------------
 
     // identification
+    void                  setIdentification (
+                            S_msrIdentification identification)
+                              { fIdentification = identification; }
     S_msrIdentification   getIdentification () const
                               { return fIdentification; }
 

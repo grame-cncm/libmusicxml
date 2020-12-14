@@ -85,7 +85,7 @@ S_bsrScore convertBsrFirstScoreToFinalizedBsrScore (
 
     timing::gGlobalTiming.appendTimingItem (
       passNumber,
-      "finalize BSR as a new BSR",
+      "Finalize BSR as a new BSR",
       timingItem::kMandatory,
       startClock,
       endClock);

@@ -13,24 +13,6 @@
 #ifndef ___lpsrScores___
 #define ___lpsrScores___
 
-/*
-#include <sstream>
-#include <vector>
-#include <string>
-#include <list>
-
-
-#include "exports.h"
-#include "typedefs.h"
-
-#include "msrBasicTypes.h"
-
-
-#include "lpsrVarValAssocs.h"
-
-#include "lpsrScheme.h"
-*/
-
 #include "lpsrComments.h"
 
 #include "lpsrScheme.h"
@@ -40,7 +22,6 @@
 #include "lpsrLayouts.h"
 
 #include "lpsrParallelMusic.h"
-#include "lpsrVarValAssocs.h"
 
 #include "lpsrBookBlockElements.h"
 
@@ -83,10 +64,6 @@ class lpsrScore : public lpsrElement
 
     S_msrScore            getMsrScore () const
                               { return fMsrScore; }
-
-    S_lpsrSchemeVariable
-                          getScoreGlobalStaffSizeSchemeVariable () const
-                              { return fScoreGlobalStaffSizeSchemeVariable; }
 
     S_lpsrHeader          getScoreHeader () const
                               { return fScoreHeader; }
@@ -390,24 +367,10 @@ class lpsrScore : public lpsrElement
     S_lpsrComment         fCommandLineLongOptionsComment;
     S_lpsrComment         fCommandLineShortOptionsComment;
 
-    // scaling
-    S_lpsrSchemeVariable  fScoreGlobalStaffSizeSchemeVariable; // JMI
-
     // LilyPond stuff
     S_lpsrHeader          fScoreHeader;
     S_lpsrPaper           fScorePaper;
     S_lpsrLayout          fScoreLayout;
-
-    // to keep the original line breaks
-    S_lpsrVarValAssoc     fMyBreakIsBreakAssoc;
-    S_lpsrVarValAssoc     fMyBreakIsEmptyAssoc;
-
-    // to keep the original page breaks
-    S_lpsrVarValAssoc     fMyPageBreakIsPageBreakAssoc;
-    S_lpsrVarValAssoc     fMyPageBreakIsEmptyAssoc;
-
-    // to generate 'global' variable
-    S_lpsrVarValAssoc     fScoreGlobalAssoc;
 
     // variables, voices and stanzas
     list<S_msrElement>    fScoreElementsList;

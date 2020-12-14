@@ -102,25 +102,7 @@ void lpsrLayout::acceptOut (basevisitor* v)
 }
 
 void lpsrLayout::browseData (basevisitor* v)
-{
-/* JMI
-  int lilypondAssocs = flpsrVarValAssocsVector.size ();
-
-  for (int i = 0; i < lilypondAssocs; i++ ) {
-    // browse the variable/value association
-    msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*flpsrVarValAssocsVector [i]);
-  } // for
-
-  int schemeAssocs = fLpsrSchemeVariablesVector.size ();
-
-  for (int i = 0; i < schemeAssocs; i++ ) {
-    // browse the Scheme variable/value association
-    msrBrowser<lpsrSchemeVariable> browser (v);
-    browser.browse (*fLpsrSchemeVariablesVector [i]);
-  } // for
-  */
-}
+{}
 
 void lpsrLayout::print (ostream& os) const
 {
@@ -136,20 +118,6 @@ void lpsrLayout::print (ostream& os) const
     setw (fieldWidth) <<
    "layoutGlobalStaffSize" << " : " << fLayoutGlobalStaffSize <<
     endl;
-
-/* JMI
-  int lilypondAssocs = fLpsrVarValAssocsVector.size ();
-
-  for (int i = 0; i < lilypondAssocs; i++ ) {
-    os << fLpsrVarValAssocsVector [i];
-  } // for
-
-  int schemeAssocs = fLpsrSchemeVariablesVector.size ();
-
-  for (int i = 0; i < schemeAssocs; i++ ) {
-    os << fLpsrSchemeVariablesVector[i];
-  } // for
-*/
 
   gIndenter--;
 }

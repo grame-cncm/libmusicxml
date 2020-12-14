@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <iomanip>      // setw, setprecision, ...
 
 #include "msrIdentification.h"
 
@@ -56,17 +57,14 @@ void msrIdentification::setWorkNumber (
   string val)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Setting workNumber to \"" << val << "\"" <<
       endl;
   }
 #endif
 
-  fWorkNumber =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kWorkNumber, val);
+  fWorkNumber = val;
 }
 
 void msrIdentification::setWorkTitle (
@@ -74,17 +72,14 @@ void msrIdentification::setWorkTitle (
   string val)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
   }
 #endif
 
-  fWorkTitle =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kWorkTitle, val);
+  fWorkTitle = val;
 }
 
 void msrIdentification::setOpus (
@@ -92,17 +87,14 @@ void msrIdentification::setOpus (
   string val)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Setting opus to \"" << val << "\"" <<
       endl;
   }
 #endif
 
-  fOpus =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kOpus, val);
+  fOpus = val;
 }
 
 void msrIdentification::setMovementNumber (
@@ -110,17 +102,14 @@ void msrIdentification::setMovementNumber (
   string val)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Setting movementNumber to \"" << val << "\"" <<
       endl;
   }
 #endif
 
-  fMovementNumber =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kMovementNumber, val);
+  fMovementNumber = val;
 }
 
 void msrIdentification::setMovementTitle (
@@ -128,17 +117,14 @@ void msrIdentification::setMovementTitle (
   string val)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Setting movementTitle to \"" << val << "\"" <<
       endl;
   }
 #endif
 
-  fMovementTitle =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kMovementTitle, val);
+  fMovementTitle = val;
 }
 
 void msrIdentification::setEncodingDate (
@@ -146,17 +132,14 @@ void msrIdentification::setEncodingDate (
   string val)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Setting encodingDate to \"" << val << "\"" <<
       endl;
   }
 #endif
 
-  fEncodingDate =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kEncodingDate, val);
+  fEncodingDate = val;
 }
 
 void msrIdentification::setMiscellaneousField (
@@ -164,17 +147,14 @@ void msrIdentification::setMiscellaneousField (
   string val)
 {
  #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Setting miscellaneousField to \"" << val << "\"" <<
       endl;
   }
 #endif
 
- fMiscellaneousField =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kMiscellaneousField, val);
+  fMiscellaneousField = val;
 }
 
 void msrIdentification::setScoreInstrument (
@@ -182,17 +162,14 @@ void msrIdentification::setScoreInstrument (
   string val)
 {
  #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Setting scoreInstrument to \"" << val << "\"" <<
       endl;
   }
 #endif
 
- fScoreInstrument =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      msrVarValAssoc::kScoreInstrument, val);
+  fScoreInstrument = val;
 }
 
 void msrIdentification::addRights (
@@ -200,22 +177,14 @@ void msrIdentification::addRights (
   string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Adding right \"" << value << "\"" <<
       endl;
   }
 #endif
 
-  if (! fRights) {
-    fRights =
-      msrVarValsListAssoc::create (
-        inputLineNumber,
-        msrVarValsListAssoc::kRights);
-  }
-
-  fRights->
-    addAssocVariableValue (value);
+  fRightsList.push_back (value);
 }
 
 void msrIdentification::addComposer (
@@ -223,22 +192,14 @@ void msrIdentification::addComposer (
   string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Adding composer \"" << value << "\"" <<
       endl;
   }
 #endif
 
-  if (! fComposers) {
-    fComposers =
-      msrVarValsListAssoc::create (
-        inputLineNumber,
-        msrVarValsListAssoc::kComposer);
-  }
-
-  fComposers->
-    addAssocVariableValue (value);
+  fComposersList.push_back (value);
 }
 
 void msrIdentification::addArranger (
@@ -246,22 +207,14 @@ void msrIdentification::addArranger (
   string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Adding arranger \"" << value << "\"" <<
       endl;
   }
 #endif
 
-  if (! fArrangers) {
-    fArrangers =
-      msrVarValsListAssoc::create (
-        inputLineNumber,
-        msrVarValsListAssoc::kArranger);
-  }
-
-  fArrangers->
-    addAssocVariableValue (value);
+  fArrangersList.push_back (value);
 }
 
 void msrIdentification::addLyricist (
@@ -269,22 +222,14 @@ void msrIdentification::addLyricist (
   string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Adding lyricist \"" << value << "\"" <<
       endl;
   }
 #endif
 
-  if (! fLyricists) {
-    fLyricists =
-      msrVarValsListAssoc::create (
-        inputLineNumber,
-        msrVarValsListAssoc::kLyricist);
-  }
-
-  fLyricists->
-    addAssocVariableValue (value);
+  fLyricistsList.push_back (value);
 }
 
 void msrIdentification::addPoet (
@@ -292,22 +237,14 @@ void msrIdentification::addPoet (
   string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Adding poet \"" << value << "\"" <<
       endl;
   }
 #endif
 
-  if (! fPoets) {
-    fPoets =
-      msrVarValsListAssoc::create (
-        inputLineNumber,
-        msrVarValsListAssoc::kPoet);
-  }
-
-  fPoets->
-    addAssocVariableValue (value);
+  fPoetsList.push_back (value);
 }
 
 void msrIdentification::addTranslator (
@@ -315,22 +252,14 @@ void msrIdentification::addTranslator (
   string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Adding translator \"" << value << "\"" <<
       endl;
   }
 #endif
 
-  if (! fTranslators) {
-    fTranslators =
-      msrVarValsListAssoc::create (
-        inputLineNumber,
-        msrVarValsListAssoc::kTranslator);
-  }
-
-  fTranslators->
-    addAssocVariableValue (value);
+  fTranslatorsList.push_back (value);
 }
 
 void msrIdentification::addArtist (
@@ -338,22 +267,14 @@ void msrIdentification::addArtist (
   string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Adding artist \"" << value << "\"" <<
       endl;
   }
 #endif
 
-  if (! fArtists) {
-    fArtists =
-      msrVarValsListAssoc::create (
-        inputLineNumber,
-        msrVarValsListAssoc::kArtist);
-  }
-
-  fArtists->
-    addAssocVariableValue (value);
+  fArtistsList.push_back (value);
 }
 
 void msrIdentification::addSoftware (
@@ -361,22 +282,14 @@ void msrIdentification::addSoftware (
   string value)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVarValAssocs ()) {
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Adding software \"" << value << "\"" <<
       endl;
   }
 #endif
 
-  if (! fSoftwares) {
-    fSoftwares =
-      msrVarValsListAssoc::create (
-        inputLineNumber,
-        msrVarValsListAssoc::kSoftware);
-  }
-
-  fSoftwares->
-    addAssocVariableValue (value);
+  fSoftwaresList.push_back (value);
 }
 
 void msrIdentification::acceptIn (basevisitor* v)
@@ -424,96 +337,23 @@ void msrIdentification::acceptOut (basevisitor* v)
 }
 
 void msrIdentification::browseData (basevisitor* v)
+{}
+
+string msrIdentification::asString () const
 {
-  if (fWorkNumber) {
-    // browse fWorkNumber
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fWorkNumber);
-  }
+  stringstream s;
 
-  if (fWorkTitle) {
-    // browse fWorkTitle
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fWorkTitle);
-  }
+  s <<
+    "[ Identification" <<
+    ", workNumber: \" " <<  fWorkNumber << "\"" <<
+    ", workTitle: \" " <<  fWorkTitle << "\"" <<
+    ", opus: \" " <<  fOpus << "\"" <<
+    ", movementNumber: \" " <<  fMovementNumber << "\"" <<
+    ", movementTitle: \" " <<  fMovementTitle << "\"" <<
+    ", ..." <<
+    "]";
 
-  if (fOpus) {
-    // browse fOpus
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fOpus);
-  }
-
-  if (fMovementNumber) {
-    // browse fMovementNumber
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fMovementNumber);
-  }
-
-  if (fMovementTitle) {
-    // browse fMovementTitle
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fMovementTitle);
-  }
-
-  if (fComposers) {
-    // browse fComposers
-    msrBrowser<msrVarValsListAssoc> browser (v);
-    browser.browse (*fComposers);
-  }
-
-  if (fArrangers) {
-    // browse fArrangers
-    msrBrowser<msrVarValsListAssoc> browser (v);
-    browser.browse (*fArrangers);
-  }
-
-  if (fLyricists) {
-    // browse fLyricists
-    msrBrowser<msrVarValsListAssoc> browser (v);
-    browser.browse (*fLyricists);
-  }
-
-  if (fPoets) {
-    // browse fPoets
-    msrBrowser<msrVarValsListAssoc> browser (v);
-    browser.browse (*fPoets);
-  }
-
-  if (fTranslators) {
-    // browse fTranslators
-    msrBrowser<msrVarValsListAssoc> browser (v);
-    browser.browse (*fTranslators);
-  }
-
-  if (fRights) {
-    // browse fRights
-    msrBrowser<msrVarValsListAssoc> browser (v);
-    browser.browse (*fRights);
-  }
-
-  if (fSoftwares) {
-    // browse fSoftwares
-    msrBrowser<msrVarValsListAssoc> browser (v);
-    browser.browse (*fSoftwares);
-  }
-
-  if (fEncodingDate) {
-    // browse encoding date
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fEncodingDate);
-  }
-
-  if (fMiscellaneousField) {
-    // browse miscellaneous field
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fMiscellaneousField);
-  }
-
-  if (fScoreInstrument) {
-    // browse score instrument
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fScoreInstrument);
-  }
+  return s.str ();
 }
 
 void msrIdentification::print (ostream& os) const
@@ -522,109 +362,208 @@ void msrIdentification::print (ostream& os) const
     "Identification" <<
     endl;
 
+  const int fieldWidth = 20;
+
   bool emptyIdentification = true;
 
   gIndenter++;
 
-  if (fWorkNumber) {
-    os <<
+  if (fWorkNumber.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "workNumber" << " : \"" <<
       fWorkNumber <<
+      "\"" <<
       endl;
 
     emptyIdentification = false;
   }
 
-  if (fWorkTitle) {
-    os <<
+  if (fOpus.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "opus" << " : \"" <<
+      fOpus <<
+      "\"" <<
+      endl;
+
+    emptyIdentification = false;
+  }
+
+  if (fWorkTitle.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "workTitle" << " : \"" <<
       fWorkTitle <<
+      "\"" <<
       endl;
 
     emptyIdentification = false;
   }
 
-  if (fMovementNumber) {
-    os <<
+  if (fMovementNumber.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "movementNumber" << " : \"" <<
       fMovementNumber <<
+      "\"" <<
       endl;
 
     emptyIdentification = false;
   }
 
-  if (fMovementTitle) {
-    os <<
+  if (fMovementTitle.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "movementTitle" << " : \"" <<
       fMovementTitle <<
+      "\"" <<
       endl;
 
     emptyIdentification = false;
   }
 
-  if (fRights) {
-    os <<
-      fRights <<
-      endl;
-
-    emptyIdentification = false;
-  }
-
-  if (fComposers) {
-    os <<
-      fComposers <<
-      endl;
-
-    emptyIdentification = false;
-  }
-
-  if (fArrangers) {
-    os <<
-      fArrangers <<
-      endl;
-
-    emptyIdentification = false;
-  }
-
-  if (fLyricists) {
-    os <<
-      fLyricists <<
-      endl;
-
-    emptyIdentification = false;
-  }
-
-  if (fPoets) {
-    os <<
-      fPoets <<
-      endl;
-
-    emptyIdentification = false;
-  }
-
-  if (fTranslators) {
-    os <<
-      fTranslators <<
-      endl;
-
-    emptyIdentification = false;
-  }
-
-  if (fSoftwares) {
-    os <<
-      fSoftwares <<
-      endl;
-    emptyIdentification = false;
-  }
-
-  if (fEncodingDate) {
-    os <<
+  if (fEncodingDate.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "encodingDate" << " : \"" <<
       fEncodingDate <<
+      "\"" <<
       endl;
 
     emptyIdentification = false;
   }
 
-  if (fMiscellaneousField) {
-    os <<
+  if (fMiscellaneousField.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "miscellaneousField" << " : \"" <<
       fMiscellaneousField <<
+      "\"" <<
       endl;
+
+    emptyIdentification = false;
+  }
+
+  if (fRightsList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "rightsList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fRightsList.begin ();
+      i != fRightsList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+
+  if (fComposersList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "composersList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fComposersList.begin ();
+      i != fComposersList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+
+  if (fArrangersList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "arrangersList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fArrangersList.begin ();
+      i != fArrangersList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+
+  if (fLyricistsList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "lyricistsList" << " : " <<
+      endl;
+
+    emptyIdentification = false;
+  }
+
+  if (fPoetsList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "poetsList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fPoetsList.begin ();
+      i != fPoetsList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+
+  if (fTranslatorsList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "translatorsList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fTranslatorsList.begin ();
+      i != fTranslatorsList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+
+  if (fSoftwaresList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "softwaresList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fSoftwaresList.begin ();
+      i != fSoftwaresList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
 
     emptyIdentification = false;
   }

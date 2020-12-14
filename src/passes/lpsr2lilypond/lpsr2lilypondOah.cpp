@@ -2509,6 +2509,7 @@ thus overriding the ones that may be present in the MSR data.)",
   S_oahMonoplexStringAtom
     identificationMonoplexStringAtom =
       oahMonoplexStringAtom::create (
+        "svin", "set-variable-in-header",
         "Set variable HEADER_VARIABLE in the \\header in the generated LilyPond code.",
         "HEADER_VARIABLE",
         "STRING");
@@ -3920,7 +3921,6 @@ R"(Don't generate #(set-global-staff-size ...).)",
     appendAtomToSubGroup (
       fNoSetGlobalStaffSizeAtom);
 
-
   // languages
   // --------------------------------------
 
@@ -4291,8 +4291,6 @@ R"(Useful settings for LilyPond code generation.)",
     addBooleanAtom (
       fNoBookBlockAtom);
 
-/* JMI, cf Jean Abou-Samra
-*/
   fMinimalCombinedBooleansAtom->
     addBooleanAtom (
       fNoHeaderBlockAtom);

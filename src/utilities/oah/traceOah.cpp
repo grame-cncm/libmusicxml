@@ -166,6 +166,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     aboveStaffMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tias", "trace-in-above-staff",
         "Trace SHORT_NAME/LONG_NAME in above staff.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -290,6 +291,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     breaksAndBarlinesMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tibab", "trace-in-breaks-and-barlines",
         "Trace SHORT_NAME/LONG_NAME in breaks and barlines.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -436,6 +438,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     clefsToTemposMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tictt", "trace-in-clefs-to-tempo",
         "Trace SHORT_NAME/LONG_NAME in clefs to tempo.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -541,6 +544,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     interNotesMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tiin", "trace-in-inter-notes",
         "Trace SHORT_NAME/LONG_NAME in inter notes.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -608,6 +612,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     spannersMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tis", "trace-in-spanners",
         "Trace SHORT_NAME/LONG_NAME in spanners.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -734,6 +739,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     harmoniesAndFiguredBassesMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tihafb", "trace-in-harmonies-and-figured-basses",
         "Trace SHORT_NAME/LONG_NAME in harmonies and figured basses.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -847,6 +853,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     creditsToWordsMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tictw", "trace-in-credit-to-words",
         "Trace SHORT_NAME/LONG_NAME in 'credits to words'.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -952,6 +959,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     chordsAndTupletsMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "ticat", "trace-in-chords-and-tuplets",
         "Trace SHORT_NAME/LONG_NAME in chords and tuplets.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -1059,6 +1067,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     instrumentsMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tii", "trace-in-instruments",
         "Trace SHORT_NAME/LONG_NAME in instruments.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -1281,6 +1290,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     notesAttachmentsMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tina", "trace-in-notes-attachments",
         "Trace SHORT_NAME/LONG_NAME in notes attachments.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -1424,6 +1434,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     segmentsAndMeasuresMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tisam", "trace-in-segments-and-measures",
         "Trace SHORT_NAME/LONG_NAME in segments and measures.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -1590,6 +1601,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     scoreToVoicesMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tistv", "trace-in-score-to-voices",
         "Trace SHORT_NAME/LONG_NAME in score to voices.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -1794,6 +1806,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     notesMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tin", "trace-in-notes",
         "Trace SHORT_NAME/LONG_NAME in notes.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -2043,6 +2056,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     repeatsToSlashesMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tirts", "trace-in-repeats-to-slashes",
         "Trace SHORT_NAME/LONG_NAME in repeats to slashes.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -2187,6 +2201,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     otherMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+        "tio", "trace-in-other",
         "Trace SHORT_NAME/LONG_NAME in other.",
         "SHORT_NAME",
         "LONG_NAME",
@@ -2234,24 +2249,24 @@ R"(Scaling)",
     addBooleanAtom (
       traceGeometryBooleanAtom);
 
-  // varValAssocs
+  // identification
 
-  fTraceVarValAssocs = false;
+  fTraceIdentification = false;
 
   S_oahTwoBooleansAtom
-    traceVarValAssocsBooleanAtom =
+    traceIdentificationBooleanAtom =
       oahTwoBooleansAtom::create (
-        "tvva", "trace-var-val-assocs",
-R"(VarValAssocs)",
-        "traceVarValAssocs",
-        fTraceVarValAssocs,
+        "tid", "trace-identification",
+R"(Identification)",
+        "traceIdentification",
+        fTraceIdentification,
         fTracePasses);
   subGroup->
     appendAtomToSubGroup (
-      traceVarValAssocsBooleanAtom);
+      traceIdentificationBooleanAtom);
   otherMultiplexBooleansAtom->
     addBooleanAtom (
-      traceVarValAssocsBooleanAtom);
+      traceIdentificationBooleanAtom);
 
   // '-tft, -trace-for-tests' is hidden...
 
@@ -2450,9 +2465,9 @@ void traceOahGroup::printAtomWithValueOptionsValues (
     booleanAsString (fTraceScore) <<
     endl <<
 
-    // varValAssocs
-    setw (valueFieldWidth) << "traceVarValAssocs" << " : " <<
-    booleanAsString (fTraceVarValAssocs) <<
+    // identification
+    setw (valueFieldWidth) << "traceIdentification" << " : " <<
+    booleanAsString (fTraceIdentification) <<
     endl <<
 
     // credits
@@ -2896,9 +2911,9 @@ void traceOahGroup::printTraceOahValues (int fieldWidth)
     booleanAsString (fTraceScore) <<
     endl <<
 
-    // varValAssocs
-    setw (fieldWidth) << "traceVarValAssocs" << " : " <<
-    booleanAsString (fTraceVarValAssocs) <<
+    // identification
+    setw (fieldWidth) << "traceIdentification" << " : " <<
+    booleanAsString (fTraceIdentification) <<
     endl <<
 
     // credits

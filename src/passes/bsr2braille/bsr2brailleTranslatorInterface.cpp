@@ -81,7 +81,7 @@ void convertBsrScoreToBrailleText (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "translate BSR to Braille music",
+    "Translate BSR to Braille music",
     timingItem::kMandatory,
     startClock,
     endClock);

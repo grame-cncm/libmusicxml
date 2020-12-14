@@ -138,18 +138,16 @@ static xmlErr xmlFile2lilypondWithHandler (
   }
 
   // the LPSR score
-  S_lpsrScore originalLpsrScore;
+  S_lpsrScore theLpsrScore;
 
   {
     // create the LPSR from the MSR (pass 3)
     // ------------------------------------------------------
 
-    // start the clock
-    clock_t startClock = clock ();
     const string passNumber = "Pass 3";
 
     try {
-      originalLpsrScore =
+      theLpsrScore =
         convertMsrScoreToLpsrScore (
           mScore,
           gGlobalMsrOahGroup,
@@ -163,29 +161,19 @@ static xmlErr xmlFile2lilypondWithHandler (
       return kInvalidFile;
     }
 
-    clock_t endClock = clock ();
-
-    // register time spent
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "build the LPSR",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
-
     // display the LPSR score if requested
     // ------------------------------------------------------
 
     if (gGlobalLpsrOahGroup->getDisplayLpsr ()) {
       displayLpsrScore_OptionalPass (
-        originalLpsrScore,
+        theLpsrScore,
         gGlobalMsrOahGroup,
         gGlobalLpsrOahGroup);
     }
 
     if (gGlobalLpsrOahGroup->getDisplayLpsrShort ()) {
       displayLpsrScoreShort_OptionalPass (
-        originalLpsrScore,
+        theLpsrScore,
         gGlobalMsrOahGroup,
         gGlobalLpsrOahGroup);
     }
@@ -207,8 +195,6 @@ static xmlErr xmlFile2lilypondWithHandler (
     // generate LilyPond code from the LPSR (pass 4)
     // ------------------------------------------------------
 
-    // start the clock
-    clock_t startClock = clock ();
     const string passNumber = "Pass 4";
 
     string
@@ -245,7 +231,7 @@ static xmlErr xmlFile2lilypondWithHandler (
       // convert the LPSR score to LilyPond code
       try {
         convertLpsrScoreToLilypondCode (
-          originalLpsrScore,
+          theLpsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
           passNumber,
@@ -311,7 +297,7 @@ static xmlErr xmlFile2lilypondWithHandler (
       // convert the LPSR score to LilyPond code
       try {
         convertLpsrScoreToLilypondCode (
-          originalLpsrScore,
+          theLpsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
           passNumber,
@@ -336,16 +322,6 @@ static xmlErr xmlFile2lilypondWithHandler (
 
       outputFileStream.close ();
     }
-
-    // register time spent
-    clock_t endClock = clock ();
-
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "generate LilyPond code",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
   }
 
 	return kNoErr;

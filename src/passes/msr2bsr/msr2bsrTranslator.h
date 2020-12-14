@@ -465,11 +465,6 @@ class msr2bsrTranslator :
     public visitor<S_msrCredit>,
     public visitor<S_msrCreditWords>,
 
-    // variable-value associations
-
-    public visitor<S_msrVarValAssoc>,
-    public visitor<S_msrVarValsListAssoc>,
-
     // scaling
 
     public visitor<S_msrScaling>,
@@ -835,11 +830,6 @@ class msr2bsrTranslator :
     virtual void visitEnd   (S_msrMultipleRest& elt);
     virtual void visitStart (S_msrMultipleRestContents& elt);
     virtual void visitEnd   (S_msrMultipleRestContents& elt);
-
-    virtual void visitStart (S_msrVarValAssoc& elt);
-    virtual void visitEnd   (S_msrVarValAssoc& elt);
-    virtual void visitStart (S_msrVarValsListAssoc& elt);
-    virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
     virtual void visitStart (S_msrScaling& elt);
     virtual void visitEnd   (S_msrScaling& elt);

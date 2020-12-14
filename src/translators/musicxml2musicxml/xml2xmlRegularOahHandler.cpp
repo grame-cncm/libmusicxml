@@ -287,10 +287,14 @@ void xml2xmlRegularOahHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("help-summary", subGroup);
 
   registerAtomInRegularSubgroup ("help-options-usage", subGroup);
+
   registerAtomInRegularSubgroup ("name-help", subGroup);
+  registerAtomInRegularSubgroup ("apropos-option-name", subGroup);
   registerAtomInRegularSubgroup ("find-string", subGroup);
+
   registerAtomInRegularSubgroup ("display-options-values", subGroup);
   registerAtomInRegularSubgroup ("show-options-and-arguments", subGroup);
+
 
   registerAtomInRegularSubgroup ("display-partgroups", subGroup);
 
@@ -301,8 +305,8 @@ void xml2xmlRegularOahHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("trace-oah-details", subGroup);
   registerAtomInRegularSubgroup ("trace-passes", subGroup);
 
-  registerAtomInRegularSubgroup ("trace-encoding", subGroup);
-  registerAtomInRegularSubgroup ("trace-divisions", subGroup);
+  registerAtomInRegularSubgroup ("trace-encoding", subGroup); // JMI
+  registerAtomInRegularSubgroup ("trace-divisions", subGroup); // JMI
 }
 
 void xml2xmlRegularOahHandler::createWarningAndErrorsRegularGroup ()

@@ -30,7 +30,7 @@ namespace MusicXML2
 {
 //______________________________________________________________________________
 EXP Sxmlelement convertMsrScoreToMxmltree (
-  const S_msrScore           originalMsrScore,
+  const S_msrScore           theMsrScore,
   S_msrOahGroup              msrOpts,
   string                     passNumber,
   timingItem::timingItemKind timingItemKind);

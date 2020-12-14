@@ -17,8 +17,6 @@
 
 #include "lpsrScheme.h"
 
-#include "lpsrVarValAssocs.h"
-
 #include "oahOah.h"
 
 
@@ -212,9 +210,9 @@ void lpsrSchemeVariable::print (ostream& os) const
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& assoc)
+ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& schemeVariable)
 {
-  assoc->print (os);
+  schemeVariable->print (os);
   return os;
 }
 
@@ -323,9 +321,9 @@ void lpsrSchemeFunction::print (ostream& os) const
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& assoc)
+ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& schemeFunction)
 {
-  assoc->print (os);
+  schemeFunction->print (os);
   return os;
 }
 

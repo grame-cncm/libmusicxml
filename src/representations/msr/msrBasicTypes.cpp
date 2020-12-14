@@ -1253,23 +1253,23 @@ string multipleRestMeasuresWholeNotesAsMsrString (
 //______________________________________________________________________________
 msrMoment::msrMoment ()
 {
-  fPositionInMeasure = rational (-1, 1);
-  fRelativeOffset    = rational (-1, 1);
+  fWrittenPositionInMeseasure = rational (-1, 1);
+  fSoundingRelativeOffset     = rational (-1, 1);
 }
 
 msrMoment::msrMoment (
-  rational positionInMeasure,
-  rational relativeOffset)
+  rational writtenPositionInMeseasure,
+  rational soundingRelativeOffset)
 {
-  fPositionInMeasure = positionInMeasure;
-  fRelativeOffset    = relativeOffset;
+  fWrittenPositionInMeseasure = writtenPositionInMeseasure;
+  fSoundingRelativeOffset     = soundingRelativeOffset;
 }
 
 msrMoment::msrMoment (
-  rational positionInMeasure)
+  rational writtenPositionInMeseasure)
 {
-  fPositionInMeasure = positionInMeasure;
-  fRelativeOffset    = rational (0, 1);
+  fWrittenPositionInMeseasure = writtenPositionInMeseasure;
+  fSoundingRelativeOffset     = rational (0, 1);
 }
 
 msrMoment::~msrMoment ()
@@ -1357,11 +1357,11 @@ bool msrMoment::operator== (const msrMoment& other) const
 {
   bool result;
 
-  if (fPositionInMeasure != other.fPositionInMeasure) {
+  if (fWrittenPositionInMeseasure != other.fWrittenPositionInMeseasure) {
     result = false;
   }
   else {
-    result = fRelativeOffset == other.fRelativeOffset;
+    result = fSoundingRelativeOffset == other.fSoundingRelativeOffset;
   }
 
   return result;
@@ -1371,11 +1371,11 @@ bool msrMoment::operator< (const msrMoment& other) const
 {
   bool result;
 
-  if (fPositionInMeasure > other.fPositionInMeasure) {
+  if (fWrittenPositionInMeseasure > other.fWrittenPositionInMeseasure) {
     result = false;
   }
-  else if (fPositionInMeasure == other.fPositionInMeasure) {
-    result = fRelativeOffset < other.fRelativeOffset;
+  else if (fWrittenPositionInMeseasure == other.fWrittenPositionInMeseasure) {
+    result = fSoundingRelativeOffset < other.fSoundingRelativeOffset;
   }
   else {
     result = true;
@@ -1388,11 +1388,11 @@ bool msrMoment::operator> (const msrMoment& other) const
 {
   bool result;
 
-  if (fPositionInMeasure < other.fPositionInMeasure) {
+  if (fWrittenPositionInMeseasure < other.fWrittenPositionInMeseasure) {
     result = false;
   }
-  else if (fPositionInMeasure == other.fPositionInMeasure) {
-    result = fRelativeOffset > other.fRelativeOffset;
+  else if (fWrittenPositionInMeseasure == other.fWrittenPositionInMeseasure) {
+    result = fSoundingRelativeOffset > other.fSoundingRelativeOffset;
   }
   else {
     result = true;
@@ -1407,7 +1407,7 @@ string msrMoment::asString () const
 
   s <<
     "[Moment [" <<
-    fPositionInMeasure << ", " << fRelativeOffset <<
+    fWrittenPositionInMeseasure << ", " << fSoundingRelativeOffset <<
     "]";
 
   return s.str ();
@@ -1421,14 +1421,14 @@ void msrMoment::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 11;
+  const int fieldWidth = 26;
 
   os << left <<
     setw (fieldWidth) <<
-    "positionInMeasure" << " : " << fPositionInMeasure <<
+    "writtenPositionInMeseasure" << " : " << fWrittenPositionInMeseasure <<
     endl <<
     setw (fieldWidth) <<
-    "relativeOffset" << " : " << fRelativeOffset <<
+    "soundingRelativeOffset" << " : " << fSoundingRelativeOffset <<
     endl;
 
   gIndenter--;
@@ -14516,6 +14516,12 @@ void msrLength::print (ostream& os) const
   os <<
     asString (); // JMI
 };
+
+ostream& operator<< (ostream& os, const msrLength& elt)
+{
+  elt.print (os);
+  return os;
+}
 
 ostream& operator<< (ostream& os, const S_msrLength& elt)
 {

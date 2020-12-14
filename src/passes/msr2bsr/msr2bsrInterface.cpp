@@ -84,7 +84,7 @@ S_bsrScore convertMsrScoreToBsrScore (
   // register time spent
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "translate MSR to BSR",
+    "Translate the MSR to a BSR",
     timingItem::kMandatory,
     startClock,
     endClock);

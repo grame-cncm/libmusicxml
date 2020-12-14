@@ -90,7 +90,7 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "build the MSR skeleton from a MusicMXL elements tree",
+    "Build the MSR skeleton from the MusicMXL elements tree",
     timingItem::kMandatory,
     startClock,
     endClock);

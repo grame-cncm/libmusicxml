@@ -78,6 +78,7 @@ R"()",
   S_oahMultiplexBooleansAtom
     musicXMLMultiplexBooleansAtom =
       oahMultiplexBooleansAtom::create (
+       "twhmd", "trace-when-handling-musicxml-data",
         "Trace SHORT_NAME/LONG_NAME when handling MusicXML data.",
         "SHORT_NAME",
         "LONG_NAME",

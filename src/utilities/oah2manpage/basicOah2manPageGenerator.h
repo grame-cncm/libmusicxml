@@ -40,7 +40,7 @@ class basicOah2manPageGenerator : virtual public oah2manPageGenerator,
 
   public visitor<S_oahAtomWithVariableName>,
 
-  public visitor<S_oahNameHelpAtom>,
+  public visitor<S_oahOptionNameHelpAtom>,
 
   public visitor<S_oahBooleanAtom>,
   public visitor<S_oahTwoBooleansAtom>,
@@ -112,8 +112,8 @@ class basicOah2manPageGenerator : virtual public oah2manPageGenerator,
     virtual void visitStart (S_oahAtomWithVariableName& elt);
     virtual void visitEnd   (S_oahAtomWithVariableName& elt);
 
-    virtual void visitStart (S_oahNameHelpAtom& elt);
-    virtual void visitEnd   (S_oahNameHelpAtom& elt);
+    virtual void visitStart (S_oahOptionNameHelpAtom& elt);
+    virtual void visitEnd   (S_oahOptionNameHelpAtom& elt);
 
     virtual void visitStart (S_oahBooleanAtom& elt);
     virtual void visitEnd   (S_oahBooleanAtom& elt);

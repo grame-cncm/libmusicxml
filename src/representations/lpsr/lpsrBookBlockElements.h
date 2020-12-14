@@ -13,24 +13,6 @@
 #ifndef ___lpsrBookBlockElements___
 #define ___lpsrBookBlockElements___
 
-/*
-#include <sstream>
-#include <vector>
-#include <string>
-#include <list>
-
-
-#include "exports.h"
-#include "typedefs.h"
-
-#include "msrBasicTypes.h"
-
-
-#include "lpsrVarValAssocs.h"
-
-#include "lpsrScheme.h"
-*/
-
 #include "lpsrComments.h"
 
 #include "lpsrScheme.h"
@@ -40,7 +22,6 @@
 #include "lpsrLayouts.h"
 
 #include "lpsrParallelMusic.h"
-#include "lpsrVarValAssocs.h"
 
 //#include "msrBlocks.h"
 

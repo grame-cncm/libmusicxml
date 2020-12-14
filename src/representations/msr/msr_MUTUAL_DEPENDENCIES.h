@@ -26,8 +26,6 @@
 
 #include "msrVoiceElements.h"
 
-#include "msrVarValAssocs.h"
-
 #include "msrIdentification.h"
 
 #include "msrMusicXMLSpecifics.h"

@@ -94,7 +94,7 @@ clock_t startClock = clock ();
   // register time spent
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "translate MSR to LPSR",
+    "Translate the MSR to a LPSR",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -143,14 +143,14 @@ clock_t startClock = clock ();
 
 //_______________________________________________________________________________
 void displayLpsrScore (
-  const S_lpsrScore originalLpsrScore,
-  S_msrOahGroup          msrOpts,
-  S_lpsrOahGroup         lpsrOpts)
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts)
 {
   // sanity check
   msgAssert (
-    originalLpsrScore != nullptr,
-    "originalLpsrScore is null");
+    theLpsrScore != nullptr,
+    "theLpsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -166,7 +166,7 @@ void displayLpsrScore (
     endl <<
     separator <<
     endl << endl <<
-    originalLpsrScore <<
+    theLpsrScore <<
     separator <<
     endl << endl;
 
@@ -182,14 +182,14 @@ void displayLpsrScore (
 }
 
 void displayLpsrScoreShort (
-  const S_lpsrScore originalLpsrScore,
-  S_msrOahGroup          msrOpts,
-  S_lpsrOahGroup         lpsrOpts)
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts)
 {
   // sanity check
   msgAssert (
-    originalLpsrScore != nullptr,
-    "originalLpsrScore is null");
+    theLpsrScore != nullptr,
+    "theLpsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -206,7 +206,7 @@ void displayLpsrScoreShort (
     separator <<
     endl << endl;
 
-  originalLpsrScore->printShort (gLogStream);
+  theLpsrScore->printShort (gLogStream);
 
   gLogStream <<
     separator <<
@@ -225,13 +225,13 @@ void displayLpsrScoreShort (
 
 //_______________________________________________________________________________
 void displayLpsrScore_OptionalPass (
-  S_lpsrScore originalLpsrScore,
-  S_msrOahGroup    msrOpts,
-  S_lpsrOahGroup   lpsrOpts)
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts)
 {
   // display it
   displayLpsrScore (
-    originalLpsrScore,
+    theLpsrScore,
     msrOpts,
     lpsrOpts);
 
@@ -254,13 +254,13 @@ void displayLpsrScore_OptionalPass (
 }
 
 void displayLpsrScoreShort_OptionalPass (
-  S_lpsrScore originalLpsrScore,
-  S_msrOahGroup    msrOpts,
-  S_lpsrOahGroup   lpsrOpts)
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts)
 {
   // display it
   displayLpsrScoreShort (
-    originalLpsrScore,
+    theLpsrScore,
     msrOpts,
     lpsrOpts);
 

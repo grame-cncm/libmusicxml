@@ -214,9 +214,13 @@ void xml2brlRegularOahHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("help-summary", subGroup);
 
   registerAtomInRegularSubgroup ("help-options-usage", subGroup);
+
   registerAtomInRegularSubgroup ("name-help", subGroup);
+  registerAtomInRegularSubgroup ("apropos-option-name", subGroup);
   registerAtomInRegularSubgroup ("find-string", subGroup);
+
   registerAtomInRegularSubgroup ("display-options-values", subGroup);
+
   registerAtomInRegularSubgroup ("show-options-and-arguments", subGroup);
 
   registerAtomInRegularSubgroup ("display-partgroups", subGroup);

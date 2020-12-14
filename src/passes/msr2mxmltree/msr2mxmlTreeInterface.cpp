@@ -39,15 +39,15 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 Sxmlelement convertMsrScoreToMxmltree (
-  const S_msrScore           originalMsrScore,
+  const S_msrScore           theMsrScore,
   S_msrOahGroup              msrOpts,
   string                     passNumber,
   timingItem::timingItemKind timingItemKind)
 {
   // sanity check
   msgAssert (
-    originalMsrScore != nullptr,
-    "originalMsrScore is null");
+    theMsrScore != nullptr,
+    "theMsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -72,7 +72,7 @@ Sxmlelement convertMsrScoreToMxmltree (
   // create an msr2mxmlTreeTranslator
   msr2mxmlTreeTranslator
     translator (
-      originalMsrScore);
+      theMsrScore);
 
   // build the mxmlTree
   Sxmlelement
@@ -84,7 +84,7 @@ Sxmlelement convertMsrScoreToMxmltree (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "translate the MSR to an mxmlTree",
+    "Translate the MSR to an mxmlTree",
     timingItem::kMandatory,
     startClock,
     endClock);

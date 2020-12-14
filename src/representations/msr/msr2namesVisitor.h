@@ -35,12 +35,7 @@ class msr2namesVisitor :
 
   // voices
 
-  public visitor<S_msrVoice>,
-
-  // varValAssocs
-
-  public visitor<S_msrVarValAssoc>,
-  public visitor<S_msrVarValsListAssoc>
+  public visitor<S_msrVoice>
 
 {
   public:
@@ -69,11 +64,6 @@ class msr2namesVisitor :
 
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
-
-    virtual void visitStart (S_msrVarValAssoc& elt);
-    virtual void visitEnd   (S_msrVarValAssoc& elt);
-    virtual void visitStart (S_msrVarValsListAssoc& elt);
-    virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
   private:
 

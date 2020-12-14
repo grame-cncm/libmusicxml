@@ -237,8 +237,9 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
 void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
   int inputLineNumber)
 {
+/* JMI
   if (
-    ! fIdentification->getWorkTitle ()
+    fIdentification->getWorkTitle ().size ()
       &&
     gGlobalMxmlTree2msrOahGroup->getUseFilenameAsWorkTitle ()
   ) {
@@ -250,6 +251,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
       inputSourceName = "Standard_input";
     }
   }
+*/
 
   /*
   <credit page="1">
@@ -397,39 +399,6 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
     } // for
   }
 }
-
-/* JMI
-void msrScore::setHeaderFromOptionsIfAny (
-  int inputLineNumber)
-{
-  // should we use lyricists as poets? JMI
-  if (gGlobalMxmlTree2msrOahGroup->getUseLyricistsAsPoets ()) {
-    S_msrVarValsListAssoc
-      lyricists =
-        fIdentification->getLyricists ();
-
-    const list<string>&
-      lyricistsValuesList =
-        lyricists->getVariableValuesList ();
-
-    if (lyricistsValuesList.size ()) {
-      S_msrVarValsListAssoc
-        poets =
-          fIdentification->getPoets ();
-
-      list<string>::const_iterator
-        iBegin = lyricistsValuesList.begin (),
-        iEnd   = lyricistsValuesList.end (),
-        i      = iBegin;
-
-      for ( ; ; ) {
-        poets->addAssocVariableValue (*i);
-        if (++i == iEnd) break;
-      } // for
-    }
-  }
-}
-*/
 
 void msrScore::collectScorePartsList (
   int              inputLineNumber,
@@ -671,6 +640,8 @@ void msrScore::print (ostream& os) const
       fAppearance <<
       endl;
   }
+
+  os << endl;
 
   // print the credits if any
   int creditsListSize = fCreditsList.size ();
@@ -940,8 +911,8 @@ void msrScore::printShort (ostream& os) const
 void msrScore::printSummary (ostream& os) const
 {
   os <<
-    "MSR component" <<
-    endl;
+    "MSR component" << // JMI summary ???
+    endl << endl;
 
   gIndenter++;
 
@@ -1001,7 +972,8 @@ void msrScore::printSummary (ostream& os) const
   // print the identification if any
   if (fIdentification) {
     os <<
-      fIdentification;
+      fIdentification <<
+      endl;
   }
 
   // print the scaling if any

@@ -395,9 +395,15 @@ void msr2msrTranslator::visitStart (S_msrIdentification& elt)
 
   gIndenter++;
 
+  // get the identification
   fCurrentIdentification =
     fResultingMsrScore->
       getIdentification ();
+
+  // store it in the resulting MSR score
+  fResultingMsrScore->
+    setIdentification (
+      fCurrentIdentification);
 
   fOnGoingIdentification = true;
 }
@@ -5766,150 +5772,6 @@ void msr2msrTranslator::visitEnd (S_msrBarline& elt)
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
       "--> End visiting msrBarline" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void msr2msrTranslator::visitStart (S_msrVarValAssoc& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
-    gLogStream <<
-      "--> Start visiting msrVarValAssoc" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  msrVarValAssoc::msrVarValAssocKind
-    varValAssocKind =
-      elt->getVarValAssocKind ();
-  string variableValueAux = elt->getVariableValue ();
-  string variableValue;
-
-  // escape quotes if any
-  for_each (
-    variableValueAux.begin (),
-    variableValueAux.end (),
-    stringQuoteEscaper (variableValue));
-
-  switch (varValAssocKind) {
-    case msrVarValAssoc::kWorkNumber:
-      fCurrentIdentification->
-        setWorkNumber (
-          inputLineNumber, variableValue);
-      break;
-
-    case msrVarValAssoc::kWorkTitle:
-      fCurrentIdentification->
-        setWorkTitle (
-          inputLineNumber, variableValue);
-      break;
-
-    case msrVarValAssoc::kOpus:
-      fCurrentIdentification->
-        setOpus (
-          inputLineNumber, variableValue);
-      break;
-
-    case msrVarValAssoc::kMovementNumber:
-      fCurrentIdentification->
-        setMovementNumber (
-          inputLineNumber, variableValue);
-      break;
-
-    case msrVarValAssoc::kMovementTitle:
-      fCurrentIdentification->
-        setMovementTitle (
-          inputLineNumber, variableValue);
-
-      break;
-
-    case msrVarValAssoc::kEncodingDate:
-      fCurrentIdentification->
-        setEncodingDate (
-          inputLineNumber, variableValue);
-      break;
-
-    case msrVarValAssoc::kScoreInstrument:
-      fCurrentIdentification->
-        setScoreInstrument (
-          inputLineNumber, variableValue);
-      break;
-
-    case msrVarValAssoc::kMiscellaneousField:
-      fCurrentIdentification->
-        setMiscellaneousField (
-          inputLineNumber, variableValue);
-      break;
-
-    default:
-      {
-      stringstream s;
-
-      s <<
-        "### msrVarValAssoc kind '" <<
-        msrVarValAssoc::varValAssocKindAsString (
-          varValAssocKind) <<
-        "' is not handled";
-
-      msrMusicXMLWarning (
-        gGlobalOahOahGroup->getInputSourceName (),
-        inputLineNumber,
-        s.str ());
-      }
-  } // switch
-}
-
-void msr2msrTranslator::visitEnd (S_msrVarValAssoc& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
-    gLogStream <<
-      "--> End visiting msrVarValAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void msr2msrTranslator::visitStart (S_msrVarValsListAssoc& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
-    gLogStream <<
-      "--> Start visiting msrVarValsListAssoc" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-/* JMI
-  msrVarValsListAssoc::msrVarValsListAssocKind
-    varValsListAssocKind =
-      elt->getVarValsListAssocKind ();
-
-  const list<string>&
-    variableValuesList =
-      elt->getVariableValuesList ();
-      */
-}
-
-void msr2msrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
-    gLogStream <<
-      "--> End visiting msrVarValsListAssoc" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

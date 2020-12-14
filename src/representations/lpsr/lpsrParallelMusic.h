@@ -12,22 +12,6 @@
 
 #ifndef ___lpsrParallelMusic___
 #define ___lpsrParallelMusic___
-/*
-#include <sstream>
-#include <vector>
-
-
-#include "exports.h"
-#include "typedefs.h"
-
-#include "msrBasicTypes.h"
-
-#include "msr.h"
-
-#include "lpsrVarValAssocs.h"
-
-#include "lpsrScheme.h"
-*/
 
 #include <string>
 #include <list>
@@ -37,14 +21,14 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class lpsrParallelMusicBLock : public lpsrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -53,7 +37,7 @@ class lpsrParallelMusicBLock : public lpsrElement
 
     static string elementsSeparatorKindAsString (
       lpsrElementsSeparatorKind elementsSeparatorKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -69,9 +53,9 @@ class lpsrParallelMusicBLock : public lpsrElement
     lpsrParallelMusicBLock (
       int                       inputLineNumber,
       lpsrElementsSeparatorKind elementsSeparatorKind);
-      
+
     virtual ~lpsrParallelMusicBLock ();
-    
+
   public:
 
     // set and get
@@ -92,14 +76,14 @@ class lpsrParallelMusicBLock : public lpsrElement
                                 fParallelMusicBLockPartGroupBlocks.push_back (
                                   partGroupBlock);
                               }
-                    
+
 /* JMI
     S_lpsrPartGroupBlock  getLastPartGroupBlockOfParallelMusicBLock ()
                               {
                                 return
                                   fParallelMusicBLockPartGroupBlocks.back ();
                               }
-                    
+
     void                  removeLastPartGroupBlockOfParallelMusicBLock () // JMI
                               {
                                 fParallelMusicBLockPartGroupBlocks.pop_back ();
@@ -107,7 +91,7 @@ class lpsrParallelMusicBLock : public lpsrElement
 */
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -117,20 +101,20 @@ class lpsrParallelMusicBLock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
     list<S_lpsrPartGroupBlock>
                           fParallelMusicBLockPartGroupBlocks;
-    
+
     lpsrElementsSeparatorKind
                           fElementsSeparatorKind;
 };

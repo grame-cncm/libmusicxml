@@ -403,14 +403,14 @@ R"(Display xml2ly's version number and history.)",
 R"(Display information about how to contacct xml2ly maintainers.)",
         executableName));
 
-  // name help
+  // help about option name
 
   string defaultOptionName = "name-help";
 
-  fNameToProvideHelpAbout = defaultOptionName;
+  fOptionNameToProvideHelpAbout = defaultOptionName;
 
-  fNameHelpAtom =
-    oahNameHelpAtom::create (
+  fOptionNameHelpAtom =
+    oahOptionNameHelpAtom::create (
       "nh", defaultOptionName,
       regex_replace (
 R"(Print help about OPTION_NAME.
@@ -419,14 +419,28 @@ OPTION_NAME is optional, and the default value is 'DEFAULT_VALUE'.)",
         defaultOptionName),
       "OPTION_NAME",
       "optionName",
-      fNameToProvideHelpAbout,
+      fOptionNameToProvideHelpAbout,
       defaultOptionName);
 
   subGroup->
     appendAtomToSubGroup (
-      fNameHelpAtom);
+      fOptionNameHelpAtom);
 
-  // find name
+  // apropos about option name
+
+  fAProposOptionNameAtom =
+    oahAProposOptionNameAtom::create (
+      "apropos", "apropos-option-name",
+R"(Print help about OPTION_NAME.)",
+      "OPTION_NAME",
+      "nameToProvideAProposAbout",
+      fOptionNameToProvideAProposAbout);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fAProposOptionNameAtom);
+
+  // find string
 
   fFindStringAtom =
     oahFindStringAtom::create (

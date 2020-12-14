@@ -377,13 +377,13 @@ void basicOah2manPageGenerator::visitEnd (S_oahHelpSummaryAtom& elt)
 }
 
 //________________________________________________________________________
-void basicOah2manPageGenerator::visitStart (S_oahNameHelpAtom& elt)
+void basicOah2manPageGenerator::visitStart (S_oahOptionNameHelpAtom& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
       endl <<
-      ".\\\" --> Start visiting oahNameHelpAtom '" <<
+      ".\\\" --> Start visiting oahOptionNameHelpAtom '" <<
       elt->asString () <<
       "'" <<
       " \"" << elt->fetchNames () << "\"" <<
@@ -392,13 +392,13 @@ void basicOah2manPageGenerator::visitStart (S_oahNameHelpAtom& elt)
 #endif
 }
 
-void basicOah2manPageGenerator::visitEnd (S_oahNameHelpAtom& elt)
+void basicOah2manPageGenerator::visitEnd (S_oahOptionNameHelpAtom& elt)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
       endl <<
-      ".\\\" --> End visiting oahNameHelpAtom" <<
+      ".\\\" --> End visiting oahOptionNameHelpAtom" <<
       " \"" << elt->fetchNames () << "\"" <<
       endl;
   }

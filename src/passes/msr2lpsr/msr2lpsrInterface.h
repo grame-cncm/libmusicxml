@@ -33,25 +33,25 @@ S_lpsrScore convertMsrScoreToLpsrScore (
 
 //_______________________________________________________________________________
 EXP void displayLpsrScore (
-  const S_lpsrScore originalLpsrScore,
-  S_msrOahGroup          msrOpts,
-  S_lpsrOahGroup         lpsrOpts);
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts);
 
 EXP void displayLpsrScoreShort (
-  const S_lpsrScore originalLpsrScore,
-  S_msrOahGroup          msrOpts,
-  S_lpsrOahGroup         lpsrOpts);
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts);
 
 //_______________________________________________________________________________
 void displayLpsrScore_OptionalPass (
-  S_lpsrScore originalLpsrScore,
-  S_msrOahGroup    msrOpts,
-  S_lpsrOahGroup   lpsrOpts);
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts);
 
 void displayLpsrScoreShort_OptionalPass (
-  S_lpsrScore originalLpsrScore,
-  S_msrOahGroup    msrOpts,
-  S_lpsrOahGroup   lpsrOpts);
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts);
 
 
 } // namespace MusicXML2

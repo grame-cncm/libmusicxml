@@ -106,10 +106,12 @@ class lpsr2lilypondTranslator :
 
   public visitor<S_lpsrScore>,
 
-  // variable-value associations
+  // rights
 
-  public visitor<S_lpsrVarValAssoc>,
-  public visitor<S_lpsrVarValsListAssoc>,
+  public visitor<S_msrIdentification>,
+
+  // Scheme variable-s
+
   public visitor<S_lpsrSchemeVariable>,
 
   // MSR scaling
@@ -393,11 +395,8 @@ class lpsr2lilypondTranslator :
     virtual void visitStart (S_lpsrScore& elt);
     virtual void visitEnd   (S_lpsrScore& elt);
 
-    virtual void visitStart (S_lpsrVarValAssoc& elt);
-    virtual void visitEnd   (S_lpsrVarValAssoc& elt);
-
-    virtual void visitStart (S_lpsrVarValsListAssoc& elt);
-    virtual void visitEnd   (S_lpsrVarValsListAssoc& elt);
+    virtual void visitStart (S_msrIdentification& elt);
+    virtual void visitEnd   (S_msrIdentification& elt);
 
     virtual void visitStart (S_lpsrSchemeVariable& elt);
     virtual void visitEnd   (S_lpsrSchemeVariable& elt);
@@ -746,23 +745,6 @@ class lpsr2lilypondTranslator :
     string                nameAsLilypondString (
                             string name);
 
-    // variable-value associations
-
-    string                lpsrVarValAssocKindAsLilypondString (
-                            lpsrVarValAssoc::lpsrVarValAssocKind
-                              lilyPondVarValAssocKind);
-
-    string                lpsrVarValsListAssocKindAsLilypondString (
-                            lpsrVarValsListAssoc::lpsrVarValsListAssocKind
-                              lilyPondVarValsListAssocKind);
-
-    void                  generateLpsrVarValsListAssocValues (
-                            S_lpsrVarValsListAssoc varValsListAssoc);
-
-    string                lpsrVarValAssocAsLilypondString (
-                            S_lpsrVarValAssoc lpsrVarValAssoc,
-                            int               fieldNameWidth);
-
     // lengths
 
     string                lengthUnitAsLilypondString (
@@ -963,10 +945,6 @@ class lpsr2lilypondTranslator :
     // ------------------------------------------------------
     S_lpsrScore           fVisitedLpsrScore;
 
-    // header handling
-    // ------------------------------------------------------
-    bool                  fOnGoingHeader;
-
     // LilyPond version
     // ------------------------------------------------------
     void                  generateLilypondVersion ();
@@ -975,8 +953,20 @@ class lpsr2lilypondTranslator :
     // ------------------------------------------------------
     void                  generateGlobalStaffSize ();
 
+    // header handling
+    // ------------------------------------------------------
+    bool                  fOnGoingHeader;
+
+    void                  generateHeader (S_lpsrHeader header);
+
     // paper handling
     // ------------------------------------------------------
+    void                  generatePaper (S_lpsrPaper paper);
+
+    void                  fetchValuesFromPaperPageSize (
+                            S_lpsrPaper                     paper,
+                            list<pair<string, msrLength> >& nameValuePairsList);
+
     void                  generatePaperPageSize (
                             S_msrPageLayout   pageLayout,
                             msrLengthUnitKind defaultLengthUnit,

@@ -95,10 +95,19 @@ class EXP timing {
     // print
     void                  print (ostream& os) const;
 
+    void                  printWithContext (
+                            string   context,
+                            ostream& os) const;
+
   private:
 
-    list<S_timingItem>
-                          fTimingItemsList;
+    // private services
+    void                  doPrint (ostream& os) const;
+
+  private:
+
+    // private fields
+    list<S_timingItem>    fTimingItemsList;
 };
 EXP ostream& operator<< (ostream& os, const timing& tim);
 
@@ -145,7 +154,7 @@ class EXP outputIndenter
                               { return fSpacer; }
 
     // indent a multiline 'R"(...)"' string
-    string                indentMultiLineString (string value);
+    string                indentMultiLineString (string theString);
 
     // global variables for general use
     static outputIndenter gGlobalOStreamIndenter;
@@ -239,7 +248,7 @@ Usage:
   public:
 
     static SMARTP<indentedOstream> create (
-      ostream&   theOStream,
+      ostream&        theOStream,
       outputIndenter& theIndenter)
     {
       indentedOstream* o = new indentedOstream (
@@ -252,7 +261,7 @@ Usage:
 
     // constructor
     indentedOstream (
-      ostream&   theOStream,
+      ostream&        theOStream,
       outputIndenter& theIndenter)
       : ostream (
           & fIndentedStreamBuf),
@@ -505,3 +514,65 @@ string  makeSingleWordFromString (const string& theString);
 
 
 #endif
+
+/* JMI worth it?
+//______________________________________________________________________________
+class EXP indentedSstream: public stringstream, public smartable
+{
+/ *
+  explicit stringstream (ios_base::openmode which = ios_base::in | ios_base::out);
+
+    Constructs a stringstream object with an empty sequence as content.
+    Internally, its iostream base constructor is passed a pointer to
+    a stringbuf object constructed with which as argument.
+* /
+
+  private:
+    // indentedSstream just uses an indentedStreamBuf
+    indentedStreamBuf     fIndentedStreamBuf;
+
+  public:
+
+    static SMARTP<indentedSstream> create (
+      stringstream&   theStringStream,
+      outputIndenter& theIndenter)
+    {
+      indentedSstream* o = new indentedSstream (
+        theStringStream,
+        theIndenter);
+      assert (o!=0);
+
+      return o;
+    }
+
+    // constructor
+    indentedSstream (
+      stringstream&   theStringStream,
+      outputIndenter& theIndenter)
+      : stringstream (
+          & fIndentedStreamBuf),
+        fIndentedStreamBuf (
+          theStringStream,
+          theIndenter)
+        {}
+
+    // destructor
+    virtual ~indentedSstream () {};
+
+    // flush
+    void                  flush ()
+                              { fIndentedStreamBuf.flush (); }
+
+    // indentation
+    outputIndenter&       getIndenter () const
+                              { return fIndentedStreamBuf.getOutputIndenter (); }
+
+    void                  incrIdentation ()
+                              { fIndentedStreamBuf.getOutputIndenter ()++; }
+
+    void                  decrIdentation ()
+                              { fIndentedStreamBuf.getOutputIndenter ()--; }
+};
+typedef SMARTP<indentedSstream> S_indentedSstream;
+*/
+

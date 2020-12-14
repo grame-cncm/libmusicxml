@@ -93,17 +93,12 @@ void timing::appendTimingItem (
   fTimingItemsList.push_back (timingItem);
 }
 
-ostream& operator<< (ostream& os, const timing& tim) {
-  tim.print(os);
-  return os;
-}
-
-void timing::print (ostream& os) const
+void timing::doPrint (ostream& os) const
 {
   // printing the details
   const int
     activityWidth     =  8,
-    descriptionWidth  = 52,
+    descriptionWidth  = 54,
     kindWidth         =  9,
     secondsWidth      =  9,
     secondsPrecision  = secondsWidth - 4; // to leave room for large numbers
@@ -113,11 +108,7 @@ void timing::print (ostream& os) const
     totalMandatoryClock = 0,
     totalOptionalClock  = 0;
 
-  os <<
-    endl <<
-    left <<
-    "Timing information:" <<
-    endl << endl <<
+  os << left <<
     setw (activityWidth) << "Activity" << "  " <<
     setw (descriptionWidth) << "Description" << "  " <<
     setw (kindWidth)     << "Kind" << "  " <<
@@ -168,9 +159,8 @@ void timing::print (ostream& os) const
     totalOptionalClockWidth  =  9,
     totalsPrecision          =  secondsPrecision;
 
-  os << right <<
-
-    setw (totalClockWidth)            << "Total" <<
+  os << left <<
+    setw (totalClockWidth)            << "Total (sec)" <<
     "  " <<
     setw (totalMandatoryClockWidth)   << "Mandatory" <<
     "  " <<
@@ -199,6 +189,31 @@ void timing::print (ostream& os) const
     setw (totalOptionalClockWidth) <<
     float(totalOptionalClock) / CLOCKS_PER_SEC <<
     endl << endl;
+}
+
+void timing::printWithContext (
+  string   context,
+  ostream& os) const
+{
+  os << left <<
+    "Timing information for " << context << ":" <<
+    endl << endl;
+
+  doPrint (os);
+}
+
+void timing::print (ostream& os) const
+{
+  os << left <<
+    "Timing information:" <<
+    endl << endl;
+
+  doPrint (os);
+}
+
+ostream& operator<< (ostream& os, const timing& tim) {
+  tim.print(os);
+  return os;
 }
 
 timing timing::gGlobalTiming;
@@ -308,29 +323,23 @@ outputIndenter& outputIndenter::decrement (int value)
   return *this;
 }
 
-string outputIndenter::indentMultiLineString (string value)
+string outputIndenter::indentMultiLineString (string theString)
 {
+  // add indentation ahead of all lines inside 'theString'
+  istringstream inputStream (theString);
+  string        line;
   stringstream  s;
 
-  // add indentation ahead of all lines inside 'value'
-  istringstream inputStream (value);
-  string        line;
-
   while (getline (inputStream, line)) {
+    this->print (s);
     s << line;
 
     if (inputStream.eof ()) break;
 
     s << endl;
-    this->print (s);
   } // while
 
   return s.str ();
-}
-
-ostream& operator<< (ostream& os, const outputIndenter& idtr) {
-  idtr.print(os);
-  return os;
 }
 
 void outputIndenter::print (ostream& os) const
@@ -338,6 +347,11 @@ void outputIndenter::print (ostream& os) const
   int i = fIndent;
 
   while (i-- > 0) os << fSpacer;
+}
+
+ostream& operator<< (ostream& os, const outputIndenter& theIndenter) {
+  theIndenter.print(os);
+  return os;
 }
 
 //______________________________________________________________________________

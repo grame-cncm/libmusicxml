@@ -132,7 +132,7 @@ class lpsrSchemeVariable : public lpsrElement
 
 };
 typedef SMARTP<lpsrSchemeVariable> S_lpsrSchemeVariable;
-EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& elt);
+EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& schemeVariable);
 
 //______________________________________________________________________________
 class lpsrSchemeFunction : public lpsrElement
@@ -209,7 +209,7 @@ class lpsrSchemeFunction : public lpsrElement
     string            fFunctionCode;
 };
 typedef SMARTP<lpsrSchemeFunction> S_lpsrSchemeFunction;
-EXP ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& elt);
+EXP ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& schemeFunction);
 
 
 }

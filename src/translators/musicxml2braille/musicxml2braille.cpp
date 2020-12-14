@@ -170,7 +170,7 @@ static xmlErr xmlFile2brailleWithHandler (
     // register time spent
     timing::gGlobalTiming.appendTimingItem (
       passNumber,
-      "build the first BSR",
+      "Build the first BSR",
       timingItem::kMandatory,
       startClock,
       endClock);
@@ -235,7 +235,7 @@ static xmlErr xmlFile2brailleWithHandler (
     // register time spent
     timing::gGlobalTiming.appendTimingItem (
       passNumber,
-      "build the finalized BSR",
+      "Build the finalized BSR",
       timingItem::kMandatory,
       startClock,
       endClock);
@@ -393,7 +393,7 @@ static xmlErr xmlFile2brailleWithHandler (
 
     timing::gGlobalTiming.appendTimingItem (
       passNumber,
-      "generate LilyPond code",
+      "Generate braille music",
       timingItem::kMandatory,
       startClock,
       endClock);

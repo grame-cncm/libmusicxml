@@ -4157,8 +4157,32 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrScore& elt)
   fLilypondCodeStream << endl;
 }
 
-    // names
+//________________________________________________________________________
+void lpsr2lilypondTranslator::visitStart (S_msrIdentification& elt)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    fLilypondCodeStream <<
+      "% --> Start visiting msrIdentification" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
 
+void lpsr2lilypondTranslator::visitEnd (S_msrIdentification& elt)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
+    fLilypondCodeStream <<
+      "% --> End visiting msrIdentification" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
 string lpsr2lilypondTranslator::nameAsLilypondString (
   string name)
 {
@@ -4177,515 +4201,6 @@ string lpsr2lilypondTranslator::nameAsLilypondString (
   }
 
   return result;
-}
-
-string lpsr2lilypondTranslator::lpsrVarValAssocKindAsLilypondString (
-  lpsrVarValAssoc::lpsrVarValAssocKind
-    lilyPondVarValAssocKind)
-{
-  string result;
-
-  switch (lilyPondVarValAssocKind) {
-    // library
-
-    case lpsrVarValAssoc::kLibraryVersion:
-      result = "version";
-      break;
-
-    // MusicXML informations
-
-    case lpsrVarValAssoc::kMusicXMLWorkNumber:
-      result = "opus";
-      break;
-    case lpsrVarValAssoc::kMusicXMLWorkTitle:
-      result = "title";
-      break;
-    case lpsrVarValAssoc::kMusicXMLOpus:
-      result = "opus";
-      break;
-    case lpsrVarValAssoc::kMusicXMLMovementNumber:
-      result = "movementNumber";
-      break;
-    case lpsrVarValAssoc::kMusicXMLMovementTitle:
-      result = "subtitle";
-      break;
-    case lpsrVarValAssoc::kMusicXMLEncodingDate:
-      result = "encodingDate";
-      break;
-    case lpsrVarValAssoc::kMusicXMLScoreInstrument:
-      result = "scoreInstrument";
-      break;
-    case lpsrVarValAssoc::kMusicXMLMiscellaneousField:
-      result = "miscellaneousField";
-      break;
-
-    // LilyPond informations
-
-    case lpsrVarValAssoc::kLilypondDedication:
-      result = "dedication";
-      break;
-
-    case lpsrVarValAssoc::kLilypondPiece:
-      result = "piece";
-      break;
-    case lpsrVarValAssoc::kLilypondOpus:
-      result = "opus";
-      break;
-
-    case lpsrVarValAssoc::kLilypondTitle:
-      result = "title";
-      break;
-    case lpsrVarValAssoc::kLilypondSubTitle:
-      result = "subtitle";
-      break;
-    case lpsrVarValAssoc::kLilypondSubSubTitle:
-      result = "subsubtitle";
-      break;
-
-    case lpsrVarValAssoc::kLilypondInstrument:
-      result = "instrument";
-      break;
-    case lpsrVarValAssoc::kLilypondMeter:
-      result = "meter";
-      break;
-
-    case lpsrVarValAssoc::kLilypondTagline:
-      result = "tagline";
-      break;
-    case lpsrVarValAssoc::kLilypondCopyright:
-      result = "copyright";
-      break;
-
-    case lpsrVarValAssoc::kLilypondMyBreak:
-      result = "myBreak";
-      break;
-    case lpsrVarValAssoc::kLilypondMyPageBreak:
-      result = "myPageBreak";
-      break;
-    case lpsrVarValAssoc::kLilypondGlobal:
-      result = "global";
-      break;
-  } // switch
-
-  return result;
-}
-
-string lpsr2lilypondTranslator::lpsrVarValAssocAsLilypondString (
-  S_lpsrVarValAssoc lpsrVarValAssoc,
-  int               fieldNameWidth)
-{
-  stringstream s;
-
-  s << left <<
-    setw (fieldNameWidth) <<
-    lpsrVarValAssocKindAsLilypondString (
-      lpsrVarValAssoc->
-        getLilypondVarValAssocKind ()) <<
-    " = ";
-
-  msrFontStyleKind
-    varValFontStyleKind =
-      lpsrVarValAssoc->
-        getVarValFontStyleKind ();
-
-  bool italicIsNeeded = false;
-
-  switch (varValFontStyleKind) {
-    case kFontStyleNone:
-      break;
-    case kFontStyleNormal:
-      break;
-    case KFontStyleItalic:
-      italicIsNeeded = true;
-      break;
-    } // switch
-
-  msrFontWeightKind
-    varValFontWeightKind =
-      lpsrVarValAssoc->
-        getVarValFontWeightKind ();
-
-  bool boldIsNeeded = false;
-
-  switch (varValFontWeightKind) {
-    case kFontWeightNone:
-      break;
-    case kFontWeightNormal:
-      break;
-    case kFontWeightBold:
-      boldIsNeeded = true;
-      break;
-    } // switch
-
-  bool markupIsNeeded = italicIsNeeded || boldIsNeeded;
-
-  if (markupIsNeeded) {
-    fLilypondCodeStream << "\\markup { ";
-  }
-
-  if (italicIsNeeded) {
-    fLilypondCodeStream << "\\italic ";
-  }
-  if (boldIsNeeded) {
-    fLilypondCodeStream << "\\bold ";
-  }
-
-  s <<
-    "\"" <<
-    lpsrVarValAssoc->
-      getVariableValue () <<
-    "\"";
-
-  if (markupIsNeeded) {
-    s << " }";
-  }
-
-  return s.str ();
-}
-
-string lpsr2lilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
-  lpsrVarValsListAssoc::lpsrVarValsListAssocKind
-    lilyPondVarValsListAssocKind)
-{
-  string result;
-
-  switch (lilyPondVarValsListAssocKind) {
-    // MusicXML informations
-
-    case lpsrVarValsListAssoc::kMusicXMLRights:
-      result = "rights";
-      break;
-    case lpsrVarValsListAssoc::kMusicXMLComposer:
-      result = "composer";
-      break;
-    case lpsrVarValsListAssoc::kMusicXMLArranger:
-      result = "arranger";
-      break;
-    case lpsrVarValsListAssoc::kMusicXMLPoet:
-      result = "poet";
-      break;
-    case lpsrVarValsListAssoc::kMusicXMLLyricist:
-      result = "lyricist";
-      break;
-    case lpsrVarValsListAssoc::kMusicXMLTranslator:
-      result = "translator";
-      break;
-    case lpsrVarValsListAssoc::kMusicXMLArtist:
-      result = "artist";
-      break;
-    case lpsrVarValsListAssoc::kMusicXMLSoftware:
-      result = "software";
-      break;
-    } // switch
-
-  return result;
-}
-
-void lpsr2lilypondTranslator::generateLpsrVarValsListAssocValues (
-  S_lpsrVarValsListAssoc varValsListAssoc)
-{
-  const list<string>&
-    variableValuesList =
-      varValsListAssoc->
-        getVariableValuesList ();
-
-  switch (variableValuesList.size ()) {
-    case 0:
-      break;
-
-    case 1:
-      // generate a single string
-      fLilypondCodeStream <<
-        "\"" <<
-        escapeDoubleQuotes (variableValuesList.front ()) <<
-        "\"";
-      break;
-
-    default:
-      // generate a markup containing the chunks
-      fLilypondCodeStream <<
-        endl <<
-        "\\markup {" <<
-        endl;
-
-      gIndenter++;
-
-      fLilypondCodeStream <<
-        "\\column {" <<
-        endl;
-
-      gIndenter++;
-
-      list<string>::const_iterator
-        iBegin = variableValuesList.begin (),
-        iEnd   = variableValuesList.end (),
-        i      = iBegin;
-
-      for ( ; ; ) {
-        fLilypondCodeStream <<
-          "\"" << (*i) << "\"";
-        if (++i == iEnd) break;
-        fLilypondCodeStream << endl;
-      } // for
-
-      fLilypondCodeStream << endl;
-
-      gIndenter--;
-
-      fLilypondCodeStream <<
-        "}" <<
-        endl;
-
-      gIndenter--;
-
-      fLilypondCodeStream <<
-        "}" <<
-        endl;
-  } // switch
-}
-
-//________________________________________________________________________
-void lpsr2lilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
-      "% --> Start visiting lpsrVarValAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  if (gGlobalLpsr2lilypondOahGroup->getNoHeaderBlock ()) { // JMI too restrictive???
-    return;
-  }
-
-  // generate the comment if needed
-  string
-    comment =
-      elt->getComment ();
-
-  if (comment.size ()) {
-    fLilypondCodeStream <<
-      "% " << comment <<
-      endl;
-  }
-
-  // generate a comment out if needed
-  switch (elt->getCommentedKind ()) {
-    case lpsrVarValAssoc::kCommentedYes:
-      fLilypondCodeStream << "%";
-      break;
-    case lpsrVarValAssoc::kCommentedNo:
-      break;
-  } // switch
-
-  // generate the backslash if needed
-  switch (elt->getBackSlashKind ()) {
-    case lpsrVarValAssoc::kWithBackSlashYes:
-      fLilypondCodeStream << "\\";
-      break;
-    case lpsrVarValAssoc::kWithBackSlashNo:
-      break;
-  } // switch
-
-  lpsrVarValAssoc::lpsrVarValAssocKind
-    varValAssocKind =
-      elt->getLilypondVarValAssocKind ();
-
-  string
-    lilyPondVarValAssocKindAsLilypondString =
-      lpsrVarValAssocKindAsLilypondString (
-        varValAssocKind);
-
-  // the largest variable name length in a header is 18 JMI
-  int fieldWidth;
-
-  if (fOnGoingHeader) {
-    fieldWidth = 18;
-  }
-  else {
-    fieldWidth =
-      lilyPondVarValAssocKindAsLilypondString.size ();
-  }
-
-  // generate the field name
-  fLilypondCodeStream << left<<
-    setw (fieldWidth) <<
-    lilyPondVarValAssocKindAsLilypondString;
-
-  switch (elt->getVarValSeparatorKind ()) {
-    case lpsrVarValAssoc::kVarValSeparatorSpace:
-      fLilypondCodeStream << ' ';
-      break;
-    case lpsrVarValAssoc::kVarValSeparatorEqualSign:
-      fLilypondCodeStream << " = ";
-      break;
-  } // switch
-
-  msrFontStyleKind
-    varValFontStyleKind =
-      elt->getVarValFontStyleKind ();
-
-  bool italicIsNeeded = false;
-
-  switch (varValFontStyleKind) {
-    case kFontStyleNone:
-      break;
-    case kFontStyleNormal:
-      break;
-    case KFontStyleItalic:
-      italicIsNeeded = true;
-      break;
-    } // switch
-
-  msrFontWeightKind
-    varValFontWeightKind =
-      elt->getVarValFontWeightKind ();
-
-  bool boldIsNeeded = false;
-
-  switch (varValFontWeightKind) {
-    case kFontWeightNone:
-      break;
-    case kFontWeightNormal:
-      break;
-    case kFontWeightBold:
-      boldIsNeeded = true;
-      break;
-    } // switch
-
-  bool markupIsNeeded = italicIsNeeded || boldIsNeeded;
-
-  if (markupIsNeeded) {
-    fLilypondCodeStream << "\\markup { ";
-  }
-
-  if (italicIsNeeded) {
-    fLilypondCodeStream << "\\italic ";
-  }
-  if (boldIsNeeded) {
-    fLilypondCodeStream << "\\bold ";
-  }
-
-  // generate the quote if needed
-  lpsrVarValAssoc::lpsrQuotesKind
-    quotesKind =
-      elt->getQuotesKind ();
-
-  switch (quotesKind) {
-    case lpsrVarValAssoc::kQuotesAroundValueYes:
-      fLilypondCodeStream << "\"";
-      break;
-    case lpsrVarValAssoc::kQuotesAroundValueNo:
-      break;
-  } // switch
-
-  // generate the value and unit if any
-  if (elt->getUnit ().size ()) {
-    fLilypondCodeStream <<
-      setprecision (2) <<
-      elt->getVariableValue ();
-
-    fLilypondCodeStream <<
-      "\\" <<
-      elt->getUnit ();
-  }
-  else {
-    fLilypondCodeStream <<
-      elt->getVariableValue ();
-  }
-
-  // generate the quote if needed
-  switch (quotesKind) {
-    case lpsrVarValAssoc::kQuotesAroundValueYes:
-      fLilypondCodeStream << "\"";
-      break;
-    case lpsrVarValAssoc::kQuotesAroundValueNo:
-      break;
-  } // switch
-
-  if (markupIsNeeded) {
-    fLilypondCodeStream << " }";
-  }
-
-  fLilypondCodeStream << endl;
-
-  // generate the end line(s) if needed
-  switch (elt->getEndlKind ()) {
-    case lpsrVarValAssoc::kEndlNone:
-      break;
-    case lpsrVarValAssoc::kEndlOnce:
-      fLilypondCodeStream << endl;
-      break;
-    case lpsrVarValAssoc::kEndlTwice:
-      fLilypondCodeStream <<
-        endl << endl;
-      break;
-  } // switch
-}
-
-void lpsr2lilypondTranslator::visitEnd (S_lpsrVarValAssoc& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
-      "% --> End visiting lpsrVarValAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-}
-
-//________________________________________________________________________
-void lpsr2lilypondTranslator::visitStart (S_lpsrVarValsListAssoc& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
-      "% --> Start visiting lpsrVarValsListAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  // the largest variable name length in a header is 18 JMI
-  int fieldWidth;
-
-  string
-    lilyPondVarValsListAssocKindAsString =
-      elt->lilyPondVarValsListAssocKindAsString ();
-
-  if (fOnGoingHeader) {
-    fieldWidth = 18;
-  }
-  else {
-    fieldWidth =
-      lilyPondVarValsListAssocKindAsString.size ();
-  }
-
-  fLilypondCodeStream << left<<
-    setw (fieldWidth) <<
-    lpsrVarValsListAssocKindAsLilypondString (
-      elt->getVarValsListAssocKind ());
-
-  fLilypondCodeStream << " = ";
-
-  generateLpsrVarValsListAssocValues (elt);
-
-  fLilypondCodeStream << endl;
-}
-
-void lpsr2lilypondTranslator::visitEnd (S_lpsrVarValsListAssoc& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
-    fLilypondCodeStream <<
-      "% --> End visiting lpsrVarValsListAssoc" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
 }
 
 //________________________________________________________________________
@@ -4793,187 +4308,8 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrHeader& elt)
 
   gIndenter++; // decremented in visitEnd (S_lpsrHeader&)
 
-  // generate header elements
-
-  int fieldNameWidth =
-    elt->maxLilypondVariablesNamesLength ();
-
-  // MusicXML informations JMI ???
-
-  // LilyPond informations
-
-  {
-    // dedication
-    S_lpsrVarValAssoc
-      lilypondDedication =
-        elt->getLilypondDedication ();
-
-    if (lilypondDedication) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondDedication,
-          fieldNameWidth) <<
-        endl;
-    }
-  }
-
-  {
-    // piece
-    S_lpsrVarValAssoc
-      lilypondPiece =
-        elt->getLilypondPiece ();
-
-    if (lilypondPiece) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondPiece,
-          fieldNameWidth) <<
-        endl;
-    }
-  }
-
-  {
-    // opus
-    S_lpsrVarValAssoc
-      lilypondOpus =
-        elt->getLilypondOpus ();
-
-    if (lilypondOpus) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondOpus,
-          fieldNameWidth) <<
-        endl;
-    }
-  }
-
-  {
-    // title
-    if (gGlobalMxmlTree2msrOahGroup->getUseFilenameAsWorkTitle ()) {
-      fLilypondCodeStream << left <<
-        setw (fieldNameWidth) <<
-        "title = \"" <<
-        gGlobalOahOahGroup->getInputSourceName () <<
-        "\"" <<
-        endl;
-    }
-    else {
-      S_lpsrVarValAssoc
-        lilypondTitle =
-          elt->getLilypondTitle ();
-
-      if (lilypondTitle) {
-        fLilypondCodeStream <<
-          lpsrVarValAssocAsLilypondString (
-            lilypondTitle,
-            fieldNameWidth) <<
-          endl;
-      }
-    }
-
-    /* JMI
-    S_msrLength
-      indent =
-        elt->getIndent ();
-
-    if (! indent) {
-      fLilypondCodeStream << "%";
-    }
-    fLilypondCodeStream << left <<
-      setw (fieldWidth) <<
-      "indent" << " = ";
-    if (indent) {
-      fLilypondCodeStream <<
-        setprecision (3) << indent->getLengthValue () <<
-        lengthUnitAsLilypondString (indent->getLengthUnitKind ());
-    }
-    else {
-      fLilypondCodeStream <<
-        "0.0" <<
-        lengthUnitAsLilypondString (defaultLengthUnit);
-    }
-    fLilypondCodeStream << endl;
-*/
-
-    // subtitle
-    S_lpsrVarValAssoc
-      lilypondSubTitle =
-        elt->getLilypondSubTitle ();
-
-    if (lilypondSubTitle) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondSubTitle,
-          fieldNameWidth) <<
-        endl;
-    }
-
-    S_lpsrVarValAssoc
-      lilypondSubSubTitle =
-        elt->getLilypondSubSubTitle ();
-
-    if (lilypondSubSubTitle) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondSubSubTitle,
-          fieldNameWidth) <<
-        endl;
-    }
-  }
-
-  {
-    // instrument
-    S_lpsrVarValAssoc
-      lilypondInstrument =
-        elt->getLilypondInstrument ();
-
-    if (lilypondInstrument) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondInstrument,
-          fieldNameWidth) <<
-        endl;
-    }
-
-    S_lpsrVarValAssoc
-      lilypondMeter =
-        elt->getLilypondMeter ();
-
-    if (lilypondMeter) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondMeter,
-          fieldNameWidth) <<
-        endl;
-    }
-  }
-
-  {
-    // copyright
-    S_lpsrVarValAssoc
-      lilypondCopyright =
-        elt->getLilypondCopyright ();
-
-    if (lilypondCopyright) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondCopyright,
-          fieldNameWidth) <<
-        endl;
-    }
-
-    S_lpsrVarValAssoc
-      lilypondTagline =
-        elt->getLilypondTagline ();
-
-    if (lilypondTagline) {
-      fLilypondCodeStream <<
-        lpsrVarValAssocAsLilypondString (
-          lilypondTagline,
-          fieldNameWidth) <<
-        endl;
-    }
-  }
+  // generate header
+  generateHeader (elt);
 
   fOnGoingHeader = true;
 }
@@ -5084,6 +4420,405 @@ void lpsr2lilypondTranslator::generateGlobalStaffSize ()
       setprecision (6) << globalStaffSize <<
       " )" <<
       endl << endl;
+  }
+}
+
+//________________________________________________________________________
+void lpsr2lilypondTranslator::generateHeader (S_lpsrHeader header)
+{
+  /*
+    the values given through options have precedence
+    over those found in the header
+  */
+
+  list<pair<string, string> > nameValuePairsList;
+
+  // title
+  if (gGlobalMxmlTree2msrOahGroup->getUseFilenameAsWorkTitle ()) { // JMI
+    nameValuePairsList.push_back (
+      make_pair (
+        "title",
+        gGlobalOahOahGroup->getInputSourceName ()));
+  }
+  else {
+    string
+      lilypondTitle = // JMI
+        header->getLilypondTitle ();
+
+    if (false && lilypondTitle.size ()) { // JMI, not used
+      nameValuePairsList.push_back (
+        make_pair (
+          "title",
+          lilypondTitle));
+    }
+
+    else {
+      string
+        workTitle =
+          header->getWorkTitle ();
+
+      if (workTitle.size ()) {
+        nameValuePairsList.push_back (
+          make_pair (
+            "title",
+            workTitle));
+      }
+    }
+  }
+
+  // compute the fieldWidth
+  int fieldWidth = 0;
+  //     header->maxLilypondVariablesNamesLength (); // JMI
+
+  for (
+    list<pair<string, string> >::const_iterator i =
+      nameValuePairsList.begin ();
+    i != nameValuePairsList.end ();
+    i++
+  ) {
+    string name = (*i).first;
+
+    int nameSize = name.size ();
+
+    if (nameSize > fieldWidth) {
+      fieldWidth = nameSize;
+    }
+  } // for
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
+    fLilypondCodeStream <<
+      "% --> The header nameValuePairsList contains:" <<
+      endl;
+
+    for (
+      list<pair<string, string> >::const_iterator i =
+        nameValuePairsList.begin ();
+      i != nameValuePairsList.end ();
+      i++
+    ) {
+      string name  = (*i).first;
+      string value = (*i).second;
+
+      fLilypondCodeStream <<
+        "% " << name << " ---> " << value <<
+        endl;
+    } // for
+
+    fLilypondCodeStream <<
+      "% ====> fieldWidth: " << fieldWidth <<
+      endl;
+  }
+#endif
+
+  // MusicXML informations JMI ???
+
+  // LilyPond informations
+
+  // dedication
+  string
+    lilypondDedication =
+      header->getLilypondDedication ();
+
+  if (lilypondDedication.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "dedication" << " = \"" << lilypondDedication << "\"" <<
+      endl;
+  }
+
+  // piece
+  string
+    lilypondPiece =
+      header->getLilypondPiece ();
+
+  if (lilypondPiece.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "piece" << " = \"" << lilypondPiece << "\"" <<
+      endl;
+  }
+
+  // opus
+  string
+    lilypondOpus =
+      header->getLilypondOpus ();
+
+  if (lilypondOpus.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "opus" << " = \"" << lilypondOpus << "\"" <<
+      endl;
+  }
+
+  // title
+  string
+    lilypondTitle = // JMI
+      header->getLilypondTitle ();
+
+  if (gGlobalMxmlTree2msrOahGroup->getUseFilenameAsWorkTitle ()) { // JMI
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "title" << " = \"" << lilypondTitle << "\"" <<
+      endl;
+  }
+
+  // subtitle
+  string
+    lilypondSubTitle =
+      header->getLilypondSubTitle ();
+
+  if (lilypondSubTitle.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "subtitle" << " = \"" << lilypondSubTitle << "\"" <<
+      endl;
+  }
+
+  // subsubtitle
+  string
+    lilypondSubSubTitle =
+      header->getLilypondSubSubTitle ();
+
+  if (lilypondSubSubTitle.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "subsubtitle" << " = \"" << lilypondDedication << "\"" <<
+      endl;
+  }
+
+  // instrument
+  string
+    lilypondInstrument =
+      header->getLilypondInstrument ();
+
+  if (lilypondInstrument.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "instrument" << " = \"" << lilypondInstrument << "\"" <<
+      endl;
+  }
+
+  // meter
+  string
+    lilypondMeter =
+      header->getLilypondMeter ();
+
+  if (lilypondMeter.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "meter" << " = \"" << lilypondMeter << "\"" <<
+      endl;
+  }
+
+  // copyright
+  string
+    lilypondCopyright =
+      header->getLilypondCopyright ();
+
+  if (lilypondCopyright.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "copyright" << " = \"" << lilypondCopyright << "\"" <<
+      endl;
+  }
+
+  // tagline
+  string
+    lilypondTagline =
+      header->getLilypondTagline ();
+
+  if (lilypondTagline.size ()) {
+    fLilypondCodeStream << left <<
+      setw (fieldWidth) <<
+      "tagline" << " = \"" << lilypondDedication << "\"" <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void lpsr2lilypondTranslator::generatePaper (
+  S_lpsrPaper paper)
+{
+  // get MSR page layout
+  S_msrPageLayout
+    pageLayout =
+      paper->getPageLayout ();
+
+  // default length unit
+  const msrLengthUnitKind
+    defaultLengthUnit = kMillimeterUnit; // JMI
+
+  fLilypondCodeStream <<
+    "\\paper {" <<
+    endl;
+
+  gIndenter++;
+
+  list<pair<string, msrLength> > nameValuePairsList;
+
+  fetchValuesFromPaperPageSize (
+    paper,
+    nameValuePairsList );
+
+  // compute fieldWidth
+  int fieldWidth = 0;
+
+  for (
+    list<pair<string, msrLength> >::const_iterator i =
+      nameValuePairsList.begin ();
+    i != nameValuePairsList.end ();
+    i++
+  ) {
+    string name = (*i).first;
+
+    int nameSize = name.size ();
+
+    if (nameSize > fieldWidth) {
+      fieldWidth = nameSize;
+    }
+  } // for
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
+    fLilypondCodeStream <<
+      "% --> The header nameValuePairsList contains:" <<
+      endl;
+
+    for (
+      list<pair<string, msrLength> >::const_iterator i =
+        nameValuePairsList.begin ();
+      i != nameValuePairsList.end ();
+      i++
+    ) {
+      string    name  = (*i).first;
+      msrLength value = (*i).second;
+
+      fLilypondCodeStream <<
+        "% " << name << " ---> " << value <<
+        endl;
+    } // for
+
+    fLilypondCodeStream <<
+      "% ====> fieldWidth: " << fieldWidth <<
+      endl;
+  }
+#endif
+
+  // page size
+  generatePaperPageSize (
+    pageLayout,
+    defaultLengthUnit,
+    fieldWidth);
+
+  // separator
+// JMI    fLilypondCodeStream << endl;
+
+  // margins
+  generatePaperMargins (
+    pageLayout,
+    defaultLengthUnit,
+    fieldWidth);
+
+  // separator
+// JMI    fLilypondCodeStream << endl;
+
+  // indents
+  generatePaperIndents (
+    paper,
+    defaultLengthUnit,
+    fieldWidth);
+
+  // separator
+// JMI    fLilypondCodeStream << endl;
+
+  // spaces
+  generatePaperSpaces (
+    paper,
+    defaultLengthUnit,
+    fieldWidth);
+
+  // separator
+// JMI    fLilypondCodeStream << endl;
+
+  // counts
+  generatePaperCounts (
+    paper,
+    defaultLengthUnit,
+    fieldWidth);
+
+  // separator
+// JMI    fLilypondCodeStream << endl;
+
+  // headers and footers
+  generatePaperHeadersAndFooters (
+    paper,
+    defaultLengthUnit,
+    fieldWidth);
+
+  gIndenter--;
+
+  fLilypondCodeStream <<
+    "}";
+
+  if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
+    fLilypondCodeStream << left <<
+      setw (commentFieldWidth) <<
+      " % paper";
+  }
+
+  fLilypondCodeStream <<
+    endl << endl;
+}
+
+//________________________________________________________________________
+void lpsr2lilypondTranslator::fetchValuesFromPaperPageSize (
+  S_lpsrPaper                     paper,
+  list<pair<string, msrLength> >& nameValuePairsList)
+{
+  bool
+    generateCommentedOutVariables =
+      gGlobalLpsr2lilypondOahGroup->
+        getGenerateCommentedOutVariables ();
+
+  // paper height
+  bool
+    paperHeightHasBeenSet =
+      gGlobalLpsrOahGroup->
+        getPaperHeightAtom ()->
+          getVariableHasBeenSet (),
+    doGeneratePaperHeight =
+      paperHeightHasBeenSet || generateCommentedOutVariables;
+
+  if (doGeneratePaperHeight) {
+    msrLength
+      paperHeight =
+        gGlobalLpsrOahGroup->getPaperHeight ();
+
+    nameValuePairsList.push_back (
+      make_pair (
+        "paper-height",
+        paperHeight));
+  }
+
+  // paper width
+  bool
+    paperWidthHasBeenSet =
+      gGlobalLpsrOahGroup->
+        getPaperWidthAtom ()->
+          getVariableHasBeenSet (),
+    doGeneratePaperWidth =
+      paperWidthHasBeenSet || generateCommentedOutVariables;
+
+  if (doGeneratePaperWidth) {
+    msrLength
+      paperWidth =
+        gGlobalLpsrOahGroup->getPaperWidth ();
+
+    nameValuePairsList.push_back (
+      make_pair (
+        "paper-width",
+        paperWidth));
   }
 }
 
@@ -5547,83 +5282,12 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPaper& elt)
     return;
   }
 
-/*
-  we could generate the LPSR paper code a second time
-  with an option JMI ???
-*/
-
   if (! fOnGoingBookPartBlock) {
-    // get MSR page layout
-    S_msrPageLayout
-      pageLayout =
-        elt->getPageLayout ();
-
-    // default length unit
-    const msrLengthUnitKind
-      defaultLengthUnit = kMillimeterUnit; // JMI
-
-    fLilypondCodeStream <<
-      "\\paper {" <<
-      endl;
-
-    gIndenter++; // decremented in visitEnd (S_lpsrPaper& elt)
-
-    const int fieldWidth = 30;
-
-    // page size
-    generatePaperPageSize (
-      pageLayout,
-      defaultLengthUnit,
-      fieldWidth);
-
-    // separator
-// JMI    fLilypondCodeStream << endl;
-
-    // margins
-    generatePaperMargins (
-      pageLayout,
-      defaultLengthUnit,
-      fieldWidth);
-
-    // separator
-// JMI    fLilypondCodeStream << endl;
-
-    // indents
-    generatePaperIndents (
-      elt,
-      defaultLengthUnit,
-      fieldWidth);
-
-    // separator
-// JMI    fLilypondCodeStream << endl;
-
-    // spaces
-    generatePaperSpaces (
-      elt,
-      defaultLengthUnit,
-      fieldWidth);
-
-    // separator
-// JMI    fLilypondCodeStream << endl;
-
-    // counts
-    generatePaperCounts (
-      elt,
-      defaultLengthUnit,
-      fieldWidth);
-
-    // separator
-// JMI    fLilypondCodeStream << endl;
-
-    // headers and footers
-    generatePaperHeadersAndFooters (
-      elt,
-      defaultLengthUnit,
-      fieldWidth);
+    generatePaper (elt);
   }
 }
 
-void lpsr2lilypondTranslator::visitEnd (S_lpsrPaper& elt)
+void lpsr2lilypondTranslator::visitEnd (S_lpsrPaper& elt) // superflous ??? JMI
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
@@ -5636,22 +5300,6 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrPaper& elt)
 
   if (gGlobalLpsr2lilypondOahGroup->getNoPaperBlock ()) {
     return;
-  }
-
-  if (! fOnGoingBookPartBlock) {
-    gIndenter--; // incremented in visitStart (S_lpsrPaper& elt)
-
-    fLilypondCodeStream <<
-      "}";
-
-    if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
-      fLilypondCodeStream << left <<
-        setw (commentFieldWidth) <<
-        " % paper";
-    }
-
-    fLilypondCodeStream <<
-      endl << endl;
   }
 }
 
@@ -16212,7 +15860,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
 
     if (gGlobalLpsr2lilypondOahGroup->getOriginalMeasureNumbers ()) {
       fLilypondCodeStream <<
-        " %{omn: " <<
+        " %{nbon: " <<
         elt->getNextBarOriginalNumber () <<
         "%}";
     }

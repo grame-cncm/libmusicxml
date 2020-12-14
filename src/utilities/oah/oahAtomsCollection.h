@@ -932,6 +932,8 @@ class oahMultiplexBooleansAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahMultiplexBooleansAtom> create (
+      string      shortName,
+      string      longName,
       string      description,
       string      shortSuffixDescriptor,
       string      longSuffixDescriptor,
@@ -944,6 +946,8 @@ class oahMultiplexBooleansAtom : public oahAtom
     // ------------------------------------------------------
 
     oahMultiplexBooleansAtom (
+      string      shortName,
+      string      longName,
       string      description,
       string      shortSuffixDescriptor,
       string      longSuffixDescriptor,
@@ -1016,6 +1020,9 @@ class oahMultiplexBooleansAtom : public oahAtom
 
     list<string>          fShortNamesSuffixes;
     list<string>          fLongNamesSuffixes;
+
+    // we need unique short and long names
+    static int            sMultiplexAtomsCounter;
 };
 typedef SMARTP<oahMultiplexBooleansAtom> S_oahMultiplexBooleansAtom;
 EXP ostream& operator<< (ostream& os, const S_oahMultiplexBooleansAtom& elt);
@@ -1368,9 +1375,11 @@ class oahMonoplexStringAtom : public oahAtom
     // ------------------------------------------------------
 
     static SMARTP<oahMonoplexStringAtom> create (
-      string      description,
-      string      atomNameDescriptor,
-      string      stringValueDescriptor);
+      string shortName,
+      string longName,
+      string description,
+      string atomNameDescriptor,
+      string stringValueDescriptor);
 
   protected:
 
@@ -1378,9 +1387,11 @@ class oahMonoplexStringAtom : public oahAtom
     // ------------------------------------------------------
 
     oahMonoplexStringAtom (
-      string      description,
-      string      atomNameDescriptor,
-      string      stringValueDescriptor);
+      string shortName,
+      string longName,
+      string description,
+      string atomNameDescriptor,
+      string stringValueDescriptor);
 
     virtual ~oahMonoplexStringAtom ();
 
@@ -2520,7 +2531,7 @@ typedef SMARTP<oahMidiTempoAtom> S_oahMidiTempoAtom;
 EXP ostream& operator<< (ostream& os, const S_oahMidiTempoAtom& elt);
 
 //______________________________________________________________________________
-class oahNameHelpAtom : public oahStringWithDefaultValueAtom
+class oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
 {
 /*
   This is where OAH is introspective:
@@ -2534,7 +2545,7 @@ class oahNameHelpAtom : public oahStringWithDefaultValueAtom
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahNameHelpAtom> create (
+    static SMARTP<oahOptionNameHelpAtom> create (
       string shortName,
       string longName,
       string description,
@@ -2548,7 +2559,7 @@ class oahNameHelpAtom : public oahStringWithDefaultValueAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahNameHelpAtom (
+    oahOptionNameHelpAtom (
       string shortName,
       string longName,
       string description,
@@ -2559,7 +2570,7 @@ class oahNameHelpAtom : public oahStringWithDefaultValueAtom
 
   protected:
 
-    virtual ~oahNameHelpAtom ();
+    virtual ~oahOptionNameHelpAtom ();
 
   public:
 
@@ -2607,8 +2618,88 @@ class oahNameHelpAtom : public oahStringWithDefaultValueAtom
 
     string                fValueSpecification;
 };
-typedef SMARTP<oahNameHelpAtom> S_oahNameHelpAtom;
-EXP ostream& operator<< (ostream& os, const S_oahNameHelpAtom& elt);
+typedef SMARTP<oahOptionNameHelpAtom> S_oahOptionNameHelpAtom;
+EXP ostream& operator<< (ostream& os, const S_oahOptionNameHelpAtom& elt);
+
+//______________________________________________________________________________
+class oahAProposOptionNameAtom : public oahStringAtom
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<oahAProposOptionNameAtom> create (
+      string shortName,
+      string longName,
+      string description,
+      string valueSpecification,
+      string variableName,
+      string& stringVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    oahAProposOptionNameAtom (
+      string shortName,
+      string longName,
+      string description,
+      string valueSpecification,
+      string variableName,
+      string& stringVariable);
+
+  protected:
+
+    virtual ~oahAProposOptionNameAtom ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  applyAtomWithValue (
+                            string   theString,
+                            ostream& os) override;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortNamedOptionString () const override;
+    string                asActualLongNamedOptionString () const override;
+
+    void                  print (ostream& os) const override;
+
+    virtual void          printAtomWithValueOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const override;
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    string                fValueSpecification;
+};
+typedef SMARTP<oahAProposOptionNameAtom> S_oahAProposOptionNameAtom;
+EXP ostream& operator<< (ostream& os, const S_oahAProposOptionNameAtom& elt);
 
 //______________________________________________________________________________
 class oahFindStringAtom : public oahStringAtom
