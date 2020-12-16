@@ -256,6 +256,8 @@ msrKey::msrKey ( // for traditional keys
   fKeyTonicQuarterTonesPitchKind = keyTonicQuarterTonesPitchKind;
 
   switch (fKeyModeKind) {
+    case k_NoKeyMode:
+      break;
     case kMajorMode:
       break;
     case kMinorMode:

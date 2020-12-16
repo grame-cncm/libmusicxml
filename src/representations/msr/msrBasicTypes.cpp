@@ -9681,6 +9681,9 @@ string keyModeKindAsString (
   string result;
 
   switch (keyModeKind) {
+    case k_NoKeyMode:
+      result = "*noKeyMode";
+      break;
     case kMajorMode:
       result = "major";
       break;

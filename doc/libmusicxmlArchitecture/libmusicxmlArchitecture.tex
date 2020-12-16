@@ -51,7 +51,7 @@ Jacques Menu
 This document shows the architecture of the \lib\ library, to be found at 
 \url {https://github.com/grame-cncm/libmusicxml/tree/lilypond}.
 
-\lib\ is written in C++11 and provides a set of music scores representations and converters between various textual music scores formats. Building it only requires a C++11 compiler and {\tt cmake}.
+\lib\ is written in C++11 and provides a set of music scores representations and translators between various textual music scores formats. Building it only requires a C++11 compiler and {\tt cmake}.
 
 
 % -------------------------------------------------------------------------
@@ -433,7 +433,7 @@ The numbered arrows show the existing conversions between formats and representa
 
 \def \arcsColor {blue}
 \def \dashedArcsColor {gray!50}
-\def \implicitColor {green}
+\def \loopsColor {red}
 
 % MusicXML <-> MusicXMLTree
 \path [->, sloped, bend right=\bendAngle, below, thick, \arcsColor] 
@@ -508,9 +508,9 @@ edge node {\rotatebox{-37.5}{21}}
 (MEITree);
 
 % MSR -> MSR
-\path [->, sloped, below, thick, \implicitColor]
+\path [->, sloped, above, thick, \loopsColor]
 (MSR) 
-edge [out=45, in=65, loop] node {\rotatebox{-80}{5}} 
+edge [out=50, in=60, loop] node {\rotatebox{45}{5}} 
 (MSR);
 
 % MSR <-> LPSR
@@ -548,7 +548,7 @@ edge node {\rotatebox{-52.5}{10}}
 (MSR);
 
 % BSR -> BSR
-\path [->, sloped, below, thick, \arcsColor]
+\path [->, sloped, below, thick, \loopsColor]
 (BSR) 
 edge [out=-110, in=-90, loop] node {\rotatebox{0}{11}} 
 (BSR);
@@ -821,10 +821,6 @@ Jianpu \lily\ & a text containg \lily\ commands and the use of \lilyJianpu\ (\ur
 \end{longtable}
 \end{center}
 
-
-%\newpage
-
-
 The representations used by \lib\ are:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
@@ -836,7 +832,7 @@ The representations used by \lib\ are:
 {Representation} & {Description} \tabularnewline[0.5ex]
 \hline\\[-3.0ex]
 %
-MSR & Music Score Representation, in terms of part groups, parts, staves, voices, notes, etc. This is the heart of the multi-language converters provided by \lib;
+MSR & Music Score Representation, in terms of part groups, parts, staves, voices, notes, etc. This is the heart of the multi-language translators provided by \lib;
 \tabularnewline
 
 mxmlelement tree & a tree representing the \mxml\ markups such as {\tt <part-list>}, {\tt <time>} and {\tt <note>};
@@ -868,9 +864,6 @@ MDSR & MIDI Score Representation, to be designed.
 
 \end{longtable}
 \end{center}
-
-
-%\newpage
 
 
 % -------------------------------------------------------------------------
@@ -960,16 +953,13 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 \end{center}
 
 
-%\newpage
-
-
 % -------------------------------------------------------------------------
-\section{Executable converters}
+\section{Executable translators}
 % -------------------------------------------------------------------------
 
 \def \tab {~~~}
 
-The converters provided by \lib\ are in the form of functions. Executable command-line applications are also supplied. They are shown in the table below, in which the ones not yet planned or under development are dimmed:
+The translators provided by \lib\ are in the form of functions. Executable command-line applications are also supplied. They are shown in the table below, in which the ones not yet planned or under development are dimmed:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
@@ -1008,7 +998,7 @@ The executables available, planned or under development in \lib\ are:
 \def \arraystretch{1.3}
 %
 \begin{longtable}[t]{lp{\contentsWidth}}
-{Converter} & {Description} \tabularnewline[0.5ex]
+{Translator} & {Description} \tabularnewline[0.5ex]
 \hline\\[-3.0ex]
 %
 
@@ -1020,7 +1010,7 @@ The executables available, planned or under development in \lib\ are:
 
 \xmlToXml & converts \mxml\ data to MSR and back. This is useful to modify the data to suit the user's needs, such as fixing score scanning software limitations or to enhance the data:
 
-\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 15 $\Rightarrow$ 2
+\tab\ 1 $\Rightarrow$ 4 $\Rightarrow$ 5 $\Rightarrow$ 15 $\Rightarrow$ 2
 \tabularnewline
 
 
@@ -1128,9 +1118,6 @@ The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data
 \end{center}
 
 
-%\newpage
-
-
 % -------------------------------------------------------------------------
 \section{Basic tools}
 % -------------------------------------------------------------------------
@@ -1163,7 +1150,7 @@ This is why \lib\ uses it own OAH (Options And Help) object oriented infrastruct
 
 OAH organizes the options and the corresponding help in a hierarchy of groups, sub-groups and so-called atoms. OAH is introspective, thus help can be obtained for every group, sub-group or atom at will.
 
-Each pass supplies a OAH group, containing its own options and help. The executable converters then aggregate the OAH groups of the passes they are composed of to offer their options and help to the user.
+Each pass supplies a OAH group, containing its own options and help. The executable translators then aggregate the OAH groups of the passes they are composed of to offer their options and help to the user.
 
 
 

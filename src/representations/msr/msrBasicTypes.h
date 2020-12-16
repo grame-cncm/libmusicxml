@@ -376,9 +376,10 @@ string keyKindAsString (
   msrKeyKind keyKind);
 
 enum msrKeyModeKind {
+  k_NoKeyMode,
   kMajorMode, kMinorMode,
   kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
-  kMixolydianMode, kAeolianMode, kLocrianMode };
+  kMixolydianMode, kAeolianMode, kLocrianMode};
 
 string keyModeKindAsString (
   msrKeyModeKind keyModeKind);

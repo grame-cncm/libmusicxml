@@ -52,6 +52,7 @@ files/UnofficialTestSuite/41c-StaffGroups.xml
 files/UnofficialTestSuite/12a-Clefs.xml
 files/UnofficialTestSuite/00f-Basics-Clefs.xml
 files/UnofficialTestSuite/73a-Percussion.xml
+files/musicxml/misc/VoicesNotInIncreasingNumber.xml
 files/musicxml/misc/Timesign.xml
 files/musicxml/misc/Ojos_agules.xml
 files/musicxml/misc/Ritmo_di_danza1.xml
@@ -100,9 +101,6 @@ files/musicxml/tremolos/ChordsDoubleTremolo.xml
 files/musicxml/tremolos/TwoSingleTremolosInTuplet.xml
 files/musicxml/tremolos/DoubleTremoloInTuplet.xml
 files/musicxml/forward/ForwarAtEndOfMeasure.xml
-files/musicxml/harmonies/HarmonyWithPositiveOffset.xml
-files/musicxml/harmonies/HarmonyOnThirdNoteOfTuplet.xml
-files/musicxml/harmonies/OctaveShiftInChord.xml
 files/musicxml/harmonies/HarmoniesFirstVoiceStartsLater.xml
 files/musicxml/harmonies/HarmonyOnFirstNoteOfTuplet.xml
 files/musicxml/harmonies/HarmonyOnSecondNoteOfTuplet.xml
@@ -113,8 +111,6 @@ files/musicxml/harmonies/TwoHarmoniesSecondWithPositiveOffset.xml
 files/musicxml/harmonies/HarmonyWithNegativeOffsetInTuplet.xml
 files/musicxml/lyrics/AmazingGrace_FINALE_toAndFro.xml
 files/musicxml/misc/Bug_mapping.xml
-files/musicxml/misc/Triolet.xml
-files/musicxml/misc/Triolet1.xml
 files/regression/A01-SOURCEQueen1.xml
 files/musicxml/gracenotes/GraceNotesWithSlashAndSlurToChord.xml
 files/musicxml/gracenotes/GraceNotesInTuplet.xml
@@ -136,3 +132,5 @@ files/xml2guido/Guid-163-MultiTie-fixed.xml
 files/xml2guido/GUID-131-SlurNumbering.xml
 files/xml2guido/GUID-115-BreathMark2.xml
 files/xml2guido/GUID-149-Slurs.xml
+files/musicxml/notes/UnpitchedNote.xml
+files/musicxml/voices/VoicesNotInIncreasingNumber.xml

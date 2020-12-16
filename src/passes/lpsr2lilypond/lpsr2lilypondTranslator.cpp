@@ -4139,6 +4139,37 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrScore& elt)
 
   // global staff size
   generateGlobalStaffSize ();
+
+  // generate myBreak if relevant
+  if (! gGlobalLpsr2lilypondOahGroup->getSuppressMusicXMLLineBreaks ()) {
+    fLilypondCodeStream <<
+      "% Pick your choice from the next two lines as needed" <<
+      endl <<
+      "%myBreak = { \\break }" <<
+      endl <<
+      "myBreak = {}" <<
+      endl << endl;
+  }
+
+  // generate myPageBreak if relevant
+  if (! gGlobalLpsr2lilypondOahGroup->getSuppressMusicXMLPageBreaks ()) {
+    fLilypondCodeStream <<
+      "% Pick your choice from the next two lines as needed" <<
+      endl <<
+      "%myPageBreak = { \\break }" <<
+      endl <<
+      "myPageBreak = {}" <<
+      endl << endl;
+  }
+
+  // generate a 'global' variable?
+  if (gGlobalLpsr2lilypondOahGroup->getGlobal ()) {
+    fLilypondCodeStream <<
+      "global = {" <<
+      endl <<
+      "}" <<
+      endl << endl;
+  }
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_lpsrScore& elt)

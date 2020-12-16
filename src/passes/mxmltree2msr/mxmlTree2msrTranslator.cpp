@@ -161,7 +161,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fCurrentKeyStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentKeyFifths = -1;
   fCurrentKeyCancelFifths = -37;
-  fCurrentKeyModeKind = kMajorMode;
+  fCurrentKeyModeKind = k_NoKeyMode;
 
   // time handling
   fCurrentTimeSymbolKind =
@@ -2550,11 +2550,11 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
 #endif
 
   // convert clef to upper case for analysis
-  string currentClefSigToLowerCase = stringToUpperCase (fCurrentClefSign);
+  string currentClefSignToUpperCase = stringToUpperCase (fCurrentClefSign);
 
   msrClefKind clefKind = k_NoClef;
 
-  if (currentClefSigToLowerCase == "G") {
+  if (currentClefSignToUpperCase == "G") {
 
     if      (fCurrentClefLine == 2) {
       switch (fCurrentClefOctaveChange) {
@@ -2598,7 +2598,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
     }
   }
 
-  else if (currentClefSigToLowerCase == "F") {
+  else if (currentClefSignToUpperCase == "F") {
 
     if ( fCurrentClefLine == 4 ) {
       switch (fCurrentClefOctaveChange) {
@@ -2666,7 +2666,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
     }
   }
 
-  else if (currentClefSigToLowerCase == "C") {
+  else if (currentClefSignToUpperCase == "C") {
 
     switch (fCurrentClefLine) {
       case 1:
@@ -2701,7 +2701,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
     } // switch
   }
 
-  else if (currentClefSigToLowerCase == "TAB" || currentClefSigToLowerCase == "tab") {
+  else if (currentClefSignToUpperCase == "TAB") {
 
     switch (fCurrentClefLine) {
       case 4:
@@ -2733,15 +2733,15 @@ void mxmlTree2msrTranslator::visitEnd ( S_clef& elt )
     } // switch
   }
 
-  else if (currentClefSigToLowerCase == "percussion") {
+  else if (currentClefSignToUpperCase == "PERCUSSION") {
     clefKind = kPercussionClef;
   }
 
-  else if (currentClefSigToLowerCase == "jianpu") {
+  else if (currentClefSignToUpperCase == "JIANPU") {
     clefKind = kJianpuClef;
   }
 
-  else if (currentClefSigToLowerCase == "none") {
+  else if (currentClefSignToUpperCase == "NONE") {
     clefKind = k_NoClef;
   }
 
@@ -2818,7 +2818,7 @@ void mxmlTree2msrTranslator::visitStart ( S_key& elt )
   fCurrentKeyFifths       = 0;
   fCurrentKeyCancelFifths = 0;
 
-  fCurrentKeyModeKind = kMajorMode;
+  fCurrentKeyModeKind = k_NoKeyMode;
 
   // Humdrum-Scot
 
@@ -2871,7 +2871,10 @@ void mxmlTree2msrTranslator::visitStart ( S_mode& elt )
 
   string mode = elt->getValue();
 
-  if       (mode == "major") {
+  if       (mode == "none") {
+    fCurrentKeyModeKind = k_NoKeyMode;
+  }
+  else if  (mode == "major") {
     fCurrentKeyModeKind = kMajorMode;
   }
   else  if (mode == "minor") {
@@ -2902,7 +2905,7 @@ void mxmlTree2msrTranslator::visitStart ( S_mode& elt )
     stringstream s;
 
     s <<
-      "mode " << mode << " is unknown";
+      "mode '" << mode << "' is unknown";
 
     msrMusicXMLError (
       gGlobalOahOahGroup->getInputSourceName (),

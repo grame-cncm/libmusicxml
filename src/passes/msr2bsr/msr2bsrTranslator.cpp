@@ -944,6 +944,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kC_Natural_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindNaturals;
               numberOfAlterations = 0;
@@ -970,6 +972,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kC_Sharp_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 7;
@@ -1005,6 +1009,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kD_Flat_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 5;
@@ -1031,6 +1037,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kD_Natural_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 2;
@@ -1068,6 +1076,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kE_Flat_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 3;
@@ -1094,6 +1104,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kE_Natural_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 4;
@@ -1132,6 +1144,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kF_Natural_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 1;
@@ -1158,6 +1172,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kF_Sharp_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 6;
@@ -1195,6 +1211,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kG_Natural_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 1;
@@ -1232,6 +1250,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kA_Flat_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 4;
@@ -1258,6 +1278,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kA_Natural_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 3;
@@ -1295,6 +1317,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kB_Flat_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 2;
@@ -1321,6 +1345,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           break;
         case kB_Natural_STP:
           switch (mKeyModeKind) {
+            case k_NoKeyMode:
+              break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 5;

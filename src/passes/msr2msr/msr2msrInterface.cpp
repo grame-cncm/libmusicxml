@@ -119,17 +119,6 @@ clock_t startClock = clock ();
     gIndenter.resetToZero ();
   }
 
-  // check indentation
-  if (gIndenter != 0) {
-    gLogStream <<
-      "### convertMsrScoreToMsrScore gIndenter final value: " <<
-      gIndenter.getIndent () <<
-      " ###" <<
-      endl;
-
-    gIndenter.resetToZero ();
-  }
-
   return resultingMsrScore;
 }
 
