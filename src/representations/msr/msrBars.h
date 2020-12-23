@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrBarCheck : public msrMeasureElement
+class EXP msrBarCheck : public msrMeasureElement
 {
   public:
 
@@ -103,7 +103,7 @@ typedef SMARTP<msrBarCheck> S_msrBarCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
 
 //______________________________________________________________________________
-class msrBarNumberCheck : public msrMeasureElement
+class EXP msrBarNumberCheck : public msrMeasureElement
 {
   public:
 
@@ -174,7 +174,7 @@ typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
 
 //______________________________________________________________________________
-class msrBarline : public msrMeasureElement
+class EXP msrBarline : public msrMeasureElement
 {
   public:
 

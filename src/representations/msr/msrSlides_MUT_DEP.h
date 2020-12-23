@@ -7,7 +7,7 @@
 #define ___msrSlides_MUT_DEP___
 
 //______________________________________________________________________________
-class msrSlide : public msrElement
+class EXP msrSlide : public msrElement
 {
   public:
 

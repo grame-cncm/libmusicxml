@@ -18,14 +18,14 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrSingleTremolo : public msrElement
+class EXP msrSingleTremolo : public msrElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -43,9 +43,9 @@ class msrSingleTremolo : public msrElement
       int              inputLineNumber,
       int              singleTremoloMarksNumber,
       msrPlacementKind singleTremoloPlacementKind);
-      
+
     virtual ~msrSingleTremolo ();
-  
+
   public:
 
     // set and get
@@ -58,25 +58,25 @@ class msrSingleTremolo : public msrElement
                                 fSingleTremoloPlacementKind =
                                   SingleTremoloPlacementKind;
                               }
-        
+
     int                   getSingleTremoloMarksNumber () const
                               { return fSingleTremoloMarksNumber; }
-                
+
     msrPlacementKind      getSingleTremoloPlacementKind () const
                               { return fSingleTremoloPlacementKind; }
-        
+
     void                  setSingleTremoloGraphicDurationKind (
                             msrDurationKind durationKind)
                               {
                                 fSingleTremoloGraphicDurationKind =
                                   durationKind;
                               }
-                
+
     msrDurationKind       getSingleTremoloGraphicDurationKind () const
                               {
                                 return fSingleTremoloGraphicDurationKind;
                               }
-        
+
   public:
 
     // public services
@@ -98,7 +98,7 @@ class msrSingleTremolo : public msrElement
     // ------------------------------------------------------
 
     string                singleTremoloPlacementKindAsString () const;
-    
+
     string                asString () const override;
 
     virtual void          print (ostream& os) const override;

@@ -7,7 +7,7 @@
 #define ___msrRestMeasures_MUT_DEP___
 
 //______________________________________________________________________________
-class msrRestMeasuresContents : public msrElement
+class EXP msrRestMeasuresContents : public msrElement
 {
   public:
 
@@ -97,7 +97,7 @@ typedef SMARTP<msrRestMeasuresContents> S_msrRestMeasuresContents;
 EXP ostream& operator<< (ostream& os, const S_msrRestMeasuresContents& elt);
 
 //______________________________________________________________________________
-class msrRestMeasures : public msrVoiceElement
+class EXP msrRestMeasures : public msrVoiceElement
 {
   public:
 

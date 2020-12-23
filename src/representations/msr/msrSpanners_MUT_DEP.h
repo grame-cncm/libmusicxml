@@ -11,7 +11,7 @@
 class msrSpanner;
 typedef SMARTP<msrSpanner> S_msrSpanner;
 
-class msrSpanner : public msrElement
+class EXP msrSpanner : public msrElement
 {
   public:
 

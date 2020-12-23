@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrDynamics : public msrElement
+class EXP msrDynamics : public msrElement
 {
   public:
 
@@ -109,7 +109,7 @@ typedef SMARTP<msrDynamics> S_msrDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
 
 //______________________________________________________________________________
-class msrOtherDynamics : public msrElement
+class EXP msrOtherDynamics : public msrElement
 {
   public:
 
@@ -183,7 +183,7 @@ typedef SMARTP<msrOtherDynamics> S_msrOtherDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt);
 
 //______________________________________________________________________________
-class msrWedge : public msrElement
+class EXP msrWedge : public msrElement
 {
   public:
 

@@ -7,7 +7,7 @@
 #define ___msrGlissandos_MUT_DEP___
 
 //______________________________________________________________________________
-class msrGlissando : public msrElement
+class EXP msrGlissando : public msrElement
 {
   public:
 

@@ -29,7 +29,7 @@ class msrTime;
 typedef SMARTP<msrTime> S_msrTime;
 
 //______________________________________________________________________________
-class msrTimeItem : public msrElement
+class EXP msrTimeItem : public msrElement
 {
   public:
 
@@ -104,7 +104,7 @@ typedef SMARTP<msrTimeItem> S_msrTimeItem;
 EXP ostream& operator<< (ostream& os, const S_msrTimeItem& elt);
 
 //______________________________________________________________________________
-class msrTime : public msrMeasureElement
+class EXP msrTime : public msrMeasureElement
 {
   public:
 

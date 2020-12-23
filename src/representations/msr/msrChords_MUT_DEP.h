@@ -17,7 +17,7 @@ class msrChordGraceNotesGroupLink;
 typedef SMARTP<msrChordGraceNotesGroupLink> S_msrChordGraceNotesGroupLink;
 
 //______________________________________________________________________________
-class msrChord : public msrTupletElement
+class EXP msrChord : public msrTupletElement
 {
   public:
 
@@ -551,7 +551,7 @@ typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
 
 //______________________________________________________________________________
-class msrChordBeamLink : public msrElement
+class EXP msrChordBeamLink : public msrElement
 {
   public:
 
@@ -623,7 +623,7 @@ typedef SMARTP<msrChordBeamLink> S_msrChordBeamLink;
 EXP ostream& operator<< (ostream& os, const S_msrChordBeamLink& elt);
 
 //______________________________________________________________________________
-class msrChordSlurLink : public msrElement
+class EXP msrChordSlurLink : public msrElement
 {
   public:
 
@@ -695,7 +695,7 @@ typedef SMARTP<msrChordSlurLink> S_msrChordSlurLink;
 EXP ostream& operator<< (ostream& os, const S_msrChordSlurLink& elt);
 
 //______________________________________________________________________________
-class msrChordGraceNotesGroupLink : public msrElement
+class EXP msrChordGraceNotesGroupLink : public msrElement
 {
   public:
 

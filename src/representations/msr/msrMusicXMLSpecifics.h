@@ -23,7 +23,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrPageLayout : public msrElement
+class EXP msrPageLayout : public msrElement
 {
 /*
 <!--
@@ -149,7 +149,7 @@ typedef SMARTP<msrPageLayout> S_msrPageLayout;
 EXP ostream& operator<< (ostream& os, const S_msrPageLayout& elt);
 
 //______________________________________________________________________________
-class msrSystemLayout : public msrElement
+class EXP msrSystemLayout : public msrElement
 {
   public:
 
@@ -237,7 +237,7 @@ typedef SMARTP<msrSystemLayout> S_msrSystemLayout;
 EXP ostream& operator<< (ostream& os, const S_msrSystemLayout& elt);
 
 //______________________________________________________________________________
-class msrSystemDividers : public msrElement
+class EXP msrSystemDividers : public msrElement
 {
 /*
 <!--
@@ -350,7 +350,7 @@ typedef SMARTP<msrSystemDividers> S_msrSystemDividers;
 EXP ostream& operator<< (ostream& os, const S_msrSystemDividers& elt);
 
 //______________________________________________________________________________
-class msrStaffLayout : public msrElement
+class EXP msrStaffLayout : public msrElement
 {
 /*
 <!--
@@ -446,7 +446,7 @@ typedef SMARTP<msrStaffLayout> S_msrStaffLayout;
 EXP ostream& operator<< (ostream& os, const S_msrStaffLayout& elt);
 
 //______________________________________________________________________________
-class msrMeasureLayout : public msrElement
+class EXP msrMeasureLayout : public msrElement
 {
 /*
 <!--
@@ -525,7 +525,7 @@ typedef SMARTP<msrMeasureLayout> S_msrMeasureLayout;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureLayout& elt);
 
 //______________________________________________________________________________
-class msrPrintLayout : public msrMeasureElement
+class EXP msrPrintLayout : public msrMeasureElement
 {
 /*
 <!--
@@ -711,7 +711,7 @@ typedef SMARTP<msrPrintLayout> S_msrPrintLayout;
 EXP ostream& operator<< (ostream& os, const S_msrPrintLayout& elt);
 
 //______________________________________________________________________________
-class msrLineWidth : public msrElement
+class EXP msrLineWidth : public msrElement
 {
   public:
 
@@ -798,7 +798,7 @@ typedef SMARTP<msrLineWidth> S_msrLineWidth;
 EXP ostream& operator<< (ostream& os, const S_msrLineWidth& elt);
 
 //______________________________________________________________________________
-class msrNoteSize : public msrElement
+class EXP msrNoteSize : public msrElement
 {
   public:
 
@@ -875,7 +875,7 @@ typedef SMARTP<msrNoteSize> S_msrNoteSize;
 EXP ostream& operator<< (ostream& os, const S_msrNoteSize& elt);
 
 //______________________________________________________________________________
-class msrDistance : public msrElement
+class EXP msrDistance : public msrElement
 {
   public:
 
@@ -951,7 +951,7 @@ typedef SMARTP<msrDistance> S_msrDistance;
 EXP ostream& operator<< (ostream& os, const S_msrDistance& elt);
 
 //______________________________________________________________________________
-class msrGlyph : public msrElement
+class EXP msrGlyph : public msrElement
 {
   public:
 
@@ -1035,7 +1035,7 @@ typedef SMARTP<msrGlyph> S_msrGlyph;
 EXP ostream& operator<< (ostream& os, const S_msrGlyph& elt);
 
 //______________________________________________________________________________
-class msrOtherAppearance : public msrElement
+class EXP msrOtherAppearance : public msrElement
 {
   public:
 
@@ -1112,7 +1112,7 @@ typedef SMARTP<msrOtherAppearance> S_msrOtherAppearance;
 EXP ostream& operator<< (ostream& os, const S_msrOtherAppearance& elt);
 
 //______________________________________________________________________________
-class msrAppearance : public msrElement
+class EXP msrAppearance : public msrElement
 {
 /*
 <!--

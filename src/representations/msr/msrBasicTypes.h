@@ -667,7 +667,7 @@ string multipleRestMeasuresWholeNotesAsMsrString (
 
 // dotted durations
 //______________________________________________________________________________
-class msrDottedDuration
+class EXP msrDottedDuration
 {
 // JMI  protected:
   public:
@@ -738,7 +738,7 @@ EXP ostream& operator<< (ostream& os, const msrDottedDuration& elt);
 // semitone pitches and octave
 // can be used as absolute, relative or fixed reference
 //______________________________________________________________________________
-class msrSemiTonesPitchAndOctave : public smartable
+class EXP msrSemiTonesPitchAndOctave : public smartable
 {
   public:
 
@@ -814,7 +814,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt);
 // semitone pitches and octave
 // can be used as absolute, relative or fixed reference
 //______________________________________________________________________________
-class msrQuarterTonesPitchAndOctave : public smartable
+class EXP msrQuarterTonesPitchAndOctave : public smartable
 {
   public:
 
@@ -906,7 +906,7 @@ void initializeMsrLengthUnitKindsMap ();
 // lengths
 //______________________________________________________________________________
 
-class msrLength : public smartable
+class EXP msrLength : public smartable
 {
   public:
 
@@ -1009,7 +1009,7 @@ void initializeMsrMarginTypeKindsMap ();
 // margins
 //______________________________________________________________________________
 
-class msrMargin : public smartable
+class EXP msrMargin : public smartable
 {
   public:
 
@@ -1092,7 +1092,7 @@ EXP ostream& operator<< (ostream& os, const S_msrMargin& elt);
 // margins groups
 //______________________________________________________________________________
 
-class msrMarginsGroup : public smartable
+class EXP msrMarginsGroup : public smartable
 {
   public:
 
@@ -1197,7 +1197,7 @@ EXP ostream& operator<< (ostream& os, const S_msrMarginsGroup& elt);
 
 // fonts
 //______________________________________________________________________________
-class msrFontSize : public smartable
+class EXP msrFontSize : public smartable
 {
   public:
 
@@ -1457,7 +1457,7 @@ string msrSpannerTypeKindAsString (
 
 // moments
 //______________________________________________________________________________
-class msrMoment
+class EXP msrMoment
 {
   public:
 
@@ -1555,7 +1555,7 @@ EXP ostream& operator<< (ostream& os, const msrMoment& elt);
 
 // tuplet factors
 //______________________________________________________________________________
-class msrTupletFactor
+class EXP msrTupletFactor
 {
   public:
 
@@ -1644,7 +1644,7 @@ EXP ostream& operator<< (ostream& os, const msrTupletFactor& elt);
 class msrHarmonyInterval;
 typedef SMARTP<msrHarmonyInterval> S_msrHarmonyInterval;
 
-class msrHarmonyInterval : public smartable
+class EXP msrHarmonyInterval : public smartable
 {
   public:
 
@@ -1756,7 +1756,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmonyInterval& elt);
 class msrHarmonyStructure;
 typedef SMARTP<msrHarmonyStructure> S_msrHarmonyStructure;
 
-class msrHarmonyStructure : public smartable
+class EXP msrHarmonyStructure : public smartable
 {
   public:
 
@@ -1850,7 +1850,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmonyStructure& elt);
 
 // harmonies contents
 //______________________________________________________________________________
-class msrHarmonyContents : public smartable
+class EXP msrHarmonyContents : public smartable
 {
   public:
 
@@ -1952,7 +1952,7 @@ void printHarmonyAnalysis (
 
 // RGB colors
 //______________________________________________________________________________
-class msrRGBColor {
+class EXP msrRGBColor {
   public:
 
     // constructors/destructor
@@ -2009,7 +2009,7 @@ EXP ostream& operator<< (ostream& os, const msrRGBColor& elt);
 
 // AlphaRGB colors
 //______________________________________________________________________________
-class msrAlphaRGBColor
+class EXP msrAlphaRGBColor
 {
   public:
 

@@ -11,7 +11,7 @@ class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
 
 //______________________________________________________________________________
-class msrVoiceStaffChange : public msrMeasureElement
+class EXP msrVoiceStaffChange : public msrMeasureElement
 {
   public:
 
@@ -78,7 +78,7 @@ typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 EXP ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt);
 
 //______________________________________________________________________________
-class msrStaff : public msrElement
+class EXP msrStaff : public msrElement
 {
   public:
 

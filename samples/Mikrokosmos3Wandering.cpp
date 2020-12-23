@@ -236,7 +236,7 @@ string msplGenerationKindAsString (
 }
 
 //------------------------------------------------------------------------
-S_msrScore createTheScore (
+EXP S_msrScore createTheScore (
   msplGenerationKind generationKind)
 {
   // create the score
@@ -2787,7 +2787,8 @@ int main (int argc, char * argv[])
   msplGenerationKind
     generationKind = // JMI option???
      kRegularAPIKind;
-   //   kStringsAPIKind;
+   //
+   kStringsAPIKind;
 
   S_msrScore
     score =

@@ -7,7 +7,7 @@
 #define ___msrRepeatCodas_MUT_DEP___
 
 //______________________________________________________________________________
-class msrRepeatCoda : public msrElement
+class EXP msrRepeatCoda : public msrElement
 {
   public:
 

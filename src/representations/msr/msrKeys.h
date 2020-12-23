@@ -28,7 +28,7 @@ class msrHumdrumScotKeyItem;
 typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
 
 //______________________________________________________________________________
-class msrHumdrumScotKeyItem : public msrElement
+class EXP msrHumdrumScotKeyItem : public msrElement
 {
   public:
 
@@ -114,7 +114,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt);
 class msrKey;
 typedef SMARTP<msrKey> S_msrKey;
 
-class msrKey : public msrMeasureElement
+class EXP msrKey : public msrMeasureElement
 {
   public:
 

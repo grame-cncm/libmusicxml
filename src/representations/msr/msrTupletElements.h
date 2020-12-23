@@ -29,7 +29,7 @@ namespace MusicXML2
 class msrTupletElement;
 typedef SMARTP<msrTupletElement> S_msrTupletElement;
 
-class msrTupletElement : public msrMeasureElement
+class EXP msrTupletElement : public msrMeasureElement
 {
   public:
 

@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrArticulation : public msrElement
+class EXP msrArticulation : public msrElement
 {
   public:
 
@@ -116,7 +116,7 @@ typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 
 //______________________________________________________________________________
-class msrFermata : public msrArticulation
+class EXP msrFermata : public msrArticulation
 {
   public:
 
@@ -206,7 +206,7 @@ typedef SMARTP<msrFermata> S_msrFermata;
 EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
 
 //______________________________________________________________________________
-class msrArpeggiato : public msrArticulation
+class EXP msrArpeggiato : public msrArticulation
 {
   public:
 
@@ -280,7 +280,7 @@ typedef SMARTP<msrArpeggiato> S_msrArpeggiato;
 EXP ostream& operator<< (ostream& os, const S_msrArpeggiato& elt);
 
 //______________________________________________________________________________
-class msrNonArpeggiato : public msrArticulation
+class EXP msrNonArpeggiato : public msrArticulation
 {
   public:
 

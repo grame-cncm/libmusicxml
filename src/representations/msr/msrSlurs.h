@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrSlur : public msrElement
+class EXP msrSlur : public msrElement
 {
   public:
 

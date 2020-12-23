@@ -18,14 +18,14 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrLineBreak : public msrMeasureElement
+class EXP msrLineBreak : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -41,9 +41,9 @@ class msrLineBreak : public msrMeasureElement
     msrLineBreak (
       int    inputLineNumber,
       string nextBarNumber);
-      
+
     virtual ~msrLineBreak ();
-  
+
   public:
 
     // set and get
@@ -87,10 +87,10 @@ typedef SMARTP<msrLineBreak> S_msrLineBreak;
 EXP ostream& operator<< (ostream& os, const S_msrLineBreak& elt);
 
 //______________________________________________________________________________
-class msrPageBreak : public msrMeasureElement
+class EXP msrPageBreak : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -104,9 +104,9 @@ class msrPageBreak : public msrMeasureElement
 
     msrPageBreak (
       int inputLineNumber);
-      
+
     virtual ~msrPageBreak ();
-  
+
   public:
 
     // set and get

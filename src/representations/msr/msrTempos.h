@@ -27,7 +27,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrTempoNote : public msrElement
+class EXP msrTempoNote : public msrElement
 {
   public:
 
@@ -104,7 +104,7 @@ typedef SMARTP<msrTempoNote> S_msrTempoNote;
 EXP ostream& operator<< (ostream& os, const S_msrTempoNote& elt);
 
 //______________________________________________________________________________
-class msrTempoTuplet : public msrElement
+class EXP msrTempoTuplet : public msrElement
 {
   public:
 
@@ -258,7 +258,7 @@ typedef SMARTP<msrTempoTuplet> S_msrTempoTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTempoTuplet& elt);
 
 //______________________________________________________________________________
-class msrTempoRelationshipElements : public msrElement
+class EXP msrTempoRelationshipElements : public msrElement
 {
   public:
 
@@ -345,7 +345,7 @@ typedef SMARTP<msrTempoRelationshipElements> S_msrTempoRelationshipElements;
 EXP ostream& operator<< (ostream& os, const S_msrTempoRelationshipElements& elt);
 
 //______________________________________________________________________________
-class msrTempo : public msrMeasureElement
+class EXP msrTempo : public msrMeasureElement
 {
   public:
 

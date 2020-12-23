@@ -7,7 +7,7 @@
 #define ___msrDoubleTremolos_MUT_DEP___
 
 //______________________________________________________________________________
-class msrDoubleTremolo : public msrMeasureElement
+class EXP msrDoubleTremolo : public msrMeasureElement
 {
   public:
 

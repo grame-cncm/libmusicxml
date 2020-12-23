@@ -35,7 +35,7 @@ class msrScore;
 typedef SMARTP<msrScore> S_msrScore;
 
 //______________________________________________________________________________
-class msrPartGroup : public msrPartGroupElement
+class EXP msrPartGroup : public msrPartGroupElement
 {
 /*
   There is no hierarchy implied in part-group elements.

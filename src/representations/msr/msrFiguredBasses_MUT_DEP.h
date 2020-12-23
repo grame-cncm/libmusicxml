@@ -7,7 +7,7 @@
 #define ___msrFiguredBasses_MUT_DEP___
 
 //______________________________________________________________________________
-class msrFigure : public msrElement
+class EXP msrFigure : public msrElement
 {
   public:
 
@@ -129,7 +129,7 @@ typedef SMARTP<msrFigure> S_msrFigure;
 EXP ostream& operator<< (ostream& os, const S_msrFigure& elt);
 
 //______________________________________________________________________________
-class msrFiguredBass : public msrMeasureElement
+class EXP msrFiguredBass : public msrMeasureElement
 {
   public:
 

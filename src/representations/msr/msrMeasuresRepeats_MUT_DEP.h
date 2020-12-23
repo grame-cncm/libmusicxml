@@ -8,7 +8,7 @@
 
 //______________________________________________________________________________
 /* JMI
-class msrMeasuresRepeatElement : public msrElement
+class EXP msrMeasuresRepeatElement : public msrElement
 {
   public:
 
@@ -118,7 +118,7 @@ EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatElement& elt);
 */
 
 //______________________________________________________________________________
-class msrMeasuresRepeatPattern : public msrElement
+class EXP msrMeasuresRepeatPattern : public msrElement
 {
   public:
 
@@ -208,7 +208,7 @@ typedef SMARTP<msrMeasuresRepeatPattern> S_msrMeasuresRepeatPattern;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt);
 
 //______________________________________________________________________________
-class msrMeasuresRepeatReplicas : public msrElement
+class EXP msrMeasuresRepeatReplicas : public msrElement
 {
   public:
 
@@ -299,7 +299,7 @@ typedef SMARTP<msrMeasuresRepeatReplicas> S_msrMeasuresRepeatReplicas;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt);
 
 //______________________________________________________________________________
-class msrMeasuresRepeat : public msrVoiceElement
+class EXP msrMeasuresRepeat : public msrVoiceElement
 {
   public:
 

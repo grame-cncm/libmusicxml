@@ -7,7 +7,7 @@
 #define ___msrBeatsRepeats_MUT_DEP___
 
 //______________________________________________________________________________
-class msrBeatsRepeatPattern : public msrElement
+class EXP msrBeatsRepeatPattern : public msrElement
 {
   public:
 
@@ -97,7 +97,7 @@ typedef SMARTP<msrBeatsRepeatPattern> S_msrBeatsRepeatPattern;
 EXP ostream& operator<< (ostream& os, const S_msrBeatsRepeatPattern& elt);
 
 //______________________________________________________________________________
-class msrBeatsRepeatReplicas : public msrElement
+class EXP msrBeatsRepeatReplicas : public msrElement
 {
   public:
 
@@ -188,7 +188,7 @@ typedef SMARTP<msrBeatsRepeatReplicas> S_msrBeatsRepeatReplicas;
 EXP ostream& operator<< (ostream& os, const S_msrBeatsRepeatReplicas& elt);
 
 //______________________________________________________________________________
-class msrBeatsRepeat : public msrVoiceElement
+class EXP msrBeatsRepeat : public msrVoiceElement
 {
   public:
 

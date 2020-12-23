@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrCreditWords : public msrElement
+class EXP msrCreditWords : public msrElement
 {
   public:
 
@@ -154,7 +154,7 @@ typedef SMARTP<msrCreditWords> S_msrCreditWords;
 EXP ostream& operator<< (ostream& os, const S_msrCreditWords& elt);
 
 //______________________________________________________________________________
-class msrCredit : public msrElement
+class EXP msrCredit : public msrElement
 {
   public:
 

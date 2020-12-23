@@ -14,7 +14,7 @@ class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
 
 //______________________________________________________________________________
-class msrVoice : public msrElement
+class EXP msrVoice : public msrElement
 {
   public:
 

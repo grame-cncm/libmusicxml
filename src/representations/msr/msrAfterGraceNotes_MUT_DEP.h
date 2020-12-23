@@ -7,7 +7,7 @@
 #define ___msrAfterGraceNotes_MUT_DEP___
 
 //______________________________________________________________________________
-class msrAfterGraceNotesGroupContents : public msrElement
+class EXP msrAfterGraceNotesGroupContents : public msrElement
 {
   public:
 
@@ -96,7 +96,7 @@ typedef SMARTP<msrAfterGraceNotesGroupContents> S_msrAfterGraceNotesGroupContent
 EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroupContents& elt);
 
 //______________________________________________________________________________
-class msrAfterGraceNotesGroup : public msrElement
+class EXP msrAfterGraceNotesGroup : public msrElement
 {
   public:
 

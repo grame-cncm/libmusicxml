@@ -7,7 +7,7 @@
 #define ___msrOrnaments_MUT_DEP___
 
 //______________________________________________________________________________
-class msrOrnament : public msrElement
+class EXP msrOrnament : public msrElement
 {
   public:
 

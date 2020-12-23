@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrStaffTuning : public msrElement
+class EXP msrStaffTuning : public msrElement
 {
   public:
 
@@ -108,7 +108,7 @@ typedef SMARTP<msrStaffTuning> S_msrStaffTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
 
 //______________________________________________________________________________
-class msrStaffDetails : public msrMeasureElement
+class EXP msrStaffDetails : public msrMeasureElement
 {
   public:
 

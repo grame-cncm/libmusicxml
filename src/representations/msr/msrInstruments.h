@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrStringTuning : public msrElement
+class EXP msrStringTuning : public msrElement
 {
   public:
 
@@ -108,7 +108,7 @@ typedef SMARTP<msrStringTuning> S_msrStringTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStringTuning& elt);
 
 //______________________________________________________________________________
-class msrScordatura : public msrMeasureElement
+class EXP msrScordatura : public msrMeasureElement
 {
   public:
 
@@ -186,7 +186,7 @@ typedef SMARTP<msrScordatura> S_msrScordatura;
 EXP ostream& operator<< (ostream& os, const S_msrScordatura& elt);
 
 //______________________________________________________________________________
-class msrAccordionRegistration : public msrMeasureElement
+class EXP msrAccordionRegistration : public msrMeasureElement
 {
   public:
 
@@ -266,7 +266,7 @@ typedef SMARTP<msrAccordionRegistration> S_msrAccordionRegistration;
 EXP ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt);
 
 //______________________________________________________________________________
-class msrHarpPedalsTuning : public msrMeasureElement
+class EXP msrHarpPedalsTuning : public msrMeasureElement
 {
   public:
 
@@ -340,7 +340,7 @@ typedef SMARTP<msrHarpPedalsTuning> S_msrHarpPedalsTuning;
 EXP ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt);
 
 //______________________________________________________________________________
-class msrPedal : public msrMeasureElement
+class EXP msrPedal : public msrMeasureElement
 {
   public:
 
@@ -446,7 +446,7 @@ typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
 
 //______________________________________________________________________________
-class msrDamp : public msrMeasureElement
+class EXP msrDamp : public msrMeasureElement
 {
   public:
 
@@ -502,7 +502,7 @@ typedef SMARTP<msrDamp> S_msrDamp;
 EXP ostream& operator<< (ostream& os, const S_msrDamp& elt);
 
 //______________________________________________________________________________
-class msrDampAll : public msrMeasureElement
+class EXP msrDampAll : public msrMeasureElement
 {
   public:
 

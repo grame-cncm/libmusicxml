@@ -25,7 +25,7 @@ namespace MusicXML2
   hence class msrVoiceElement
 */
 
-class msrVoiceElement : public msrElement
+class EXP msrVoiceElement : public msrElement
 {
   public:
 

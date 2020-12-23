@@ -20,7 +20,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrStaffLevelElement : public msrMeasureElement
+class EXP msrStaffLevelElement : public msrMeasureElement
 {
   public:
 
@@ -81,7 +81,7 @@ typedef SMARTP<msrStaffLevelElement> S_msrStaffLevelElement;
 EXP ostream& operator<< (ostream& os, const S_msrStaffLevelElement& elt);
 
 //______________________________________________________________________________
-class msrSegno : public msrMeasureElement
+class EXP msrSegno : public msrMeasureElement
 {
   public:
 
@@ -146,7 +146,7 @@ typedef SMARTP<msrSegno> S_msrSegno;
 EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
 
 //______________________________________________________________________________
-class msrDalSegno : public msrMeasureElement
+class EXP msrDalSegno : public msrMeasureElement
 {
   public:
 
@@ -245,7 +245,7 @@ typedef SMARTP<msrDalSegno> S_msrDalSegno;
 EXP ostream& operator<< (ostream& os, const S_msrDalSegno& elt);
 
 //______________________________________________________________________________
-class msrHiddenMeasureAndBarline : public msrMeasureElement
+class EXP msrHiddenMeasureAndBarline : public msrMeasureElement
 {
   public:
 
@@ -303,7 +303,7 @@ typedef SMARTP<msrHiddenMeasureAndBarline> S_msrHiddenMeasureAndBarline;
 EXP ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarline& elt);
 
 //______________________________________________________________________________
-class msrCoda : public msrMeasureElement
+class EXP msrCoda : public msrMeasureElement
 {
   public:
 
@@ -383,7 +383,7 @@ typedef SMARTP<msrCoda> S_msrCoda;
 EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
 
 //______________________________________________________________________________
-class msrEyeGlasses : public msrMeasureElement
+class EXP msrEyeGlasses : public msrMeasureElement
 {
   public:
 
@@ -442,7 +442,7 @@ EXP ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt);
 
 //______________________________________________________________________________
 /*
-class msrPolyphony : public smartable
+class EXP msrPolyphony : public smartable
 {
   public:
 

@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrDivisions : public msrElement
+class EXP msrDivisions : public msrElement
 {
   public:
 

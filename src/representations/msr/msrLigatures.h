@@ -25,7 +25,7 @@ namespace MusicXML2
 class msrLigature;
 typedef SMARTP<msrLigature> S_msrLigature;
 
-class msrLigature : public msrElement
+class EXP msrLigature : public msrElement
 {
   public:
 

@@ -7,7 +7,7 @@
 #define ___msrMeasures_MUT_DEP___
 
 //______________________________________________________________________________
-class msrMeasure : public msrElement
+class EXP msrMeasure : public msrElement
 {
   public:
 

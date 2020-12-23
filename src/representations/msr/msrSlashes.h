@@ -18,11 +18,11 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrSlash : public msrElement
+class EXP msrSlash : public msrElement
 {
   public:
 
@@ -45,9 +45,9 @@ class msrSlash : public msrElement
       msrSlashTypeKind     slashTypeKind,
       msrUseDotsKind  useDotsKind,
       msrSlashUseStemsKind slashUseStemsKind);
-      
+
     virtual ~msrSlash ();
-  
+
   public:
 
     // set and get
@@ -83,14 +83,14 @@ class msrSlash : public msrElement
     // ------------------------------------------------------
 
     string                asString () const override;
-    
+
     virtual void          print (ostream& os) const override;
 
   private:
 
     // private fields
     // ------------------------------------------------------
-    
+
     msrSlashTypeKind      fSlashTypeKind;
     msrUseDotsKind   fUseDotsKind;
     msrSlashUseStemsKind  fSlashUseStemsKind;

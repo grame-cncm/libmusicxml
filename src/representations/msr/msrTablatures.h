@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrFrameNote : public msrElement
+class EXP msrFrameNote : public msrElement
 {
   public:
 
@@ -152,7 +152,7 @@ struct msrBarre {
 };
 
 //______________________________________________________________________________
-class msrFrame : public msrElement
+class EXP msrFrame : public msrElement
 {
   public:
 

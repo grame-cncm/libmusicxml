@@ -7,7 +7,7 @@
 #define ___msrSegments_MUT_DEP___
 
 //______________________________________________________________________________
-class msrSegment : public msrVoiceElement
+class EXP msrSegment : public msrVoiceElement
 {
   public:
 

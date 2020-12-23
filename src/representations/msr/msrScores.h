@@ -38,7 +38,7 @@ class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
 //______________________________________________________________________________
-class msrScore : public msrElement
+class EXP msrScore : public msrElement
 {
   public:
 

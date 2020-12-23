@@ -7,7 +7,7 @@
 #define ___msrStanzas_MUT_DEP___
 
 //______________________________________________________________________________
-class msrStanza : public msrElement
+class EXP msrStanza : public msrElement
 {
   public:
 

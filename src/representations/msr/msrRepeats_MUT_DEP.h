@@ -4,7 +4,7 @@
 */
 
 //______________________________________________________________________________
-class msrRepeatCommonPart : public msrElement
+class EXP msrRepeatCommonPart : public msrElement
 {
   public:
 
@@ -112,7 +112,7 @@ typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt);
 
 //______________________________________________________________________________
-class msrRepeatEnding : public msrElement
+class EXP msrRepeatEnding : public msrElement
 {
   public:
 
@@ -266,7 +266,7 @@ typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
 
 //______________________________________________________________________________
-class msrRepeat : public msrVoiceElement
+class EXP msrRepeat : public msrVoiceElement
 {
   public:
 
@@ -564,7 +564,7 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt);
 
 //______________________________________________________________________________
 /* JMI
-class msrRepeatElement : public msrElement
+class EXP msrRepeatElement : public msrElement
 {
   public:
 

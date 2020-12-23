@@ -7,7 +7,7 @@
 #define ___msrSyllables_MUT_DEP___
 
 //______________________________________________________________________________
-class msrSyllable : public msrMeasureElement
+class EXP msrSyllable : public msrMeasureElement
 {
   public:
 

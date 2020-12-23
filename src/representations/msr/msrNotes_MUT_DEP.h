@@ -7,7 +7,7 @@
 #define ___msrNotes_MUT_DEP___
 
 //______________________________________________________________________________
-class msrNote : public msrTupletElement
+class EXP msrNote : public msrTupletElement
 {
   public:
 

@@ -7,7 +7,7 @@
 #define ___msrParts_MUT_DEP___
 
 //______________________________________________________________________________
-class msrPart : public msrPartGroupElement
+class EXP msrPart : public msrPartGroupElement
 {
   public:
 

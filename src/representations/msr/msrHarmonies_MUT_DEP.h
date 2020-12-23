@@ -7,7 +7,7 @@
 #define ___msrHarmonies_MUT_DEP___
 
 //______________________________________________________________________________
-class msrHarmonyDegree : public msrElement
+class EXP msrHarmonyDegree : public msrElement
 {
   public:
 
@@ -112,7 +112,7 @@ typedef SMARTP<msrHarmonyDegree> S_msrHarmonyDegree;
 EXP ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt);
 
 //______________________________________________________________________________
-class msrHarmony : public msrMeasureElement
+class EXP msrHarmony : public msrMeasureElement
 {
   public:
 

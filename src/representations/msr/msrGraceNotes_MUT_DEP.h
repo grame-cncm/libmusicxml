@@ -7,7 +7,7 @@
 #define ___msrGraceNotes_MUT_DEP___
 
 //______________________________________________________________________________
-class msrGraceNotesGroup : public msrElement
+class EXP msrGraceNotesGroup : public msrElement
 {
   public:
 
