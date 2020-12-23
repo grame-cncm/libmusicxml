@@ -397,19 +397,17 @@ void msrReplaceClefAtom::applyAtomWithValue (
 #endif
 
   string regularExpression (
-    "(.*)"
+    "(.*)" // originalClefName
     "="
-    "(.*)");
-//    "[[:space:]]*(.*)[[:space:]]*" JMI
-//    "="
-//    "[[:space:]]*(.*)[[:space:]]*");
+    "(.*)" // destinationClefName
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -460,7 +458,9 @@ void msrReplaceClefAtom::applyAtomWithValue (
   // is originalClefName in the replace clef map?
   msrClefKind
     originalClefKind =
-       clefKindFromString (originalClefName);
+      clefKindFromString (
+        K_NO_INPUT_LINE_NUMBER,
+        originalClefName);
 
   map<msrClefKind, msrClefKind>::iterator
     it =
@@ -480,9 +480,12 @@ void msrReplaceClefAtom::applyAtomWithValue (
   else {
     msrClefKind
       destinationClefKind =
-        clefKindFromString (destinationClefName);
+        clefKindFromString (
+          K_NO_INPUT_LINE_NUMBER,
+          destinationClefName);
 
-    fClefKindToClefKindMapVariable [originalClefKind] = destinationClefKind;
+    fClefKindToClefKindMapVariable [originalClefKind] =
+      destinationClefKind;
   }
 }
 

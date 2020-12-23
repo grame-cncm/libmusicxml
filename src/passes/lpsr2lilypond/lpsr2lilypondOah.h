@@ -832,7 +832,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     // ------------------------------------------------------
 
     enum scoreNotationKind {
-      kWesternNotation, kJianpuNotation, kABCNotation };
+      kWesternNotation, kJianpuNotation, kABCNotation
+    };
 
     static string scoreNotationKindAsString (
       scoreNotationKind notationKind);
@@ -1053,16 +1054,28 @@ class lpsr2lilypondOahGroup : public oahGroup
                               { return fSemiTonesPitchAndOctaveDefaultValue; }
 
 
+    void                  setAllDurations ()
+                              { fAllDurations = true; }
     bool                  getAllDurations () const
                               { return fAllDurations; }
 
+    void                  setNoAutoBeaming ()
+                              { fNoAutoBeaming = true; }
     bool                  getNoAutoBeaming () const
                               { return fNoAutoBeaming; }
+
+    void                  setNoBeams ()
+                              { fNoBeams = true; }
     bool                  getNoBeams () const
                               { return fNoBeams; }
 
+    void                  setRomanStringNumbers ()
+                              { fRomanStringNumbers = true; }
     bool                  getRomanStringNumbers () const
                               { return fRomanStringNumbers; }
+
+    void                  setAvoidOpenStrings ()
+                              { fAvoidOpenStrings = true; }
     bool                  getAvoidOpenStrings () const
                               { return fAvoidOpenStrings; }
 
@@ -1070,19 +1083,33 @@ class lpsr2lilypondOahGroup : public oahGroup
                           getAccidentalStyleKind () const
                               { return fAccidentalStyleKind; }
 
+    void                  setCompressFullMeasureRests ()
+                              { fCompressFullMeasureRests = true; }
     bool                  getCompressFullMeasureRests () const
                               { return fCompressFullMeasureRests; }
+
+    void                  setMergeRests ()
+                              { fMergeRests = true; }
     bool                  getMergeRests () const
                               { return fMergeRests; }
 
+    void                  setInputLineNumbers ()
+                              { fInputLineNumbers = true; }
     bool                  getInputLineNumbers () const
                               { return fInputLineNumbers; }
 
+    void                  setOriginalMeasureNumbers ()
+                              { fOriginalMeasureNumbers = true; }
     bool                  getOriginalMeasureNumbers () const
                               { return fOriginalMeasureNumbers; }
 
+    void                  setGeneratePositionsInMeasures ()
+                              { fGeneratePositionsInMeasures = true; }
     bool                  getGeneratePositionsInMeasures () const
                               { return fGeneratePositionsInMeasures; }
+
+    void                  setGenerateMomentsInMeasures ()
+                              { fGenerateMomentsInMeasures = true; }
     bool                  getGenerateMomentsInMeasures () const
                               { return fGenerateMomentsInMeasures; }
 
@@ -1104,6 +1131,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     // bar numbers
     // --------------------------------------
 
+    void                  setShowAllBarNumbers ()
+                              { fShowAllBarNumbers = true; }
     bool                  getShowAllBarNumbers () const
                               { return fShowAllBarNumbers; }
 
@@ -1113,20 +1142,31 @@ class lpsr2lilypondOahGroup : public oahGroup
     // bar number checks
     // --------------------------------------
 
+    void                  setNoBarNumberChecks ()
+                              { fNoBarNumberChecks = true; }
     bool                  getNoBarNumberChecks () const
                               { return fNoBarNumberChecks; }
 
     // line breaks
     // --------------------------------------
 
+    void                  setIgnoreMusicXMLLineBreaks ()
+                              { fIgnoreMusicXMLLineBreaks = true; }
     bool                  getIgnoreMusicXMLLineBreaks () const
                               { return fIgnoreMusicXMLLineBreaks; }
+
+    void                  setSuppressMusicXMLLineBreaks ()
+                              { fSuppressMusicXMLLineBreaks = true; }
     bool                  getSuppressMusicXMLLineBreaks () const
                               { return fSuppressMusicXMLLineBreaks; }
 
+    void                  setBreakLinesAtIncompleteRightMeasures ()
+                              { fBreakLinesAtIncompleteRightMeasures = true; }
     bool                  getBreakLinesAtIncompleteRightMeasures () const
                               { return fBreakLinesAtIncompleteRightMeasures; }
 
+    void                  setSeparatorLineEveryNMeasures (int value)
+                              { fSeparatorLineEveryNMeasures = value; }
     int                   getSeparatorLineEveryNMeasures () const
                               { return fSeparatorLineEveryNMeasures; }
 
@@ -1136,8 +1176,13 @@ class lpsr2lilypondOahGroup : public oahGroup
     // page breaks
     // --------------------------------------
 
+    void                  setIgnoreMusicXMLPageBreaks ()
+                              { fIgnoreMusicXMLPageBreaks = true; }
     bool                  getIgnoreMusicXMLPageBreaks () const
                               { return fIgnoreMusicXMLPageBreaks; }
+
+    void                  setSuppressMusicXMLPageBreaks ()
+                              { fSuppressMusicXMLPageBreaks = true; }
     bool                  getSuppressMusicXMLPageBreaks () const
                               { return fSuppressMusicXMLPageBreaks; }
 
@@ -1148,11 +1193,18 @@ class lpsr2lilypondOahGroup : public oahGroup
     // staves
     // --------------------------------------
 
+    void                  setModernTab ()
+                              { fModernTab = true; }
     bool                  getModernTab () const
                               { return fModernTab; }
+
+    void                  setTabFullNotation ()
+                              { fTabFullNotation = true; }
     bool                  getTabFullNotation () const
                               { return fTabFullNotation; }
 
+    void                  setKeepStaffSize ()
+                              { fKeepStaffSize = true; }
     bool                  getKeepStaffSize () const
                               { return fKeepStaffSize; }
 
@@ -1164,6 +1216,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     // chords
     // --------------------------------------
 
+    void                  setConnectArpeggios ()
+                              { fConnectArpeggios = true; }
     bool                  getConnectArpeggios () const
                               { return fConnectArpeggios; }
 
@@ -1171,6 +1225,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     // tuplets
     // --------------------------------------
 
+    void                  setIndentTuplets ()
+                              { fIndentTuplets = true; }
     bool                  getIndentTuplets () const
                               { return fIndentTuplets; }
 
@@ -1178,10 +1234,18 @@ class lpsr2lilypondOahGroup : public oahGroup
     // repeats
     // --------------------------------------
 
+    void                  setKeepRepeatBarlines ()
+                              { fKeepRepeatBarlines = true; }
     bool                  getKeepRepeatBarlines () const
                               { return fKeepRepeatBarlines; }
+
+    void                  setRepeatBrackets ()
+                              { fRepeatBrackets = true; }
     bool                  getRepeatBrackets () const
                               { return fRepeatBrackets; }
+
+    void                  setIgnoreRepeatNumbers ()
+                              { fIgnoreRepeatNumbers = true; }
     bool                  getIgnoreRepeatNumbers () const
                               { return fIgnoreRepeatNumbers; }
 
@@ -1199,8 +1263,12 @@ class lpsr2lilypondOahGroup : public oahGroup
     const list<pair<string, string> >&
                           getChordsDisplayList () const
                               { return fChordsDisplayList; }
+
+    void                  setJazzChordsDisplay ()
+                              { fJazzChordsDisplay = true; }
     bool                  getJazzChordsDisplay () const
                               { return fJazzChordsDisplay; }
+
     string                getJazzChordsDisplayLilypondcode () const
                               { return fJazzChordsDisplayLilypondcode; }
 
@@ -1208,6 +1276,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     // fonts
     // --------------------------------------
 
+    void                  setJazzFonts ()
+                              { fJazzFonts = true; }
     bool                  getJazzFonts () const
                               { return fJazzFonts; }
 
@@ -1215,36 +1285,58 @@ class lpsr2lilypondOahGroup : public oahGroup
     // code generation
     // --------------------------------------
 
+    void                  setXml2lyInfos ()
+                              { fXml2lyInfos = true; }
     bool                  getXml2lyInfos () const
                               { return fXml2lyInfos; }
 
+    void                  setLilypondComments ()
+                              { fLilypondComments = true; }
     bool                  getLilypondComments () const
                               { return fLilypondComments; }
 
+    void                  setGlobal ()
+                              { fGlobal = true; }
     bool                  getGlobal () const
                               { return fGlobal; }
 
+    void                  setDisplayMusic ()
+                              { fDisplayMusic = true; }
     bool                  getDisplayMusic () const
                               { return fDisplayMusic; }
 
+    void                  setNoLilypondCode ()
+                              { fNoLilypondCode = true; }
     bool                  getNoLilypondCode () const
                               { return fNoLilypondCode; }
 
+    void                  setNoLilypondLyrics ()
+                              { fNoLilypondLyrics = true; }
     bool                  getNoLilypondLyrics () const
                               { return fNoLilypondLyrics; }
 
+    void                  setLilypondCompileDate ()
+                              { fLilypondCompileDate = true; }
     bool                  getLilypondCompileDate () const
                               { return fLilypondCompileDate; }
 
+    void                  setPointAndClickOff ()
+                              { fPointAndClickOff = true; }
     bool                  getPointAndClickOff () const
                               { return fPointAndClickOff; }
 
+    void                  setDraftMode ()
+                              { fDraftMode = true; }
     bool                  getDraftMode () const
                               { return fDraftMode; }
 
+    void                  setWhiteNoteHeads ()
+                              { fWhiteNoteHeads = true; }
     bool                  getWhiteNoteHeads () const
                               { return fWhiteNoteHeads; }
 
+    void                  setGenerateCommentedOutVariables ()
+                              { fGenerateCommentedOutVariables = true; }
     bool                  getGenerateCommentedOutVariables () const
                               { return fGenerateCommentedOutVariables; }
 
@@ -1252,7 +1344,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     // score notation
     // --------------------------------------
 
-    // scoreNotationKind     getScoreNotationKind () const JMI ???
+    void                  setJianpu ()
+                              { fJianpu = true; }
     bool                  getJianpu () const
                               { return fJianpu; }
 
@@ -1261,9 +1354,14 @@ class lpsr2lilypondOahGroup : public oahGroup
     // lyrics
     // --------------------------------------
 
+    void                  setAddStanzasNumbers ()
+                              { fAddStanzasNumbers = true; }
     bool                  getAddStanzasNumbers () const
                               { return fAddStanzasNumbers; }
 
+    void                  setLyricsDurationsKind (
+                            lpsrLyricsDurationsKind value)
+                              { fLyricsDurationsKind = value; }
     lpsrLyricsDurationsKind
                           getLyricsDurationsKind () const
                               { return fLyricsDurationsKind; }
@@ -1271,9 +1369,13 @@ class lpsr2lilypondOahGroup : public oahGroup
     // midi
     // --------------------------------------
 
+    void                  getMidiTempo (msrMidiTempo value)
+                              { fMidiTempo = value; }
     msrMidiTempo          getMidiTempo () const
                               { return fMidiTempo; }
 
+    void                  setNoMidi ()
+                              { fNoMidi = true; }
     bool                  getNoMidi () const
                               { return fNoMidi; }
 
@@ -1285,6 +1387,8 @@ class lpsr2lilypondOahGroup : public oahGroup
     // combined options, minimal
     // --------------------------------------
 
+    void                  setMinimal ()
+                              { fMinimal = true; }
     bool                  getMinimal () const
                               { return fMinimal; }
 
@@ -1856,6 +1960,6 @@ EXP ostream& operator<< (ostream& os, const S_lilypondBreakPageAfterMeasureNumbe
 
       staffInstrumentName
       staffInstrumentAbbreviation
-      };
+    };
 */
 

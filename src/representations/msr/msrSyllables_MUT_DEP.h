@@ -25,7 +25,8 @@ class msrSyllable : public msrMeasureElement
       kSyllableSkipNonRestNote,
 
       kSyllableMeasureEnd,
-      kSyllableLineBreak, kSyllablePageBreak};
+      kSyllableLineBreak, kSyllablePageBreak
+    };
 
     static string syllableKindAsString (
       msrSyllableKind syllableKind);
@@ -34,7 +35,8 @@ class msrSyllable : public msrMeasureElement
       kSyllableExtendNone,
       kSyllableExtendEmpty,
       kSyllableExtendSingle,
-      kSyllableExtendStart, kSyllableExtendContinue, kSyllableExtendStop };
+      kSyllableExtendStart, kSyllableExtendContinue, kSyllableExtendStop
+    };
 
     static string syllableExtendKindAsString (
       msrSyllableExtendKind syllableExtendKind);

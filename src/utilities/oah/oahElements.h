@@ -31,9 +31,10 @@ const int K_OAH_FIELD_WIDTH = 40;
 // ------------------------------------------------------
 
 enum oahElementKind {
-  kElementWithoutValue,        // i.e. -cpu
-  kElementWithMandatoryValue,  // i.e. -global-staff-size 30
-  kElementWithOptionalValue }; // i.e. -name-help, -name-help=cpu
+  kElementWithoutValue,       // i.e. -cpu
+  kElementWithMandatoryValue, // i.e. -global-staff-size 30
+  kElementWithOptionalValue   // i.e. -name-help, -name-help=cpu
+};
 
 string elementKindAsString (
   oahElementKind elementKind);
@@ -42,14 +43,16 @@ enum oahElementVisibilityKind {
   kElementVisibilityNone, // default value
   kElementVisibilityWhole,
   kElementVisibilityHeaderOnly,
-  kElementVisibilityHidden };
+  kElementVisibilityHidden
+};
 
 string elementVisibilityKindAsString (
   oahElementVisibilityKind elementVisibilityKind);
 
 enum EXP oahElementHelpOnlyKind {
-    kElementHelpOnlyYes,
-    kElementHelpOnlyNo };
+  kElementHelpOnlyYes,
+  kElementHelpOnlyNo
+};
 
 string elementHelpOnlyKindAsString (
   oahElementHelpOnlyKind elementHelpOnlyKind);

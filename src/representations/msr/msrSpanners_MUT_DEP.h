@@ -19,7 +19,8 @@ class msrSpanner : public msrElement
     // ------------------------------------------------------
 
     enum msrSpannerKind {
-        kSpannerDashes, kSpannerWavyLine };
+      kSpannerDashes, kSpannerWavyLine
+    };
 
     static string spannerKindAsString (
       msrSpannerKind spannerKind);

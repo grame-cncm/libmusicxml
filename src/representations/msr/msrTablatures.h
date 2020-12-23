@@ -33,7 +33,8 @@ class msrFrameNote : public msrElement
 
     enum msrBarreTypeKind {
       kBarreTypeNone,
-      kBarreTypeStart, kBarreTypeStop };
+      kBarreTypeStart, kBarreTypeStop
+    };
 
     static string barreTypeKindAsString (
       msrBarreTypeKind barreTypeKind);

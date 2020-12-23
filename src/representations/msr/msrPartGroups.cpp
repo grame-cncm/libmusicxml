@@ -101,6 +101,26 @@ S_msrPartGroup msrPartGroup::createImplicitPartGroup (
   return o;
 }
 
+S_msrPartGroup msrPartGroup::create (
+  int                      inputLineNumber,
+  int                      partGroupNumber,
+  int                      partGroupAbsoluteNumber,
+  string                   partGroupName,
+  S_msrPartGroup           partGroupPartGroupUpLink,
+  S_msrScore               partGroupScoreUpLink)
+{
+  msrPartGroup* o =
+    new msrPartGroup (
+      inputLineNumber,
+      partGroupNumber,
+      partGroupAbsoluteNumber,
+      partGroupName,
+      partGroupPartGroupUpLink,
+      partGroupScoreUpLink);
+  assert (o!=0);
+  return o;
+}
+
 msrPartGroup::msrPartGroup (
   int                      inputLineNumber,
   int                      partGroupNumber,
@@ -162,6 +182,76 @@ msrPartGroup::msrPartGroup (
   fPartGroupImplicitKind    = partGroupImplicitKind;
 
   fPartGroupBarlineKind     = partGroupBarlineKind;
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePartGroups ()) {
+    gLogStream <<
+      "--------------------------------------------" <<
+      endl <<
+      "Creating part group '" << fPartGroupNumber << "'" <<
+      ", partGroupAbsoluteNumber = " << fPartGroupAbsoluteNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+}
+
+msrPartGroup::msrPartGroup (
+  int                      inputLineNumber,
+  int                      partGroupNumber,
+  int                      partGroupAbsoluteNumber,
+  string                   partGroupName,
+  S_msrPartGroup           partGroupPartGroupUpLink,
+  S_msrScore               partGroupScoreUpLink)
+    : msrPartGroupElement (inputLineNumber)
+{
+  // no sanity check on partGroupPartGroupUpLink here,
+  // it will be set after all 'real' (i.e. not implicit)
+  // part groups and part have been analyzed
+  fPartGroupPartGroupUpLink = partGroupPartGroupUpLink;
+
+/* JMI
+  // sanity check
+  msgAssert (
+    fPartGroupScoreUpLink != nullptr,
+    "fPartGroupScoreUpLink is null");
+    */
+
+  fPartGroupScoreUpLink     = partGroupScoreUpLink;
+
+  // other fields
+  fPartGroupNumber          = partGroupNumber;
+  fPartGroupAbsoluteNumber  = partGroupAbsoluteNumber;
+
+  fPartGroupName            = partGroupName;
+
+  int partGroupNameLength =
+    fPartGroupName.size ();
+
+  if (
+    partGroupNameLength
+      >
+    fPartGroupScoreUpLink->getScorePartGroupNamesMaxLength ()
+  ) {  // JMI sanity check ???
+    fPartGroupScoreUpLink->
+      setScorePartGroupNamesMaxLength (
+        partGroupNameLength);
+  }
+
+/* JMI
+  fPartGroupNameDisplayText = partGroupNameDisplayText;
+
+  fPartGroupAccidentalText  = partGroupAccidentalText;
+
+  fPartGroupAbbreviation    = partGroupAbbreviation;
+
+  fPartGroupSymbolKind      = partGroupSymbolKind;
+  fPartGroupSymbolDefaultX  = partGroupSymbolDefaultX;
+
+  fPartGroupImplicitKind    = partGroupImplicitKind;
+
+  fPartGroupBarlineKind     = partGroupBarlineKind;
+*/
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTracePartGroups ()) {

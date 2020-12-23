@@ -125,6 +125,26 @@ EXP void bsrInternalError (
   std::string message);
 
 //______________________________________________________________________________
+EXP void msplWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+EXP void msplError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+EXP void msplInternalError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
 EXP void bmmlWarning (
   std::string inputSourceName,
   int         inputLineNumber,

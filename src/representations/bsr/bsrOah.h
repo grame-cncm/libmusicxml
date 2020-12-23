@@ -30,7 +30,8 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 enum bsrFacSimileKind {
-    kFacSimileYes, kFacSimileNo };
+  kFacSimileYes, kFacSimileNo
+};
 
 string bsrFacSimileKindAsString (
   bsrFacSimileKind facSimileKind);
@@ -241,10 +242,16 @@ class bsrOahGroup : public oahGroup
 
     // display
 
+    void                  setDisplayBsr ()
+                              { fDisplayBsr = true; }
     bool                  getDisplayBsr () const
                               { return fDisplayBsr; }
+
+    void                  setDisplayBsrShort ()
+                              { fDisplayBsrShort = true; }
     bool                  getDisplayBsrShort () const
                               { return fDisplayBsrShort; }
+
     bool                  getDisplayBsrDetails () const
                               { return fDisplayBsrDetails; }
 
@@ -258,26 +265,41 @@ class bsrOahGroup : public oahGroup
 
 #ifdef TRACING_IS_ENABLED
     // BSR
+    void                  setTraceBsr ()
+                              { fTraceBsr = true; }
     bool                  getTraceBsr () const
                               { return fTraceBsr; }
 
     // pages & lines
+    void                  setTracePages ()
+                              { fTracePages = true; }
     bool                  getTracePages () const
                               { return fTracePages; }
 
+    void                  setTraceLines ()
+                              { fTraceLines = true; }
     bool                  getTraceLines () const
                               { return fTraceLines; }
 
+    void                  setTraceSpaces ()
+                              { fTraceSpaces = true; }
     bool                  getTraceSpaces () const
                               { return fTraceSpaces; }
+
+    void                  setTraceNumbers ()
+                              { fTraceNumbers = true; }
     bool                  getTraceNumbers () const
                               { return fTraceNumbers; }
 
     // parallels
+    void                  setTraceParallels ()
+                              { fTraceParallels = true; }
     bool                  getTraceParallels () const
                               { return fTraceParallels; }
 
     // visitors
+    void                  setTraceBsrVisitors ()
+                              { fTraceBsrVisitors = true; }
     bool                  getTraceBsrVisitors () const
                               { return fTraceBsrVisitors; }
 #endif

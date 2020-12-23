@@ -3403,6 +3403,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
           switch (keyTonicQuarterTonesPitchKind) {
             case k_NoQuarterTonesPitch_QTP:
             case k_Rest_QTP:
+            case k_Skip_QTP:
               // should not occur
               break;
 
@@ -3494,7 +3495,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
             fKeyElement->push (
               createMxmlElement (
                 k_mode,
-                keyModeKindAsString (elt->getKeyModeKind ())));
+                modeKindAsString (elt->getModeKind ())));
           }
 
           else {
@@ -5445,12 +5446,14 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
         // get the note's tuplet uplink
         S_msrTuplet
           noteTupletUpLink =
-            note->getNoteTupletUpLink ();
+            note->
+              getNoteTupletUpLink ();
 
         // get the note's position in tuplet
-        list<S_msrTupletElement>::size_type
+        unsigned int
           notePositionInTuplet =
-            note->getPositionInTuplet ();
+            note->
+              getPositionInTuplet ();
 
         // compute the type string if relevant
         string typeString;
@@ -5735,7 +5738,7 @@ void msr2mxmlTreeTranslator:: appendStemToNote (S_msrNote note)
     string stemString;
 
     switch (stemKind) {
-      case msrStem::kStemNone:
+      case msrStem::kStemNeutral:
         stemString = "none";
         break;
       case msrStem::kStemUp:
@@ -6170,8 +6173,9 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
     noteDiatonicPitchKind,
     noteAlterationKind);
 
-  int
-    noteOctave = note->getNoteOctave ();
+  msrOctaveKind
+    noteOctaveKind =
+      note->getNoteOctaveKind ();
 
   float
     noteMusicXMLAlter =
@@ -6182,9 +6186,10 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
       "-->  noteKind: " << msrNote::noteKindAsString (noteKind) <<
-      "-->  noteOctave: " << noteOctave <<
+      "-->  noteOctaveKind: " <<
+      msrOctaveKindAsString (noteOctaveKind) <<
       "-->  noteDiatonicPitchKind: " <<
-      msrDiatonicPitchKindAsString (noteDiatonicPitchKind) <<
+      diatonicPitchKindAsString (noteDiatonicPitchKind) <<
       endl;
   }
 #endif
@@ -6236,7 +6241,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
         pitchElement->push (
           createMxmlElement (
             k_step,
-            msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
+            diatonicPitchKindAsString (noteDiatonicPitchKind)));
 
         if (noteMusicXMLAlter != 0.0) {
           // append the alter element
@@ -6252,7 +6257,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
         pitchElement->push (
           createMxmlIntegerElement (
             k_octave,
-            noteOctave));
+            noteOctaveKind));
 
         fCurrentNote->push (pitchElement);
       }
@@ -6275,7 +6280,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
         pitchElement->push (
           createMxmlElement (
             k_step,
-            msrDiatonicPitchKindAsString (noteDiatonicPitchKind)));
+            diatonicPitchKindAsString (noteDiatonicPitchKind)));
 
         if (noteMusicXMLAlter != 0.0) {
           // append the alter element
@@ -6291,7 +6296,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
         pitchElement->push (
           createMxmlIntegerElement (
             k_octave,
-            noteOctave));
+            noteOctaveKind));
 
         // append the pitch element to the current note
         fCurrentNote->push (pitchElement);
@@ -7172,10 +7177,10 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
   gIndenter++;
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffTablature:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffTablature:
+    case kStaffDrum:
+    case kStaffRythmic:
       {
         // createMxml a staff clone
         fCurrentStaffClone =
@@ -7229,7 +7234,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case msrStaff::kStaffHarmony:
+    case kStaffHarmony:
       {
         // createMxml a staff clone
         fCurrentStaffClone =
@@ -7245,7 +7250,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case msrStaff::kStaffFiguredBass:
+    case kStaffFiguredBass:
       {
         // createMxml a staff clone
         fCurrentStaffClone =
@@ -7282,23 +7287,23 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrStaff& elt)
 #endif
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffDrum:
+    case kStaffRythmic:
       {
         fOnGoingStaff = false;
       }
       break;
 
-    case msrStaff::kStaffTablature:
+    case kStaffTablature:
       // JMI
       break;
 
-    case msrStaff::kStaffHarmony:
+    case kStaffHarmony:
       // JMI
       break;
 
-    case msrStaff::kStaffFiguredBass:
+    case kStaffFiguredBass:
       // JMI
       break;
   } // switch
@@ -7338,15 +7343,15 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrVoice& elt)
 #endif
 
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // JMI
       break;
 
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       fOnGoingHarmonyVoice = false;
       break;
 
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = false;
       break;
   } // switch

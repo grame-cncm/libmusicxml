@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -30,12 +30,13 @@ class msrStem : public msrElement
     // ------------------------------------------------------
 
     enum msrStemKind {
-      kStemNone,
-      kStemUp, kStemDown, kStemDouble};
+      kStemNeutral,
+      kStemUp, kStemDown, kStemDouble
+    };
 
     static string stemKindAsString (
       msrStemKind stemKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -51,9 +52,9 @@ class msrStem : public msrElement
     msrStem (
       int         inputLineNumber,
       msrStemKind stemKind);
-      
+
     virtual ~msrStem ();
-  
+
   public:
 
     // set and get

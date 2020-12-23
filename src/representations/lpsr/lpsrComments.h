@@ -18,23 +18,24 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class lpsrComment : public lpsrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
     enum lpsrCommentGapKind {
-      kGapAfterwards, kNoGapAfterwards};
+      kGapAfterwards, kNoGapAfterwards
+    };
 
     static string commentGapKindAsString (
       lpsrCommentGapKind commentGapKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -52,9 +53,9 @@ class lpsrComment : public lpsrElement
       int                inputLineNumber,
       string             contents,
       lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
-      
+
     virtual ~lpsrComment ();
-  
+
   public:
 
     // set and get
@@ -72,7 +73,7 @@ class lpsrComment : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -82,7 +83,7 @@ class lpsrComment : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 

@@ -40,7 +40,8 @@ class msrArticulation : public msrElement
       kStrongAccent, kTenuto,
       kFermata, // barline ??? JMI
       kArpeggiato, kNonArpeggiato,
-      kDoit, kFalloff, kPlop, kScoop};
+      kDoit, kFalloff, kPlop, kScoop
+    };
 
     static string articulationKindAsString (
       msrArticulationKind articulationKind);
@@ -123,14 +124,16 @@ class msrFermata : public msrArticulation
     // ------------------------------------------------------
 
     enum msrFermataKind {
-        kNormalFermataKind, kAngledFermataKind, kSquareFermataKind};
+        kNormalFermataKind, kAngledFermataKind, kSquareFermataKind
+      };
 
     static string fermataKindAsString (
       msrFermataKind fermataKind);
 
     enum msrFermataTypeKind {
-        kFermataTypeNone,
-        kFermataTypeUpright, kFermataTypeInverted };
+      kFermataTypeNone,
+      kFermataTypeUpright, kFermataTypeInverted
+    };
 
     static string fermataTypeKindAsString (
       msrFermataTypeKind fermataTypeKind);
@@ -286,7 +289,8 @@ class msrNonArpeggiato : public msrArticulation
 
     enum msrNonArpeggiatoTypeKind {
       kNonArpeggiatoTypeNone,
-      kNonArpeggiatoTypeTop, kNonArpeggiatoTypeBottom };
+      kNonArpeggiatoTypeTop, kNonArpeggiatoTypeBottom
+    };
 
     static string nonArpeggiatoTypeKindAsString (
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind);

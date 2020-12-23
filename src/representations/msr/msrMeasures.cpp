@@ -1675,7 +1675,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 
   // set barline's position in measure if relevant
   switch (voice->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // register barline position in measure
       barline->
         setMeasureElementPositionInMeasure (
@@ -1683,8 +1683,8 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
           "appendBarlineToMeasure()");
       break;
 
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass: // JMI
+    case kVoiceHarmony:
+    case kVoiceFiguredBass: // JMI
       // DON'T set barline's position in measure here:
       // we need to keep the one set when this same barline
       // has been appended to the regular voice (just above),
@@ -1809,12 +1809,14 @@ void msrMeasure::appendNoteToMeasure (
           fMeasureElementMeasureNumber,
           positionsDelta,
           positionsDelta,
-          0, // dots number JMI ???
+          0); // dots number JMI ???
+          /* JMI
           voice->
             getVoiceStaffUpLink ()->
               getStaffNumber (),
           voice->
             getVoiceNumber ());
+            */
 
     // append it to the measure
     appendNoteOrPaddingToMeasure (
@@ -2133,8 +2135,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // regular insertion in current measure
 
     // populate measure upLink
-    note->setNoteMeasureUpLink (
-      this);
+    note->
+      setNoteMeasureUpLink (this);
 
     // append the note to the measure elements list
   // JMI  // only now to make it possible to remove it afterwards
@@ -2144,7 +2146,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // fetch note sounding whole notes
     rational
       noteSoundingWholeNotes =
-        note->getNoteSoundingWholeNotes ();
+        note->
+          getNoteSoundingWholeNotes ();
 
     // account for note duration in measure whole notes
     incrementCurrentMeasureWholeNotesDuration (
@@ -2535,12 +2538,14 @@ S_msrNote msrMeasure::createPaddingSkipNoteForVoice (
         fMeasureElementMeasureNumber,
         duration,
         duration,
-        0, // dots number JMI ???
+        0); // dots number JMI ???
+        /* JMI
         voice->
           getVoiceStaffUpLink ()->
             getStaffNumber (),
         voice->
           getVoiceNumber ());
+          */
 
   return skipNote;
 }
@@ -5190,19 +5195,19 @@ void msrMeasure::finalizeMeasure (
 #endif
 
     switch (voice->getVoiceKind ()) {
-      case msrVoice::kVoiceRegular:
+      case kVoiceRegular:
         finalizeRegularMeasure (
           inputLineNumber,
           measuresRepeatContextKind,
           context);
         break;
-      case msrVoice::kVoiceHarmony:
+      case kVoiceHarmony:
         finalizeHarmonyMeasure (
           inputLineNumber,
           measuresRepeatContextKind,
           context);
         break;
-      case msrVoice::kVoiceFiguredBass:
+      case kVoiceFiguredBass:
         finalizeFiguredBassMeasure (
           inputLineNumber,
           measuresRepeatContextKind,

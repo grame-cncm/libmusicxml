@@ -50,7 +50,8 @@ typedef SMARTP<oahHandler> S_oahHandler;
 
 enum oahOptionsDefaultValuesStyle {
   kGNUStyle,
-  kOAHStyle };
+  kOAHStyle
+};
 
 string optionsDefaultValuesStyleAsString (
   oahOptionsDefaultValuesStyle optionsDefaultValuesStyle);
@@ -60,7 +61,8 @@ string optionsDefaultValuesStyleAsString (
 enum oahHandlerUsedThruKind {
   kHandlerUsedThruUnknown, // default value
   kHandlerUsedThruArgcAndArgv,
-  kHandlerUsedThruOptionsVector };
+  kHandlerUsedThruOptionsVector
+};
 
 string oahHandlerUsedThruKindAsString (
   oahHandlerUsedThruKind handlerUsedThruKind);
@@ -1245,7 +1247,8 @@ EXP ostream& operator<< (ostream& os, const S_oahHandler& elt);
 //______________________________________________________________________________
 enum oahOptionalValuesStyleKind {
   kOptionalValuesStyleGNU, // default value
-  kOptionalValuesStyleOAH };
+  kOptionalValuesStyleOAH
+};
 
 string oahOptionalValuesStyleKindAsString (
   oahOptionalValuesStyleKind optionalValuesStyleKind);

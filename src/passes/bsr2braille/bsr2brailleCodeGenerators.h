@@ -23,14 +23,16 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 enum bsrUTFKind {
-    kUTF8, kUTF16 };
+  kUTF8, kUTF16
+};
 
 string bsrUTFKindAsString (
   bsrUTFKind UTFKind);
 
 enum bsrByteOrderingKind {
-    kByteOrderingNone,
-    kByteOrderingBigEndian, kByteOrderingSmallEndian };
+  kByteOrderingNone,
+  kByteOrderingBigEndian, kByteOrderingSmallEndian
+};
 
 string bsrByteOrderingKindAsString (
   bsrByteOrderingKind byteOrderingKind);

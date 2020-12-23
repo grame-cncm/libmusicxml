@@ -1960,9 +1960,9 @@ std::vector< std::pair<int, int> >::const_iterator xmlpart2guido::findSlur ( con
                 //}
             }
             else if (stem->getValue() == "none") {
-                //if (fCurrentStemDirection != kStemNone || fInCue) {
+                //if (fCurrentStemDirection != kStemNeutral || fInCue) {
                 tag = guidotag::create("stemsOff");
-                fCurrentStemDirection = kStemNone;
+                fCurrentStemDirection = kStemNeutral;
                 //}
             }
             else if (stem->getValue() == "double") {

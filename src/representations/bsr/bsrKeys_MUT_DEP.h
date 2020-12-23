@@ -15,8 +15,9 @@ class bsrKey : public bsrLineElement
     // ------------------------------------------------------
 
     enum bsrKeyKind {
-        kKeyKindNone,
-        kKeyKindFlats, kKeyKindNaturals, kKeyKindSharps };
+      kKeyKindNone,
+      kKeyKindFlats, kKeyKindNaturals, kKeyKindSharps
+    };
 
     static string keyKindAsString (
       bsrKeyKind keyKind);

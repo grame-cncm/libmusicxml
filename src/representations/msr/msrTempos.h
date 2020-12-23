@@ -113,19 +113,24 @@ class msrTempoTuplet : public msrElement
 
     enum msrTempoTupletTypeKind {
       kTempoTupletTypeNone,
-      kTempoTupletTypeStart, kTempoTupletTypeStop };
+      kTempoTupletTypeStart, kTempoTupletTypeStop
+    };
 
     static string tempoTupletTypeKindAsString (
       msrTempoTupletTypeKind tempoTupletTypeKind);
 
     enum msrTempoTupletBracketKind {
-      kTempoTupletBracketYes, kTempoTupletBracketNo};
+      kTempoTupletBracketYes, kTempoTupletBracketNo
+    };
 
     static string tempoTupletBracketKindAsString (
       msrTempoTupletBracketKind tempoTupletBracketKind);
 
     enum msrTempoTupletShowNumberKind {
-      kTempoTupletShowNumberActual, kTempoTupletShowNumberBoth, kTempoTupletShowNumberNone };
+      kTempoTupletShowNumberActual,
+      kTempoTupletShowNumberBoth,
+      kTempoTupletShowNumberNone
+    };
 
     static string tempoTupletShowNumberKindAsString (
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind);
@@ -262,7 +267,8 @@ class msrTempoRelationshipElements : public msrElement
 
     enum msrTempoRelationshipElementsKind {
       kTempoRelationshipElementsLeft,
-      kTempoRelationshipElementsRight };
+      kTempoRelationshipElementsRight
+    };
 
     static string tempoRelationshipElementsKindAsString (
       msrTempoRelationshipElementsKind tempoRelationshipElementsKind);
@@ -351,19 +357,22 @@ class msrTempo : public msrMeasureElement
       kTempoBeatUnitsWordsOnly,
       kTempoBeatUnitsPerMinute,
       kTempoBeatUnitsEquivalence,
-      kTempoNotesRelationShip };
+      kTempoNotesRelationShip
+    };
 
     static string tempoKindAsString (
       msrTempoKind tempoKind);
 
     enum msrTempoParenthesizedKind {
-      kTempoParenthesizedYes, kTempoParenthesizedNo };
+      kTempoParenthesizedYes, kTempoParenthesizedNo
+    };
 
     static string tempoParenthesizedKindAsString (
       msrTempoParenthesizedKind tempoParenthesizedKind);
 
     enum msrTempoRelationKind {
-      kTempoRelationNone, kTempoRelationEquals };
+      kTempoRelationNone, kTempoRelationEquals
+    };
 
     static string tempoRelationKindAsString (
       msrTempoRelationKind tempoRelationKind);

@@ -121,7 +121,8 @@ class msrRepeatEnding : public msrElement
 
     enum msrRepeatEndingKind {
       kHookedEnding,
-      kHooklessEnding};
+      kHooklessEnding
+    };
 
     static string repeatEndingKindAsString (
       msrRepeatEndingKind repeatEndingKind);
@@ -274,7 +275,8 @@ class msrRepeat : public msrVoiceElement
 
     enum msrRepeatExplicitStartKind {
       kRepeatExplicitStartNo,
-      kRepeatExplicitStartYes };
+      kRepeatExplicitStartYes
+    };
 
     static string repeatExplicitStartKindAsString (
       msrRepeatExplicitStartKind repeatExplicitStartKind);
@@ -283,7 +285,8 @@ class msrRepeat : public msrVoiceElement
       kRepeatBuildPhaseJustCreated,
       kRepeatBuildPhaseInCommonPart,
       kRepeatBuildPhaseInEndings,
-      kRepeatBuildPhaseCompleted};
+      kRepeatBuildPhaseCompleted
+    };
 
     static string repeatBuildPhaseKindAsString (
       msrRepeatBuildPhaseKind repeatBuildPhaseKind);

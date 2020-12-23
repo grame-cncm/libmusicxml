@@ -1146,7 +1146,8 @@ string msrChord::asString () const
         note->getNoteSoundingWholeNotes () <<
         ", displayed " <<
         note->getNoteDisplayWholeNotes () <<
-        ", octave: " << note->getNoteOctave () <<
+        ", octave: " <<
+        msrOctaveKindAsString (note->getNoteOctaveKind ()) <<
         "]";
 
       if (++i == iEnd) break;
@@ -1182,7 +1183,8 @@ string msrChord::asShortString () const
         note->getNoteSoundingWholeNotes () <<
         ", displayed " <<
         note->getNoteDisplayWholeNotes () <<
-        ", octave: " << note->getNoteOctave () <<
+        ", octave: " <<
+        msrOctaveKindAsString (note->getNoteOctaveKind ()) <<
         "]";
 
       if (++i == iEnd) break;

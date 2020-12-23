@@ -31,7 +31,8 @@ class msrTie : public msrElement
 
     enum msrTieKind {
       kTieNone,
-      kTieStart, kTieContinue, kTieStop};
+      kTieStart, kTieContinue, kTieStop
+    };
 
     static string tieKindAsString (
       msrTieKind tieKind);

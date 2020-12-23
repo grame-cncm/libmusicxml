@@ -106,7 +106,8 @@ class msrRestMeasures : public msrVoiceElement
 
     enum msrRestMeasuresKind {
       kStartRestMeasures, kStopRestMeasures,
-      k_NoRestMeasures };
+      k_NoRestMeasures
+    };
 
     static string restMeasuresKindAsString (
       msrRestMeasuresKind restMeasuresKind);

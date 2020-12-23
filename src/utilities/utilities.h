@@ -50,7 +50,9 @@ namespace MusicXML2
 class timingItem : public smartable
 {
   public:
-    enum timingItemKind { kMandatory, kOptional };
+    enum timingItemKind {
+      kMandatory, kOptional
+    };
 
     static SMARTP<timingItem> createTimingItem (
       string    activity,

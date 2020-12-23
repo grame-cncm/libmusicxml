@@ -15,7 +15,8 @@ class msrDoubleTremolo : public msrMeasureElement
     // ------------------------------------------------------
 
     enum msrDoubleTremoloKind {
-      kNotesDoubleTremolo, kChordsDoubleTremolo};
+      kNotesDoubleTremolo, kChordsDoubleTremolo
+    };
 
     static string msrDoubleTremoloKindAsString (
       msrDoubleTremoloKind doubleTremolotKind);

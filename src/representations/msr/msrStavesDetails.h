@@ -34,8 +34,8 @@ class msrStaffTuning : public msrElement
     static SMARTP<msrStaffTuning> create (
       int                      inputLineNumber,
       int                      staffTuningLineNumber,
-      msrQuarterTonesPitchKind quarterTonesPitchKind,
-      int                      staffTuningOctave);
+      msrQuarterTonesPitchKind staffTuningQuarterTonesPitchKind,
+      msrOctaveKind            staffTuningOctaveKind);
 
     SMARTP<msrStaffTuning> createStaffTuningNewbornClone ();
 
@@ -49,8 +49,8 @@ class msrStaffTuning : public msrElement
     msrStaffTuning (
       int                      inputLineNumber,
       int                      staffTuningLineNumber,
-      msrQuarterTonesPitchKind quarterTonesPitchKind,
-      int                      staffTuningOctave);
+      msrQuarterTonesPitchKind staffTuningQuarterTonesPitchKind,
+      msrOctaveKind            staffTuningOctaveKind);
 
     ~ msrStaffTuning ();
 
@@ -66,8 +66,8 @@ class msrStaffTuning : public msrElement
                           getStaffTuningQuarterTonesPitchKind () const
                               { return fStaffTuningQuarterTonesPitchKind; }
 
-    int                   getStaffTuningOctave () const
-                              { return fStaffTuningOctave; }
+    msrOctaveKind         getStaffTuningOctaveKind () const
+                              { return fStaffTuningOctaveKind; }
 
   public:
 
@@ -102,7 +102,7 @@ class msrStaffTuning : public msrElement
 
     msrQuarterTonesPitchKind
                           fStaffTuningQuarterTonesPitchKind;
-    int                   fStaffTuningOctave;
+    msrOctaveKind         fStaffTuningOctaveKind;
 };
 typedef SMARTP<msrStaffTuning> S_msrStaffTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
@@ -119,19 +119,22 @@ class msrStaffDetails : public msrMeasureElement
     enum msrStaffTypeKind {
       kRegularStaffType,
       kOssiaStaffType, kCueStaffType, kEditorialStaffType,
-      kAlternateStaffType};
+      kAlternateStaffType
+    };
 
     static string staffTypeKindAsString (
       msrStaffTypeKind staffTypeKind);
 
     enum msrShowFretsKind {
-      kShowFretsNumbers, kShowFretsLetters};
+      kShowFretsNumbers, kShowFretsLetters
+    };
 
     static string showFretsKindAsString (
       msrShowFretsKind showFretsKind);
 
     enum msrPrintSpacingKind {
-      kPrintSpacingYes, kPrintSpacingNo};
+      kPrintSpacingYes, kPrintSpacingNo
+    };
 
     static string printSpacingKindAsString (
       msrPrintSpacingKind printSpacingKind);

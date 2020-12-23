@@ -121,15 +121,23 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // passes
+    void                  setTracePasses ()
+                              { fTracePasses = true; }
     bool                  getTracePasses () const
                               { return fTracePasses; }
-    // scaling
+    // geometry
+    void                  setTraceGeometry ()
+                              { fTraceGeometry = true; }
     bool                  getTraceGeometry () const
                               { return fTraceGeometry; }
     // identification
+    void                  setTraceIdentification ()
+                              { fTraceIdentification = true; }
     bool                  getTraceIdentification () const
-                              { return fTraceIdentification; } // specialize ??? JMI
+                              { return fTraceIdentification; }
     // for tests, hidden
+    void                  setTraceForTests ()
+                              { fTraceForTests = true; }
     bool                  getTraceForTests () const
                               { return fTraceForTests; }
 
@@ -138,17 +146,25 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // score
+    void                  setTraceScore ()
+                              { fTraceScore = true; }
     bool                  getTraceScore () const
                               { return fTraceScore; }
     // part groups
+    void                  setTracePartGroups ()
+                              { fTracePartGroups = true; }
     bool                  getTracePartGroups () const
                               { return fTracePartGroups; }
     bool                  getTracePartGroupsDetails () const
                               { return fTracePartGroupsDetails; }
     // parts
+    void                  setTraceParts ()
+                              { fTraceParts = true; }
     bool                  getTraceParts () const
                               { return fTraceParts; }
     // staves
+    void                  setTraceStaves ()
+                              { fTraceStaves = true; }
     bool                  getTraceStaves () const
                               { return fTraceStaves; }
     // staff details
@@ -158,6 +174,8 @@ class traceOahGroup : public oahGroup
     bool                  getTraceStaffChanges () const
                               { return fTraceStaffChanges; }
     // voices
+    void                  setTraceVoices ()
+                              { fTraceVoices = true; }
     bool                  getTraceVoices () const
                               { return fTraceVoices; }
     bool                  getTraceVoicesDetails () const
@@ -174,16 +192,22 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // segments
+    void                  setTraceSegments ()
+                              { fTraceSegments = true; }
     bool                  getTraceSegments () const
                               { return fTraceSegments; }
+
     bool                  getTraceSegmentsDetails () const
                               { return fTraceSegmentsDetails; }
     // measures
     bool                  getTraceMeasuresNumbers () const
                               { return fTraceMeasuresNumbers; }
 
+    void                  setTraceMeasures ()
+                              { fTraceMeasures = true; }
     bool                  getTraceMeasures () const
                               { return fTraceMeasures; }
+
     bool                  getTraceMeasuresDetails () const
                               { return fTraceMeasuresDetails; }
 
@@ -200,15 +224,23 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // clefs
+    void                  setTraceClefs ()
+                              { fTraceClefs = true; }
     bool                  getTraceClefs () const
                               { return fTraceClefs; }
     // keys
+    void                  setTraceKeys ()
+                              { fTraceKeys = true; }
     bool                  getTraceKeys () const
                               { return fTraceKeys; }
     // times
+    void                  setTraceTimes ()
+                              { fTraceTimes = true; }
     bool                  getTraceTimes () const
                               { return fTraceTimes; }
     // tempos
+    void                  setTraceTempos ()
+                              { fTraceTempos = true; }
     bool                  getTraceTempos () const
                               { return fTraceTempos; }
 
@@ -217,12 +249,18 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // line breaks
+    void                  setTraceLineBreaks ()
+                              { fTraceLineBreaks = true; }
     bool                  getTraceLineBreaks () const
                               { return fTraceLineBreaks; }
     // page breaks
+    void                  setTracePageBreaks ()
+                              { fTracePageBreaks = true; }
     bool                  getTracePageBreaks () const
                               { return fTracePageBreaks; }
     // barlines
+    void                  setTraceBarlines ()
+                              { fTraceBarlines = true; }
     bool                  getTraceBarlines () const
                               { return fTraceBarlines; }
     // barlines details
@@ -233,6 +271,8 @@ class traceOahGroup : public oahGroup
     // bar checks
     // --------------------------------------
 
+    void                  setTraceBarChecks ()
+                              { fTraceBarChecks = true; }
     bool                  getTraceBarChecks () const
                               { return fTraceBarChecks; }
 
@@ -240,6 +280,8 @@ class traceOahGroup : public oahGroup
     // bar number checks
     // --------------------------------------
 
+    void                  setTraceBarNumberChecks ()
+                              { fTraceBarNumberChecks = true; }
     bool                  getTraceBarNumberChecks () const
                               { return fTraceBarNumberChecks; }
 
@@ -248,9 +290,13 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // transpositions
+    void                  setTraceTraceTranspositions ()
+                              { fTraceTranspositions = true; }
     bool                  getTraceTranspositions () const
                               { return fTraceTranspositions; }
     // octave shifts
+    void                  setTraceOctaveShifts ()
+                              { fTraceOctaveShifts = true; }
     bool                  getTraceOctaveShifts () const
                               { return fTraceOctaveShifts; }
 
@@ -259,20 +305,31 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // repeats
+    void                  setTraceRepeats ()
+                              { fTraceRepeats = true; }
     bool                  getTraceRepeats () const
                               { return fTraceRepeats; }
+
     bool                  getTraceRepeatsDetails () const
                               { return fTraceRepeatsDetails; }
     // measures repeats
+    void                  setTraceMeasuresRepeats ()
+                              { fTraceMeasuresRepeats = true; }
     bool                  getTraceMeasuresRepeats () const
                               { return fTraceMeasuresRepeats; }
     // rest measures
+    void                  setTraceRestMeasures ()
+                              { fTraceRestMeasures = true; }
     bool                  getTraceRestMeasures () const
                               { return fTraceRestMeasures; }
     // beats repeats
+    void                  setTraceBeatsRepeats ()
+                              { fTraceBeatsRepeats = true; }
     bool                  getTraceBeatsRepeats () const
                               { return fTraceBeatsRepeats; }
     // slashes
+    void                  setTraceSlashes ()
+                              { fTraceSlashes = true; }
     bool                  getTraceSlashes () const
                               { return fTraceSlashes; }
 
@@ -281,6 +338,8 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // notes
+    void                  setTraceNotes ()
+                              { fTraceNotes = true; }
     bool                  getTraceNotes () const
                               { return fTraceNotes; }
     // notes details
@@ -292,18 +351,28 @@ class traceOahGroup : public oahGroup
     bool                  getTraceWholeNotesDetails () const
                               { return fTraceWholeNotesDetails; }
     // skip notes
+    void                  setTraceSkipNotes ()
+                              { fTraceSkipNotes = true; }
     bool                  getTraceSkipNotes () const
                               { return fTraceSkipNotes; }
     // rest notes
+    void                  setTraceRestNotes ()
+                              { fTraceRestNotes = true; }
     bool                  getTraceRestNotes () const
                               { return fTraceRestNotes; }
     // notes octave entry
+    void                  setTraceNotesOctaveEntry ()
+                              { fTraceNotesOctaveEntry = true; }
     bool                  getTraceNotesOctaveEntry () const
                               { return fTraceNotesOctaveEntry; }
     // grace notes
+    void                  setTraceGraceNotes ()
+                              { fTraceGraceNotes = true; }
     bool                  getTraceGraceNotes () const
                               { return fTraceGraceNotes; }
     // tremolos
+    void                  setTraceTremolos ()
+                              { fTraceTremolos = true; }
     bool                  getTraceTremolos () const
                               { return fTraceTremolos; }
 
@@ -312,21 +381,33 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // stems
+    void                  setTraceStems ()
+                              { fTraceStems = true; }
     bool                  getTraceStems () const
                               { return fTraceStems; }
     // beams
+    void                  setTraceBeams ()
+                              { fTraceBeams = true; }
     bool                  getTraceBeams () const
                               { return fTraceBeams; }
     // articulations
+    void                  setTraceArticulations ()
+                              { fTraceArticulations = true; }
     bool                  getTraceArticulations () const
                               { return fTraceArticulations; }
     // technicals
+    void                  setTraceTechnicals ()
+                              { fTraceTechnicals = true; }
     bool                  getTraceTechnicals () const
                               { return fTraceTechnicals; }
     // ornaments
+    void                  setTraceOrnaments ()
+                              { fTraceOrnaments = true; }
     bool                  getTraceOrnaments () const
                               { return fTraceOrnaments; }
     // dynamics
+    void                  setTraceDynamics ()
+                              { fTraceDynamics = true; }
     bool                  getTraceDynamics () const
                               { return fTraceDynamics; }
 
@@ -335,18 +416,26 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // spanners
+    void                  setTraceSpanners ()
+                              { fTraceSpanners = true; }
     bool                  getTraceSpanners () const
-                              { return fTraceSpanners; } // ???
+                              { return fTraceSpanners; }
     // wedges
+    void                  setTraceWedges ()
+                              { fTraceWedges = true; }
     bool                  getTraceWedges () const
                               { return fTraceWedges; }
-    // spanners
     // slurs
+    void                  setTraceSlurs ()
+                              { fTraceSlurs = true; }
     bool                  getTraceSlurs () const
                               { return fTraceSlurs; }
+
     bool                  getTraceSlursDetails () const
                               { return fTraceSlursDetails; }
     // ligatures
+    void                  setTraceLigatures ()
+                              { fTraceLigatures = true; }
     bool                  getTraceLigatures () const
                               { return fTraceLigatures; }
 
@@ -355,14 +444,21 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // credits
+    void                  setTraceCredits ()
+                              { fTraceCredits = true; }
     bool                  getTraceCredits () const
                               { return fTraceCredits; }
     // lyrics
+    void                  setTraceLyrics ()
+                              { fTraceLyrics = true; }
     bool                  getTraceLyrics () const
                               { return fTraceLyrics; }
+
     bool                  getTraceLyricsDetails () const
                               { return fTraceLyricsDetails; }
     // words
+    void                  setTraceWords ()
+                              { fTraceWords = true; }
     bool                  getTraceWords () const
                               { return fTraceWords; }
 
@@ -371,13 +467,19 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // chords
+    void                  setTraceChords ()
+                              { fTraceChords = true; }
     bool                  getTraceChords () const
                               { return fTraceChords; }
+
     bool                  getTraceChordsDetails () const
                               { return fTraceChordsDetails; }
     // tuplets
+    void                  setTraceTuplets ()
+                              { fTraceTuplets = true; }
     bool                  getTraceTuplets () const
                               { return fTraceTuplets; }
+
     bool                  getTraceTupletsDetails () const
                               { return fTraceTupletsDetails; }
 
@@ -385,9 +487,13 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // ties
+    void                  setTraceTies ()
+                              { fTraceTies = true; }
     bool                  getTraceTies () const
                               { return fTraceTies; }
     // glissandos
+    void                  setTraceGlissandos ()
+                              { fTraceGlissandos = true; }
     bool                  getTraceGlissandos () const
                               { return fTraceGlissandos; }
 
@@ -395,35 +501,52 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // rehearsals
+    void                  setTraceRehearsals ()
+                              { fTraceRehearsals = true; }
     bool                  getTraceRehearsals () const
                               { return fTraceRehearsals; }
     // segnos
+    void                  setTraceSegnos ()
+                              { fTraceSegnos = true; }
     bool                  getTraceSegnos () const
                               { return fTraceSegnos; }
     // dal segnos
+    void                  setTraceDalSegnos ()
+                              { fTraceDalSegnos = true; }
     bool                  getTraceDalSegnos () const
                               { return fTraceDalSegnos; }
     // codas
+    void                  setTraceCodas ()
+                              { fTraceCodas = true; }
     bool                  getTraceCodas () const
                               { return fTraceCodas; }
     // eyeglases
+    void                  setTraceEyeGlasses ()
+                              { fTraceEyeGlasses = true; }
     bool                  getTraceEyeGlasses () const
                               { return fTraceEyeGlasses; }
 
     // harmonies
     // --------------------------------------
 
+    void                  setTraceHarmonies ()
+                              { fTraceHarmonies = true; }
     bool                  getTraceHarmonies () const
                               { return fTraceHarmonies; }
+
     bool                  getTraceHarmoniesDetails () const
                               { return fTraceHarmoniesDetails; }
 
+    void                  setTraceExtraHarmonies ()
+                              { fTraceExtraHarmonies = true; }
     bool                  getTraceExtraHarmonies () const
                               { return fTraceExtraHarmonies; }
 
     // figured basses
     // --------------------------------------
 
+    void                  setTraceFiguredBasses ()
+                              { fTraceFiguredBasses = true; }
     bool                  getTraceFiguredBasses () const
                               { return fTraceFiguredBasses; }
 
@@ -431,33 +554,53 @@ class traceOahGroup : public oahGroup
     // --------------------------------------
 
     // frames
+    void                  setTraceFrames ()
+                              { fTraceFrames = true; }
     bool                  getTraceFrames () const
                               { return fTraceFrames; }
     // scordaturas
+    void                  setTraceScordaturas ()
+                              { fTraceScordaturas = true; }
     bool                  getTraceScordaturas () const
                               { return fTraceScordaturas; }
     // slides
+    void                  setTraceSlides ()
+                              { fTraceSlides = true; }
     bool                  getTraceSlides () const
                               { return fTraceSlides; }
     // pedals
+    void                  setTracePedals ()
+                              { fTracePedals = true; }
     bool                  getTracePedals () const
                               { return fTracePedals; }
     // accordion registrations
+    void                  setTraceAccordionRegistrations ()
+                              { fTraceAccordionRegistrations = true; }
     bool                  getTraceAccordionRegistrations () const
                               { return fTraceAccordionRegistrations; }
     // harp pedals
+    void                  setTraceHarpPedals ()
+                              { fTraceHarpPedals = true; }
     bool                  getTraceHarpPedals () const
                               { return fTraceHarpPedals; }
     // harp pedals tuning
+    void                  setTraceHarpPedalsTunings ()
+                              { fTraceHarpPedalsTunings = true; }
     bool                  getTraceHarpPedalsTunings () const
                               { return fTraceHarpPedalsTunings; }
     // damps
+    void                  setTraceDamps ()
+                              { fTraceDamps = true; }
     bool                  getTraceDamps () const
                               { return fTraceDamps; }
     // dampalls
+    void                  setTraceDampAlls ()
+                              { fTraceDampAlls = true; }
     bool                  getTraceDampAlls () const
                               { return fTraceDampAlls; }
     // midi
+    void                  setTraceMidi ()
+                              { fTraceMidi = true; }
     bool                  getTraceMidi () const
                               { return fTraceMidi; }
 

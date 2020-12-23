@@ -226,15 +226,13 @@ class msrPart : public msrPartGroupElement
     // voice shortest note
 
     void                  setPartShortestNoteDuration (
-                            rational duration)
-                              { fPartShortestNoteDuration = duration; }
+                            rational duration);
 
     rational              getPartShortestNoteDuration () const
                               { return fPartShortestNoteDuration; }
 
     void                  setPartShortestNoteTupletFactor (
-                            const msrTupletFactor& noteTupletFactor)
-                              { fPartShortestNoteTupletFactor = noteTupletFactor; }
+                            const msrTupletFactor& noteTupletFactor);
 
     const msrTupletFactor&
                           getPartShortestNoteTupletFactor () const
@@ -382,14 +380,14 @@ class msrPart : public msrPartGroupElement
     // staves
 
     S_msrStaff            addStaffToPartByItsNumber (
-                            int                    inputLineNumber,
-                            msrStaff::msrStaffKind staffKind,
-                            int                    staffNumber);
+                            int          inputLineNumber,
+                            msrStaffKind staffKind,
+                            int          staffNumber);
 
     S_msrStaff            addPartLevelStaffToPart (
-                            int                    inputLineNumber,
-                            msrStaff::msrStaffKind staffKind,
-                            int                    staffNumber);
+                            int          inputLineNumber,
+                            msrStaffKind staffKind,
+                            int          staffNumber);
 
     void                  addStaffToPartCloneByItsNumber (
                             S_msrStaff staff);

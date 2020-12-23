@@ -18,10 +18,11 @@ class bsrBarline : public bsrLineElement
     // ------------------------------------------------------
 
     enum bsrBarlineKind {
-        kBarlineKindNone,
-        kBarlineKindSpecial, // for dotted or dashed barlines
-        kBarlineKindUnusual, // irregular spacing, ...
-        kBarlineKindFinalDouble, kBarlineKindSectionalDouble };
+      kBarlineKindNone,
+      kBarlineKindSpecial, // for dotted or dashed barlines
+      kBarlineKindUnusual, // irregular spacing, ...
+      kBarlineKindFinalDouble, kBarlineKindSectionalDouble
+    };
 
     static string barlineKindAsString (
       bsrBarlineKind barlineKind);

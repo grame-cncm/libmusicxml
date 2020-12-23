@@ -18,7 +18,8 @@ class msrFigure : public msrElement
       k_NoFigurePrefix,
       kDoubleFlatPrefix, kFlatPrefix, kFlatFlatPrefix,
       kNaturalPrefix,
-      kSharpSharpPrefix, kSharpPrefix, kDoubleSharpPrefix };
+      kSharpSharpPrefix, kSharpPrefix, kDoubleSharpPrefix
+    };
 
     static string figurePrefixKindAsString (
       msrFigurePrefixKind figurePrefixKind);
@@ -28,7 +29,8 @@ class msrFigure : public msrElement
       kDoubleFlatSuffix, kFlatSuffix, kFlatFlatSuffix,
       kNaturalSuffix,
       kSharpSharpSuffix, kSharpSuffix, kDoubleSharpSuffix,
-      kSlashSuffix };
+      kSlashSuffix
+    };
 
     static string figureSuffixKindAsString (
       msrFigureSuffixKind figureSuffixKind);
@@ -135,7 +137,8 @@ class msrFiguredBass : public msrMeasureElement
     // ------------------------------------------------------
 
     enum msrFiguredBassParenthesesKind {
-      kFiguredBassParenthesesYes, kFiguredBassParenthesesNo };
+      kFiguredBassParenthesesYes, kFiguredBassParenthesesNo
+    };
 
     static string figuredBassParenthesesKindAsString (
       msrFiguredBassParenthesesKind figuredBassParenthesesKind);

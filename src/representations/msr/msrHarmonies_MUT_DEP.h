@@ -17,7 +17,8 @@ class msrHarmonyDegree : public msrElement
     enum msrHarmonyDegreeTypeKind {
       kHarmonyDegreeTypeAdd,
       kHarmonyDegreeTypeAlter,
-      kHarmonyDegreeTypeSubstract };
+      kHarmonyDegreeTypeSubstract
+    };
 
     static string harmonyDegreeTypeKindAsString (
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);

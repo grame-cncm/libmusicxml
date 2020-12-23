@@ -16,7 +16,8 @@ class msrGraceNotesGroup : public msrElement
 
     enum msrGraceNotesGroupKind {
       kGraceNotesGroupBefore,
-      kGraceNotesGroupAfter };
+      kGraceNotesGroupAfter
+    };
 
     static string graceNotesGroupKindAsString (
       msrGraceNotesGroupKind graceNotesGroupKind);

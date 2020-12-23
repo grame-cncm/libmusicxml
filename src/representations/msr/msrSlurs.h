@@ -33,7 +33,8 @@ class msrSlur : public msrElement
       k_NoSlur,
       kRegularSlurStart, kPhrasingSlurStart,
       kSlurContinue,
-      kRegularSlurStop, kPhrasingSlurStop};
+      kRegularSlurStop, kPhrasingSlurStop
+    };
 
     static string slurTypeKindAsString (
       msrSlurTypeKind slurKind);

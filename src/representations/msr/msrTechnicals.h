@@ -18,14 +18,14 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class msrTechnical : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -44,19 +44,21 @@ class msrTechnical : public msrElement
       kThumbPosition,
       kToe,
       kTripleTongue,
-      kUpBow};
+      kUpBow
+    };
 
     static string technicalKindAsString (
       msrTechnicalKind technicalKind);
-      
+
 /* JMI
     enum msrTechnicalAccidentalMarkKind {
-      kNatural, kSharp, kFlat};
+      kNatural, kSharp, kFlat
+    };
 
     static string technicalAccidentalMarkKindAsString (
       msrTechnicalAccidentalMarkKind technicalAccidentalMarkKind);
   */
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -74,9 +76,9 @@ class msrTechnical : public msrElement
       int              inputLineNumber,
       msrTechnicalKind technicalKind,
       msrPlacementKind technicalPlacementKind);
-      
+
     virtual ~msrTechnical ();
-  
+
   public:
 
     // set and get
@@ -84,14 +86,14 @@ class msrTechnical : public msrElement
 
     msrTechnicalKind      getTechnicalKind () const
                               { return fTechnicalKind; }
-        
+
     void                  setTechnicalPlacementKind (
                             msrPlacementKind technicalPlacementKind)
                               {
                                 fTechnicalPlacementKind =
                                   technicalPlacementKind;
                               }
-        
+
     msrPlacementKind      getTechnicalPlacementKind () const
                               { return fTechnicalPlacementKind; }
 
@@ -103,7 +105,7 @@ class msrTechnical : public msrElement
                                 fTechnicalAccidentalMarkKind =
                                   technicalAccidentalMarkKind;
                               }
-        
+
     msrTechnicalAccidentalMarkKind
                           getTechnicalAccidentalMarkKind () const
                               { return fTechnicalAccidentalMarkKind; }
@@ -119,7 +121,7 @@ class msrTechnical : public msrElement
     string                technicalPlacementKindAsString () const;
 
     string                technicalAccidentalMarkKindAsString () const;
-    
+
     string                asString () const override;
 
   public:
@@ -147,7 +149,7 @@ class msrTechnical : public msrElement
     msrTechnicalKind      fTechnicalKind;
 
     msrPlacementKind      fTechnicalPlacementKind;
-    
+
 // JMI    msrTechnicalAccidentalMarkKind  fTechnicalAccidentalMarkKind;
 };
 typedef SMARTP<msrTechnical> S_msrTechnical;
@@ -157,18 +159,19 @@ EXP ostream& operator<< (ostream& os, const S_msrTechnical& elt);
 class msrTechnicalWithInteger : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
     enum msrTechnicalWithIntegerKind {
       kFingering,
       kFret,
-      kString };
+      kString
+    };
 
     static string technicalWithIntegerKindAsString (
       msrTechnicalWithIntegerKind technicalWithIntegerKind);
-                  
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -188,9 +191,9 @@ class msrTechnicalWithInteger : public msrElement
       msrTechnicalWithIntegerKind technicalWithIntegerKind,
       int                         technicalWithIntegerValue,
       msrPlacementKind            technicalWithIntegerPlacementKind);
-      
+
     virtual ~msrTechnicalWithInteger ();
-  
+
   public:
 
     // set and get
@@ -199,10 +202,10 @@ class msrTechnicalWithInteger : public msrElement
     msrTechnicalWithIntegerKind
                           getTechnicalWithIntegerKind () const
                               { return fTechnicalWithIntegerKind; }
-        
+
     int                   getTechnicalWithIntegerValue () const
                               { return fTechnicalWithIntegerValue; }
-        
+
     void                  setTechnicalWithIntegerPlacementKind (
                             msrPlacementKind
                               technicalWithIntegerPlacementKind)
@@ -210,10 +213,10 @@ class msrTechnicalWithInteger : public msrElement
                                 fTechnicalWithIntegerPlacementKind =
                                   technicalWithIntegerPlacementKind;
                               }
-        
+
     msrPlacementKind      getTechnicalWithIntegerPlacementKind () const
                               { return fTechnicalWithIntegerPlacementKind; }
-        
+
   public:
 
     // public services
@@ -224,7 +227,7 @@ class msrTechnicalWithInteger : public msrElement
     string                technicalWithIntegerPlacementKindAsString () const;
 
     string                technicalWithIntegerAccidentalMarkKindAsString () const;
-    
+
     string                asString () const override;
 
   public:
@@ -262,16 +265,17 @@ EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt);
 class msrTechnicalWithFloat : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
     enum msrTechnicalWithFloatKind {
-      kBend };
+      kBend
+    };
 
     static string technicalWithFloatKindAsString (
       msrTechnicalWithFloatKind technicalWithFloatKind);
-                  
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -291,9 +295,9 @@ class msrTechnicalWithFloat : public msrElement
       msrTechnicalWithFloatKind technicalWithFloatKind,
       float                     technicalWithFloatValue,
       msrPlacementKind          technicalWithFloatPlacementKind);
-      
+
     virtual ~msrTechnicalWithFloat ();
-  
+
   public:
 
     // set and get
@@ -302,10 +306,10 @@ class msrTechnicalWithFloat : public msrElement
     msrTechnicalWithFloatKind
                           getTechnicalWithFloatKind () const
                               { return fTechnicalWithFloatKind; }
-        
+
     float                 getTechnicalWithFloatValue () const
                               { return fTechnicalWithFloatValue; }
-        
+
     void                  setTechnicalWithFloatPlacementKind (
                             msrPlacementKind
                               technicalWithFloatPlacementKind)
@@ -313,7 +317,7 @@ class msrTechnicalWithFloat : public msrElement
                                 fTechnicalWithFloatPlacementKind =
                                   technicalWithFloatPlacementKind;
                               }
-        
+
     msrPlacementKind      getTechnicalWithFloatPlacementKind () const
                               { return fTechnicalWithFloatPlacementKind; }
 
@@ -327,7 +331,7 @@ class msrTechnicalWithFloat : public msrElement
     string                technicalWithFloatPlacementKindAsString () const;
 
     string                technicalWithFloatAccidentalMarkKindAsString () const;
-    
+
     string                asString () const override;
 
   public:
@@ -365,7 +369,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithFloat& elt);
 class msrTechnicalWithString : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -374,11 +378,12 @@ class msrTechnicalWithString : public msrElement
       kHandbell,
       kOtherTechnical,
       kPluck,
-      kPullOff};
+      kPullOff
+    };
 
     static string technicalWithStringKindAsString (
       msrTechnicalWithStringKind technicalWithStringKind);
-                  
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -400,9 +405,9 @@ class msrTechnicalWithString : public msrElement
       msrTechnicalTypeKind       technicalWithStringTypeKind,
       string                     technicalWithStringValue,
       msrPlacementKind           technicalWithStringPlacementKind);
-      
+
     virtual ~msrTechnicalWithString ();
-  
+
   public:
 
     // set and get
@@ -417,7 +422,7 @@ class msrTechnicalWithString : public msrElement
 
     string                getTechnicalWithStringValue () const
                               { return fTechnicalWithStringValue; }
-        
+
     void                  setTechnicalWithStringPlacementKind (
                             msrPlacementKind
                               technicalWithStringPlacementKind)
@@ -425,7 +430,7 @@ class msrTechnicalWithString : public msrElement
                                 fTechnicalWithStringPlacementKind =
                                   technicalWithStringPlacementKind;
                               }
-        
+
     msrPlacementKind      getTechnicalWithStringPlacementKind () const
                               { return fTechnicalWithStringPlacementKind; }
 
@@ -435,13 +440,13 @@ class msrTechnicalWithString : public msrElement
     // ------------------------------------------------------
 
     string                technicalWithStringKindAsString () const;
-    
+
     string                technicalWithStringTypeKindAsString () const;
 
     string                technicalWithStringPlacementKindAsString () const;
 
     string                technicalWithStringAccidentalMarkKindAsString () const;
-    
+
     string                asString () const override;
 
   public:

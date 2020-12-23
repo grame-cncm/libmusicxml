@@ -40,7 +40,7 @@ static void _sigaction(int signal, siginfo_t *si, void *arg)
     exit(-2);
 }
 
-static void catchsigs()
+static void catchsigs ()
 {
 	struct sigaction sa;
 
@@ -54,7 +54,7 @@ static void catchsigs()
 }
 
 #else
-static void catchsigs()	{}
+static void catchsigs ()	{}
 #endif
 
 //_______________________________________________________________________________
@@ -86,7 +86,7 @@ static void versionInfo()
 //_______________________________________________________________________________
 int main(int argc, char *argv[])
 {
-	catchsigs();
+	catchsigs ();
 
 	bool version = checkOpt (argc, argv, "--version") || checkOpt (argc, argv, "-v");
 	if (version) versionInfo();

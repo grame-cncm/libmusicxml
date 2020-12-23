@@ -35,7 +35,8 @@ enum lpsrScoreOutputKind {
   kPartsOnly,
   kScoreAndPartsOneFile,
   kPartsAndScoreOneFile,
-  kPartsOnlyOneFile };
+  kPartsOnlyOneFile
+};
 
 string lpsrScoreOutputKindAsString (
   lpsrScoreOutputKind scoreOutputKind);
@@ -52,7 +53,8 @@ void initializeLpsrScoreOutputKindsMap ();
 enum lpsrOctaveEntryKind {
   kOctaveEntryRelative, // default value
   kOctaveEntryAbsolute,
-  kOctaveEntryFixed };
+  kOctaveEntryFixed
+};
 
 string lpsrOctaveEntryKindAsString (
   lpsrOctaveEntryKind octaveEntryKind);
@@ -75,7 +77,8 @@ enum lpsrAccidentalStyleKind {
   kNeoModern,
   kNeoModernCautionary, kNeoModernVoice, kNeoModernVoiceCautionary,
   kDodecaphonic, kDodecaphonicNoRepeat,
-  kDodecaphonicFirst, kTeaching, kNoReset, kForget };
+  kDodecaphonicFirst, kTeaching, kNoReset, kForget
+};
 
 string lpsrAccidentalStyleKindAsString (
   lpsrAccidentalStyleKind accidentalStyleKind);
@@ -94,7 +97,8 @@ void initializeLpsrAccidentalStyleKindsMap ();
 //______________________________________________________________________________
 enum lpsrChordsLanguageKind {
   k_IgnatzekChords, // LilyPond default
-  k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
+  k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords
+};
 
 string lpsrChordsLanguageKindAsString (
   lpsrChordsLanguageKind languageKind);
@@ -154,7 +158,8 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 //______________________________________________________________________________
 enum lpsrLyricsDurationsKind {
   kLyricsDurationsImplicit, // default value
-  kLyricsDurationsExplicit };
+  kLyricsDurationsExplicit
+};
 
 string lpsrLyricsDurationsKindAsString (
   lpsrLyricsDurationsKind lyricsDurationsKind);

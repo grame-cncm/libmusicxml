@@ -55,8 +55,7 @@ class msrTupletElement : public msrMeasureElement
                             int positionInTuplet)
                               { fPositionInTuplet = positionInTuplet; }
 
-    const list<S_msrTupletElement>::size_type
-                          getPositionInTuplet () const
+    const unsigned int    getPositionInTuplet () const
                               { return fPositionInTuplet; }
 
   protected:
@@ -66,8 +65,7 @@ class msrTupletElement : public msrMeasureElement
       to allow for separate *.h files, C++ constraint
     */
 
-    list<S_msrTupletElement>::size_type
-                          fPositionInTuplet;
+    unsigned int          fPositionInTuplet;
 };
 typedef SMARTP<msrTupletElement> S_msrTupletElement;
 EXP ostream& operator<< (ostream& os, const S_msrTupletElement& elt);

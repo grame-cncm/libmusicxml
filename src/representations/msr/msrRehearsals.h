@@ -30,8 +30,9 @@ class msrRehearsal : public msrMeasureElement
     // ------------------------------------------------------
 
     enum msrRehearsalKind {
-        kNone,
-        kRectangle, kOval, kCircle, kBracket, kTriangle, kDiamond };
+      kNone,
+      kRectangle, kOval, kCircle, kBracket, kTriangle, kDiamond
+    };
 
     static string rehearsalKindAsString (
       msrRehearsalKind rehearsalKind);

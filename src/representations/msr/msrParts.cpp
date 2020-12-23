@@ -114,7 +114,9 @@ void msrPart::initializePart ()
   fPartCurrentPositionInMeasure = rational (0,0);
 
   // part shortest note duration
-  fPartShortestNoteDuration     = rational (INT_MAX, 1);
+  fPartShortestNoteDuration = rational (INT_MAX, 1);
+
+  // part shortest note tuplet factor
   fPartShortestNoteTupletFactor = rational (1, 1);
 
 #ifdef TRACING_IS_ENABLED
@@ -289,6 +291,48 @@ void msrPart::decrementPartCurrentPositionInMeasure (
       endl;
   }
 #endif
+}
+
+void msrPart::setPartShortestNoteDuration (
+  rational duration)
+{
+#ifdef TRACING_IS_ENABLED
+  if (
+    gGlobalTraceOahGroup->getTraceNotes ()
+      ||
+    gGlobalMsrOahGroup->getTraceMsrDurations ()
+  ) {
+    gLogStream <<
+      "Setting the shortest note duration of part " <<
+      fPartName <<
+      " to " <<
+      duration <<
+      endl;
+  }
+#endif
+
+  fPartShortestNoteDuration = duration;
+}
+
+void msrPart::setPartShortestNoteTupletFactor (
+  const msrTupletFactor& noteTupletFactor)
+{
+#ifdef TRACING_IS_ENABLED
+  if (
+    gGlobalTraceOahGroup->getTraceNotes ()
+      ||
+    gGlobalMsrOahGroup->getTraceMsrDurations ()
+  ) {
+    gLogStream <<
+      "Setting the shortest note tuplet factor of part " <<
+      fPartName <<
+      " to " <<
+      noteTupletFactor <<
+      endl;
+  }
+#endif
+
+  fPartShortestNoteTupletFactor = noteTupletFactor;
 }
 
 void msrPart::assignSequentialNumbersToRegularVoicesInPart (
@@ -495,14 +539,43 @@ void msrPart::setNextMeasureNumberInPart (
 
 void msrPart::setPartNumberOfMeasures (int partNumberOfMeasures)
 {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+    gLogStream <<
+      "Setting the the number of measures in part " <<
+      getPartCombinedName () <<
+      " to " <<
+      partNumberOfMeasures <<
+    endl;
+  }
+#endif
+
   fPartNumberOfMeasures = partNumberOfMeasures;
 
-  // allocate fPartNumberOfMeasures elements
-  // in fPartMeasuresWholeNotesDurationsVector JMI ???
-  fPartMeasuresWholeNotesDurationsVector.clear ();
-  fPartMeasuresWholeNotesDurationsVector.resize (
-    fPartNumberOfMeasures,
-    rational (0, 1));
+  unsigned int
+    fPartMeasuresWholeNotesDurationsVectorSize =
+      fPartMeasuresWholeNotesDurationsVector.size ();
+
+  if (partNumberOfMeasures > fPartMeasuresWholeNotesDurationsVectorSize) {
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+      gLogStream <<
+        "Resizing fPartMeasuresWholeNotesDurationsVector in part " << // JMI ???
+        getPartCombinedName () <<
+        " from " <<
+        fPartMeasuresWholeNotesDurationsVectorSize <<
+        " to " <<
+        partNumberOfMeasures <<
+        " measures" <<
+        endl;
+    }
+#endif
+
+    fPartMeasuresWholeNotesDurationsVector.clear ();
+    fPartMeasuresWholeNotesDurationsVector.resize (
+      fPartNumberOfMeasures,
+      rational (0, 1));
+  }
 }
 
 void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
@@ -513,45 +586,91 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasures ()) {
     gLogStream <<
-      "Registering the whole notes duration of ordinal measure number \"" <<
+      "Registering the whole notes duration of the measure with ordinal number '" <<
       measureOrdinalNumber <<
-      " as " <<
+      "' as " <<
       wholeNotesDuration <<
-      "\" in part " << getPartCombinedName () <<
+      " in part " << getPartCombinedName () <<
       ", line " << inputLineNumber <<
-    endl;
+      endl;
   }
 #endif
 
-  int
-    index =
-      measureOrdinalNumber - 1;
-  rational
-    currentValue =
-      fPartMeasuresWholeNotesDurationsVector [index];
-
-  if (currentValue.getNumerator () != 0) {
-    if (currentValue != wholeNotesDuration) {
-      // allow for polymetrics in non-MusicXML contexts? JMI
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceMeasures () ||  gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
-        gLogStream <<
-          "The measure with ordinal number " <<
-          measureOrdinalNumber <<
-          " was known with a whole notes duration of " <<
-          currentValue <<
-          ", now registering it with a duration of " <<
-          wholeNotesDuration <<
-          "in part " << getPartCombinedName () <<
-          endl;
-      }
-#endif
-    }
-    // else it's OK
+  if (
+    gGlobalTraceOahGroup->getTraceMeasures ()
+      ||
+    gGlobalTraceOahGroup->getTracePositionsInMeasures ()
+  ) {
+    gLogStream <<
+      "===> measureOrdinalNumber: " << measureOrdinalNumber <<
+      ", index: " << index <<
+      endl;
+
+    gLogStream <<
+      "===> fPartMeasuresWholeNotesDurationsVector contents: " <<
+      endl;
+    for (
+      vector<rational>::const_iterator i =
+        fPartMeasuresWholeNotesDurationsVector.begin ();
+      i != fPartMeasuresWholeNotesDurationsVector.end ();
+      i++
+    ) {
+      gIndenter++;
+      gLogStream <<
+        (*i) <<
+        endl;
+      gIndenter--;
+    } // for
+    gLogStream <<
+      "<==== end of fPartMeasuresWholeNotesDurationsVector contents " <<
+      endl;
   }
-  else {
-    fPartMeasuresWholeNotesDurationsVector [index] =
-      wholeNotesDuration;
+#endif
+
+  unsigned int
+    fPartMeasuresWholeNotesDurationsVectorSize =
+      fPartMeasuresWholeNotesDurationsVector.size ();
+
+  int index = measureOrdinalNumber - 1;
+
+  // caution for first registration in the vector
+  if (
+    index >= 0
+      &&
+    index < fPartMeasuresWholeNotesDurationsVectorSize
+  ) {
+    rational
+      currentValue =
+        fPartMeasuresWholeNotesDurationsVector [index];
+
+    if (currentValue.getNumerator () != 0) {
+      if (currentValue != wholeNotesDuration) {
+        // allow for polymetrics in non-MusicXML contexts? JMI
+#ifdef TRACING_IS_ENABLED
+        if (
+          gGlobalTraceOahGroup->getTraceMeasures ()
+            ||
+          gGlobalTraceOahGroup->getTracePositionsInMeasures ()
+        ) {
+          gLogStream <<
+            "The measure with ordinal number " <<
+            measureOrdinalNumber <<
+            " was known with a whole notes duration of " <<
+            currentValue <<
+            ", now registering it with a duration of " <<
+            wholeNotesDuration <<
+            "in part " << getPartCombinedName () <<
+            endl;
+        }
+#endif
+        }
+        // else it's OK JMI ???
+      }
+    else {
+      fPartMeasuresWholeNotesDurationsVector [index] =
+        wholeNotesDuration;
+    }
   }
 }
 
@@ -1060,26 +1179,26 @@ void msrPart::appendRepeatCloneToPart (
         (*i).second;
 
     switch (staff->getStaffKind ()) {
-      case msrStaff::kStaffRegular:
+      case kStaffRegular:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
 
-      case msrStaff::kStaffTablature:
+      case kStaffTablature:
         break;
 
-      case msrStaff::kStaffHarmony:
+      case kStaffHarmony:
         break;
 
-      case msrStaff::kStaffFiguredBass:
+      case kStaffFiguredBass:
         break;
 
-      case msrStaff::kStaffDrum:
+      case kStaffDrum:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
 
-      case msrStaff::kStaffRythmic:
+      case kStaffRythmic:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
@@ -1263,9 +1382,9 @@ void msrPart::appendBarlineToPart (S_msrBarline barline)
 }
 
 S_msrStaff msrPart::addStaffToPartByItsNumber (
-  int                    inputLineNumber,
-  msrStaff::msrStaffKind staffKind,
-  int                    staffNumber)
+  int          inputLineNumber,
+  msrStaffKind staffKind,
+  int          staffNumber)
 {
   if (fPartStavesMap.count (staffNumber)) {
     stringstream s;
@@ -1288,7 +1407,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   if (gGlobalTraceOahGroup->getTraceStaves ()) {
     gLogStream <<
       "Adding " <<
-      msrStaff::staffKindAsString (staffKind) <<
+      staffKindAsString (staffKind) <<
       " staff " << staffNumber <<
       " to part " << getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -1307,24 +1426,24 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 
   // register staff in this part if relevant
   switch (staffKind) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffTablature:
-    case msrStaff::kStaffHarmony:
-    case msrStaff::kStaffFiguredBass:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffTablature:
+    case kStaffHarmony:
+    case kStaffFiguredBass:
+    case kStaffDrum:
+    case kStaffRythmic:
       fPartStavesMap [staffNumber] = staff;
       break;
   } // switch
 
   // initialize staff current clef and key if relevant // JMI
   switch (staffKind) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffTablature:
-    case msrStaff::kStaffHarmony:
-    case msrStaff::kStaffFiguredBass:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffTablature:
+    case kStaffHarmony:
+    case kStaffFiguredBass:
+    case kStaffDrum:
+    case kStaffRythmic:
       staff->setStaffCurrentClef (fPartCurrentClef);
       staff->setStaffCurrentKey (fPartCurrentKey);
       break;
@@ -1334,9 +1453,9 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 }
 
 S_msrStaff msrPart::addPartLevelStaffToPart (
-  int                    inputLineNumber,
-  msrStaff::msrStaffKind staffKind,
-  int                    staffNumber)
+  int          inputLineNumber,
+  msrStaffKind staffKind,
+  int          staffNumber)
 {
 /* JMI
   if (fPartStavesMap.count (staffNumber)) {
@@ -1361,7 +1480,7 @@ S_msrStaff msrPart::addPartLevelStaffToPart (
   if (gGlobalTraceOahGroup->getTraceStaves ()) {
     gLogStream <<
       "Adding " <<
-      msrStaff::staffKindAsString (staffKind) <<
+      staffKindAsString (staffKind) <<
       " staff " << staffNumber <<
       " to part " << getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -1381,24 +1500,24 @@ S_msrStaff msrPart::addPartLevelStaffToPart (
 /* JMI
   // register staff in this part if relevant
   switch (staffKind) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffTablature:
-    case msrStaff::kStaffHarmony:
-    case msrStaff::kStaffFiguredBass:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffTablature:
+    case kStaffHarmony:
+    case kStaffFiguredBass:
+    case kStaffDrum:
+    case kStaffRythmic:
       fPartStavesMap [staffNumber] = staff;
       break;
   } // switch
 
   // initialize staff current clef and key if relevant // JMI
   switch (staffKind) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffTablature:
-    case msrStaff::kStaffHarmony:
-    case msrStaff::kStaffFiguredBass:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffTablature:
+    case kStaffHarmony:
+    case kStaffFiguredBass:
+    case kStaffDrum:
+    case kStaffRythmic:
       staff->setStaffCurrentClef (fPartCurrentClef);
       staff->setStaffCurrentKey (fPartCurrentKey);
       break;
@@ -1484,7 +1603,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
   fPartHarmoniesStaff =
     addPartLevelStaffToPart (
       inputLineNumber,
-      msrStaff::kStaffHarmony,
+      kStaffHarmony,
       partHarmonyStaffNumber);
 
   // create the part harmony voice
@@ -1506,7 +1625,7 @@ S_msrVoice msrPart::createPartHarmonyVoice (
   fPartHarmoniesVoice =
     msrVoice::create (
       inputLineNumber,
-      msrVoice::kVoiceHarmony,
+      kVoiceHarmony,
       partHarmonyVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
       fPartHarmoniesStaff);
@@ -1534,7 +1653,7 @@ void msrPart::appendHarmonyToPart (
     harmony->getInputLineNumber ();
 
   switch (harmonySupplierVoice->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // append the figured bass to the part figured bass voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -1552,14 +1671,14 @@ void msrPart::appendHarmonyToPart (
         appendHarmonyToVoice (harmony);
       break;
 
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         stringstream s;
 
         s <<
           "figured bass cannot by supplied to part by " <<
-          msrVoice::voiceKindAsString (
+          voiceKindAsString (
             harmonySupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
           harmonySupplierVoice->getVoiceName () <<
@@ -1583,7 +1702,7 @@ void msrPart::appendHarmonyToPartClone (
     harmony->getInputLineNumber ();
 
   switch (harmonySupplierVoice->getVoiceKind ()) {
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       // append the figured bass to the part figured bass voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -1601,14 +1720,14 @@ void msrPart::appendHarmonyToPartClone (
         appendHarmonyToVoiceClone (harmony);
       break;
 
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
+    case kVoiceRegular:
+    case kVoiceHarmony:
       {
         stringstream s;
 
         s <<
           "figured bass cannot by supplied to part clone by " <<
-          msrVoice::voiceKindAsString (
+          voiceKindAsString (
             harmonySupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
           harmonySupplierVoice->getVoiceName () <<
@@ -1662,7 +1781,7 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
   fPartFiguredBassStaff =
     addPartLevelStaffToPart (
       inputLineNumber,
-      msrStaff::kStaffFiguredBass,
+      kStaffFiguredBass,
       partFiguredBassStaffNumber);
 
   // create the voice figured bass voice
@@ -1684,7 +1803,7 @@ S_msrVoice msrPart::createPartFiguredBassVoice (
   fPartFiguredBassVoice =
     msrVoice::create (
       inputLineNumber,
-      msrVoice::kVoiceFiguredBass,
+      kVoiceFiguredBass,
       partFiguredBassVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
       fPartFiguredBassStaff);
@@ -1712,7 +1831,7 @@ void msrPart::appendFiguredBassToPart (
     figuredBass->getInputLineNumber ();
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // append the figured bass to the part figured bass voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
@@ -1730,14 +1849,14 @@ void msrPart::appendFiguredBassToPart (
         appendFiguredBassToVoice (figuredBass);
       break;
 
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         stringstream s;
 
         s <<
           "figured bass cannot by supplied to part by " <<
-          msrVoice::voiceKindAsString (
+          voiceKindAsString (
             figuredBassSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
           figuredBassSupplierVoice->getVoiceName () <<
@@ -1761,7 +1880,7 @@ void msrPart::appendFiguredBassToPartClone (
     figuredBass->getInputLineNumber ();
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       // append the figured bass to the part figured bass voice
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
@@ -1779,14 +1898,14 @@ void msrPart::appendFiguredBassToPartClone (
         appendFiguredBassToVoiceClone (figuredBass);
       break;
 
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
+    case kVoiceRegular:
+    case kVoiceHarmony:
       {
         stringstream s;
 
         s <<
           "figured bass cannot by supplied to part clone by " <<
-          msrVoice::voiceKindAsString (
+          voiceKindAsString (
             figuredBassSupplierVoice->getVoiceKind ()) <<
           " voice \" " <<
           figuredBassSupplierVoice->getVoiceName () <<
@@ -2233,7 +2352,7 @@ void msrPart::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 28;
+  const int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2475,34 +2594,34 @@ void msrPart::print (ostream& os) const
         staff != nullptr,
         "staff is null");
 
-      msrStaff::msrStaffKind
+      msrStaffKind
         staffKind =
           staff->getStaffKind ();
 
       switch (staffKind) { // JMI
-        case msrStaff::kStaffRegular:
+        case kStaffRegular:
           os << staff;
           break;
 
-        case msrStaff::kStaffTablature:
+        case kStaffTablature:
           os << staff;
           break;
 
-        case msrStaff::kStaffHarmony:
+        case kStaffHarmony:
     // JMI      if (gGlobalMsrOahGroup->getShowHarmonyVoices ()) {}
           os << staff;
           break;
 
-        case msrStaff::kStaffFiguredBass:
+        case kStaffFiguredBass:
     // JMI      if (gGlobalMsrOahGroup->getShowFiguredBassVoices ()) {}
           os << staff;
           break;
 
-        case msrStaff::kStaffDrum:
+        case kStaffDrum:
           os << staff;
           break;
 
-        case msrStaff::kStaffRythmic:
+        case kStaffRythmic:
           os << staff;
           break;
       } // switch
@@ -2529,7 +2648,7 @@ void msrPart::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 28;
+  const int fieldWidth = 29;
 
 /*
   os << left <<
@@ -2771,34 +2890,34 @@ void msrPart::printShort (ostream& os) const
         staff != nullptr,
         "staff is null");
 
-      msrStaff::msrStaffKind
+      msrStaffKind
         staffKind =
           staff->getStaffKind ();
 
       switch (staffKind) { // JMI
-        case msrStaff::kStaffRegular:
+        case kStaffRegular:
           staff->printShort (os);
           break;
 
-        case msrStaff::kStaffTablature:
+        case kStaffTablature:
           staff->printShort (os);
           break;
 
-        case msrStaff::kStaffHarmony:
+        case kStaffHarmony:
     // JMI      if (gGlobalMsrOahGroup->getShowHarmonyVoices ()) {}
           staff->printShort (os);
           break;
 
-        case msrStaff::kStaffFiguredBass:
+        case kStaffFiguredBass:
     // JMI      if (gGlobalMsrOahGroup->getShowFiguredBassVoices ()) {}
           staff->printShort (os);
           break;
 
-        case msrStaff::kStaffDrum:
+        case kStaffDrum:
           staff->printShort (os);
           break;
 
-        case msrStaff::kStaffRythmic:
+        case kStaffRythmic:
           staff->printShort (os);
           break;
       } // switch

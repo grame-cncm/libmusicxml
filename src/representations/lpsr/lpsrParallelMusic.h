@@ -33,7 +33,8 @@ class lpsrParallelMusicBLock : public lpsrElement
     // ------------------------------------------------------
 
     enum lpsrElementsSeparatorKind {
-      kEndOfLine, kSpace};
+      kEndOfLine, kSpace
+    };
 
     static string elementsSeparatorKindAsString (
       lpsrElementsSeparatorKind elementsSeparatorKind);

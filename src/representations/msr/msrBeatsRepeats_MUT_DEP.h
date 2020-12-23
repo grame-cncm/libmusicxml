@@ -197,7 +197,8 @@ class msrBeatsRepeat : public msrVoiceElement
 
     enum msrBeatsRepeatKind {
       k_NoBeatsRepeat,
-      kStartBeatsRepeat, kStopBeatsRepeat };
+      kStartBeatsRepeat, kStopBeatsRepeat
+    };
 
     static string beatsRepeatKindAsString (
       msrBeatsRepeatKind beatsRepeatKind);
@@ -206,7 +207,8 @@ class msrBeatsRepeat : public msrVoiceElement
       kBeatsRepeatBuildPhaseJustCreated,
       kBeatsRepeatBuildPhaseInPattern,
       kBeatsRepeatBuildPhaseInReplicas,
-      kBeatsRepeatBuildPhaseCompleted};
+      kBeatsRepeatBuildPhaseCompleted
+    };
 
     static string beatsRepeatBuildPhaseKindAsString (
       msrBeatsRepeatBuildPhaseKind beatsRepeatBuildPhaseKind);

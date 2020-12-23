@@ -30,13 +30,15 @@ class msrWords : public msrElement
     // ------------------------------------------------------
 
     enum msrWordsFontStyleKind {
-      kNormalStyle, KItalicStyle };
+      kNormalStyle, KItalicStyle
+    };
 
     static string wordsFontStyleKindAsString (
       msrWordsFontStyleKind wordsFontStyleKind);
 
     enum msrWordsFontWeightKind {
-      kNormalWeight, kBoldWeight };
+      kNormalWeight, kBoldWeight
+    };
 
     static string msrWordsFontWeightKindAsString (
       msrWordsFontWeightKind wordsFontWeightKind);

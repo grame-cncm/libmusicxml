@@ -31,19 +31,12 @@ class msrVoice : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrVoiceKind {
-      kVoiceRegular,
-      kVoiceHarmony,       // for MusicXML <harmony/>, LilyPond ChordNames
-      kVoiceFiguredBass }; // for MusicXML <figured-bass/>, LilyPond FiguredBass
-
-    static string voiceKindAsString (
-      msrVoiceKind voiceKind);
-
     enum msrVoiceRepeatPhaseKind {
       kVoiceRepeatPhaseNone,
       kVoiceRepeatPhaseAfterCommonPart,
       kVoiceRepeatPhaseAfterHookedEnding,
-      kVoiceRepeatPhaseAfterHooklessEnding };
+      kVoiceRepeatPhaseAfterHooklessEnding
+    };
 
     static string voiceRepeatPhaseKindAsString (
       msrVoiceRepeatPhaseKind
@@ -51,13 +44,19 @@ class msrVoice : public msrElement
 
     enum msrVoiceFinalizationStatusKind { // JMI ???
       kKeepVoice,
-      kEraseVoice };
+      kEraseVoice
+    };
 
     static string voiceFinalizationStatusKindAsString (
       msrVoiceFinalizationStatusKind voiceFinalizationStatusKind);
 
     enum msrVoiceCreateInitialLastSegmentKind {
-      kCreateInitialLastSegmentYes, kCreateInitialLastSegmentNo };
+      kCreateInitialLastSegmentYes,
+      kCreateInitialLastSegmentNo
+    };
+
+    static string voiceFinalizationStatusKindAsString (
+      msrVoiceCreateInitialLastSegmentKind voiceCreateInitialLastSegmentKind);
 
   public:
 
@@ -939,8 +938,6 @@ class msrVoice : public msrElement
 
     // print
     // ------------------------------------------------------
-
-    string                voiceKindAsString () const;
 
     string                voiceNumberAsString () const;
 

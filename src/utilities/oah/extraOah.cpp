@@ -277,7 +277,7 @@ void extraShowAllHarmoniesContentsAtom::applyAtomWithValue (
           "'" << theString <<
           "' is no diatonic (semitones) pitch" <<
           " in pitch language '" <<
-          msrQuarterTonesPitchesLanguageKindAsString (
+          quarterTonesPitchesLanguageKindAsString (
             gGlobalLpsrOahGroup->
               getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<
@@ -515,7 +515,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -581,7 +581,7 @@ void extraShowHarmonyDetailsAtom::applyAtomWithValue (
           "'" << rootName <<
           "' is no diatonic (semitones) root pitch" <<
           " in pitch language '" <<
-          msrQuarterTonesPitchesLanguageKindAsString (
+          quarterTonesPitchesLanguageKindAsString (
             gGlobalLpsrOahGroup->
               getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<
@@ -814,7 +814,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -897,7 +897,7 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
           "'" << rootName <<
           "' is no diatonic (semitones) root pitch" <<
           " in pitch language '" <<
-          msrQuarterTonesPitchesLanguageKindAsString (
+          quarterTonesPitchesLanguageKindAsString (
             gGlobalLpsrOahGroup->
               getLpsrQuarterTonesPitchesLanguageKind ()) <<
           "'" <<

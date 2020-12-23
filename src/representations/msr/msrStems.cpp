@@ -103,8 +103,8 @@ string msrStem::stemKindAsString (
   string result;
 
   switch (stemKind) {
-    case msrStem::kStemNone:
-      result = "stemNone";
+    case msrStem::kStemNeutral:
+      result = "stemNeutral";
       break;
     case msrStem::kStemUp:
       result = "stemUp";

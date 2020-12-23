@@ -36,17 +36,19 @@ class lpsrContext : public lpsrElement
     // ------------------------------------------------------
 
     enum lpsrContextTypeKind {
-      kChordNames, kFiguredBass };
-    
+      kChordNames, kFiguredBass
+    };
+
     static string contextTypeKindAsString (
       lpsrContextTypeKind contextTypeKind);
-      
+
     enum lpsrContextExistingKind {
-      kExistingContextYes, kExistingContextNo};
-    
+      kExistingContextYes, kExistingContextNo
+    };
+
     static string contextExistingKindAsString (
       lpsrContextExistingKind contextExistingKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -55,7 +57,7 @@ class lpsrContext : public lpsrElement
       lpsrContextExistingKind contextExistingKind,
       lpsrContextTypeKind     contextTypeKind,
       string                  contextName);
-    
+
   protected:
 
     // constructors/destructor
@@ -66,9 +68,9 @@ class lpsrContext : public lpsrElement
       lpsrContextExistingKind contextExistingKind,
       lpsrContextTypeKind     contextTypeKind,
       string                  contextName);
-      
+
     virtual ~lpsrContext ();
-  
+
   public:
 
     // set and get
@@ -90,7 +92,7 @@ class lpsrContext : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -100,7 +102,7 @@ class lpsrContext : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -121,7 +123,7 @@ class lpsrContext : public lpsrElement
     virtual void          print (ostream& os) const override;
 
   protected:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -148,7 +150,7 @@ class lpsrChordNamesContext : public lpsrContext
       lpsrContextExistingKind contextExistingKind,
       string                  contextName,
       S_msrVoice              contextVoice);
-    
+
   protected:
 
     // constructors/destructor
@@ -159,9 +161,9 @@ class lpsrChordNamesContext : public lpsrContext
       lpsrContextExistingKind contextExistingKind,
       string                  contextName,
       S_msrVoice              contextVoice);
-      
+
     virtual ~lpsrChordNamesContext ();
-  
+
   public:
 
     // set and get
@@ -176,7 +178,7 @@ class lpsrChordNamesContext : public lpsrContext
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -186,14 +188,14 @@ class lpsrChordNamesContext : public lpsrContext
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -215,7 +217,7 @@ class lpsrFiguredBassContext : public lpsrContext
       lpsrContextExistingKind contextExistingKind,
       string                  contextName,
       S_msrStaff              contextStaff);
-    
+
   protected:
 
     // constructors/destructor
@@ -226,9 +228,9 @@ class lpsrFiguredBassContext : public lpsrContext
       lpsrContextExistingKind contextExistingKind,
       string                  contextName,
       S_msrStaff              contextStaff);
-      
+
     virtual ~lpsrFiguredBassContext ();
-  
+
   public:
 
     // set and get
@@ -243,7 +245,7 @@ class lpsrFiguredBassContext : public lpsrContext
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -253,14 +255,14 @@ class lpsrFiguredBassContext : public lpsrContext
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 

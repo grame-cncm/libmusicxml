@@ -76,7 +76,7 @@ void displayOptionsVector (
 
     gIndenter++;
 
-    for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
+    for (unsigned int i = 0; i < theOptionsVector.size (); i++) {
       string optionName  = theOptionsVector [i].first;
       string optionValue = theOptionsVector [i].second;
 
@@ -3246,7 +3246,7 @@ void oahHandler::displayArgumentsVector (
 
     gIndenter++;
 
-    for (vector<string>::size_type i = 0; i < theArgumentsVector.size (); i++) {
+    for (unsigned int i = 0; i < theArgumentsVector.size (); i++) {
       string theArgument  = theArgumentsVector [i];
 
       gLogStream <<
@@ -5766,7 +5766,7 @@ void oahHandler::createElementUsesListFromOptionsVector (
 
   // analyse the options in theOptionsVector
   if (theOptionsVector.size ()) {
-    for (optionsVector::size_type i = 0; i < theOptionsVector.size (); i++) {
+    for (unsigned int i = 0; i < theOptionsVector.size (); i++) {
       string optionName  = theOptionsVector [i].first;
       string optionValue = theOptionsVector [i].second;
 

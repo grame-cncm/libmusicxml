@@ -97,14 +97,15 @@ class bsrTime : public bsrLineElement
     // ------------------------------------------------------
 
     enum bsrTimeKind {
-        kTimeNone,
-        kTimeCommon,
-        kTimeCut,
-        kTimeNumerical, // JMI
-        kTimeNote,
-        kTimeDottedNote,
-        kTimeSingleNumber,
-        kTimeSenzaMisura };
+      kTimeNone,
+      kTimeCommon,
+      kTimeCut,
+      kTimeNumerical, // JMI
+      kTimeNote,
+      kTimeDottedNote,
+      kTimeSingleNumber,
+      kTimeSenzaMisura
+    };
 
     static string timeKindAsString (
       bsrTimeKind timeKind);

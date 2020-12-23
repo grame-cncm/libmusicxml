@@ -17,31 +17,36 @@ class msrTuplet : public msrTupletElement
     enum msrTupletTypeKind {
       kTupletTypeNone,
       kTupletTypeStart, kTupletTypeContinue, kTupletTypeStop,
-      kTupletTypeStartAndStopInARow };
+      kTupletTypeStartAndStopInARow
+    };
 
     static string tupletTypeKindAsString (
       msrTupletTypeKind tupletTypeKind);
 
     enum msrTupletBracketKind {
-      kTupletBracketYes, kTupletBracketNo};
+      kTupletBracketYes, kTupletBracketNo
+    };
 
     static string tupletBracketKindAsString (
       msrTupletBracketKind tupletBracketKind);
 
     enum msrTupletLineShapeKind {
-      kTupletLineShapeStraight, kTupletLineShapeCurved};
+      kTupletLineShapeStraight, kTupletLineShapeCurved
+    };
 
     static string tupletLineShapeKindAsString (
       msrTupletLineShapeKind tupletLineShapeKind);
 
     enum msrTupletShowNumberKind {
-      kTupletShowNumberActual, kTupletShowNumberBoth, kTupletShowNumberNone };
+      kTupletShowNumberActual, kTupletShowNumberBoth, kTupletShowNumberNone
+    };
 
     static string tupletShowNumberKindAsString (
       msrTupletShowNumberKind tupletShowNumberKind);
 
     enum msrTupletShowTypeKind {
-      kTupletShowTypeActual, kTupletShowTypeBoth, kTupletShowTypeNone };
+      kTupletShowTypeActual, kTupletShowTypeBoth, kTupletShowTypeNone
+    };
 
     static string tupletShowTypeKindAsString (
       msrTupletShowTypeKind tupletShowTypeKind);

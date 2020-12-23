@@ -3004,7 +3004,7 @@ void oahIntegerAtom::applyAtomWithValue (
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -3247,14 +3247,17 @@ void oahTwoIntegersAtom::applyAtomWithValue (
 
   // check whether it is well-formed
   string regularExpression (
-    "([[:digit:]]+)[[:space:]]+([[:digit:]]+)");
+    "([[:digit:]]+)" // integer value
+    "[[:space:]]+"
+    "([[:digit:]]+)" // integer secondary value
+    );
 
   regex e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -3526,7 +3529,7 @@ void oahFloatAtom::applyAtomWithValue (
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -4574,16 +4577,17 @@ void oahRationalAtom::applyAtomWithValue (
   // decipher it to extract numerator and denominator values
 
   string regularExpression (
-    "[[:space:]]*([[:digit:]]+)[[:space:]]*"
+    "[[:space:]]*([[:digit:]]+)[[:space:]]*" // numerator
     "/"
-    "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+    "[[:space:]]*([[:digit:]]+)[[:space:]]*" // denominator
+    );
 
   regex e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -5279,14 +5283,15 @@ void oahIntSetAtom::applyAtomWithValue (
 #endif
 
   string regularExpression (
-    "([[:digit:]]+)");
+    "([[:digit:]]+)"
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -5883,19 +5888,20 @@ void oahStringToIntMapAtom::applyAtomWithValue (
 
   string regularExpression (
     "[[:space:]]*"
-    "([[:w:]]+)"
+    "([[:w:]]+)"     // string
     "[[:space:]]*"
 //    "=" JMI
 //    "[[:space:]]*"
-    "([[:digit:]]+)"
-    "[[:space:]]*");
+    "([[:digit:]]+)" // int
+    "[[:space:]]*"
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -6216,14 +6222,17 @@ void oahStringAndIntegerAtom::applyAtomWithValue (
 
   // check whether it is well-formed
   string regularExpression (
-    "(.+)[[:space:]]+([[:digit:]]+)");
+    "(.+)"           // string
+    "[[:space:]]+"
+    "([[:digit:]]+)" // int
+    );
 
   regex e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -6520,14 +6529,19 @@ void oahStringAndTwoIntegersAtom::applyAtomWithValue (
 
   // check whether it is well-formed
   string regularExpression (
-    "([[:alpha:]]+)[[:space:]]+([[:digit:]]+)[[:space:]]+([[:digit:]]+)");
+    "([[:alpha:]]+)" // string
+    "[[:space:]]+"
+    "([[:digit:]]+)" // integer value
+    "[[:space:]]+"
+    "([[:digit:]]+)" // secondary integer value
+    );
 
   regex e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -7089,7 +7103,9 @@ void oahLengthAtom::applyAtomWithValue (
   // check whether it is well-formed
    // no sign, a '-' would be handled as an option name JMI   "([+|-]?)"
   string regularExpression (
-    "([[:digit:]]+)(.[[:digit:]]*)?([[:alpha:]]{2,})"
+    "([[:digit:]]+)"     // integer part
+    "(.[[:digit:]]*)"    // decimal part
+    "?([[:alpha:]]{2,})" // length unit
     );
 
   regex e (regularExpression);
@@ -7097,7 +7113,7 @@ void oahLengthAtom::applyAtomWithValue (
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -7373,19 +7389,20 @@ void oahMidiTempoAtom::applyAtomWithValue (
 
   string regularExpression (
     "[[:space:]]*"
-    "([[:digit:]]+\\.*)"
+    "([[:digit:]]+\\.*)" // midiTempoDuration
     "[[:space:]]*"
     "="
     "[[:space:]]*"
-    "([[:digit:]]+)"
-    "[[:space:]]*");
+    "([[:digit:]]+)"     // midiTempoPerSecond
+    "[[:space:]]*"
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -7419,9 +7436,9 @@ void oahMidiTempoAtom::applyAtomWithValue (
     oahError (s.str ());
   }
 
-  string midiTempoDuration  = sm [1];
+  string midiTempoDuration = sm [1];
 
-  int    midiTempoPerSecond;
+  int midiTempoPerSecond;
   {
     stringstream s;
     s << sm [2];

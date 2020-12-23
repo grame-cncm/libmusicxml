@@ -16,7 +16,8 @@ class msrGlissando : public msrElement
 
     enum msrGlissandoTypeKind {
       kGlissandoTypeNone,
-      kGlissandoTypeStart, kGlissandoTypeStop };
+      kGlissandoTypeStart, kGlissandoTypeStop
+    };
 
     static string glissandoTypeKindAsString (
       msrGlissandoTypeKind glissandoTypeKind);

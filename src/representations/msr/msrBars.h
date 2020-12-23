@@ -187,7 +187,8 @@ class msrBarline : public msrMeasureElement
 
       kBarlineLocationLeft,
       kBarlineLocationMiddle,
-      kBarlineLocationRight }; // by default
+      kBarlineLocationRight // by default
+    };
 
     static string barlineLocationKindAsString (
       msrBarlineLocationKind barlineLocationKind);
@@ -201,7 +202,8 @@ class msrBarline : public msrMeasureElement
       kBarlineStyleDotted, kBarlineStyleDashed, kBarlineStyleHeavy,
       kBarlineStyleLightLight, kBarlineStyleLightHeavy,
       kBarlineStyleHeavyLight, kBarlineStyleHeavyHeavy,
-      kBarlineStyleTick, kBarlineStyleShort };
+      kBarlineStyleTick, kBarlineStyleShort
+    };
 
     static string barlineStyleKindAsString (
       msrBarlineStyleKind barlineStyleKind);
@@ -209,7 +211,8 @@ class msrBarline : public msrMeasureElement
     // repeat direction
     enum msrBarlineRepeatDirectionKind {
       kBarlineRepeatDirectionNone,
-      kBarlineRepeatDirectionForward, kBarlineRepeatDirectionBackward };
+      kBarlineRepeatDirectionForward, kBarlineRepeatDirectionBackward
+    };
 
     static string barlineRepeatDirectionKindAsString (
       msrBarlineRepeatDirectionKind barlineRepeatDirectionKind);
@@ -220,7 +223,8 @@ class msrBarline : public msrMeasureElement
 
       kBarlineEndingTypeStart,
       kBarlineEndingTypeStop,
-      kBarlineEndingTypeDiscontinue };
+      kBarlineEndingTypeDiscontinue
+    };
 
     static string barlineEndingTypeKindAsString (
       msrBarlineEndingTypeKind barlineEndingTypeKind);
@@ -234,21 +238,24 @@ class msrBarline : public msrMeasureElement
       kBarlineCategoryRepeatStart, kBarlineCategoryRepeatEnd,
 
       kBarlineCategoryHookedEndingStart, kBarlineCategoryHookedEndingEnd,
-      kBarlineCategoryHooklessEndingStart, kBarlineCategoryHooklessEndingEnd };
+      kBarlineCategoryHooklessEndingStart, kBarlineCategoryHooklessEndingEnd
+    };
 
     static string barlineCategoryKindAsString (
       msrBarlineCategoryKind barlineCategoryKind);
 
     // segno
     enum msrBarlineHasSegnoKind {
-      kBarlineHasSegnoYes, kBarlineHasSegnoNo};
+      kBarlineHasSegnoYes, kBarlineHasSegnoNo
+    };
 
     static string barlineHasSegnoKindAsString (
       msrBarlineHasSegnoKind barlineHasSegnoKind);
 
     // coda
     enum msrBarlineHasCodaKind {
-      kBarlineHasCodaYes, kBarlineHasCodaNo};
+      kBarlineHasCodaYes, kBarlineHasCodaNo
+    };
 
     static string barlineHasCodaKindAsString (
       msrBarlineHasCodaKind barlineHasCodaKind);
@@ -258,7 +265,8 @@ class msrBarline : public msrMeasureElement
       kBarlineRepeatWingedNone,
 
       kBarlineRepeatWingedStraight, kBarlineRepeatWingedCurved,
-      kBarlineRepeatWingedDoubleStraight, kBarlineRepeatWingedDoubleCurved };
+      kBarlineRepeatWingedDoubleStraight, kBarlineRepeatWingedDoubleCurved
+    };
 
     static string barlineRepeatWingedKindAsString (
       msrBarlineRepeatWingedKind barlineRepeatWingedKind);
@@ -278,6 +286,15 @@ class msrBarline : public msrMeasureElement
       msrBarlineHasSegnoKind        barlineHasSegnoKind,
       msrBarlineHasCodaKind         barlineHasCodaKind,
       msrBarlineRepeatWingedKind    barlineRepeatWingedKind);
+
+    // creation from the applications
+    // ------------------------------------------------------
+
+    static SMARTP<msrBarline> createFinalBarline (
+      int inputLineNumber);
+
+    static SMARTP<msrBarline> createDoubleBarline (
+      int inputLineNumber);
 
   protected:
 

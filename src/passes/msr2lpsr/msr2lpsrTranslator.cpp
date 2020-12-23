@@ -360,35 +360,31 @@ void msr2lpsrTranslator::populateHeaderFromIdentification (
   if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
       "Populating LPSR header from identification " <<
-      identification->asString () <<
+// JMI      identification->asString () <<
+      endl <<
+      identification <<
       endl;
   }
 #endif
 
-  string workNumber = identification->getWorkNumber ();
-  if (workNumber.size ()) {
-    header->setWorkNumber (workNumber);
-  }
+  header->setHeaderIdentification (identification);
 
   string workTitle = identification->getWorkTitle ();
   if (workTitle.size ()) {
-    header->setWorkTitle (workTitle);
+    header->setLilypondTitle (workTitle);
   }
 
   string opus = identification->getOpus ();
   if (opus.size ()) {
-    header->setOpus (opus);
+    header->setLilypondOpus (opus);
   }
 
-  string movementNumber = identification->getMovementNumber ();
-  if (movementNumber.size ()) {
-    header->setMovementNumber (movementNumber);
+  string scoreInstrument = identification->getScoreInstrument ();
+  if (scoreInstrument.size ()) {
+    header->setLilypondInstrument (scoreInstrument);
   }
 
-  string movementTitle = identification->getMovementTitle ();
-  if (movementTitle.size ()) {
-    header->setMovementTitle (movementTitle);
-  }
+  // setLilypondCopyright ??? JMI
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceIdentification ()) {
@@ -562,135 +558,6 @@ void msr2lpsrTranslator::visitStart (S_msrScore& elt)
   fCurrentLpsrScoreHeader =
     fResultingLpsrScore-> getScoreHeader();
 
-  // is there a rights option?
-  if (gGlobalLpsr2lilypondOahGroup->getRights ().size ()) {
-    // define rights
-    fCurrentLpsrScoreHeader->
-      appendRights (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getRights ());
-  }
-
-  // is there a composer option?
-  if (gGlobalLpsr2lilypondOahGroup->getComposer ().size ()) {
-    // define composer
-    fCurrentLpsrScoreHeader->
-      appendComposer (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getComposer ());
-  }
-
-  // is there an arranger option?
-  if (gGlobalLpsr2lilypondOahGroup->getArranger ().size ()) {
-    // define arranger
-    fCurrentLpsrScoreHeader->
-      appendArranger (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getArranger ());
-  }
-
-  // is there a poet option?
-  if (gGlobalLpsr2lilypondOahGroup->getPoetAtom ()->getVariableHasBeenSet ()) {
-    // remove all poets
-    fCurrentLpsrScoreHeader->
-      removeAllPoets (inputLineNumber);
-    // append poet
-    fCurrentLpsrScoreHeader->
-      appendPoet (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getPoet ());
-  }
-
-  // is there a lyricist option?
-  if (gGlobalLpsr2lilypondOahGroup->getLyricist ().size ()) {
-    // define lyricist
-    fCurrentLpsrScoreHeader->
-      appendLyricist (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getLyricist ());
-  }
-
-  // is there a software option?
-  if (gGlobalLpsr2lilypondOahGroup->getSoftware ().size ()) {
-    // define software
-    fCurrentLpsrScoreHeader->
-      appendSoftware (
-        inputLineNumber,
-        gGlobalLpsr2lilypondOahGroup->getSoftware ());
-  }
-
-  // is there a dedication?
-  if (gGlobalLpsr2lilypondOahGroup->getDedication ().size ()) {
-    // define dedication
-    fCurrentLpsrScoreHeader->
-      setLilypondDedication (
-        gGlobalLpsr2lilypondOahGroup->getDedication ());
-  }
-
-  // is there a piece?
-  if (gGlobalLpsr2lilypondOahGroup->getPiece ().size ()) {
-    // define piece
-    fCurrentLpsrScoreHeader->
-      setLilypondPiece (
-        gGlobalLpsr2lilypondOahGroup->getPiece ());
-  }
-
-  // is there an opus?
-  if (gGlobalLpsr2lilypondOahGroup->getOpus ().size ()) {
-    // define opus
-    fCurrentLpsrScoreHeader->
-      setLilypondOpus (
-        gGlobalLpsr2lilypondOahGroup->getOpus ());
-  }
-
-  // is there a title?
-  if (gGlobalLpsr2lilypondOahGroup->getTitle ().size ()) {
-    // define title
-    fCurrentLpsrScoreHeader->
-      setLilypondTitle (
-        gGlobalLpsr2lilypondOahGroup->getTitle ());
-  }
-
-  // is there a subtitle?
-  if (gGlobalLpsr2lilypondOahGroup->getSubTitle ().size ()) {
-    // define subtitle
-    fCurrentLpsrScoreHeader->
-      setLilypondSubTitle (
-        gGlobalLpsr2lilypondOahGroup->getSubTitle ());
-  }
-
-  // is there a subsubtitle?
-  if (gGlobalLpsr2lilypondOahGroup->getSubSubTitle ().size ()) {
-    // define subsubtitle
-    fCurrentLpsrScoreHeader->
-      setLilypondSubSubTitle (
-        gGlobalLpsr2lilypondOahGroup->getSubSubTitle ());
-  }
-
-  // is there a meter?
-  if (gGlobalLpsr2lilypondOahGroup->getMeter ().size ()) {
-    // define meter
-    fCurrentLpsrScoreHeader->
-      setLilypondMeter (
-        gGlobalLpsr2lilypondOahGroup->getMeter ());
-  }
-
-  // is there a tagline?
-  if (gGlobalLpsr2lilypondOahGroup->getTagline ().size ()) {
-    // define tagline
-    fCurrentLpsrScoreHeader->
-      setLilypondTagline (
-        gGlobalLpsr2lilypondOahGroup->getTagline ());
-  }
-
-  // is there a copyright?
-  if (gGlobalLpsr2lilypondOahGroup->getCopyright ().size ()) {
-    // define copyright
-    fCurrentLpsrScoreHeader->
-      setLilypondCopyright (
-        gGlobalLpsr2lilypondOahGroup->getCopyright ());
-  }
-
   // are the rests to be merged?
   if (gGlobalLpsr2lilypondOahGroup->getMergeRests ()) {
     fResultingLpsrScore->
@@ -760,126 +627,6 @@ void msr2lpsrTranslator::visitEnd (S_msrScore& elt)
       endl;
   }
 #endif
-
-  if (fWorkTitleKnown && fMovementTitleKnown) {
-    string
-      workTitle =
-        fCurrentIdentification->
-          getWorkTitle (),
-      movementTitle =
-        fCurrentIdentification->
-          getMovementTitle ();
-
-    if (
-      workTitle.size () == 0
-        &&
-      movementTitle.size () > 0
-    ) {
-      // use the movement title as the work title
-      fCurrentIdentification->
-        setWorkTitle (
-          inputLineNumber,
-          movementTitle);
-
-      fCurrentLpsrScoreHeader->
-        setWorkTitle (
-          movementTitle);
-
-      // forget the movement title
-      fCurrentIdentification->
-        setMovementTitle (
-          inputLineNumber,
-          "");
-
-      fCurrentLpsrScoreHeader->
-        setMovementTitle (
-          "");
-    }
-  }
-
-  else if (! fWorkTitleKnown && fMovementTitleKnown) {
-    string
-      movementTitle =
-        fCurrentIdentification->
-          getMovementTitle ();
-
-    // use the movement title as the work title
-    fCurrentIdentification->
-      setWorkTitle (
-        inputLineNumber,
-        movementTitle);
-
-    fCurrentLpsrScoreHeader->
-      setWorkTitle (movementTitle);
-
-    // forget the movement title
-    fCurrentIdentification->
-      setMovementTitle (
-        inputLineNumber,
-        "");
-
-    fCurrentLpsrScoreHeader->
-      setMovementTitle ("");
-  }
-
-  if (fWorkNumberKnown && fMovementNumberKnown) {
-    string
-      workNumber =
-        fCurrentIdentification->
-          getWorkNumber (),
-      movementNumber =
-        fCurrentIdentification->
-          getMovementNumber ();
-
-    if (
-      workNumber.size () == 0
-        &&
-      movementNumber.size () > 0
-    ) {
-      // use the movement number as the work number
-      fCurrentIdentification->
-        setWorkNumber (
-        inputLineNumber,
-        movementNumber);
-
-      fCurrentLpsrScoreHeader->
-        setWorkNumber (movementNumber);
-
-      // forget the movement number
-      fCurrentIdentification->
-        setMovementNumber (
-        inputLineNumber,
-        "");
-
-      fCurrentLpsrScoreHeader->
-        setMovementNumber ("");
-    }
-  }
-
-  else if (! fWorkNumberKnown && fMovementNumberKnown) {
-    string
-      movementNumber =
-        fCurrentIdentification->
-          getMovementNumber ();
-
-    // use the movement number as the work number
-    fCurrentIdentification->
-      setWorkNumber (
-        inputLineNumber,
-        movementNumber);
-
-    fCurrentLpsrScoreHeader->
-      setWorkNumber (movementNumber);
-
-    // forget the movement number
-    fCurrentIdentification->
-      setMovementNumber (
-        inputLineNumber,
-        "");
-
-    fCurrentLpsrScoreHeader->
-      setMovementNumber ("");
-  }
 
   // set ident and short indent if needed
   setPaperIndentsIfNeeded ( // JMI ??? BLARK
@@ -1694,10 +1441,10 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
   gIndenter++;
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffTablature:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffTablature:
+    case kStaffDrum:
+    case kStaffRythmic:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1778,7 +1525,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case msrStaff::kStaffHarmony:
+    case kStaffHarmony:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1794,7 +1541,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case msrStaff::kStaffFiguredBass:
+    case kStaffFiguredBass:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1831,23 +1578,23 @@ void msr2lpsrTranslator::visitEnd (S_msrStaff& elt)
 #endif
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffDrum:
+    case kStaffRythmic:
       {
         fOnGoingStaff = false;
       }
       break;
 
-    case msrStaff::kStaffTablature:
+    case kStaffTablature:
       // JMI
       break;
 
-    case msrStaff::kStaffHarmony:
+    case kStaffHarmony:
       // JMI
       break;
 
-    case msrStaff::kStaffFiguredBass:
+    case kStaffFiguredBass:
       // JMI
       break;
   } // switch
@@ -1875,7 +1622,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
   switch (elt->getVoiceKind ()) {
 
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // create a voice clone
       fCurrentVoiceClone =
         elt->createVoiceNewbornClone (
@@ -1897,7 +1644,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
           fCurrentVoiceClone);
       break;
 
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       {
         /* JMI
         // create the harmony staff and voice if not yet done
@@ -1976,7 +1723,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
       }
       break;
 
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       {
         // create a voice clone
         fCurrentVoiceClone =
@@ -2067,15 +1814,15 @@ void msr2lpsrTranslator::visitEnd (S_msrVoice& elt)
 #endif
 
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // JMI
       break;
 
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       fOnGoingHarmonyVoice = false;
       break;
 
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = false;
       break;
   } // switch
@@ -6922,3 +6669,257 @@ void msr2lpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
 }
 */
 
+/*
+  // is there a rights option?
+  if (gGlobalLpsr2lilypondOahGroup->getRights ().size ()) {
+    // define rights
+    fCurrentLpsrScoreHeader->
+      appendRight (
+        inputLineNumber,
+        gGlobalLpsr2lilypondOahGroup->getRights ());
+  }
+
+  // is there a composer option?
+  if (gGlobalLpsr2lilypondOahGroup->getComposer ().size ()) {
+    // define composer
+    fCurrentLpsrScoreHeader->
+      appendComposer (
+        inputLineNumber,
+        gGlobalLpsr2lilypondOahGroup->getComposer ());
+  }
+
+  // is there an arranger option?
+  if (gGlobalLpsr2lilypondOahGroup->getArranger ().size ()) {
+    // define arranger
+    fCurrentLpsrScoreHeader->
+      appendArranger (
+        inputLineNumber,
+        gGlobalLpsr2lilypondOahGroup->getArranger ());
+  }
+
+  // is there a poet option?
+  if (gGlobalLpsr2lilypondOahGroup->getPoetAtom ()->getVariableHasBeenSet ()) {
+    // remove all poets
+    fCurrentLpsrScoreHeader->
+      removeAllPoets (inputLineNumber);
+    // append poet
+    fCurrentLpsrScoreHeader->
+      appendPoet (
+        inputLineNumber,
+        gGlobalLpsr2lilypondOahGroup->getPoet ());
+  }
+
+  // is there a lyricist option?
+  if (gGlobalLpsr2lilypondOahGroup->getLyricist ().size ()) {
+    // define lyricist
+    fCurrentLpsrScoreHeader->
+      appendLyricist (
+        inputLineNumber,
+        gGlobalLpsr2lilypondOahGroup->getLyricist ());
+  }
+
+  // is there a software option?
+  if (gGlobalLpsr2lilypondOahGroup->getSoftware ().size ()) {
+    // define software
+    fCurrentLpsrScoreHeader->
+      appendSoftware (
+        inputLineNumber,
+        gGlobalLpsr2lilypondOahGroup->getSoftware ());
+  }
+
+  // is there a dedication?
+  if (gGlobalLpsr2lilypondOahGroup->getDedication ().size ()) {
+    // define dedication
+    fCurrentLpsrScoreHeader->
+      setLilypondDedication (
+        gGlobalLpsr2lilypondOahGroup->getDedication ());
+  }
+
+  // is there a piece?
+  if (gGlobalLpsr2lilypondOahGroup->getPiece ().size ()) {
+    // define piece
+    fCurrentLpsrScoreHeader->
+      setLilypondPiece (
+        gGlobalLpsr2lilypondOahGroup->getPiece ());
+  }
+
+  // is there an opus?
+  if (gGlobalLpsr2lilypondOahGroup->getOpus ().size ()) {
+    // define opus
+    fCurrentLpsrScoreHeader->
+      setLilypondOpus (
+        gGlobalLpsr2lilypondOahGroup->getOpus ());
+  }
+
+  // is there a title?
+  if (gGlobalLpsr2lilypondOahGroup->getTitle ().size ()) {
+    // define title
+    fCurrentLpsrScoreHeader->
+      setLilypondTitle (
+        gGlobalLpsr2lilypondOahGroup->getTitle ());
+  }
+
+  // is there a subtitle?
+  if (gGlobalLpsr2lilypondOahGroup->getSubTitle ().size ()) {
+    // define subtitle
+    fCurrentLpsrScoreHeader->
+      setLilypondSubTitle (
+        gGlobalLpsr2lilypondOahGroup->getSubTitle ());
+  }
+
+  // is there a subsubtitle?
+  if (gGlobalLpsr2lilypondOahGroup->getSubSubTitle ().size ()) {
+    // define subsubtitle
+    fCurrentLpsrScoreHeader->
+      setLilypondSubSubTitle (
+        gGlobalLpsr2lilypondOahGroup->getSubSubTitle ());
+  }
+
+  // is there a meter?
+  if (gGlobalLpsr2lilypondOahGroup->getMeter ().size ()) {
+    // define meter
+    fCurrentLpsrScoreHeader->
+      setLilypondMeter (
+        gGlobalLpsr2lilypondOahGroup->getMeter ());
+  }
+
+  // is there a tagline?
+  if (gGlobalLpsr2lilypondOahGroup->getTagline ().size ()) {
+    // define tagline
+    fCurrentLpsrScoreHeader->
+      setLilypondTagline (
+        gGlobalLpsr2lilypondOahGroup->getTagline ());
+  }
+
+  // is there a copyright?
+  if (gGlobalLpsr2lilypondOahGroup->getCopyright ().size ()) {
+    // define copyright
+    fCurrentLpsrScoreHeader->
+      setLilypondCopyright (
+        gGlobalLpsr2lilypondOahGroup->getCopyright ());
+  }
+
+*/
+
+/*
+  if (fWorkTitleKnown && fMovementTitleKnown) {
+    string
+      workTitle =
+        fCurrentIdentification->
+          getWorkTitle (),
+      movementTitle =
+        fCurrentIdentification->
+          getMovementTitle ();
+
+    if (
+      workTitle.size () == 0
+        &&
+      movementTitle.size () > 0
+    ) {
+      // use the movement title as the work title
+      fCurrentIdentification->
+        setWorkTitle (
+          inputLineNumber,
+          movementTitle);
+
+      fCurrentLpsrScoreHeader->
+        setWorkTitle (
+          movementTitle);
+
+      // forget the movement title
+      fCurrentIdentification->
+        setMovementTitle (
+          inputLineNumber,
+          "");
+
+      fCurrentLpsrScoreHeader->
+        setMovementTitle (
+          "");
+    }
+  }
+
+  else if (! fWorkTitleKnown && fMovementTitleKnown) {
+    string
+      movementTitle =
+        fCurrentIdentification->
+          getMovementTitle ();
+
+    // use the movement title as the work title
+    fCurrentIdentification->
+      setWorkTitle (
+        inputLineNumber,
+        movementTitle);
+
+    fCurrentLpsrScoreHeader->
+      setWorkTitle (movementTitle);
+
+    // forget the movement title
+    fCurrentIdentification->
+      setMovementTitle (
+        inputLineNumber,
+        "");
+
+    fCurrentLpsrScoreHeader->
+      setMovementTitle ("");
+  }
+
+  if (fWorkNumberKnown && fMovementNumberKnown) {
+    string
+      workNumber =
+        fCurrentIdentification->
+          getWorkNumber (),
+      movementNumber =
+        fCurrentIdentification->
+          getMovementNumber ();
+
+    if (
+      workNumber.size () == 0
+        &&
+      movementNumber.size () > 0
+    ) {
+      // use the movement number as the work number
+      fCurrentIdentification->
+        setWorkNumber (
+        inputLineNumber,
+        movementNumber);
+
+      fCurrentLpsrScoreHeader->
+        setWorkNumber (movementNumber);
+
+      // forget the movement number
+      fCurrentIdentification->
+        setMovementNumber (
+        inputLineNumber,
+        "");
+
+      fCurrentLpsrScoreHeader->
+        setMovementNumber ("");
+    }
+  }
+
+  else if (! fWorkNumberKnown && fMovementNumberKnown) {
+    string
+      movementNumber =
+        fCurrentIdentification->
+          getMovementNumber ();
+
+    // use the movement number as the work number
+    fCurrentIdentification->
+      setWorkNumber (
+        inputLineNumber,
+        movementNumber);
+
+    fCurrentLpsrScoreHeader->
+      setWorkNumber (movementNumber);
+
+    // forget the movement number
+    fCurrentIdentification->
+      setMovementNumber (
+        inputLineNumber,
+        "");
+
+    fCurrentLpsrScoreHeader->
+      setMovementNumber ("");
+  }
+
+*/

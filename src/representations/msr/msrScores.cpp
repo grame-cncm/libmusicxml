@@ -364,7 +364,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
 #endif
 
                   fIdentification->
-                    addComposer (
+                    appendComposer (
                       inputLineNumber,
                       creditWordsContents);
                   break;
@@ -381,7 +381,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
 #endif
 
                   fIdentification->
-                    addPoet (
+                    appendPoet (
                       inputLineNumber,
                       creditWordsContents);
                   break;
@@ -553,6 +553,7 @@ void msrScore::print (ostream& os) const
 {
   os <<
     "MSR Score" <<
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;

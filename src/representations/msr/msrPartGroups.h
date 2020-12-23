@@ -57,28 +57,32 @@ class msrPartGroup : public msrPartGroupElement
     // ------------------------------------------------------
 
     enum msrPartGroupImplicitKind { // an MSR concept, not present in MusicXML
-        kPartGroupImplicitYes, kPartGroupImplicitNo};
+        kPartGroupImplicitYes, kPartGroupImplicitNo
+      };
 
     static string partGroupImplicitKindAsString (
       msrPartGroupImplicitKind partGroupImplicitKind);
 
     enum msrPartGroupTypeKind {
-        kPartGroupTypeNone,
-        kPartGroupTypeStart, kPartGroupTypeStop };
+      kPartGroupTypeNone,
+      kPartGroupTypeStart, kPartGroupTypeStop
+    };
 
     static string partGroupTypeKindAsString (
       msrPartGroupTypeKind partGroupTypeKind);
 
     enum msrPartGroupSymbolKind {
-        kPartGroupSymbolNone,
-        kPartGroupSymbolBrace, kPartGroupSymbolBracket,
-        kPartGroupSymbolLine, kPartGroupSymbolSquare};
+      kPartGroupSymbolNone,
+      kPartGroupSymbolBrace, kPartGroupSymbolBracket,
+      kPartGroupSymbolLine, kPartGroupSymbolSquare
+    };
 
     static string partGroupSymbolKindAsString (
       msrPartGroupSymbolKind partGroupSymbolKind);
 
     enum msrPartGroupBarlineKind {
-        kPartGroupBarlineYes, kPartGroupBarlineNo};
+      kPartGroupBarlineYes, kPartGroupBarlineNo
+    };
 
     static string partGroupBarlineKindAsString (
       msrPartGroupBarlineKind partGroupBarlineKind);
@@ -117,6 +121,17 @@ class msrPartGroup : public msrPartGroupElement
       S_msrPartGroup partGroupClone, // the upLink for nested part groups
       S_msrScore     scoreClone);
 
+    // creation from the API
+    // ------------------------------------------------------
+
+    static SMARTP<msrPartGroup> create (
+      int                      inputLineNumber,
+      int                      partGroupNumber,
+      int                      partGroupAbsoluteNumber,
+      string                   partGroupName,
+      S_msrPartGroup           partGroupPartGroupUpLink,
+      S_msrScore               partGroupScoreUpLink);
+
   protected:
 
     // constructors/destructor
@@ -134,6 +149,14 @@ class msrPartGroup : public msrPartGroupElement
       int                      partGroupSymbolDefaultX,
       msrPartGroupImplicitKind partGroupImplicitKind,
       msrPartGroupBarlineKind  partGroupBarlineKind,
+      S_msrPartGroup           partGroupPartGroupUpLink,
+      S_msrScore               partGroupScoreUpLink);
+
+    msrPartGroup (
+      int                      inputLineNumber,
+      int                      partGroupNumber,
+      int                      partGroupAbsoluteNumber,
+      string                   partGroupName,
       S_msrPartGroup           partGroupPartGroupUpLink,
       S_msrScore               partGroupScoreUpLink);
 

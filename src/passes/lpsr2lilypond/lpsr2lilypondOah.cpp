@@ -293,9 +293,10 @@ void lilypondTransposePartNameAtom::applyAtomWithValue (
   // decipher it to extract the old and new part names
 
   string regularExpression (
-    "(.*)"
+    "(.*)" // partName
     "="
-    "(.*)");
+    "(.*)" // destinationPitchName
+    );
 //    "[[:space:]]*(.*)[[:space:]]*" JMI
 //    "="
 //    "[[:space:]]*(.*)[[:space:]]*");
@@ -305,7 +306,7 @@ void lilypondTransposePartNameAtom::applyAtomWithValue (
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -644,19 +645,17 @@ void lilypondTransposePartIDAtom::applyAtomWithValue (
   // decipher it to extract the old and new part names
 
   string regularExpression (
-    "(.*)"
+    "(.*)" // partID
     "="
-    "(.*)");
-//    "[[:space:]]*(.*)[[:space:]]*" JMI
-//    "="
-//    "[[:space:]]*(.*)[[:space:]]*");
+    "(.*)" // destination pitch name
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1907,7 +1906,7 @@ void lilypondChordsDisplayAtom::applyAtomWithValue (
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -2978,7 +2977,8 @@ R"()",
   fSemiTonesPitchAndOctaveDefaultValue = // JMI
     msrSemiTonesPitchAndOctave::create (
       // F under middle C, LilyPond default for relative octave entry
-      kF_Natural_STP, 3);
+      kF_Natural_STP,
+      kOctave3);
 
   subGroup->
     appendAtomToSubGroup (
@@ -4171,7 +4171,7 @@ R"()",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "jianpu", "",
-R"(Generate the score using jiǎnpǔ (numbered) notation
+R"(Generate the score using the Jianpu (numbered) notation
 instead of the default western notation.
 That option needs lilypond-Jianpu to be accessible to LilyPond
 (https://github.com/nybbs2003/lilypond-Jianpu/jianpu10a.ly).)",
@@ -4266,7 +4266,8 @@ R"()",
   fMinimalCombinedBooleansAtom =
     oahCombinedBooleansAtom::create (
       "minimal", "",
-R"(Useful settings for LilyPond code generation.)",
+R"(Avoids the generation of some LilyPond code, with is otherwise
+meant to facilitate manual editing and completion of the result.)",
       "minimal",
       fMinimal);
 
@@ -4441,18 +4442,19 @@ void lpsr2lilypondOahGroup::crackLilypondVersionNumber (
 
   // decipher theString with a three-number regular expression
   string regularExpression (
-    "([[:digit:]]+)"
+    "([[:digit:]]+)" // generation number
     "."
-    "([[:digit:]]+)"
+    "([[:digit:]]+)" // major number
     "."
-    "([[:digit:]]+)");
+    "([[:digit:]]+)" // minor number
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
@@ -4498,16 +4500,17 @@ void lpsr2lilypondOahGroup::crackLilypondVersionNumber (
   else {
     // decipher theString with a two-number regular expression
     string regularExpression (
-      "([[:digit:]]+)"
+      "([[:digit:]]+)" // generation number
       "."
-      "([[:digit:]]+)");
+      "([[:digit:]]+)" // major number
+      );
 
     regex  e (regularExpression);
     smatch sm;
 
     regex_match (theString, sm, e);
 
-    unsigned smSize = sm.size ();
+    unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
     if (gGlobalLpsrOahGroup->getTraceLilypondVersion ()) {
@@ -6091,19 +6094,20 @@ void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
 
   string regularExpression (
     "[[:space:]]*"
-    "([[:digit:]]+\\.*)"
+    "([[:digit:]]+\\.*)" // musicXMLMeasureNumber
     "[[:space:]]*"
     "="
     "[[:space:]]*"
-    "([[:digit:]]+)"
-    "[[:space:]]*");
+    "([[:digit:]]+)"     // lilypondMeasureNumber
+    "[[:space:]]*"
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

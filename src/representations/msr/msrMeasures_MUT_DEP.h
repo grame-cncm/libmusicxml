@@ -27,14 +27,16 @@ class msrMeasure : public msrElement
       kMeasureKindIncompleteNextMeasureAfterHooklessEnding,
       kMeasureKindOvercomplete,
       kMeasureKindCadenza,
-      kMeasureKindMusicallyEmpty};
+      kMeasureKindMusicallyEmpty
+    };
 
     static string measureKindAsString (
       msrMeasureKind measureKind);
 
     enum msrMeasureImplicitKind {
       kMeasureImplicitKindYes,
-      kMeasureImplicitKindNo };
+      kMeasureImplicitKindNo
+    };
 
     static string measureImplicitKindAsString (
       msrMeasureImplicitKind measureImplicitKind);
@@ -42,7 +44,8 @@ class msrMeasure : public msrElement
     enum msrMeasureFirstInSegmentKind {
       kMeasureFirstInSegmentKindUnknown,
       kMeasureFirstInSegmentKindYes,
-      kMeasureFirstInSegmentKindNo };
+      kMeasureFirstInSegmentKindNo
+    };
 
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
@@ -55,7 +58,8 @@ class msrMeasure : public msrElement
       kMeasuresRepeatContextKindHooklessEndingLastMeasure,
       kMeasuresRepeatContextKindNextMeasureAfterCommonPart,
       kMeasuresRepeatContextKindNextMeasureAfterHookedEnding,
-      kMeasuresRepeatContextKindNextMeasureAfterHooklessEnding };
+      kMeasuresRepeatContextKindNextMeasureAfterHooklessEnding
+    };
 
     static string measuresRepeatContextKindAsString (
       msrMeasuresRepeatContextKind measuresRepeatContextKind);
@@ -63,7 +67,8 @@ class msrMeasure : public msrElement
     enum msrMeasureEndRegularKind {
       kMeasureEndRegularKindUnknown,
       kMeasureEndRegularKindYes,
-      kMeasureEndRegularKindNo };
+      kMeasureEndRegularKindNo
+    };
 
     static string measureEndRegularKindAsString (
       msrMeasureEndRegularKind measureEndRegularKind);

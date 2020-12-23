@@ -206,9 +206,11 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
             note->            getMeasureElementMeasureNumber (),
             note->            getNoteSoundingWholeNotes (), // 0/1 JMI
             note->            getNoteDisplayWholeNotes (),
-            note->            getNoteDotsNumber (),
+            note->            getNoteDotsNumber ());
+            /* JMI
             containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
             containingVoice-> getVoiceNumber ());
+            */
 
       // append it to the grace notes
       clone->
@@ -231,9 +233,11 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
             chordFirstNote->  getMeasureElementMeasureNumber (),
             chordFirstNote->  getNoteSoundingWholeNotes (), // 0/1 JMI
             chordFirstNote->  getNoteDisplayWholeNotes (),
-            chordFirstNote->  getNoteDotsNumber (),
+            chordFirstNote->  getNoteDotsNumber ());
+            /*
             containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
             containingVoice-> getVoiceNumber ());
+            */
 
       // append it to the grace notes
       clone->

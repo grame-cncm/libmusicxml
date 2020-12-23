@@ -13,7 +13,11 @@
 #include <iostream>
 #include <sstream>
 
+#include <regex>
+
 #include "utilities.h"
+
+#include "messagesHandling.h"
 
 #include "msrClefs.h"
 
@@ -52,6 +56,117 @@ msrClef::msrClef (
 
 msrClef::~msrClef ()
 {}
+
+//________________________________________________________________________
+S_msrClef msrClef::createClefFromString (
+  int    inputLineNumber,
+  string clefString,
+  int    clefLineNumber)
+{
+  /*
+    Handles clefString à la LilyPond, such as 'treble' or 'baritone'
+  */
+
+  S_msrClef result;
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
+      "Creating clef from string \"" <<
+      clefString <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "([[:alpha:]]+)" // clefName
+    "[[:space:]]*"
+    );
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "regularExpression = " <<
+      regularExpression <<
+      endl;
+  }
+#endif
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (clefString, sm, e);
+
+  unsigned int smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "There are " << smSize << " matches" <<
+      " for clef string \"" << clefString <<
+      "\" with regex \"" << regularExpression <<
+      "\":" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      gLogStream <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    gLogStream << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  //  Handles clefString à la LilyPond, such as c [major] or bes minor
+
+  if (smSize != 2) {
+    stringstream s;
+
+    s <<
+      "clefString \"" << clefString <<
+      "\" is ill-formed";
+
+    msplError (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  string clefName = sm [1];
+
+  // compute the clefKind from the clefName
+  msrClefKind
+    clefKind =
+      clefKindFromString (
+        inputLineNumber,
+        clefName);
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "clefName = \"" <<
+      beatsNumber <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // create the clef
+  result =
+    msrClef::create (
+      inputLineNumber,
+      clefKind,
+      clefLineNumber);
+
+  return result;
+}
 
 bool msrClef::clefIsATablatureClef () const
 {

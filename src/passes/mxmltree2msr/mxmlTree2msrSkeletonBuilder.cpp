@@ -1567,7 +1567,7 @@ S_msrStaff mxmlTree2msrSkeletonBuilder::createStaffInCurrentPartIfNotYetDone (
       fCurrentPart->
         addStaffToPartByItsNumber (
           inputLineNumber,
-          msrStaff::kStaffRegular,
+          kStaffRegular,
           staffNumber);
   }
 
@@ -1603,7 +1603,7 @@ S_msrVoice mxmlTree2msrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
       staff->
         createVoiceInStaffByItsNumber (
           inputLineNumber,
-          msrVoice::kVoiceRegular,
+          kVoiceRegular,
           voiceNumber,
           fCurrentMeasureNumber);
   }
@@ -1942,28 +1942,28 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_creator& elt )
 
   if      (creatorType == "composer") {
     fMsrScore->getIdentification () ->
-      addComposer (
+      appendComposer (
         inputLineNumber,
         creatorValue);
   }
 
   else if (creatorType == "arranger") {
     fMsrScore->getIdentification () ->
-      addArranger (
+      appendArranger (
         inputLineNumber,
         creatorValue);
   }
 
   else if (creatorType == "lyricist") {
     fMsrScore->getIdentification () ->
-      addLyricist (
+      appendLyricist (
         inputLineNumber,
         creatorValue);
 
     // should we use lyricists as poets?
     if (gGlobalMxmlTree2msrOahGroup->getUseLyricistsAsPoets ()) {
       fMsrScore->getIdentification () ->
-        addPoet (
+        appendPoet (
           inputLineNumber,
           elt->getValue ());
     }
@@ -1971,21 +1971,21 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_creator& elt )
 
   else if (creatorType == "poet") {
     fMsrScore->getIdentification () ->
-      addPoet (
+      appendPoet (
         inputLineNumber,
         elt->getValue ());
   }
 
   else if (creatorType == "translator") {
     fMsrScore->getIdentification () ->
-      addTranslator (
+      appendTranslator (
         inputLineNumber,
         creatorValue);
   }
 
   else if (creatorType == "artist") {
     fMsrScore->getIdentification () ->
-      addArtist (
+      appendArtist (
         inputLineNumber,
         creatorValue);
   }
@@ -2025,7 +2025,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_rights& elt )
   convertHTMLEntitiesToPlainCharacters (rightsValue); // JMI &#x00a9;
 
   fMsrScore->getIdentification () ->
-    addRights (
+    appendRight (
       inputLineNumber,
       rightsValue);
 }
@@ -2050,7 +2050,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_source& elt )
   convertHTMLEntitiesToPlainCharacters (rightsValue); // JMI &#x00a9;
 
   fMsrScore->getIdentification () ->
-    addRights (
+    appendRight (
       inputLineNumber,
       rightsValue);
       */
@@ -2076,7 +2076,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_relation& elt )
   convertHTMLEntitiesToPlainCharacters (rightsValue); // JMI &#x00a9;
 
   fMsrScore->getIdentification () ->
-    addRights (
+    appendRight (
       inputLineNumber,
       rightsValue);
       */
@@ -2220,7 +2220,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_software& elt )
   }
 
   fMsrScore->getIdentification () ->
-    addSoftware (
+    appendSoftware (
       inputLineNumber,
       softwareValue);
 }
@@ -3450,7 +3450,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart (S_staves& elt)
       fCurrentPart->
         addStaffToPartByItsNumber (
           inputLineNumber,
-          msrStaff::kStaffRegular,
+          kStaffRegular,
           n);
           */
       S_msrStaff

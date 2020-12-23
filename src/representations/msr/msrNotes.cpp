@@ -10,6 +10,8 @@
   research@grame.fr
 */
 
+#include <regex>
+
 #include "msr_MUTUAL_DEPENDENCIES.h"
 
 #include "enableTracingIfDesired.h"
@@ -35,6 +37,7 @@ S_msrNote msrNote::create (
   msrNoteKind                noteKind,
 
   msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
+  msrOctaveKind              noteOctaveKind,
 
   rational                   noteSoundingWholeNotes,
   rational                   noteDisplayWholeNotes,
@@ -43,10 +46,8 @@ S_msrNote msrNote::create (
 
   msrDurationKind            noteGraphicDurationKind,
 
-  int                        noteOctave,
-
   msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
-  int                        noteDisplayOctave,
+  msrOctaveKind              noteDisplayOctaveKind,
 
   msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
@@ -64,6 +65,7 @@ S_msrNote msrNote::create (
       noteKind,
 
       noteQuarterTonesPitchKind,
+      noteOctaveKind,
 
       noteSoundingWholeNotes,
       noteDisplayWholeNotes,
@@ -72,10 +74,8 @@ S_msrNote msrNote::create (
 
       noteGraphicDurationKind,
 
-      noteOctave,
-
       noteQuarterTonesDisplayPitchKind,
-      noteDisplayOctave,
+      noteDisplayOctaveKind,
 
       noteIsACueNoteKind,
 
@@ -96,6 +96,7 @@ msrNote::msrNote (
   msrNoteKind                noteKind,
 
   msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
+  msrOctaveKind              noteOctaveKind,
 
   rational                   noteSoundingWholeNotes,
   rational                   noteDisplayWholeNotes,
@@ -104,10 +105,8 @@ msrNote::msrNote (
 
   msrDurationKind            noteGraphicDurationKind,
 
-  int                        noteOctave,
-
   msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
-  int                        noteDisplayOctave,
+  msrOctaveKind              noteDisplayOctaveKind,
 
   msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
@@ -125,6 +124,7 @@ msrNote::msrNote (
   fNoteKind = noteKind;
 
   fNoteQuarterTonesPitchKind  = noteQuarterTonesPitchKind;
+  fNoteOctaveKind = noteOctaveKind;
 
   fMeasureElementSoundingWholeNotes = noteSoundingWholeNotes;
   fNoteDisplayWholeNotes  = noteDisplayWholeNotes;
@@ -135,10 +135,8 @@ msrNote::msrNote (
 
   fNoteTupletFactor = rational (1, 1);
 
-  fNoteOctave = noteOctave;
-
   fNoteQuarterTonesDisplayPitchKind = noteQuarterTonesDisplayPitchKind;
-  fNoteDisplayOctave                = noteDisplayOctave;
+  fNoteDisplayOctaveKind            = noteDisplayOctaveKind;
 
   fNoteIsACueNoteKind   = noteIsACueNoteKind;
 
@@ -157,12 +155,12 @@ void msrNote::initializeNote ()
   // rests handling
   // ------------------------------------------------------
 
-  if (getNoteIsARest () && fNoteDisplayOctave != K_NO_OCTAVE) {
+  if (getNoteIsARest () && fNoteDisplayOctaveKind != k_NoOctave) {
     // this note is a pitched rest:
     // copy the display octave to the the note octave, // JMI
     // to be used in octave relative code generation
     fNoteQuarterTonesPitchKind = fNoteQuarterTonesDisplayPitchKind;
-    fNoteOctave = fNoteDisplayOctave;
+    fNoteOctaveKind = fNoteDisplayOctaveKind;
   }
 
   // note accidentals
@@ -215,10 +213,11 @@ void msrNote::initializeNote ()
     gLogStream <<
       left <<
         setw (fieldWidth) <<
-        "fNoteQuarterTonesPitch" << " = " <<
-        msrQuarterTonesPitchKindAsString (
-          gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-          fNoteQuarterTonesPitchKind) <<
+        "noteQuarterTonesPitch" << " = " <<
+        quarterTonesPitchKindAsStringInLanguage (
+          fNoteQuarterTonesPitchKind,
+          gGlobalMsrOahGroup->
+            getMsrQuarterTonesPitchesLanguageKind ()) <<
         endl;
 
     gLogStream <<
@@ -231,20 +230,20 @@ void msrNote::initializeNote ()
     gLogStream <<
       left <<
         setw (fieldWidth) <<
-        "fNoteDisplayWholeNotes" << " = " <<
+        "noteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
         endl;
 
     gLogStream <<
       left <<
         setw (fieldWidth) <<
-        "fNoteDotsNumber" << " = " <<
+        "noteDotsNumber" << " = " <<
         fNoteDotsNumber <<
         endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNoteGraphicDuration" << " = ";
+        "noteGraphicDuration" << " = ";
       if (fNoteGraphicDurationKind != k_NoDuration) {
         gLogStream <<
           msrDurationKindAsString (
@@ -257,7 +256,7 @@ void msrNote::initializeNote ()
     gLogStream <<
       left <<
         setw (fieldWidth) <<
-        "fNoteTupletFactor" << " = " <<
+        "noteTupletFactor" << " = " <<
         fNoteTupletFactor <<
         endl;
 
@@ -266,78 +265,78 @@ void msrNote::initializeNote ()
 
       left <<
         setw (fieldWidth) <<
-        "fNoteOctave" << " = " <<
-        fNoteOctave <<
+        "noteOctaveKind" << " = " <<
+        msrOctaveKindAsString (fNoteOctaveKind) <<
         endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNoteDisplayOctave" << " = " <<
-        fNoteDisplayOctave <<
+        "noteDisplayOctaveKind" << " = " <<
+        msrOctaveKindAsString (fNoteDisplayOctaveKind) <<
         endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNoteIsACueNoteKind" << " = " <<
+        "noteIsACueNoteKind" << " = " <<
          noteIsACueNoteKindAsString (fNoteIsACueNoteKind) <<
         endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNotePrintObjectKind" << " = " <<
+        "notePrintObjectKind" << " = " <<
          msrPrintObjectKindAsString (fNotePrintObjectKind) <<
         endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNoteHeadKind" << " = " <<
+        "noteHeadKind" << " = " <<
          noteHeadKindAsString (fNoteHeadKind) <<
         endl <<
       left <<
         setw (fieldWidth) <<
-        "fNoteHeadFilledKind" << " = " <<
+        "noteHeadFilledKind" << " = " <<
          noteHeadFilledKindAsString (fNoteHeadFilledKind) <<
         endl <<
       left <<
         setw (fieldWidth) <<
-        "fNoteHeadParenthesesKind" << " = " <<
+        "noteHeadParenthesesKind" << " = " <<
          noteHeadParenthesesKindAsString (fNoteHeadParenthesesKind) <<
         endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNoteAccidentalKind" << " = " <<
+        "noteAccidentalKind" << " = " <<
         accidentalKindAsString (
           fNoteAccidentalKind) <<
         endl <<
       left <<
         setw (fieldWidth) <<
-        "fNoteEditorialAccidentalKind" << " = " <<
+        "noteEditorialAccidentalKind" << " = " <<
         editorialAccidentalKindAsString (
           fNoteEditorialAccidentalKind) <<
         endl <<
       left <<
         setw (fieldWidth) <<
-        "fNoteCautionaryAccidentalKind" << " = " <<
+        "noteCautionaryAccidentalKind" << " = " <<
         cautionaryAccidentalKindAsString (
           fNoteCautionaryAccidentalKind) <<
         endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNoteBelongsToAChord" << " = " <<
+        "noteBelongsToAChord" << " = " <<
          booleanAsString (fNoteBelongsToAChord) <<
         endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNoteBelongsToATuplet" << " = " <<
+        "noteBelongsToATuplet" << " = " <<
          booleanAsString (fNoteBelongsToATuplet) <<
         endl << endl <<
 
       left <<
         setw (fieldWidth) <<
-        "fNoteOccupiesAFullMeasure" << " = " <<
+        "noteOccupiesAFullMeasure" << " = " <<
          booleanAsString (fNoteOccupiesAFullMeasure) <<
         endl << endl;
 
@@ -508,6 +507,7 @@ S_msrNote msrNote::createNoteNewbornClone (
         fNoteKind,
 
         fNoteQuarterTonesPitchKind,
+        fNoteOctaveKind,
 
         fMeasureElementSoundingWholeNotes,
         fNoteDisplayWholeNotes,
@@ -516,10 +516,8 @@ S_msrNote msrNote::createNoteNewbornClone (
 
         fNoteGraphicDurationKind,
 
-        fNoteOctave,
-
         fNoteQuarterTonesDisplayPitchKind,
-        fNoteDisplayOctave,
+        fNoteDisplayOctaveKind,
 
         fNoteIsACueNoteKind,
 
@@ -725,6 +723,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteKind,
 
         fNoteQuarterTonesPitchKind,
+        fNoteOctaveKind,
 
         fMeasureElementSoundingWholeNotes,
         fNoteDisplayWholeNotes,
@@ -733,10 +732,8 @@ S_msrNote msrNote::createNoteDeepCopy (
 
         fNoteGraphicDurationKind,
 
-        fNoteOctave,
-
         fNoteQuarterTonesDisplayPitchKind,
-        fNoteDisplayOctave,
+        fNoteDisplayOctaveKind,
 
         fNoteIsACueNoteKind,
 
@@ -1212,9 +1209,7 @@ S_msrNote msrNote::createRestNote (
   string    noteMeasureNumber,
   rational  soundingWholeNotes,
   rational  displayWholeNotes,
-  int       dotsNumber,
-  int       staffNumber,
-  int       voiceNumber)
+  int       dotsNumber)
 {
   msrNote * o =
     new msrNote (
@@ -1224,6 +1219,7 @@ S_msrNote msrNote::createRestNote (
       kRestNote, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
+      k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
       displayWholeNotes,
@@ -1232,10 +1228,8 @@ S_msrNote msrNote::createRestNote (
 
       k_NoDuration, // noteGraphicDuration
 
-      K_NO_OCTAVE, // noteOctave,
-
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
-      K_NO_OCTAVE, // noteDisplayOctave,
+      k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -1264,9 +1258,7 @@ S_msrNote msrNote::createSkipNote (
   string    noteMeasureNumber,
   rational  soundingWholeNotes,
   rational  displayWholeNotes,
-  int       dotsNumber,
-  int       staffNumber,
-  int       voiceNumber)
+  int       dotsNumber)
 {
   msrNote * o =
     new msrNote (
@@ -1276,6 +1268,7 @@ S_msrNote msrNote::createSkipNote (
       kSkipNote, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
+      k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
       displayWholeNotes,
@@ -1284,10 +1277,8 @@ S_msrNote msrNote::createSkipNote (
 
       k_NoDuration, // noteGraphicDuration
 
-      K_NO_OCTAVE, // noteOctave,
-
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
-      K_NO_OCTAVE, // noteDisplayOctave,
+      k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -1303,8 +1294,6 @@ S_msrNote msrNote::createSkipNote (
     gLogStream <<
       "Creating skip note '" <<
       o->asString () <<
-      ", staffNumber = " << staffNumber <<
-      ", voiceNumber = " << voiceNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1314,13 +1303,11 @@ S_msrNote msrNote::createSkipNote (
 }
 
 S_msrNote msrNote::createGraceSkipNote (
-  int       inputLineNumber,
-  string    noteMeasureNumber,
-  rational  soundingWholeNotes,
-  rational  displayWholeNotes,
-  int       dotsNumber,
-  int       staffNumber,
-  int       voiceNumber)
+  int      inputLineNumber,
+  string   noteMeasureNumber,
+  rational soundingWholeNotes,
+  rational displayWholeNotes,
+  int      dotsNumber)
 {
   msrNote * o =
     new msrNote (
@@ -1330,6 +1317,7 @@ S_msrNote msrNote::createGraceSkipNote (
       kGraceSkipNote, // noteKind
 
       k_NoQuarterTonesPitch_QTP,
+      k_NoOctave, // noteOctave,
 
       soundingWholeNotes,
       displayWholeNotes,
@@ -1338,10 +1326,8 @@ S_msrNote msrNote::createGraceSkipNote (
 
       k_NoDuration, // noteGraphicDuration
 
-      K_NO_OCTAVE, // noteOctave,
-
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
-      K_NO_OCTAVE, // noteDisplayOctave,
+      k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -1357,14 +1343,621 @@ S_msrNote msrNote::createGraceSkipNote (
     gLogStream <<
       "Creating skip note '" <<
       o->asString () <<
-      ", staffNumber = " << staffNumber <<
-      ", voiceNumber = " << voiceNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
   return o;
+}
+
+//________________________________________________________________________
+S_msrNote msrNote::createRestNoteWithOctave (
+  int           inputLineNumber,
+  string        noteMeasureNumber,
+  msrOctaveKind noteOctave,
+  rational      soundingWholeNotes,
+  rational      displayWholeNotes,
+  int           dotsNumber)
+{
+  msrNote * o =
+    new msrNote (
+      inputLineNumber,
+      noteMeasureNumber,
+
+      kRestNote, // noteKind
+
+      k_Rest_QTP,
+      noteOctave,
+
+      soundingWholeNotes,
+      displayWholeNotes,
+
+      dotsNumber,
+
+      k_NoDuration, // noteGraphicDuration
+
+      k_Rest_QTP,  // noteQuarterTonesDisplayPitchKind
+      k_NoOctave,  // noteDisplayOctaveKind
+
+      msrNote::kNoteIsACueNoteNo,
+
+      kPrintObjectYes, // JMI
+
+      kNoteHeadNormal, // JMI
+      kNoteHeadFilledYes, // JMI
+      kNoteHeadParenthesesNo); // JMI
+  assert (o!=0);
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceRestNotes ()) {
+    gLogStream <<
+      "Creating rest note '" <<
+      o->asShortString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  return o;
+}
+
+//________________________________________________________________________
+S_msrNote msrNote::createSkipNoteWithOctave (
+  int           inputLineNumber,
+  string        noteMeasureNumber,
+  msrOctaveKind noteOctave,
+  rational      soundingWholeNotes,
+  rational      displayWholeNotes,
+  int           dotsNumber)
+{
+  msrNote * o =
+    new msrNote (
+      inputLineNumber,
+      noteMeasureNumber,
+
+      kSkipNote, // noteKind
+
+      k_Skip_QTP,
+      noteOctave,
+
+      soundingWholeNotes,
+      displayWholeNotes,
+
+      dotsNumber,
+
+      k_NoDuration, // noteGraphicDuration JMI ???
+
+      k_Skip_QTP,  // noteQuarterTonesDisplayPitchKind
+      noteOctave,
+
+      msrNote::kNoteIsACueNoteNo,
+
+      kPrintObjectYes, // JMI
+
+      kNoteHeadNormal, // JMI
+      kNoteHeadFilledYes, // JMI
+      kNoteHeadParenthesesNo); // JMI
+  assert (o!=0);
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceSkipNotes ()) {
+    gLogStream <<
+      "Creating skip note '" <<
+      o->asShortString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  return o;
+}
+
+//________________________________________________________________________
+S_msrNote msrNote::createRegularNote (
+  int                      inputLineNumber,
+  string                   noteMeasureNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  msrOctaveKind            noteOctaveKind,
+  rational                 soundingWholeNotes,
+  rational                 displayWholeNotes,
+  int                      dotsNumber)
+{
+  msrNote * o =
+    new msrNote (
+      inputLineNumber,
+      noteMeasureNumber,
+
+      kRegularNote, // noteKind
+
+      quarterTonesPitchKind,
+      noteOctaveKind,
+
+      soundingWholeNotes,
+      displayWholeNotes,
+
+      dotsNumber,
+
+      k_NoDuration, // noteGraphicDuration JMI ???
+
+      quarterTonesPitchKind,
+      noteOctaveKind, // JMI ???
+
+      msrNote::kNoteIsACueNoteNo,
+
+      kPrintObjectYes, // JMI
+
+      kNoteHeadNormal, // JMI
+      kNoteHeadFilledYes, // JMI
+      kNoteHeadParenthesesNo); // JMI
+  assert (o!=0);
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
+      "Creating regular note '" <<
+      o->asShortString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  return o;
+}
+
+//________________________________________________________________________
+S_msrNote msrNote::createRestFromString (
+  int    inputLineNumber,
+  string restString,
+  string restMeasureNumber)
+{
+  // handling restString à la LilyPond, such as "r4.."
+
+  S_msrNote result;
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
+      "Creating rest from string \"" <<
+      restString <<
+      "\", restMeasureNumber: '" << restMeasureNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "r" //
+    "[[:space:]]*"
+    "([[:digit:]]+)" // restDuration
+    "[[:space:]]*"
+    "(\\.*)"         // restDots
+    "[[:space:]]*"
+    );
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "regularExpression = " <<
+      regularExpression <<
+      endl;
+  }
+#endif
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (restString, sm, e);
+
+  unsigned int smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "There are " << smSize << " matches" <<
+      " for rest string \"" << restString <<
+      "\" with regex \"" << regularExpression <<
+      "\":" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      gLogStream <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    gLogStream << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  // handling restString à la LilyPond, such as "r4.."
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "restString \"" << restString <<
+      "\" is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    restDuration = sm [1],
+    restDots     = sm [2];
+
+  unsigned int dotsNumber = restDots.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "restDuration = \"" <<
+      restDuration <<
+      "\"" <<
+      endl <<
+
+      "restDots = \"" <<
+      restDots <<
+      "\"" <<
+      endl <<
+      "dotsNumber = " <<
+      dotsNumber <<
+      endl;
+  }
+#endif
+
+  // compute the restDurationKind from restDuration
+  msrDurationKind
+    restDurationKind =
+      msrDurationKindFromMslpString (
+        inputLineNumber,
+        restDuration);
+
+  // compute the duration whole notes from restDurationKind
+  rational
+     durationKindFromMslpString =
+       msrDurationKindAsWholeNotes (
+         restDurationKind);
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "durationKindFromMslpString = " <<
+      durationKindFromMslpString <<
+      endl;
+  }
+#endif
+
+  result =
+    msrNote::createRestNote (
+      inputLineNumber,
+      restMeasureNumber,
+      durationKindFromMslpString, // soundingWholeNotes
+      durationKindFromMslpString, // displayWholeNotes
+      dotsNumber);
+
+  return result;
+}
+
+//________________________________________________________________________
+S_msrNote msrNote::createSkipFromString (
+  int    inputLineNumber,
+  string skipString,
+  string skipMeasureNumber)
+{
+  // handling skipString à la LilyPond, such as "s4.."
+
+  S_msrNote result;
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
+      "Creating skip from string \"" <<
+      skipString <<
+      "\", skipMeasureNumber: '" << skipMeasureNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "s" //
+    "[[:space:]]*"
+    "([[:digit:]]+)" // skipDuration
+    "[[:space:]]*"
+    "(\\.*)"         // skipDots
+    "[[:space:]]*"
+    );
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "regularExpression = " <<
+      regularExpression <<
+      endl;
+  }
+#endif
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (skipString, sm, e);
+
+  unsigned int smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "There are " << smSize << " matches" <<
+      " for skip string \"" << skipString <<
+      "\" with regex \"" << regularExpression <<
+      "\":" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      gLogStream <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    gLogStream << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  // handling skipString à la LilyPond, such as "s4.."
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "skipString \"" << skipString <<
+      "\" is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    skipDuration = sm [1],
+    skipDots     = sm [2];
+
+  unsigned int dotsNumber = skipDots.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "skipDuration = \"" <<
+      skipDuration <<
+      "\"" <<
+      endl <<
+
+      "skipDots = \"" <<
+      skipDots <<
+      "\"" <<
+      endl <<
+      "dotsNumber = " <<
+      dotsNumber <<
+      endl;
+  }
+#endif
+
+  // compute the skipDurationKind from skipDuration
+  msrDurationKind
+    skipDurationKind =
+      msrDurationKindFromMslpString (
+        inputLineNumber,
+        skipDuration);
+
+  // compute the duration whole notes from skipDurationKind
+  rational
+     durationKindFromMslpString =
+       msrDurationKindAsWholeNotes (
+         skipDurationKind);
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "durationKindFromMslpString = " <<
+      durationKindFromMslpString <<
+      endl;
+  }
+#endif
+
+  result =
+//    msrNote::createSkipNote (
+    msrNote::createRestNote (
+      inputLineNumber,
+      skipMeasureNumber,
+      durationKindFromMslpString, // soundingWholeNotes
+      durationKindFromMslpString, // displayWholeNotes
+      dotsNumber);
+
+  return result;
+}
+
+//________________________________________________________________________
+S_msrNote msrNote::createNoteFromString (
+  int    inputLineNumber,
+  string noteString,
+  string noteMeasureNumber)
+{
+  // handling noteString à la LilyPond, such as "bes,4.."
+
+  S_msrNote result;
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
+      "Creating note from string \"" <<
+      noteString <<
+      "\", noteMeasureNumber: '" << noteMeasureNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // noteString contains note specification
+  // decipher it to extract its components
+
+  string regularExpression (
+    "[[:space:]]*"
+    "([[:lower:]]+)" // notePitch
+    "[[:space:]]*"
+    "([,|']*)"       // noteOctaveIndication
+    "[[:space:]]*"
+    "([[:digit:]]+)" // noteDuration
+    "[[:space:]]*"
+    "(\\.*)"         // noteDots
+    "[[:space:]]*"
+    );
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "regularExpression = " <<
+      regularExpression <<
+      endl;
+  }
+#endif
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (noteString, sm, e);
+
+  unsigned int smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "There are " << smSize << " matches" <<
+      " for note string \"" << noteString <<
+      "\" with regex \"" << regularExpression <<
+      "\":" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      gLogStream <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    gLogStream << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  // handling noteString à la LilyPond, such as "bes,4.."
+
+  if (smSize != 5) {
+    stringstream s;
+
+    s <<
+      "noteString \"" << noteString <<
+      "\" is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    notePitch            = sm [1],
+    noteOctaveIndication = sm [2],
+    noteDuration         = sm [3],
+    noteDots             = sm [4];
+
+  unsigned int dotsNumber = noteDots.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "notePitch = \"" <<
+      notePitch <<
+      "\"" <<
+      endl <<
+
+      "noteOctaveIndication = \"" <<
+      noteOctaveIndication <<
+      "\"" <<
+      endl <<
+
+      "noteDuration = \"" <<
+      noteDuration <<
+      "\"" <<
+      endl <<
+
+      "noteDots = \"" <<
+      noteDots <<
+      "\"" <<
+      endl <<
+      "dotsNumber = " <<
+      dotsNumber <<
+      endl;
+  }
+#endif
+
+  // fetch the quarternotes pitches kind
+  msrQuarterTonesPitchKind
+    quarterTonesPitchKind =
+      quarterTonesPitchKindFromString (
+        gGlobalMsrOahGroup->
+          getMsrQuarterTonesPitchesLanguageKind (),
+        notePitch);
+
+  // compute the octave from noteOctaveIndication
+  msrOctaveKind
+    octaveKind =
+      msrOctaveKindFromCommasOrQuotes (
+        inputLineNumber,
+        noteOctaveIndication);
+
+  // compute the noteDurationKind from noteDuration
+  msrDurationKind
+    noteDurationKind =
+      msrDurationKindFromMslpString (
+        inputLineNumber,
+        noteDuration);
+
+  // compute the duration whole notes from noteDurationKind
+  rational
+     durationKindFromMslpString =
+       msrDurationKindAsWholeNotes (
+         noteDurationKind);
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "quarterTonesPitchKind = " <<
+      quarterTonesPitchKindAsString (quarterTonesPitchKind) <<
+      endl <<
+      "octaveKind = " <<
+      msrOctaveKindAsString (octaveKind) <<
+      endl <<
+      "durationKindFromMslpString = " <<
+      durationKindFromMslpString <<
+      endl;
+  }
+#endif
+
+  result =
+    msrNote::createRegularNote (
+      inputLineNumber,
+      noteMeasureNumber,
+      quarterTonesPitchKind, // kD_Natural_QTP
+      octaveKind, // kOctave3
+      durationKindFromMslpString, // soundingWholeNotes
+      durationKindFromMslpString, // displayWholeNotes
+      dotsNumber);
+
+  return result;
 }
 
 //________________________________________________________________________
@@ -1380,12 +1973,15 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
   msrNote * o =
     new msrNote (
       inputLineNumber,
-      K_NO_MEASURE_NUMBER,
+      K_NO_MEASURE_NUMBER, // JMI ???
 
       kRegularNote, // noteKind
 
       quarterTonesPitchKindFromSemiTonesPitchKind (
-        semiTonesPitchAndOctave->getSemiTonesPitchKind ()),
+        semiTonesPitchAndOctave->
+          getSemiTonesPitchKind ()),
+      semiTonesPitchAndOctave->
+        getOctaveKind (),
 
       rational (0, 1), // soundingWholeNotes,
       rational (0, 1), // displayWholeNotes,
@@ -1394,10 +1990,8 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
 
       k_NoDuration, // noteGraphicDuration
 
-      semiTonesPitchAndOctave->getOctave (), // noteOctave,
-
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
-      K_NO_OCTAVE, // noteDisplayOctave,
+      k_NoOctave, // noteDisplayOctave,
 
       msrNote::kNoteIsACueNoteNo,
 
@@ -1797,18 +2391,10 @@ msrDiatonicPitchKind msrNote::noteDiatonicPitchKind (
       fNoteQuarterTonesPitchKind);
 }
 
-string msrNote::noteDisplayOctaveAsString () const
-{
-  return
-    fNoteDisplayOctave == K_NO_OCTAVE
-      ? "no display octave"
-      : to_string (fNoteDisplayOctave);
-}
-
 bool msrNote::noteIsAPitchedRest () const
 {
   return
-    getNoteIsARest () && fNoteDisplayOctave != K_NO_OCTAVE;
+    getNoteIsARest () && fNoteDisplayOctaveKind != k_NoOctave;
 }
 
 void msrNote::setNoteStem (S_msrStem stem)
@@ -1817,7 +2403,7 @@ void msrNote::setNoteStem (S_msrStem stem)
   fNoteStem = stem;
 
   // mark note as stemless if relevant
-  if (stem->getStemKind () == msrStem::kStemNone)
+  if (stem->getStemKind () == msrStem::kStemNeutral)
     fNoteIsStemless = true;
 }
 
@@ -3096,9 +3682,10 @@ string msrNote::notePitchAsString () const
     case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
       s <<
-        msrQuarterTonesPitchKindAsString (
-          gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-          fNoteQuarterTonesPitchKind);
+        quarterTonesPitchKindAsStringInLanguage (
+          fNoteQuarterTonesPitchKind,
+          gGlobalMsrOahGroup->
+            getMsrQuarterTonesPitchesLanguageKind ());
       break;
 
     case msrNote::kUnpitchedNote:
@@ -3115,9 +3702,10 @@ string msrNote::noteDisplayPitchKindAsString () const
   stringstream s;
 
   s <<
-    msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-      fNoteQuarterTonesDisplayPitchKind);
+    quarterTonesPitchKindAsStringInLanguage (
+      fNoteQuarterTonesDisplayPitchKind,
+      gGlobalMsrOahGroup->
+        getMsrQuarterTonesPitchesLanguageKind ());
 
   return s.str ();
 }
@@ -3147,7 +3735,7 @@ string msrNote::noteDiatonicPitchKindAsString (
   int inputLineNumber) const
 {
   return
-    msrDiatonicPitchKindAsString (
+    diatonicPitchKindAsString (
       gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
       noteDiatonicPitchKind (
         fInputLineNumber));
@@ -3168,7 +3756,8 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kRestNote:
       s <<
         "Rest note" <<
-        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        " [" <<
+        msrOctaveKindAsString (fNoteOctaveKind) <<
         ":" <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -3217,7 +3806,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "Standalone note '" <<
         notePitchAsString () <<
         "' " <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        msrOctaveKindAsString (fNoteOctaveKind) <<
         ":" <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -3235,7 +3824,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "DoubleTremoloMember note '" <<
         notePitchAsString () <<
         "' " <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        msrOctaveKindAsString (fNoteOctaveKind) <<
         ":" <<
         " whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
@@ -3250,7 +3839,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString () <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3278,7 +3867,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString () <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -3290,7 +3879,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "ChordMember note '" <<
         notePitchAsString () <<
         "' " <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        msrOctaveKindAsString (fNoteOctaveKind) <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
@@ -3308,7 +3897,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString () <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        msrOctaveKindAsString (fNoteOctaveKind) <<
         ", whole notes: " <<
         fMeasureElementSoundingWholeNotes <<
         " sounding, " <<
@@ -3352,7 +3941,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
       if (! getNoteIsARest ()) {
         s <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+          msrOctaveKindAsString (fNoteOctaveKind);
       }
 
       s <<
@@ -3448,7 +4037,8 @@ string msrNote::asShortString () const
         "RegularNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3460,7 +4050,8 @@ string msrNote::asShortString () const
         "DoubleTremoloMemberNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3472,7 +4063,8 @@ string msrNote::asShortString () const
         "GraceNote '" <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3495,7 +4087,8 @@ string msrNote::asShortString () const
         "TraceChordMemberNote '" <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -3507,7 +4100,8 @@ string msrNote::asShortString () const
         "ChordMemberNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3532,7 +4126,9 @@ string msrNote::asShortString () const
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ());
             */
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        msrOctaveKindAsString (fNoteOctaveKind) <<
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3590,7 +4186,9 @@ string msrNote::asShortString () const
 
       if (! getNoteIsARest ()) {
         s <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        msrOctaveKindAsString (fNoteOctaveKind) <<
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
       }
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
@@ -3634,6 +4232,20 @@ string msrNote::asShortString () const
   return s.str ();
 }
 
+string msrNote::noteEssentialsAsString () const
+{
+  stringstream s;
+
+  s <<
+    noteSoundingWholeNotesAsMsrString ();
+
+  for (int i = 0; i < fNoteDotsNumber; i++) {
+    s << ".";
+  } // for
+
+  return s.str ();
+}
+
 string msrNote::asString () const
 {
   stringstream s;
@@ -3672,7 +4284,8 @@ string msrNote::asString () const
         noteDisplayPitchKindAsString () <<
         ", " <<
         noteSoundingWholeNotesAsMsrString () <<
-        ", octave" " " << noteDisplayOctaveAsString () <<
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
         ")" <<
         */
         ", whole notes: " <<
@@ -3720,7 +4333,8 @@ string msrNote::asString () const
         "', " <<
         */
         noteSoundingWholeNotesAsMsrString () <<
-        "', [octave " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << ".";
@@ -3731,8 +4345,10 @@ string msrNote::asString () const
       s <<
         "doubleTremoloMemberNote '" <<
         notePitchAsString () <<
+        ", " <<
         noteSoundingWholeNotesAsMsrString () <<
-        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
       break;
 
     case msrNote::kGraceNote:
@@ -3741,7 +4357,8 @@ string msrNote::asString () const
         notePitchAsString () <<
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
-        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -3765,7 +4382,8 @@ string msrNote::asString () const
 //        " " <<
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
-        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
 
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -3781,7 +4399,8 @@ string msrNote::asString () const
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
  // JMI       ", " << fMeasureElementSoundingWholeNotes << " sounding whole notes, " <<
-        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
       break;
 
     case msrNote::kTupletMemberNote:
@@ -3807,7 +4426,8 @@ string msrNote::asString () const
       } // for
 
       s <<
-        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
       break;
 
     case msrNote::kTupletRestMemberNote:
@@ -3856,7 +4476,8 @@ string msrNote::asString () const
 
       if (! getNoteIsARest ()) {
         s <<
-        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind);
       }
 
       s <<
@@ -3959,6 +4580,10 @@ string msrNote::asString () const
     " ===]";
 
   return s.str ();
+}
+
+void msrNote::printNoteEssentials (ostream& os) const
+{
 }
 
 void msrNote::print (ostream& os) const

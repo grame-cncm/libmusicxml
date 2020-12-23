@@ -952,10 +952,10 @@ void msr2msrTranslator::visitStart (S_msrStaff& elt)
   gIndenter++;
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffTablature:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffTablature:
+    case kStaffDrum:
+    case kStaffRythmic:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -971,7 +971,7 @@ void msr2msrTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case msrStaff::kStaffHarmony:
+    case kStaffHarmony:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -987,7 +987,7 @@ void msr2msrTranslator::visitStart (S_msrStaff& elt)
       }
       break;
 
-    case msrStaff::kStaffFiguredBass:
+    case kStaffFiguredBass:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1024,23 +1024,23 @@ void msr2msrTranslator::visitEnd (S_msrStaff& elt)
 #endif
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kStaffDrum:
-    case msrStaff::kStaffRythmic:
+    case kStaffRegular:
+    case kStaffDrum:
+    case kStaffRythmic:
       {
         fOnGoingStaff = false;
       }
       break;
 
-    case msrStaff::kStaffTablature:
+    case kStaffTablature:
       // JMI
       break;
 
-    case msrStaff::kStaffHarmony:
+    case kStaffHarmony:
       // JMI
       break;
 
-    case msrStaff::kStaffFiguredBass:
+    case kStaffFiguredBass:
       // JMI
       break;
   } // switch
@@ -1068,7 +1068,7 @@ void msr2msrTranslator::visitStart (S_msrVoice& elt)
 
   switch (elt->getVoiceKind ()) {
 
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // create a voice clone
       fCurrentVoiceClone =
         elt->createVoiceNewbornClone (
@@ -1081,7 +1081,7 @@ void msr2msrTranslator::visitStart (S_msrVoice& elt)
           fCurrentVoiceClone);
       break;
 
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       {
         /* JMI
         // create the harmony staff and voice if not yet done
@@ -1131,7 +1131,7 @@ void msr2msrTranslator::visitStart (S_msrVoice& elt)
       }
       break;
 
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       {
         // create a voice clone
         fCurrentVoiceClone =
@@ -1195,15 +1195,15 @@ void msr2msrTranslator::visitEnd (S_msrVoice& elt)
 #endif
 
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // JMI
       break;
 
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       fOnGoingHarmonyVoice = false;
       break;
 
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = false;
       break;
   } // switch

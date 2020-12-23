@@ -219,24 +219,40 @@ class msrOahGroup : public oahGroup
     // ------------------------------------------------------
 
     // trace
+    void                  setTraceMsr ()
+                              { fTraceMsr = true; }
     bool                  getTraceMsr () const
                               { return fTraceMsr; }
 
+    void                  setTraceMsrVisitors ()
+                              { fTraceMsrVisitors = true; }
     bool                  getTraceMsrVisitors () const
                               { return fTraceMsrVisitors; }
 
+    // durations
+    void                  setTraceMsrDurations ()
+                              { fTraceMsrDurations = true; }
+    bool                  getTraceMsrDurations () const
+                              { return fTraceMsrDurations; }
 
     // display
+    void                  setDisplayPartGroups ()
+                              { fDisplayPartGroups = true; }
     bool                  getDisplayPartGroups () const
                               { return fDisplayPartGroups; }
 
-
+    void                  setDisplayMsrSkeleton ()
+                              { fDisplayMsrSkeleton = true; }
     bool                  getDisplayMsrSkeleton () const
                               { return fDisplayMsrSkeleton; }
 
+    void                  setDisplayMsr ()
+                              { fDisplayMsr = true; }
     bool                  getDisplayMsr () const
                               { return fDisplayMsr; }
 
+    void                  setDisplayMsrShort ()
+                              { fDisplayMsrShort = true; }
     bool                  getDisplayMsrShort () const
                               { return fDisplayMsrShort; }
 
@@ -244,12 +260,15 @@ class msrOahGroup : public oahGroup
                               { return fDisplayMsrDetails; }
 
 
+    void                  setDisplayMsrNames ()
+                              { fDisplayMsrNames = true; }
     bool                  getDisplayMsrNames () const
                               { return fDisplayMsrNames; }
 
+    void                  setDisplayMsrSummary ()
+                              { fDisplayMsrSummary = true; }
     bool                  getDisplayMsrSummary () const
                               { return fDisplayMsrSummary; }
-
 
 
     // languages
@@ -263,21 +282,29 @@ class msrOahGroup : public oahGroup
                               { return fPartsRenamingMap; }
 
     // staves
+    void                  setCreateSingleLineStavesAsRythmic ()
+                              { fCreateSingleLineStavesAsRythmic = true; }
     bool                  getCreateSingleLineStavesAsRythmic () const
                               { return fCreateSingleLineStavesAsRythmic; }
 
 
     // voices
+    void                  setCreateVoicesStaffRelativeNumbers ()
+                              { fCreateVoicesStaffRelativeNumbers = true; }
     bool                  getCreateVoicesStaffRelativeNumbers () const
                               { return fCreateVoicesStaffRelativeNumbers; }
 
 
     // harmonies
+    void                  setShowHarmonyVoices ()
+                              { fShowHarmonyVoices = true; }
     bool                  getShowHarmonyVoices () const
                               { return fShowHarmonyVoices; }
 
 
     // figured bass
+    void                  setShowFiguredBassVoices ()
+                              { fShowFiguredBassVoices = true; }
     bool                  getShowFiguredBassVoices () const
                               { return fShowFiguredBassVoices; }
 
@@ -354,6 +381,9 @@ class msrOahGroup : public oahGroup
     bool                  fTraceMsr;
 
     bool                  fTraceMsrVisitors;
+
+    // durations
+    bool                  fTraceMsrDurations;
 
     // display
     bool                  fDisplayPartGroups;

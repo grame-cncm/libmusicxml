@@ -320,18 +320,28 @@ class lpsrOahGroup : public oahGroup
     // --------------------------------------
 
 #ifdef TRACING_IS_ENABLED
+    void                  setTraceLpsr ()
+                              { fTraceLpsr = true; }
     bool                  getTraceLpsr () const
                               { return fTraceLpsr; }
 
+    void                  setTraceLilypondVersion ()
+                              { fTraceLilypondVersion = true; }
     bool                  getTraceLilypondVersion () const
                               { return fTraceLilypondVersion; }
 
+    void                  setTraceLpsrVisitors ()
+                              { fTraceLpsrVisitors = true; }
     bool                  getTraceLpsrVisitors () const
                               { return fTraceLpsrVisitors; }
 
+    void                  setTraceLpsrBlocks ()
+                              { fTraceLpsrBlocks = true; }
     bool                  getTraceLpsrBlocks () const
                               { return fTraceLpsrBlocks; }
 
+    void                  setTraceSchemeFunctions ()
+                              { fTraceSchemeFunctions = true; }
     bool                  getTraceSchemeFunctions () const
                               { return fTraceSchemeFunctions; }
 #endif
@@ -339,19 +349,24 @@ class lpsrOahGroup : public oahGroup
     // display
     // --------------------------------------
 
+    void                  setDisplayLpsr ()
+                              { fDisplayLpsr = true; }
     bool                  getDisplayLpsr () const
                               { return fDisplayLpsr; }
+
+    void                  setDisplayLpsrShort ()
+                              { fDisplayLpsrShort = true; }
     bool                  getDisplayLpsrShort () const
                               { return fDisplayLpsrShort; }
 
     // paper
     // --------------------------------------
 
+    void                  setAllPaperVariables ()
+                              { fAllPaperVariables = true; }
     bool                  getAllPaperVariables () const
                               { return fAllPaperVariables; }
 
-    msrLengthUnitKind     getLengthUnitKind () const
-                              { return fLengthUnitKind; }
     msrLengthUnitKind     getLengthUnitKindDefaultValue () const
                               { return fLengthUnitKindDefaultValue; }
 
@@ -404,20 +419,38 @@ class lpsrOahGroup : public oahGroup
                               { return fPageTopSpace; }
 
     // counts
+    void                  setPageCount (int value)
+                              { fPageCount = value; }
     int                   getPageCount () const
                               { return fPageCount; }
+
+    void                  setSystemCount (int value)
+                              { fSystemCount = value; }
     int                   getSystemCount () const
                               { return fSystemCount; }
 
+    void                  setRaggedBottom ()
+                              { fRaggedBottom = true; }
     bool                  getRaggedBottom () const
                               { return fRaggedBottom; }
+
+    void                  setRaggedLast ()
+                              { fRaggedLast = true; }
     bool                  getRaggedLast () const
                               { return fRaggedLast; }
+
+    void                  setRaggedLastBottom ()
+                              { fRaggedLastBottom = true; }
     bool                  getRaggedLastBottom () const
                               { return fRaggedLastBottom; }
+
+    void                  setRaggedRight ()
+                              { fRaggedRight = true; }
     bool                  getRaggedRight () const
                               { return fRaggedRight; }
 
+    void                  setTagline ()
+                              { fTagline = true; }
     bool                  getTagline () const
                               { return fTagline; }
 
@@ -427,6 +460,9 @@ class lpsrOahGroup : public oahGroup
     // replicate empty measure JMI ???
     string                getReplicateEmptyMeasureNumber () const
                               { return fReplicateEmptyMeasureNumber; }
+
+    void                  setReplicateEmptyMeasureReplicas ()
+                              { fReplicateEmptyMeasureReplicas = true; }
     int                   getReplicateEmptyMeasureReplicas () const
                               { return fReplicateEmptyMeasureReplicas; }
 
@@ -437,6 +473,8 @@ class lpsrOahGroup : public oahGroup
     // --------------------------------------
 
     // convert tempos to rehearsal marks
+    void                  setConvertTemposToRehearsalMarks ()
+                              { fConvertTemposToRehearsalMarks = true; }
     bool                  getConvertTemposToRehearsalMarks () const
                               { return fConvertTemposToRehearsalMarks; }
 
@@ -444,13 +482,20 @@ class lpsrOahGroup : public oahGroup
     // --------------------------------------
 
     // convert words to tempo
+    void                  setConvertWordsToTempo ()
+                              { fConvertWordsToTempo = true; }
     bool                  getConvertWordsToTempo () const
                               { return fConvertWordsToTempo; }
+
     // add words from the lyrics
+    void                  setAddWordsFromTheLyrics ()
+                              { fAddWordsFromTheLyrics = true; }
     bool                  getAddWordsFromTheLyrics () const
                               { return fAddWordsFromTheLyrics; }
 
     // convert words to rehearsal marks
+    void                  setConvertWordsToRehearsalMarks ()
+                              { fConvertWordsToRehearsalMarks = true; }
     bool                  getConvertWordsToRehearsalMarks () const
                               { return fConvertWordsToRehearsalMarks; }
 
@@ -475,6 +520,8 @@ class lpsrOahGroup : public oahGroup
     // quit after some passes
     // --------------------------------------
 
+    void                  setQuitAfterPass3 ()
+                              { fQuitAfterPass3 = true; }
     bool                  getQuit3 () const
                               { return fQuitAfterPass3; }
 
@@ -613,8 +660,8 @@ class lpsrOahGroup : public oahGroup
     msrLength             fPageTopSpace;
 
     // counts
-    int                   fPageCount;   // null if not specified
-    int                   fSystemCount; // null if not specified
+    int                   fPageCount;   // 0 if not specified
+    int                   fSystemCount; // 0 if not specified
 
     // ragging
     bool                  fRaggedBottom;

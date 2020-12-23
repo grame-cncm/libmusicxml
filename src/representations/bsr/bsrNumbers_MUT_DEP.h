@@ -12,7 +12,8 @@ class bsrNumber : public bsrLineElement
     // ------------------------------------------------------
 
     enum bsrNumberSignIsNeededKind {
-        kNumberSignIsNeededYes, kNumberSignIsNeededNo};
+      kNumberSignIsNeededYes, kNumberSignIsNeededNo
+    };
 
     static string numberSignIsNeededKindAsString (
       bsrNumberSignIsNeededKind numberSignIsNeededKind);

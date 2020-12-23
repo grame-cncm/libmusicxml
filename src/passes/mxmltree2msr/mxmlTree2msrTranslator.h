@@ -1181,7 +1181,7 @@ class mxmlTree2msrTranslator :
     int                       fCurrentStaffTuningLine;
     msrDiatonicPitchKind      fCurrentStaffTuningDiatonicPitchKind;
     msrAlterationKind         fCurrentStaffTuningAlterationKind;
-    int                       fCurrentStaffTuningOctave;
+    msrOctaveKind             fCurrentStaffTuningOctaveKind;
 
    S_msrStaffDetails          fCurrentStaffDetails;
 
@@ -1210,6 +1210,9 @@ class mxmlTree2msrTranslator :
                                 int staffNumber,
                                 int voiceNumber);
 
+    S_msrVoice                fetchFirstVoiceFromCurrentPart (
+                                int inputLineNumber);
+
     // clef handling
     // ------------------------------------------------------
 
@@ -1227,7 +1230,7 @@ class mxmlTree2msrTranslator :
     int                       fCurrentKeyStaffNumber;
     int                       fCurrentKeyFifths;
     int                       fCurrentKeyCancelFifths;
-    msrKeyModeKind            fCurrentKeyModeKind;
+    msrModeKind            fCurrentModeKind;
 
     S_msrKey                  handleTraditionalKey (
                                 int inputLineNumber);
@@ -1484,7 +1487,7 @@ class mxmlTree2msrTranslator :
 
     msrDiatonicPitchKind      fCurrentStringTuningDiatonicPitchKind;
     msrAlterationKind         fCurrentStringTuningAlterationKind;
-    int                       fCurrentStringTuningOctave;
+    msrOctaveKind             fCurrentStringTuningOctaveKind;
 
     bool                      fOnGoingAccord;
 
@@ -1710,9 +1713,9 @@ class mxmlTree2msrTranslator :
     msrDiatonicPitchKind      fCurrentNoteDiatonicPitchKind;
     msrAlterationKind         fCurrentNoteAlterationKind;
 
-    int                       fCurrentNoteOctave;
+    msrOctaveKind             fCurrentNoteOctave;
 
-    int                       fCurrentDisplayOctave;
+    msrOctaveKind             fCurrentDisplayOctave;
     msrDiatonicPitchKind      fCurrentDisplayDiatonicPitchKind;
 
     // note print object kind
@@ -1794,9 +1797,10 @@ class mxmlTree2msrTranslator :
     bool                      fCurrentNoteIsCrossStaves;
 
     enum staffChangeKind {
-        k_NoStaffChange,
-        kStaffChangeChordMemberNote,
-        kStaffChangeOtherNote };
+      k_NoStaffChange,
+      kStaffChangeChordMemberNote,
+      kStaffChangeOtherNote
+    };
 
     staffChangeKind           fCurrentStaffChangeKind;
 

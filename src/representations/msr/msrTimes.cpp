@@ -13,6 +13,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <regex>
+
 #include "utilities.h"
 #include "messagesHandling.h"
 
@@ -312,6 +314,151 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const
   return true;
 }
 
+S_msrTime msrTime::createTwoEightsTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (2);
+  timeItem->
+    setTimeBeatValue (8);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
+S_msrTime msrTime::createThreeEightsTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (3);
+  timeItem->
+    setTimeBeatValue (8);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
+S_msrTime msrTime::createSixEightsTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (6);
+  timeItem->
+    setTimeBeatValue (8);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
+S_msrTime msrTime::createTwoQuartersTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (2);
+  timeItem->
+    setTimeBeatValue (4);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
+S_msrTime msrTime::createThreeQuartersTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (3);
+  timeItem->
+    setTimeBeatValue (4);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
 S_msrTime msrTime::createFourQuartersTime (
   int inputLineNumber)
 {
@@ -339,6 +486,272 @@ S_msrTime msrTime::createFourQuartersTime (
 
   // return the time
   return time;
+}
+
+S_msrTime msrTime::createFiveQuartersTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (5);
+  timeItem->
+    setTimeBeatValue (4);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
+S_msrTime msrTime::createTwoHalvesTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (2);
+  timeItem->
+    setTimeBeatValue (2);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
+S_msrTime msrTime::createThreeHalvesTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (3);
+  timeItem->
+    setTimeBeatValue (2);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
+S_msrTime msrTime::createFourHalvesTime (
+  int inputLineNumber)
+{
+  // create the time
+  S_msrTime
+    time =
+      msrTime::create (
+        inputLineNumber,
+        kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (4);
+  timeItem->
+    setTimeBeatValue (2);
+
+  // append the time item to the time
+  time->
+    appendTimeItem (timeItem);
+
+  // return the time
+  return time;
+}
+
+//________________________________________________________________________
+S_msrTime msrTime::createTimeFromString (
+  int    inputLineNumber,
+  string timeString)
+{
+  /*
+    Handles timeString à la LilyPond, such as 3/4
+  */
+
+  S_msrTime result;
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
+      "Creating time from string \"" <<
+      timeString <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "([[:digit:]]+)" // beatsNumber
+    "[[:space:]]*"
+    "/"
+    "[[:space:]]*"
+    "([[:digit:]]+)" // beatsDuration
+    "[[:space:]]*"
+    );
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "regularExpression = " <<
+      regularExpression <<
+      endl;
+  }
+#endif
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (timeString, sm, e);
+
+  unsigned int smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "There are " << smSize << " matches" <<
+      " for time string \"" << timeString <<
+      "\" with regex \"" << regularExpression <<
+      "\":" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      gLogStream <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    gLogStream << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  // handling timeString à la LilyPond, such as "3/4"
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "timeString \"" << timeString <<
+      "\" is ill-formed";
+
+    oahError (s.str ());
+  }
+
+  string
+    beatsNumber   = sm [1],
+    beatsDuration = sm [2];
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "beatsNumber = \"" <<
+      beatsNumber <<
+      "\"" <<
+      endl <<
+
+      "beatsDuration = \"" <<
+      beatsDuration <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+    int integerBeatsNumber;
+    {
+      stringstream s;
+      s << beatsNumber;
+      s >> integerBeatsNumber;
+    }
+
+    int integerValue;
+    {
+      stringstream s;
+      s << beatsDuration;
+      s >> integerValue;
+    }
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "integerBeatsNumber = " <<
+      integerBeatsNumber <<
+      endl <<
+      "integerValue = " <<
+      integerValue <<
+      endl;
+  }
+#endif
+
+  // create the time
+  result =
+    msrTime::create (
+      inputLineNumber,
+      kTimeSymbolNone);
+
+  // create a four quarters time item
+  S_msrTimeItem
+    timeItem =
+      msrTimeItem::create (
+        inputLineNumber);
+
+  timeItem->
+    appendBeatsNumber (integerBeatsNumber);
+  timeItem->
+    setTimeBeatValue (integerValue);
+
+  // append the time item to the time
+  result->
+    appendTimeItem (timeItem);
+
+  return result;
 }
 
 msrTime::~msrTime ()

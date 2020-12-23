@@ -418,9 +418,10 @@ msrHarmony::msrHarmony (
           "inversion '" <<
           fHarmonyInversion <<
           "' is not compatible with bass quaternotes pitch '" <<
-          msrQuarterTonesPitchKindAsString (
-            gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-            fHarmonyBassQuarterTonesPitchKind) <<
+          quarterTonesPitchKindAsStringInLanguage (
+            fHarmonyBassQuarterTonesPitchKind,
+            gGlobalMsrOahGroup->
+              getMsrQuarterTonesPitchesLanguageKind ()) <<
           "'";
 
         msrMusicXMLError (
@@ -700,9 +701,10 @@ string msrHarmony::asString () const
   s <<
     "[Harmony" <<
     ", harmonyRootQuarterTonesPitchKind: " <<
-    msrQuarterTonesPitchKindAsString ( // JMI XXL
-      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-      fHarmonyRootQuarterTonesPitchKind) <<
+    quarterTonesPitchKindAsStringInLanguage (
+      fHarmonyRootQuarterTonesPitchKind,
+      gGlobalMsrOahGroup->
+        getMsrQuarterTonesPitchesLanguageKind ()) <<
     ", harmonyKind: " <<
     msrHarmonyKindAsShortString (fHarmonyKind) <<
 
@@ -730,9 +732,10 @@ string msrHarmony::asString () const
   if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
     s <<
       ", harmonyBassQuarterTonesPitchKind: " <<
-    msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-      fHarmonyBassQuarterTonesPitchKind);
+    quarterTonesPitchKindAsStringInLanguage (
+      fHarmonyBassQuarterTonesPitchKind,
+      gGlobalMsrOahGroup->
+        getMsrQuarterTonesPitchesLanguageKind ());
   }
 
   if (fHarmonyDegreesList.size ()) {
@@ -794,9 +797,10 @@ void msrHarmony::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "harmonyRoot" << " : " <<
-    msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-      fHarmonyRootQuarterTonesPitchKind) <<
+    quarterTonesPitchKindAsStringInLanguage (
+      fHarmonyRootQuarterTonesPitchKind,
+      gGlobalMsrOahGroup->
+        getMsrQuarterTonesPitchesLanguageKind ()) <<
     endl <<
     setw (fieldWidth) <<
     "harmonyKind" << " : " <<
@@ -839,9 +843,10 @@ void msrHarmony::print (ostream& os) const
 
     setw (fieldWidth) <<
     "harmonyBass" << " : " <<
-    msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-      fHarmonyBassQuarterTonesPitchKind) <<
+    quarterTonesPitchKindAsStringInLanguage (
+      fHarmonyBassQuarterTonesPitchKind,
+      gGlobalMsrOahGroup->
+        getMsrQuarterTonesPitchesLanguageKind ()) <<
     endl;
 
   os <<

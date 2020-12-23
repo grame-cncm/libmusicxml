@@ -188,6 +188,8 @@ class oahOahGroup : public oahGroup
                               { return fInputSourceName; }
 
     // options and arguments
+    void                  setShowOptionsAndArguments ()
+                              { fShowOptionsAndArguments = true; }
     bool                  getShowOptionsAndArguments () const
                               { return fShowOptionsAndArguments; }
 
@@ -219,12 +221,19 @@ class oahOahGroup : public oahGroup
                               { return fFindStringAtom; }
 
     // trace
+    void                  setTraceOahVisitors ()
+                              { fTraceOahVisitors = true; }
     bool                  getTraceOahVisitors () const
                               { return fTraceOahVisitors; }
 
     // display
+    void                  setDisplayOahValues ()
+                              { fDisplayOahValues = true; }
     bool                  getDisplayOahValues () const
                               { return fDisplayOahValues; }
+
+    void                  setDisplayOahHandler ()
+                              { fDisplayOahHandler = true; }
     bool                  getDisplayOahHandler () const
                               { return fDisplayOahHandler; }
 

@@ -216,7 +216,8 @@ enum bsrBrailleOutputKind {
   kBrailleOutputAscii,     // default value
   kBrailleOutputUTF8,
   kBrailleOutputUTF8Debug, // for... debugging!
-  kBrailleOutputUTF16 };
+  kBrailleOutputUTF16
+};
 
 string bsrBrailleOutputKindAsString (
   bsrBrailleOutputKind brailleOutputKind);
@@ -232,7 +233,8 @@ void initializeBsrBrailleOutputKindsMap ();
 //______________________________________________________________________________
 enum bsrTextsLanguageKind {
   kTextsEnglish, // BANA's default
-  kTextsGerman, kTextsItalian, kTextsFrench };
+  kTextsGerman, kTextsItalian, kTextsFrench
+};
 
 string bsrTextsLanguageKindAsString (
   bsrTextsLanguageKind languageKind);

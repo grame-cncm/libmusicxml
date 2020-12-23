@@ -172,29 +172,14 @@ void msrIdentification::setScoreInstrument (
   fScoreInstrument = val;
 }
 
-void msrIdentification::addRights (
+void msrIdentification::appendComposer (
   int    inputLineNumber,
   string value)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
-      "Adding right \"" << value << "\"" <<
-      endl;
-  }
-#endif
-
-  fRightsList.push_back (value);
-}
-
-void msrIdentification::addComposer (
-  int    inputLineNumber,
-  string value)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
-    gLogStream <<
-      "Adding composer \"" << value << "\"" <<
+      "Appending composer \"" << value << "\"" <<
       endl;
   }
 #endif
@@ -202,29 +187,14 @@ void msrIdentification::addComposer (
   fComposersList.push_back (value);
 }
 
-void msrIdentification::addArranger (
+void msrIdentification::appendLyricist (
   int    inputLineNumber,
   string value)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
-      "Adding arranger \"" << value << "\"" <<
-      endl;
-  }
-#endif
-
-  fArrangersList.push_back (value);
-}
-
-void msrIdentification::addLyricist (
-  int    inputLineNumber,
-  string value)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
-    gLogStream <<
-      "Adding lyricist \"" << value << "\"" <<
+      "Appending lyricist \"" << value << "\"" <<
       endl;
   }
 #endif
@@ -232,14 +202,29 @@ void msrIdentification::addLyricist (
   fLyricistsList.push_back (value);
 }
 
-void msrIdentification::addPoet (
+void msrIdentification::appendArranger (
   int    inputLineNumber,
   string value)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
-      "Adding poet \"" << value << "\"" <<
+      "Appending arranger \"" << value << "\"" <<
+      endl;
+  }
+#endif
+
+  fArrangersList.push_back (value);
+}
+
+void msrIdentification::appendPoet (
+  int    inputLineNumber,
+  string value)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
+    gLogStream <<
+      "Appending poet \"" << value << "\"" <<
       endl;
   }
 #endif
@@ -247,14 +232,14 @@ void msrIdentification::addPoet (
   fPoetsList.push_back (value);
 }
 
-void msrIdentification::addTranslator (
+void msrIdentification::appendTranslator (
   int    inputLineNumber,
   string value)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
-      "Adding translator \"" << value << "\"" <<
+      "Appending translator \"" << value << "\"" <<
       endl;
   }
 #endif
@@ -262,14 +247,14 @@ void msrIdentification::addTranslator (
   fTranslatorsList.push_back (value);
 }
 
-void msrIdentification::addArtist (
+void msrIdentification::appendArtist (
   int    inputLineNumber,
   string value)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
-      "Adding artist \"" << value << "\"" <<
+      "Appending artist \"" << value << "\"" <<
       endl;
   }
 #endif
@@ -277,19 +262,213 @@ void msrIdentification::addArtist (
   fArtistsList.push_back (value);
 }
 
-void msrIdentification::addSoftware (
+void msrIdentification::appendSoftware (
   int    inputLineNumber,
   string value)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceIdentification ()) {
     gLogStream <<
-      "Adding software \"" << value << "\"" <<
+      "Appending software \"" << value << "\"" <<
       endl;
   }
 #endif
 
   fSoftwaresList.push_back (value);
+}
+
+void msrIdentification::appendRight (
+  int    inputLineNumber,
+  string value)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
+    gLogStream <<
+      "Appending right \"" << value << "\"" <<
+      endl;
+  }
+#endif
+
+  fRightsList.push_back (value);
+}
+
+void msrIdentification::appendSource (
+  int    inputLineNumber,
+  string value)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
+    gLogStream <<
+      "Appendings source \"" << value << "\"" <<
+      endl;
+  }
+#endif
+
+  fSourcesList.push_back (value);
+}
+
+void msrIdentification::appendRelation (
+  int    inputLineNumber,
+  string value)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceIdentification ()) {
+    gLogStream <<
+      "Appending relation \"" << value << "\"" <<
+      endl;
+  }
+#endif
+
+  fRelationsList.push_back (value);
+}
+
+int msrIdentification::maxIdentificationNamesLength ()
+{
+  int result = 0;
+
+  if (fWorkNumber.size () > result) {
+      result = fWorkNumber.size ();
+  }
+
+  if (fWorkTitle.size () > result) {
+      result = fWorkTitle.size ();
+  }
+
+  if (fOpus.size () > result) {
+      result = fOpus.size ();
+  }
+
+  if (fMovementNumber.size () > result) {
+      result = fMovementNumber.size ();
+  }
+
+  if (fMovementTitle.size () > result) {
+      result = fMovementTitle.size ();
+  }
+
+  if (fEncodingDate.size () > result) {
+      result = fEncodingDate.size ();
+  }
+
+  if (fMiscellaneousField.size () > result) {
+      result = fMiscellaneousField.size ();
+  }
+
+  if (fScoreInstrument.size () > result) {
+      result = fScoreInstrument.size ();
+  }
+
+  if (fComposersList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fComposersList.begin (); i!=fComposersList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result){
+        result = length;
+      }
+    } // for
+  }
+
+  if (fLyricistsList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fLyricistsList.begin (); i!=fLyricistsList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  if (fArrangersList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fArrangersList.begin (); i!=fArrangersList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  if (fPoetsList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fPoetsList.begin (); i!=fPoetsList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  if (fTranslatorsList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fTranslatorsList.begin (); i!=fTranslatorsList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  if (fArtistsList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fArtistsList.begin (); i!=fArtistsList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  if (fSoftwaresList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fSoftwaresList.begin (); i!=fSoftwaresList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  if (fRightsList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fRightsList.begin (); i!=fRightsList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  if (fSourcesList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fSourcesList.begin (); i!=fSourcesList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  if (fRelationsList.size ()) {
+    list<string>::const_iterator i;
+
+    for (i=fRelationsList.begin (); i!=fRelationsList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+
+  return result;
 }
 
 void msrIdentification::acceptIn (basevisitor* v)
@@ -379,22 +558,22 @@ void msrIdentification::print (ostream& os) const
     emptyIdentification = false;
   }
 
-  if (fOpus.size ()) {
+  if (fWorkTitle.size ()) {
     os << left <<
       setw (fieldWidth) <<
-      "opus" << " : \"" <<
-      fOpus <<
+      "workTitle" << " : \"" <<
+      fWorkTitle <<
       "\"" <<
       endl;
 
     emptyIdentification = false;
   }
 
-  if (fWorkTitle.size ()) {
+  if (fOpus.size ()) {
     os << left <<
       setw (fieldWidth) <<
-      "workTitle" << " : \"" <<
-      fWorkTitle <<
+      "opus" << " : \"" <<
+      fOpus <<
       "\"" <<
       endl;
 
@@ -445,15 +624,15 @@ void msrIdentification::print (ostream& os) const
     emptyIdentification = false;
   }
 
-  if (fRightsList.size ()) {
+  if (fComposersList.size ()) {
     os << left <<
       setw (fieldWidth) <<
-      "rightsList" << " : " <<
+      "composersList" << " : " <<
       endl;
 
     for (
-      list<string>::const_iterator i = fRightsList.begin ();
-      i != fRightsList.end ();
+      list<string>::const_iterator i = fComposersList.begin ();
+      i != fComposersList.end ();
       i++
     ) {
       os <<
@@ -464,15 +643,15 @@ void msrIdentification::print (ostream& os) const
     emptyIdentification = false;
   }
 
-  if (fComposersList.size ()) {
+  if (fLyricistsList.size ()) {
     os << left <<
       setw (fieldWidth) <<
-      "composersList" << " : " <<
+      "lyricistsList" << " : " <<
       endl;
 
     for (
-      list<string>::const_iterator i = fComposersList.begin ();
-      i != fComposersList.end ();
+      list<string>::const_iterator i = fLyricistsList.begin ();
+      i != fLyricistsList.end ();
       i++
     ) {
       os <<
@@ -498,15 +677,6 @@ void msrIdentification::print (ostream& os) const
         gTab << "\"" << (*i) << "\"" <<
         endl;
     } // for
-
-    emptyIdentification = false;
-  }
-
-  if (fLyricistsList.size ()) {
-    os << left <<
-      setw (fieldWidth) <<
-      "lyricistsList" << " : " <<
-      endl;
 
     emptyIdentification = false;
   }
@@ -568,10 +738,67 @@ void msrIdentification::print (ostream& os) const
     emptyIdentification = false;
   }
 
+  if (fRightsList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "rightsList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fRightsList.begin ();
+      i != fRightsList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+
+  if (fSourcesList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "sourcesList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fSourcesList.begin ();
+      i != fSourcesList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+
+  if (fRelationsList.size ()) {
+    os << left <<
+      setw (fieldWidth) <<
+      "relationsList" << " : " <<
+      endl;
+
+    for (
+      list<string>::const_iterator i = fRelationsList.begin ();
+      i != fRelationsList.end ();
+      i++
+    ) {
+      os <<
+        gTab << "\"" << (*i) << "\"" <<
+        endl;
+    } // for
+
+    emptyIdentification = false;
+  }
+
   if (emptyIdentification) {
     os <<
       " " << "nothing specified" <<
-      endl << endl;
+      endl;
   }
 
   gIndenter--;

@@ -155,7 +155,8 @@ class msrDalSegno : public msrMeasureElement
 
     enum msrDalSegnoKind {
       kDalSegnoNone,
-      kDalSegno, kDalSegnoAlFine, kDalSegnoAlCoda };
+      kDalSegno, kDalSegnoAlFine, kDalSegnoAlCoda
+    };
 
     static string dalSegnoKindAsString (
       msrDalSegnoKind dalSegnoKind);
@@ -308,7 +309,8 @@ class msrCoda : public msrMeasureElement
 
     enum msrCodaKind {
       kCodaFirst,
-      kCodaSecond};
+      kCodaSecond
+    };
 
     static string codaKindAsString (
       msrCodaKind codaKind);

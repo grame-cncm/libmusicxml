@@ -919,9 +919,9 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
       semiTonesPitchKindFromQuarterTonesPitchKind (
         mTonicQuarterTonesPitchKind);
 
-  msrKeyModeKind
-    mKeyModeKind =
-      elt->getKeyModeKind ();
+  msrModeKind
+    mModeKind =
+      elt->getModeKind ();
 
   // let's go
 
@@ -943,8 +943,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
         case kC_Flat_STP:
           break;
         case kC_Natural_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindNaturals;
@@ -971,8 +971,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           } // switch
           break;
         case kC_Sharp_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
@@ -1008,8 +1008,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
         case kD_DoubleFlat_STP:
           break;
         case kD_Flat_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
@@ -1036,8 +1036,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           } // switch
           break;
         case kD_Natural_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
@@ -1075,8 +1075,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
         case kE_DoubleFlat_STP:
           break;
         case kE_Flat_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
@@ -1103,8 +1103,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           } // switch
           break;
         case kE_Natural_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
@@ -1143,8 +1143,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
         case kF_Flat_STP:
           break;
         case kF_Natural_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
@@ -1171,8 +1171,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           } // switch
           break;
         case kF_Sharp_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
@@ -1210,8 +1210,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
         case kG_Flat_STP:
           break;
         case kG_Natural_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
@@ -1249,8 +1249,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
         case kA_DoubleFlat_STP:
           break;
         case kA_Flat_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
@@ -1277,8 +1277,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           } // switch
           break;
         case kA_Natural_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
@@ -1316,8 +1316,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
         case kB_DoubleFlat_STP:
           break;
         case kB_Flat_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindFlats;
@@ -1344,8 +1344,8 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
           } // switch
           break;
         case kB_Natural_STP:
-          switch (mKeyModeKind) {
-            case k_NoKeyMode:
+          switch (mModeKind) {
+            case k_NoMode:
               break;
             case kMajorMode:
               bKeyKind = bsrKey::kKeyKindSharps;
@@ -1641,8 +1641,9 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
   // select BSR octave sign relative to fRelativeOctaveReference
 
   // in braille music, octave number is 4 for the octave starting with middle C
-  int noteAbsoluteOctave =
-    note->getNoteOctave ();
+  msrOctaveKind
+    noteAbsoluteOctaveKind =
+      note->getNoteOctaveKind ();
 
   msrDiatonicPitchKind
     noteDiatonicPitchKind =
@@ -1662,10 +1663,10 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
         noteDiatonicPitchKindAsString (
           inputLineNumber);
 
-  int
-    referenceAbsoluteOctave =
+  msrOctaveKind
+    referenceAbsoluteOctaveKind =
       fRelativeOctaveReference->
-        getNoteOctave ();
+        getNoteOctaveKind ();
 
   /*
     In a melodic progression:
@@ -1679,12 +1680,12 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
 
   int
     noteAboluteDiatonicOrdinal =
-      noteAbsoluteOctave * 7
+      noteAbsoluteOctaveKind * 7
         +
       noteDiatonicPitchKind - kC,
 
     referenceAboluteDiatonicOrdinal =
-      referenceAbsoluteOctave * 7
+      referenceAbsoluteOctaveKind * 7
         +
       referenceDiatonicPitchKind - kC;
 
@@ -1716,14 +1717,14 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
       referenceDiatonicPitchKindAsString <<
       endl <<
       setw (fieldWidth) <<
-      "% referenceAbsoluteOctave" <<
+      "% referenceAbsoluteOctaveKind" <<
        " = " <<
-      referenceAbsoluteOctave <<
+      referenceAbsoluteOctaveKind <<
       endl <<
       setw (fieldWidth) <<
-      "% noteAbsoluteOctave" <<
+      "% noteAbsoluteOctaveKind" <<
        " = " <<
-      noteAbsoluteOctave <<
+      noteAbsoluteOctaveKind <<
       endl << endl <<
       setw (fieldWidth) <<
       "% referenceAboluteDiatonicOrdinal" <<
@@ -1758,7 +1759,7 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
     case 3: case -3:
     case 4: case -4:
       // a fourth or fifth, octave sign needed if there an octave change
-      if (noteAbsoluteOctave == referenceAbsoluteOctave) {
+      if (noteAbsoluteOctaveKind == referenceAbsoluteOctaveKind) {
         result = bsrNote::kNoteOctaveIsNeededNo;
       }
       else {
@@ -1799,15 +1800,19 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
 
   msrAccidentalKind
     mAccidentalKind =
-      note->getNoteAccidentalKind ();
+      note->
+        getNoteAccidentalKind ();
 
   int noteDotsNumber = note->getNoteDotsNumber ();
 
   msrDurationKind
     noteGraphicDurationKind =
-      note->getNoteGraphicDurationKind ();
+      note->
+        getNoteGraphicDurationKind ();
 
-  int noteOctave = note->getNoteOctave ();
+  msrOctaveKind
+    noteOctave =
+      note->getNoteOctaveKind ();
 
   // let's go
 

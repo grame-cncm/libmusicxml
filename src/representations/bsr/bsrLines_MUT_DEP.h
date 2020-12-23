@@ -12,8 +12,9 @@ class bsrLineContents : public bsrElement
     // ------------------------------------------------------
 
     enum bsrLineContentsKind {
-        kLineContentsRegular,
-        kLineContentsContinuation };
+      kLineContentsRegular,
+      kLineContentsContinuation
+    };
 
     static string lineContentsKindAsString (
       bsrLineContentsKind lineContentsKind);

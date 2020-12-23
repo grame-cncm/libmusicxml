@@ -235,6 +235,23 @@ class msrScoreToMusicXMLException : public msrException
 };
 
 //______________________________________________________________________________
+class msplException : public msrException
+{
+  public:
+    msplException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+class msplInternalException: public msrException
+{
+  public:
+    msplInternalException (string const& exceptionDescription) throw ()
+      : msrException (exceptionDescription)
+    {}
+};
+
+//______________________________________________________________________________
 class bmmlException : public msrException
 {
   public:

@@ -35,17 +35,17 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msrStaffTuning msrStaffTuning::create (
-  int                     inputLineNumber,
-  int                     staffTuningLineNumber,
-  msrQuarterTonesPitchKind quarterTonesPitchKind,
-  int                     staffTuningOctave)
+  int                      inputLineNumber,
+  int                      staffTuningLineNumber,
+  msrQuarterTonesPitchKind staffTuningQuarterTonesPitchKind,
+  msrOctaveKind            staffTuningOctaveKind)
 {
   msrStaffTuning* o =
     new msrStaffTuning (
       inputLineNumber,
       staffTuningLineNumber,
-      quarterTonesPitchKind,
-      staffTuningOctave);
+      staffTuningQuarterTonesPitchKind,
+      staffTuningOctaveKind);
   assert (o!=0);
   return o;
 }
@@ -53,13 +53,13 @@ S_msrStaffTuning msrStaffTuning::create (
 msrStaffTuning::msrStaffTuning (
   int                      inputLineNumber,
   int                      staffTuningLineNumber,
-  msrQuarterTonesPitchKind quarterTonesPitchKind,
-  int                      staffTuningOctave)
+  msrQuarterTonesPitchKind staffTuningQuarterTonesPitchKind,
+  msrOctaveKind            staffTuningOctaveKind)
     : msrElement (inputLineNumber)
 {
   fStaffTuningLineNumber            = staffTuningLineNumber;
-  fStaffTuningQuarterTonesPitchKind = quarterTonesPitchKind;
-  fStaffTuningOctave                = staffTuningOctave;
+  fStaffTuningQuarterTonesPitchKind = staffTuningQuarterTonesPitchKind;
+  fStaffTuningOctaveKind            = staffTuningOctaveKind;
 }
 
 msrStaffTuning::~ msrStaffTuning ()
@@ -83,7 +83,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
         fInputLineNumber,
         fStaffTuningLineNumber,
         fStaffTuningQuarterTonesPitchKind,
-        fStaffTuningOctave);
+        fStaffTuningOctaveKind);
 
   return newbornClone;
 }
@@ -143,10 +143,12 @@ string msrStaffTuning::asString () const
     "StaffTuning" <<
     ", line " << fStaffTuningLineNumber <<
     ", " <<
-    msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-      fStaffTuningQuarterTonesPitchKind) <<
-    ", octave " << fStaffTuningOctave;
+    quarterTonesPitchKindAsStringInLanguage (
+      fStaffTuningQuarterTonesPitchKind,
+      gGlobalMsrOahGroup->
+        getMsrQuarterTonesPitchesLanguageKind ()) <<
+    ", octave " <<
+    msrOctaveKindAsString (fStaffTuningOctaveKind);
 
   return s.str ();
 }
@@ -169,13 +171,14 @@ void msrStaffTuning::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "staffTuningQuarterTonesPitch" << " : " <<
-    msrQuarterTonesPitchKindAsString (
-      gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-      fStaffTuningQuarterTonesPitchKind) <<
+    quarterTonesPitchKindAsStringInLanguage (
+      fStaffTuningQuarterTonesPitchKind,
+      gGlobalMsrOahGroup->
+        getMsrQuarterTonesPitchesLanguageKind ()) <<
     endl <<
     setw (fieldWidth) <<
-    "staffTuningOctave" << " : " <<
-    fStaffTuningOctave <<
+    "staffTuningOctaveKind" << " : " <<
+    msrOctaveKindAsString (fStaffTuningOctaveKind) <<
     endl;
 
   gIndenter--;

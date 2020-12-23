@@ -34,7 +34,8 @@ class msrLigature : public msrElement
 
     enum msrLigatureKind {
       kLigatureNone,
-      kLigatureStart, kLigatureContinue, kLigatureStop};
+      kLigatureStart, kLigatureContinue, kLigatureStop
+    };
 
     static string ligatureKindAsString (
       msrLigatureKind ligatureKind);
@@ -42,7 +43,8 @@ class msrLigature : public msrElement
     enum msrLigatureLineEndKind {
       kLigatureLineEndNone,
       kLigatureLineEndUp, kLigatureLineEndDown,
-      kLigatureLineEndBoth, kLigatureLineEndArrow };
+      kLigatureLineEndBoth, kLigatureLineEndArrow
+    };
 
     static string ligatureLineEndKindAsString (
       msrLigatureLineEndKind ligatureLineEndKind);

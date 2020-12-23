@@ -203,7 +203,7 @@ string msrPitchesLanguageAtom::asShortNamedOptionString () const
 
   s <<
     "-" << fShortName << " " <<
-    msrQuarterTonesPitchesLanguageKindAsString (
+    quarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable);
 
   return s.str ();
@@ -215,7 +215,7 @@ string msrPitchesLanguageAtom::asActualLongNamedOptionString () const
 
   s <<
     "-" << fLongName << " " <<
-    msrQuarterTonesPitchesLanguageKindAsString (
+    quarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable);
 
   return s.str ();
@@ -241,7 +241,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "fmsrPitchesLanguageVariable" << " : \"" <<
-    msrQuarterTonesPitchesLanguageKindAsString (
+    quarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
       "\"" <<
     endl;
@@ -257,7 +257,7 @@ void msrPitchesLanguageAtom::printAtomWithValueOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    msrQuarterTonesPitchesLanguageKindAsString (
+    quarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKindVariable) <<
     "\"";
   if (fVariableHasBeenSet) {
@@ -350,7 +350,7 @@ void msrRenamePartAtom::applyAtomWithValue (
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -678,6 +678,18 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 R"(Write a trace of the MSR graphs visiting activity to standard error.)",
         "traceMsrVisitors",
         fTraceMsrVisitors));
+
+  // MSR durations
+
+  fTraceMsrDurations  = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "tmsrd", "trace-msr-durations",
+R"(Write a trace of the MSR durations handling activity to standard error.)",
+        "traceMsrDurations",
+        fTraceMsrDurations));
 }
 #endif
 
@@ -838,7 +850,7 @@ The default is 'DEFAULT_VALUE'.)",
             gIndenter.indentMultiLineString (
               existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH))),
           regex ("DEFAULT_VALUE"),
-          msrQuarterTonesPitchesLanguageKindAsString (
+          quarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
         "msrPitchesLanguage",
@@ -985,7 +997,7 @@ R"()",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "sfbv", "show-figured-bass-voices",
-R"(Show the figured bass harmony voices in the MSR data
+R"(Show the figured bass voices in the MSR data
 even though they do not contain music.)",
         "showFiguredBassVoices",
         fShowFiguredBassVoices));
@@ -1192,7 +1204,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
 
   gLogStream << left <<
     setw (valueFieldWidth) << "msrPitchesLanguage" << " : \"" <<
-    msrQuarterTonesPitchesLanguageKindAsString (
+    quarterTonesPitchesLanguageKindAsString (
       fMsrQuarterTonesPitchesLanguageKind) <<
       "\"" <<
     endl;

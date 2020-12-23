@@ -223,16 +223,17 @@ S_bsrCellsList bsrTempo::buildCellsList () const
 
           // decipher it to extract min and max values
           string regularExpression (
-            "[[:space:]]*([[:digit:]]+)[[:space:]]*"
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*" // perMinuteMin
             "-"
-            "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+            "[[:space:]]*([[:digit:]]+)[[:space:]]*" // perMinuteMax
+            );
 
           regex e (regularExpression);
           smatch sm;
 
           regex_match (tempoPerMinuteString, sm, e);
 
-          unsigned smSize = sm.size ();
+          unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
           if (gGlobalTraceOahGroup->getTraceTempos () && ! gGlobalGeneralOahGroup->getQuiet ()) {
@@ -268,14 +269,15 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           else {
             // decipher it to extract min (and only) values
             string regularExpression (
-              "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+              "[[:space:]]*([[:digit:]]+)[[:space:]]*" // perMinuteMin
+              );
 
             regex e (regularExpression);
             smatch sm;
 
             regex_match (tempoPerMinuteString, sm, e);
 
-            unsigned smSize = sm.size ();
+            unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
             if (gGlobalTraceOahGroup->getTraceTempos () && ! gGlobalGeneralOahGroup->getQuiet ()) {

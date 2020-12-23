@@ -12,95 +12,96 @@ class bsrNote : public bsrLineElement
     // ------------------------------------------------------
 
     enum bsrNoteValueKind {
-        kNoteValueNone,
+      kNoteValueNone,
 
-        kNoteValueRestBreve,
-        kNoteValueRestWhole,
-        kNoteValueRestHalf,
-        kNoteValueRestQuarter,
-        kNoteValueRest8th,
-        kNoteValueRest16th,
-        kNoteValueRest32nd,
-        kNoteValueRest64th,
-        kNoteValueRest128th,
-        kNoteValueRest256th,
+      kNoteValueRestBreve,
+      kNoteValueRestWhole,
+      kNoteValueRestHalf,
+      kNoteValueRestQuarter,
+      kNoteValueRest8th,
+      kNoteValueRest16th,
+      kNoteValueRest32nd,
+      kNoteValueRest64th,
+      kNoteValueRest128th,
+      kNoteValueRest256th,
 
-        kNoteValueCBreve,
-        kNoteValueCWhole,
-        kNoteValueCHalf,
-        kNoteValueCQuarter,
-        kNoteValueC8th,
-        kNoteValueC16th,
-        kNoteValueC32nd,
-        kNoteValueC64th,
-        kNoteValueC128th,
-        kNoteValueC256th,
+      kNoteValueCBreve,
+      kNoteValueCWhole,
+      kNoteValueCHalf,
+      kNoteValueCQuarter,
+      kNoteValueC8th,
+      kNoteValueC16th,
+      kNoteValueC32nd,
+      kNoteValueC64th,
+      kNoteValueC128th,
+      kNoteValueC256th,
 
-        kNoteValueDBreve,
-        kNoteValueDWhole,
-        kNoteValueDHalf,
-        kNoteValueDQuarter,
-        kNoteValueD8th,
-        kNoteValueD16th,
-        kNoteValueD32nd,
-        kNoteValueD64th,
-        kNoteValueD128th,
-        kNoteValueD256th,
+      kNoteValueDBreve,
+      kNoteValueDWhole,
+      kNoteValueDHalf,
+      kNoteValueDQuarter,
+      kNoteValueD8th,
+      kNoteValueD16th,
+      kNoteValueD32nd,
+      kNoteValueD64th,
+      kNoteValueD128th,
+      kNoteValueD256th,
 
-        kNoteValueEBreve,
-        kNoteValueEWhole,
-        kNoteValueEHalf,
-        kNoteValueEQuarter,
-        kNoteValueE8th,
-        kNoteValueE16th,
-        kNoteValueE32nd,
-        kNoteValueE64th,
-        kNoteValueE128th,
-        kNoteValueE256th,
+      kNoteValueEBreve,
+      kNoteValueEWhole,
+      kNoteValueEHalf,
+      kNoteValueEQuarter,
+      kNoteValueE8th,
+      kNoteValueE16th,
+      kNoteValueE32nd,
+      kNoteValueE64th,
+      kNoteValueE128th,
+      kNoteValueE256th,
 
-        kNoteValueFBreve,
-        kNoteValueFWhole,
-        kNoteValueFHalf,
-        kNoteValueFQuarter,
-        kNoteValueF8th,
-        kNoteValueF16th,
-        kNoteValueF32nd,
-        kNoteValueF64th,
-        kNoteValueF128th,
-        kNoteValueF256th,
+      kNoteValueFBreve,
+      kNoteValueFWhole,
+      kNoteValueFHalf,
+      kNoteValueFQuarter,
+      kNoteValueF8th,
+      kNoteValueF16th,
+      kNoteValueF32nd,
+      kNoteValueF64th,
+      kNoteValueF128th,
+      kNoteValueF256th,
 
-        kNoteValueGBreve,
-        kNoteValueGWhole,
-        kNoteValueGHalf,
-        kNoteValueGQuarter,
-        kNoteValueG8th,
-        kNoteValueG16th,
-        kNoteValueG32nd,
-        kNoteValueG64th,
-        kNoteValueG128th,
-        kNoteValueG256th,
+      kNoteValueGBreve,
+      kNoteValueGWhole,
+      kNoteValueGHalf,
+      kNoteValueGQuarter,
+      kNoteValueG8th,
+      kNoteValueG16th,
+      kNoteValueG32nd,
+      kNoteValueG64th,
+      kNoteValueG128th,
+      kNoteValueG256th,
 
-        kNoteValueABreve,
-        kNoteValueAWhole,
-        kNoteValueAHalf,
-        kNoteValueAQuarter,
-        kNoteValueA8th,
-        kNoteValueA16th,
-        kNoteValueA32nd,
-        kNoteValueA64th,
-        kNoteValueA128th,
-        kNoteValueA256th,
+      kNoteValueABreve,
+      kNoteValueAWhole,
+      kNoteValueAHalf,
+      kNoteValueAQuarter,
+      kNoteValueA8th,
+      kNoteValueA16th,
+      kNoteValueA32nd,
+      kNoteValueA64th,
+      kNoteValueA128th,
+      kNoteValueA256th,
 
-        kNoteValueBBreve,
-        kNoteValueBWhole,
-        kNoteValueBHalf,
-        kNoteValueBQuarter,
-        kNoteValueB8th,
-        kNoteValueB16th,
-        kNoteValueB32nd,
-        kNoteValueB64th,
-        kNoteValueB128th,
-        kNoteValueB256th };
+      kNoteValueBBreve,
+      kNoteValueBWhole,
+      kNoteValueBHalf,
+      kNoteValueBQuarter,
+      kNoteValueB8th,
+      kNoteValueB16th,
+      kNoteValueB32nd,
+      kNoteValueB64th,
+      kNoteValueB128th,
+      kNoteValueB256th
+    };
 
     static string noteValueKindAsString (
       bsrNoteValueKind noteValueKind);
@@ -113,9 +114,10 @@ class bsrNote : public bsrLineElement
       bsrNoteValueKind noteValueKind);
 
     enum bsrNoteValueSizeKind {
-        kNoteValueSizeNone,
-        kNoteValueSizeLarger,
-        kNoteValueSizeSmaller };
+      kNoteValueSizeNone,
+      kNoteValueSizeLarger,
+      kNoteValueSizeSmaller
+    };
 
     static string noteValueSizeKindAsString (
       bsrNoteValueSizeKind noteValueSizeKind);
@@ -128,16 +130,17 @@ class bsrNote : public bsrLineElement
       bsrNoteValueSizeKind noteValueSizeKind);
 
     enum bsrNoteOctaveKind {
-        kNoteOctaveNone,
-        kNoteOctaveBelow1,
-        kNoteOctave1,
-        kNoteOctave2,
-        kNoteOctave3,
-        kNoteOctave4,
-        kNoteOctave5,
-        kNoteOctave6,
-        kNoteOctave7,
-        kNoteOctaveAbove7 };
+      kNoteOctaveNone,
+      kNoteOctaveBelow1,
+      kNoteOctave1,
+      kNoteOctave2,
+      kNoteOctave3,
+      kNoteOctave4,
+      kNoteOctave5,
+      kNoteOctave6,
+      kNoteOctave7,
+      kNoteOctaveAbove7
+    };
 
     static string noteOctaveKindAsString (
       bsrNoteOctaveKind noteOctaveKind);
@@ -150,7 +153,8 @@ class bsrNote : public bsrLineElement
       bsrNoteOctaveKind noteOctaveKind);
 
     enum bsrNoteOctaveIsNeeded {
-        kNoteOctaveIsNeededYes, kNoteOctaveIsNeededNo};
+      kNoteOctaveIsNeededYes, kNoteOctaveIsNeededNo
+    };
 
     static string noteOctaveIsNeededAsString (
       bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
@@ -160,7 +164,8 @@ class bsrNote : public bsrLineElement
       kAccidentalSharp, kAccidentalNatural, kAccidentalFlat,
       kAccidentalDoubleFlat, kAccidentalDoubleSharp,
       kAccidentalQuarterSharp, kAccidentalQuarterFlat,
-      kAccidentalThreeQuarterSharp, kAccidentalThreeQuarterFlat };
+      kAccidentalThreeQuarterSharp, kAccidentalThreeQuarterFlat
+    };
 
     static string accidentalKindAsString (
       bsrAccidentalKind accidentalKind);

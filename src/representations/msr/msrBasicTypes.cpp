@@ -188,19 +188,360 @@ ostream& operator<< (ostream& os, const msrDottedDuration& elt)
   return os;
 }
 
+// octaves
+//______________________________________________________________________________
+msrOctaveKind octaveSucc (msrOctaveKind octaveKind)
+{
+  msrOctaveKind result;
+
+  switch (octaveKind) {
+    case k_NoOctave:
+      result = k_NoOctave;
+      break;
+    case kOctave0:
+      result = kOctave1;
+      break;
+    case kOctave1:
+      result = kOctave2;
+      break;
+    case kOctave2:
+      result = kOctave3;
+      break;
+    case kOctave3:
+      result = kOctave4;
+      break;
+    case kOctave4:
+      result = kOctave5;
+      break;
+    case kOctave5:
+      result = kOctave6;
+      break;
+    case kOctave6:
+      result = kOctave7;
+      break;
+    case kOctave7:
+      result = kOctave8;
+      break;
+    case kOctave8:
+      result = kOctave9;
+      break;
+    case kOctave9:
+      result = k_NoOctave;
+      break;
+  } // switch
+
+  return result;
+}
+
+msrOctaveKind octavePred (msrOctaveKind octaveKind)
+{
+  msrOctaveKind result;
+
+  switch (octaveKind) {
+    case k_NoOctave:
+      result = k_NoOctave;
+      break;
+    case kOctave0:
+      result = k_NoOctave;
+      break;
+    case kOctave1:
+      result = kOctave0;
+      break;
+    case kOctave2:
+      result = kOctave1;
+      break;
+    case kOctave3:
+      result = kOctave2;
+      break;
+    case kOctave4:
+      result = kOctave3;
+      break;
+    case kOctave5:
+      result = kOctave4;
+      break;
+    case kOctave6:
+      result = kOctave5;
+      break;
+    case kOctave7:
+      result = kOctave6;
+      break;
+    case kOctave8:
+      result = kOctave7;
+      break;
+    case kOctave9:
+      result = kOctave8;
+      break;
+  } // switch
+
+  return result;
+}
+
+/* JMI
+  enum Month
+  {
+    January,
+    February,
+    // ... snip ...
+    December
+  };
+
+  // prefix (++my_month)
+  Month& operator++(Month& orig)
+  {
+    orig = static_cast<Month>(orig + 1); // static_cast required because enum + int -> int
+    //!!!!!!!!!!!
+    // TODO : See rest of answer below
+    //!!!!!!!!!!!
+    return orig;
+  }
+
+  // postfix (my_month++)
+  Month operator++(Month& orig, int)
+  {
+    Month rVal = orig;
+    ++orig;
+    return rVal;
+  }
+*/
+
+// prefix operators
+msrOctaveKind& operator++ (msrOctaveKind& octaveKind)
+{
+  octaveKind = octaveSucc (octaveKind);
+
+  return octaveKind;
+}
+
+msrOctaveKind& operator-- (msrOctaveKind& octaveKind)
+{
+  octaveKind = octavePred (octaveKind);
+
+  return octaveKind;
+}
+
+// postfix operators
+msrOctaveKind operator++ (msrOctaveKind& octaveKind, int)
+{
+  msrOctaveKind originalValue = octaveKind;
+
+  octaveKind = octaveSucc (originalValue);
+
+  return originalValue;
+}
+
+msrOctaveKind operator-- (msrOctaveKind& octaveKind, int)
+{
+  msrOctaveKind originalValue = octaveKind;
+
+  octaveKind = octavePred (originalValue);
+
+  return originalValue;
+}
+
+msrOctaveKind msrOctaveKindFromNumber (
+  int inputLineNumber,
+  int octaveNumber)
+{
+  msrOctaveKind result = k_NoOctave;
+
+  switch (octaveNumber) {
+    case 0: result = kOctave0; break;
+    case 1: result = kOctave1; break;
+    case 2: result = kOctave2; break;
+    case 3: result = kOctave3; break;
+    case 4: result = kOctave4; break;
+    case 5: result = kOctave5; break;
+    case 6: result = kOctave6; break;
+    case 7: result = kOctave7; break;
+    case 8: result = kOctave8; break;
+    case 9: result = kOctave9; break;
+    default:
+      {
+        stringstream s;
+
+        s <<
+          "cannot create an octave kind from number '" <<
+          octaveNumber <<
+          "'";
+
+        msrInternalError (
+          gGlobalOahOahGroup->getInputSourceName (),
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+  } // switch
+
+  return result;
+}
+
+msrOctaveKind msrOctaveKindFromCommasOrQuotes (
+  int    inputLineNumber,
+  string octaveIndication)
+{
+  /*
+    octaveIndication should containt a possibly empty
+    sequence of ','s or '\''s
+
+    Middle C, LilyPond's c', starts octave 4,
+    thus a pitch without any commas nor quotes is in octave 3
+  */
+
+  const msrOctaveKind
+    octaveKindBelowMiddleC =
+      kOctave3;
+
+  msrOctaveKind
+    result =
+      octaveKindBelowMiddleC;
+
+  for (unsigned int i = 0; i < octaveIndication.size (); i++) {
+    switch (octaveIndication [i]) {
+      case ',':
+        if (result > octaveKindBelowMiddleC) {
+          // a '\'' has been found previously
+          stringstream s;
+
+          s <<
+            "octave indication \"" << octaveIndication <<
+            "\" contains a ',' after a '\\'";
+
+          oahError (s.str ());
+        }
+
+        result--;
+        break;
+
+      case '\'':
+        if (result < octaveKindBelowMiddleC) {
+          // a ',' has been found previously
+          stringstream s;
+
+          s <<
+            "octave indication \"" << octaveIndication <<
+            "\" contains a '\\'' after a ','";
+
+          oahError (s.str ());
+        }
+
+        result++;
+        break;
+
+      default:
+        {
+          stringstream s;
+
+          s <<
+            "octave indication \"" <<
+            octaveIndication <<
+            "\" should contain only commas and quotes" <<
+            ", line = " << inputLineNumber;
+
+          msrInternalError (
+            gGlobalOahOahGroup->getInputSourceName (),
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+    } // switch
+
+    gLogStream <<
+      "---> result: " <<
+      msrOctaveKindAsString (result) <<
+      endl;
+  } // for
+
+  return result;
+}
+
+string msrOctaveKindAsString (msrOctaveKind octaveKind)
+{
+  string result;
+
+  switch (octaveKind) {
+    case k_NoOctave:
+      result = "[*** noOctave ***]";
+      break;
+    case kOctave0:
+      result = "[octave 0]";
+      break;
+    case kOctave1:
+      result = "[octave 1]";
+      break;
+    case kOctave2:
+      result = "[octave 2]";
+      break;
+    case kOctave3:
+      result = "[octave 3]";
+      break;
+    case kOctave4:
+      result = "[octave 4]";
+      break;
+    case kOctave5:
+      result = "[octave 5]";
+      break;
+    case kOctave6:
+      result = "[octave 6]";
+      break;
+    case kOctave7:
+      result = "[octave 7]";
+      break;
+    case kOctave8:
+      result = "[octave 8]";
+      break;
+    case kOctave9:
+      result = "[octave 9]";
+      break;
+  } // switch
+
+  return result;
+}
+
 // semitone pitches and absolute octave
 //______________________________________________________________________________
 S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::create (
   msrSemiTonesPitchKind semiTonesPitchKind,
-  int                   relativeOctave)
+  msrOctaveKind         octaveKind)
 {
   msrSemiTonesPitchAndOctave* o =
     new msrSemiTonesPitchAndOctave (
       semiTonesPitchKind,
-      relativeOctave);
+      octaveKind);
   assert (o!=0);
 
   return o;
+}
+
+msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
+  msrSemiTonesPitchKind semiTonesPitchKind,
+  msrOctaveKind         octaveKind)
+{
+  fSemiTonesPitchKind = semiTonesPitchKind;
+  fOctaveKind         = octaveKind;
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
+      "==> Creating pitch and octave '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+}
+
+msrSemiTonesPitchAndOctave::~msrSemiTonesPitchAndOctave ()
+{}
+
+S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createSemiTonesPitchAndOctaveNewbornClone ()
+{
+  S_msrSemiTonesPitchAndOctave
+    newbornClone =
+      msrSemiTonesPitchAndOctave::create (
+        fSemiTonesPitchKind,
+        fOctaveKind);
+
+  return newbornClone;
 }
 
 S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
@@ -209,23 +550,296 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 {
   S_msrSemiTonesPitchAndOctave result;
 
-  // decipher theString with a three-number regular expression
+  // decipher theString
   string regularExpression (
-    "([[:lower:]]+)"
-    "([,\']*)");
+    "([[:lower:]]+)" // pitch
+    "([,\']*)"       // octaveIndication
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "There are " << smSize << " matches" <<
+      " for semitones pitch and octave string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl <<
+      smSize << " elements: ";
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        gLogStream <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      gLogStream << endl;
+    }
+#endif
+
+  if (smSize == 3) {
+    // found a well-formed specification,
+    // need to check its ',' and '\'' contents
+    string
+      pitch            = sm [1],
+      octaveIndication = sm [2];
+
+#ifdef TRACING_IS_ENABLED
+    if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+      gLogStream <<
+        "--> pitch = \"" << pitch << "\", " <<
+        "--> octaveIndication = \"" << octaveIndication << "\"" <<
+        endl;
+    }
+#endif
+
+    // fetch semitones pitch
+    msrSemiTonesPitchKind
+      semiTonesPitchKind =
+        semiTonesPitchKindFromString (
+          pitch);
+
+    // compute the octave from octaveIndication
+    msrOctaveKind
+      octaveKind =
+        msrOctaveKindFromCommasOrQuotes (
+          inputLineNumber,
+          octaveIndication);
+
+#ifdef TRACING_IS_ENABLED
+    if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+      gLogStream <<
+        "--> semiTonesPitchKind = \"" <<
+        msrSemiTonesPitchKindAsString (
+          semiTonesPitchKind) << "\", " <<
+        "--> octaveKind = " <<
+        msrOctaveKindAsString (octaveKind) <<
+        endl;
+    }
+#endif
+
+    // create the semiTonesPitchAndOctave
+    result =
+      msrSemiTonesPitchAndOctave::create (
+       semiTonesPitchKind,
+       octaveKind);
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "semitones pitch and octave argument '" << theString <<
+      "' is ill-formed";
+
+    msrMusicXMLError (
+//    msrMusicXMLWarning ( //  JMI
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+void msrSemiTonesPitchAndOctave::incrementOctaveKind ()
+{
+  switch (fOctaveKind) {
+    case k_NoOctave:
+      fOctaveKind = k_NoOctave;
+      break;
+    case kOctave0:
+      fOctaveKind = kOctave1;
+      break;
+    case kOctave1:
+      fOctaveKind = kOctave2;
+      break;
+    case kOctave2:
+      fOctaveKind = kOctave3;
+      break;
+    case kOctave3:
+      fOctaveKind = kOctave4;
+      break;
+    case kOctave4:
+      fOctaveKind = kOctave5;
+      break;
+    case kOctave5:
+      fOctaveKind = kOctave6;
+      break;
+    case kOctave6:
+      fOctaveKind = kOctave7;
+      break;
+    case kOctave7:
+      fOctaveKind = kOctave8;
+      break;
+    case kOctave8:
+      fOctaveKind = kOctave9;
+      break;
+    case kOctave9:
+      fOctaveKind = k_NoOctave;
+      break;
+  } // switch
+}
+
+void msrSemiTonesPitchAndOctave::decrementOctaveKind ()
+{
+  switch (fOctaveKind) {
+    case k_NoOctave:
+      fOctaveKind = k_NoOctave;
+      break;
+    case kOctave0:
+      fOctaveKind = k_NoOctave;
+      break;
+    case kOctave1:
+      fOctaveKind = kOctave0;
+      break;
+    case kOctave2:
+      fOctaveKind = kOctave1;
+      break;
+    case kOctave3:
+      fOctaveKind = kOctave2;
+      break;
+    case kOctave4:
+      fOctaveKind = kOctave3;
+      break;
+    case kOctave5:
+      fOctaveKind = kOctave4;
+      break;
+    case kOctave6:
+      fOctaveKind = kOctave5;
+      break;
+    case kOctave7:
+      fOctaveKind = kOctave6;
+      break;
+    case kOctave8:
+      fOctaveKind = kOctave7;
+      break;
+    case kOctave9:
+      fOctaveKind = kOctave8;
+      break;
+  } // switch
+}
+
+string msrSemiTonesPitchAndOctave::asString () const
+{
+  stringstream s;
+
+  s << left <<
+    "SemiTonesPitchAndOctave" <<
+    ": " <<
+    "semiTonesPitchKind: " <<
+    msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
+    ", octave: " << msrOctaveKindAsString (fOctaveKind);
+
+  return s.str ();
+}
+
+void msrSemiTonesPitchAndOctave::print (ostream& os) const
+{
+  os <<
+    "SemiTonesPitchAndOctave" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "semiTonesPitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "octave: " << " : " <<
+    msrOctaveKindAsString (fOctaveKind) <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+// semitone pitches and absolute octave
+//______________________________________________________________________________
+S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::create (
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  msrOctaveKind            octaveKind)
+{
+  msrQuarterTonesPitchAndOctave* o =
+    new msrQuarterTonesPitchAndOctave (
+      quarterTonesPitchKind,
+      octaveKind);
+  assert (o!=0);
+
+  return o;
+}
+
+msrQuarterTonesPitchAndOctave::msrQuarterTonesPitchAndOctave (
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  msrOctaveKind            octaveKind)
+{
+  fQuarterTonesPitchKind = quarterTonesPitchKind;
+  fOctaveKind            = octaveKind;
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
+    gLogStream <<
+      "==> Creating pitch and octave '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+}
+
+msrQuarterTonesPitchAndOctave::~msrQuarterTonesPitchAndOctave ()
+{}
+
+S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createQuarterTonesPitchAndOctaveNewbornClone ()
+{
+  S_msrQuarterTonesPitchAndOctave
+    newbornClone =
+      msrQuarterTonesPitchAndOctave::create (
+        fQuarterTonesPitchKind,
+        fOctaveKind);
+
+  return newbornClone;
+}
+
+S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createFromString (
+  int    inputLineNumber,
+  string theString)
+{
+  S_msrQuarterTonesPitchAndOctave result;
+
+  // decipher theString
+  string regularExpression (
+    "([[:lower:]]+)" // pitch
+    "([,\']*)"       // octaveIndication
+    );
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
-      " for transposition string '" << theString <<
+      " for quartertones pitch and octave string '" << theString <<
       "' with regex '" << regularExpression <<
       "'" <<
       endl <<
@@ -256,74 +870,45 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
     }
 #endif
 
-    // fetch semitones pitch
-    msrSemiTonesPitchKind
-      semiTonesPitchKind =
-        semiTonesPitchKindFromString (
+    // fetch quartertones pitch
+    msrQuarterTonesPitchKind
+      quarterTonesPitchKind =
+        quarterTonesPitchKindFromString (
+          gGlobalMsrOahGroup->
+            getMsrQuarterTonesPitchesLanguageKind (),
           pitch);
 
-    // handling ',' and '\'' in octave indication
-    // middle C, LilyPond's c', starts octave 4,
-    // thus a single pitch without any octave indication is in octave 3
-    int octave = 3;
-    for (unsigned int i = 0; i < octaveIndication.size (); i++) {
-      switch (octaveIndication [i]) {
-        case ',':
-          if (octave > 3) {
-            // a '\'' has been found previously
-            stringstream s;
-
-            s <<
-              "argument \"" << theString <<
-              "\" contains a ',' after a '\\'";
-
-            oahError (s.str ());
-          }
-
-          octave--;
-          break;
-        case '\'':
-          if (octave < 3) {
-            // a ',' has been found previously
-            stringstream s;
-
-            s <<
-              "argument \"" << theString <<
-              "\" contains a '\\'' after a ','";
-
-            oahError (s.str ());
-          }
-
-          octave++;
-          break;
-        default:
-          ;
-      } // switch
-    } // for
+    // compute the octave from octaveIndication
+    msrOctaveKind
+      octaveKind =
+        msrOctaveKindFromCommasOrQuotes (
+          inputLineNumber,
+          octaveIndication);
 
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceOah ()) {
       gLogStream <<
-        "--> semiTonesPitchKind = \"" <<
-          msrSemiTonesPitchKindAsString (
-            semiTonesPitchKind) << "\", " <<
-        "--> octave = " << octave <<
+        "--> quarterTonesPitchKind = \"" <<
+          quarterTonesPitchKindAsString (
+            quarterTonesPitchKind) <<
+        "\", " <<
+        "--> octaveKind = " << octaveKind <<
         endl;
     }
 #endif
 
-    // create the semiTonesPitchAndOctave
+    // create the quarterTonesPitchAndOctave
     result =
-      msrSemiTonesPitchAndOctave::create (
-       semiTonesPitchKind,
-       octave);
+      msrQuarterTonesPitchAndOctave::create (
+       quarterTonesPitchKind,
+       octaveKind);
   }
 
   else {
     stringstream s;
 
     s <<
-      "semitones pitch and octave argument '" << theString <<
+      "quartertones pitch and octave argument '" << theString <<
       "' is ill-formed";
 
     msrMusicXMLError (
@@ -337,56 +922,131 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
   return result;
 }
 
-msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
-  msrSemiTonesPitchKind semiTonesPitchKind,
-  int                   relativeOctave)
+void msrQuarterTonesPitchAndOctave::incrementOctaveKind ()
 {
-  fSemiTonesPitchKind = semiTonesPitchKind;
-  fOctave            = relativeOctave;
+  switch (fOctaveKind) {
+    case k_NoOctave:
+      fOctaveKind = k_NoOctave;
+      break;
+    case kOctave0:
+      fOctaveKind = kOctave1;
+      break;
+    case kOctave1:
+      fOctaveKind = kOctave2;
+      break;
+    case kOctave2:
+      fOctaveKind = kOctave3;
+      break;
+    case kOctave3:
+      fOctaveKind = kOctave4;
+      break;
+    case kOctave4:
+      fOctaveKind = kOctave5;
+      break;
+    case kOctave5:
+      fOctaveKind = kOctave6;
+      break;
+    case kOctave6:
+      fOctaveKind = kOctave7;
+      break;
+    case kOctave7:
+      fOctaveKind = kOctave8;
+      break;
+    case kOctave8:
+      fOctaveKind = kOctave9;
+      break;
+    case kOctave9:
+      fOctaveKind = k_NoOctave;
+      break;
+  } // switch
+}
 
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
-    gLogStream <<
-      "==> Creating pitch and octave '" <<
-      asString () <<
-      "'" <<
-      endl;
+void msrQuarterTonesPitchAndOctave::decrementOctaveKind ()
+{
+  switch (fOctaveKind) {
+    case k_NoOctave:
+      fOctaveKind = k_NoOctave;
+      break;
+    case kOctave0:
+      fOctaveKind = k_NoOctave;
+      break;
+    case kOctave1:
+      fOctaveKind = kOctave0;
+      break;
+    case kOctave2:
+      fOctaveKind = kOctave1;
+      break;
+    case kOctave3:
+      fOctaveKind = kOctave2;
+      break;
+    case kOctave4:
+      fOctaveKind = kOctave3;
+      break;
+    case kOctave5:
+      fOctaveKind = kOctave4;
+      break;
+    case kOctave6:
+      fOctaveKind = kOctave5;
+      break;
+    case kOctave7:
+      fOctaveKind = kOctave6;
+      break;
+    case kOctave8:
+      fOctaveKind = kOctave7;
+      break;
+    case kOctave9:
+      fOctaveKind = kOctave8;
+      break;
+  } // switch
+}
+
+/* JMI
+  enum Month
+  {
+    January,
+    February,
+    // ... snip ...
+    December
+  };
+
+  // prefix (++my_month)
+  Month& operator++(Month& orig)
+  {
+    orig = static_cast<Month>(orig + 1); // static_cast required because enum + int -> int
+    //!!!!!!!!!!!
+    // TODO : See rest of answer below
+    //!!!!!!!!!!!
+    return orig;
   }
-#endif
-}
 
-msrSemiTonesPitchAndOctave::~msrSemiTonesPitchAndOctave ()
-{}
+  // postfix (my_month++)
+  Month operator++(Month& orig, int)
+  {
+    Month rVal = orig;
+    ++orig;
+    return rVal;
+  }
+*/
 
-S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createSemiTonesPitchAndOctaveNewbornClone ()
-{
-  S_msrSemiTonesPitchAndOctave
-    newbornClone =
-      msrSemiTonesPitchAndOctave::create (
-        fSemiTonesPitchKind,
-        fOctave);
-
-  return newbornClone;
-}
-
-string msrSemiTonesPitchAndOctave::asString () const
+string msrQuarterTonesPitchAndOctave::asString () const
 {
   stringstream s;
 
   s << left <<
-    "SemiTonesPitchAndOctave" <<
+    "QuarterTonesPitchAndOctave" <<
     ": " <<
-    "semiTonesPitchKind: " <<
-    msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
-    ", octave: " << fOctave;
+    "quarterTonesPitchKind: " <<
+    quarterTonesPitchKindAsString (
+      fQuarterTonesPitchKind) <<
+    ", octave: " << msrOctaveKindAsString (fOctaveKind);
 
   return s.str ();
 }
 
-void msrSemiTonesPitchAndOctave::print (ostream& os) const
+void msrQuarterTonesPitchAndOctave::print (ostream& os) const
 {
   os <<
-    "SemiTonesPitchAndOctave" <<
+    "QuarterTonesPitchAndOctave" <<
     endl;
 
   gIndenter++;
@@ -395,17 +1055,18 @@ void msrSemiTonesPitchAndOctave::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "semiTonesPitchKind" << " : " <<
-      msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
+    "quarterTonesPitchKind" << " : " <<
+      quarterTonesPitchKindAsString (fQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
-    "octave" << " : " << fOctave <<
+    "octave: " << " : " <<
+    msrOctaveKindAsString (fOctaveKind) <<
     endl;
 
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt)
+ostream& operator<< (ostream& os, const S_msrQuarterTonesPitchAndOctave& elt)
 {
   elt->print (os);
   return os;
@@ -413,7 +1074,7 @@ ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt)
 
 // durations
 //______________________________________________________________________________
-msrDurationKind msrDurationKindFromString (
+msrDurationKind msrDurationKindFromMusicXMLString (
   int    inputLineNumber,
   string durationString)
 {
@@ -465,7 +1126,72 @@ msrDurationKind msrDurationKindFromString (
     stringstream s;
 
     s <<
-      "durationString \"" << durationString <<
+      "MusicXML durationString \"" << durationString <<
+      "\" is unknown";
+
+    msrMusicXMLError (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+msrDurationKind msrDurationKindFromMslpString (
+  int    inputLineNumber,
+  string durationString)
+{
+  msrDurationKind result = k_NoDuration;
+
+  if      (durationString == "maxima") {
+    result = kMaxima;
+  }
+  else if (durationString == "long") {
+    result = kLong;
+  }
+  else if (durationString == "breve") {
+    result = kBreve;
+  }
+  else if (durationString == "1") {
+    result = kWhole;
+  }
+  else if (durationString == "2") {
+    result = kHalf;
+  }
+  else if (durationString == "4") {
+    result = kQuarter;
+  }
+  else if (durationString == "8") {
+    result = kEighth;
+  }
+  else if (durationString == "16") {
+    result = k16th;
+  }
+  else if (durationString == "32") {
+    result = k32nd;
+  }
+  else if (durationString == "64") {
+    result = k64th;
+  }
+  else if (durationString == "128") {
+    result = k128th;
+  }
+  else if (durationString == "256") {
+    result = k256th;
+  }
+  else if (durationString == "512") {
+    result = k512th;
+  }
+  else if (durationString == "1024") {
+    result = k1024th;
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "MSPL durationString \"" << durationString <<
       "\" is unknown";
 
     msrMusicXMLError (
@@ -8780,9 +9506,10 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
         s <<
           "Sorry, computing intervals from quartertones pitch '" <<
-          msrQuarterTonesPitchKindAsString (
-            gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-            quarterTonesPitchKind) <<
+          quarterTonesPitchKindAsStringInLanguage (
+            quarterTonesPitchKind,
+            gGlobalMsrOahGroup->
+              getMsrQuarterTonesPitchesLanguageKind ()) <<
           "(" << quarterTonesPitchKind << ")" <<
           "' is not supported"
           ", line = " << inputLineNumber;
@@ -9358,6 +10085,59 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
   return result;
 }
 
+// staves
+//______________________________________________________________________________
+string staffKindAsString (
+  msrStaffKind staffKind)
+{
+  string result;
+
+  switch (staffKind) {
+    case kStaffRegular:
+      result = "staffRegular";
+      break;
+    case kStaffTablature:
+      result = "staffTablature";
+      break;
+    case kStaffHarmony:
+      result = "staffHarmony";
+      break;
+    case kStaffFiguredBass:
+      result = "staffFiguredBass bass";
+      break;
+    case kStaffDrum:
+      result = "staffDrum";
+      break;
+    case kStaffRythmic:
+      result = "staffRythmic";
+      break;
+  } // switch
+
+  return result;
+}
+
+// voices
+//______________________________________________________________________________
+string voiceKindAsString (
+  msrVoiceKind voiceKind)
+{
+  string result;
+
+  switch (voiceKind) {
+    case kVoiceRegular:
+      result = "voiceRegular";
+      break;
+    case kVoiceHarmony:
+      result = "voiceHarmony";
+      break;
+    case kVoiceFiguredBass:
+      result = "voiceFiguredBass";
+      break;
+  } // switch
+
+  return result;
+}
+
 // clefs
 //______________________________________________________________________________
 map<string, msrClefKind>
@@ -9450,56 +10230,72 @@ string clefKindAsString (
 }
 
 msrClefKind clefKindFromString (
-  string theString)
+  int    inputLineNumber,
+  string clefString)
 {
   msrClefKind result = k_NoClef;
 
-  if      (theString == "treble")
+  if      (clefString == "treble")
     result = kTrebleClef;
-  else if (theString == "soprano")
+  else if (clefString == "soprano")
     result = kSopranoClef;
-  else if (theString == "mezzosoprano")
+  else if (clefString == "mezzosoprano")
     result = kMezzoSopranoClef;
-  else if (theString == "alto")
+  else if (clefString == "alto")
     result = kAltoClef;
-  else if (theString == "tenor")
+  else if (clefString == "tenor")
     result = kTenorClef;
-  else if (theString == "baritone")
+  else if (clefString == "baritone")
     result = kBaritoneClef;
-  else if (theString == "bass")
+  else if (clefString == "bass")
     result = kBassClef;
-  else if (theString == "treble1")
+  else if (clefString == "treble1")
     result = kTrebleLine1Clef;
-  else if (theString == "treble-15")
+  else if (clefString == "treble-15")
     result = kTrebleMinus15Clef;
-  else if (theString == "treble-8")
+  else if (clefString == "treble-8")
     result = kTrebleMinus8Clef;
-  else if (theString == "treble+8")
+  else if (clefString == "treble+8")
     result = kTreblePlus8Clef;
-  else if (theString == "treble+15")
+  else if (clefString == "treble+15")
     result = kTreblePlus15Clef;
-  else if (theString == "bass-15")
+  else if (clefString == "bass-15")
     result = kBassMinus15Clef;
-  else if (theString == "bass-8")
+  else if (clefString == "bass-8")
     result = kBassMinus8Clef;
-  else if (theString == "bass+8")
+  else if (clefString == "bass+8")
     result = kBassPlus8Clef;
-  else if (theString == "bass+15")
+  else if (clefString == "bass+15")
     result = kBassPlus15Clef;
-  else if (theString == "varbaritone")
+  else if (clefString == "varbaritone")
     result = kVarbaritoneClef;
-  else if (theString == "tab4")
+  else if (clefString == "tab4")
     result = kTablature4Clef;
-  else if (theString == "tab5")
+  else if (clefString == "tab5")
     result = kTablature5Clef;
-  else if (theString == "tab6")
+  else if (clefString == "tab6")
     result = kTablature6Clef;
-  else if (theString == "tab7")
+  else if (clefString == "tab7")
     result = kTablature7Clef;
-  else if (theString == "percussion")
+  else if (clefString == "percussion")
     result = kPercussionClef;
-  else if (theString == "jianpu")
+  else if (clefString == "jianpu")
     result = kJianpuClef;
+  else {
+    stringstream s;
+
+    s <<
+      "clef string \"" <<
+      clefString <<
+      "\" is unknown" <<
+      ", line = " << inputLineNumber;
+
+    msplError (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
 
   return result;
 }
@@ -9675,14 +10471,58 @@ string keyKindAsString (
   return result;
 }
 
-string keyModeKindAsString (
-  msrKeyModeKind keyModeKind)
+msrModeKind modeKindFromString (
+  int   inputLineNumber,
+  string modeString)
+{
+
+  msrModeKind result = k_NoMode;
+
+  if      (modeString == "major")
+    result = kMajorMode;
+  else if (modeString == "minor")
+    result = kMinorMode;
+  else if (modeString == "ionian")
+    result = kIonianMode;
+  else if (modeString == "dorian")
+    result = kDorianMode;
+  else if (modeString == "phrygian")
+    result = kPhrygianMode;
+  else if (modeString == "lydian")
+    result = kLydianMode;
+  else if (modeString == "mixolydian")
+    result = kMixolydianMode;
+  else if (modeString == "aeolian")
+    result = kAeolianMode;
+  else if (modeString == "locrian")
+    result = kLocrianMode;
+  else {
+    stringstream s;
+
+    s <<
+      "mode string \"" <<
+      modeString <<
+      "\" is unknown" <<
+      ", line = " << inputLineNumber;
+
+    msplError (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+string modeKindAsString (
+  msrModeKind modeKind)
 {
   string result;
 
-  switch (keyModeKind) {
-    case k_NoKeyMode:
-      result = "*noKeyMode";
+  switch (modeKind) {
+    case k_NoMode:
+      result = "*noKeyMode*";
       break;
     case kMajorMode:
       result = "major";
@@ -10695,6 +11535,7 @@ void initializeNederlandsPitchNamesMap ()
   // nederlands
   gGlobalNederlandsPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalNederlandsPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalNederlandsPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalNederlandsPitchesNamesMap [kA_DoubleFlat_QTP]  = "aeses";
   gGlobalNederlandsPitchesNamesMap [kA_SesquiFlat_QTP]  = "aeseh";
@@ -10772,6 +11613,7 @@ void initializeCatalanPitchNamesMap ()
   // catalan
   gGlobalCatalanPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalCatalanPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalCatalanPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalCatalanPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gGlobalCatalanPitchesNamesMap [kA_SesquiFlat_QTP]  = "labSesquiFlat???";
@@ -10849,6 +11691,7 @@ void initializeDeutschPitchNamesMap ()
   // deutsch
   gGlobalDeutschPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalDeutschPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalDeutschPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalDeutschPitchesNamesMap [kA_DoubleFlat_QTP]  = "asas";
   gGlobalDeutschPitchesNamesMap [kA_SesquiFlat_QTP]  = "asah";
@@ -10926,6 +11769,7 @@ void initializeEnglishPitchNamesMap ()
   // english
   gGlobalEnglishPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalEnglishPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalEnglishPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalEnglishPitchesNamesMap [kA_DoubleFlat_QTP]  = "aff";
   gGlobalEnglishPitchesNamesMap [kA_SesquiFlat_QTP]  = "atqf";
@@ -11003,6 +11847,7 @@ void initializeEspanolPitchNamesMap ()
   // espanol
   gGlobalEspanolPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalEspanolPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalEspanolPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalEspanolPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gGlobalEspanolPitchesNamesMap [kA_SesquiFlat_QTP]  = "latcb";
@@ -11080,6 +11925,7 @@ void initializeFrancaisPitchNamesMap ()
   // francais
   gGlobalFrancaisPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalFrancaisPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalFrancaisPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalFrancaisPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gGlobalFrancaisPitchesNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
@@ -11157,6 +12003,7 @@ void initializeItalianoPitchNamesMap ()
   // italiano
   gGlobalItalianoPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalItalianoPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalItalianoPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalItalianoPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gGlobalItalianoPitchesNamesMap [kA_SesquiFlat_QTP]  = "labsb";
@@ -11234,6 +12081,7 @@ void initializeNorskPitchNamesMap ()
   // norsk
   gGlobalNorskPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalNorskPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalNorskPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalNorskPitchesNamesMap [kA_DoubleFlat_QTP]  = "aeses";
   gGlobalNorskPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
@@ -11311,6 +12159,7 @@ void initializePortuguesPitchNamesMap ()
   // portugues
   gGlobalPortuguesPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalPortuguesPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalPortuguesPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalPortuguesPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gGlobalPortuguesPitchesNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
@@ -11388,6 +12237,7 @@ void initializeSuomiPitchNamesMap ()
   // suomi
   gGlobalSuomiPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalSuomiPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalSuomiPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalSuomiPitchesNamesMap [kA_DoubleFlat_QTP]  = "asas";
   gGlobalSuomiPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
@@ -11465,6 +12315,7 @@ void initializeSvenskaPitchNamesMap ()
   // svenska
   gGlobalSvenskaPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalSvenskaPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalSvenskaPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalSvenskaPitchesNamesMap [kA_DoubleFlat_QTP]  = "assess";
   gGlobalSvenskaPitchesNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
@@ -11542,6 +12393,7 @@ void initializeVlaamsPitchNamesMap ()
   // vlaams
   gGlobalVlaamsPitchesNamesMap [k_NoQuarterTonesPitch_QTP]  = "noQuarterTonePitch";
   gGlobalVlaamsPitchesNamesMap [k_Rest_QTP]                 = "r";
+  gGlobalVlaamsPitchesNamesMap [k_Skip_QTP]                 = "s";
 
   gGlobalVlaamsPitchesNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gGlobalVlaamsPitchesNamesMap [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
@@ -11614,7 +12466,7 @@ void initializeVlaamsPitchNamesMap ()
   gGlobalVlaamsPitchesNamesMap [kG_DoubleSharp_QTP] = "solkk";
 }
 
-string msrDiatonicPitchKindAsString (
+string diatonicPitchKindAsString (
   msrDiatonicPitchKind diatonicPitchKind)
 {
   string result;
@@ -11690,7 +12542,7 @@ msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   return result;
 }
 
-string msrDiatonicPitchKindAsString (
+string diatonicPitchKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind, // JMI
   msrDiatonicPitchKind               diatonicPitchKind)
 {
@@ -11727,7 +12579,7 @@ string msrDiatonicPitchKindAsString (
   return result;
 }
 
-string msrQuarterTonesPitchesLanguageKindAsString (
+string quarterTonesPitchesLanguageKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind)
 {
   string result;
@@ -12545,11 +13397,270 @@ void setDiatonicPitchAndAlterationKind (
       break;
 
     case k_Rest_QTP:
+    case k_Skip_QTP:
       diatonicPitchKind = kA; // any value would fit JMI
       alterationKind    = k_NoAlteration;
 
       break;
   } // switch
+}
+
+string quarterTonesPitchKindAsString (
+  msrQuarterTonesPitchKind quarterTonesPitchKind)
+{
+  string result;
+
+  switch (quarterTonesPitchKind) {
+    case k_NoQuarterTonesPitch_QTP:
+      result = "noQuarterTonesPitch_QTP";
+      break;
+
+    case kA_TripleFlat_QTP:
+      result = "A_TripleFlat_QTP";
+      break;
+    case kA_DoubleFlat_QTP:
+      result = "A_DoubleFlat_QTP";
+      break;
+    case kA_SesquiFlat_QTP:
+      result = "A_SesquiFlat_QTP";
+      break;
+    case kA_Flat_QTP:
+      result = "A_Flat_QTP";
+      break;
+    case kA_SemiFlat_QTP:
+      result = "A_SemiFlat_QTP";
+      break;
+    case kA_Natural_QTP:
+      result = "A_Natural_QTP";
+      break;
+    case kA_SemiSharp_QTP:
+      result = "A_SemiSharp_QTP";
+      break;
+    case kA_Sharp_QTP:
+      result = "A_Sharp_QTP";
+      break;
+    case kA_SesquiSharp_QTP:
+      result = "A_SesquiSharp_QTP";
+      break;
+    case kA_DoubleSharp_QTP:
+      result = "A_DoubleSharp_QTP";
+      break;
+    case kA_TripleSharp_QTP:
+      result = "A_TripleSharp_QTP";
+      break;
+
+    case kB_TripleFlat_QTP:
+      result = "B_TripleFlat_QTP";
+      break;
+    case kB_DoubleFlat_QTP:
+      result = "B_DoubleFlat_QTP";
+      break;
+    case kB_SesquiFlat_QTP:
+      result = "B_SesquiFlat_QTP";
+      break;
+    case kB_Flat_QTP:
+      result = "B_Flat_QTP";
+      break;
+    case kB_SemiFlat_QTP:
+      result = "B_SemiFlat_QTP";
+      break;
+    case kB_Natural_QTP:
+      result = "B_Natural_QTP";
+      break;
+    case kB_SemiSharp_QTP:
+      result = "B_SemiSharp_QTP";
+      break;
+    case kB_Sharp_QTP:
+      result = "B_Sharp_QTP";
+      break;
+    case kB_SesquiSharp_QTP:
+      result = "B_SesquiSharp_QTP";
+      break;
+    case kB_DoubleSharp_QTP:
+      result = "B_DoubleSharp_QTP";
+      break;
+    case kB_TripleSharp_QTP:
+      result = "B_TripleSharp_QTP";
+      break;
+
+    case kC_TripleFlat_QTP:
+      result = "C_TripleFlat_QTP";
+      break;
+    case kC_DoubleFlat_QTP:
+      result = "C_DoubleFlat_QTP";
+      break;
+    case kC_SesquiFlat_QTP:
+      result = "C_SesquiFlat_QTP";
+      break;
+    case kC_Flat_QTP:
+      result = "C_Flat_QTP";
+      break;
+    case kC_SemiFlat_QTP:
+      result = "C_SemiFlat_QTP";
+      break;
+    case kC_Natural_QTP:
+      result = "C_Natural_QTP";
+      break;
+    case kC_SemiSharp_QTP:
+      result = "C_SemiSharp_QTP";
+      break;
+    case kC_Sharp_QTP:
+      result = "C_Sharp_QTP";
+      break;
+    case kC_SesquiSharp_QTP:
+      result = "C_SesquiSharp_QTP";
+      break;
+    case kC_DoubleSharp_QTP:
+      result = "C_DoubleSharp_QTP";
+      break;
+    case kC_TripleSharp_QTP:
+      result = "C_TripleSharp_QTP";
+      break;
+
+    case kD_TripleFlat_QTP:
+      result = "D_TripleFlat_QTP";
+      break;
+    case kD_DoubleFlat_QTP:
+      result = "D_DoubleFlat_QTP";
+      break;
+    case kD_SesquiFlat_QTP:
+      result = "D_SesquiFlat_QTP";
+      break;
+    case kD_Flat_QTP:
+      result = "D_Flat_QTP";
+      break;
+    case kD_SemiFlat_QTP:
+      result = "D_SemiFlat_QTP";
+      break;
+    case kD_Natural_QTP:
+      result = "D_Natural_QTP";
+      break;
+    case kD_SemiSharp_QTP:
+      result = "D_SemiSharp_QTP";
+      break;
+    case kD_Sharp_QTP:
+      result = "D_Sharp_QTP";
+      break;
+    case kD_SesquiSharp_QTP:
+      result = "D_SesquiSharp_QTP";
+      break;
+    case kD_DoubleSharp_QTP:
+      result = "D_DoubleSharp_QTP";
+      break;
+    case kD_TripleSharp_QTP:
+      result = "D_TripleSharp_QTP";
+      break;
+
+    case kE_TripleFlat_QTP:
+      result = "E_TripleFlat_QTP";
+      break;
+    case kE_DoubleFlat_QTP:
+      result = "E_DoubleFlat_QTP";
+      break;
+    case kE_SesquiFlat_QTP:
+      result = "E_SesquiFlat_QTP";
+      break;
+    case kE_Flat_QTP:
+      result = "E_Flat_QTP";
+      break;
+    case kE_SemiFlat_QTP:
+      result = "E_SemiFlat_QTP";
+      break;
+    case kE_Natural_QTP:
+      result = "E_Natural_QTP";
+      break;
+    case kE_SemiSharp_QTP:
+      result = "E_SemiSharp_QTP";
+      break;
+    case kE_Sharp_QTP:
+      result = "E_Sharp_QTP";
+      break;
+    case kE_SesquiSharp_QTP:
+      result = "E_SesquiSharp_QTP";
+      break;
+    case kE_DoubleSharp_QTP:
+      result = "E_DoubleSharp_QTP";
+      break;
+    case kE_TripleSharp_QTP:
+      result = "E_TripleSharp_QTP";
+      break;
+
+    case kF_TripleFlat_QTP:
+      result = "F_TripleFlat_QTP";
+      break;
+    case kF_DoubleFlat_QTP:
+      result = "F_DoubleFlat_QTP";
+      break;
+    case kF_SesquiFlat_QTP:
+      result = "F_SesquiFlat_QTP";
+      break;
+    case kF_Flat_QTP:
+      result = "F_Flat_QTP";
+      break;
+    case kF_SemiFlat_QTP:
+      result = "F_SemiFlat_QTP";
+      break;
+    case kF_Natural_QTP:
+      result = "F_Natural_QTP";
+      break;
+    case kF_SemiSharp_QTP:
+      result = "F_SemiSharp_QTP";
+      break;
+    case kF_Sharp_QTP:
+      result = "F_Sharp_QTP";
+      break;
+    case kF_SesquiSharp_QTP:
+      result = "F_SesquiSharp_QTP";
+      break;
+    case kF_DoubleSharp_QTP:
+      result = "F_DoubleSharp_QTP";
+      break;
+    case kF_TripleSharp_QTP:
+      result = "F_TripleSharp_QTP";
+      break;
+
+    case kG_TripleFlat_QTP:
+      result = "G_TripleFlat_QTP";
+      break;
+    case kG_DoubleFlat_QTP:
+      result = "G_DoubleFlat_QTP";
+      break;
+    case kG_SesquiFlat_QTP:
+      result = "G_SesquiFlat_QTP";
+      break;
+    case kG_Flat_QTP:
+      result = "G_Flat_QTP";
+      break;
+    case kG_SemiFlat_QTP:
+      result = "G_SemiFlat_QTP";
+      break;
+    case kG_Natural_QTP:
+      result = "G_Natural_QTP";
+      break;
+    case kG_SemiSharp_QTP:
+      result = "G_SemiSharp_QTP";
+      break;
+    case kG_Sharp_QTP:
+      result = "G_Sharp_QTP";
+      break;
+    case kG_SesquiSharp_QTP:
+      result = "G_SesquiSharp_QTP";
+      break;
+    case kG_DoubleSharp_QTP:
+      result = "G_DoubleSharp_QTP";
+      break;
+    case kG_TripleSharp_QTP:
+      result = "G_TripleSharp_QTP";
+      break;
+
+    case k_Rest_QTP:
+      result = "Rest_QTP";
+      break;
+    case k_Skip_QTP:
+      result = "Rest_QTP";
+  } // switch
+
+  return result;
 }
 
 void fetchDiatonicPitchKindAndAlterationKindFromQuarterTonesPitchKind (
@@ -13095,6 +14206,21 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           s.str ());
       }
 
+    case k_Skip_QTP:
+      {
+        stringstream s;
+
+        s <<
+          "cannot get the diatonic pitch of a skip"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          gGlobalOahOahGroup->getInputSourceName (),
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
     case k_NoQuarterTonesPitch_QTP:
       {
         result = k_NoDiatonicPitch;
@@ -13241,6 +14367,21 @@ msrAlterationKind alterationKindFromQuarterTonesPitchKind (
 
         s <<
           "cannot get the alteration kind of a rest"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          gGlobalOahOahGroup->getInputSourceName (),
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+    case k_Skip_QTP:
+      {
+        stringstream s;
+
+        s <<
+          "cannot get the alteration kind of a skip"
           ", line = " << inputLineNumber;
 
         msrInternalError (
@@ -13450,6 +14591,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
         break;
 
       case k_Rest_QTP:
+      case k_Skip_QTP:
         break;
 
       case kA_Flat_QTP:
@@ -13529,9 +14671,9 @@ msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
   return result;
 }
 
-string msrQuarterTonesPitchKindAsString (
-  msrQuarterTonesPitchesLanguageKind languageKind,
-  msrQuarterTonesPitchKind           quarterTonesPitchKind)
+string quarterTonesPitchKindAsStringInLanguage (
+  msrQuarterTonesPitchKind           quarterTonesPitchKind,
+  msrQuarterTonesPitchesLanguageKind languageKind)
 {
   string result;
 
@@ -13577,7 +14719,7 @@ string msrQuarterTonesPitchKindAsString (
   return result;
 }
 
-msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
+msrQuarterTonesPitchKind quarterTonesPitchKindFromString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   string                             quarterTonesPitchName)
 {
@@ -13650,16 +14792,16 @@ msrSemiTonesPitchKind semiTonesPitchKindFromString (
 
   // fetch the quarternotes pitches kind
   msrQuarterTonesPitchKind
-    quarterTonesPitchKindFromString =
-      msrQuarterTonesPitchKindFromString (
-        gGlobalLpsrOahGroup->
-          getLpsrQuarterTonesPitchesLanguageKind (),
+    quarterTonesPitchKind =
+      quarterTonesPitchKindFromString (
+        gGlobalMsrOahGroup->
+          getMsrQuarterTonesPitchesLanguageKind (),
         theString);
 
   // fetch the semitones pitches kind
   result =
     semiTonesPitchKindFromQuarterTonesPitchKind (
-      quarterTonesPitchKindFromString);
+      quarterTonesPitchKind);
 
   return result;
 }
@@ -13881,7 +15023,7 @@ string msrSemiTonesPitchKindAsString (
   return result;
 }
 
-string msrSemiTonesPitchKindAsFlatsAndSharps (
+string semiTonesPitchKindAsFlatsAndSharps (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrSemiTonesPitchKind              semiTonesPitchKind)
 {
@@ -19799,7 +20941,7 @@ msrHarmonyContents::msrHarmonyContents (
     rootChordElement =
       msrSemiTonesPitchAndOctave::create (
         fHarmonyContentsRootNote,
-        0); // relative octave
+        kOctave0); // relative octave JMI ???
 
   // add it to the harmony elements
   fHarmonyElementsVector.push_back (rootChordElement);
@@ -19835,7 +20977,7 @@ msrHarmonyContents::msrHarmonyContents (
       harmonyElement =
         msrSemiTonesPitchAndOctave::create (
           semiTonePitch,
-          0); // relative octave
+          kOctave0); // relative octave JMI ???
 
     // add it to the harmony elements
     fHarmonyElementsVector.push_back (harmonyElement);
@@ -19906,10 +21048,10 @@ void msrHarmonyContents::printAllHarmoniesContents (
 
   os <<
     "All the known harmonies contents with diatonic root '" <<
-    msrQuarterTonesPitchKindAsString (
+    quarterTonesPitchKindAsStringInLanguage (
+      rootQuarterTonesPitchKind,
       gGlobalLpsrOahGroup->
-        getLpsrQuarterTonesPitchesLanguageKind (),
-      rootQuarterTonesPitchKind) <<
+        getLpsrQuarterTonesPitchesLanguageKind ()) <<
       /* JMI
     "' (" <<
     msrSemiTonesPitchKindAsString (
@@ -19917,7 +21059,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
     ")" <<
     */
     "' in language '" <<
-    msrQuarterTonesPitchesLanguageKindAsString (
+    quarterTonesPitchesLanguageKindAsString (
       gGlobalLpsrOahGroup->
         getLpsrQuarterTonesPitchesLanguageKind ()) <<
     "' 'are:" <<
@@ -19985,10 +21127,10 @@ void msrHarmonyContents::printAllHarmoniesContents (
 
         os << left <<
           setw (fieldWidth2) <<
-          msrQuarterTonesPitchKindAsString (
+          quarterTonesPitchKindAsStringInLanguage (
+            noteQuarterTonesPitchKind,
             gGlobalLpsrOahGroup->
-              getLpsrQuarterTonesPitchesLanguageKind (),
-            noteQuarterTonesPitchKind) <<
+              getLpsrQuarterTonesPitchesLanguageKind ()) <<
           " : " <<
           msrIntervalKindAsString (intervalKind) <<
           endl;
@@ -20125,10 +21267,10 @@ void printHarmonyDetails (
 
   string
     rootQuarterTonesPitchKindAsString =
-      msrQuarterTonesPitchKindAsString (
+      quarterTonesPitchKindAsStringInLanguage (
+        rootQuarterTonesPitchKind,
         gGlobalLpsrOahGroup->
-          getLpsrQuarterTonesPitchesLanguageKind (),
-        rootQuarterTonesPitchKind);
+          getLpsrQuarterTonesPitchesLanguageKind ());
 
   string
     harmonyKindShortName =
@@ -20263,10 +21405,10 @@ void printHarmonyDetails (
 
         os << left <<
           setw (fieldWidth2) <<
-          msrQuarterTonesPitchKindAsString (
+          quarterTonesPitchKindAsStringInLanguage (
+            noteQuarterTonesPitchKind,
             gGlobalLpsrOahGroup->
-              getLpsrQuarterTonesPitchesLanguageKind (),
-            noteQuarterTonesPitchKind) <<
+              getLpsrQuarterTonesPitchesLanguageKind ()) <<
             /* JMI
           ", octave " << relativeOctave <<
           " (" <<
@@ -20305,10 +21447,10 @@ void printHarmonyAnalysis (
 
   string
     rootQuarterTonesPitchKindAsString =
-      msrQuarterTonesPitchKindAsString (
+      quarterTonesPitchKindAsStringInLanguage (
+        rootQuarterTonesPitchKind,
         gGlobalLpsrOahGroup->
-          getLpsrQuarterTonesPitchesLanguageKind (),
-        rootQuarterTonesPitchKind);
+          getLpsrQuarterTonesPitchesLanguageKind ());
 
   string
     harmonyKindShortName =
@@ -20433,10 +21575,10 @@ void printHarmonyAnalysis (
 
           os << left <<
             setw (fieldWidth2) <<
-            msrQuarterTonesPitchKindAsString (
+            quarterTonesPitchKindAsStringInLanguage (
+              noteQuarterTonesPitchKind,
               gGlobalLpsrOahGroup->
-                getLpsrQuarterTonesPitchesLanguageKind (),
-              noteQuarterTonesPitchKind) <<
+                getLpsrQuarterTonesPitchesLanguageKind ()) <<
             " : " <<
             msrIntervalKindAsString (intervalKind) <<
             endl;
@@ -20565,18 +21707,18 @@ void printHarmonyAnalysis (
 
             os << left <<
               setw (fieldWidth1) <<
-              msrQuarterTonesPitchKindAsString (
+              quarterTonesPitchKindAsStringInLanguage (
+                noteQuarterTonesPitchKind1,
                 gGlobalLpsrOahGroup->
-                  getLpsrQuarterTonesPitchesLanguageKind (),
-                noteQuarterTonesPitchKind1) <<
+                  getLpsrQuarterTonesPitchesLanguageKind ()) <<
 
               " -> " <<
 
               setw (fieldWidth1) <<
-              msrQuarterTonesPitchKindAsString (
+              quarterTonesPitchKindAsStringInLanguage (
+                noteQuarterTonesPitchKind2,
                 gGlobalLpsrOahGroup->
-                  getLpsrQuarterTonesPitchesLanguageKind (),
-                noteQuarterTonesPitchKind2) <<
+                  getLpsrQuarterTonesPitchesLanguageKind ()) <<
 
               " : " <<
 
@@ -20659,18 +21801,19 @@ msrRGBColor::msrRGBColor (
   std::string theString)
 {
   string regularExpression (
-    "([[:digit:]]*.[[:digit:]]*)"
+    "([[:digit:]]*.[[:digit:]]*)" // RString
     ","
-    "([[:digit:]]*.[[:digit:]]*)"
+    "([[:digit:]]*.[[:digit:]]*)" // GString
     ","
-    "([[:digit:]]*.[[:digit:]]*)");
+    "([[:digit:]]*.[[:digit:]]*)" // BString
+    );
 
   regex  e (regularExpression);
   smatch sm;
 
   regex_match (theString, sm, e);
 
-  unsigned smSize = sm.size ();
+  unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

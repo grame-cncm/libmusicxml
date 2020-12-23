@@ -74,6 +74,8 @@ class mxmlTreeOahGroup : public oahGroup
     // --------------------------------------
 
     // visitors
+    void                  setTraceMusicXMLTreeVisitors ()
+                              { fTraceMusicXMLTreeVisitors = true; }
     bool                  getTraceMusicXMLTreeVisitors () const
                               { return fTraceMusicXMLTreeVisitors; }
 #endif

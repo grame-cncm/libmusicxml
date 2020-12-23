@@ -32,7 +32,8 @@ class msrOctaveShift : public msrMeasureElement
     enum msrOctaveShiftKind {
       kOctaveShiftNone,
       kOctaveShiftUp, kOctaveShiftDown,
-      kOctaveShiftStop, kOctaveShiftContinue };
+      kOctaveShiftStop, kOctaveShiftContinue
+    };
 
     static string octaveShiftKindAsString (
       msrOctaveShiftKind octaveShiftKind);

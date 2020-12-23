@@ -32,7 +32,8 @@ class msrBeam : public msrElement
     enum msrBeamKind {
       k_NoBeam,
       kBeginBeam, kContinueBeam, kEndBeam,
-      kForwardHookBeam, kBackwardHookBeam};
+      kForwardHookBeam, kBackwardHookBeam
+    };
 
     static string beamKindAsString (
       msrBeamKind beamKind);

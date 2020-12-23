@@ -11,11 +11,6 @@ class msrNote : public msrTupletElement
 {
   public:
 
-    // constants
-    // ------------------------------------------------------
-
-    #define K_NO_OCTAVE -1
-
     // data types
     // ------------------------------------------------------
 
@@ -31,7 +26,8 @@ class msrNote : public msrTupletElement
       kTupletMemberNote,
       kTupletRestMemberNote,
       kTupletUnpitchedMemberNote,
-      kGraceTupletMemberNote };
+      kGraceTupletMemberNote
+    };
 
     static string noteKindAsString (
       msrNoteKind noteKind);
@@ -49,25 +45,29 @@ class msrNote : public msrTupletElement
       kNoteHeadRectangle,
       kNoteHeadNone,
       kNoteHeadDo, kNoteHeadRe, kNoteHeadMi, kNoteHeadFa, kNoteHeadFaUp,
-      kNoteHeadSo, kNoteHeadLa, kNoteHeadTi };
+      kNoteHeadSo, kNoteHeadLa, kNoteHeadTi
+    };
 
     static string noteHeadKindAsString (
       msrNoteHeadKind noteHeadKind);
 
     enum msrNoteHeadFilledKind {
-      kNoteHeadFilledYes, kNoteHeadFilledNo };
+      kNoteHeadFilledYes, kNoteHeadFilledNo
+    };
 
     static string noteHeadFilledKindAsString (
       msrNoteHeadFilledKind noteHeadFilledKind);
 
     enum msrNoteHeadParenthesesKind {
-      kNoteHeadParenthesesYes, kNoteHeadParenthesesNo };
+      kNoteHeadParenthesesYes, kNoteHeadParenthesesNo
+    };
 
     static string noteHeadParenthesesKindAsString (
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
 
     enum msrNoteIsACueNoteKind {
-      kNoteIsACueNoteYes, kNoteIsACueNoteNo };
+      kNoteIsACueNoteYes, kNoteIsACueNoteNo
+    };
 
     static string noteIsACueNoteKindAsString (
       msrNoteIsACueNoteKind noteIsACueNoteKind);
@@ -82,6 +82,7 @@ class msrNote : public msrTupletElement
       msrNoteKind                noteKind,
 
       msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
+      msrOctaveKind              noteOctaveKind,
 
       rational                   noteSoundingWholeNotes,
       rational                   noteDisplayWholeNotes,
@@ -90,10 +91,8 @@ class msrNote : public msrTupletElement
 
       msrDurationKind            noteGraphicDurationKind,
 
-      int                        noteOctave,
-
       msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
-      int                        noteDisplayOctave,
+      msrOctaveKind              noteDisplayOctaveKind,
 
       msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
@@ -109,7 +108,7 @@ class msrNote : public msrTupletElement
     SMARTP<msrNote> createNoteDeepCopy (
       S_msrVoice containingVoice);
 
-    // creation from xml2msr
+    // creation from the applications
     // ------------------------------------------------------
 
     static SMARTP<msrNote> createRestNote (
@@ -117,27 +116,61 @@ class msrNote : public msrTupletElement
       string    noteMeasureNumber,
       rational  soundingWholeNotes,
       rational  displayWholeNotes,
-      int       dotsNumber,
-      int       staffNumber,
-      int       voiceNumber);
+      int       dotsNumber);
+
+    static SMARTP<msrNote> createRestNoteWithOctave (
+      int           inputLineNumber,
+      string        noteMeasureNumber,
+      msrOctaveKind noteOctave,
+      rational      soundingWholeNotes,
+      rational      displayWholeNotes,
+      int           dotsNumber);
 
     static SMARTP<msrNote> createSkipNote (
-      int       inputLineNumber,
-      string    noteMeasureNumber,
-      rational  soundingWholeNotes,
-      rational  displayWholeNotes,
-      int       dotsNumber,
-      int       staffNumber,
-      int       voiceNumber);
+      int         inputLineNumber,
+      string      noteMeasureNumber,
+      rational    soundingWholeNotes,
+      rational    displayWholeNotes,
+      int         dotsNumberr);
 
-    static SMARTP<msrNote> createGraceSkipNote (
-      int       inputLineNumber,
-      string    noteMeasureNumber,
-      rational  soundingWholeNotes,
-      rational  displayWholeNotes,
-      int       dotsNumber,
-      int       staffNumber,
-      int       voiceNumber);
+    static SMARTP<msrNote> createSkipNoteWithOctave (
+      int           inputLineNumber,
+      string        noteMeasureNumber,
+      msrOctaveKind noteOctave,
+      rational      soundingWholeNotes,
+      rational      displayWholeNotes,
+      int           dotsNumber);
+
+    static SMARTP<msrNote> createGraceSkipNote ( // above with MusicXML??? JMI
+      int      inputLineNumber,
+      string   noteMeasureNumber,
+      rational soundingWholeNotes,
+      rational displayWholeNotes,
+      int      dotsNumber);
+
+    static SMARTP<msrNote> createRegularNote (
+      int                      inputLineNumber,
+      string                   noteMeasureNumber,
+      msrQuarterTonesPitchKind quarterTonesPitchKind,
+      msrOctaveKind            noteOctaveKind,
+      rational                 soundingWholeNotes,
+      rational                 displayWholeNotes,
+      int                      dotsNumber);
+
+    static SMARTP<msrNote> createRestFromString (
+      int    inputLineNumber,
+      string restString,
+      string restMeasureNumber);
+
+    static SMARTP<msrNote> createSkipFromString (
+      int    inputLineNumber,
+      string skipString,
+      string skipMeasureNumber);
+
+    static SMARTP<msrNote> createNoteFromString (
+      int    inputLineNumber,
+      string noteString,
+      string noteMeasureNumber);
 
     // creation from the options
     // ------------------------------------------------------
@@ -158,6 +191,7 @@ class msrNote : public msrTupletElement
       msrNoteKind                noteKind,
 
       msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
+      msrOctaveKind              noteOctaveKind,
 
       rational                   noteSoundingWholeNotes,
       rational                   noteDisplayWholeNotes,
@@ -166,10 +200,8 @@ class msrNote : public msrTupletElement
 
       msrDurationKind            noteGraphicDurationKind,
 
-      int                        noteOctave,
-
       msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
-      int                        noteDisplayOctave,
+      msrOctaveKind              noteDisplayOctaveKind,
 
       msrNoteIsACueNoteKind      noteIsACueNoteKind,
 
@@ -232,11 +264,15 @@ class msrNote : public msrTupletElement
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
 
-    // note pitch
+    // note pitch kind
 
     msrQuarterTonesPitchKind
                           getNoteQuarterTonesPitchKind () const
                               { return fNoteQuarterTonesPitchKind; }
+
+    // note octave kind
+    msrOctaveKind         getNoteOctaveKind () const
+                              { return fNoteOctaveKind; }
 
     // note print kind
 
@@ -349,13 +385,10 @@ class msrNote : public msrTupletElement
                           getNoteTupletFactor () const
                               { return fNoteTupletFactor; }
 
-    // octaves
+    // display octave
 
-    int                   getNoteOctave () const
-                              { return fNoteOctave; }
-
-    int                   getNoteDisplayOctave () const
-                              { return fNoteDisplayOctave; }
+    msrOctaveKind         getNoteDisplayOctaveKind () const
+                              { return fNoteDisplayOctaveKind; }
 
     // rest?
     bool                  getNoteIsARest () const
@@ -814,10 +847,23 @@ class msrNote : public msrTupletElement
     // note kind
     string                noteKindAsString () const;
 
+    // pitch kind
     string                notePitchAsString () const;
+
     string                noteDisplayPitchKindAsString () const;
 
-    string                noteDisplayOctaveAsString () const;
+    // octave kind
+    string                noteOctaveKindAsString () const
+                              {
+                                return
+                                  msrOctaveKindAsString (fNoteOctaveKind);
+                              }
+
+    string                noteDisplayOctaveKindAsString () const
+                              {
+                                return
+                                  msrOctaveKindAsString (fNoteDisplayOctaveKind);
+                              }
 
     // note print kind
     string                notePrintObjectKindAsString () const;
@@ -849,11 +895,15 @@ class msrNote : public msrTupletElement
                                 noteSoundingWholeNotesAsMsrString ();
                               }
 
+    string                noteEssentialsAsString () const;
+
     string                asString () const override;
 
     string                asShortString () const override;
 
     string                asShortStringWithRawWholeNotes () const;
+
+    virtual void          printNoteEssentials (ostream& os) const;
 
     virtual void          print (ostream& os) const override;
 
@@ -881,9 +931,12 @@ class msrNote : public msrTupletElement
     // note kind
     msrNoteKind           fNoteKind;
 
-    // note quarter tones pitch
+    // note quarter tones pitch kind
     msrQuarterTonesPitchKind
                           fNoteQuarterTonesPitchKind;
+
+    // note octave kind
+    msrOctaveKind         fNoteOctaveKind;
 
     // whole notes
     rational              fNoteDisplayWholeNotes;
@@ -894,11 +947,9 @@ class msrNote : public msrTupletElement
 
     msrTupletFactor       fNoteTupletFactor;
 
-    int                   fNoteOctave;
-
     msrQuarterTonesPitchKind
                           fNoteQuarterTonesDisplayPitchKind;
-    int                   fNoteDisplayOctave;
+    msrOctaveKind         fNoteDisplayOctaveKind;
                                 // for unpitched notes
                                 // and pitched rests
 

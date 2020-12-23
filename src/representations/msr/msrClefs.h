@@ -37,6 +37,14 @@ class msrClef : public msrMeasureElement
       msrClefKind clefKind,
       int         clefStaffNumber);
 
+    // creation from the applications
+    // ------------------------------------------------------
+
+    static SMARTP<msrClef> createClefFromString (
+      int    inputLineNumber,
+      string clefString,
+      int    clefLineNumber);
+
   protected:
 
     // constructors/destructor

@@ -371,6 +371,42 @@ msrBarline::msrBarline (
 msrBarline::~msrBarline ()
 {}
 
+S_msrBarline msrBarline::createFinalBarline (
+int inputLineNumber)
+{
+  return
+    msrBarline::create (
+      inputLineNumber,
+      kBarlineLocationRight,
+      kBarlineStyleLightHeavy,
+      kBarlineRepeatDirectionNone,
+      kBarlineEndingNone,
+      "", // endingNumber
+      0,  // barlineTimes
+      kBarlineCategoryStandalone,
+      kBarlineHasSegnoNo,
+      kBarlineHasCodaNo,
+      kBarlineRepeatWingedNone);
+}
+
+S_msrBarline msrBarline::createDoubleBarline (
+int inputLineNumber)
+{
+  return
+    msrBarline::create (
+      inputLineNumber,
+      kBarlineLocationRight,
+      kBarlineStyleLightLight,
+      kBarlineRepeatDirectionNone,
+      kBarlineEndingNone,
+      "", // endingNumber
+      0,  // barlineTimes
+      kBarlineCategoryStandalone,
+      kBarlineHasSegnoNo,
+      kBarlineHasCodaNo,
+      kBarlineRepeatWingedNone);
+}
+
 void msrBarline::setBarlineCategory (
   msrBarlineCategoryKind barlineCategoryKind)
 {

@@ -69,7 +69,7 @@ static void catchsigs ()
 }
 
 #else
-static void catchsigs()	{}
+static void catchsigs ()	{}
 #endif
 
 //_______________________________________________________________________________
@@ -78,7 +78,7 @@ int main (int argc, char *argv[])
   // setup signals catching
   // ------------------------------------------------------
 
-	catchsigs();
+	catchsigs ();
 
   // fetch executable name
   string executableName = argv [0];

@@ -36,7 +36,7 @@ class msrStringTuning : public msrElement
       int                  stringTuningNumber,
       msrDiatonicPitchKind stringTuningDiatonicPitchKind,
       msrAlterationKind    stringTuningAlterationKind,
-      int                  stringTuningOctave);
+      msrOctaveKind        stringTuningOctaveKind);
 
   protected:
 
@@ -48,7 +48,7 @@ class msrStringTuning : public msrElement
       int                  stringTuningNumber,
       msrDiatonicPitchKind stringTuningDiatonicPitchKind,
       msrAlterationKind    stringTuningAlterationKind,
-      int                  stringTuningOctave);
+      msrOctaveKind        stringTuningOctaveKind);
 
     virtual ~msrStringTuning ();
 
@@ -66,8 +66,8 @@ class msrStringTuning : public msrElement
     msrAlterationKind     getStringTuningAlterationKind () const
                               { return fStringTuningAlterationKind; }
 
-    int                   getStringTuningOctave () const
-                              { return fStringTuningOctave; }
+    msrOctaveKind         getStringTuningOctaveKind () const
+                              { return fStringTuningOctaveKind; }
 
   public:
 
@@ -102,7 +102,7 @@ class msrStringTuning : public msrElement
 
     msrDiatonicPitchKind  fStringTuningDiatonicPitchKind;
     msrAlterationKind     fStringTuningAlterationKind;
-    int                   fStringTuningOctave;
+    msrOctaveKind         fStringTuningOctaveKind;
 };
 typedef SMARTP<msrStringTuning> S_msrStringTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStringTuning& elt);
@@ -118,7 +118,8 @@ class msrScordatura : public msrMeasureElement
     enum msrScordaturaKind {
       kScordaturaNone,
       kScordaturaUp, kScordaturaDown,
-      kScordaturaStop, kScordaturaContinue };
+      kScordaturaStop, kScordaturaContinue
+    };
 
     static string scordaturaKindAsString (
       msrScordaturaKind scordaturaKind);
@@ -348,19 +349,22 @@ class msrPedal : public msrMeasureElement
 
     enum msrPedalTypeKind {
       kPedalStart, kPedalContinue, kPedalChange, kPedalStop,
-      k_NoPedalType };
+      k_NoPedalType
+    };
 
     static string pedalTypeKindAsString (
       msrPedalTypeKind pedalTypeKind);
 
     enum msrPedalLineKind {
-      kPedalLineYes, kPedalLineNo};
+      kPedalLineYes, kPedalLineNo
+    };
 
     static string pedalLineKindAsString (
       msrPedalLineKind pedalLineKind);
 
     enum msrPedalSignKind {
-      kPedalSignYes, kPedalSignNo};
+      kPedalSignYes, kPedalSignNo
+    };
 
     static string pedalSignKindAsString (
       msrPedalSignKind pedalSignKind);

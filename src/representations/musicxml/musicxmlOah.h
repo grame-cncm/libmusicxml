@@ -69,18 +69,26 @@ class musicxmlOahGroup : public oahGroup
     // --------------------------------------
 
     // encoding
+    void                  setTraceEncoding ()
+                              { fTraceEncoding = true; }
     bool                  getTraceEncoding () const
                               { return fTraceEncoding; }
 
     // divisions
+    void                  setTraceDivisions ()
+                              { fTraceDivisions = true; }
     bool                  getTraceDivisions () const
                               { return fTraceDivisions; }
 
     // backup
+    void                  setTraceBackup ()
+                              { fTraceBackup = true; }
     bool                  getTraceBackup () const
                               { return fTraceBackup; }
 
     // forward
+    void                  setTraceForward ()
+                              { fTraceForward = true; }
     bool                  getTraceForward () const
                               { return fTraceForward; }
 #endif

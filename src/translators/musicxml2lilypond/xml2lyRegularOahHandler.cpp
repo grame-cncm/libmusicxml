@@ -243,6 +243,7 @@ void xml2lyRegularOahHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("trace-passes", subGroup);
 
   registerAtomInRegularSubgroup ("trace-msr", subGroup);
+  registerAtomInRegularSubgroup ("trace-msr-durations", subGroup);
 }
 
 void xml2lyRegularOahHandler::createInformationsRegularGroup ()

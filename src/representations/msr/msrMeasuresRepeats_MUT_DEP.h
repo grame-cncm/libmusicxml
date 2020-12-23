@@ -308,7 +308,8 @@ class msrMeasuresRepeat : public msrVoiceElement
 
     enum msrMeasuresRepeatKind {
       k_NoMeasuresRepeat,
-      kStartMeasuresRepeat, kStopMeasuresRepeat };
+      kStartMeasuresRepeat, kStopMeasuresRepeat
+    };
 
     static string measuresRepeatKindAsString (
       msrMeasuresRepeatKind measuresRepeatKind);
@@ -317,7 +318,8 @@ class msrMeasuresRepeat : public msrVoiceElement
       kMeasuresRepeatBuildPhaseJustCreated,
       kMeasuresRepeatBuildPhaseInPattern,
       kMeasuresRepeatBuildPhaseInReplicas,
-      kMeasuresRepeatBuildPhaseCompleted};
+      kMeasuresRepeatBuildPhaseCompleted
+    };
 
     static string measuresRepeatBuildPhaseKindAsString (
       msrMeasuresRepeatBuildPhaseKind measuresRepeatBuildPhaseKind);

@@ -761,7 +761,8 @@ class lpsr2lilypondTranslator :
 
     enum markupColumnKind {
       markupColumnKindLeftAligned,
-      markupColumnKindLeftACentered };
+      markupColumnKindLeftACentered
+    };
 
     string                generateAColumnForMarkup (
                             string           theString,
@@ -773,7 +774,8 @@ class lpsr2lilypondTranslator :
     // octaves
 
     string                absoluteOctaveAsLilypondString (
-                            int absoluteOctave);
+                            int           inputLineNumber,
+                            msrOctaveKind absoluteOctaveKind);
 
     // alterations
 
@@ -819,12 +821,13 @@ class lpsr2lilypondTranslator :
 
     // stems
 
+    // the LilyPond \stem* commands have a persistent effect, hence:
     msrStem::msrStemKind  fCurrentStemKind;
 
     string                stemAsLilypondString (
                             msrStem::msrStemKind stemKind);
 
-    void                  generateNoteStemIfNeeded (S_msrStem stem);
+    void                  generateStemIfNeededAndUpdateCurrentStemKind (S_msrStem stem);
 
     // articulations
 
@@ -958,6 +961,14 @@ class lpsr2lilypondTranslator :
     bool                  fOnGoingHeader;
 
     void                  generateHeader (S_lpsrHeader header);
+
+    void                  generateHeaderIdentificationPart (
+                            S_msrIdentification          identification,
+                            list<pair<string, string> >& nameValuePairsList);
+
+    void                  generateHeaderLilypondPart (
+                            S_lpsrHeader                 header,
+                            list<pair<string, string> >& nameValuePairsList);
 
     // paper handling
     // ------------------------------------------------------

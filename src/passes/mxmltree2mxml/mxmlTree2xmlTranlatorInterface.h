@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __mxml2msrTranslatorInterface__
-#define __mxml2msrTranslatorInterface__
+#ifndef __mxmlTree2xmlTranslatorInterface__
+#define __mxmlTree2xmlTranslatorInterface__
 
 
 #include <iostream>

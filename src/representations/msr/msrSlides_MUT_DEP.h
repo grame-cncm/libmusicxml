@@ -16,7 +16,8 @@ class msrSlide : public msrElement
 
     enum msrSlideTypeKind {
       kSlideTypeNone,
-      kSlideTypeStart, kSlideTypeStop };
+      kSlideTypeStart, kSlideTypeStop
+    };
 
     static string slideTypeKindAsString (
       msrSlideTypeKind slideTypeKind);

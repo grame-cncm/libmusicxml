@@ -254,13 +254,13 @@ string uncompressMXLFile (
 
         string regularExpression (
           "[[:space:]]*"
-          ".*"   // length
+          ".*"            // length
           "[[:space:]]+"
-          ".*"   // date
+          ".*"            // date
           "[[:space:]]+"
-          ".*"   // time
+          ".*"            // time
           "[[:space:]]+"
-          "(.*)" // name
+          "(.*)"          // name
           );
 
         regex  e (regularExpression);

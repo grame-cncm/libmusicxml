@@ -731,7 +731,8 @@ class msrLineWidth : public msrElement
 	    kStaffLineWidth, kStemLineWidthLineWidth,
 	    kTieMiddleLineWidth, kTieTipLineWidth,
 	    kTupletBracketLineWidth,
-	    kWedgeLineWidth };
+	    kWedgeLineWidth
+	  };
 
     static string lineWidthTypeKindAsString (
       msrLineWidthTypeKind lineWidthTypeKind);
@@ -806,7 +807,8 @@ class msrNoteSize : public msrElement
 
     enum msrNoteSizeTypeKind {
       k_NoNoteSizeTypeKind,
-      kCueNoteSize, kGraceNoteSize, kLargeNoteSize };
+      kCueNoteSize, kGraceNoteSize, kLargeNoteSize
+    };
 
     static string noteSizeTypeKindAsString (
       msrNoteSizeTypeKind noteSizeTypeKind);
@@ -882,7 +884,8 @@ class msrDistance : public msrElement
 
     enum msrDistanceTypeKind {
       k_NoDistanceTypeKind,
-      kHyphenDistance, kBeamDistance };
+      kHyphenDistance, kBeamDistance
+    };
 
     static string distanceTypeKindAsString (
       msrDistanceTypeKind distanceTypeKind);
@@ -965,7 +968,8 @@ class msrGlyph : public msrElement
       kOctaveShiftContinue8Glyph, kOctaveShiftDown15Glyph,
       kOctaveShiftUp15Glyph, kOctaveShiftContinue15Glyph,
       kOctaveShiftDown22Glyph, kOctaveShiftUp22Glyph,
-      kOctaveShiftContinue22Glyph };
+      kOctaveShiftContinue22Glyph
+    };
 
     static string glyphTypeKindAsString (
       msrGlyphTypeKind GlyphTypeKind);
@@ -1039,7 +1043,8 @@ class msrOtherAppearance : public msrElement
     // ------------------------------------------------------
 
     enum msrOtherAppearanceTypeKind { // JMI which values???
-      k_NoOtherAppearanceTypeKind };
+      k_NoOtherAppearanceTypeKind
+    };
 
     static string otherAppearanceTypeKindAsString (
       msrOtherAppearanceTypeKind otherAppearanceTypeKind);

@@ -33,7 +33,8 @@ class msrDynamics : public msrElement
       kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
       kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
       kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
-      k_NoDynamics };
+      k_NoDynamics
+    };
 
     static string dynamicsKindAsString (
       msrDynamicsKind dynamicsKind);
@@ -191,7 +192,8 @@ class msrWedge : public msrElement
 
     enum msrWedgeKind {
       kWedgeKindNone,
-      kWedgeCrescendo, kWedgeDecrescendo, kWedgeStop };
+      kWedgeCrescendo, kWedgeDecrescendo, kWedgeStop
+    };
 
 /* JMI
     static string wedgeKindAsString (
@@ -199,7 +201,8 @@ class msrWedge : public msrElement
 */
 
     enum msrWedgeNienteKind {
-      kWedgeNienteYes, kWedgeNienteNo };
+      kWedgeNienteYes, kWedgeNienteNo
+    };
 
     static string wedgeNienteKindAsString (
       msrWedgeNienteKind wedgeNienteKind);

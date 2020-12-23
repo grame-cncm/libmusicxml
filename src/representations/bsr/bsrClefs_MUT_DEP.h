@@ -12,18 +12,19 @@ class bsrClef : public bsrLineElement
     // ------------------------------------------------------
 
     enum bsrClefKind {
-        kClefKindNone,
+      kClefKindNone,
 
-        kClefKindGTreble,
-        kClefKindFBass,
-        kClefKindCAlto,
-        kClefKindGSoprano, // first line, french violin
-        kClefKindCBaritone,
-        kClefKindCTenor,
-        kClefKindGOttavaAlta,
-        kClefKindGOttavaBassa,
-        kClefKindModifiedBassForRightHandPart,
-        kClefKindModifiedTrebleForLeftHandPart };
+      kClefKindGTreble,
+      kClefKindFBass,
+      kClefKindCAlto,
+      kClefKindGSoprano, // first line, french violin
+      kClefKindCBaritone,
+      kClefKindCTenor,
+      kClefKindGOttavaAlta,
+      kClefKindGOttavaBassa,
+      kClefKindModifiedBassForRightHandPart,
+      kClefKindModifiedTrebleForLeftHandPart
+    };
 
     static string clefKindAsString (
       bsrClefKind clefKind);

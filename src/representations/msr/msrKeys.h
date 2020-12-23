@@ -65,10 +65,10 @@ class msrHumdrumScotKeyItem : public msrElement
     msrAlterationKind     getKeyItemAlterationKind () const
                               { return fKeyAlterationKind; }
 
-    void                  setKeyItemOctave (int keyOctave);
+    void                  setKeyItemOctaveKind (msrOctaveKind keyOctaveKind);
 
-    int                   getKeyItemOctave () const
-                              { return fKeyOctave; }
+    msrOctaveKind         getKeyItemOctaveKind () const
+                              { return fKeyOctaveKind; }
 
   public:
 
@@ -105,7 +105,7 @@ class msrHumdrumScotKeyItem : public msrElement
 
     msrDiatonicPitchKind  fKeyDiatonicPitchKind;
     msrAlterationKind     fKeyAlterationKind;
-    int                   fKeyOctave;
+    msrOctaveKind         fKeyOctaveKind;
 };
 typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
 EXP ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt);
@@ -124,11 +124,18 @@ class msrKey : public msrMeasureElement
     static SMARTP<msrKey> createTraditional (
       int                      inputLineNumber,
       msrQuarterTonesPitchKind keyTonicPitchKind,
-      msrKeyModeKind           keyModeKind,
+      msrModeKind           modeKind,
       int                      keyCancel);
 
     static SMARTP<msrKey> createHumdrumScot (
       int                  inputLineNumber);
+
+    // creation from the applications
+    // ------------------------------------------------------
+
+    static SMARTP<msrKey> createTraditionalKeyFromString (
+      int    inputLineNumber,
+      string keyString);
 
   protected:
 
@@ -138,7 +145,7 @@ class msrKey : public msrMeasureElement
     msrKey ( // for traditional keys
       int                      inputLineNumber,
       msrQuarterTonesPitchKind keyTonicPitchKind,
-      msrKeyModeKind           keyModeKind,
+      msrModeKind           modeKind,
       int                      keyCancel);
 
     msrKey ( // for Humdrum/Scot keys
@@ -160,8 +167,8 @@ class msrKey : public msrMeasureElement
                           getKeyTonicQuarterTonesPitchKind () const
                               { return fKeyTonicQuarterTonesPitchKind; }
 
-    msrKeyModeKind        getKeyModeKind () const
-                              { return fKeyModeKind; }
+    msrModeKind        getModeKind () const
+                              { return fModeKind; }
 
     int                   getKeyCancel () const
                               { return fKeyCancel; }
@@ -219,7 +226,7 @@ class msrKey : public msrMeasureElement
 
     msrQuarterTonesPitchKind
                           fKeyTonicQuarterTonesPitchKind;
-    msrKeyModeKind        fKeyModeKind;
+    msrModeKind        fModeKind;
     int                   fKeyCancel;
 
     // Humdrum/Scot keys

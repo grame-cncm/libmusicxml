@@ -111,21 +111,17 @@ class msrIdentification : public msrElement
     string                getScoreInstrument () const
                               { return fScoreInstrument; }
 
-    // rights
-    const list<string>&   getRightsList () const
-                              { return fRightsList; }
-
     // composers
     const list<string>&   getComposersList () const
                               { return fComposersList; }
 
-    // arrangers
-    const list<string>&   getArrangersList () const
-                              { return fArrangersList; }
-
     // lyricists
     const list<string>&   getLyricistsList () const
                               { return fLyricistsList; }
+
+    // arrangers
+    const list<string>&   getArrangersList () const
+                              { return fArrangersList; }
 
     // poets
     const list<string>&   getPoetsList () const
@@ -143,50 +139,74 @@ class msrIdentification : public msrElement
     const list<string>&   getSoftwaresList () const
                               { return fSoftwaresList; }
 
+    // rights
+    const list<string>&   getRightsList () const
+                              { return fRightsList; }
+
+    // sources
+    const list<string>&   getSourcesList () const
+                              { return fSourcesList; }
+
+    // relations
+    const list<string>&   getRelationsList () const
+                              { return fRelationsList; }
+
   public:
 
     // public services
     // ------------------------------------------------------
 
     // composers
-    void                  addComposer (
-                            int    inputLineNumber,
-                            string value);
-
-    // arrangers
-    void                  addArranger (
+    void                  appendComposer (
                             int    inputLineNumber,
                             string value);
 
     // lyricists
-    void                  addLyricist (
+    void                  appendLyricist (
+                            int    inputLineNumber,
+                            string value);
+
+    // arrangers
+    void                  appendArranger (
                             int    inputLineNumber,
                             string value);
 
     // poets
-    void                  addPoet (
+    void                  appendPoet (
                             int    inputLineNumber,
                             string value);
 
     // translators
-    void                  addTranslator (
+    void                  appendTranslator (
                             int    inputLineNumber,
                             string value);
 
     // artists
-    void                  addArtist (
-                            int    inputLineNumber,
-                            string value);
-
-    // rights
-    void                  addRights (
+    void                  appendArtist (
                             int    inputLineNumber,
                             string value);
 
     // softwares
-    void                  addSoftware (
+    void                  appendSoftware (
                             int    inputLineNumber,
                             string value);
+
+    // rights
+    void                  appendRight (
+                            int    inputLineNumber,
+                            string value);
+
+    // rources
+    void                  appendSource (
+                            int    inputLineNumber,
+                            string value);
+
+    // relations
+    void                  appendRelation (
+                            int    inputLineNumber,
+                            string value);
+
+    int                   maxIdentificationNamesLength ();
 
   public:
 
@@ -212,7 +232,7 @@ class msrIdentification : public msrElement
     // private fields
     // ------------------------------------------------------
 
-    // identification work
+    // work
     string                fWorkNumber;
     string                fWorkTitle;
     string                fOpus;
@@ -220,16 +240,16 @@ class msrIdentification : public msrElement
     string                fMovementNumber;
     string                fMovementTitle;
 
-    // identification encoding
+    // encoding date
     string                fEncodingDate;
 
-    // identification miscellaneous
+    // miscellaneous field
     string                fMiscellaneousField;
 
     // score instrument
     string                fScoreInstrument;
 
-    // identification creators
+    // creators
     list<string>          fComposersList;
     list<string>          fLyricistsList;
     list<string>          fArrangersList;
@@ -240,12 +260,12 @@ class msrIdentification : public msrElement
 
     list<string>          fSoftwaresList;
 
-    // identification rights
+    // rights
     list<string>          fRightsList;
-    // identification sources
+    // sources
     list<string>          fSourcesList;
 
-    // identification relations
+    // relations
     list<string>          fRelationsList;
 };
 typedef SMARTP<msrIdentification> S_msrIdentification;

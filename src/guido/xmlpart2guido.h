@@ -178,7 +178,7 @@ class EXP xmlpart2guido :
 	static std::string alter2accident ( float alter );
 
 	protected:
-		enum { kStemUndefined, kStemUp, kStemDown, kStemNone };
+		enum { kStemUndefined, kStemUp, kStemDown, kStemNeutral };
 		enum { kLeaveChord=-1, kNoChord, kEnterChord } chordState;
 
 		virtual void visitStart( S_backup& elt);

@@ -20,7 +20,8 @@ class msrOrnament : public msrElement
         kOrnamentDelayedInvertedTurn, kOrnamentVerticalTurn,
         kOrnamentMordent, kOrnamentInvertedMordent,
         kOrnamentSchleifer, kOrnamentShake,
-        kOrnamentAccidentalKind };
+        kOrnamentAccidentalKind
+      };
 
     static string ornamentKindAsString (
       msrOrnamentKind ornamentKind);
@@ -70,7 +71,7 @@ class msrOrnament : public msrElement
     msrPlacementKind      getOrnamentPlacementKind () const
                               { return fOrnamentPlacementKind; }
 
-    void                  setOrnamentAccidentalKindKind (
+    void                  setOrnamentAccidentalKind (
                             msrAccidentalKind
                               ornamentAccidentalKind)
                               {

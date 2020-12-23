@@ -34,13 +34,15 @@ class lpsrSchemeVariable : public lpsrElement
     // ------------------------------------------------------
 
     enum lpsrCommentedKind {
-      kCommentedYes, kCommentedNo };
+      kCommentedYes, kCommentedNo
+    };
 
     static string commentedKindAsString (
       lpsrCommentedKind commentedKind);
 
     enum lpsrEndlKind {
-      kEndlNone, kEndlOnce, kEndlTwice };
+      kEndlNone, kEndlOnce, kEndlTwice
+    };
 
     static string endlKindAsString (
       lpsrEndlKind endlKind);

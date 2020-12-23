@@ -14,6 +14,7 @@
 #define ___lpsrHeaders___
 
 #include "msrBasicTypes.h"
+#include "msrIdentification.h"
 
 #include "lpsrElements.h"
 
@@ -49,143 +50,13 @@ class lpsrHeader : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    // MusicXML informations
+    // identification
 
-    // work number
-    void                  setWorkNumber (string value)
-                              { fWorkNumber = value; }
+    void                  setHeaderIdentification (S_msrIdentification value)
+                              { fHeaderIdentification = value; }
 
-    string                getWorkNumber () const
-                              { return fWorkNumber; }
-
-    // work title
-    void                  setWorkTitle (string value)
-                              { fWorkTitle = value; }
-
-    string                getWorkTitle () const
-                              { return fWorkTitle; }
-
-    // opus
-    void                  setOpus (string value)
-                              { fOpus = value; }
-
-    string                getOpus () const
-                              { return fOpus; }
-
-    // movement number
-    void                  setMovementNumber (string value)
-                              { fMovementNumber = value; }
-
-    string                getMovementNumber () const
-                              { return fMovementNumber; }
-
-    // movement title
-    void                  setMovementTitle (string value)
-                              { fMovementTitle = value; }
-
-    string                getMovementTitle () const
-                              { return fMovementTitle; }
-
-    // encoding date
-    void                  setEncodingDate (string value)
-                              { fEncodingDate = value; }
-
-    string                getEncodingDate () const
-                              { return fEncodingDate; }
-
-    // miscellaneous field
-    void                  setMiscellaneousField (string value)
-                              { fMiscellaneousField = value; }
-
-    string                getMiscellaneousField () const
-                              { return fMiscellaneousField; }
-
-    // score instrument
-    void                  setScoreInstrument (string value)
-                              { fScoreInstrument = value; }
-
-    string                getScoreInstrument () const
-                              { return fScoreInstrument; }
-
-    // rights
-    void                  setRights (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    const list<string>&   getRightsList () const
-                              { return fRightsList; }
-
-    // composers
-    void                  setComposers (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    const list<string>&   getComposersList () const
-                              { return fComposersList; }
-
-    // arrangers
-    void                  setArrangers (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    const list<string>&   getArrangersList () const
-                              { return fArrangersList; }
-
-     // lyricists
-   void                  setLyricists (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    const list<string>&   getLyricistsList () const
-                              { return fLyricistsList; }
-
-    // poets
-    void                  setPoets ( // not defined JMI
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    const list<string>&   getPoetsList () const
-                              { return fPoetsList; }
-
-    // translators
-    void                  setTranslators (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    const list<string>&   getTranslatorsList () const
-                              { return fTranslatorsList; }
-
-    // artists
-    void                  setArtists (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    const list<string>&   getArtistsList () const
-                              { return fArtistsList; }
-
-    // softwares
-    void                  setSoftwares (
-                            int               inputLineNumber,
-                            string            val,
-                            msrFontStyleKind  fontStyleKind,
-                            msrFontWeightKind fontWeightKind);
-
-    const list<string>&   getSoftwaresList () const
-                              { return fSoftwaresList; }
+    S_msrIdentification   getHeaderIdentification () const
+                              { return fHeaderIdentification; }
 
     // LilyPond informations
 
@@ -267,41 +138,7 @@ class lpsrHeader : public lpsrElement
 
   public:
 
-    void                  appendRights (
-                            int    inputLineNumber,
-                            string value);
-
-    void                  appendComposer (
-                            int    inputLineNumber,
-                            string value);
-
-    void                  appendArranger (
-                            int    inputLineNumber,
-                            string value);
-
-    void                  appendLyricist (
-                            int    inputLineNumber,
-                            string value);
-
-    void                  appendPoet (
-                            int    inputLineNumber,
-                            string value);
-    void                  removeAllPoets (
-                            int    inputLineNumber);
-
-    void                  appendTranslator (
-                            int    inputLineNumber,
-                            string value);
-
-    void                  appendArtist (
-                            int    inputLineNumber,
-                            string value);
-
-    void                  appendSoftware (
-                            int    inputLineNumber,
-                            string value);
-
-    int                   maxLilypondVariablesNamesLength ();
+    unsigned int          maxLilypondVariablesNamesLength ();
 
   public:
 
@@ -329,31 +166,9 @@ class lpsrHeader : public lpsrElement
     // private fields
     // ------------------------------------------------------
 
-    // MusicXML informations
+    // identification
 
-    string                fWorkNumber;
-    string                fWorkTitle;
-    string                fOpus;
-
-    string                fMovementNumber;
-    string                fMovementTitle;
-
-    list<string>          fRightsList;
-
-    list<string>          fComposersList;
-    list<string>          fArrangersList;
-    list<string>          fLyricistsList;
-    list<string>          fPoetsList;
-    list<string>          fTranslatorsList;
-    list<string>          fArtistsList;
-
-    list<string>          fSoftwaresList;
-
-    string                fEncodingDate;
-
-    string                fScoreInstrument;
-
-    string                fMiscellaneousField;
+    S_msrIdentification   fHeaderIdentification;
 
     // Lilypond informations
 

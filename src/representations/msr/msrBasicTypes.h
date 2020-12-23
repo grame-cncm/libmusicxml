@@ -38,7 +38,8 @@ namespace MusicXML2
 // XMLLang
 //______________________________________________________________________________
 enum msrXMLLangKind {
-  kXMLLangIt, kXMLLangEn, kXMLLangDe, kXMLLangFr, kXMLLangJa, kXMLLangLa };
+  kXMLLangIt, kXMLLangEn, kXMLLangDe, kXMLLangFr, kXMLLangJa, kXMLLangLa
+};
 
 EXP msrXMLLangKind msrXMLLangKindFromString (
   int    inputLineNumber,
@@ -52,12 +53,13 @@ string msrXMLLangKindAsString (
 enum msrDiatonicPitchKind {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB,
-  k_NoDiatonicPitch };
+  k_NoDiatonicPitch
+};
 
 EXP msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   char diatonicNoteName);
 
-string msrDiatonicPitchKindAsString (
+string diatonicPitchKindAsString (
   msrDiatonicPitchKind diatonicPitchKind);
 
 // alterations
@@ -67,7 +69,8 @@ enum msrAlterationKind {
 
   kTripleFlat, kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
   kNatural,
-  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp, kTripleSharp };
+  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp, kTripleSharp
+};
 
 EXP msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   float alter);
@@ -103,19 +106,21 @@ enum msrAccidentalKind {
   kAccidentalFlat_3, kAccidentalFlat_4,
   kAccidentalSori, kAccidentalKoron,
 
-  kAccidentalOther};
+  kAccidentalOther
+};
 
-string  accidentalKindAsString (
+string accidentalKindAsString (
   msrAccidentalKind accidentalKind);
 
-string  accidentalKindAsMusicXMLString (
+string accidentalKindAsMusicXMLString (
   msrAccidentalKind accidentalKind);
 
 // editorial accidentals
 //______________________________________________________________________________
 
 enum msrEditorialAccidentalKind {
-  kEditorialAccidentalYes, kEditorialAccidentalNo };
+  kEditorialAccidentalYes, kEditorialAccidentalNo
+};
 
 string editorialAccidentalKindAsString (
   msrEditorialAccidentalKind noteEditorialAccidentalKind);
@@ -124,7 +129,8 @@ string editorialAccidentalKindAsString (
 //______________________________________________________________________________
 
 enum msrCautionaryAccidentalKind {
-  kCautionaryAccidentalYes, kCautionaryAccidentalNo };
+  kCautionaryAccidentalYes, kCautionaryAccidentalNo
+};
 
 string cautionaryAccidentalKindAsString (
   msrCautionaryAccidentalKind noteCautionaryAccidentalKind);
@@ -174,7 +180,8 @@ enum msrSemiTonesPitchKind {
   kB_DoubleFlat_STP, kB_Flat_STP,
   kB_Natural_STP,
   kB_Sharp_STP, kB_DoubleSharp_STP,
-  kB_TripleSharp_STP };
+  kB_TripleSharp_STP
+};
 
 string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind);
@@ -184,7 +191,7 @@ string msrSemiTonesPitchKindAsString (
 enum msrQuarterTonesPitchKind {
   k_NoQuarterTonesPitch_QTP,
 
-  k_Rest_QTP,
+  k_Rest_QTP, k_Skip_QTP,
 
   kA_TripleFlat_QTP,
   kA_DoubleFlat_QTP, kA_SesquiFlat_QTP, kA_Flat_QTP, kA_SemiFlat_QTP,
@@ -226,7 +233,11 @@ enum msrQuarterTonesPitchKind {
   kG_DoubleFlat_QTP, kG_SesquiFlat_QTP, kG_Flat_QTP, kG_SemiFlat_QTP,
   kG_Natural_QTP,
   kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP,
-  kG_TripleSharp_QTP };
+  kG_TripleSharp_QTP
+};
+
+EXP string quarterTonesPitchKindAsString (
+  msrQuarterTonesPitchKind quarterTonesPitchKind);
 
 EXP void fetchDiatonicPitchKindAndAlterationKindFromQuarterTonesPitchKind (
   int                      inputLineNumber,
@@ -259,7 +270,8 @@ EXP msrSemiTonesPitchKind semiTonesPitchKindFromString (
 // alterations preferences
 //______________________________________________________________________________
 enum msrAlterationPreferenceKind {
-  kPreferFlat, kPreferNatural, kPreferSharp };
+  kPreferFlat, kPreferNatural, kPreferSharp
+};
 
 EXP msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   msrSemiTonesPitchKind       semiTonesPitchKind,
@@ -294,7 +306,8 @@ enum msrIntervalKind {
 
   kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
 
-  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
+  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth
+};
 
 EXP int msrIntervalKindAsSemiTones (
   msrIntervalKind intervalKind);
@@ -335,6 +348,32 @@ EXP msrIntervalKind intervalBetweenSemiTonesPitches (
   msrSemiTonesPitchKind semiTonesPitch1,
   msrSemiTonesPitchKind semiTonesPitch2);
 
+// staves
+// ------------------------------------------------------
+
+enum msrStaffKind {
+  kStaffRegular,
+  kStaffTablature,
+  kStaffHarmony,
+  kStaffFiguredBass,
+  kStaffDrum,
+  kStaffRythmic
+};
+
+string staffKindAsString (
+  msrStaffKind staffKind);
+
+// voices
+//______________________________________________________________________________
+enum msrVoiceKind {
+  kVoiceRegular,
+  kVoiceHarmony,    // for MusicXML <harmony/>, LilyPond ChordNames
+  kVoiceFiguredBass // for MusicXML <figured-bass/>, LilyPond FiguredBass
+};
+
+string voiceKindAsString (
+  msrVoiceKind voiceKind);
+
 // clefs
 //______________________________________________________________________________
 
@@ -348,12 +387,15 @@ enum msrClefKind {
   kVarbaritoneClef,
   kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
   kPercussionClef,
-  kJianpuClef };
+  kJianpuClef
+};
 
 string clefKindAsString (
   msrClefKind clefKind);
 
-EXP msrClefKind clefKindFromString (string theString);
+EXP msrClefKind clefKindFromString (
+  int    inputLineNumber,
+  string clefString);
 
 string existingClefKinds (int namesListMaxLength);
 string existingClefKindsNames (int namesListMaxLength);
@@ -370,19 +412,25 @@ void initializeClefKinds ();
 //______________________________________________________________________________
 
 enum msrKeyKind {
-  kTraditionalKind, kHumdrumScotKind };
+  kTraditionalKind, kHumdrumScotKind
+};
 
 string keyKindAsString (
   msrKeyKind keyKind);
 
-enum msrKeyModeKind {
-  k_NoKeyMode,
+enum msrModeKind {
+  k_NoMode,
   kMajorMode, kMinorMode,
   kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
-  kMixolydianMode, kAeolianMode, kLocrianMode};
+  kMixolydianMode, kAeolianMode, kLocrianMode
+};
 
-string keyModeKindAsString (
-  msrKeyModeKind keyModeKind);
+msrModeKind modeKindFromString (
+  int   inputLineNumber,
+  string modeString);
+
+string modeKindAsString (
+  msrModeKind modeKind);
 
 // times
 //______________________________________________________________________________
@@ -393,7 +441,8 @@ enum msrTimeSymbolKind {
   kTimeSymbolNote,
   kTimeSymbolDottedNote,
   kTimeSymbolSingleNumber,
-  kTimeSymbolSenzaMisura };
+  kTimeSymbolSenzaMisura
+};
 
 string timeSymbolKindAsString (
   msrTimeSymbolKind timeSymbolKind);
@@ -403,7 +452,8 @@ enum msrTimeSeparatorKind {
   kTimeSeparatorHorizontal,
   kTimeSeparatorDiagonal,
   kTimeSeparatorVertical,
-  kTimeSeparatorAdjacent };
+  kTimeSeparatorAdjacent
+};
 
 string timeSeparatorKindAsString (
   msrTimeSeparatorKind timeSeparatorKind);
@@ -415,7 +465,8 @@ enum msrTimeRelationKind {
   kTimeRelationEquals,
   kTimeRelationSlash,
   kTimeRelationSpace,
-  kTimeRelationHyphen };
+  kTimeRelationHyphen
+};
 
 string timeRelationKindAsString (
   msrTimeRelationKind timeRelationKind);
@@ -468,7 +519,8 @@ enum msrHarmonyKind {
 
   kOtherHarmony,
 
-  kNoneHarmony };
+  kNoneHarmony
+};
 
 string msrHarmonyKindAsString (
   msrHarmonyKind harmonyKind);
@@ -500,20 +552,21 @@ void initializeHarmonyKinds ();
 //______________________________________________________________________________
 enum msrQuarterTonesPitchesLanguageKind {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais,
-  kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams };
+  kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams
+};
 
-string msrQuarterTonesPitchesLanguageKindAsString (
+string quarterTonesPitchesLanguageKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind);
 
-string msrDiatonicPitchKindAsString ( // JMI
+string diatonicPitchKindAsString ( // JMI
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrDiatonicPitchKind               diatonicPitchKind);
 
-string msrQuarterTonesPitchKindAsString (
-  msrQuarterTonesPitchesLanguageKind languageKind,
-  msrQuarterTonesPitchKind           quarterTonesPitchKind);
+string quarterTonesPitchKindAsStringInLanguage (
+  msrQuarterTonesPitchKind           quarterTonesPitchKind,
+  msrQuarterTonesPitchesLanguageKind languageKind);
 
-EXP msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
+EXP msrQuarterTonesPitchKind quarterTonesPitchKindFromString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   string                             quarterTonesPitchName);
 
@@ -523,7 +576,7 @@ EXP msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
   msrSemiTonesPitchKind              semiTonesPitchKind);
   */
 
-string msrSemiTonesPitchKindAsFlatsAndSharps (
+string semiTonesPitchKindAsFlatsAndSharps (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrSemiTonesPitchKind              semiTonesPitchKind);
 
@@ -539,6 +592,37 @@ EXP msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 
+// octaves
+//______________________________________________________________________________
+enum msrOctaveKind {
+  k_NoOctave,
+  kOctave0, kOctave1, kOctave2, kOctave3,
+  kOctave4, // that of middle C
+  kOctave5, kOctave6, kOctave7, kOctave8, kOctave9
+};
+
+// successor and predecessor
+msrOctaveKind octaveSucc (msrOctaveKind octaveKind);
+msrOctaveKind octavePred (msrOctaveKind octaveKind);
+
+// prefix operators
+msrOctaveKind& operator++ (msrOctaveKind& octaveKind);
+msrOctaveKind& operator-- (msrOctaveKind& octaveKind);
+
+// postfix operators
+msrOctaveKind operator++ (msrOctaveKind& octaveKind, int);
+msrOctaveKind operator-- (msrOctaveKind& octaveKind, int);
+
+EXP msrOctaveKind msrOctaveKindFromNumber (
+  int inputLineNumber,
+  int octaveNumber);
+
+EXP msrOctaveKind msrOctaveKindFromCommasOrQuotes (
+  int    inputLineNumber,
+  string octaveIndication);
+
+string msrOctaveKindAsString (msrOctaveKind octaveKind);
+
 // durations
 //______________________________________________________________________________
 enum msrDurationKind {
@@ -546,9 +630,14 @@ enum msrDurationKind {
   kMaxima, kLong, kBreve, kWhole, kHalf,
   kQuarter,
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
-  k_NoDuration };
+  k_NoDuration
+};
 
-EXP msrDurationKind msrDurationKindFromString (
+EXP msrDurationKind msrDurationKindFromMusicXMLString (
+  int    inputLineNumber,
+  string durationString);
+
+EXP msrDurationKind msrDurationKindFromMslpString (
   int    inputLineNumber,
   string durationString);
 
@@ -658,7 +747,7 @@ class msrSemiTonesPitchAndOctave : public smartable
 
     static SMARTP<msrSemiTonesPitchAndOctave> create (
       msrSemiTonesPitchKind semiTonesPitchKind,
-      int                   octave);
+      msrOctaveKind         octaveKind);
 
     SMARTP<msrSemiTonesPitchAndOctave> createSemiTonesPitchAndOctaveNewbornClone ();
 
@@ -676,7 +765,7 @@ class msrSemiTonesPitchAndOctave : public smartable
 
     msrSemiTonesPitchAndOctave (
       msrSemiTonesPitchKind semiTonesPitchKind,
-      int                   octave);
+      msrOctaveKind         octaveKind);
 
     virtual ~msrSemiTonesPitchAndOctave ();
 
@@ -688,14 +777,11 @@ class msrSemiTonesPitchAndOctave : public smartable
     msrSemiTonesPitchKind getSemiTonesPitchKind () const
                               { return fSemiTonesPitchKind; }
 
-    void                  incrementOctave ()
-                              { fOctave++; }
+    void                  incrementOctaveKind ();
+    void                  decrementOctaveKind ();
 
-    void                  decrementOctave ()
-                              { fOctave--; }
-
-    int                   getOctave () const
-                              { return fOctave; }
+    msrOctaveKind         getOctaveKind () const
+                              { return fOctaveKind; }
 
   public:
 
@@ -720,16 +806,92 @@ class msrSemiTonesPitchAndOctave : public smartable
     // ------------------------------------------------------
 
     msrSemiTonesPitchKind fSemiTonesPitchKind;
-    int                   fOctave;
+    msrOctaveKind         fOctaveKind;
 };
 typedef SMARTP<msrSemiTonesPitchAndOctave> S_msrSemiTonesPitchAndOctave;
 EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt);
+
+// semitone pitches and octave
+// can be used as absolute, relative or fixed reference
+//______________________________________________________________________________
+class msrQuarterTonesPitchAndOctave : public smartable
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrQuarterTonesPitchAndOctave> create (
+      msrQuarterTonesPitchKind quarterTonesPitchKind,
+      msrOctaveKind            octaveKind);
+
+    SMARTP<msrQuarterTonesPitchAndOctave> createQuarterTonesPitchAndOctaveNewbornClone ();
+
+    // creation from  a string
+    // ------------------------------------------------------
+
+    static SMARTP<msrQuarterTonesPitchAndOctave> createFromString (
+      int    inputLineNumber,
+      string theString);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrQuarterTonesPitchAndOctave (
+      msrQuarterTonesPitchKind quarterTonesPitchKind,
+      msrOctaveKind            octaveKind);
+
+    virtual ~msrQuarterTonesPitchAndOctave ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrQuarterTonesPitchKind
+                          getQuarterTonesPitchKind () const
+                              { return fQuarterTonesPitchKind; }
+
+    void                  incrementOctaveKind ();
+    void                  decrementOctaveKind ();
+
+    msrOctaveKind         getOctaveKind () const
+                              { return fOctaveKind; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os) const;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    msrQuarterTonesPitchKind
+                          fQuarterTonesPitchKind;
+    msrOctaveKind         fOctaveKind;
+};
+typedef SMARTP<msrQuarterTonesPitchAndOctave> S_msrQuarterTonesPitchAndOctave;
+EXP ostream& operator<< (ostream& os, const S_msrQuarterTonesPitchAndOctave& elt);
 
 // length units
 //______________________________________________________________________________
 
 enum msrLengthUnitKind {
-  kInchUnit, kCentimeterUnit, kMillimeterUnit };
+  kInchUnit, kCentimeterUnit, kMillimeterUnit
+};
 
 string msrLengthUnitKindAsString (
   msrLengthUnitKind lengthUnitKind);
@@ -831,7 +993,8 @@ EXP ostream& operator<< (ostream& os, const S_msrLength& elt);
 //______________________________________________________________________________
 
 enum msrMarginTypeKind {
-  kOddMargin, kEvenMargin, kBothMargins };
+  kOddMargin, kEvenMargin, kBothMargins
+};
 
 string msrMarginTypeKindAsString (
   msrMarginTypeKind marginTypeKind);
@@ -1046,7 +1209,8 @@ class msrFontSize : public smartable
       kFontSizeXXSmall, kFontSizeXSmall, kFontSizeSmall,
       kFontSizeMedium,
       kFontSizeLarge, kFontSizeXLarge, kFontSizeXXLarge,
-      kFontSizeNumeric };
+      kFontSizeNumeric
+    };
 
     static string fontSizeKindAsString (
       msrFontSizeKind fontSizeKind);
@@ -1114,7 +1278,8 @@ EXP ostream& operator<< (ostream& os, const S_msrFontSize& elt);
 
 enum msrFontStyleKind {
   kFontStyleNone,
-  kFontStyleNormal, KFontStyleItalic };
+  kFontStyleNormal, KFontStyleItalic
+};
 
 msrFontStyleKind msrFontStyleKindFromString (
   int    inputLineNumber,
@@ -1125,7 +1290,8 @@ string msrFontStyleKindAsString (
 
 enum msrFontWeightKind {
   kFontWeightNone,
-  kFontWeightNormal, kFontWeightBold };
+  kFontWeightNormal, kFontWeightBold
+};
 
 msrFontWeightKind msrFontWeightKindFromString (
   int    inputLineNumber,
@@ -1146,7 +1312,8 @@ string msrFontWeightKindAsString (
 
 enum msrJustifyKind {
   kJustifyNone,
-  kJustifyLeft, kJustifyCenter, kJustifyRight };
+  kJustifyLeft, kJustifyCenter, kJustifyRight
+};
 
 msrJustifyKind msrJustifyKindFromString (
   int    inputLineNumber,
@@ -1157,7 +1324,8 @@ string msrJustifyKindAsString (
 
 enum msrHorizontalAlignmentKind {
   kHorizontalAlignmentNone,
-  kHorizontalAlignmentLeft, kHorizontalAlignmentCenter, kHorizontalAlignmentRight };
+  kHorizontalAlignmentLeft, kHorizontalAlignmentCenter, kHorizontalAlignmentRight
+};
 
 msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
   int    inputLineNumber,
@@ -1168,7 +1336,8 @@ string msrHorizontalAlignmentKindAsString (
 
 enum msrVerticalAlignmentKind {
   kVerticalAlignmentNone,
-  kVerticalAlignmentTop, kVerticalAlignmentMiddle, kVerticalAlignmentBottom };
+  kVerticalAlignmentTop, kVerticalAlignmentMiddle, kVerticalAlignmentBottom
+};
 
 msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
   int    inputLineNumber,
@@ -1181,7 +1350,8 @@ string msrVerticalAlignmentKindAsString (
 //______________________________________________________________________________
 enum msrDirectionKind {
   kDirectionNone,
-  kDirectionUp, kDirectionDown };
+  kDirectionUp, kDirectionDown
+};
 
 string msrDirectionKindAsString (
   msrDirectionKind directionKind);
@@ -1191,7 +1361,8 @@ string msrDirectionKindAsString (
 enum msrPrintObjectKind {
   kPrintObjectNone,
   kPrintObjectYes,
-  kPrintObjectNo};
+  kPrintObjectNo
+};
 
 msrPrintObjectKind msrPrintObjectKindFromString (
   int    inputLineNumber,
@@ -1204,7 +1375,8 @@ string msrPrintObjectKindAsString (
 //______________________________________________________________________________
 enum msrPlacementKind {
   kPlacementNone,
-  kPlacementAbove, kPlacementBelow };
+  kPlacementAbove, kPlacementBelow
+};
 
 msrPlacementKind msrPlacementKindFromString (
   int    inputLineNumber,
@@ -1217,14 +1389,16 @@ string msrPlacementKindAsString (
 //______________________________________________________________________________
 enum msrSlashTypeKind {
   k_NoSlashType,
-  kSlashTypeStart, kSlashTypeStop };
+  kSlashTypeStart, kSlashTypeStop
+};
 
 string msrSlashTypeKindAsString (
   msrSlashTypeKind slashTypeKind);
 
 enum msrUseDotsKind {
   k_NoUseDots,
-  kUseDotsYes, kUseDotsNo };
+  kUseDotsYes, kUseDotsNo
+};
 
 msrUseDotsKind msrUseDotsFromString (
   int    inputLineNumber,
@@ -1235,7 +1409,8 @@ string msrUseDotsKindAsString (
 
 enum msrSlashUseStemsKind {
   k_NoSlashUseStems,
-  kSlashUseStemsYes, kSlashUseStemsNo };
+  kSlashUseStemsYes, kSlashUseStemsNo
+};
 
 string msrSlashUseStemsKindAsString (
   msrSlashUseStemsKind slashUseStemsKind);
@@ -1244,7 +1419,8 @@ string msrSlashUseStemsKindAsString (
 //______________________________________________________________________________
 enum msrLineTypeKind {
   kLineTypeSolid, kLineTypeDashed,
-  kLineTypeDotted, kLineTypeWavy };
+  kLineTypeDotted, kLineTypeWavy
+};
 
 string msrLineTypeKindAsString (
   msrLineTypeKind lineTypeKind);
@@ -1253,7 +1429,8 @@ string msrLineTypeKindAsString (
 //______________________________________________________________________________
 enum msrTremoloTypeKind {
   k_NoTremoloType,
-  kTremoloTypeSingle, kTremoloTypeStart, kTremoloTypeStop };
+  kTremoloTypeSingle, kTremoloTypeStart, kTremoloTypeStop
+};
 
 string msrTremoloTypeKindAsString (
   msrTremoloTypeKind tremoloTypeKind);
@@ -1262,7 +1439,8 @@ string msrTremoloTypeKindAsString (
 //______________________________________________________________________________
 enum msrTechnicalTypeKind { // JMI ???
   k_NoTechnicalType,
-  kTechnicalTypeStart, kTechnicalTypeStop };
+  kTechnicalTypeStart, kTechnicalTypeStop
+};
 
 string msrTechnicalTypeKindAsString (
   msrTechnicalTypeKind technicalTypeKind);
@@ -1271,7 +1449,8 @@ string msrTechnicalTypeKindAsString (
 //______________________________________________________________________________
 enum msrSpannerTypeKind {
   k_NoSpannerType,
-  kSpannerTypeStart, kSpannerTypeContinue, kSpannerTypeStop };
+  kSpannerTypeStart, kSpannerTypeContinue, kSpannerTypeStop
+};
 
 string msrSpannerTypeKindAsString (
   msrSpannerTypeKind spannerTypeKind);
@@ -1886,7 +2065,8 @@ EXP ostream& operator<< (ostream& os, const msrAlphaRGBColor& elt);
 enum msrScoreNotationKind {
   kScoreNotationWestern,
   kScoreNotationJianpu,
-  kScoreNotationDiatonicAccordion };
+  kScoreNotationDiatonicAccordion
+};
 
 string msrScoreNotationKindAsString (
   msrScoreNotationKind scoreNotationKind);

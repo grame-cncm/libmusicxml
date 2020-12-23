@@ -13,6 +13,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <regex>
+
 #include "utilities.h"
 #include "messagesHandling.h"
 
@@ -60,7 +62,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 
   fKeyDiatonicPitchKind = k_NoDiatonicPitch;
   fKeyAlterationKind    = k_NoAlteration;
-  fKeyOctave            = -1; // actual MusicXML octaves are non-negative
+  fKeyOctaveKind        = k_NoOctave;
 }
 
 msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem ()
@@ -79,7 +81,7 @@ bool msrHumdrumScotKeyItem::isEqualTo (
       &&
     fKeyAlterationKind == otherHumdrumScotKeyItem->fKeyAlterationKind
       &&
-    fKeyOctave == otherHumdrumScotKeyItem->fKeyOctave;
+    fKeyOctaveKind == otherHumdrumScotKeyItem->fKeyOctaveKind;
 }
 
 void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
@@ -89,7 +91,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
   if (gGlobalTraceOahGroup->getTraceKeys ()) {
     gLogStream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
-      msrDiatonicPitchKindAsString (diatonicPitchKind) <<
+      diatonicPitchKindAsString (diatonicPitchKind) <<
       "'" <<
       endl;
   }
@@ -114,19 +116,19 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
   fKeyAlterationKind = alterationKind;
 }
 
-void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
+void msrHumdrumScotKeyItem::setKeyItemOctaveKind (msrOctaveKind keyOctaveKind)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceKeys ()) {
     gLogStream <<
       "Setting Humdrum/Scot key item octave to '" <<
-      keyOctave <<
+      msrOctaveKindAsString (keyOctaveKind) <<
       "'" <<
       endl;
   }
 #endif
 
-  fKeyOctave = keyOctave;
+  fKeyOctaveKind = keyOctaveKind;
 }
 
 void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
@@ -183,10 +185,10 @@ string msrHumdrumScotKeyItem::asString () const
   s <<
     "HumdrumScotKeyItem" <<
     ", KeyDiatonicPitch" << ": " <<
-    msrDiatonicPitchKindAsString (fKeyDiatonicPitchKind) <<
+    diatonicPitchKindAsString (fKeyDiatonicPitchKind) <<
     ", KeyAlteration" << ": " <<
     msrAlterationKindAsString (fKeyAlterationKind) <<
-    ", KeyOctave" << ": " << fKeyOctave <<
+    ", KeyOctaveKind" << ": " << fKeyOctaveKind <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -209,13 +211,13 @@ ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt)
 S_msrKey msrKey::createTraditional (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
-  msrKeyModeKind           keyModeKind,
+  msrModeKind           modeKind,
   int                      keyCancel)
 {
   msrKey* o =
     new msrKey (
       inputLineNumber,
-      keyTonicQuarterTonesPitchKind, keyModeKind,
+      keyTonicQuarterTonesPitchKind, modeKind,
       keyCancel);
   assert (o!=0);
 
@@ -236,14 +238,14 @@ S_msrKey msrKey::createHumdrumScot (
 msrKey::msrKey ( // for traditional keys
   int                      inputLineNumber,
   msrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
-  msrKeyModeKind           keyModeKind,
+  msrModeKind           modeKind,
   int                      keyCancel)
     : msrMeasureElement (inputLineNumber)
 {
   // this is a traditional key
   fKeyKind = kTraditionalKind;
 
-  fKeyModeKind = keyModeKind;
+  fModeKind = modeKind;
 
   /* caution:
     <key>
@@ -255,8 +257,8 @@ msrKey::msrKey ( // for traditional keys
 
   fKeyTonicQuarterTonesPitchKind = keyTonicQuarterTonesPitchKind;
 
-  switch (fKeyModeKind) {
-    case k_NoKeyMode:
+  switch (fModeKind) {
+    case k_NoMode:
       break;
     case kMajorMode:
       break;
@@ -337,7 +339,7 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
           ==
         otherKey->fKeyTonicQuarterTonesPitchKind
           &&
-        fKeyModeKind == otherKey->fKeyModeKind
+        fModeKind == otherKey->fModeKind
           &&
         fKeyCancel == otherKey->fKeyCancel
       )
@@ -396,13 +398,148 @@ void msrKey::appendHumdrumScotKeyItem (
 #endif
 
   // have key items octaves been specified?
-  if (item->getKeyItemOctave () >= 0) {
+  if (item->getKeyItemOctaveKind () >= 0) {
     fKeyItemsOctavesAreSpecified = true;
   }
 
   // append the item to the vector
   fHumdrumScotKeyItemsVector.insert (
     fHumdrumScotKeyItemsVector.end (), item);
+}
+
+//________________________________________________________________________
+S_msrKey msrKey::createTraditionalKeyFromString (
+  int    inputLineNumber,
+  string keyString)
+{
+  /*
+    Handles keyString à la LilyPond, such as 'c [major]' or 'bes minor'
+  */
+
+  S_msrKey result;
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+    gLogStream <<
+      "Creating traditional key from string \"" <<
+      keyString <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "([[:lower:]]+)"  // tonic pitch
+    "[[:space:]]*"
+    "?([[:lower:]]*" // mode
+    "[[:space:]]*"
+    );
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "regularExpression = " <<
+      regularExpression <<
+      endl;
+  }
+#endif
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (keyString, sm, e);
+
+  unsigned int smSize = sm.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "There are " << smSize << " matches" <<
+      " for traditional key string \"" << keyString <<
+      "\" with regex \"" << regularExpression <<
+      "\":" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      gLogStream <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    gLogStream << endl;
+
+    gIndenter--;
+  }
+#endif
+
+  //  Handles keyString à la LilyPond, such as c [major] or bes minor
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "traditional key string \"" << keyString <<
+      "\" is ill-formed";
+
+    msplError (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  string
+    keyTonic = sm [1],
+    keyMode  = sm [2];
+
+  // compute the keyTonicPitchKind from the keyTonic
+  msrQuarterTonesPitchKind
+    keyTonicPitchKind =
+      quarterTonesPitchKindFromString (
+        gGlobalMsrOahGroup->
+          getMsrQuarterTonesPitchesLanguageKind (),
+        keyTonic);
+
+  // compute the modeKind from the keyMode
+  msrModeKind
+    keyModeKind =
+      modeKindFromString (
+        inputLineNumber,
+        keyMode);
+
+#ifdef TRACING_IS_ENABLED
+  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "keyTonic = \"" <<
+      keyTonic <<
+      "\"" <<
+      endl <<
+      "keyTonicPitchKind = \"" <<
+      quarterTonesPitchKindAsString (keyTonicPitchKind) <<
+      "\"" <<
+      endl <<
+      "keyMode = \"" <<
+      keyMode <<
+      "\"" <<
+      endl <<
+      "keyModeKind = \"" <<
+      modeKindAsString (keyModeKind) <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // create the traditional key
+  result =
+    msrKey::createTraditional (
+      __LINE__,
+      keyTonicPitchKind,
+      keyModeKind,
+      0); // keyCancel JMI
+
+  return result;
 }
 
 void msrKey::acceptIn (basevisitor* v)
@@ -464,11 +601,12 @@ string msrKey::asString () const
   switch (fKeyKind) {
     case kTraditionalKind:
       s <<
-        msrQuarterTonesPitchKindAsString (
-          gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-          fKeyTonicQuarterTonesPitchKind) <<
+        quarterTonesPitchKindAsStringInLanguage (
+          fKeyTonicQuarterTonesPitchKind,
+          gGlobalMsrOahGroup->
+            getMsrQuarterTonesPitchesLanguageKind ()) <<
         " " <<
-        keyModeKindAsString (fKeyModeKind);
+        modeKindAsString (fModeKind);
       break;
 
     case kHumdrumScotKind:
@@ -498,11 +636,12 @@ void msrKey::print (ostream& os) const
     case kTraditionalKind:
       os <<
         " " <<
-        msrQuarterTonesPitchKindAsString (
-          gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-          fKeyTonicQuarterTonesPitchKind) <<
+        quarterTonesPitchKindAsStringInLanguage (
+          fKeyTonicQuarterTonesPitchKind,
+          gGlobalMsrOahGroup->
+            getMsrQuarterTonesPitchesLanguageKind ()) <<
         " " <<
-        keyModeKindAsString (fKeyModeKind) <<
+        modeKindAsString (fModeKind) <<
         ", line " << fInputLineNumber <<
         endl;
       break;

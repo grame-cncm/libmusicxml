@@ -398,6 +398,70 @@ void bsrInternalError (
 }
 
 //______________________________________________________________________________
+EXP void msplWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message)
+{
+  msgWarning (
+    "MSPL",
+    inputSourceName,
+    inputLineNumber,
+    message);
+
+}
+
+EXP void msplError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message)
+{
+  msgError (
+    "MSPL",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  if (! gGlobalGeneralOahGroup->getDontShowErrors ()) { // JMI
+    throw msplException (message);
+  }
+
+  throw msplException (message);
+}
+
+EXP void msplInternalError (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message)
+{
+  int saveIndent = gIndenter.getIndent ();
+
+  gIndenter.resetToZero ();
+
+  msgErrorWithoutException (
+    "MSPL INTERNAL",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+#ifdef ABORT_TO_DEBUG_ERRORS
+  abort ();
+#endif
+
+  gIndenter.setIndent (saveIndent);
+
+  throw msplInternalException (message);
+}
+
+//______________________________________________________________________________
 void bmmlWarning (
   string inputSourceName,
   int    inputLineNumber,

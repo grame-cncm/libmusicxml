@@ -87,20 +87,6 @@ class msrStaff : public msrElement
 
     #define K_NO_STAFF_NUMBER                 -777
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrStaffKind {
-      kStaffRegular,
-      kStaffTablature,
-      kStaffHarmony,
-      kStaffFiguredBass,
-      kStaffDrum,
-      kStaffRythmic };
-
-    static string staffKindAsString (
-      msrStaffKind staffKind);
-
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -236,7 +222,7 @@ class msrStaff : public msrElement
 
     S_msrVoice            createVoiceInStaffByItsNumber (
                             int                    inputLineNumber,
-                            msrVoice::msrVoiceKind voiceKind,
+                            msrVoiceKind voiceKind,
                             int                    voiceNumber,
                             string                 currentMeasureNumber);
 
@@ -412,8 +398,6 @@ class msrStaff : public msrElement
     // staff number
 
     string                staffNumberAsString () const;
-
-    string                staffKindAsString () const;
 
     virtual void          print (ostream& os) const override;
 

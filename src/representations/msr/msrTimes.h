@@ -115,8 +115,45 @@ class msrTime : public msrMeasureElement
       int               inputLineNumber,
       msrTimeSymbolKind timeSymbolKind);
 
+    // creation from the applications
+    // ------------------------------------------------------
+
+    static SMARTP<msrTime> createTwoEightsTime (
+      int inputLineNumber);
+
+    static SMARTP<msrTime> createThreeEightsTime (
+      int inputLineNumber);
+
+    static SMARTP<msrTime> createSixEightsTime (
+      int inputLineNumber);
+
+    static SMARTP<msrTime> createTwoQuartersTime (
+      int inputLineNumber);
+
+    static SMARTP<msrTime> createThreeQuartersTime (
+      int inputLineNumber);
+
     static SMARTP<msrTime> createFourQuartersTime (
       int inputLineNumber);
+
+    static SMARTP<msrTime> createFiveQuartersTime (
+      int inputLineNumber);
+
+    static SMARTP<msrTime> createTwoHalvesTime (
+      int inputLineNumber);
+
+    static SMARTP<msrTime> createThreeHalvesTime (
+      int inputLineNumber);
+
+    static SMARTP<msrTime> createFourHalvesTime (
+      int inputLineNumber);
+
+    // creation from the applications
+    // ------------------------------------------------------
+
+    static SMARTP<msrTime> createTimeFromString (
+      int    inputLineNumber,
+      string timeString);
 
   protected:
 

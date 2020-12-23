@@ -460,7 +460,7 @@ static xmlErr xmlFile2brailleWithOptionsVector (
   bool insiderOptions = false;
   bool regularOptions = false;
 
-	for (int i = 1; i < options.size (); i++) {
+	for (unsigned int i = 1; i < options.size (); i++) {
 	  string optionName = options [i].first;
 
 		if (optionName == "-insider") {

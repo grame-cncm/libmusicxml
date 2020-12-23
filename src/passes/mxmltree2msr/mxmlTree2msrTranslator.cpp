@@ -118,7 +118,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
 
   // staff tuning handling
   fCurrentStaffTuningAlterationKind = k_NoAlteration;
-  fCurrentStaffTuningOctave         = -1;
+  fCurrentStaffTuningOctaveKind     = k_NoOctave;
 
   fCurrentStaffDetailsCapo = 0;
   fCurrentStaffDetailsStaffSize = 0;
@@ -130,7 +130,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fCurrentStringTuningNumber = -1;
   fCurrentStringTuningDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentStringTuningAlterationKind = k_NoAlteration;
-  fCurrentStringTuningOctave = -1;
+  fCurrentStringTuningOctaveKind = k_NoOctave;
 
   fOnGoingAccord = false;
 
@@ -161,7 +161,7 @@ mxmlTree2msrTranslator::mxmlTree2msrTranslator (
   fCurrentKeyStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentKeyFifths = -1;
   fCurrentKeyCancelFifths = -37;
-  fCurrentKeyModeKind = k_NoKeyMode;
+  fCurrentModeKind = k_NoMode;
 
   // time handling
   fCurrentTimeSymbolKind =
@@ -411,11 +411,11 @@ void mxmlTree2msrTranslator::initializeNoteData ()
 
   fCurrentNoteGraphicDurationKind = k_NoDuration;
 
-  fCurrentNoteOctave = K_NO_OCTAVE;
+  fCurrentNoteOctave = k_NoOctave;
 
   fCurrentNoteQuarterTonesDisplayPitchKind = k_NoQuarterTonesPitch_QTP;
   fCurrentDisplayDiatonicPitchKind = k_NoDiatonicPitch;
-  fCurrentDisplayOctave = K_NO_OCTAVE;
+  fCurrentDisplayOctave = k_NoOctave;
 
   // rests
 
@@ -660,13 +660,80 @@ S_msrVoice mxmlTree2msrTranslator::fetchVoiceFromCurrentPart (
 
   // sanity check
   if (! voice) {
-      staff->print (gLogStream); // JMI
+    staff->print (gLogStream); // JMI
 
     stringstream s;
-abort ();
+
     s <<
       "voice '" << voiceNumber <<
       "' not found in score skeleton's staff \"" <<
+      staff->getStaffName () <<
+      "\"";
+
+    msrInternalError (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+    /* JMI
+  // fetch registered voice displaying staff number
+  int voiceDisplayingStaffNumber = 1; //K_NO_VOICE_NUMBER; JMI
+    // default, there may be no <staff /> markups
+    */
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "--> fetchVoiceFromCurrentPart() returns " <<
+      voice->getVoiceName () <<
+      endl;
+  }
+#endif
+
+  return voice;
+}
+
+//______________________________________________________________________________
+S_msrVoice mxmlTree2msrTranslator::fetchFirstVoiceFromCurrentPart (
+  int inputLineNumber)
+{
+  int staffNumber = 1;
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Fetching first voice in staff " <<
+      staffNumber <<
+      " from current part" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // fetch the staff from current part
+  S_msrStaff
+    staff =
+      fetchStaffFromCurrentPart (
+        inputLineNumber,
+        staffNumber);
+
+  // fetch the first voice from the staff
+  S_msrVoice
+    voice =
+      staff->
+        fetchFirstRegularVoiceFromStaff (
+          inputLineNumber);
+
+  // sanity check
+  if (! voice) {
+    staff->print (gLogStream); // JMI
+
+    stringstream s;
+
+    s <<
+      "first voice not found in score skeleton's staff \"" <<
       staff->getStaffName () <<
       "\"";
 
@@ -2818,7 +2885,7 @@ void mxmlTree2msrTranslator::visitStart ( S_key& elt )
   fCurrentKeyFifths       = 0;
   fCurrentKeyCancelFifths = 0;
 
-  fCurrentKeyModeKind = k_NoKeyMode;
+  fCurrentModeKind = k_NoMode;
 
   // Humdrum-Scot
 
@@ -2872,34 +2939,34 @@ void mxmlTree2msrTranslator::visitStart ( S_mode& elt )
   string mode = elt->getValue();
 
   if       (mode == "none") {
-    fCurrentKeyModeKind = k_NoKeyMode;
+    fCurrentModeKind = k_NoMode;
   }
   else if  (mode == "major") {
-    fCurrentKeyModeKind = kMajorMode;
+    fCurrentModeKind = kMajorMode;
   }
   else  if (mode == "minor") {
-    fCurrentKeyModeKind = kMinorMode;
+    fCurrentModeKind = kMinorMode;
   }
   else  if (mode == "ionian") {
-    fCurrentKeyModeKind = kIonianMode;
+    fCurrentModeKind = kIonianMode;
   }
   else  if (mode == "dorian") {
-    fCurrentKeyModeKind = kDorianMode;
+    fCurrentModeKind = kDorianMode;
   }
   else  if (mode == "phrygian") {
-    fCurrentKeyModeKind = kPhrygianMode;
+    fCurrentModeKind = kPhrygianMode;
   }
   else  if (mode == "lydian") {
-    fCurrentKeyModeKind = kLydianMode;
+    fCurrentModeKind = kLydianMode;
   }
   else  if (mode == "mixolydian") {
-    fCurrentKeyModeKind = kMixolydianMode;
+    fCurrentModeKind = kMixolydianMode;
   }
   else  if (mode == "aeolian") {
-    fCurrentKeyModeKind = kAeolianMode;
+    fCurrentModeKind = kAeolianMode;
   }
   else  if (mode == "locrian") {
-    fCurrentKeyModeKind = kLocrianMode;
+    fCurrentModeKind = kLocrianMode;
   }
   else {
     stringstream s;
@@ -3034,7 +3101,13 @@ void mxmlTree2msrTranslator::visitStart ( S_key_octave& elt )
   }
 #endif
 
-  int keyOctave = (int)(*elt);
+  int keyOctaveNumber = (int)(*elt);
+
+  msrOctaveKind
+    keyOctaveKind =
+      msrOctaveKindFromNumber (
+        inputLineNumber,
+        keyOctaveNumber);
 
   int number = elt->getAttributeIntValue ("number", 0);
 
@@ -3098,8 +3171,8 @@ If the cancel attribute is
 
   // complement the item with the octave
   item->
-    setKeyItemOctave (
-      keyOctave);
+    setKeyItemOctaveKind (
+      keyOctaveKind);
 }
 
 void mxmlTree2msrTranslator::visitEnd ( S_key& elt )
@@ -3250,7 +3323,7 @@ S_msrKey mxmlTree2msrTranslator::handleTraditionalKey (
       msrKey::createTraditional (
         inputLineNumber,
         keyTonicPitchKind,
-        fCurrentKeyModeKind,
+        fCurrentModeKind,
         fCurrentKeyCancelFifths);
 
   // return it
@@ -3746,6 +3819,13 @@ void mxmlTree2msrTranslator::visitStart ( S_double& elt )
       endl;
   }
 #endif
+
+  /*
+    If the double element is present,
+    it indicates that the music is doubled one octave down
+    from what is currently written
+    (as is the case for mixed cello / bass parts in orchestral literature).
+  */
 
   fCurrentTransposeDouble = true;
 }
@@ -4806,7 +4886,7 @@ void mxmlTree2msrTranslator::visitStart ( S_beat_unit& elt )
   // the type contains a display duration
   msrDurationKind
     beatUnitDurationKind =
-      msrDurationKindFromString (
+      msrDurationKindFromMusicXMLString (
         inputLineNumber,
         beatUnitString);
 
@@ -4895,7 +4975,7 @@ void mxmlTree2msrTranslator::visitStart ( S_metronome_type& elt )
 
   // the type contains a display duration,
   fCurrentMetronomeDurationKind =
-    msrDurationKindFromString (
+    msrDurationKindFromMusicXMLString (
      inputLineNumber,
      noteType);
 }
@@ -5764,7 +5844,7 @@ void mxmlTree2msrTranslator::visitStart (S_staff_details& elt )
     msrStaffDetails::kRegularStaffType;
 
   fCurrentStaffTuningAlterationKind = k_NoAlteration;
-  fCurrentStaffTuningOctave         = -1;
+  fCurrentStaffTuningOctaveKind     = k_NoOctave;
 
   fCurrentStaffDetailsStaffSize = 0;
 
@@ -5872,7 +5952,7 @@ void mxmlTree2msrTranslator::visitStart (S_staff_tuning& elt )
     elt->getAttributeIntValue ("line", 0);
 
   fCurrentStaffTuningAlterationKind = kNatural; // may be absent
-  fCurrentStaffTuningOctave         = -1;
+  fCurrentStaffTuningOctaveKind     = k_NoOctave;
 
   fOnGoingStaffTuning = true;
 }
@@ -5938,20 +6018,26 @@ void mxmlTree2msrTranslator::visitStart (S_tuning_octave& elt )
   }
 #endif
 
-  int tuningOctave = (int)(*elt);
+  int tuningOctaveNumber = (int)(*elt);
+
+  msrOctaveKind
+    tuningOctaveKind =
+      msrOctaveKindFromNumber (
+        inputLineNumber,
+        tuningOctaveNumber);
 
   if (fOnGoingStaffTuning) {
-    fCurrentStaffTuningOctave = tuningOctave;
+    fCurrentStaffTuningOctaveKind = tuningOctaveKind;
   }
   else if (fOnGoingAccord) {
-    fCurrentStringTuningOctave = tuningOctave;
+    fCurrentStaffTuningOctaveKind = tuningOctaveKind;
   }
   else {
     stringstream s;
 
     s <<
       "<tuning-octave /> " <<
-      tuningOctave <<
+      tuningOctaveNumber <<
       " is out of context";
 
     msrMusicXMLError (
@@ -6065,8 +6151,9 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_tuning& elt )
       endl <<
       setw (fieldWidth) <<
       "fCurrentStaffTuningDiatonicPitch" << " = " <<
-      msrDiatonicPitchKindAsString (
-        gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
+      diatonicPitchKindAsString (
+        gGlobalMsrOahGroup->
+          getMsrQuarterTonesPitchesLanguageKind (),
         fCurrentStaffTuningDiatonicPitchKind) <<
       endl <<
       setw (fieldWidth) <<
@@ -6076,13 +6163,14 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_tuning& elt )
       endl <<
       setw (fieldWidth) <<
       "quarterTonesPitch" << " = " <<
-      msrQuarterTonesPitchKindAsString (
-        gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
-        quarterTonesPitchKind) <<
+      quarterTonesPitchKindAsStringInLanguage (
+        quarterTonesPitchKind,
+        gGlobalMsrOahGroup->
+          getMsrQuarterTonesPitchesLanguageKind ()) <<
       endl <<
       setw (fieldWidth) <<
-      "CurrentStaffTuningOctave" << " = " <<
-      fCurrentStaffTuningOctave <<
+      "currentStaffTuningOctaveKind" << " = " <<
+      msrOctaveKindAsString (fCurrentStaffTuningOctaveKind) <<
       endl;
 
     gIndenter--;
@@ -6096,7 +6184,7 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_tuning& elt )
         inputLineNumber,
         fCurrentStaffTuningLine,
         quarterTonesPitchKind,
-        fCurrentStaffTuningOctave);
+        fCurrentStaffTuningOctaveKind);
 
   // add it to the current staff details
   fCurrentStaffDetails->
@@ -8463,10 +8551,8 @@ void mxmlTree2msrTranslator::visitEnd ( S_print& elt )
   // it's not worth using specific 'layout voices' for such part-level stuff
   S_msrVoice
     voiceOneInStaffOne =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        1,
-        1);
+      fetchFirstVoiceFromCurrentPart (
+        inputLineNumber);
 
   voiceOneInStaffOne->
     appendPrintLayoutToVoice (
@@ -9405,13 +9491,13 @@ void mxmlTree2msrTranslator::visitStart ( S_note& elt )
   fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentNoteAlterationKind    = kNatural;
 
-  fCurrentNoteOctave = K_NO_OCTAVE;
+  fCurrentNoteOctave = k_NoOctave;
 
   fCurrentNoteSoundingWholeNotes             = rational (0, 1);
   fCurrentNoteSoundingWholeNotesFromDuration = rational (0, 1);
 
   fCurrentDisplayDiatonicPitchKind      = k_NoDiatonicPitch;
-  fCurrentDisplayOctave                 = K_NO_OCTAVE;
+  fCurrentDisplayOctave                 = k_NoOctave;
   fCurrentNoteDisplayWholeNotes         = rational (0, 1);
   fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
 
@@ -9612,22 +9698,25 @@ void mxmlTree2msrTranslator::visitStart ( S_alter& elt)
 
 void mxmlTree2msrTranslator::visitStart ( S_octave& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTreeVisitors ()) {
     gLogStream <<
       "--> Start visiting S_octave" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  fCurrentNoteOctave = (int)(*elt);
+  int octaveNumber = (int)(*elt);
 
-  if (fCurrentNoteOctave < 0 || fCurrentNoteOctave > 9) {
+  if (octaveNumber < 0 || octaveNumber > 9) {
     stringstream s;
 
     s <<
-      "octave value '" << fCurrentNoteOctave <<
+      "octave number '" << octaveNumber <<
       "' is not in the 0..9 range, '0' is assumed";
 
     msrMusicXMLWarning (
@@ -9635,8 +9724,13 @@ void mxmlTree2msrTranslator::visitStart ( S_octave& elt)
       elt->getInputLineNumber (),
       s.str ());
 
-    fCurrentNoteOctave = 0;
+    octaveNumber = 0;
   }
+
+  fCurrentNoteOctave =
+    msrOctaveKindFromNumber (
+      inputLineNumber,
+      octaveNumber);
 }
 
 void mxmlTree2msrTranslator::visitStart ( S_duration& elt )
@@ -9817,7 +9911,7 @@ void mxmlTree2msrTranslator::visitStart ( S_type& elt )
 
     // the type contains a display duration,
     fCurrentNoteGraphicDurationKind =
-      msrDurationKindFromString (
+      msrDurationKindFromMusicXMLString (
         inputLineNumber,
         noteType);
   }
@@ -10206,7 +10300,7 @@ void mxmlTree2msrTranslator::visitStart ( S_stem& elt )
   string        stem = elt->getValue();
 
   // kind
-  msrStem::msrStemKind stemKind = msrStem::kStemNone;
+  msrStem::msrStemKind stemKind = msrStem::kStemNeutral;
 
   if      (stem == "up")
     stemKind = msrStem::kStemUp;
@@ -10215,7 +10309,7 @@ void mxmlTree2msrTranslator::visitStart ( S_stem& elt )
     stemKind = msrStem::kStemDown;
 
   else if (stem == "none")
-    stemKind = msrStem::kStemNone;
+    stemKind = msrStem::kStemNeutral;
 
   else if (stem == "double")
     stemKind = msrStem::kStemDouble;
@@ -10611,7 +10705,7 @@ void mxmlTree2msrTranslator::visitStart ( S_slash_type& elt )
 
   // the type contains a display duration,
   fCurrentSlashGraphicDurationKind =
-    msrDurationKindFromString (
+    msrDurationKindFromMusicXMLString (
       inputLineNumber,
       slashType);
 
@@ -13607,7 +13701,7 @@ void mxmlTree2msrTranslator::visitStart ( S_accidental_mark& elt )
         placementKind);
 
   ornament->
-    setOrnamentAccidentalKindKind (
+    setOrnamentAccidentalKind (
       currentOrnamentAccidentalKind);
 
   if (! gGlobalMxmlTree2msrOahGroup->getOmitOrnaments ()) {
@@ -15063,7 +15157,7 @@ void mxmlTree2msrTranslator::visitStart ( S_normal_type& elt )
 
     // the type contains a display duration
     fCurrentNoteNormalTypeDuration =
-      msrDurationKindFromString (
+      msrDurationKindFromMusicXMLString (
         inputLineNumber,
         normalTypeString);
 
@@ -15879,16 +15973,39 @@ void mxmlTree2msrTranslator::visitStart ( S_display_step& elt)
 
 void mxmlTree2msrTranslator::visitStart ( S_display_octave& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTreeVisitors ()) {
     gLogStream <<
       "--> Start visiting S_display_octave" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  fCurrentDisplayOctave = (int)(*elt);
+  int displayOctaveNumber = (int)(*elt);
+
+  if (displayOctaveNumber < 0 || displayOctaveNumber > 9) {
+    stringstream s;
+
+    s <<
+      "display octave number '" << displayOctaveNumber <<
+      "' is not in the 0..9 range, '0' is assumed";
+
+    msrMusicXMLWarning (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      s.str ());
+
+    displayOctaveNumber = 0;
+  }
+
+  fCurrentDisplayOctave =
+    msrOctaveKindFromNumber (
+      inputLineNumber,
+      displayOctaveNumber);
 }
 
 void mxmlTree2msrTranslator::visitEnd ( S_unpitched& elt)
@@ -19737,6 +19854,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
           // will be set by 'setNoteKind()' when it becomes known later
 
         fCurrentNoteQuarterTonesPitchKind,
+        fCurrentNoteOctave,
 
         fCurrentNoteSoundingWholeNotes,
         fCurrentNoteDisplayWholeNotes,
@@ -19744,8 +19862,6 @@ S_msrNote mxmlTree2msrTranslator::createNote (
         fCurrentNoteDotsNumber,
 
         fCurrentNoteGraphicDurationKind,
-
-        fCurrentNoteOctave,
 
         fCurrentNoteQuarterTonesDisplayPitchKind,
         fCurrentDisplayOctave,
@@ -23533,7 +23649,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
 
     s <<
       "harmony root and bass notes are both equal to '" <<
-      msrDiatonicPitchKindAsString (
+      diatonicPitchKindAsString (
         gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
         diatonicPitchKindFromQuarterTonesPitchKind (
           inputLineNumber,
@@ -23584,7 +23700,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
         */
 
         setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
-        msrDiatonicPitchKindAsString (
+        diatonicPitchKindAsString (
           gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
           fCurrentHarmonyRootDiatonicPitchKind) <<
         endl <<
@@ -23606,7 +23722,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
         endl <<
 
         setw (fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
-        msrDiatonicPitchKindAsString (
+        diatonicPitchKindAsString (
           gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
           fCurrentHarmonyBassDiatonicPitchKind) <<
         endl <<
@@ -24479,7 +24595,7 @@ void mxmlTree2msrTranslator::visitEnd (S_pedal_tuning& elt )
     gLogStream << left <<
       setw (fieldWidth) <<
       "fCurrentHarpPedalDiatonicPitch" << " = " <<
-      msrDiatonicPitchKindAsString (
+      diatonicPitchKindAsString (
         gGlobalMsrOahGroup->getMsrQuarterTonesPitchesLanguageKind (),
         fCurrentHarpPedalDiatonicPitchKind) <<
       endl <<
@@ -24728,7 +24844,7 @@ void mxmlTree2msrTranslator::visitStart (S_accord& elt )
 
   fCurrentStringTuningDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentStringTuningAlterationKind = kNatural; // default value
-  fCurrentStringTuningOctave = -1;
+  fCurrentStringTuningOctaveKind = k_NoOctave;
 
   fOnGoingAccord = true;
 }
@@ -24754,7 +24870,7 @@ void mxmlTree2msrTranslator::visitEnd (S_accord& elt)
         fCurrentStringTuningNumber,
         fCurrentStringTuningDiatonicPitchKind,
         fCurrentStringTuningAlterationKind,
-        fCurrentStringTuningOctave);
+        fCurrentStringTuningOctaveKind);
 
   fCurrentScordatura->
     addStringTuningToScordatura (

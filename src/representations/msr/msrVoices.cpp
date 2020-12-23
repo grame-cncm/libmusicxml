@@ -152,6 +152,21 @@ msrVoice::msrVoice (
 msrVoice::~msrVoice ()
 {}
 
+string msrVoice::voiceFinalizationStatusKindAsString (
+  msrVoiceCreateInitialLastSegmentKind voiceCreateInitialLastSegmentKind)
+{
+  string result;
+
+  switch (voiceCreateInitialLastSegmentKind) {
+    case msrVoice::kCreateInitialLastSegmentYes:
+      break;
+    case msrVoice::kCreateInitialLastSegmentNo:
+      break;
+  } // switch
+
+  return result;
+}
+
 S_msrPart msrVoice::fetchVoicePartUpLink () const
 {
  return
@@ -198,7 +213,7 @@ void msrVoice::setVoiceNameFromNumber (
   if (gGlobalTraceOahGroup->getTraceVoices ()) {
     gLogStream <<
       "Setting the name of '" <<
-      voiceKindAsString () <<
+      voiceKindAsString (fVoiceKind) <<
       "' voice from voice number '" << voiceNumber <<
       "'" <<
       endl;
@@ -206,14 +221,14 @@ void msrVoice::setVoiceNameFromNumber (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       fVoiceName =
         fVoiceStaffUpLink->getStaffName () +
         "_Voice_" +
         int2EnglishWord (voiceNumber);
       break;
 
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       fVoiceName =
         fVoiceStaffUpLink->getStaffName () +
         "_Voice_" +
@@ -222,7 +237,7 @@ void msrVoice::setVoiceNameFromNumber (
           "_HARMONY";
       break;
 
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       fVoiceName =
         fVoiceStaffUpLink->getStaffName () +
         "_Voice_" +
@@ -363,7 +378,7 @@ void msrVoice::initializeVoice (
 {
   // the voice staff sequential number will be set
   // when regular voices are added to a staff
-  // in registerVoiceInRegularVoicesMapByItsNumberByItsNumber ()
+  // in setRegularVoiceStaffSequentialNumber ()
   fRegularVoiceStaffSequentialNumber = -1;
 
   gIndenter++;
@@ -376,19 +391,19 @@ void msrVoice::initializeVoice (
 
   // set voice name
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       setVoiceNameFromNumber (
         fInputLineNumber,
         voiceNumber);
       break;
 
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       setVoiceNameFromNumber (
         fInputLineNumber,
         voiceNumber);
       break;
 
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       fVoiceName =
         fVoiceStaffUpLink->getStaffName () +
         "_FIGURED_BASS_Voice";
@@ -408,7 +423,7 @@ void msrVoice::initializeVoice (
 
   // check voice number
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // the voice number should be positive
       if (fVoiceNumber < 1 || fVoiceNumber > 4) {
         stringstream s;
@@ -427,10 +442,10 @@ void msrVoice::initializeVoice (
       }
       break;
 
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       break;
 
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
     /* JMI
       if (fVoiceNumber != K_PART_FIGURED_BASS_VOICE_NUMBER) {
         stringstream s;
@@ -499,6 +514,28 @@ void msrVoice::initializeVoice (
   // voice finalization
   fVoiceHasBeenFinalized = false;
 
+  // create the initial last segment if requested
+  switch (voiceCreateInitialLastSegmentKind) {
+    case msrVoice::kCreateInitialLastSegmentYes:
+      // sanity check // JMI LAST
+      msgAssert (
+        fVoiceLastSegment == nullptr,
+        "fVoiceLastSegment is null");
+
+      // create the last segment
+      fVoiceLastSegment =
+        msrSegment::create (
+          fInputLineNumber,
+          this);
+
+      if (! fVoiceFirstSegment) {
+        fVoiceFirstSegment = fVoiceLastSegment;
+      }
+      break;
+    case msrVoice::kCreateInitialLastSegmentNo:
+      break;
+  } // switch
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceVoices ()) {
     gLogStream <<
@@ -535,7 +572,7 @@ void msrVoice::changeVoiceIdentity ( // after a deep copy
 
   // make it a regular voice
   setVoiceKind (
-    msrVoice::kVoiceRegular);
+    kVoiceRegular);
 
   // set its voice number
   setVoiceNumber (
@@ -1154,7 +1191,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
 
   // handle voice kind
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
     /* JMI
       // fetch the part
       S_msrPart
@@ -1211,8 +1248,8 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
       }
       */
       break;
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       // JMI should not occur
       break;
   } // switch
@@ -1269,7 +1306,7 @@ S_msrVoice msrVoice::createRegularVoiceHarmonyVoice (
   fRegularVoiceHarmonyVoiceForwardLink =
     msrVoice::create (
       inputLineNumber,
-      msrVoice::kVoiceHarmony,
+      kVoiceHarmony,
       regularVoiceHarmonyVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
       fVoiceStaffUpLink);
@@ -1325,7 +1362,7 @@ S_msrVoice msrVoice::createRegularVoiceFiguredBassVoice (
   fRegularVoiceFiguredBassVoiceForwardLink =
     msrVoice::create (
       inputLineNumber,
-      msrVoice::kVoiceFiguredBass,
+      kVoiceFiguredBass,
       regularVoiceFiguredBassVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
       fVoiceStaffUpLink);
@@ -1806,7 +1843,8 @@ void msrVoice::registerShortestNoteInVoiceIfRelevant (S_msrNote note)
     fVoiceShortestNoteDuration = noteSoundingWholeNotes;
 
     // set the voice shortest note tuplet factor;
-    fVoiceShortestNoteTupletFactor = note->getNoteTupletFactor ();
+    fVoiceShortestNoteTupletFactor =
+      note->getNoteTupletFactor ();
 
     // propagate those two new values to the voice part
     S_msrPart
@@ -1872,19 +1910,19 @@ void msrVoice::appendHarmonyToVoice (
 
   // sanity check
   switch (fVoiceKind) {
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       appendHarmonyToHarmonyVoice (
         harmony);
       break;
 
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceFiguredBass:
       {
         stringstream s;
 
         s <<
           "cannot append a harmony to " <<
-          voiceKindAsString () <<
+          voiceKindAsString (fVoiceKind) <<
           " voice \"" <<
           getVoiceName () <<
           "\"";
@@ -1956,7 +1994,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
     harmony->getInputLineNumber ();
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceHarmony:
+    case kVoiceHarmony:
       fVoiceLastSegment->
         appendHarmonyToSegmentClone (harmony);
 
@@ -1965,14 +2003,14 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceFiguredBass:
       {
         stringstream s;
 
         s <<
           "cannot append a harmony to " <<
-          voiceKindAsString () <<
+          voiceKindAsString (fVoiceKind) <<
           " voice clone \"" <<
           getVoiceName () <<
           "\"";
@@ -2004,19 +2042,19 @@ void msrVoice::appendFiguredBassToVoice (
 
   // sanity check
   switch (fVoiceKind) {
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       appendFiguredBassToFiguredBassVoice (
         figuredBass);
       break;
 
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
+    case kVoiceRegular:
+    case kVoiceHarmony:
       {
         stringstream s;
 
         s <<
           "cannot append a figured bass to " <<
-          voiceKindAsString () <<
+          voiceKindAsString (fVoiceKind) <<
           " voice \"" <<
           getVoiceName () <<
           "\"";
@@ -2044,7 +2082,7 @@ void msrVoice::appendFiguredBassToVoiceClone (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceFiguredBass:
       fVoiceLastSegment->
         appendFiguredBassToSegmentClone (figuredBass);
 
@@ -2053,14 +2091,14 @@ void msrVoice::appendFiguredBassToVoiceClone (
       fMusicHasBeenInsertedInVoice = true;
       break;
 
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
+    case kVoiceRegular:
+    case kVoiceHarmony:
       {
         stringstream s;
 
         s <<
           "cannot append a figured bass to " <<
-          voiceKindAsString () <<
+          voiceKindAsString (fVoiceKind) <<
           " voice clone \"" <<
           getVoiceName () <<
           "\"";
@@ -4154,9 +4192,9 @@ void msrVoice::handleRepeatStartInVoice (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       // analyze this repeat start's context
       switch (fVoicePendingRepeatDescrsStack.size ()) {
         case 0:
@@ -4720,9 +4758,9 @@ void msrVoice::handleRepeatEndInVoice (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         // analyze this repeat end's context
         switch (fVoicePendingRepeatDescrsStack.size ()) {
@@ -5168,9 +5206,9 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
   int inputLineNumber)
 {
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       // is there a voice last segment?
       if (fVoiceLastSegment) {
 
@@ -5252,9 +5290,9 @@ void msrVoice::handleRepeatEndingStartInVoice (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         gIndenter++;
 
@@ -5330,9 +5368,9 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         // handle the repeat ending start
         gIndenter++;
@@ -5637,9 +5675,9 @@ void msrVoice::finalizeRepeatEndInVoice (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         // finalize current measure in voice
         finalizeLastAppendedMeasureInVoice (
@@ -6201,9 +6239,9 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         // does the pending measures repeat exist?
         if (fVoicePendingMeasuresRepeat) {
@@ -6378,9 +6416,9 @@ void msrVoice::createRestMeasuresInVoice (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         gIndenter++;
 
@@ -6516,9 +6554,9 @@ void msrVoice::addRestMeasuresToVoice (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         gIndenter++;
 
@@ -6635,9 +6673,9 @@ void msrVoice::appendPendingRestMeasuresToVoice (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         // does the pending rest measures exist?
         if (! fVoicePendingRestMeasures) {
@@ -6766,9 +6804,9 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
 
       // is there a voice last segment?
       if (fVoiceLastSegment) {
@@ -6868,9 +6906,9 @@ void msrVoice::handleRestMeasuresEndInVoiceClone (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
 
       // is there a current rest measures in this voice?
       if (! fVoicePendingRestMeasures) {
@@ -7066,9 +7104,9 @@ void msrVoice::appendRestMeasuresCloneToVoiceClone (
     "restMeasuresClone is null");
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -7168,9 +7206,9 @@ void msrVoice::appendRepeatCloneToVoiceClone (
     "repeatCLone is null");
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         // pushing repeat clone as the (new) current repeat
 #ifdef TRACING_IS_ENABLED
@@ -7235,9 +7273,9 @@ void msrVoice::handleMeasuresRepeatStartInVoiceClone (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       // is there already a current measures repeat in this voice?
       if (fVoicePendingMeasuresRepeat) {
         stringstream s;
@@ -7315,9 +7353,9 @@ void msrVoice::handleMeasuresRepeatEndInVoiceClone (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       // is there a current measures repeat in this voice?
       if (! fVoicePendingMeasuresRepeat) {
         stringstream s;
@@ -7644,9 +7682,9 @@ void msrVoice::appendMeasuresRepeatCloneToVoiceClone (
     "measuresRepeatClone is null");
 
   switch (fVoiceKind) { // superflous JMI ???
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -7963,9 +8001,9 @@ void msrVoice::handleRepeatEndingEndInVoice (
             repeatEndingKind)
 {
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         switch (repeatEndingKind) {
           case msrRepeatEnding::kHookedEnding:
@@ -8339,9 +8377,9 @@ void msrVoice::handleRepeatEndingEndInVoiceClone (
 #endif
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         switch (repeatEndingKind) {
           case msrRepeatEnding::kHookedEnding:
@@ -8395,9 +8433,9 @@ void msrVoice::handleRepeatStartInVoiceClone (
   gIndenter++;
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       // is there a voice last segment?
       if (fVoiceLastSegment) {
 
@@ -8477,9 +8515,9 @@ void msrVoice::handleRepeatEndInVoiceClone (
   gIndenter++;
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
       /* JMI
         // finalize current measure in voice
@@ -8596,9 +8634,9 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
   int inputLineNumber)
 {
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -8727,9 +8765,9 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
   gIndenter++;
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceRegular:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       {
         // add the repeat ending it to the voice current repeat
 #ifdef TRACING_IS_ENABLED
@@ -9116,7 +9154,7 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
 */
 
   switch (fVoiceKind) {
-    case msrVoice::kVoiceRegular:
+    case kVoiceRegular:
       // append a measure end syllable to the voice stanzas if any
       if (fVoiceStanzasMap.size ()) {
         map<string, S_msrStanza>::const_iterator
@@ -9153,8 +9191,8 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
             */
       break;
 
-    case msrVoice::kVoiceHarmony:
-    case msrVoice::kVoiceFiguredBass:
+    case kVoiceHarmony:
+    case kVoiceFiguredBass:
       break;
   } // switch
 
@@ -9470,26 +9508,6 @@ void msrVoice::browseData (basevisitor* v)
   }
 }
 
-string msrVoice::voiceKindAsString (
-  msrVoiceKind voiceKind)
-{
-  string result;
-
-  switch (voiceKind) {
-    case msrVoice::kVoiceRegular:
-      result = "voiceRegular";
-      break;
-    case msrVoice::kVoiceHarmony:
-      result = "voiceHarmony";
-      break;
-    case msrVoice::kVoiceFiguredBass:
-      result = "voiceFiguredBass";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrVoice::voiceNumberAsString () const
 {
   string result = to_string (fVoiceNumber);
@@ -9562,11 +9580,6 @@ string msrVoice::voiceFinalizationStatusKindAsString (
   } // switch
 
   return result;
-}
-
-string msrVoice::voiceKindAsString () const
-{
-  return voiceKindAsString (fVoiceKind);
 }
 
 string msrVoice::asShortString () const
