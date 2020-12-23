@@ -206,7 +206,7 @@ class msrIdentification : public msrElement
                             int    inputLineNumber,
                             string value);
 
-    int                   maxIdentificationNamesLength ();
+    unsigned int          maxIdentificationNamesLength ();
 
   public:
 

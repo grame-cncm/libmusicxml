@@ -591,6 +591,7 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
       "' as " <<
       wholeNotesDuration <<
       " in part " << getPartCombinedName () <<
+      ", measureOrdinalNumber: " << measureOrdinalNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -602,11 +603,6 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
       ||
     gGlobalTraceOahGroup->getTracePositionsInMeasures ()
   ) {
-    gLogStream <<
-      "===> measureOrdinalNumber: " << measureOrdinalNumber <<
-      ", index: " << index <<
-      endl;
-
     gLogStream <<
       "===> fPartMeasuresWholeNotesDurationsVector contents: " <<
       endl;

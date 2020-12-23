@@ -322,9 +322,9 @@ void msrIdentification::appendRelation (
   fRelationsList.push_back (value);
 }
 
-int msrIdentification::maxIdentificationNamesLength ()
+unsigned int msrIdentification::maxIdentificationNamesLength ()
 {
-  int result = 0;
+  unsigned int result = 0;
 
   if (fWorkNumber.size () > result) {
       result = fWorkNumber.size ();
