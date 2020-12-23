@@ -133,7 +133,7 @@ EXP ostream& operator<< (ostream& os, const S_mxmlTreeOahGroup& elt);
 EXP extern S_mxmlTreeOahGroup gGlobalMxmlTreeOahGroup;
 
 //______________________________________________________________________________
-S_mxmlTreeOahGroup createGlobalMxmlTreeOahGroup ();
+EXP S_mxmlTreeOahGroup createGlobalMxmlTreeOahGroup ();
 
 
 }

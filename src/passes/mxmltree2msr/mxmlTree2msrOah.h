@@ -638,7 +638,7 @@ EXP ostream& operator<< (ostream& os, const S_mxmlTree2msrOahGroup& elt);
 EXP extern S_mxmlTree2msrOahGroup gGlobalMxmlTree2msrOahGroup;
 
 //______________________________________________________________________________
-S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup (
+EXP S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup (
   S_oahPrefix shortIgnoreRedundantPrefix,
   S_oahPrefix longIgnoreRedundantPrefix,
   S_oahPrefix shortDelayRestsPrefix,

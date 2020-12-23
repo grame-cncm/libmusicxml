@@ -337,7 +337,7 @@ EXP ostream& operator<< (ostream& os, const S_msr2msrOahGroup& elt);
 EXP extern S_msr2msrOahGroup gGlobalMsr2msrOahGroup;
 
 //______________________________________________________________________________
-S_msr2msrOahGroup createGlobalMsr2msrOahGroup ();
+EXP S_msr2msrOahGroup createGlobalMsr2msrOahGroup ();
 
 
 }

@@ -1826,7 +1826,7 @@ EXP extern S_lpsr2lilypondOahGroup gGlobalLpsr2lilypondOahGroup;
 */
 
 //______________________________________________________________________________
-S_lpsr2lilypondOahGroup createGlobalLpsr2lilypondOahGroup ();
+EXP S_lpsr2lilypondOahGroup createGlobalLpsr2lilypondOahGroup ();
   // JMI ???
 }
 

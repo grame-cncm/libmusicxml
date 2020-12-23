@@ -432,7 +432,7 @@ EXP ostream& operator<< (ostream& os, const S_bsr2brailleOahGroup& elt);
 EXP extern S_bsr2brailleOahGroup gGlobalBsr2brailleOahGroup;
 
 //______________________________________________________________________________
-S_bsr2brailleOahGroup createGlobalBsr2brailleOahGroup ();
+EXP S_bsr2brailleOahGroup createGlobalBsr2brailleOahGroup ();
 
 
 }

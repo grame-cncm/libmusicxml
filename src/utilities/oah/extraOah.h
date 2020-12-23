@@ -425,7 +425,7 @@ EXP ostream& operator<< (ostream& os, const S_extraOahGroup& elt);
 EXP extern S_extraOahGroup gGlobalExtraOahGroup;
 
 //______________________________________________________________________________
-S_extraOahGroup createGlobalExtraOahGroup ();
+EXP S_extraOahGroup createGlobalExtraOahGroup ();
 
 
 }

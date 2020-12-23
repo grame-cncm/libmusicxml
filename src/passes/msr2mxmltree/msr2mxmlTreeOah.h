@@ -125,7 +125,7 @@ EXP ostream& operator<< (ostream& os, const S_msr2mxmlTreeOahGroup& elt);
 EXP extern S_msr2mxmlTreeOahGroup gGlobalMsr2mxmlTreeOahGroup;
 
 //______________________________________________________________________________
-S_msr2mxmlTreeOahGroup createGlobalMsr2mxmlTreeOahGroup ();
+EXP S_msr2mxmlTreeOahGroup createGlobalMsr2mxmlTreeOahGroup ();
 
 
 }

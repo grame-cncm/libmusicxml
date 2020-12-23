@@ -76,7 +76,7 @@ EXP void displayOptionsVector (
 class oahPrefix;
 typedef SMARTP<oahPrefix> S_oahPrefix;
 
-class oahPrefix : public smartable
+class EXP oahPrefix : public smartable
 /*
 An options prefix 'trace' --> 'trace-' allows:
   -trace=abc,def,gh

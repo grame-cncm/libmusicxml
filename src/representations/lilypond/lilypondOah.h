@@ -99,7 +99,7 @@ EXP ostream& operator<< (ostream& os, const S_lilypondOahGroup& elt);
 EXP extern S_lilypondOahGroup gGlobalLilypondOahGroup;
 
 //______________________________________________________________________________
-S_lilypondOahGroup createGlobalLilypondOahGroup ();
+EXP S_lilypondOahGroup createGlobalLilypondOahGroup ();
 
 
 }

@@ -102,7 +102,7 @@ EXP ostream& operator<< (ostream& os, const S_musicxml2mxmlTreeOahGroup& elt);
 EXP extern S_musicxml2mxmlTreeOahGroup gGlobalMusicxml2mxmlTreeOahGroup;
 
 //______________________________________________________________________________
-S_musicxml2mxmlTreeOahGroup createGlobalMusicxml2mxmlTreeOahGroup ();
+EXP S_musicxml2mxmlTreeOahGroup createGlobalMusicxml2mxmlTreeOahGroup ();
 
 
 }

@@ -937,7 +937,7 @@ EXP ostream& operator<< (ostream& os, const S_traceOahGroup& elt);
 EXP extern S_traceOahGroup gGlobalTraceOahGroup;
 
 //______________________________________________________________________________
-S_traceOahGroup createGlobalTraceOahGroup (
+EXP S_traceOahGroup createGlobalTraceOahGroup (
   S_oahPrefix shortTracePrefix,
   S_oahPrefix longTracePrefix);
 

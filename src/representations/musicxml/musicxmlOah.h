@@ -154,7 +154,7 @@ EXP ostream& operator<< (ostream& os, const S_musicxmlOahGroup& elt);
 EXP extern S_musicxmlOahGroup gGlobalMusicxmlOahGroup;
 
 //______________________________________________________________________________
-S_musicxmlOahGroup createGlobalMusicxmlOahGroup ();
+EXP S_musicxmlOahGroup createGlobalMusicxmlOahGroup ();
 
 
 }

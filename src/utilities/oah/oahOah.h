@@ -335,7 +335,7 @@ EXP ostream& operator<< (ostream& os, const S_oahOahGroup& elt);
 EXP extern S_oahOahGroup gGlobalOahOahGroup;
 
 //______________________________________________________________________________
-S_oahOahGroup createGlobalOahOahGroup (
+EXP S_oahOahGroup createGlobalOahOahGroup (
   string executableName);
 
 
