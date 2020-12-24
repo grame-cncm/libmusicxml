@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lilypondScoreOutputKindAtom : public oahAtomWithValue
+class EXP lilypondScoreOutputKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -103,7 +103,7 @@ typedef SMARTP<lilypondScoreOutputKindAtom> S_lilypondScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class lilypondTransposePartNameAtom : public oahAtomWithValue
+class EXP lilypondTransposePartNameAtom : public oahAtomWithValue
 {
   public:
 
@@ -203,7 +203,7 @@ typedef SMARTP<lilypondTransposePartNameAtom> S_lilypondTransposePartNameAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondTransposePartNameAtom& elt);
 
 //______________________________________________________________________________
-class lilypondTransposePartIDAtom : public oahAtomWithValue
+class EXP lilypondTransposePartIDAtom : public oahAtomWithValue
 {
   public:
 
@@ -303,7 +303,7 @@ typedef SMARTP<lilypondTransposePartIDAtom> S_lilypondTransposePartIDAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondTransposePartIDAtom& elt);
 
 //______________________________________________________________________________
-class lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
+class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
 {
   public:
 
@@ -375,7 +375,7 @@ typedef SMARTP<lilypondAbsoluteOctaveEntryAtom> S_lilypondAbsoluteOctaveEntryAto
 EXP ostream& operator<< (ostream& os, const S_lilypondAbsoluteOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
+class EXP lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
 {
   public:
 
@@ -465,7 +465,7 @@ typedef SMARTP<lilypondRelativeOctaveEntryAtom> S_lilypondRelativeOctaveEntryAto
 EXP ostream& operator<< (ostream& os, const S_lilypondRelativeOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class lilypondFixedOctaveEntryAtom : public oahAtomWithValue
+class EXP lilypondFixedOctaveEntryAtom : public oahAtomWithValue
 {
   public:
 
@@ -556,7 +556,7 @@ typedef SMARTP<lilypondFixedOctaveEntryAtom> S_lilypondFixedOctaveEntryAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondFixedOctaveEntryAtom& elt);
 
 //______________________________________________________________________________
-class lilypondAccidentalStyleKindAtom : public oahAtomWithValue
+class EXP lilypondAccidentalStyleKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -644,7 +644,7 @@ typedef SMARTP<lilypondAccidentalStyleKindAtom> S_lilypondAccidentalStyleKindAto
 EXP ostream& operator<< (ostream& os, const S_lilypondAccidentalStyleKindAtom& elt);
 
 //______________________________________________________________________________
-class lilypondChordsDisplayAtom : public oahAtomWithValue
+class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
 {
   public:
 
@@ -736,7 +736,7 @@ typedef SMARTP<lilypondChordsDisplayAtom> S_lilypondChordsDisplayAtom;
 EXP ostream& operator<< (ostream& os, const S_lilypondChordsDisplayAtom& elt);
 
 //______________________________________________________________________________
-class lilypondLyricsDurationsKindAtom : public oahAtomWithValue
+class EXP lilypondLyricsDurationsKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -824,7 +824,7 @@ typedef SMARTP<lilypondLyricsDurationsKindAtom> S_lilypondLyricsDurationsKindAto
 EXP ostream& operator<< (ostream& os, const S_lilypondLyricsDurationsKindAtom& elt);
 
 //______________________________________________________________________________
-class lpsr2lilypondOahGroup : public oahGroup
+class EXP lpsr2lilypondOahGroup : public oahGroup
 {
   public:
 
@@ -1870,7 +1870,7 @@ EXP S_lpsr2lilypondOahGroup createGlobalLpsr2lilypondOahGroup ();
 
 /* JMI
 //______________________________________________________________________________
-class lilypondBreakPageAfterMeasureNumberAtom : public oahAtomWithValue
+class EXP lilypondBreakPageAfterMeasureNumberAtom : public oahAtomWithValue
 {
   public:
 

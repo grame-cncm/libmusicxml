@@ -4,7 +4,7 @@
 */
 
 //______________________________________________________________________________
-class bsrNote : public bsrLineElement
+class EXP bsrNote : public bsrLineElement
 {
   public:
 

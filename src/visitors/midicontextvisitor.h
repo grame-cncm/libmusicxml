@@ -95,7 +95,7 @@ class EXP midiInstrument :
 /*!
 \brief An abstract interface to be used with midicontextvisitor
 */
-class midiwriter {
+class EXP midiwriter {
 	public:
 		enum pedalType { kDamperPedal, kSoftpedal, kSostenutoPedal };
 

@@ -52,14 +52,14 @@ const string
     "\xEF\xBB\xBF";     // UTF-8
 
 //______________________________________________________________________________
-class bsrBrailleGenerator : public smartable
+class EXP bsrBrailleGenerator : public smartable
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-/* this class is purely virtual
+/* this class EXP is purely virtual
     static SMARTP<bsrBrailleGenerator> create (
       ostream& brailleOutputStream);
 */
@@ -116,7 +116,7 @@ typedef SMARTP<bsrBrailleGenerator> S_bsrBrailleGenerator;
 EXP ostream& operator<< (ostream& os, const S_bsrBrailleGenerator& elt);
 
 //______________________________________________________________________________
-class bsrAsciiBrailleGenerator : public bsrBrailleGenerator
+class EXP bsrAsciiBrailleGenerator : public bsrBrailleGenerator
 {
   public:
 
@@ -169,7 +169,7 @@ typedef SMARTP<bsrAsciiBrailleGenerator> S_bsrAsciiBrailleGenerator;
 EXP ostream& operator<< (ostream& os, const S_bsrAsciiBrailleGenerator& elt);
 
 //______________________________________________________________________________
-class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
+class EXP bsrUTF8BrailleGenerator : public bsrBrailleGenerator
 {
   public:
 
@@ -229,7 +229,7 @@ typedef SMARTP<bsrUTF8BrailleGenerator> S_bsrUTF8BrailleGenerator;
 EXP ostream& operator<< (ostream& os, const S_bsrUTF8BrailleGenerator& elt);
 
 //______________________________________________________________________________
-class bsrUTF8DebugBrailleGenerator : public bsrUTF8BrailleGenerator
+class EXP bsrUTF8DebugBrailleGenerator : public bsrUTF8BrailleGenerator
 {
   public:
 
@@ -285,7 +285,7 @@ typedef SMARTP<bsrUTF8DebugBrailleGenerator> S_bsrUTF8DebugBrailleGenerator;
 EXP ostream& operator<< (ostream& os, const S_bsrUTF8DebugBrailleGenerator& elt);
 
 //______________________________________________________________________________
-class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
+class EXP bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
 {
   public:
 
@@ -345,7 +345,7 @@ typedef SMARTP<bsrUTF16BigEndianBrailleGenerator> S_bsrUTF16BigEndianBrailleGene
 EXP ostream& operator<< (ostream& os, const S_bsrUTF16BigEndianBrailleGenerator& elt);
 
 //______________________________________________________________________________
-class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
+class EXP bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
 {
   public:
 

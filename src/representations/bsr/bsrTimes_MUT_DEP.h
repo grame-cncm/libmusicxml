@@ -7,14 +7,14 @@
 #define ___bsrTimes_MUT_DEP___
 
 //______________________________________________________________________________
-class bsrTimeItem;
+class EXP bsrTimeItem;
 typedef SMARTP<bsrTimeItem> S_bsrTimeItem;
 
-class bsrTime;
+class EXP bsrTime;
 typedef SMARTP<bsrTime> S_bsrTime;
 
 //______________________________________________________________________________
-class bsrTimeItem : public bsrElement
+class EXP bsrTimeItem : public bsrElement
 {
   public:
 
@@ -89,7 +89,7 @@ typedef SMARTP<bsrTimeItem> S_bsrTimeItem;
 EXP ostream& operator<< (ostream& os, const S_bsrTimeItem& elt);
 
 //______________________________________________________________________________
-class bsrTime : public bsrLineElement
+class EXP bsrTime : public bsrLineElement
 {
   public:
 

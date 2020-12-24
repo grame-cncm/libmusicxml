@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrElement : public smartable
+class EXP msrElement : public smartable
 {
   public:
 
@@ -87,7 +87,7 @@ typedef SMARTP<msrElement> S_msrElement;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
 //______________________________________________________________________________
-template <typename T> class msrBrowser : public browser <T>
+template <typename T> class EXP msrBrowser : public browser <T>
 {
   public:
 

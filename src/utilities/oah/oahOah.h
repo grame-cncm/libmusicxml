@@ -25,7 +25,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 #define K_INSIDER_OPTION_NAME "insider"
 
-class insiderOahAtom : public oahAtom
+class EXP insiderOahAtom : public oahAtom
 {
   public:
 
@@ -87,7 +87,7 @@ EXP ostream& operator<< (ostream& os, const S_insiderOahAtom& elt);
 //______________________________________________________________________________
 #define K_REGULAR_OPTION_NAME "regular"
 
-class regularOahAtom : public oahAtom
+class EXP regularOahAtom : public oahAtom
 {
   public:
 
@@ -147,7 +147,7 @@ typedef SMARTP<regularOahAtom> S_regularOahAtom;
 EXP ostream& operator<< (ostream& os, const S_regularOahAtom& elt);
 
 //______________________________________________________________________________
-class oahOahGroup : public oahGroup
+class EXP oahOahGroup : public oahGroup
 {
   public:
 
@@ -346,7 +346,7 @@ EXP S_oahOahGroup createGlobalOahOahGroup (
 
 /* JMI
 //______________________________________________________________________________
-class oahOptionalValuesStyleKindAtom : public oahAtomWithValue
+class EXP oahOptionalValuesStyleKindAtom : public oahAtomWithValue
 {
   public:
 

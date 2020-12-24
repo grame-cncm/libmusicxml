@@ -25,7 +25,7 @@ namespace MusicXML2
 @{
 */
 
-template <int elt> class musicxml : public xmlelement
+template <int elt> class EXP musicxml : public xmlelement
 { 
   protected:  
     musicxml (int inputLineNumber) : xmlelement (inputLineNumber)	{ fType = elt; }

@@ -15,7 +15,7 @@ const bsrCellKind
   kCellTempoEquals = kDots2356,
   kCellTempoHyphen = kDots36;
 
-class bsrTempo : public bsrLineElement
+class EXP bsrTempo : public bsrLineElement
 {
   public:
 

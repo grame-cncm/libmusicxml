@@ -25,7 +25,7 @@ using namespace std;
     To operate correctly, typenames T1 and T2 must be different.
 */
 template <typename T1, typename T2> 
-class bimap {
+class EXP bimap {
 	public:
 		bimap() {}
 		bimap(const T1 tbl1[], const T2 tbl2[], int n);
@@ -59,7 +59,7 @@ bimap<T1, T2>::bimap(const T1 tbl1[], const T2 tbl2[], int n)
 \brief implements a multimap where <key, value> pairs are unique
 */
 template <typename T1, typename T2> 
-class pairmap : public multimap<T1,T2> {
+class EXP pairmap : public multimap<T1,T2> {
 	public:
 		pairmap() {}
 		virtual ~pairmap() {}

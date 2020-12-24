@@ -28,7 +28,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrScore : public bsrElement
+class EXP bsrScore : public bsrElement
 {
   public:
 

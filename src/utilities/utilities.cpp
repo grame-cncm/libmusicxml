@@ -1808,7 +1808,7 @@ string makeSingleWordFromString (const string& theString)
 
 /* JMI
 //______________________________________________________________________________
-class segmentedLinesOstream
+class EXP segmentedLinesOstream
 {
 / * JMI NOT DONE
   // in order to avoid spaces at the end of a line,
@@ -1817,7 +1817,7 @@ class segmentedLinesOstream
 
 --
 *
-Reference for this class:
+Reference for this class EXP:
   https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:

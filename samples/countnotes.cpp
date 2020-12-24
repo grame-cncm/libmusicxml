@@ -26,7 +26,7 @@ using namespace MusicXML2;
 #define use_visitor
 
 //_______________________________________________________________________________
-class countnotes : 
+class EXP countnotes : 
 	public visitor<S_note>
 {
 	public:

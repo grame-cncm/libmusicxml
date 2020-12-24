@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msr2lpsrScoreOutputKindAtom : public oahAtomWithValue
+class EXP msr2lpsrScoreOutputKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -107,7 +107,7 @@ typedef SMARTP<msr2lpsrScoreOutputKindAtom> S_msr2lpsrScoreOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_msr2lpsrScoreOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class msr2lpsrOahGroup : public oahGroup
+class EXP msr2lpsrOahGroup : public oahGroup
 {
   public:
 

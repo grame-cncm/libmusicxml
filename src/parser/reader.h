@@ -13,7 +13,7 @@
 #ifndef __reader__
 #define __reader__
 
-class reader
+class EXP reader
 { 
 	public:
 				 reader() {}

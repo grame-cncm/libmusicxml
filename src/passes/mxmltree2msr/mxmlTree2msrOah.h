@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrDalSegnoAtom : public oahAtomWithValue
+class EXP msrDalSegnoAtom : public oahAtomWithValue
 {
   public:
 
@@ -110,7 +110,7 @@ typedef SMARTP<msrDalSegnoAtom> S_msrDalSegnoAtom;
 EXP ostream& operator<< (ostream& os, const S_msrDalSegnoAtom& elt);
 
 //______________________________________________________________________________
-class msrReplaceClefAtom : public oahAtomWithValue
+class EXP msrReplaceClefAtom : public oahAtomWithValue
 {
   public:
 
@@ -196,7 +196,7 @@ typedef SMARTP<msrReplaceClefAtom> S_msrReplaceClefAtom;
 EXP ostream& operator<< (ostream& os, const S_msrReplaceClefAtom& elt);
 
 //______________________________________________________________________________
-class mxmlTree2msrOahGroup : public oahGroup
+class EXP mxmlTree2msrOahGroup : public oahGroup
 {
   public:
 

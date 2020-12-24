@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class versionInfo
+class EXP versionInfo
 {
   public:
 

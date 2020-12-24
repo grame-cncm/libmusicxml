@@ -120,7 +120,7 @@ typedef SMARTP<mxmlPartGroupDescr> S_mxmlPartGroupDescr;
 EXP ostream& operator<< (ostream& os, const S_mxmlPartGroupDescr& elt);
 
 //________________________________________________________________________
-class mxmlTree2msrSkeletonBuilder :
+class EXP mxmlTree2msrSkeletonBuilder :
 
   // score partwise
 

@@ -22,7 +22,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 /*
   Various elements can found in voices,
-  hence class msrVoiceElement
+  hence class EXP msrVoiceElement
 */
 
 class EXP msrVoiceElement : public msrElement

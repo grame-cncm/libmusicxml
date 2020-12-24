@@ -23,7 +23,7 @@
 namespace MusicXML2
 {
 //______________________________________________________________________________
-class msrOmitPartAtom : public oahAtomWithValue
+class EXP msrOmitPartAtom : public oahAtomWithValue
 {
   public:
 
@@ -109,7 +109,7 @@ typedef SMARTP<msrOmitPartAtom> S_msrOmitPartAtom;
 EXP ostream& operator<< (ostream& os, const S_msrOmitPartAtom& elt);
 
 //______________________________________________________________________________
-class msrKeepPartAtom : public oahAtomWithValue
+class EXP msrKeepPartAtom : public oahAtomWithValue
 {
   public:
 
@@ -195,7 +195,7 @@ typedef SMARTP<msrKeepPartAtom> S_msrKeepPartAtom;
 EXP ostream& operator<< (ostream& os, const S_msrKeepPartAtom& elt);
 
 //______________________________________________________________________________
-class msr2msrOahGroup : public oahGroup
+class EXP msr2msrOahGroup : public oahGroup
 {
   public:
 

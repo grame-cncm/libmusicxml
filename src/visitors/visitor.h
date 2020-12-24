@@ -23,7 +23,7 @@ namespace MusicXML2
 @{
 */
 
-template<class C> class visitor : virtual public basevisitor
+template<class EXP C> class EXP visitor : virtual public basevisitor
 {
     public:
 		virtual ~visitor() {}

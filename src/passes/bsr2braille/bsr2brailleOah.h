@@ -26,7 +26,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class brailleOutputKindAtom : public oahAtomWithValue
+class EXP brailleOutputKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -105,7 +105,7 @@ typedef SMARTP<brailleOutputKindAtom> S_brailleOutputKindAtom;
 EXP ostream& operator<< (ostream& os, const S_brailleOutputKindAtom& elt);
 
 //______________________________________________________________________________
-class brailleUTFKindAtom : public oahAtomWithValue
+class EXP brailleUTFKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -184,7 +184,7 @@ typedef SMARTP<brailleUTFKindAtom> S_brailleUTFKindAtom;
 EXP ostream& operator<< (ostream& os, const S_brailleUTFKindAtom& elt);
 
 //______________________________________________________________________________
-class brailleByteOrderingKindAtom : public oahAtomWithValue
+class EXP brailleByteOrderingKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -261,7 +261,7 @@ typedef SMARTP<brailleByteOrderingKindAtom> S_brailleByteOrderingKindAtom;
 EXP ostream& operator<< (ostream& os, const S_brailleByteOrderingKindAtom& elt);
 
 //______________________________________________________________________________
-class bsr2brailleOahGroup : public oahGroup
+class EXP bsr2brailleOahGroup : public oahGroup
 {
   public:
 

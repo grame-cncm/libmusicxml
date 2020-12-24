@@ -7,7 +7,7 @@
 #define ___bsrDynamics_MUT_DEP___
 
 //______________________________________________________________________________
-class bsrDynamics : public bsrLineElement
+class EXP bsrDynamics : public bsrLineElement
 {
   public:
 

@@ -20,7 +20,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class mxmlTree2msrTranslator :
+class EXP mxmlTree2msrTranslator :
 
   // score partwise
   // ------------------------------------------------------

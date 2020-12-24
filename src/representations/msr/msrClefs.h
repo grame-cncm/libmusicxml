@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrClef;
+class EXP msrClef;
 typedef SMARTP<msrClef> S_msrClef;
 
 class EXP msrClef : public msrMeasureElement

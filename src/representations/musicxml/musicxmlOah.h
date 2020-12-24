@@ -20,7 +20,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class musicxmlOahGroup : public oahGroup
+class EXP musicxmlOahGroup : public oahGroup
 {
   public:
 

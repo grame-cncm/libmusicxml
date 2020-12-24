@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class xml2lyManPageGenerateAtom : public oahAtom
+class EXP xml2lyManPageGenerateAtom : public oahAtom
 {
   public:
 
@@ -99,7 +99,7 @@ typedef SMARTP<xml2lyManPageGenerateAtom> S_xml2lyManPageGenerateAtom;
 EXP ostream& operator<< (ostream& os, const S_xml2lyManPageGenerateAtom& elt);
 
 //______________________________________________________________________________
-class xml2lyManPageOahGroup : public oahGroup
+class EXP xml2lyManPageOahGroup : public oahGroup
 {
   public:
 

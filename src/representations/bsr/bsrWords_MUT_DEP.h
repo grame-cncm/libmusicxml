@@ -17,7 +17,7 @@ S_bsrCellsList brailleWord (
   string str);
 
 //______________________________________________________________________________
-class bsrWords : public bsrLineElement
+class EXP bsrWords : public bsrLineElement
 {
   public:
 

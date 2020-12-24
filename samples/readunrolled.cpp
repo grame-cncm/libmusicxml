@@ -23,7 +23,7 @@ using namespace std;
 using namespace MusicXML2;
 
 
-class measurevisitor : 
+class EXP measurevisitor : 
 	public visitor<S_measure>, 
 	public visitor<S_part>
 {

@@ -7,7 +7,7 @@
 #define ___bsrFootNotes_MUT_DEP___
 
 //______________________________________________________________________________
-class bsrFootNotesElement : public bsrElement
+class EXP bsrFootNotesElement : public bsrElement
 {
   public:
 
@@ -77,7 +77,7 @@ typedef SMARTP<bsrFootNotesElement> S_bsrFootNotesElement;
 EXP ostream& operator<< (ostream& os, const S_bsrFootNotesElement& elt);
 
 //______________________________________________________________________________
-class bsrFootNotes : public bsrLine
+class EXP bsrFootNotes : public bsrLine
 {
   public:
 

@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class oahVisitor : public smartable,
+class EXP oahVisitor : public smartable,
 
 	public visitor<S_oahHandler>
 

@@ -26,7 +26,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrNewStaffgroupBlock : public lpsrElement
+class EXP lpsrNewStaffgroupBlock : public lpsrElement
 {
   public:
 
@@ -84,7 +84,7 @@ typedef SMARTP<lpsrNewStaffgroupBlock> S_lpsrNewStaffgroupBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupBlock& elt);
 
 //______________________________________________________________________________
-class lpsrNewStaffTuningBlock : public lpsrElement
+class EXP lpsrNewStaffTuningBlock : public lpsrElement
 {
   public:
 
@@ -147,7 +147,7 @@ typedef SMARTP<lpsrNewStaffTuningBlock> S_lpsrNewStaffTuningBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffTuningBlock& elt);
 
 //______________________________________________________________________________
-class lpsrNewStaffBlock : public lpsrElement
+class EXP lpsrNewStaffBlock : public lpsrElement
 {
   public:
 
@@ -205,7 +205,7 @@ typedef SMARTP<lpsrNewStaffBlock> S_lpsrNewStaffBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffBlock& elt);
 
 //______________________________________________________________________________
-class lpsrStaffBlock : public lpsrElement
+class EXP lpsrStaffBlock : public lpsrElement
 {
   public:
 

@@ -86,7 +86,7 @@ typedef SMARTP<msrHiddenMeasureAndBarlineDescr> S_msrHiddenMeasureAndBarlineDesc
 EXP ostream& operator<< (ostream& os, const S_msrHiddenMeasureAndBarlineDescr& elt);
 
 //________________________________________________________________________
-class msr2msrTranslator :
+class EXP msr2msrTranslator :
 
   public visitor<S_msrScore>,
 

@@ -7,10 +7,10 @@
 #define ___bsrBarlines_MUT_DEP___
 
 //______________________________________________________________________________
-class bsrBarline;
+class EXP bsrBarline;
 typedef SMARTP<bsrBarline> S_bsrBarline;
 
-class bsrBarline : public bsrLineElement
+class EXP bsrBarline : public bsrLineElement
 {
   public:
 

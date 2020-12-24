@@ -100,7 +100,7 @@ typedef SMARTP<lpsrRepeatDescr> S_lpsrRepeatDescr;
 EXP ostream& operator<< (ostream& os, const S_lpsrRepeatDescr& elt);
 
 //________________________________________________________________________
-class lpsr2lilypondTranslator :
+class EXP lpsr2lilypondTranslator :
 
   // LPSR
 

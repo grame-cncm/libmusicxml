@@ -19,7 +19,7 @@
 namespace MusicXML2
 {
 //______________________________________________________________________________
-class lilypondOahGroup : public oahGroup
+class EXP lilypondOahGroup : public oahGroup
 {
   public:
 

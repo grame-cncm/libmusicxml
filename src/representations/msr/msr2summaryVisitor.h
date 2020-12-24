@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class msr2summaryVisitor :
+class EXP msr2summaryVisitor :
 
   public visitor<S_msrScore>,
 

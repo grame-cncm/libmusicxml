@@ -96,65 +96,65 @@ namespace MusicXML2
 */
 
 //______________________________________________________________________________
-// PRE-declarations for class mutual dependencies
-class msrScore;
+// PRE-declarations for class EXP mutual dependencies
+class EXP msrScore;
 typedef SMARTP<msrScore> S_msrScore;
 
-class msrPartGroup;
+class EXP msrPartGroup;
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 
-class msrPart;
+class EXP msrPart;
 typedef SMARTP<msrPart> S_msrPart;
 
-class msrStaff;
+class EXP msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
 
-class msrVoice;
+class EXP msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
-class msrSegment;
+class EXP msrSegment;
 typedef SMARTP<msrSegment> S_msrSegment;
 
-class msrMeasure;
+class EXP msrMeasure;
 typedef SMARTP<msrMeasure> S_msrMeasure;
 
-class msrVoiceStaffChange;
+class EXP msrVoiceStaffChange;
 typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 
-class msrNote;
+class EXP msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
-class msrChord;
+class EXP msrChord;
 typedef SMARTP<msrChord> S_msrChord;
 
-class msrTuplet;
+class EXP msrTuplet;
 typedef SMARTP<msrTuplet> S_msrTuplet;
 
-class msrGraceNotesGroup;
+class EXP msrGraceNotesGroup;
 typedef SMARTP<msrGraceNotesGroup> S_msrGraceNotesGroup;
 
-class msrAfterGraceNotesGroup;
+class EXP msrAfterGraceNotesGroup;
 typedef SMARTP<msrAfterGraceNotesGroup> S_msrAfterGraceNotesGroup;
 
-class msrHarmony;
+class EXP msrHarmony;
 typedef SMARTP<msrHarmony> S_msrHarmony;
 
-class msrFiguredBass;
+class EXP msrFiguredBass;
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 
-class msrRestMeasures;
+class EXP msrRestMeasures;
 typedef SMARTP<msrRestMeasures> S_msrRestMeasures;
 
-class msrMeasuresRepeat;
+class EXP msrMeasuresRepeat;
 typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 
-class msrBeatsRepeat;
+class EXP msrBeatsRepeat;
 typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat;
 
-class msrRepeat;
+class EXP msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
 
-class msrStanza;
+class EXP msrStanza;
 typedef SMARTP<msrStanza> S_msrStanza;
 
 

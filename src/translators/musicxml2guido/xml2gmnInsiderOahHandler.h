@@ -103,7 +103,7 @@ typedef SMARTP<xml2gmnInsiderOahHandler> S_xml2gmnInsiderOahHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2gmnInsiderOahHandler& elt);
 
 //______________________________________________________________________________
-class xml2gmnInsiderOahGroup : public oahGroup
+class EXP xml2gmnInsiderOahGroup : public oahGroup
 {
   public:
 

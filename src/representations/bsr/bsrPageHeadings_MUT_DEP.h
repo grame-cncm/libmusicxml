@@ -7,7 +7,7 @@
 #define ___bsrPageHeadings_MUT_DEP___
 
 //______________________________________________________________________________
-class bsrPageHeading : public bsrLine
+class EXP bsrPageHeading : public bsrLine
 {
   public:
 

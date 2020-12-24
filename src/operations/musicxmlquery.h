@@ -31,9 +31,9 @@ namespace MusicXML2
      */
     
     /*!
-     \brief A general musicXML visitor to access properties through a class.
+     \brief A general musicXML visitor to access properties through a class EXP.
      
-     An extendible class that allows querying and fetching desired elements in MusicXML
+     An extendible class EXP that allows querying and fetching desired elements in MusicXML
      
      \todo transposing ornaments elements
      */

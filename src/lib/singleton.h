@@ -14,7 +14,7 @@
 #define __singleton__
 
 // warning: this is NOT a thread safe implementation
-template <typename T> class singleton {
+template <typename T> class EXP singleton {
 	public:
 		static T& instance () {
 			static T theSingleInstance;

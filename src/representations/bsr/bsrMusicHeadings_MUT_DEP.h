@@ -7,7 +7,7 @@
 #define ___bsrMusicHeadings_MUT_DEP___
 
 //______________________________________________________________________________
-class bsrMusicHeading : public bsrLine
+class EXP bsrMusicHeading : public bsrLine
 {
   public:
 

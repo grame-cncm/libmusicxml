@@ -37,7 +37,7 @@ string bsrFacSimileKindAsString (
   bsrFacSimileKind facSimileKind);
 
 //______________________________________________________________________________
-class bsrFacSimileKindAtom : public oahAtomWithValue
+class EXP bsrFacSimileKindAtom : public oahAtomWithValue
 {
   public:
 
@@ -120,7 +120,7 @@ typedef SMARTP<bsrFacSimileKindAtom> S_bsrFacSimileKindAtom;
 EXP ostream& operator<< (ostream& os, const S_bsrFacSimileKindAtom& elt);
 
 //______________________________________________________________________________
-class bsrTextsLanguageAtom : public oahAtomWithValue
+class EXP bsrTextsLanguageAtom : public oahAtomWithValue
 {
   public:
 
@@ -207,7 +207,7 @@ typedef SMARTP<bsrTextsLanguageAtom> S_bsrTextsLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_bsrTextsLanguageAtom& elt);
 
 //______________________________________________________________________________
-class bsrOahGroup : public oahGroup
+class EXP bsrOahGroup : public oahGroup
 {
   public:
 

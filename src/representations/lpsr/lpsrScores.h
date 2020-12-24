@@ -35,7 +35,7 @@ namespace MusicXML2
 
 
 //______________________________________________________________________________
-class lpsrScore : public lpsrElement
+class EXP lpsrScore : public lpsrElement
 {
   public:
 

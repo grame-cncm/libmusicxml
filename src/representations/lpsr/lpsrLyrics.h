@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrNewLyricsBlock : public lpsrElement
+class EXP lpsrNewLyricsBlock : public lpsrElement
 {
   public:
 

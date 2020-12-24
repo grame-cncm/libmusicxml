@@ -25,7 +25,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrHeader : public lpsrElement
+class EXP lpsrHeader : public lpsrElement
 {
   public:
 

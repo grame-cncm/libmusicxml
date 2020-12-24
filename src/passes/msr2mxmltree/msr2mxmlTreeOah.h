@@ -25,7 +25,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msr2mxmlTreeOahGroup : public oahGroup
+class EXP msr2mxmlTreeOahGroup : public oahGroup
 {
   public:
 

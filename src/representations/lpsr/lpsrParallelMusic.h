@@ -25,7 +25,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrParallelMusicBLock : public lpsrElement
+class EXP lpsrParallelMusicBLock : public lpsrElement
 {
   public:
 

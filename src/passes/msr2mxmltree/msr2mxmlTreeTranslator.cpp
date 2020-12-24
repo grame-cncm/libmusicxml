@@ -10096,8 +10096,8 @@ void msr2mxmlTreeTranslator::displayCurrentOnGoingValues ()
 
 /* JMI
 //________________________________________________________________________
-// a comparison class to sort elements
-class musicXMLOrder
+// a comparison class EXP to sort elements
+class EXP musicXMLOrder
 {
 	public:
 

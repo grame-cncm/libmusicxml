@@ -32,7 +32,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrBookBlockElement : public lpsrElement
+class EXP lpsrBookBlockElement : public lpsrElement
 {
   public:
 
@@ -106,7 +106,7 @@ typedef SMARTP<lpsrBookBlockElement> S_lpsrBookBlockElement;
 EXP ostream& operator<< (ostream& os, const S_lpsrBookBlockElement& elt);
 
 //______________________________________________________________________________
-class lpsrScoreBlock : public lpsrBookBlockElement
+class EXP lpsrScoreBlock : public lpsrBookBlockElement
 {
   public:
 
@@ -175,7 +175,7 @@ typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);
 
 //______________________________________________________________________________
-class lpsrBookPartBlock : public lpsrBookBlockElement
+class EXP lpsrBookPartBlock : public lpsrBookBlockElement
 {
   public:
 
@@ -234,7 +234,7 @@ typedef SMARTP<lpsrBookPartBlock> S_lpsrBookPartBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrBookPartBlock& elt);
 
 //______________________________________________________________________________
-class lpsrBookBlock : public lpsrElement
+class EXP lpsrBookBlock : public lpsrElement
 {
   public:
 

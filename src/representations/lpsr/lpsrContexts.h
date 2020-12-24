@@ -28,7 +28,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrContext : public lpsrElement
+class EXP lpsrContext : public lpsrElement
 {
   public:
 
@@ -138,7 +138,7 @@ typedef SMARTP<lpsrContext> S_lpsrContext;
 EXP ostream& operator<< (ostream& os, const S_lpsrContext& elt);
 
 //______________________________________________________________________________
-class lpsrChordNamesContext : public lpsrContext
+class EXP lpsrChordNamesContext : public lpsrContext
 {
   public:
 
@@ -205,7 +205,7 @@ typedef SMARTP<lpsrChordNamesContext> S_lpsrChordNamesContext;
 EXP ostream& operator<< (ostream& os, const S_lpsrChordNamesContext& elt);
 
 //______________________________________________________________________________
-class lpsrFiguredBassContext : public lpsrContext
+class EXP lpsrFiguredBassContext : public lpsrContext
 {
   public:
 

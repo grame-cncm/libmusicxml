@@ -47,7 +47,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class timingItem : public smartable
+class EXP timingItem : public smartable
 {
   public:
     enum timingItemKind {
@@ -183,7 +183,7 @@ endl declaration:
   ostream& endl (ostream& os);
 
   basic template
-  template <class charT, class traits>
+  template <class EXP charT, class EXP traits>
   basic_ostream<charT,traits>& endl (basic_ostream<charT,traits>& os);
 
   Insert newline and flush
@@ -193,11 +193,11 @@ endl declaration:
 
 --
 
-Reference for this class:
+Reference for this class EXP:
   https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 */
 
-class indentedStreamBuf: public stringbuf
+class EXP indentedStreamBuf: public stringbuf
 {
   private:
 
@@ -231,7 +231,7 @@ class indentedStreamBuf: public stringbuf
 class EXP indentedOstream: public ostream, public smartable
 {
 /*
-Reference for this class:
+Reference for this class EXP:
   https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:

@@ -4,7 +4,7 @@
 */
 
 //______________________________________________________________________________
-class bsrLineContents : public bsrElement
+class EXP bsrLineContents : public bsrElement
 {
   public:
 
@@ -120,7 +120,7 @@ typedef SMARTP<bsrLineContents> S_bsrLineContents;
 EXP ostream& operator<< (ostream& os, const S_bsrLineContents& elt);
 
 //______________________________________________________________________________
-class bsrLine : public bsrPageElement
+class EXP bsrLine : public bsrPageElement
 {
   public:
 

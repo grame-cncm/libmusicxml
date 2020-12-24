@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class msr2bsrTranslator :
+class EXP msr2bsrTranslator :
 
   // score
 

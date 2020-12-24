@@ -29,7 +29,7 @@ namespace MusicXML2
 \brief to be used in place of std::endl
 	to provide a correct indentation of the xml output.
 */
-class xmlendl {
+class EXP xmlendl {
 	private:
 		int fIndent; // BLARKJMI
 	public:
@@ -46,7 +46,7 @@ class xmlendl {
 std::ostream& operator<< (std::ostream& os, const xmlendl& eol);
 
 //______________________________________________________________________________
-class xmlvisitor :
+class EXP xmlvisitor :
 	public visitor<S_comment>,
 	public visitor<S_processing_instruction>,
 	public visitor<Sxmlelement>

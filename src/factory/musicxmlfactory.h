@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //------------------------------------------------------------------------
-class musicxmlfactory 
+class EXP musicxmlfactory 
 {
 	private:
 		SXMLFile	fFile;

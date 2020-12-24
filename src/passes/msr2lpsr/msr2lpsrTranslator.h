@@ -25,7 +25,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class msr2lpsrTranslator :
+class EXP msr2lpsrTranslator :
 
   public visitor<S_msrScore>,
 

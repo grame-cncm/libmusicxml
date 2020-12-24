@@ -26,7 +26,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrUseVoiceCommand : public lpsrElement
+class EXP lpsrUseVoiceCommand : public lpsrElement
 {
   public:
 

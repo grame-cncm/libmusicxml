@@ -29,7 +29,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class bsr2brailleTranslator :
+class EXP bsr2brailleTranslator :
 
   public visitor<S_bsrScore>,
 

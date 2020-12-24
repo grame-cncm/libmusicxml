@@ -24,10 +24,10 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrCellsList;
+class EXP bsrCellsList;
 typedef SMARTP<bsrCellsList> S_bsrCellsList;
 
-class bsrCellsList : public smartable
+class EXP bsrCellsList : public smartable
 {
   public:
 

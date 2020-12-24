@@ -4,10 +4,10 @@
 */
 
 //______________________________________________________________________________
-class bsrKey;
+class EXP bsrKey;
 typedef SMARTP<bsrKey> S_bsrKey;
 
-class bsrKey : public bsrLineElement
+class EXP bsrKey : public bsrLineElement
 {
   public:
 

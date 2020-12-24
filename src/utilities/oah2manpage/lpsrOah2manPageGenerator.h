@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class lpsrOah2manPageGenerator : virtual public oah2manPageGenerator,
+class EXP lpsrOah2manPageGenerator : virtual public oah2manPageGenerator,
 
 // JMI  public visitor<S_lpsrScoreOutputKindAtom>,
 

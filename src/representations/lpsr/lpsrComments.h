@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrComment : public lpsrElement
+class EXP lpsrComment : public lpsrElement
 {
   public:
 

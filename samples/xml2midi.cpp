@@ -6,7 +6,7 @@
 
   This file is provided as an example of the MusicXML Library use.
 */
-	
+
 #ifdef WIN32
 # pragma warning (disable : 4786)
 #endif
@@ -24,12 +24,12 @@ using namespace std;
 using namespace MusicXML2;
 
 //_______________________________________________________________________________
-class mymidiwriter : public midiwriter {
+class EXP mymidiwriter : public midiwriter {
 	public:
 				 mymidiwriter() {}
 		virtual ~mymidiwriter() {}
-		
-		virtual void startPart (int instrCount) 
+
+		virtual void startPart (int instrCount)
 			{ cout << "startPart with " << instrCount << " instrument(s)" << endl; }
 		virtual void newInstrument (std::string instrName, int chan=-1)
 			{ cout << "newInstrument \"" << instrName << "\" on chan " << chan << endl; }

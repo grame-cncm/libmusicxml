@@ -24,10 +24,10 @@ namespace MusicXML2
 //______________________________________________________________________________
 /*
   Various elements can found in measures,
-  hence class msrMeasureElement
+  hence class EXP msrMeasureElement
 */
 
-class msrMeasureElement : public msrElement
+class EXP msrMeasureElement : public msrElement
 {
   public:
 

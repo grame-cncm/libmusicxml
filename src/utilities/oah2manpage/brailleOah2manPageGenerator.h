@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class brailleOah2manPageGenerator : virtual public oah2manPageGenerator,
+class EXP brailleOah2manPageGenerator : virtual public oah2manPageGenerator,
 
   public visitor<S_brailleOutputKindAtom>,
 

@@ -23,7 +23,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrBarNumberCheck : public lpsrElement
+class EXP lpsrBarNumberCheck : public lpsrElement
 {
   public:
     
@@ -82,7 +82,7 @@ class lpsrBarNumberCheck : public lpsrElement
 typedef SMARTP<lpsrBarNumberCheck> S_lpsrBarNumberCheck;
 
 //______________________________________________________________________________
-class lpsrBarCommand : public lpsrElement
+class EXP lpsrBarCommand : public lpsrElement
 {
   public:
 

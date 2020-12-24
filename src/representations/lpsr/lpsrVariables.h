@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrVariableUseCommand : public lpsrElement
+class EXP lpsrVariableUseCommand : public lpsrElement
 {
   public:
 

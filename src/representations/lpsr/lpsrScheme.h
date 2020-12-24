@@ -26,7 +26,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrSchemeVariable : public lpsrElement
+class EXP lpsrSchemeVariable : public lpsrElement
 {
   public:
 
@@ -137,7 +137,7 @@ typedef SMARTP<lpsrSchemeVariable> S_lpsrSchemeVariable;
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& schemeVariable);
 
 //______________________________________________________________________________
-class lpsrSchemeFunction : public lpsrElement
+class EXP lpsrSchemeFunction : public lpsrElement
 {
   public:
 

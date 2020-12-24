@@ -7,7 +7,7 @@
 #define ___bsrPageElements_MUT_DEP___
 
 //______________________________________________________________________________
-class bsrPageElement : public bsrElement
+class EXP bsrPageElement : public bsrElement
 {
   public:
 

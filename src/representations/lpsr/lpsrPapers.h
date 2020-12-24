@@ -29,7 +29,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrPaper : public lpsrElement
+class EXP lpsrPaper : public lpsrElement
 {
   public:
 

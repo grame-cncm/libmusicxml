@@ -33,30 +33,30 @@ namespace MusicXML2
 */
 
 //______________________________________________________________________________
-// PRE-declarations for class mutual dependencies
+// PRE-declarations for class EXP mutual dependencies
 
-class bsrLine;
+class EXP bsrLine;
 typedef SMARTP<bsrLine> S_bsrLine;
 
-class bsrSpaces;
+class EXP bsrSpaces;
 typedef SMARTP<bsrSpaces> S_bsrSpaces;
 
-class bsrPage;
+class EXP bsrPage;
 typedef SMARTP<bsrPage> S_bsrPage;
 
-class bsrMeasure;
+class EXP bsrMeasure;
 typedef SMARTP<bsrMeasure> S_bsrMeasure;
 
-class bsrKey;
+class EXP bsrKey;
 typedef SMARTP<bsrKey> S_bsrKey;
 
-class bsrTime;
+class EXP bsrTime;
 typedef SMARTP<bsrTime> S_bsrTime;
 
-class bsrTempo;
+class EXP bsrTempo;
 typedef SMARTP<bsrTempo> S_bsrTempo;
 
-class bsrNote;
+class EXP bsrNote;
 typedef SMARTP<bsrNote> S_bsrNote;
 
 

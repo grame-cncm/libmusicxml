@@ -25,7 +25,7 @@ using namespace std;
 using namespace MusicXML2;
 
 //_______________________________________________________________________________
-class mypartsummary : public partsummary
+class EXP mypartsummary : public partsummary
 {
 	public:
 		virtual void visitEnd ( S_part& elt);

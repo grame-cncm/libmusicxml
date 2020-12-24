@@ -58,11 +58,11 @@ string elementHelpOnlyKindAsString (
   oahElementHelpOnlyKind elementHelpOnlyKind);
 
 //______________________________________________________________________________
-// PRE-declaration for class self dependency
-class oahElement;
+// PRE-declaration for class EXP self dependency
+class EXP oahElement;
 typedef SMARTP<oahElement> S_oahElement;
 
-class oahElement : public smartable
+class EXP oahElement : public smartable
 {
   public:
 
@@ -237,7 +237,7 @@ EXP ostream& operator<< (ostream& os, const S_oahElement& elt);
 /*
 Because the set needs a comparison functor to work with. If you don't specify one, it will make a default-constructed one. In this case, since you're using a function-pointer type, the default-constructed one will be a null pointer, which can't be called; so instead, you have to provide the correct function pointer at run time.
 
-A better approach might be to use a function class type (a.k.a. functor type); then the function call can be resolved at compile time, and a default-constructed object will do the right thing.
+A better approach might be to use a function class EXP type (a.k.a. functor type); then the function call can be resolved at compile time, and a default-constructed object will do the right thing.
 */
 
 struct compareOahElements {
@@ -247,7 +247,7 @@ struct compareOahElements {
 };
 
 //______________________________________________________________________________
-class oahElementUse : public smartable
+class EXP oahElementUse : public smartable
 {
   public:
 
@@ -312,7 +312,7 @@ EXP ostream& operator<< (ostream& os, const S_oahElementUse& elt);
 
 /* JMI
 //______________________________________________________________________________
-template <typename T> class oahBrowser : public browser<T>
+template <typename T> class EXP oahBrowser : public browser<T>
 {
   protected:
 
@@ -343,7 +343,7 @@ template <typename T> class oahBrowser : public browser<T>
 };
 */
 
-template <typename T> class oahBrowser : public browser <T>
+template <typename T> class EXP oahBrowser : public browser <T>
 {
   public:
 

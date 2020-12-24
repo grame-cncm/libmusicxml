@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class bsr2bsrFinalizer :
+class EXP bsr2bsrFinalizer :
 
   public visitor<S_bsrScore>,
 

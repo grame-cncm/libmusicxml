@@ -12,7 +12,7 @@ OAH basics:
         This allows for mixed options and arguments in any order, à la GNU;
       - the API function such as musicxmlfile2lilypond(), in an options vector.
 
-  - oahElement is the super-class of all options types, including groups and subgroups.
+  - oahElement is the super-class EXP of all options types, including groups and subgroups.
     It contains a short name and a long name, as well as a decription.
     Short and long names can be used and mixed at will in the command line
     and in option vectors (API),
@@ -51,7 +51,7 @@ Features:
   - oahAtomWithValue describes options for which a value is supplied
     in the command line or in option vectors (API).
 
-  - a class such as lpsrPitchesLanguageAtom is used
+  - a class EXP such as lpsrPitchesLanguageAtom is used
     to supply a string value to be converted into an internal enumerated type.
 
   - a oahCombinedBooleansAtom contains a list of boolean atoms

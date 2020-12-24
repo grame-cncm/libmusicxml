@@ -7,7 +7,7 @@
 #define ___bsrPaginations_MUT_DEP___
 
 //______________________________________________________________________________
-class bsrPagination : public bsrLineElement
+class EXP bsrPagination : public bsrLineElement
 {
   public:
 

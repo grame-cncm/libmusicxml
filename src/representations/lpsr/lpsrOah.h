@@ -27,7 +27,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrPitchesLanguageAtom : public oahAtomWithValue
+class EXP lpsrPitchesLanguageAtom : public oahAtomWithValue
 {
   public:
 
@@ -115,7 +115,7 @@ typedef SMARTP<lpsrPitchesLanguageAtom> S_lpsrPitchesLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrPitchesLanguageAtom& elt);
 
 //______________________________________________________________________________
-class lpsrChordsLanguageAtom : public oahAtomWithValue
+class EXP lpsrChordsLanguageAtom : public oahAtomWithValue
 {
   public:
 
@@ -203,7 +203,7 @@ typedef SMARTP<lpsrChordsLanguageAtom> S_lpsrChordsLanguageAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrChordsLanguageAtom& elt);
 
 //______________________________________________________________________________
-class lpsrTransposeAtom : public oahAtomWithValue
+class EXP lpsrTransposeAtom : public oahAtomWithValue
 {
   public:
 
@@ -291,7 +291,7 @@ typedef SMARTP<lpsrTransposeAtom> S_lpsrTransposeAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrTransposeAtom& elt);
 
 //______________________________________________________________________________
-class lpsrOahGroup : public oahGroup
+class EXP lpsrOahGroup : public oahGroup
 {
   public:
 
@@ -735,7 +735,7 @@ EXP S_lpsrOahGroup createGlobalLpsrOahGroup ();
 
 /* JMI
 //______________________________________________________________________________
-class lpsrDalSegnoAtom : public oahAtomWithValue
+class EXP lpsrDalSegnoAtom : public oahAtomWithValue
 {
   public:
 
@@ -821,7 +821,7 @@ typedef SMARTP<lpsrDalSegnoAtom> S_lpsrDalSegnoAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAtom& elt);
 
 //______________________________________________________________________________
-class lpsrDalSegnoAlFineAtom : public oahAtomWithValue
+class EXP lpsrDalSegnoAlFineAtom : public oahAtomWithValue
 {
   public:
 
@@ -907,7 +907,7 @@ typedef SMARTP<lpsrDalSegnoAlFineAtom> S_lpsrDalSegnoAlFineAtom;
 EXP ostream& operator<< (ostream& os, const S_lpsrDalSegnoAlFineAtom& elt);
 
 //______________________________________________________________________________
-class lpsrDalSegnoAlCodaAtom : public oahAtomWithValue
+class EXP lpsrDalSegnoAlCodaAtom : public oahAtomWithValue
 {
   public:
 

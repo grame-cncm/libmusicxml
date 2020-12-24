@@ -22,11 +22,11 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrPartGroupBlock;
+class EXP lpsrPartGroupBlock;
 typedef SMARTP<lpsrPartGroupBlock> S_lpsrPartGroupBlock;
 
 //______________________________________________________________________________
-class lpsrPartGroupBlock : public lpsrElement
+class EXP lpsrPartGroupBlock : public lpsrElement
 {
   public:
 

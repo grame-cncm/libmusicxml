@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrHumdrumScotKeyItem;
+class EXP msrHumdrumScotKeyItem;
 typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
 
 //______________________________________________________________________________
@@ -111,7 +111,7 @@ typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
 EXP ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt);
 
 //______________________________________________________________________________
-class msrKey;
+class EXP msrKey;
 typedef SMARTP<msrKey> S_msrKey;
 
 class EXP msrKey : public msrMeasureElement

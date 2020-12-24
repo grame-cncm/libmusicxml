@@ -119,7 +119,7 @@ typedef SMARTP<xml2lyInsiderOahHandler> S_xml2lyInsiderOahHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2lyInsiderOahHandler& elt);
 
 //______________________________________________________________________________
-class xml2lyInsiderOahGroup : public oahGroup
+class EXP xml2lyInsiderOahGroup : public oahGroup
 {
   public:
 

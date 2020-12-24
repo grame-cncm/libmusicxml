@@ -108,7 +108,7 @@ typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
 EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
 
 //______________________________________________________________________________
-class msrTranspose;
+class EXP msrTranspose;
 typedef SMARTP<msrTranspose> S_msrTranspose;
 
 class EXP msrTranspose : public msrMeasureElement

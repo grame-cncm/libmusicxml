@@ -20,7 +20,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class xml2brlManPageGenerateAtom : public oahAtom
+class EXP xml2brlManPageGenerateAtom : public oahAtom
 {
   public:
 
@@ -97,7 +97,7 @@ typedef SMARTP<xml2brlManPageGenerateAtom> S_xml2brlManPageGenerateAtom;
 EXP ostream& operator<< (ostream& os, const S_xml2brlManPageGenerateAtom& elt);
 
 //______________________________________________________________________________
-class xml2brlManPageOahGroup : public oahGroup
+class EXP xml2brlManPageOahGroup : public oahGroup
 {
   public:
 

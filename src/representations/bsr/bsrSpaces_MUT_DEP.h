@@ -11,7 +11,7 @@ const bsrCellKind
   kCellSpace = kDotsNone;
 
 //______________________________________________________________________________
-class bsrSpaces : public bsrLineElement
+class EXP bsrSpaces : public bsrLineElement
 {
   public:
 

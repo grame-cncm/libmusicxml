@@ -18,7 +18,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class brailleOahGroup : public oahGroup
+class EXP brailleOahGroup : public oahGroup
 {
   public:
 
