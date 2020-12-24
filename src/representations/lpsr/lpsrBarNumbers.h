@@ -26,7 +26,7 @@ namespace MusicXML2
 class EXP lpsrBarNumberCheck : public lpsrElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -42,9 +42,9 @@ class EXP lpsrBarNumberCheck : public lpsrElement
     lpsrBarNumberCheck(
       int inputLineNumber,
       int nextBarNumber);
-      
+
     virtual ~lpsrBarNumberCheck ();
-  
+
   public:
 
     // set and get
@@ -56,7 +56,7 @@ class EXP lpsrBarNumberCheck : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -66,7 +66,7 @@ class EXP lpsrBarNumberCheck : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -99,9 +99,9 @@ class EXP lpsrBarCommand : public lpsrElement
 
     lpsrBarCommand (
       int inputLineNumber);
-      
+
     virtual ~lpsrBarCommand ();
-  
+
   public:
 
     // set and get
@@ -113,7 +113,7 @@ class EXP lpsrBarCommand : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -123,7 +123,7 @@ class EXP lpsrBarCommand : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 

@@ -22,10 +22,10 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msrTimeItem;
+class msrTimeItem;
 typedef SMARTP<msrTimeItem> S_msrTimeItem;
 
-class EXP msrTime;
+class msrTime;
 typedef SMARTP<msrTime> S_msrTime;
 
 //______________________________________________________________________________

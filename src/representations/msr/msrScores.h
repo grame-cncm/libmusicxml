@@ -28,13 +28,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msrPart;
+class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
 
-class EXP msrPartGroup;
+class msrPartGroup;
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 
-class EXP msrVoice;
+class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
 //______________________________________________________________________________

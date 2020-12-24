@@ -87,9 +87,9 @@ static map<int,int> gUnpitchedOrder;
 static map<int,int> gWorkOrder;
 
 //________________________________________________________________________
-// a comparison class EXP to sort elements
+// a comparison class to sort elements
 //________________________________________________________________________
-class EXP xmlorder {
+class xmlorder {
 	map<int,int>&	fOrder;
 	Sxmlelement		fContainer;
 

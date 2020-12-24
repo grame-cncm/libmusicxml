@@ -22,16 +22,16 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP msrVoice;
+class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
 
-class EXP msrPart;
+class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
 
-class EXP msrPartGroup;
+class msrPartGroup;
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 
-class EXP msrScore;
+class msrScore;
 typedef SMARTP<msrScore> S_msrScore;
 
 //______________________________________________________________________________

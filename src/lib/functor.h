@@ -17,7 +17,7 @@ namespace MusicXML2
 {
 
 template <typename R>
-class EXP functor {
+class functor {
 	public:
 		virtual ~functor() {}
 		virtual R operator ()() = 0;

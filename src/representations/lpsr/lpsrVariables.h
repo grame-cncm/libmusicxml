@@ -43,9 +43,9 @@ class EXP lpsrVariableUseCommand : public lpsrElement
     lpsrVariableUseCommand (
       int    inputLineNumber,
       string variableName);
-      
+
     virtual ~lpsrVariableUseCommand ();
-  
+
   public:
 
     // set and get
@@ -57,7 +57,7 @@ class EXP lpsrVariableUseCommand : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -67,14 +67,14 @@ class EXP lpsrVariableUseCommand : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 

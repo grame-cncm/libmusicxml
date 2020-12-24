@@ -7,13 +7,13 @@
 #define ___msrChords_MUT_DEP___
 
 //______________________________________________________________________________
-class EXP msrChordSlurLink;
+class msrChordSlurLink;
 typedef SMARTP<msrChordSlurLink> S_msrChordSlurLink;
 
-class EXP msrChordBeamLink;
+class msrChordBeamLink;
 typedef SMARTP<msrChordBeamLink> S_msrChordBeamLink;
 
-class EXP msrChordGraceNotesGroupLink;
+class msrChordGraceNotesGroupLink;
 typedef SMARTP<msrChordGraceNotesGroupLink> S_msrChordGraceNotesGroupLink;
 
 //______________________________________________________________________________

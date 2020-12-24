@@ -35,7 +35,7 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
 
     static SMARTP<lpsrNewStaffgroupBlock> create (
       int inputLineNumber);
-     
+
   protected:
 
     // constructors/destructor
@@ -43,9 +43,9 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
 
     lpsrNewStaffgroupBlock (
       int inputLineNumber);
-      
+
     virtual ~lpsrNewStaffgroupBlock ();
-  
+
   public:
 
     // set and get
@@ -57,7 +57,7 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -67,14 +67,14 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -94,7 +94,7 @@ class EXP lpsrNewStaffTuningBlock : public lpsrElement
     static SMARTP<lpsrNewStaffTuningBlock> create (
       int              inputLineNumber,
       S_msrStaffTuning staffTuning);
-     
+
   protected:
 
     // constructors/destructor
@@ -103,9 +103,9 @@ class EXP lpsrNewStaffTuningBlock : public lpsrElement
     lpsrNewStaffTuningBlock (
       int              inputLineNumber,
       S_msrStaffTuning staffTuning);
-      
+
     virtual ~lpsrNewStaffTuningBlock ();
-  
+
   public:
 
     // set and get
@@ -120,7 +120,7 @@ class EXP lpsrNewStaffTuningBlock : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -130,14 +130,14 @@ class EXP lpsrNewStaffTuningBlock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -156,7 +156,7 @@ class EXP lpsrNewStaffBlock : public lpsrElement
 
     static SMARTP<lpsrNewStaffBlock> create (
       int inputLineNumber);
-     
+
   protected:
 
     // constructors/destructor
@@ -164,9 +164,9 @@ class EXP lpsrNewStaffBlock : public lpsrElement
 
     lpsrNewStaffBlock (
       int inputLineNumber);
-      
+
     virtual ~lpsrNewStaffBlock ();
-  
+
   public:
 
     // set and get
@@ -178,7 +178,7 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -188,14 +188,14 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -214,7 +214,7 @@ class EXP lpsrStaffBlock : public lpsrElement
 
     static SMARTP<lpsrStaffBlock> create (
       S_msrStaff staff);
-     
+
   protected:
 
     // constructors/destructor
@@ -222,9 +222,9 @@ class EXP lpsrStaffBlock : public lpsrElement
 
     lpsrStaffBlock (
       S_msrStaff staff);
-      
+
     virtual ~lpsrStaffBlock ();
-  
+
   public:
 
     // set and get
@@ -271,9 +271,9 @@ class EXP lpsrStaffBlock : public lpsrElement
     void                  appendElementToStaffBlock (
                             S_msrElement elem)
                               { fStaffBlockElements.push_back (elem); }
-                  
+
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -283,7 +283,7 @@ class EXP lpsrStaffBlock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 

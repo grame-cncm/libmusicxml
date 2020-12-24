@@ -31,7 +31,7 @@ class EXP lpsrPartBlock : public lpsrElement
 
     static SMARTP<lpsrPartBlock> create (
       S_msrPart part);
-     
+
   protected:
 
     // constructors/destructor
@@ -39,9 +39,9 @@ class EXP lpsrPartBlock : public lpsrElement
 
     lpsrPartBlock (
       S_msrPart part);
-      
+
     virtual ~lpsrPartBlock ();
-  
+
   public:
 
     // set and get
@@ -75,7 +75,7 @@ class EXP lpsrPartBlock : public lpsrElement
                               { return fPartBlockShortInstrumentName; }
 
   public:
-  
+
     // pbulic services
     // ------------------------------------------------------
 
@@ -90,12 +90,12 @@ class EXP lpsrPartBlock : public lpsrElement
                             S_lpsrFiguredBassContext context);
 
   private:
-  
+
     // private services
     // ------------------------------------------------------
 
     // voices ordering in staves
-    
+
     static bool           compareElementsToHaveHarmoniesAboveCorrespondingStaff (
                             const S_msrElement& first,
                             const S_msrElement& second);
@@ -109,7 +109,7 @@ class EXP lpsrPartBlock : public lpsrElement
                             const S_msrElement&            otherElement);
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -119,7 +119,7 @@ class EXP lpsrPartBlock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 

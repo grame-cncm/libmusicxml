@@ -21,7 +21,7 @@
 namespace MusicXML2 
 {
 
-class EXP basevisitor 
+class basevisitor 
 {
 	public:
 		virtual ~basevisitor() {}

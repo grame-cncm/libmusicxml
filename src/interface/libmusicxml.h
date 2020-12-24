@@ -30,9 +30,9 @@ enum xmlErr { kNoErr, kInvalidFile, kInvalidOption, kUnsupported };
 extern "C" {
 #endif
 
-class EXP musicxmlfactory;
-class EXP xmlelement;
-class EXP xmlattribute;
+class musicxmlfactory;
+class xmlelement;
+class xmlattribute;
 
 typedef xmlelement*      TElement;
 typedef xmlattribute*    TAttribute;

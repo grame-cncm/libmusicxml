@@ -22,7 +22,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 /*
   Parts and part groups can be found in part groups,
-  hence class EXP msrPartGroupElement
+  hence class msrPartGroupElement
 */
 
 class EXP msrPartGroupElement : public msrMeasureElement

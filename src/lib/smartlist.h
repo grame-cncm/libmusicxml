@@ -24,7 +24,7 @@ namespace MusicXML2
 	while avoiding the runtime library issue with windows visual c++
 */
 template <typename T, typename L=std::vector<T> >
-class EXP smartlist  : public smartable, public L {
+class smartlist  : public smartable, public L {
 	protected:
 				 smartlist() {}
 		virtual ~smartlist() {}

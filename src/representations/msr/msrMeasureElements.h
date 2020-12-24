@@ -24,7 +24,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 /*
   Various elements can found in measures,
-  hence class EXP msrMeasureElement
+  hence class msrMeasureElement
 */
 
 class EXP msrMeasureElement : public msrElement

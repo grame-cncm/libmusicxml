@@ -45,9 +45,9 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
       int         inputLineNumber,
       S_msrStanza stanza,
       S_msrVoice  voice);
-      
+
     virtual ~lpsrNewLyricsBlock ();
-  
+
   public:
 
     // set and get
@@ -55,14 +55,14 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
     S_msrStanza           getStanza () const { return fStanza; }
     S_msrVoice            getVoice  () const { return fVoice; }
-    
+
   public:
 
     // public services
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -72,14 +72,14 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 

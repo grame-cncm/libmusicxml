@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 /* JMI
 //________________________________________________________________________
-class EXP oahOah2manPageGenerator : virtual public oah2manPageGenerator,
+class oahOah2manPageGenerator : virtual public oah2manPageGenerator,
 
   public visitor<S_oahOptionalValuesStyleKindAtom>
 

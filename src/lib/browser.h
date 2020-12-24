@@ -19,7 +19,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-template <typename T> class EXP browser {
+template <typename T> class browser {
 	public:
 		virtual ~browser() {}
 		virtual void browse (T& t) = 0;

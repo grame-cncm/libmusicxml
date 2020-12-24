@@ -303,7 +303,7 @@ ostream& operator<< (ostream& os, const S_oahPrefix& elt)
 }
 
 //______________________________________________________________________________
-/* this class EXP is purely virtual
+/* this class is purely virtual
 S_oahAtom oahAtom::create (
   string         shortName,
   string         longName,
@@ -553,7 +553,7 @@ ostream& operator<< (ostream& os, const S_oahAtom& elt)
 }
 
 //______________________________________________________________________________
-/* this class EXP is purely virtual
+/* this class is purely virtual
 S_oahAtomWithVariableName oahAtomWithVariableName::create (
   string shortName,
   string longName,
@@ -741,7 +741,7 @@ ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt)
 }
 
 //______________________________________________________________________________
-/* this class EXP is purely virtual
+/* this class is purely virtual
 S_oahAtomWithValue oahAtomWithValue::create (
   string shortName,
   string longName,
@@ -2663,7 +2663,7 @@ ostream& operator<< (ostream& os, const S_oahGroup& elt)
 }
 
 //______________________________________________________________________________
-/* this class EXP is purely virtual
+/* this class is purely virtual
 S_oahHandler oahHandler::create (
   string   executableName,
   string   executableAboutInformation,

@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP lpsrPartGroupBlock;
+class lpsrPartGroupBlock;
 typedef SMARTP<lpsrPartGroupBlock> S_lpsrPartGroupBlock;
 
 //______________________________________________________________________________
@@ -35,7 +35,7 @@ class EXP lpsrPartGroupBlock : public lpsrElement
 
     static SMARTP<lpsrPartGroupBlock> create (
       S_msrPartGroup partGroup);
-     
+
   protected:
 
     // constructors/destructor
@@ -43,9 +43,9 @@ class EXP lpsrPartGroupBlock : public lpsrElement
 
     lpsrPartGroupBlock (
       S_msrPartGroup partGroup);
-      
+
     virtual ~lpsrPartGroupBlock ();
-  
+
   public:
 
     // set and get
@@ -68,7 +68,7 @@ class EXP lpsrPartGroupBlock : public lpsrElement
                               { fPartGroupBlockElements.push_back (elem); }
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -78,7 +78,7 @@ class EXP lpsrPartGroupBlock : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -90,7 +90,7 @@ class EXP lpsrPartGroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     S_msrPartGroup        fPartGroup;
-    
+
     list<S_msrElement>    fPartGroupBlockElements;
 };
 EXP ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& elt);

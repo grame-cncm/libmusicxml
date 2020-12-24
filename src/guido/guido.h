@@ -21,12 +21,12 @@
 #include "exports.h"
 #include "smartpointer.h"
 
-namespace MusicXML2
+namespace MusicXML2 
 {
 
-class EXP guidovisitor;
-class EXP guidoelement;
-class EXP guidoparam;
+class guidovisitor;
+class guidoelement;
+class guidoparam;
 typedef SMARTP<guidoelement> 	Sguidoelement;
 typedef SMARTP<guidoparam> 		Sguidoparam;
 
@@ -53,12 +53,12 @@ class EXP guidoparam : public smartable {
 		void set (long value, bool quote=true);
 		std::string get () const 						{ return fValue; }
 		bool   quote () const 						{ return fQuote; }
-
+        
     protected:
 		guidoparam(std::string value, bool quote);
 		guidoparam(long value, bool quote);
 		virtual ~guidoparam ();
-
+        
     private:
 		std::string 	fValue;
 		bool	fQuote;
@@ -73,7 +73,7 @@ class EXP guidoparam : public smartable {
 class EXP guidoelement : public smartable {
 	public:
         static SMARTP<guidoelement> create(std::string name, std::string sep=" ");
-
+		
 		long add (Sguidoelement& elt);
 		long add (Sguidoparam& param);
 		long add (Sguidoparam param);
@@ -89,7 +89,7 @@ class EXP guidoelement : public smartable {
         std::vector<Sguidoelement>& elements()			{ return fElements; }
 		const std::vector<Sguidoelement>& elements() const 	{ return fElements; }
         const std::vector<Sguidoparam>& parameters() const 	{ return fParams; }
-
+		
 		bool empty () const 				{ return fElements.empty(); }
 		virtual bool isSeq () const 		{ return false; }
 		virtual bool isChord () const 		{ return false; }
@@ -97,7 +97,7 @@ class EXP guidoelement : public smartable {
 		virtual bool isNote () const 		{ return false; }
 
 		int countNotes () const;
-
+    
         /// Get next subelement
         const bool getNext(Sguidoelement &i, Sguidoelement &next_e) const {
             std::vector<Sguidoelement>::const_iterator e = find(fElements.begin(), fElements.end(), i);
@@ -110,7 +110,7 @@ class EXP guidoelement : public smartable {
             }
             return false;
         }
-
+    
         const bool getPrev(Sguidoelement &i, Sguidoelement &next_e) const {
             std::vector<Sguidoelement>::const_reverse_iterator e = find(fElements.rbegin(), fElements.rend(), i);
             if (e != fElements.rend()) {
@@ -122,8 +122,8 @@ class EXP guidoelement : public smartable {
             }
             return false;
         }
-
-
+    
+    
     protected:
 				 guidoelement(std::string name, std::string sep=" ");
 		virtual ~guidoelement();
@@ -140,13 +140,13 @@ class EXP guidoelement : public smartable {
 		//! list of the enclosed elements
 		std::vector<Sguidoelement>	fElements;
 		//! list of optional parameters
-		std::vector<Sguidoparam>	fParams;
+		std::vector<Sguidoparam>	fParams;		
 };
 
 /*!
 \brief A guido note duration representation.
 
-	A note duration is represented by a numerator
+	A note duration is represented by a numerator 
     (denotes the number of beats), a denominator (denotes the beat value)
      and optional dots.
      Triplets are repesented as 1/3, 1/6, ... quintuplets, septuplets and so on
@@ -154,15 +154,15 @@ class EXP guidoelement : public smartable {
 */
 class EXP guidonoteduration {
 	public:
-		guidonoteduration(long num, long denom, long dots=0)
+		guidonoteduration(long num, long denom, long dots=0) 
             { set (num, denom, dots); }
 		virtual ~guidonoteduration() {}
-
-        void set (long num, long denom, long dots=0)
+        
+        void set (long num, long denom, long dots=0) 
             { fNum=num; fDenom=denom; fDots=dots; }
-        guidonoteduration& operator= (const guidonoteduration& dur)
+        guidonoteduration& operator= (const guidonoteduration& dur)	
             { fNum=dur.fNum; fDenom=dur.fDenom; fDots=dur.fDots; return *this; }
-        bool operator!= (const guidonoteduration& dur) const
+        bool operator!= (const guidonoteduration& dur) const	
             { return (fNum!=dur.fNum) || (fDenom!=dur.fDenom) || (fDots!=dur.fDots); }
 
         long	fNum;
@@ -181,9 +181,9 @@ class EXP guidonote : public guidoelement {
         static SMARTP<guidonote> create(unsigned short voice);
         static SMARTP<guidonote> create(unsigned short voice, std::string name, char octave,
                                                 guidonoteduration& dur, std::string acc="");
-
+		
 		void set (unsigned short voice, std::string name, char octave, guidonoteduration& dur, std::string acc);
-		void setName (const std::string name)			{ fNote = name; }
+		void setName (const std::string name)			{ fNote = name; } 
 		void setOctave (char octave)					{ fOctave = octave; }
 		void setDuration (const guidonoteduration& dur)	{ fDuration = dur; }
 		void setAccidental (const std::string acc)		{ fAccidental = acc; }
@@ -197,10 +197,10 @@ class EXP guidonote : public guidoelement {
 
 	protected:
 		guidonote(unsigned short voice);
-		guidonote(unsigned short voice, std::string name, char octave,
+		guidonote(unsigned short voice, std::string name, char octave, 
                     guidonoteduration& dur, std::string acc="");
 		virtual ~guidonote();
-
+	
 	std::string 	fNote;
 	std::string 	fAccidental;
 	char 	fOctave;
@@ -213,12 +213,12 @@ typedef SMARTP<guidonote> Sguidonote;
 \brief Represents the current status of notes duration and octave.
 
     Octave and duration may be ommitted for guido notes. If so,
-    they are infered from preceeding notes (or rest), within the same
+    they are infered from preceeding notes (or rest), within the same 
     sequence or chord, or assumed to have standard values.
 \n
 	The object is defined as a multi-voices singleton: a single
     object is allocated for a specific voice and thus it will
-	not operate correctly on a same voice parrallel formatting
+	not operate correctly on a same voice parrallel formatting 
     operations.
 
 \todo handling the current beat value for \e *num duration form.
@@ -226,17 +226,17 @@ typedef SMARTP<guidonote> Sguidonote;
 class EXP guidonotestatus {
 	public:
         enum { kMaxInstances=128 };
-
+        
 		static guidonotestatus* get(unsigned short voice);
 		static void resetall();
 		static void freeall();
 
         enum { defoctave=1, defnum=1, defdenom=4 };
-
+        
         void reset()	{ fOctave=defoctave; fDur.set(defnum, defdenom, 0); }
         guidonotestatus& operator= (const guidonoteduration& dur)	{ fDur = dur; return *this; }
         bool operator!= (const guidonoteduration& dur) const		{ return fDur!= dur; }
-
+            
 		char				fOctave;
 		guidonoteduration 	fDur;
 //		char				fBeat;

@@ -7,10 +7,10 @@
 #define ___bsrTimes_MUT_DEP___
 
 //______________________________________________________________________________
-class EXP bsrTimeItem;
+class bsrTimeItem;
 typedef SMARTP<bsrTimeItem> S_bsrTimeItem;
 
-class EXP bsrTime;
+class bsrTime;
 typedef SMARTP<bsrTime> S_bsrTime;
 
 //______________________________________________________________________________

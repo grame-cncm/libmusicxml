@@ -23,10 +23,10 @@ namespace MusicXML2
 //______________________________________________________________________________
 /*
   Notes, chords and tuplets can be found in tuplets,
-  hence class EXP msrTupletElement
+  hence class msrTupletElement
 */
 
-class EXP msrTupletElement;
+class msrTupletElement;
 typedef SMARTP<msrTupletElement> S_msrTupletElement;
 
 class EXP msrTupletElement : public msrMeasureElement

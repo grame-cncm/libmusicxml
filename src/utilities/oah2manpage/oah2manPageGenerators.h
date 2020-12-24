@@ -25,7 +25,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class EXP oah2manPageGenerator : public oahVisitor
+class oah2manPageGenerator : public oahVisitor
 {
   public:
 

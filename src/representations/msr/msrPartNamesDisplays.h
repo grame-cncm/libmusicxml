@@ -18,14 +18,14 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class EXP msrPartNameDisplay : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -41,9 +41,9 @@ class EXP msrPartNameDisplay : public msrMeasureElement
     msrPartNameDisplay (
       int    inputLineNumber,
       string partNameDisplayValue);
-      
+
     virtual ~msrPartNameDisplay ();
-  
+
   public:
 
     // set and get
@@ -51,14 +51,14 @@ class EXP msrPartNameDisplay : public msrMeasureElement
 
     string                getPartNameDisplayValue () const
                               { return fPartNameDisplayValue; }
-                        
+
   public:
 
     // public services
     // ------------------------------------------------------
 
     string                asString () const override;
-         
+
   public:
 
     // visitors
@@ -90,7 +90,7 @@ EXP ostream& operator<< (ostream& os, const S_msrPartNameDisplay& elt);
 class EXP msrPartAbbreviationDisplay : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -106,9 +106,9 @@ class EXP msrPartAbbreviationDisplay : public msrMeasureElement
     msrPartAbbreviationDisplay (
       int    inputLineNumber,
       string partAbbreviationDisplayValue);
-      
+
     virtual ~msrPartAbbreviationDisplay ();
-  
+
   public:
 
     // set and get
@@ -116,7 +116,7 @@ class EXP msrPartAbbreviationDisplay : public msrMeasureElement
 
     string                getPartAbbreviationDisplayValue () const
                               { return fPartAbbreviationDisplayValue; }
-                        
+
   public:
 
     // public services
@@ -138,7 +138,7 @@ class EXP msrPartAbbreviationDisplay : public msrMeasureElement
     // ------------------------------------------------------
 
     string                asString () const override;
-         
+
     virtual void          print (ostream& os) const override;
 
   private:

@@ -202,7 +202,7 @@ ostream& operator<< (ostream& os, const S_oahAtomSynonym& elt)
 }
 
 //______________________________________________________________________________
-/* this class EXP is purely virtual
+/* this class is purely virtual
 S_oahHelpOnlyAtom oahHelpOnlyAtom::create (
   string shortName,
   string longName,

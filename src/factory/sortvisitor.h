@@ -28,7 +28,7 @@ namespace MusicXML2
 /*!
 \brief A visitor that sorts a musicxml tree according to the dtd
 */
-class EXP sortvisitor : 
+class sortvisitor : 
 	public visitor<S_accord>,
 	public visitor<S_accordion_registration>,
 	public visitor<S_appearance>,

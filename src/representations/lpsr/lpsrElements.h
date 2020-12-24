@@ -63,7 +63,7 @@ class EXP lpsrElement : public msrElement
 typedef SMARTP<lpsrElement> S_lpsrElement;
 
 //______________________________________________________________________________
-template <typename T> class EXP lpsrBrowser : public browser<T>
+template <typename T> class lpsrBrowser : public browser<T>
 {
   protected:
 

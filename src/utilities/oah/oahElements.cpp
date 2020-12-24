@@ -92,7 +92,7 @@ string elementHelpOnlyKindAsString (
 }
 
 //______________________________________________________________________________
-/* this class EXP is purely virtual
+/* this class is purely virtual
 S_oahElement oahElement::create (
   string                   shortName,
   string                   longName,

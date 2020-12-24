@@ -222,7 +222,7 @@ void	yyerror(const char *s)	{ gReader->error (s, libmxmllineno); }
 
 #ifdef MAIN
 
-class EXP testreader : public reader
+class testreader : public reader
 {
 	public:
 		bool	xmlDecl (const char* version, const char *encoding, bool standalone) {

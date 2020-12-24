@@ -1641,7 +1641,7 @@ EXP ostream& operator<< (ostream& os, const msrTupletFactor& elt);
 
 // harmonies intervals
 //______________________________________________________________________________
-class EXP msrHarmonyInterval;
+class msrHarmonyInterval;
 typedef SMARTP<msrHarmonyInterval> S_msrHarmonyInterval;
 
 class EXP msrHarmonyInterval : public smartable
@@ -1753,7 +1753,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmonyInterval& elt);
 
 // harmonies structure
 //______________________________________________________________________________
-class EXP msrHarmonyStructure;
+class msrHarmonyStructure;
 typedef SMARTP<msrHarmonyStructure> S_msrHarmonyStructure;
 
 class EXP msrHarmonyStructure : public smartable

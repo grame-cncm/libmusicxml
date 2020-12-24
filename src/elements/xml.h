@@ -32,8 +32,8 @@ namespace MusicXML2
 @{
 */
 
-class EXP xmlelement;
-class EXP xmlattribute;
+class xmlelement;
+class xmlattribute;
 
 typedef SMARTP<xmlattribute> 	Sxmlattribute;
 typedef SMARTP<xmlelement> 		Sxmlelement;

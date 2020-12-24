@@ -39,7 +39,7 @@ namespace MusicXML2
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
-/* this class EXP is purely virtual
+/* this class is purely virtual
 S_oahRegularOahHandler oahRegularOahHandler::create (
   string       executableName,
   string       executableAboutInformation,

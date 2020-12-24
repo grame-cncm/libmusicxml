@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class EXP basicOah2manPageGenerator : virtual public oah2manPageGenerator,
+class basicOah2manPageGenerator : virtual public oah2manPageGenerator,
 
   public visitor<S_oahPrefix>,
 

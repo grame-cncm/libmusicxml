@@ -20,10 +20,10 @@ namespace MusicXML2
 {
 
 /*!
-\brief the base class EXP for smart pointers implementation
+\brief the base class for smart pointers implementation
 
 	Any object that want to support smart pointers should
-	inherit from the smartable class EXP which provides reference counting
+	inherit from the smartable class which provides reference counting
 	and automatic delete when the reference count drops to zero.
 */
 class EXP smartable {
@@ -49,24 +49,24 @@ class EXP smartable {
 \brief the smart pointer implementation
 
 	A smart pointer is in charge of maintaining the objects reference count 
-	by the way of pointers operators overloading. It supports class EXP 
+	by the way of pointers operators overloading. It supports class 
 	inheritance and conversion whenever possible.
-\n	Instances of the SMARTP class EXP are supposed to use \e smartable types (or at least
+\n	Instances of the SMARTP class are supposed to use \e smartable types (or at least
 	objects that implements the \e addReference and \e removeReference
 	methods in a consistent way).
 */
-template<class EXP T> class EXP SMARTP {
+template<class T> class SMARTP {
 	private:
-		//! the actual pointer to the class EXP
+		//! the actual pointer to the class
 		T* fSmartPtr;
 
 	public:
 		//! an empty constructor - points to null
 		SMARTP()	: fSmartPtr(0) {}
-		//! build a smart pointer from a class EXP pointer
+		//! build a smart pointer from a class pointer
 		SMARTP(T* rawptr) : fSmartPtr(rawptr)              { if (fSmartPtr) fSmartPtr->addReference(); }
-		//! build a smart pointer from an convertible class EXP reference
-		template<class EXP T2> 
+		//! build a smart pointer from an convertible class reference
+		template<class T2> 
 		SMARTP(const SMARTP<T2>& ptr) : fSmartPtr((T*)ptr) { if (fSmartPtr) fSmartPtr->addReference(); }
 		//! build a smart pointer from another smart pointer reference
 		SMARTP(const SMARTP& ptr) : fSmartPtr((T*)ptr)     { if (fSmartPtr) fSmartPtr->addReference(); }
@@ -74,28 +74,28 @@ template<class EXP T> class EXP SMARTP {
 		//! the smart pointer destructor: simply removes one reference count
 		~SMARTP()  { if (fSmartPtr) fSmartPtr->removeReference(); }
 		
-		//! cast operator to retrieve the actual class EXP pointer
+		//! cast operator to retrieve the actual class pointer
 		operator T*() const  { return fSmartPtr;	}
 
-		//! '*' operator to access the actual class EXP pointer
+		//! '*' operator to access the actual class pointer
 		T& operator*() const {
 			// checks for null dereference
 			assert (fSmartPtr != 0);
 			return *fSmartPtr;
 		}
 
-		//! operator -> overloading to access the actual class EXP pointer
+		//! operator -> overloading to access the actual class pointer
 		T* operator->() const	{ 
 			// checks for null dereference
 			assert (fSmartPtr != 0);
 			return fSmartPtr;
 		}
 
-		//! operator = that moves the actual class EXP pointer
-		template <class EXP T2>
+		//! operator = that moves the actual class pointer
+		template <class T2>
 		SMARTP& operator=(T2 p1_)	{ *this=(T*)p1_; return *this; }
 
-		//! operator = that moves the actual class EXP pointer
+		//! operator = that moves the actual class pointer
 		SMARTP& operator=(T* p_)	{
 			// check first that pointers differ
 			if (fSmartPtr != p_) {
@@ -108,12 +108,12 @@ template<class EXP T> class EXP SMARTP {
 			}
 			return *this;
 		}
-		//! operator = to support inherited class EXP reference
+		//! operator = to support inherited class reference
 		SMARTP& operator=(const SMARTP<T>& p_)                { return operator=((T *) p_); }
 		//! dynamic cast support
-		template<class EXP T2> SMARTP& cast(T2* p_)               { return operator=(dynamic_cast<T*>(p_)); }
+		template<class T2> SMARTP& cast(T2* p_)               { return operator=(dynamic_cast<T*>(p_)); }
 		//! dynamic cast support
-		template<class EXP T2> SMARTP& cast(const SMARTP<T2>& p_) { return operator=(dynamic_cast<T*>(p_)); }
+		template<class T2> SMARTP& cast(const SMARTP<T2>& p_) { return operator=(dynamic_cast<T*>(p_)); }
 		//! operator < (require by VC6 for maps)
 		bool operator < (const SMARTP<T>& p_) const			  { return (void*)this < (void*)p_; }
 };

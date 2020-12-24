@@ -19,9 +19,9 @@ namespace MusicXML2
 {
 
 /*!
- * \brief base class EXP for visitable objects
+ * \brief base class for visitable objects
  */
-class EXP visitable
+class visitable
 {
 	public:
 		virtual ~visitable() {}

@@ -31,18 +31,18 @@ using namespace std;
 namespace MusicXML2
 {
 //______________________________________________________________________________
-// PRE-declarations for class EXP mutual dependencies
+// PRE-declarations for class mutual dependencies
 
-class EXP oahAtom;
+class oahAtom;
 typedef SMARTP<oahAtom> S_oahAtom;
 
-class EXP oahSubGroup;
+class oahSubGroup;
 typedef SMARTP<oahSubGroup> S_oahSubGroup;
 
-class EXP oahGroup;
+class oahGroup;
 typedef SMARTP<oahGroup> S_oahGroup;
 
-class EXP oahHandler;
+class oahHandler;
 typedef SMARTP<oahHandler> S_oahHandler;
 
 // options default value styles // superfluous ??? JMI
@@ -73,7 +73,7 @@ EXP void displayOptionsVector (
   ostream&             os);
 
 //______________________________________________________________________________
-class EXP oahPrefix;
+class oahPrefix;
 typedef SMARTP<oahPrefix> S_oahPrefix;
 
 class EXP oahPrefix : public smartable
@@ -172,14 +172,14 @@ to be developped into :
 EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
 
 //______________________________________________________________________________
-class EXP oahAtom : public oahElement
+class oahAtom : public oahElement
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-/* this class EXP is purely virtual
+/* this class is purely virtual
     static SMARTP<oahAtom> create (
       string         shortName,
       string         longName,
@@ -272,13 +272,13 @@ typedef SMARTP<oahAtom> S_oahAtom;
 EXP ostream& operator<< (ostream& os, const S_oahAtom& elt);
 
 //______________________________________________________________________________
-class EXP oahAtomWithVariableName : public oahAtom
+class oahAtomWithVariableName : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
-/* this class EXP is purely virtual
+/* this class is purely virtual
     static SMARTP<oahAtomWithVariableName> create (
       string shortName,
       string longName,
@@ -354,13 +354,13 @@ typedef SMARTP<oahAtomWithVariableName> S_oahAtomWithVariableName;
 EXP ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt);
 
 //______________________________________________________________________________
-class EXP oahAtomWithValue : public oahAtomWithVariableName
+class oahAtomWithValue : public oahAtomWithVariableName
 {
   public:
 
     // creation
     // ------------------------------------------------------
-/* this class EXP is purely virtual
+/* this class is purely virtual
     static SMARTP<oahAtomWithValue> create (
       string shortName,
       string longName,
@@ -454,7 +454,7 @@ typedef SMARTP<oahAtomWithValue> S_oahAtomWithValue;
 EXP ostream& operator<< (ostream& os, const S_oahAtomWithValue& elt);
 
 //_______________________________________________________________________________
-class EXP oahSubGroup : public oahElement
+class oahSubGroup : public oahElement
 {
   public:
 
@@ -611,7 +611,7 @@ typedef SMARTP<oahSubGroup> S_oahSubGroup;
 EXP ostream& operator<< (ostream& os, const S_oahSubGroup& elt);
 
 //_______________________________________________________________________________
-class EXP oahGroup : public oahElement
+class oahGroup : public oahElement
 {
   public:
 
@@ -829,7 +829,7 @@ class EXP oahHandler : public smartable
     // creation
     // ------------------------------------------------------
 
- /* this class EXP is purely virtual
+ /* this class is purely virtual
     static SMARTP<oahHandler> create (
       string   executableName,
       string   executableAboutInformation,

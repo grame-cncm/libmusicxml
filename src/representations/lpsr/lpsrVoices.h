@@ -45,9 +45,9 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
     lpsrUseVoiceCommand (
       int        inputLineNumber,
       S_msrVoice voice);
-      
+
     virtual ~lpsrUseVoiceCommand ();
-  
+
   public:
 
     // set and get
@@ -61,7 +61,7 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -71,14 +71,14 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
     virtual void          browseData (basevisitor* v) override;
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const override;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 

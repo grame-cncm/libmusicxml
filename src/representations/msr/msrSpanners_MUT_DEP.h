@@ -8,7 +8,7 @@
 
 //______________________________________________________________________________
 // pre-declaration for two-way sideLinks
-class EXP msrSpanner;
+class msrSpanner;
 typedef SMARTP<msrSpanner> S_msrSpanner;
 
 class EXP msrSpanner : public msrElement

@@ -29,7 +29,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP traceOahGroup : public oahGroup
+class traceOahGroup : public oahGroup
 {
   public:
 

@@ -36,7 +36,7 @@ namespace MusicXML2
 
 
 template<int elt>
-class EXP newElementFunctor : public functor<Sxmlelement>
+class newElementFunctor : public functor<Sxmlelement>
 {
   public:
   

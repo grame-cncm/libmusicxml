@@ -28,7 +28,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
+class extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
 {
   public:
 
@@ -100,7 +100,7 @@ typedef SMARTP<extraShowAllHarmoniesStructuresAtom> S_extraShowAllHarmoniesStruc
 EXP ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesStructuresAtom& elt);
 
 //______________________________________________________________________________
-class EXP extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
+class extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
 {
   public:
 
@@ -184,7 +184,7 @@ typedef SMARTP<extraShowAllHarmoniesContentsAtom> S_extraShowAllHarmoniesContent
 EXP ostream& operator<< (ostream& os, const S_extraShowAllHarmoniesContentsAtom& elt);
 
 //______________________________________________________________________________
-class EXP extraShowHarmonyDetailsAtom : public oahAtomWithValue
+class extraShowHarmonyDetailsAtom : public oahAtomWithValue
 {
   public:
 
@@ -264,7 +264,7 @@ typedef SMARTP<extraShowHarmonyDetailsAtom> S_extraShowHarmonyDetailsAtom;
 EXP ostream& operator<< (ostream& os, const S_extraShowHarmonyDetailsAtom& elt);
 
 //______________________________________________________________________________
-class EXP extraShowHarmonyAnalysisAtom : public oahAtomWithValue
+class extraShowHarmonyAnalysisAtom : public oahAtomWithValue
 {
   public:
 
@@ -344,7 +344,7 @@ typedef SMARTP<extraShowHarmonyAnalysisAtom> S_extraShowHarmonyAnalysisAtom;
 EXP ostream& operator<< (ostream& os, const S_extraShowHarmonyAnalysisAtom& elt);
 
 //______________________________________________________________________________
-class EXP extraOahGroup : public oahGroup
+class extraOahGroup : public oahGroup
 {
   public:
 
