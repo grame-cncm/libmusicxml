@@ -30,8 +30,8 @@
 #include "msr2msrOah.h"
 #include "musicxmlOah.h"
 
-#include "xml2xmlInsiderOahHandler.h"
-#include "xml2xmlRegularOahHandler.h"
+#include "xml2gmnInsiderOahHandler.h"
+#include "xml2gmnRegularOahHandler.h"
 
 #include "musicxml2mxmlTreeInterface.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"
@@ -39,7 +39,7 @@
 
 #include "msr2msrInterface.h"
 #include "msr2mxmlTreeInterface.h"
-#include "mxmlTree2xmlTranlatorInterface.h"
+#include "mxmlTree2guidoTranlatorInterface.h"
 
 #include "mxmlTree.h"
 #include "musicxml2guido.h"
@@ -103,7 +103,7 @@ static xmlErr xmlFile2guidoWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2xmlInsiderOahGroup->getQuit2a ()) {
+  if (gGlobalXml2gmnInsiderOahGroup->getQuitAfterPass2a ()) {
     err <<
       endl <<
       "Quitting after pass 2a as requested" <<
@@ -131,7 +131,7 @@ static xmlErr xmlFile2guidoWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2xmlInsiderOahGroup->getQuit2b ()) {
+  if (gGlobalXml2gmnInsiderOahGroup->getQuitAfterPass2b ()) {
     err <<
       endl <<
       "Quitting after pass 2b as requested" <<
@@ -180,7 +180,7 @@ static xmlErr xmlFile2guidoWithHandler (
     return kInvalidFile;
   }
 
-  // generate MusicXML from the second mxmlTree (pass 5)
+  // generate Guido from the second mxmlTree (pass 5)
   // ------------------------------------------------------
 
   string
@@ -189,7 +189,7 @@ static xmlErr xmlFile2guidoWithHandler (
         fetchOutputFileNameFromTheOptions ();
 
   try {
-    generateMusicXMLFromMxmlTree (
+    generateGuidoFromMxmlTree (
       secondMxmlTree,
       outputFileName,
       err,
@@ -238,7 +238,7 @@ static xmlErr xmlFile2guidoWithOptionsVector (
   // the fake executable name
   // ------------------------------------------------------
 
-  string fakeExecutableName = "xml2xml";
+  string fakeExecutableName = "xml2gmn";
 
   // reset the global indenter
   // ------------------------------------------------------
@@ -300,15 +300,15 @@ static xmlErr xmlFile2guidoWithOptionsVector (
 
   string
     aboutInformation =
-      xml2xmlAboutInformation ();
+      xml2gmnAboutInformation ();
 
-  // create an xml2xml insider OAH handler
+  // create an xml2gmn insider OAH handler
   // ------------------------------------------------------
 
-  // create an insider xml2xml OAH handler
-  S_xml2xmlInsiderOahHandler
+  // create an insider xml2gmn OAH handler
+  S_xml2gmnInsiderOahHandler
     insiderOahHandler =
-      xml2xmlInsiderOahHandler::create (
+      xml2gmnInsiderOahHandler::create (
         fakeExecutableName,
         aboutInformation,
         fakeExecutableName + " insider OAH handler with options vector");
@@ -319,13 +319,13 @@ static xmlErr xmlFile2guidoWithOptionsVector (
   S_oahHandler handler;
 
   if (insiderOptions) {
-    // use the insider xml2xml OAH handler
+    // use the insider xml2gmn OAH handler
     handler = insiderOahHandler;
   }
   else {
-    // create a regular xml2xml OAH handler
+    // create a regular xml2gmn OAH handler
     handler =
-      xml2xmlRegularOahHandler::create (
+      xml2gmnRegularOahHandler::create (
         fakeExecutableName,
         aboutInformation,
         fakeExecutableName + " regular OAH handler",

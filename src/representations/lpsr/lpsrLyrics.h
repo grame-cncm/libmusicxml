@@ -24,6 +24,10 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class msrStanza;
+typedef SMARTP<msrStanza> S_msrStanza;
+
+//______________________________________________________________________________
 class EXP lpsrNewLyricsBlock : public lpsrElement
 {
   public:

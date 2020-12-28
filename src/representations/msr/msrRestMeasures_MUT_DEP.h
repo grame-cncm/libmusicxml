@@ -6,6 +6,16 @@
 #ifndef ___msrRestMeasures_MUT_DEP___
 #define ___msrRestMeasures_MUT_DEP___
 
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
+class msrRestMeasures;
+typedef SMARTP<msrRestMeasures> S_msrRestMeasures;
+
 //______________________________________________________________________________
 class EXP msrRestMeasuresContents : public msrElement
 {
@@ -245,6 +255,9 @@ class EXP msrRestMeasures : public msrVoiceElement
 };
 typedef SMARTP<msrRestMeasures> S_msrRestMeasures;
 EXP ostream& operator<< (ostream& os, const S_msrRestMeasures& elt);
+
+
+}
 
 
 #endif

@@ -6,6 +6,13 @@
 #ifndef ___msrSegments_MUT_DEP___
 #define ___msrSegments_MUT_DEP___
 
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
 //______________________________________________________________________________
 class EXP msrSegment : public msrVoiceElement
 {
@@ -382,6 +389,9 @@ class EXP msrSegment : public msrVoiceElement
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
+
+
+}
 
 
 #endif

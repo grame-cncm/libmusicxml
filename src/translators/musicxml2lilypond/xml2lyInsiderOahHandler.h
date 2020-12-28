@@ -154,9 +154,9 @@ class EXP xml2lyInsiderOahGroup : public oahGroup
                               { return fOutputFileNameStringAtom; }
 
     // quit after some passes
-    bool                  getQuit2a () const
+    bool                  getQuitAfterPass2a () const
                               { return fQuitAfterPass2a; }
-    bool                  getQuit2b () const
+    bool                  getQuitAfterPass2b () const
                               { return fQuitAfterPass2b; }
 
   public:

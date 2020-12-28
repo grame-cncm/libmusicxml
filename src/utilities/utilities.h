@@ -47,7 +47,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class timingItem : public smartable
+class EXP timingItem : public smartable
 {
   public:
     enum timingItemKind {
@@ -77,7 +77,7 @@ class timingItem : public smartable
 
 typedef SMARTP<timingItem> S_timingItem;
 
-class EXP timing {
+class EXP EXP timing {
   public:
        timing ();
     virtual ~timing ();
@@ -197,7 +197,7 @@ Reference for this class:
   https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 */
 
-class indentedStreamBuf: public stringbuf
+class EXP indentedStreamBuf: public stringbuf
 {
   private:
 

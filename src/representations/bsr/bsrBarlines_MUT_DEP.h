@@ -6,6 +6,9 @@
 #ifndef ___bsrBarlines_MUT_DEP___
 #define ___bsrBarlines_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class bsrBarline;
 typedef SMARTP<bsrBarline> S_bsrBarline;
@@ -107,6 +110,8 @@ class EXP bsrBarline : public bsrLineElement
 };
 typedef SMARTP<bsrBarline> S_bsrBarline;
 EXP ostream& operator<< (ostream& os, const S_bsrBarline& elt);
+
+}
 
 
 #endif

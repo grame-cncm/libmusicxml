@@ -17,6 +17,8 @@
 
 #include "lpsrStaves.h"
 
+#include "msr.h"
+
 
 namespace MusicXML2
 {

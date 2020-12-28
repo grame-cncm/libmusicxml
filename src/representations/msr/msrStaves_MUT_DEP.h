@@ -6,6 +6,9 @@
 #ifndef ___msrStaves_MUT_DEP___
 #define ___msrStaves_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
@@ -539,6 +542,9 @@ class EXP msrStaff : public msrElement
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
+
+
+}
 
 
 #endif

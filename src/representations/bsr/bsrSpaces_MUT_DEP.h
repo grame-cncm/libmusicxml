@@ -6,6 +6,9 @@
 #ifndef ___bsrSpaces_MUT_DEP___
 #define ___bsrSpaces_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 const bsrCellKind
   kCellSpace = kDotsNone;
@@ -83,6 +86,9 @@ class EXP bsrSpaces : public bsrLineElement
 };
 typedef SMARTP<bsrSpaces> S_bsrSpaces;
 EXP ostream& operator<< (ostream& os, const S_bsrSpaces& elt);
+
+
+}
 
 
 #endif

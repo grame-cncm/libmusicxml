@@ -15,6 +15,8 @@
 
 #include "oahBasicTypes.h"
 
+#include "oahAtomsCollection.h"
+
 
 namespace MusicXML2
 {
@@ -130,6 +132,22 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
+    // Guido
+    void                  setGenerateComments ()
+                              { fGenerateComments = true; }
+    bool                  getGenerateComments () const
+                              { return fGenerateComments; }
+
+    void                  setGenerateStem ()
+                              { fGenerateStem = true; }
+    bool                  getGenerateStem () const
+                              { return fGenerateStem; }
+
+    void                  setGenerateBars ()
+                              { fGenerateBars = true; }
+    bool                  getGenerateBars () const
+                              { return fGenerateBars; }
+
     // output file
     S_oahBooleanAtom      getAutoOutputFileNameAtom () const
                               { return fAutoOutputFileNameAtom; }
@@ -137,10 +155,25 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     S_oahStringAtom       getOutputFileNameStringAtom () const
                               { return fOutputFileNameStringAtom; }
 
+    void                  setAutoOutputFileName ()
+                              { fAutoOutputFileName = true; }
+    bool                  getAutoOutputFileName () const
+                              { return fAutoOutputFileName; }
+
+    void                  setOutputFileName (string value)
+                              { fOutputFileName = value; }
+    string                getOutputFileName () const
+                              { return fOutputFileName; }
+
     // quit after some passes
-    bool                  getQuit2a () const
+    void                  setQuitAfterPass2a ()
+                              { fQuitAfterPass2a = true; }
+    bool                  getQuitAfterPass2a () const
                               { return fQuitAfterPass2a; }
-    bool                  getQuit2b () const
+
+    void                  setQuitAfterPass2b ()
+                              { fQuitAfterPass2b = true; }
+    bool                  getQuitAfterPass2b () const
                               { return fQuitAfterPass2b; }
 
   public:
@@ -178,6 +211,8 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
+    void                  createInsiderGuidoSubGroup ();
+
     void                  createInsiderOutputSubGroup ();
 
     void                  createInsiderQuitSubGroup ();
@@ -186,6 +221,11 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
 
     // private fields
     // ------------------------------------------------------
+
+    // Guido
+    bool                  fGenerateComments;
+    bool                  fGenerateStem;
+    bool                  fGenerateBars;
 
     // output file
     // we store the atoms for the needs of fetchOutputFileNameFromTheOptions()

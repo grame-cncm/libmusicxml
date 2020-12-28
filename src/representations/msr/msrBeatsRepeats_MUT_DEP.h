@@ -6,6 +6,13 @@
 #ifndef ___msrBeatsRepeats_MUT_DEP___
 #define ___msrBeatsRepeats_MUT_DEP___
 
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrBeatsRepeat;
+typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat;
+
 //______________________________________________________________________________
 class EXP msrBeatsRepeatPattern : public msrElement
 {
@@ -350,6 +357,9 @@ class EXP msrBeatsRepeat : public msrVoiceElement
 };
 typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrBeatsRepeat& elt);
+
+
+}
 
 
 #endif

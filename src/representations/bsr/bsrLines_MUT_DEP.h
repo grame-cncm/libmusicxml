@@ -3,6 +3,42 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___bsrLines_MUT_DEP___
+#define ___bsrLines_MUT_DEP___
+
+#include "bsrElements.h"
+#include "bsrLineElements_MUT_DEP.h"
+#include "bsrPageElements_MUT_DEP.h"
+
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class bsrLine;
+typedef SMARTP<bsrLine> S_bsrLine;
+
+class bsrSpaces;
+typedef SMARTP<bsrSpaces> S_bsrSpaces;
+
+class bsrMeasure;
+typedef SMARTP<bsrMeasure> S_bsrMeasure;
+
+class bsrKey;
+typedef SMARTP<bsrKey> S_bsrKey;
+
+class bsrTime;
+typedef SMARTP<bsrTime> S_bsrTime;
+
+class bsrTempo;
+typedef SMARTP<bsrTempo> S_bsrTempo;
+
+class bsrMeasure;
+typedef SMARTP<bsrMeasure> S_bsrMeasure;
+
+class bsrNote;
+typedef SMARTP<bsrNote> S_bsrNote;
+
 //______________________________________________________________________________
 class EXP bsrLineContents : public bsrElement
 {
@@ -241,3 +277,9 @@ class EXP bsrLine : public bsrPageElement
 };
 typedef SMARTP<bsrLine> S_bsrLine;
 EXP ostream& operator<< (ostream& os, const S_bsrLine& elt);
+
+
+}
+
+
+#endif

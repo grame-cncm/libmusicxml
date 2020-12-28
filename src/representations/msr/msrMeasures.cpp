@@ -1899,11 +1899,13 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
   // fetch note sounding whole notes
   rational
     noteSoundingWholeNotes =
-      note->getNoteSoundingWholeNotes ();
+      note->
+        getNoteSoundingWholeNotes ();
 
   string
     noteSoundingWholeNotesAsMsrString =
-      note->noteSoundingWholeNotesAsMsrString ();
+      note->
+        noteSoundingWholeNotesAsMsrString ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
@@ -1976,6 +1978,10 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
       fMeasureLongestNote = note;
     }
   }
+
+  // is this note the shortest one in its voice?
+  fetchMeasureVoiceUpLink ()->
+    registerShortestNoteInVoiceIfRelevant (note);
 
   // this measure contains music
   fMeasureContainsMusic = true;

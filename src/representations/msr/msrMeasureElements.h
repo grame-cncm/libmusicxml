@@ -125,8 +125,8 @@ class EXP msrMeasureElement : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asShortString () const override;
-    virtual std::string   asString () const override;
+    virtual string        asShortString () const override;
+    virtual string        asString () const override;
 
     virtual void          print (ostream& os) const override;
 

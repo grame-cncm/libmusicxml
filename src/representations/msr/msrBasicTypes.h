@@ -1966,7 +1966,7 @@ class EXP msrRGBColor {
       float theB);
 
     msrRGBColor (
-      std::string theString);
+      string theString);
 
     // set and get
     // ------------------------------------------------------

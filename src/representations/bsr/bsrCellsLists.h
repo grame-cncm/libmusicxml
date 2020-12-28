@@ -13,6 +13,8 @@
 #ifndef ___bsrCellsLists___
 #define ___bsrCellsLists___
 
+#include "smartpointer.h"
+
 #include "bsrElements.h"
 
 #include "bsrBasicTypes.h"

@@ -6,6 +6,13 @@
 #ifndef ___msrFiguredBasses_MUT_DEP___
 #define ___msrFiguredBasses_MUT_DEP___
 
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrPart;
+typedef SMARTP<msrPart> S_msrPart;
+
 //______________________________________________________________________________
 class EXP msrFigure : public msrElement
 {
@@ -273,6 +280,9 @@ class EXP msrFiguredBass : public msrMeasureElement
 };
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
+
+
+}
 
 
 #endif

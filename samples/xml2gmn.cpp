@@ -81,9 +81,13 @@ int main (int argc, char *argv[])
 	catchsigs ();
 
   // fetch executable name
+  // ------------------------------------------------------
+
   string executableName = argv [0];
 
   // are there insider and/or regular options present?
+  // ------------------------------------------------------
+
   bool insiderOptions = false;
   bool regularOptions = false;
 

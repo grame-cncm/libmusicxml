@@ -9,6 +9,9 @@
 #include "msrMeasures_MUT_DEP.h"
 
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
@@ -1023,11 +1026,6 @@ class EXP msrVoice : public msrElement
     list<S_msrVoiceElement>
                           fInitialVoiceElementsList;
 
-     // stanzas
-
-    map<string, S_msrStanza>
-                          fVoiceStanzasMap;
-
    // segments
 
     // fVoiceLastSegment contains the music
@@ -1040,6 +1038,11 @@ class EXP msrVoice : public msrElement
 
     // fVoiceFirstSegment is used to work around LilyPond issue #34
     S_msrSegment          fVoiceFirstSegment;
+
+     // stanzas
+
+    map<string, S_msrStanza>
+                          fVoiceStanzasMap;
 
     // measures
 
@@ -1255,6 +1258,9 @@ class EXP msrVoice : public msrElement
     bool                  fVoiceHasBeenFinalized;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
+
+
+}
 
 
 #endif

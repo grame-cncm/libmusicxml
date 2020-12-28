@@ -6,6 +6,9 @@
 #ifndef ___bsrPaginations_MUT_DEP___
 #define ___bsrPaginations_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP bsrPagination : public bsrLineElement
 {
@@ -87,6 +90,9 @@ class EXP bsrPagination : public bsrLineElement
 };
 typedef SMARTP<bsrPagination> S_bsrPagination;
 EXP ostream& operator<< (ostream& os, const S_bsrPagination& elt);
+
+
+}
 
 
 #endif

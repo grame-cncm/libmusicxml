@@ -6,6 +6,24 @@
 #ifndef ___msrNotes_MUT_DEP___
 #define ___msrNotes_MUT_DEP___
 
+#include "msrGlissandos_MUT_DEP.h"
+#include "msrOrnaments_MUT_DEP.h"
+#include "msrSlides_MUT_DEP.h"
+#include "msrSpanners_MUT_DEP.h"
+#include "msrSyllables_MUT_DEP.h"
+#include "msrTupletElements.h"
+
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrChord;
+typedef SMARTP<msrChord> S_msrChord;
+
+class msrTuplet;
+typedef SMARTP<msrTuplet> S_msrTuplet;
+
 //______________________________________________________________________________
 class EXP msrNote : public msrTupletElement
 {
@@ -1192,6 +1210,9 @@ class EXP msrNote : public msrTupletElement
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
+
+
+}
 
 
 #endif

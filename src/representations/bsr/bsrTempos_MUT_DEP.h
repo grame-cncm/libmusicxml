@@ -6,6 +6,11 @@
 #ifndef ___bsrTempos_MUT_DEP___
 #define ___bsrTempos_MUT_DEP___
 
+#include "msrTempos.h"
+
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 string tempoKindAsDebugString (
   msrTempo::msrTempoKind tempoKind);
@@ -101,6 +106,9 @@ class EXP bsrTempo : public bsrLineElement
 };
 typedef SMARTP<bsrTempo> S_bsrTempo;
 EXP ostream& operator<< (ostream& os, const S_bsrTempo& elt);
+
+
+}
 
 
 #endif

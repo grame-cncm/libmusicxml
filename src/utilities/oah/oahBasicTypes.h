@@ -172,7 +172,7 @@ to be developped into :
 EXP ostream& operator<< (ostream& os, const S_oahPrefix& elt);
 
 //______________________________________________________________________________
-class oahAtom : public oahElement
+class EXP oahAtom : public oahElement
 {
   public:
 
@@ -272,7 +272,7 @@ typedef SMARTP<oahAtom> S_oahAtom;
 EXP ostream& operator<< (ostream& os, const S_oahAtom& elt);
 
 //______________________________________________________________________________
-class oahAtomWithVariableName : public oahAtom
+class EXP oahAtomWithVariableName : public oahAtom
 {
   public:
 
@@ -354,7 +354,7 @@ typedef SMARTP<oahAtomWithVariableName> S_oahAtomWithVariableName;
 EXP ostream& operator<< (ostream& os, const S_oahAtomWithVariableName& elt);
 
 //______________________________________________________________________________
-class oahAtomWithValue : public oahAtomWithVariableName
+class EXP oahAtomWithValue : public oahAtomWithVariableName
 {
   public:
 
@@ -454,7 +454,7 @@ typedef SMARTP<oahAtomWithValue> S_oahAtomWithValue;
 EXP ostream& operator<< (ostream& os, const S_oahAtomWithValue& elt);
 
 //_______________________________________________________________________________
-class oahSubGroup : public oahElement
+class EXP oahSubGroup : public oahElement
 {
   public:
 
@@ -611,7 +611,7 @@ typedef SMARTP<oahSubGroup> S_oahSubGroup;
 EXP ostream& operator<< (ostream& os, const S_oahSubGroup& elt);
 
 //_______________________________________________________________________________
-class oahGroup : public oahElement
+class EXP oahGroup : public oahElement
 {
   public:
 

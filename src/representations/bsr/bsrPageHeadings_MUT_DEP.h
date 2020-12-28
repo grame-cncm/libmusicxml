@@ -6,6 +6,9 @@
 #ifndef ___bsrPageHeadings_MUT_DEP___
 #define ___bsrPageHeadings_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP bsrPageHeading : public bsrLine
 {
@@ -95,6 +98,9 @@ class EXP bsrPageHeading : public bsrLine
 };
 typedef SMARTP<bsrPageHeading> S_bsrPageHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrPageHeading& elt);
+
+
+}
 
 
 #endif

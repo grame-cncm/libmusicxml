@@ -25,14 +25,11 @@
 
 #include "lpsrBookBlockElements.h"
 
-#include "msrScores.h"
-
-#include "msrMidi.h"
+#include "msr.h"
 
 
 namespace MusicXML2
 {
-
 
 //______________________________________________________________________________
 class EXP lpsrScore : public lpsrElement

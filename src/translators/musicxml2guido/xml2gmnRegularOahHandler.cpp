@@ -1180,8 +1180,9 @@ void xml2gmnRegularOahHandler::createOutputRegularGroup ()
   registerAtomInRegularSubgroup ("output-file-name", subGroup);
   registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
 
-  registerAtomInRegularSubgroup ("xml2gmn-infos", subGroup);
-  registerAtomInRegularSubgroup ("musicxml-comments", subGroup);
+  registerAtomInRegularSubgroup ("generate-comments", subGroup);
+  registerAtomInRegularSubgroup ("generate-stem", subGroup);
+  registerAtomInRegularSubgroup ("generate-bars", subGroup);
 }
 
 //______________________________________________________________________________

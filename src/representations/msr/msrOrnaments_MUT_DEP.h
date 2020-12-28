@@ -6,6 +6,14 @@
 #ifndef ___msrOrnaments_MUT_DEP___
 #define ___msrOrnaments_MUT_DEP___
 
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
+
 //______________________________________________________________________________
 class EXP msrOrnament : public msrElement
 {
@@ -127,6 +135,9 @@ class EXP msrOrnament : public msrElement
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
+
+
+}
 
 
 #endif

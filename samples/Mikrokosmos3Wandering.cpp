@@ -58,6 +58,9 @@
 #include "bsr2bsrFinalizerInterface.h"
 #include "bsr2brailleTranslatorInterface.h"
 
+#include "exNihiloInsiderOahHandler.h"
+#include "exNihiloRegularOahHandler.h"
+
 
 using namespace std;
 using namespace MusicXML2;
@@ -265,7 +268,7 @@ EXP S_msrScore createTheScore (
 }
 
 //------------------------------------------------------------------------
-S_msrPart createPartInScore (S_msrScore score)
+EXP S_msrPart createPartInScore (S_msrScore score)
 {
   // create the part group
   S_msrPartGroup
@@ -288,11 +291,6 @@ S_msrPart createPartInScore (S_msrScore score)
   partGroup->
     appendPartToPartGroup (
       part);
-
-if (true) // TEMP JMI
-  part->
-    setPartShortestNoteDuration (
-      rational (1, 4));
 
   return part;
 }
@@ -2061,7 +2059,7 @@ xmlErr generateLilypondCodeFromScore (S_msrScore score)
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalLpsrOahGroup->getQuit3 ()) {
+    if (gGlobalLpsrOahGroup->getQuitAfterPass3 ()) {
       cerr <<
         endl <<
         "Quitting after pass 3 as requested" <<
@@ -2268,7 +2266,7 @@ xmlErr generateBrailleMusicFromScore (S_msrScore score)
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalMsr2bsrOahGroup->getQuit3a ()) {
+    if (gGlobalMsr2bsrOahGroup->getQuitAfterPass3a ()) {
       cerr <<
         endl <<
         "Quitting after pass 3a as requested" <<
@@ -2333,7 +2331,7 @@ xmlErr generateBrailleMusicFromScore (S_msrScore score)
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalMsr2bsrOahGroup->getQuit3b ()) {
+    if (gGlobalMsr2bsrOahGroup->getQuitAfterPass3b ()) {
       cerr <<
         endl <<
         "Quitting after pass 3b as requested" <<
@@ -2632,6 +2630,13 @@ void initializeTheLibraryAndOAH (string executableName)
   S_musicxmlOahGroup
     musicxmlOahGroup =
       createGlobalMusicxmlOahGroup ();
+
+/* JMI ???
+  // create the xml2brl OAH group
+  S_xml2brlInsiderOahGroup
+    xml2brlInsiderOahGroup =
+      createGlobalXml2brlOahGroup ();
+      */
 }
 
 //------------------------------------------------------------------------
@@ -2656,7 +2661,7 @@ void setTheDesiredOptions ()
 //  gGlobalMsrOahGroup->setTraceMsr ();
 //  gGlobalMsrOahGroup->setTraceMsrVisitors ();
 
-//  gGlobalMsrOahGroup->setDisplayMsr ();
+  gGlobalMsrOahGroup->setDisplayMsr ();
 
   gGlobalMsrOahGroup->setTraceMsrDurations ();
 
@@ -2674,6 +2679,17 @@ void setTheDesiredOptions ()
   gGlobalBsrOahGroup->setTraceBsr ();
 //  gGlobalBsrOahGroup->setTraceBsrVisitors ();
 
+  // bsr2braille
+
+  gGlobalBsr2brailleOahGroup->
+    setBrailleOutputKind (kBrailleOutputUTF8Debug);
+
+    /* JMI
+  gGlobalXml2brlInsiderOahGroup->
+    setAutoOutputFileName ();
+*/
+
+  // MusicXML
   gGlobalMxmlTreeOahGroup->setTraceMusicXMLTreeVisitors ();
 }
 
@@ -2692,6 +2708,133 @@ int main (int argc, char * argv[])
 
   string executableName = argv [0];
 
+  // are there insider and/or regular options present?
+  // ------------------------------------------------------
+
+  bool insiderOptions = false;
+  bool regularOptions = false;
+
+	for (int i = 1; i < argc; i++) {
+	  string argumentAsString = string (argv [i]);
+
+		if (argumentAsString == "-insider") {
+		  insiderOptions = true;
+		}
+		if (argumentAsString == "-regular") {
+		  regularOptions = true;
+		}
+	} // for
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  cerr <<
+    executableName << " main()" <<
+    ", insiderOptions: " << booleanAsString (insiderOptions) <<
+    ", regularOptions: " << booleanAsString (regularOptions) <<
+    endl;
+#endif
+#endif
+
+  if (insiderOptions && regularOptions) {
+    stringstream s;
+
+    s <<
+      "options '-insider' and '-regular' cannot be used together";
+
+    oahError (s.str ());
+  }
+
+  // here, at most one of insiderOptions and regularOptions is true
+
+  // create the global log indented output stream
+  // ------------------------------------------------------
+
+  createTheGlobalIndentedOstreams (cout, cerr);
+
+  // the about information
+  // ------------------------------------------------------
+
+  string
+    aboutInformation =
+      exNihiloAboutInformation ();
+
+  // the oahHandler, set below
+  // ------------------------------------------------------
+
+  S_oahHandler handler;
+
+  try {
+    // create an exNihilo insider OAH handler
+    // ------------------------------------------------------
+
+    S_exNihiloInsiderOahHandler
+      insiderOahHandler =
+        exNihiloInsiderOahHandler::create (
+          executableName,
+          aboutInformation,
+          executableName + " insider OAH handler with argc/argv");
+
+    // the OAH handler to be used, a regular handler is the default
+    // ------------------------------------------------------
+
+    if (insiderOptions) {
+      // use the insider exNihilo OAH handler
+      handler = insiderOahHandler;
+    }
+    else {
+      // create a regular exNihilo OAH handler
+      handler =
+        exNihiloRegularOahHandler::create (
+          executableName,
+          aboutInformation,
+          executableName + " regular OAH handler with argc/argv",
+          insiderOahHandler);
+    }
+
+    // handle the command line options and arguments
+    // ------------------------------------------------------
+
+    // handle the options and arguments from argc/argv
+    oahElementHelpOnlyKind
+      helpOnlyKind =
+        handler->
+          handleOptionsAndArgumentsFromArgcAndArgv (
+            argc, argv);
+
+    // have help options been used?
+    switch (helpOnlyKind) {
+      case kElementHelpOnlyYes:
+        return 0; // quit now
+        break;
+      case kElementHelpOnlyNo:
+        // go ahead
+        break;
+    } // switch
+  }
+  catch (msrOahException& e) {
+    return kInvalidOption;
+  }
+  catch (std::exception& e) {
+    return kInvalidFile;
+  }
+
+  // check indentation
+  if (gIndenter != 0) {
+    gLogStream <<
+      "### " <<
+      executableName <<
+      " gIndenter value after options ands arguments checking: " <<
+      gIndenter.getIndent () <<
+      " ###" <<
+      endl;
+
+    gIndenter.resetToZero ();
+  }
+
+  // let's go ahead
+  // ------------------------------------------------------
+
+/* JMI
   // fetch the theOptionsVector from argc/argv
   // ------------------------------------------------------
 
@@ -2770,11 +2913,7 @@ int main (int argc, char * argv[])
     endl;
 #endif
 #endif
-
-  // create the global log indented output stream
-  // ------------------------------------------------------
-
-  createTheGlobalIndentedOstreams (cout, cerr);
+*/
 
   // initialize the library and OAH
   // ------------------------------------------------------

@@ -6,6 +6,13 @@
 #ifndef ___msrHarmonies_MUT_DEP___
 #define ___msrHarmonies_MUT_DEP___
 
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrHarmony;
+typedef SMARTP<msrHarmony> S_msrHarmony;
+
 //______________________________________________________________________________
 class EXP msrHarmonyDegree : public msrElement
 {
@@ -344,6 +351,9 @@ class EXP msrHarmony : public msrMeasureElement
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
+
+
+}
 
 
 #endif

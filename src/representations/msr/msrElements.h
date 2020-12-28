@@ -18,6 +18,8 @@
 #include "rational.h"
 
 
+using namespace std;
+
 namespace MusicXML2
 {
 
@@ -67,8 +69,8 @@ class EXP msrElement : public smartable
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asShortString () const;
-    virtual std::string   asString () const;
+    virtual string        asShortString () const;
+    virtual string        asString () const;
 
     virtual void          print (ostream& os) const;
 

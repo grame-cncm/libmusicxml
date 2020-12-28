@@ -62,7 +62,7 @@ string elementHelpOnlyKindAsString (
 class oahElement;
 typedef SMARTP<oahElement> S_oahElement;
 
-class oahElement : public smartable
+class EXP oahElement : public smartable
 {
   public:
 
@@ -247,7 +247,7 @@ struct compareOahElements {
 };
 
 //______________________________________________________________________________
-class oahElementUse : public smartable
+class EXP oahElementUse : public smartable
 {
   public:
 

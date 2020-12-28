@@ -6,6 +6,9 @@
 #ifndef ___bsrMeasures_MUT_DEP___
 #define ___bsrMeasures_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP bsrMeasure : public bsrLineElement
 {
@@ -110,6 +113,9 @@ class EXP bsrMeasure : public bsrLineElement
 };
 typedef SMARTP<bsrMeasure> S_bsrMeasure;
 EXP ostream& operator<< (ostream& os, const S_bsrMeasure& elt);
+
+
+}
 
 
 #endif

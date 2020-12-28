@@ -48,8 +48,8 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msrRepeatCommonPart msrRepeatCommonPart::create (
-  int                 inputLineNumber,
-  S_msrRepeat         repeatUpLink)
+  int         inputLineNumber,
+  S_msrRepeat repeatUpLink)
 {
   msrRepeatCommonPart* o =
     new msrRepeatCommonPart (
@@ -60,8 +60,8 @@ S_msrRepeatCommonPart msrRepeatCommonPart::create (
 }
 
 msrRepeatCommonPart::msrRepeatCommonPart (
-  int                 inputLineNumber,
-  S_msrRepeat         repeatUpLink)
+  int         inputLineNumber,
+  S_msrRepeat repeatUpLink)
     : msrElement (inputLineNumber)
 {
   // sanity check

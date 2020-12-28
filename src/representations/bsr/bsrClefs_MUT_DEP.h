@@ -3,6 +3,12 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___bsrClefs_MUT_DEP___
+#define ___bsrClefs_MUT_DEP___
+
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP bsrClef : public bsrLineElement
 {
@@ -108,3 +114,8 @@ class EXP bsrClef : public bsrLineElement
 typedef SMARTP<bsrClef> S_bsrClef;
 EXP ostream& operator<< (ostream& os, const S_bsrClef& elt);
 
+
+}
+
+
+#endif

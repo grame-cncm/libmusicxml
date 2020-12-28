@@ -58,14 +58,14 @@ R"(What xml2gmn does:
 
     This multi-pass translator basically performs 5 passes:
         Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
-                 and converts it to a MusicXML tree;
+                 and converts it to a first MusicXML tree;
         Pass 2a: converts that MusicXML tree into to
                  a Music Score Representation (MSR) skeleton;
         Pass 2b: converts that tree and the skeleton into a
                  Music Score Representation (MSR);
-        Pass 3:  converts the MSR into a
-                 LilyPond Score Representation (LPSR);
-        Pass 4:  converts the LPSR to LilyPond source code
+        Pass 3:  converts the MSR into a second MSR;
+        Pass 4:  converts the second MSR into a second MusicXML tree;
+        Pass 5:  converts the second MusicXML tree to Guido source code
                  and writes it to standard output.
 
     Other passes are performed according to the options, such as
@@ -100,7 +100,7 @@ xml2gmnInsiderOahHandler::xml2gmnInsiderOahHandler (
       executableAboutInformation,
       handlerHeader,
 R"(                      Welcome to xml2gmn,
-              the MusicXML to MusicXML translator
+              another MusicXML to Guido translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
@@ -421,7 +421,7 @@ string xml2gmnInsiderOahHandler::fetchOutputFileNameFromTheOptions () const
 #endif
 
       // append the file extension to the output file name
-       result += ".xml";
+       result += ".gmn";
 
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -679,6 +679,11 @@ void xml2gmnInsiderOahGroup::initializeXml2gmnInsiderOahGroup ()
 #endif
 #endif
 
+  // Guido
+  // --------------------------------------
+
+  createInsiderGuidoSubGroup ();
+
   // output
   // --------------------------------------
 
@@ -688,6 +693,61 @@ void xml2gmnInsiderOahGroup::initializeXml2gmnInsiderOahGroup ()
   // --------------------------------------
 
   createInsiderQuitSubGroup ();
+}
+
+//_______________________________________________________________________________
+void xml2gmnInsiderOahGroup::createInsiderGuidoSubGroup ()
+{
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream << left <<
+    "Creating insider output subgroup in \"" <<
+    fGroupHeader <<
+    "\"" <<
+    endl;
+#endif
+#endif
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Guido",
+        "xguido", "help-guido",
+R"()",
+      kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // generate comments
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "generate-comments", "",
+  R"(Generate comments in the Guido output.)",
+        "generateComments",
+        fGenerateComments));
+
+  // generate stem
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "generate-stem", "",
+  R"(Generate stem in the Guido output.)",
+        "generateStem",
+        fGenerateStem));
+
+  // generate bars
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "generate-bars", "",
+  R"(Generate barlines in the Guido output.)",
+        "generateBars",
+        fGenerateBars));
 }
 
 //_______________________________________________________________________________
@@ -719,7 +779,7 @@ R"()",
   fOutputFileNameStringAtom =
     oahStringAtom::create (
       "o", "output-file-name",
-R"(Write MusicXML code to file FILENAME instead of standard output.)",
+R"(Write Guido code to file FILENAME instead of standard output.)",
       "FILENAME",
       "outputFileName",
       fOutputFileName);
@@ -736,10 +796,10 @@ R"(Write MusicXML code to file FILENAME instead of standard output.)",
     oahBooleanAtom::create (
       "aofn", "auto-output-file-name",
 R"(This option can only be used when reading from a file.
-Write MusicXML code to a file in the current working directory.
+Write Guido code to a file in the current working directory.
 The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'xml'
-or adding '.xml' if none is present.)",
+replacing any suffix after the the '.' by 'gmn'
+or adding '.gmn' if none is present.)",
       "autoOutputFileName",
       fAutoOutputFileName);
 
@@ -816,6 +876,28 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (int fieldWidth)
 
   gIndenter++;
 
+  // Guido
+  // --------------------------------------
+
+  gLogStream << left <<
+    setw (fieldWidth) << "Guido:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogStream << left <<
+    setw (fieldWidth) <<
+    "generateComments" << " : " << booleanAsString (fGenerateComments) <<
+    endl <<
+    setw (fieldWidth) <<
+    "generateStem" << " : " << booleanAsString (fGenerateStem) <<
+    endl <<
+    setw (fieldWidth) <<
+    "generateBars" << " : " << booleanAsString (fGenerateBars) <<
+    endl;
+
+  gIndenter--;
+
   // output file
   // --------------------------------------
 
@@ -885,13 +967,8 @@ S_xml2gmnInsiderOahGroup createGlobalXml2gmnOahGroup ()
 
     appendVersionToVersionInfoList (
       "Initial",
-      "April 2020",
+      "December 2020",
       "First draft version");
-
-    appendVersionToVersionInfoList (
-      "0.02",
-      "November 2020",
-      "OAH finalization");
   }
 
   // return the global OAH group

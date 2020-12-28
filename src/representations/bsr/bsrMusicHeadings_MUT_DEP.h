@@ -6,6 +6,30 @@
 #ifndef ___bsrMusicHeadings_MUT_DEP___
 #define ___bsrMusicHeadings_MUT_DEP___
 
+#include "smartpointer.h"
+
+#include "bsrLines_MUT_DEP.h"
+#include "bsrCellsLists.h"
+#include "bsrTimes_MUT_DEP.h"
+#include "bsrKeys_MUT_DEP.h"
+#include "bsrTempos_MUT_DEP.h"
+
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+/*
+class bsrKey;
+typedef SMARTP<bsrKey> S_bsrKey;
+
+class bsrTime;
+typedef SMARTP<bsrTime> S_bsrTime;
+
+class bsrTempo;
+typedef SMARTP<bsrTempo> S_bsrTempo;
+*/
+
 //______________________________________________________________________________
 class EXP bsrMusicHeading : public bsrLine
 {
@@ -55,7 +79,7 @@ class EXP bsrMusicHeading : public bsrLine
     // public services
     // ------------------------------------------------------
 
-    S_bsrCellsList        fetchCellsList () const
+    S_bsrCellsList        fetchCellsList () const // override JMI
                               { return buildCellsList (); }
 
   private:
@@ -97,6 +121,9 @@ class EXP bsrMusicHeading : public bsrLine
 };
 typedef SMARTP<bsrMusicHeading> S_bsrMusicHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrMusicHeading& elt);
+
+
+}
 
 
 #endif

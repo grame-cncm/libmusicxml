@@ -137,7 +137,7 @@ if (XML)
 endif()
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} utilities utilities/oah utilities/oah2manpage representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr)
+	set (SRCFOLDERS ${SRCFOLDERS} utilities utilities/oah utilities/oah2manpage representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr exnihilo exnihilo/Mikrokosmos3Wandering)
 endif()
 
 if (LILY)

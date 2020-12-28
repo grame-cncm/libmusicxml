@@ -6,6 +6,9 @@
 #ifndef ___msrRepeatCodas_MUT_DEP___
 #define ___msrRepeatCodas_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP msrRepeatCoda : public msrElement
 {
@@ -89,6 +92,9 @@ class EXP msrRepeatCoda : public msrElement
 };
 typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
+
+
+}
 
 
 #endif

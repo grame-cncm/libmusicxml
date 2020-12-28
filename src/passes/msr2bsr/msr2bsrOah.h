@@ -95,9 +95,9 @@ class EXP msr2bsrOahGroup : public oahGroup
                               { return fIncludeClefs; }
 
     // quit after some passes
-    bool                  getQuit3a () const
+    bool                  getQuitAfterPass3a () const
                               { return fQuitAfterPass3a; }
-    bool                  getQuit3b () const
+    bool                  getQuitAfterPass3b () const
                               { return fQuitAfterPass3b; }
 
   public:

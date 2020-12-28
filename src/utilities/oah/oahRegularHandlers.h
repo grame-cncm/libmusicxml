@@ -21,7 +21,7 @@ using namespace std;
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-class oahRegularOahHandler : public oahHandler
+class EXP oahRegularOahHandler : public oahHandler
 /*
   A regular OAH handler relies on the existence of so-called 'insider' handler,
   that contains all the options values gathered from the user,

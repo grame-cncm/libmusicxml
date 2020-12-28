@@ -13,7 +13,8 @@
 #ifndef ___bsrParallels___
 #define ___bsrParallels___
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrElements.h"
+#include "bsrLines_MUT_DEP.h"
 
 #include "bsrOah.h"
 

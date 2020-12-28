@@ -6,6 +6,9 @@
 #ifndef ___msrParts_MUT_DEP___
 #define ___msrParts_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP msrPart : public msrPartGroupElement
 {
@@ -692,6 +695,9 @@ class EXP msrPart : public msrPartGroupElement
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
+
+
+}
 
 
 #endif

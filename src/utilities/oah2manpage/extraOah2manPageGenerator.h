@@ -26,7 +26,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class extraOah2manPageGenerator : virtual public oah2manPageGenerator,
+class EXP extraOah2manPageGenerator : virtual public oah2manPageGenerator,
 
   public visitor<S_extraShowAllHarmoniesStructuresAtom>,
 

@@ -522,7 +522,7 @@ class EXP lpsrOahGroup : public oahGroup
 
     void                  setQuitAfterPass3 ()
                               { fQuitAfterPass3 = true; }
-    bool                  getQuit3 () const
+    bool                  getQuitAfterPass3 () const
                               { return fQuitAfterPass3; }
 
     bool                  setLpsrQuarterTonesPitchesLanguage (

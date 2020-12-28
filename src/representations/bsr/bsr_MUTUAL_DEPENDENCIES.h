@@ -10,20 +10,6 @@
   research@grame.fr
 */
 
-#ifndef ___bsrMutualDependencies___
-#define ___bsrMutualDependencies___
-
-#include "bsrElements.h"
-
-#include "bsrCellsLists.h"
-
-#include "msrTempos.h"
-#include "msrDynamics.h"
-
-
-namespace MusicXML2
-{
-
 /*
   This file declares classes that cannot be placed in 'individual' headers
   due to mutual dependencies, which C++ requires to be in one and the same file.
@@ -32,9 +18,19 @@ namespace MusicXML2
   which are meant to be included only in this one.
 */
 
+#ifndef ___bsrMutualDependencies___
+#define ___bsrMutualDependencies___
+
+#include "smartpointer.h"
+
+#include "bsrElements.h"
+
+#include "bsrCellsLists.h"
+
+
 //______________________________________________________________________________
 // PRE-declarations for class mutual dependencies
-
+/*
 class bsrLine;
 typedef SMARTP<bsrLine> S_bsrLine;
 
@@ -58,7 +54,7 @@ typedef SMARTP<bsrTempo> S_bsrTempo;
 
 class bsrNote;
 typedef SMARTP<bsrNote> S_bsrNote;
-
+*/
 
 //______________________________________________________________________________
 
@@ -100,6 +96,5 @@ typedef SMARTP<bsrNote> S_bsrNote;
 
 #include "bsrPages_MUT_DEP.h"
 
-}
 
 #endif

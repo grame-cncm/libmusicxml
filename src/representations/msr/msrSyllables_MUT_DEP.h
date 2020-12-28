@@ -6,6 +6,13 @@
 #ifndef ___msrSyllables_MUT_DEP___
 #define ___msrSyllables_MUT_DEP___
 
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrStanza;
+typedef SMARTP<msrStanza> S_msrStanza;
+
 //______________________________________________________________________________
 class EXP msrSyllable : public msrMeasureElement
 {
@@ -219,6 +226,9 @@ class EXP msrSyllable : public msrMeasureElement
 };
 typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
+
+
+}
 
 
 #endif

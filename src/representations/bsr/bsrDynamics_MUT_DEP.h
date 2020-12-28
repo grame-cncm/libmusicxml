@@ -6,6 +6,12 @@
 #ifndef ___bsrDynamics_MUT_DEP___
 #define ___bsrDynamics_MUT_DEP___
 
+#include "msrDynamics.h"
+
+
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP bsrDynamics : public bsrLineElement
 {
@@ -93,6 +99,9 @@ class EXP bsrDynamics : public bsrLineElement
 };
 typedef SMARTP<bsrDynamics> S_bsrDynamics;
 EXP ostream& operator<< (ostream& os, const S_bsrDynamics& elt);
+
+
+}
 
 
 #endif

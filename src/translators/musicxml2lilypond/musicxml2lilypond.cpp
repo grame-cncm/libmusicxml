@@ -100,7 +100,7 @@ static xmlErr xmlFile2lilypondWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2lyInsiderOahGroup->getQuit2a ()) {
+  if (gGlobalXml2lyInsiderOahGroup->getQuitAfterPass2a ()) {
     err <<
       endl <<
       "Quitting after pass 2a as requested" <<
@@ -128,7 +128,7 @@ static xmlErr xmlFile2lilypondWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2lyInsiderOahGroup->getQuit2b ()) {
+  if (gGlobalXml2lyInsiderOahGroup->getQuitAfterPass2b ()) {
     err <<
       endl <<
       "Quitting after pass 2b as requested" <<
@@ -181,7 +181,7 @@ static xmlErr xmlFile2lilypondWithHandler (
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalLpsrOahGroup->getQuit3 ()) {
+    if (gGlobalLpsrOahGroup->getQuitAfterPass3 ()) {
       err <<
         endl <<
         "Quitting after pass 3 as requested" <<

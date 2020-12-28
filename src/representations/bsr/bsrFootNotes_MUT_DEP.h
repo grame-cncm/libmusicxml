@@ -6,6 +6,9 @@
 #ifndef ___bsrFootNotes_MUT_DEP___
 #define ___bsrFootNotes_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP bsrFootNotesElement : public bsrElement
 {
@@ -144,6 +147,9 @@ class EXP bsrFootNotes : public bsrLine
 };
 typedef SMARTP<bsrFootNotes> S_bsrFootNotes;
 EXP ostream& operator<< (ostream& os, const S_bsrFootNotes& elt);
+
+
+}
 
 
 #endif

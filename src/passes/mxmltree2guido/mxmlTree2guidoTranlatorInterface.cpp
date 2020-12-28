@@ -23,21 +23,14 @@
   #include "traceOah.h"
 #endif
 
+#include "xml2gmnInsiderOahHandler.h"
+
 #include "msr.h"
 
 #include "mxmlTree.h"
 
-/* JMI
-#include "oahOah.h"
-#include "generalOah.h"
+#include "xml2guidovisitor.h"
 
-#include "mxmlTree2xmlTranslatorInterface.h"
-
-#include "mxmlTree2xmlTranslator.h"
-
-#include "msr2summaryVisitor.h"
-#include "msr2namesVisitor.h"
-*/
 
 using namespace std;
 
@@ -50,7 +43,6 @@ void generateGuidoFromMxmlTree (
   ostream&    cerr,
   string      passNumber)
 {
-/* JMI
   // sanity check
   msgAssert (
     mxmlTree != 0,
@@ -59,11 +51,18 @@ void generateGuidoFromMxmlTree (
   // start the clock
   clock_t startClock = clock ();
 
-  // create the Guido data
-  SXMLFile xmlFile = createMxmlFile ();
+  // convert the mxmlTree intto Guido data
+  xml2guidovisitor v (
+    gGlobalXml2gmnInsiderOahGroup->
+      getGenerateComments (),
+    gGlobalXml2gmnInsiderOahGroup->
+      getGenerateStem (),
+    gGlobalXml2gmnInsiderOahGroup->
+      getGenerateBars (),
+    0); // partNum, i.e. all parts
 
-  // insert the mxmlTree into it
-  xmlFile->set (mxmlTree);
+  Sguidoelement
+    guidoData = v.convert (mxmlTree);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -85,8 +84,9 @@ void generateGuidoFromMxmlTree (
 #endif
 
     // write the Guido data to the output file stream
-    xmlFile->print (gOutputStream);
-    gOutputStream << endl;
+    gOutputStream <<
+      guidoData <<
+      endl;
   }
 
   else {
@@ -134,9 +134,9 @@ void generateGuidoFromMxmlTree (
     }
 
     // write the Guido data to the output file stream
-    xmlFile->print (guidoFileOutputStream);
-    guidoFileOutputStream << endl;
-
+    guidoFileOutputStream <<
+      guidoData <<
+      endl;
 
     // close output file
 #ifdef TRACE_OAH
@@ -160,7 +160,6 @@ void generateGuidoFromMxmlTree (
       startClock,
       endClock);
   }
-  */
 }
 
 

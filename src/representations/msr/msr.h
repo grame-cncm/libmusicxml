@@ -80,7 +80,6 @@
 
 #include "msrMidi.h"
 
-
 namespace MusicXML2
 {
 
@@ -89,5 +88,6 @@ void EXP initializeMSR ();
 
 
 }
+
 
 #endif

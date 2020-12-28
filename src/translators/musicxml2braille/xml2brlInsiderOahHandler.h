@@ -146,10 +146,26 @@ class EXP xml2brlInsiderOahGroup : public oahGroup
                               { return fOutputFileNameStringAtom; }
 
     // quit after some passes
-    bool                  getQuit2a () const
+    void                  setQuit2a ()
+                              { fQuitAfterPass2a = true; }
+    bool                  getQuitAfterPass2a () const
                               { return fQuitAfterPass2a; }
-    bool                  getQuit2b () const
+
+    void                  setQuit2b ()
+                              { fQuitAfterPass2b = true; }
+    bool                  getQuitAfterPass2b () const
                               { return fQuitAfterPass2a; }
+
+    // Braille music output file name
+    void                  setAutoOutputFileName ()
+                              { fQuitAfterPass2b = true; }
+    bool                  getAutoOutputFileName () const
+                              { return fQuitAfterPass2a; }
+
+    void                  setOutputFileName (string value)
+                              { fOutputFileName = value; }
+    string                getOutputFileName () const
+                              { return fOutputFileName; }
 
   public:
 

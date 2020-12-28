@@ -6,6 +6,9 @@
 #ifndef ___msrAfterGraceNotes_MUT_DEP___
 #define ___msrAfterGraceNotes_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP msrAfterGraceNotesGroupContents : public msrElement
 {
@@ -190,6 +193,9 @@ class EXP msrAfterGraceNotesGroup : public msrElement
 };
 typedef SMARTP<msrAfterGraceNotesGroup> S_msrAfterGraceNotesGroup;
 EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroup& elt);
+
+
+}
 
 
 #endif

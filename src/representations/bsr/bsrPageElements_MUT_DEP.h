@@ -6,6 +6,14 @@
 #ifndef ___bsrPageElements_MUT_DEP___
 #define ___bsrPageElements_MUT_DEP___
 
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class bsrPage;
+typedef SMARTP<bsrPage> S_bsrPage;
+
 //______________________________________________________________________________
 class EXP bsrPageElement : public bsrElement
 {
@@ -91,6 +99,9 @@ class EXP bsrPageElement : public bsrElement
 };
 typedef SMARTP<bsrPageElement> S_bsrPageElement;
 EXP ostream& operator<< (ostream& os, const S_bsrPageElement& elt);
+
+
+}
 
 
 #endif

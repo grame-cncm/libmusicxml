@@ -103,7 +103,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2xmlInsiderOahGroup->getQuit2a ()) {
+  if (gGlobalXml2xmlInsiderOahGroup->getQuitAfterPass2a ()) {
     err <<
       endl <<
       "Quitting after pass 2a as requested" <<
@@ -131,7 +131,7 @@ static xmlErr xmlFile2musicxmlWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2xmlInsiderOahGroup->getQuit2b ()) {
+  if (gGlobalXml2xmlInsiderOahGroup->getQuitAfterPass2b ()) {
     err <<
       endl <<
       "Quitting after pass 2b as requested" <<

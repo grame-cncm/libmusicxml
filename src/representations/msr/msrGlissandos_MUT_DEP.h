@@ -6,6 +6,9 @@
 #ifndef ___msrGlissandos_MUT_DEP___
 #define ___msrGlissandos_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class EXP msrGlissando : public msrElement
 {
@@ -117,6 +120,9 @@ class EXP msrGlissando : public msrElement
 };
 typedef SMARTP<msrGlissando> S_msrGlissando;
 EXP ostream& operator<< (ostream& os, const S_msrGlissando& elt);
+
+
+}
 
 
 #endif

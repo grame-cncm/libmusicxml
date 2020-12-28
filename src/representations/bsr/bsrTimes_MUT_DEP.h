@@ -6,6 +6,9 @@
 #ifndef ___bsrTimes_MUT_DEP___
 #define ___bsrTimes_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class bsrTimeItem;
 typedef SMARTP<bsrTimeItem> S_bsrTimeItem;
@@ -196,6 +199,9 @@ class EXP bsrTime : public bsrLineElement
 };
 typedef SMARTP<bsrTime> S_bsrTime;
 EXP ostream& operator<< (ostream& os, const S_bsrTime& elt);
+
+
+}
 
 
 #endif

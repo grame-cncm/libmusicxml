@@ -10,6 +10,14 @@
   research@grame.fr
 */
 
+/*
+  This file declares classes that cannot be placed in 'individual' headers
+  due to mutual dependencies, which C++ requires to be in one and the same file.
+
+  It includes the corresponding msr*_MUT_DEP.h files,
+  which are meant to be included only in this one.
+*/
+
 #ifndef ___msrMutualDependencies___
 #define ___msrMutualDependencies___
 
@@ -84,19 +92,9 @@
 #include "generalOah.h"
 
 
-namespace MusicXML2
-{
-
-/*
-  This file declares classes that cannot be placed in 'individual' headers
-  due to mutual dependencies, which C++ requires to be in one and the same file.
-
-  It includes the corresponding msr*_MUT_DEP.h files,
-  which are meant to be included only in this one.
-*/
-
 //______________________________________________________________________________
 // PRE-declarations for class mutual dependencies
+/*
 class msrScore;
 typedef SMARTP<msrScore> S_msrScore;
 
@@ -156,7 +154,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 
 class msrStanza;
 typedef SMARTP<msrStanza> S_msrStanza;
-
+*/
 
 //______________________________________________________________________________
 
@@ -208,6 +206,5 @@ typedef SMARTP<msrStanza> S_msrStanza;
 
 #include "msrParts_MUT_DEP.h"
 
-}
 
 #endif

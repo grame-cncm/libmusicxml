@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class lilypondOah2manPageGenerator : virtual public oah2manPageGenerator
+class EXP lilypondOah2manPageGenerator : virtual public oah2manPageGenerator
 
 // JMI  public visitor<S_lilypondTransposePartNameAtom>
 

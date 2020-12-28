@@ -6,6 +6,19 @@
 #ifndef ___msrDoubleTremolos_MUT_DEP___
 #define ___msrDoubleTremolos_MUT_DEP___
 
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
+class msrSegment;
+typedef SMARTP<msrSegment> S_msrSegment;
+
+class msrChord;
+typedef SMARTP<msrChord> S_msrChord;
+
 //______________________________________________________________________________
 class EXP msrDoubleTremolo : public msrMeasureElement
 {
@@ -238,6 +251,9 @@ class EXP msrDoubleTremolo : public msrMeasureElement
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
+
+
+}
 
 
 #endif

@@ -6,6 +6,9 @@
 #ifndef ___msrChords_MUT_DEP___
 #define ___msrChords_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 class msrChordSlurLink;
 typedef SMARTP<msrChordSlurLink> S_msrChordSlurLink;
@@ -765,6 +768,9 @@ class EXP msrChordGraceNotesGroupLink : public msrElement
 };
 typedef SMARTP<msrChordGraceNotesGroupLink> S_msrChordGraceNotesGroupLink;
 EXP ostream& operator<< (ostream& os, const S_msrChordGraceNotesGroupLink& elt);
+
+
+}
 
 
 #endif

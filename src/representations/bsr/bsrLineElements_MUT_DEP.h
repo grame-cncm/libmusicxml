@@ -6,7 +6,21 @@
 #ifndef ___bsrLineElements_MUT_DEP___
 #define ___bsrLineElements_MUT_DEP___
 
+#include "bsrElements.h"
+//#include "bsrLines_MUT_DEP.h"
+#include "bsrCellsLists.h"
+
+
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
+class bsrLine;
+typedef SMARTP<bsrLine> S_bsrLine;
+
+//______________________________________________________________________________
+// this class is purely virtual
+
 class EXP bsrLineElement : public bsrElement
 {
   public:
@@ -93,5 +107,7 @@ typedef SMARTP<bsrLineElement> S_bsrLineElement;
 EXP ostream& operator<< (ostream& os, const S_bsrLineElement& elt);
 
 
-#endif
+}
 
+
+#endif

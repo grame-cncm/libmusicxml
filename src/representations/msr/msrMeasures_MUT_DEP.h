@@ -6,6 +6,31 @@
 #ifndef ___msrMeasures_MUT_DEP___
 #define ___msrMeasures_MUT_DEP___
 
+#include "msrElements.h"
+
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
+
+class msrStaffChange;
+typedef SMARTP<msrStaffChange> S_msrStaffChange;
+
+class msrVoiceStaffChange;
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+
+class msrTuplet;
+typedef SMARTP<msrTuplet> S_msrTuplet;
+
+class msrHarmony;
+typedef SMARTP<msrHarmony> S_msrHarmony;
+
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
 //______________________________________________________________________________
 class EXP msrMeasure : public msrElement
 {
@@ -808,6 +833,9 @@ class EXP msrMeasure : public msrElement
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
+
+
+}
 
 
 #endif

@@ -6,6 +6,9 @@
 #ifndef ___msrSpanners_MUT_DEP___
 #define ___msrSpanners_MUT_DEP___
 
+namespace MusicXML2
+{
+
 //______________________________________________________________________________
 // pre-declaration for two-way sideLinks
 class msrSpanner;
@@ -136,6 +139,9 @@ class EXP msrSpanner : public msrElement
 };
 typedef SMARTP<msrSpanner> S_msrSpanner;
 EXP ostream& operator<< (ostream& os, const S_msrSpanner& elt);
+
+
+}
 
 
 #endif

@@ -310,38 +310,58 @@ class EXP bsr2brailleOahGroup : public oahGroup
 
     // braille output kind
 
+    void                  setBrailleOutputKind (bsrBrailleOutputKind value)
+                              { fBrailleOutputKind = value; }
     bsrBrailleOutputKind  getBrailleOutputKind () const
                               { return fBrailleOutputKind;  }
 
     // UTF encoding
 
+    void                  setUTFKind (bsrUTFKind value)
+                              { fUTFKind = value; }
     bsrUTFKind            getUTFKind () const
                               { return fUTFKind;  }
 
     // byte ordering
 
+    void                  setByteOrderingKind (bsrByteOrderingKind value)
+                              { fByteOrderingKind = value; }
     bsrByteOrderingKind   getByteOrderingKind () const
                               { return fByteOrderingKind;  }
 
     // braille music file name
 
+    void                  setUseEncodingInFileName ()
+                              { fUseEncodingInFileName = true; }
     bool                  getUseEncodingInFileName () const
                               { return fUseEncodingInFileName;  }
 
     // page parameters
 
+    void                  setCellsPerLine (int value)
+                              { fCellsPerLine = value; }
     int                   getCellsPerLine () const
                               { return fCellsPerLine;  }
+
+    void                  setMeasuresPerLine (int value)
+                              { fMeasuresPerLine = value; }
     int                   getMeasuresPerLine () const
                               { return fMeasuresPerLine;  }
+
+    void                  setLinesPerPage (int value)
+                              { fLinesPerPage = value; }
     int                   getLinesPerPage () const
                               { return fLinesPerPage;  }
 
     // code generation
 
+    void                  setXml2brlInfos ()
+                              { fXml2brlInfos = true; }
     bool                  getXml2brlInfos () const
                               { return fXml2brlInfos;  }
 
+    void                  setNoBrailleCode ()
+                              { fNoBrailleCode = true; }
     bool                  getNoBrailleCode () const
                               { return fNoBrailleCode;  }
 

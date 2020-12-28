@@ -102,7 +102,7 @@ static xmlErr xmlFile2brailleWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2brlInsiderOahGroup->getQuit2a ()) {
+  if (gGlobalXml2brlInsiderOahGroup->getQuitAfterPass2a ()) {
     err <<
       endl <<
       "Quitting after pass 2a as requested" <<
@@ -130,7 +130,7 @@ static xmlErr xmlFile2brailleWithHandler (
   // should we return now?
   // ------------------------------------------------------
 
-  if (gGlobalXml2brlInsiderOahGroup->getQuit2b ()) {
+  if (gGlobalXml2brlInsiderOahGroup->getQuitAfterPass2b ()) {
     err <<
       endl <<
       "Quitting after pass 2b as requested" <<
@@ -195,7 +195,7 @@ static xmlErr xmlFile2brailleWithHandler (
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalMsr2bsrOahGroup->getQuit3a ()) {
+    if (gGlobalMsr2bsrOahGroup->getQuitAfterPass3a ()) {
       err <<
         endl <<
         "Quitting after pass 3a as requested" <<
@@ -260,7 +260,7 @@ static xmlErr xmlFile2brailleWithHandler (
     // should we return now?
     // ------------------------------------------------------
 
-    if (gGlobalMsr2bsrOahGroup->getQuit3b ()) {
+    if (gGlobalMsr2bsrOahGroup->getQuitAfterPass3b ()) {
       err <<
         endl <<
         "Quitting after pass 3b as requested" <<

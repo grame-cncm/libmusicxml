@@ -3,6 +3,29 @@
   to satisfy declarations mutual dependencies.
 */
 
+#ifndef ___msrRepeats_MUT_DEP___
+#define ___msrRepeats_MUT_DEP___
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+class msrRepeat;
+typedef SMARTP<msrRepeat> S_msrRepeat;
+
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
+class msrRestMeasures;
+typedef SMARTP<msrRestMeasures> S_msrRestMeasures;
+
+class msrMeasuresRepeat;
+typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
+
+class msrMeasureElement;
+typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
+
+
 //______________________________________________________________________________
 class EXP msrRepeatCommonPart : public msrElement
 {
@@ -12,8 +35,8 @@ class EXP msrRepeatCommonPart : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrRepeatCommonPart> create (
-      int          inputLineNumber,
-      S_msrRepeat  repeatUpLink);
+      int         inputLineNumber,
+      S_msrRepeat repeatUpLink);
 
   protected:
 
@@ -21,8 +44,8 @@ class EXP msrRepeatCommonPart : public msrElement
     // ------------------------------------------------------
 
     msrRepeatCommonPart (
-      int          inputLineNumber,
-      S_msrRepeat  repeatUpLink);
+      int         inputLineNumber,
+      S_msrRepeat repeatUpLink);
 
     virtual ~msrRepeatCommonPart ();
 
@@ -561,6 +584,11 @@ struct msrRepeatDescr : public smartable
 typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt);
 
+
+}
+
+
+#endif
 
 //______________________________________________________________________________
 /* JMI
