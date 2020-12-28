@@ -7,6 +7,13 @@
 #define ___msrVoices_MUT_DEP___
 
 #include "msrMeasures_MUT_DEP.h"
+#include "msrStaves_MUT_DEP.h"
+#include "msrStanzas_MUT_DEP.h"
+#include "msrSegments_MUT_DEP.h"
+#include "msrNotes_MUT_DEP.h"
+#include "msrPartGroups.h"
+#include "msrParts_MUT_DEP.h"
+#include "msrScores.h"
 
 
 namespace MusicXML2

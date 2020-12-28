@@ -877,6 +877,23 @@ void exNihiloInsiderOahGroup::printExNihiloInsiderOahGroupValues (int fieldWidth
 
   gIndenter++;
 
+  // generated code kind
+  // --------------------------------------
+
+  gLogStream << left <<
+    setw (fieldWidth) << "Code kind:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogStream << left <<
+    setw (fieldWidth) <<
+    "generatedCodeKind" << " : " <<
+    generatedCodeKindAsString (fGgeneratedCodeKind) <<
+    endl;
+
+  gIndenter--;
+
   // Guido
   // --------------------------------------
 

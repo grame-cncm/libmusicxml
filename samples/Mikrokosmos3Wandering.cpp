@@ -62,7 +62,6 @@
 #include "exNihiloRegularOahHandler.h"
 
 
-using namespace std;
 using namespace MusicXML2;
 
 /*
@@ -172,41 +171,9 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 }
 
 //_______________________________________________________________________________
-enum generatedCodeKind {
-  kNoGeneratedCode,
-  kGuido, kLilyPond, kBrailleMusic, kMusicXML };
-
-string generatedCodeKindAsString (generatedCodeKind kind)
+void registerGgeneratedCodeKind (generatedCodeKind kind)
 {
-  string result;
-
-  switch (kind) {
-    case kNoGeneratedCode:
-      result = "*NoGeneratedCode*";
-      break;
-    case kGuido:
-      result = "Guido";
-      break;
-    case kLilyPond:
-      result = "LilyPond";
-      break;
-    case kBrailleMusic:
-      result = "BrailleMusic";
-      break;
-    case kMusicXML:
-      result = "MusicXML";
-      break;
-  } // switch
-
-  return result;
-}
-
-//_______________________________________________________________________________
-generatedCodeKind gGeneratedCodeKind = kNoGeneratedCode;
-
-void registerGeneratedCodeKind (generatedCodeKind kind)
-{
-  if (gGeneratedCodeKind != kNoGeneratedCode) {
+  if (kind != kNoGeneratedCode) {
     cerr << "only one of '-guido', '-lilypond', '-braille' and '-musicxml' can be used" << endl;
     exit (2);
   }
@@ -1965,7 +1932,7 @@ xmlErr generateGuidoCodeFromScore (S_msrScore score)
   catch (mxmlTreeToMsrException& e) {
     return kInvalidFile;
   }
-  catch (std::exception& e) {
+  catch (exception& e) {
     return kInvalidFile;
   }
 
@@ -1997,7 +1964,7 @@ xmlErr generateGuidoCodeFromScore (S_msrScore score)
   catch (mxmlTreeToMsrException& e) {
     return kInvalidFile;
   }
-  catch (std::exception& e) {
+  catch (exception& e) {
     return kInvalidFile;
   }
 
@@ -2035,7 +2002,7 @@ xmlErr generateLilypondCodeFromScore (S_msrScore score)
     catch (msrScoreToLpsrScoreException& e) {
       return kInvalidFile;
     }
-    catch (std::exception& e) {
+    catch (exception& e) {
       return kInvalidFile;
     }
 
@@ -2115,7 +2082,7 @@ xmlErr generateLilypondCodeFromScore (S_msrScore score)
     catch (lpsrScoreToLilypondException& e) {
       return kInvalidFile;
     }
-    catch (std::exception& e) {
+    catch (exception& e) {
       return kInvalidFile;
     }
 
@@ -2179,7 +2146,7 @@ xmlErr generateLilypondCodeFromScore (S_msrScore score)
     catch (lpsrScoreToLilypondException& e) {
       return kInvalidFile;
     }
-    catch (std::exception& e) {
+    catch (exception& e) {
       return kInvalidFile;
     }
 
@@ -2232,7 +2199,7 @@ xmlErr generateBrailleMusicFromScore (S_msrScore score)
     catch (msrScoreToBsrScoreException& e) {
       return kInvalidFile;
     }
-    catch (std::exception& e) {
+    catch (exception& e) {
       return kInvalidFile;
     }
 
@@ -2297,7 +2264,7 @@ xmlErr generateBrailleMusicFromScore (S_msrScore score)
     catch (bsrScoreToFinalizedBsrScoreException& e) {
       return kInvalidFile;
     }
-    catch (std::exception& e) {
+    catch (exception& e) {
       return kInvalidFile;
     }
 
@@ -2381,7 +2348,7 @@ xmlErr generateBrailleMusicFromScore (S_msrScore score)
     catch (lpsrScoreToLilypondException& e) {
       return kInvalidFile;
     }
-    catch (std::exception& e) {
+    catch (exception& e) {
       return kInvalidFile;
     }
 
@@ -2437,7 +2404,7 @@ xmlErr generateBrailleMusicFromScore (S_msrScore score)
     catch (lpsrScoreToLilypondException& e) {
       return kInvalidFile;
     }
-    catch (std::exception& e) {
+    catch (exception& e) {
       return kInvalidFile;
     }
 
@@ -2494,7 +2461,7 @@ xmlErr generateMusicXMLFromScore (S_msrScore score)
   catch (mxmlTreeToMsrException& e) {
     return kInvalidFile;
   }
-  catch (std::exception& e) {
+  catch (exception& e) {
     return kInvalidFile;
   }
 
@@ -2514,7 +2481,7 @@ xmlErr generateMusicXMLFromScore (S_msrScore score)
   catch (mxmlTreeToMsrException& e) {
     return kInvalidFile;
   }
-  catch (std::exception& e) {
+  catch (exception& e) {
     return kInvalidFile;
   }
 
@@ -2814,7 +2781,7 @@ int main (int argc, char * argv[])
   catch (msrOahException& e) {
     return kInvalidOption;
   }
-  catch (std::exception& e) {
+  catch (exception& e) {
     return kInvalidFile;
   }
 
@@ -2862,23 +2829,23 @@ int main (int argc, char * argv[])
 
 	for (auto option: theOptionsVector) {
 	  if (option.first      == "-guido") {
-	    registerGeneratedCodeKind (kGuido);
+	    registerGgeneratedCodeKind (kGuido);
       keptOptions.push_back (option);
     }
 	  else if (option.first == "-lilypond") {
-	    registerGeneratedCodeKind (kLilyPond);
+	    registerGgeneratedCodeKind (kLilyPond);
       keptOptions.push_back (option);
 	  }
 	  else if (option.first == "-braille") {
-	    registerGeneratedCodeKind (kBrailleMusic);
+	    registerGgeneratedCodeKind (kBrailleMusic);
       keptOptions.push_back (option);
 	  }
 	  else if (option.first == "-musicxml") {
-	    registerGeneratedCodeKind (kMusicXML);
+	    registerGgeneratedCodeKind (kMusicXML);
       keptOptions.push_back (option);
 	  }
 	  else if (option.first == "-all") { // JMI ???
-	    registerGeneratedCodeKind (kMusicXML);
+	    registerGgeneratedCodeKind (kMusicXML);
       keptOptions.push_back (option);
 	  }
 	  else {
@@ -2926,8 +2893,7 @@ int main (int argc, char * argv[])
   msplGenerationKind
     generationKind = // JMI option???
      kRegularAPIKind;
-   //
-   kStringsAPIKind;
+   // kStringsAPIKind;
 
   S_msrScore
     score =

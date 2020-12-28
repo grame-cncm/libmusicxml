@@ -17,6 +17,8 @@
 
 #include "oahAtomsCollection.h"
 
+#include "exNihiloOahTypes.h"
+
 
 namespace MusicXML2
 {
@@ -132,6 +134,12 @@ class EXP exNihiloInsiderOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
+    // generated code kind
+    void                  setGgeneratedCodeKind (generatedCodeKind value)
+                              { fGgeneratedCodeKind = value; }
+    generatedCodeKind     getGgeneratedCodeKind () const
+                              { return fGgeneratedCodeKind; }
+
     // Guido
     void                  setGenerateComments ()
                               { fGenerateComments = true; }
@@ -221,6 +229,9 @@ class EXP exNihiloInsiderOahGroup : public oahGroup
 
     // private fields
     // ------------------------------------------------------
+
+    // generated code kind
+    generatedCodeKind     fGgeneratedCodeKind;
 
     // Guido
     bool                  fGenerateComments;

@@ -28,4 +28,45 @@ using namespace std;
 namespace MusicXML2
 {
 
+//______________________________________________________________________________
+string generatedCodeKindAsString (generatedCodeKind kind)
+{
+  string result;
+
+  switch (kind) {
+    case kNoGeneratedCode:
+      result = "*NoGeneratedCode*";
+      break;
+    case kGuido:
+      result = "Guido";
+      break;
+    case kLilyPond:
+      result = "LilyPond";
+      break;
+    case kBrailleMusic:
+      result = "BrailleMusic";
+      break;
+    case kMusicXML:
+      result = "MusicXML";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+generatedCodeKind gGeneratedCodeKind = kNoGeneratedCode;
+
+void registerGgeneratedCodeKind (generatedCodeKind kind)
+{
+  if (gGeneratedCodeKind != kNoGeneratedCode) {
+    cerr << "only one of '-guido', '-lilypond', '-braille' and '-musicxml' can be used" << endl;
+    exit (2);
+  }
+  else {
+    gGeneratedCodeKind = kind;
+  }
+}
+
+
 }

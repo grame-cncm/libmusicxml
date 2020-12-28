@@ -22,47 +22,15 @@ namespace MusicXML2
 //______________________________________________________________________________
 enum generatedCodeKind {
   kNoGeneratedCode,
-  kGuido, kLilyPond, kBrailleMusic, kMusicXML };
+  kGuido, kLilyPond, kBrailleMusic, kMusicXML
+};
 
-string generatedCodeKindAsString (generatedCodeKind kind)
-{
-  string result;
-
-  switch (kind) {
-    case kNoGeneratedCode:
-      result = "*NoGeneratedCode*";
-      break;
-    case kGuido:
-      result = "Guido";
-      break;
-    case kLilyPond:
-      result = "LilyPond";
-      break;
-    case kBrailleMusic:
-      result = "BrailleMusic";
-      break;
-    case kMusicXML:
-      result = "MusicXML";
-      break;
-  } // switch
-
-  return result;
-}
+string generatedCodeKindAsString (generatedCodeKind kind);
 
 //_______________________________________________________________________________
-generatedCodeKind gGeneratedCodeKind = kNoGeneratedCode;
+extern generatedCodeKind gGeneratedCodeKind;
 
-void registerGeneratedCodeKind (generatedCodeKind kind)
-{
-  if (gGeneratedCodeKind != kNoGeneratedCode) {
-    cerr << "only one of '-guido', '-lilypond', '-braille' and '-musicxml' can be used" << endl;
-    exit (2);
-  }
-  else {
-    gGeneratedCodeKind = kind;
-  }
-}
-
+void registerGgeneratedCodeKind (generatedCodeKind kind);
 
 
 }

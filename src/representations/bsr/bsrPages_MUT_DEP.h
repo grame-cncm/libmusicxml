@@ -6,6 +6,14 @@
 #ifndef ___bsrPages_MUT_DEP___
 #define ___bsrPages_MUT_DEP___
 
+#include "bsrElements.h"
+#include "bsrFootNotes_MUT_DEP.h"
+#include "bsrLines_MUT_DEP.h"
+#include "bsrMusicHeadings_MUT_DEP.h"
+#include "bsrPageElements_MUT_DEP.h"
+#include "bsrPageHeadings_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
 
@@ -55,16 +63,20 @@ class EXP bsrPage : public bsrElement
     // public services
     // ------------------------------------------------------
 
-    void                  appendPageHeadingToPage (S_bsrPageHeading pageHeading)
+    void                  appendPageHeadingToPage (
+                            S_bsrPageHeading pageHeading)
                               { fPageElementsList.push_back (pageHeading); }
 
-    void                  appendMusicHeadingToPage (S_bsrMusicHeading musicHeading)
+    void                  appendMusicHeadingToPage (
+                            S_bsrMusicHeading musicHeading)
                               { fPageElementsList.push_back (musicHeading); }
 
-    void                  appendFootNotesToPage (S_bsrFootNotes footNotes)
+    void                  appendFootNotesToPage (
+                            S_bsrFootNotes footNotes)
                               { fPageElementsList.push_back (footNotes); }
 
-    void                  appendLineToPage (S_bsrLine line)
+    void                  appendLineToPage (
+                            S_bsrLine line)
                               { fPageElementsList.push_back (line); }
 
     int                   fetchLineContentsNumber () const;
