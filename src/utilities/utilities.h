@@ -77,7 +77,7 @@ class EXP timingItem : public smartable
 
 typedef SMARTP<timingItem> S_timingItem;
 
-class EXP EXP timing {
+class EXP timing {
   public:
        timing ();
     virtual ~timing ();
