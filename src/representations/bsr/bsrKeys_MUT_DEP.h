@@ -6,14 +6,14 @@
 #ifndef ___bsrKeys_MUT_DEP___
 #define ___bsrKeys_MUT_DEP___
 
+#include "bsrKeys_MUT_DEP.h"
+#include "bsrLineElements_MUT_DEP.h"
+
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrKey;
-typedef SMARTP<bsrKey> S_bsrKey;
-
 class EXP bsrKey : public bsrLineElement
 {
   public:

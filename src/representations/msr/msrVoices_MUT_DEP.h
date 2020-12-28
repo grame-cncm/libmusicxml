@@ -6,22 +6,19 @@
 #ifndef ___msrVoices_MUT_DEP___
 #define ___msrVoices_MUT_DEP___
 
+#include "msrElements.h"
 #include "msrMeasures_MUT_DEP.h"
-#include "msrStaves_MUT_DEP.h"
-#include "msrStanzas_MUT_DEP.h"
-#include "msrSegments_MUT_DEP.h"
 #include "msrNotes_MUT_DEP.h"
-#include "msrPartGroups.h"
 #include "msrParts_MUT_DEP.h"
+#include "msrPartGroups.h"
 #include "msrScores.h"
+#include "msrSegments_MUT_DEP.h"
+#include "msrStanzas_MUT_DEP.h"
+#include "msrStaves_MUT_DEP.h"
 
 
 namespace MusicXML2
 {
-
-//______________________________________________________________________________
-class msrStaff;
-typedef SMARTP<msrStaff> S_msrStaff;
 
 //______________________________________________________________________________
 class EXP msrVoice : public msrElement
@@ -1264,6 +1261,7 @@ class EXP msrVoice : public msrElement
 
     bool                  fVoiceHasBeenFinalized;
 };
+typedef SMARTP<msrVoice> S_msrVoice;
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
 

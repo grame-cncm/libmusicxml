@@ -27,35 +27,6 @@
 
 #include "bsrCellsLists.h"
 
-
-//______________________________________________________________________________
-// PRE-declarations for class mutual dependencies
-/*
-class bsrLine;
-typedef SMARTP<bsrLine> S_bsrLine;
-
-class bsrSpaces;
-typedef SMARTP<bsrSpaces> S_bsrSpaces;
-
-class bsrPage;
-typedef SMARTP<bsrPage> S_bsrPage;
-
-class bsrMeasure;
-typedef SMARTP<bsrMeasure> S_bsrMeasure;
-
-class bsrKey;
-typedef SMARTP<bsrKey> S_bsrKey;
-
-class bsrTime;
-typedef SMARTP<bsrTime> S_bsrTime;
-
-class bsrTempo;
-typedef SMARTP<bsrTempo> S_bsrTempo;
-
-class bsrNote;
-typedef SMARTP<bsrNote> S_bsrNote;
-*/
-
 //______________________________________________________________________________
 
 #include "bsrLineElements_MUT_DEP.h"

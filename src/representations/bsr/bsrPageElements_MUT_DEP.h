@@ -6,6 +6,9 @@
 #ifndef ___bsrPageElements_MUT_DEP___
 #define ___bsrPageElements_MUT_DEP___
 
+#include "bsrElements.h"
+//#include "bsrPages_MUT_DEP.h"
+
 
 namespace MusicXML2
 {

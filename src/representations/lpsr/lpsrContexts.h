@@ -27,10 +27,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-//class msrVoice;
-//typedef SMARTP<msrVoice> S_msrVoice;
-
-//______________________________________________________________________________
 class EXP lpsrContext : public lpsrElement
 {
   public:

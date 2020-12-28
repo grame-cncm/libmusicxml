@@ -6,6 +6,16 @@
 #ifndef ___bsrMeasures_MUT_DEP___
 #define ___bsrMeasures_MUT_DEP___
 
+#include "bsrBarlines_MUT_DEP.h"
+#include "bsrClefs_MUT_DEP.h"
+#include "bsrCellsLists.h"
+#include "bsrDynamics_MUT_DEP.h"
+#include "bsrLineElements_MUT_DEP.h"
+#include "bsrNotes_MUT_DEP.h"
+#include "bsrNumbers_MUT_DEP.h"
+#include "bsrWords_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
 

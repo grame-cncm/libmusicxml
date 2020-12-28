@@ -6,6 +6,11 @@
 #ifndef ___bsrFootNotes_MUT_DEP___
 #define ___bsrFootNotes_MUT_DEP___
 
+#include "bsrCellsLists.h"
+#include "bsrElements.h"
+#include "bsrLines_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
 
