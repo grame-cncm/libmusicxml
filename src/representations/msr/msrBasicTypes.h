@@ -374,6 +374,35 @@ enum msrVoiceKind {
 string voiceKindAsString (
   msrVoiceKind voiceKind);
 
+// measures
+//______________________________________________________________________________
+enum msrMeasureKind {
+  kMeasureKindUnknown,
+  kMeasureKindRegular,
+  kMeasureKindAnacrusis,
+  kMeasureKindIncompleteStandalone,
+  kMeasureKindIncompleteLastInRepeatCommonPart,
+  kMeasureKindIncompleteLastInRepeatHookedEnding,
+  kMeasureKindIncompleteLastInRepeatHooklessEnding,
+  kMeasureKindIncompleteNextMeasureAfterCommonPart,
+  kMeasureKindIncompleteNextMeasureAfterHookedEnding,
+  kMeasureKindIncompleteNextMeasureAfterHooklessEnding,
+  kMeasureKindOvercomplete,
+  kMeasureKindCadenza,
+  kMeasureKindMusicallyEmpty
+};
+
+string measureKindAsString (
+  msrMeasureKind measureKind);
+
+enum msrMeasureImplicitKind {
+  kMeasureImplicitKindYes,
+  kMeasureImplicitKindNo
+};
+
+string measureImplicitKindAsString (
+  msrMeasureImplicitKind measureImplicitKind);
+
 // clefs
 //______________________________________________________________________________
 
@@ -470,6 +499,16 @@ enum msrTimeRelationKind {
 
 string timeRelationKindAsString (
   msrTimeRelationKind timeRelationKind);
+
+// repeats
+//______________________________________________________________________________
+enum msrRepeatEndingKind {
+  kHookedEnding,
+  kHooklessEnding
+};
+
+string repeatEndingKindAsString (
+  msrRepeatEndingKind repeatEndingKind);
 
 // harmonies
 //______________________________________________________________________________

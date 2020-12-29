@@ -6,12 +6,41 @@
 #ifndef ___msrStaves_MUT_DEP___
 #define ___msrStaves_MUT_DEP___
 
+#include "msrBars.h"
+#include "msrClefs.h"
+#include "msrInstruments.h"
+#include "msrKeys.h"
+#include "msrMeasures_MUT_DEP.h"
+#include "msrMeasureElements.h"
+#include "msrParts_MUT_DEP.h"
+#include "msrPartGroups.h"
+#include "msrPartNamesDisplays.h"
+#include "msrRestMeasures_MUT_DEP.h"
+#include "msrRepeats_MUT_DEP.h"
+#include "msrScores.h"
+#include "msrStavesDetails.h"
+#include "msrTimes.h"
+#include "msrTranspositions.h"
+
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class msrPartGroup;
+typedef SMARTP<msrPartGroup> S_msrPartGroup;
+
+class msrPart;
+typedef SMARTP<msrPart> S_msrPart;
+
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
+
+class msrRepeat;
+typedef SMARTP<msrRepeat> S_msrRepeat; // should not be necessary ??? JMI
+
+class msrRepeatEnding;
+typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding; // should not be necessary ??? JMI
 
 //______________________________________________________________________________
 class EXP msrVoiceStaffChange : public msrMeasureElement
@@ -276,7 +305,7 @@ class EXP msrStaff : public msrElement
     void                  createMeasureAndAppendItToStaff (
                             int    inputLineNumber,
                             string measureNumber,
-                            msrMeasure::msrMeasureImplicitKind
+                            msrMeasureImplicitKind
                                    measureImplicitKind);
 
     void                  setNextMeasureNumberInStaff (
@@ -299,7 +328,7 @@ class EXP msrStaff : public msrElement
     void                  handleRepeatEndingEndInStaff (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
-                            msrRepeatEnding::msrRepeatEndingKind
+                            msrRepeatEndingKind
                                       repeatEndingKind);
 
 /* JMI

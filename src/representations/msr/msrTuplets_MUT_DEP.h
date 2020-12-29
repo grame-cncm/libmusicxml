@@ -6,8 +6,33 @@
 #ifndef ___msrTuplets_MUT_DEP___
 #define ___msrTuplets_MUT_DEP___
 
+#include "msrChords_MUT_DEP.h"
+#include "msrFiguredBasses_MUT_DEP.h"
+#include "msrGraceNotes_MUT_DEP.h"
+#include "msrMeasures_MUT_DEP.h"
+#include "msrNotes_MUT_DEP.h"
+#include "msrTupletElements.h"
+
+
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+// pre-declaration
+class msrTuplet;
+typedef SMARTP<msrTuplet> S_msrTuplet;
+
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
+
+class msrChord;
+typedef SMARTP<msrChord> S_msrChord;
+
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
+class msrGraceNotesGroup;
+typedef SMARTP<msrGraceNotesGroup> S_msrGraceNotesGroup;
 
 //______________________________________________________________________________
 class EXP msrTuplet : public msrTupletElement

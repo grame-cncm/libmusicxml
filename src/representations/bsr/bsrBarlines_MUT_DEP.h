@@ -6,13 +6,14 @@
 #ifndef ___bsrBarlines_MUT_DEP___
 #define ___bsrBarlines_MUT_DEP___
 
+#include "bsrCellsLists.h"
+#include "bsrLineElements_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrBarline;
-typedef SMARTP<bsrBarline> S_bsrBarline;
-
 class EXP bsrBarline : public bsrLineElement
 {
   public:

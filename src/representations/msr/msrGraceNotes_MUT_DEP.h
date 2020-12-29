@@ -6,8 +6,31 @@
 #ifndef ___msrGraceNotes_MUT_DEP___
 #define ___msrGraceNotes_MUT_DEP___
 
+#include "msrElements.h"
+#include "msrMeasures_MUT_DEP.h"
+#include "msrMeasureElements.h"
+#include "msrNotes_MUT_DEP.h"
+#include "msrVoices_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+class msrChord;
+typedef SMARTP<msrChord> S_msrChord;
+
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
+class msrPart;
+typedef SMARTP<msrPart> S_msrPart;
+
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
 
 //______________________________________________________________________________
 class EXP msrGraceNotesGroup : public msrElement

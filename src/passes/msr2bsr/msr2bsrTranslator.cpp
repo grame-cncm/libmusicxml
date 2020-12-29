@@ -3014,7 +3014,7 @@ void msr2bsrTranslator::finalizeCurrentMeasureClone (
   }
 #endif
 
-  msrMeasure::msrMeasureKind
+  msrMeasureKind
     measureKind =
       msrMeasure::kUnknownMeasure; // JMI
  // JMI     fMeasureKind = kFullMeasure; // may be changed afterwards
@@ -3100,7 +3100,7 @@ void msr2bsrTranslator::visitEnd (S_msrMeasure& elt)
 
   switch (elt->getMeasureKind ()) {
 
-    case msrMeasure::kMeasureKindUnknown:
+    case kMeasureKindUnknown:
       {
         stringstream s;
 
@@ -3121,33 +3121,33 @@ void msr2bsrTranslator::visitEnd (S_msrMeasure& elt)
       }
       break;
 
-    case msrMeasure::kMeasureKindRegular:
+    case kMeasureKindRegular:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindAnacrusis:
+    case kMeasureKindAnacrusis:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindIncompleteStandalone:
+    case kMeasureKindIncompleteStandalone:
       doCreateABarCheck = true;
       break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+    case kMeasureKindIncompleteLastInRepeat:
       doCreateABarCheck = true;
       break;
-    case msrMeasure::kMeasureKindIncompleteAfterRepeat:
-      doCreateABarCheck = true;
-      break;
-
-    case msrMeasure::kMeasureKindOvercomplete:
+    case kMeasureKindIncompleteAfterRepeat:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindCadenza:
+    case kMeasureKindOvercomplete:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindEmpty:
+    case kMeasureKindCadenza:
+      doCreateABarCheck = true;
+      break;
+
+    case kMeasureKindEmpty:
       // JMI
       break;
   } // switch

@@ -6,6 +6,9 @@
 #ifndef ___bsrPaginations_MUT_DEP___
 #define ___bsrPaginations_MUT_DEP___
 
+#include "bsrCellsLists.h"
+
+
 namespace MusicXML2
 {
 

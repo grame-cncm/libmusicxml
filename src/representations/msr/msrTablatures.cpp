@@ -491,13 +491,13 @@ void msrFrame::print (ostream& os) const
 
       os << left <<
         setw (fieldWidth) <<
-        "barreStartString" << " : " << barre.fBarreStartString <<
+        "barreStartString" << " : " << barre.getBarreStartString () <<
         endl <<
         setw (fieldWidth) <<
-        "barreStopString" << " : " << barre.fBarreStopString <<
+        "barreStopString" << " : " << barre.getBarreStopString () <<
         endl <<
         setw (fieldWidth) <<
-        "barreFretNumber" << " : " << barre.fBarreFretNumber <<
+        "barreFretNumber" << " : " << barre.getBarreFretNumber () <<
         endl;
 
       gIndenter--;

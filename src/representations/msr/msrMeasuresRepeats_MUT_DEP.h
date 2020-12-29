@@ -6,12 +6,25 @@
 #ifndef ___msrMeasuresRepeats_MUT_DEP___
 #define ___msrMeasuresRepeats_MUT_DEP___
 
+#include "msrElements.h"
+#include "msrSegments_MUT_DEP.h"
+#include "msrVoices_MUT_DEP.h"
+#include "msrVoiceElements.h"
+
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// pre-declaration
 class msrMeasuresRepeat;
 typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
+class msrSegment;
+typedef SMARTP<msrSegment> S_msrSegment;
 
 //______________________________________________________________________________
 class EXP msrMeasuresRepeatPattern : public msrElement

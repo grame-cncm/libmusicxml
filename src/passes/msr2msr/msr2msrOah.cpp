@@ -35,6 +35,7 @@ using namespace std;
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 S_msrOmitPartAtom msrOmitPartAtom::create (
   string       shortName,

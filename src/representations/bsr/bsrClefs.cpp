@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrClefs_MUT_DEP.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"

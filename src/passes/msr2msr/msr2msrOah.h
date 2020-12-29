@@ -22,6 +22,7 @@
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 class EXP msrOmitPartAtom : public oahAtomWithValue
 {

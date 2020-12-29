@@ -8,6 +8,8 @@
 
 #include "msrDynamics.h"
 
+#include "bsrCellsLists.h"
+#include "bsrLineElements_MUT_DEP.h"
 
 namespace MusicXML2
 {

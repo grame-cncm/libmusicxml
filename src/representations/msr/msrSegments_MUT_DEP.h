@@ -6,12 +6,90 @@
 #ifndef ___msrSegments_MUT_DEP___
 #define ___msrSegments_MUT_DEP___
 
+#include "msrMeasures_MUT_DEP.h"
+#include "msrStaves_MUT_DEP.h"
+#include "msrVoices_MUT_DEP.h"
+#include "msrVoiceElements.h"
+
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class msrScore;
+typedef SMARTP<msrScore> S_msrScore;
+
+class msrPartGroup;
+typedef SMARTP<msrPartGroup> S_msrPartGroup;
+
+class msrPart;
+typedef SMARTP<msrPart> S_msrPart;
+
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
+
+class msrStaffDetails;
+typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
+
+class msrVoiceStaffChange;
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+
 class msrVoice;
 typedef SMARTP<msrVoice> S_msrVoice;
+
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
+
+class msrDoubleTremolo;
+typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
+
+class msrChord;
+typedef SMARTP<msrChord> S_msrChord;
+
+class msrTuplet;
+typedef SMARTP<msrTuplet> S_msrTuplet;
+
+class msrHarmony;
+typedef SMARTP<msrHarmony> S_msrHarmony;
+
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
+class msrFrame;
+typedef SMARTP<msrFrame> S_msrFrame;
+
+class msrTempo;
+typedef SMARTP<msrTempo> S_msrTempo;
+
+class msrRehearsal;
+typedef SMARTP<msrRehearsal> S_msrRehearsal;
+
+class msrLineBreak;
+typedef SMARTP<msrLineBreak> S_msrLineBreak;
+
+class msrPageBreak;
+typedef SMARTP<msrPageBreak> S_msrPageBreak;
+
+class msrTime;
+typedef SMARTP<msrTime> S_msrTime;
+
+class msrPrintLayout;
+typedef SMARTP<msrPrintLayout> S_msrPrintLayout;
+
+class msrPartNameDisplay;
+typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
+
+class msrPartAbbreviationDisplay;
+typedef SMARTP<msrPartAbbreviationDisplay> S_msrPartAbbreviationDisplay;
+
+class msrTranspose;
+typedef SMARTP<msrTranspose> S_msrTranspose;
+
+class msrOctaveShift;
+typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
 
 //______________________________________________________________________________
 class EXP msrSegment : public msrVoiceElement
@@ -116,7 +194,7 @@ class EXP msrSegment : public msrVoiceElement
     S_msrMeasure          createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
                             string measureNumber,
-                            msrMeasure::msrMeasureImplicitKind
+                            msrMeasureImplicitKind
                                    measureImplicitKind);
 
     void                  setNextMeasureNumberInSegment (

@@ -10,6 +10,8 @@
   research@grame.fr
 */
 
+#include "msrMeasureElements.h"
+
 #include <climits>      // INT_MIN, INT_MAX
 
 #include "utilities.h"

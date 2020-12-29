@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
+#include "msrOrnaments_MUT_DEP.h"
 
 #include "oahOah.h"
 

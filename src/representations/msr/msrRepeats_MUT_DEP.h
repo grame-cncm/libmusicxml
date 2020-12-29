@@ -6,15 +6,20 @@
 #ifndef ___msrRepeats_MUT_DEP___
 #define ___msrRepeats_MUT_DEP___
 
+#include "msrElements.h"
+#include "msrMeasuresRepeats_MUT_DEP.h"
+#include "msrNotes_MUT_DEP.h"
+#include "msrRestMeasures_MUT_DEP.h"
+#include "msrVoiceElements.h"
+
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// pre-declaration
 class msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
-
-class msrMeasure;
-typedef SMARTP<msrMeasure> S_msrMeasure;
 
 class msrRestMeasures;
 typedef SMARTP<msrRestMeasures> S_msrRestMeasures;
@@ -22,9 +27,8 @@ typedef SMARTP<msrRestMeasures> S_msrRestMeasures;
 class msrMeasuresRepeat;
 typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 
-class msrMeasureElement;
-typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
-
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
 
 //______________________________________________________________________________
 class EXP msrRepeatCommonPart : public msrElement
@@ -138,17 +142,6 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt);
 class EXP msrRepeatEnding : public msrElement
 {
   public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrRepeatEndingKind {
-      kHookedEnding,
-      kHooklessEnding
-    };
-
-    static string repeatEndingKindAsString (
-      msrRepeatEndingKind repeatEndingKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -515,7 +508,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 //________________________________________________________________________
-struct msrRepeatDescr : public smartable
+class EXP msrRepeatDescr : public smartable
 {
   public:
 

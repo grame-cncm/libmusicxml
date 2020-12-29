@@ -6,12 +6,20 @@
 #ifndef ___msrFiguredBasses_MUT_DEP___
 #define ___msrFiguredBasses_MUT_DEP___
 
+#include "msrElements.h"
+#include "msrNotes_MUT_DEP.h"
+#include "msrParts_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class msrPart;
-typedef SMARTP<msrPart> S_msrPart;
+typedef SMARTP<msrPart> S_msrPart; // superflous ??? JMI
+
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote; // superflous ??? JMI
 
 //______________________________________________________________________________
 class EXP msrFigure : public msrElement

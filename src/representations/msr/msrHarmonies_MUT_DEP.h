@@ -6,12 +6,25 @@
 #ifndef ___msrHarmonies_MUT_DEP___
 #define ___msrHarmonies_MUT_DEP___
 
+#include "msrBasicTypes.h"
+#include "msrElements.h"
+#include "msrNotes_MUT_DEP.h"
+#include "msrTablatures.h"
+#include "msrVoices_MUT_DEP.h"
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// pre-declaration
 class msrHarmony;
 typedef SMARTP<msrHarmony> S_msrHarmony;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
 
 //______________________________________________________________________________
 class EXP msrHarmonyDegree : public msrElement

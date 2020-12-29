@@ -28,6 +28,7 @@
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 EXP Sxmlelement convertMsrScoreToMxmltree (
   const S_msrScore           theMsrScore,

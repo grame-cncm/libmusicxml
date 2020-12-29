@@ -13,6 +13,7 @@
 #ifndef ___bsrTranscriptionNotes___
 #define ___bsrTranscriptionNotes___
 
+#include "bsrCellsLists.h"
 #include "bsrElements.h"
 #include "bsrLines_MUT_DEP.h"
 

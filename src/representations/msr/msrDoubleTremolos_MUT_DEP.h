@@ -6,6 +6,12 @@
 #ifndef ___msrDoubleTremolos_MUT_DEP___
 #define ___msrDoubleTremolos_MUT_DEP___
 
+#include "msrChords_MUT_DEP.h"
+#include "msrElements.h"
+#include "msrMeasures_MUT_DEP.h"
+#include "msrMeasureElements.h"
+#include "msrNotes_MUT_DEP.h"
+
 namespace MusicXML2
 {
 

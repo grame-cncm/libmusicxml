@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
+#include "msrStaves_MUT_DEP.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -406,7 +406,7 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 void msrStaff::createMeasureAndAppendItToStaff (
   int    inputLineNumber,
   string measureNumber,
-  msrMeasure::msrMeasureImplicitKind
+  msrMeasureImplicitKind
          measureImplicitKind)
 {
 #ifdef TRACING_IS_ENABLED
@@ -1681,14 +1681,14 @@ void msrStaff::handleRepeatEndingStartInStaff (
 void msrStaff::handleRepeatEndingEndInStaff (
   int       inputLineNumber,
   string    repeatEndingNumber, // may be "1, 2"
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
             repeatEndingKind)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     gLogStream <<
       "Handling a " <<
-      msrRepeatEnding::repeatEndingKindAsString (
+      repeatEndingKindAsString (
         repeatEndingKind) <<
       " repeat ending end in staff \"" <<
       getStaffName () <<

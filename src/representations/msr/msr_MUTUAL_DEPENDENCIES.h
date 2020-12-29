@@ -107,8 +107,6 @@
 
 #include "msrAfterGraceNotes_MUT_DEP.h"
 
-#include "msrSyllables_MUT_DEP.h"
-
 #include "msrHarmonies_MUT_DEP.h"
 
 #include "msrFiguredBasses_MUT_DEP.h"
@@ -123,7 +121,7 @@
 
 #include "msrTuplets_MUT_DEP.h"
 
-#include "msrStanzas_MUT_DEP.h"
+#include "msrLyrics.h"
 
 #include "msrRepeats_MUT_DEP.h"
 

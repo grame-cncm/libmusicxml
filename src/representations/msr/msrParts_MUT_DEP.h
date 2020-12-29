@@ -6,8 +6,42 @@
 #ifndef ___msrParts_MUT_DEP___
 #define ___msrParts_MUT_DEP___
 
+#include "msrClefs.h"
+#include "msrKeys.h"
+#include "msrPartGroups.h"
+#include "msrPartGroupElements.h"
+#include "msrRepeats_MUT_DEP.h"
+#include "msrRestMeasures_MUT_DEP.h"
+#include "msrStaves_MUT_DEP.h"
+#include "msrStavesDetails.h"
+#include "msrTimes.h"
+#include "msrTranspositions.h"
+
+
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+class msrPartNameDisplay;
+typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
+
+class msrPartAbbreviationDisplay;
+typedef SMARTP<msrPartAbbreviationDisplay> S_msrPartAbbreviationDisplay;
+
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
+
+class msrStaffDetails;
+typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
+
+class msrHarmony;
+typedef SMARTP<msrHarmony> S_msrHarmony;
+
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
+class msrGraceNotesGroup;
+typedef SMARTP<msrGraceNotesGroup> S_msrGraceNotesGroup;
 
 //______________________________________________________________________________
 class EXP msrPart : public msrPartGroupElement
@@ -272,7 +306,7 @@ class EXP msrPart : public msrPartGroupElement
     void                  createMeasureAndAppendItToPart (
                             int    inputLineNumber,
                             string measureNumber,
-                            msrMeasure::msrMeasureImplicitKind
+                            msrMeasureImplicitKind
                                    measureImplicitKind);
 
     void                  setNextMeasureNumberInPart (
@@ -331,7 +365,7 @@ class EXP msrPart : public msrPartGroupElement
     void                  handleRepeatEndingEndInPart (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
-                            msrRepeatEnding::msrRepeatEndingKind
+                            msrRepeatEndingKind
                                       repeatEndingKind);
 
     /* JMI ???

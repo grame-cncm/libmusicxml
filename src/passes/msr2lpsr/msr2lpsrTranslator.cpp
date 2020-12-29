@@ -2336,7 +2336,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
   bool doCreateABarCheck = false;
 
   switch (elt->getMeasureKind ()) {
-    case msrMeasure::kMeasureKindUnknown:
+    case kMeasureKindUnknown:
       {
         stringstream s;
 
@@ -2357,21 +2357,21 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
       }
       break;
 
-    case msrMeasure::kMeasureKindRegular:
+    case kMeasureKindRegular:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindAnacrusis:
+    case kMeasureKindAnacrusis:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindIncompleteStandalone:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+    case kMeasureKindIncompleteStandalone:
+    case kMeasureKindIncompleteLastInRepeatCommonPart:
+    case kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       // generate a bar check if relevant
       switch (elt-> getMeasureEndRegularKind ()) {
         case msrMeasure::kMeasureEndRegularKindUnknown:
@@ -2384,15 +2384,15 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasure& elt)
       } // switch
       break;
 
-    case msrMeasure::kMeasureKindOvercomplete:
+    case kMeasureKindOvercomplete:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindCadenza:
+    case kMeasureKindCadenza:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindMusicallyEmpty:
+    case kMeasureKindMusicallyEmpty:
       // JMI
       break;
   } // switch

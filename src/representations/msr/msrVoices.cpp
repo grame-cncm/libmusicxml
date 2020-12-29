@@ -12,7 +12,10 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
+#include "msrVoices_MUT_DEP.h"
+
+#include "msrStaves_MUT_DEP.h"
+#include "msrRepeats_MUT_DEP.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -1144,7 +1147,7 @@ void msrVoice::createNewLastSegmentFromItsFirstMeasureForVoice (
 S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
   int    inputLineNumber,
   string measureNumber,
-  msrMeasure::msrMeasureImplicitKind
+  msrMeasureImplicitKind
          measureImplicitKind)
 {
   fVoiceCurrentMeasureNumber = measureNumber;
@@ -2812,7 +2815,7 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
       inputLineNumber,
       graceNotesGroup->
         getGraceNotesGroupMeasureNumber (),
-      msrMeasure::kMeasureImplicitKindNo);
+      kMeasureImplicitKindNo);
   }
 
   // such grace notes groups should be attached to the voice's first note,
@@ -4034,7 +4037,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             lastMeasureInLastSegment->getMeasureElementMeasureNumber (),
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
         /* JMI
           // set it as created before a repeat
@@ -4725,7 +4728,7 @@ void msrVoice::handleNestedRepeatEndInVoice (
     createMeasureAndAppendItToVoice (
       inputLineNumber,
       measureNumber,
-      msrMeasure::kMeasureImplicitKindNo);
+      kMeasureImplicitKindNo);
 
   /* JMI
     // set it as created after a repeat
@@ -5355,7 +5358,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
 
 void msrVoice::handleRepeatEndingStartInVoiceClone (
   int       inputLineNumber,
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
             repeatEndingKind,
   string    repeatEndingNumber) // may be "1, 2"
 {
@@ -5420,7 +5423,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
               if (gGlobalTraceOahGroup->getTraceRepeats ()) {
                 gLogStream <<
                   "Creating a " <<
-                  msrRepeatEnding::repeatEndingKindAsString (
+                  repeatEndingKindAsString (
                     repeatEndingKind) <<
                   " repeat ending in current repeat in voice clone \"" <<
                   fVoiceName <<
@@ -5442,7 +5445,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
               if (gGlobalTraceOahGroup->getTraceRepeats ()) {
                 gLogStream <<
                   "Appending a " <<
-                  msrRepeatEnding::repeatEndingKindAsString (
+                  repeatEndingKindAsString (
                     repeatEndingKind) <<
                   " repeat ending to current repeat in voice \"" <<
                   fVoiceName <<
@@ -7808,9 +7811,9 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
         getRepeatDescrRepeat ();
 
   // create a hooked repeat ending
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
     repeatEndingKind =
-      msrRepeatEnding::kHookedEnding;
+      kHookedEnding;
 
   S_msrRepeatEnding
     repeatEnding =
@@ -7831,7 +7834,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     gLogStream <<
       "Appending a " <<
-      msrRepeatEnding::repeatEndingKindAsString (
+      repeatEndingKindAsString (
         repeatEndingKind) <<
       " repeat ending to current repeat in voice \"" <<
       fVoiceName <<
@@ -7913,9 +7916,9 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
         getRepeatDescrRepeat ();
 
   // create a hookless repeat ending
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
     repeatEndingKind =
-      msrRepeatEnding::kHooklessEnding;
+      kHooklessEnding;
 
   S_msrRepeatEnding
     repeatEnding =
@@ -7936,7 +7939,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     gLogStream <<
       "Appending a " <<
-      msrRepeatEnding::repeatEndingKindAsString (
+      repeatEndingKindAsString (
         repeatEndingKind) <<
       " repeat ending to current repeat in voice \"" <<
       fVoiceName <<
@@ -7997,7 +8000,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
 void msrVoice::handleRepeatEndingEndInVoice (
   int       inputLineNumber,
   string    repeatEndingNumber, // may be "1, 2"
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
             repeatEndingKind)
 {
   switch (fVoiceKind) {
@@ -8006,13 +8009,13 @@ void msrVoice::handleRepeatEndingEndInVoice (
     case kVoiceFiguredBass:
       {
         switch (repeatEndingKind) {
-          case msrRepeatEnding::kHookedEnding:
+          case kHookedEnding:
             handleHookedRepeatEndingEndInVoice (
               inputLineNumber,
               repeatEndingNumber);
             break;
 
-          case msrRepeatEnding::kHooklessEnding:
+          case kHooklessEnding:
             handleHooklessRepeatEndingEndInVoice (
               inputLineNumber,
               repeatEndingNumber);
@@ -8236,9 +8239,9 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
         getRepeatDescrRepeat ();
 
   // create a hooked repeat ending
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
     repeatEndingKind =
-      msrRepeatEnding::kHookedEnding;
+      kHookedEnding;
 
   S_msrRepeatEnding
     repeatEnding =
@@ -8326,9 +8329,9 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
         getRepeatDescrRepeat ();
 
   // create a hookless repeat ending
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
     repeatEndingKind =
-      msrRepeatEnding::kHooklessEnding;
+      kHooklessEnding;
 
   S_msrRepeatEnding
     repeatEnding =
@@ -8365,7 +8368,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
 void msrVoice::handleRepeatEndingEndInVoiceClone (
   int       inputLineNumber,
   string    repeatEndingNumber, // may be "1, 2"
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
             repeatEndingKind)
 {
 #ifdef TRACING_IS_ENABLED
@@ -8382,13 +8385,13 @@ void msrVoice::handleRepeatEndingEndInVoiceClone (
     case kVoiceFiguredBass:
       {
         switch (repeatEndingKind) {
-          case msrRepeatEnding::kHookedEnding:
+          case kHookedEnding:
             handleHookedRepeatEndingEndInVoiceClone (
               inputLineNumber,
               repeatEndingNumber);
             break;
 
-          case msrRepeatEnding::kHooklessEnding:
+          case kHooklessEnding:
             handleHooklessRepeatEndingEndInVoiceClone (
               inputLineNumber,
               repeatEndingNumber);
@@ -8774,7 +8777,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
         if (gGlobalTraceOahGroup->getTraceRepeats ()) {
           gLogStream <<
             "Appending a " <<
-            msrRepeatEnding::repeatEndingKindAsString (
+            repeatEndingKindAsString (
               repeatEndingClone->getRepeatEndingKind ()) <<
             " repeat ending clone to current repeat in voice \"" <<
             fVoiceName <<
@@ -8793,7 +8796,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 
           s <<
             "repeats stack is empty when attempting to append a " <<
-            msrRepeatEnding::repeatEndingKindAsString (
+            repeatEndingKindAsString (
               repeatEndingClone->getRepeatEndingKind ()) <<
             " repeat ending to voice '" <<
             asShortString () <<
@@ -10467,7 +10470,7 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 
         /* JMI
       switch (lastMeasureInLastSegment->getMeasureKind ()) {
-        case msrMeasure::kMeasureKindMusicallyEmpty:
+        case kMeasureKindMusicallyEmpty:
           {
             // the last measure is musically empty:
             // keep it as it is
@@ -10536,5 +10539,5 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             lastMeasureInLastSegment->getMeasureElementMeasureNumber (),
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
             */

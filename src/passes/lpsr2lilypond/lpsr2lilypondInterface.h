@@ -20,6 +20,7 @@
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 EXP void convertLpsrScoreToLilypondCode (
   const S_lpsrScore originalLpsrScore,

@@ -8001,17 +8001,17 @@ void mxmlTree2msrTranslator::visitStart (S_measure& elt)
     implicit =
       elt->getAttributeValue ("implicit");
 
-  msrMeasure::msrMeasureImplicitKind
+  msrMeasureImplicitKind
     measureImplicitKind =
-      msrMeasure::kMeasureImplicitKindNo; // default value
+      kMeasureImplicitKindNo; // default value
 
   if       (implicit == "yes") {
     measureImplicitKind =
-      msrMeasure::kMeasureImplicitKindYes;
+      kMeasureImplicitKindYes;
   }
   else  if (implicit == "no") {
     measureImplicitKind =
-      msrMeasure::kMeasureImplicitKindNo;
+      kMeasureImplicitKindNo;
   }
   else {
     if (implicit.size ()) {
@@ -22929,7 +22929,7 @@ void mxmlTree2msrTranslator::handleRepeatHookedEndingEnd (
     handleRepeatEndingEndInPart (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
-      msrRepeatEnding::kHookedEnding);
+      kHookedEnding);
 }
 
 //______________________________________________________________________________
@@ -22990,7 +22990,7 @@ void mxmlTree2msrTranslator::handleRepeatHooklessEndingEnd (
     handleRepeatEndingEndInPart (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
-      msrRepeatEnding::kHooklessEnding);
+      kHooklessEnding);
 }
 
 //______________________________________________________________________________

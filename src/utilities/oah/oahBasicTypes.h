@@ -30,6 +30,7 @@ using namespace std;
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 // PRE-declarations for class mutual dependencies
 

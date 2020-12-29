@@ -10,17 +10,14 @@
   research@grame.fr
 */
 
-#include <climits>      // INT_MIN, INT_MAX
-
 #include "msrVoiceElements.h"
-
-// JMI #include "msrOah.h"
 
 
 using namespace std;
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 msrVoiceElement::msrVoiceElement (
   int inputLineNumber)
@@ -35,5 +32,6 @@ ostream& operator<< (ostream& os, const S_msrVoiceElement& elt)
   elt->print (os);
   return os;
 }
+
 
 }

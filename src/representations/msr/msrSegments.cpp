@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
+#include "msrSegments_MUT_DEP.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -258,7 +258,7 @@ void msrSegment::assertSegmentMeasuresListIsNotEmpty (
 S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   int    inputLineNumber,
   string measureNumber,
-  msrMeasure::msrMeasureImplicitKind
+  msrMeasureImplicitKind
          measureImplicitKind)
 {
 #ifdef TRACING_IS_ENABLED

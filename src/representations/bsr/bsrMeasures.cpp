@@ -14,7 +14,7 @@
 
 #include "utilities.h"
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrMeasures_MUT_DEP.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

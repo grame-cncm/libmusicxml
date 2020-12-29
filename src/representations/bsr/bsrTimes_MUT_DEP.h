@@ -6,6 +6,9 @@
 #ifndef ___bsrTimes_MUT_DEP___
 #define ___bsrTimes_MUT_DEP___
 
+#include "bsrCellsLists.h"
+
+
 namespace MusicXML2
 {
 

@@ -7,29 +7,40 @@
 #define ___msrMeasures_MUT_DEP___
 
 #include "msrElements.h"
+#include "msrFiguredBasses_MUT_DEP.h"
+#include "msrHarmonies_MUT_DEP.h"
+#include "msrParts_MUT_DEP.h"
+#include "msrPartGroups.h"
+#include "msrNotes_MUT_DEP.h"
+#include "msrScores.h"
+#include "msrSegments_MUT_DEP.h"
+#include "msrStaves_MUT_DEP.h"
+#include "msrTuplets_MUT_DEP.h"
+#include "msrVoices_MUT_DEP.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrStaff;
-typedef SMARTP<msrStaff> S_msrStaff;
+// pre-declaration
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
 
-class msrStaffChange;
-typedef SMARTP<msrStaffChange> S_msrStaffChange;
+class msrLineBreak;
+typedef SMARTP<msrLineBreak> S_msrLineBreak;
 
-class msrVoiceStaffChange;
-typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+class msrPageBreak;
+typedef SMARTP<msrPageBreak> S_msrPageBreak;
 
-class msrTuplet;
-typedef SMARTP<msrTuplet> S_msrTuplet;
+class msrTempo;
+typedef SMARTP<msrTempo> S_msrTempo;
 
-class msrHarmony;
-typedef SMARTP<msrHarmony> S_msrHarmony;
+class msrRehearsal;
+typedef SMARTP<msrRehearsal> S_msrRehearsal;
 
-class msrFiguredBass;
-typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+class msrDoubleTremolo;
+typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 
 //______________________________________________________________________________
 class EXP msrMeasure : public msrElement
@@ -38,33 +49,6 @@ class EXP msrMeasure : public msrElement
 
     // data types
     // ------------------------------------------------------
-
-    enum msrMeasureKind {
-      kMeasureKindUnknown,
-      kMeasureKindRegular,
-      kMeasureKindAnacrusis,
-      kMeasureKindIncompleteStandalone,
-      kMeasureKindIncompleteLastInRepeatCommonPart,
-      kMeasureKindIncompleteLastInRepeatHookedEnding,
-      kMeasureKindIncompleteLastInRepeatHooklessEnding,
-      kMeasureKindIncompleteNextMeasureAfterCommonPart,
-      kMeasureKindIncompleteNextMeasureAfterHookedEnding,
-      kMeasureKindIncompleteNextMeasureAfterHooklessEnding,
-      kMeasureKindOvercomplete,
-      kMeasureKindCadenza,
-      kMeasureKindMusicallyEmpty
-    };
-
-    static string measureKindAsString (
-      msrMeasureKind measureKind);
-
-    enum msrMeasureImplicitKind {
-      kMeasureImplicitKindYes,
-      kMeasureImplicitKindNo
-    };
-
-    static string measureImplicitKindAsString (
-      msrMeasureImplicitKind measureImplicitKind);
 
     enum msrMeasureFirstInSegmentKind {
       kMeasureFirstInSegmentKindUnknown,
@@ -147,13 +131,15 @@ class EXP msrMeasure : public msrElement
 
     // measure numbers
 
-    void                  setMeasureElementMeasureNumber (string measureNumber)
+    void                  setMeasureElementMeasureNumber (
+                            string measureNumber)
                               { fMeasureElementMeasureNumber = measureNumber; }
 
     string                getMeasureElementMeasureNumber () const
                               { return fMeasureElementMeasureNumber; }
 
-    void                  setMeasureOrdinalNumberInVoice (int measureOrdinalNumber)
+    void                  setMeasureOrdinalNumberInVoice (
+                            int measureOrdinalNumber)
                               { fMeasureOrdinalNumberInVoice = measureOrdinalNumber; }
 
     int                   getMeasureOrdinalNumberInVoice () const
@@ -269,7 +255,8 @@ class EXP msrMeasure : public msrElement
     // repeat context
 
     void                  setMeasuresRepeatContextKind (
-                            msrMeasuresRepeatContextKind measuresRepeatContextKind);
+                            msrMeasuresRepeatContextKind
+                              measuresRepeatContextKind);
 
     msrMeasuresRepeatContextKind
                           getMeasuresRepeatContextKind () const
@@ -628,8 +615,6 @@ class EXP msrMeasure : public msrElement
 
     // print
     // ------------------------------------------------------
-
-    string                measureKindAsString () const;
 
     string                asShortString () const override;
     string                asString () const override;

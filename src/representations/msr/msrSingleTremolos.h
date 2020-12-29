@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___msrTremolos___
-#define ___msrTremolos___
+#ifndef ___msrSingleTremolos___
+#define ___msrSingleTremolos___
 
 #include "msrElements.h"
 

@@ -127,7 +127,8 @@ typedef SMARTP<msrFrameNote> S_msrFrameNote;
 EXP ostream& operator<< (ostream& os, const S_msrFrameNote& elt);
 
 //______________________________________________________________________________
-struct msrBarre {
+class EXP msrBarre
+{
   public:
 
     // constructors/destructor
@@ -142,6 +143,22 @@ struct msrBarre {
       fBarreStopString  = barreStopString;
       fBarreFretNumber  = barreFretNumber;
     }
+
+   public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getBarreStartString () const
+                              { return fBarreStartString; }
+
+    int                   getBarreStopString () const
+                              { return fBarreStopString; }
+
+    int                   getBarreFretNumber () const
+                              { return fBarreFretNumber; }
+
+ private:
 
     // fields
     // ------------------------------------------------------

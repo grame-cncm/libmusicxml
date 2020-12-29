@@ -15,7 +15,6 @@
 
 #include "msrPartGroupElements.h"
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
 
 
 namespace MusicXML2

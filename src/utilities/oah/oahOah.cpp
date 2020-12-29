@@ -28,6 +28,7 @@ using namespace std;
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 S_insiderOahAtom insiderOahAtom::create (
   string shortName,

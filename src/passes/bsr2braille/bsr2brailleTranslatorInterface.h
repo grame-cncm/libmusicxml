@@ -23,6 +23,7 @@
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 EXP void convertBsrScoreToBrailleText (
   const S_bsrScore originalBsrScore,

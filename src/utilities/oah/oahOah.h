@@ -22,6 +22,7 @@
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 #define K_INSIDER_OPTION_NAME "insider"
 

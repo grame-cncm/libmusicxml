@@ -13,6 +13,8 @@
 #ifndef ___msrElements___
 #define ___msrElements___
 
+#include "smartpointer.h"
+
 #include "typedefs.h"
 #include "tree_browser.h"
 #include "rational.h"

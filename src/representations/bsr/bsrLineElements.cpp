@@ -28,7 +28,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-/*
+/* this class is purely virtual
 S_bsrLineElement bsrLineElement::create (
   int inputLineNumber)
 {

@@ -6,8 +6,16 @@
 #ifndef ___msrGlissandos_MUT_DEP___
 #define ___msrGlissandos_MUT_DEP___
 
+#include "msrElements.h"
+#include "msrMeasures_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
 
 //______________________________________________________________________________
 class EXP msrGlissando : public msrElement

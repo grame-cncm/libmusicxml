@@ -6,23 +6,51 @@
 #ifndef ___msrNotes_MUT_DEP___
 #define ___msrNotes_MUT_DEP___
 
+#include "msrArticulations.h"
+#include "msrBeams.h"
+#include "msrChords_MUT_DEP.h"
+#include "msrFiguredBasses_MUT_DEP.h"
 #include "msrGlissandos_MUT_DEP.h"
+#include "msrGraceNotes_MUT_DEP.h"
+#include "msrHarmonies_MUT_DEP.h"
+#include "msrLigatures.h"
+#include "msrLyrics.h"
+#include "msrMeasures_MUT_DEP.h"
 #include "msrOrnaments_MUT_DEP.h"
+#include "msrParts_MUT_DEP.h"
+#include "msrSingleTremolos.h"
+#include "msrSlashes.h"
 #include "msrSlides_MUT_DEP.h"
+#include "msrSlurs.h"
 #include "msrSpanners_MUT_DEP.h"
-#include "msrSyllables_MUT_DEP.h"
+#include "msrStaves_MUT_DEP.h"
+#include "msrStems.h"
+#include "msrTechnicals.h"
+#include "msrTies.h"
 #include "msrTupletElements.h"
+#include "msrTuplets_MUT_DEP.h"
+#include "msrVoices_MUT_DEP.h"
+#include "msrWords.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrChord;
-typedef SMARTP<msrChord> S_msrChord;
+class msrHarmony;
+typedef SMARTP<msrHarmony> S_msrHarmony;
 
-class msrTuplet;
-typedef SMARTP<msrTuplet> S_msrTuplet;
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
+class msrGlissando;
+typedef SMARTP<msrGlissando> S_msrGlissando;
+
+class msrSlide;
+typedef SMARTP<msrSlide> S_msrSlide;
+
+class msrSyllable;
+typedef SMARTP<msrSyllable> S_msrSyllable;
 
 //______________________________________________________________________________
 class EXP msrNote : public msrTupletElement
@@ -321,7 +349,8 @@ class EXP msrNote : public msrTupletElement
                             msrNoteHeadParenthesesKind
                               noteHeadParenthesesKind)
                               {
-                                fNoteHeadParenthesesKind = noteHeadParenthesesKind;
+                                fNoteHeadParenthesesKind =
+                                  noteHeadParenthesesKind;
                               }
 
     msrNoteHeadParenthesesKind
@@ -422,9 +451,11 @@ class EXP msrNote : public msrTupletElement
     bool                  getNoteIsUnpitched () const
                               {
                                 return
-                                  fNoteKind == msrNote::kUnpitchedNote
+                                  fNoteKind ==
+                                    msrNote::kUnpitchedNote
                                     ||
-                                  fNoteKind == msrNote::kTupletUnpitchedMemberNote;
+                                  fNoteKind ==
+                                    msrNote::kTupletUnpitchedMemberNote;
                               }
 
     // cue note?

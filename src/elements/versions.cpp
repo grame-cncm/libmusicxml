@@ -14,6 +14,7 @@
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 float   versions::libVersion()        { return 3.20f; }
 const char* versions::libVersionStr()     { return "3.20"; }

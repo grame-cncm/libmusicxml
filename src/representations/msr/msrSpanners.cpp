@@ -10,8 +10,6 @@
   research@grame.fr
 */
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
-
 #include "oahOah.h"
 
 #include "msrOah.h"

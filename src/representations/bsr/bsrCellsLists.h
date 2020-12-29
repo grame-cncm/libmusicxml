@@ -14,10 +14,10 @@
 #define ___bsrCellsLists___
 
 #include "smartpointer.h"
-
-#include "bsrElements.h"
+#include "basevisitor.h"
 
 #include "bsrBasicTypes.h"
+#include "bsrCellsLists.h"
 
 
 using namespace std;
@@ -29,6 +29,7 @@ namespace MusicXML2
 class bsrCellsList;
 typedef SMARTP<bsrCellsList> S_bsrCellsList;
 
+//______________________________________________________________________________
 class EXP bsrCellsList : public smartable
 {
   public:
@@ -183,6 +184,7 @@ class EXP bsrCellsList : public smartable
 
     list<bsrCellKind>     fCellsListElements;
 };
+typedef SMARTP<bsrCellsList> S_bsrCellsList;
 EXP ostream& operator<< (ostream& os, const S_bsrCellsList& elt);
 
 

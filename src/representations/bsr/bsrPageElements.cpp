@@ -28,7 +28,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-/*
+/* this class is purely virtual
 S_bsrPageElement bsrPageElement::create (
   int inputLineNumber)
 {

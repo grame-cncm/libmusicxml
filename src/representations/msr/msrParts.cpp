@@ -14,7 +14,7 @@
 #include <iomanip>      // setw, setprecision, ...
 #include <algorithm>    // for_each
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
+#include "msrParts_MUT_DEP.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -446,7 +446,7 @@ string msrPart::getPartCombinedName () const
 void msrPart::createMeasureAndAppendItToPart (
   int    inputLineNumber,
   string measureNumber,
-  msrMeasure::msrMeasureImplicitKind
+  msrMeasureImplicitKind
          measureImplicitKind)
 {
 #ifdef TRACING_IS_ENABLED
@@ -1091,14 +1091,14 @@ void msrPart::handleRepeatEndingStartInPart (
 void msrPart::handleRepeatEndingEndInPart (
   int       inputLineNumber,
   string    repeatEndingNumber, // may be "1, 2"
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
             repeatEndingKind)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
     gLogStream <<
       "Handling a " <<
-      msrRepeatEnding::repeatEndingKindAsString (
+      repeatEndingKindAsString (
         repeatEndingKind) <<
       " repeat ending end in part \"" <<
       getPartCombinedName () <<

@@ -6,8 +6,16 @@
 #ifndef ___msrSlides_MUT_DEP___
 #define ___msrSlides_MUT_DEP___
 
+#include "msrElements.h"
+#include "msrMeasures_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
 
 //______________________________________________________________________________
 class EXP msrSlide : public msrElement

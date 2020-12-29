@@ -6,6 +6,10 @@
 #ifndef ___bsrClefs_MUT_DEP___
 #define ___bsrClefs_MUT_DEP___
 
+#include "bsrCellsLists.h"
+#include "bsrLineElements_MUT_DEP.h"
+
+
 namespace MusicXML2
 {
 

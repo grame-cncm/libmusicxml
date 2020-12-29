@@ -6,12 +6,25 @@
 #ifndef ___msrBeatsRepeats_MUT_DEP___
 #define ___msrBeatsRepeats_MUT_DEP___
 
+#include "msrElements.h"
+#include "msrSegments_MUT_DEP.h"
+#include "msrVoices_MUT_DEP.h"
+#include "msrVoiceElements.h"
+
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// pre-declaration
 class msrBeatsRepeat;
 typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
+class msrSegment;
+typedef SMARTP<msrSegment> S_msrSegment; // superflous ??? JMI
 
 //______________________________________________________________________________
 class EXP msrBeatsRepeatPattern : public msrElement

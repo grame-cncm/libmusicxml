@@ -15,6 +15,8 @@
 
 #include <list>
 
+#include "msrElements.h"
+
 #include "msrSegnosAndCodas.h"
 
 #include "msrBasicTypes.h"

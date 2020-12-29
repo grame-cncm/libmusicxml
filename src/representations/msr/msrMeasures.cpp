@@ -12,7 +12,7 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
+#include "msrMeasures_MUT_DEP.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -2630,7 +2630,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
     // set this measure as being padded // JMI
     this->
       setMeasureCreatedForARepeatKind (
-        msrMeasure::kMeasureKindCreatedForARepeatPadded);
+        kMeasureKindCreatedForARepeatPadded);
     */
 
     // this measure contains music
@@ -3669,26 +3669,26 @@ void msrMeasure::finalizeRegularMeasure (
 
   // pad measure up to whole measure whole notes high tide JMI ???
   switch (fMeasureKind) {
-    case msrMeasure::kMeasureKindCadenza:
+    case kMeasureKindCadenza:
       break;
 
-    case msrMeasure::kMeasureKindOvercomplete:
-    case msrMeasure::kMeasureKindAnacrusis:
-    case msrMeasure::kMeasureKindRegular:
-    case msrMeasure::kMeasureKindIncompleteStandalone: // JMI
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart: // JMI
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding: // JMI
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding: // JMI
+    case kMeasureKindOvercomplete:
+    case kMeasureKindAnacrusis:
+    case kMeasureKindRegular:
+    case kMeasureKindIncompleteStandalone: // JMI
+    case kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
+    case kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
+    case kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
+    case kMeasureKindIncompleteNextMeasureAfterCommonPart: // JMI
+    case kMeasureKindIncompleteNextMeasureAfterHookedEnding: // JMI
+    case kMeasureKindIncompleteNextMeasureAfterHooklessEnding: // JMI
       break;
 
-    case msrMeasure::kMeasureKindUnknown:
+    case kMeasureKindUnknown:
       // JMI ???
       break;
 
-    case msrMeasure::kMeasureKindMusicallyEmpty:
+    case kMeasureKindMusicallyEmpty:
       {
       /* JMI
           */
@@ -5328,7 +5328,7 @@ void msrMeasure::finalizeMeasureClone (
     originalMeasure->getMeasuresRepeatContextKind ());
 
   // consistency check
-  msrMeasure::msrMeasureKind
+  msrMeasureKind
     originalMeasureMeasureKind =
       originalMeasure->getMeasureKind ();
 
@@ -5353,10 +5353,10 @@ void msrMeasure::finalizeMeasureClone (
       "*********>> measure clone '" <<
       fMeasureElementMeasureNumber <<
       "': measure kind '" <<
-      msrMeasure::measureKindAsString (
+      measureKindAsString (
         fMeasureKind) <<
       "' differs from original measure measure kind '" <<
-      msrMeasure::measureKindAsString (
+      measureKindAsString (
         originalMeasureMeasureKind) <<
       "' in voice \"" <<
       voiceClone->getVoiceName () <<
@@ -5471,73 +5471,6 @@ void msrMeasure::browseData (basevisitor* v)
   }
 }
 
-string msrMeasure::measureKindAsString (
-  msrMeasureKind measureKind)
-{
-  string result;
-
-  switch (measureKind) {
-    case msrMeasure::kMeasureKindUnknown:
-      result = "***measureKindUnknown***";
-      break;
-    case msrMeasure::kMeasureKindRegular:
-      result = "measureKindRegular";
-      break;
-    case msrMeasure::kMeasureKindAnacrusis:
-      result = "measureKindAnacrusis";
-      break;
-    case msrMeasure::kMeasureKindIncompleteStandalone:
-      result = "measureKindIncompleteStandalone";
-      break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-      result = "measureKindIncompleteLastInRepeatCommonPart";
-      break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-      result = "measureKindIncompleteLastInRepeatHookedEnding";
-      break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-      result = "measureKindIncompleteLastInRepeatHooklessEnding";
-      break;
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-      result = "measureKindIncompleteNextMeasureAfterCommonPart";
-      break;
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-      result = "measureKindIncompleteNextMeasureAfterHookedEnding";
-      break;
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
-      result = "measureKindIncompleteNextMeasureAfterHooklessEnding";
-      break;
-    case msrMeasure::kMeasureKindOvercomplete:
-      result = "measureKindOvercomplete";
-      break;
-    case msrMeasure::kMeasureKindCadenza:
-      result = "measureKindCadenza";
-      break;
-    case msrMeasure::kMeasureKindMusicallyEmpty:
-      result = "measureKindMusicallyEmpty";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrMeasure::measureImplicitKindAsString (
-  msrMeasureImplicitKind measureImplicitKind)
-{
-  string result;
-
-  switch (measureImplicitKind) {
-    case msrMeasure::kMeasureImplicitKindYes:
-      result = "measureImplicitKindYes";
-      break;
-    case msrMeasure::kMeasureImplicitKindNo:
-      result = "measureImplicitKindNo";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrMeasure::measureFirstInSegmentKindAsString (
     msrMeasureFirstInSegmentKind measureFirstInSegmentKind)
 {
@@ -5613,12 +5546,6 @@ string msrMeasure::measureEndRegularKindAsString (
   return result;
 }
 
-string msrMeasure::measureKindAsString () const
-{
-  return
-    measureKindAsString (fMeasureKind);
-}
-
 string msrMeasure::asShortString () const
 {
   // fetch the voice
@@ -5633,7 +5560,7 @@ string msrMeasure::asShortString () const
     "[Measure " <<
     fMeasureElementMeasureNumber <<
     ", measureKind: " <<
-    measureKindAsString () <<
+    measureKindAsString (fMeasureKind) <<
     ", voice: " <<
     voice->getVoiceName () <<
     ", measureOrdinalNumberInVoice: " <<
@@ -5669,7 +5596,7 @@ string msrMeasure::asString () const
     "[Measure '" <<
     fMeasureElementMeasureNumber <<
     ", measureKind: " <<
-    measureKindAsString () <<
+    measureKindAsString (fMeasureKind) <<
     ", voice: " <<
     voice->getVoiceName () <<
     ", measureOrdinalNumberInVoice: " <<
@@ -5722,7 +5649,7 @@ void msrMeasure::print (ostream& os) const
   os <<
     "Measure '" <<
     fMeasureElementMeasureNumber <<
-    "', " << measureKindAsString () <<
+    "', " << measureKindAsString (fMeasureKind) <<
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -5941,7 +5868,7 @@ void msrMeasure::printShort (ostream& os) const
   os <<
     "Measure '" <<
     fMeasureElementMeasureNumber <<
-    "', " << measureKindAsString () <<
+    "', " << measureKindAsString (fMeasureKind) <<
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<

@@ -8,6 +8,9 @@
 
 #include "msrTempos.h"
 
+#include "bsrCellsLists.h"
+
+
 namespace MusicXML2
 {
 

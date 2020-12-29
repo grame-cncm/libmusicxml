@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
+#include "msrRepeats_MUT_DEP.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -698,23 +698,6 @@ void msrRepeatEnding::browseData (basevisitor* v)
   }
 }
 
-string msrRepeatEnding::repeatEndingKindAsString (
-  msrRepeatEndingKind repeatEndingKind)
-{
-  string result;
-
-  switch (repeatEndingKind) {
-    case msrRepeatEnding::kHookedEnding:
-      result = "hooked";
-      break;
-    case msrRepeatEnding::kHooklessEnding:
-      result = "hookless";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrRepeatEnding::asString () const
 {
   stringstream s;
@@ -1035,14 +1018,14 @@ void msrRepeat::addRepeatEndingToRepeat (
 #endif
 
   // get repeat ending kind
-  msrRepeatEnding::msrRepeatEndingKind
+  msrRepeatEndingKind
     repeatEndingKind =
       repeatEnding->
         getRepeatEndingKind ();
 
   // consistency check
   switch (repeatEndingKind) {
-    case msrRepeatEnding::kHookedEnding:
+    case kHookedEnding:
       switch (fCurrentRepeatBuildPhaseKind) {
         case msrRepeat::kRepeatBuildPhaseJustCreated:
           {
@@ -1086,7 +1069,7 @@ void msrRepeat::addRepeatEndingToRepeat (
       } // switch
       break;
 
-    case msrRepeatEnding::kHooklessEnding:
+    case kHooklessEnding:
       switch (fCurrentRepeatBuildPhaseKind) {
         case msrRepeat::kRepeatBuildPhaseJustCreated:
           {

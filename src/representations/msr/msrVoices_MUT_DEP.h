@@ -6,19 +6,93 @@
 #ifndef ___msrVoices_MUT_DEP___
 #define ___msrVoices_MUT_DEP___
 
+#include "msrBeatsRepeats_MUT_DEP.h"
+#include "msrChords_MUT_DEP.h"
+#include "msrClefs.h"
 #include "msrElements.h"
+//#include "msrFiguredBasses_MUT_DEP.h"
+#include "msrGraceNotes_MUT_DEP.h"
+//#include "msrHarmonies_MUT_DEP.h"
+//#include "msrInstruments.h"
+#include "msrKeys.h"
+#include "msrLyrics.h"
 #include "msrMeasures_MUT_DEP.h"
+#include "msrMeasureElements.h"
+#include "msrMeasuresRepeats_MUT_DEP.h"
 #include "msrNotes_MUT_DEP.h"
 #include "msrParts_MUT_DEP.h"
 #include "msrPartGroups.h"
+#include "msrRepeats_MUT_DEP.h"
+#include "msrRestMeasures_MUT_DEP.h"
 #include "msrScores.h"
 #include "msrSegments_MUT_DEP.h"
-#include "msrStanzas_MUT_DEP.h"
 #include "msrStaves_MUT_DEP.h"
+#include "msrStavesDetails.h"
+#include "msrTimes.h"
+#include "msrTranspositions.h"
+#include "msrTuplets_MUT_DEP.h"
 
 
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff; // should not be necessary ??? JMI
+
+class msrRestMeasures;
+typedef SMARTP<msrRestMeasures> S_msrRestMeasures; // should not be necessary ??? JMI
+
+class msrVoiceStaffChange;
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange; // should not be necessary ??? JMI
+
+class msrBeatsRepeat;
+typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat; // should not be necessary ??? JMI
+
+class msrMeasuresRepeat;
+typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat; // should not be necessary ??? JMI
+
+class msrRepeatCommonPart;
+typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart; // should not be necessary ??? JMI
+
+class msrRepeat;
+typedef SMARTP<msrRepeat> S_msrRepeat; // should not be necessary ??? JMI
+
+class msrRepeatEnding;
+typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding; // should not be necessary ??? JMI
+
+class msrRepeatDescr;
+typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr; // should not be necessary ??? JMI
+
+class msrDoubleTremolo;
+typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo; // should not be necessary ??? JMI
+
+class msrFrame;
+typedef SMARTP<msrFrame> S_msrFrame;
+
+class msrHarmony;
+typedef SMARTP<msrHarmony> S_msrHarmony;
+
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
+class msrTempo;
+typedef SMARTP<msrTempo> S_msrTempo;
+
+class msrRehearsal;
+typedef SMARTP<msrRehearsal> S_msrRehearsal;
+
+class msrLineBreak;
+typedef SMARTP<msrLineBreak> S_msrLineBreak;
+
+class msrPageBreak;
+typedef SMARTP<msrPageBreak> S_msrPageBreak;
+
+class msrStanza;
+typedef SMARTP<msrStanza> S_msrStanza;
+
+class msrSyllable;
+typedef SMARTP<msrSyllable> S_msrSyllable;
 
 //______________________________________________________________________________
 class EXP msrVoice : public msrElement
@@ -309,7 +383,7 @@ class EXP msrVoice : public msrElement
     S_msrMeasure          createMeasureAndAppendItToVoice (
                             int    inputLineNumber,
                             string measureNumber,
-                            msrMeasure::msrMeasureImplicitKind
+                            msrMeasureImplicitKind
                                    measureImplicitKind);
 
     void                  setNextMeasureNumberInVoice (
@@ -594,7 +668,7 @@ class EXP msrVoice : public msrElement
     void                  handleRepeatEndingEndInVoice (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
-                            msrRepeatEnding::msrRepeatEndingKind
+                            msrRepeatEndingKind
                                       repeatEndingKind);
 
     void                  handleRepeatCommonPartStartInVoiceClone (
@@ -605,14 +679,14 @@ class EXP msrVoice : public msrElement
 
     void                  handleRepeatEndingStartInVoiceClone (
                             int       inputLineNumber,
-                            msrRepeatEnding::msrRepeatEndingKind
+                            msrRepeatEndingKind
                                       repeatEndingKind,
                             string    repeatEndingNumber); // may be "1, 2"
 
     void                  handleRepeatEndingEndInVoiceClone (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
-                            msrRepeatEnding::msrRepeatEndingKind
+                            msrRepeatEndingKind
                                       repeatEndingKind);
 
     void                  handleSegmentCloneEndInVoiceClone (

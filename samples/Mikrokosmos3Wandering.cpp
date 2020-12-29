@@ -327,7 +327,7 @@ void populateUpperVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure1number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // clef
     measure1->
@@ -412,7 +412,7 @@ void populateUpperVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure2number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure2->
@@ -491,7 +491,7 @@ void populateUpperVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure3number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure3->
@@ -570,7 +570,7 @@ void populateUpperVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure4number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure4->
@@ -598,7 +598,7 @@ void populateUpperVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure5number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure5->
@@ -644,7 +644,7 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure1number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // clef
     measure1->
@@ -714,7 +714,7 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure2number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure2->
@@ -774,7 +774,7 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure3number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure3->
@@ -834,7 +834,7 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure4number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure4->
@@ -859,7 +859,7 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure5number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure5->
@@ -896,7 +896,7 @@ void populateLowerVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure1number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // clef
     measure1->
@@ -968,7 +968,7 @@ void populateLowerVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure2number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure2->
@@ -1046,7 +1046,7 @@ void populateLowerVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure3number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure3->
@@ -1124,7 +1124,7 @@ void populateLowerVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure4number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure4->
@@ -1152,7 +1152,7 @@ void populateLowerVoice1WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure5number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure5->
@@ -1193,7 +1193,7 @@ void populateLowerVoice1WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure1number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // clef
     measure1->
@@ -1255,7 +1255,7 @@ void populateLowerVoice1WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure2number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure2->
@@ -1314,7 +1314,7 @@ void populateLowerVoice1WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure3number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure3->
@@ -1373,7 +1373,7 @@ void populateLowerVoice1WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure4number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure4->
@@ -1397,7 +1397,7 @@ void populateLowerVoice1WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure5number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure5->
@@ -1434,7 +1434,7 @@ void populateLowerVoice2WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure1number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // clef
     measure1->
@@ -1483,7 +1483,7 @@ void populateLowerVoice2WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure2number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure2->
@@ -1515,7 +1515,7 @@ void populateLowerVoice2WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure3number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure3->
@@ -1547,7 +1547,7 @@ void populateLowerVoice2WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure4number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure4->
@@ -1578,7 +1578,7 @@ void populateLowerVoice2WithTheRegularAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure5number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure5->
@@ -1615,7 +1615,7 @@ void populateLowerVoice2WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure1number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // clef
     measure1->
@@ -1663,7 +1663,7 @@ void populateLowerVoice2WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure2number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure2->
@@ -1694,7 +1694,7 @@ void populateLowerVoice2WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure3number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // time
     measure3->
@@ -1725,7 +1725,7 @@ void populateLowerVoice2WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure4number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure4->
@@ -1756,7 +1756,7 @@ void populateLowerVoice2WithTheStringsAPI (
           createMeasureAndAppendItToVoice (
             __LINE__,
             measure5number,
-            msrMeasure::kMeasureImplicitKindNo);
+            kMeasureImplicitKindNo);
 
     // notes
     measure5->

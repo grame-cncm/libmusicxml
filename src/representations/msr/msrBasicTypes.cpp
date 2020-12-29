@@ -10138,6 +10138,75 @@ string voiceKindAsString (
   return result;
 }
 
+// measures
+//______________________________________________________________________________
+string measureKindAsString (
+  msrMeasureKind measureKind)
+{
+  string result;
+
+  switch (measureKind) {
+    case kMeasureKindUnknown:
+      result = "***measureKindUnknown***";
+      break;
+    case kMeasureKindRegular:
+      result = "measureKindRegular";
+      break;
+    case kMeasureKindAnacrusis:
+      result = "measureKindAnacrusis";
+      break;
+    case kMeasureKindIncompleteStandalone:
+      result = "measureKindIncompleteStandalone";
+      break;
+    case kMeasureKindIncompleteLastInRepeatCommonPart:
+      result = "measureKindIncompleteLastInRepeatCommonPart";
+      break;
+    case kMeasureKindIncompleteLastInRepeatHookedEnding:
+      result = "measureKindIncompleteLastInRepeatHookedEnding";
+      break;
+    case kMeasureKindIncompleteLastInRepeatHooklessEnding:
+      result = "measureKindIncompleteLastInRepeatHooklessEnding";
+      break;
+    case kMeasureKindIncompleteNextMeasureAfterCommonPart:
+      result = "measureKindIncompleteNextMeasureAfterCommonPart";
+      break;
+    case kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+      result = "measureKindIncompleteNextMeasureAfterHookedEnding";
+      break;
+    case kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+      result = "measureKindIncompleteNextMeasureAfterHooklessEnding";
+      break;
+    case kMeasureKindOvercomplete:
+      result = "measureKindOvercomplete";
+      break;
+    case kMeasureKindCadenza:
+      result = "measureKindCadenza";
+      break;
+    case kMeasureKindMusicallyEmpty:
+      result = "measureKindMusicallyEmpty";
+      break;
+  } // switch
+
+  return result;
+}
+
+string measureImplicitKindAsString (
+  msrMeasureImplicitKind measureImplicitKind)
+{
+  string result;
+
+  switch (measureImplicitKind) {
+    case kMeasureImplicitKindYes:
+      result = "measureImplicitKindYes";
+      break;
+    case kMeasureImplicitKindNo:
+      result = "measureImplicitKindNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 // clefs
 //______________________________________________________________________________
 map<string, msrClefKind>
@@ -10642,6 +10711,25 @@ string timeRelationKindAsString (
       break;
     case kTimeRelationHyphen:
       result = "timeRelationHyphen";
+      break;
+  } // switch
+
+  return result;
+}
+
+// repeats
+//______________________________________________________________________________
+string repeatEndingKindAsString (
+  msrRepeatEndingKind repeatEndingKind)
+{
+  string result;
+
+  switch (repeatEndingKind) {
+    case kHookedEnding:
+      result = "hooked";
+      break;
+    case kHooklessEnding:
+      result = "hookless";
       break;
   } // switch
 

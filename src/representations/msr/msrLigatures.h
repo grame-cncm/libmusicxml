@@ -22,9 +22,11 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// pre-declaration
 class msrLigature;
 typedef SMARTP<msrLigature> S_msrLigature;
 
+//______________________________________________________________________________
 class EXP msrLigature : public msrElement
 {
   public:

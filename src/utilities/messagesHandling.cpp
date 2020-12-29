@@ -23,6 +23,7 @@ using namespace std;
 
 namespace MusicXML2
 {
+
 //______________________________________________________________________________
 void msgAssert (
   bool   condition,

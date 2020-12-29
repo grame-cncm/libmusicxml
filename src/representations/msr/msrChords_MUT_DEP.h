@@ -6,10 +6,35 @@
 #ifndef ___msrChords_MUT_DEP___
 #define ___msrChords_MUT_DEP___
 
+#include "msrDynamics.h"
+#include "msrElements.h"
+#include "msrFiguredBasses_MUT_DEP.h"
+#include "msrGlissandos_MUT_DEP.h"
+#include "msrGraceNotes_MUT_DEP.h"
+#include "msrHarmonies_MUT_DEP.h"
+#include "msrInstruments.h"
+#include "msrLigatures.h"
+#include "msrNotes_MUT_DEP.h"
+#include "msrOrnaments_MUT_DEP.h"
+#include "msrSegnosAndCodas.h"
+#include "msrSingleTremolos.h"
+#include "msrSlashes.h"
+#include "msrSlides_MUT_DEP.h"
+#include "msrSlurs.h"
+#include "msrSpanners_MUT_DEP.h"
+#include "msrStems.h"
+#include "msrTechnicals.h"
+#include "msrTies.h"
+#include "msrTranspositions.h"
+#include "msrTuplets_MUT_DEP.h"
+#include "msrTupletElements.h"
+#include "msrWords.h"
+
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// pre-declarations
 class msrChordSlurLink;
 typedef SMARTP<msrChordSlurLink> S_msrChordSlurLink;
 
@@ -18,6 +43,21 @@ typedef SMARTP<msrChordBeamLink> S_msrChordBeamLink;
 
 class msrChordGraceNotesGroupLink;
 typedef SMARTP<msrChordGraceNotesGroupLink> S_msrChordGraceNotesGroupLink;
+
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
+
+class msrOrnament;
+typedef SMARTP<msrOrnament> S_msrOrnament;
+
+class msrGlissando;
+typedef SMARTP<msrGlissando> S_msrGlissando;
+
+class msrSlide;
+typedef SMARTP<msrSlide> S_msrSlide;
+
+class msrPedal;
+typedef SMARTP<msrPedal> S_msrPedal;
 
 //______________________________________________________________________________
 class EXP msrChord : public msrTupletElement
@@ -232,7 +272,8 @@ class EXP msrChord : public msrTupletElement
 */
 
     void                  setChordGraceNotesGroupLinkBefore (
-                            S_msrChordGraceNotesGroupLink chordChordGraceNotesGroupLinkBefore)
+                            S_msrChordGraceNotesGroupLink
+                              chordChordGraceNotesGroupLinkBefore)
                               {
                                 fChordGraceNotesGroupLinkBefore =
                                   chordChordGraceNotesGroupLinkBefore;

@@ -6,6 +6,9 @@
 #ifndef ___msrOrnaments_MUT_DEP___
 #define ___msrOrnaments_MUT_DEP___
 
+#include "msrElements.h"
+#include "msrNotes_MUT_DEP.h"
+
 
 namespace MusicXML2
 {
