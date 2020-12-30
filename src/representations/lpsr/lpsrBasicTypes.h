@@ -89,7 +89,7 @@ string lpsrAccidentalStyleKindAsLilypondString (
 extern map<string, lpsrAccidentalStyleKind>
   gGlobalLpsrAccidentalStyleKindsMap;
 
-string existingLpsrAccidentalStyleKinds (int namesListMaxLength);
+string existingLpsrAccidentalStyleKinds (unsigned int namesListMaxLength);
 
 void initializeLpsrAccidentalStyleKindsMap ();
 
@@ -106,7 +106,7 @@ string lpsrChordsLanguageKindAsString (
 extern map<string, lpsrChordsLanguageKind>
   gGlobalLpsrChordsLanguageKindsMap;
 
-string existingLpsrChordsLanguageKinds (int namesListMaxLength);
+string existingLpsrChordsLanguageKinds (unsigned int namesListMaxLength);
 
 void initializeLpsrChordsLanguageKindsMap ();
 

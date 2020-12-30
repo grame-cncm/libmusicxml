@@ -69,10 +69,12 @@ class EXP exNihiloInsiderOahHandler : public oahHandler
     // public services
     // ------------------------------------------------------
 
-    string                fetchOutputFileNameFromTheOptions () const override;
+    virtual void          checkOptionsAndArgumentsFromArgcAndArgv () const override;
+
+    virtual string        fetchOutputFileNameFromTheOptions () const override;
 
     // quiet mode
-    void                  enforceHandlerQuietness () override;
+    virtual void          enforceHandlerQuietness () override;
 
     // consistency check
     virtual void          checkHandlerOptionsConsistency () override;

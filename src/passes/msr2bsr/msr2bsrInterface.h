@@ -25,7 +25,7 @@
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-S_bsrScore convertMsrScoreToBsrScore (
+EXP S_bsrScore convertMsrScoreToBsrScore (
   S_msrScore    originalMsrScore,
   S_msrOahGroup msrOpts,
   S_bsrOahGroup bsrOpts,

@@ -1012,7 +1012,7 @@ void initializeLpsrAccidentalStyleKindsMap ()
   gGlobalLpsrAccidentalStyleKindsMap ["forget"] = kForget;
 }
 
-string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
+string existingLpsrAccidentalStyleKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -1099,7 +1099,7 @@ string lpsrChordsLanguageKindAsString (
   return result;
 }
 
-string existingLpsrChordsLanguageKinds (int namesListMaxLength)
+string existingLpsrChordsLanguageKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 

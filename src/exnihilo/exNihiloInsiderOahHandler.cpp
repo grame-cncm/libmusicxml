@@ -321,6 +321,86 @@ void exNihiloInsiderOahHandler::createTheExNihiloOptionGroups (
 }
 
 //______________________________________________________________________________
+void exNihiloInsiderOahHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "checking options and arguments from argc/argv in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  unsigned int argumentsNumber =
+    fHandlerArgumentsVector.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+    if (argumentsNumber > 0) {
+      gLogStream <<
+        singularOrPluralWithoutNumber (
+          argumentsNumber, "There is", "There are") <<
+        " " <<
+        argumentsNumber <<
+        " " <<
+        singularOrPluralWithoutNumber (
+          argumentsNumber, "argument", "arguments") <<
+        " in handler arguments vector for " <<
+        fHandlerExecutableName <<
+        ":" <<
+        endl;
+
+      gIndenter++;
+
+      for (unsigned int i = 0; i < argumentsNumber; i++) {
+        gLogStream <<
+          i << " : " << fHandlerArgumentsVector [i] <<
+            endl;
+      } // for
+
+      gLogStream << endl;
+
+      gIndenter--;
+    }
+    else {
+      gLogStream <<
+        "There are no arguments to " <<
+        fHandlerExecutableName <<
+        endl;
+    }
+  }
+#endif
+
+  // input source name
+  // ------------------------------------------------------
+
+  switch (argumentsNumber) {
+    case 0:
+      // fine, do nothing
+      break;
+
+    default:
+      {
+        stringstream s;
+
+        s <<
+          fHandlerExecutableName <<
+          " doesn't expect arguments, only options can be used";
+
+        string message = s.str ();
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msrOahException (message);
+      }
+  } //  switch
+}
+
+//______________________________________________________________________________
 string exNihiloInsiderOahHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED
