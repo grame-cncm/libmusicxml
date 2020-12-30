@@ -197,7 +197,7 @@ void bsrPage::print (ostream& os) const
   gIndenter++;
 
   // print the page numbers
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os << left <<
   /* JMI
@@ -214,7 +214,7 @@ void bsrPage::print (ostream& os) const
   os << endl;
 
   // print the page elements if any
-  int pageElementsListSize = fPageElementsList.size ();
+  unsigned int pageElementsListSize = fPageElementsList.size ();
 
   if (pageElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<

@@ -1139,7 +1139,7 @@ void msrBeatsRepeat::print (ostream& os) const
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceBeatsRepeats ()) {
     // print the current measures repeat build phase
-    const int fieldWidth = 36;
+    const unsigned int fieldWidth = 36;
 
     os <<
       setw (fieldWidth) <<

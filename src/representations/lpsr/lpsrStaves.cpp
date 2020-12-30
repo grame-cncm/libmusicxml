@@ -461,7 +461,7 @@ void lpsrStaffBlock::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 31;
+  const unsigned int fieldWidth = 31;
 
   os << left <<
     setw (fieldWidth) <<

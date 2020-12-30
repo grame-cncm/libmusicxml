@@ -675,7 +675,7 @@ void msrFiguredBass::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 32;
+  const unsigned int fieldWidth = 32;
 
   os <<
     setw (fieldWidth) <<

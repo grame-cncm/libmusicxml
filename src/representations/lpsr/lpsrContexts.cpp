@@ -296,7 +296,7 @@ void lpsrChordNamesContext::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 20;
+  const unsigned int fieldWidth = 20;
 
   os << left <<
     setw (fieldWidth) <<
@@ -454,7 +454,7 @@ void lpsrFiguredBassContext::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 20;
+  const unsigned int fieldWidth = 20;
 
   os << left <<
     setw (fieldWidth) <<

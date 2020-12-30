@@ -123,9 +123,9 @@ void bsrFootNotes::print (ostream& os) const
   gIndenter++;
 
   // print the notes if any
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
-  int footNotesElementsListSize = fFootNotesElementsList.size ();
+  unsigned int footNotesElementsListSize = fFootNotesElementsList.size ();
 
   if (footNotesElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<

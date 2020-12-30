@@ -286,7 +286,7 @@ void bsrKey::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 20;
+  const unsigned int fieldWidth = 20;
 
   os <<
     setw (fieldWidth) <<

@@ -259,7 +259,7 @@ void generalOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void generalOahGroup::printGeneralOahValues (int fieldWidth)
+void generalOahGroup::printGeneralOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The general options are:" <<

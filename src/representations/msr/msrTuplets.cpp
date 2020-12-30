@@ -974,7 +974,7 @@ void msrTuplet::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 30;
+  const unsigned int fieldWidth = 30;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1113,7 +1113,7 @@ void msrTuplet::printShort (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 30;
+  const unsigned int fieldWidth = 30;
 
 /*
   os << left <<

@@ -202,7 +202,7 @@ string msrTimeItem::asString () const
   s <<
     "TimeItem ";
 
-  int vectorSize =
+  unsigned int vectorSize =
     fTimeBeatsNumbersVector.size ();
 
   switch (vectorSize) {
@@ -798,7 +798,7 @@ rational msrTime::wholeNotesPerMeasure () const
 {
   rational result (0, 1); // addition neutral element
 
-  int vectorSize = fTimeItemsVector.size ();
+  unsigned int vectorSize = fTimeItemsVector.size ();
 
   if (vectorSize) {
     /* JMI
@@ -980,7 +980,7 @@ void msrTime::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 23;
+  const unsigned int fieldWidth = 23;
 
   os << left <<
     setw (fieldWidth) <<

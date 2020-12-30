@@ -270,7 +270,7 @@ void oahRegularOahHandler::registerAtomInRegularSubgroup (
 //______________________________________________________________________________
 void oahRegularOahHandler::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "oahRegularOahHandler \"" << fHandlerHeader << "\":" <<
@@ -373,7 +373,7 @@ string existingOahOptionalValuesStyleKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  int
+  unsigned int
     optionalValuesStyleKindsMapSize =
       gGlobalOahOptionalValuesStyleKindsMap.size ();
 

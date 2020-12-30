@@ -152,7 +152,7 @@ void msrCreditWords::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 35;
+  const unsigned int fieldWidth = 35;
 
   os <<
     setw (fieldWidth) <<

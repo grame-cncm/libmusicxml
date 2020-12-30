@@ -114,7 +114,7 @@ class EXP generalOahGroup : public oahGroup
 
     void                  printGeneralOahHelp ();
 
-    void                  printGeneralOahValues (int fieldWidth);
+    void                  printGeneralOahValues (unsigned int fieldWidth);
 
   private:
 

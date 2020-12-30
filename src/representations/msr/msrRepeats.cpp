@@ -749,7 +749,7 @@ void msrRepeatEnding::print (ostream& os) const
     endl;
 */
 
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os << left <<
     setw (fieldWidth) <<
@@ -815,7 +815,7 @@ void msrRepeatEnding::printShort (ostream& os) const
 /*
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1749,7 +1749,7 @@ void msrRepeat::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 28;
+  const unsigned int fieldWidth = 28;
 
   os << left <<
     setw (fieldWidth) <<

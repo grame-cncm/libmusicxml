@@ -406,7 +406,7 @@ class EXP bsr2brailleOahGroup : public oahGroup
 
     void                  printBsr2brailleOahHelp ();
 
-    void                  printBsr2brailleOahValues (int fieldWidth);
+    void                  printBsr2brailleOahValues (unsigned int fieldWidth);
 
   private:
 

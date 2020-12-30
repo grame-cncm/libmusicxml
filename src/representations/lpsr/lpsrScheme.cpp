@@ -181,7 +181,7 @@ void lpsrSchemeVariable::print (ostream& os) const
     stringQuoteEscaper (variableValue));
 
   // print resulting strings
-  const int fieldWidth = 15;
+  const unsigned int fieldWidth = 15;
 
   os << left <<
     setw (fieldWidth) <<

@@ -530,10 +530,10 @@ EXP xmlErr musicxmlfile2lilypond (
 }
 
 xmlErr musicxmlFile2lilypondWithHandler (
-  const char *         fileName,
-  std::ostream&        out,
-  std::ostream&        err,
-  S_oahHandler         handler)
+  const char * fileName,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler)
 {
 	SXMLFile
 	  xmlfile =
@@ -569,10 +569,10 @@ EXP xmlErr musicxmlfd2lilypond (
 }
 
 xmlErr musicxmlFd2lilypondWithHandler (
-  FILE *        fd,
-  std::ostream& out,
-  std::ostream& err,
-  S_oahHandler  handler)
+  FILE *       fd,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler)
 {
 	SXMLFile
 	  xmlfile =
@@ -608,10 +608,10 @@ EXP xmlErr musicxmlstring2lilypond (
 }
 
 xmlErr musicxmlString2lilypondWithHandler (
-  const char *  buffer,
-  std::ostream& out,
-  std::ostream& err,
-  S_oahHandler  handler)
+  const char * buffer,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler)
 {
 	SXMLFile
 	  xmlfile =

@@ -73,7 +73,7 @@ string msrRepeatDescr::repeatDescrAsString () const
 
 void msrRepeatDescr::print (ostream& os) const
 {
-  const int fieldWidth = 29;
+  const unsigned int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2711,7 +2711,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       chord->
         getChordNotesVector ();
 
-  int chordNotesVectorSize =
+  unsigned int chordNotesVectorSize =
     chordNotesVector.size ();
 
   if (chordNotesVectorSize > 0) {
@@ -3235,7 +3235,7 @@ void msrVoice::displayVoiceRepeatsStack (
   int    inputLineNumber,
   string context)
 {
-  int repeatDescrsStackSize =
+  unsigned int repeatDescrsStackSize =
     fVoicePendingRepeatDescrsStack.size ();
 
   gLogStream <<
@@ -3289,7 +3289,7 @@ void msrVoice::displayVoiceRepeatsStackSummary (
   int    inputLineNumber,
   string context)
 {
-  int repeatDescrsStackSize =
+  unsigned int repeatDescrsStackSize =
     fVoicePendingRepeatDescrsStack.size ();
 
   gLogStream <<
@@ -7781,7 +7781,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   gIndenter++;
 
 /* JMI
-        int voicerepeatDescrsStackSize =
+        unsigned int voicerepeatDescrsStackSize =
           fVoicePendingRepeatDescrsStack.size ();
 */
 
@@ -9349,7 +9349,7 @@ void msrVoice::finalizeVoice (
   }
 
   // are there pending repeats in the voice repeats stack???
-  int voicePendingRepeatDescrsStackSize =
+  unsigned int voicePendingRepeatDescrsStackSize =
     fVoicePendingRepeatDescrsStack.size ();
 
   if (voicePendingRepeatDescrsStackSize) {
@@ -9692,7 +9692,7 @@ void msrVoice::print (ostream& os) const
     ")" <<
     endl;
 
-  const int fieldWidth = 41;
+  const unsigned int fieldWidth = 41;
 
   os << left <<
     setw (fieldWidth) <<
@@ -9925,7 +9925,7 @@ void msrVoice::print (ostream& os) const
 
 #ifdef TRACING_IS_ENABLED
   // print the voice measures flat list
-  int voiceMeasuresFlatListSize =
+  unsigned int voiceMeasuresFlatListSize =
     fVoiceMeasuresFlatList.size ();
 
   os <<
@@ -9967,7 +9967,7 @@ void msrVoice::print (ostream& os) const
 #endif
 
   // print the voice initial elements
-  int voiceInitialElementsListSize =
+  unsigned int voiceInitialElementsListSize =
     fInitialVoiceElementsList.size ();
 
   os <<
@@ -10089,7 +10089,7 @@ void msrVoice::printShort (ostream& os) const
     ")" <<
     endl;
 
-  const int fieldWidth = 41;
+  const unsigned int fieldWidth = 41;
 
 /*
   os << left <<
@@ -10329,7 +10329,7 @@ void msrVoice::printShort (ostream& os) const
 
 #ifdef TRACING_IS_ENABLED
   // print the voice measures flat list
-  int voiceMeasuresFlatListSize =
+  unsigned int voiceMeasuresFlatListSize =
     fVoiceMeasuresFlatList.size ();
 
   os <<
@@ -10371,7 +10371,7 @@ void msrVoice::printShort (ostream& os) const
 #endif
 
   // print the voice initial elements
-  int voiceInitialElementsListSize =
+  unsigned int voiceInitialElementsListSize =
     fInitialVoiceElementsList.size ();
 
   os <<

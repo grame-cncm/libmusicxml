@@ -133,7 +133,7 @@ void brailleOahGroup::checkGroupOptionsConsistency ()
   // JMI
 }
 
-void brailleOahGroup::printBrailleOahValues (int fieldWidth)
+void brailleOahGroup::printBrailleOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The Braille options are:" <<

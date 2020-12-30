@@ -1341,7 +1341,7 @@ void bsrNote::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 23;
+  const unsigned int fieldWidth = 23;
 
   os <<
     setw (fieldWidth) <<

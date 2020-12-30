@@ -93,7 +93,7 @@ void msr2namesVisitor::visitEnd (S_msrScore& elt)
 
   gIndenter++;
 
-  const int fieldWidth = 3;
+  const unsigned int fieldWidth = 3;
 
   gLogStream <<
     setw (fieldWidth) <<
@@ -138,7 +138,7 @@ void msr2namesVisitor::visitStart (S_msrPartGroup& elt)
 
   fPartGroupsCounter++;
 
-  int partGroupElementsSize = elt->getPartGroupElements ().size ();
+  unsigned int partGroupElementsSize = elt->getPartGroupElements ().size ();
 
   gLogStream <<
     "PartGroup" << " " << elt->getPartGroupCombinedName () <<
@@ -151,7 +151,7 @@ void msr2namesVisitor::visitStart (S_msrPartGroup& elt)
 
   gIndenter++;
 
-  const int fieldWidth = 25;
+  const unsigned int fieldWidth = 25;
 
   gLogStream << left <<
     setw (fieldWidth) <<
@@ -197,7 +197,7 @@ void msr2namesVisitor::visitStart (S_msrPart& elt)
 
   fPartsCounter++;
 
-  int partStavesMapSize = elt->getPartStavesMap ().size ();
+  unsigned int partStavesMapSize = elt->getPartStavesMap ().size ();
 
   gLogStream <<
     "Part " << elt->getPartCombinedName () <<
@@ -209,7 +209,7 @@ void msr2namesVisitor::visitStart (S_msrPart& elt)
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   gLogStream << left <<
     setw (fieldWidth) <<
@@ -262,7 +262,7 @@ void msr2namesVisitor::visitStart (S_msrStaff& elt)
 
   fStavesCounter++;
 
-  int staffAllVoicesVectorSize = elt->getStaffAllVoicesVector ().size ();
+  unsigned int staffAllVoicesVectorSize = elt->getStaffAllVoicesVector ().size ();
 
   gLogStream <<
     "Staff" << " " << elt->getStaffName () <<
@@ -275,7 +275,7 @@ void msr2namesVisitor::visitStart (S_msrStaff& elt)
   gIndenter++;
 
 
-  const int fieldWidth = 28;
+  const unsigned int fieldWidth = 28;
 
   gLogStream << left <<
     setw (fieldWidth) <<
@@ -322,7 +322,7 @@ void msr2namesVisitor::visitStart (S_msrVoice& elt)
 
   fVoicesCounter++;
 
-  int voiceStanzasMapSize = elt->getVoiceStanzasMap ().size ();
+  unsigned int voiceStanzasMapSize = elt->getVoiceStanzasMap ().size ();
 
   gLogStream <<
     "Voice" << " " << elt->getVoiceName () <<
@@ -334,7 +334,7 @@ void msr2namesVisitor::visitStart (S_msrVoice& elt)
 
   gIndenter++;
 
-  const int fieldWidth = 28;
+  const unsigned int fieldWidth = 28;
 
   gLogStream << left <<
     setw (fieldWidth) <<

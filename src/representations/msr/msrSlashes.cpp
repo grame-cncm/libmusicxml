@@ -136,7 +136,7 @@ void msrSlash::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   // print the voice upLink
   os << left <<

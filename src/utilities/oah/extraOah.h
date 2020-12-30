@@ -410,7 +410,7 @@ class EXP extraOahGroup : public oahGroup
 
     void                  printExtraOahHelp ();
 
-    void                  printExtraOahValues (int fieldWidth);
+    void                  printExtraOahValues (unsigned int fieldWidth);
 
   public:
 

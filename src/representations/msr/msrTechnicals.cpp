@@ -341,7 +341,7 @@ void msrTechnicalWithInteger::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 14;
+  const unsigned int fieldWidth = 14;
 
   os << left <<
     setw (fieldWidth) <<
@@ -491,7 +491,7 @@ void msrTechnicalWithFloat::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 14;
+  const unsigned int fieldWidth = 14;
 
   os << left <<
     setw (fieldWidth) <<
@@ -670,7 +670,7 @@ void msrTechnicalWithString::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 14;
+  const unsigned int fieldWidth = 14;
 
   os << left <<
     setw (fieldWidth) <<

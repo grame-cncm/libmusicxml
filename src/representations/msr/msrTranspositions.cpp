@@ -296,7 +296,7 @@ string msrTranspose::asString () const
 
 void msrTranspose::print (ostream& os) const
 {
-  const int fieldWidth = 22;
+  const unsigned int fieldWidth = 22;
 
   os <<
     "Transpose" <<

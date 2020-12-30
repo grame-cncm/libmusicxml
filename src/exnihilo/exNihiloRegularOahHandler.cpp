@@ -1188,7 +1188,7 @@ void exNihiloRegularOahHandler::createOutputRegularGroup ()
 //______________________________________________________________________________
 void exNihiloRegularOahHandler::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "exNihiloRegularOahHandler '" << fHandlerHeader << "':" <<

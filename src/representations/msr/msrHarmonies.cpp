@@ -792,7 +792,7 @@ void msrHarmony::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 26;
+  const unsigned int fieldWidth = 26;
 
   os << left <<
     setw (fieldWidth) <<

@@ -196,7 +196,7 @@ void bsrPagination::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os <<
     setw (fieldWidth) <<

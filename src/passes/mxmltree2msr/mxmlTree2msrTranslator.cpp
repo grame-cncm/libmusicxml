@@ -487,7 +487,7 @@ void mxmlTree2msrTranslator::printVoicesLastMetNoteMap (
   int    inputLineNumber,
   string context)
 {
-  int
+  unsigned int
     voicesLastMetNoteMapSize =
       fVoicesLastMetNoteMap.size ();
 
@@ -3974,7 +3974,7 @@ void mxmlTree2msrTranslator::visitEnd (S_direction& elt)
 #endif
 
   if (fCurrentMetronomeTempo) {
-    int pendingWordsSize = fPendingWordsList.size ();
+    unsigned int pendingWordsSize = fPendingWordsList.size ();
 
     if (pendingWordsSize) {
       while (fPendingWordsList.size ()) {
@@ -5559,7 +5559,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_metronome& elt )
   // append metrenome words to tempo if any
   S_msrWords tempoWords;
 
-  int pendingWordsSize = fPendingWordsList.size ();
+  unsigned int pendingWordsSize = fPendingWordsList.size ();
 
   if (pendingWordsSize) {
     if (pendingWordsSize > 1) {
@@ -6142,7 +6142,7 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_tuning& elt )
 
     gIndenter++;
 
-    const int fieldWidth = 32;
+    const unsigned int fieldWidth = 32;
 
     gLogStream << left <<
       setw (fieldWidth) <<
@@ -6528,7 +6528,7 @@ void mxmlTree2msrTranslator::displaySlurStartsStack (
 void mxmlTree2msrTranslator::displayTupletsStack (
   string context)
 {
-  int tupletsStackSize = fTupletsStack.size ();
+  unsigned int tupletsStackSize = fTupletsStack.size ();
 
   gLogStream <<
     endl <<
@@ -6632,7 +6632,7 @@ void mxmlTree2msrTranslator::visitStart (S_slur& elt )
     // a phrasing slur is recognized as such
     // when the nested regular slur start is found
 
-    int slurStartsStackSize = fSlurStartsStack.size ();
+    unsigned int slurStartsStackSize = fSlurStartsStack.size ();
 
     if (fCurrentSlurType == "start") {
       switch (slurStartsStackSize) {
@@ -7447,7 +7447,7 @@ void mxmlTree2msrTranslator::visitStart ( S_text& elt )
   if (gGlobalTraceOahGroup->getTraceLyrics ()) {
     gIndenter++;
 
-    const int fieldWidth = 23;
+    const unsigned int fieldWidth = 23;
 
     gLogStream << left <<
       setw (fieldWidth) <<
@@ -7645,7 +7645,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
     {
       gIndenter++;
 
-      const int fieldWidth = 31;
+      const unsigned int fieldWidth = 31;
 
       gLogStream << left <<
         setw (fieldWidth) <<
@@ -7774,7 +7774,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
     {
       gIndenter++;
 
-      const int fieldWidth = 31;
+      const unsigned int fieldWidth = 31;
 
       gLogStream << left <<
         setw (fieldWidth) <<
@@ -8239,7 +8239,7 @@ void mxmlTree2msrTranslator::handleOnGoingRestMeasures (
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
-    const int fieldWidth = 37;
+    const unsigned int fieldWidth = 37;
 
     gLogStream <<
       "--> onGoingRestMeasures" <<
@@ -8307,7 +8307,7 @@ void mxmlTree2msrTranslator::handleOnGoingRestMeasures (
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
-    const int fieldWidth = 37;
+    const unsigned int fieldWidth = 37;
 
     gLogStream <<
       "--> onGoingRestMeasures" <<
@@ -9588,7 +9588,7 @@ void mxmlTree2msrTranslator::visitStart ( S_note& elt )
 
   bool wellFormedColor = true;
 
-  int noteAlphaRGBColorSize = noteAlphaRGBColor.size ();
+  unsigned int noteAlphaRGBColorSize = noteAlphaRGBColor.size ();
 
   if (noteAlphaRGBColorSize) {
     if (noteAlphaRGBColor [0] != '#') {
@@ -19674,7 +19674,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
 
     gIndenter++;
 
-    const int fieldWidth = 42;
+    const unsigned int fieldWidth = 42;
 
     gLogStream << left <<
       setw (fieldWidth) <<
@@ -20896,7 +20896,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       newNote->asString () <<
       endl;
 
-    const int fieldWidth = 25;
+    const unsigned int fieldWidth = 25;
 
     gLogStream << left <<
       setw (fieldWidth) << "voice" << " : \"" <<
@@ -21190,7 +21190,7 @@ void mxmlTree2msrTranslator::handleLyricsForNote (
 
     gIndenter++;
 
-    const int fieldWidth = 33;
+    const unsigned int fieldWidth = 33;
 
     gLogStream <<
       setw (fieldWidth) <<
@@ -23687,7 +23687,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
 
       gIndenter++;
 
-      const int fieldWidth = 32;
+      const unsigned int fieldWidth = 32;
 
       gLogStream << left <<
         setw (fieldWidth) << "fCurrentPart" << " = " <<
@@ -24590,7 +24590,7 @@ void mxmlTree2msrTranslator::visitEnd (S_pedal_tuning& elt )
 
     gIndenter++;
 
-    const int fieldWidth = 31;
+    const unsigned int fieldWidth = 31;
 
     gLogStream << left <<
       setw (fieldWidth) <<
@@ -24730,7 +24730,7 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_details& elt )
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceStaves ()) {
-    const int fieldWidth = 29;
+    const unsigned int fieldWidth = 29;
 
     gLogStream << left <<
       setw (fieldWidth) <<
@@ -24974,7 +24974,7 @@ void mxmlTree2msrTranslator::visitStart ( S_midi_instrument& elt )
 
       gIndenter++;
 
-      const int fieldWidth = 31;
+      const unsigned int fieldWidth = 31;
 
       gLogStream << left <<
         setw (fieldWidth) << "fCurrentPart" << " = " <<
@@ -25039,7 +25039,7 @@ part-symbol
 /* JMI
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) { // JMI
-     const int fieldWidth = 27;
+     const unsigned int fieldWidth = 27;
 
     gLogStream << left <<
       endl <<
@@ -25078,7 +25078,7 @@ part-symbol
 
     gIndenter++;
 
-    const int fieldWidth = 27;
+    const unsigned int fieldWidth = 27;
 
     gLogStream << left <<
       setw (fieldWidth) << "--> fCurrentMusicXMLStaffNumber" << " = " <<

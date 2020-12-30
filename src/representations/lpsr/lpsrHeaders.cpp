@@ -183,7 +183,7 @@ void lpsrHeader::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 16;
+  const unsigned int fieldWidth = 16;
 
   // identification
 

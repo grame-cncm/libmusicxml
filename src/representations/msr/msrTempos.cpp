@@ -148,7 +148,7 @@ void msrTempoNote::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 26;
+  const unsigned int fieldWidth = 26;
 
   os << left <<
     setw (fieldWidth) <<
@@ -694,7 +694,7 @@ void msrTempoTuplet::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 30;
+  const unsigned int fieldWidth = 30;
 
   os << left <<
     setw (fieldWidth) <<
@@ -905,7 +905,7 @@ void msrTempoRelationshipElements::print (ostream& os) const
       fTempoRelationshipElementsKind) <<
     endl;
 
-  const int fieldWidth = 26;
+  const unsigned int fieldWidth = 26;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1301,7 +1301,7 @@ void msrTempo::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os << left <<
     setw (fieldWidth) <<

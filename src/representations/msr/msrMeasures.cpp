@@ -959,7 +959,7 @@ void msrMeasure::insertElementAtPositionInMeasure (
   }
 #endif
 
-  int
+  unsigned int
     measureElementsListSize =
       fMeasureElementsList.size ();
 
@@ -5658,7 +5658,7 @@ void msrMeasure::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 45;
+  const unsigned int fieldWidth = 45;
 
   os << left <<
     setw (fieldWidth) <<
@@ -5831,7 +5831,7 @@ void msrMeasure::print (ostream& os) const
     "\"" <<
     endl;
 
-  int
+  unsigned int
     measureElementsListSize =
       fMeasureElementsList.size ();
 
@@ -5877,7 +5877,7 @@ void msrMeasure::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 29;
+  const unsigned int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -6038,7 +6038,7 @@ void msrMeasure::printShort (ostream& os) const
     endl;
 */
 
-  int
+  unsigned int
     measureElementsListSize =
       fMeasureElementsList.size ();
 

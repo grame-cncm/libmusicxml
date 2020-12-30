@@ -144,7 +144,7 @@ void xml2gmnManPageGenerateAtom::browseData (basevisitor* v)
 
 void xml2gmnManPageGenerateAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "xml2gmnManPageGenerateAtom:" <<
@@ -364,7 +364,7 @@ void xml2gmnManPageOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void xml2gmnManPageOahGroup::printManPageOahValues (int fieldWidth)
+void xml2gmnManPageOahGroup::printManPageOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The OAH options are:" <<

@@ -2664,7 +2664,7 @@ void msrStaff::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 28;
+  const unsigned int fieldWidth = 28;
 
   os << left <<
     setw (fieldWidth) <<
@@ -3009,7 +3009,7 @@ void msrStaff::printShort (ostream& os) const
   gIndenter++;
 
 /*
-  const int fieldWidth = 28;
+  const unsigned int fieldWidth = 28;
 
   os << left <<
     setw (fieldWidth) <<

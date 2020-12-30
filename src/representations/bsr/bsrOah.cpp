@@ -196,7 +196,7 @@ string bsrFacSimileKindAtom::asActualLongNamedOptionString () const
 
 void bsrFacSimileKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsFacSimileKindAtom:" <<
@@ -392,7 +392,7 @@ string bsrTextsLanguageAtom::asActualLongNamedOptionString () const
 
 void bsrTextsLanguageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsBsrTextsLanguageAtom:" <<
@@ -796,7 +796,7 @@ void bsrOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void bsrOahGroup::printBsrOahValues (int fieldWidth)
+void bsrOahGroup::printBsrOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The BSR bsr are:" <<

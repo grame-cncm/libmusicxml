@@ -212,7 +212,7 @@ string brailleOutputKindAtom::asActualLongNamedOptionString () const
 
 void brailleOutputKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsUTFKindAtom:" <<
@@ -430,7 +430,7 @@ string brailleUTFKindAtom::asActualLongNamedOptionString () const
 
 void brailleUTFKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsUTFKindAtom:" <<
@@ -648,7 +648,7 @@ string brailleByteOrderingKindAtom::asActualLongNamedOptionString () const
 
 void brailleByteOrderingKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsByteOrderingKindAtom:" <<
@@ -1031,7 +1031,7 @@ void bsr2brailleOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void bsr2brailleOahGroup::printBsr2brailleOahValues (int fieldWidth)
+void bsr2brailleOahGroup::printBsr2brailleOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The Bsr2braille options are:" <<

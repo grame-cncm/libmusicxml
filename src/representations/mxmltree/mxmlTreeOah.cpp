@@ -175,7 +175,7 @@ void mxmlTreeOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void mxmlTreeOahGroup::printMxmlTreeOahValues (int fieldWidth)
+void mxmlTreeOahGroup::printMxmlTreeOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The MusicXML options are:" <<

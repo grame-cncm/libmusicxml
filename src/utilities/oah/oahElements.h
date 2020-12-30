@@ -201,10 +201,10 @@ class EXP oahElement : public smartable
 
     virtual void          printOahElementEssentials (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
     virtual void          printOahElementEssentialsShort (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
 
     virtual void          print (ostream& os) const;
     virtual void          printShort (ostream& os) const;

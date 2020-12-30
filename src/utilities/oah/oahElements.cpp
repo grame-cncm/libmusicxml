@@ -406,7 +406,7 @@ void oahElement::printOptionHeader (ostream& os) const
 
 void oahElement::printOahElementEssentials (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   os << left <<
     setw (fieldWidth) <<
@@ -454,7 +454,7 @@ void oahElement::printOahElementEssentials (
 
 void oahElement::printOahElementEssentialsShort (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   os << left <<
     setw (fieldWidth) <<

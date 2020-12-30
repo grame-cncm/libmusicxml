@@ -204,7 +204,7 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
 
     void                  printXml2gmnInsiderOahGroupHelp ();
 
-    void                  printXml2gmnInsiderOahGroupValues (int fieldWidth);
+    void                  printXml2gmnInsiderOahGroupValues (unsigned int fieldWidth);
 
   private:
 

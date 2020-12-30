@@ -594,7 +594,7 @@ void exNihiloInsiderOahGroup::browseData (basevisitor* v)
 //______________________________________________________________________________
 void exNihiloInsiderOahHandler::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "exNihiloInsiderOahHandler:" <<
@@ -869,7 +869,7 @@ of the MusicXML tree to MSR.)",
 }
 
 //______________________________________________________________________________
-void exNihiloInsiderOahGroup::printExNihiloInsiderOahGroupValues (int fieldWidth)
+void exNihiloInsiderOahGroup::printExNihiloInsiderOahGroupValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The exNihilo options are:" <<

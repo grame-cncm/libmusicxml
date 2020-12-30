@@ -149,7 +149,7 @@ void bsrParallel::print (ostream& os) const
   gIndenter++;
 
   // print the parallel numbers
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os << left <<
     setw (fieldWidth) <<
@@ -160,7 +160,7 @@ void bsrParallel::print (ostream& os) const
     endl;
 
   // print the parallel elements if any
-  int parallelElementsListSize = fParallelElementsList.size ();
+  unsigned int parallelElementsListSize = fParallelElementsList.size ();
 
   if (parallelElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<

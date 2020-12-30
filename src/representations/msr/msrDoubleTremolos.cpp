@@ -725,7 +725,7 @@ void msrDoubleTremolo::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  const int fieldWidth = 32;
+  const unsigned int fieldWidth = 32;
 
   gIndenter++;
 

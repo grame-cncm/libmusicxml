@@ -981,32 +981,32 @@ class EXP lpsr2lilypondTranslator :
     void                  generatePaperPageSize (
                             S_msrPageLayout   pageLayout,
                             msrLengthUnitKind defaultLengthUnit,
-                            int               fieldWidth);
+                            unsigned int fieldWidth);
 
     void                  generatePaperMargins (
                             S_msrPageLayout   pageLayout,
                             msrLengthUnitKind defaultLengthUnit,
-                            int               fieldWidth);
+                            unsigned int fieldWidth);
 
     void                  generatePaperIndents (
                             S_lpsrPaper       pagePaper,
                             msrLengthUnitKind defaultLengthUnit,
-                            int               fieldWidth);
+                            unsigned int fieldWidth);
 
     void                  generatePaperSpaces (
                             S_lpsrPaper       pagePaper,
                             msrLengthUnitKind defaultLengthUnit,
-                            int               fieldWidth);
+                            unsigned int fieldWidth);
 
     void                  generatePaperCounts (
                             S_lpsrPaper       pagePaper,
                             msrLengthUnitKind defaultLengthUnit,
-                            int               fieldWidth);
+                            unsigned int fieldWidth);
 
     void                  generatePaperHeadersAndFooters (
                             S_lpsrPaper       pagePaper,
                             msrLengthUnitKind defaultLengthUnit,
-                            int               fieldWidth);
+                            unsigned int fieldWidth);
 
     // score
     // ------------------------------------------------------

@@ -27,24 +27,24 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlFile2guidoWithHandler (
-  const char *  fileName,
-  std::ostream& out,
-  std::ostream& err,
-  S_oahHandler  handler);
+  const char * fileName,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler);
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlFd2guidoWithHandler (
-  FILE *        fd,
-  std::ostream& out,
-  std::ostream& err,
-  S_oahHandler  handler);
+  FILE *       fd,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler);
 
 //_______________________________________________________________________________
 EXP xmlErr musicxmlString2guidoWithHandler (
-  const char *  buffer,
-  std::ostream& out,
-  std::ostream& err,
-  S_oahHandler  handler);
+  const char * buffer,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler);
 
 
 }

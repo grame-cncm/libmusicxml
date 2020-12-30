@@ -1485,7 +1485,7 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
 
     void                  printLpsr2lilypondOahHelp ();
 
-    void                  printLpsr2lilypondOahValues (int fieldWidth);
+    void                  printLpsr2lilypondOahValues (unsigned int fieldWidth);
 
     virtual void          printAtomWithValueOptionsValues (
                             ostream& os,

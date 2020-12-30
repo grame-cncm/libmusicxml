@@ -256,7 +256,7 @@ void bsrBarline::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 17;
+  const unsigned int fieldWidth = 17;
 
   os <<
     setw (fieldWidth) <<

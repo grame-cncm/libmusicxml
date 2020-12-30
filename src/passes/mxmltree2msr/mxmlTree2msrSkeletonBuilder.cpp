@@ -101,7 +101,7 @@ string mxmlPartGroupDescr::partGroupDescrAsString () const
 
 void mxmlPartGroupDescr::print (ostream& os) const
 {
-  const int fieldWidth = 14;
+  const unsigned int fieldWidth = 14;
 
   os << left <<
     setw (fieldWidth) <<
@@ -3881,7 +3881,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd ( S_lyric& elt )
     {
       gIndenter++;
 
-      const int fieldWidth = 28;
+      const unsigned int fieldWidth = 28;
 
       gLogStream << left <<
         setw (fieldWidth) <<

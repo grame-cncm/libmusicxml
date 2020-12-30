@@ -208,7 +208,7 @@ string bsrTimeItem::asString () const
 {
   stringstream s;
 
-  int timeBeatsNumbersVectorSize =
+  unsigned int timeBeatsNumbersVectorSize =
     fTimeBeatsNumbersVector.size ();
 
   s <<
@@ -365,7 +365,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
           int bTimeBeatValue =
               bTimeItem->getTimeBeatValue ();
 
-          int vectorSize =
+          unsigned int vectorSize =
             timeBeatsNumbersVector.size ();
 
           switch (vectorSize) {
@@ -557,7 +557,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
           int bTimeBeatValue =
               bTimeItem->getTimeBeatValue ();
 
-          int vectorSize =
+          unsigned int vectorSize =
             timeBeatsNumbersVector.size ();
 
           switch (vectorSize) {
@@ -826,7 +826,7 @@ string bsrTime::asDebugString () const
 
 void bsrTime::print (ostream& os) const
 {
-  int timeItemsVectorSize = fTimeItemsVector.size ();
+  unsigned int timeItemsVectorSize = fTimeItemsVector.size ();
 
   os <<
     "Time" <<
@@ -839,7 +839,7 @@ void bsrTime::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 16;
+  const unsigned int fieldWidth = 16;
 
   os << left <<
     setw (fieldWidth) <<

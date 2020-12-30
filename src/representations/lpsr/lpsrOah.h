@@ -566,7 +566,7 @@ class EXP lpsrOahGroup : public oahGroup
 
     void                  printLpsrOahHelp ();
 
-    void                  printLpsrOahValues (int fieldWidth);
+    void                  printLpsrOahValues (unsigned int fieldWidth);
 
   private:
 

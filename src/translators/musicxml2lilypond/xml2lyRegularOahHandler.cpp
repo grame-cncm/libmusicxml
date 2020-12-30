@@ -1579,7 +1579,7 @@ void xml2lyRegularOahHandler::createMidiRegularGroup ()
 //______________________________________________________________________________
 void xml2lyRegularOahHandler::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "xml2lyRegularOahHandler '" << fHandlerHeader << "':" <<

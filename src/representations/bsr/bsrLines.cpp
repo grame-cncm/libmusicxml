@@ -495,7 +495,7 @@ string bsrLine::asDebugString () const
 
 void bsrLine::print (ostream& os) const
 {
-  int lineContentsListSize = fLineContentsList.size ();
+  unsigned int lineContentsListSize = fLineContentsList.size ();
 
   os <<
     "Line" <<
@@ -508,7 +508,7 @@ void bsrLine::print (ostream& os) const
   gIndenter++;
 
   // print the line numbers
-  const int fieldWidth = 20;
+  const unsigned int fieldWidth = 20;
 
   os << left <<
   /* JMI

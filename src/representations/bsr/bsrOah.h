@@ -353,7 +353,7 @@ class EXP bsrOahGroup : public oahGroup
 
     void                  printBsrOahHelp ();
 
-    void                  printBsrOahValues (int fieldWidth);
+    void                  printBsrOahValues (unsigned int fieldWidth);
 
   private:
 

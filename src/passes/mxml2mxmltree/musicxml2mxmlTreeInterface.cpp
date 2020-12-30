@@ -51,7 +51,7 @@ void displayXMLDeclaration (
   string xmlEncoding   = xmlDeclaration->getEncoding ();
   int    xmlStandalone = xmlDeclaration->getStandalone ();
 
-  const int fieldWidth = 14;
+  const unsigned int fieldWidth = 14;
 
   gLogStream <<
     "XML Declaration:" <<
@@ -77,7 +77,7 @@ void displayXMLDeclaration (
 void displayMusicXMLDocumentType (
   TDocType* documentType)
 {
-  const int fieldWidth = 16;
+  const unsigned int fieldWidth = 16;
 
   gLogStream <<
     "Document Type:" <<

@@ -251,7 +251,7 @@ void bsrMusicHeading::print (ostream& os) const
 
   gIndenter++;
 
-// JMI  const int fieldWidth = 22;
+// JMI  const unsigned int fieldWidth = 22;
 
   os <<
     "musicHeadingTempo: ";

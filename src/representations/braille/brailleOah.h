@@ -36,7 +36,7 @@ class EXP brailleOahGroup : public oahGroup
 
     void                  printBrailleOahHelp ();
 
-    void                  printBrailleOahValues (int fieldWidth);
+    void                  printBrailleOahValues (unsigned int fieldWidth);
 
   public:
 

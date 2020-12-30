@@ -124,7 +124,7 @@ class EXP musicxmlOahGroup : public oahGroup
 
     void                  printMusicxmlHelp ();
 
-    void                  printMusicxmlValues (int fieldWidth);
+    void                  printMusicxmlValues (unsigned int fieldWidth);
 
   private:
 

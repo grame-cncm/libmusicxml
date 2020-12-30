@@ -172,7 +172,7 @@ class EXP xml2gmnManPageOahGroup : public oahGroup
 
     void                  printManPageOahHelp ();
 
-    void                  printManPageOahValues (int fieldWidth);
+    void                  printManPageOahValues (unsigned int fieldWidth);
 
   private:
 

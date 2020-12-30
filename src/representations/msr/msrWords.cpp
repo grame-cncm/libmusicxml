@@ -204,7 +204,7 @@ void msrWords::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 29;
+  const unsigned int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<

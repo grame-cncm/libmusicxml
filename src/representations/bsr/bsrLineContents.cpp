@@ -315,7 +315,7 @@ void bsrLineContents::print (ostream& os) const
   gIndenter++;
 
   // print the line numbers
-  const int fieldWidth = 17;
+  const unsigned int fieldWidth = 17;
 
   os << left <<
     setw (fieldWidth) <<

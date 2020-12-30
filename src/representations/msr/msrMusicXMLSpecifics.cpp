@@ -272,7 +272,7 @@ void msrPageLayout::print (ostream& os) const
 {
   os << "PageLayout" << endl;
 
-  const int fieldWidth = 13;
+  const unsigned int fieldWidth = 13;
 
   gIndenter++;
 
@@ -431,7 +431,7 @@ void msrSystemLayout::print (ostream& os) const
 {
   os << "SystemLayout" << endl;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   gIndenter++;
 
@@ -575,7 +575,7 @@ void msrSystemDividers::print (ostream& os) const
 {
   os << "SystemDividers" << endl;
 
-  const int fieldWidth = 13;
+  const unsigned int fieldWidth = 13;
 
   gIndenter++;
 
@@ -684,7 +684,7 @@ void msrStaffLayout::print (ostream& os) const
 {
   os << "StaffLayout" << endl;
 
-  const int fieldWidth = 14;
+  const unsigned int fieldWidth = 14;
 
   gIndenter++;
 
@@ -795,7 +795,7 @@ void msrMeasureLayout::print (ostream& os) const
 {
   os << "MeasureLayout" << endl;
 
-  const int fieldWidth = 14;
+  const unsigned int fieldWidth = 14;
 
   gIndenter++;
 
@@ -946,7 +946,7 @@ void msrPrintLayout::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os << left <<
     setw (fieldWidth) <<
@@ -968,7 +968,7 @@ void msrPrintLayout::print (ostream& os) const
       os << "none" << endl;
     }
 
-  int
+  unsigned int
     staffLayoutsListSize =
       fStaffLayoutsList.size ();
 
@@ -1231,7 +1231,7 @@ void msrLineWidth::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1388,7 +1388,7 @@ void msrNoteSize::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1536,7 +1536,7 @@ void msrDistance::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1721,7 +1721,7 @@ void msrGlyph::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1865,7 +1865,7 @@ void msrOtherAppearance::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2018,10 +2018,10 @@ void msrAppearance::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const unsigned int fieldWidth = 18;
 
   // line widths
-  int
+  unsigned int
     lineWidthsListSize =
       fLineWidthsList.size ();
 
@@ -2049,7 +2049,7 @@ void msrAppearance::print (ostream& os) const
   }
 
   // note sizes
-  int
+  unsigned int
     noteSizesListSize =
       fNoteSizesList.size ();
 
@@ -2077,7 +2077,7 @@ void msrAppearance::print (ostream& os) const
   }
 
   // distances
-  int
+  unsigned int
     distancesListSize =
       fDistancesList.size ();
 
@@ -2105,7 +2105,7 @@ void msrAppearance::print (ostream& os) const
   }
 
   // glyphs
-  int
+  unsigned int
     glyphsListSize =
       fGlyphsList.size ();
 
@@ -2133,7 +2133,7 @@ void msrAppearance::print (ostream& os) const
   }
 
   // other appearances
-  int
+  unsigned int
     otherAppearancesListSize =
       fOtherAppearancesList.size ();
 

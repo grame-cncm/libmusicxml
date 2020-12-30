@@ -182,7 +182,7 @@ string lilypondScoreOutputKindAtom::asActualLongNamedOptionString () const
 
 void lilypondScoreOutputKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsScoreOutputKindAtom:" <<
@@ -499,7 +499,7 @@ string lilypondTransposePartNameAtom::asActualLongNamedOptionString () const
 
 void lilypondTransposePartNameAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondTransposePartNameAtom:" <<
@@ -848,7 +848,7 @@ string lilypondTransposePartIDAtom::asActualLongNamedOptionString () const
 
 void lilypondTransposePartIDAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondTransposePartIDAtom:" <<
@@ -1051,7 +1051,7 @@ void lilypondAbsoluteOctaveEntryAtom::browseData (basevisitor* v)
 
 void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondAbsoluteOctaveEntryAtom:" <<
@@ -1287,7 +1287,7 @@ string lilypondRelativeOctaveEntryAtom::asActualLongNamedOptionString () const
 
 void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondRelativeOctaveEntryAtom:" <<
@@ -1500,7 +1500,7 @@ string lilypondFixedOctaveEntryAtom::asActualLongNamedOptionString () const
 
 void lilypondFixedOctaveEntryAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondFixedOctaveEntryAtom:" <<
@@ -1742,7 +1742,7 @@ string lilypondAccidentalStyleKindAtom::asActualLongNamedOptionString () const
 
 void lilypondAccidentalStyleKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsAccidentalStyleKindAtom:" <<
@@ -2069,7 +2069,7 @@ string lilypondChordsDisplayAtom::asActualLongNamedOptionString () const
 
 void lilypondChordsDisplayAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lilypondChordsDisplayAtom:" <<
@@ -2339,7 +2339,7 @@ string lilypondLyricsDurationsKindAtom::asActualLongNamedOptionString () const
 
 void lilypondLyricsDurationsKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsLyricsDurationsKindAtom:" <<
@@ -5430,7 +5430,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
   gIndenter--;
 }
 
-void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (int fieldWidth)
+void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The LilyPond lilypond are:" <<
@@ -6167,7 +6167,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
 
 void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsBreakPageAfterMeasureNumberAtom:" <<

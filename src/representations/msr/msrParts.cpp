@@ -537,7 +537,7 @@ void msrPart::setNextMeasureNumberInPart (
   gIndenter--;
 }
 
-void msrPart::setPartNumberOfMeasures (int partNumberOfMeasures)
+void msrPart::setPartNumberOfMeasures (unsigned int partNumberOfMeasures)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasures ()) {
@@ -628,7 +628,7 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
     fPartMeasuresWholeNotesDurationsVectorSize =
       fPartMeasuresWholeNotesDurationsVector.size ();
 
-  int index = measureOrdinalNumber - 1;
+  unsigned int index = measureOrdinalNumber - 1;
 
   // caution for first registration in the vector
   if (
@@ -2301,8 +2301,8 @@ string msrPart::asString () const
 }
 
 void msrPart::printPartMeasuresWholeNotesDurationsVector (
-  ostream& os,
-  int      fieldWidth) const
+  ostream&      os,
+  unsigned int fieldWidth) const
 {
   os << left <<
     setw (fieldWidth) <<
@@ -2348,7 +2348,7 @@ void msrPart::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 29;
+  const unsigned int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2541,7 +2541,7 @@ void msrPart::print (ostream& os) const
     fieldWidth);
 
   // print all the voices if any
-  int partAllVoicesListSize = fPartAllVoicesList.size ();
+  unsigned int partAllVoicesListSize = fPartAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -2644,7 +2644,7 @@ void msrPart::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 29;
+  const unsigned int fieldWidth = 29;
 
 /*
   os << left <<
@@ -2838,7 +2838,7 @@ void msrPart::printShort (ostream& os) const
     fieldWidth);
 
   // print all the voices if any
-  int partAllVoicesListSize = fPartAllVoicesList.size ();
+  unsigned int partAllVoicesListSize = fPartAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -2942,7 +2942,7 @@ void msrPart::printSummary (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os << left <<
     setw (fieldWidth) <<

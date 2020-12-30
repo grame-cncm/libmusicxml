@@ -212,7 +212,7 @@ class EXP exNihiloInsiderOahGroup : public oahGroup
 
     void                  printExNihiloInsiderOahGroupHelp ();
 
-    void                  printExNihiloInsiderOahGroupValues (int fieldWidth);
+    void                  printExNihiloInsiderOahGroupValues (unsigned int fieldWidth);
 
   private:
 

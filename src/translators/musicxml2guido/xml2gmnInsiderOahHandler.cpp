@@ -593,7 +593,7 @@ void xml2gmnInsiderOahGroup::browseData (basevisitor* v)
 //______________________________________________________________________________
 void xml2gmnInsiderOahHandler::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "xml2gmnInsiderOahHandler:" <<
@@ -868,7 +868,7 @@ of the MusicXML tree to MSR.)",
 }
 
 //______________________________________________________________________________
-void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (int fieldWidth)
+void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The xml2gmn options are:" <<

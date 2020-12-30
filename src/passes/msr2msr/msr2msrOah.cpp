@@ -239,7 +239,7 @@ string msrOmitPartAtom::asActualLongNamedOptionString () const
 
 void msrOmitPartAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrOmitPartAtom:" <<
@@ -525,7 +525,7 @@ string msrKeepPartAtom::asActualLongNamedOptionString () const
 
 void msrKeepPartAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrKeepPartAtom:" <<

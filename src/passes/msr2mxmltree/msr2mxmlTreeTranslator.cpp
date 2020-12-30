@@ -809,7 +809,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
   }
 
   // append the score credits element if any to the score part wise element
-  int pendingScoreCreditElementsListSize =
+  unsigned int pendingScoreCreditElementsListSize =
     fPendingScoreCreditElementsList.size ();
 
   if (pendingScoreCreditElementsListSize) {
@@ -3697,7 +3697,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTempo& elt)
     tempoWordsList =
       elt->getTempoWordsList ();
 
- int tempoWordsListSize = tempoWordsList.size ();
+ unsigned int tempoWordsListSize = tempoWordsList.size ();
 */
 
   msrDottedDuration tempoBeatUnit  = elt->getTempoBeatUnit ();
@@ -10056,7 +10056,7 @@ void msr2mxmlTreeTranslator::displayCurrentOnGoingValues ()
 
   gIndenter++;
 
-  const int fieldWidth = 25;
+  const unsigned int fieldWidth = 25;
 
   gLogStream <<
     setw (fieldWidth) <<

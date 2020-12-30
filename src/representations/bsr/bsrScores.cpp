@@ -161,7 +161,7 @@ void bsrScore::print (ostream& os) const
   os << endl;
 
   // print the transcription notes if any
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   if (fTranscriptionNotes || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     if (fTranscriptionNotes) {
@@ -188,7 +188,7 @@ void bsrScore::print (ostream& os) const
         */
 
   // print the score pages if any
-  int scorePagesListSize = fScorePagesList.size ();
+  unsigned int scorePagesListSize = fScorePagesList.size ();
 
   if (scorePagesListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<
@@ -236,7 +236,7 @@ void bsrScore::printShort (ostream& os) const
   os << endl;
 
   // print the transcription notes if any
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   if (fTranscriptionNotes || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     if (fTranscriptionNotes) {
@@ -263,7 +263,7 @@ void bsrScore::printShort (ostream& os) const
         */
 
   // print the score pages if any
-  int scorePagesListSize = fScorePagesList.size ();
+  unsigned int scorePagesListSize = fScorePagesList.size ();
 
   if (scorePagesListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<

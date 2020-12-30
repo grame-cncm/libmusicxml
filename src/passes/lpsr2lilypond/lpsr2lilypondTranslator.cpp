@@ -82,7 +82,7 @@ string lpsrRepeatDescr::repeatDescrAsString () const
 
 void lpsrRepeatDescr::print (ostream& os) const
 {
-  const int fieldWidth = 29;
+  const unsigned int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -498,7 +498,7 @@ string lpsr2lilypondTranslator::lilypondOctaveInRelativeEntryMode (
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
-    const int fieldWidth = 28;
+    const unsigned int fieldWidth = 28;
 
     gLogStream << left <<
       "lilypondOctaveInRelativeEntryMode() 1" <<
@@ -825,7 +825,7 @@ stringstream s;
       noteAbsoluteDisplayOctave =
         note->getNoteDisplayOctaveKind ();
 
-    const int fieldWidth = 39;
+    const unsigned int fieldWidth = 39;
 
     gLogStream << left <<
       "notePitchAsLilypondString() 1" <<
@@ -1037,7 +1037,7 @@ string lpsr2lilypondTranslator::pitchedRestAsLilypondString (
       noteAbsoluteOctave =
         note->getNoteOctaveKind ();
 
-    const int fieldWidth = 28;
+    const unsigned int fieldWidth = 28;
 
     gLogStream << left <<
       "pitchedRestAsLilypondString()" <<
@@ -4534,7 +4534,7 @@ void lpsr2lilypondTranslator::generateHeader (S_lpsrHeader header)
     nameValuePairsList);
 
   // compute field width
-  int fieldWidth = 0;
+  unsigned int fieldWidth = 0;
 
   for (
     list<pair<string, string> >::const_iterator i =
@@ -4544,7 +4544,7 @@ void lpsr2lilypondTranslator::generateHeader (S_lpsrHeader header)
   ) {
     string name = (*i).first;
 
-    int nameSize = name.size ();
+    unsigned int nameSize = name.size ();
 
     if (nameSize > fieldWidth) {
       fieldWidth = nameSize;
@@ -4578,7 +4578,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
     over those found in the identification
   */
 
-  int fieldWidth =
+  unsigned int fieldWidth =
     identification -> maxIdentificationNamesLength ();
 
   // work number
@@ -5272,7 +5272,7 @@ void lpsr2lilypondTranslator::generatePaper (
     nameValuePairsList );
 
   // compute fieldWidth
-  int fieldWidth = 0;
+  unsigned int fieldWidth = 0;
 
   for (
     list<pair<string, msrLength> >::const_iterator i =
@@ -5282,7 +5282,7 @@ void lpsr2lilypondTranslator::generatePaper (
   ) {
     string name = (*i).first;
 
-    int nameSize = name.size ();
+    unsigned int nameSize = name.size ();
 
     if (nameSize > fieldWidth) {
       fieldWidth = nameSize;
@@ -5436,7 +5436,7 @@ void lpsr2lilypondTranslator::fetchValuesFromPaperPageSize (
 void lpsr2lilypondTranslator::generatePaperPageSize (
   S_msrPageLayout   pageLayout,
   msrLengthUnitKind defaultLengthUnit,
-  int               fieldWidth)
+  unsigned          int fieldWidth)
 {
   bool
     generateCommentedOutVariables =
@@ -5502,7 +5502,7 @@ void lpsr2lilypondTranslator::generatePaperPageSize (
 void lpsr2lilypondTranslator::generatePaperMargins (
   S_msrPageLayout   pageLayout,
   msrLengthUnitKind defaultLengthUnit,
-  int               fieldWidth)
+  unsigned          int fieldWidth)
 {
   bool
     generateCommentedOutVariables =
@@ -5622,7 +5622,7 @@ void lpsr2lilypondTranslator::generatePaperMargins (
 void lpsr2lilypondTranslator::generatePaperIndents (
   S_lpsrPaper       pagePaper,
   msrLengthUnitKind defaultLengthUnit,
-  int               fieldWidth)
+  unsigned          int fieldWidth)
 {
   return; // JMI
   // horizontal shift
@@ -5699,7 +5699,7 @@ void lpsr2lilypondTranslator::generatePaperIndents (
 void lpsr2lilypondTranslator::generatePaperSpaces (
   S_lpsrPaper       pagePaper,
   msrLengthUnitKind defaultLengthUnit,
-  int               fieldWidth)
+  unsigned          int fieldWidth)
 {
   return; // JMI
   // markup system spacing padding
@@ -5776,7 +5776,7 @@ void lpsr2lilypondTranslator::generatePaperSpaces (
 void lpsr2lilypondTranslator::generatePaperCounts (
   S_lpsrPaper       pagePaper,
   msrLengthUnitKind defaultLengthUnit,
-  int               fieldWidth)
+  unsigned          int fieldWidth)
 {
   return; // JMI
   // page count
@@ -5812,7 +5812,7 @@ void lpsr2lilypondTranslator::generatePaperCounts (
 void lpsr2lilypondTranslator::generatePaperHeadersAndFooters (
   S_lpsrPaper       pagePaper,
   msrLengthUnitKind defaultLengthUnit,
-  int               fieldWidth)
+  unsigned          int fieldWidth)
 {
   return; // JMI
   string oddHeaderMarkup =
@@ -9018,7 +9018,7 @@ else
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
-          const int fieldWidth = 27;
+          const unsigned int fieldWidth = 27;
 
           fLilypondCodeStream << left <<
             "% Setting the current measure whole notes for measure " <<
@@ -10926,7 +10926,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
     tempoWordsList =
       elt->getTempoWordsList ();
 
-  int tempoWordsListSize = tempoWordsList.size ();
+  unsigned int tempoWordsListSize = tempoWordsList.size ();
 
   msrDottedDuration tempoBeatUnit  = elt->getTempoBeatUnit ();
   string            tempoPerMinute = elt->getTempoPerMinute ();
@@ -12293,7 +12293,7 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
       graceNotesGroup->
         getGraceNotesGroupElementsList ();
 
-  int
+  unsigned int
     graceNotesGroupElementsListSize =
       graceNotesGroupElementsList.size ();
 
@@ -17099,7 +17099,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
       "% measures repeat, line " << elt->getInputLineNumber () << ":" <<
       endl;
 
-    const int fieldWidth = 24;
+    const unsigned int fieldWidth = 24;
 
     fLilypondCodeStream << left <<
       setw (fieldWidth) <<

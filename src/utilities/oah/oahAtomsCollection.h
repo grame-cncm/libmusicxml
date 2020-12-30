@@ -896,10 +896,10 @@ class EXP oahCombinedBooleansAtom : public oahAtomWithVariableName
 
     virtual void          printCombinedBooleansEssentials (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
     virtual void          printCombinedBooleansEssentialsShort (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
 
     void                  print (ostream& os) const override;
 

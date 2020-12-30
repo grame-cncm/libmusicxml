@@ -1187,7 +1187,7 @@ void xml2xmlRegularOahHandler::createOutputRegularGroup ()
 //______________________________________________________________________________
 void xml2xmlRegularOahHandler::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "xml2xmlRegularOahHandler '" << fHandlerHeader << "':" <<

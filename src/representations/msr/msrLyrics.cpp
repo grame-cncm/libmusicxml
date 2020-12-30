@@ -650,7 +650,7 @@ void msrSyllable::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 32;
+  const unsigned int fieldWidth = 32;
   os << left <<
     setw (fieldWidth) <<
     "syllableNoteUpLink" << " : " <<

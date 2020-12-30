@@ -121,7 +121,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
               fMsrTempo->getTempoBeatUnit ();
 
           // handle tempo words
-          int tempoWordsListSize = tempoWordsList.size ();
+          unsigned int tempoWordsListSize = tempoWordsList.size ();
 
           if (tempoWordsListSize) {
             list<S_msrWords>::const_iterator
@@ -504,7 +504,7 @@ void bsrTempo::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 23;
+  const unsigned int fieldWidth = 23;
 
   os <<
     setw (fieldWidth) <<

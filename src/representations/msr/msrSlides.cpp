@@ -182,7 +182,7 @@ void msrSlide::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 22;
+  const unsigned int fieldWidth = 22;
 
   os << left <<
     setw (fieldWidth) <<

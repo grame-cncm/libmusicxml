@@ -258,7 +258,7 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
-    const int fieldWidth = 16;
+    const unsigned int fieldWidth = 16;
 
     gLogStream <<
      "--> divisionsAsMsrString ():" <<
@@ -310,7 +310,7 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACING_IS_ENABLED
       if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
-        const int fieldWidth = 22;
+        const unsigned int fieldWidth = 22;
 
         gLogStream <<
             gTab << setw (fieldWidth) <<
@@ -345,7 +345,7 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACING_IS_ENABLED
     if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
-      const int fieldWidth = 22;
+      const unsigned int fieldWidth = 22;
 
       gLogStream <<
         gTab << setw (fieldWidth) <<
@@ -372,7 +372,7 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACING_IS_ENABLED
       if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
-        const int fieldWidth = 22;
+        const unsigned int fieldWidth = 22;
 
         gLogStream <<
           gTab << setw (fieldWidth) <<
@@ -401,7 +401,7 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
-          const int fieldWidth = 22;
+          const unsigned int fieldWidth = 22;
 
           gLogStream <<
             gTab << setw (fieldWidth) <<
@@ -429,7 +429,7 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACING_IS_ENABLED
       if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
-        const int fieldWidth = 24;
+        const unsigned int fieldWidth = 24;
 
         gLogStream <<
           gTab << setw (fieldWidth) <<

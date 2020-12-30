@@ -105,7 +105,7 @@ class EXP msr2mxmlTreeOahGroup : public oahGroup
 
     void                  printMsr2mxmlTreeOahHelp ();
 
-    void                  printMsr2mxmlTreeOahValues (int fieldWidth);
+    void                  printMsr2mxmlTreeOahValues (unsigned int fieldWidth);
 
   private:
 

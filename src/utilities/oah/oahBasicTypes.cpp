@@ -245,7 +245,7 @@ void oahPrefix::findStringInPrefix (
 
 void oahPrefix::printPrefixEssentials (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   os << left <<
     setw (fieldWidth) <<
@@ -496,7 +496,7 @@ void oahAtom::browseData (basevisitor* v)
 
 void oahAtom::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   os <<
     "Atom ???:" <<
@@ -517,7 +517,7 @@ void oahAtom::print (ostream& os) const
 
 void oahAtom::printShort (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   os <<
     "Atom: ";
@@ -653,7 +653,7 @@ void oahAtomWithVariableName::browseData (basevisitor* v)
 
 void oahAtomWithVariableName::printAtomWithVariableNameEssentials (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   printOahElementEssentials (
     os, fieldWidth);
@@ -667,7 +667,7 @@ void oahAtomWithVariableName::printAtomWithVariableNameEssentials (
 
 void oahAtomWithVariableName::printAtomWithVariableNameEssentialsShort (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   printOahElementEssentialsShort (
     os, fieldWidth);
@@ -681,7 +681,7 @@ void oahAtomWithVariableName::printAtomWithVariableNameEssentialsShort (
 
 void oahAtomWithVariableName::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "AtomWithVariableName:" <<
@@ -703,7 +703,7 @@ void oahAtomWithVariableName::print (ostream& os) const
 
 void oahAtomWithVariableName::printShort (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "AtomWithVariableName: ";
@@ -872,7 +872,7 @@ void oahAtomWithValue::browseData (basevisitor* v)
 
 void oahAtomWithValue::printAtomWithValueEssentials (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   printAtomWithVariableNameEssentials (
     os, fieldWidth);
@@ -890,7 +890,7 @@ void oahAtomWithValue::printAtomWithValueEssentials (
 
 void oahAtomWithValue::printAtomWithValueEssentialsShort (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   printAtomWithVariableNameEssentialsShort (
     os, fieldWidth);
@@ -908,7 +908,7 @@ void oahAtomWithValue::printAtomWithValueEssentialsShort (
 
 void oahAtomWithValue::print (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   os <<
     "AtomWithValue:";
@@ -929,7 +929,7 @@ void oahAtomWithValue::print (ostream& os) const
 
 void oahAtomWithValue::printShort (ostream& os) const
 {
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   os <<
     "AtomWithValue: ";
@@ -1315,7 +1315,7 @@ void oahSubGroup::browseData (basevisitor* v)
 
 void oahSubGroup::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
    "SubGroup:" <<
@@ -1364,7 +1364,7 @@ void oahSubGroup::print (ostream& os) const
 
 void oahSubGroup::printShort (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
    "SubGroup: " ;
@@ -1627,7 +1627,7 @@ void oahSubGroup::printOptionsSummary (
   ostream& os) const
 {
   // fetch maximum subgroups help headers size
-  int maximumSubGroupsHelpHeadersSize =
+  unsigned int maximumSubGroupsHelpHeadersSize =
     getGroupUpLink ()->
       getHandlerUpLink ()->
         getMaximumSubGroupsHeadersSize ();
@@ -2204,7 +2204,7 @@ void oahGroup::browseData (basevisitor* v)
 
 void oahGroup::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "Group:" <<
@@ -2246,7 +2246,7 @@ void oahGroup::print (ostream& os) const
 
 void oahGroup::printShort (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "Group: ";
@@ -2345,7 +2345,7 @@ void oahGroup::printHelp (ostream& os) const
       i++
     ) {
       string subGroupHeader  = (*i)->getSubGroupHeader ();
-      int subGroupHeaderSize = subGroupHeader.size ();
+      unsigned int subGroupHeaderSize = subGroupHeader.size ();
 
       if (subGroupHeaderSize > maximumSubGroupHeaderLength) {
         maximumSubGroupHeaderLength = subGroupHeaderSize;
@@ -2810,7 +2810,7 @@ if (true)
     elementLongName =
       element->getLongName ();
 
-  int
+  unsigned int
     elementShortNameSize =
       elementShortName.size (),
     elementLongNameSize =
@@ -3011,7 +3011,7 @@ if (true) // JMI
     string
       subHeader=
         subGroup-> getSubGroupHeader ();
-    int
+    unsigned int
       subHeaderSize =
         subHeader.size ();
 
@@ -3321,7 +3321,7 @@ void oahHandler::displayNamesToElementsMapShort (ostream& os) const
       endl;
     gIndenter++;
 
-    const int fieldWidth = 40;
+    const unsigned int fieldWidth = 40;
 
     for (
       map<string, S_oahElement>::const_iterator i =
@@ -3496,7 +3496,7 @@ void oahHandler::browseData (basevisitor* v)
 
 void oahHandler::printHandlerEssentials (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   os << left <<
     setw (fieldWidth) <<
@@ -3522,7 +3522,7 @@ void oahHandler::printHandlerEssentials (
 
 void oahHandler::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "Handler:" <<
@@ -3586,7 +3586,7 @@ void oahHandler::print (ostream& os) const
 
 void oahHandler::printShort (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "Handler:" <<
@@ -4079,7 +4079,7 @@ void oahHandler::printHandlerOptionsValues (
   ostream& os) const
 {
   // print the options handler values header
-  int
+  unsigned int
     handlerCommandLineElementsMultisetSize =
       fHandlerCommandLineElementsMultiset.size ();
 
@@ -4283,7 +4283,7 @@ void oahHandler::prependGroupToHandler (
 
 void oahHandler::printKnownPrefixes (ostream& os) const
 {
-  int oahHandlerPrefixesListSize =
+  unsigned int oahHandlerPrefixesListSize =
     fHandlerPrefixesMap.size ();
 
   os <<
@@ -4329,7 +4329,7 @@ void oahHandler::printKnownPrefixes (ostream& os) const
 
 void oahHandler::printKnownSingleCharacterOptions (ostream& os) const
 {
-  int oahHandlerPrefixesListSize =
+  unsigned int oahHandlerPrefixesListSize =
     fSingleCharacterShortNamesSet.size ();
 
   os <<
@@ -4518,7 +4518,7 @@ string oahHandler::commandLineWithLongNamesAsString () const
 
 void oahHandler::displayNamesToElementsMap (ostream& os) const
 {
-  int handlerElementsMapSize =
+  unsigned int handlerElementsMapSize =
     fHandlerNamesToElementsMap.size ();
 
   // print the names to elements map
@@ -4568,7 +4568,7 @@ void oahHandler::displayNamesToElementsMap (ostream& os) const
   // create a list of the options map elements names
   list<string> optionsMapElementsNamesList;
 
-  int optionsMapElementsNamesListSize =
+  unsigned int optionsMapElementsNamesListSize =
     optionsMapElementsNamesList.size ();
 
   if (optionsMapElementsNamesListSize) {
@@ -4847,7 +4847,7 @@ void oahHandler::handleOptionPrefixName (
     ",",
     chunksList);
 
-  unsigned chunksListSize = chunksList.size ();
+  unsigned int chunksListSize = chunksList.size ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -4999,7 +4999,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
     }
 #endif
 
-  int clusterElementsListSize =
+  unsigned int clusterElementsListSize =
     clusterElementsList.size ();
 
 #ifdef TRACING_IS_ENABLED
@@ -5050,7 +5050,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
   }
 #endif
 
-  int optionNameSize =
+  unsigned int optionNameSize =
     optionName.size ();
 
 #ifdef TRACING_IS_ENABLED
@@ -5404,7 +5404,7 @@ void oahHandler::handleOptionsVectorElement (
 
   // sanity check
   msgAssert (
-    optionName.size (),
+    optionName.size () > 0,
     "optionName is empty");
 
   // does optionName start with a dash?
@@ -6785,7 +6785,7 @@ string existingOahOptionalValuesStyleKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  int
+  unsigned int
     optionalValuesStyleKindsMapSize =
       gGlobalOahOptionalValuesStyleKindsMap.size ();
 

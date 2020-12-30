@@ -137,7 +137,7 @@ void insiderOahAtom::browseData (basevisitor* v)
 
 void insiderOahAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "insiderOahAtom:" <<
@@ -265,7 +265,7 @@ void regularOahAtom::browseData (basevisitor* v)
 
 void regularOahAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "regularOahAtom:" <<
@@ -928,7 +928,7 @@ string oahOptionalValuesStyleKindAtom::asActualLongNamedOptionString () const
 
 void oahOptionalValuesStyleKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsOptionalValuesStyleKindAtom:" <<

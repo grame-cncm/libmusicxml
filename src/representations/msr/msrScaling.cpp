@@ -81,8 +81,7 @@ float msrScaling::fetchGlobalStaffSize () const
   float result = 20; // JMI
 
   /* JMI
-  const float
-    optionsGlobalStaffSize =
+  const float optionsGlobalStaffSize =
       gGlobalLpsrOahGroup->getGlobalStaffSize ();
 
   const bool
@@ -118,7 +117,7 @@ float msrScaling::fetchGlobalStaffSize () const
 
       gIndenter++;
 
-      const int fieldWidth = 32;
+      const unsigned int fieldWidth = 32;
 
       gLogStream << left <<
         setw (fieldWidth) <<
@@ -241,7 +240,7 @@ void msrScaling::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 13;
+  const unsigned int fieldWidth = 13;
 
   // relative to absolute lengths conversion
   os << left <<

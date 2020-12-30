@@ -1015,7 +1015,7 @@ void msrPartGroup::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 25;
+  const unsigned int fieldWidth = 25;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1080,7 +1080,7 @@ void msrPartGroup::print (ostream& os) const
     endl;
 
   // print all the voices if any
-  int partGroupAllVoicesListSize = fPartGroupAllVoicesList.size ();
+  unsigned int partGroupAllVoicesListSize = fPartGroupAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -1141,7 +1141,7 @@ void msrPartGroup::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 25;
+  const unsigned int fieldWidth = 25;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1209,7 +1209,7 @@ void msrPartGroup::printShort (ostream& os) const
     endl;
 
   // print all the voices if any
-  int partGroupAllVoicesListSize = fPartGroupAllVoicesList.size ();
+  unsigned int partGroupAllVoicesListSize = fPartGroupAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -1270,7 +1270,7 @@ void msrPartGroup::printSummary (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 24;
+  const unsigned int fieldWidth = 24;
 
   os << left <<
     setw (fieldWidth) <<

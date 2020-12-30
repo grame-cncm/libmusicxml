@@ -266,7 +266,7 @@ void bsrNumber::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 21;
+  const unsigned int fieldWidth = 21;
 
   os <<
     setw (fieldWidth) <<

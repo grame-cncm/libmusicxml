@@ -111,7 +111,7 @@ class EXP mxmlTreeOahGroup : public oahGroup
 
     void                  printMxmlTreeOahHelp ();
 
-    void                  printMxmlTreeOahValues (int fieldWidth);
+    void                  printMxmlTreeOahValues (unsigned int fieldWidth);
 
   private:
 

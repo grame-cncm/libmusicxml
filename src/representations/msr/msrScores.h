@@ -18,10 +18,14 @@
 #include <list>
 #include <set>
 
+#include "msrElements.h"
+
+#include "msrCredits.h"
 #include "msrIdentification.h"
 #include "msrScaling.h"
 #include "msrMusicXMLSpecifics.h"
-#include "msrCredits.h"
+#include "msrPartGroups.h"
+#include "msrVoices.h"
 
 
 namespace MusicXML2

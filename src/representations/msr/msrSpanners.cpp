@@ -193,7 +193,7 @@ void msrSpanner::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 24;
+  const unsigned int fieldWidth = 24;
 
   os << left <<
     setw (fieldWidth) <<

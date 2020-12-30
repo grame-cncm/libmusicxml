@@ -307,7 +307,7 @@ void msrDalSegno::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 17;
+  const unsigned int fieldWidth = 17;
 
   os << left <<
     setw (fieldWidth) <<
@@ -649,7 +649,7 @@ ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt)
 /*
 void msrPolyphony::print (ostream& os) const
 {
-  const int fieldWidth = 9;
+  const unsigned int fieldWidth = 9;
 
   os << left <<
     setw (fieldWidth) <<

@@ -1495,7 +1495,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   string measureNumber =
     measure->getMeasureElementMeasureNumber ();
 
-  int segmentMeasuresListSize =
+  unsigned int segmentMeasuresListSize =
     fSegmentMeasuresList.size ();
 
   string currentMeasureNumber =
@@ -1577,7 +1577,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
   string measureNumber =
     measure->getMeasureElementMeasureNumber ();
 
-  int segmentMeasuresListSize =
+  unsigned int segmentMeasuresListSize =
     fSegmentMeasuresList.size ();
 
   string currentMeasureNumber =
@@ -2322,7 +2322,7 @@ void msrSegment::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 20;
+  const unsigned int fieldWidth = 20;
 
   os <<
     setw (fieldWidth) <<
@@ -2372,7 +2372,7 @@ void msrSegment::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 20;
+  const unsigned int fieldWidth = 20;
 
 /*
   os <<

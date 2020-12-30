@@ -87,7 +87,7 @@ class EXP lilypondOahGroup : public oahGroup
 
     void                  printLilypondOahHelp ();
 
-    void                  printLilypondOahValues (int fieldWidth);
+    void                  printLilypondOahValues (unsigned int fieldWidth);
 
   private:
 

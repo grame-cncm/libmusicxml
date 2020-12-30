@@ -170,7 +170,7 @@ string msrDottedDuration::asString () const
 
 void msrDottedDuration::print (ostream& os) const
 {
-  const int fieldWidth = 11;
+  const unsigned int fieldWidth = 11;
 
   os << left <<
     setw (fieldWidth) <<
@@ -748,7 +748,7 @@ void msrSemiTonesPitchAndOctave::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 22;
+  const unsigned int fieldWidth = 22;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1051,7 +1051,7 @@ void msrQuarterTonesPitchAndOctave::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 22;
+  const unsigned int fieldWidth = 22;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2147,7 +2147,7 @@ void msrMoment::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 26;
+  const unsigned int fieldWidth = 26;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2213,7 +2213,7 @@ void msrTupletFactor::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 11;
+  const unsigned int fieldWidth = 11;
 
   os << left <<
     setw (fieldWidth) <<
@@ -16105,7 +16105,7 @@ void msrMarginsGroup::print (ostream& os) const
     msrMarginTypeKindAsString (fMarginsGroupTypeKind) <<
     endl;
 
-  const int fieldWidth = 13;
+  const unsigned int fieldWidth = 13;
 
   gIndenter++;
 
@@ -16964,7 +16964,7 @@ string msrHarmonyInterval::harmonyIntervalAsString () const
 {
   stringstream s;
 
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   s << left <<
     "HarmonyInterval" <<
@@ -19540,7 +19540,7 @@ void msrHarmonyInterval::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 22;
+  const unsigned int fieldWidth = 22;
 
   os << left <<
   /* JMI
@@ -20858,7 +20858,7 @@ string msrSemiTonesPitchAndAbsoluteOctave::asString () const
 {
   stringstream s;
 
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   s << left <<
     "SemiTonesPitchAndAbsoluteOctave" <<
@@ -20878,7 +20878,7 @@ void msrSemiTonesPitchAndAbsoluteOctave::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 22;
+  const unsigned int fieldWidth = 22;
 
   os << left <<
     setw (fieldWidth) <<
@@ -20949,7 +20949,7 @@ string msrSemiTonesPitchAndRelativeOctave::asString () const
 {
   stringstream s;
 
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   s << left <<
     "SemiTonesPitchAndRelativeOctave" <<
@@ -20969,7 +20969,7 @@ void msrSemiTonesPitchAndRelativeOctave::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 22;
+  const unsigned int fieldWidth = 22;
 
   os << left <<
     setw (fieldWidth) <<
@@ -21211,7 +21211,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
               noteSemiTonesPitchKind);
 
         // print it
-        const int fieldWidth2 = 8;
+        const unsigned int fieldWidth2 = 8;
 
         os << left <<
           setw (fieldWidth2) <<
@@ -21293,7 +21293,7 @@ void msrHarmonyContents::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 17;
+  const unsigned int fieldWidth = 17;
 
   os << left <<
     setw (fieldWidth) <<
@@ -21467,7 +21467,7 @@ void printHarmonyDetails (
             harmonyInterval->
               getHarmonyIntervalIntervalKind ();
 
-        const int fieldWidth1 = 17;
+        const unsigned int fieldWidth1 = 17;
 
         os << left <<
           setw (fieldWidth1) <<
@@ -21489,7 +21489,7 @@ void printHarmonyDetails (
               noteSemiTonesPitchKind);
 
         // print it
-        const int fieldWidth2 = 8;
+        const unsigned int fieldWidth2 = 8;
 
         os << left <<
           setw (fieldWidth2) <<
@@ -21659,7 +21659,7 @@ void printHarmonyAnalysis (
                 noteSemiTonesPitchKind);
 
           // print it
-          const int fieldWidth2 = 5;
+          const unsigned int fieldWidth2 = 5;
 
           os << left <<
             setw (fieldWidth2) <<
@@ -21750,7 +21750,7 @@ void printHarmonyAnalysis (
                 harmonyInterval2->
                   getHarmonyIntervalIntervalKind ();
 
-            const int fieldWidth1 = 5;
+            const unsigned int fieldWidth1 = 5;
 
             // fetch the semitones pitch kind
             msrSemiTonesPitchKind
@@ -21791,7 +21791,7 @@ void printHarmonyAnalysis (
             // print it
             gIndenter++;
 
-            const int fieldWidth2 = 20;
+            const unsigned int fieldWidth2 = 20;
 
             os << left <<
               setw (fieldWidth1) <<

@@ -163,9 +163,10 @@ class EXP msrPart : public msrPartGroupElement
 
     // measures
 
-    void                  setPartNumberOfMeasures (int partNumberOfMeasures);
+    void                  setPartNumberOfMeasures (
+                            unsigned int partNumberOfMeasures);
 
-    const int             getPartNumberOfMeasures () const
+    const unsigned int    getPartNumberOfMeasures () const
                               { return fPartNumberOfMeasures; }
 
     const vector<rational>&
@@ -522,8 +523,8 @@ class EXP msrPart : public msrPartGroupElement
     virtual string        asString () const override;
 
     void                  printPartMeasuresWholeNotesDurationsVector (
-                            ostream& os,
-                            int      fieldWidth) const;
+                            ostream&      os,
+                            unsigned int fieldWidth) const;
 
     virtual void          print (ostream& os) const override;
 
@@ -572,7 +573,7 @@ class EXP msrPart : public msrPartGroupElement
 
     string                fPartCurrentMeasureNumber;
 
-    int                   fPartNumberOfMeasures;
+    unsigned int          fPartNumberOfMeasures;
 
     vector<rational>      fPartMeasuresWholeNotesDurationsVector;
 

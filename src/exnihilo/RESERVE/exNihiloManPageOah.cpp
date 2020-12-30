@@ -144,7 +144,7 @@ void exNihiloManPageGenerateAtom::browseData (basevisitor* v)
 
 void exNihiloManPageGenerateAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "exNihiloManPageGenerateAtom:" <<
@@ -364,7 +364,7 @@ void exNihiloManPageOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void exNihiloManPageOahGroup::printManPageOahValues (int fieldWidth)
+void exNihiloManPageOahGroup::printManPageOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The OAH options are:" <<

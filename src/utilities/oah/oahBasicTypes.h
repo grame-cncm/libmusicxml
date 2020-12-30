@@ -154,7 +154,7 @@ to be developped into :
 
     virtual void          printPrefixEssentials (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
 
     virtual void          print (ostream& os) const;
     virtual void          printShort (ostream& os) const;
@@ -332,10 +332,10 @@ class EXP oahAtomWithVariableName : public oahAtom
 
     virtual void          printAtomWithVariableNameEssentials (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
     virtual void          printAtomWithVariableNameEssentialsShort (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
 
     void                  print (ostream& os) const override;
     void                  printShort (ostream& os) const override;
@@ -428,10 +428,10 @@ class EXP oahAtomWithValue : public oahAtomWithVariableName
 
     virtual void          printAtomWithValueEssentials (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
     virtual void          printAtomWithValueEssentialsShort (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
 
     void                  print (ostream& os) const override;
     void                  printShort (ostream& os) const override;
@@ -1000,7 +1000,7 @@ class EXP oahHandler : public smartable
 
     virtual void          printHandlerEssentials (
                             ostream& os,
-                            int      fieldWidth) const;
+                            unsigned int fieldWidth) const;
 
     void                  printKnownPrefixes (ostream& os) const;
     void                  printKnownSingleCharacterOptions (ostream& os) const;

@@ -137,7 +137,7 @@ void lilypondOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void lilypondOahGroup::printLilypondOahValues (int fieldWidth)
+void lilypondOahGroup::printLilypondOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The lilypondOahGroup options are:" <<

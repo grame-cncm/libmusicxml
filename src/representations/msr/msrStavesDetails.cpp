@@ -162,7 +162,7 @@ void msrStaffTuning::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 29;
+  const unsigned int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -387,7 +387,7 @@ void msrStaffDetails::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 17;
+  const unsigned int fieldWidth = 17;
 
   os << left <<
     setw (fieldWidth) <<

@@ -2211,7 +2211,7 @@ void lpsrScore::print (ostream& os) const
     printSummary (os);
 
   // are some Scheme functions needed?
-  const int fieldWidth = 42;
+  const unsigned int fieldWidth = 42;
 
   os << left <<
     setw (fieldWidth) <<
@@ -2297,7 +2297,7 @@ void lpsrScore::printShort (ostream& os) const
 
 /*
   // are some Scheme functions needed?
-  const int fieldWidth = 42;
+  const unsigned int fieldWidth = 42;
 
   os << left <<
     setw (fieldWidth) <<

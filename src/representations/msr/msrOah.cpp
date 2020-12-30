@@ -223,7 +223,7 @@ string msrPitchesLanguageAtom::asActualLongNamedOptionString () const
 
 void msrPitchesLanguageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrPitchesLanguageAtom:" <<
@@ -534,7 +534,7 @@ string msrRenamePartAtom::asActualLongNamedOptionString () const
 
 void msrRenamePartAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrRenamePartAtom:" <<

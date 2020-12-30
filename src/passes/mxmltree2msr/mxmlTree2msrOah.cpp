@@ -246,7 +246,7 @@ string msrDalSegnoAtom::asActualLongNamedOptionString () const
 
 void msrDalSegnoAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrDalSegnoAtom:" <<
@@ -604,7 +604,7 @@ string msrReplaceClefAtom::asActualLongNamedOptionString () const
 
 void msrReplaceClefAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msrReplaceClefAtom:" <<

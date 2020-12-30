@@ -171,7 +171,7 @@ class EXP xml2xmlInsiderOahGroup : public oahGroup
 
     void                  printXml2xmlInsiderOahGroupHelp ();
 
-    void                  printXml2xmlInsiderOahGroupValues (int fieldWidth);
+    void                  printXml2xmlInsiderOahGroupValues (unsigned int fieldWidth);
 
   private:
 

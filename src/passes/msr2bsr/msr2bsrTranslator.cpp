@@ -1530,7 +1530,7 @@ void msr2bsrTranslator::visitStart (S_msrTime& elt)
         mTimeBeatsNumbersVector =
           mTimeItem->getTimeBeatsNumbersVector ();
 
-      int vectorSize = mTimeBeatsNumbersVector.size ();
+      unsigned int vectorSize = mTimeBeatsNumbersVector.size ();
 
       for (int i = 0; i < vectorSize; i++) {
         int
@@ -1691,7 +1691,7 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotesDetails ()) {
-    const int fieldWidth = 28;
+    const unsigned int fieldWidth = 28;
 
     gLogStream << left <<
 /*

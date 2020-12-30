@@ -207,7 +207,7 @@ void lpsrPaper::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
 /*
   // scaling
@@ -376,7 +376,7 @@ void lpsrPaper::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   // scaling
 

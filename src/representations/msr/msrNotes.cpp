@@ -208,7 +208,7 @@ void msrNote::initializeNote ()
 
     gIndenter++;
 
-    const int fieldWidth = 30;
+    const unsigned int fieldWidth = 30;
 
     gLogStream <<
       left <<
@@ -4595,7 +4595,7 @@ void msrNote::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 34;
+  const unsigned int fieldWidth = 34;
 
   // print measure number
   os << left <<
@@ -5244,7 +5244,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the beams if any
-  int noteBeamsSize = fNoteBeams.size ();
+  unsigned int noteBeamsSize = fNoteBeams.size ();
 
   if (noteBeamsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5275,7 +5275,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the articulations if any
-  int noteArticulationsSize = fNoteArticulations.size ();
+  unsigned int noteArticulationsSize = fNoteArticulations.size ();
 
   if (noteArticulationsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5306,7 +5306,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the spanners if any
-  int noteSpannersSize = fNoteSpanners.size ();
+  unsigned int noteSpannersSize = fNoteSpanners.size ();
 
   if (noteSpannersSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5337,7 +5337,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the technicals if any
-  int noteTechnicalsSize = fNoteTechnicals.size ();
+  unsigned int noteTechnicalsSize = fNoteTechnicals.size ();
 
   if (noteTechnicalsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5368,7 +5368,8 @@ void msrNote::print (ostream& os) const
   }
 
   // print the technicals with integer if any
-  int noteTechnicalWithIntegersSize = fNoteTechnicalWithIntegers.size ();
+  unsigned int noteTechnicalWithIntegersSize =
+    fNoteTechnicalWithIntegers.size ();
 
   if (noteTechnicalWithIntegersSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5399,7 +5400,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the technicals with float if any
-  int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
+  unsigned int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
 
   if (noteTechnicalWithFloatsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5430,7 +5431,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the technicals with string if any
-  int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
+  unsigned int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
 
   if (noteTechnicalWithStringsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5461,7 +5462,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the ornaments if any
-  int noteOrnamentsSize = fNoteOrnaments.size ();
+  unsigned int noteOrnamentsSize = fNoteOrnaments.size ();
 
   if (noteOrnamentsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5492,7 +5493,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the glissandos if any
-  int noteGlissandosSize = fNoteGlissandos.size ();
+  unsigned int noteGlissandosSize = fNoteGlissandos.size ();
 
   if (noteGlissandosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5523,7 +5524,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the slides if any
-  int noteSlidesSize = fNoteSlides.size ();
+  unsigned int noteSlidesSize = fNoteSlides.size ();
 
   if (noteSlidesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5575,7 +5576,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the dynamics if any
-  int noteDynamicsSize = fNoteDynamics.size ();
+  unsigned int noteDynamicsSize = fNoteDynamics.size ();
 
   if (noteDynamicsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5606,7 +5607,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the other dynamics if any
-  int noteOtherDynamicsSize = fNoteOtherDynamics.size ();
+  unsigned int noteOtherDynamicsSize = fNoteOtherDynamics.size ();
 
   if (noteOtherDynamicsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5637,7 +5638,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the words if any
-  int noteWordsSize = fNoteWords.size ();
+  unsigned int noteWordsSize = fNoteWords.size ();
 
   if (noteWordsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5667,7 +5668,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the slurs if any
-  int noteSlursSize = fNoteSlurs.size ();
+  unsigned int noteSlursSize = fNoteSlurs.size ();
 
   if (noteSlursSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5698,7 +5699,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the ligatures if any
-  int noteLigaturesSize = fNoteLigatures.size ();
+  unsigned int noteLigaturesSize = fNoteLigatures.size ();
 
   if (noteLigaturesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5729,7 +5730,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the pedals if any
-  int notePedalsSize = fNotePedals.size ();
+  unsigned int notePedalsSize = fNotePedals.size ();
 
   if (notePedalsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5760,7 +5761,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the slashes if any
-  int noteSlashesSize = fNoteSlashes.size ();
+  unsigned int noteSlashesSize = fNoteSlashes.size ();
 
   if (noteSlashesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5791,7 +5792,7 @@ void msrNote::print (ostream& os) const
       }
 
   // print the wedges if any
-  int noteWedgesSize = fNoteWedges.size ();
+  unsigned int noteWedgesSize = fNoteWedges.size ();
 
   if (noteWedgesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5822,7 +5823,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the segnos if any
-  int noteSegnosSize = fNoteSegnos.size ();
+  unsigned int noteSegnosSize = fNoteSegnos.size ();
 
   if (noteSegnosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5853,7 +5854,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the dal segnos if any
-  int noteDalSegnosSize = fNoteDalSegnos.size ();
+  unsigned int noteDalSegnosSize = fNoteDalSegnos.size ();
 
   if (noteDalSegnosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5884,7 +5885,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the codas if any
-  int noteCodasSize = fNoteCodas.size ();
+  unsigned int noteCodasSize = fNoteCodas.size ();
 
   if (noteCodasSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5915,7 +5916,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the eyeglasses if any
-  int noteEyeGlassesSize = fNoteEyeGlasses.size ();
+  unsigned int noteEyeGlassesSize = fNoteEyeGlasses.size ();
 
   if (noteEyeGlassesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5946,7 +5947,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the damps if any
-  int noteDampsSize = fNoteDamps.size ();
+  unsigned int noteDampsSize = fNoteDamps.size ();
 
   if (noteDampsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -5977,7 +5978,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the dampAlls if any
-  int noteDampAllsSize = fNoteDampAlls.size ();
+  unsigned int noteDampAllsSize = fNoteDampAlls.size ();
 
   if (noteDampAllsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6008,7 +6009,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the scordaturas if any
-  int noteScordaturasSize = fNoteScordaturas.size ();
+  unsigned int noteScordaturasSize = fNoteScordaturas.size ();
 
   if (noteScordaturasSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6039,7 +6040,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the harmonies associated to this note if any
-  int noteHarmoniesListSize = fNoteHarmoniesList.size ();
+  unsigned int noteHarmoniesListSize = fNoteHarmoniesList.size ();
 
   if (noteHarmoniesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6074,7 +6075,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the figured basses associated to this note if any
-  int noteFiguredBassesListSize = fNoteFiguredBassesList.size ();
+  unsigned int noteFiguredBassesListSize = fNoteFiguredBassesList.size ();
 
   if (noteFiguredBassesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6109,7 +6110,7 @@ void msrNote::print (ostream& os) const
   }
 
   // print the syllables associated to this note if any
-  int noteSyllablesSize = fNoteSyllables.size ();
+  unsigned int noteSyllablesSize = fNoteSyllables.size ();
 
   if (noteSyllablesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6199,7 +6200,7 @@ void msrNote::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 34;
+  const unsigned int fieldWidth = 34;
 
 /*
   // print measure number
@@ -6867,7 +6868,7 @@ void msrNote::printShort (ostream& os) const
 */
 
   // print the beams if any
-  int noteBeamsSize = fNoteBeams.size ();
+  unsigned int noteBeamsSize = fNoteBeams.size ();
 
   if (noteBeamsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6899,7 +6900,7 @@ void msrNote::printShort (ostream& os) const
 
 /*
   // print the articulations if any
-  int noteArticulationsSize = fNoteArticulations.size ();
+  unsigned int noteArticulationsSize = fNoteArticulations.size ();
 
   if (noteArticulationsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6930,7 +6931,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the spanners if any
-  int noteSpannersSize = fNoteSpanners.size ();
+  unsigned int noteSpannersSize = fNoteSpanners.size ();
 
   if (noteSpannersSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6961,7 +6962,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the technicals if any
-  int noteTechnicalsSize = fNoteTechnicals.size ();
+  unsigned int noteTechnicalsSize = fNoteTechnicals.size ();
 
   if (noteTechnicalsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -6992,7 +6993,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the technicals with integer if any
-  int noteTechnicalWithIntegersSize = fNoteTechnicalWithIntegers.size ();
+  unsigned int noteTechnicalWithIntegersSize = fNoteTechnicalWithIntegers.size ();
 
   if (noteTechnicalWithIntegersSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7023,7 +7024,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the technicals with float if any
-  int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
+  unsigned int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
 
   if (noteTechnicalWithFloatsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7054,7 +7055,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the technicals with string if any
-  int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
+  unsigned int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
 
   if (noteTechnicalWithStringsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7086,7 +7087,7 @@ void msrNote::printShort (ostream& os) const
 */
 
   // print the ornaments if any
-  int noteOrnamentsSize = fNoteOrnaments.size ();
+  unsigned int noteOrnamentsSize = fNoteOrnaments.size ();
 
   if (noteOrnamentsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7118,7 +7119,7 @@ void msrNote::printShort (ostream& os) const
 
 /*
   // print the glissandos if any
-  int noteGlissandosSize = fNoteGlissandos.size ();
+  unsigned int noteGlissandosSize = fNoteGlissandos.size ();
 
   if (noteGlissandosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7149,7 +7150,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the slides if any
-  int noteSlidesSize = fNoteSlides.size ();
+  unsigned int noteSlidesSize = fNoteSlides.size ();
 
   if (noteSlidesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7203,7 +7204,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the dynamics if any
-  int noteDynamicsSize = fNoteDynamics.size ();
+  unsigned int noteDynamicsSize = fNoteDynamics.size ();
 
   if (noteDynamicsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7234,7 +7235,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the other dynamics if any
-  int noteOtherDynamicsSize = fNoteOtherDynamics.size ();
+  unsigned int noteOtherDynamicsSize = fNoteOtherDynamics.size ();
 
   if (noteOtherDynamicsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7266,7 +7267,7 @@ void msrNote::printShort (ostream& os) const
 */
 
   // print the words if any
-  int noteWordsSize = fNoteWords.size ();
+  unsigned int noteWordsSize = fNoteWords.size ();
 
   if (noteWordsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7296,7 +7297,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the slurs if any
-  int noteSlursSize = fNoteSlurs.size ();
+  unsigned int noteSlursSize = fNoteSlurs.size ();
 
   if (noteSlursSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7327,7 +7328,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the ligatures if any
-  int noteLigaturesSize = fNoteLigatures.size ();
+  unsigned int noteLigaturesSize = fNoteLigatures.size ();
 
   if (noteLigaturesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7358,7 +7359,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the pedals if any
-  int notePedalsSize = fNotePedals.size ();
+  unsigned int notePedalsSize = fNotePedals.size ();
 
   if (notePedalsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7389,7 +7390,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the slashes if any
-  int noteSlashesSize = fNoteSlashes.size ();
+  unsigned int noteSlashesSize = fNoteSlashes.size ();
 
   if (noteSlashesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7421,7 +7422,7 @@ void msrNote::printShort (ostream& os) const
 
 /*
   // print the wedges if any
-  int noteWedgesSize = fNoteWedges.size ();
+  unsigned int noteWedgesSize = fNoteWedges.size ();
 
   if (noteWedgesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7452,7 +7453,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the segnos if any
-  int noteSegnosSize = fNoteSegnos.size ();
+  unsigned int noteSegnosSize = fNoteSegnos.size ();
 
   if (noteSegnosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7483,7 +7484,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the dal segnos if any
-  int noteDalSegnosSize = fNoteDalSegnos.size ();
+  unsigned int noteDalSegnosSize = fNoteDalSegnos.size ();
 
   if (noteDalSegnosSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7514,7 +7515,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the codas if any
-  int noteCodasSize = fNoteCodas.size ();
+  unsigned int noteCodasSize = fNoteCodas.size ();
 
   if (noteCodasSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7545,7 +7546,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the eyeglasses if any
-  int noteEyeGlassesSize = fNoteEyeGlasses.size ();
+  unsigned int noteEyeGlassesSize = fNoteEyeGlasses.size ();
 
   if (noteEyeGlassesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7576,7 +7577,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the damps if any
-  int noteDampsSize = fNoteDamps.size ();
+  unsigned int noteDampsSize = fNoteDamps.size ();
 
   if (noteDampsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7607,7 +7608,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the dampAlls if any
-  int noteDampAllsSize = fNoteDampAlls.size ();
+  unsigned int noteDampAllsSize = fNoteDampAlls.size ();
 
   if (noteDampAllsSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7638,7 +7639,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the scordaturas if any
-  int noteScordaturasSize = fNoteScordaturas.size ();
+  unsigned int noteScordaturasSize = fNoteScordaturas.size ();
 
   if (noteScordaturasSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7670,7 +7671,7 @@ void msrNote::printShort (ostream& os) const
 */
 
   // print the harmonies associated to this note if any
-  int noteHarmoniesListSize = fNoteHarmoniesList.size ();
+  unsigned int noteHarmoniesListSize = fNoteHarmoniesList.size ();
 
   if (noteHarmoniesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7705,7 +7706,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the figured basses associated to this note if any
-  int noteFiguredBassesListSize = fNoteFiguredBassesList.size ();
+  unsigned int noteFiguredBassesListSize = fNoteFiguredBassesList.size ();
 
   if (noteFiguredBassesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
@@ -7740,7 +7741,7 @@ void msrNote::printShort (ostream& os) const
   }
 
   // print the syllables associated to this note if any
-  int noteSyllablesSize = fNoteSyllables.size ();
+  unsigned int noteSyllablesSize = fNoteSyllables.size ();
 
   if (noteSyllablesSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<

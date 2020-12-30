@@ -604,7 +604,7 @@ void msrRestMeasures::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 36;
+  const unsigned int fieldWidth = 36;
 
   os << left <<
     setw (fieldWidth) <<

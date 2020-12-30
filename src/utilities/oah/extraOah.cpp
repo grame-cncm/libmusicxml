@@ -163,7 +163,7 @@ void extraShowAllHarmoniesStructuresAtom::browseData (basevisitor* v)
 
 void extraShowAllHarmoniesStructuresAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsShowAllHarmoniesStructuresAtom:" <<
@@ -400,7 +400,7 @@ void extraShowAllHarmoniesContentsAtom::browseData (basevisitor* v)
 
 void extraShowAllHarmoniesContentsAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "extraShowAllHarmoniesContentsAtom:" <<
@@ -711,7 +711,7 @@ void extraShowHarmonyDetailsAtom::browseData (basevisitor* v)
 
 void extraShowHarmonyDetailsAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "extraShowHarmonyDetailsAtom:" <<
@@ -1041,7 +1041,7 @@ void extraShowHarmonyAnalysisAtom::browseData (basevisitor* v)
 
 void extraShowHarmonyAnalysisAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "extraShowHarmonyAnalysisAtom:" <<
@@ -1314,7 +1314,7 @@ void extraOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void extraOahGroup::printExtraOahValues (int fieldWidth)
+void extraOahGroup::printExtraOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The extra extra are:" << // JMI

@@ -167,7 +167,7 @@ void msr2lpsrTranslator::displayCurrentOnGoingValues ()
 
   gIndenter++;
 
-  const int fieldWidth = 25;
+  const unsigned int fieldWidth = 25;
 
   gLogStream <<
     setw (fieldWidth) <<
@@ -220,7 +220,7 @@ void msr2lpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
   if (fPartHiddenMeasureAndBarlineDescrList.size ()) {
     gIndenter++;
 
-    const int fieldWidth = 19;
+    const unsigned int fieldWidth = 19;
 
     list<S_msrHiddenMeasureAndBarlineDescr>::const_iterator
       iBegin = fPartHiddenMeasureAndBarlineDescrList.begin (),
@@ -264,7 +264,7 @@ void msr2lpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
 void msr2lpsrTranslator::displayOnGoingNotesStack (
   string context)
 {
-  int onGoingNotesStackSize = fOnGoingNotesStack.size ();
+  unsigned int onGoingNotesStackSize = fOnGoingNotesStack.size ();
 
   gLogStream <<
     endl <<
@@ -470,7 +470,7 @@ void msr2lpsrTranslator::setPaperIndentsIfNeeded (
 */
     gIndenter++;
 
-    const int fieldWidth = 40;
+    const unsigned int fieldWidth = 40;
 
     gLogStream << left <<
       setw (fieldWidth) <<

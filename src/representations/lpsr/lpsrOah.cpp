@@ -225,7 +225,7 @@ string lpsrPitchesLanguageAtom::asActualLongNamedOptionString () const
 
 void lpsrPitchesLanguageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lpsrPitchesLanguageAtom:" <<
@@ -460,7 +460,7 @@ string lpsrChordsLanguageAtom::asActualLongNamedOptionString () const
 
 void lpsrChordsLanguageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lpsrChordsLanguageAtom:" <<
@@ -676,7 +676,7 @@ string lpsrTransposeAtom::asActualLongNamedOptionString () const
 
 void lpsrTransposeAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lpsrTransposeAtom:" <<
@@ -1712,7 +1712,7 @@ void lpsrOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void lpsrOahGroup::printLpsrOahValues (int fieldWidth)
+void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The LPSR options are:" <<
@@ -2212,7 +2212,7 @@ string lpsrDalSegnoAtom::asActualLongNamedOptionString () const
 
 void lpsrDalSegnoAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lpsrDalSegnoAtom:" <<
@@ -2509,7 +2509,7 @@ string lpsrDalSegnoAlFineAtom::asActualLongNamedOptionString () const
 
 void lpsrDalSegnoAlFineAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lpsrDalSegnoAlFineAtom:" <<
@@ -2807,7 +2807,7 @@ string lpsrDalSegnoAlCodaAtom::asActualLongNamedOptionString () const
 
 void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "lpsrDalSegnoAlCodaAtom:" <<

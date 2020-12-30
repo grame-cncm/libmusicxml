@@ -74,7 +74,7 @@ string msrHiddenMeasureAndBarlineDescr::hiddenMeasureAndBarlineDescrAsString () 
 
 void msrHiddenMeasureAndBarlineDescr::print (ostream& os) const
 {
-  const int fieldWidth = 14;
+  const unsigned int fieldWidth = 14;
 
   os << left <<
     setw (fieldWidth) <<
@@ -174,7 +174,7 @@ void msr2msrTranslator::displayCurrentOnGoingValues ()
 
   gIndenter++;
 
-  const int fieldWidth = 25;
+  const unsigned int fieldWidth = 25;
 
   gLogStream <<
     setw (fieldWidth) <<
@@ -227,7 +227,7 @@ void msr2msrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
   if (fPartHiddenMeasureAndBarlineDescrList.size ()) {
     gIndenter++;
 
-    const int fieldWidth = 19;
+    const unsigned int fieldWidth = 19;
 
     list<S_msrHiddenMeasureAndBarlineDescr>::const_iterator
       iBegin = fPartHiddenMeasureAndBarlineDescrList.begin (),
@@ -271,7 +271,7 @@ void msr2msrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
 void msr2msrTranslator::displayOnGoingNotesStack (
   string context)
 {
-  int onGoingNotesStackSize = fOnGoingNotesStack.size ();
+  unsigned int onGoingNotesStackSize = fOnGoingNotesStack.size ();
 
   gLogStream <<
     endl <<

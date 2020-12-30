@@ -723,7 +723,7 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  int
+  unsigned int
     lpsrScoreOutputKindsMapSize =
       gGlobalLpsrScoreOutputKindsMap.size ();
 
@@ -809,7 +809,7 @@ string existingLpsrOctaveEntryKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  int
+  unsigned int
     lpsrOctaveEntryKindsMapSize =
       gGlobalLpsrOctaveEntryKindsMap.size ();
 
@@ -1016,7 +1016,7 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  int
+  unsigned int
     accidentalStyleKindsMapSize =
       gGlobalLpsrAccidentalStyleKindsMap.size ();
 
@@ -1103,7 +1103,7 @@ string existingLpsrChordsLanguageKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  int
+  unsigned int
     lpsrChordsLanguageKindsMapSize =
       gGlobalLpsrChordsLanguageKindsMap.size ();
 
@@ -1310,7 +1310,7 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
 {
   stringstream s;
 
-  int
+  unsigned int
     lpsrLyricsDurationsKindsMapSize =
       gGlobalLpsrLyricsDurationsKindsMap.size ();
 

@@ -362,11 +362,11 @@ int indentedStreamBuf::sync ()
   // 2) reset the buffer
   // 3) flush the actual output stream we are using.
 
-  size_t strSize = str ().size ();
+  unsigned int strSize = str ().size ();
 
   // fetch the last non-space character in the buffer
   // caution: the '\n' is present as the last character!
-  size_t found = str ().find_last_not_of(' ', strSize - 2);
+  size_t found = str ().find_last_not_of (' ', strSize - 2);
 
   // this can be uncommented to see low level informations
   // fOutputSteam << "% strSize: " << strSize << ", found: " << found << '\n';
@@ -1412,15 +1412,15 @@ void splitStringIntoChunks (
     endl << endl;
 #endif
 
-  int theStringSize = theString.size ();
+  unsigned int theStringSize = theString.size ();
 
-  size_t currentPosition = 0;
+  unsigned int currentPosition = 0;
 
 #ifdef DEBUG_SPLITTING
   string remainder = theString;
 #endif
 
-  int theSeparatorSize = theSeparator.size ();
+  unsigned int theSeparatorSize = theSeparator.size ();
 
   map<string, string>::const_iterator i;
 
@@ -1525,16 +1525,16 @@ void splitRegularStringAtEndOfLines (
     chunksList);
 
     /* JMI
-  int theStringSize = theString.size ();
+  unsigned int theStringSize = theString.size ();
 
-  size_t currentPosition = 0;
+  unsigned int currentPosition = 0;
 
 #ifdef DEBUG_SPLITTING
   string remainder = theString;
 #endif
 
   string lookedFor     = "\n";
-  int    lookedForSize = lookedFor.size ();
+  unsigned int    lookedForSize = lookedFor.size ();
 
   map<string, string>::const_iterator i;
 
@@ -1634,7 +1634,7 @@ void splitHTMLStringContainingEndOfLines (
     endl << endl;
 #endif
 
-  int theStringSize = theString.size ();
+  unsigned int theStringSize = theString.size ();
 
   map<string, string> conversionMap; // JMI
 
@@ -1651,8 +1651,8 @@ void splitHTMLStringContainingEndOfLines (
 #endif
 
 // JMI  string lookedFor     = "&#xd;";
-  string lookedFor     = "\n";
-  int    lookedForSize = lookedFor.size ();
+  string       lookedFor     = "\n";
+  unsigned int lookedForSize = lookedFor.size ();
 
   map<string, string>::const_iterator i;
 

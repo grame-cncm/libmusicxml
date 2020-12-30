@@ -245,7 +245,7 @@ void musicxmlOahGroup::browseData (basevisitor* v)
 }
 
 //______________________________________________________________________________
-void musicxmlOahGroup::printMusicxmlValues (int fieldWidth)
+void musicxmlOahGroup::printMusicxmlValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The MusicXML options are:" <<

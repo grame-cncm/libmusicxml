@@ -159,7 +159,7 @@ void oahAtomSynonym::browseData (basevisitor* v)
 
 void oahAtomSynonym::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "AtomSynonym:" <<
@@ -175,7 +175,7 @@ void oahAtomSynonym::print (ostream& os) const
 
 void oahAtomSynonym::printShort (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "AtomSynonym: ";
@@ -304,7 +304,7 @@ void oahHelpOnlyAtom::browseData (basevisitor* v)
 
 void oahHelpOnlyAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "HelpOnlyAtom:" <<
@@ -500,7 +500,7 @@ void oahOptionsUsageAtom::browseData (basevisitor* v)
 
 void oahOptionsUsageAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsUsageAtom:" <<
@@ -646,7 +646,7 @@ void oahHelpAtom::browseData (basevisitor* v)
 
 void oahHelpAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "oahHelpAtom:" <<
@@ -799,7 +799,7 @@ void oahHelpSummaryAtom::browseData (basevisitor* v)
 
 void oahHelpSummaryAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsSummaryAtom:" <<
@@ -949,7 +949,7 @@ void oahAboutAtom::browseData (basevisitor* v)
 
 void oahAboutAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "oahAboutAtom:" <<
@@ -1100,7 +1100,7 @@ void oahVersionAtom::browseData (basevisitor* v)
 
 void oahVersionAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "oahVersionAtom:" <<
@@ -1259,7 +1259,7 @@ void oahContactAtom::browseData (basevisitor* v)
 
 void oahContactAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "oahContactAtom:" <<
@@ -1444,7 +1444,7 @@ void oahBooleanAtom::browseData (basevisitor* v)
 
 void oahBooleanAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "BooleanAtom:" <<
@@ -1627,7 +1627,7 @@ void oahTwoBooleansAtom::browseData (basevisitor* v)
 
 void oahTwoBooleansAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "TwoBooleansAtom:" <<
@@ -1829,7 +1829,7 @@ void oahThreeBooleansAtom::browseData (basevisitor* v)
 
 void oahThreeBooleansAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "ThreeBooleansAtom:" <<
@@ -2133,7 +2133,7 @@ void oahCombinedBooleansAtom::browseData (basevisitor* v)
 
 void oahCombinedBooleansAtom::printCombinedBooleansEssentials (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
   printAtomWithVariableNameEssentials (
     os, fieldWidth);
@@ -2149,7 +2149,7 @@ void oahCombinedBooleansAtom::printCombinedBooleansEssentials (
 
 void oahCombinedBooleansAtom::printCombinedBooleansEssentialsShort (
   ostream& os,
-  int      fieldWidth) const
+  unsigned int fieldWidth) const
 {
 
   printAtomWithVariableNameEssentialsShort (
@@ -2166,7 +2166,7 @@ void oahCombinedBooleansAtom::printCombinedBooleansEssentialsShort (
 
 void oahCombinedBooleansAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "CombinedBooleansAtom:" <<
@@ -2291,7 +2291,7 @@ void oahCombinedBooleansAtom::printAtomWithValueOptionsValues (
       fBooleanVariable) <<
     endl;
 
-  int fieldWidth =
+  unsigned int fieldWidth =
     valueFieldWidth - gIndenter.getIndent () + 1;
 
   gIndenter++; // only now
@@ -2726,7 +2726,7 @@ void oahMultiplexBooleansAtom::browseData (basevisitor* v)
 
 void oahMultiplexBooleansAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "MultiplexBooleansAtom:" <<
@@ -3151,7 +3151,7 @@ string oahIntegerAtom::asActualLongNamedOptionString () const
 
 void oahIntegerAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "IntegerAtom:" <<
@@ -3420,7 +3420,7 @@ string oahTwoIntegersAtom::asActualLongNamedOptionString () const
 
 void oahTwoIntegersAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "IntegerAtom:" <<
@@ -3677,7 +3677,7 @@ string oahFloatAtom::asActualLongNamedOptionString () const
 
 void oahFloatAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "FloatAtom:" <<
@@ -3871,7 +3871,7 @@ string oahStringAtom::asActualLongNamedOptionString () const
 
 void oahStringAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringAtom:" <<
@@ -4172,7 +4172,7 @@ void oahMonoplexStringAtom::browseData (basevisitor* v)
 
 void oahMonoplexStringAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "MonoplexStringAtom:" <<
@@ -4477,7 +4477,7 @@ string oahStringWithDefaultValueAtom::asActualLongNamedOptionString () const
 
 void oahStringWithDefaultValueAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringWithDefaultValueAtom:" <<
@@ -4735,7 +4735,7 @@ string oahRationalAtom::asActualLongNamedOptionString () const
 
 void oahRationalAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "RationalAtom:" <<
@@ -4944,7 +4944,7 @@ string oahNaturalNumbersSetAtom::asActualLongNamedOptionString () const
 
 void oahNaturalNumbersSetAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "NaturalNumbersSetAtom:" <<
@@ -5178,7 +5178,7 @@ string oahRGBColorAtom::asActualLongNamedOptionString () const
 
 void oahRGBColorAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "RGBColorAtom:" <<
@@ -5459,7 +5459,7 @@ string oahIntSetAtom::asActualLongNamedOptionString () const
 
 void oahIntSetAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "IntSetAtom:" <<
@@ -5740,7 +5740,7 @@ string oahStringSetAtom::asActualLongNamedOptionString () const
 
 void oahStringSetAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringSetAtom:" <<
@@ -6075,7 +6075,7 @@ string oahStringToIntMapAtom::asActualLongNamedOptionString () const
 
 void oahStringToIntMapAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionsResetMeasureElementMeasureNumberAtom:" <<
@@ -6406,7 +6406,7 @@ string oahStringAndIntegerAtom::asActualLongNamedOptionString () const
 
 void oahStringAndIntegerAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringAndIntegerAtom:" <<
@@ -6744,7 +6744,7 @@ string oahStringAndTwoIntegersAtom::asActualLongNamedOptionString () const
 
 void oahStringAndTwoIntegersAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "StringAndIntegerAtom:" <<
@@ -6990,7 +6990,7 @@ string oahLengthUnitKindAtom::asActualLongNamedOptionString () const
 
 void oahLengthUnitKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "LengthUnitKindAtom:" <<
@@ -7280,7 +7280,7 @@ string oahLengthAtom::asActualLongNamedOptionString () const
 
 void oahLengthAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "LengthAtom:" <<
@@ -7554,7 +7554,7 @@ string oahMidiTempoAtom::asActualLongNamedOptionString () const
 
 void oahMidiTempoAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "MidiTempoAtom:" <<
@@ -7764,7 +7764,7 @@ string oahOptionNameHelpAtom::asActualLongNamedOptionString () const
 
 void oahOptionNameHelpAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "OptionNameHelpAtom:" <<
@@ -7943,7 +7943,7 @@ string oahAProposOptionNameAtom::asActualLongNamedOptionString () const
 
 void oahAProposOptionNameAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "AProposOptionNameAtom:" <<
@@ -8041,7 +8041,7 @@ void oahFindStringAtom::applyAtomWithValue (
       os);
 
   //  print the found strings
-  int foundStringsListSize =
+  unsigned int foundStringsListSize =
     foundStringsList.size ();
 
   int saveIndent = gIndenter.getIndent ();
@@ -8190,7 +8190,7 @@ string oahFindStringAtom::asActualLongNamedOptionString () const
 
 void oahFindStringAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "FindStringAtom:" <<

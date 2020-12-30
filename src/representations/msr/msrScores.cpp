@@ -558,9 +558,9 @@ void msrScore::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 38;
+  const unsigned int fieldWidth = 38;
 
-  int partGroupsListSize =
+  unsigned int partGroupsListSize =
     fPartGroupsList.size ();
 
   os << left <<
@@ -645,7 +645,7 @@ void msrScore::print (ostream& os) const
   os << endl;
 
   // print the credits if any
-  int creditsListSize = fCreditsList.size ();
+  unsigned int creditsListSize = fCreditsList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -676,7 +676,7 @@ void msrScore::print (ostream& os) const
   os << endl;
 
   // print all the voices if any
-  int scoreAllVoicesListSize = fScoreAllVoicesList.size ();
+  unsigned int scoreAllVoicesListSize = fScoreAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -735,9 +735,9 @@ void msrScore::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 38;
+  const unsigned int fieldWidth = 38;
 
-  int partGroupsListSize =
+  unsigned int partGroupsListSize =
     fPartGroupsList.size ();
 
   os << left <<
@@ -826,7 +826,7 @@ void msrScore::printShort (ostream& os) const
 
 /*
   // print the credits if any
-  int creditsListSize = fCreditsList.size ();
+  unsigned int creditsListSize = fCreditsList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -857,7 +857,7 @@ void msrScore::printShort (ostream& os) const
   os << endl;
 
   // print all the voices if any
-  int scoreAllVoicesListSize = fScoreAllVoicesList.size ();
+  unsigned int scoreAllVoicesListSize = fScoreAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -917,9 +917,9 @@ void msrScore::printSummary (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 38;
+  const unsigned int fieldWidth = 38;
 
-  int partGroupsListSize =
+  unsigned int partGroupsListSize =
     fPartGroupsList.size ();
 
   // print global information

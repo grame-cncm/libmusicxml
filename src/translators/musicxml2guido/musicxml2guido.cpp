@@ -407,10 +407,10 @@ EXP xmlErr musicxmlfile2guido (
 }
 
 xmlErr musicxmlFile2guidoWithHandler (
-  const char *         fileName,
-  std::ostream&        out,
-  std::ostream&        err,
-  S_oahHandler         handler)
+  const char * fileName,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler)
 {
 	SXMLFile
 	  xmlfile =
@@ -446,10 +446,10 @@ EXP xmlErr musicxmlfd2guido (
 }
 
 xmlErr musicxmlFd2guidoWithHandler (
-  FILE *        fd,
-  std::ostream& out,
-  std::ostream& err,
-  S_oahHandler  handler)
+  FILE *       fd,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler)
 {
 	SXMLFile
 	  xmlfile =
@@ -485,10 +485,10 @@ EXP xmlErr musicxmlstring2guido (
 }
 
 xmlErr musicxmlString2guidoWithHandler (
-  const char *  buffer,
-  std::ostream& out,
-  std::ostream& err,
-  S_oahHandler  handler)
+  const char * buffer,
+  ostream&     out,
+  ostream&     err,
+  S_oahHandler handler)
 {
 	SXMLFile
 	  xmlfile =

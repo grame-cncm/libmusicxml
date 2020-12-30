@@ -592,7 +592,7 @@ void msrGraceNotesGroup::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 33;
+  const unsigned int fieldWidth = 33;
 
   os <<
     setw (fieldWidth) <<
@@ -689,7 +689,7 @@ void msrGraceNotesGroup::printShort (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 33;
+  const unsigned int fieldWidth = 33;
 
 /*
   os <<

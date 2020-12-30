@@ -2873,7 +2873,7 @@ void traceOahGroup::printAtomWithValueOptionsValues (
   gIndenter--;
 }
 
-void traceOahGroup::printTraceOahValues (int fieldWidth)
+void traceOahGroup::printTraceOahValues (unsigned int fieldWidth)
 {
   gLogStream <<
     "The trace options are:" <<

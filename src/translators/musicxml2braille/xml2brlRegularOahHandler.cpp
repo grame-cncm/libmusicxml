@@ -1239,7 +1239,7 @@ void xml2brlRegularOahHandler::createOutputRegularGroup ()
 //______________________________________________________________________________
 void xml2brlRegularOahHandler::print (ostream& os) const
 {
-  const int fieldWidth = 27;
+  const unsigned int fieldWidth = 27;
 
   os <<
     "xml2brlRegularOahHandler '" << fHandlerHeader << "':" <<

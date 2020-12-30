@@ -247,9 +247,10 @@ void bsrTranscriptionNotes::print (ostream& os) const
   gIndenter++;
 
   // print the notes if any
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
-  int transcriptionNotesElementsListSize = fTranscriptionNotesElementsList.size ();
+  unsigned int transcriptionNotesElementsListSize =
+    fTranscriptionNotesElementsList.size ();
 
   if (transcriptionNotesElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<

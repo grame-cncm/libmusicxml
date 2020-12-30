@@ -89,7 +89,7 @@ class EXP musicxml2mxmlTreeOahGroup : public oahGroup
 
     void                  printMusicxml2mxmlTreeHelp ();
 
-    void                  printMusicxml2mxmlTreeValues (int fieldWidth);
+    void                  printMusicxml2mxmlTreeValues (unsigned int fieldWidth);
 
   public:
 

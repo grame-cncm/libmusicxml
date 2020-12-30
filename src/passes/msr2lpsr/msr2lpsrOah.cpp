@@ -220,7 +220,7 @@ string msr2lpsrScoreOutputKindAtom::asActualLongNamedOptionString () const
 
 void msr2lpsrScoreOutputKindAtom::print (ostream& os) const
 {
-  const int fieldWidth = K_OAH_FIELD_WIDTH;
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
     "msr2lpsrScoreOutputKindAtom:" <<

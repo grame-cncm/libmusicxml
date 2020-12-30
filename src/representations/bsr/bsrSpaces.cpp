@@ -153,7 +153,7 @@ void bsrSpaces::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 16;
+  const unsigned int fieldWidth = 16;
 
   os <<
     setw (fieldWidth) <<

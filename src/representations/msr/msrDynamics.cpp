@@ -464,7 +464,7 @@ void msrWedge::print (ostream& os) const
 
   gIndenter++;
 
-  const int fieldWidth = 19;
+  const unsigned int fieldWidth = 19;
 
   os << left <<
     setw (fieldWidth) <<

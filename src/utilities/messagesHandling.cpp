@@ -594,7 +594,7 @@ std::set<int> gGlobalErrorsInputLineNumbers;
 
 void displayWarningsAndErrorsInputLineNumbers ()
 {
-  int warningsInputLineNumbersSize =
+  unsigned int warningsInputLineNumbersSize =
     gGlobalWarningsInputLineNumbers.size ();
 
   if (warningsInputLineNumbersSize && ! gGlobalGeneralOahGroup->getQuiet ()) {
@@ -617,7 +617,7 @@ void displayWarningsAndErrorsInputLineNumbers ()
     gLogStream << endl;
   }
 
-  int errorsInputLineNumbersSize =
+  unsigned int errorsInputLineNumbersSize =
     gGlobalErrorsInputLineNumbers.size ();
 
   if (errorsInputLineNumbersSize) {
