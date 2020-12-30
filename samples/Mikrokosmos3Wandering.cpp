@@ -171,7 +171,7 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 }
 
 //_______________________________________________________________________________
-void registerGgeneratedCodeKind (generatedCodeKind kind)
+static void registerGgeneratedCodeKind (generatedCodeKind kind)
 {
   if (kind != kNoGeneratedCode) {
     cerr << "only one of '-guido', '-lilypond', '-braille' and '-musicxml' can be used" << endl;
@@ -188,7 +188,7 @@ enum msplGenerationKind {
   kStringsAPIKind
 };
 
-string msplGenerationKindAsString (
+static string msplGenerationKindAsString (
   msplGenerationKind generationKind)
 {
   string result;
@@ -206,7 +206,7 @@ string msplGenerationKindAsString (
 }
 
 //------------------------------------------------------------------------
-EXP S_msrScore createTheScore (
+static S_msrScore createTheScore (
   msplGenerationKind generationKind)
 {
   // create the score
@@ -235,7 +235,7 @@ EXP S_msrScore createTheScore (
 }
 
 //------------------------------------------------------------------------
-EXP S_msrPart createPartInScore (S_msrScore score)
+static S_msrPart createPartInScore (S_msrScore score)
 {
   // create the part group
   S_msrPartGroup
@@ -263,7 +263,7 @@ EXP S_msrPart createPartInScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-S_msrStaff createStaffInPart (int staffNumber, S_msrPart part)
+static S_msrStaff createStaffInPart (int staffNumber, S_msrPart part)
 {
   // create the staff
   S_msrStaff
@@ -280,7 +280,7 @@ S_msrStaff createStaffInPart (int staffNumber, S_msrPart part)
 }
 
 //------------------------------------------------------------------------
-S_msrVoice createVoiceInStaff (
+static S_msrVoice createVoiceInStaff (
   int          inputLineNumber,
   msrVoiceKind voiceKind,
   int          voiceNumber,
@@ -311,7 +311,7 @@ S_msrVoice createVoiceInStaff (
 //------------------------------------------------------------------------
 // upperVoice1 - Regular API
 //------------------------------------------------------------------------
-void populateUpperVoice1WithTheRegularAPI (
+static void populateUpperVoice1WithTheRegularAPI (
   S_msrVoice upperVoice1)
 {
   // measure 1
@@ -623,7 +623,7 @@ void populateUpperVoice1WithTheRegularAPI (
 //------------------------------------------------------------------------
 // upperVoice1 - Strings API
 //------------------------------------------------------------------------
-void populateUpperVoice1WithTheStringsAPI (
+static void populateUpperVoice1WithTheStringsAPI (
   S_msrVoice upperVoice1)
 {
 /*
@@ -880,7 +880,7 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
 //------------------------------------------------------------------------
 // lowerVoice1 - Regular API
 //------------------------------------------------------------------------
-void populateLowerVoice1WithTheRegularAPI (
+static void populateLowerVoice1WithTheRegularAPI (
   S_msrVoice lowerVoice1)
 {
   // measure 1
@@ -1177,7 +1177,7 @@ void populateLowerVoice1WithTheRegularAPI (
 //------------------------------------------------------------------------
 // lowerVoice1 - Strings API
 //------------------------------------------------------------------------
-void populateLowerVoice1WithTheStringsAPI (
+static void populateLowerVoice1WithTheStringsAPI (
   S_msrVoice lowerVoice1)
 {
   // measure 1
@@ -1418,7 +1418,7 @@ void populateLowerVoice1WithTheStringsAPI (
 //------------------------------------------------------------------------
 // lowerVoice2 - Regular API
 //------------------------------------------------------------------------
-void populateLowerVoice2WithTheRegularAPI (
+static void populateLowerVoice2WithTheRegularAPI (
   S_msrVoice lowerVoice2)
 {
   // measure 1
@@ -1599,7 +1599,7 @@ void populateLowerVoice2WithTheRegularAPI (
 //------------------------------------------------------------------------
 // lowerVoice2 - Strings API
 //------------------------------------------------------------------------
-void populateLowerVoice2WithTheStringsAPI (
+static void populateLowerVoice2WithTheStringsAPI (
   S_msrVoice lowerVoice2)
 {
   // measure 1
@@ -1775,7 +1775,7 @@ void populateLowerVoice2WithTheStringsAPI (
 }
 
 //------------------------------------------------------------------------
-S_msrStaff createAndPopulateUpperStaffInPart (
+static S_msrStaff createAndPopulateUpperStaffInPart (
   S_msrPart          part,
   msplGenerationKind generationKind)
 {
@@ -1810,7 +1810,7 @@ S_msrStaff createAndPopulateUpperStaffInPart (
 }
 
 //------------------------------------------------------------------------
-S_msrStaff createAndPopulateLowerStaffInPart (
+static S_msrStaff createAndPopulateLowerStaffInPart (
   S_msrPart          part,
   msplGenerationKind generationKind)
 {
@@ -1859,7 +1859,7 @@ S_msrStaff createAndPopulateLowerStaffInPart (
 }
 
 //------------------------------------------------------------------------
-S_msrScore createAndPopulateTheScore (
+static S_msrScore createAndPopulateTheScore (
   msplGenerationKind generationKind)
 {
   S_msrScore
@@ -1906,7 +1906,7 @@ S_msrScore createAndPopulateTheScore (
 }
 
 //------------------------------------------------------------------------
-xmlErr generateGuidoCodeFromScore (S_msrScore score)
+static xmlErr generateGuidoCodeFromScore (S_msrScore score)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -1972,7 +1972,7 @@ xmlErr generateGuidoCodeFromScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-xmlErr generateLilypondCodeFromScore (S_msrScore score)
+static xmlErr generateLilypondCodeFromScore (S_msrScore score)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -2167,7 +2167,7 @@ xmlErr generateLilypondCodeFromScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-xmlErr generateBrailleMusicFromScore (S_msrScore score)
+static xmlErr generateBrailleMusicFromScore (S_msrScore score)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -2435,7 +2435,7 @@ xmlErr generateBrailleMusicFromScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-xmlErr generateMusicXMLFromScore (S_msrScore score)
+static xmlErr generateMusicXMLFromScore (S_msrScore score)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -2489,7 +2489,7 @@ xmlErr generateMusicXMLFromScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-void initializeTheLibraryAndOAH (string executableName)
+static void initializeTheLibraryAndOAH (string executableName)
 {
   // initialize options handling, phase 1
   // ------------------------------------------------------
@@ -2607,7 +2607,7 @@ void initializeTheLibraryAndOAH (string executableName)
 }
 
 //------------------------------------------------------------------------
-void setTheDesiredOptions ()
+static void setTheDesiredOptions ()
 {
   /*
     This is a way to enforce options 'permanently'

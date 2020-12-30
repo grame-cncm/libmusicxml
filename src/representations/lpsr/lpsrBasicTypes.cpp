@@ -719,7 +719,7 @@ void initializeLpsrScoreOutputKindsMap ()
   gGlobalLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
 }
 
-string existingLpsrScoreOutputKinds (int namesListMaxLength)
+string existingLpsrScoreOutputKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -727,8 +727,8 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
     lpsrScoreOutputKindsMapSize =
       gGlobalLpsrScoreOutputKindsMap.size ();
 
-  if (lpsrScoreOutputKindsMapSize) {
-    int
+  if (lpsrScoreOutputKindsMapSize > 0) {
+    unsigned int
       nextToLast =
         lpsrScoreOutputKindsMapSize - 1;
 
@@ -813,8 +813,8 @@ string existingLpsrOctaveEntryKinds (unsigned int namesListMaxLength)
     lpsrOctaveEntryKindsMapSize =
       gGlobalLpsrOctaveEntryKindsMap.size ();
 
-  if (lpsrOctaveEntryKindsMapSize) {
-    int
+  if (lpsrOctaveEntryKindsMapSize > 0) {
+    unsigned int
       nextToLast =
         lpsrOctaveEntryKindsMapSize - 1;
 
@@ -1020,8 +1020,8 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
     accidentalStyleKindsMapSize =
       gGlobalLpsrAccidentalStyleKindsMap.size ();
 
-  if (accidentalStyleKindsMapSize) {
-    int
+  if (accidentalStyleKindsMapSize > 0) {
+    unsigned int
       nextToLast =
         accidentalStyleKindsMapSize - 1;
 
@@ -1107,7 +1107,7 @@ string existingLpsrChordsLanguageKinds (int namesListMaxLength)
     lpsrChordsLanguageKindsMapSize =
       gGlobalLpsrChordsLanguageKindsMap.size ();
 
-  if (lpsrChordsLanguageKindsMapSize) {
+  if (lpsrChordsLanguageKindsMapSize > 0) {
     int
       nextToLast =
         lpsrChordsLanguageKindsMapSize - 1;
@@ -1314,8 +1314,8 @@ string existingLpsrLyricsDurationsKinds (unsigned int namesListMaxLength)
     lpsrLyricsDurationsKindsMapSize =
       gGlobalLpsrLyricsDurationsKindsMap.size ();
 
-  if (lpsrLyricsDurationsKindsMapSize) {
-    int
+  if (lpsrLyricsDurationsKindsMapSize > 0) {
+    unsigned int
       nextToLast =
         lpsrLyricsDurationsKindsMapSize - 1;
 

@@ -142,7 +142,7 @@ static Sxmlelement makemeasure(unsigned long num)
 //------------------------------------------------------------------------
 // creates a part containing 'count' measures
 //------------------------------------------------------------------------
-Sxmlelement makePart(int count) {
+static Sxmlelement makePart (int count) {
 	Sxmlelement part = factory::instance().create(k_part);
 	part->add (newAttribute("id", kPartID));
 	for (int i=1; i<=count; i++)			// and 'count' times

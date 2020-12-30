@@ -2898,7 +2898,7 @@ if (true)
   }
 
   // register element's names in names to elements map
-  if (elementLongNameSize) {
+  if (elementLongNameSize > 0) {
     fHandlerNamesToElementsMap [elementLongName] = element;
 
     if (elementLongNameSize > fMaximumLongNameWidth) {
@@ -2915,7 +2915,7 @@ if (true)
   }
 
   // take element's display variable name length into account
-  int
+  unsigned int
     elementVariableNameLength =
       element->
         fetchVariableNameLength ();

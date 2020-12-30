@@ -28,7 +28,7 @@ static string options2string (const optionsVector& options)
 }
 */
 
-string xmlErrToString (xmlErr err)
+static string xmlErrToString (xmlErr err)
 {
   string result;
 

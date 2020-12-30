@@ -145,7 +145,7 @@ enum generatedCodeKind2 {
   kNoGeneratedCode,
   kGuido, kLilyPond, kBrailleMusic, kMusicXML };
 
-string generatedCodeKind2AsString (generatedCodeKind2 kind)
+static string generatedCodeKind2AsString (generatedCodeKind2 kind)
 {
   string result;
 
@@ -171,7 +171,7 @@ string generatedCodeKind2AsString (generatedCodeKind2 kind)
 }
 
 //_______________________________________________________________________________
-generatedCodeKind2 gGeneratedCodeKind2 = kNoGeneratedCode;
+static generatedCodeKind2 gGeneratedCodeKind2 = kNoGeneratedCode;
 
 void registerGeneratedCodeKind2 (generatedCodeKind2 kind)
 {

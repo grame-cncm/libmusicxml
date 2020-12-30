@@ -44,7 +44,7 @@ string lpsrScoreOutputKindAsString (
 extern map<string, lpsrScoreOutputKind>
   gGlobalLpsrScoreOutputKindsMap;
 
-string existingLpsrScoreOutputKinds (int namesListMaxLength);
+string existingLpsrScoreOutputKinds (unsigned int namesListMaxLength);
 
 void initializeLpsrScoreOutputKindsMap ();
 

@@ -127,7 +127,7 @@ static Sxmlelement makemeasure(unsigned long num) {
 //------------------------------------------------------------------------
 // creates a part containing 'count' measures
 //------------------------------------------------------------------------
-Sxmlelement makePart(int count) {
+static Sxmlelement makePart (int count) {
 	Sxmlelement part = factory::instance().create(k_part);
 	part->add (newAttribute("id", kPartID));
 	for (int i=1; i<=count; i++)			// and 'count' times
@@ -179,6 +179,7 @@ static Sxmlelement randomMusic(int measuresCount) {
 	return score;
 }
 
+//------------------------------------------------------------------------
 int main (int argc, char * argv[]) {
 	// if present, reads the measures count from the command line
 	int count = (argc == 2) ? atoi(argv[1]) : 20;
