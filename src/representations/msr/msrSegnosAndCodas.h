@@ -19,8 +19,9 @@
 namespace MusicXML2
 {
 
+/* JMI
 //______________________________________________________________________________
-class EXP msrStaffLevelElement : public msrMeasureElement
+class EXP msrStaffLevelElement : public msrMeasureElement // superflous ??? JMI
 {
   public:
 
@@ -38,7 +39,7 @@ class EXP msrStaffLevelElement : public msrMeasureElement
     msrStaffLevelElement (
       int inputLineNumber);
 
-    virtual ~msrStaffLevelElement ();
+    virtual ~msrStaffLevelElement () {};
 
   public:
 
@@ -79,6 +80,7 @@ class EXP msrStaffLevelElement : public msrMeasureElement
 };
 typedef SMARTP<msrStaffLevelElement> S_msrStaffLevelElement;
 EXP ostream& operator<< (ostream& os, const S_msrStaffLevelElement& elt);
+*/
 
 //______________________________________________________________________________
 class EXP msrSegno : public msrMeasureElement

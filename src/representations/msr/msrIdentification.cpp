@@ -395,7 +395,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
     list<string>::const_iterator i;
 
     for (i=fPoetsList.begin (); i!=fPoetsList.end (); i++) {
-      int length = (*i).size ();
+      unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
       }

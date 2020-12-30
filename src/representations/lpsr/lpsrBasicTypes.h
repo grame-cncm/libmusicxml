@@ -62,7 +62,7 @@ string lpsrOctaveEntryKindAsString (
 extern map<string, lpsrOctaveEntryKind>
   gGlobalLpsrOctaveEntryKindsMap;
 
-string existingLpsrOctaveEntryKinds (int namesListMaxLength);
+string existingLpsrOctaveEntryKinds (unsigned int namesListMaxLength);
 
 void initializeLpsrOctaveEntryKindsMap ();
 
@@ -167,7 +167,7 @@ string lpsrLyricsDurationsKindAsString (
 extern map<string, lpsrLyricsDurationsKind>
   gGlobalLpsrLyricsDurationsKindsMap;
 
-string existingLpsrLyricsDurationsKinds (int namesListMaxLength);
+string existingLpsrLyricsDurationsKinds (unsigned int namesListMaxLength);
 
 void initializeLpsrLyricsDurationsKindsMap ();
 

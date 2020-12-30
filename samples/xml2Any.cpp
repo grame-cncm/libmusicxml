@@ -101,7 +101,7 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 
 	string curOption;
 
-	for (int i = 0; i < stringsVector.size () - 1; i++) {
+	for (unsigned int i = 0; i < stringsVector.size () - 1; i++) {
 	  // -1 because the last argument is the input file name
 	  string str = stringsVector [i];
 

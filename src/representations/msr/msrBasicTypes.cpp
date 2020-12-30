@@ -192,7 +192,7 @@ ostream& operator<< (ostream& os, const msrDottedDuration& elt)
 //______________________________________________________________________________
 msrOctaveKind octaveSucc (msrOctaveKind octaveKind)
 {
-  msrOctaveKind result;
+  msrOctaveKind result = k_NoOctave;
 
   switch (octaveKind) {
     case k_NoOctave:
@@ -235,7 +235,7 @@ msrOctaveKind octaveSucc (msrOctaveKind octaveKind)
 
 msrOctaveKind octavePred (msrOctaveKind octaveKind)
 {
-  msrOctaveKind result;
+  msrOctaveKind result = k_NoOctave;
 
   switch (octaveKind) {
     case k_NoOctave:

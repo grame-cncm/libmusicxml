@@ -2337,7 +2337,7 @@ void oahGroup::printHelp (ostream& os) const
   // print the options subgroups
   if (fGroupSubGroupsList.size ()) {
     // compute the maximun sub group header length
-    int maximumSubGroupHeaderLength = 0;
+    unsigned int maximumSubGroupHeaderLength = 0;
 
     for (
       list<S_oahSubGroup>::const_iterator i = fGroupSubGroupsList.begin ();

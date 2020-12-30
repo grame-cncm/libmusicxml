@@ -131,7 +131,7 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 
 	string curOption;
 
-	for (int i = 0; i < stringsVector.size (); i++) {
+	for (unsigned int i = 0; i < stringsVector.size (); i++) {
 	  string str = stringsVector [i];
 
 #ifdef TRACING_IS_ENABLED

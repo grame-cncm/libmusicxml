@@ -227,7 +227,7 @@ string msrTimeItem::asString () const
       s <<
         "beats numbers: ";
 
-      for (int i = 0; i < vectorSize; i++) {
+      for (unsigned int i = 0; i < vectorSize; i++) {
         s <<
           fTimeBeatsNumbersVector [i];
 
@@ -820,7 +820,7 @@ rational msrTime::wholeNotesPerMeasure () const
 */
 
     // iterate over the others
-    for (int i = 0; i < vectorSize; i++) {
+    for (unsigned int i = 0; i < vectorSize; i++) {
       result +=
         rational (
           fTimeItemsVector [i]->getTimeBeatsNumber (),

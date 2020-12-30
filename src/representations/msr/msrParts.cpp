@@ -2315,7 +2315,7 @@ void msrPart::printPartMeasuresWholeNotesDurationsVector (
     os << "empty" << endl;
   }
   else {
-    for (int i = 0; i < fPartNumberOfMeasures; ++i) {
+    for (unsigned int i = 0; i < fPartNumberOfMeasures; ++i) {
       int j = i + 1;
       os << left <<
         "ordinal number " << setw (3) << right <<

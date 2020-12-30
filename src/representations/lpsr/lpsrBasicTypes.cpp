@@ -732,8 +732,8 @@ string existingLpsrScoreOutputKinds (int namesListMaxLength)
       nextToLast =
         lpsrScoreOutputKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, lpsrScoreOutputKind>::const_iterator i =
@@ -805,7 +805,7 @@ void initializeLpsrOctaveEntryKindsMap ()
   gGlobalLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
 }
 
-string existingLpsrOctaveEntryKinds (int namesListMaxLength)
+string existingLpsrOctaveEntryKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -818,8 +818,8 @@ string existingLpsrOctaveEntryKinds (int namesListMaxLength)
       nextToLast =
         lpsrOctaveEntryKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, lpsrOctaveEntryKind>::const_iterator i =
@@ -1025,8 +1025,8 @@ string existingLpsrAccidentalStyleKinds (int namesListMaxLength)
       nextToLast =
         accidentalStyleKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, lpsrAccidentalStyleKind>::const_iterator i =
@@ -1306,7 +1306,7 @@ void initializeLpsrLyricsDurationsKindsMap ()
   gGlobalLpsrLyricsDurationsKindsMap ["explicit"] = kLyricsDurationsExplicit;
 }
 
-string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
+string existingLpsrLyricsDurationsKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -1319,8 +1319,8 @@ string existingLpsrLyricsDurationsKinds (int namesListMaxLength)
       nextToLast =
         lpsrLyricsDurationsKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, lpsrLyricsDurationsKind>::const_iterator i =

@@ -12303,7 +12303,7 @@ void lpsr2lilypondTranslator::generateGraceNotesGroup (
       iEnd   = graceNotesGroupElementsList.end (),
       i      = iBegin;
 
-    int elementNumber = 0;
+    unsigned int elementNumber = 0;
 
     for ( ; ; ) {
       S_msrElement element = (*i);

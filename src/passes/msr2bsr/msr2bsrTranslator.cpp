@@ -1532,7 +1532,7 @@ void msr2bsrTranslator::visitStart (S_msrTime& elt)
 
       unsigned int vectorSize = mTimeBeatsNumbersVector.size ();
 
-      for (int i = 0; i < vectorSize; i++) {
+      for (unsigned int i = 0; i < vectorSize; i++) {
         int
           mTimeItemBeatsNumber =
             mTimeBeatsNumbersVector [i];

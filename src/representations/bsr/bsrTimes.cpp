@@ -238,7 +238,7 @@ string bsrTimeItem::asString () const
       s <<
         ", beats numbers: ";
 
-      for (int i = 0; i < timeBeatsNumbersVectorSize; i++) {
+      for (unsigned int i = 0; i < timeBeatsNumbersVectorSize; i++) {
         s <<
           fTimeBeatsNumbersVector [i];
 
