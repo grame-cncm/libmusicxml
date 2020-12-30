@@ -13,7 +13,7 @@
 
 #include <sstream>
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrWords.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -206,7 +206,7 @@ S_bsrWords bsrWords::create (
 bsrWords::bsrWords (
   int    inputLineNumber,
   string wordContents)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fWordContents = wordContents;
 

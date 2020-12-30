@@ -12,7 +12,7 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
-#include "msrMeasures_MUT_DEP.h"
+#include "msrMeasures.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

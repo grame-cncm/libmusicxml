@@ -15,7 +15,7 @@
 
 #include "bsrCellsLists.h"
 
-#include "bsrMusicHeadings_MUT_DEP.h"
+#include "bsrMusicHeadings.h"
 
 
 namespace MusicXML2

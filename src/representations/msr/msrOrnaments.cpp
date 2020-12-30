@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrOrnaments_MUT_DEP.h"
+#include "msrOrnaments.h"
 
 #include "oahOah.h"
 

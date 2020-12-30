@@ -12,10 +12,10 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
-#include "msrVoices_MUT_DEP.h"
+#include "msrVoices.h"
 
-#include "msrStaves_MUT_DEP.h"
-#include "msrRepeats_MUT_DEP.h"
+#include "msrStaves.h"
+#include "msrRepeats.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

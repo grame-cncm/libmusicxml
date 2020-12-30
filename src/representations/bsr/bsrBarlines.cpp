@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrBarlines.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -49,7 +49,7 @@ S_bsrBarline bsrBarline::create (
 bsrBarline::bsrBarline (
   int            inputLineNumber,
   bsrBarlineKind barlineKind)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fBarlineKind = barlineKind;
 

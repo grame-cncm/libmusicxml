@@ -13,7 +13,9 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrPaginations.h"
+
+#include "bsrNumbers.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -45,7 +47,7 @@ bsrPagination::bsrPagination (
   int inputLineNumber,
   int printPageNumber,
   int braillePageNumber)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fPrintPageNumber   = printPageNumber;
   fBraillePageNumber = braillePageNumber;

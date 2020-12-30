@@ -3,12 +3,15 @@
   to satisfy declarations mutual dependencies.
 */
 
-#ifndef ___bsrLinesContents_MUT_DEP___
-#define ___bsrLinesContents_MUT_DEP___
+#ifndef ___bsrLinesContents___
+#define ___bsrLinesContents___
+
+#include "bsrElements.h"
+#include "bsrLines.h"
+#include "bsrLineContentsElements.h"
 
 #include "bsrCellsLists.h"
-#include "bsrElements.h"
-#include "bsrLineElements_MUT_DEP.h"
+
 
 namespace MusicXML2
 {
@@ -60,17 +63,17 @@ class EXP bsrLineContents : public bsrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setBsrLineUpLink (
-                            S_bsrLine bsrLineUpLink);
+    void                  setLineContentsLineUpLink (
+                            S_bsrLine lineUpLink);
 
-    S_bsrLine             getBsrLineUpLink () const;
+    S_bsrLine             getLineContentsLineUpLink () const;
 
     bsrLineContentsKind   getLineContentsKind () const
                               { return fLineContentsKind; }
 
-    const list<S_bsrLineElement>&
-                          getLineContentsElementsList () const
-                              { return fLineContentsElementsList; }
+    const list<S_bsrLineContentsElement>&
+                          getLineContentsLineElementsList () const
+                              { return fLineContentsLineElementsList; }
 
   public:
 
@@ -78,10 +81,10 @@ class EXP bsrLineContents : public bsrElement
     // ------------------------------------------------------
 
     void                  appendLineElementToLineContents (
-                            S_bsrLineElement lineElement);
+                            S_bsrLineContentsElement lineElement);
 
     void                  insertLineElementBeforeLastElementOfLineContents (
-                            S_bsrLineElement lineElement);
+                            S_bsrLineContentsElement lineElement);
 
     S_bsrCellsList        fetchCellsList () const
                               { return buildLineContentsElementsList (); } // JMI ???
@@ -103,11 +106,11 @@ class EXP bsrLineContents : public bsrElement
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asString () const override;
+    virtual string        asString () const override;
 
-    virtual std::string   asShortString () const override;
+    virtual string        asShortString () const override;
 
-    virtual std::string   asDebugString () const;
+    virtual string        asDebugString () const;
 
     virtual void          print (ostream& os) const override;
 
@@ -123,12 +126,12 @@ class EXP bsrLineContents : public bsrElement
     // protected fields
     // ------------------------------------------------------
 
-    S_bsrLine             fBsrLineUpLink;
+    S_bsrLine             fLineContentsLineUpLink;
 
     bsrLineContentsKind   fLineContentsKind;
 
-    list<S_bsrLineElement>
-                          fLineContentsElementsList;
+    list<S_bsrLineContentsElement>
+                          fLineContentsLineElementsList;
 };
 typedef SMARTP<bsrLineContents> S_bsrLineContents;
 EXP ostream& operator<< (ostream& os, const S_bsrLineContents& elt);

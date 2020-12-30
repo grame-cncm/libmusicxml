@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrHarmonies_MUT_DEP.h"
+#include "msrHarmonies.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

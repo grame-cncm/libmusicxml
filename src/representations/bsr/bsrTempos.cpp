@@ -17,7 +17,10 @@
 #include "msrBasicTypes.h"
 #include "msrTempos.h"
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrTempos.h"
+
+#include "bsrNotes.h"
+#include "bsrNumbers.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -81,7 +84,7 @@ S_bsrTempo bsrTempo::create (
 bsrTempo::bsrTempo (
   int        inputLineNumber,
   S_msrTempo mTempo)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fMsrTempo  = mTempo;
 

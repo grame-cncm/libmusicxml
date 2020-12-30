@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrGlissandos_MUT_DEP.h"
+#include "msrGlissandos.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

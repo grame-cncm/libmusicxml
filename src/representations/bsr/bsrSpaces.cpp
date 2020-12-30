@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrSpaces.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -43,7 +43,7 @@ S_bsrSpaces bsrSpaces::create (
 bsrSpaces::bsrSpaces (
   int inputLineNumber,
   int numberOfSpaces)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fNumberOfSpaces = numberOfSpaces;
 

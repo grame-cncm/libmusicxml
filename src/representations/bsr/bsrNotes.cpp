@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrNotes.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -56,7 +56,7 @@ bsrNote::bsrNote (
   bsrNoteOctaveKind     noteOctaveKind,
   bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
   bsrAccidentalKind accidentalKind)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fNoteValueKind  = noteValueKind;
   fNoteDotsNumber = noteDotsNumber;

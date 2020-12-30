@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrSegments_MUT_DEP.h"
+#include "msrSegments.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

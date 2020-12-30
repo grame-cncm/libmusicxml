@@ -171,9 +171,9 @@ class EXP bsrCellsList : public smartable
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asString () const;
+    virtual string        asString () const;
 
-    virtual std::string   asShortString () const;
+    virtual string        asShortString () const;
 
     virtual void          print (ostream& os) const;
 

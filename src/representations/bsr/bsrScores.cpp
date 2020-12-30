@@ -15,7 +15,7 @@
 
 #include "utilities.h"
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrScores.h"
 
 #include "bsrScores.h"
 

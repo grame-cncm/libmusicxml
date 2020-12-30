@@ -14,7 +14,7 @@
 #include <iomanip>      // setw, setprecision, ...
 #include <algorithm>    // for_each
 
-#include "msrParts_MUT_DEP.h"
+#include "msrParts.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

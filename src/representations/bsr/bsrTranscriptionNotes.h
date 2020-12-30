@@ -15,7 +15,7 @@
 
 #include "bsrCellsLists.h"
 #include "bsrElements.h"
-#include "bsrLines_MUT_DEP.h"
+#include "bsrLines.h"
 
 
 namespace MusicXML2

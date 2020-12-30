@@ -65,9 +65,9 @@ class EXP bsrElement : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asString () const override;
+    virtual string        asString () const override;
 
-    virtual std::string   asShortString () const override;
+    virtual string        asShortString () const override;
 
     virtual void          print (ostream& os) const override;
 };

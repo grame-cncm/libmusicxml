@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrDynamics_MUT_DEP.h"
+#include "bsrDynamics.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -43,7 +43,7 @@ S_bsrDynamics bsrDynamics::create (
 bsrDynamics::bsrDynamics (
   int                          inputLineNumber,
   msrDynamics::msrDynamicsKind dynamicsKind)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fDynamicsKind  = dynamicsKind;
 

@@ -14,7 +14,7 @@
 
 #include "utilities.h"
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrPageHeadings.h"
 
 #include "oahOah.h"
 

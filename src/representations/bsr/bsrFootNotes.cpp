@@ -13,7 +13,7 @@
 #include <sstream>
 #include <iomanip> // for 'setw()'
 
-#include "bsrFootNotes_MUT_DEP.h"
+#include "bsrFootNotes.h"
 
 #include "utilities.h"
 

@@ -15,7 +15,7 @@
 #include "utilities.h"
 #include "messagesHandling.h"
 
-#include "bsrLines_MUT_DEP.h"
+#include "bsrLines.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -103,7 +103,7 @@ S_bsrLine bsrLine::createLineNewbornClone ()
   return newbornClone;
 }
 
-void bsrLine::appendLineElementToLine (S_bsrLineElement lineElement)
+void bsrLine::appendLineElementToLine (S_bsrLineContentsElement lineElement)
 {
   S_bsrLineContents
     lineContentsToAppendTo;
@@ -150,7 +150,7 @@ void bsrLine::appendLineElementToLine (S_bsrLineElement lineElement)
 }
 
 void bsrLine::insertElementBeforeLastElementOfLine (
-  S_bsrLineElement lineElement)
+  S_bsrLineContentsElement lineElement)
 {
   S_bsrLineContents
     lineContentsToAppendTo;
@@ -280,7 +280,7 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 }
 
 void bsrLine::appendLineElementToLastMeasureOfLine (
-  S_bsrLineElement lineElement)
+  S_bsrLineContentsElement lineElement)
 {
   S_bsrLineContents
     lineContentsToAppendTo;

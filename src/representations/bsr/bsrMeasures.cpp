@@ -14,7 +14,7 @@
 
 #include "utilities.h"
 
-#include "bsrMeasures_MUT_DEP.h"
+#include "bsrMeasures.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -47,7 +47,7 @@ S_bsrMeasure bsrMeasure::create (
 bsrMeasure::bsrMeasure (
   int    inputLineNumber,
   string printMeasureNumber)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fPrintMeasureNumber = printMeasureNumber;
 
@@ -94,7 +94,7 @@ S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
 }
 
 void bsrMeasure::appendLineElementToMeasure (
-  S_bsrLineElement lineElement)
+  S_bsrLineContentsElement lineElement)
 {
   fMeasureLineElementsList.push_back (lineElement);
 }
@@ -208,7 +208,7 @@ S_bsrCellsList bsrMeasure::buildCellsList () const
       bsrCellsList::create (fInputLineNumber);
 
   for (
-    list<S_bsrLineElement>::const_iterator i = fMeasureLineElementsList.begin ();
+    list<S_bsrLineContentsElement>::const_iterator i = fMeasureLineElementsList.begin ();
     i != fMeasureLineElementsList.end ();
     i++ ) {
     // append the braille for the element
@@ -280,7 +280,7 @@ void bsrMeasure::acceptOut (basevisitor* v)
 void bsrMeasure::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrLineElement>::const_iterator i = fMeasureLineElementsList.begin ();
+    list<S_bsrLineContentsElement>::const_iterator i = fMeasureLineElementsList.begin ();
     i != fMeasureLineElementsList.end ();
     i++ ) {
     // browse the element
@@ -314,7 +314,7 @@ string bsrMeasure::asDebugString () const // JMI
   int measureElementsListSize = fMeasureLineElementsList.size ();
 
   if (measureElementsListSize) {
-    list<S_bsrLineElement>::const_iterator
+    list<S_bsrLineContentsElement>::const_iterator
       iBegin = fMeasureLineElementsList.begin (),
       iEnd   = fMeasureLineElementsList.end (),
       i      = iBegin;
@@ -380,7 +380,7 @@ void bsrMeasure::print (ostream& os) const
       os << endl;
       gIndenter++;
 
-      list<S_bsrLineElement>::const_iterator
+      list<S_bsrLineContentsElement>::const_iterator
         iBegin = fMeasureLineElementsList.begin (),
         iEnd   = fMeasureLineElementsList.end (),
         i      = iBegin;

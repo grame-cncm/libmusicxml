@@ -13,7 +13,10 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrTimes.h"
+
+#include "bsrNotes.h"
+#include "bsrNumbers.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -284,7 +287,7 @@ S_bsrTime bsrTime::create (
 bsrTime::bsrTime (
   int         inputLineNumber,
   bsrTimeKind timeKind)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fTimeKind = timeKind;
 

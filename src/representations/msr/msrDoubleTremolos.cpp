@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrDoubleTremolos_MUT_DEP.h"
+#include "msrDoubleTremolos.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrNumbers.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -47,7 +47,7 @@ bsrNumber::bsrNumber (
   int       numberValue,
   bsrNumberSignIsNeededKind
             numberSignIsNeededKind)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fNumberValue = numberValue;
 

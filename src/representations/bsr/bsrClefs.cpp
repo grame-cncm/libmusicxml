@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrClefs_MUT_DEP.h"
+#include "bsrClefs.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -48,7 +48,7 @@ S_bsrClef bsrClef::create (
 bsrClef::bsrClef (
   int         inputLineNumber,
   bsrClefKind clefKind)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fClefKind = clefKind;
 

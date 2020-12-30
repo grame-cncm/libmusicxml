@@ -14,7 +14,7 @@
   This file declares classes that cannot be placed in 'individual' headers
   due to mutual dependencies, which C++ requires to be in one and the same file.
 
-  It includes the corresponding msr*_MUT_DEP.h files,
+  It includes the corresponding msr*.h files,
   which are meant to be included only in this one.
 */
 
@@ -93,51 +93,51 @@
 
 //______________________________________________________________________________
 
-#include "msrOrnaments_MUT_DEP.h"
+#include "msrOrnaments.h"
 
-#include "msrDoubleTremolos_MUT_DEP.h"
+#include "msrDoubleTremolos.h"
 
-#include "msrSpanners_MUT_DEP.h"
+#include "msrSpanners.h"
 
-#include "msrMeasures_MUT_DEP.h"
+#include "msrMeasures.h"
 
-#include "msrSegments_MUT_DEP.h"
+#include "msrSegments.h"
 
-#include "msrGraceNotes_MUT_DEP.h"
+#include "msrGraceNotes.h"
 
-#include "msrAfterGraceNotes_MUT_DEP.h"
+#include "msrAfterGraceNotes.h"
 
-#include "msrHarmonies_MUT_DEP.h"
+#include "msrHarmonies.h"
 
-#include "msrFiguredBasses_MUT_DEP.h"
+#include "msrFiguredBasses.h"
 
-#include "msrGlissandos_MUT_DEP.h"
+#include "msrGlissandos.h"
 
-#include "msrSlides_MUT_DEP.h"
+#include "msrSlides.h"
 
-#include "msrNotes_MUT_DEP.h"
+#include "msrNotes.h"
 
-#include "msrChords_MUT_DEP.h"
+#include "msrChords.h"
 
-#include "msrTuplets_MUT_DEP.h"
+#include "msrTuplets.h"
 
 #include "msrLyrics.h"
 
-#include "msrRepeats_MUT_DEP.h"
+#include "msrRepeats.h"
 
-#include "msrMeasuresRepeats_MUT_DEP.h"
+#include "msrMeasuresRepeats.h"
 
-#include "msrRestMeasures_MUT_DEP.h"
+#include "msrRestMeasures.h"
 
-#include "msrBeatsRepeats_MUT_DEP.h"
+#include "msrBeatsRepeats.h"
 
-#include "msrRepeatCodas_MUT_DEP.h"
+#include "msrRepeatCodas.h"
 
-#include "msrVoices_MUT_DEP.h"
+#include "msrVoices.h"
 
-#include "msrStaves_MUT_DEP.h"
+#include "msrStaves.h"
 
-#include "msrParts_MUT_DEP.h"
+#include "msrParts.h"
 
 
 #endif

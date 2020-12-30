@@ -22,7 +22,7 @@
 /Users/menu/libmusicxml-git/src/representations/bsr/bsrLineContents.cpp:51:18: note: in instantiation of member function 'MusicXML2::SMARTP<MusicXML2::bsrLine>::~SMARTP' requested here
 1 error generated.
 */
-#include "bsrLines_MUT_DEP.h"
+#include "bsrLineContents.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -100,13 +100,13 @@ S_bsrLine bsrLineContents::getBsrLineUpLink () const
 */
 
 void bsrLineContents::appendLineElementToLineContents (
-  S_bsrLineElement lineElement)
+  S_bsrLineContentsElement lineElement)
 {
-  fLineContentsElementsList.push_back (lineElement);
+  fLineContentsLineElementsList.push_back (lineElement);
 }
 
 void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
-  S_bsrLineElement lineElement)
+  S_bsrLineContentsElement lineElement)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceTimes () || gGlobalTraceOahGroup->getTraceMeasures ()) {
@@ -120,16 +120,18 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
     }
 #endif
 
-  int
+  unsigned int
     lineContentsElementsListSize =
-      fLineContentsElementsList.size ();
+      fLineContentsLineElementsList.size ();
 
   if (lineContentsElementsListSize > 0) {
-    list<S_bsrLineElement>::iterator it = fLineContentsElementsList.begin();
+    list<S_bsrLineContentsElement>::iterator it =
+      fLineContentsLineElementsList.begin();
 
     std::advance (it, lineContentsElementsListSize - 1);
 
-    fLineContentsElementsList.insert (it, lineElement);
+    fLineContentsLineElementsList.insert (
+      it, lineElement);
   }
   else {
     stringstream s;
@@ -154,11 +156,12 @@ S_bsrCellsList bsrLineContents::buildLineContentsElementsList () const
       bsrCellsList::create (fInputLineNumber);
 
   for (
-    list<S_bsrLineElement>::const_iterator i = fLineContentsElementsList.begin ();
-    i != fLineContentsElementsList.end ();
+    list<S_bsrLineContentsElement>::const_iterator i =
+      fLineContentsLineElementsList.begin ();
+    i != fLineContentsLineElementsList.end ();
     i++
   ) {
-    S_bsrLineElement lineElement = (*i);
+    S_bsrLineContentsElement lineElement = (*i);
 
     result->
       appendCellsListToCellsList (
@@ -174,11 +177,12 @@ int bsrLineContents::fetchCellsNumber () const
   int result = 0;
 
   for (
-    list<S_bsrLineElement>::const_iterator i = fLineContentsElementsList.begin ();
-    i != fLineContentsElementsList.end ();
+    list<S_bsrLineContentsElement>::const_iterator i =
+      fLineContentsLineElementsList.begin ();
+    i != fLineContentsLineElementsList.end ();
     i++
   ) {
-    S_bsrLineElement lineElement = (*i);
+    S_bsrLineContentsElement lineElement = (*i);
 
     result += lineElement->fetchCellsNumber ();
   } // for
@@ -241,11 +245,12 @@ void bsrLineContents::acceptOut (basevisitor* v)
 void bsrLineContents::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrLineElement>::const_iterator i = fLineContentsElementsList.begin ();
-    i != fLineContentsElementsList.end ();
+    list<S_bsrLineContentsElement>::const_iterator i =
+      fLineContentsLineElementsList.begin ();
+    i != fLineContentsLineElementsList.end ();
     i++ ) {
     // browse the element
-    bsrBrowser<bsrLineElement> browser (v);
+    bsrBrowser<bsrLineContentsElement> browser (v);
     browser.browse (*(*i));
   } // for
 }
@@ -282,7 +287,7 @@ string bsrLineContents::asShortString () const
     lineContentsKindAsString (fLineContentsKind) <<
     ", " <<
     singularOrPlural (
-      fLineContentsElementsList.size (), "lineElement", "lineElements");
+      fLineContentsLineElementsList.size (), "lineElement", "lineElements");
 
   return s.str ();
 }
@@ -295,7 +300,8 @@ string bsrLineContents::asString () const
 
 void bsrLineContents::print (ostream& os) const
 {
-  int lineElementsListSize = fLineContentsElementsList.size ();
+  unsigned int lineElementsListSize =
+    fLineContentsLineElementsList.size ();
 
   os <<
     "LineContents" <<
@@ -321,7 +327,7 @@ void bsrLineContents::print (ostream& os) const
   if (lineElementsListSize || gGlobalBsrOahGroup->getDisplayBsrDetails ()) {
     os <<
 //      setw (fieldWidth) <<
-      "LineElementsList" <<
+      "LineContentsLineElementsList" <<
       ", " <<
       singularOrPlural (
         lineElementsListSize, "lineElement", "lineElements");
@@ -329,9 +335,9 @@ void bsrLineContents::print (ostream& os) const
       os << endl;
       gIndenter++;
 
-      list<S_bsrLineElement>::const_iterator
-        iBegin = fLineContentsElementsList.begin (),
-        iEnd   = fLineContentsElementsList.end (),
+      list<S_bsrLineContentsElement>::const_iterator
+        iBegin = fLineContentsLineElementsList.begin (),
+        iEnd   = fLineContentsLineElementsList.end (),
         i      = iBegin;
       for ( ; ; ) {
         os << (*i);
@@ -355,13 +361,14 @@ string bsrLineContents::asDebugString () const
 {
   stringstream s;
 
-  int lineElementsListSize = fLineContentsElementsList.size ();
+  unsigned int lineElementsListSize =
+    fLineContentsLineElementsList.size ();
 
   // collect the line elements debug strings if any
   if (lineElementsListSize) {
-    list<S_bsrLineElement>::const_iterator
-      iBegin = fLineContentsElementsList.begin (),
-      iEnd   = fLineContentsElementsList.end (),
+    list<S_bsrLineContentsElement>::const_iterator
+      iBegin = fLineContentsLineElementsList.begin (),
+      iEnd   = fLineContentsLineElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       s << (*i)->asDebugString ();

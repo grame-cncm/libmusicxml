@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrMeasuresRepeats_MUT_DEP.h"
+#include "msrMeasuresRepeats.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

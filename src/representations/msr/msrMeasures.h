@@ -1,0 +1,826 @@
+/*
+  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
+  to satisfy declarations mutual dependencies.
+*/
+
+#ifndef ___msrMeasures___
+#define ___msrMeasures___
+
+#include "msrElements.h"
+#include "msrFiguredBasses.h"
+#include "msrHarmonies.h"
+#include "msrParts.h"
+#include "msrPartGroups.h"
+#include "msrNotes.h"
+#include "msrScores.h"
+#include "msrSegments.h"
+#include "msrStaves.h"
+#include "msrTuplets.h"
+#include "msrVoices.h"
+
+
+namespace MusicXML2
+{
+
+//______________________________________________________________________________
+// pre-declaration
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
+class msrLineBreak;
+typedef SMARTP<msrLineBreak> S_msrLineBreak;
+
+class msrPageBreak;
+typedef SMARTP<msrPageBreak> S_msrPageBreak;
+
+class msrTempo;
+typedef SMARTP<msrTempo> S_msrTempo;
+
+class msrRehearsal;
+typedef SMARTP<msrRehearsal> S_msrRehearsal;
+
+class msrDoubleTremolo;
+typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
+
+//______________________________________________________________________________
+class EXP msrMeasure : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrMeasureFirstInSegmentKind {
+      kMeasureFirstInSegmentKindUnknown,
+      kMeasureFirstInSegmentKindYes,
+      kMeasureFirstInSegmentKindNo
+    };
+
+    static string measureFirstInSegmentKindAsString (
+      msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
+
+    enum msrMeasuresRepeatContextKind {
+      kMeasuresRepeatContextKindUnknown,
+      kMeasuresRepeatContextKindNone,
+      kMeasuresRepeatContextKindCommonPartLastMeasure,
+      kMeasuresRepeatContextKindHookedEndingLastMeasure,
+      kMeasuresRepeatContextKindHooklessEndingLastMeasure,
+      kMeasuresRepeatContextKindNextMeasureAfterCommonPart,
+      kMeasuresRepeatContextKindNextMeasureAfterHookedEnding,
+      kMeasuresRepeatContextKindNextMeasureAfterHooklessEnding
+    };
+
+    static string measuresRepeatContextKindAsString (
+      msrMeasuresRepeatContextKind measuresRepeatContextKind);
+
+    enum msrMeasureEndRegularKind {
+      kMeasureEndRegularKindUnknown,
+      kMeasureEndRegularKindYes,
+      kMeasureEndRegularKindNo
+    };
+
+    static string measureEndRegularKindAsString (
+      msrMeasureEndRegularKind measureEndRegularKind);
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrMeasure> create (
+      int          inputLineNumber,
+      string       measureNumber,
+      S_msrSegment measureSegmentUpLink);
+
+    SMARTP<msrMeasure> createMeasureNewbornClone (
+      S_msrSegment containingSegment);
+
+    SMARTP<msrMeasure> createMeasureDeepCopy (
+      S_msrSegment containingSegment);
+
+    SMARTP<msrMeasure> createMeasureCopyWithNotesOnly (
+      S_msrSegment containingSegment,
+      string       measureNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMeasure (
+      int          inputLineNumber,
+      string       measureNumber,
+      S_msrSegment measureSegmentUpLink);
+
+    virtual ~msrMeasure ();
+
+  private:
+
+    // private initialization
+    // ------------------------------------------------------
+
+    void                  initializeMeasure ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // uplink
+
+    S_msrSegment          getMeasureSegmentUpLink () const
+                              { return fMeasureSegmentUpLink; }
+
+    // measure numbers
+
+    void                  setMeasureElementMeasureNumber (
+                            string measureNumber)
+                              { fMeasureElementMeasureNumber = measureNumber; }
+
+    string                getMeasureElementMeasureNumber () const
+                              { return fMeasureElementMeasureNumber; }
+
+    void                  setMeasureOrdinalNumberInVoice (
+                            int measureOrdinalNumber)
+                              { fMeasureOrdinalNumberInVoice = measureOrdinalNumber; }
+
+    int                   getMeasureOrdinalNumberInVoice () const
+                              { return fMeasureOrdinalNumberInVoice; }
+
+    void                  setMeasurePuristNumber (
+                            int measurePuristNumber);
+
+    int                   getMeasurePuristNumber () const
+                              { return fMeasurePuristNumber; }
+
+    void                  setNextMeasureNumber (string nextMeasureNumber);
+
+    string                getNextMeasureNumber () const
+                              { return fNextMeasureNumber; }
+
+    void                  setMeasureFirstInVoice ();
+
+    bool                  getMeasureFirstInVoice () const
+                              { return fMeasureFirstInVoice; }
+
+    // measure lengthes, in whole notes
+
+    void                  setFullMeasureWholeNotesDuration (
+                            rational wholeNotes);
+
+    rational              getFullMeasureWholeNotesDuration () const
+                              {  return fFullMeasureWholeNotesDuration; }
+
+    void                  setCurrentMeasureWholeNotesDuration (
+                            int      inputLineNumber,
+                            rational wholeNotes);
+    void                  incrementCurrentMeasureWholeNotesDuration (
+                            int      inputLineNumber,
+                            rational delta);
+
+    rational              getCurrentMeasureWholeNotesDuration () const
+                              { return fCurrentMeasureWholeNotesDuration; }
+
+    // measure kind
+
+    void                  setMeasureKind (
+                            msrMeasureKind measureKind);
+
+    msrMeasureKind        getMeasureKind () const
+                              { return fMeasureKind; }
+
+    // measure implicit kind
+
+    void                  setMeasureImplicitKind (
+                            msrMeasureImplicitKind measureImplicitKind)
+                              {
+                                fMeasureImplicitKind =
+                                  measureImplicitKind;
+                              }
+
+    msrMeasureImplicitKind
+                          getMeasureImplicitKind () const
+                              { return fMeasureImplicitKind; }
+
+
+    // measure 'first in segment' kind
+
+    void                  setMeasureFirstInSegmentKind (
+                            msrMeasureFirstInSegmentKind
+                              measureFirstInSegmentKind)
+                              {
+                                fMeasureFirstInSegmentKind =
+                                  measureFirstInSegmentKind;
+                              }
+
+    msrMeasureFirstInSegmentKind
+                          getMeasureFirstInSegmentKind () const
+                              { return fMeasureFirstInSegmentKind; }
+
+    // single-measure rest?
+
+
+    void                  setMeasureIsAFullMeasureRest ()
+                              { fMeasureIsAFullMeasureRest = true; }
+
+    bool                  getMeasureIsAFullMeasureRest () const
+                             { return fMeasureIsAFullMeasureRest; }
+
+    // measure longest note
+
+    S_msrNote             getMeasureLongestNote () const
+                              { return fMeasureLongestNote; }
+
+    // chords handling
+
+    S_msrNote             getMeasureLastHandledNote () const
+                              { return fMeasureLastHandledNote; }
+
+    // elements list
+
+    const list<S_msrMeasureElement>&
+                          getMeasureElementsList () const
+                              { return fMeasureElementsList; }
+
+    bool                  getMeasureContainsMusic () const
+                              { return fMeasureContainsMusic; }
+
+    // regular measure ends detection
+
+    void                  setMeasureEndRegularKind (
+                            msrMeasureEndRegularKind measureEndRegularKind);
+
+    msrMeasureEndRegularKind
+                          getMeasureEndRegularKind () const
+                              { return fMeasureEndRegularKind; }
+
+    // repeat context
+
+    void                  setMeasuresRepeatContextKind (
+                            msrMeasuresRepeatContextKind
+                              measuresRepeatContextKind);
+
+    msrMeasuresRepeatContextKind
+                          getMeasuresRepeatContextKind () const
+                              { return fMeasuresRepeatContextKind; }
+
+    // position in voice
+
+    void                  setMeasurePositionInVoice (
+                            rational value)
+                              { fMeasurePositionInVoice = value; }
+
+    rational              getMeasurePositionInVoice () const
+                              { return fMeasurePositionInVoice; }
+
+    void                  setMeasureMomentInVoice (
+                            msrMoment value)
+                              { fMeasureMomentInVoice = value; }
+
+    const msrMoment&      getMeasureMomentInVoice () const
+                              { return fMeasureMomentInVoice; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+    // upLinks
+
+    S_msrVoice            fetchMeasureVoiceUpLink () const;
+
+    S_msrStaff            fetchMeasureStaffUpLink () const;
+
+    S_msrPart             fetchMeasurePartUpLink () const;
+
+    S_msrPartGroup        fetchMeasurePartGroupUpLink () const;
+
+    S_msrScore            fetchMeasureScoreUpLink () const;
+
+    // lengthes
+
+    string                fullMeasureWholeNotesDurationAsMSRString ();
+
+    string                currentMeasureWholeNotesDurationAsMSRString ();
+
+    // backup and padding
+
+    S_msrNote             createPaddingSkipNoteForVoice (
+                            int        inputLineNumber,
+                            rational   duration,
+                            S_msrVoice voice);
+
+    void                  padUpToPositionInMeasureInMeasure (
+                            int      inputLineNumber,
+                            rational wholeNotes);
+
+    void                  backupByWholeNotesStepLengthInMeasure (
+                            int      inputLineNumber,
+                            rational backupTargetMeasureElementPositionInMeasure);
+
+    void                  appendPaddingSkipNoteToMeasure (
+                            int      inputLineNumber,
+                            rational forwardStepLength);
+
+    // rest measures
+
+    bool                  measureIsARestMeasure () const;
+
+    // print layout
+
+    void                  appendPrintLayoutToMeasure (
+                            S_msrPrintLayout printLayout);
+
+    S_msrPrintLayout      getMeasurePrintLayout () const
+                              { return fMeasurePrintLayout; }
+
+    // clefs
+
+    void                  appendClefToMeasure (S_msrClef clef);
+
+    // keys
+
+    void                  appendKeyToMeasure (S_msrKey key);
+
+    // times
+
+    void                  appendTimeToMeasure (S_msrTime time);
+
+    void                  setFullMeasureWholeNotesDurationFromTime (
+                            S_msrTime time);
+
+    void                  appendTimeToMeasureClone (S_msrTime time);
+
+    // dal segno
+
+    void                  insertHiddenMeasureAndBarlineInMeasureClone (
+                            int      inputLineNumber,
+                            rational positionInMeasure);
+
+    // transpose
+
+    void                  appendTransposeToMeasure (
+                            S_msrTranspose transpose);
+
+    // part name display
+
+    void                  appendPartNameDisplayToMeasure (
+                            S_msrPartNameDisplay partNameDisplay);
+
+    // part abbreviation display
+
+    void                  appendPartAbbreviationDisplayToMeasure (
+                            S_msrPartAbbreviationDisplay partAbbreviationDisplay);
+
+    // staff details
+
+    void                  appendStaffDetailsToMeasure (
+                            S_msrStaffDetails staffDetails);
+
+    // bar number checks
+
+    void                  appendBarNumberCheckToMeasure (
+                            S_msrBarNumberCheck barNumberCheck);
+
+    // breaks
+
+    void                  appendLineBreakToMeasure (S_msrLineBreak lineBreak);
+    void                  appendPageBreakToMeasure (S_msrPageBreak pageBreak);
+
+    // tempo
+
+    void                  appendTempoToMeasure (S_msrTempo tempo);
+
+    // rehearsals
+
+    void                  appendRehearsalToMeasure (
+                            S_msrRehearsal rehearsal);
+
+    // octave shifts
+
+    void                  appendOctaveShiftToMeasure (
+                            S_msrOctaveShift octaveShift);
+
+    // scordaturas
+
+    void                  appendScordaturaToMeasure (
+                            S_msrScordatura scordatura);
+
+    // accordion registration
+
+    void                  appendAccordionRegistrationToMeasure (
+                            S_msrAccordionRegistration
+                              accordionRegistration);
+
+    // harp pedals tuning
+
+    void                  appendHarpPedalsTuningToMeasure (
+                            S_msrHarpPedalsTuning
+                              harpPedalsTuning);
+
+    // bar lines
+
+    void                  appendBarlineToMeasure (S_msrBarline barline);
+    void                  prependBarlineToMeasure (S_msrBarline barline);
+
+    // bar checks
+
+    void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
+
+    // staff change
+
+    void                  appendVoiceStaffChangeToMeasure (
+                            S_msrVoiceStaffChange voiceStaffChange);
+
+    // notes
+
+    void                  appendNoteToMeasure (
+                            S_msrNote note,
+                            rational  partCurrentPositionInMeasure);
+
+    void                  appendNoteOrPaddingToMeasure (
+                            S_msrNote note);
+
+    void                  accountForTupletMemberNoteDurationInMeasure (
+                            S_msrNote note);
+
+    void                  appendPaddingNoteAtTheEndOfMeasure (S_msrNote note);
+
+    void                  appendNoteToMeasureClone (S_msrNote note);
+
+    // tremolos
+
+    void                  appendDoubleTremoloToMeasure (
+                            S_msrDoubleTremolo doubleTremolo);
+
+     // chords
+
+    void                  appendChordToMeasure (
+                            S_msrChord chord);
+
+    // tuplets
+
+    void                  appendTupletToMeasure (
+                            S_msrTuplet tuplet);
+
+    // harmonies
+
+    void                  appendHarmonyToMeasure (
+                            S_msrHarmony harmony);
+
+    void                  appendHarmonyToMeasureClone (
+                            S_msrHarmony harmony);
+
+    // frames
+
+    void                  appendFrameToMeasure (
+                            S_msrFrame frame);
+
+    void                  appendFrameToMeasureClone (
+                            S_msrFrame frame);
+
+    // figured bass
+
+    void                  appendFiguredBassToMeasure (
+                            S_msrFiguredBass figuredBass);
+
+    void                  appendFiguredBassToMeasureClone (
+                            S_msrFiguredBass figuredBass);
+
+    // grace notes
+
+    /* JMI
+    void                  addGraceNotesGroupAheadOfMeasure (
+                            S_msrGraceNotesGroup graceNotesGroup);
+
+    void                  appendGraceNotesToMeasure (
+                            S_msrGraceNotes graceNotes);
+
+    void                  appendAfterGraceNotesToMeasure (
+                            S_msrAfterGraceNotes afterGraceNotes);
+
+    void                  prependAfterGraceNotesToMeasure (
+                            S_msrAfterGraceNotes afterGraceNotes);
+                            */
+
+    // segno
+
+    void                  appendSegnoToMeasure (S_msrSegno segno);
+
+    // coda
+
+    void                  appendCodaToMeasure (S_msrCoda coda);
+
+    // eyeglasses
+
+    void                  appendEyeGlassesToMeasure (
+                            S_msrEyeGlasses eyeGlasses);
+
+    // pedal
+
+    void                  appendPedalToMeasure (S_msrPedal pedal);
+
+    // damp
+
+    void                  appendDampToMeasure (S_msrDamp damp);
+
+    // damp all
+
+    void                  appendDampAllToMeasure (S_msrDampAll dampAll);
+
+    // other elements
+
+    void                  prependOtherElementToMeasure (
+                            S_msrMeasureElement elem);
+    void                  appendOtherElementToMeasure (
+                            S_msrMeasureElement elem);
+
+    // last element of measure
+
+    S_msrElement          getLastElementOfMeasure () const
+                              { return fMeasureElementsList.back (); }
+
+     /* JMI
+    S_msrElement          removeLastElementFromMeasure (
+                            int inputLineNumber);
+*/
+
+    // removing elements from measure
+
+    void                  removeNoteFromMeasure (
+                            int       inputLineNumber,
+                            S_msrNote note);
+
+    void                  removeElementFromMeasure (
+                            int          inputLineNumber,
+                            S_msrElement elem);
+
+    // finalization
+
+    void                  determineMeasureKindAndPuristNumber (
+                            int     inputLineNumber,
+                            msrMeasuresRepeatContextKind
+                                    measuresRepeatContextKind);
+
+    void                  padUpToPositionInMeasure (
+                            int      inputLineNumber,
+                            rational positionInMeasureToPadUpTo);
+
+    void                  padUpToPositionAtTheEndOfTheMeasure (
+                            int      inputLineNumber,
+                            rational positionInMeasureToPadUpTo);
+
+    void                  finalizeMeasure (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
+    void                  finalizeRegularMeasure (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
+    void                  finalizeHarmonyMeasure (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
+    void                  finalizeFiguredBassMeasure (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
+    void                  finalizeMeasureClone (
+                            int          inputLineNumber,
+                            S_msrMeasure originalMeasure,
+                            S_msrVoice   voiceClone);
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  appendElementToMeasure (
+                            S_msrMeasureElement elem);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v) override;
+    virtual void          acceptOut (basevisitor* v) override;
+
+    virtual void          browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asShortString () const override;
+    string                asString () const override;
+
+    void                  displayMeasure (
+                            int    inputLineNumber,
+                            string context);
+
+    virtual void          print (ostream& os) const override;
+
+    virtual void          printShort (ostream& os) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    // upLinks
+
+    S_msrSegment          fMeasureSegmentUpLink;
+
+    // measure lengthes, in whole notes
+
+    rational              fFullMeasureWholeNotesDuration;
+                            // meaningfull only
+                            // when there is a time signature,
+                            // but not for cadenzas
+
+    rational              fCurrentMeasureWholeNotesDuration;
+                            // this increases when musical elements
+                            // are appended to the measure
+
+    // measure numbers, shared by newborn clones and deep copies
+
+    string                fMeasureElementMeasureNumber;
+    string                fNextMeasureNumber;
+
+    int                   fMeasureOrdinalNumberInVoice;
+
+    // purist measure number, forcing anacruses to start at '0' if it's not the case
+    // and not shared among repeats components
+
+    int                   fMeasurePuristNumber;
+
+    // debug number, unique for every msrMeasure instance
+
+    static int            gMeasureDebugNumber;
+    int                   fMeasureDebugNumber;
+
+    // first measure in voice?
+
+    bool                  fMeasureFirstInVoice;
+
+    // measure print layout, MusicXML specific
+
+    S_msrPrintLayout      fMeasurePrintLayout;
+
+    // measure longest note
+
+    S_msrNote             fMeasureLongestNote;
+
+    // measure kind
+
+    msrMeasureKind        fMeasureKind;
+
+    // measure implicit kind
+
+    msrMeasureImplicitKind
+                          fMeasureImplicitKind;
+
+    // measure 'first in segment' kind
+
+    msrMeasureFirstInSegmentKind
+                          fMeasureFirstInSegmentKind;
+
+    // single-measure rest?
+
+    bool                  fMeasureIsAFullMeasureRest;
+
+    // chords handling
+
+    S_msrNote             fMeasureLastHandledNote;
+
+    // elements
+
+    list<S_msrMeasureElement>
+                          fMeasureElementsList;
+
+    bool                  fMeasureContainsMusic;
+
+    // regular measure ends detection
+    msrMeasureEndRegularKind
+                          fMeasureEndRegularKind;
+
+    // repeat context
+    msrMeasuresRepeatContextKind
+                          fMeasuresRepeatContextKind;
+
+    // position in voice
+    rational              fMeasurePositionInVoice;
+    msrMoment             fMeasureMomentInVoice;
+
+  public:
+
+    // public work services
+    // ------------------------------------------------------
+
+  private:
+
+    // private work services
+    // ------------------------------------------------------
+
+    // harmonies
+    void                  handleFirstHarmonyInHarmonyMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            list<S_msrMeasureElement>::iterator&
+                                         i,
+                            S_msrHarmony previousHarmony,
+                            S_msrHarmony currentHarmony,
+                            rational     currentHarmonyPositionInMeasure);
+
+    void                  handleSubsequentHarmonyInHarmonyMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            list<S_msrMeasureElement>::iterator&
+                                         i,
+                            S_msrHarmony previousHarmony,
+                            S_msrHarmony currentHarmony,
+                            rational     currentHarmonyPositionInMeasure);
+
+    void                  postHandleCurrentHarmonyInHarmonyMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            S_msrHarmony currentHarmony);
+
+    void                  handleHarmoniesInHarmonyMeasureFinalization (
+                            int    inputLineNumber,
+                            string context);
+
+    // figurd bass
+    void                  handleFirstFiguredBassInFiguredBassMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            list<S_msrMeasureElement>::iterator&
+                                         i,
+                            S_msrFiguredBass previousFiguredBass,
+                            S_msrFiguredBass currentFiguredBass,
+                            rational     currentFiguredBassPositionInMeasure);
+
+    void                  handleSubsequentFiguredBassInFiguredBassMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            list<S_msrMeasureElement>::iterator&
+                                         i,
+                            S_msrFiguredBass previousFiguredBass,
+                            S_msrFiguredBass currentFiguredBass,
+                            rational     currentFiguredBassPositionInMeasure);
+
+    void                  postHandleCurrentFiguredBassInFiguredBassMeasure (
+                            int          inputLineNumber,
+                            S_msrVoice   voice,
+                            S_msrFiguredBass currentFiguredBass);
+
+    void                  handleFiguredBassesInFiguredBassMeasureFinalization (
+                            int    inputLineNumber,
+                            string context);
+
+    // measure elements
+    void                  insertElementInMeasureBeforeIterator (
+                            int                                 inputLineNumber,
+                            list<S_msrMeasureElement>::iterator iter,
+                            S_msrMeasureElement                 elem);
+
+    void                  appendElementAtTheEndOfMeasure (
+                            S_msrMeasureElement elem);
+
+    void                  insertElementAtPositionInMeasure (
+                            int                 inputLineNumber,
+                            rational            positionInMeasure,
+                            S_msrMeasureElement elem);
+
+    void                  printMeasurePendingMeasureElementsList ();
+
+  private:
+
+    // work fields
+    // ------------------------------------------------------
+
+    // pending measure elements, which may have to be delayed
+    // because of <backup />
+
+    list<S_msrMeasureElement>
+                          fMeasurePendingMeasureElementsList;
+
+    // measure finalization
+    bool                  fMeasureHasBeenFinalized;
+    bool                  fMeasureKindAndPuristNumberHaveBeenDetermined;
+
+    string                fMeasureFinalizationContext;
+};
+typedef SMARTP<msrMeasure> S_msrMeasure;
+EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
+
+
+}
+
+
+#endif

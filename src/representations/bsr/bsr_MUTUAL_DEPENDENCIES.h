@@ -14,7 +14,7 @@
   This file declares classes that cannot be placed in 'individual' headers
   due to mutual dependencies, which C++ requires to be in one and the same file.
 
-  It includes the corresponding bsr*_MUT_DEP.h files,
+  It includes the corresponding bsr*.h files,
   which are meant to be included only in this one.
 */
 
@@ -29,43 +29,43 @@
 
 //______________________________________________________________________________
 
-#include "bsrLineElements_MUT_DEP.h"
+#include "bsrLineContentsElements.h"
 
-#include "bsrPageElements_MUT_DEP.h"
+#include "bsrPageElements.h"
 
-#include "bsrLines_MUT_DEP.h"
+#include "bsrLines.h"
 
-#include "bsrSpaces_MUT_DEP.h"
+#include "bsrSpaces.h"
 
-#include "bsrPaginations_MUT_DEP.h"
+#include "bsrPaginations.h"
 
-#include "bsrClefs_MUT_DEP.h"
+#include "bsrClefs.h"
 
-#include "bsrKeys_MUT_DEP.h"
+#include "bsrKeys.h"
 
-#include "bsrTimes_MUT_DEP.h"
+#include "bsrTimes.h"
 
-#include "bsrBarlines_MUT_DEP.h"
+#include "bsrBarlines.h"
 
-#include "bsrNumbers_MUT_DEP.h"
+#include "bsrNumbers.h"
 
-#include "bsrWords_MUT_DEP.h"
+#include "bsrWords.h"
 
-#include "bsrNotes_MUT_DEP.h"
+#include "bsrNotes.h"
 
-#include "bsrDynamics_MUT_DEP.h"
+#include "bsrDynamics.h"
 
-#include "bsrMeasures_MUT_DEP.h"
+#include "bsrMeasures.h"
 
-#include "bsrTempos_MUT_DEP.h"
+#include "bsrTempos.h"
 
-#include "bsrPageHeadings_MUT_DEP.h"
+#include "bsrPageHeadings.h"
 
-#include "bsrMusicHeadings_MUT_DEP.h"
+#include "bsrMusicHeadings.h"
 
-#include "bsrFootNotes_MUT_DEP.h"
+#include "bsrFootNotes.h"
 
-#include "bsrPages_MUT_DEP.h"
+#include "bsrPages.h"
 
 
 #endif

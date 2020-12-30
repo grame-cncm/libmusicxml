@@ -12,7 +12,7 @@
 
 #include "msrPartGroups.h"
 
-#include "msrParts_MUT_DEP.h"
+#include "msrParts.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

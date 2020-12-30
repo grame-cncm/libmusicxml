@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrTuplets_MUT_DEP.h"
+#include "msrTuplets.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

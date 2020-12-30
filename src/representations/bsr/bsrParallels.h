@@ -14,7 +14,7 @@
 #define ___bsrParallels___
 
 #include "bsrElements.h"
-#include "bsrLines_MUT_DEP.h"
+#include "bsrLines.h"
 
 #include "bsrOah.h"
 

@@ -13,8 +13,8 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrKeys_MUT_DEP.h"
-#include "bsrNumbers_MUT_DEP.h"
+#include "bsrKeys.h"
+#include "bsrNumbers.h"
 
 #include "utilities.h"
 #include "messagesHandling.h"
@@ -53,7 +53,7 @@ bsrKey::bsrKey (
   int        inputLineNumber,
   bsrKeyKind keyKind,
   int        numberOfAlterations)
-    : bsrLineElement (inputLineNumber)
+    : bsrLineContentsElement (inputLineNumber)
 {
   fKeyKind             = keyKind;
   fNumberOfAlterations = numberOfAlterations;

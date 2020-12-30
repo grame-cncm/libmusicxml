@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrGraceNotes_MUT_DEP.h"
+#include "msrGraceNotes.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

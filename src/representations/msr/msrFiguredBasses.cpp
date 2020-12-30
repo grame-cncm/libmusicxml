@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrFiguredBasses_MUT_DEP.h"
+#include "msrFiguredBasses.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

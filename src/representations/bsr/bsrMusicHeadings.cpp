@@ -14,6 +14,7 @@
 
 #include "utilities.h"
 
+#include "bsrMusicHeadings.h"
 
 #include "oahOah.h"
 

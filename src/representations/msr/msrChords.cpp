@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include "msrChords_MUT_DEP.h"
+#include "msrChords.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

@@ -8,8 +8,8 @@
 
 #include "msrElements.h"
 #include "msrMeasureElements.h"
-#include "msrNotes_MUT_DEP.h"
-#include "msrVoices_MUT_DEP.h"
+#include "msrNotes.h"
+#include "msrVoices.h"
 
 
 namespace MusicXML2
