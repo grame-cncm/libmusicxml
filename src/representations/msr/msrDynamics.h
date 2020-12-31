@@ -80,10 +80,10 @@ class EXP msrDynamics : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -94,7 +94,7 @@ class EXP msrDynamics : public msrElement
 
     string                dynamicsPlacementKindAsString () const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -154,10 +154,10 @@ class EXP msrOtherDynamics : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -168,7 +168,7 @@ class EXP msrOtherDynamics : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -258,10 +258,10 @@ class EXP msrWedge : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -270,7 +270,7 @@ class EXP msrWedge : public msrElement
 
     string                wedgeKindAsString () const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

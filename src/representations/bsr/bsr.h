@@ -13,7 +13,45 @@
 #ifndef ___bsr___
 #define ___bsr___
 
-#include "bsr_MUTUAL_DEPENDENCIES.h"
+#include "bsrBasicTypes.h"
+
+#include "bsrCellsLists.h"
+
+#include "bsrElements.h"
+
+#include "bsrClefs.h"
+#include "bsrKeys.h"
+#include "bsrTimes.h"
+
+#include "bsrBarlines.h"
+
+#include "bsrSpaces.h"
+#include "bsrNumbers.h"
+
+#include "bsrNotes.h"
+
+#include "bsrDynamics.h"
+
+#include "bsrWords.h"
+
+#include "bsrTempos.h"
+
+#include "bsrPageHeadings.h"
+#include "bsrMusicHeadings.h"
+
+#include "bsrPaginations.h"
+
+#include "bsrMeasures.h"
+
+#include "bsrLineContentsElements.h"
+#include "bsrLineContents.h"
+#include "bsrLines.h"
+
+#include "bsrPageElements.h"
+#include "bsrPages.h"
+
+#include "bsrFootNotesElements.h"
+#include "bsrFootNotes.h"
 
 #include "bsrScores.h"
 

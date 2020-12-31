@@ -13,9 +13,9 @@
 #ifndef __msr2bsrInterface__
 #define __msr2bsrInterface__
 
+#include "exports.h"
 
 #include "bsr.h"
-#include "exports.h"
 
 #include "generalOah.h"
 #include "msrOah.h"

@@ -209,8 +209,8 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
 }
 
 void lilypondScoreOutputKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -538,8 +538,8 @@ void lilypondTransposePartNameAtom::print (ostream& os) const
 }
 
 void lilypondTransposePartNameAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -887,8 +887,8 @@ void lilypondTransposePartIDAtom::print (ostream& os) const
 }
 
 void lilypondTransposePartIDAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -1075,8 +1075,8 @@ void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
 }
 
 void lilypondAbsoluteOctaveEntryAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -1311,8 +1311,8 @@ void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
 }
 
 void lilypondRelativeOctaveEntryAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -1524,8 +1524,8 @@ void lilypondFixedOctaveEntryAtom::print (ostream& os) const
 }
 
 void lilypondFixedOctaveEntryAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -1769,8 +1769,8 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
 }
 
 void lilypondAccidentalStyleKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -2110,8 +2110,8 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
 }
 
 void lilypondChordsDisplayAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -2366,8 +2366,8 @@ void lilypondLyricsDurationsKindAtom::print (ostream& os) const
 }
 
 void lilypondLyricsDurationsKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -4727,8 +4727,8 @@ string lpsr2lilypondOahGroup::scoreNotationKindAsString (
 }
 
 void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os <<
     "The LilyPond lilypond are:" <<
@@ -6207,8 +6207,8 @@ void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
 }
 
 void lilypondBreakPageAfterMeasureNumberAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<

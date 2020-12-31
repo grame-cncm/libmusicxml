@@ -1,10 +1,9 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrRepeatCodas___
 #define ___msrRepeatCodas___
+
+#include "msrElements.h"
+#include "msrSegments.h"
+#include "msrRepeats.h"
 
 namespace MusicXML2
 {
@@ -65,10 +64,10 @@ class EXP msrRepeatCoda : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -77,7 +76,7 @@ class EXP msrRepeatCoda : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

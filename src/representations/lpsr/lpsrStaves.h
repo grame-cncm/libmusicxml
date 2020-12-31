@@ -15,9 +15,9 @@
 
 #include <iostream>
 
-#include "lpsrElements.h"
-
 #include "msr.h"
+
+#include "lpsrElements.h"
 
 
 using namespace std;
@@ -61,17 +61,17 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -124,17 +124,17 @@ class EXP lpsrNewStaffTuningBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -182,17 +182,17 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -277,17 +277,17 @@ class EXP lpsrStaffBlock : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

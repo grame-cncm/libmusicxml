@@ -16,9 +16,9 @@
 #include <map>
 #include <vector>
 
-#include "msr2msrTranslator.h"
-
 #include "lpsr.h"
+
+#include "msr2msrTranslator.h"
 
 
 namespace MusicXML2

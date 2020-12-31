@@ -12,8 +12,6 @@
 
 #include <iomanip>      // for 'setw()'
 
-#include "msrScores.h"
-
 #include "msr.h"
 
 #include "enableTracingIfDesired.h"

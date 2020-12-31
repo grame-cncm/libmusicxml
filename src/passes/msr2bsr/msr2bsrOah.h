@@ -61,7 +61,7 @@ class EXP msr2bsrOahGroup : public oahGroup
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkGroupOptionsConsistency () override;
+    void                  checkGroupOptionsConsistency () override;
 
   public:
 
@@ -123,10 +123,10 @@ class EXP msr2bsrOahGroup : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 

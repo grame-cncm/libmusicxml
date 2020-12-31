@@ -279,8 +279,8 @@ void msrOmitPartAtom::print (ostream& os) const
 }
 
 void msrOmitPartAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -565,8 +565,8 @@ void msrKeepPartAtom::print (ostream& os) const
 }
 
 void msrKeepPartAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<

@@ -288,8 +288,8 @@ void msrDalSegnoAtom::print (ostream& os) const
 }
 
 void msrDalSegnoAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -646,8 +646,8 @@ void msrReplaceClefAtom::print (ostream& os) const
 }
 
 void msrReplaceClefAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<

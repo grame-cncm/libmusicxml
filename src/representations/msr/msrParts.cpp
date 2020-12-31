@@ -14,6 +14,8 @@
 #include <iomanip>      // setw, setprecision, ...
 #include <algorithm>    // for_each
 
+#include "messagesHandling.h"
+
 #include "msrParts.h"
 
 #include "enableTracingIfDesired.h"

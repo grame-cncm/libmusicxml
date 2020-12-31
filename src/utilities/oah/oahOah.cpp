@@ -634,8 +634,8 @@ void oahOahGroup::browseData (basevisitor* v)
 }
 
 void oahOahGroup::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
   /* JMI

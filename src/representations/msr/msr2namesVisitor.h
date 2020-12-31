@@ -10,10 +10,13 @@
   research@grame.fr
 */
 
-#ifndef ___msr2names___
-#define ___msr2names___
+#ifndef ___msr2namesVisitor___
+#define ___msr2namesVisitor___
 
 #include "msr.h"
+
+#include "msrOah.h"
+
 
 namespace MusicXML2
 {

@@ -1,8 +1,3 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrStaves___
 #define ___msrStaves___
 
@@ -27,6 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// breaking the classes dependency cycle
 class msrPartGroup;
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 
@@ -37,10 +33,10 @@ class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
 
 class msrRepeat;
-typedef SMARTP<msrRepeat> S_msrRepeat; // should not be necessary ??? JMI
+typedef SMARTP<msrRepeat> S_msrRepeat;
 
 class msrRepeatEnding;
-typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding; // should not be necessary ??? JMI
+typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
 
 //______________________________________________________________________________
 class EXP msrVoiceStaffChange : public msrMeasureElement
@@ -85,10 +81,10 @@ class EXP msrVoiceStaffChange : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -97,7 +93,7 @@ class EXP msrVoiceStaffChange : public msrMeasureElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -417,10 +413,10 @@ class EXP msrStaff : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -431,11 +427,11 @@ class EXP msrStaff : public msrElement
 
     string                staffNumberAsString () const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
-    virtual void          printSummary (ostream& os) const override;
+    void                  printSummary (ostream& os) const override;
 
   private:
 

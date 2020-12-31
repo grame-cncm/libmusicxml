@@ -117,10 +117,10 @@ class EXP msrPageLayout : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -129,7 +129,7 @@ class EXP msrPageLayout : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -206,10 +206,10 @@ class EXP msrSystemLayout : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -218,7 +218,7 @@ class EXP msrSystemLayout : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -324,10 +324,10 @@ class EXP msrSystemDividers : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -336,7 +336,7 @@ class EXP msrSystemDividers : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -417,10 +417,10 @@ class EXP msrStaffLayout : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -429,7 +429,7 @@ class EXP msrStaffLayout : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -499,10 +499,10 @@ class EXP msrMeasureLayout : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -511,7 +511,7 @@ class EXP msrMeasureLayout : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -668,10 +668,10 @@ class EXP msrPrintLayout : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -680,9 +680,9 @@ class EXP msrPrintLayout : public msrMeasureElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 
@@ -772,10 +772,10 @@ class EXP msrLineWidth : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -784,7 +784,7 @@ class EXP msrLineWidth : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -849,10 +849,10 @@ class EXP msrNoteSize : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -861,7 +861,7 @@ class EXP msrNoteSize : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -925,10 +925,10 @@ class EXP msrDistance : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -937,7 +937,7 @@ class EXP msrDistance : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -1009,10 +1009,10 @@ class EXP msrGlyph : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -1021,7 +1021,7 @@ class EXP msrGlyph : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -1085,10 +1085,10 @@ class EXP msrOtherAppearance : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -1097,7 +1097,7 @@ class EXP msrOtherAppearance : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -1280,10 +1280,10 @@ class EXP msrAppearance : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -1292,7 +1292,7 @@ class EXP msrAppearance : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

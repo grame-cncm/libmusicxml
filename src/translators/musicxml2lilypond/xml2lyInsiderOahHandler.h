@@ -80,7 +80,7 @@ class EXP xml2lyInsiderOahHandler : public oahHandler
     void                  enforceHandlerQuietness () override;
 
     // consistency check
-    virtual void          checkHandlerOptionsConsistency () override;
+    void                  checkHandlerOptionsConsistency () override;
 
   public:
 
@@ -168,17 +168,17 @@ class EXP xml2lyInsiderOahGroup : public oahGroup
     void                  enforceGroupQuietness () override;
 
     // consistency check
-    virtual void          checkGroupOptionsConsistency () override;
+    void                  checkGroupOptionsConsistency () override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 

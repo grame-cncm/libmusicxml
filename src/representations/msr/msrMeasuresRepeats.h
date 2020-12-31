@@ -1,8 +1,3 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrMeasuresRepeats___
 #define ___msrMeasuresRepeats___
 
@@ -88,10 +83,10 @@ class EXP msrMeasuresRepeatPattern : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -100,7 +95,7 @@ class EXP msrMeasuresRepeatPattern : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -179,10 +174,10 @@ class EXP msrMeasuresRepeatReplicas : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -191,7 +186,7 @@ class EXP msrMeasuresRepeatReplicas : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -326,10 +321,10 @@ class EXP msrMeasuresRepeat : public msrVoiceElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -342,7 +337,7 @@ class EXP msrMeasuresRepeat : public msrVoiceElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -457,10 +452,10 @@ class EXP msrMeasuresRepeatElement : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -469,9 +464,9 @@ class EXP msrMeasuresRepeatElement : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 

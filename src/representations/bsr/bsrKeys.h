@@ -1,8 +1,3 @@
-/*
-  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___bsrKeys___
 #define ___bsrKeys___
 
@@ -84,10 +79,10 @@ class EXP bsrKey : public bsrLineContentsElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -98,7 +93,7 @@ class EXP bsrKey : public bsrLineContentsElement
 
     string                asDebugString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

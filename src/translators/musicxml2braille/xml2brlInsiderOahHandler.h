@@ -75,7 +75,7 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
     void                  enforceHandlerQuietness () override;
 
     // consistency check
-    virtual void          checkHandlerOptionsConsistency () override;
+    void                  checkHandlerOptionsConsistency () override;
 
   public:
 
@@ -183,10 +183,10 @@ class EXP xml2brlInsiderOahGroup : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 

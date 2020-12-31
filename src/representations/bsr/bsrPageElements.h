@@ -1,8 +1,3 @@
-/*
-  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___bsrPageElements___
 #define ___bsrPageElements___
 
@@ -71,21 +66,21 @@ class EXP bsrPageElement : public bsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual string        asString () const override;
+    string                asString () const override;
 
-    virtual string        asShortString () const override;
+    string                asShortString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   protected:
 

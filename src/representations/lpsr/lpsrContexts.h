@@ -17,9 +17,9 @@
 #include <string>
 #include <list>
 
-#include "lpsrElements.h"
-
 #include "msr.h"
+
+#include "lpsrElements.h"
 
 using namespace std;
 
@@ -95,10 +95,10 @@ class EXP lpsrContext : public lpsrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -119,7 +119,7 @@ class EXP lpsrContext : public lpsrElement
                                     fContextExistingKind);
                               }
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   protected:
 
@@ -181,17 +181,17 @@ class EXP lpsrChordNamesContext : public lpsrContext
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -248,17 +248,17 @@ class EXP lpsrFiguredBassContext : public lpsrContext
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

@@ -12,6 +12,8 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
+#include "messagesHandling.h"
+
 #include "msrMeasures.h"
 
 #include "enableTracingIfDesired.h"

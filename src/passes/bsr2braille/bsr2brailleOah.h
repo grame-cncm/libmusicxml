@@ -75,10 +75,10 @@ class EXP brailleOutputKindAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -91,8 +91,8 @@ class EXP brailleOutputKindAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -154,10 +154,10 @@ class EXP brailleUTFKindAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -170,8 +170,8 @@ class EXP brailleUTFKindAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -233,10 +233,10 @@ class EXP brailleByteOrderingKindAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
     // print
     // ------------------------------------------------------
@@ -247,8 +247,8 @@ class EXP brailleByteOrderingKindAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -298,7 +298,7 @@ class EXP bsr2brailleOahGroup : public oahGroup
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkGroupOptionsConsistency () override;
+    void                  checkGroupOptionsConsistency () override;
 
   public:
 
@@ -394,10 +394,10 @@ class EXP bsr2brailleOahGroup : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 

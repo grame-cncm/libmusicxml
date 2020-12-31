@@ -1,8 +1,3 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrFiguredBasses___
 #define ___msrFiguredBasses___
 
@@ -15,12 +10,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+/*
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart; // superflous ??? JMI
 
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote; // superflous ??? JMI
-
+*/
 //______________________________________________________________________________
 class EXP msrFigure : public msrElement
 {
@@ -109,10 +105,10 @@ class EXP msrFigure : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -124,7 +120,7 @@ class EXP msrFigure : public msrElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -253,10 +249,10 @@ class EXP msrFiguredBass : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -265,7 +261,7 @@ class EXP msrFiguredBass : public msrMeasureElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

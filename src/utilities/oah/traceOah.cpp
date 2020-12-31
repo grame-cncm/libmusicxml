@@ -2426,8 +2426,8 @@ void traceOahGroup::browseData (basevisitor* v)
 
 //______________________________________________________________________________
 void traceOahGroup::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os <<
     "The trace options are:" <<

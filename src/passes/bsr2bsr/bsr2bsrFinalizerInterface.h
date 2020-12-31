@@ -13,9 +13,9 @@
 #ifndef __bsr2bsrFinalizerInterface__
 #define __bsr2bsrFinalizerInterface__
 
+#include "exports.h"
 
 #include "bsr.h"
-#include "exports.h"
 
 #include "msrOah.h"
 #include "bsrOah.h"
@@ -30,23 +30,23 @@ EXP S_bsrScore convertBsrFirstScoreToFinalizedBsrScore (
   string           passNumber);
 
 //_______________________________________________________________________________
-void displayBsrFirstScore_OptionalPass (
+EXP void displayBsrFirstScore_OptionalPass (
   S_bsrScore    originalBsrScore,
   S_msrOahGroup msrOpts,
   S_bsrOahGroup bsrOpts);
 
-void displayBsrFirstScoreShort_OptionalPass (
+EXP void displayBsrFirstScoreShort_OptionalPass (
   S_bsrScore    originalBsrScore,
   S_msrOahGroup msrOpts,
   S_bsrOahGroup bsrOpts);
 
 //_______________________________________________________________________________
-void displayFinalizedBsrScore_OptionalPass (
+EXP void displayFinalizedBsrScore_OptionalPass (
   S_bsrScore    originalBsrScore,
   S_msrOahGroup msrOpts,
   S_bsrOahGroup bsrOpts);
 
-void displayFinalizedBsrScoreShort_OptionalPass (
+EXP void displayFinalizedBsrScoreShort_OptionalPass (
   S_bsrScore    originalBsrScore,
   S_msrOahGroup msrOpts,
   S_bsrOahGroup bsrOpts);

@@ -115,22 +115,22 @@ class EXP msrMeasureElement : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override = 0; // JMI ???
+    void                  browseData (basevisitor* v) override = 0; // JMI ???
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual string        asShortString () const override;
-    virtual string        asString () const override;
+    string                asShortString () const override;
+    string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printSummary (ostream& os) const override {}
+    void                  printSummary (ostream& os) const override {}
 
   protected:
 

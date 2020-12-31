@@ -13,10 +13,10 @@
 #ifndef ___lpsr2lilypondTranslator___
 #define ___lpsr2lilypondTranslator___
 
+#include "lpsr.h"
+
 #include "msrOah.h"
 #include "lpsrOah.h"
-
-#include "lpsr.h"
 
 
 namespace MusicXML2

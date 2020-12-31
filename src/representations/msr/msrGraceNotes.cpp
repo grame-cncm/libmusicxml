@@ -10,6 +10,10 @@
   research@grame.fr
 */
 
+#include <iomanip>
+
+#include "messagesHandling.h"
+
 #include "msrGraceNotes.h"
 
 #include "enableTracingIfDesired.h"

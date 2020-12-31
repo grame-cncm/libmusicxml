@@ -1,19 +1,24 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrSpanners___
 #define ___msrSpanners___
 
+#include "msrBasicTypes.h"
+#include "msrElements.h"
+
+
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+// breaking the classes dependency cycle
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
 
 //______________________________________________________________________________
 // pre-declaration for two-way sideLinks
 class msrSpanner;
 typedef SMARTP<msrSpanner> S_msrSpanner;
 
+//______________________________________________________________________________
 class EXP msrSpanner : public msrElement
 {
   public:
@@ -96,10 +101,10 @@ class EXP msrSpanner : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -114,7 +119,7 @@ class EXP msrSpanner : public msrElement
 
     string                asShortString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   protected:
 

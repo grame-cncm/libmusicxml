@@ -1,8 +1,3 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrParts___
 #define ___msrParts___
 
@@ -510,27 +505,27 @@ class EXP msrPart : public msrPartGroupElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual string        asString () const override;
+    string                asString () const override;
 
     void                  printPartMeasuresWholeNotesDurationsVector (
                             ostream&      os,
                             unsigned int fieldWidth) const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
-    virtual void          printSummary (ostream& os) const override;
+    void                  printSummary (ostream& os) const override;
 
   private:
 

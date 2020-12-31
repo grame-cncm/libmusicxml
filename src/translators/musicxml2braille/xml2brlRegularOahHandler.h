@@ -67,14 +67,14 @@ class EXP xml2brlRegularOahHandler : public oahRegularOahHandler
                               }
 
     // quiet mode
-    virtual void          enforceHandlerQuietness () override
+    void                  enforceHandlerQuietness () override
                               {
                                 fInsiderOahHandler->
                                   checkHandlerOptionsConsistency ();
                               }
 
     // consistency check
-    virtual void          checkHandlerOptionsConsistency () override
+    void                  checkHandlerOptionsConsistency () override
                               {
                                 fInsiderOahHandler->
                                   checkHandlerOptionsConsistency ();

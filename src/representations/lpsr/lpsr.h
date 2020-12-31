@@ -15,6 +15,9 @@
 
 #include "msr.h"
 
+#include "lpsrBasicTypes.h"
+#include "lpsrElements.h"
+
 #include "lpsrComments.h"
 
 #include "lpsrScheme.h"
@@ -25,17 +28,19 @@
 
 #include "lpsrBarNumbers.h"
 
-#include "lpsrContexts.h"
-#include "lpsrVariables.h"
-
 #include "lpsrVoices.h"
 #include "lpsrLyrics.h"
 
 #include "lpsrStaves.h"
 #include "lpsrParts.h"
 #include "lpsrPartGroups.h"
-#include "lpsrBookBlockElements.h"
 #include "lpsrScores.h"
+
+#include "lpsrParallelMusic.h"
+#include "lpsrContexts.h"
+#include "lpsrVariables.h"
+
+#include "lpsrBookBlockElements.h"
 
 
 namespace MusicXML2

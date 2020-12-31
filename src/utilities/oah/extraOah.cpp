@@ -183,8 +183,8 @@ void extraShowAllHarmoniesStructuresAtom::printAllHarmoniesStructures (ostream& 
 }
 
 void extraShowAllHarmoniesStructuresAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -424,8 +424,8 @@ void extraShowAllHarmoniesContentsAtom::printAllHarmoniesContents (
 }
 
 void extraShowAllHarmoniesContentsAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -726,8 +726,8 @@ void extraShowHarmonyDetailsAtom::print (ostream& os) const
 }
 
 void extraShowHarmonyDetailsAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -1056,8 +1056,8 @@ void extraShowHarmonyAnalysisAtom::print (ostream& os) const
 }
 
 void extraShowHarmonyAnalysisAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }

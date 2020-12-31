@@ -67,10 +67,10 @@ class EXP insiderOahAtom : public oahAtom
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
     // print
     // ------------------------------------------------------
@@ -129,10 +129,10 @@ class EXP regularOahAtom : public oahAtom
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
     // print
     // ------------------------------------------------------
@@ -247,7 +247,7 @@ class EXP oahOahGroup : public oahGroup
     void                  enforceGroupQuietness () override;
 
     // consistency check
-    virtual void          checkGroupOptionsConsistency () override;
+    void                  checkGroupOptionsConsistency () override;
 
   private:
 
@@ -268,10 +268,10 @@ class EXP oahOahGroup : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -283,8 +283,8 @@ class EXP oahOahGroup : public oahGroup
     void                  printOahOahValues (int valueFieldWidth);
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const;
 
   private:
 
@@ -404,10 +404,10 @@ class EXP oahOptionalValuesStyleKindAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 

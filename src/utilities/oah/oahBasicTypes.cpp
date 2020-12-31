@@ -538,8 +538,8 @@ void oahAtom::findStringInAtom (
 }
 
 void oahAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os <<
     "Atom values ???:" <<
@@ -723,8 +723,8 @@ void oahAtomWithVariableName::printShort (ostream& os) const
 }
 
 void oahAtomWithVariableName::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -994,8 +994,8 @@ void oahAtomWithValue::printHelp (ostream& os) const
 }
 
 void oahAtomWithValue::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os <<
     "AtomWithValue values:" <<
@@ -1763,8 +1763,8 @@ void oahSubGroup::findStringInSubGroup (
 }
 
 void oahSubGroup::printSubGroupOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // print the header
   os <<
@@ -2570,8 +2570,8 @@ void oahGroup::printGroupAndSubGroupSpecificHelp (
 }
 
 void oahGroup::printGroupOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // print the header
   os <<
@@ -2898,7 +2898,7 @@ if (true)
   }
 
   // register element's names in names to elements map
-  if (elementLongNameSize > 0) {
+  if (elementLongNameSize) {
     fHandlerNamesToElementsMap [elementLongName] = element;
 
     if (elementLongNameSize > fMaximumLongNameWidth) {

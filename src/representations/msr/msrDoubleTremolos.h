@@ -1,29 +1,24 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrDoubleTremolos___
 #define ___msrDoubleTremolos___
 
-#include "msrChords.h"
-#include "msrElements.h"
-#include "msrMeasures.h"
 #include "msrMeasureElements.h"
-#include "msrNotes.h"
+#include "msrMeasures.h"
+#include "msrElements.h"
+
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// breaking the classes dependency cycle
 class msrMeasure;
 typedef SMARTP<msrMeasure> S_msrMeasure;
 
-class msrSegment;
-typedef SMARTP<msrSegment> S_msrSegment;
-
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
+
+class msrNote;
+typedef SMARTP<msrNote> S_msrNote;
 
 //______________________________________________________________________________
 class EXP msrDoubleTremolo : public msrMeasureElement
@@ -209,10 +204,10 @@ class EXP msrDoubleTremolo : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -224,7 +219,7 @@ class EXP msrDoubleTremolo : public msrMeasureElement
     string                asShortString () const override;
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

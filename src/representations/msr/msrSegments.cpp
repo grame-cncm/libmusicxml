@@ -10,6 +10,8 @@
   research@grame.fr
 */
 
+#include "messagesHandling.h"
+
 #include "msrSegments.h"
 
 #include "enableTracingIfDesired.h"

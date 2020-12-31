@@ -10,6 +10,10 @@
   research@grame.fr
 */
 
+#include "messagesHandling.h"
+
+#include "msrRepeatCodas.h"
+
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
   #include "traceOah.h"

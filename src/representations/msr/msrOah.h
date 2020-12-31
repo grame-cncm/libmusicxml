@@ -79,10 +79,10 @@ class EXP msrPitchesLanguageAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -95,8 +95,8 @@ class EXP msrPitchesLanguageAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -163,10 +163,10 @@ class EXP msrRenamePartAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -179,8 +179,8 @@ class EXP msrRenamePartAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -323,7 +323,7 @@ class EXP msrOahGroup : public oahGroup
     // consistency check
     // ------------------------------------------------------
 
-    virtual void          checkGroupOptionsConsistency () override;
+    void                  checkGroupOptionsConsistency () override;
 
   public:
 
@@ -358,10 +358,10 @@ class EXP msrOahGroup : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 

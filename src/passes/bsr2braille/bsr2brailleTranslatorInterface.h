@@ -13,9 +13,9 @@
 #ifndef __bsr2brailleTranslatorInterface__
 #define __bsr2brailleTranslatorInterface__
 
+#include "exports.h"
 
 #include "bsr.h"
-#include "exports.h"
 
 #include "msrOah.h"
 #include "bsrOah.h"

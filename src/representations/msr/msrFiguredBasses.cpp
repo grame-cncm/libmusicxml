@@ -10,6 +10,10 @@
   research@grame.fr
 */
 
+#include <iomanip>
+
+#include "messagesHandling.h"
+
 #include "msrFiguredBasses.h"
 
 #include "enableTracingIfDesired.h"

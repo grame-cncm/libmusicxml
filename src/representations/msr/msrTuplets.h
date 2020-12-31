@@ -1,26 +1,18 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrTuplets___
 #define ___msrTuplets___
 
-#include "msrChords.h"
 #include "msrFiguredBasses.h"
 #include "msrGraceNotes.h"
 #include "msrMeasures.h"
-#include "msrNotes.h"
 #include "msrTupletElements.h"
 
 
 namespace MusicXML2
 {
-
 //______________________________________________________________________________
-// pre-declaration
-class msrTuplet;
-typedef SMARTP<msrTuplet> S_msrTuplet;
+// breaking the classes dependency cycle
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
 
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
@@ -28,11 +20,10 @@ typedef SMARTP<msrNote> S_msrNote;
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
 
-class msrFiguredBass;
-typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
-
-class msrGraceNotesGroup;
-typedef SMARTP<msrGraceNotesGroup> S_msrGraceNotesGroup;
+//______________________________________________________________________________
+// pre-declaration
+class msrTuplet;
+typedef SMARTP<msrTuplet> S_msrTuplet;
 
 //______________________________________________________________________________
 class EXP msrTuplet : public msrTupletElement
@@ -225,10 +216,10 @@ class EXP msrTuplet : public msrTupletElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -237,7 +228,7 @@ class EXP msrTuplet : public msrTupletElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
     virtual void          printShort (ostream& os);
 

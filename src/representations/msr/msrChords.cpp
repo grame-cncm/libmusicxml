@@ -10,6 +10,10 @@
   research@grame.fr
 */
 
+#include <iomanip>
+
+#include "messagesHandling.h"
+
 #include "msrChords.h"
 
 #include "enableTracingIfDesired.h"
@@ -1800,7 +1804,7 @@ void msrChord::print (ostream& os) const
   // print the harmonies associated to this chord if any
   unsigned int chordHarmoniesListSize = fChordHarmoniesList.size ();
 
-  if (chordHarmoniesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
+  if (chordHarmoniesListSize || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "chordHarmonies";
@@ -2610,7 +2614,7 @@ void msrChord::printShort (ostream& os) const
   // print the harmonies associated to this chord if any
   unsigned int chordHarmoniesListSize = fChordHarmoniesList.size ();
 
-  if (chordHarmoniesListSize > 0 || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
+  if (chordHarmoniesListSize || gGlobalMsrOahGroup->getDisplayMsrDetails ()) {
     os <<
       setw (fieldWidth) <<
       "chordHarmonies";

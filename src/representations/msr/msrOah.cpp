@@ -250,8 +250,8 @@ void msrPitchesLanguageAtom::print (ostream& os) const
 }
 
 void msrPitchesLanguageAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -573,8 +573,8 @@ void msrRenamePartAtom::print (ostream& os) const
 }
 
 void msrRenamePartAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<

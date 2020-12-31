@@ -22,6 +22,8 @@
   #include "traceOah.h"
 #endif
 
+#include "msr.h"
+
 #include "oahOah.h"
 
 #include "msrOah.h"
@@ -39,8 +41,6 @@
 #include "bsr2brailleOah.h"
 
 #include "libmusicxml.h" // for xmlErr
-
-#include "msr.h"
 
 #include "msr2mxmlTreeInterface.h"
 #include "xml2guidovisitor.h"

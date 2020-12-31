@@ -1,14 +1,9 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrChords___
 #define ___msrChords___
 
 #include "msrDynamics.h"
 #include "msrElements.h"
-#include "msrFiguredBasses.h"
+//#include "msrFiguredBasses.h"
 #include "msrGlissandos.h"
 #include "msrGraceNotes.h"
 #include "msrHarmonies.h"
@@ -34,7 +29,10 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// pre-declarations
+// breaking the classes dependency cycle
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
 class msrChordSlurLink;
 typedef SMARTP<msrChordSlurLink> S_msrChordSlurLink;
 
@@ -450,10 +448,10 @@ class EXP msrChord : public msrTupletElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -465,9 +463,9 @@ class EXP msrChord : public msrTupletElement
     string                asShortString () const override;
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 
@@ -637,10 +635,10 @@ class EXP msrChordBeamLink : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -650,9 +648,9 @@ class EXP msrChordBeamLink : public msrElement
     string                asShortString () const override;
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 
@@ -709,10 +707,10 @@ class EXP msrChordSlurLink : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -722,9 +720,9 @@ class EXP msrChordSlurLink : public msrElement
     string                asShortString () const override;
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 
@@ -781,10 +779,10 @@ class EXP msrChordGraceNotesGroupLink : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -794,9 +792,9 @@ class EXP msrChordGraceNotesGroupLink : public msrElement
     string                asShortString () const override;
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 

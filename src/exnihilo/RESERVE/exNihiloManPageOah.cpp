@@ -170,8 +170,8 @@ void exNihiloManPageGenerateAtom::generateManPageData (ostream& os) const
 }
 
 void exNihiloManPageGenerateAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }

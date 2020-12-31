@@ -55,21 +55,21 @@ class EXP bsrElement : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
     // print
     // ------------------------------------------------------
 
-    virtual string        asString () const override;
+    string                asString () const override;
 
-    virtual string        asShortString () const override;
+    string                asShortString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 };
 typedef SMARTP<bsrElement> S_bsrElement;
 EXP ostream& operator<< (ostream& os, const S_bsrElement& elt);

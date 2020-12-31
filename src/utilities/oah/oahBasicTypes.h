@@ -234,10 +234,10 @@ class EXP oahAtom : public oahElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -253,8 +253,8 @@ class EXP oahAtom : public oahElement
                             ostream&      os) const;
 
     virtual void          printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const;
 
   protected:
 
@@ -312,7 +312,7 @@ class EXP oahAtomWithVariableName : public oahAtom
     // public services
     // ------------------------------------------------------
 
-    virtual int           fetchVariableNameLength () const override // JMI ???
+    int                   fetchVariableNameLength () const override // JMI ???
                               { return fVariableName.size (); }
 
   public:
@@ -320,10 +320,10 @@ class EXP oahAtomWithVariableName : public oahAtom
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -341,8 +341,8 @@ class EXP oahAtomWithVariableName : public oahAtom
     void                  printShort (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   protected:
 
@@ -416,10 +416,10 @@ class EXP oahAtomWithValue : public oahAtomWithVariableName
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -439,8 +439,8 @@ class EXP oahAtomWithValue : public oahAtomWithVariableName
     void                  printHelp (ostream& os) const override;
 
     virtual void          printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   protected:
 
@@ -544,10 +544,10 @@ class EXP oahSubGroup : public oahElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -589,8 +589,8 @@ class EXP oahSubGroup : public oahElement
                             ostream&      os) const;
 
     void                  printSubGroupOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const;
 
   private:
 
@@ -737,10 +737,10 @@ class EXP oahGroup : public oahElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -777,8 +777,8 @@ class EXP oahGroup : public oahElement
                             ostream&      os) const;
 
     void                  printGroupOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const;
 
   private:
 

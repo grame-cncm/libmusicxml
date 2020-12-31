@@ -10,6 +10,10 @@
   research@grame.fr
 */
 
+#include "msrAfterGraceNotes.h"
+
+#include "messagesHandling.h"
+
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
   #include "traceOah.h"

@@ -12,6 +12,8 @@
 
 #include <climits>      // INT_MIN, INT_MAX
 
+#include "messagesHandling.h"
+
 #include "msrVoices.h"
 
 #include "msrStaves.h"
@@ -2714,7 +2716,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   unsigned int chordNotesVectorSize =
     chordNotesVector.size ();
 
-  if (chordNotesVectorSize > 0) {
+  if (chordNotesVectorSize) {
     {
       // get the chord's first note
       S_msrNote

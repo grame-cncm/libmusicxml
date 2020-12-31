@@ -124,7 +124,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
     lineContentsElementsListSize =
       fLineContentsLineElementsList.size ();
 
-  if (lineContentsElementsListSize > 0) {
+  if (lineContentsElementsListSize) {
     list<S_bsrLineContentsElement>::iterator it =
       fLineContentsLineElementsList.begin();
 

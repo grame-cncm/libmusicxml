@@ -622,17 +622,17 @@ class EXP traceOahGroup : public oahGroup
     void                  enforceGroupQuietness () override;
 
     // consistency check
-    virtual void          checkGroupOptionsConsistency () override;
+    void                  checkGroupOptionsConsistency () override;
 
   public:
 
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -644,8 +644,8 @@ class EXP traceOahGroup : public oahGroup
     void                  printTraceOahValues (unsigned int fieldWidth);
 
     virtual void          printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const;
 
   private:
 

@@ -170,8 +170,8 @@ void xml2xmlManPageGenerateAtom::generateManPageData (ostream& os) const
 }
 
 void xml2xmlManPageGenerateAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }

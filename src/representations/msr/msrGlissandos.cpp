@@ -10,6 +10,8 @@
   research@grame.fr
 */
 
+#include <iomanip>
+
 #include "msrGlissandos.h"
 
 #include "enableTracingIfDesired.h"

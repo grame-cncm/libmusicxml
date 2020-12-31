@@ -354,7 +354,6 @@ void xml2brlInsiderOahHandler::createTheXml2brlOptionGroups (
       endl;
 
     gIndenter--;
-  }
 #endif
 #endif
 }

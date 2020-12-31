@@ -247,8 +247,8 @@ void msr2lpsrScoreOutputKindAtom::print (ostream& os) const
 }
 
 void msr2lpsrScoreOutputKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<

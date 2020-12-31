@@ -71,10 +71,10 @@ class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -86,8 +86,8 @@ class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
     void                  printAllHarmoniesStructures (ostream& os) const;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -153,10 +153,10 @@ class EXP extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -170,8 +170,8 @@ class EXP extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
                             msrSemiTonesPitchKind semiTonesPitchKind) const;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -237,10 +237,10 @@ class EXP extraShowHarmonyDetailsAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -250,8 +250,8 @@ class EXP extraShowHarmonyDetailsAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -317,10 +317,10 @@ class EXP extraShowHarmonyAnalysisAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -330,8 +330,8 @@ class EXP extraShowHarmonyAnalysisAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -378,7 +378,7 @@ class EXP extraOahGroup : public oahGroup
     void                  enforceGroupQuietness () override;
 
     // consistency check
-    virtual void          checkGroupOptionsConsistency () override;
+    void                  checkGroupOptionsConsistency () override;
 
   private:
 
@@ -398,10 +398,10 @@ class EXP extraOahGroup : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 

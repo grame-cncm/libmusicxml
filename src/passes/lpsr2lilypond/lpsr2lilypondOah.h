@@ -75,10 +75,10 @@ class EXP lilypondScoreOutputKindAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
     // print
     // ------------------------------------------------------
@@ -89,8 +89,8 @@ class EXP lilypondScoreOutputKindAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -172,10 +172,10 @@ class EXP lilypondTransposePartNameAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -188,8 +188,8 @@ class EXP lilypondTransposePartNameAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -272,10 +272,10 @@ class EXP lilypondTransposePartIDAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -288,8 +288,8 @@ class EXP lilypondTransposePartIDAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -348,10 +348,10 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -361,8 +361,8 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -432,10 +432,10 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -448,8 +448,8 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -523,10 +523,10 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -539,8 +539,8 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -613,10 +613,10 @@ class EXP lilypondAccidentalStyleKindAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -629,8 +629,8 @@ class EXP lilypondAccidentalStyleKindAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -708,10 +708,10 @@ class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
     string                asShortNamedOptionString () const override;
     string                asActualLongNamedOptionString () const override;
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -721,8 +721,8 @@ class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -793,10 +793,10 @@ class EXP lilypondLyricsDurationsKindAtom : public oahAtomWithValue
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -809,8 +809,8 @@ class EXP lilypondLyricsDurationsKindAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 
@@ -1411,7 +1411,7 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     void                  enforceGroupQuietness () override;
 
     // consistency check
-    virtual void          checkGroupOptionsConsistency () override;
+    void                  checkGroupOptionsConsistency () override;
 
   private:
 
@@ -1473,10 +1473,10 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -1488,8 +1488,8 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     void                  printLpsr2lilypondOahValues (unsigned int fieldWidth);
 
     virtual void          printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const;
 
   private:
 
@@ -1923,8 +1923,8 @@ class EXP lilypondBreakPageAfterMeasureNumberAtom : public oahAtomWithValue
     void                  print (ostream& os) const override;
 
     void                  printAtomWithValueOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const override;
+                            ostream&     os,
+                            unsigned int valueFieldWidth) const override;
 
   private:
 

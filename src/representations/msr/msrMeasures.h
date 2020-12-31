@@ -1,20 +1,21 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrMeasures___
 #define ___msrMeasures___
 
 #include "msrElements.h"
+
+#include "msrBreaks.h"
+#include "msrDoubleTremolos.h"
 #include "msrFiguredBasses.h"
 #include "msrHarmonies.h"
+#include "msrMusicXMLSpecifics.h"
 #include "msrParts.h"
 #include "msrPartGroups.h"
 #include "msrNotes.h"
+#include "msrRehearsals.h"
 #include "msrScores.h"
 #include "msrSegments.h"
 #include "msrStaves.h"
+#include "msrTempos.h"
 #include "msrTuplets.h"
 #include "msrVoices.h"
 
@@ -26,21 +27,6 @@ namespace MusicXML2
 // pre-declaration
 class msrMeasure;
 typedef SMARTP<msrMeasure> S_msrMeasure;
-
-class msrLineBreak;
-typedef SMARTP<msrLineBreak> S_msrLineBreak;
-
-class msrPageBreak;
-typedef SMARTP<msrPageBreak> S_msrPageBreak;
-
-class msrTempo;
-typedef SMARTP<msrTempo> S_msrTempo;
-
-class msrRehearsal;
-typedef SMARTP<msrRehearsal> S_msrRehearsal;
-
-class msrDoubleTremolo;
-typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 
 //______________________________________________________________________________
 class EXP msrMeasure : public msrElement
@@ -606,10 +592,10 @@ class EXP msrMeasure : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -623,9 +609,9 @@ class EXP msrMeasure : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 

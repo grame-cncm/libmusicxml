@@ -13,13 +13,13 @@
 #ifndef __msr2lpsrInterface__
 #define __msr2lpsrInterface__
 
+#include "exports.h"
+
+#include "lpsr.h"
 
 #include "generalOah.h"
 #include "msrOah.h"
 #include "lpsrOah.h"
-
-#include "lpsr.h"
-#include "exports.h"
 
 
 namespace MusicXML2
@@ -43,12 +43,12 @@ EXP void displayLpsrScoreShort (
   S_lpsrOahGroup    lpsrOpts);
 
 //_______________________________________________________________________________
-void displayLpsrScore_OptionalPass (
+EXP void displayLpsrScore_OptionalPass (
   const S_lpsrScore theLpsrScore,
   S_msrOahGroup     msrOpts,
   S_lpsrOahGroup    lpsrOpts);
 
-void displayLpsrScoreShort_OptionalPass (
+EXP void displayLpsrScoreShort_OptionalPass (
   const S_lpsrScore theLpsrScore,
   S_msrOahGroup     msrOpts,
   S_lpsrOahGroup    lpsrOpts);

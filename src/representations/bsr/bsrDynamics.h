@@ -1,8 +1,3 @@
-/*
-  This file is to be included only by bsr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___bsrDynamics___
 #define ___bsrDynamics___
 
@@ -73,10 +68,10 @@ class EXP bsrDynamics : public bsrLineContentsElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -87,7 +82,7 @@ class EXP bsrDynamics : public bsrLineContentsElement
 
     string                asDebugString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 

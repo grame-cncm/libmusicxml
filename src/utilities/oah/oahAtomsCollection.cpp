@@ -189,8 +189,8 @@ void oahAtomSynonym::printShort (ostream& os) const
 }
 
 void oahAtomSynonym::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -319,8 +319,8 @@ void oahHelpOnlyAtom::print (ostream& os) const
 }
 
 void oahHelpOnlyAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -515,8 +515,8 @@ void oahOptionsUsageAtom::print (ostream& os) const
 }
 
 void oahOptionsUsageAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -668,8 +668,8 @@ void oahHelpAtom::printOptionsSummary (ostream& os) const
 }
 
 void oahHelpAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -821,8 +821,8 @@ void oahHelpSummaryAtom::printOptionsSummary (ostream& os) const
 }
 
 void oahHelpSummaryAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -972,8 +972,8 @@ void oahAboutAtom::printAbout (ostream& os) const
 }
 
 void oahAboutAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -1130,8 +1130,8 @@ void oahVersionAtom::printVersion (ostream& os) const
 }
 
 void oahVersionAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -1287,8 +1287,8 @@ void oahContactAtom::printContact (ostream& os) const
 }
 
 void oahContactAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -1465,8 +1465,8 @@ void oahBooleanAtom::print (ostream& os) const
 }
 
 void oahBooleanAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -1661,8 +1661,8 @@ void oahTwoBooleansAtom::print (ostream& os) const
 }
 
 void oahTwoBooleansAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -1868,8 +1868,8 @@ void oahThreeBooleansAtom::print (ostream& os) const
 }
 
 void oahThreeBooleansAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -2280,8 +2280,8 @@ void oahCombinedBooleansAtom::printHelp (ostream& os) const
 }
 
 void oahCombinedBooleansAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -2935,8 +2935,8 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os) const
 }
 
 void oahMultiplexBooleansAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to do, these options values will be printed
   // by the boolean atoms in the list
@@ -3172,8 +3172,8 @@ void oahIntegerAtom::print (ostream& os) const
 }
 
 void oahIntegerAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -3445,8 +3445,8 @@ void oahTwoIntegersAtom::print (ostream& os) const
 }
 
 void oahTwoIntegersAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -3698,8 +3698,8 @@ void oahFloatAtom::print (ostream& os) const
 }
 
 void oahFloatAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -3892,8 +3892,8 @@ void oahStringAtom::print (ostream& os) const
 }
 
 void oahStringAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -4295,8 +4295,8 @@ void oahMonoplexStringAtom::printHelp (ostream& os) const
 }
 
 void oahMonoplexStringAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to do, these options values will be printed
   // by the string atoms in the list
@@ -4502,8 +4502,8 @@ void oahStringWithDefaultValueAtom::print (ostream& os) const
 }
 
 void oahStringWithDefaultValueAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -4756,8 +4756,8 @@ void oahRationalAtom::print (ostream& os) const
 }
 
 void oahRationalAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -4990,8 +4990,8 @@ void oahNaturalNumbersSetAtom::print (ostream& os) const
 }
 
 void oahNaturalNumbersSetAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -5199,8 +5199,8 @@ void oahRGBColorAtom::print (ostream& os) const
 }
 
 void oahRGBColorAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -5496,8 +5496,8 @@ void oahIntSetAtom::print (ostream& os) const
 }
 
 void oahIntSetAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -5776,8 +5776,8 @@ void oahStringSetAtom::print (ostream& os) const
 }
 
 void oahStringSetAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -6112,8 +6112,8 @@ void oahStringToIntMapAtom::print (ostream& os) const
 }
 
 void oahStringToIntMapAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -6440,8 +6440,8 @@ void oahStringAndIntegerAtom::print (ostream& os) const
 }
 
 void oahStringAndIntegerAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -6770,8 +6770,8 @@ void oahStringAndTwoIntegersAtom::print (ostream& os) const
 }
 
 void oahStringAndTwoIntegersAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -7013,8 +7013,8 @@ void oahLengthUnitKindAtom::print (ostream& os) const
 }
 
 void oahLengthUnitKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -7301,8 +7301,8 @@ void oahLengthAtom::print (ostream& os) const
 }
 
 void oahLengthAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -7576,8 +7576,8 @@ void oahMidiTempoAtom::print (ostream& os) const
 }
 
 void oahMidiTempoAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -7779,8 +7779,8 @@ void oahOptionNameHelpAtom::print (ostream& os) const
 }
 
 void oahOptionNameHelpAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -7958,8 +7958,8 @@ void oahAProposOptionNameAtom::print (ostream& os) const
 }
 
 void oahAProposOptionNameAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
@@ -8058,7 +8058,7 @@ void oahFindStringAtom::applyAtomWithValue (
       foundStringsListSize, "has", "have") <<
     " been found";
 
-  if (foundStringsListSize > 0) {
+  if (foundStringsListSize) {
     os <<
       ":" <<
       endl;
@@ -8205,8 +8205,8 @@ void oahFindStringAtom::print (ostream& os) const
 }
 
 void oahFindStringAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }

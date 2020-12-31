@@ -223,8 +223,8 @@ void bsrFacSimileKindAtom::print (ostream& os) const
 }
 
 void bsrFacSimileKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -418,8 +418,8 @@ void bsrTextsLanguageAtom::print (ostream& os) const
 }
 
 void bsrTextsLanguageAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<

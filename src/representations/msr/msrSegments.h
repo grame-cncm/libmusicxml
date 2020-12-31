@@ -1,50 +1,44 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrSegments___
 #define ___msrSegments___
 
 #include "msrMeasures.h"
-#include "msrStaves.h"
-#include "msrVoices.h"
 #include "msrVoiceElements.h"
+#include "msrVoices.h"
+
+#include "msrRehearsals.h"
+#include "msrSegnosAndCodas.h"
+#include "msrStaves.h"
+#include "msrTablatures.h"
+#include "msrTempos.h"
+#include "msrVoiceElements.h"
+//#include "msrVoices.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrScore;
-typedef SMARTP<msrScore> S_msrScore;
-
-class msrPartGroup;
-typedef SMARTP<msrPartGroup> S_msrPartGroup;
+// breaking the classes dependency cycle
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
 
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
 
-class msrStaff;
-typedef SMARTP<msrStaff> S_msrStaff;
+class msrPartGroup;
+typedef SMARTP<msrPartGroup> S_msrPartGroup;
 
-class msrStaffDetails;
-typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
+class msrScore;
+typedef SMARTP<msrScore> S_msrScore;
 
-class msrVoiceStaffChange;
-typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+class msrPart;
+typedef SMARTP<msrPart> S_msrPart;
 
-class msrVoice;
-typedef SMARTP<msrVoice> S_msrVoice;
+class msrPrintLayout;
+typedef SMARTP<msrPrintLayout> S_msrPrintLayout;
 
-class msrMeasure;
-typedef SMARTP<msrMeasure> S_msrMeasure;
-
-class msrNote;
-typedef SMARTP<msrNote> S_msrNote;
-
-class msrDoubleTremolo;
-typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
+class msrTime;
+typedef SMARTP<msrTime> S_msrTime;
 
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
@@ -52,32 +46,8 @@ typedef SMARTP<msrChord> S_msrChord;
 class msrTuplet;
 typedef SMARTP<msrTuplet> S_msrTuplet;
 
-class msrHarmony;
-typedef SMARTP<msrHarmony> S_msrHarmony;
-
-class msrFiguredBass;
-typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
-
-class msrFrame;
-typedef SMARTP<msrFrame> S_msrFrame;
-
-class msrTempo;
-typedef SMARTP<msrTempo> S_msrTempo;
-
-class msrRehearsal;
-typedef SMARTP<msrRehearsal> S_msrRehearsal;
-
-class msrLineBreak;
-typedef SMARTP<msrLineBreak> S_msrLineBreak;
-
-class msrPageBreak;
-typedef SMARTP<msrPageBreak> S_msrPageBreak;
-
-class msrTime;
-typedef SMARTP<msrTime> S_msrTime;
-
-class msrPrintLayout;
-typedef SMARTP<msrPrintLayout> S_msrPrintLayout;
+class msrTranspose;
+typedef SMARTP<msrTranspose> S_msrTranspose;
 
 class msrPartNameDisplay;
 typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
@@ -85,11 +55,26 @@ typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
 class msrPartAbbreviationDisplay;
 typedef SMARTP<msrPartAbbreviationDisplay> S_msrPartAbbreviationDisplay;
 
-class msrTranspose;
-typedef SMARTP<msrTranspose> S_msrTranspose;
+class msrStaffDetails;
+typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
 
 class msrOctaveShift;
 typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
+
+class msrHarmony;
+typedef SMARTP<msrHarmony> S_msrHarmony;
+
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
+
+class msrVoiceStaffChange;
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
+class msrDoubleTremolo;
+typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 
 //______________________________________________________________________________
 class EXP msrSegment : public msrVoiceElement
@@ -414,10 +399,10 @@ class EXP msrSegment : public msrVoiceElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -431,9 +416,9 @@ class EXP msrSegment : public msrVoiceElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 

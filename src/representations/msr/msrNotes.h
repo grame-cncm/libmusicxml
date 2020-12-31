@@ -1,10 +1,7 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrNotes___
 #define ___msrNotes___
+
+#include <iomanip>
 
 #include "msrArticulations.h"
 #include "msrBeams.h"
@@ -37,20 +34,22 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class msrGlissando;
+typedef SMARTP<msrGlissando> S_msrGlissando;
+
+/* JMI
 class msrHarmony;
 typedef SMARTP<msrHarmony> S_msrHarmony;
 
 class msrFiguredBass;
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 
-class msrGlissando;
-typedef SMARTP<msrGlissando> S_msrGlissando;
-
 class msrSlide;
 typedef SMARTP<msrSlide> S_msrSlide;
 
 class msrSyllable;
 typedef SMARTP<msrSyllable> S_msrSyllable;
+*/
 
 //______________________________________________________________________________
 class EXP msrNote : public msrTupletElement
@@ -883,10 +882,10 @@ class EXP msrNote : public msrTupletElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -954,9 +953,9 @@ class EXP msrNote : public msrTupletElement
 
     virtual void          printNoteEssentials (ostream& os) const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 

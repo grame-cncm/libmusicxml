@@ -23,21 +23,10 @@
   #include "traceOah.h"
 #endif
 
-#include "msr.h"
-
 #include "mxmlTree.h"
 
-/* JMI
-#include "oahOah.h"
-#include "generalOah.h"
+#include "msr.h"
 
-#include "mxmlTree2xmlTranslatorInterface.h"
-
-#include "mxmlTree2xmlTranslator.h"
-
-#include "msr2summaryVisitor.h"
-#include "msr2namesVisitor.h"
-*/
 
 using namespace std;
 

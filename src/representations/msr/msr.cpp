@@ -16,7 +16,6 @@
 
 using namespace std;
 
-
 namespace MusicXML2
 {
 

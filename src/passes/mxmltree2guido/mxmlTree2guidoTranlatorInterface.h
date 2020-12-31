@@ -18,16 +18,6 @@
 
 #include "exports.h"
 
-/* JMI
-
-#include "utilities.h"
-
-#include "messagesHandling.h"
-
-#include "msr.h"
-
-#include "msrOah.h"
-*/
 
 namespace MusicXML2
 {

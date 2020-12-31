@@ -59,22 +59,22 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   string        passNumber);
 
 //_______________________________________________________________________________
-SXMLFile createXMLFileFromFile (
+EXP SXMLFile createXMLFileFromFile (
   const char * file,
   string       passNumber);
 
 //_______________________________________________________________________________
-SXMLFile createXMLFileFromFd (
+EXP SXMLFile createXMLFileFromFd (
   FILE * fd,
   string passNumber);
 
 //_______________________________________________________________________________
-SXMLFile createXMLFileFromString (
+EXP SXMLFile createXMLFileFromString (
   const char * buffer,
   string     passNumber);
 
 //_______________________________________________________________________________
-Sxmlelement convertMusicXMLToMxmlTree (
+EXP Sxmlelement convertMusicXMLToMxmlTree (
   string inputSourceName,
   string passNumber);
 

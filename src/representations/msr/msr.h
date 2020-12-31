@@ -13,15 +13,10 @@
 #ifndef ___msr___
 #define ___msr___
 
-#include "typedefs.h"
-#include "tree_browser.h"
-#include "exports.h"
-
 #include "utilities.h"
 #include "messagesHandling.h"
 
 #include "msrBasicTypes.h"
-
 #include "msrElements.h"
 
 #include "msrIdentification.h"
@@ -63,6 +58,7 @@
 
 #include "msrTablatures.h"
 #include "msrInstruments.h"
+
 #include "msrSegnosAndCodas.h"
 
 #include "msrTies.h"
@@ -70,15 +66,63 @@
 #include "msrLigatures.h"
 
 #include "msrSingleTremolos.h"
+#include "msrDoubleTremolos.h"
 
+#include "msrOrnaments.h"
+
+#include "msrSpanners.h"
+
+#include "msrGraceNotes.h"
+#include "msrAfterGraceNotes.h"
+
+#include "msrHarmonies.h"
+#include "msrFiguredBasses.h"
+
+#include "msrGlissandos.h"
+
+#include "msrSlides.h"
+
+#include "msrArpeggiatos.h"
+
+#include "msrNotes.h"
+
+#include "msrChords.h"
+
+#include "msrTupletElements.h"
+#include "msrTuplets.h"
+
+#include "msrLyrics.h"
+
+#include "msrRepeats.h"
+#include "msrRepeatCodas.h"
+
+#include "msrRestMeasures.h"
+#include "msrMeasuresRepeats.h"
+#include "msrBeatsRepeats.h"
 #include "msrSlashes.h"
 
-#include "msrScores.h"
+#include "msrMeasureElements.h"
+#include "msrMeasures.h"
+
+#include "msrSegments.h"
+
+#include "msrVoiceElements.h"
+#include "msrVoices.h"
+
+#include "msrStaves.h"
+
+#include "msrParts.h"
+
+#include "msrPartGroupElements.h"
 #include "msrPartGroups.h"
 
-#include "msr_MUTUAL_DEPENDENCIES.h"
+#include "msrScores.h"
 
 #include "msrMidi.h"
+
+#include "msr2namesVisitor.h"
+#include "msr2summaryVisitor.h"
+
 
 namespace MusicXML2
 {

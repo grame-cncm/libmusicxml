@@ -19,69 +19,6 @@
 namespace MusicXML2
 {
 
-/* JMI
-//______________________________________________________________________________
-class EXP msrStaffLevelElement : public msrMeasureElement // superflous ??? JMI
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrStaffLevelElement> create (
-      int  inputLineNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrStaffLevelElement (
-      int inputLineNumber);
-
-    virtual ~msrStaffLevelElement () {};
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    int                   getStaffLevelElementStaffNumber () const
-                              { return fStaffLevelElementStaffNumber; }
-
-  public:
-
-    // public services
-    // ------------------------------------------------------
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
-
-    virtual void          browseData (basevisitor* v) override;
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os) const override;
-
-  private:
-
-    // private fields
-    // ------------------------------------------------------
-
-    int                   fStaffLevelElementStaffNumber;
-};
-typedef SMARTP<msrStaffLevelElement> S_msrStaffLevelElement;
-EXP ostream& operator<< (ostream& os, const S_msrStaffLevelElement& elt);
-*/
-
 //______________________________________________________________________________
 class EXP msrSegno : public msrMeasureElement
 {
@@ -123,10 +60,10 @@ class EXP msrSegno : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -135,7 +72,7 @@ class EXP msrSegno : public msrMeasureElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -217,10 +154,10 @@ class EXP msrDalSegno : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -229,7 +166,7 @@ class EXP msrDalSegno : public msrMeasureElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -282,10 +219,10 @@ class EXP msrHiddenMeasureAndBarline : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -294,7 +231,7 @@ class EXP msrHiddenMeasureAndBarline : public msrMeasureElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -358,10 +295,10 @@ class EXP msrCoda : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -370,7 +307,7 @@ class EXP msrCoda : public msrMeasureElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -420,10 +357,10 @@ class EXP msrEyeGlasses : public msrMeasureElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -432,7 +369,7 @@ class EXP msrEyeGlasses : public msrMeasureElement
 
     string                asString () const override;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -451,7 +388,7 @@ class EXP msrPolyphony : public smartable
     // print
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   public:
 
@@ -471,3 +408,67 @@ class EXP msrPolyphony : public smartable
 
 
 #endif
+
+/* JMI
+//______________________________________________________________________________
+class EXP msrStaffLevelElement : public msrMeasureElement // superflous ??? JMI
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrStaffLevelElement> create (
+      int  inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrStaffLevelElement (
+      int inputLineNumber);
+
+    virtual ~msrStaffLevelElement () {};
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getStaffLevelElementStaffNumber () const
+                              { return fStaffLevelElementStaffNumber; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
+
+    void                  browseData (basevisitor* v) override;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const override;
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    int                   fStaffLevelElementStaffNumber;
+};
+typedef SMARTP<msrStaffLevelElement> S_msrStaffLevelElement;
+EXP ostream& operator<< (ostream& os, const S_msrStaffLevelElement& elt);
+*/
+

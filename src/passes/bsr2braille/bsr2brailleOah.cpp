@@ -239,8 +239,8 @@ void brailleOutputKindAtom::print (ostream& os) const
 }
 
 void brailleOutputKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -457,8 +457,8 @@ void brailleUTFKindAtom::print (ostream& os) const
 }
 
 void brailleUTFKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -675,8 +675,8 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
 }
 
 void brailleByteOrderingKindAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<

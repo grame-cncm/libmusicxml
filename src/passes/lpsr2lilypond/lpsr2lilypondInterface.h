@@ -14,8 +14,9 @@
 #define __lpsr2lilypondInterfact__
 
 
-#include "lpsr.h"
 #include "exports.h"
+
+#include "lpsr.h"
 
 
 namespace MusicXML2

@@ -727,7 +727,7 @@ string existingLpsrScoreOutputKinds (unsigned int namesListMaxLength)
     lpsrScoreOutputKindsMapSize =
       gGlobalLpsrScoreOutputKindsMap.size ();
 
-  if (lpsrScoreOutputKindsMapSize > 0) {
+  if (lpsrScoreOutputKindsMapSize) {
     unsigned int
       nextToLast =
         lpsrScoreOutputKindsMapSize - 1;
@@ -813,7 +813,7 @@ string existingLpsrOctaveEntryKinds (unsigned int namesListMaxLength)
     lpsrOctaveEntryKindsMapSize =
       gGlobalLpsrOctaveEntryKindsMap.size ();
 
-  if (lpsrOctaveEntryKindsMapSize > 0) {
+  if (lpsrOctaveEntryKindsMapSize) {
     unsigned int
       nextToLast =
         lpsrOctaveEntryKindsMapSize - 1;
@@ -1020,7 +1020,7 @@ string existingLpsrAccidentalStyleKinds (unsigned int namesListMaxLength)
     accidentalStyleKindsMapSize =
       gGlobalLpsrAccidentalStyleKindsMap.size ();
 
-  if (accidentalStyleKindsMapSize > 0) {
+  if (accidentalStyleKindsMapSize) {
     unsigned int
       nextToLast =
         accidentalStyleKindsMapSize - 1;
@@ -1107,7 +1107,7 @@ string existingLpsrChordsLanguageKinds (unsigned int namesListMaxLength)
     lpsrChordsLanguageKindsMapSize =
       gGlobalLpsrChordsLanguageKindsMap.size ();
 
-  if (lpsrChordsLanguageKindsMapSize > 0) {
+  if (lpsrChordsLanguageKindsMapSize) {
     int
       nextToLast =
         lpsrChordsLanguageKindsMapSize - 1;
@@ -1314,7 +1314,7 @@ string existingLpsrLyricsDurationsKinds (unsigned int namesListMaxLength)
     lpsrLyricsDurationsKindsMapSize =
       gGlobalLpsrLyricsDurationsKindsMap.size ();
 
-  if (lpsrLyricsDurationsKindsMapSize > 0) {
+  if (lpsrLyricsDurationsKindsMapSize) {
     unsigned int
       nextToLast =
         lpsrLyricsDurationsKindsMapSize - 1;

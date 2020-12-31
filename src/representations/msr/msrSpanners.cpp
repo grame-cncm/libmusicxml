@@ -10,6 +10,12 @@
   research@grame.fr
 */
 
+#include "messagesHandling.h"
+
+#include "msrSpanners.h"
+
+#include "msrNotes.h"
+
 #include "oahOah.h"
 
 #include "msrOah.h"

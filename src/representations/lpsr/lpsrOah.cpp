@@ -252,8 +252,8 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
 }
 
 void lpsrPitchesLanguageAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -486,8 +486,8 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
 }
 
 void lpsrChordsLanguageAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -691,8 +691,8 @@ void lpsrTransposeAtom::print (ostream& os) const
 }
 
 void lpsrTransposeAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -2252,8 +2252,8 @@ void lpsrDalSegnoAtom::print (ostream& os) const
 }
 
 void lpsrDalSegnoAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -2549,8 +2549,8 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
 }
 
 void lpsrDalSegnoAlFineAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
@@ -2847,8 +2847,8 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
 }
 
 void lpsrDalSegnoAlCodaAtom::printAtomWithValueOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
+  ostream&     os,
+  unsigned int valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<

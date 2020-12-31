@@ -16,9 +16,9 @@
 
 #include "conversions.h"
 
-#include "msr2bsrTranslator.h"
-
 #include "msr.h"
+
+#include "msr2bsrTranslator.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED

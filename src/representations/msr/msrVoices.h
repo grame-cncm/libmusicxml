@@ -1,8 +1,3 @@
-/*
-  This file is to be included only by msr_MUTUAL_DEPENDENCIES.h,
-  to satisfy declarations mutual dependencies.
-*/
-
 #ifndef ___msrVoices___
 #define ___msrVoices___
 
@@ -10,10 +5,6 @@
 #include "msrChords.h"
 #include "msrClefs.h"
 #include "msrElements.h"
-//#include "msrFiguredBasses.h"
-#include "msrGraceNotes.h"
-//#include "msrHarmonies.h"
-//#include "msrInstruments.h"
 #include "msrKeys.h"
 #include "msrLyrics.h"
 #include "msrMeasures.h"
@@ -37,35 +28,39 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// breaking the classes dependency cycle
 class msrStaff;
-typedef SMARTP<msrStaff> S_msrStaff; // should not be necessary ??? JMI
+typedef SMARTP<msrStaff> S_msrStaff;
 
 class msrRestMeasures;
-typedef SMARTP<msrRestMeasures> S_msrRestMeasures; // should not be necessary ??? JMI
+typedef SMARTP<msrRestMeasures> S_msrRestMeasures;
 
 class msrVoiceStaffChange;
-typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange; // should not be necessary ??? JMI
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 
 class msrBeatsRepeat;
-typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat; // should not be necessary ??? JMI
+typedef SMARTP<msrBeatsRepeat> S_msrBeatsRepeat;
 
 class msrMeasuresRepeat;
-typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat; // should not be necessary ??? JMI
+typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 
 class msrRepeatCommonPart;
-typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart; // should not be necessary ??? JMI
+typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart;
 
 class msrRepeat;
-typedef SMARTP<msrRepeat> S_msrRepeat; // should not be necessary ??? JMI
+typedef SMARTP<msrRepeat> S_msrRepeat;
 
 class msrRepeatEnding;
-typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding; // should not be necessary ??? JMI
+typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
 
 class msrRepeatDescr;
-typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr; // should not be necessary ??? JMI
+typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr;
 
 class msrDoubleTremolo;
-typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo; // should not be necessary ??? JMI
+typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
+
+class msrGraceNotesGroup;
+typedef SMARTP<msrGraceNotesGroup> S_msrGraceNotesGroup;
 
 class msrFrame;
 typedef SMARTP<msrFrame> S_msrFrame;
@@ -1010,10 +1005,10 @@ class EXP msrVoice : public msrElement
     // visitors
     // ------------------------------------------------------
 
-    virtual void          acceptIn  (basevisitor* v) override;
-    virtual void          acceptOut (basevisitor* v) override;
+    void                  acceptIn  (basevisitor* v) override;
+    void                  acceptOut (basevisitor* v) override;
 
-    virtual void          browseData (basevisitor* v) override;
+    void                  browseData (basevisitor* v) override;
 
   public:
 
@@ -1035,9 +1030,9 @@ class EXP msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
-    virtual void          printShort (ostream& os) const override;
+    void                  printShort (ostream& os) const override;
 
   private:
 

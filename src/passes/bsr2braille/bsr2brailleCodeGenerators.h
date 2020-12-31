@@ -158,7 +158,7 @@ class EXP bsrAsciiBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -216,7 +216,7 @@ class EXP bsrUTF8BrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   protected:
 
@@ -274,7 +274,7 @@ class EXP bsrUTF8DebugBrailleGenerator : public bsrUTF8BrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -332,7 +332,7 @@ class EXP bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
@@ -392,7 +392,7 @@ class EXP bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
 
     string                asString () const;
 
-    virtual void          print (ostream& os) const override;
+    void                  print (ostream& os) const override;
 
   private:
 
