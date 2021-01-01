@@ -10,7 +10,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// breaking the classes dependency cycle
 class msrMeasure;
 typedef SMARTP<msrMeasure> S_msrMeasure;
 

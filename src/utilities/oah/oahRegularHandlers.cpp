@@ -369,7 +369,7 @@ void initializeOahOptionalValuesStyleKindsMap ()
   gGlobalOahOptionalValuesStyleKindsMap ["oah"] = kOptionalValuesStyleOAH;
 }
 
-string existingOahOptionalValuesStyleKinds (int namesListMaxLength)
+string existingOahOptionalValuesStyleKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 

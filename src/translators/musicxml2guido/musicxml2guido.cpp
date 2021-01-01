@@ -94,9 +94,11 @@ static xmlErr xmlFile2guidoWithHandler (
         "Pass 2a");
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -122,9 +124,11 @@ static xmlErr xmlFile2guidoWithHandler (
       "Pass 2b");
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -154,9 +158,11 @@ static xmlErr xmlFile2guidoWithHandler (
         "Pass 3");
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -174,9 +180,11 @@ static xmlErr xmlFile2guidoWithHandler (
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -196,9 +204,11 @@ static xmlErr xmlFile2guidoWithHandler (
       "Pass 5");
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -355,9 +365,11 @@ static xmlErr xmlFile2guidoWithOptionsVector (
     } // switch
   }
   catch (msrOahException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidOption;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 

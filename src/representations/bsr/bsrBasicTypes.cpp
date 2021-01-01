@@ -241,7 +241,7 @@ string bsrBrailleOutputKindAsString (
   return result;
 }
 
-string existingBsrBrailleOutputKinds (int namesListMaxLength)
+string existingBsrBrailleOutputKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -324,7 +324,7 @@ string bsrTextsLanguageKindAsString (
   return result;
 }
 
-string existingBsrTextsLanguageKinds (int namesListMaxLength)
+string existingBsrTextsLanguageKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 

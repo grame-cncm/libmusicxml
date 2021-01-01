@@ -398,6 +398,22 @@ if (gGlobalTraceOahGroup->getTraceOahDetails ()) {
 }
 
 //______________________________________________________________________________
+void xml2lyInsiderOahHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "checking options and arguments from argc/argv in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  checkSingleInputSourceInArgumentsVector ();
+}
+
+//______________________________________________________________________________
 string xml2lyInsiderOahHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED

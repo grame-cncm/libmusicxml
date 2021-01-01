@@ -973,7 +973,7 @@ class EXP oahHandler : public smartable
 
     virtual void          checkOptionsAndArgumentsFromOptionsVector ();
 
-    virtual void          checkOptionsAndArgumentsFromArgcAndArgv () const;
+    virtual void          checkOptionsAndArgumentsFromArgcAndArgv () const = 0;
 
     void                  setOahHandlerFoundAHelpOption (
                             string context);
@@ -1044,6 +1044,15 @@ class EXP oahHandler : public smartable
 
     void                  printHandlerOptionsValues (
                             ostream& os) const;
+
+  protected:
+
+    // protected services
+    // ------------------------------------------------------
+
+    void                  checkNoInputSourceInArgumentsVector () const;
+
+    void                  checkSingleInputSourceInArgumentsVector () const;
 
   private:
 
@@ -1257,7 +1266,7 @@ string oahOptionalValuesStyleKindAsString (
 extern map<string, oahOptionalValuesStyleKind>
   gGlobalOahOptionalValuesStyleKindsMap;
 
-string existingOahOptionalValuesStyleKinds (int namesListMaxLength);
+string existingOahOptionalValuesStyleKinds (unsigned int namesListMaxLength);
 
 void initializeOahOptionalValuesStyleKindsMap ();
 */

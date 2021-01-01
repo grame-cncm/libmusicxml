@@ -9,7 +9,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// breaking the classes dependency cycle
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 

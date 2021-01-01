@@ -3141,7 +3141,6 @@ If the cancel attribute is
   }
 
   if (! item) { // JMI
-
     gLogStream << "----------------" << endl;
     int counter = 0;
     for (

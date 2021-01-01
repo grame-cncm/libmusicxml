@@ -932,9 +932,11 @@ EXP S_msrScore mxmlTreeToMsrScoreSkeleton (
         passNumber);
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 

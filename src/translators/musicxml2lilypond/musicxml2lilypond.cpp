@@ -91,9 +91,11 @@ static xmlErr xmlFile2lilypondWithHandler (
         "Pass 2a");
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -122,6 +124,7 @@ static xmlErr xmlFile2lilypondWithHandler (
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -155,9 +158,11 @@ static xmlErr xmlFile2lilypondWithHandler (
           passNumber);
     }
     catch (msrScoreToLpsrScoreException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (std::exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -238,9 +243,11 @@ static xmlErr xmlFile2lilypondWithHandler (
           lilypondStandardOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
+        gOutputStream << e.what () << endl;
         return kInvalidFile;
       }
       catch (std::exception& e) {
+        gOutputStream << e.what () << endl;
         return kInvalidFile;
       }
     }
@@ -304,9 +311,11 @@ static xmlErr xmlFile2lilypondWithHandler (
           lilypondFileOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
+        gOutputStream << e.what () << endl;
         return kInvalidFile;
       }
       catch (std::exception& e) {
+        gOutputStream << e.what () << endl;
         return kInvalidFile;
       }
 
@@ -478,9 +487,11 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
     } // switch
   }
   catch (msrOahException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidOption;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 

@@ -225,7 +225,7 @@ string bsrBrailleOutputKindAsString (
 extern map<string, bsrBrailleOutputKind>
   gGlobalBsrBrailleOutputKindsMap;
 
-string existingBsrBrailleOutputKinds (int namesListMaxLength);
+string existingBsrBrailleOutputKinds (unsigned int namesListMaxLength);
 
 void initializeBsrBrailleOutputKindsMap ();
 
@@ -242,7 +242,7 @@ string bsrTextsLanguageKindAsString (
 extern map<string, bsrTextsLanguageKind>
   gGlobalBsrTextsLanguageKindsMap;
 
-string existingBsrTextsLanguageKinds (int namesListMaxLength);
+string existingBsrTextsLanguageKinds (unsigned int namesListMaxLength);
 
 void initializeBsrTextsLanguageKindsMap ();
 

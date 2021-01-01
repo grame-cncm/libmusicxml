@@ -42,8 +42,9 @@
 
 #include "libmusicxml.h" // for xmlErr
 
-#include "msr2mxmlTreeInterface.h"
 #include "xml2guidovisitor.h"
+
+#include "msr2mxmlTreeInterface.h"
 #include "mxmlTree2xmlTranlatorInterface.h"
 
 #include "lpsr.h"
@@ -58,8 +59,8 @@
 #include "bsr2bsrFinalizerInterface.h"
 #include "bsr2brailleTranslatorInterface.h"
 
-#include "exNihiloInsiderOahHandler.h"
-#include "exNihiloRegularOahHandler.h"
+#include "Mikrokosmos3WanderingInsiderOahHandler.h"
+#include "Mikrokosmos3WanderingRegularOahHandler.h"
 
 
 using namespace MusicXML2;
@@ -72,7 +73,7 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 #ifndef WIN32
-static void _sigaction(int signal, siginfo_t *si, void *arg)
+static void _sigaction (int signal, siginfo_t *si, void *arg)
 {
   cerr << "Signal #" << signal << " catched!" << endl;
   exit (-2);
@@ -168,18 +169,6 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 		theOptionsVector.push_back (make_pair (curOption, ""));
 
 	return true;
-}
-
-//_______________________________________________________________________________
-static void registerGgeneratedCodeKind (generatedCodeKind kind)
-{
-  if (kind != kNoGeneratedCode) {
-    cerr << "only one of '-guido', '-lilypond', '-braille' and '-musicxml' can be used" << endl;
-    exit (2);
-  }
-  else {
-    gGeneratedCodeKind = kind;
-  }
 }
 
 //------------------------------------------------------------------------
@@ -1930,9 +1919,11 @@ static xmlErr generateGuidoCodeFromScore (S_msrScore score)
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -1962,9 +1953,11 @@ static xmlErr generateGuidoCodeFromScore (S_msrScore score)
 		cout << gmn << endl;
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -2000,9 +1993,11 @@ static xmlErr generateLilypondCodeFromScore (S_msrScore score)
           passNumber);
     }
     catch (msrScoreToLpsrScoreException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -2080,9 +2075,11 @@ static xmlErr generateLilypondCodeFromScore (S_msrScore score)
         lilypondStandardOutputStream);
     }
     catch (lpsrScoreToLilypondException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -2144,9 +2141,11 @@ static xmlErr generateLilypondCodeFromScore (S_msrScore score)
         lilypondFileOutputStream);
     }
     catch (lpsrScoreToLilypondException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -2197,9 +2196,11 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
           passNumber);
     }
     catch (msrScoreToBsrScoreException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -2262,9 +2263,11 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
           passNumber);
     }
     catch (bsrScoreToFinalizedBsrScoreException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -2346,9 +2349,11 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
         cout);
     }
     catch (lpsrScoreToLilypondException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -2402,9 +2407,11 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
         brailleCodeFileOutputStream);
     }
     catch (lpsrScoreToLilypondException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -2459,9 +2466,11 @@ static xmlErr generateMusicXMLFromScore (S_msrScore score)
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -2479,9 +2488,11 @@ static xmlErr generateMusicXMLFromScore (S_msrScore score)
       "Pass 3");
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -2604,6 +2615,12 @@ static void initializeTheLibraryAndOAH (string executableName)
     xml2brlInsiderOahGroup =
       createGlobalXml2brlOahGroup ();
       */
+
+  // create the Mikrokosmos3Wandering OAH group
+  S_Mikrokosmos3WanderingOahGroup
+    mikrokosmos3WanderingOahGroup =
+      createGlobalMikrokosmos3WanderingOahGroup ();
+
 }
 
 //------------------------------------------------------------------------
@@ -2723,7 +2740,7 @@ int main (int argc, char * argv[])
 
   string
     aboutInformation =
-      exNihiloAboutInformation ();
+      Mikrokosmos3WanderingAboutInformation ();
 
   // the oahHandler, set below
   // ------------------------------------------------------
@@ -2731,12 +2748,12 @@ int main (int argc, char * argv[])
   S_oahHandler handler;
 
   try {
-    // create an exNihilo insider OAH handler
+    // create an Mikrokosmos3Wandering insider OAH handler
     // ------------------------------------------------------
 
-    S_exNihiloInsiderOahHandler
+    S_Mikrokosmos3WanderingInsiderOahHandler
       insiderOahHandler =
-        exNihiloInsiderOahHandler::create (
+        Mikrokosmos3WanderingInsiderOahHandler::create (
           executableName,
           aboutInformation,
           executableName + " insider OAH handler with argc/argv");
@@ -2745,13 +2762,13 @@ int main (int argc, char * argv[])
     // ------------------------------------------------------
 
     if (insiderOptions) {
-      // use the insider exNihilo OAH handler
+      // use the insider Mikrokosmos3Wandering OAH handler
       handler = insiderOahHandler;
     }
     else {
-      // create a regular exNihilo OAH handler
+      // create a regular Mikrokosmos3Wandering OAH handler
       handler =
-        exNihiloRegularOahHandler::create (
+        Mikrokosmos3WanderingRegularOahHandler::create (
           executableName,
           aboutInformation,
           executableName + " regular OAH handler with argc/argv",
@@ -2779,9 +2796,11 @@ int main (int argc, char * argv[])
     } // switch
   }
   catch (msrOahException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidOption;
   }
   catch (exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -2801,7 +2820,6 @@ int main (int argc, char * argv[])
   // let's go ahead
   // ------------------------------------------------------
 
-/* JMI
   // fetch the theOptionsVector from argc/argv
   // ------------------------------------------------------
 
@@ -2822,6 +2840,7 @@ int main (int argc, char * argv[])
 #endif
 #endif
 
+/* JMI
   // take generatedCodeKind options into account if any
   // ------------------------------------------------------
 
@@ -2829,23 +2848,23 @@ int main (int argc, char * argv[])
 
 	for (auto option: theOptionsVector) {
 	  if (option.first      == "-guido") {
-	    registerGgeneratedCodeKind (kGuido);
+	    registerGeneratedCodeKind (kGuido);
       keptOptions.push_back (option);
     }
 	  else if (option.first == "-lilypond") {
-	    registerGgeneratedCodeKind (kLilyPond);
+	    registerGeneratedCodeKind (kLilyPond);
       keptOptions.push_back (option);
 	  }
 	  else if (option.first == "-braille") {
-	    registerGgeneratedCodeKind (kBrailleMusic);
+	    registerGeneratedCodeKind (kBrailleMusic);
       keptOptions.push_back (option);
 	  }
 	  else if (option.first == "-musicxml") {
-	    registerGgeneratedCodeKind (kMusicXML);
+	    registerGeneratedCodeKind (kMusicXML);
       keptOptions.push_back (option);
 	  }
 	  else if (option.first == "-all") { // JMI ???
-	    registerGgeneratedCodeKind (kMusicXML);
+	    registerGeneratedCodeKind (kMusicXML);
       keptOptions.push_back (option);
 	  }
 	  else {
@@ -2868,7 +2887,7 @@ int main (int argc, char * argv[])
 #endif
 
   // the default is '-lilypond'
-  if (gGeneratedCodeKind == kNoGeneratedCode) {
+  if (gGeneratedCodeKind == k_NoGeneratedCode) {
     gGeneratedCodeKind = kLilyPond;
   }
 
@@ -2880,6 +2899,7 @@ int main (int argc, char * argv[])
     endl;
 #endif
 #endif
+
 */
 
   // initialize the library and OAH
@@ -2908,15 +2928,20 @@ int main (int argc, char * argv[])
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
 
+  generatedCodeKind
+    theGeneratedCodeKind =
+      gGlobalMikrokosmos3WanderingOahGroup->
+        getGeneratedCodeKind ();
+
   cerr <<
     "Converting the MSR score to " <<
-    generatedCodeKindAsString (gGeneratedCodeKind) <<
+    generatedCodeKindAsString (theGeneratedCodeKind) <<
     endl;
 
   xmlErr err = kNoErr;
 
-  switch (gGeneratedCodeKind) {
-    case kNoGeneratedCode:
+  switch (theGeneratedCodeKind) {
+    case k_NoGeneratedCode:
       // should not occur
       break;
     case kGuido:
@@ -2946,7 +2971,7 @@ int main (int argc, char * argv[])
   if (err != 0) {
     cerr <<
       executableName << ", " <<
-      generatedCodeKindAsString (gGeneratedCodeKind) <<
+      generatedCodeKindAsString (theGeneratedCodeKind) <<
       ", err = " <<
       err <<
       endl;

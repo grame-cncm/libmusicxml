@@ -426,8 +426,8 @@ EXP msrClefKind clefKindFromString (
   int    inputLineNumber,
   string clefString);
 
-string existingClefKinds (int namesListMaxLength);
-string existingClefKindsNames (int namesListMaxLength);
+string existingClefKinds (unsigned int namesListMaxLength);
+string existingClefKindsNames (unsigned int namesListMaxLength);
 
 extern map<string, msrClefKind>
   gGlobalClefKindsMap;
@@ -573,8 +573,8 @@ string msrHarmonyKindShortName (
 EXP msrHarmonyKind msrHarmonyKindFromString (
   string theString);
 
-string existingHarmonyKinds (int namesListMaxLength);
-string existingHarmonyKindsNames (int namesListMaxLength);
+string existingHarmonyKinds (unsigned int namesListMaxLength);
+string existingHarmonyKindsNames (unsigned int namesListMaxLength);
 
 // constant
 const int K_HARMONY_NO_INVERSION = -1;
@@ -935,7 +935,7 @@ enum msrLengthUnitKind {
 string msrLengthUnitKindAsString (
   msrLengthUnitKind lengthUnitKind);
 
-string existingMsrLengthUnitKinds (int namesListMaxLength);
+string existingMsrLengthUnitKinds (unsigned int namesListMaxLength);
 
 extern map<string, msrLengthUnitKind>
   gGlobalMsrLengthUnitKindsMap;
@@ -1038,7 +1038,7 @@ enum msrMarginTypeKind {
 string msrMarginTypeKindAsString (
   msrMarginTypeKind marginTypeKind);
 
-string existingMsrMarginTypeKinds (int namesListMaxLength);
+string existingMsrMarginTypeKinds (unsigned int namesListMaxLength);
 
 extern map<string, msrMarginTypeKind>
   gGlobalMsrMarginTypeKindsMap;
@@ -2150,7 +2150,7 @@ void initializeSuomiPitchNamesMap ();
 void initializeSvenskaPitchNamesMap ();
 void initializeVlaamsPitchNamesMap ();
 
-string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength);
+string existingQuarterTonesPitchesLanguageKinds (unsigned int namesListMaxLength);
 
 // initialization
 //______________________________________________________________________________

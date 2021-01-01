@@ -93,9 +93,11 @@ static xmlErr xmlFile2brailleWithHandler (
         "Pass 2a");
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -121,9 +123,11 @@ static xmlErr xmlFile2brailleWithHandler (
       "Pass 2b");
   }
   catch (mxmlTreeToMsrException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -159,9 +163,11 @@ static xmlErr xmlFile2brailleWithHandler (
           passNumber);
     }
     catch (msrScoreToBsrScoreException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (std::exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -224,9 +230,11 @@ static xmlErr xmlFile2brailleWithHandler (
           passNumber);
     }
     catch (bsrScoreToFinalizedBsrScoreException& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
     catch (std::exception& e) {
+      gOutputStream << e.what () << endl;
       return kInvalidFile;
     }
 
@@ -311,9 +319,11 @@ static xmlErr xmlFile2brailleWithHandler (
           out);
       }
       catch (lpsrScoreToLilypondException& e) {
+      gOutputStream << e.what () << endl;
         return kInvalidFile;
       }
       catch (std::exception& e) {
+      gOutputStream << e.what () << endl;
         return kInvalidFile;
       }
     }
@@ -369,9 +379,11 @@ static xmlErr xmlFile2brailleWithHandler (
           brailleCodeFileOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
+        gOutputStream << e.what () << endl;
         return kInvalidFile;
       }
       catch (std::exception& e) {
+        gOutputStream << e.what () << endl;
         return kInvalidFile;
       }
 
@@ -552,9 +564,11 @@ static xmlErr xmlFile2brailleWithOptionsVector (
     } // switch
   }
   catch (msrOahException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidOption;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 

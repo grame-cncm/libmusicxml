@@ -187,6 +187,7 @@ int main (int argc, char *argv[])
     return kInvalidOption;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -371,6 +372,7 @@ int main (int argc, char *argv[])
     }
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 

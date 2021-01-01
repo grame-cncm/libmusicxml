@@ -1112,8 +1112,8 @@ string existingLpsrChordsLanguageKinds (unsigned int namesListMaxLength)
       nextToLast =
         lpsrChordsLanguageKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, lpsrChordsLanguageKind>::const_iterator i =

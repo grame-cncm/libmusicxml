@@ -10428,7 +10428,7 @@ void initializeClefKinds ()
   }
 }
 
-string existingClefKinds (int namesListMaxLength)
+string existingClefKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -10474,7 +10474,7 @@ string existingClefKinds (int namesListMaxLength)
   return s.str ();
 }
 
-string existingClefKindsNames (int namesListMaxLength)
+string existingClefKindsNames (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -11399,7 +11399,7 @@ void initializeHarmonyKinds ()
   }
 }
 
-string existingHarmonyKinds (int namesListMaxLength)
+string existingHarmonyKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -11445,7 +11445,7 @@ string existingHarmonyKinds (int namesListMaxLength)
   return s.str ();
 }
 
-string existingHarmonyKindsNames (int namesListMaxLength)
+string existingHarmonyKindsNames (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -14894,7 +14894,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromString (
   return result;
 }
 
-string existingQuarterTonesPitchesLanguageKinds (int namesListMaxLength)
+string existingQuarterTonesPitchesLanguageKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -15602,7 +15602,7 @@ void initializeMsrLengthUnitKindsMap ()
   gGlobalMsrLengthUnitKindsMap ["mm"] = kMillimeterUnit;
 }
 
-string existingMsrLengthUnitKinds (int namesListMaxLength)
+string existingMsrLengthUnitKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
@@ -15802,7 +15802,7 @@ void initializeMsrMarginTypeKindsMap ()
   gGlobalMsrMarginTypeKindsMap ["both"] = kBothMargins;
 }
 
-string existingMsrMarginTypeKinds (int namesListMaxLength)
+string existingMsrMarginTypeKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 

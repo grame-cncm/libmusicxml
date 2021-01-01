@@ -29,7 +29,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// breaking the classes dependency cycle
 class msrFiguredBass;
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 

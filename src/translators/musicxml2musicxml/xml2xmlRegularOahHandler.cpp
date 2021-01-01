@@ -1184,6 +1184,22 @@ void xml2xmlRegularOahHandler::createOutputRegularGroup ()
 }
 
 //______________________________________________________________________________
+void xml2xmlRegularOahHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "checking options and arguments from argc/argv in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  checkSingleInputSourceInArgumentsVector ();
+}
+
+//______________________________________________________________________________
 void xml2xmlRegularOahHandler::print (ostream& os) const
 {
   const unsigned int fieldWidth = 27;

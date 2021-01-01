@@ -58,6 +58,8 @@ class EXP xml2xmlRegularOahHandler : public oahRegularOahHandler
     // public services
     // ------------------------------------------------------
 
+    void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
+
     string                fetchOutputFileNameFromTheOptions () const override
                               {
                                 return

@@ -65,6 +65,8 @@ class EXP xml2xmlInsiderOahHandler : public oahHandler
     // public services
     // ------------------------------------------------------
 
+    void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
+
     string                fetchOutputFileNameFromTheOptions () const override;
 
     // quiet mode

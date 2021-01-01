@@ -22,7 +22,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// breaking the classes dependency cycle
 class msrPartGroup;
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 

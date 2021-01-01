@@ -359,6 +359,22 @@ void xml2brlInsiderOahHandler::createTheXml2brlOptionGroups (
 }
 
 //______________________________________________________________________________
+void xml2brlInsiderOahHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "checking options and arguments from argc/argv in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  checkSingleInputSourceInArgumentsVector ();
+}
+
+//______________________________________________________________________________
 string xml2brlInsiderOahHandler::fetchOutputFileNameFromTheOptions () const
 {
 #ifdef TRACING_IS_ENABLED

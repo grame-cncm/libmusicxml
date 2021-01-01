@@ -46,7 +46,7 @@ using namespace MusicXML2;
 //_______________________________________________________________________________
 #ifndef WIN32
 
-static void _sigaction(int signal, siginfo_t *si, void *arg)
+static void _sigaction (int signal, siginfo_t *si, void *arg)
 {
   cerr << "Signal #" << signal << " catched!" << endl;
   exit (-2);
@@ -185,9 +185,11 @@ int main (int argc, char *argv[])
     } // switch
   }
   catch (msrOahException& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidOption;
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
@@ -386,6 +388,7 @@ int main (int argc, char *argv[])
     }
   }
   catch (std::exception& e) {
+    gOutputStream << e.what () << endl;
     return kInvalidFile;
   }
 
