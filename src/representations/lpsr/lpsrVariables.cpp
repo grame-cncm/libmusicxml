@@ -105,9 +105,9 @@ void lpsrVariableUseCommand::browseData (basevisitor* v)
 void lpsrVariableUseCommand::print (ostream& os) const
 {
   os << "VariableUseCommand" << endl;
-  gIndenter++;
+  ++gIndenter;
   os << fVariableName << endl;
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& nstf)

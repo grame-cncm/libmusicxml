@@ -121,7 +121,7 @@ void oahRegularOahHandler::initializeOahRegularOahHandler ()
     "\" has been initialized as:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 //  this->printShort (gLogStream);
   this->printHelp (gOutputStream); // JMI
@@ -129,7 +129,7 @@ void oahRegularOahHandler::initializeOahRegularOahHandler ()
   gLogStream <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 #endif
 #endif
 }
@@ -222,11 +222,11 @@ void oahRegularOahHandler::registerAtomInRegularSubgroup (
       gLogStream <<
         "===> insiderElement:" <<
         endl;
-      gIndenter++;
+      ++gIndenter;
       gLogStream <<
         insiderElement <<
         endl;
-      gIndenter--;
+      --gIndenter;
     }
 
     if (
@@ -268,6 +268,98 @@ void oahRegularOahHandler::registerAtomInRegularSubgroup (
 }
 
 //______________________________________________________________________________
+void oahHandler::checkOptionsAndArgumentsFromArgcAndArgv () const
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "checking options and arguments from argc/argv in \"" <<
+      fHandlerHeader <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  unsigned int argumentsNumber =
+    fHandlerArgumentsVector.size ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah () && ! gGlobalGeneralOahGroup->getQuiet ()) {
+    if (argumentsNumber > 0) {
+      gLogStream <<
+        singularOrPluralWithoutNumber (
+          argumentsNumber, "There is", "There are") <<
+        " " <<
+        argumentsNumber <<
+        " " <<
+        singularOrPluralWithoutNumber (
+          argumentsNumber, "argument", "arguments") <<
+        " in handler arguments vector for " <<
+        fHandlerExecutableName <<
+        ":" <<
+        endl;
+
+      ++gIndenter;
+
+      for (unsigned int i = 0; i < argumentsNumber; ++i) {
+        gLogStream <<
+          i << " : " << fHandlerArgumentsVector [i] <<
+            endl;
+      } // for
+
+      gLogStream << endl;
+
+      --gIndenter;
+    }
+    else {
+      gLogStream <<
+        "There are no arguments to " <<
+        fHandlerExecutableName <<
+        endl;
+    }
+  }
+#endif
+
+  // input source name
+  // ------------------------------------------------------
+
+  switch (argumentsNumber) {
+    case 0:
+      if (! fOahHandlerFoundAHelpOption) {
+        string message =
+          "Input file name or '-' for standard input expected";
+
+        gLogStream <<
+          message <<
+          endl;
+
+        throw msrOahException (message);
+      }
+      break;
+
+    case 1:
+      // register intput file name
+      gGlobalOahOahGroup->
+        setInputSourceName (
+          fHandlerArgumentsVector [0]);
+      break;
+
+    default:
+      gLogStream <<
+        endl <<
+        "Several input file name supplied, only the first one, \"" <<
+        fHandlerArgumentsVector [0] <<
+        "\", will be translated" <<
+        endl << endl;
+
+      // register intput file name
+      gGlobalOahOahGroup->setInputSourceName (
+        fHandlerArgumentsVector [0]);
+      break;
+  } //  switch
+}
+
+//______________________________________________________________________________
 void oahRegularOahHandler::print (ostream& os) const
 {
   const unsigned int fieldWidth = 27;
@@ -276,7 +368,7 @@ void oahRegularOahHandler::print (ostream& os) const
     "oahRegularOahHandler \"" << fHandlerHeader << "\":" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -292,7 +384,7 @@ void oahRegularOahHandler::print (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -305,7 +397,7 @@ void oahRegularOahHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
 if (false) { // JMI
@@ -318,7 +410,7 @@ if (false) { // JMI
   displayNamesToElementsMap (os);
 }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -389,11 +481,11 @@ string existingOahOptionalValuesStyleKinds (unsigned int namesListMaxLength)
       map<string, oahOptionalValuesStyleKind>::const_iterator i =
         gGlobalOahOptionalValuesStyleKindsMap.begin ();
       i != gGlobalOahOptionalValuesStyleKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {

@@ -74,12 +74,12 @@ void msr2namesVisitor::visitStart (S_msrScore& elt)
     "\":" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void msr2namesVisitor::visitEnd (S_msrScore& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -91,7 +91,7 @@ void msr2namesVisitor::visitEnd (S_msrScore& elt)
     "The score contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 3;
 
@@ -124,7 +124,7 @@ void msr2namesVisitor::visitEnd (S_msrScore& elt)
       "voices") <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //________________________________________________________________________
@@ -136,7 +136,7 @@ void msr2namesVisitor::visitStart (S_msrPartGroup& elt)
       endl;
   }
 
-  fPartGroupsCounter++;
+  ++fPartGroupsCounter;
 
   unsigned int partGroupElementsSize = elt->getPartGroupElements ().size ();
 
@@ -149,7 +149,7 @@ void msr2namesVisitor::visitStart (S_msrPartGroup& elt)
       " parts or sub part groups") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 25;
 
@@ -177,7 +177,7 @@ void msr2namesVisitor::visitStart (S_msrPartGroup& elt)
 
 void msr2namesVisitor::visitEnd (S_msrPartGroup& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -195,7 +195,7 @@ void msr2namesVisitor::visitStart (S_msrPart& elt)
       endl;
   }
 
-  fPartsCounter++;
+  ++fPartsCounter;
 
   unsigned int partStavesMapSize = elt->getPartStavesMap ().size ();
 
@@ -207,7 +207,7 @@ void msr2namesVisitor::visitStart (S_msrPart& elt)
       "staff", "staves") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 27;
 
@@ -242,7 +242,7 @@ void msr2namesVisitor::visitStart (S_msrPart& elt)
 
 void msr2namesVisitor::visitEnd (S_msrPart& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -260,7 +260,7 @@ void msr2namesVisitor::visitStart (S_msrStaff& elt)
       endl;
   }
 
-  fStavesCounter++;
+  ++fStavesCounter;
 
   unsigned int staffAllVoicesVectorSize = elt->getStaffAllVoicesVector ().size ();
 
@@ -272,7 +272,7 @@ void msr2namesVisitor::visitStart (S_msrStaff& elt)
       "voice", "voices") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 
   const unsigned int fieldWidth = 28;
@@ -300,7 +300,7 @@ void msr2namesVisitor::visitStart (S_msrStaff& elt)
 
 void msr2namesVisitor::visitEnd (S_msrStaff& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -320,7 +320,7 @@ void msr2namesVisitor::visitStart (S_msrVoice& elt)
       endl;
   }
 
-  fVoicesCounter++;
+  ++fVoicesCounter;
 
   unsigned int voiceStanzasMapSize = elt->getVoiceStanzasMap ().size ();
 
@@ -332,7 +332,7 @@ void msr2namesVisitor::visitStart (S_msrVoice& elt)
       "stanza", "stanzas") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 28;
 
@@ -352,7 +352,7 @@ void msr2namesVisitor::visitStart (S_msrVoice& elt)
 
 void msr2namesVisitor::visitEnd (S_msrVoice& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<

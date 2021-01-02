@@ -195,7 +195,7 @@ void msrLigature::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 22;
 
@@ -216,7 +216,7 @@ void msrLigature::print (ostream& os) const
       fLigaturePlacementKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrLigature& elt)

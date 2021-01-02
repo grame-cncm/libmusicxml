@@ -819,7 +819,7 @@ S_bsrCellsList bsrNote::buildCellsList () const
     noteValueKindAsCellsList ());
 
   // append dots if any
-  for (int i = 0; i < fNoteDotsNumber; i++) {
+  for (int i = 0; i < fNoteDotsNumber; ++i) {
     result->appendCellKindToCellsList (
       kCellAugmentationDot);
   } // for
@@ -1325,7 +1325,7 @@ string bsrNote::asDebugString () const
     noteValueKindAsDebugString (fNoteValueKind) <<
     accidentalKindAsDebugString (fAccidentalKind);
 
-  for (int i = 1; i <= fNoteDotsNumber; i++) {
+  for (int i = 1; i <= fNoteDotsNumber; ++i) {
     s << ".";
   } // for
 
@@ -1339,7 +1339,7 @@ void bsrNote::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 23;
 
@@ -1375,7 +1375,7 @@ void bsrNote::print (ostream& os) const
     "spacesBefore" << " : " << fSpacesBefore <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrNote& elt)

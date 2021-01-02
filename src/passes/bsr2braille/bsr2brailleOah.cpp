@@ -110,12 +110,12 @@ void brailleOutputKindAtom::applyAtomWithValue (
       " known braille ouptput kind are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingBsrBrailleOutputKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -218,7 +218,7 @@ void brailleOutputKindAtom::print (ostream& os) const
     "OptionsUTFKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -235,7 +235,7 @@ void brailleOutputKindAtom::print (ostream& os) const
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void brailleOutputKindAtom::printAtomWithValueOptionsValues (
@@ -436,7 +436,7 @@ void brailleUTFKindAtom::print (ostream& os) const
     "OptionsUTFKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -453,7 +453,7 @@ void brailleUTFKindAtom::print (ostream& os) const
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void brailleUTFKindAtom::printAtomWithValueOptionsValues (
@@ -654,7 +654,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
     "OptionsByteOrderingKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -671,7 +671,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void brailleByteOrderingKindAtom::printAtomWithValueOptionsValues (
@@ -1037,7 +1037,7 @@ void bsr2brailleOahGroup::printBsr2brailleOahValues (unsigned int fieldWidth)
     "The Bsr2braille options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // code generation
   // --------------------------------------
@@ -1046,7 +1046,7 @@ void bsr2brailleOahGroup::printBsr2brailleOahValues (unsigned int fieldWidth)
     "Braille code generation:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "UTFKind" << " : " <<
@@ -1079,9 +1079,9 @@ void bsr2brailleOahGroup::printBsr2brailleOahValues (unsigned int fieldWidth)
       booleanAsString (fNoBrailleCode) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsr2brailleOahGroup& elt)

@@ -181,7 +181,7 @@ void lpsrHeader::print (ostream& os) const
 
   bool emptyHeader = true;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 16;
 
@@ -192,11 +192,11 @@ void lpsrHeader::print (ostream& os) const
 
   if (fHeaderIdentification) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
     os <<
       fHeaderIdentification <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << " none" << endl;
@@ -310,7 +310,7 @@ void lpsrHeader::print (ostream& os) const
       endl << endl; // JMI
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lpsrHeader::printShort (ostream& os) const

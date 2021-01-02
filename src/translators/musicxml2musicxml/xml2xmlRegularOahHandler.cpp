@@ -93,14 +93,14 @@ xml2xmlRegularOahHandler::xml2xmlRegularOahHandler (
     "\" has been initialized as:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream <<
     "===> printHelp():" <<
     endl;
   this->printHelp (gOutputStream); // JMI
 
-  gIndenter--;
+  --gIndenter;
 #endif
 #endif
 }
@@ -1208,7 +1208,7 @@ void xml2xmlRegularOahHandler::print (ostream& os) const
     "xml2xmlRegularOahHandler '" << fHandlerHeader << "':" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -1224,7 +1224,7 @@ void xml2xmlRegularOahHandler::print (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -1237,10 +1237,10 @@ void xml2xmlRegularOahHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }

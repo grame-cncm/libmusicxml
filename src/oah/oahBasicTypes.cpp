@@ -74,9 +74,9 @@ void displayOptionsVector (
   if (theOptionsVector.size ()) {
     os << ":" << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
-    for (unsigned int i = 0; i < theOptionsVector.size (); i++) {
+    for (unsigned int i = 0; i < theOptionsVector.size (); ++i) {
       string optionName  = theOptionsVector [i].first;
       string optionValue = theOptionsVector [i].second;
 
@@ -92,7 +92,7 @@ void displayOptionsVector (
 
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << endl;
@@ -380,7 +380,7 @@ if (false)
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 // JMI
   // an atom with an optional value
@@ -417,7 +417,7 @@ if (false)
   handler->
     appendElementToElementsList (this);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahAtom::registerAtomAsBeingUsed ()
@@ -502,7 +502,7 @@ void oahAtom::print (ostream& os) const
     "Atom ???:" <<
       endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -512,7 +512,7 @@ void oahAtom::print (ostream& os) const
     elementHelpOnlyKindAsString (fElementHelpOnlyKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahAtom::printShort (ostream& os) const
@@ -687,7 +687,7 @@ void oahAtomWithVariableName::print (ostream& os) const
     "AtomWithVariableName:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printOahElementEssentials (
     os, fieldWidth);
@@ -698,7 +698,7 @@ void oahAtomWithVariableName::print (ostream& os) const
     "\"" << fVariableName << "\"" <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahAtomWithVariableName::printShort (ostream& os) const
@@ -919,12 +919,12 @@ void oahAtomWithValue::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahAtomWithValue::printShort (ostream& os) const
@@ -1079,7 +1079,7 @@ void oahSubGroup::appendSubGroupToElementsList (
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // append subgroup to elements list
   handler->
@@ -1093,7 +1093,7 @@ void oahSubGroup::appendSubGroupToElementsList (
     list<S_oahAtom>::const_iterator
       i = fSubGroupAtomsList.begin ();
     i != fSubGroupAtomsList.end ();
-    i++
+    ++i
   ) {
     S_oahAtom atom = (*i);
     // register atom in the handler elements list
@@ -1102,7 +1102,7 @@ void oahSubGroup::appendSubGroupToElementsList (
         handler);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahSubGroup::registerNamesInSubGroupToTheNamesToElementsMap (
@@ -1120,7 +1120,7 @@ void oahSubGroup::registerNamesInSubGroupToTheNamesToElementsMap (
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // register this subgroup's names in this handler
   handler->
@@ -1132,7 +1132,7 @@ void oahSubGroup::registerNamesInSubGroupToTheNamesToElementsMap (
     list<S_oahAtom>::const_iterator
       i = fSubGroupAtomsList.begin ();
     i != fSubGroupAtomsList.end ();
-    i++
+    ++i
   ) {
     S_oahAtom atom = (*i);
 
@@ -1142,7 +1142,7 @@ void oahSubGroup::registerNamesInSubGroupToTheNamesToElementsMap (
         atom);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahSubGroup::appendAtomToSubGroup (
@@ -1171,7 +1171,7 @@ S_oahElement oahSubGroup::fetchOptionByNameInSubGroup (
     list<S_oahAtom>::const_iterator
       i = fSubGroupAtomsList.begin ();
     i != fSubGroupAtomsList.end ();
-    i++
+    ++i
   ) {
     S_oahAtom atom = (*i);
 
@@ -1212,14 +1212,14 @@ void oahSubGroup::applyElement (ostream& os)
     "\" ---" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   fGroupUpLink->
     printGroupAndSubGroupHelp (
       os,
       this);
 
-  gIndenter--;
+  --gIndenter;
 
   gIndenter.setIndent (saveIndent);
 }
@@ -1295,7 +1295,7 @@ void oahSubGroup::browseData (basevisitor* v)
     for (
       list<S_oahAtom>::const_iterator i = fSubGroupAtomsList.begin ();
       i != fSubGroupAtomsList.end ();
-      i++
+      ++i
     ) {
       S_oahAtom atom = (*i);
 
@@ -1321,7 +1321,7 @@ void oahSubGroup::print (ostream& os) const
    "SubGroup:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -1343,7 +1343,7 @@ void oahSubGroup::print (ostream& os) const
   if (fSubGroupAtomsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahAtom>::const_iterator
       iBegin = fSubGroupAtomsList.begin (),
@@ -1356,10 +1356,10 @@ void oahSubGroup::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahSubGroup::printShort (ostream& os) const
@@ -1373,7 +1373,7 @@ void oahSubGroup::printShort (ostream& os) const
     os, fieldWidth);
 
   if (fSubGroupAtomsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahAtom>::const_iterator
       iBegin = fSubGroupAtomsList.begin (),
@@ -1386,14 +1386,14 @@ void oahSubGroup::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
 void oahSubGroup::underlineSubGroupHeader (ostream& os) const
 {
   /* JMI ???
-  for (unsigned int i = 0; i < fSubGroupHeader.size (); i++) {
+  for (unsigned int i = 0; i < fSubGroupHeader.size (); ++i) {
     os << "-";
   } // for
   os << endl;
@@ -1472,11 +1472,11 @@ void oahSubGroup::printHelp (ostream& os) const
 
   // print the description if any
   if (fDescription.size ()) {
-    gIndenter++;
+    ++gIndenter;
     os <<
       gIndenter.indentMultiLineString (
         fDescription);
-    gIndenter--;
+    --gIndenter;
 
     os << endl;
   }
@@ -1488,7 +1488,7 @@ void oahSubGroup::printHelp (ostream& os) const
 
     case kElementVisibilityWhole:
       if (fSubGroupAtomsList.size ()) {
-        gIndenter++;
+        ++gIndenter;
 
         list<S_oahAtom>::const_iterator
           iBegin = fSubGroupAtomsList.begin (),
@@ -1512,7 +1512,7 @@ void oahSubGroup::printHelp (ostream& os) const
           if (++i == iEnd) break;
         } // for
 
-        gIndenter--;
+        --gIndenter;
       }
       break;
 
@@ -1540,11 +1540,11 @@ void oahSubGroup::printHelpWithHeaderWidth (
 
   // print the description if any
   if (fDescription.size ()) {
-    gIndenter++;
+    ++gIndenter;
     os <<
       gIndenter.indentMultiLineString (
         fDescription);
-    gIndenter--;
+    --gIndenter;
 
     os << endl;
   }
@@ -1553,7 +1553,7 @@ void oahSubGroup::printHelpWithHeaderWidth (
   switch (fElementVisibilityKind) {
     case kElementVisibilityWhole:
       if (fSubGroupAtomsList.size ()) {
-        gIndenter++;
+        ++gIndenter;
 
         list<S_oahAtom>::const_iterator
           iBegin = fSubGroupAtomsList.begin (),
@@ -1577,7 +1577,7 @@ void oahSubGroup::printHelpWithHeaderWidth (
           if (++i == iEnd) break;
         } // for
 
-        gIndenter--;
+        --gIndenter;
       }
       break;
 
@@ -1597,16 +1597,16 @@ void oahSubGroup::printSubGroupHelp (ostream& os) const
 
   // print the description if any
   if (fDescription.size ()) {
-    gIndenter++;
+    ++gIndenter;
     os <<
       gIndenter.indentMultiLineString (
         fDescription) <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 
   if (fSubGroupAtomsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahAtom>::const_iterator
       iBegin = fSubGroupAtomsList.begin (),
@@ -1619,7 +1619,7 @@ void oahSubGroup::printSubGroupHelp (ostream& os) const
   // JMI    os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -1671,12 +1671,12 @@ void oahSubGroup::printOptionsSummary (
 
   // print the description if any
   if (fDescription.size ()) {
-    gIndenter++;
+    ++gIndenter;
     os <<
       gIndenter.indentMultiLineString (
         fDescription) <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -1709,7 +1709,7 @@ void oahSubGroup::printSubGroupAndAtomHelp (
 {
   // print the subgroup atoms
   if (fSubGroupAtomsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahAtom>::const_iterator
       iBegin = fSubGroupAtomsList.begin (),
@@ -1726,7 +1726,7 @@ void oahSubGroup::printSubGroupAndAtomHelp (
       if (++i == iEnd) break;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -1742,12 +1742,12 @@ void oahSubGroup::findStringInSubGroup (
 
   // do this subgroups's atoms match?
   if (fSubGroupAtomsList.size ()) {
-   gIndenter++;
+   ++gIndenter;
 
    for (
       list<S_oahAtom>::const_iterator i = fSubGroupAtomsList.begin ();
       i != fSubGroupAtomsList.end ();
-      i++
+      ++i
     ) {
       S_oahAtom atom = (*i);
 
@@ -1758,7 +1758,7 @@ void oahSubGroup::findStringInSubGroup (
           os);
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -1786,7 +1786,7 @@ void oahSubGroup::printSubGroupOptionsValues (
 
   // print the subgroup atoms values
   if (fSubGroupAtomsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahAtom>::const_iterator
       iBegin = fSubGroupAtomsList.begin (),
@@ -1801,7 +1801,7 @@ void oahSubGroup::printSubGroupOptionsValues (
   //    os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -1919,7 +1919,7 @@ void oahGroup::appendGroupToElementsList (
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   msgAssert (
@@ -1938,7 +1938,7 @@ void oahGroup::appendGroupToElementsList (
     list<S_oahSubGroup>::const_iterator
       i = fGroupSubGroupsList.begin ();
     i != fGroupSubGroupsList.end ();
-    i++
+    ++i
   ) {
     S_oahSubGroup subGroup = (*i);
 
@@ -1948,7 +1948,7 @@ void oahGroup::appendGroupToElementsList (
         handler);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahGroup::registerNamesInGroupToTheNamesToElementsMap (
@@ -1966,7 +1966,7 @@ void oahGroup::registerNamesInGroupToTheNamesToElementsMap (
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   msgAssert (
@@ -1983,7 +1983,7 @@ void oahGroup::registerNamesInGroupToTheNamesToElementsMap (
     list<S_oahSubGroup>::const_iterator
       i = fGroupSubGroupsList.begin ();
     i != fGroupSubGroupsList.end ();
-    i++
+    ++i
   ) {
     S_oahSubGroup subGroup = (*i);
 
@@ -1993,7 +1993,7 @@ void oahGroup::registerNamesInGroupToTheNamesToElementsMap (
         handler);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void  oahGroup::appendSubGroupToGroup (
@@ -2022,7 +2022,7 @@ S_oahElement oahGroup::fetchOptionByNameInGroup (
     list<S_oahSubGroup>::const_iterator
       i = fGroupSubGroupsList.begin ();
     i != fGroupSubGroupsList.end ();
-    i++
+    ++i
   ) {
     // search name in the options group
     result =
@@ -2059,11 +2059,11 @@ void oahGroup::applyElement (ostream& os)
     "\" ---" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHelp (os);
 
-  gIndenter--;
+  --gIndenter;
 
   gIndenter.setIndent (saveIndent);
 }
@@ -2100,14 +2100,14 @@ void oahGroup::checkGroupSubGroupsOptionsConsistency ()
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // check the subgroups options consistency
   if (fGroupSubGroupsList.size ()) {
     for (
       list<S_oahSubGroup>::const_iterator i = fGroupSubGroupsList.begin ();
       i != fGroupSubGroupsList.end ();
-      i++
+      ++i
     ) {
       S_oahSubGroup subgroup = (*i);
 
@@ -2117,7 +2117,7 @@ void oahGroup::checkGroupSubGroupsOptionsConsistency ()
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 
   // check the group's own consistency
   this->checkGroupOptionsConsistency ();
@@ -2191,7 +2191,7 @@ void oahGroup::browseData (basevisitor* v)
     for (
       list<S_oahSubGroup>::const_iterator i = fGroupSubGroupsList.begin ();
       i != fGroupSubGroupsList.end ();
-      i++
+      ++i
     ) {
       S_oahSubGroup subGroup = (*i);
 
@@ -2210,7 +2210,7 @@ void oahGroup::print (ostream& os) const
     "Group:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -2225,7 +2225,7 @@ void oahGroup::print (ostream& os) const
   if (fGroupSubGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahSubGroup>::const_iterator
       iBegin = fGroupSubGroupsList.begin (),
@@ -2238,10 +2238,10 @@ void oahGroup::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahGroup::printShort (ostream& os) const
@@ -2257,7 +2257,7 @@ void oahGroup::printShort (ostream& os) const
   if (fGroupSubGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahSubGroup>::const_iterator
       iBegin = fGroupSubGroupsList.begin (),
@@ -2270,14 +2270,14 @@ void oahGroup::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
 void oahGroup::underlineGroupHeader (ostream& os) const
 {
   /* JMI
-  for (unsigned int i = 0; i < fGroupHeader.size (); i++) {
+  for (unsigned int i = 0; i < fGroupHeader.size (); ++i) {
     os << "-";
   } // for
   os << endl;
@@ -2322,12 +2322,12 @@ void oahGroup::printHelp (ostream& os) const
 
     // print the description if any
     if (fDescription.size ()) {
-      gIndenter++;
+      ++gIndenter;
       os <<
         gIndenter.indentMultiLineString (
           fDescription) <<
         endl;
-      gIndenter--;
+      --gIndenter;
     }
 
     // underline the options group header
@@ -2342,7 +2342,7 @@ void oahGroup::printHelp (ostream& os) const
     for (
       list<S_oahSubGroup>::const_iterator i = fGroupSubGroupsList.begin ();
       i != fGroupSubGroupsList.end ();
-      i++
+      ++i
     ) {
       string subGroupHeader  = (*i)->getSubGroupHeader ();
       unsigned int subGroupHeaderSize = subGroupHeader.size ();
@@ -2355,7 +2355,7 @@ void oahGroup::printHelp (ostream& os) const
     maximumSubGroupHeaderLength += 3; // to have some more spaces
 
     if (fGroupHeaderIsToBeWritten) {
-      gIndenter++;
+      ++gIndenter;
     }
 
     list<S_oahSubGroup>::const_iterator
@@ -2376,7 +2376,7 @@ void oahGroup::printHelp (ostream& os) const
     } // for
 
     if (fGroupHeaderIsToBeWritten) {
-      gIndenter--;
+      --gIndenter;
     }
   }
 }
@@ -2395,12 +2395,12 @@ void oahGroup::printGroupAndSubGroupHelp (
 
   // print the description if any
   if (fDescription.size ()) {
-    gIndenter++;
+    ++gIndenter;
     os <<
       gIndenter.indentMultiLineString (
         fDescription) <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 
   // underline the options group header
@@ -2408,7 +2408,7 @@ void oahGroup::printGroupAndSubGroupHelp (
 
   // print the target options subgroup
   if (fGroupSubGroupsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahSubGroup>::const_iterator
       iBegin = fGroupSubGroupsList.begin (),
@@ -2425,7 +2425,7 @@ void oahGroup::printGroupAndSubGroupHelp (
       if (++i == iEnd) break;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2469,12 +2469,12 @@ void oahGroup::printOptionsSummary (ostream& os) const
 
   // print the description if any
   if (fDescription.size ()) {
-    gIndenter++;
+    ++gIndenter;
     os <<
       gIndenter.indentMultiLineString (
         fDescription) <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 
   // underline the options group header
@@ -2482,7 +2482,7 @@ void oahGroup::printOptionsSummary (ostream& os) const
 
   // print the options subgroups
   if (fGroupSubGroupsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahSubGroup>::const_iterator
       iBegin = fGroupSubGroupsList.begin (),
@@ -2496,7 +2496,7 @@ void oahGroup::printOptionsSummary (ostream& os) const
  //     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2533,12 +2533,12 @@ void oahGroup::printGroupAndSubGroupSpecificHelp (
 
     // print the description if any
     if (fDescription.size ()) {
-      gIndenter++;
+      ++gIndenter;
       os <<
         gIndenter.indentMultiLineString (
           fDescription) <<
         endl;
-      gIndenter--;
+      --gIndenter;
     }
 
     // underline the options group header
@@ -2547,7 +2547,7 @@ void oahGroup::printGroupAndSubGroupSpecificHelp (
 
   // print the options subgroups
   if (fGroupSubGroupsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahSubGroup>::const_iterator
       iBegin = fGroupSubGroupsList.begin (),
@@ -2565,7 +2565,7 @@ void oahGroup::printGroupAndSubGroupSpecificHelp (
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2593,7 +2593,7 @@ void oahGroup::printGroupOptionsValues (
 
   // print the options subgroups values
   if (fGroupSubGroupsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahSubGroup>::const_iterator
       iBegin = fGroupSubGroupsList.begin (),
@@ -2608,7 +2608,7 @@ void oahGroup::printGroupOptionsValues (
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2636,12 +2636,12 @@ void oahGroup::findStringInGroup (
 
   // do this groups's subgroups match?
   if (fGroupSubGroupsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     for (
       list<S_oahSubGroup>::const_iterator i = fGroupSubGroupsList.begin ();
       i != fGroupSubGroupsList.end ();
-      i++
+      ++i
     ) {
       S_oahSubGroup subGroup = (*i);
 
@@ -2652,7 +2652,7 @@ void oahGroup::findStringInGroup (
           os);
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2802,7 +2802,7 @@ if (true)
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   string
     elementShortName =
@@ -2859,7 +2859,7 @@ if (true)
     map<string, S_oahElement>::iterator i =
       fHandlerNamesToElementsMap.begin ();
     i != fHandlerNamesToElementsMap.end ();
-    i++
+    ++i
   ) {
     // is elementLongName already in the elements names map?
     if ((*i).first == elementLongName) {
@@ -2929,7 +2929,7 @@ if (true)
         elementVariableNameLength;
     }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahHandler::registerNamesInHandlerToTheNamesToElementsMap ()
@@ -2944,14 +2944,14 @@ void oahHandler::registerNamesInHandlerToTheNamesToElementsMap ()
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // check the handler groups options consistency
   if (fHandlerGroupsList.size ()) {
     for (
       list<S_oahGroup>::const_iterator i = fHandlerGroupsList.begin ();
       i != fHandlerGroupsList.end ();
-      i++
+      ++i
     ) {
       S_oahGroup group = (*i);
 
@@ -2976,7 +2976,7 @@ if (false) // JMI
 #endif
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahHandler::appendElementToElementsList (
@@ -3042,9 +3042,9 @@ void oahHandler::checkOptionsAndArgumentsFromOptionsVector ()
         ":" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
-      for (unsigned int i = 0; i < argumentsNumber; i++) {
+      for (unsigned int i = 0; i < argumentsNumber; ++i) {
         gLogStream <<
           i << " : " << fHandlerArgumentsVector [i] <<
             endl;
@@ -3052,7 +3052,7 @@ void oahHandler::checkOptionsAndArgumentsFromOptionsVector ()
 
       gLogStream << endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 #endif
 
@@ -3104,9 +3104,9 @@ void oahHandler::checkNoInputSourceInArgumentsVector () const
         ":" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
-      for (unsigned int i = 0; i < argumentsNumber; i++) {
+      for (unsigned int i = 0; i < argumentsNumber; ++i) {
         gLogStream <<
           i << " : " << fHandlerArgumentsVector [i] <<
             endl;
@@ -3114,7 +3114,7 @@ void oahHandler::checkNoInputSourceInArgumentsVector () const
 
       gLogStream << endl;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       gLogStream <<
@@ -3184,9 +3184,9 @@ void oahHandler::checkSingleInputSourceInArgumentsVector () const
         ":" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
-      for (unsigned int i = 0; i < argumentsNumber; i++) {
+      for (unsigned int i = 0; i < argumentsNumber; ++i) {
         gLogStream <<
           i << " : " << fHandlerArgumentsVector [i] <<
             endl;
@@ -3194,7 +3194,7 @@ void oahHandler::checkSingleInputSourceInArgumentsVector () const
 
       gLogStream << endl;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       gLogStream <<
@@ -3287,14 +3287,14 @@ void oahHandler::checkHandlerOptionsConsistency ()
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // check the handler groups options consistency
   if (fHandlerGroupsList.size ()) {
     for (
       list<S_oahGroup>::const_iterator i = fHandlerGroupsList.begin ();
       i != fHandlerGroupsList.end ();
-      i++
+      ++i
     ) {
       S_oahGroup group = (*i);
 
@@ -3304,7 +3304,7 @@ void oahHandler::checkHandlerOptionsConsistency ()
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 
   // the the handler's own consistency
   this->checkHandlerOwnOptionsConsistency ();
@@ -3324,9 +3324,9 @@ void oahHandler::displayArgumentsVector (
   if (theArgumentsVector.size ()) {
     gLogStream << ":" << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
-    for (unsigned int i = 0; i < theArgumentsVector.size (); i++) {
+    for (unsigned int i = 0; i < theArgumentsVector.size (); ++i) {
       string theArgument  = theArgumentsVector [i];
 
       gLogStream <<
@@ -3339,7 +3339,7 @@ void oahHandler::displayArgumentsVector (
 
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     gLogStream << endl;
@@ -3355,13 +3355,13 @@ void oahHandler::displayNamesToElementsMap ()
 
   if (fHandlerNamesToElementsMap.size ()) {
     gLogStream << ":" << endl;
-    gIndenter++;
+    ++gIndenter;
 
     for (
       map<string, S_oahElement>::iterator i =
         fHandlerNamesToElementsMap.begin ();
       i != fHandlerNamesToElementsMap.end ();
-      i++
+      ++i
     ) {
       string name          = (*i).first;
       S_oahElement element = (*i).second;
@@ -3372,16 +3372,16 @@ void oahHandler::displayNamesToElementsMap ()
         "\":" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         element <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     gLogStream << endl;
@@ -3399,7 +3399,7 @@ void oahHandler::displayNamesToElementsMapShort (ostream& os) const
     gLogStream <<
       ":" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 40;
 
@@ -3407,7 +3407,7 @@ void oahHandler::displayNamesToElementsMapShort (ostream& os) const
       map<string, S_oahElement>::const_iterator i =
         fHandlerNamesToElementsMap.begin ();
       i != fHandlerNamesToElementsMap.end ();
-      i++
+      ++i
     ) {
       string       name    = (*i).first;
       S_oahElement element = (*i).second;
@@ -3420,7 +3420,7 @@ void oahHandler::displayNamesToElementsMapShort (ostream& os) const
         endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     gLogStream << endl;
@@ -3436,7 +3436,7 @@ void oahHandler::displayElementUsesList ()
 
   if (fElementUsesList.size ()) {
     gLogStream << ":" << endl;
-    gIndenter++;
+    ++gIndenter;
 
     int counter = 0;
 
@@ -3444,7 +3444,7 @@ void oahHandler::displayElementUsesList ()
       list<S_oahElementUse >::const_iterator i =
         fElementUsesList.begin ();
       i != fElementUsesList.end ();
-      i++
+      ++i
     ) {
       S_oahElementUse elementUse = (*i);
 
@@ -3454,7 +3454,7 @@ void oahHandler::displayElementUsesList ()
         elementUse != nullptr,
         "elementUse is null");
 
-      counter++;
+      ++counter;
 
       gLogStream <<
         right << setw (2) << counter <<
@@ -3474,7 +3474,7 @@ void oahHandler::displayElementUsesList ()
 
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     gLogStream << endl;
@@ -3548,7 +3548,7 @@ void oahHandler::browseData (basevisitor* v)
     for (
       map<string, S_oahPrefix>::const_iterator i = fHandlerPrefixesMap.begin ();
       i != fHandlerPrefixesMap.end ();
-      i++
+      ++i
     ) {
       S_oahPrefix prefix = (*i).second;
 
@@ -3563,7 +3563,7 @@ void oahHandler::browseData (basevisitor* v)
     for (
       list<S_oahGroup>::const_iterator i = fHandlerGroupsList.begin ();
       i != fHandlerGroupsList.end ();
-      i++
+      ++i
     ) {
       S_oahGroup group = (*i);
 
@@ -3608,7 +3608,7 @@ void oahHandler::print (ostream& os) const
     "Handler:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -3645,7 +3645,7 @@ void oahHandler::print (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -3658,10 +3658,10 @@ void oahHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahHandler::printShort (ostream& os) const
@@ -3672,7 +3672,7 @@ void oahHandler::printShort (ostream& os) const
     "Handler:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -3711,7 +3711,7 @@ void oahHandler::printShort (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -3724,7 +3724,7 @@ void oahHandler::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // print the known options
@@ -3735,17 +3735,17 @@ if (false) { // JMI
   displayNamesToElementsMap (os);
 }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahHandler::printHelp (ostream& os) const
 {
   // print the options handler description
-  gIndenter++;
+  ++gIndenter;
   os <<
     gIndenter.indentMultiLineString (
       fHandlerDescription);
-  gIndenter--;
+  --gIndenter;
 
   // print the options handler usage
   os <<
@@ -3756,7 +3756,7 @@ void oahHandler::printHelp (ostream& os) const
 
   // print the options groups help
   if (fHandlerGroupsList.size ()) {
-// JMI    gIndenter++;
+// JMI    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -3792,7 +3792,7 @@ void oahHandler::printHelp (ostream& os) const
       os << endl;
     } // for
 
- // JMI   gIndenter--;
+ // JMI   --gIndenter;
   }
 }
 
@@ -3812,7 +3812,7 @@ void oahHandler::printOptionsSummary (ostream& os) const
   // print the options handler description
   // print the options groups help summaries
   if (fHandlerGroupsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -3825,7 +3825,7 @@ void oahHandler::printOptionsSummary (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -3847,7 +3847,7 @@ void oahHandler::printHandlerAndGroupAndSubGroupSpecificHelp (
 
   // print the optons group subgroups specific help
   if (fHandlerGroupsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -3865,7 +3865,7 @@ void oahHandler::printHandlerAndGroupAndSubGroupSpecificHelp (
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -3905,11 +3905,11 @@ void oahHandler::printNameIntrospectiveHelp (
       "\" ---" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     prefix->printHelp (os);
 
-    gIndenter--;
+    --gIndenter;
 
     gIndenter.setIndent (saveIndent);
 
@@ -3941,11 +3941,11 @@ void oahHandler::printNameIntrospectiveHelp (
         "\" at help top level ---" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       group->printHelp (os);
 
-      gIndenter--;
+      --gIndenter;
 
       gIndenter.setIndent (saveIndent);
     }
@@ -3975,14 +3975,14 @@ void oahHandler::printNameIntrospectiveHelp (
         "\" ---" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       group->
         printGroupAndSubGroupHelp (
           gLogStream,
           subGroup);
 
-      gIndenter--;
+      --gIndenter;
 
       gIndenter.setIndent (saveIndent);
     }
@@ -4025,7 +4025,7 @@ void oahHandler::printNameIntrospectiveHelp (
       }
       gLogStream << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       group->
         printGroupAndSubGroupAndAtomHelp (
@@ -4033,7 +4033,7 @@ void oahHandler::printNameIntrospectiveHelp (
           subGroup,
           atom);
 
-      gIndenter--;
+      --gIndenter;
 
       gIndenter.setIndent (saveIndent);
     }
@@ -4111,13 +4111,13 @@ void oahHandler::findStringInHandler (
 
   // do this handler's prefixes match?
   if (fHandlerPrefixesMap.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     for (
       map<string, S_oahPrefix>::const_iterator i =
         fHandlerPrefixesMap.begin ();
       i != fHandlerPrefixesMap.end ();
-      i++
+      ++i
     ) {
       S_oahPrefix
         prefix = (*i).second;
@@ -4130,17 +4130,17 @@ void oahHandler::findStringInHandler (
           os);
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // do this handler's groups match?
   if (fHandlerGroupsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     for (
       list<S_oahGroup>::const_iterator i = fHandlerGroupsList.begin ();
       i != fHandlerGroupsList.end ();
-      i++
+      ++i
     ) {
       S_oahGroup group = (*i);
 
@@ -4151,7 +4151,7 @@ void oahHandler::findStringInHandler (
           os);
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -4192,7 +4192,7 @@ void oahHandler::printHandlerOptionsValues (
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -4221,7 +4221,7 @@ void oahHandler::printHandlerOptionsValues (
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -4378,13 +4378,13 @@ void oahHandler::printKnownPrefixes (ostream& os) const
   if (oahHandlerPrefixesListSize) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (
       map<string, S_oahPrefix>::const_iterator i =
         fHandlerPrefixesMap.begin ();
       i != fHandlerPrefixesMap.end ();
-      i++
+      ++i
     ) {
       S_oahPrefix
         prefix = (*i).second;
@@ -4400,7 +4400,7 @@ void oahHandler::printKnownPrefixes (ostream& os) const
 
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << endl;
@@ -4423,7 +4423,7 @@ void oahHandler::printKnownSingleCharacterOptions (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  gIndenter++;
+  ++gIndenter;
 
   if (oahHandlerPrefixesListSize) {
     set<string>::const_iterator
@@ -4463,7 +4463,7 @@ void oahHandler::printKnownSingleCharacterOptions (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os <<
     "They can be clustered, such as:" <<
@@ -4500,7 +4500,7 @@ void oahHandler::printOptionsDefaultValuesInformation (ostream& os) const
     "Some options needing a value can use a default value:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os  <<
     fHandlerExecutableName <<
@@ -4508,7 +4508,7 @@ void oahHandler::printOptionsDefaultValuesInformation (ostream& os) const
 R"( supports two styles for this, see '-ovs, -optional-values-style' option.)") <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 string oahHandler::commandLineAsSuppliedAsString () const
@@ -4614,7 +4614,7 @@ void oahHandler::displayNamesToElementsMap (ostream& os) const
     "\" are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (handlerElementsMapSize) {
     map<string, S_oahElement>::const_iterator
@@ -4626,13 +4626,13 @@ void oahHandler::displayNamesToElementsMap (ostream& os) const
         "\"" << (*i).first << "\" ==>" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       (*i).second->
         printOptionHeader (
           os);
 
-      gIndenter--;
+      --gIndenter;
 
       if (++i == iEnd) break;
     } // for
@@ -4643,7 +4643,7 @@ void oahHandler::displayNamesToElementsMap (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   // create a list of the options map elements names
   list<string> optionsMapElementsNamesList;
@@ -4655,7 +4655,7 @@ void oahHandler::displayNamesToElementsMap (ostream& os) const
     for (
       map<string, S_oahElement>::const_iterator i = fHandlerNamesToElementsMap.begin ();
       i!= fHandlerNamesToElementsMap.end ();
-      i++
+      ++i
     ) {
       optionsMapElementsNamesList.push_back ((*i).first);
     } // for
@@ -4677,7 +4677,7 @@ void oahHandler::displayNamesToElementsMap (ostream& os) const
     " are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (optionsMapElementsNamesListSize) {
     list<string>::const_iterator
@@ -4698,7 +4698,7 @@ void oahHandler::displayNamesToElementsMap (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 S_oahElement oahHandler::fetchElementByNameInHandler (
@@ -4709,7 +4709,7 @@ S_oahElement oahHandler::fetchElementByNameInHandler (
   for (
     list<S_oahGroup>::const_iterator i = fHandlerGroupsList.begin ();
     i != fHandlerGroupsList.end ();
-    i++
+    ++i
   ) {
     // search name in the options group
     result =
@@ -4729,7 +4729,7 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       "Checking missing pending argv atom with mandatory value \"" <<
@@ -4738,12 +4738,12 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
 
     if (fPendingArgvAtomWithValue) {
       gLogStream << endl;
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         fPendingArgvAtomWithValue;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       gLogStream <<
@@ -4752,7 +4752,7 @@ void oahHandler::checkMissingPendingArgvAtomWithValueValue (
     }
 
     gLogStream << endl;
-    gIndenter--;
+    --gIndenter;
   }
 
 /* JMI
@@ -4937,7 +4937,7 @@ void oahHandler::handleOptionPrefixName (
       "':" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<string>::const_iterator
       iBegin = chunksList.begin (),
@@ -4954,7 +4954,7 @@ void oahHandler::handleOptionPrefixName (
 
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -4969,7 +4969,7 @@ void oahHandler::handleOptionPrefixName (
         list<string>::const_iterator i =
           chunksList.begin ();
         i != chunksList.end ();
-        i++
+        ++i
       ) {
         string singleOptionName = (*i);
 
@@ -5031,7 +5031,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
     optionName.size () != 0,
     "optionName.size () == 0");
 
-  gIndenter++;
+  ++gIndenter;
 
   list<S_oahElement> clusterElementsList;
 
@@ -5039,7 +5039,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
   for (
     string::const_iterator i = optionName.begin ();
     i != optionName.end ();
-    i++
+    ++i
   ) {
     string singleCharacterString (1, (*i));
 
@@ -5092,12 +5092,12 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
       "clusterElementsList:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (
       list<S_oahElement>::const_iterator i = clusterElementsList.begin ();
       i != clusterElementsList.end ();
-      i++
+      ++i
     ) {
       S_oahElement element = (*i);
 
@@ -5109,7 +5109,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
       }
     } // for
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "fSingleCharacterShortNamesSet:" <<
@@ -5117,7 +5117,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
     for (
       set<string>::const_iterator i = fSingleCharacterShortNamesSet.begin ();
       i != fSingleCharacterShortNamesSet.end ();
-      i++
+      ++i
     ) {
       string singleCharacterElementName = (*i);
 
@@ -5151,7 +5151,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
     for (
       list<S_oahElement>::const_iterator i = clusterElementsList.begin ();
       i != clusterElementsList.end ();
-      i++
+      ++i
     ) {
       S_oahElement element = (*i);
 
@@ -5185,7 +5185,7 @@ bool oahHandler::nameIsASingleCharacterOptionsCluster (
     result = false;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   return result;
 }
@@ -5549,19 +5549,19 @@ void oahHandler::handleArgvOptionValueOrArgument (
       "\"" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       "The pending atom with mandatory value is:";
 
     if (fPendingArgvAtomWithValue) {
       gLogStream << endl;
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         fPendingArgvAtomWithValue;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       gLogStream <<
@@ -5570,7 +5570,7 @@ void oahHandler::handleArgvOptionValueOrArgument (
     }
 
     gLogStream << endl;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -5720,9 +5720,9 @@ oahElementHelpOnlyKind oahHandler::handleOptionsAndArgumentsFromArgcAndArgv (
       "The contents of argv is:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
-    for (int i = 0; i < argc; i++) {
+    for (int i = 0; i < argc; ++i) {
       gLogStream <<
         "argv [" <<
         right << setw (2) <<
@@ -5731,7 +5731,7 @@ oahElementHelpOnlyKind oahHandler::handleOptionsAndArgumentsFromArgcAndArgv (
         endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -5829,7 +5829,7 @@ void oahHandler::createElementUsesListFromOptionsVector (
       break;
   } // switch
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -5846,7 +5846,7 @@ void oahHandler::createElementUsesListFromOptionsVector (
 
   // analyse the options in theOptionsVector
   if (theOptionsVector.size ()) {
-    for (unsigned int i = 0; i < theOptionsVector.size (); i++) {
+    for (unsigned int i = 0; i < theOptionsVector.size (); ++i) {
       string optionName  = theOptionsVector [i].first;
       string optionValue = theOptionsVector [i].second;
 
@@ -5868,7 +5868,7 @@ void oahHandler::createElementUsesListFromOptionsVector (
 
   gLogStream << endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // check the options and arguments
   checkOptionsAndArgumentsFromOptionsVector ();
@@ -5928,7 +5928,7 @@ if (false) // JMI
       break;
   } // switch
 
-  gIndenter++;
+  ++gIndenter;
 
   // sort out the command options and the arguments
   int n = 1;
@@ -5962,7 +5962,7 @@ if (false) // JMI
 #endif
 #endif
 
-    gIndenter++;
+    ++gIndenter;
 
     // handle currentString
     if (currentString [0] == '-') {
@@ -6000,10 +6000,10 @@ if (false) // JMI
         currentString);
     }
 
-    gIndenter--;
+    --gIndenter;
 
     // next please
-    n++;
+    ++n;
   } // while
 
   // is a pending atom with mandatory value value missing?
@@ -6011,7 +6011,7 @@ if (false) // JMI
     lastOptionNameFound,
     "last option in command line");
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -6031,7 +6031,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -6040,7 +6040,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
 #endif
 
   if (fElementUsesList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     int counter = 0;
 
@@ -6048,7 +6048,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
       list<S_oahElementUse >::const_iterator i =
         fElementUsesList.begin ();
       i != fElementUsesList.end ();
-      i++
+      ++i
     ) {
       S_oahElementUse elementUse = (*i);
 
@@ -6056,7 +6056,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
       string       nameUsed     = elementUse->getNameUsed ();
       string       valueUsed    = elementUse->getValueUsed ();
 
-      counter++;
+      ++counter;
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -6218,7 +6218,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
       }
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // print the chosen options if so chosen
@@ -6271,7 +6271,7 @@ oahElementHelpOnlyKind oahHandler::applyOptionsFromElementUsesList ()
   gGlobalOahOahGroup->getCommandLineWithLongOptionsNames () =
     commandLineWithLongNamesAsString ();
 
-  gIndenter--;
+  --gIndenter;
 
   return
     fOahHandlerFoundAHelpOption
@@ -6881,11 +6881,11 @@ string existingOahOptionalValuesStyleKinds (unsigned int namesListMaxLength)
       map<string, oahOptionalValuesStyleKind>::const_iterator i =
         gGlobalOahOptionalValuesStyleKindsMap.begin ();
       i != gGlobalOahOptionalValuesStyleKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {

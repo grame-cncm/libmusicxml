@@ -187,7 +187,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
   for (
     list<S_msrMeasureElement>::const_iterator i=fGraceNotesGroupElementsList.begin ();
     i!=fGraceNotesGroupElementsList.end ();
-    i++
+    ++i
   ) {
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
@@ -440,7 +440,7 @@ void msrGraceNotesGroup::setGraceNotesGroupElementsPositionInMeasure (
       list<S_msrMeasureElement>::const_iterator i =
         fGraceNotesGroupElementsList.begin ();
       i!=fGraceNotesGroupElementsList.end ();
-      i++
+      ++i
     ) {
       S_msrMeasureElement
         measureElement = (*i);
@@ -515,7 +515,7 @@ void msrGraceNotesGroup::browseData (basevisitor* v)
   for (
     i=fGraceNotesGroupElementsList.begin ();
     i!=fGraceNotesGroupElementsList.end ();
-    i++
+    ++i
   ) {
     // browse the element (note or chord)
     msrBrowser<msrElement> browser (v);
@@ -594,7 +594,7 @@ void msrGraceNotesGroup::print (ostream& os) const
       fGraceNotesGroupElementsList.size (), "element", "elements") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 33;
 
@@ -656,7 +656,7 @@ void msrGraceNotesGroup::print (ostream& os) const
   if (fGraceNotesGroupElementsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrMeasureElement>::const_iterator
       iBegin = fGraceNotesGroupElementsList.begin (),
@@ -669,7 +669,7 @@ void msrGraceNotesGroup::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -678,7 +678,7 @@ void msrGraceNotesGroup::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrGraceNotesGroup::printShort (ostream& os) const
@@ -691,7 +691,7 @@ void msrGraceNotesGroup::printShort (ostream& os) const
       fGraceNotesGroupElementsList.size (), "element", "elements") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 33;
 
@@ -758,7 +758,7 @@ void msrGraceNotesGroup::printShort (ostream& os) const
   if (fGraceNotesGroupElementsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrMeasureElement>::const_iterator
       iBegin = fGraceNotesGroupElementsList.begin (),
@@ -771,7 +771,7 @@ void msrGraceNotesGroup::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -780,7 +780,7 @@ void msrGraceNotesGroup::printShort (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrGraceNotesGroup& elt)

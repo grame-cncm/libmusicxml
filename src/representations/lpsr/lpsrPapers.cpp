@@ -205,7 +205,7 @@ void lpsrPaper::print (ostream& os) const
     "Paper" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 27;
 
@@ -365,7 +365,7 @@ void lpsrPaper::print (ostream& os) const
     endl;
 */
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lpsrPaper::printShort (ostream& os) const
@@ -374,7 +374,7 @@ void lpsrPaper::printShort (ostream& os) const
     "Paper" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 27;
 
@@ -534,7 +534,7 @@ void lpsrPaper::printShort (ostream& os) const
     endl;
 */
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrPaper& pap) {

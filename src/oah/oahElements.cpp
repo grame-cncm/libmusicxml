@@ -423,12 +423,12 @@ void oahElement::printOahElementEssentials (
     endl <<
 
 /* JMI
-  gIndenter++;
+  ++gIndenter;
   os <<
     gIndenter.indentMultiLineString (
       fDescription) <<
     endl;
-  gIndenter--;
+  --gIndenter;
 */
 
     setw (fieldWidth) <<

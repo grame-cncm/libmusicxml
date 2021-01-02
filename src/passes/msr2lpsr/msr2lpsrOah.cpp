@@ -119,12 +119,12 @@ void msr2lpsrScoreOutputKindAtom::applyAtomWithValue (
       " known LPSR score output kinds are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingLpsrScoreOutputKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -226,7 +226,7 @@ void msr2lpsrScoreOutputKindAtom::print (ostream& os) const
     "msr2lpsrScoreOutputKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -243,7 +243,7 @@ void msr2lpsrScoreOutputKindAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msr2lpsrScoreOutputKindAtom::printAtomWithValueOptionsValues (
@@ -507,7 +507,7 @@ void msr2lpsrOahGroup::printMsr2lpsrOahValues (int valueFieldWidth)
     "The MusicXML options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // LilyPond output kind
   // --------------------------------------
@@ -516,14 +516,14 @@ void msr2lpsrOahGroup::printMsr2lpsrOahValues (int valueFieldWidth)
     "LilyPond output kind:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "scoreOutputKind" << " : " <<
     lpsrScoreOutputKindAsString (fScoreOutputKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // repeats
   // --------------------------------------
@@ -532,7 +532,7 @@ void msr2lpsrOahGroup::printMsr2lpsrOahValues (int valueFieldWidth)
     "Repeats:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) <<
@@ -540,9 +540,9 @@ void msr2lpsrOahGroup::printMsr2lpsrOahValues (int valueFieldWidth)
     booleanAsString (fCreateImplicitInitialRepeatBarline) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msr2lpsrOahGroup& elt)

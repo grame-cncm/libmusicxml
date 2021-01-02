@@ -335,7 +335,7 @@ void msrRepeatCommonPart::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fRepeatCommonPartElementsList.begin ();
       i != fRepeatCommonPartElementsList.end ();
-      i++
+      ++i
   ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
@@ -365,7 +365,7 @@ void msrRepeatCommonPart::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "repeat upLink: '" <<
@@ -395,7 +395,7 @@ void msrRepeatCommonPart::print (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatCommonPartElementsList.begin (),
@@ -409,10 +409,10 @@ void msrRepeatCommonPart::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrRepeatCommonPart::printShort (ostream& os) const
@@ -422,7 +422,7 @@ void msrRepeatCommonPart::printShort (ostream& os) const
     endl;
 
 /* JMI
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "repeat upLink: '" <<
@@ -454,7 +454,7 @@ void msrRepeatCommonPart::printShort (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatCommonPartElementsList.begin (),
@@ -468,10 +468,10 @@ void msrRepeatCommonPart::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 */
 }
 
@@ -691,7 +691,7 @@ void msrRepeatEnding::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fRepeatEndingElementsList.begin ();
       i != fRepeatEndingElementsList.end ();
-      i++
+      ++i
   ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
@@ -740,7 +740,7 @@ void msrRepeatEnding::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 /* JMI
   os <<
@@ -788,7 +788,7 @@ void msrRepeatEnding::print (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatEndingElementsList.begin (),
@@ -802,10 +802,10 @@ void msrRepeatEnding::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrRepeatEnding::printShort (ostream& os) const
@@ -815,7 +815,7 @@ void msrRepeatEnding::printShort (ostream& os) const
     endl;
 
 /*
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 27;
 
@@ -866,7 +866,7 @@ void msrRepeatEnding::printShort (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatEndingElementsList.begin (),
@@ -880,10 +880,10 @@ void msrRepeatEnding::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 */
 }
 
@@ -1548,7 +1548,7 @@ void msrRepeat::browseData (basevisitor* v)
   for (
     vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin ();
     i != fRepeatEndings.end ();
-    i++
+    ++i
   ) {
     // browse the alternative
     msrBrowser<msrRepeatEnding> browser (v);
@@ -1732,9 +1732,9 @@ void msrRepeat::displayRepeat (
     " contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   print (gLogStream);
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<*********" <<
@@ -1749,7 +1749,7 @@ void msrRepeat::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 28;
 
@@ -1830,7 +1830,7 @@ void msrRepeat::print (ostream& os) const
   os << endl;
 
   if (endingsNumber) {
-    gIndenter++;
+    ++gIndenter;
 
     vector<S_msrRepeatEnding>::const_iterator
       iBegin = fRepeatEndings.begin (),
@@ -1844,10 +1844,10 @@ void msrRepeat::print (ostream& os) const
   // JMI    os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrRepeat::printShort (ostream& os) const
@@ -1856,7 +1856,7 @@ void msrRepeat::printShort (ostream& os) const
     this->asShortString () <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // short print the repeat common part
   if (! fRepeatCommonPart) {
@@ -1883,7 +1883,7 @@ void msrRepeat::printShort (ostream& os) const
   os << endl;
 
   if (endingsNumber) {
-    gIndenter++;
+    ++gIndenter;
 
     vector<S_msrRepeatEnding>::const_iterator
       iBegin = fRepeatEndings.begin (),
@@ -1897,10 +1897,10 @@ void msrRepeat::printShort (ostream& os) const
   // JMI    os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrRepeat& elt)
@@ -2148,7 +2148,7 @@ void msrRepeatElement::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fRepeatElementElementsList.begin ();
       i != fRepeatElementElementsList.end ();
-      i++
+      ++i
   ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
@@ -2179,7 +2179,7 @@ void msrRepeatElement::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "repeat upLink: '" <<
@@ -2209,7 +2209,7 @@ void msrRepeatElement::print (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatElementElementsList.begin (),
@@ -2223,10 +2223,10 @@ void msrRepeatElement::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrRepeatElement::printShort (ostream& os) const
@@ -2236,7 +2236,7 @@ void msrRepeatElement::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 / * JMI
   os <<
@@ -2268,7 +2268,7 @@ void msrRepeatElement::printShort (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatElementElementsList.begin (),
@@ -2282,10 +2282,10 @@ void msrRepeatElement::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrRepeatElement& elt)

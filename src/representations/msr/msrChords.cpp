@@ -247,7 +247,7 @@ void msrChord::setChordMembersPositionInMeasure (
   if (fChordDalSegnos.size ()) {
     list<S_msrDalSegno>::const_iterator i;
     for (
-      i=fChordDalSegnos.begin (); i!=fChordDalSegnos.end (); i++
+      i=fChordDalSegnos.begin (); i!=fChordDalSegnos.end (); ++i
     ) {
       // set the dal segno position in measure
       (*i)->
@@ -381,7 +381,7 @@ void msrChord::appendArticulationToChord (S_msrArticulation art)
   for (
     list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
     i!=fChordArticulations.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getArticulationKind () == articulationKind)
         return;
@@ -411,7 +411,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
   for (
     list<S_msrSpanner>::const_iterator i = fChordSpanners.begin ();
     i!=fChordSpanners.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getSpannerKind () == spannerKind)
         return;
@@ -459,7 +459,7 @@ void msrChord::appendTechnicalToChord (S_msrTechnical tech)
     list<S_msrTechnical>::const_iterator i =
       fChordTechnicals.begin ();
     i!=fChordTechnicals.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getTechnicalKind () == technicalKind)
         return;
@@ -491,7 +491,7 @@ void msrChord::appendTechnicalWithIntegerToChord (
     list<S_msrTechnicalWithInteger>::const_iterator i =
       fChordTechnicalWithIntegers.begin ();
     i!=fChordTechnicalWithIntegers.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getTechnicalWithIntegerKind () == technicalWithIntegerKind)
         return;
@@ -523,7 +523,7 @@ void msrChord::appendTechnicalWithFloatToChord (
     list<S_msrTechnicalWithFloat>::const_iterator i =
       fChordTechnicalWithFloats.begin ();
     i!=fChordTechnicalWithFloats.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getTechnicalWithFloatKind () == technicalWithFloatKind)
         return;
@@ -555,7 +555,7 @@ void msrChord::appendTechnicalWithStringToChord (
     list<S_msrTechnicalWithString>::const_iterator i =
       fChordTechnicalWithStrings.begin ();
     i!=fChordTechnicalWithStrings.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getTechnicalWithStringKind () == technicalWithStringKind)
         return;
@@ -585,7 +585,7 @@ void msrChord::appendOrnamentToChord (S_msrOrnament orn)
   for (
     list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin ();
     i!=fChordOrnaments.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getOrnamentKind () == ornamentKind)
         return;
@@ -615,7 +615,7 @@ void msrChord::appendGlissandoToChord (S_msrGlissando gliss)
   for (
     list<S_msrGlissando>::const_iterator i = fChordGlissandos.begin ();
     i!=fChordGlissandos.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getGlissandoTypeKind () == glissandoTypeKind)
         return;
@@ -645,7 +645,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
   for (
     list<S_msrSlide>::const_iterator i = fChordSlides.begin ();
     i!=fChordSlides.end ();
-    i++
+    ++i
   ) {
       if ((*i)->getSlideTypeKind () == slideTypeKind)
         return;
@@ -684,7 +684,7 @@ void msrChord::appendStemToChord (S_msrStem stem)
   for (
     list<S_msrStem>::const_iterator i = fChordStems.begin ();
     i != fChordStems.end ();
-    i++
+    ++i
   ) {
     // is stem's stem kind consistent with the other ones' for this chord?
     if (stem->getStemKind () != (*i)->getStemKind ()) {
@@ -816,7 +816,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     vector<S_msrNote>::const_iterator i = fChordNotesVector.begin ();
     i != fChordNotesVector.end ();
-    i++
+    ++i
   ) {
     // browse chord note
     msrBrowser<msrNote> browser (v);
@@ -827,7 +827,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrStem>::const_iterator i = fChordStems.begin ();
     i != fChordStems.end ();
-    i++
+    ++i
   ) {
     // browse chord stems
     msrBrowser<msrStem> browser (v);
@@ -838,7 +838,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrBeam>::const_iterator i = fChordBeams.begin ();
     i != fChordBeams.end ();
-    i++
+    ++i
   ) {
     // browse chord beams
     msrBrowser<msrBeam> browser (v);
@@ -848,7 +848,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrChordBeamLink>::const_iterator i = fChordBeamLinks.begin ();
     i != fChordBeamLinks.end ();
-    i++
+    ++i
   ) {
     // browse the beam link
     msrBrowser<msrChordBeamLink> browser (v);
@@ -859,7 +859,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
     i != fChordArticulations.end ();
-    i++
+    ++i
   ) {
     // browse the articulation
     msrBrowser<msrArticulation> browser (v);
@@ -869,7 +869,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSpanner>::const_iterator i = fChordSpanners.begin ();
     i != fChordSpanners.end ();
-    i++
+    ++i
   ) {
     // browse the spanner
     msrBrowser<msrSpanner> browser (v);
@@ -879,7 +879,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrTechnical>::const_iterator i = fChordTechnicals.begin ();
     i != fChordTechnicals.end ();
-    i++
+    ++i
   ) {
     // browse the technical
     msrBrowser<msrTechnical> browser (v);
@@ -889,7 +889,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin ();
     i != fChordOrnaments.end ();
-    i++
+    ++i
   ) {
     // browse the ornament
     msrBrowser<msrOrnament> browser (v);
@@ -899,7 +899,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrGlissando>::const_iterator i = fChordGlissandos.begin ();
     i != fChordGlissandos.end ();
-    i++
+    ++i
   ) {
     // browse the glissando
     msrBrowser<msrGlissando> browser (v);
@@ -909,7 +909,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSlide>::const_iterator i = fChordSlides.begin ();
     i != fChordSlides.end ();
-    i++
+    ++i
   ) {
     // browse the slide
     msrBrowser<msrSlide> browser (v);
@@ -919,7 +919,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrDynamics>::const_iterator i = fChordDynamics.begin ();
     i != fChordDynamics.end ();
-    i++
+    ++i
   ) {
     // browse the dynamics
     msrBrowser<msrDynamics> browser (v);
@@ -929,7 +929,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrOtherDynamics>::const_iterator i = fChordOtherDynamics.begin ();
     i != fChordOtherDynamics.end ();
-    i++
+    ++i
   ) {
     // browse the other dynamics
     msrBrowser<msrOtherDynamics> browser (v);
@@ -939,7 +939,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrWords>::const_iterator i = fChordWords.begin ();
     i != fChordWords.end ();
-    i++
+    ++i
   ) {
     // browse the words
     msrBrowser<msrWords> browser (v);
@@ -949,7 +949,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrTie>::const_iterator i = fChordTies.begin ();
     i != fChordTies.end ();
-    i++
+    ++i
   ) {
     // browse the tie
     msrBrowser<msrTie> browser (v);
@@ -959,7 +959,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrLigature>::const_iterator i = fChordLigatures.begin ();
     i != fChordLigatures.end ();
-    i++
+    ++i
   ) {
     // browse the ligature
     msrBrowser<msrLigature> browser (v);
@@ -969,7 +969,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSlash>::const_iterator i = fChordSlashes.begin ();
     i != fChordSlashes.end ();
-    i++
+    ++i
   ) {
     // browse the slash
     msrBrowser<msrSlash> browser (v);
@@ -979,7 +979,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrWedge>::const_iterator i = fChordWedges.begin ();
     i != fChordWedges.end ();
-    i++
+    ++i
   ) {
     // browse the wedge
     msrBrowser<msrWedge> browser (v);
@@ -989,7 +989,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrSegno>::const_iterator i = fChordSegnos.begin ();
     i != fChordSegnos.end ();
-    i++
+    ++i
   ) {
     // browse the segno
     msrBrowser<msrSegno> browser (v);
@@ -999,7 +999,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrDalSegno>::const_iterator i = fChordDalSegnos.begin ();
     i != fChordDalSegnos.end ();
-    i++
+    ++i
   ) {
     // browse the dal segno
     msrBrowser<msrDalSegno> browser (v);
@@ -1009,7 +1009,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrCoda>::const_iterator i = fChordCodas.begin ();
     i != fChordCodas.end ();
-    i++
+    ++i
   ) {
     // browse the coda
     msrBrowser<msrCoda> browser (v);
@@ -1025,7 +1025,7 @@ void msrChord::browseData (basevisitor* v)
   // browse the harmonies if any
   if (fChordHarmoniesList.size ()) {
     list<S_msrHarmony>::const_iterator i;
-    for (i=fChordHarmoniesList.begin (); i!=fChordHarmoniesList.end (); i++) {
+    for (i=fChordHarmoniesList.begin (); i!=fChordHarmoniesList.end (); ++i) {
       // browse the harmony
       msrBrowser<msrHarmony> browser (v);
       browser.browse (*(*i));
@@ -1041,7 +1041,7 @@ void msrChord::browseData (basevisitor* v)
   for (
     list<S_msrChordSlurLink>::const_iterator i = fChordSlurLinks.begin ();
     i != fChordSlurLinks.end ();
-    i++
+    ++i
   ) {
     // browse the slur link
     msrBrowser<msrChordSlurLink> browser (v);
@@ -1218,7 +1218,7 @@ void msrChord::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 35;
 
@@ -1314,14 +1314,14 @@ void msrChord::print (ostream& os) const
       "chordArticulations";
     if (chordArticulationsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrArticulation>::const_iterator i;
-      for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); i++) {
+      for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1339,14 +1339,14 @@ void msrChord::print (ostream& os) const
       "chordSpanners";
     if (chordSpannersSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSpanner>::const_iterator i;
-      for (i=fChordSpanners.begin (); i!=fChordSpanners.end (); i++) {
+      for (i=fChordSpanners.begin (); i!=fChordSpanners.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1364,14 +1364,14 @@ void msrChord::print (ostream& os) const
       "chordTechnicals";
     if (chordTechnicalsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnical>::const_iterator i;
-      for (i=fChordTechnicals.begin (); i!=fChordTechnicals.end (); i++) {
+      for (i=fChordTechnicals.begin (); i!=fChordTechnicals.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1389,14 +1389,14 @@ void msrChord::print (ostream& os) const
       "chordOrnaments";
     if (chordOrnamentsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrOrnament>::const_iterator i;
-      for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); i++) {
+      for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1414,14 +1414,14 @@ void msrChord::print (ostream& os) const
       "chordGlissandos";
     if (chordGlissandosSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrGlissando>::const_iterator i;
-      for (i=fChordGlissandos.begin (); i!=fChordGlissandos.end (); i++) {
+      for (i=fChordGlissandos.begin (); i!=fChordGlissandos.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1439,14 +1439,14 @@ void msrChord::print (ostream& os) const
       "chordSlides";
     if (chordSlidesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlide>::const_iterator i;
-      for (i=fChordSlides.begin (); i!=fChordSlides.end (); i++) {
+      for (i=fChordSlides.begin (); i!=fChordSlides.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1464,14 +1464,14 @@ void msrChord::print (ostream& os) const
       "chordDynamics";
     if (chordDynamicsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDynamics>::const_iterator i;
-      for (i=fChordDynamics.begin (); i!=fChordDynamics.end (); i++) {
+      for (i=fChordDynamics.begin (); i!=fChordDynamics.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1489,14 +1489,14 @@ void msrChord::print (ostream& os) const
       "chordOtherDynamics";
     if (chordOtherDynamicsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrOtherDynamics>::const_iterator i;
-      for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); i++) {
+      for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1514,14 +1514,14 @@ void msrChord::print (ostream& os) const
       "chordStems";
     if (chordStemsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrStem>::const_iterator i;
-      for (i=fChordStems.begin (); i!=fChordStems.end (); i++) {
+      for (i=fChordStems.begin (); i!=fChordStems.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1540,14 +1540,14 @@ void msrChord::print (ostream& os) const
       "chordBeams";
     if (chordBeamsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrBeam>::const_iterator i;
-      for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
+      for (i=fChordBeams.begin (); i!=fChordBeams.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1566,14 +1566,14 @@ void msrChord::print (ostream& os) const
       "===> chordBeamLinks ===>";
     if (chordBeamLinksSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrChordBeamLink>::const_iterator i;
-      for (i=fChordBeamLinks.begin (); i!=fChordBeamLinks.end (); i++) {
+      for (i=fChordBeamLinks.begin (); i!=fChordBeamLinks.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1592,14 +1592,14 @@ void msrChord::print (ostream& os) const
       "chordWords";
     if (chordWordsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrWords>::const_iterator i;
-      for (i=fChordWords.begin (); i!=fChordWords.end (); i++) {
+      for (i=fChordWords.begin (); i!=fChordWords.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1617,14 +1617,14 @@ void msrChord::print (ostream& os) const
       "chordTies";
     if (chordTiesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTie>::const_iterator i;
-      for (i=fChordTies.begin (); i!=fChordTies.end (); i++) {
+      for (i=fChordTies.begin (); i!=fChordTies.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1642,14 +1642,14 @@ void msrChord::print (ostream& os) const
       "chordLigatures";
     if (chordLigaturesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrLigature>::const_iterator i;
-      for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); i++) {
+      for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1667,14 +1667,14 @@ void msrChord::print (ostream& os) const
       "chordSlashes";
     if (chordSlashesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlash>::const_iterator i;
-      for (i=fChordSlashes.begin (); i!=fChordSlashes.end (); i++) {
+      for (i=fChordSlashes.begin (); i!=fChordSlashes.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1692,14 +1692,14 @@ void msrChord::print (ostream& os) const
       "chordWedges";
     if (chordWedgesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrWedge>::const_iterator i;
-      for (i=fChordWedges.begin (); i!=fChordWedges.end (); i++) {
+      for (i=fChordWedges.begin (); i!=fChordWedges.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1717,14 +1717,14 @@ void msrChord::print (ostream& os) const
       "chordSegnos";
     if (chordSegnosSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSegno>::const_iterator i;
-      for (i=fChordSegnos.begin (); i!=fChordSegnos.end (); i++) {
+      for (i=fChordSegnos.begin (); i!=fChordSegnos.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1742,14 +1742,14 @@ void msrChord::print (ostream& os) const
       "chordDalSegnos";
     if (chordDalSegnosSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDalSegno>::const_iterator i;
-      for (i=fChordDalSegnos.begin (); i!=fChordDalSegnos.end (); i++) {
+      for (i=fChordDalSegnos.begin (); i!=fChordDalSegnos.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1767,14 +1767,14 @@ void msrChord::print (ostream& os) const
       "chordCodas";
     if (chordCodasSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrCoda>::const_iterator i;
-      for (i=fChordCodas.begin (); i!=fChordCodas.end (); i++) {
+      for (i=fChordCodas.begin (); i!=fChordCodas.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1790,9 +1790,9 @@ void msrChord::print (ostream& os) const
       "chordOctaveShift";
     if (fChordOctaveShift) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
         os << fChordOctaveShift;
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1810,7 +1810,7 @@ void msrChord::print (ostream& os) const
       "chordHarmonies";
     if (chordHarmoniesListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrHarmony>::const_iterator
         iBegin = fChordHarmoniesList.begin (),
@@ -1826,7 +1826,7 @@ void msrChord::print (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -1842,7 +1842,7 @@ void msrChord::print (ostream& os) const
       "chordFiguredBass" << " : " <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     if (fChordFiguredBass) {
       os <<
@@ -1853,7 +1853,7 @@ void msrChord::print (ostream& os) const
       os << "none";
     }
 
-    gIndenter--;
+    --gIndenter;
   }
   os << endl;
 
@@ -1866,7 +1866,7 @@ void msrChord::print (ostream& os) const
       "chordNotes";
     if (chordNotesVectorSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       vector<S_msrNote>::const_iterator
         iBegin = fChordNotesVector.begin (),
@@ -1879,7 +1879,7 @@ void msrChord::print (ostream& os) const
         os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << ":" << "none" <<
@@ -1899,14 +1899,14 @@ void msrChord::print (ostream& os) const
       "===> chordSlurLinks ===>";
     if (chordSlurLinksSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrChordSlurLink>::const_iterator i;
-      for (i=fChordSlurLinks.begin (); i!=fChordSlurLinks.end (); i++) {
+      for (i=fChordSlurLinks.begin (); i!=fChordSlurLinks.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -1925,11 +1925,11 @@ void msrChord::print (ostream& os) const
 
     if (fChordGraceNotesGroupBefore) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
       os <<
         fChordGraceNotesGroupBefore->asString () <<
         endl;
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " << "none" << endl; // JMI TEST
@@ -1944,10 +1944,10 @@ void msrChord::print (ostream& os) const
 
     if (fChordGraceNotesGroupAfter) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
       os <<
         fChordGraceNotesGroupAfter->asString ();
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " << "none";
@@ -1971,7 +1971,7 @@ void msrChord::print (ostream& os) const
     os << endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrChord::printShort (ostream& os) const
@@ -1991,7 +1991,7 @@ void msrChord::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 35;
 
@@ -2093,14 +2093,14 @@ void msrChord::printShort (ostream& os) const
       "chordArticulations";
     if (chordArticulationsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrArticulation>::const_iterator i;
-      for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); i++) {
+      for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2118,14 +2118,14 @@ void msrChord::printShort (ostream& os) const
       "chordSpanners";
     if (chordSpannersSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSpanner>::const_iterator i;
-      for (i=fChordSpanners.begin (); i!=fChordSpanners.end (); i++) {
+      for (i=fChordSpanners.begin (); i!=fChordSpanners.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2143,14 +2143,14 @@ void msrChord::printShort (ostream& os) const
       "chordTechnicals";
     if (chordTechnicalsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnical>::const_iterator i;
-      for (i=fChordTechnicals.begin (); i!=fChordTechnicals.end (); i++) {
+      for (i=fChordTechnicals.begin (); i!=fChordTechnicals.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2168,14 +2168,14 @@ void msrChord::printShort (ostream& os) const
       "chordOrnaments";
     if (chordOrnamentsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrOrnament>::const_iterator i;
-      for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); i++) {
+      for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2193,14 +2193,14 @@ void msrChord::printShort (ostream& os) const
       "chordGlissandos";
     if (chordGlissandosSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrGlissando>::const_iterator i;
-      for (i=fChordGlissandos.begin (); i!=fChordGlissandos.end (); i++) {
+      for (i=fChordGlissandos.begin (); i!=fChordGlissandos.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2218,14 +2218,14 @@ void msrChord::printShort (ostream& os) const
       "chordSlides";
     if (chordSlidesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlide>::const_iterator i;
-      for (i=fChordSlides.begin (); i!=fChordSlides.end (); i++) {
+      for (i=fChordSlides.begin (); i!=fChordSlides.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2243,14 +2243,14 @@ void msrChord::printShort (ostream& os) const
       "chordDynamics";
     if (chordDynamicsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDynamics>::const_iterator i;
-      for (i=fChordDynamics.begin (); i!=fChordDynamics.end (); i++) {
+      for (i=fChordDynamics.begin (); i!=fChordDynamics.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2268,14 +2268,14 @@ void msrChord::printShort (ostream& os) const
       "chordOtherDynamics";
     if (chordOtherDynamicsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrOtherDynamics>::const_iterator i;
-      for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); i++) {
+      for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2293,14 +2293,14 @@ void msrChord::printShort (ostream& os) const
       "chordStems";
     if (chordStemsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrStem>::const_iterator i;
-      for (i=fChordStems.begin (); i!=fChordStems.end (); i++) {
+      for (i=fChordStems.begin (); i!=fChordStems.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2320,14 +2320,14 @@ void msrChord::printShort (ostream& os) const
       "chordBeams";
     if (chordBeamsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrBeam>::const_iterator i;
-      for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
+      for (i=fChordBeams.begin (); i!=fChordBeams.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2347,14 +2347,14 @@ void msrChord::printShort (ostream& os) const
       "chordBeamLinks";
     if (chordBeamLinksSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrChordBeamLink>::const_iterator i;
-      for (i=fChordBeamLinks.begin (); i!=fChordBeamLinks.end (); i++) {
+      for (i=fChordBeamLinks.begin (); i!=fChordBeamLinks.end (); ++i) {
         (*i)->printShort(os);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2373,14 +2373,14 @@ void msrChord::printShort (ostream& os) const
       "chordWords";
     if (chordWordsSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrWords>::const_iterator i;
-      for (i=fChordWords.begin (); i!=fChordWords.end (); i++) {
+      for (i=fChordWords.begin (); i!=fChordWords.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2398,14 +2398,14 @@ void msrChord::printShort (ostream& os) const
       "chordTies";
     if (chordTiesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTie>::const_iterator i;
-      for (i=fChordTies.begin (); i!=fChordTies.end (); i++) {
+      for (i=fChordTies.begin (); i!=fChordTies.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2424,14 +2424,14 @@ void msrChord::printShort (ostream& os) const
       "chordSlurLinks";
     if (chordSlurLinksSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrChordSlurLink>::const_iterator i;
-      for (i=fChordSlurLinks.begin (); i!=fChordSlurLinks.end (); i++) {
+      for (i=fChordSlurLinks.begin (); i!=fChordSlurLinks.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2450,14 +2450,14 @@ void msrChord::printShort (ostream& os) const
       "chordLigatures";
     if (chordLigaturesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrLigature>::const_iterator i;
-      for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); i++) {
+      for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2476,14 +2476,14 @@ void msrChord::printShort (ostream& os) const
       "chordSlashes";
     if (chordSlashesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlash>::const_iterator i;
-      for (i=fChordSlashes.begin (); i!=fChordSlashes.end (); i++) {
+      for (i=fChordSlashes.begin (); i!=fChordSlashes.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2501,14 +2501,14 @@ void msrChord::printShort (ostream& os) const
       "chordWedges";
     if (chordWedgesSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrWedge>::const_iterator i;
-      for (i=fChordWedges.begin (); i!=fChordWedges.end (); i++) {
+      for (i=fChordWedges.begin (); i!=fChordWedges.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2526,14 +2526,14 @@ void msrChord::printShort (ostream& os) const
       "chordSegnos";
     if (chordSegnosSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSegno>::const_iterator i;
-      for (i=fChordSegnos.begin (); i!=fChordSegnos.end (); i++) {
+      for (i=fChordSegnos.begin (); i!=fChordSegnos.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2551,14 +2551,14 @@ void msrChord::printShort (ostream& os) const
       "chordDalSegnos";
     if (chordDalSegnosSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDalSegno>::const_iterator i;
-      for (i=fChordDalSegnos.begin (); i!=fChordDalSegnos.end (); i++) {
+      for (i=fChordDalSegnos.begin (); i!=fChordDalSegnos.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2576,14 +2576,14 @@ void msrChord::printShort (ostream& os) const
       "chordCodas";
     if (chordCodasSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrCoda>::const_iterator i;
-      for (i=fChordCodas.begin (); i!=fChordCodas.end (); i++) {
+      for (i=fChordCodas.begin (); i!=fChordCodas.end (); ++i) {
         os << (*i);
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2599,9 +2599,9 @@ void msrChord::printShort (ostream& os) const
       "chordOctaveShift";
     if (fChordOctaveShift) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
         os << fChordOctaveShift;
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -2620,7 +2620,7 @@ void msrChord::printShort (ostream& os) const
       "chordHarmonies";
     if (chordHarmoniesListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrHarmony>::const_iterator
         iBegin = fChordHarmoniesList.begin (),
@@ -2636,7 +2636,7 @@ void msrChord::printShort (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -2652,7 +2652,7 @@ void msrChord::printShort (ostream& os) const
       "chordFiguredBass" << " : " <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     if (fChordFiguredBass) {
       os <<
@@ -2664,7 +2664,7 @@ void msrChord::printShort (ostream& os) const
         "none";
     }
 
-    gIndenter--;
+    --gIndenter;
   }
   os << endl;
 
@@ -2677,7 +2677,7 @@ void msrChord::printShort (ostream& os) const
       "chordNotes";
     if (chordNotesVectorSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       vector<S_msrNote>::const_iterator
         iBegin = fChordNotesVector.begin (),
@@ -2690,7 +2690,7 @@ void msrChord::printShort (ostream& os) const
         os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << ":" << "none" <<
@@ -2709,9 +2709,9 @@ void msrChord::printShort (ostream& os) const
 
     if (fChordGraceNotesGroupBefore) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
       fChordGraceNotesGroupBefore->printShort (os);
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " << "none" << endl; // JMI TEST
@@ -2726,9 +2726,9 @@ void msrChord::printShort (ostream& os) const
 
     if (fChordGraceNotesGroupAfter) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
       fChordGraceNotesGroupAfter->printShort (os);
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " << "none";
@@ -2753,7 +2753,7 @@ void msrChord::printShort (ostream& os) const
     os << endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrChord& elt)
@@ -2921,7 +2921,7 @@ void msrChordBeamLink::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 33;
 
@@ -2930,13 +2930,13 @@ void msrChordBeamLink::print (ostream& os) const
     "originalBeam:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   os <<
     fOriginalBeam; // <<
     fChordUpLink->asString ();
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrChordBeamLink::printShort (ostream& os) const
@@ -2946,7 +2946,7 @@ void msrChordBeamLink::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 33;
 
@@ -2955,14 +2955,14 @@ void msrChordBeamLink::printShort (ostream& os) const
     "originalBeam:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   fOriginalBeam->printShort (os);
   os <<
     fChordUpLink->asShortString () <<
     endl;
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrChordBeamLink& elt)
@@ -3130,7 +3130,7 @@ void msrChordSlurLink::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 33;
 
@@ -3139,13 +3139,13 @@ void msrChordSlurLink::print (ostream& os) const
     "originalSlur:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   os <<
     fOriginalSlur <<
     fChordUpLink->asString ();
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrChordSlurLink::printShort (ostream& os) const
@@ -3155,7 +3155,7 @@ void msrChordSlurLink::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 33;
 
@@ -3164,14 +3164,14 @@ void msrChordSlurLink::printShort (ostream& os) const
     "originalSlur:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   fOriginalSlur->printShort (os);
   os <<
     fChordUpLink->asShortString () <<
     endl;
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrChordSlurLink& elt)
@@ -3341,7 +3341,7 @@ void msrChordGraceNotesGroupLink::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 33;
 
@@ -3350,14 +3350,14 @@ void msrChordGraceNotesGroupLink::print (ostream& os) const
     "originalGraceNotesGroup" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   os <<
     fOriginalGraceNotesGroup <<
     fChordUpLink->asString () <<
     endl;
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrChordGraceNotesGroupLink::printShort (ostream& os) const
@@ -3367,7 +3367,7 @@ void msrChordGraceNotesGroupLink::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 33;
 
@@ -3376,14 +3376,14 @@ void msrChordGraceNotesGroupLink::printShort (ostream& os) const
     "originalGraceNotesGroup" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   fOriginalGraceNotesGroup->printShort (os);
   os <<
     fChordUpLink->asShortString () <<
     endl;
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrChordGraceNotesGroupLink& elt)

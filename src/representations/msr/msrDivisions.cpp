@@ -92,7 +92,7 @@ void msrDivisions::initializeDivisions ()
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // forget fDurationsToDivisions's contents
   fDurationKindsToDivisions.clear ();
@@ -100,7 +100,7 @@ void msrDivisions::initializeDivisions ()
   // positive powers of 2 of a quarter note
   int bigDivisions = fDivisionsPerQuarterNote;
 
-  for (int i = kQuarter; i >= kMaxima; i--) {
+  for (int i = kQuarter; i >= kMaxima; --i) {
     /*
     gLogStream <<
       msrDurationAsString (msrDuration (i)) <<
@@ -151,7 +151,7 @@ void msrDivisions::initializeDivisions ()
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 int msrDivisions::durationKindAsDivisions (
@@ -162,7 +162,7 @@ int msrDivisions::durationKindAsDivisions (
     list<pair<msrDurationKind, int> >::const_iterator i =
       fDurationKindsToDivisions.begin ();
     i != fDurationKindsToDivisions.end ();
-    i++
+    ++i
   ) {
     if ((*i).first == durationKind)
       return
@@ -196,7 +196,7 @@ void msrDivisions::printDurationKindsDivisions (ostream& os)
     " is:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fDurationKindsToDivisions.size ()) {
     list<pair<msrDurationKind, int> >::const_iterator
@@ -224,7 +224,7 @@ void msrDivisions::printDurationKindsDivisions (ostream& os)
       list<pair<msrDuration, int> >::const_iterator i =
         fDurationsToDivisions.begin ();
       i != fDurationsToDivisions.end ();
-      i++
+      ++i
   ) {
       os <<
         setw (6) << left <<
@@ -243,7 +243,7 @@ void msrDivisions::printDurationKindsDivisions (ostream& os)
 
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 string msrDivisions::divisionsAsMsrString (
@@ -329,7 +329,7 @@ string msrDivisions::divisionsAsMsrString (
     }
 
     // next please!
-    i++;
+    ++i;
   } // for
 
   int dotsNumber = 0;
@@ -395,7 +395,7 @@ string msrDivisions::divisionsAsMsrString (
       dotsNumber = 1; // account for next element in the list
 
       while (remainingDivisions > nextDivisionsInList) {
-        dotsNumber++;
+        ++dotsNumber;
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
 
@@ -452,7 +452,7 @@ string msrDivisions::divisionsAsMsrString (
 
       if (remainingDivisions - nextDivisionsInList == 0) {
         // the suffix is composed of dots
-      for (int k = 0; k < dotsNumber; k++)
+      for (int k = 0; k < dotsNumber; ++k)
         result += ".";
       }
     }

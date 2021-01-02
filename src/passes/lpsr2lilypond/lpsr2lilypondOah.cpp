@@ -188,7 +188,7 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
     "OptionsScoreOutputKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -205,7 +205,7 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondScoreOutputKindAtom::printAtomWithValueOptionsValues (
@@ -505,7 +505,7 @@ void lilypondTransposePartNameAtom::print (ostream& os) const
     "lilypondTransposePartNameAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -534,7 +534,7 @@ void lilypondTransposePartNameAtom::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondTransposePartNameAtom::printAtomWithValueOptionsValues (
@@ -560,7 +560,7 @@ void lilypondTransposePartNameAtom::printAtomWithValueOptionsValues (
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
       iBegin = fStringToMsrSemiTonesPitchAndOctaveMapVariable.begin (),
@@ -576,7 +576,7 @@ void lilypondTransposePartNameAtom::printAtomWithValueOptionsValues (
       if (++i == iEnd) break;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -854,7 +854,7 @@ void lilypondTransposePartIDAtom::print (ostream& os) const
     "lilypondTransposePartIDAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -883,7 +883,7 @@ void lilypondTransposePartIDAtom::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondTransposePartIDAtom::printAtomWithValueOptionsValues (
@@ -909,7 +909,7 @@ void lilypondTransposePartIDAtom::printAtomWithValueOptionsValues (
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
       iBegin = fStringToMsrSemiTonesPitchAndOctaveMapVariable.begin (),
@@ -925,7 +925,7 @@ void lilypondTransposePartIDAtom::printAtomWithValueOptionsValues (
       if (++i == iEnd) break;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -1057,7 +1057,7 @@ void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
     "lilypondAbsoluteOctaveEntryAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -1071,7 +1071,7 @@ void lilypondAbsoluteOctaveEntryAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondAbsoluteOctaveEntryAtom::printAtomWithValueOptionsValues (
@@ -1177,12 +1177,12 @@ void lilypondRelativeOctaveEntryAtom::applyAtomWithValue (
       " known octave entry kinds are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingLpsrOctaveEntryKinds ();
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -1293,7 +1293,7 @@ void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
     "lilypondRelativeOctaveEntryAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -1307,7 +1307,7 @@ void lilypondRelativeOctaveEntryAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondRelativeOctaveEntryAtom::printAtomWithValueOptionsValues (
@@ -1327,11 +1327,11 @@ void lilypondRelativeOctaveEntryAtom::printAtomWithValueOptionsValues (
 
   if (fSemiTonesPitchAndOctaveVariable) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
     os <<
       fSemiTonesPitchAndOctaveVariable;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << "none" << endl;
@@ -1506,7 +1506,7 @@ void lilypondFixedOctaveEntryAtom::print (ostream& os) const
     "lilypondFixedOctaveEntryAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -1520,7 +1520,7 @@ void lilypondFixedOctaveEntryAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondFixedOctaveEntryAtom::printAtomWithValueOptionsValues (
@@ -1540,11 +1540,11 @@ void lilypondFixedOctaveEntryAtom::printAtomWithValueOptionsValues (
 
   if (fSemiTonesPitchAndOctaveVariable) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
     os <<
       fSemiTonesPitchAndOctaveVariable;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << "none" << endl;
@@ -1641,12 +1641,12 @@ void lilypondAccidentalStyleKindAtom::applyAtomWithValue (
       " known LPSR accidental styles are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingLpsrAccidentalStyleKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -1748,7 +1748,7 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
     "OptionsAccidentalStyleKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -1765,7 +1765,7 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondAccidentalStyleKindAtom::printAtomWithValueOptionsValues (
@@ -1917,7 +1917,7 @@ void lilypondChordsDisplayAtom::applyAtomWithValue (
       "':" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -1926,7 +1926,7 @@ void lilypondChordsDisplayAtom::applyAtomWithValue (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -2075,7 +2075,7 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
     "lilypondChordsDisplayAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -2089,7 +2089,7 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
     endl;
 
   if (fStringsPairListVariable.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<pair<string, string> >::const_iterator
       iBegin = fStringsPairListVariable.begin (),
@@ -2103,10 +2103,10 @@ void lilypondChordsDisplayAtom::print (ostream& os) const
   // JMI    os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondChordsDisplayAtom::printAtomWithValueOptionsValues (
@@ -2120,7 +2120,7 @@ void lilypondChordsDisplayAtom::printAtomWithValueOptionsValues (
 
   if (fStringsPairListVariable.size ()) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<pair<string, string> >::const_iterator
       iBegin = fStringsPairListVariable.begin (),
@@ -2139,7 +2139,7 @@ void lilypondChordsDisplayAtom::printAtomWithValueOptionsValues (
         endl;
     }
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -2238,12 +2238,12 @@ void lilypondLyricsDurationsKindAtom::applyAtomWithValue (
       " known LPSR lyrics alignment kind are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingLpsrLyricsDurationsKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -2345,7 +2345,7 @@ void lilypondLyricsDurationsKindAtom::print (ostream& os) const
     "OptionsLyricsDurationsKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -2362,7 +2362,7 @@ void lilypondLyricsDurationsKindAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondLyricsDurationsKindAtom::printAtomWithValueOptionsValues (
@@ -4734,7 +4734,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "The LilyPond lilypond are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // LilyPond version
   // --------------------------------------
@@ -4743,7 +4743,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "LilyPond version:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "lilyPondVersion" << " : " <<
@@ -4755,7 +4755,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     */
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // identification
   // --------------------------------------
@@ -4763,7 +4763,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Identification:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // MusicXML informations
   os << left <<
@@ -4826,7 +4826,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       fCopyright <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // parts
@@ -4845,7 +4845,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator i =
         fPartNamesTranspositionMap.begin ();
       i != fPartNamesTranspositionMap.end ();
-      i++
+      ++i
     ) {
       gLogStream <<
         "Part name \"" << ((*i).first) <<
@@ -4868,7 +4868,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator i =
         fPartIDsTranspositionMap.begin ();
       i != fPartIDsTranspositionMap.end ();
-      i++
+      ++i
     ) {
       gLogStream <<
         "Part ID \"" << ((*i).first) <<
@@ -4884,7 +4884,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Engravers:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "ambitusEngraver" << " : " <<
@@ -4894,7 +4894,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       booleanAsString (fCustosEngraver) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // clefs
@@ -4903,14 +4903,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Clefs:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "commentClefChanges" << " : " <<
       booleanAsString (fCommentClefChanges) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // keys
@@ -4919,14 +4919,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Clefs:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "commentClefChanges" << " : " <<
       booleanAsString (fCommentClefChanges) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // times
@@ -4935,14 +4935,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Times:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "numericalTime" << " : " <<
       booleanAsString (fNumericalTime) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // notes
@@ -4951,7 +4951,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Notes:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "octaveEntryKind" << " : " <<
@@ -5051,7 +5051,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       fNonPrintNotesHeadRGBColor.asString () <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // bars and measures
@@ -5060,7 +5060,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Bars:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "showAllBarNumbers" << " : " <<
@@ -5103,7 +5103,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // line breaks
@@ -5112,7 +5112,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Line breaks:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "ignoreMusicXMLLineBreaks" << " : " <<
@@ -5130,7 +5130,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       fSeparatorLineEveryNMeasures <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // page breaks
@@ -5139,7 +5139,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Page breaks:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "ignoreMusicXMLPageBreaks" << " : " <<
@@ -5149,7 +5149,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     booleanAsString (fSuppressMusicXMLPageBreaks) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // staves
@@ -5158,7 +5158,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Staves:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "modernTab" << " : " <<
@@ -5172,7 +5172,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     booleanAsString (fKeepStaffSize) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // chords
@@ -5182,14 +5182,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Chords:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "connectArpeggios" << " : " <<
     booleanAsString (fConnectArpeggios) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // tuplets
@@ -5199,14 +5199,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Tuplets:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "indentTuplets" << " : " <<
     booleanAsString (fIndentTuplets) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // repeats
@@ -5216,7 +5216,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Repeats:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "keepRepeatBarlines" << " : " <<
@@ -5229,7 +5229,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     booleanAsString (fIgnoreRepeatNumbers) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // lyrics
@@ -5239,14 +5239,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Lyrics:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream <<
     setw (valueFieldWidth) << "addStanzasNumbers" << " : " <<
     booleanAsString (fAddStanzasNumbers) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // ornaments
   // --------------------------------------
@@ -5255,14 +5255,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Ornaments:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
     fDelayedOrnamentsFraction <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // chords display
@@ -5272,7 +5272,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Chords display:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "chordsDisplayList" << " : ";
@@ -5280,7 +5280,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
   if (fChordsDisplayList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<pair<string, string> >::const_iterator
       iBegin = fChordsDisplayList.begin (),
@@ -5298,7 +5298,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
   //     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -5314,7 +5314,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     fJazzChordsDisplayLilypondcode <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // fonts
@@ -5324,14 +5324,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Fonts:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "jazzFonts" << " : " <<
     booleanAsString (fJazzFonts) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // code generation
@@ -5341,7 +5341,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "LilyPond code generation:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "xml2lyInfos" << " : " <<
@@ -5388,7 +5388,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       booleanAsString (fWhiteNoteHeads) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // score notation
@@ -5398,14 +5398,14 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Score notation:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "fJianpu" << " : " <<
       booleanAsString (fJianpu) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // midi
@@ -5414,7 +5414,7 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
     "Midi:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "midiTempo" << " : " <<
@@ -5425,9 +5425,9 @@ void lpsr2lilypondOahGroup::printAtomWithValueOptionsValues (
       booleanAsString (fNoMidi) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth)
@@ -5436,7 +5436,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "The LilyPond lilypond are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // global staff size
   // --------------------------------------
@@ -5445,7 +5445,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Global staff size:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "globalStaffSize" << " : " <<
@@ -5455,7 +5455,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     fStaffGlobalSizeDefaultValue <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // identification
   // --------------------------------------
@@ -5463,7 +5463,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Identification:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // MusicXML informations
   gLogStream << left <<
@@ -5524,7 +5524,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
       fCopyright <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // engravers
@@ -5533,7 +5533,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Engravers:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "ambitusEngraver" << " : " <<
@@ -5543,7 +5543,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
       booleanAsString (fCustosEngraver) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // clefs
@@ -5552,7 +5552,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Clefs:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "noInitialTrebleClef" << " : " <<
@@ -5562,7 +5562,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
       booleanAsString (fCommentClefChanges) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // keys
@@ -5571,14 +5571,14 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Keys:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "noInitialCMajorKey" << " : " <<
       booleanAsString (fNoInitialCMajorKey) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // time
@@ -5587,7 +5587,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Times:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "noInitialCommonTime" << " : " <<
@@ -5597,7 +5597,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
       booleanAsString (fNumericalTime) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // notes
@@ -5606,7 +5606,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Notes:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "octaveEntryKind" << " : " <<
@@ -5667,7 +5667,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
       fNonPrintNotesHeadRGBColor.asString () <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // bars and measures
@@ -5676,7 +5676,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Bars:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "showAllBarNumbers" << " : " <<
@@ -5719,7 +5719,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
   }
   gLogStream << endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // line breaks
@@ -5728,7 +5728,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Line breaks:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "ignoreMusicXMLLineBreaks" << " : " <<
@@ -5746,7 +5746,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
       fSeparatorLineEveryNMeasures <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // page breaks
@@ -5755,7 +5755,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Page breaks:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "ignoreMusicXMLPageBreaks" << " : " <<
@@ -5765,7 +5765,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     booleanAsString (fSuppressMusicXMLPageBreaks) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // staves
@@ -5774,7 +5774,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Staves:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "modernTab" << " : " <<
@@ -5784,7 +5784,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     booleanAsString (fTabFullNotation) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // chords
@@ -5794,14 +5794,14 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Chords:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "connectArpeggios" << " : " <<
     booleanAsString (fConnectArpeggios) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // tuplets
@@ -5811,14 +5811,14 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Tuplets:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "indentTuplets" << " : " <<
     booleanAsString (fIndentTuplets) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // repeats
@@ -5828,7 +5828,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Repeats:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "keepRepeatBarlines" << " : " <<
@@ -5841,7 +5841,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     booleanAsString (fIgnoreRepeatNumbers) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // ornaments
@@ -5851,14 +5851,14 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Ornaments:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
     fDelayedOrnamentsFraction <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // chords display
@@ -5868,7 +5868,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Chords display:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "jazzChordsDisplay" << " : " <<
@@ -5878,7 +5878,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     fJazzChordsDisplayLilypondcode <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // fonts
@@ -5888,14 +5888,14 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Fonts:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "jazzFonts" << " : " <<
     booleanAsString (fJazzFonts) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // code generation
@@ -5905,7 +5905,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "LilyPond code generation:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "xml2lyInfos" << " : " <<
@@ -5952,7 +5952,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
       booleanAsString (fGenerateCommentedOutVariables) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // score notation
@@ -5962,14 +5962,14 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Score notation:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "fJianpu" << " : " <<
       booleanAsString (fJianpu) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // midi
@@ -5978,7 +5978,7 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
     "Midi:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "fMidiTempo" << " : " <<
@@ -5989,9 +5989,9 @@ void lpsr2lilypondOahGroup::printLpsr2lilypondOahValues (unsigned int fieldWidth
       booleanAsString (fNoMidi) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsr2lilypondOahGroup& elt)
@@ -6118,7 +6118,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
       "':" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -6127,7 +6127,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -6173,7 +6173,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
     "OptionsBreakPageAfterMeasureNumberAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -6203,7 +6203,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
 
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lilypondBreakPageAfterMeasureNumberAtom::printAtomWithValueOptionsValues (
@@ -6222,7 +6222,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     map<string, int>::const_iterator
       iBegin = fStringSetVariable.begin (),
@@ -6241,7 +6241,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::printAtomWithValueOptionsValues (
       if (++i == iEnd) break;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 

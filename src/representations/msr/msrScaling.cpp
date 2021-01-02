@@ -115,7 +115,7 @@ float msrScaling::fetchGlobalStaffSize () const
         "fetchGlobalStaffSize():" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       const unsigned int fieldWidth = 32;
 
@@ -156,7 +156,7 @@ float msrScaling::fetchGlobalStaffSize () const
         result <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 #endif
 
@@ -238,7 +238,7 @@ void msrScaling::print (ostream& os) const
     "Scaling" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 13;
 
@@ -253,7 +253,7 @@ void msrScaling::print (ostream& os) const
     setprecision (2) << fTenths <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrScaling& elt) {

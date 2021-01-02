@@ -251,7 +251,7 @@ void musicxmlOahGroup::printMusicxmlValues (unsigned int fieldWidth)
     "The MusicXML options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // trace
@@ -261,7 +261,7 @@ void musicxmlOahGroup::printMusicxmlValues (unsigned int fieldWidth)
     "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "traceEncoding" << " : " <<
@@ -280,10 +280,10 @@ void musicxmlOahGroup::printMusicxmlValues (unsigned int fieldWidth)
     booleanAsString (fTraceForward) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_musicxmlOahGroup& elt)

@@ -50,7 +50,7 @@ bsrSpaces::bsrSpaces (
   fSpacesCellsList =
     bsrCellsList::create (inputLineNumber);
 
-  for (int i = 1; i <= fNumberOfSpaces; i++) {
+  for (int i = 1; i <= fNumberOfSpaces; ++i) {
     fSpacesCellsList->
       appendCellKindToCellsList (kCellSpace);
   } // for
@@ -137,7 +137,7 @@ string bsrSpaces::asDebugString () const
 {
   string result;
 
-  for (int i = 1; i <= fNumberOfSpaces; i++) {
+  for (int i = 1; i <= fNumberOfSpaces; ++i) {
     result += " ";
   } // for
 
@@ -151,7 +151,7 @@ void bsrSpaces::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 16;
 
@@ -166,7 +166,7 @@ void bsrSpaces::print (ostream& os) const
     "spacesBefore" << " : " << fSpacesBefore <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrSpaces& elt)

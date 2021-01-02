@@ -107,7 +107,7 @@ void bsrFootNotes::browseData (basevisitor* v)
     list<S_bsrFootNotesElement>::const_iterator i =
       fFootNotesElementsList.begin ();
     i != fFootNotesElementsList.end ();
-    i++ ) {
+    ++i ) {
     // browse the element
     bsrBrowser<bsrFootNotesElement> browser (v);
     browser.browse (*(*i));
@@ -120,7 +120,7 @@ void bsrFootNotes::print (ostream& os) const
     "FootNotes" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the notes if any
   const unsigned int fieldWidth = 19;
@@ -134,7 +134,7 @@ void bsrFootNotes::print (ostream& os) const
       endl;
 
     if (footNotesElementsListSize) {
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrFootNotesElement>::const_iterator
         iBegin = fFootNotesElementsList.begin (),
@@ -146,7 +146,7 @@ void bsrFootNotes::print (ostream& os) const
         os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -155,7 +155,7 @@ void bsrFootNotes::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrFootNotes& elt)

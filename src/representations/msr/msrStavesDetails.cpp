@@ -160,7 +160,7 @@ void msrStaffTuning::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 29;
 
@@ -181,7 +181,7 @@ void msrStaffTuning::print (ostream& os) const
     msrOctaveKindAsString (fStaffTuningOctaveKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrStaffTuning& elt)
@@ -280,7 +280,7 @@ void msrStaffDetails::browseData (basevisitor* v)
     for (
       list<S_msrStaffTuning>::const_iterator i = fStaffTuningsList.begin ();
       i != fStaffTuningsList.end ();
-      i++
+      ++i
   ) {
         // browse the staff tuning
         msrBrowser<msrStaffTuning> browser (v);
@@ -385,7 +385,7 @@ void msrStaffDetails::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 17;
 
@@ -407,7 +407,7 @@ void msrStaffDetails::print (ostream& os) const
       iEnd   = fStaffTuningsList.end (),
       i      = iBegin;
 
-    gIndenter++;
+    ++gIndenter;
 
     for ( ; ; ) {
       os << (*i);
@@ -416,7 +416,7 @@ void msrStaffDetails::print (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << left <<
@@ -439,7 +439,7 @@ void msrStaffDetails::print (ostream& os) const
     printSpacingKindAsString (fPrintSpacingKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)

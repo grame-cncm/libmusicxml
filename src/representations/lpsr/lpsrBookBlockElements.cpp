@@ -126,7 +126,7 @@ void lpsrBookBlockElement::browseData (basevisitor* v)
   for (
     vector<S_msrElement>::const_iterator i = fBlockElements.begin ();
     i != fBlockElements.end ();
-    i++
+    ++i
   ) {
     // browse the element
  //   msrBrowser<msrElement> browser (v);
@@ -332,7 +332,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
   for (
     vector<S_msrElement>::const_iterator i = fBlockElements.begin ();
     i != fBlockElements.end ();
-    i++
+    ++i
   ) {
     // browse the element
  //   msrBrowser<msrElement> browser (v);
@@ -364,7 +364,7 @@ void lpsrScoreBlock::print (ostream& os) const
 {
   os << "ScoreBlock" << endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     fBookBlockElementParallelMusicBlock <<
@@ -380,7 +380,7 @@ void lpsrScoreBlock::print (ostream& os) const
     fScoreBlockMidiTempo <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrScoreBlock& scr)
@@ -552,13 +552,13 @@ void lpsrBookPartBlock::print (ostream& os) const
 {
   os << "BookPartBlock" << endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     fBookBlockElementParallelMusicBlock <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrBookPartBlock& scr)
@@ -785,7 +785,7 @@ void lpsrBookBlock::browseData (basevisitor* v)
   for (
     list<S_lpsrBookBlockElement>::const_iterator i = fBookBlockElementsList.begin ();
     i != fBookBlockElementsList.end ();
-    i++
+    ++i
   ) {
     // browse block the element
     msrBrowser<lpsrBookBlockElement> browser (v);
@@ -811,7 +811,7 @@ void lpsrBookBlock::print (ostream& os) const
 {
   os << "BookBlock" << endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fBookBlockHeader) {
     os <<
@@ -825,18 +825,18 @@ void lpsrBookBlock::print (ostream& os) const
   if (fBookBlockElementsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (
       list<S_lpsrBookBlockElement>::const_iterator i = fBookBlockElementsList.begin ();
       i != fBookBlockElementsList.end ();
-      i++
+      ++i
     ) {
       // print the book block element
       os << (*i);
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -850,7 +850,7 @@ void lpsrBookBlock::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrBookBlock& scr)

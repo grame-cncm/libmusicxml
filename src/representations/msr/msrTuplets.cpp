@@ -92,11 +92,11 @@ msrTuplet::msrTuplet (
       "Creating tuplet:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     this->print (gLogStream);
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -700,7 +700,7 @@ rational msrTuplet::setTupletMembersPositionInMeasure (
   for (
     list<S_msrTupletElement>::const_iterator i = fTupletElementsList.begin ();
     i != fTupletElementsList.end ();
-    i++
+    ++i
   ) {
     // set tuplet element position in measure
 
@@ -779,7 +779,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
       "unapplySoundingFactorToTupletMembers ()" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       "% fTupletFactor = " << fTupletFactor.asString () <<
@@ -787,7 +787,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
       "% containingTupletFactor = " << containingTupletFactor.asString () <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -879,7 +879,7 @@ void msrTuplet::browseData (basevisitor* v)
   for (
     list<S_msrTupletElement>::const_iterator i = fTupletElementsList.begin ();
     i != fTupletElementsList.end ();
-    i++
+    ++i
   ) {
     // browse tuplet element
     msrBrowser<msrElement> browser (v);
@@ -974,7 +974,7 @@ void msrTuplet::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 30;
 
@@ -1044,10 +1044,10 @@ void msrTuplet::print (ostream& os) const
   os << endl;
     */
 
-  gIndenter--;
+  --gIndenter;
 
   if (fTupletElementsList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrTupletElement>::const_iterator
       iBegin = fTupletElementsList.begin (),
@@ -1059,7 +1059,7 @@ void msrTuplet::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
 
   // JMI  os << endl;
   }
@@ -1113,7 +1113,7 @@ void msrTuplet::printShort (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 30;
 
@@ -1185,7 +1185,7 @@ void msrTuplet::printShort (ostream& os)
   os << endl;
     */
 
-  gIndenter--;
+  --gIndenter;
 
   if (fTupletElementsList.size ()) {
   os << left <<
@@ -1193,7 +1193,7 @@ void msrTuplet::printShort (ostream& os)
       "tupletElements" << " :" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrTupletElement>::const_iterator
       iBegin = fTupletElementsList.begin (),
@@ -1207,7 +1207,7 @@ void msrTuplet::printShort (ostream& os)
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
 
   // JMI  os << endl;
   }

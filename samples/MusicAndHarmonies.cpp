@@ -112,7 +112,7 @@ static Sxmlelement makemeasure(unsigned long num) {
 	}
 
 
-	for (int i = 0; i < 4; i++) {		// next adds 4 quarter notes
+	for (int i = 0; i < 4; ++i) {		// next adds 4 quarter notes
 
 	  if (i == 0 || i == 2) { // add a harmony
 	      /*
@@ -161,7 +161,7 @@ static Sxmlelement makemeasure_TRY(unsigned long num) {
 	}
 
 
-	for (int i = 0; i < 4; i++) {		// next adds 4 quarter notes
+	for (int i = 0; i < 4; ++i) {		// next adds 4 quarter notes
 
 	  if (i == 0 || i == 2) { // add a harmony
       Sxmlelement harmony = factory::instance().create(k_harmony);	// creates the harmony
@@ -208,7 +208,7 @@ static Sxmlelement makemeasure_TRY(unsigned long num) {
 static Sxmlelement makePart (int count) {
 	Sxmlelement part = factory::instance().create(k_part);
 	part->add (newAttribute("id", kPartID));
-	for (int i=1; i<=count; i++)			// and 'count' times
+	for (int i=1; i<=count; ++i)			// and 'count' times
 		part->push (makemeasure(i));			// adds a new measure to the part
 	return part;
 }

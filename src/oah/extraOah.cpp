@@ -40,9 +40,9 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_extraShowAllHarmoniesStructuresAtom extraShowAllHarmoniesStructuresAtom::create (
-  string shortName,
-  string longName,
-  string description)
+  const string& shortName,
+  const string& longName,
+  const string& description)
 {
   extraShowAllHarmoniesStructuresAtom* o = new
     extraShowAllHarmoniesStructuresAtom (
@@ -54,9 +54,9 @@ S_extraShowAllHarmoniesStructuresAtom extraShowAllHarmoniesStructuresAtom::creat
 }
 
 extraShowAllHarmoniesStructuresAtom::extraShowAllHarmoniesStructuresAtom (
-  string shortName,
-  string longName,
-  string description)
+  const string& shortName,
+  const string& longName,
+  const string& description)
   : oahAtomWithValue (
       shortName,
       longName,
@@ -169,12 +169,12 @@ void extraShowAllHarmoniesStructuresAtom::print (ostream& os) const
     "OptionsShowAllHarmoniesStructuresAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void extraShowAllHarmoniesStructuresAtom::printAllHarmoniesStructures (ostream& os) const
@@ -406,12 +406,12 @@ void extraShowAllHarmoniesContentsAtom::print (ostream& os) const
     "extraShowAllHarmoniesContentsAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void extraShowAllHarmoniesContentsAtom::printAllHarmoniesContents (
@@ -717,12 +717,12 @@ void extraShowHarmonyDetailsAtom::print (ostream& os) const
     "extraShowHarmonyDetailsAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void extraShowHarmonyDetailsAtom::printAtomWithValueOptionsValues (
@@ -863,14 +863,15 @@ void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
     harmonyName       = sm [2],
     inversionAsString = sm [3];
 
-  int
-    inversion;
+  int inversion;
 
-  stringstream s;
+  {
+    stringstream s;
 
-  s << inversionAsString;
+    s << inversionAsString;
 
-  s >> inversion;
+    s >> inversion;
+  }
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1047,12 +1048,12 @@ void extraShowHarmonyAnalysisAtom::print (ostream& os) const
     "extraShowHarmonyAnalysisAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void extraShowHarmonyAnalysisAtom::printAtomWithValueOptionsValues (
@@ -1320,7 +1321,7 @@ void extraOahGroup::printExtraOahValues (unsigned int fieldWidth)
     "The extra extra are:" << // JMI
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // harmony intervals
   // --------------------------------------
@@ -1328,7 +1329,7 @@ void extraOahGroup::printExtraOahValues (unsigned int fieldWidth)
   // harmony notes
   // --------------------------------------
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_extraOahGroup& elt)

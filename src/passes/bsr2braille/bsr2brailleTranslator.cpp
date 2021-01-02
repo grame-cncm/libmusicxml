@@ -411,7 +411,7 @@ void bsr2brailleTranslator::visitStart (S_bsrMusicHeading& elt)
     */
 
 /*
-  for (int i = 0; i < 6; i++) {   // JMI ???
+  for (int i = 0; i < 6; ++i) {   // JMI ???
     if (true) {
       gLogStream <<
         "Generating a space before S_bsrMusicHeading" <<

@@ -110,7 +110,7 @@ void lpsrLayout::print (ostream& os) const
     "Layout" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 9;
 
@@ -119,7 +119,7 @@ void lpsrLayout::print (ostream& os) const
    "layoutGlobalStaffSize" << " : " << fLayoutGlobalStaffSize <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrLayout& lay)

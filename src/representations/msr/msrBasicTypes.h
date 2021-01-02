@@ -644,6 +644,12 @@ enum msrOctaveKind {
 msrOctaveKind octaveSucc (msrOctaveKind octaveKind);
 msrOctaveKind octavePred (msrOctaveKind octaveKind);
 
+/*
+   // Declare prefix and postfix decrement operators.
+   Point& operator--();       // Prefix decrement operator.
+   Point operator--(int);     // Postfix decrement operator.
+*/
+
 // prefix operators
 msrOctaveKind& operator++ (msrOctaveKind& octaveKind);
 msrOctaveKind& operator-- (msrOctaveKind& octaveKind);
@@ -739,7 +745,7 @@ class EXP msrDottedDuration
     // ------------------------------------------------------
 
     void                  incrDotsNumber ()
-                              { fDotsNumber++; }
+                              { ++fDotsNumber; }
 
     rational              dottedDurationAsWholeNotes (
                             int inputLineNumber) const;
@@ -1718,10 +1724,10 @@ class EXP msrHarmonyInterval : public smartable
                               { return fHarmonyIntervalIntervalKind; }
 
     void                  incrementHarmonyIntervalRelativeOctave ()
-                              { fHarmonyIntervalRelativeOctave++; }
+                              { ++fHarmonyIntervalRelativeOctave; }
 
     void                  decrementHarmonyIntervalRelativeOctave ()
-                              { fHarmonyIntervalRelativeOctave--; }
+                              { --fHarmonyIntervalRelativeOctave; }
 
     int                   getHarmonyIntervalRelativeOctave () const
                               { return fHarmonyIntervalRelativeOctave; }

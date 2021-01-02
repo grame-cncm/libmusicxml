@@ -119,7 +119,7 @@ void msrTempoNote::browseData (basevisitor* v)
   for (
     list<S_msrBeam>::const_iterator i = fTempoNoteBeams.begin ();
     i != fTempoNoteBeams.end ();
-    i++ ) {
+    ++i ) {
     // browse tempoTuplet element
     msrBrowser<msrBeam> browser (v);
     browser.browse (*(*i));
@@ -146,7 +146,7 @@ void msrTempoNote::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 26;
 
@@ -164,7 +164,7 @@ void msrTempoNote::print (ostream& os) const
     if (fTempoNoteBeams.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrBeam>::const_iterator
         iBegin = fTempoNoteBeams.begin (),
@@ -176,7 +176,7 @@ void msrTempoNote::print (ostream& os) const
         os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -185,7 +185,7 @@ void msrTempoNote::print (ostream& os) const
         endl;
     }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrTempoNote& elt)
@@ -459,14 +459,14 @@ void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
       "% ==> applyDisplayFactorToTempoTupletMembers ()" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       "% fTempoTupletFactor = " <<
       fTempoTupletFactor <<
       endl << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -481,7 +481,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
       "unapplySoundingFactorToTempoTupletMembers ()" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       "% fTempoTupletFactor = " <<
@@ -493,7 +493,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
       containingTempoTupletNormalNotes <<
       endl << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -551,7 +551,7 @@ void msrTempoTuplet::browseData (basevisitor* v)
   for (
     list<S_msrElement>::const_iterator i = fTempoTupletElements.begin ();
     i != fTempoTupletElements.end ();
-    i++ ) {
+    ++i ) {
     // browse tempoTuplet element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
@@ -692,7 +692,7 @@ void msrTempoTuplet::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 30;
 
@@ -729,7 +729,7 @@ void msrTempoTuplet::print (ostream& os) const
     "TempoTupletsElements";
 
   if (fTempoTupletElements.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrElement>::const_iterator
       iBegin = fTempoTupletElements.begin (),
@@ -741,7 +741,7 @@ void msrTempoTuplet::print (ostream& os) const
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
     }
   else {
     os << left <<
@@ -749,7 +749,7 @@ void msrTempoTuplet::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrTempoTuplet& elt)
@@ -853,7 +853,7 @@ void msrTempoRelationshipElements::browseData (basevisitor* v)
       list<S_msrElement>::const_iterator i =
         fTempoRelationshipElementsList.begin ();
       i != fTempoRelationshipElementsList.end ();
-      i++
+      ++i
   ) {
       // browse the element
       msrBrowser<msrElement> browser (v);
@@ -897,7 +897,7 @@ void msrTempoRelationshipElements::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "tempoRelationshipElementsKindAsString : " <<
@@ -912,7 +912,7 @@ void msrTempoRelationshipElements::print (ostream& os) const
     "tempoRelationshipElementsList";
 
     if (fTempoRelationshipElementsList.size ()) {
-      gIndenter++;
+      ++gIndenter;
 
       os << endl;
 
@@ -927,7 +927,7 @@ void msrTempoRelationshipElements::print (ostream& os) const
         // os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
   }
   else {
     os <<
@@ -935,7 +935,7 @@ void msrTempoRelationshipElements::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrTempoRelationshipElements& elt)
@@ -1299,7 +1299,7 @@ void msrTempo::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 27;
 
@@ -1315,7 +1315,7 @@ void msrTempo::print (ostream& os) const
   if (fTempoWordsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrWords>::const_iterator
       iBegin = fTempoWordsList.begin (),
@@ -1327,7 +1327,7 @@ void msrTempo::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -1340,12 +1340,12 @@ void msrTempo::print (ostream& os) const
     "tempoBeatUnit :" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     fTempoBeatUnit;
 
-  gIndenter--;
+  --gIndenter;
 
   os << left <<
     setw (fieldWidth) <<
@@ -1364,12 +1364,12 @@ void msrTempo::print (ostream& os) const
       " : " <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fTempoRelationLeftElements;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << " : " << "none" <<
@@ -1392,19 +1392,19 @@ void msrTempo::print (ostream& os) const
       ":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fTempoRelationRightElements;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << " : " << "none" <<
     endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrTempo::printShort (ostream& os) const

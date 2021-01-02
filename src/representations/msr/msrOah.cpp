@@ -120,12 +120,12 @@ void msrPitchesLanguageAtom::applyAtomWithValue (
       " known MSR pitches languages are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -229,7 +229,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
     "msrPitchesLanguageAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -246,7 +246,7 @@ void msrPitchesLanguageAtom::print (ostream& os) const
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPitchesLanguageAtom::printAtomWithValueOptionsValues (
@@ -540,7 +540,7 @@ void msrRenamePartAtom::print (ostream& os) const
     "msrRenamePartAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -569,7 +569,7 @@ void msrRenamePartAtom::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrRenamePartAtom::printAtomWithValueOptionsValues (
@@ -588,7 +588,7 @@ void msrRenamePartAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     map<string, string>::const_iterator
       iBegin = fStringToStringMapVariable.begin (),
@@ -609,7 +609,7 @@ void msrRenamePartAtom::printAtomWithValueOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -819,12 +819,12 @@ R"()",
       " known MSR pitches languages are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -1149,7 +1149,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     "The MSR options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // trace and display
   // --------------------------------------
@@ -1158,7 +1158,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     "Trace and display:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "traceMsr" << " : " <<
@@ -1191,7 +1191,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     booleanAsString (fDisplayMsrSummary) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // languages
   // --------------------------------------
@@ -1200,7 +1200,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
      "Languages:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "msrPitchesLanguage" << " : \"" <<
@@ -1209,7 +1209,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // parts
   // --------------------------------------
@@ -1218,7 +1218,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
      "Parts:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // parts renaming
 
@@ -1234,7 +1234,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
       map<string, string>::const_iterator i =
         fPartsRenamingMap.begin ();
       i != fPartsRenamingMap.end ();
-      i++
+      ++i
   ) {
         gLogStream <<
           "\"" << ((*i).first) << "\" -> \"" << ((*i).second) << "\"";
@@ -1243,7 +1243,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
 
   gLogStream << endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // staves
   // --------------------------------------
@@ -1252,7 +1252,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     "Staves:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) <<
@@ -1260,7 +1260,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     booleanAsString (fCreateSingleLineStavesAsRythmic) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // voices
   // --------------------------------------
@@ -1269,7 +1269,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     "Voices:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) <<
@@ -1277,7 +1277,7 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // harmonies
   // --------------------------------------
@@ -1286,14 +1286,14 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     "Harmonies:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "showHarmonyVoices" << " : " <<
     booleanAsString (fShowHarmonyVoices) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // figured bass
   // --------------------------------------
@@ -1302,16 +1302,16 @@ void msrOahGroup::printMsrOahValues (int valueFieldWidth)
     "Figured bass:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "showFiguredBassVoices" << " : " <<
     booleanAsString (fShowFiguredBassVoices) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrOahGroup& elt)

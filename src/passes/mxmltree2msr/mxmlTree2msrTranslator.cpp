@@ -502,7 +502,7 @@ void mxmlTree2msrTranslator::printVoicesLastMetNoteMap (
     endl;
 
   if (voicesLastMetNoteMapSize) {
-    gIndenter++;
+    ++gIndenter;
 
 //    map<S_msrVoice, S_msrNote>::const_iterator
     map<pair<int, int>, S_msrNote>::const_iterator
@@ -517,20 +517,20 @@ void mxmlTree2msrTranslator::printVoicesLastMetNoteMap (
         ":" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         (*i).second <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       if (++i == iEnd) break;
 
       gLogStream << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2287,7 +2287,7 @@ void mxmlTree2msrTranslator::visitStart (S_part& elt)
   fCurrentMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void mxmlTree2msrTranslator::visitEnd (S_part& elt)
@@ -2304,7 +2304,7 @@ void mxmlTree2msrTranslator::visitEnd (S_part& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 /*
 #ifdef TRACING_IS_ENABLED
@@ -3147,7 +3147,7 @@ If the cancel attribute is
       vector<S_msrHumdrumScotKeyItem>::const_iterator i=
         fCurrentHumdrumScotKeyItemsVector.begin ();
       i!=fCurrentHumdrumScotKeyItemsVector.end ();
-      i++
+      ++i
   ) {
       gLogStream <<
         ++counter << ": " << (*i) <<
@@ -3352,7 +3352,7 @@ S_msrKey mxmlTree2msrTranslator::handleHumdrumScotKey (
       vector<S_msrHumdrumScotKeyItem>::const_iterator i=
         fCurrentHumdrumScotKeyItemsVector.begin ();
       i!=fCurrentHumdrumScotKeyItemsVector.end ();
-      i++
+      ++i
   ) {
       key->
         appendHumdrumScotKeyItem ((*i));
@@ -3481,7 +3481,7 @@ void mxmlTree2msrTranslator::visitStart ( S_beat_type& elt )
     for (
       list<int>::const_iterator i = beatNumbers.begin ();
       i != beatNumbers.end ();
-      i++
+      ++i
   ) {
       timeItem->
         appendBeatsNumber ((*i));
@@ -3691,7 +3691,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_time& elt )
       vector<S_msrTimeItem>::const_iterator i =
         fCurrentTimeItemsVector.begin ();
       i!=fCurrentTimeItemsVector.end ();
-      i++
+      ++i
   ) {
       fCurrentTime->
         appendTimeItem ((*i));
@@ -3852,7 +3852,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_transpose& elt )
 
     while (auxTransposeChromatic < -11) {
       auxTransposeChromatic += 12;
-      octaveOffset++;
+      ++octaveOffset;
     } // while
 
     stringstream s;
@@ -3880,7 +3880,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_transpose& elt )
 
     while (auxTransposeChromatic > 11) {
       auxTransposeChromatic -= 12;
-      octaveOffset++;
+      ++octaveOffset;
     } // while
 
     stringstream s;
@@ -4714,7 +4714,7 @@ void mxmlTree2msrTranslator::visitStart ( S_accordion_high& elt )
 
   fCurrentAccordionHigh = 1;
 
-  fCurrentAccordionNumbersCounter++;
+  ++fCurrentAccordionNumbersCounter;
 }
 
 void mxmlTree2msrTranslator::visitStart ( S_accordion_middle& elt )
@@ -4749,7 +4749,7 @@ void mxmlTree2msrTranslator::visitStart ( S_accordion_middle& elt )
     fCurrentAccordionMiddle = 1;
   }
 
-  fCurrentAccordionNumbersCounter++;
+  ++fCurrentAccordionNumbersCounter;
 }
 
 void mxmlTree2msrTranslator::visitStart ( S_accordion_low& elt )
@@ -4765,7 +4765,7 @@ void mxmlTree2msrTranslator::visitStart ( S_accordion_low& elt )
 
   fCurrentAccordionLow = 1;
 
-  fCurrentAccordionNumbersCounter++;
+  ++fCurrentAccordionNumbersCounter;
 }
 
 void mxmlTree2msrTranslator::visitEnd ( S_accordion_registration& elt )
@@ -4990,7 +4990,7 @@ void mxmlTree2msrTranslator::visitStart ( S_metronome_dot& elt )
   }
 #endif
 
-  fCurrentMetrenomeDotsNumber++;
+  ++fCurrentMetrenomeDotsNumber;
 }
 
 void mxmlTree2msrTranslator::visitStart ( S_metronome_beam& elt )
@@ -5126,7 +5126,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_metronome_note& elt )
         rational (3, 2);
       fCurrentMetronomeNoteWholeNotesFromMetronomeType.rationalise ();
 
-      dots--;
+      --dots;
     } // while
   }
 
@@ -5371,7 +5371,7 @@ void mxmlTree2msrTranslator::visitStart ( S_normal_dot& elt )
   }
 #endif
 
-  fCurrentMetrenomeNormalDotsNumber++;
+  ++fCurrentMetrenomeNormalDotsNumber;
 }
 
 void mxmlTree2msrTranslator::visitEnd ( S_metronome_tuplet& elt )
@@ -5860,7 +5860,7 @@ void mxmlTree2msrTranslator::visitStart (S_staff_details& elt )
       fCurrentPrintObjectKind,
       fCurrentPrintSpacingKind);
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void mxmlTree2msrTranslator::visitStart (S_staff_type& elt )
@@ -6139,7 +6139,7 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_tuning& elt )
       "Creating staff tuning:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 32;
 
@@ -6172,7 +6172,7 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_tuning& elt )
       msrOctaveKindAsString (fCurrentStaffTuningOctaveKind) <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -6507,7 +6507,7 @@ void mxmlTree2msrTranslator::displaySlurStartsStack (
       iEnd   = fSlurStartsStack.end (),
       i      = iBegin;
 
-    gIndenter++;
+    ++gIndenter;
 
     for ( ; ; ) {
       gLogStream << "v " << (*i);
@@ -6515,7 +6515,7 @@ void mxmlTree2msrTranslator::displaySlurStartsStack (
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   gLogStream <<
@@ -6543,7 +6543,7 @@ void mxmlTree2msrTranslator::displayTupletsStack (
 
     S_msrTuplet tuplet = (*i);
 
-    gIndenter++;
+    ++gIndenter;
 
     int n = tupletsStackSize;
     for ( ; ; ) {
@@ -6551,18 +6551,18 @@ void mxmlTree2msrTranslator::displayTupletsStack (
         "v (" << n << ")" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
       tuplet->printShort (gLogStream);
-      gIndenter--;
+      --gIndenter;
 
-      n--;
+      --n;
 
       if (++i == iEnd) break;
 
       gLogStream << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   gLogStream <<
@@ -7444,7 +7444,7 @@ void mxmlTree2msrTranslator::visitStart ( S_text& elt )
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceLyrics ()) {
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 23;
 
@@ -7470,7 +7470,7 @@ void mxmlTree2msrTranslator::visitStart ( S_text& elt )
 
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -7635,14 +7635,14 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
       ", with:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       "Lyric data:" <<
       endl;
 
     {
-      gIndenter++;
+      ++gIndenter;
 
       const unsigned int fieldWidth = 31;
 
@@ -7748,10 +7748,10 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
         "\"" <<
       endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -7764,14 +7764,14 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
       ", with:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       "Lyric data:" <<
       endl;
 
     {
-      gIndenter++;
+      ++gIndenter;
 
       const unsigned int fieldWidth = 31;
 
@@ -7795,10 +7795,10 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
         fCurrentLyricTextsList,
         gLogStream);
 
-      gIndenter--;
+      --gIndenter;
     }
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -7866,7 +7866,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_lyric& elt )
     for (
       list<string>::const_iterator i = fCurrentLyricTextsList.begin ();
       i!=fCurrentLyricTextsList.end ();
-      i++
+      ++i
     ) {
       syllable->
         appendLyricTextToSyllable ((*i));
@@ -7911,7 +7911,7 @@ void mxmlTree2msrTranslator::visitStart (S_measure& elt)
 #endif
 
   // take this measure into account
-  fPartMeasuresCounter++;
+  ++fPartMeasuresCounter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
@@ -8244,7 +8244,7 @@ void mxmlTree2msrTranslator::handleOnGoingRestMeasures (
       "--> onGoingRestMeasures" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       setw (fieldWidth) <<
@@ -8257,7 +8257,7 @@ void mxmlTree2msrTranslator::handleOnGoingRestMeasures (
       fRemainingRestMeasuresMeasuresNumber <<
       endl << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -8282,7 +8282,7 @@ void mxmlTree2msrTranslator::handleOnGoingRestMeasures (
   }
 
   // account for one more rest measure in the multiple rest
-  fRemainingRestMeasuresMeasuresNumber--;
+  --fRemainingRestMeasuresMeasuresNumber;
 
   if (fRemainingRestMeasuresMeasuresNumber == 0) {
     // all rest measures have been found,
@@ -8312,7 +8312,7 @@ void mxmlTree2msrTranslator::handleOnGoingRestMeasures (
       "--> onGoingRestMeasures" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       setw (fieldWidth) <<
@@ -8330,7 +8330,7 @@ void mxmlTree2msrTranslator::handleOnGoingRestMeasures (
         fOnGoingRestMeasures) <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -8781,7 +8781,7 @@ void mxmlTree2msrTranslator::visitStart ( S_coda& elt )
 
   if (fOnGoingDirectionType) {
     // account for this coda
-    fCodasCounter++;
+    ++fCodasCounter;
 
     msrCoda::msrCodaKind codaKind = msrCoda::kCodaFirst;
 
@@ -9217,12 +9217,12 @@ void mxmlTree2msrTranslator::visitEnd ( S_barline& elt )
       fCurrentPart->getPartCombinedName () << ":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       barline;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -9387,12 +9387,12 @@ void mxmlTree2msrTranslator::visitEnd ( S_barline& elt )
             fCurrentPart->getPartCombinedName () << ":" <<
             endl;
 
-          gIndenter++;
+          ++gIndenter;
 
           gLogStream <<
             barline;
 
-          gIndenter--;
+          --gIndenter;
         }
   #endif
 
@@ -9884,7 +9884,7 @@ void mxmlTree2msrTranslator::visitStart ( S_dot& elt )
   }
 #endif
 
-  fCurrentNoteDotsNumber++;
+  ++fCurrentNoteDotsNumber;
 }
 
 void mxmlTree2msrTranslator::visitStart ( S_type& elt )
@@ -10751,7 +10751,7 @@ void mxmlTree2msrTranslator::visitStart ( S_slash_dot& elt )
   }
 #endif
 
-  fCurrentSlashDotsNumber++;
+  ++fCurrentSlashDotsNumber;
 }
 
 void mxmlTree2msrTranslator::visitEnd ( S_slash& elt )
@@ -15617,10 +15617,10 @@ void mxmlTree2msrTranslator::visitStart ( S_tuplet_dot& elt )
 #endif
 
   if (fOnGoingTupletActual) {
-    fCurrentTupletActualDotsNumber++;
+    ++fCurrentTupletActualDotsNumber;
   }
   else if (fOnGoingTupletNormal) {
-    fCurrentTupletNormalDotsNumber++;
+    ++fCurrentTupletNormalDotsNumber;
   }
   else {
     msrMusicXMLError (
@@ -16178,7 +16178,7 @@ void mxmlTree2msrTranslator::printVoicesCurrentChordMap ()
   if (fVoicesCurrentChordMap.size ()) {
     gLogStream << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
 //    map<S_msrVoice, S_msrChord>::const_iterator
     map<pair<int, int>, S_msrChord>::const_iterator
@@ -16187,7 +16187,7 @@ void mxmlTree2msrTranslator::printVoicesCurrentChordMap ()
       i      = iBegin;
 
     for ( ; ; ) {
-      gIndenter++;
+      ++gIndenter;
 
       / * JMI
       S_msrVoice voice = (*i).first;
@@ -16207,14 +16207,14 @@ void mxmlTree2msrTranslator::printVoicesCurrentChordMap ()
         chord;
 // * /
 
-      gIndenter--;
+      --gIndenter;
 
       if (++i == iEnd) break;
 
       gLogStream << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   gLogStream <<
@@ -16271,12 +16271,12 @@ void mxmlTree2msrTranslator::printCurrentChord ()
       "fCurrentChord contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentChord;
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {
@@ -16305,7 +16305,7 @@ void mxmlTree2msrTranslator::copyNoteArticulationsToChord (
   for (
     i=noteArticulations.begin ();
     i!=noteArticulations.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16338,7 +16338,7 @@ void mxmlTree2msrTranslator::copyNoteTechnicalsToChord (
   for (
     i=noteTechnicals.begin ();
     i!=noteTechnicals.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16371,7 +16371,7 @@ void mxmlTree2msrTranslator::copyNoteTechnicalWithIntegersToChord (
   for (
     i=noteTechnicalWithIntegers.begin ();
     i!=noteTechnicalWithIntegers.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16404,7 +16404,7 @@ void mxmlTree2msrTranslator::copyNoteTechnicalWithFloatsToChord (
   for (
     i=noteTechnicalWithFloats.begin ();
     i!=noteTechnicalWithFloats.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16437,7 +16437,7 @@ void mxmlTree2msrTranslator::copyNoteTechnicalWithStringsToChord (
   for (
     i=noteTechnicalWithStrings.begin ();
     i!=noteTechnicalWithStrings.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16470,7 +16470,7 @@ void mxmlTree2msrTranslator::copyNoteOrnamentsToChord (
   for (
     i=noteOrnaments.begin ();
     i!=noteOrnaments.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16504,7 +16504,7 @@ void mxmlTree2msrTranslator::copyNoteSpannersToChord (
   for (
     i=noteSpanners.begin ();
     i!=noteSpanners.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16566,7 +16566,7 @@ void mxmlTree2msrTranslator::copyNoteDynamicsToChord (
   for (
     i=noteDynamics.begin ();
     i!=noteDynamics.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16600,7 +16600,7 @@ void mxmlTree2msrTranslator::copyNoteOtherDynamicsToChord (
   for (
     i=noteOtherDynamics.begin ();
     i!=noteOtherDynamics.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16634,7 +16634,7 @@ void mxmlTree2msrTranslator::copyNoteWordsToChord (
   for (
     i=noteWords.begin ();
     i!=noteWords.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16697,7 +16697,7 @@ void mxmlTree2msrTranslator::copyNoteBeamsToChord (
   for (
     i=noteBeams.begin ();
     i!=noteBeams.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16721,13 +16721,13 @@ void mxmlTree2msrTranslator::copyNoteBeamsToChord (
       "==> AFTER copying beams to chord:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       chord <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -16747,7 +16747,7 @@ void mxmlTree2msrTranslator::appendNoteBeamsLinksToChord (
   for (
     i=noteBeams.begin ();
     i!=noteBeams.end ();
-    i++
+    ++i
   ) {
     S_msrBeam beam = (*i);
 
@@ -16781,13 +16781,13 @@ void mxmlTree2msrTranslator::appendNoteBeamsLinksToChord (
       "==> AFTER appending note's beams links to chord:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       chord <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -16825,13 +16825,13 @@ void mxmlTree2msrTranslator::copyNoteTieToChord (
       "==> AFTER appending tie to chord:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       chord <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -16852,7 +16852,7 @@ void mxmlTree2msrTranslator::copyNoteSlursToChord (
   for (
     i=noteSlurs.begin ();
     i!=noteSlurs.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16887,7 +16887,7 @@ void mxmlTree2msrTranslator::appendNoteSlursLinksToChord (
   for (
     i=noteSlurs.begin ();
     i!=noteSlurs.end ();
-    i++
+    ++i
   ) {
     S_msrSlur slur = (*i);
 
@@ -16921,13 +16921,13 @@ void mxmlTree2msrTranslator::appendNoteSlursLinksToChord (
       "==> AFTER appending note's slurs links to chord:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       chord <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -16947,7 +16947,7 @@ void mxmlTree2msrTranslator::copyNoteLigaturesToChord (
   for (
     i=noteLigatures.begin ();
     i!=noteLigatures.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -16981,7 +16981,7 @@ void mxmlTree2msrTranslator::copyNotePedalsToChord (
   for (
     i=notePedals.begin ();
     i!=notePedals.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -17015,7 +17015,7 @@ void mxmlTree2msrTranslator::copyNoteSlashesToChord (
   for (
     i=noteSlashes.begin ();
     i!=noteSlashes.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -17049,7 +17049,7 @@ void mxmlTree2msrTranslator::copyNoteWedgesToChord (
   for (
     i=noteWedges.begin ();
     i!=noteWedges.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -17083,7 +17083,7 @@ void mxmlTree2msrTranslator::copyNoteSegnosToChord (
   for (
     i=noteSegnos.begin ();
     i!=noteSegnos.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -17117,7 +17117,7 @@ void mxmlTree2msrTranslator::copyNoteDalSegnosToChord (
   for (
     i=noteDalSegnos.begin ();
     i!=noteDalSegnos.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -17151,7 +17151,7 @@ void mxmlTree2msrTranslator::copyNoteCodasToChord (
   for (
     i=noteCodas.begin ();
     i!=noteCodas.end ();
-    i++
+    ++i
   ) {
 
 #ifdef TRACING_IS_ENABLED
@@ -17332,7 +17332,7 @@ void mxmlTree2msrTranslator::copyNoteHarmoniesToChord (
 
   if (noteHarmoniesList.size ()) {
     list<S_msrHarmony>::const_iterator i;
-    for (i=noteHarmoniesList.begin (); i!=noteHarmoniesList.end (); i++) {
+    for (i=noteHarmoniesList.begin (); i!=noteHarmoniesList.end (); ++i) {
       S_msrHarmony harmony = (*i);
 
 #ifdef TRACING_IS_ENABLED
@@ -17630,10 +17630,10 @@ void mxmlTree2msrTranslator::finalizeTupletAndPopItFromTupletsStack (
     gLogStream <<
       "Popping tuplet:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       tuplet;
-    gIndenter--;
+    --gIndenter;
     gLogStream <<
       " from tuplets stack" <<
       ", line " << inputLineNumber <<
@@ -18100,7 +18100,7 @@ void mxmlTree2msrTranslator::attachCurrentArticulationsToChord ( // JMI
     for (
       i=fCurrentArticulations.begin ();
       i!=fCurrentArticulations.end ();
-      i++
+      ++i
   ) {
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceArticulations ()) {
@@ -18138,7 +18138,7 @@ void mxmlTree2msrTranslator::attachCurrentOrnamentsToChord ( // JMI
     for (
       i=fCurrentOrnamentsList.begin ();
       i!=fCurrentOrnamentsList.end ();
-      i++
+      ++i
   ) {
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceOrnaments ()) {
@@ -18936,7 +18936,7 @@ void mxmlTree2msrTranslator::attachPendingLigaturesToNote (
         i      = iBegin;
       for ( ; ; ) {
   //    list<S_msrLigature>::iterator i;
-  //    for (i=fPendingLigaturesList.begin (); i!=fPendingLigaturesList.end (); i++) {
+  //    for (i=fPendingLigaturesList.begin (); i!=fPendingLigaturesList.end (); ++i) {
 
      //   if (i == iEnd) break;
 
@@ -19315,7 +19315,7 @@ void mxmlTree2msrTranslator::attachPendingGlissandosToNote (
               for (
                 map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
                 i != voiceStanzasMap.end ();
-                i++
+                ++i
               ) {
                 S_msrStanza stanza = (*i).second;
                 // create a skip syllable
@@ -19430,7 +19430,7 @@ void mxmlTree2msrTranslator::attachPendingSlidesToNote (
               for (
                 map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
                 i != voiceStanzasMap.end ();
-                i++
+                ++i
               ) {
                 S_msrStanza stanza = (*i).second;
                 // create a skip syllable
@@ -19621,7 +19621,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
 
           wholeNotesIncrement *= rational (1, 2);
 
-          dots--;
+          --dots;
 
 #ifdef TRACING_IS_ENABLED
           if (gGlobalTraceOahGroup->getTraceNotesDetails ()) {
@@ -19671,7 +19671,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
       "--> Gathered note information:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 42;
 
@@ -19747,7 +19747,7 @@ S_msrNote mxmlTree2msrTranslator::createNote (
       inputLineNumber <<
       endl << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -19879,13 +19879,13 @@ S_msrNote mxmlTree2msrTranslator::createNote (
       "Creating note:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       newNote <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -19992,7 +19992,7 @@ void mxmlTree2msrTranslator::populateNote (
     for (
       list<S_msrBeam>::const_iterator i=fPendingBeamsList.begin ();
       i!=fPendingBeamsList.end ();
-      i++
+      ++i
     ) {
       newNote->
         appendBeamToNote ((*i));
@@ -20605,11 +20605,11 @@ void mxmlTree2msrTranslator::handlePendingHarmonies (
     gLogStream <<
       "handlePendingHarmonies(), newNote = " <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       newNote <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -20712,11 +20712,11 @@ void mxmlTree2msrTranslator::handlePendingFiguredBasses (
     gLogStream <<
       "handlePendingFiguredBasses(), newNote = " <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       newNote <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -20863,11 +20863,11 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     gLogStream <<
       "handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest(), newNote = " <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       newNote <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -20889,7 +20889,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       ":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       newNote->asString () <<
@@ -20932,7 +20932,7 @@ void mxmlTree2msrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       gLogStream << endl;
     }
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -21187,7 +21187,7 @@ void mxmlTree2msrTranslator::handleLyricsForNote (
       "', line " << inputLineNumber <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 33;
 
@@ -21240,7 +21240,7 @@ void mxmlTree2msrTranslator::handleLyricsForNote (
 
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -21260,7 +21260,7 @@ void mxmlTree2msrTranslator::handleLyricsForNote (
       list<S_msrSyllable>::const_iterator i =
         fCurrentNoteSyllables.begin ();
       i != fCurrentNoteSyllables.end ();
-      i++ ) {
+      ++i ) {
       S_msrSyllable
         syllable = (*i);
 
@@ -21314,7 +21314,7 @@ void mxmlTree2msrTranslator::handleLyricsForNote (
         for (
           map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
           i != voiceStanzasMap.end ();
-          i++
+          ++i
         ) {
           S_msrStanza stanza = (*i).second;
 
@@ -21398,12 +21398,12 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
       ", newChordNote:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream << newChordNote <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -21569,13 +21569,13 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
         ", chordFirstNote:" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         chordFirstNote <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 #endif
 
@@ -21593,13 +21593,13 @@ void mxmlTree2msrTranslator::handleNoteBelongingToAChord (
         msrNote::noteKindAsString (savedChordFirstNoteKind) <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         chordFirstNote <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 #endif
 
@@ -22731,7 +22731,7 @@ void mxmlTree2msrTranslator::displayLastHandledTupletInVoiceMap (string header)
 
     gLogStream << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for ( ; ; ) {
       gLogStream <<
@@ -22746,7 +22746,7 @@ void mxmlTree2msrTranslator::displayLastHandledTupletInVoiceMap (string header)
 
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 
   gLogStream << endl;
@@ -22827,7 +22827,7 @@ void mxmlTree2msrTranslator::handleRepeatEnd (
   // forget about the current repeat start barline
   fCurrentRepeatStartMeasureNumber = "";
 
-  fRepeatEndCounter++;
+  ++fRepeatEndCounter;
 }
 
 //______________________________________________________________________________
@@ -23090,7 +23090,7 @@ void mxmlTree2msrTranslator::visitStart ( S_harmony& elt )
   }
 #endif
 
-  fHarmonyVoicesCounter++;
+  ++fHarmonyVoicesCounter;
 
   fCurrentHarmonyInputLineNumber       = inputLineNumber;
   fCurrentHarmonyRootDiatonicPitchKind = k_NoDiatonicPitch;
@@ -23684,7 +23684,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
         ", line " << inputLineNumber << ":" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       const unsigned int fieldWidth = 32;
 
@@ -23743,7 +23743,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_harmony& elt )
         fCurrentHarmonyWholeNotesOffset <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 #endif
 
@@ -24103,7 +24103,7 @@ void mxmlTree2msrTranslator::visitStart ( S_figured_bass& elt )
   }
 #endif
 
-  fFiguredBassVoicesCounter++;
+  ++fFiguredBassVoicesCounter;
 
   string parentheses = elt->getAttributeValue("parentheses");
 
@@ -24381,7 +24381,7 @@ void mxmlTree2msrTranslator::visitEnd ( S_figured_bass& elt )
     for (
       list<S_msrFigure>::const_iterator i=fPendingFiguredBassFiguresList.begin ();
       i!=fPendingFiguredBassFiguresList.end ();
-      i++
+      ++i
     ) {
       figuredBass->
         appendFigureToFiguredBass ((*i));
@@ -24587,7 +24587,7 @@ void mxmlTree2msrTranslator::visitEnd (S_pedal_tuning& elt )
       "Creating harp pedal tuning:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 31;
 
@@ -24604,7 +24604,7 @@ void mxmlTree2msrTranslator::visitEnd (S_pedal_tuning& elt )
         fCurrentHarpPedalAlterationKind) <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -24751,7 +24751,7 @@ void mxmlTree2msrTranslator::visitEnd (S_staff_details& elt )
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // set staff details line number
   fCurrentStaffDetails->
@@ -24971,7 +24971,7 @@ void mxmlTree2msrTranslator::visitStart ( S_midi_instrument& elt )
         ", line " << inputLineNumber << ":" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       const unsigned int fieldWidth = 31;
 
@@ -24983,7 +24983,7 @@ void mxmlTree2msrTranslator::visitStart ( S_midi_instrument& elt )
         fCurrentFiguredBassSoundingWholeNotes <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 #endif
 
@@ -25010,7 +25010,7 @@ void mxmlTree2msrTranslator::visitStart ( S_midi_instrument& elt )
       for (
         list<S_msrFigure>::const_iterator i=fPendingFiguredBassFiguresList.begin ();
         i!=fPendingFiguredBassFiguresList.end ();
-        i++
+        ++i
       ) {
         figuredBass->
           appendFigureToFiguredBass ((*i));
@@ -25075,7 +25075,7 @@ part-symbol
       " we have:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 27;
 
@@ -25090,7 +25090,7 @@ part-symbol
       currentVoice->getVoiceName () << "\"" <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "<==" <<

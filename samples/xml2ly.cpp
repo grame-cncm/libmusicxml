@@ -89,7 +89,7 @@ int main (int argc, char *argv[])
   bool insiderOptions = false;
   bool regularOptions = false;
 
-	for (int i = 1; i < argc; i++) {
+	for (int i = 1; i < argc; ++i) {
 	  string argumentAsString = string (argv [i]);
 
 		if (argumentAsString == "-insider") {
@@ -188,11 +188,11 @@ int main (int argc, char *argv[])
     } // switch
   }
   catch (msrOahException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidOption;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -314,23 +314,23 @@ int main (int argc, char *argv[])
       "The command line is:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       handler->
         commandLineWithShortNamesAsString () <<
       endl;
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "or:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       handler->
         commandLineWithLongNamesAsString () <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -377,7 +377,7 @@ int main (int argc, char *argv[])
     }
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 

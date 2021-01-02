@@ -1261,7 +1261,7 @@ void xml2brlRegularOahHandler::print (ostream& os) const
     "xml2brlRegularOahHandler '" << fHandlerHeader << "':" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -1277,7 +1277,7 @@ void xml2brlRegularOahHandler::print (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -1290,10 +1290,10 @@ void xml2brlRegularOahHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }

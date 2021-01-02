@@ -61,7 +61,7 @@ struct lpsrRepeatDescr : public smartable
                               { return fRepeatEndingsNumber; }
 
     void                  incrementRepeatEndingsCounter ()
-                              { fRepeatEndingsCounter ++; }
+                              { ++fRepeatEndingsCounter; }
 
     int                   getRepeatEndingsCounter () const
                               { return fRepeatEndingsCounter; }

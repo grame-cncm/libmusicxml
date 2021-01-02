@@ -85,7 +85,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
     return false;
   }
 
-  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
+  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); ++i) {
     if (
       ! (
         fTimeBeatsNumbersVector [i]
@@ -140,7 +140,7 @@ int msrTimeItem::getTimeBeatsNumber () const
 {
   int result = 0;
 
-  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
+  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); ++i) {
     result +=
       fTimeBeatsNumbersVector [i];
     } // for
@@ -227,7 +227,7 @@ string msrTimeItem::asString () const
       s <<
         "beats numbers: ";
 
-      for (unsigned int i = 0; i < vectorSize; i++) {
+      for (unsigned int i = 0; i < vectorSize; ++i) {
         s <<
           fTimeBeatsNumbersVector [i];
 
@@ -300,7 +300,7 @@ bool msrTime::isEqualTo (S_msrTime otherTime) const
     return false;
   }
 
-  for (unsigned int i = 0; i < fTimeItemsVector.size (); i++) {
+  for (unsigned int i = 0; i < fTimeItemsVector.size (); ++i) {
     if (
       ! (
         fTimeItemsVector [i]->isEqualTo (
@@ -660,7 +660,7 @@ S_msrTime msrTime::createTimeFromString (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -669,7 +669,7 @@ S_msrTime msrTime::createTimeFromString (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -820,7 +820,7 @@ rational msrTime::wholeNotesPerMeasure () const
 */
 
     // iterate over the others
-    for (unsigned int i = 0; i < vectorSize; i++) {
+    for (unsigned int i = 0; i < vectorSize; ++i) {
       result +=
         rational (
           fTimeItemsVector [i]->getTimeBeatsNumber (),
@@ -978,7 +978,7 @@ void msrTime::print (ostream& os) const
     ", line"  << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 23;
 
@@ -1002,7 +1002,7 @@ void msrTime::print (ostream& os) const
   if (fTimeItemsVector.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     vector<S_msrTimeItem>::const_iterator
       iBegin = fTimeItemsVector.begin (),
@@ -1015,7 +1015,7 @@ void msrTime::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {
@@ -1024,7 +1024,7 @@ void msrTime::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrTime::printShort (ostream& os) const

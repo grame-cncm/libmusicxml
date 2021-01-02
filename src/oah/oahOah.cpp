@@ -143,12 +143,12 @@ void insiderOahAtom::print (ostream& os) const
     "insiderOahAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_insiderOahAtom& elt)
@@ -271,12 +271,12 @@ void regularOahAtom::print (ostream& os) const
     "regularOahAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_regularOahAtom& elt)
@@ -660,7 +660,7 @@ void oahOahGroup::printOahOahValues (int valueFieldWidth)
     "The basic options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // command line
   // --------------------------------------
@@ -669,7 +669,7 @@ void oahOahGroup::printOahOahValues (int valueFieldWidth)
     setw (valueFieldWidth) << "Command line:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "inputSourceName" << " : " <<
@@ -680,7 +680,7 @@ void oahOahGroup::printOahOahValues (int valueFieldWidth)
     booleanAsString (fShowOptionsAndArguments) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // options and help display
   // --------------------------------------
@@ -689,7 +689,7 @@ void oahOahGroup::printOahOahValues (int valueFieldWidth)
     setw (valueFieldWidth) << "Options trace and display:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "displayOptionsValues" << " : " <<
@@ -703,9 +703,9 @@ void oahOahGroup::printOahOahValues (int valueFieldWidth)
     booleanAsString (fTraceOahVisitors) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_oahOahGroup& elt)
@@ -827,12 +827,12 @@ void oahOptionalValuesStyleKindAtom::applyAtomWithValue (
       " known OAH optional values style kind are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingOahOptionalValuesStyleKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -934,7 +934,7 @@ void oahOptionalValuesStyleKindAtom::print (ostream& os) const
     "OptionsOptionalValuesStyleKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -951,7 +951,7 @@ void oahOptionalValuesStyleKindAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_oahOptionalValuesStyleKindAtom& elt)

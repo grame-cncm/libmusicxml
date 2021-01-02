@@ -142,7 +142,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingPrefi
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // the 'trace' prefixes
@@ -236,7 +236,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingPrefi
   registerPrefixInHandler (
     fLongDelayRestsPrefix);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //______________________________________________________________________________
@@ -616,7 +616,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::print (ostream& os) const
     "Mikrokosmos3WanderingInsiderOahHandler:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -632,7 +632,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::print (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -645,10 +645,10 @@ void Mikrokosmos3WanderingInsiderOahHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -891,7 +891,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     "The Mikrokosmos3Wandering options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // generated code kind
   // --------------------------------------
@@ -900,7 +900,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     setw (fieldWidth) << "Code kind:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) <<
@@ -908,7 +908,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     generatedCodeKindAsString (fGgeneratedCodeKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // Guido
   // --------------------------------------
@@ -917,7 +917,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     setw (fieldWidth) << "Guido:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) <<
@@ -930,7 +930,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     "generateBars" << " : " << booleanAsString (fGenerateBars) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // output file
   // --------------------------------------
@@ -939,7 +939,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     setw (fieldWidth) << "Output file:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
@@ -951,7 +951,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // quit after some passes
   // --------------------------------------
@@ -960,7 +960,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     "Quit after some passes:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "quitAfterPass2a" << " : " <<
@@ -970,9 +970,9 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     booleanAsString (fQuitAfterPass2b) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //______________________________________________________________________________

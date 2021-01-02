@@ -391,7 +391,7 @@ int bsrLine::fetchCellsNumber () const
   for (
     list<S_bsrLineContents>::const_iterator i = fLineContentsList.begin ();
     i != fLineContentsList.end ();
-    i++ ) {
+    ++i ) {
     result += (*i)->fetchCellsNumber ();
   } // for
 
@@ -455,7 +455,7 @@ void bsrLine::browseData (basevisitor* v)
   for (
     list<S_bsrLineContents>::const_iterator i = fLineContentsList.begin ();
     i != fLineContentsList.end ();
-    i++ ) {
+    ++i ) {
     // browse the element
     bsrBrowser<bsrLineContents> browser (v);
     browser.browse (*(*i));
@@ -505,7 +505,7 @@ void bsrLine::print (ostream& os) const
       lineContentsListSize, "lineContent", "lineContents") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the line numbers
   const unsigned int fieldWidth = 20;
@@ -540,7 +540,7 @@ void bsrLine::print (ostream& os) const
         lineContentsListSize, "lineContent", "lineContents");
     if (lineContentsListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrLineContents>::const_iterator
         iBegin = fLineContentsList.begin (),
@@ -552,7 +552,7 @@ void bsrLine::print (ostream& os) const
         os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -561,7 +561,7 @@ void bsrLine::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrLine& elt)

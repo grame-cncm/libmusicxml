@@ -93,11 +93,11 @@ static xmlErr xmlFile2brailleWithHandler (
         "Pass 2a");
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -123,11 +123,11 @@ static xmlErr xmlFile2brailleWithHandler (
       "Pass 2b");
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -163,11 +163,11 @@ static xmlErr xmlFile2brailleWithHandler (
           passNumber);
     }
     catch (msrScoreToBsrScoreException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (std::exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -230,11 +230,11 @@ static xmlErr xmlFile2brailleWithHandler (
           passNumber);
     }
     catch (bsrScoreToFinalizedBsrScoreException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (std::exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -319,11 +319,11 @@ static xmlErr xmlFile2brailleWithHandler (
           out);
       }
       catch (lpsrScoreToLilypondException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
         return kInvalidFile;
       }
       catch (std::exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
         return kInvalidFile;
       }
     }
@@ -379,11 +379,11 @@ static xmlErr xmlFile2brailleWithHandler (
           brailleCodeFileOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
-        gOutputStream << e.what () << endl;
+        displayException (e, gOutputStream);
         return kInvalidFile;
       }
       catch (std::exception& e) {
-        gOutputStream << e.what () << endl;
+        displayException (e, gOutputStream);
         return kInvalidFile;
       }
 
@@ -472,7 +472,7 @@ static xmlErr xmlFile2brailleWithOptionsVector (
   bool insiderOptions = false;
   bool regularOptions = false;
 
-	for (unsigned int i = 1; i < options.size (); i++) {
+	for (unsigned int i = 1; i < options.size (); ++i) {
 	  string optionName = options [i].first;
 
 		if (optionName == "-insider") {
@@ -564,11 +564,11 @@ static xmlErr xmlFile2brailleWithOptionsVector (
     } // switch
   }
   catch (msrOahException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidOption;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 

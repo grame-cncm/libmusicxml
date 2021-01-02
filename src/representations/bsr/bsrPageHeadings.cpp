@@ -234,7 +234,7 @@ void bsrPageHeading::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 22;
 
@@ -247,12 +247,12 @@ void bsrPageHeading::print (ostream& os) const
     endl;
 
   if (fPageHeadingPagination) {
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fPageHeadingPagination;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -265,7 +265,7 @@ void bsrPageHeading::print (ostream& os) const
     "pageHeadingNumber" << " : " << fPageHeadingNumber <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrPageHeading& elt)

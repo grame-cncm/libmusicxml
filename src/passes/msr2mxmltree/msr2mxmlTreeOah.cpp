@@ -189,7 +189,7 @@ void msr2mxmlTreeOahGroup::printMsr2mxmlTreeOahValues (unsigned int fieldWidth)
     "The MusicXML options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "xml2xmlInfos" << " : " <<
@@ -200,7 +200,7 @@ void msr2mxmlTreeOahGroup::printMsr2mxmlTreeOahValues (unsigned int fieldWidth)
       booleanAsString (fMusicXMLComments) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msr2mxmlTreeOahGroup& elt)

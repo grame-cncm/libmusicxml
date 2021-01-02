@@ -366,7 +366,7 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
           return false;
         }
 
-        for (unsigned int i = 0; i < fHumdrumScotKeyItemsVector.size (); i++) {
+        for (unsigned int i = 0; i < fHumdrumScotKeyItemsVector.size (); ++i) {
           if (
             ! (
               fHumdrumScotKeyItemsVector [i]->isEqualTo (
@@ -461,7 +461,7 @@ S_msrKey msrKey::createTraditionalKeyFromString (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -470,7 +470,7 @@ S_msrKey msrKey::createTraditionalKeyFromString (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -660,7 +660,7 @@ void msrKey::print (ostream& os) const
       if (fHumdrumScotKeyItemsVector.size ()) {
         os << endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         vector<S_msrHumdrumScotKeyItem>::const_iterator
           iBegin = fHumdrumScotKeyItemsVector.begin (),
@@ -673,7 +673,7 @@ void msrKey::print (ostream& os) const
     // JMI     os << endl;
         } // for
 
-        gIndenter--;
+        --gIndenter;
       }
 
       else

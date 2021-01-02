@@ -122,12 +122,12 @@ void lpsrPitchesLanguageAtom::applyAtomWithValue (
       " known LPSR pitches languages are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -231,7 +231,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
     "lpsrPitchesLanguageAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -248,7 +248,7 @@ void lpsrPitchesLanguageAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lpsrPitchesLanguageAtom::printAtomWithValueOptionsValues (
@@ -359,12 +359,12 @@ void lpsrChordsLanguageAtom::applyAtomWithValue (
       " known LPSR chords languages apart from the default Ignatzek are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingLpsrChordsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -466,7 +466,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
     "lpsrChordsLanguageAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -482,7 +482,7 @@ void lpsrChordsLanguageAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lpsrChordsLanguageAtom::printAtomWithValueOptionsValues (
@@ -682,12 +682,12 @@ void lpsrTransposeAtom::print (ostream& os) const
     "lpsrTransposeAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lpsrTransposeAtom::printAtomWithValueOptionsValues (
@@ -700,12 +700,12 @@ void lpsrTransposeAtom::printAtomWithValueOptionsValues (
     " : ";
   if (fSemiTonesPitchAndOctaveVariable) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
     os <<
       fSemiTonesPitchAndOctaveVariable <<
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -1409,12 +1409,12 @@ R"()",
       " known LPSR pitches languages are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingQuarterTonesPitchesLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -1718,7 +1718,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "The LPSR options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // trace
@@ -1727,7 +1727,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "traceLpsr" << " : " <<
@@ -1750,7 +1750,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     booleanAsString (fTraceSchemeFunctions) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 #endif
 
   // display
@@ -1759,7 +1759,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "Display:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "displayLpsr" << " : " <<
@@ -1769,7 +1769,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     booleanAsString (fDisplayLpsrShort) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // paper
   // --------------------------------------
@@ -1778,7 +1778,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "Paper:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "allPaperVariables" << " : " <<
@@ -1844,7 +1844,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     fSystemCount <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 /* JMI
   // measures
@@ -1854,7 +1854,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "Measures:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "resetMeasureElementMeasureNumberMap" << " : ";
@@ -1874,7 +1874,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
   }
   gLogStream << endl;
 
-  gIndenter--;
+  --gIndenter;
 */
 
   // tempos
@@ -1884,14 +1884,14 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "Tempos:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "convertTemposToRehearsalMarks" << " : " <<
     booleanAsString (fConvertTemposToRehearsalMarks) <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // words
   // --------------------------------------
@@ -1900,7 +1900,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "Words:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "convertWordsToTempo" << " : " <<
@@ -1914,7 +1914,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     booleanAsString (fConvertWordsToRehearsalMarks) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // languages
   // --------------------------------------
@@ -1923,7 +1923,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "Languages:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
@@ -1938,7 +1938,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // transpose
   // --------------------------------------
@@ -1947,7 +1947,7 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     "Transpose:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "transposeSemiTonesPitchAndOctave" << " : ";
@@ -1962,9 +1962,9 @@ void lpsrOahGroup::printLpsrOahValues (unsigned int fieldWidth)
     }
   gLogStream << endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrOahGroup& elt)
@@ -2218,7 +2218,7 @@ void lpsrDalSegnoAtom::print (ostream& os) const
     "lpsrDalSegnoAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -2246,7 +2246,7 @@ void lpsrDalSegnoAtom::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -2267,7 +2267,7 @@ void lpsrDalSegnoAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
       iBegin = fStringToDalSegnoKindMapVariable.begin (),
@@ -2288,7 +2288,7 @@ void lpsrDalSegnoAtom::printAtomWithValueOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2515,7 +2515,7 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
     "lpsrDalSegnoAlFineAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -2543,7 +2543,7 @@ void lpsrDalSegnoAlFineAtom::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -2564,7 +2564,7 @@ void lpsrDalSegnoAlFineAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
       iBegin = fStringToDalSegnoKindMapVariable.begin (),
@@ -2585,7 +2585,7 @@ void lpsrDalSegnoAlFineAtom::printAtomWithValueOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2813,7 +2813,7 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
     "lpsrDalSegnoAlCodaAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -2841,7 +2841,7 @@ void lpsrDalSegnoAlCodaAtom::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -2862,7 +2862,7 @@ void lpsrDalSegnoAlCodaAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
       iBegin = fStringToDalSegnoKindMapVariable.begin (),
@@ -2883,7 +2883,7 @@ void lpsrDalSegnoAlCodaAtom::printAtomWithValueOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 

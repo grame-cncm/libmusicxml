@@ -121,11 +121,11 @@ msrSyllable::msrSyllable (
       "Creating a syllable containing:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     print (gLogStream);
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -218,7 +218,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
   for (
     list<string>::const_iterator i = fSyllableTextsList.begin ();
     i!=fSyllableTextsList.end ();
-    i++
+    ++i
   ) {
     newbornClone->
       appendLyricTextToSyllable ((*i));
@@ -267,7 +267,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
   for (
     list<string>::const_iterator i = fSyllableTextsList.begin ();
     i!=fSyllableTextsList.end ();
-    i++
+    ++i
   ) {
     syllableDeepCopy->
       appendLyricTextToSyllable ((*i));
@@ -329,7 +329,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
       "Setting syllable note upLink for:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       asString () <<
@@ -337,7 +337,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUpLink (
       ", line " << note->getInputLineNumber () <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -652,7 +652,7 @@ void msrSyllable::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 32;
   os << left <<
@@ -727,7 +727,7 @@ void msrSyllable::print (ostream& os) const
   } // switch
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSyllable& elt)
@@ -882,7 +882,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 
   // contents
   int n = fSyllables.size ();
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < n; ++i) {
     stanzaDeepCopy->fSyllables.push_back (
       fSyllables [i]->
         createSyllableDeepCopy (
@@ -972,7 +972,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create stanza rest syllable
   S_msrSyllable
@@ -989,7 +989,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
-  gIndenter--;
+  --gIndenter;
 
   // and return it
   return syllable;
@@ -1010,7 +1010,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create stanza skip syllable
   S_msrSyllable
@@ -1027,7 +1027,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
-  gIndenter--;
+  --gIndenter;
 
   // and return it
   return syllable;
@@ -1046,7 +1046,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create stanza skip syllable
   S_msrSyllable
@@ -1066,7 +1066,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   // reset current measure whole notes
   fStanzaCurrentMeasureWholeNotesDuration = rational (0, 1);
 
-  gIndenter--;
+  --gIndenter;
 
   // and return it
   return syllable;
@@ -1091,7 +1091,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create stanza melisma syllable
   S_msrSyllable
@@ -1108,7 +1108,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
-  gIndenter--;
+  --gIndenter;
 
   // and return it
   return syllable;
@@ -1129,7 +1129,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create line break syllable
   S_msrSyllable
@@ -1147,7 +1147,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
-  gIndenter--;
+  --gIndenter;
 
   // and return it
   return syllable;
@@ -1168,7 +1168,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create page break syllable
   S_msrSyllable
@@ -1186,7 +1186,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
-  gIndenter--;
+  --gIndenter;
 
   // and return it
   return syllable;
@@ -1218,11 +1218,11 @@ void msrStanza::appendPaddingNoteToStanza (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // JMI TO DO ???
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrStanza::acceptIn (basevisitor* v)
@@ -1277,17 +1277,17 @@ void msrStanza::browseData (basevisitor* v)
       endl;
   }
 
-  gIndenter++;
+  ++gIndenter;
 
   // browse the syllables
   int n = fSyllables.size ();
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < n; ++i) {
     // browse the syllable
     msrBrowser<msrSyllable> browser (v);
     browser.browse (*fSyllables [i]);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -1306,7 +1306,7 @@ void msrStanza::print (ostream& os) const
     fSyllables.size () << " syllables)" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (! fStanzaTextPresent) {
     os <<
@@ -1329,7 +1329,7 @@ void msrStanza::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrStanza& elt)

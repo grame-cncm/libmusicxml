@@ -136,8 +136,10 @@ if (XML)
     add_definitions(-DXML)
 endif()
 
+set (SRCFOLDERS ${SRCFOLDERS} utilities oah oah2manpage)
+
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} utilities utilities/oah utilities/oah2manpage representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr generators/Mikrokosmos3Wandering)
+	set (SRCFOLDERS ${SRCFOLDERS} representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr generators/Mikrokosmos3Wandering)
 endif()
 
 if (LILY)

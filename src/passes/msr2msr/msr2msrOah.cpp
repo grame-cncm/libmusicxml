@@ -245,7 +245,7 @@ void msrOmitPartAtom::print (ostream& os) const
     "msrOmitPartAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -273,7 +273,7 @@ void msrOmitPartAtom::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -295,7 +295,7 @@ void msrOmitPartAtom::printAtomWithValueOptionsValues (
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     set<string>::const_iterator
       iBegin = fStringSetVariable.begin (),
@@ -312,7 +312,7 @@ void msrOmitPartAtom::printAtomWithValueOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -531,7 +531,7 @@ void msrKeepPartAtom::print (ostream& os) const
     "msrKeepPartAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -559,7 +559,7 @@ void msrKeepPartAtom::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -581,7 +581,7 @@ void msrKeepPartAtom::printAtomWithValueOptionsValues (
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     set<string>::const_iterator
       iBegin = fStringSetVariable.begin (),
@@ -598,7 +598,7 @@ void msrKeepPartAtom::printAtomWithValueOptionsValues (
       ", variableHasBeenSet: " <<
       booleanAsString (fVariableHasBeenSet);
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -988,7 +988,7 @@ void msr2msrOahGroup::printMsr2msrOahValues (int valueFieldWidth)
     "The MusicXML options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // repeats
   // --------------------------------------
@@ -997,7 +997,7 @@ void msr2msrOahGroup::printMsr2msrOahValues (int valueFieldWidth)
     "Repeats:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) <<
@@ -1005,9 +1005,9 @@ void msr2msrOahGroup::printMsr2msrOahValues (int valueFieldWidth)
     booleanAsString (fCreateImplicitInitialRepeatBarline) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msr2msrOahGroup& elt)

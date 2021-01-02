@@ -128,13 +128,13 @@ void bsrFootNotesElement::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "footNoteText " << " : \"" << fFootNoteText << "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrFootNotesElement& elt)

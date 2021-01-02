@@ -15,26 +15,11 @@
 
 #include "msrSegnosAndCodas.h"
 
-//#include "oahBasicTypes.h"
+#include "Mikrokosmos3WanderingOahTypes.h"
 
 
 namespace MusicXML2
 {
-
-//______________________________________________________________________________
-enum generatedCodeKind {
-  k_NoGeneratedCode,
-  kGuido, kLilyPond, kBrailleMusic, kMusicXML
-};
-
-string generatedCodeKindAsString (generatedCodeKind kind);
-
-extern map<string, generatedCodeKind>
-  gGlobalGeneratedCodeKindsMap;
-
-string existingGeneratedCodeKinds (unsigned int namesListMaxLength);
-
-void initializeGeneratedCodeKindsMap ();
 
 //______________________________________________________________________________
 class EXP generatedCodeKindAtom : public oahAtomWithValue
@@ -194,19 +179,19 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
 
     // page parameters
 
-    void                  setCellsPerLine (int value)
+    void                  setCellsPerLine (unsigned int value)
                               { fCellsPerLine = value; }
-    int                   getCellsPerLine () const
+    unsigned int          getCellsPerLine () const
                               { return fCellsPerLine;  }
 
-    void                  setMeasuresPerLine (int value)
+    void                  setMeasuresPerLine (unsigned int value)
                               { fMeasuresPerLine = value; }
-    int                   getMeasuresPerLine () const
+    unsigned int          getMeasuresPerLine () const
                               { return fMeasuresPerLine;  }
 
-    void                  setLinesPerPage (int value)
+    void                  setLinesPerPage (unsigned int value)
                               { fLinesPerPage = value; }
-    int                   getLinesPerPage () const
+    unsigned int          getLinesPerPage () const
                               { return fLinesPerPage;  }
 
     // code generation
@@ -304,9 +289,9 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
 
     // page parameters
 
-    int                   fCellsPerLine;
-    int                   fMeasuresPerLine;
-    int                   fLinesPerPage;
+    unsigned int          fCellsPerLine;
+    unsigned int          fMeasuresPerLine;
+    unsigned int          fLinesPerPage;
 
     // code generation
 

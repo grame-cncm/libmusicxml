@@ -36,90 +36,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-string generatedCodeKindAsString (generatedCodeKind kind)
-{
-  // no CamelCase here, these strings are used as option values
-  string result;
-
-  switch (kind) {
-    case k_NoGeneratedCode:
-      result = "*noGeneratedCode*";
-      break;
-    case kGuido:
-      result = "guido";
-      break;
-    case kLilyPond:
-      result = "lilypond";
-      break;
-    case kBrailleMusic:
-      result = "braille";
-      break;
-    case kMusicXML:
-      result = "musicxml";
-      break;
-  } // switch
-
-  return result;
-}
-
-map<string, generatedCodeKind>
-  gGlobalGeneratedCodeKindsMap;
-
-void initializeGeneratedCodeKindsMap ()
-{
-  gGlobalGeneratedCodeKindsMap ["guido"]    = kGuido;
-  gGlobalGeneratedCodeKindsMap ["lilypond"] = kLilyPond;     // default
-  gGlobalGeneratedCodeKindsMap ["braille"]  = kBrailleMusic;
-  gGlobalGeneratedCodeKindsMap ["musicxml"] = kMusicXML;
-}
-
-string existingGeneratedCodeKinds (unsigned int namesListMaxLength)
-{
-  stringstream s;
-
-  int
-    brailleOutputKindsMapSize =
-      gGlobalGeneratedCodeKindsMap.size ();
-
-  if (brailleOutputKindsMapSize) {
-    int
-      nextToLast =
-        brailleOutputKindsMapSize - 1;
-
-    int count = 0;
-    int cumulatedLength = 0;
-
-    for (
-      map<string, generatedCodeKind>::const_iterator i =
-        gGlobalGeneratedCodeKindsMap.begin ();
-      i != gGlobalGeneratedCodeKindsMap.end ();
-      i++
-    ) {
-      string theString = (*i).first;
-
-      count++;
-
-      cumulatedLength += theString.size ();
-      if (cumulatedLength >= namesListMaxLength) {
-        s << "\n";
-        cumulatedLength = 0;
-      }
-
-      s << theString;
-
-      if (count == nextToLast) {
-        s << " and ";
-      }
-      else if (count != brailleOutputKindsMapSize) {
-        s << ", ";
-      }
-    } // for
-  }
-
-  return s.str ();
-}
-
-//______________________________________________________________________________
 S_generatedCodeKindAtom generatedCodeKindAtom::create (
   string                shortName,
   string                longName,
@@ -194,12 +110,12 @@ void generatedCodeKindAtom::applyAtomWithValue (
       " known generated code kind are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingGeneratedCodeKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -302,7 +218,7 @@ void generatedCodeKindAtom::print (ostream& os) const
     "OptionsUTFKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -319,7 +235,7 @@ void generatedCodeKindAtom::print (ostream& os) const
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void generatedCodeKindAtom::printAtomWithValueOptionsValues (
@@ -521,7 +437,7 @@ void brailleUTFKindAtom::print (ostream& os) const
     "OptionsUTFKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -538,7 +454,7 @@ void brailleUTFKindAtom::print (ostream& os) const
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void brailleUTFKindAtom::printAtomWithValueOptionsValues (
@@ -739,7 +655,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
     "OptionsByteOrderingKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -756,7 +672,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void brailleByteOrderingKindAtom::printAtomWithValueOptionsValues (
@@ -1025,7 +941,7 @@ void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (unsigne
     "The Mikrokosmos3Wandering options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // generated code
   // --------------------------------------
@@ -1034,14 +950,14 @@ void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (unsigne
     "Generated code:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "generatedCodeKind" << " : " <<
       generatedCodeKindAsString (fGeneratedCodeKind) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
 /* JMI
@@ -1052,7 +968,7 @@ void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (unsigne
     "Braille code generation:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "UTFKind" << " : " <<
@@ -1085,10 +1001,10 @@ void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (unsigne
       booleanAsString (fNoBrailleCode) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 */
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingOahGroup& elt)

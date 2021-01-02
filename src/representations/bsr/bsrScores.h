@@ -64,10 +64,10 @@ class EXP bsrScore : public bsrElement
                           getTranscriptionNotes () const
                               { return fTranscriptionNotes; }
 
-    int                   getBrailleLineLength () const
+    unsigned int          getBrailleLineLength () const
                               { return fBrailleLineLength; }
 
-    int                   getBraillePageLength () const
+    unsigned int          getBraillePageLength () const
                               { return fBraillePageLength; }
 
   public:
@@ -122,8 +122,8 @@ class EXP bsrScore : public bsrElement
     S_bsrTranscriptionNotes
                           fTranscriptionNotes;
 
-    int                   fBrailleLineLength; // cells JMI ???
-    int                   fBraillePageLength;
+    unsigned int          fBrailleLineLength; // cells JMI ???
+    unsigned int          fBraillePageLength;
 
     list<S_bsrPage>       fScorePagesList;
 };

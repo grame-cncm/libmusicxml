@@ -165,12 +165,12 @@ void oahAtomSynonym::print (ostream& os) const
     "AtomSynonym:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahAtomSynonym::printShort (ostream& os) const
@@ -310,12 +310,12 @@ void oahHelpOnlyAtom::print (ostream& os) const
     "HelpOnlyAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahHelpOnlyAtom::printAtomWithValueOptionsValues (
@@ -389,7 +389,7 @@ void oahOptionsUsageAtom::printOptionsUsage (ostream& os) const
     " options usage:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     gIndenter.indentMultiLineString (
@@ -430,7 +430,7 @@ as is the case of https://libmusicxml.grame.fr .)",
       ) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   gIndenter.setIndent (saveIndent);
 }
@@ -506,12 +506,12 @@ void oahOptionsUsageAtom::print (ostream& os) const
     "OptionsUsageAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahOptionsUsageAtom::printAtomWithValueOptionsValues (
@@ -652,12 +652,12 @@ void oahHelpAtom::print (ostream& os) const
     "oahHelpAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahHelpAtom::printOptionsSummary (ostream& os) const
@@ -805,12 +805,12 @@ void oahHelpSummaryAtom::print (ostream& os) const
     "OptionsSummaryAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahHelpSummaryAtom::printOptionsSummary (ostream& os) const
@@ -955,12 +955,12 @@ void oahAboutAtom::print (ostream& os) const
     "oahAboutAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahAboutAtom::printAbout (ostream& os) const
@@ -1106,12 +1106,12 @@ void oahVersionAtom::print (ostream& os) const
     "oahVersionAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahVersionAtom::printVersion (ostream& os) const
@@ -1265,12 +1265,12 @@ void oahContactAtom::print (ostream& os) const
     "oahContactAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahContactAtom::printContact (ostream& os) const
@@ -1450,7 +1450,7 @@ void oahBooleanAtom::print (ostream& os) const
     "BooleanAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -1461,7 +1461,7 @@ void oahBooleanAtom::print (ostream& os) const
     booleanAsString (fBooleanVariable) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahBooleanAtom::printAtomWithValueOptionsValues (
@@ -1633,7 +1633,7 @@ void oahTwoBooleansAtom::print (ostream& os) const
     "TwoBooleansAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -1657,7 +1657,7 @@ void oahTwoBooleansAtom::print (ostream& os) const
       fBooleanSecondaryVariable) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahTwoBooleansAtom::printAtomWithValueOptionsValues (
@@ -1835,7 +1835,7 @@ void oahThreeBooleansAtom::print (ostream& os) const
     "ThreeBooleansAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
@@ -1864,7 +1864,7 @@ void oahThreeBooleansAtom::print (ostream& os) const
       fBooleanTertiaryVariable) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahThreeBooleansAtom::printAtomWithValueOptionsValues (
@@ -2020,7 +2020,7 @@ void oahCombinedBooleansAtom::setCombinedBooleanVariables (bool value)
       list<S_oahBooleanAtom>::const_iterator i =
         fBooleanAtomsList.begin ();
       i != fBooleanAtomsList.end ();
-      i++
+      ++i
     ) {
       S_oahAtom atom = (*i);
 
@@ -2120,7 +2120,7 @@ void oahCombinedBooleansAtom::browseData (basevisitor* v)
     for (
       list<S_oahBooleanAtom>::const_iterator i = fBooleanAtomsList.begin ();
       i != fBooleanAtomsList.end ();
-      i++
+      ++i
     ) {
       S_oahBooleanAtom booleanAtom = (*i);
 
@@ -2172,7 +2172,7 @@ void oahCombinedBooleansAtom::print (ostream& os) const
     "CombinedBooleansAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printOahElementEssentials (
     os, fieldWidth);
@@ -2189,7 +2189,7 @@ void oahCombinedBooleansAtom::print (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os << "'";
 
@@ -2206,10 +2206,10 @@ void oahCombinedBooleansAtom::print (ostream& os) const
 
     os << "'";
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -2243,7 +2243,7 @@ void oahCombinedBooleansAtom::printHelp (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahBooleanAtom>::const_iterator
       iBegin = fBooleanAtomsList.begin (),
@@ -2258,20 +2258,20 @@ void oahCombinedBooleansAtom::printHelp (ostream& os) const
         ":" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os <<
         gIndenter.indentMultiLineString (
           booleanAtom-> getDescription ()) <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       if (++i == iEnd) break;
 //      os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   if (fDescription.size ()) {
@@ -2294,7 +2294,7 @@ void oahCombinedBooleansAtom::printAtomWithValueOptionsValues (
   unsigned int fieldWidth =
     valueFieldWidth - gIndenter.getIndent () + 1;
 
-  gIndenter++; // only now
+  ++gIndenter; // only now
 
   if (! fBooleanAtomsList.size ()) {
     os <<
@@ -2330,7 +2330,7 @@ void oahCombinedBooleansAtom::printAtomWithValueOptionsValues (
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 
 }
 
@@ -2713,7 +2713,7 @@ void oahMultiplexBooleansAtom::browseData (basevisitor* v)
     for (
       list<S_oahBooleanAtom>::const_iterator i = fBooleanAtomsList.begin ();
       i != fBooleanAtomsList.end ();
-      i++
+      ++i
     ) {
       S_oahBooleanAtom booleanAtom = (*i);
 
@@ -2732,7 +2732,7 @@ void oahMultiplexBooleansAtom::print (ostream& os) const
     "MultiplexBooleansAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printOahElementEssentials (
     os, fieldWidth);
@@ -2775,7 +2775,7 @@ void oahMultiplexBooleansAtom::print (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahBooleanAtom>::const_iterator
       iBegin = fBooleanAtomsList.begin (),
@@ -2788,11 +2788,11 @@ void oahMultiplexBooleansAtom::print (ostream& os) const
       os << " ";
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahMultiplexBooleansAtom::printHelp (ostream& os) const
@@ -2822,7 +2822,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os) const
 
   if (fShortNamesSuffixes.size ()) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<string>::const_iterator
       iBegin = fShortNamesSuffixes.begin (),
@@ -2854,7 +2854,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os) const
     } // for
 
     os << "." << endl;
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -2873,7 +2873,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os) const
 
       for ( ; ; ) {
         if ((*i).size ()) {
-          longNamesSuffixesCount++;
+          ++longNamesSuffixesCount;
         }
 
         if (++i == iEnd) break;
@@ -2888,7 +2888,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os) const
 
     if (fLongNamesSuffixes.size ()) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<string>::const_iterator
         iBegin = fLongNamesSuffixes.begin (),
@@ -2920,7 +2920,7 @@ void oahMultiplexBooleansAtom::printHelp (ostream& os) const
       } // for
 
       os << "." << endl;
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -3157,7 +3157,7 @@ void oahIntegerAtom::print (ostream& os) const
     "IntegerAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -3168,7 +3168,7 @@ void oahIntegerAtom::print (ostream& os) const
     fIntegerVariable <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahIntegerAtom::printAtomWithValueOptionsValues (
@@ -3426,7 +3426,7 @@ void oahTwoIntegersAtom::print (ostream& os) const
     "IntegerAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -3441,7 +3441,7 @@ void oahTwoIntegersAtom::print (ostream& os) const
     fIntegerSecondaryVariable <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahTwoIntegersAtom::printAtomWithValueOptionsValues (
@@ -3683,7 +3683,7 @@ void oahFloatAtom::print (ostream& os) const
     "FloatAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -3694,7 +3694,7 @@ void oahFloatAtom::print (ostream& os) const
     fFloatVariable <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahFloatAtom::printAtomWithValueOptionsValues (
@@ -3877,7 +3877,7 @@ void oahStringAtom::print (ostream& os) const
     "StringAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -3888,7 +3888,7 @@ void oahStringAtom::print (ostream& os) const
     "\"" << fStringVariable << "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahStringAtom::printAtomWithValueOptionsValues (
@@ -4159,7 +4159,7 @@ void oahMonoplexStringAtom::browseData (basevisitor* v)
     for (
       list<S_oahStringAtom>::const_iterator i = fStringAtomsList.begin ();
       i != fStringAtomsList.end ();
-      i++
+      ++i
     ) {
       S_oahStringAtom stringAtom = (*i);
 
@@ -4178,7 +4178,7 @@ void oahMonoplexStringAtom::print (ostream& os) const
     "MonoplexStringAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printOahElementEssentials (
     os, fieldWidth);
@@ -4202,7 +4202,7 @@ void oahMonoplexStringAtom::print (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os << "'";
 
@@ -4219,10 +4219,10 @@ void oahMonoplexStringAtom::print (ostream& os) const
 
     os << "'";
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -4255,7 +4255,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os) const
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<string>::const_iterator
       iBegin = fAtomNamesList.begin (),
@@ -4286,7 +4286,7 @@ void oahMonoplexStringAtom::printHelp (ostream& os) const
     } // for
 
     os << "." << endl;
-    gIndenter--;
+    --gIndenter;
   }
 
   if (fDescription.size ()) {
@@ -4483,7 +4483,7 @@ void oahStringWithDefaultValueAtom::print (ostream& os) const
     "StringWithDefaultValueAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -4498,7 +4498,7 @@ void oahStringWithDefaultValueAtom::print (ostream& os) const
     "\"" << fDefaultStringValue << "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahStringWithDefaultValueAtom::printAtomWithValueOptionsValues (
@@ -4741,7 +4741,7 @@ void oahRationalAtom::print (ostream& os) const
     "RationalAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -4752,7 +4752,7 @@ void oahRationalAtom::print (ostream& os) const
     fRationalVariable <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahRationalAtom::printAtomWithValueOptionsValues (
@@ -4950,7 +4950,7 @@ void oahNaturalNumbersSetAtom::print (ostream& os) const
     "NaturalNumbersSetAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -4986,7 +4986,7 @@ void oahNaturalNumbersSetAtom::print (ostream& os) const
 
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahNaturalNumbersSetAtom::printAtomWithValueOptionsValues (
@@ -5184,7 +5184,7 @@ void oahRGBColorAtom::print (ostream& os) const
     "RGBColorAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -5195,7 +5195,7 @@ void oahRGBColorAtom::print (ostream& os) const
     fRGBColorVariable.asString () <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahRGBColorAtom::printAtomWithValueOptionsValues (
@@ -5302,7 +5302,7 @@ void oahIntSetAtom::applyAtomWithValue (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -5311,7 +5311,7 @@ void oahIntSetAtom::applyAtomWithValue (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -5465,7 +5465,7 @@ void oahIntSetAtom::print (ostream& os) const
     "IntSetAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -5492,7 +5492,7 @@ void oahIntSetAtom::print (ostream& os) const
 
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahIntSetAtom::printAtomWithValueOptionsValues (
@@ -5511,7 +5511,7 @@ void oahIntSetAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     set<int>::const_iterator
       iBegin = fIntSetVariable.begin (),
@@ -5527,7 +5527,7 @@ void oahIntSetAtom::printAtomWithValueOptionsValues (
       booleanAsString (fVariableHasBeenSet) <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -5746,7 +5746,7 @@ void oahStringSetAtom::print (ostream& os) const
     "StringSetAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -5772,7 +5772,7 @@ void oahStringSetAtom::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahStringSetAtom::printAtomWithValueOptionsValues (
@@ -5792,7 +5792,7 @@ void oahStringSetAtom::printAtomWithValueOptionsValues (
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     set<string>::const_iterator
       iBegin = fStringSetVariable.begin (),
@@ -5810,7 +5810,7 @@ void oahStringSetAtom::printAtomWithValueOptionsValues (
       booleanAsString (fVariableHasBeenSet) <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -5912,7 +5912,7 @@ void oahStringToIntMapAtom::applyAtomWithValue (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -5921,7 +5921,7 @@ void oahStringToIntMapAtom::applyAtomWithValue (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -6081,7 +6081,7 @@ void oahStringToIntMapAtom::print (ostream& os) const
     "OptionsResetMeasureElementMeasureNumberAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -6108,7 +6108,7 @@ void oahStringToIntMapAtom::print (ostream& os) const
 
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahStringToIntMapAtom::printAtomWithValueOptionsValues (
@@ -6127,7 +6127,7 @@ void oahStringToIntMapAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     map<string, int>::const_iterator
       iBegin = fStringToIntMapVariable.begin (),
@@ -6149,7 +6149,7 @@ void oahStringToIntMapAtom::printAtomWithValueOptionsValues (
       booleanAsString (fVariableHasBeenSet) <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -6412,7 +6412,7 @@ void oahStringAndIntegerAtom::print (ostream& os) const
     "StringAndIntegerAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -6436,7 +6436,7 @@ void oahStringAndIntegerAtom::print (ostream& os) const
     fIntegerVariable <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahStringAndIntegerAtom::printAtomWithValueOptionsValues (
@@ -6750,7 +6750,7 @@ void oahStringAndTwoIntegersAtom::print (ostream& os) const
     "StringAndIntegerAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -6766,7 +6766,7 @@ void oahStringAndTwoIntegersAtom::print (ostream& os) const
     fSecondaryIntegerVariable <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahStringAndTwoIntegersAtom::printAtomWithValueOptionsValues (
@@ -6889,12 +6889,12 @@ void oahLengthUnitKindAtom::applyAtomWithValue (
       " known LPSR score output kinds are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingMsrLengthUnitKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -6996,7 +6996,7 @@ void oahLengthUnitKindAtom::print (ostream& os) const
     "LengthUnitKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -7009,7 +7009,7 @@ void oahLengthUnitKindAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahLengthUnitKindAtom::printAtomWithValueOptionsValues (
@@ -7165,12 +7165,12 @@ void oahLengthAtom::applyAtomWithValue (
         " known length unit names are:" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       s <<
         existingMsrLengthUnitKinds (K_NAMES_LIST_MAX_LENGTH);
 
-      gIndenter--;
+      --gIndenter;
 
       oahError (s.str ());
     }
@@ -7286,7 +7286,7 @@ void oahLengthAtom::print (ostream& os) const
     "LengthAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -7297,7 +7297,7 @@ void oahLengthAtom::print (ostream& os) const
     fLengthVariable.asString () <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahLengthAtom::printAtomWithValueOptionsValues (
@@ -7413,7 +7413,7 @@ void oahMidiTempoAtom::applyAtomWithValue (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -7422,7 +7422,7 @@ void oahMidiTempoAtom::applyAtomWithValue (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -7560,7 +7560,7 @@ void oahMidiTempoAtom::print (ostream& os) const
     "MidiTempoAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -7572,7 +7572,7 @@ void oahMidiTempoAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahMidiTempoAtom::printAtomWithValueOptionsValues (
@@ -7770,12 +7770,12 @@ void oahOptionNameHelpAtom::print (ostream& os) const
     "OptionNameHelpAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printOahElementEssentials (
     gLogStream, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahOptionNameHelpAtom::printAtomWithValueOptionsValues (
@@ -7949,12 +7949,12 @@ void oahAProposOptionNameAtom::print (ostream& os) const
     "AProposOptionNameAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printOahElementEssentials (
     gLogStream, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahAProposOptionNameAtom::printAtomWithValueOptionsValues (
@@ -8063,7 +8063,7 @@ void oahFindStringAtom::applyAtomWithValue (
       ":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<string>::const_iterator
       iBegin = foundStringsList.begin (),
@@ -8075,7 +8075,7 @@ void oahFindStringAtom::applyAtomWithValue (
     for ( ; ; ) {
       string theString = (*i);
 
-      counter++;
+      ++counter;
 
       os << right <<
         setw (2) << counter << ": " <<
@@ -8083,20 +8083,20 @@ void oahFindStringAtom::applyAtomWithValue (
 
       // indent a bit more for readability
 //      gIndenter.increment (K_OAH_ELEMENTS_INDENTER_OFFSET);
-      gIndenter++;
+      ++gIndenter;
 
       os <<
         gIndenter.indentMultiLineString (theString) <<
         endl;
 
 //      gIndenter.decrement (K_OAH_ELEMENTS_INDENTER_OFFSET);
-      gIndenter--;
+      --gIndenter;
 
       if (++i == iEnd) break;
 // JMI      os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << endl;
@@ -8196,12 +8196,12 @@ void oahFindStringAtom::print (ostream& os) const
     "FindStringAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printOahElementEssentials (
     gLogStream, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void oahFindStringAtom::printAtomWithValueOptionsValues (

@@ -224,12 +224,12 @@ void msrRepeatCoda::print (ostream& os) const
     asString () <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     fRepeatCodaSegment;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt)

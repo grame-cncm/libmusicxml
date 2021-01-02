@@ -194,7 +194,7 @@ void bsrPagination::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -209,7 +209,7 @@ void bsrPagination::print (ostream& os) const
     "paginationCellsList" << " : " << fPaginationCellsList <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrPagination& elt)

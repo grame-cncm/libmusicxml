@@ -274,7 +274,7 @@ void msrPageLayout::print (ostream& os) const
 
   const unsigned int fieldWidth = 13;
 
-  gIndenter++;
+  ++gIndenter;
 
   // page size
   os << left <<
@@ -330,7 +330,7 @@ void msrPageLayout::print (ostream& os) const
       os << "none" << endl;
     }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrPageLayout& elt)
@@ -433,7 +433,7 @@ void msrSystemLayout::print (ostream& os) const
 
   const unsigned int fieldWidth = 18;
 
-  gIndenter++;
+  ++gIndenter;
 
   // margins
   os << left <<
@@ -481,7 +481,7 @@ void msrSystemLayout::print (ostream& os) const
     }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSystemLayout& elt)
@@ -577,7 +577,7 @@ void msrSystemDividers::print (ostream& os) const
 
   const unsigned int fieldWidth = 13;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (fieldWidth) <<
@@ -587,7 +587,7 @@ void msrSystemDividers::print (ostream& os) const
     "rightDivider" << " : " << booleanAsString (fRightDivider) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSystemDividers& elt)
@@ -686,7 +686,7 @@ void msrStaffLayout::print (ostream& os) const
 
   const unsigned int fieldWidth = 14;
 
-  gIndenter++;
+  ++gIndenter;
 
   // staff number
   os << left <<
@@ -703,7 +703,7 @@ void msrStaffLayout::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrStaffLayout& elt)
@@ -797,7 +797,7 @@ void msrMeasureLayout::print (ostream& os) const
 
   const unsigned int fieldWidth = 14;
 
-  gIndenter++;
+  ++gIndenter;
 
   // measure distance
   os << left <<
@@ -805,7 +805,7 @@ void msrMeasureLayout::print (ostream& os) const
     "measureDistance" << " : " << fMeasureDistance <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrMeasureLayout& elt)
@@ -911,7 +911,7 @@ void msrPrintLayout::browseData (basevisitor* v)
   for (
     list<S_msrStaffLayout>::const_iterator i = fStaffLayoutsList.begin ();
     i != fStaffLayoutsList.end ();
-    i++
+    ++i
   ) {
     // browse staff layout
     msrBrowser<msrStaffLayout> browser (v);
@@ -944,7 +944,7 @@ void msrPrintLayout::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -980,7 +980,7 @@ void msrPrintLayout::print (ostream& os) const
     endl;
 
   if (staffLayoutsListSize) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrStaffLayout>::const_iterator
       iBegin = fStaffLayoutsList.begin (),
@@ -992,7 +992,7 @@ void msrPrintLayout::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   os << left <<
@@ -1029,7 +1029,7 @@ void msrPrintLayout::print (ostream& os) const
     "pageNumber" << " : " << fPageNumber <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPrintLayout::printShort (ostream& os) const
@@ -1229,7 +1229,7 @@ void msrLineWidth::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -1249,7 +1249,7 @@ void msrLineWidth::print (ostream& os) const
     }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrLineWidth& elt)
@@ -1386,7 +1386,7 @@ void msrNoteSize::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -1400,7 +1400,7 @@ void msrNoteSize::print (ostream& os) const
     "noteSizeValue" <<  " : " << fNoteSizeValue <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrNoteSize& elt)
@@ -1534,7 +1534,7 @@ void msrDistance::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -1548,7 +1548,7 @@ void msrDistance::print (ostream& os) const
     "distanceValue" <<  " : " << fDistanceValue <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrDistance& elt)
@@ -1719,7 +1719,7 @@ void msrGlyph::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -1735,7 +1735,7 @@ void msrGlyph::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrGlyph& elt)
@@ -1863,7 +1863,7 @@ void msrOtherAppearance::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -1877,7 +1877,7 @@ void msrOtherAppearance::print (ostream& os) const
     "otherAppearanceValue" <<  " : " << fOtherAppearanceValue <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrOtherAppearance& elt)
@@ -2016,7 +2016,7 @@ void msrAppearance::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -2033,7 +2033,7 @@ void msrAppearance::print (ostream& os) const
     endl;
 
   if (lineWidthsListSize) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrLineWidth>::const_iterator
       iBegin = fLineWidthsList.begin (),
@@ -2045,7 +2045,7 @@ void msrAppearance::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // note sizes
@@ -2061,7 +2061,7 @@ void msrAppearance::print (ostream& os) const
     endl;
 
   if (noteSizesListSize) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrNoteSize>::const_iterator
       iBegin = fNoteSizesList.begin (),
@@ -2073,7 +2073,7 @@ void msrAppearance::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // distances
@@ -2089,7 +2089,7 @@ void msrAppearance::print (ostream& os) const
     endl;
 
   if (distancesListSize) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrDistance>::const_iterator
       iBegin = fDistancesList.begin (),
@@ -2101,7 +2101,7 @@ void msrAppearance::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // glyphs
@@ -2117,7 +2117,7 @@ void msrAppearance::print (ostream& os) const
     endl;
 
   if (glyphsListSize) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrGlyph>::const_iterator
       iBegin = fGlyphsList.begin (),
@@ -2129,7 +2129,7 @@ void msrAppearance::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // other appearances
@@ -2145,7 +2145,7 @@ void msrAppearance::print (ostream& os) const
     endl;
 
   if (otherAppearancesListSize) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrOtherAppearance>::const_iterator
       iBegin = fOtherAppearancesList.begin (),
@@ -2157,10 +2157,10 @@ void msrAppearance::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrAppearance& elt)

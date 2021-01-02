@@ -94,11 +94,11 @@ static xmlErr xmlFile2guidoWithHandler (
         "Pass 2a");
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -124,11 +124,11 @@ static xmlErr xmlFile2guidoWithHandler (
       "Pass 2b");
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -158,11 +158,11 @@ static xmlErr xmlFile2guidoWithHandler (
         "Pass 3");
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -180,11 +180,11 @@ static xmlErr xmlFile2guidoWithHandler (
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -204,11 +204,11 @@ static xmlErr xmlFile2guidoWithHandler (
       "Pass 5");
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -273,7 +273,7 @@ static xmlErr xmlFile2guidoWithOptionsVector (
   bool insiderOptions = false;
   bool regularOptions = false;
 
-	for (unsigned int i = 1; i < options.size (); i++) {
+	for (unsigned int i = 1; i < options.size (); ++i) {
 	  string optionName = options [i].first;
 
 		if (optionName == K_INSIDER_OPTION_NAME) {
@@ -365,11 +365,11 @@ static xmlErr xmlFile2guidoWithOptionsVector (
     } // switch
   }
   catch (msrOahException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidOption;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 

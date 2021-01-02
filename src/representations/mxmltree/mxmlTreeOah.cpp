@@ -181,7 +181,7 @@ void mxmlTreeOahGroup::printMxmlTreeOahValues (unsigned int fieldWidth)
     "The MusicXML options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // trace
@@ -191,17 +191,17 @@ void mxmlTreeOahGroup::printMxmlTreeOahValues (unsigned int fieldWidth)
     "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
     booleanAsString (fTraceMusicXMLTreeVisitors) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_mxmlTreeOahGroup& elt)

@@ -202,7 +202,7 @@ void bsrFacSimileKindAtom::print (ostream& os) const
     "OptionsFacSimileKindAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -219,7 +219,7 @@ void bsrFacSimileKindAtom::print (ostream& os) const
       "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void bsrFacSimileKindAtom::printAtomWithValueOptionsValues (
@@ -398,7 +398,7 @@ void bsrTextsLanguageAtom::print (ostream& os) const
     "OptionsBsrTextsLanguageAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -414,7 +414,7 @@ void bsrTextsLanguageAtom::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void bsrTextsLanguageAtom::printAtomWithValueOptionsValues (
@@ -543,12 +543,12 @@ R"()",
       " known BSR texts languages are:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       existingBsrTextsLanguageKinds (K_NAMES_LIST_MAX_LENGTH);
 
-    gIndenter--;
+    --gIndenter;
 
     oahError (s.str ());
   }
@@ -802,7 +802,7 @@ void bsrOahGroup::printBsrOahValues (unsigned int fieldWidth)
     "The BSR bsr are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // display
   // --------------------------------------
@@ -810,7 +810,7 @@ void bsrOahGroup::printBsrOahValues (unsigned int fieldWidth)
     "Display:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "displayBsr" << " : " <<
@@ -825,7 +825,7 @@ void bsrOahGroup::printBsrOahValues (unsigned int fieldWidth)
     booleanAsString (fDisplayBsrDetails) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // trace
   // --------------------------------------
@@ -835,7 +835,7 @@ void bsrOahGroup::printBsrOahValues (unsigned int fieldWidth)
     "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "traceBsr" << " : " <<
@@ -860,10 +860,10 @@ void bsrOahGroup::printBsrOahValues (unsigned int fieldWidth)
     booleanAsString (fTraceBsrVisitors) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrOahGroup& elt)

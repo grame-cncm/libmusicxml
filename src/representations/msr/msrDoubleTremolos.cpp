@@ -293,13 +293,13 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
       " on note second element:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     s <<
       note <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
 
     msrInternalError (
       gGlobalOahOahGroup->getInputSourceName (),
@@ -362,13 +362,13 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
         " on chord first element:" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       s <<
         chord <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       msrInternalError (
         gGlobalOahOahGroup->getInputSourceName (),
@@ -421,13 +421,13 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
         " on chord second element:" << " (chord)" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       s <<
         chord <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       msrInternalError (
         gGlobalOahOahGroup->getInputSourceName (),
@@ -731,7 +731,7 @@ void msrDoubleTremolo::print (ostream& os) const
 
   const unsigned int fieldWidth = 32;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (fieldWidth) <<
@@ -764,10 +764,10 @@ void msrDoubleTremolo::print (ostream& os) const
   if (fDoubleTremoloFirstElement) { // it may not yet be set
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
     os <<
       fDoubleTremoloFirstElement;
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -780,10 +780,10 @@ void msrDoubleTremolo::print (ostream& os) const
   if (fDoubleTremoloSecondElement) { // it may not yet be set
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
     os <<
       fDoubleTremoloSecondElement;
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -791,7 +791,7 @@ void msrDoubleTremolo::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt)

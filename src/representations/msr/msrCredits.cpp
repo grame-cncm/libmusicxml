@@ -150,7 +150,7 @@ void msrCreditWords::print (ostream& os) const
     "CreditWords" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 35;
 
@@ -211,7 +211,7 @@ void msrCreditWords::print (ostream& os) const
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrCreditWords& elt)
@@ -297,7 +297,7 @@ void msrCredit::browseData (basevisitor* v)
 {
   int n1 = fCreditWordsList.size ();
 
-  for (int i = 0; i < n1; i++ ) {
+  for (int i = 0; i < n1; ++i ) {
     // browse the credit words
     msrBrowser<msrCreditWords> browser (v);
     browser.browse (*fCreditWordsList [i]);
@@ -341,7 +341,7 @@ void msrCredit::print (ostream& os) const
     "Credit" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "fCreditPageNumber" << " : " << fCreditPageNumber <<
@@ -360,7 +360,7 @@ void msrCredit::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrCredit& elt)

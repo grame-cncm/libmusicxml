@@ -323,7 +323,7 @@ void msr2bsrOahGroup::printMsr2bsrOahValues (unsigned int fieldWidth)
     "The Msr2bsr options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // miscellaneous
   // --------------------------------------
@@ -332,7 +332,7 @@ void msr2bsrOahGroup::printMsr2bsrOahValues (unsigned int fieldWidth)
     "Miscellaneous:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "noBrailleMusicHeadings" << " : " <<
@@ -369,7 +369,7 @@ void msr2bsrOahGroup::printMsr2bsrOahValues (unsigned int fieldWidth)
       booleanAsString (fIncludeClefs) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // quit after some passes
   // --------------------------------------
@@ -378,7 +378,7 @@ void msr2bsrOahGroup::printMsr2bsrOahValues (unsigned int fieldWidth)
     "Quit after some passes:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "quitAfterPass3a" << " : " <<
@@ -388,9 +388,9 @@ void msr2bsrOahGroup::printMsr2bsrOahValues (unsigned int fieldWidth)
     booleanAsString (fQuitAfterPass3b) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msr2bsrOahGroup& elt)

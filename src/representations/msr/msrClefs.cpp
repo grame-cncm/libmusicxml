@@ -110,7 +110,7 @@ S_msrClef msrClef::createClefFromString (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -119,7 +119,7 @@ S_msrClef msrClef::createClefFromString (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 

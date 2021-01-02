@@ -189,7 +189,7 @@ void msrOrnament::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 16;
 
@@ -207,7 +207,7 @@ void msrOrnament::print (ostream& os) const
     fOrnamentNoteUpLink->asShortString () <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrOrnament& elt)

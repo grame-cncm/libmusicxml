@@ -147,7 +147,7 @@ rational msrDottedDuration::dottedDurationAsWholeNotes (
         rational (3, 2);
       result.rationalise ();
 
-      dots--;
+      --dots;
     } // while
   }
 
@@ -161,7 +161,7 @@ string msrDottedDuration::asString () const
   s <<
      msrDurationKindAsString (fDurationKind);
 
-  for (int i = 1; i <= fDotsNumber; i++) {
+  for (int i = 1; i <= fDotsNumber; ++i) {
     s << ".";
   } // for
 
@@ -395,7 +395,7 @@ msrOctaveKind msrOctaveKindFromCommasOrQuotes (
     result =
       octaveKindBelowMiddleC;
 
-  for (unsigned int i = 0; i < octaveIndication.size (); i++) {
+  for (unsigned int i = 0; i < octaveIndication.size (); ++i) {
     switch (octaveIndication [i]) {
       case ',':
         if (result > octaveKindBelowMiddleC) {
@@ -409,7 +409,7 @@ msrOctaveKind msrOctaveKindFromCommasOrQuotes (
           oahError (s.str ());
         }
 
-        result--;
+        --result;
         break;
 
       case '\'':
@@ -424,7 +424,7 @@ msrOctaveKind msrOctaveKindFromCommasOrQuotes (
           oahError (s.str ());
         }
 
-        result++;
+        ++result;
         break;
 
       default:
@@ -746,7 +746,7 @@ void msrSemiTonesPitchAndOctave::print (ostream& os) const
     "SemiTonesPitchAndOctave" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 22;
 
@@ -760,7 +760,7 @@ void msrSemiTonesPitchAndOctave::print (ostream& os) const
     msrOctaveKindAsString (fOctaveKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt)
@@ -1049,7 +1049,7 @@ void msrQuarterTonesPitchAndOctave::print (ostream& os) const
     "QuarterTonesPitchAndOctave" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 22;
 
@@ -1063,7 +1063,7 @@ void msrQuarterTonesPitchAndOctave::print (ostream& os) const
     msrOctaveKindAsString (fOctaveKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrQuarterTonesPitchAndOctave& elt)
@@ -1836,7 +1836,7 @@ string wholeNotesAsMsrString (
 
     while (multiplyingFactor >= 2) {
       // double duration
-      denominatorDurationLog--;
+      --denominatorDurationLog;
 
       // adapt multiplying factor
       multiplyingFactor /= 2;
@@ -1894,7 +1894,7 @@ string wholeNotesAsMsrString (
 
   // append the dots if any
   if (numeratorDots > 0) {
-    for (int i = 0; i < numeratorDots; i++) {
+    for (int i = 0; i < numeratorDots; ++i) {
       s << ".";
     } // for
   }
@@ -2145,7 +2145,7 @@ void msrMoment::print (ostream& os) const
     "Moment" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 26;
 
@@ -2157,7 +2157,7 @@ void msrMoment::print (ostream& os) const
     "soundingRelativeOffset" << " : " << fSoundingRelativeOffset <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 };
 
 ostream& operator<< (ostream& os, const msrMoment& elt)
@@ -2211,7 +2211,7 @@ void msrTupletFactor::print (ostream& os) const
     "TupletFactor" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 11;
 
@@ -2223,7 +2223,7 @@ void msrTupletFactor::print (ostream& os) const
     "tupletNormalNotes" << " : " << fTupletNormalNotes <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 };
 
 ostream& operator<< (ostream& os, const msrTupletFactor& elt)
@@ -10441,18 +10441,18 @@ string existingClefKinds (unsigned int namesListMaxLength)
       nextToLast =
         clefKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, msrClefKind>::const_iterator i =
         gGlobalClefKindsMap.begin ();
       i != gGlobalClefKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -10487,18 +10487,18 @@ string existingClefKindsNames (unsigned int namesListMaxLength)
       nextToLast =
         clefKindsNamesMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       list<string>::const_iterator i =
         gClefKindsNamesList.begin ();
       i != gClefKindsNamesList.end ();
-      i++
+      ++i
     ) {
       string theString = (*i);
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -11412,18 +11412,18 @@ string existingHarmonyKinds (unsigned int namesListMaxLength)
       nextToLast =
         harmonyKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, msrHarmonyKind>::const_iterator i =
         gGlobalHarmonyKindsMap.begin ();
       i != gGlobalHarmonyKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -11458,18 +11458,18 @@ string existingHarmonyKindsNames (unsigned int namesListMaxLength)
       nextToLast =
         harmonyKindsNamesListSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       list<string>::const_iterator i =
         gHarmonyKindsNamesList.begin ();
       i != gHarmonyKindsNamesList.end ();
-      i++
+      ++i
     ) {
       string theString = (*i);
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -11497,7 +11497,7 @@ void initializeHarmonyStructuresMap ()
   static bool pThisMethodHasBeenRun = false;
 
   if (! pThisMethodHasBeenRun) {
-    for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
+    for (int i = k_NoHarmony; i <= kNoneHarmony; ++i) {
       msrHarmonyKind
         harmonyKind =
           msrHarmonyKind (i);
@@ -11524,9 +11524,9 @@ void printHarmonyStructuresMap ()
     " (" << gGlobalHarmonyStructuresMap.size () << ")" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
-  for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
+  for (int i = k_NoHarmony; i <= kNoneHarmony; ++i) {
     msrHarmonyKind
       harmonyKind =
         msrHarmonyKind (i);
@@ -11536,7 +11536,7 @@ void printHarmonyStructuresMap ()
       msrHarmonyKindAsString (harmonyKind) << ":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     S_msrHarmonyStructure
       harmonyStructure =
@@ -11553,12 +11553,12 @@ void printHarmonyStructuresMap ()
         endl;
     }
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream << endl;
   } // for
 
-  gIndenter--;
+  --gIndenter;
 
   gLogStream << endl;
 }
@@ -14907,18 +14907,18 @@ string existingQuarterTonesPitchesLanguageKinds (unsigned int namesListMaxLength
       nextToLast =
         quarterTonesPitchesLanguageKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator i =
         gGlobalQuarterTonesPitchesLanguageKindsMap.begin ();
       i != gGlobalQuarterTonesPitchesLanguageKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -15615,18 +15615,18 @@ string existingMsrLengthUnitKinds (unsigned int namesListMaxLength)
       nextToLast =
         msrLengthUnitKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, msrLengthUnitKind>::const_iterator i =
         gGlobalMsrLengthUnitKindsMap.begin ();
       i != gGlobalMsrLengthUnitKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -15815,18 +15815,18 @@ string existingMsrMarginTypeKinds (unsigned int namesListMaxLength)
       nextToLast =
         msrMarginTypeKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, msrMarginTypeKind>::const_iterator i =
         gGlobalMsrMarginTypeKindsMap.begin ();
       i != gGlobalMsrMarginTypeKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -16107,7 +16107,7 @@ void msrMarginsGroup::print (ostream& os) const
 
   const unsigned int fieldWidth = 13;
 
-  gIndenter++;
+  ++gIndenter;
 
   // margins
   os << left <<
@@ -16154,7 +16154,7 @@ void msrMarginsGroup::print (ostream& os) const
     }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 };
 
 ostream& operator<< (ostream& os, const S_msrMarginsGroup& elt)
@@ -17096,7 +17096,7 @@ S_msrHarmonyInterval msrHarmonyInterval::intervalDifference (
     resultRelativeOctave =
       relativeOctave1 - relativeOctave2;
   if (invertInterval) {
-    resultRelativeOctave--;
+    --resultRelativeOctave;
   }
 
 #ifdef TRACING_IS_ENABLED
@@ -19538,7 +19538,7 @@ void msrHarmonyInterval::print (ostream& os) const
     "HarmonyInterval" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 22;
 
@@ -19559,7 +19559,7 @@ void msrHarmonyInterval::print (ostream& os) const
     */
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrHarmonyInterval& elt)
@@ -20604,7 +20604,7 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
 
   if (harmonyStructureIntervalsSize) {
     // add the first items
-    for (unsigned int i = inversion; i < harmonyStructureIntervalsSize; i++) {
+    for (unsigned int i = inversion; i < harmonyStructureIntervalsSize; ++i) {
       S_msrHarmonyInterval
         harmonyIntervalClone =
           fHarmonyStructureIntervals [i]->
@@ -20615,11 +20615,11 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
         gLogStream <<
           "--> adding first item to result:" <<
           endl;
-        gIndenter++;
+        ++gIndenter;
         gLogStream <<
           harmonyIntervalClone <<
           endl;
-        gIndenter--;
+        --gIndenter;
       }
 #endif
 
@@ -20633,17 +20633,17 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
           "==> result harmony structure after adding first item :" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
         gLogStream <<
           result <<
           endl;
-        gIndenter--;
+        --gIndenter;
       }
 #endif
     } // for
 
     // add  the octaviate last items
-    for (int i = 0; i < inversion; i++) {
+    for (int i = 0; i < inversion; ++i) {
       S_msrHarmonyInterval
         harmonyIntervalClone =
           fHarmonyStructureIntervals [i]->
@@ -20657,11 +20657,11 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
         gLogStream <<
           "--> adding last item to resultlast item :" <<
           endl;
-        gIndenter++;
+        ++gIndenter;
         gLogStream <<
           harmonyIntervalClone <<
           endl;
-        gIndenter--;
+        --gIndenter;
       }
 #endif
 
@@ -20675,11 +20675,11 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
           "==> result harmony structure after  after adding last item:" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
         gLogStream <<
           result <<
           endl;
-        gIndenter--;
+        --gIndenter;
       }
 #endif
     } // for
@@ -20709,7 +20709,7 @@ list<msrSemiTonesPitchKind> buildSemiTonesChord (
       harmonyStructure->
         getHarmonyStructureIntervals ();
 
-  for (unsigned int i = 1; i << harmonyStructureIntervals.size (); i++) {
+  for (unsigned int i = 1; i << harmonyStructureIntervals.size (); ++i) {
     result.push_back (rootNote);
   } // for
 
@@ -20745,7 +20745,7 @@ void msrHarmonyStructure::print (ostream& os) const
     */
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fHarmonyStructureIntervals.size ()) {
     vector<S_msrHarmonyInterval>::const_reverse_iterator
@@ -20770,7 +20770,7 @@ void msrHarmonyStructure::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrHarmonyStructure::printAllHarmoniesStructures (ostream& os)
@@ -20779,7 +20779,7 @@ void msrHarmonyStructure::printAllHarmoniesStructures (ostream& os)
     "All the known harmonies structures are:" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
@@ -20797,7 +20797,7 @@ void msrHarmonyStructure::printAllHarmoniesStructures (ostream& os)
       endl;
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrHarmonyStructure& elt)
@@ -20876,7 +20876,7 @@ void msrSemiTonesPitchAndAbsoluteOctave::print (ostream& os) const
     "SemiTonesPitchAndAbsoluteOctave" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 22;
 
@@ -20889,7 +20889,7 @@ void msrSemiTonesPitchAndAbsoluteOctave::print (ostream& os) const
     "absoluteOctave" << " : " << fAbsoluteOctave <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndAbsoluteOctave& elt)
@@ -20967,7 +20967,7 @@ void msrSemiTonesPitchAndRelativeOctave::print (ostream& os) const
     "SemiTonesPitchAndRelativeOctave" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 22;
 
@@ -20980,7 +20980,7 @@ void msrSemiTonesPitchAndRelativeOctave::print (ostream& os) const
     "relativeOctave" << " : " << fRelativeOctave <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndRelativeOctave& elt)
@@ -21045,7 +21045,7 @@ msrHarmonyContents::msrHarmonyContents (
       harmonyStructure->
         getHarmonyStructureIntervals ();
 
-  for (unsigned int i = 1; i < harmonyIntervals.size (); i++) {
+  for (unsigned int i = 1; i < harmonyIntervals.size (); ++i) {
     // get the interval
     msrIntervalKind
       intervalKind =
@@ -21153,7 +21153,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
     "' 'are:" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
@@ -21165,7 +21165,7 @@ void msrHarmonyContents::printAllHarmoniesContents (
       ":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     // create the harmony intervals
     S_msrHarmonyStructure
@@ -21231,10 +21231,10 @@ void msrHarmonyContents::printAllHarmoniesContents (
 
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 /* JMI
@@ -21291,7 +21291,7 @@ void msrHarmonyContents::print (ostream& os) const
     */
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 17;
 
@@ -21312,9 +21312,9 @@ void msrHarmonyContents::print (ostream& os) const
     ":" <<
     endl;
 
-    gIndenter++;
+    ++gIndenter;
 
-    for (unsigned int i = 0; i < fHarmonyElementsVector.size (); i++) {
+    for (unsigned int i = 0; i < fHarmonyElementsVector.size (); ++i) {
       S_msrSemiTonesPitchAndOctave
         harmonyElement =
           fHarmonyElementsVector [i];
@@ -21324,7 +21324,7 @@ void msrHarmonyContents::print (ostream& os) const
         endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -21332,7 +21332,7 @@ void msrHarmonyContents::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrHarmonyContents& elt)
@@ -21374,7 +21374,7 @@ void printHarmonyDetails (
     "' are:" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // create the harmony intervals
   S_msrHarmonyStructure
@@ -21394,7 +21394,7 @@ void printHarmonyDetails (
     harmonyStructureIntervals.size ();
 
   if (harmonyStructureIntervalsNumber) {
-    for (int inversion = 0; inversion < harmonyStructureIntervalsNumber; inversion++) {
+    for (int inversion = 0; inversion < harmonyStructureIntervalsNumber; ++inversion) {
       // invert the harmony structure
       S_msrHarmonyStructure
         invertedHarmonyStructure =
@@ -21408,11 +21408,11 @@ void printHarmonyDetails (
           ", initial invertedHarmonyStructure:" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
         os <<
           invertedHarmonyStructure <<
           endl;
-        gIndenter--;
+        --gIndenter;
       }
 #endif
 
@@ -21456,7 +21456,7 @@ void printHarmonyDetails (
         " intervals:" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       for ( ; ; ) {
         S_msrHarmonyInterval
@@ -21511,13 +21511,13 @@ void printHarmonyDetails (
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
 
       os << endl;
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //______________________________________________________________________________
@@ -21556,7 +21556,7 @@ void printHarmonyAnalysis (
     " is:" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // create the harmony intervals
   S_msrHarmonyStructure
@@ -21590,11 +21590,11 @@ void printHarmonyAnalysis (
           ", initial invertedHarmonyStructure:" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
         os <<
           invertedHarmonyStructure <<
           endl;
-        gIndenter--;
+        --gIndenter;
       }
 #endif
 
@@ -21628,7 +21628,7 @@ void printHarmonyAnalysis (
           " intervals:" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         vector<S_msrHarmonyInterval>::const_reverse_iterator
           iBegin = invertedHarmonyStructureIntervals.crbegin (),
@@ -21676,7 +21676,7 @@ void printHarmonyAnalysis (
           // no endl here
         } // for
 
-        gIndenter--;
+        --gIndenter;
 
         os << endl;
       }
@@ -21703,7 +21703,7 @@ void printHarmonyAnalysis (
           " inner intervals:" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         int tritonsCounter = 0;
 
@@ -21782,14 +21782,14 @@ void printHarmonyAnalysis (
             switch (innerIntervalKind) {
               case kAugmentedFourth:
               case kDiminishedFifth:
-                tritonsCounter++;
+                ++tritonsCounter;
                 break;
               default:
                 ;
             } // switch
 
             // print it
-            gIndenter++;
+            ++gIndenter;
 
             const unsigned int fieldWidth2 = 20;
 
@@ -21822,7 +21822,7 @@ void printHarmonyAnalysis (
 
               endl;
 
-            gIndenter--;
+            --gIndenter;
 
             if (++i2 == iEnd2) break;
           } // for
@@ -21832,7 +21832,7 @@ void printHarmonyAnalysis (
           os << endl;
         } // for
 
-        gIndenter--;
+        --gIndenter;
 
 
         if (tritonsCounter > 0) {
@@ -21862,7 +21862,7 @@ void printHarmonyAnalysis (
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 // RGB colors
@@ -22165,7 +22165,7 @@ void initializeMSRBasicTypes ()
         [] (pair<string, gGlobalQuarterTonesPitchesLanguageKindsMap> element) {
           string theString = (element).first;
 
-          count++;
+          ++count;
 
           cumulatedLength += theString.size ();
           if (cumulatedLength >= namesListMaxLength) {

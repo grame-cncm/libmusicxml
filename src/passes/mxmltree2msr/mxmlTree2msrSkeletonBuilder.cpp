@@ -236,7 +236,7 @@ void mxmlTree2msrSkeletonBuilder::showAllPartGroupDescrsMap (
     endl;
 
   if (fAllPartGroupDescrsMap.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     map<int, S_mxmlPartGroupDescr>::const_iterator
       iBegin = fAllPartGroupDescrsMap.begin (),
@@ -255,20 +255,20 @@ void mxmlTree2msrSkeletonBuilder::showAllPartGroupDescrsMap (
         partGroupDescr->partGroupDescrAsString () <<
         endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         partGroup->
           printPartGroupParts (
             inputLineNumber,
             gLogStream);
 
-        gIndenter--;
+        --gIndenter;
 
       if (++i == iEnd) break;
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {
@@ -291,7 +291,7 @@ void mxmlTree2msrSkeletonBuilder::showStartedPartGroupDescrsMap (
     endl;
 
   if (fStartedPartGroupDescrsMap.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     map<int, S_mxmlPartGroupDescr>::const_iterator
       iBegin = fStartedPartGroupDescrsMap.begin (),
@@ -310,20 +310,20 @@ void mxmlTree2msrSkeletonBuilder::showStartedPartGroupDescrsMap (
         partGroupDescr->partGroupDescrAsString () <<
         endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         partGroup->
           printPartGroupParts (
             inputLineNumber,
             gLogStream);
 
-        gIndenter--;
+        --gIndenter;
 
       if (++i == iEnd) break;
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {
@@ -346,7 +346,7 @@ void mxmlTree2msrSkeletonBuilder::showPartGroupsStack (
     endl;
 
   if (fPartGroupsDescrStack.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_mxmlPartGroupDescr>::const_iterator
       iBegin = fPartGroupsDescrStack.begin (),
@@ -362,7 +362,7 @@ void mxmlTree2msrSkeletonBuilder::showPartGroupsStack (
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {
@@ -384,9 +384,9 @@ void mxmlTree2msrSkeletonBuilder::showPartGroupDescrsVector (
     "PartGroupDescrsVector:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
-  for (unsigned int i = 0; i < fPartGroupDescsVector.size (); i++) {
+  for (unsigned int i = 0; i < fPartGroupDescsVector.size (); ++i) {
     S_mxmlPartGroupDescr
       partGroupDescr = fPartGroupDescsVector [i];
 
@@ -405,7 +405,7 @@ void mxmlTree2msrSkeletonBuilder::showPartGroupDescrsVector (
     "------------------" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //________________________________________________________________________
@@ -417,9 +417,9 @@ void mxmlTree2msrSkeletonBuilder::showPositionStartingPartGroupDescrsVector (
     endl;
 
   if (fPositionStartingPartGroupDescrsVector.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
-    for (unsigned int k = 0; k < fPositionStartingPartGroupDescrsVector.size (); k++) {
+    for (unsigned int k = 0; k < fPositionStartingPartGroupDescrsVector.size (); ++k) {
       gLogStream <<
         k << ": " <<
         endl;
@@ -429,7 +429,7 @@ void mxmlTree2msrSkeletonBuilder::showPositionStartingPartGroupDescrsVector (
           fPositionStartingPartGroupDescrsVector [k];
 
       if (startingPartGroupDescrsList.size ()) {
-        gIndenter++;
+        ++gIndenter;
 
         list<S_mxmlPartGroupDescr>::const_iterator
           iBegin = startingPartGroupDescrsList.begin (),
@@ -453,7 +453,7 @@ void mxmlTree2msrSkeletonBuilder::showPositionStartingPartGroupDescrsVector (
           // no endl here
         } // for
 
-        gIndenter--;
+        --gIndenter;
       }
 
       else {
@@ -463,7 +463,7 @@ void mxmlTree2msrSkeletonBuilder::showPositionStartingPartGroupDescrsVector (
       }
     }
 
-    gIndenter--;
+    --gIndenter;
   }
 
   gLogStream <<
@@ -480,9 +480,9 @@ void mxmlTree2msrSkeletonBuilder::showPositionStoppingPartGroupDescrsVector (
     endl;
 
   if (fPositionStoppingPartGroupDescrsVector.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
-    for (unsigned int k = 0; k < fPositionStoppingPartGroupDescrsVector.size (); k++) {
+    for (unsigned int k = 0; k < fPositionStoppingPartGroupDescrsVector.size (); ++k) {
       gLogStream <<
         k << ": " <<
         endl;
@@ -492,7 +492,7 @@ void mxmlTree2msrSkeletonBuilder::showPositionStoppingPartGroupDescrsVector (
           fPositionStoppingPartGroupDescrsVector [k];
 
       if (theList.size ()) {
-        gIndenter++;
+        ++gIndenter;
 
         list<S_mxmlPartGroupDescr>::const_iterator
           iBegin = theList.begin (),
@@ -516,7 +516,7 @@ void mxmlTree2msrSkeletonBuilder::showPositionStoppingPartGroupDescrsVector (
           // no endl here
         } // for
 
-        gIndenter--;
+        --gIndenter;
       }
 
       else {
@@ -526,7 +526,7 @@ void mxmlTree2msrSkeletonBuilder::showPositionStoppingPartGroupDescrsVector (
       }
     }
 
-    gIndenter--;
+    --gIndenter;
   }
 
   gLogStream <<
@@ -543,9 +543,9 @@ void mxmlTree2msrSkeletonBuilder::showPartsVector (
     endl;
 
   if (fPartsVector.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
-    for (unsigned int i = 0; i < fPartsVector.size (); i++) {
+    for (unsigned int i = 0; i < fPartsVector.size (); ++i) {
       S_msrPart
         part = fPartsVector [i];
 
@@ -574,7 +574,7 @@ void mxmlTree2msrSkeletonBuilder::showPartsVector (
         endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {
@@ -784,7 +784,7 @@ void mxmlTree2msrSkeletonBuilder::insertPartGroupDescInStartingList (
       break;
     }
 
-    i++;
+    ++i;
   } // while
 }
 
@@ -865,7 +865,7 @@ void mxmlTree2msrSkeletonBuilder::insertPartGroupDescInStoppingList (
       break;
     }
 
-    i++;
+    ++i;
   } // while
 }
 
@@ -972,7 +972,7 @@ void mxmlTree2msrSkeletonBuilder::handlePartGroupStart (
   }
 #endif
 
-  fPartGroupsCounter++;
+  ++fPartGroupsCounter;
 
   // create the part group,
   // with the current part group as part group upLink
@@ -1159,7 +1159,7 @@ void mxmlTree2msrSkeletonBuilder::createImplicitPartGroup ()
   }
 #endif
 
-  fPartGroupsCounter++;
+  ++fPartGroupsCounter;
 
   fImplicitPartGroup =
     msrPartGroup::createImplicitPartGroup (
@@ -1248,7 +1248,7 @@ void mxmlTree2msrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
 #endif
 
   // handle each position in turn
-  for (int k = 0; k <= fCurrentPartsPosition; k++) {
+  for (int k = 0; k <= fCurrentPartsPosition; ++k) {
 
     if (k > 0) {
       // parts actual positions start at 1
@@ -1297,7 +1297,7 @@ void mxmlTree2msrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
           fPositionStoppingPartGroupDescrsVector [k];
 
       if (stoppingPartGroupDescrsList.size ()) {
-        gIndenter++;
+        ++gIndenter;
 
         list<S_mxmlPartGroupDescr>::const_iterator
           iBegin = stoppingPartGroupDescrsList.begin (),
@@ -1443,7 +1443,7 @@ void mxmlTree2msrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               ")" <<
               endl;
 
-            for (int m = firstCommonPosision; m <= lastCommonPosision; m++) {
+            for (int m = firstCommonPosision; m <= lastCommonPosision; ++m) {
               S_msrPart
                 part =
                   fPartsVector [m];
@@ -1477,7 +1477,7 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
           // no endl here
         } // for
 
-        gIndenter--;
+        --gIndenter;
       }
     }
 
@@ -1488,7 +1488,7 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
           fPositionStartingPartGroupDescrsVector [k];
 
       if (startingPartGroupDescrsList.size ()) {
-        gIndenter++;
+        ++gIndenter;
 
         list<S_mxmlPartGroupDescr>::const_iterator
           iBegin = startingPartGroupDescrsList.begin (),
@@ -1522,7 +1522,7 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
           // no endl here
         } // for
 
-        gIndenter--;
+        --gIndenter;
       }
     }
 
@@ -2529,7 +2529,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart (S_part_list& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void mxmlTree2msrSkeletonBuilder::visitEnd (S_part_list& elt)
@@ -2546,7 +2546,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_part_list& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // set implicit part group descr end position
   fImplicitPartGroupDescr->
@@ -2577,7 +2577,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_part_list& elt)
       "The implicit part group contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     fImplicitPartGroup->
       printPartGroupParts (
@@ -2590,7 +2590,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_part_list& elt)
     }
 #endif
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -2892,7 +2892,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_part_group& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // handle part group type
   switch (fCurrentPartGroupTypeKind) {
@@ -2914,7 +2914,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_part_group& elt)
       break;
   } // switch
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //________________________________________________________________________
@@ -3116,7 +3116,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_score_part& elt)
   }
 #endif
 
-  fCurrentPartsPosition++;
+  ++fCurrentPartsPosition;
 
   string partID = elt->getAttributeValue ("id");
 
@@ -3132,7 +3132,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_score_part& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create the part
 #ifdef TRACING_IS_ENABLED
@@ -3189,7 +3189,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_score_part& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //________________________________________________________________________
@@ -3275,7 +3275,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart (S_part& elt)
     }
 
     else {
-      fCurrentNoIDPartNumber++;
+      ++fCurrentNoIDPartNumber;
 
       stringstream s;
 
@@ -3312,7 +3312,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart (S_part& elt)
       s.str ());
   }
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceParts ()) {
@@ -3357,7 +3357,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_part& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // handle current part number of measures
   if (fScoreNumberOfMeasures == 0) {
@@ -3459,7 +3459,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart (S_staves& elt)
             inputLineNumber,
             n);
 
-      n++;
+      ++n;
     } // while
   }
 }
@@ -3561,9 +3561,9 @@ void mxmlTree2msrSkeletonBuilder::visitStart (S_measure& elt)
 #endif
 
   // take this measure into account
-  fPartNumberOfMeasures++;
+  ++fPartNumberOfMeasures;
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void mxmlTree2msrSkeletonBuilder::visitEnd (S_measure& elt)
@@ -3577,7 +3577,7 @@ void mxmlTree2msrSkeletonBuilder::visitEnd (S_measure& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //________________________________________________________________________
@@ -3872,14 +3872,14 @@ void mxmlTree2msrSkeletonBuilder::visitEnd ( S_lyric& elt )
       ", with:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       "Lyric data:" <<
       endl;
 
     {
-      gIndenter++;
+      ++gIndenter;
 
       const unsigned int fieldWidth = 28;
 
@@ -3888,10 +3888,10 @@ void mxmlTree2msrSkeletonBuilder::visitEnd ( S_lyric& elt )
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -3934,7 +3934,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_harmony& elt )
   */
 
   // take harmony voice into account
-  fHarmonyVoicesCounter++; // NOT USED JMI
+  ++fHarmonyVoicesCounter; // NOT USED JMI
 
   fThereAreHarmoniesToBeAttachedToCurrentNote = true;
 }
@@ -3958,7 +3958,7 @@ void mxmlTree2msrSkeletonBuilder::visitStart ( S_figured_bass& elt )
   */
 
   // take figured bass voice into account
-  fFiguredBassVoicesCounter++;
+  ++fFiguredBassVoicesCounter;
 
   fThereAreFiguredBassToBeAttachedToCurrentNote = true;
 }

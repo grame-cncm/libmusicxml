@@ -309,7 +309,7 @@ void bsrDynamics::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 23;
 
@@ -326,7 +326,7 @@ void bsrDynamics::print (ostream& os) const
     "spacesBefore" << " : " << fSpacesBefore <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrDynamics& elt)

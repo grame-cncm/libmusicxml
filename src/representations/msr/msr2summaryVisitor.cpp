@@ -93,12 +93,12 @@ void msr2summaryVisitor::visitStart (S_msrScore& elt)
     "\":" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void msr2summaryVisitor::visitEnd (S_msrScore& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -110,7 +110,7 @@ void msr2summaryVisitor::visitEnd (S_msrScore& elt)
     "The score contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 3;
 
@@ -235,7 +235,7 @@ void msr2summaryVisitor::visitEnd (S_msrScore& elt)
       "double tremolo notes") <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //________________________________________________________________________
@@ -247,7 +247,7 @@ void msr2summaryVisitor::visitStart (S_msrPartGroup& elt)
       endl;
   }
 
-  fPartGroupsCounter++;
+  ++fPartGroupsCounter;
 
   unsigned int partGroupElementsSize = elt->getPartGroupElements ().size ();
 
@@ -260,7 +260,7 @@ void msr2summaryVisitor::visitStart (S_msrPartGroup& elt)
       " parts or sub part groups") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 24;
 
@@ -316,7 +316,7 @@ void msr2summaryVisitor::visitStart (S_msrPartGroup& elt)
 
 void msr2summaryVisitor::visitEnd (S_msrPartGroup& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -334,7 +334,7 @@ void msr2summaryVisitor::visitStart (S_msrPart& elt)
       endl;
   }
 
-  fPartsCounter++;
+  ++fPartsCounter;
 
   unsigned int partStavesMapSize = elt->getPartStavesMap ().size ();
 
@@ -346,7 +346,7 @@ void msr2summaryVisitor::visitStart (S_msrPart& elt)
       "staff", "staves") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 28;
 
@@ -389,7 +389,7 @@ void msr2summaryVisitor::visitStart (S_msrPart& elt)
 
 void msr2summaryVisitor::visitEnd (S_msrPart& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -407,7 +407,7 @@ void msr2summaryVisitor::visitStart (S_msrStaff& elt)
       endl;
   }
 
-  fStavesCounter++;
+  ++fStavesCounter;
 
   unsigned int staffAllVoicesVectorSize =
     elt->getStaffAllVoicesVector ().size ();
@@ -420,7 +420,7 @@ void msr2summaryVisitor::visitStart (S_msrStaff& elt)
       "voice", "voices") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 
   const unsigned int fieldWidth = 27;
@@ -449,7 +449,7 @@ void msr2summaryVisitor::visitStart (S_msrStaff& elt)
 
 void msr2summaryVisitor::visitEnd (S_msrStaff& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -469,7 +469,7 @@ void msr2summaryVisitor::visitStart (S_msrVoice& elt)
       endl;
   }
 
-  fVoicesCounter++;
+  ++fVoicesCounter;
 
   unsigned int voiceStanzasMapSize = elt->getVoiceStanzasMap ().size ();
 
@@ -481,7 +481,7 @@ void msr2summaryVisitor::visitStart (S_msrVoice& elt)
       "stanza", "stanzas") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 34;
 
@@ -515,7 +515,7 @@ void msr2summaryVisitor::visitStart (S_msrVoice& elt)
 
 void msr2summaryVisitor::visitEnd (S_msrVoice& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
     gLogStream <<
@@ -533,7 +533,7 @@ void msr2summaryVisitor::visitStart (S_msrStanza& elt)
       endl;
   }
 
-  fStanzasCounter++;
+  ++fStanzasCounter;
 
   unsigned int syllablesSize = elt->getSyllables ().size ();
 
@@ -787,33 +787,33 @@ void msr2summaryVisitor::visitStart (S_msrNote& elt)
     case msrNote::k_NoNoteKind:
       break;
     case msrNote::kRestNote:
-      fScoreRestNotesCounter++;
+      ++fScoreRestNotesCounter;
       break;
     case msrNote::kSkipNote:
-      fScoreSkipNotesCounter++;
+      ++fScoreSkipNotesCounter;
       break;
     case msrNote::kUnpitchedNote:
-      fScoreUnpitchedNotesCounter++;
+      ++fScoreUnpitchedNotesCounter;
       break;
     case msrNote::kRegularNote:
-      fScoreRegularNotesCounter++;
+      ++fScoreRegularNotesCounter;
       break;
     case msrNote::kDoubleTremoloMemberNote:
-      fScoreRegularNotesCounter++;
+      ++fScoreRegularNotesCounter;
       break;
     case msrNote::kGraceNote:
     case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
-      fScoreGraceNotesGroupCounter++;
+      ++fScoreGraceNotesGroupCounter;
       break;
     case msrNote::kChordMemberNote:
-      fScoreChordNotesCounter++;
+      ++fScoreChordNotesCounter;
       break;
     case msrNote::kTupletMemberNote:
     case msrNote::kTupletRestMemberNote:
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletUnpitchedMemberNote:
-      fScoreTupletNotesCounter++;
+      ++fScoreTupletNotesCounter;
       break;
   } // switch
 }
@@ -901,7 +901,7 @@ void msr2summaryVisitor::visitStart (S_msrChord& elt)
       endl;
   }
 
-  fScoreChordsCounter++;
+  ++fScoreChordsCounter;
 }
 
 void msr2summaryVisitor::visitEnd (S_msrChord& elt)
@@ -922,7 +922,7 @@ void msr2summaryVisitor::visitStart (S_msrTuplet& elt)
       endl;
   }
 
-  fScoreTupletsCounter++;
+  ++fScoreTupletsCounter;
 }
 
 void msr2summaryVisitor::visitEnd (S_msrTuplet& elt)

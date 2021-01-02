@@ -790,7 +790,7 @@ void msrBarline::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 24;
 
@@ -857,7 +857,7 @@ void msrBarline::print (ostream& os) const
     fMeasureElementMeasureNumber <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrBarline::printShort (ostream& os) const

@@ -683,7 +683,7 @@ void msrHarmony::browseData (basevisitor* v)
     for (
       list<S_msrHarmonyDegree>::const_iterator i = fHarmonyDegreesList.begin ();
       i != fHarmonyDegreesList.end ();
-      i++
+      ++i
     ) {
       // browse the harmony degree
       msrBrowser<msrHarmonyDegree> browser (v);
@@ -794,7 +794,7 @@ void msrHarmony::print (ostream& os) const
      ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 26;
 
@@ -872,7 +872,7 @@ void msrHarmony::print (ostream& os) const
   if (fHarmonyDegreesList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin (),
@@ -888,7 +888,7 @@ void msrHarmony::print (ostream& os) const
 
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -941,7 +941,7 @@ void msrHarmony::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrHarmony& elt)

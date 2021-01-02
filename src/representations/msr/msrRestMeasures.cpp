@@ -206,7 +206,7 @@ void msrRestMeasuresContents::print (ostream& os) const
     asString () <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the pattern segment
   os <<
@@ -220,15 +220,15 @@ void msrRestMeasuresContents::print (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fRestMeasuresContentsSegment;
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrRestMeasuresContents& elt)
@@ -588,9 +588,9 @@ void msrRestMeasures::displayRestMeasures (
     " contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   print (gLogStream);
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<*********" <<
@@ -604,7 +604,7 @@ void msrRestMeasures::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 36;
 
@@ -649,7 +649,7 @@ void msrRestMeasures::print (ostream& os) const
       fRestMeasuresContents;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrRestMeasures& elt)

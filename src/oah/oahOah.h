@@ -182,7 +182,7 @@ class EXP oahOahGroup : public oahGroup
     string                getHandlerExecutableName () const
                               { return fHandlerExecutableName; }
 
-    void                  setInputSourceName (string name)
+    void                  setInputSourceName (const string& name)
                               { fInputSourceName = name; }
 
     string                getInputSourceName () const

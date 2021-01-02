@@ -210,7 +210,7 @@ S_bsrCellsList bsrMeasure::buildCellsList () const
   for (
     list<S_bsrLineContentsElement>::const_iterator i = fMeasureLineElementsList.begin ();
     i != fMeasureLineElementsList.end ();
-    i++ ) {
+    ++i ) {
     // append the braille for the element
     result->
       appendCellsListToCellsList (
@@ -282,7 +282,7 @@ void bsrMeasure::browseData (basevisitor* v)
   for (
     list<S_bsrLineContentsElement>::const_iterator i = fMeasureLineElementsList.begin ();
     i != fMeasureLineElementsList.end ();
-    i++ ) {
+    ++i ) {
     // browse the element
     bsrBrowser<bsrElement> browser (v);
     browser.browse (*(*i));
@@ -338,7 +338,7 @@ void bsrMeasure::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 21;
 
@@ -378,7 +378,7 @@ void bsrMeasure::print (ostream& os) const
         measureElementsListSize, "element", "elements");
     if (measureElementsListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrLineContentsElement>::const_iterator
         iBegin = fMeasureLineElementsList.begin (),
@@ -390,7 +390,7 @@ void bsrMeasure::print (ostream& os) const
         os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -399,7 +399,7 @@ void bsrMeasure::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrMeasure& elt)

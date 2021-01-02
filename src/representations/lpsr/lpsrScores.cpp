@@ -2137,7 +2137,7 @@ void lpsrScore::browseData (basevisitor* v)
       map<string, S_lpsrSchemeFunction>::const_iterator i =
         fScoreSchemeFunctionsMap.begin ();
       i != fScoreSchemeFunctionsMap.end ();
-      i++
+      ++i
     ) {
       // browse the Scheme function
       msrBrowser<lpsrSchemeFunction> browser (v);
@@ -2168,7 +2168,7 @@ void lpsrScore::browseData (basevisitor* v)
     for (
       list<S_msrElement>::const_iterator i = fScoreElementsList.begin ();
       i != fScoreElementsList.end ();
-      i++
+      ++i
     ) {
       // browse the element
       msrBrowser<msrElement> browser (v);
@@ -2181,7 +2181,7 @@ void lpsrScore::browseData (basevisitor* v)
     for (
       list<S_lpsrBookBlock>::const_iterator i = fScoreBookBlocksList.begin ();
       i != fScoreBookBlocksList.end ();
-      i++
+      ++i
     ) {
       // browse the element
       msrBrowser<lpsrBookBlock> browser (v);
@@ -2204,7 +2204,7 @@ void lpsrScore::print (ostream& os) const
     "LPSR Score" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the MSR structure (without the voices)
   fMsrScore->
@@ -2244,7 +2244,7 @@ void lpsrScore::print (ostream& os) const
     os <<
       "Voices & Stanzas" <<
       endl << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrElement>::const_iterator
       iBegin = fScoreElementsList.begin (),
@@ -2256,7 +2256,7 @@ void lpsrScore::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // print the book blocks
@@ -2264,7 +2264,7 @@ void lpsrScore::print (ostream& os) const
     os <<
       "Book blocks" <<
       endl << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_lpsrBookBlock>::const_iterator
       iBegin = fScoreBookBlocksList.begin (),
@@ -2276,10 +2276,10 @@ void lpsrScore::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void lpsrScore::printShort (ostream& os) const
@@ -2288,7 +2288,7 @@ void lpsrScore::printShort (ostream& os) const
     "LPSR Score, short version" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the MSR structure (without the voices)
   fMsrScore->
@@ -2316,7 +2316,7 @@ void lpsrScore::printShort (ostream& os) const
     "LPSR basic information" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print LPSR basic information
   fScoreHeader->printShort (os);
@@ -2330,7 +2330,7 @@ void lpsrScore::printShort (ostream& os) const
     os << endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   // print the voices and stanzas
   if (fScoreElementsList.size ()) {
@@ -2338,7 +2338,7 @@ void lpsrScore::printShort (ostream& os) const
       "Voices & Stanzas" <<
       endl << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrElement>::const_iterator
       iBegin = fScoreElementsList.begin (),
@@ -2351,7 +2351,7 @@ void lpsrScore::printShort (ostream& os) const
     } // for
 
     os << endl;
-    gIndenter--;
+    --gIndenter;
   }
 
   // print the book blocks
@@ -2359,7 +2359,7 @@ void lpsrScore::printShort (ostream& os) const
     os <<
       "Book blocks" <<
       endl << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_lpsrBookBlock>::const_iterator
       iBegin = fScoreBookBlocksList.begin (),
@@ -2372,10 +2372,10 @@ void lpsrScore::printShort (ostream& os) const
     } // for
 
     os << endl;
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrScore& scr)

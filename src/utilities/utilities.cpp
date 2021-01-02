@@ -122,7 +122,7 @@ void timing::doPrint (ostream& os) const
   for (
     list<S_timingItem>::const_iterator i=fTimingItemsList.begin ();
     i!=fTimingItemsList.end ();
-    i++
+    ++i
   ) {
     clock_t timingItemClock = (*i)->fEndClock - (*i)->fStartClock;
     totalClock += timingItemClock;
@@ -232,9 +232,16 @@ outputIndenter::outputIndenter (string spacer)
 outputIndenter::~outputIndenter ()
 {}
 
-outputIndenter& outputIndenter::operator++ (const int value)
+/*
+  // Declare prefix and postfix decrement operators.
+  Point& operator--();       // Prefix decrement operator.
+  Point operator--(int);     // Postfix decrement operator.
+*/
+
+// increase the indentation by 1, prefix operator
+outputIndenter& outputIndenter::operator++ ()
 {
-  fIndent++;
+  ++fIndent;
 
 #ifdef DEBUG_INDENTER
   gLogStream <<
@@ -245,9 +252,51 @@ outputIndenter& outputIndenter::operator++ (const int value)
   return *this;
 }
 
-outputIndenter& outputIndenter::operator-- (const int value)
+// decrease the indentation by 1, prefix operator
+outputIndenter& outputIndenter::operator-- ()
 {
-  fIndent--;
+  --fIndent;
+
+  if (fIndent < 0) {
+    gLogStream <<
+      endl <<
+      "% ### Indentation has become negative: " <<  fIndent <<
+      endl << endl;
+
+#ifdef DEBUG_INDENTER
+    assert (false);
+#endif
+  }
+
+#ifdef DEBUG_INDENTER
+  else {
+    gLogStream <<
+      "% INDENTER: " << fIndent <<
+      endl;
+  }
+#endif
+
+  return *this;
+}
+
+// increase the indentation by 1, postfix operator
+outputIndenter outputIndenter::outputIndenter::operator++ (int)
+{
+  ++fIndent;
+
+#ifdef DEBUG_INDENTER
+  gLogStream <<
+    "% INDENTER: " << fIndent <<
+    endl;
+#endif
+
+  return *this;
+}
+
+// decrease the indentation by 1, postfix operator
+outputIndenter outputIndenter::outputIndenter::operator-- (int)
+{
+  --fIndent;
 
   if (fIndent < 0) {
     gLogStream <<
@@ -446,7 +495,7 @@ string replicateString (
 {
   string result;
 
-  for (int i = 0; i < times; i++)
+  for (int i = 0; i < times; ++i)
     result += str;
 
   return result;
@@ -656,7 +705,7 @@ string stringNumbersToEnglishWords (string str)
 
   string result = "";
 
-  for (unsigned int i = 0; i < chunks.size (); i++) {
+  for (unsigned int i = 0; i < chunks.size (); ++i) {
     if (states[i] == kWorkingOnDigits) {
       int integerValue;
 
@@ -701,7 +750,7 @@ int consumeDecimalNumber (
 
     result = result*10 + (*cursor-'0');
 
-    cursor++;
+    ++cursor;
   } // while
 
   remainingStringIterator = cursor;
@@ -748,7 +797,7 @@ set<int> decipherNaturalNumbersSetSpecification (
       int negated = 0;
 
       if (*cursor == '^') {
-        cursor++;
+        ++cursor;
         negated = 1;
       }
 
@@ -758,7 +807,7 @@ set<int> decipherNaturalNumbersSetSpecification (
         intervalEndNumber;
 
       if (*cursor == '-') {
-        cursor++;
+        ++cursor;
 
         if (debugMode) {
           gLogStream <<
@@ -785,7 +834,7 @@ set<int> decipherNaturalNumbersSetSpecification (
           endl;
       }
 
-      for (int i = intervalStartNumber; i <= intervalEndNumber; i ++) {
+      for (int i = intervalStartNumber; i <= intervalEndNumber; ++i) {
         if (negated) {
           result.erase (i);
         }
@@ -805,7 +854,7 @@ set<int> decipherNaturalNumbersSetSpecification (
         break;
       }
 
-      cursor++;
+      ++cursor;
 
       if (debugMode) {
         gLogStream <<
@@ -977,14 +1026,14 @@ list<int> extractNumbersFromString (
         int n = 0;
         while (isdigit (*cursor)) {
           n = n * 10 + (*cursor - '0');
-          cursor++;
+          ++cursor;
         } // while
 
         // append the number to the list
         foundNumbers.push_back (n);
       }
       else {
-        cursor++;
+        ++cursor;
       }
     } // while
   }
@@ -1032,7 +1081,7 @@ pair<string, string> extractNamesPairFromString (
 
       // append the character to name1
       name1 += *cursor;
-      cursor++;
+      ++cursor;
     } // while
 
     name1 = trim (name1);
@@ -1052,7 +1101,7 @@ pair<string, string> extractNamesPairFromString (
         endl;
     else
       // overtake the separator
-      cursor++;
+      ++cursor;
 
     // fetch name2
     while (1) {
@@ -1078,7 +1127,7 @@ pair<string, string> extractNamesPairFromString (
 
       // append the character to name2
       name2 += *cursor;
-      cursor++;
+      ++cursor;
     } // while
 
     name2 = trim (name2);
@@ -1106,7 +1155,7 @@ string doubleQuoteStringIfNonAlpha (
     for (
       string::const_iterator i = theString.begin ();
       i != theString.end ();
-      i++
+      ++i
     ) {
 
       if (
@@ -1149,7 +1198,7 @@ string quoteStringIfNonAlpha (
     for (
       string::const_iterator i = theString.begin ();
       i != theString.end ();
-      i++
+      ++i
     ) {
 
       if (
@@ -1190,7 +1239,7 @@ string doubleQuoteString (
     for (
       string::const_iterator i = theString.begin ();
       i != theString.end ();
-      i++
+      ++i
     ) {
 
       if (
@@ -1229,7 +1278,7 @@ string quoteString (
     for (
       string::const_iterator i = theString.begin ();
       i != theString.end ();
-      i++
+      ++i
     ) {
 
       if (
@@ -1480,7 +1529,7 @@ void splitStringIntoChunks (
 
       // there can be an end of line JMI
       if (theString [currentPosition] == '\n')
-        currentPosition++;
+        ++currentPosition;
 
 #ifdef DEBUG_SPLITTING
       // set remainder
@@ -1594,7 +1643,7 @@ void splitRegularStringAtEndOfLines (
 
       // there can be an end of line JMI
       if (theString [currentPosition] == '\n')
-        currentPosition++;
+        ++currentPosition;
 
 #ifdef DEBUG_SPLITTING
       // set remainder
@@ -1721,7 +1770,7 @@ void splitHTMLStringContainingEndOfLines (
 
       // there can be an end of line JMI
       if (theString [currentPosition] == '\n')
-        currentPosition++;
+        ++currentPosition;
 
 #ifdef DEBUG_SPLITTING
       // set remainder
@@ -1762,7 +1811,7 @@ string baseName (const string& filename)
   }
 
   if (index + 1 >= len) {
-    len--;
+    --len;
     index = filename.substr (0, len).find_last_of ("/\\");
 
     if (len == 0) {
@@ -1792,7 +1841,7 @@ string makeSingleWordFromString (const string& theString)
     for (
       string::const_iterator i = theString.begin ();
       i != theString.end ();
-      i++
+      ++i
     ) {
       if (isalnum (*i)) {
         result.push_back ((*i));

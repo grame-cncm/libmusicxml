@@ -53,17 +53,17 @@ msrScore::msrScore (
       inputLineNumber);
 
   // number of measures
-  fScoreNumberOfMeasures = -1;
+  fScoreNumberOfMeasures = 0;
 
   // part group names max length
-  fScorePartGroupNamesMaxLength = -1;
+  fScorePartGroupNamesMaxLength = 0;
 
   // part names max length
-  fScorePartNamesMaxLength = -1;
+  fScorePartNamesMaxLength = 0;
 
   // set instrument names max lengthes
-  fScoreInstrumentNamesMaxLength      = -1;
-  fScoreInstrumentAbbreviationsMaxLength = -1;
+  fScoreInstrumentNamesMaxLength         = 0;
+  fScoreInstrumentAbbreviationsMaxLength = 0;
 
   // grace notes groups before should be browsed by default
   fInhibitGraceNotesGroupsBrowsing = false;
@@ -189,12 +189,12 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (
       list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
         i != fPartGroupsList.end ();
-        i++
+        ++i
       ) {
       gLogStream <<
         (*i)->getPartGroupCombinedName () <<
@@ -203,7 +203,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
         endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "<=- fetchPartFromScoreByItsPartID(" << partID << ")" <<
@@ -214,7 +214,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++
+    ++i
   ) {
     S_msrPart
       part =
@@ -301,7 +301,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
               break;
 
             case kVerticalAlignmentTop:
-              topCreditsCounter++;
+              ++topCreditsCounter;
 
               switch (topCreditsCounter) {
                 case 1:
@@ -347,7 +347,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny ( // THROW AWAY JMI ???
               break;
 
             case kVerticalAlignmentBottom:
-              bottomCreditsCounter++;
+              ++bottomCreditsCounter;
 
               switch (bottomCreditsCounter) {
                 case 1:
@@ -407,7 +407,7 @@ void msrScore::collectScorePartsList (
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++
+    ++i
   ) {
     S_msrPartGroup
       partGroup = (*i);
@@ -523,7 +523,7 @@ void msrScore::browseData (basevisitor* v)
   for (
     list<S_msrCredit>::const_iterator i = fCreditsList.begin ();
     i != fCreditsList.end ();
-    i++
+    ++i
   ) {
     // browse the part credit
     msrBrowser<msrCredit> browser (v);
@@ -533,7 +533,7 @@ void msrScore::browseData (basevisitor* v)
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++
+    ++i
   ) {
     // browse the part group
     msrBrowser<msrPartGroup> browser (v);
@@ -554,7 +554,7 @@ void msrScore::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 38;
 
@@ -650,7 +650,7 @@ void msrScore::print (ostream& os) const
     "CreditsList";
   if (creditsListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrCredit>::const_iterator
       iBegin = fCreditsList.begin (),
@@ -664,7 +664,7 @@ void msrScore::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -681,7 +681,7 @@ void msrScore::print (ostream& os) const
     "ScoreAllVoicesList";
   if (scoreAllVoicesListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoice>::const_iterator
       iBegin = fScoreAllVoicesList.begin (),
@@ -696,7 +696,7 @@ void msrScore::print (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -722,7 +722,7 @@ void msrScore::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrScore::printShort (ostream& os) const
@@ -731,7 +731,7 @@ void msrScore::printShort (ostream& os) const
     "MSR Score, short version" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 38;
 
@@ -831,7 +831,7 @@ void msrScore::printShort (ostream& os) const
     "CreditsList";
   if (creditsListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrCredit>::const_iterator
       iBegin = fCreditsList.begin (),
@@ -845,7 +845,7 @@ void msrScore::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -862,7 +862,7 @@ void msrScore::printShort (ostream& os) const
     "ScoreAllVoicesList";
   if (scoreAllVoicesListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoice>::const_iterator
       iBegin = fScoreAllVoicesList.begin (),
@@ -877,7 +877,7 @@ void msrScore::printShort (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -904,7 +904,7 @@ void msrScore::printShort (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrScore::printSummary (ostream& os) const
@@ -913,7 +913,7 @@ void msrScore::printSummary (ostream& os) const
     "MSR component" << // JMI summary ???
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 38;
 
@@ -956,14 +956,14 @@ void msrScore::printSummary (ostream& os) const
       "Parts and part groups structure:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     fPartGroupsList.front () ->
       printPartGroupParts (
         fInputLineNumber,
         os);
 
-    gIndenter--;
+    --gIndenter;
 
     os << endl;
   }
@@ -1037,7 +1037,7 @@ void msrScore::printSummary (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrScore& elt)

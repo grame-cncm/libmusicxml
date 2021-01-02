@@ -57,7 +57,7 @@ void displayXMLDeclaration (
     "XML Declaration:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) <<
@@ -70,7 +70,7 @@ void displayXMLDeclaration (
     "xmlStandalone" << " = \"" << xmlStandalone << "\"" <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //_______________________________________________________________________________
@@ -83,7 +83,7 @@ void displayMusicXMLDocumentType (
     "Document Type:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   std::string xmlStartElement = documentType->getStartElement ();
   bool        xmlPublic       = documentType->getPublic ();
@@ -104,7 +104,7 @@ void displayMusicXMLDocumentType (
     "xmlSysLitteral" << " = \"" << xmlSysLitteral << "\"" <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //_______________________________________________________________________________
@@ -141,13 +141,13 @@ string uncompressMXLFile (
         "' with command:" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         listContentsShellCommand <<
         endl << endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 
       // create a stream to receive the result of listContentsShellCommand
@@ -205,13 +205,13 @@ string uncompressMXLFile (
         "' is:" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         contentsList <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       // analyze the contents list
       list<string> linesList;
@@ -229,13 +229,13 @@ string uncompressMXLFile (
             "*** currentLine:" <<
             endl;
 
-          gIndenter++;
+          ++gIndenter;
 
           gLogStream <<
             currentLine <<
             endl;
 
-          gIndenter--;
+          --gIndenter;
         }
 #endif
 
@@ -360,13 +360,13 @@ string uncompressMXLFile (
         "' with command:" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       gLogStream <<
         uncompressShellCommand <<
         endl << endl;
 
-      gIndenter--;
+      --gIndenter;
     }
 
     // create a stream to receive the result of uncompressShellCommand
@@ -932,11 +932,11 @@ EXP S_msrScore mxmlTreeToMsrScoreSkeleton (
         passNumber);
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 

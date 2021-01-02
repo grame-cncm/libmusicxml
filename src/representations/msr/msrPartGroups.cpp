@@ -451,12 +451,12 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
       "After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (
         map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin ();
         i != fPartGroupPartsMap.end ();
-        i++
+        ++i
       ) {
       gLogStream <<
         "\"" << (*i).first << "\" --% --> " <<
@@ -465,13 +465,13 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
         endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "After appendPartToPartGroupByItsID, fPartGroupElements contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     if (fPartGroupElements.size ()) {
       list<S_msrPartGroupElement>::const_iterator
@@ -487,7 +487,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
       } // for
     }
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -531,12 +531,12 @@ void msrPartGroup::removePartFromPartGroup (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   for (
     list<S_msrPartGroupElement>::iterator i = fPartGroupElements.begin ();
     i != fPartGroupElements.end ();
-    i++
+    ++i
   ) {
     S_msrElement
       element = (*i);
@@ -577,7 +577,7 @@ void msrPartGroup::removePartFromPartGroup (
     }
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPartGroup::prependSubPartGroupToPartGroup (
@@ -635,14 +635,14 @@ void msrPartGroup::printPartGroupParts (
             getPartGroupCombinedNameWithoutEndOfLines () <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         nestedPartGroup->
           printPartGroupParts (
             inputLineNumber,
             os);
 
-        gIndenter--;
+        --gIndenter;
       }
 
       else if (
@@ -696,13 +696,13 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
       "fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     printPartGroupParts (
       inputLineNumber,
       gLogStream);
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "<=- fetchPartFromPartGroupByItsPartID(" << partID << ")" <<
@@ -713,7 +713,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
   for (
     list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
     i != fPartGroupElements.end ();
-    i++
+    ++i
   ) {
     S_msrPartGroupElement
       element = (*i);
@@ -775,7 +775,7 @@ void msrPartGroup::collectPartGroupPartsList (
   for (
     list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
     i != fPartGroupElements.end ();
-    i++
+    ++i
   ) {
     S_msrElement
       element = (*i);
@@ -884,7 +884,7 @@ void msrPartGroup::browseData (basevisitor* v)
   for (
     list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
     i != fPartGroupElements.end ();
-    i++
+    ++i
   ) {
     // browse the part element
     msrBrowser<msrElement> browser (v);
@@ -1015,7 +1015,7 @@ void msrPartGroup::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 25;
 
@@ -1089,7 +1089,7 @@ void msrPartGroup::print (ostream& os) const
     "PartGroupAllVoicesList";
   if (partGroupAllVoicesListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoice>::const_iterator
       iBegin = fPartGroupAllVoicesList.begin (),
@@ -1104,7 +1104,7 @@ void msrPartGroup::print (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -1127,7 +1127,7 @@ void msrPartGroup::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPartGroup::printShort (ostream& os) const
@@ -1141,7 +1141,7 @@ void msrPartGroup::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 25;
 
@@ -1218,7 +1218,7 @@ void msrPartGroup::printShort (ostream& os) const
     "PartGroupAllVoicesList";
   if (partGroupAllVoicesListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoice>::const_iterator
       iBegin = fPartGroupAllVoicesList.begin (),
@@ -1233,7 +1233,7 @@ void msrPartGroup::printShort (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -1257,7 +1257,7 @@ void msrPartGroup::printShort (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPartGroup::printSummary (ostream& os) const
@@ -1270,7 +1270,7 @@ void msrPartGroup::printSummary (ostream& os) const
     ")" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 24;
 
@@ -1315,16 +1315,16 @@ void msrPartGroup::printSummary (ostream& os) const
       iEnd   = fPartGroupElements.end (),
       i      = iBegin;
 
-    gIndenter++;
+    ++gIndenter;
     for ( ; ; ) {
       (*i)->printSummary (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrPartGroup& elt)

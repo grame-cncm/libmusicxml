@@ -121,7 +121,7 @@ void msrStringTuning::browseData (basevisitor* v)
 
 void msrStringTuning::print (ostream& os) const
 {
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 30;
 
@@ -144,7 +144,7 @@ void msrStringTuning::print (ostream& os) const
     msrOctaveKindAsString (fStringTuningOctaveKind) <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrStringTuning& elt)
@@ -228,7 +228,7 @@ void msrScordatura::browseData (basevisitor* v)
 
 void msrScordatura::print (ostream& os) const
 {
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "Scordatura";
@@ -236,7 +236,7 @@ void msrScordatura::print (ostream& os) const
   if (fScordaturaStringTuningsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrStringTuning>::const_iterator
       iBegin = fScordaturaStringTuningsList.begin (),
@@ -248,7 +248,7 @@ void msrScordatura::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -256,7 +256,7 @@ void msrScordatura::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrScordatura& elt)
@@ -358,13 +358,13 @@ string msrAccordionRegistration::asString () const
 
 void msrAccordionRegistration::print (ostream& os) const
 {
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     asString () <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt)
@@ -515,7 +515,7 @@ string msrHarpPedalsTuning::asString () const
     ", ";
 
   if (fHarpPedalsAlterationKindsMap.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     map<msrDiatonicPitchKind, msrAlterationKind>::const_iterator
       iBegin = fHarpPedalsAlterationKindsMap.begin (),
@@ -534,7 +534,7 @@ string msrHarpPedalsTuning::asString () const
       s << ", ";
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {
@@ -552,7 +552,7 @@ void msrHarpPedalsTuning::print (ostream& os) const
     ", line " << fInputLineNumber;
 
   if (fHarpPedalsAlterationKindsMap.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     os << endl;
 
@@ -573,7 +573,7 @@ void msrHarpPedalsTuning::print (ostream& os) const
       os << ", ";
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {

@@ -115,7 +115,7 @@ void lpsrComment::print (ostream& os) const
     "Comment" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "% " << fContents <<
@@ -124,7 +124,7 @@ void lpsrComment::print (ostream& os) const
   if (fCommentGapKind == kGapAfterwards)
     os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrComment& elt)

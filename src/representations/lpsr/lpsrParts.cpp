@@ -342,7 +342,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
     i != fPartBlockElementsList.end ();
-    i++
+    ++i
   ) {
     S_msrElement
       element = (*i);
@@ -371,7 +371,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
     i != fPartBlockElementsList.end ();
-    i++
+    ++i
   ) {
     S_msrElement
       element = (*i);
@@ -456,7 +456,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
     i != fPartBlockElementsList.end ();
-    i++
+    ++i
   ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -482,7 +482,7 @@ void lpsrPartBlock::print (ostream& os) const
       fPartBlockElementsList.size (), "element", "elements") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 28;
 
@@ -517,7 +517,7 @@ void lpsrPartBlock::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrPartBlock& scr)

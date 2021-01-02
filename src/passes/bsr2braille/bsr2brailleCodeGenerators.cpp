@@ -490,21 +490,21 @@ void bsrUTF8BrailleGenerator::writeTestData (ostream& os)
     endl;
 
   // generate the table of all Dots 6 cells
-  for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; wch++) {
+  for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
-  for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; wch++) {
+  for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
   os << kCellEOP;
 
-  for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; wch++) {
+  for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
-  for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; wch++) {
+  for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
@@ -816,21 +816,21 @@ void bsrUTF16BigEndianBrailleGenerator::writeTestData (ostream& os)
     endl;
 
   // generate the table of all Dots 6 cells
-  for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; wch++) {
+  for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
-  for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; wch++) {
+  for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
   os << kCellEOP;
 
-  for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; wch++) {
+  for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
-  for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; wch++) {
+  for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
@@ -1035,21 +1035,21 @@ void bsrUTF16SmallEndianBrailleGenerator::writeTestData (ostream& os)
     endl;
 
   // generate the table of all Dots 6 cells
-  for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; wch++) {
+  for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
-  for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; wch++) {
+  for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
   os << kCellEOP;
 
-  for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; wch++) {
+  for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;
-  for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; wch++) {
+  for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; ++wch) {
     os << wch;
   } // for
   os << kCellEOL;

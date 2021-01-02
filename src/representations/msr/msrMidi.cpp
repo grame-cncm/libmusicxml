@@ -139,7 +139,7 @@ void msrMidiTempo::print (ostream& os) const
 {
   os << "MidiTempo" << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -151,7 +151,7 @@ void msrMidiTempo::print (ostream& os) const
     "midiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrMidiTempo& elt)

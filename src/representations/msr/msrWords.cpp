@@ -202,7 +202,7 @@ void msrWords::print (ostream& os) const
     "Words" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 29;
 
@@ -251,7 +251,7 @@ void msrWords::print (ostream& os) const
     fWordsStaffNumber <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrWords& elt)

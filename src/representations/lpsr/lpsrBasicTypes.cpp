@@ -465,7 +465,7 @@ string wholeNotesAsLilypondString (
 
     while (multiplyingFactor >= 2) {
       // double duration
-      denominatorDurationLog--;
+      --denominatorDurationLog;
 
       // adapt multiplying factor
       multiplyingFactor /= 2;
@@ -523,7 +523,7 @@ string wholeNotesAsLilypondString (
 
   // append the dots if any
   if (numeratorDots > 0) {
-    for (int i = 0; i < numeratorDots; i++) {
+    for (int i = 0; i < numeratorDots; ++i) {
       s << ".";
     } // for
   }
@@ -739,11 +739,11 @@ string existingLpsrScoreOutputKinds (unsigned int namesListMaxLength)
       map<string, lpsrScoreOutputKind>::const_iterator i =
         gGlobalLpsrScoreOutputKindsMap.begin ();
       i != gGlobalLpsrScoreOutputKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -825,11 +825,11 @@ string existingLpsrOctaveEntryKinds (unsigned int namesListMaxLength)
       map<string, lpsrOctaveEntryKind>::const_iterator i =
         gGlobalLpsrOctaveEntryKindsMap.begin ();
       i != gGlobalLpsrOctaveEntryKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -1032,11 +1032,11 @@ string existingLpsrAccidentalStyleKinds (unsigned int namesListMaxLength)
       map<string, lpsrAccidentalStyleKind>::const_iterator i =
         gGlobalLpsrAccidentalStyleKindsMap.begin ();
       i != gGlobalLpsrAccidentalStyleKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -1119,7 +1119,7 @@ string existingLpsrChordsLanguageKinds (unsigned int namesListMaxLength)
       map<string, lpsrChordsLanguageKind>::const_iterator i =
         gGlobalLpsrChordsLanguageKindsMap.begin ();
       i != gGlobalLpsrChordsLanguageKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
@@ -1326,7 +1326,7 @@ string existingLpsrLyricsDurationsKinds (unsigned int namesListMaxLength)
       map<string, lpsrLyricsDurationsKind>::const_iterator i =
         gGlobalLpsrLyricsDurationsKindsMap.begin ();
       i != gGlobalLpsrLyricsDurationsKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 

@@ -265,7 +265,7 @@ void msrBeatsRepeatElement::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fBeatsRepeatElementElementsList.begin ();
       i != fBeatsRepeatElementElementsList.end ();
-      i++
+      ++i
   ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
@@ -296,7 +296,7 @@ void msrBeatsRepeatElement::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "beatsRepeat upLink: '" <<
@@ -326,7 +326,7 @@ void msrBeatsRepeatElement::print (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fBeatsRepeatElementElementsList.begin (),
@@ -340,10 +340,10 @@ void msrBeatsRepeatElement::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrBeatsRepeatElement::printShort (ostream& os)
@@ -353,7 +353,7 @@ void msrBeatsRepeatElement::printShort (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 / / * JMI
   os <<
@@ -385,7 +385,7 @@ void msrBeatsRepeatElement::printShort (ostream& os)
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fBeatsRepeatElementElementsList.begin (),
@@ -399,10 +399,10 @@ void msrBeatsRepeatElement::printShort (ostream& os)
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrBeatsRepeatElement& elt)
@@ -565,7 +565,7 @@ void msrBeatsRepeatPattern::print (ostream& os) const
     asString () <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the pattern segment
   os <<
@@ -579,15 +579,15 @@ void msrBeatsRepeatPattern::print (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fBeatsRepeatPatternSegment;
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrBeatsRepeatPattern& elt)
@@ -749,7 +749,7 @@ void msrBeatsRepeatReplicas::print (ostream& os) const
     asString () <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the replicas segment
   os <<
@@ -763,15 +763,15 @@ void msrBeatsRepeatReplicas::print (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fBeatsRepeatReplicasSegment;
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrBeatsRepeatReplicas& elt)
@@ -1108,9 +1108,9 @@ void msrBeatsRepeat::displayBeatsRepeat (
     " contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   print (gLogStream);
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<*********" <<
@@ -1138,7 +1138,7 @@ void msrBeatsRepeat::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceBeatsRepeats ()) {
@@ -1178,7 +1178,7 @@ void msrBeatsRepeat::print (ostream& os) const
       fBeatsRepeatReplicas;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrBeatsRepeat& elt)

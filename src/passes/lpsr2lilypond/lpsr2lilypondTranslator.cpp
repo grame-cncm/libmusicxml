@@ -1171,7 +1171,7 @@ void lpsr2lilypondTranslator::generateNoteLigatures (
     for (
       i=noteLigatures.begin ();
       i!=noteLigatures.end ();
-      i++
+      ++i
     ) {
       S_msrLigature ligature = (*i);
 
@@ -1515,7 +1515,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
 
     if (noteCodas.size ()) {
       list<S_msrCoda>::const_iterator i;
-      for (i=noteCodas.begin (); i!=noteCodas.end (); i++) {
+      for (i=noteCodas.begin (); i!=noteCodas.end (); ++i) {
         S_msrCoda coda = (*i);
 
         // generate only the second coda before the note
@@ -1537,7 +1537,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeNote (S_msrNote note)
 
     if (noteSegnos.size ()) {
       list<S_msrSegno>::const_iterator i;
-      for (i=noteSegnos.begin (); i!=noteSegnos.end (); i++) {
+      for (i=noteSegnos.begin (); i!=noteSegnos.end (); ++i) {
       } // for
     }
   }
@@ -1877,7 +1877,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
             getNoteGraphicDurationKind ());
 
       // generate the dots if any JMI ???
-      for (int i = 0; i < note->getNoteDotsNumber (); i++) {
+      for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
         fLilypondCodeStream << ".";
       } // for
 
@@ -1927,7 +1927,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
             getNoteDisplayWholeNotes ());
 
       // generate the dots if any JMI ???
-      for (int i = 0; i < note->getNoteDotsNumber (); i++) {
+      for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
         fLilypondCodeStream << ".";
       } // for
 
@@ -1943,7 +1943,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
       // dont't print the grace note's graphic duration
 
       // generate the dots if any JMI ???
-      for (int i = 0; i < note->getNoteDotsNumber (); i++) {
+      for (int i = 0; i < note->getNoteDotsNumber (); ++i) {
         fLilypondCodeStream << ".";
       } // for
 
@@ -1994,7 +1994,7 @@ void lpsr2lilypondTranslator::generateCodeForNote (
           for (
             i=chordMemberNoteTechnicalsWithIntegers.begin ();
             i!=chordMemberNoteTechnicalsWithIntegers.end ();
-            i++
+            ++i
           ) {
             S_msrTechnicalWithInteger
               technicalWithInteger = (*i);
@@ -2229,7 +2229,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterNote (
 
     if (noteCodas.size ()) {
       list<S_msrCoda>::const_iterator i;
-      for (i=noteCodas.begin (); i!=noteCodas.end (); i++) {
+      for (i=noteCodas.begin (); i!=noteCodas.end (); ++i) {
         S_msrCoda coda = (*i);
 
         // generate only the first coda before the note
@@ -2251,7 +2251,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterNote (
 
     if (noteDalSegnos.size ()) {
       list<S_msrDalSegno>::const_iterator i;
-      for (i=noteDalSegnos.begin (); i!=noteDalSegnos.end (); i++) {
+      for (i=noteDalSegnos.begin (); i!=noteDalSegnos.end (); ++i) {
         // generate the dal segno
         fLilypondCodeStream <<
           endl <<
@@ -3628,7 +3628,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     for (
       list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin ();
       i != harmonyDegreesList.end ();
-      i++
+      ++i
     ) {
       S_msrHarmonyDegree harmonyDegree = (*i);
 
@@ -3680,9 +3680,9 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       for (
         list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin ();
         i != harmonyDegreesList.end ();
-        i++
+        ++i
       ) {
-        counter++;
+        ++counter;
 
         S_msrHarmonyDegree
           harmonyDegree = (*i);
@@ -3752,7 +3752,7 @@ string lpsr2lilypondTranslator::figureAsLilypondString (
 {
   stringstream s;
 
-  fCurrentFiguredBassFiguresCounter++;
+  ++fCurrentFiguredBassFiguresCounter;
 
   // is the figured bass parenthesized?
   msrFiguredBass::msrFiguredBassParenthesesKind
@@ -4022,7 +4022,7 @@ string lpsr2lilypondTranslator::frameAsLilypondString (
           currentStringNumber <<
           "-x;";
 
-        currentStringNumber--;
+        --currentStringNumber;
       }
 
       // generate code for the frame note
@@ -4048,7 +4048,7 @@ string lpsr2lilypondTranslator::frameAsLilypondString (
       s <<
         ";";
 
-      currentStringNumber--;
+      --currentStringNumber;
 
       if (++i == iEnd) break;
   // JMI    os << ";";
@@ -4062,7 +4062,7 @@ string lpsr2lilypondTranslator::frameAsLilypondString (
         currentStringNumber <<
         "-x;";
 
-      currentStringNumber--;
+      --currentStringNumber;
     }
   }
 
@@ -4383,7 +4383,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrHeader& elt)
     "\\header {" <<
     endl;
 
-  gIndenter++; // decremented in visitEnd (S_lpsrHeader&)
+  ++gIndenter; // decremented in visitEnd (S_lpsrHeader&)
 
   // generate header
   generateHeader (elt);
@@ -4397,7 +4397,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrHeader& elt)
     return;
   }
 
-  gIndenter--; // incremented in visitStart (S_lpsrHeader&)
+  --gIndenter; // incremented in visitStart (S_lpsrHeader&)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
@@ -4540,7 +4540,7 @@ void lpsr2lilypondTranslator::generateHeader (S_lpsrHeader header)
     list<pair<string, string> >::const_iterator i =
       nameValuePairsList.begin ();
     i != nameValuePairsList.end ();
-    i++
+    ++i
   ) {
     string name = (*i).first;
 
@@ -4556,7 +4556,7 @@ void lpsr2lilypondTranslator::generateHeader (S_lpsrHeader header)
     list<pair<string, string> >::const_iterator i =
       nameValuePairsList.begin ();
     i != nameValuePairsList.end ();
-    i++
+    ++i
   ) {
     string name  = (*i).first;
     string value = (*i).second;
@@ -4686,7 +4686,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (composersList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = composersList.begin (); i != composersList.end (); i++) {
+    for (i = composersList.begin (); i != composersList.end (); ++i) {
       string composer = (*i);
 
       nameValuePairsList.push_back (
@@ -4705,7 +4705,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (lyricistsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = lyricistsList.begin (); i != lyricistsList.end (); i++) {
+    for (i = lyricistsList.begin (); i != lyricistsList.end (); ++i) {
       string lyricist = (*i);
 
       nameValuePairsList.push_back (
@@ -4724,7 +4724,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (arrangersList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = arrangersList.begin (); i != arrangersList.end (); i++) {
+    for (i = arrangersList.begin (); i != arrangersList.end (); ++i) {
       string arranger = (*i);
 
       nameValuePairsList.push_back (
@@ -4743,7 +4743,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (poetsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = poetsList.begin (); i != poetsList.end (); i++) {
+    for (i = poetsList.begin (); i != poetsList.end (); ++i) {
       string poet = (*i);
 
       nameValuePairsList.push_back (
@@ -4762,7 +4762,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (translatorsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = translatorsList.begin (); i != translatorsList.end (); i++) {
+    for (i = translatorsList.begin (); i != translatorsList.end (); ++i) {
       string translator = (*i);
 
       nameValuePairsList.push_back (
@@ -4781,7 +4781,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (artistsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = artistsList.begin (); i != artistsList.end (); i++) {
+    for (i = artistsList.begin (); i != artistsList.end (); ++i) {
       string artist = (*i);
 
       nameValuePairsList.push_back (
@@ -4800,7 +4800,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (softwaresList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = softwaresList.begin (); i != softwaresList.end (); i++) {
+    for (i = softwaresList.begin (); i != softwaresList.end (); ++i) {
       string software = (*i);
 
       nameValuePairsList.push_back (
@@ -4819,7 +4819,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (rightsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = rightsList.begin (); i != rightsList.end (); i++) {
+    for (i = rightsList.begin (); i != rightsList.end (); ++i) {
       string right = (*i);
 
       nameValuePairsList.push_back (
@@ -4838,7 +4838,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (sourcesList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = sourcesList.begin (); i != sourcesList.end (); i++) {
+    for (i = sourcesList.begin (); i != sourcesList.end (); ++i) {
       string source = (*i);
 
       nameValuePairsList.push_back (
@@ -4857,7 +4857,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
   if (relationsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i = relationsList.begin (); i != relationsList.end (); i++) {
+    for (i = relationsList.begin (); i != relationsList.end (); ++i) {
       string relation = (*i);
 
       nameValuePairsList.push_back (
@@ -4877,7 +4877,7 @@ void lpsr2lilypondTranslator::generateHeaderIdentificationPart (
       list<pair<string, string> >::const_iterator i =
         nameValuePairsList.begin ();
       i != nameValuePairsList.end ();
-      i++
+      ++i
     ) {
       string name  = (*i).first;
       string value = (*i).second;
@@ -5263,7 +5263,7 @@ void lpsr2lilypondTranslator::generatePaper (
     "\\paper {" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   list<pair<string, msrLength> > nameValuePairsList;
 
@@ -5278,7 +5278,7 @@ void lpsr2lilypondTranslator::generatePaper (
     list<pair<string, msrLength> >::const_iterator i =
       nameValuePairsList.begin ();
     i != nameValuePairsList.end ();
-    i++
+    ++i
   ) {
     string name = (*i).first;
 
@@ -5299,7 +5299,7 @@ void lpsr2lilypondTranslator::generatePaper (
       list<pair<string, msrLength> >::const_iterator i =
         nameValuePairsList.begin ();
       i != nameValuePairsList.end ();
-      i++
+      ++i
     ) {
       string    name  = (*i).first;
       msrLength value = (*i).second;
@@ -5366,7 +5366,7 @@ void lpsr2lilypondTranslator::generatePaper (
     defaultLengthUnit,
     fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 
   fLilypondCodeStream <<
     "}";
@@ -5929,7 +5929,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrLayout& elt)
     "\\layout {" <<
     endl;
 
-  gIndenter++; // decremented in visitEnd (S_lpsrLayout& elt)
+  ++gIndenter; // decremented in visitEnd (S_lpsrLayout& elt)
 
   // score context?
   if (! gGlobalLpsr2lilypondOahGroup->getNoLayoutScoreContext ()) {
@@ -6025,7 +6025,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrLayout& elt)
       "\\context " "{" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     fLilypondCodeStream <<
       "\\Score" <<
@@ -6039,7 +6039,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrLayout& elt)
       "doubleRepeatType = #\":|][|:\"" <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
 
     fLilypondCodeStream <<
       "}" <<
@@ -6051,7 +6051,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrLayout& elt)
       "\\context {" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     fLilypondCodeStream <<
       "\\Staff" <<
@@ -6059,7 +6059,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrLayout& elt)
       "\\consists \"Span_arpeggio_engraver\"" <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
 
     fLilypondCodeStream <<
       "}" " % staff contact";
@@ -6073,7 +6073,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrLayout& elt)
     fLilypondCodeStream << endl;
   }
 
-  gIndenter--; // incremented in visitStart (S_lpsrLayout& elt)
+  --gIndenter; // incremented in visitStart (S_lpsrLayout& elt)
 
   fLilypondCodeStream <<
     "}";
@@ -6108,7 +6108,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrBookBlock& elt)
     "\\book {" <<
     endl;
 
-  gIndenter++; // decremented in visitEnd (S_lpsrBookBlock& elt)
+  ++gIndenter; // decremented in visitEnd (S_lpsrBookBlock& elt)
 
   fOnGoingBookPartBlock = true;
 }
@@ -6128,7 +6128,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
     return;
   }
 
-  gIndenter--; // incremented in visitStart (S_lpsrBookBlock& elt)
+  --gIndenter; // incremented in visitStart (S_lpsrBookBlock& elt)
 
   if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
     fLilypondCodeStream << left <<
@@ -6163,7 +6163,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
     "\\score {" <<
     endl;
 
-  gIndenter++; // decremented in visitEnd (S_lpsrScoreBlock& elt)
+  ++gIndenter; // decremented in visitEnd (S_lpsrScoreBlock& elt)
 
   fOnGoingScoreBlock = true;
 }
@@ -6179,7 +6179,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_lpsrScoreBlock& elt)
+  --gIndenter; // incremented in visitStart (S_lpsrScoreBlock& elt)
 
   if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
     fLilypondCodeStream << left <<
@@ -6215,7 +6215,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrBookPartBlock& elt)
     "\\bookpart {" <<
     endl;
 
-  gIndenter++; //  // decremented in visitEnd (S_lpsrBookPartBlock& elt)
+  ++gIndenter; //  // decremented in visitEnd (S_lpsrBookPartBlock& elt)
 
   fOnGoingBookPartBlock = true;
 }
@@ -6231,7 +6231,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_lpsrBookPartBlock& elt)
+  --gIndenter; // incremented in visitStart (S_lpsrBookPartBlock& elt)
 
   fLilypondCodeStream <<
     "}";
@@ -6279,7 +6279,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrParallelMusicBLock& elt)
 
     fLilypondCodeStream << endl;
 
-    gIndenter++; //  // decremented in visitEnd (S_lpsrParallelMusicBLock& elt)
+    ++gIndenter; //  // decremented in visitEnd (S_lpsrParallelMusicBLock& elt)
   }
 
   fCurrentParallelMusicBLock = elt;
@@ -6299,7 +6299,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
   fLilypondCodeStream << endl;
 
   if (fNumberOfPartGroupBlocks > 0) {
-    gIndenter--; // incremented in visitStart (S_lpsrParallelMusicBLock& elt)
+    --gIndenter; // incremented in visitStart (S_lpsrParallelMusicBLock& elt)
 
     if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
       fLilypondCodeStream << left <<
@@ -6336,7 +6336,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   }
 #endif
 
-  fPartGroupBlocksCounter++;
+  ++fPartGroupBlocksCounter;
 
   fNumberOfPartGroupBlockElements =
     elt -> getPartGroupBlockElements ().size ();
@@ -6491,7 +6491,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           endl;
       }
 
-      gIndenter++;
+      ++gIndenter;
 
       if (doGenerateAWithBlock) { // JMI
       /* ??? JMI
@@ -6544,7 +6544,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           break;
       } // switch
 
-      gIndenter--;
+      --gIndenter;
 
       // generate the '\with' block ending
       // if the part group is not implicit
@@ -6586,7 +6586,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   fLilypondCodeStream << endl;
 
   if (elt->getPartGroupBlockElements ().size () > 1) {
-    gIndenter++; //  // decremented in visitEnd (S_lpsrPartGroupBlock& elt)
+    ++gIndenter; //  // decremented in visitEnd (S_lpsrPartGroupBlock& elt)
   }
 }
 
@@ -6607,7 +6607,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
       elt->getPartGroup ();
 
   if (elt->getPartGroupBlockElements ().size () > 1) {
-    gIndenter--; // incremented in visitEnd (S_lpsrPartGroupBlock& elt)
+    --gIndenter; // incremented in visitEnd (S_lpsrPartGroupBlock& elt)
   }
 
   switch (partGroup->getPartGroupImplicitKind ()) {
@@ -6654,7 +6654,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartBlock& elt)
   }
 #endif
 
-  fPartGroupBlockElementsCounter++;
+  ++fPartGroupBlockElementsCounter;
 
   fNumberOfStaffBlocksElements =
     elt->getPartBlockElementsList ().size ();
@@ -6692,7 +6692,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartBlock& elt)
       "\\with {" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
 /* JMI
     if (partName.size ()) {
@@ -6716,7 +6716,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrPartBlock& elt)
         endl;
     }
 
-    gIndenter--;
+    --gIndenter;
 
     // generate the 'with' block ending
     fLilypondCodeStream <<
@@ -6781,7 +6781,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   }
 #endif
 
-  fStaffBlocksCounter++;
+  ++fStaffBlocksCounter;
 
   S_msrStaff
     staff =
@@ -6831,7 +6831,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     "\\with {" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // fetch part upLink
   S_msrPart
@@ -6933,7 +6933,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     */
   }
 
-  gIndenter--;
+  --gIndenter;
 
   // generate the string tunings if any
   S_msrStaffDetails
@@ -6956,7 +6956,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
         iEnd   = staffTuningsList.end (),
         i      = iBegin;
 
-      gIndenter++;
+      ++gIndenter;
 
       for ( ; ; ) {
         S_msrStaffTuning
@@ -6983,7 +6983,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
         ">" <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       // should letters be used for frets?
       switch (currentStaffDetails->getShowFretsKind ()) {
@@ -7039,7 +7039,7 @@ R"(  \override LedgerLineSpanner.stencil = #MyLedgerLineSpannerPrint
       endl;
   }
 
-  gIndenter++; // decremented in visitEnd (S_lpsrStaffBlock& elt)
+  ++gIndenter; // decremented in visitEnd (S_lpsrStaffBlock& elt)
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
@@ -7053,7 +7053,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_lpsrStaffBlock& elt)
+  --gIndenter; // incremented in visitStart (S_lpsrStaffBlock& elt)
 
   if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
     fLilypondCodeStream << left <<
@@ -7090,7 +7090,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrNewStaffgroupBlock& elt)
      "\\new StaffGroup" << ' ' << "{" <<
       endl;
 
-  gIndenter++; // decremented in visitEnd (S_lpsrStaffBlock& elt)
+  ++gIndenter; // decremented in visitEnd (S_lpsrStaffBlock& elt)
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
@@ -7104,7 +7104,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_lpsrStaffBlock& elt)
+  --gIndenter; // incremented in visitStart (S_lpsrStaffBlock& elt)
 
   fLilypondCodeStream <<
     " }" <<
@@ -7123,7 +7123,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrNewStaffBlock& elt)
   }
 #endif
 
-  gIndenter++; // decremented in visitEnd (S_lpsrNewStaffBlock& elt)
+  ++gIndenter; // decremented in visitEnd (S_lpsrNewStaffBlock& elt)
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
@@ -7137,7 +7137,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_lpsrNewStaffBlock& elt)
+  --gIndenter; // incremented in visitStart (S_lpsrNewStaffBlock& elt)
 }
 */
 
@@ -7205,7 +7205,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
       voice->getVoiceName () << "\"" << " <<" <<
        endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     if (gGlobalLpsr2lilypondOahGroup->getNoAutoBeaming ()) {
       fLilypondCodeStream <<
@@ -7356,7 +7356,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
     fLilypondCodeStream <<
       "\\" << voice->getVoiceName () << endl;
 
-    gIndenter--;
+    --gIndenter;
 
     fLilypondCodeStream <<
       ">>" <<
@@ -7395,7 +7395,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "\\new Lyrics" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     fLilypondCodeStream <<
       "\\with {" <<
@@ -7429,7 +7429,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
         break;
     } // switch
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -7461,7 +7461,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrVariableUseCommand& elt)
   }
 #endif
 
-  gIndenter++; // decremented in visitEnd (S_lpsrVariableUseCommand& elt)
+  ++gIndenter; // decremented in visitEnd (S_lpsrVariableUseCommand& elt)
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
@@ -7475,7 +7475,7 @@ void lpsr2lilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_lpsrVariableUseCommand& elt)
+  --gIndenter; // incremented in visitStart (S_lpsrVariableUseCommand& elt)
 }
 
 //________________________________________________________________________
@@ -7507,7 +7507,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
       "\\with {" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     fLilypondCodeStream <<
       "\\override Barline.bar-extent = #'(-2 . 2)" <<
@@ -7515,7 +7515,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
       "\\consists \"Bar_engraver\"" <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
 
     fLilypondCodeStream <<
       "}" <<
@@ -7569,7 +7569,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
       "\\with {" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     fLilypondCodeStream <<
       "\\override Barline.bar-extent = #'(-2 . 2)" <<
@@ -7577,7 +7577,7 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
       "\\consists \"Bar_engraver\"" <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
 
     fLilypondCodeStream <<
       "}" <<
@@ -8142,7 +8142,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
       break;
   } // switch
 
-  gIndenter++; // decremented in visitEnd (S_msrVoice& elt)
+  ++gIndenter; // decremented in visitEnd (S_msrVoice& elt)
 
   // use a 'global' macro?
   if (gGlobalLpsr2lilypondOahGroup->getGlobal ()) {
@@ -8157,7 +8157,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
       "\\displayMusic {" <<
       endl;
 
-    gIndenter++; // decremented in visitEnd (S_msrVoice& elt)
+    ++gIndenter; // decremented in visitEnd (S_msrVoice& elt)
   }
 
   // language?
@@ -8232,7 +8232,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
       "\\compressFullBarRests" <<
       endl;
 
-    gInde   nter++; // JMI ???
+    ++gInde   nter; // JMI ???
   }
 */
 
@@ -8291,7 +8291,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrVoice& elt)
 
 void lpsr2lilypondTranslator::visitEnd (S_msrVoice& elt)
 {
-  gIndenter--; // incremented in visitStart (S_msrVoice& elt)
+  --gIndenter; // incremented in visitStart (S_msrVoice& elt)
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalLpsrOahGroup->getTraceLpsrVisitors ()) {
@@ -8314,7 +8314,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrVoice& elt)
   // JMI    "}" <<
       endl;
 
-    g Inden ter--; // JMI ???
+    --g Indenter; // JMI ???
   */
 
   if (gGlobalLpsr2lilypondOahGroup->getDisplayMusic ()) {
@@ -8329,7 +8329,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrVoice& elt)
 
     fLilypondCodeStream << endl;
 
-    gIndenter--; // incremented in visitStart (S_msrVoice& elt)
+    --gIndenter; // incremented in visitStart (S_msrVoice& elt)
   }
 
   // generate the end of the voice definition
@@ -8540,7 +8540,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrFigure& elt)
 #endif
 
   if (fOnGoingFiguredBassVoice) {
-    fCurrentFiguredBassFiguresCounter++;
+    ++fCurrentFiguredBassFiguresCounter;
 
     // is the figured bass parenthesized?
     msrFiguredBass::msrFiguredBassParenthesesKind
@@ -8711,7 +8711,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrSegment& elt)
       elt->getInputLineNumber () <<
       endl;
 
-    gIndenter++; // decremented in visitEnd (S_msrSegment& elt)
+    ++gIndenter; // decremented in visitEnd (S_msrSegment& elt)
   }
 }
 
@@ -8727,7 +8727,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrSegment& elt)
 #endif
 
   if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
-    gIndenter--; // incremented in visitStart (S_msrSegment& elt)
+    --gIndenter; // incremented in visitStart (S_msrSegment& elt)
 
     fLilypondCodeStream << left <<
       setw (commentFieldWidth) <<
@@ -8889,16 +8889,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasure& elt)
       ", line " << inputLineNumber <<
       endl;
 
-    gIndenter++; // decremented in visitEnd (S_msrMeasure& elt)
+    ++gIndenter; // decremented in visitEnd (S_msrMeasure& elt)
   }
 
   // take this measure into account for counting
   switch (elt->getMeasureKind ()) {
     case kMeasureKindUnknown:
-      fCurrentVoiceMeasuresCounter++;
+      ++fCurrentVoiceMeasuresCounter;
       break;
     case kMeasureKindRegular:
-      fCurrentVoiceMeasuresCounter++;
+      ++fCurrentVoiceMeasuresCounter;
       break;
     case kMeasureKindAnacrusis:
       // keep fCurrentVoiceMeasuresCounter at 0
@@ -8910,16 +8910,16 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasure& elt)
     case kMeasureKindIncompleteNextMeasureAfterCommonPart:
     case kMeasureKindIncompleteNextMeasureAfterHookedEnding:
     case kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
-      fCurrentVoiceMeasuresCounter++;
+      ++fCurrentVoiceMeasuresCounter;
       break;
     case kMeasureKindOvercomplete:
-      fCurrentVoiceMeasuresCounter++;
+      ++fCurrentVoiceMeasuresCounter;
       break;
     case kMeasureKindCadenza:
-      fCurrentVoiceMeasuresCounter++;
+      ++fCurrentVoiceMeasuresCounter;
       break;
     case kMeasureKindMusicallyEmpty:
-      fCurrentVoiceMeasuresCounter++;
+      ++fCurrentVoiceMeasuresCounter;
       break;
   } // switch
 
@@ -9292,7 +9292,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasure& elt)
     } // switch
 
     if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
-      gIndenter--; // incremented in visitStart (S_msrMeasure& elt)
+      --gIndenter; // incremented in visitStart (S_msrMeasure& elt)
 
       fLilypondCodeStream << left <<
         setw (commentFieldWidth) <<
@@ -9430,7 +9430,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrStanza& elt)
         elt->getStanzaName () << " = " << "\\lyricmode {" <<
         endl;
 
-      gIndenter++; // decremented in visitEnd (S_msrStanza& elt)
+      ++gIndenter; // decremented in visitEnd (S_msrStanza& elt)
 
       fLilypondCodeStream <<
         // set associatedVoice so that
@@ -9463,7 +9463,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrStanza& elt)
 
   if (! gGlobalLpsr2lilypondOahGroup->getNoLilypondLyrics ()) {
     if (fGenerateCodeForOngoingNonEmptyStanza) {
-      gIndenter--; // incremented in visitStart (S_msrStanza& elt)
+      --gIndenter; // incremented in visitStart (S_msrStanza& elt)
 
       fLilypondCodeStream <<
         endl <<
@@ -10280,7 +10280,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTime& elt)
             "\\compoundMeter #`(";
 
           // handle all the time items in the vector
-          for (int i = 0; i < timesItemsNumber; i++) {
+          for (int i = 0; i < timesItemsNumber; ++i) {
             S_msrTimeItem
               timeItem =
                 timeItemsVector [i];
@@ -10299,7 +10299,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTime& elt)
               "(";
 
             // then generate all beats numbers in the vector
-            for (int j = 0; j < beatsNumbersNumber; j++) {
+            for (int j = 0; j < beatsNumbersNumber; ++j) {
               fLilypondCodeStream <<
                 beatsNumbersVector [j] <<
                 ' ';
@@ -10781,8 +10781,8 @@ If the double element is present, it indicates that the music is doubled one oct
   }
 
   // take the transpose octave change into account
-  for (int i = 1; i <= transposeOctaveChange; i++) {
-    transpositionOctaveKind++;
+  for (int i = 1; i <= transposeOctaveChange; ++i) {
+    ++transpositionOctaveKind;
   } // for
 
   // take the transpose double if any into account
@@ -10794,7 +10794,7 @@ If the double element is present, it indicates that the music is doubled one oct
       (as is the case for mixed cello / bass parts in orchestral literature).
     */
 
-    transpositionOctaveKind--;
+    --transpositionOctaveKind;
   }
 
   string
@@ -10987,15 +10987,15 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
             "\\markup {" <<
             endl;
 
-          gIndenter++;
+          ++gIndenter;
 
           fLilypondCodeStream <<
             "\\concat {" <<
             endl;
 
-          gIndenter++;
+          ++gIndenter;
 
-          gIndenter++;
+          ++gIndenter;
 
           if (tempoWordsListSize) {
             list<S_msrWords>::const_iterator
@@ -11049,17 +11049,17 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
             ")" <<
             endl;
 
-          gIndenter--;
+          --gIndenter;
 
           fLilypondCodeStream << endl;
 
-          gIndenter--;
+          --gIndenter;
 
           fLilypondCodeStream <<
             "}" << "% concat" <<
             endl;
 
-          gIndenter--;
+          --gIndenter;
 
           fLilypondCodeStream <<
             "}" <<
@@ -11072,7 +11072,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
           "\\markup {" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         if (tempoWordsListSize) {
           list<S_msrWords>::const_iterator
@@ -11097,7 +11097,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
           "\\concat {" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         if (gGlobalLpsr2lilypondOahGroup->versionNumberGreaterThanOrEqualTo ("2.20")) {
           fLilypondCodeStream <<
@@ -11129,13 +11129,13 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
           tempoPerMinute <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       fLilypondCodeStream <<
         "}" << "% concat" <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       fLilypondCodeStream <<
         "}" <<
@@ -11171,13 +11171,13 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
         "\\markup {" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       fLilypondCodeStream <<
         "\\concat {" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       switch (tempoParenthesizedKind) {
         case msrTempo::kTempoParenthesizedYes:
@@ -11189,7 +11189,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
           break;
       } // switch
 
-      gIndenter++;
+      ++gIndenter;
 
       if (gGlobalLpsr2lilypondOahGroup->versionNumberGreaterThanOrEqualTo ("2.20")) {
         fLilypondCodeStream <<
@@ -11246,7 +11246,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
 
       fLilypondCodeStream << endl;
 
-      gIndenter--;
+      --gIndenter;
 
       switch (tempoParenthesizedKind) {
         case msrTempo::kTempoParenthesizedYes:
@@ -11258,13 +11258,13 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempo& elt)
           break;
       } // switch
 
-      gIndenter--;
+      --gIndenter;
 
       fLilypondCodeStream <<
         "}" <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       fLilypondCodeStream <<
         "}" <<
@@ -11330,7 +11330,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTempoRelationshipElements& elt)
     "\\fixed b' {" <<
     endl;
 
-  gIndenter++; // decremented in visitEnd (S_msrTempoRelationshipElements& elt)
+  ++gIndenter; // decremented in visitEnd (S_msrTempoRelationshipElements& elt)
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_msrTempoRelationshipElements& elt)
@@ -11344,7 +11344,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTempoRelationshipElements& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_msrTempoRelationshipElements& elt)
+  --gIndenter; // incremented in visitStart (S_msrTempoRelationshipElements& elt)
 
   fLilypondCodeStream <<
     endl <<
@@ -11824,7 +11824,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     fLilypondCodeStream <<
       "% doubleTremoloSoundingWholeNotes = " <<
@@ -11843,14 +11843,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       numberOfRepeats <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
   fLilypondCodeStream <<
     "\\repeat tremolo " << numberOfRepeats << " {";
 
-  gIndenter++; // decremented in visitEnd (S_msrDoubleTremolo& elt)
+  ++gIndenter; // decremented in visitEnd (S_msrDoubleTremolo& elt)
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
@@ -11864,7 +11864,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_msrDoubleTremolo& elt)
+  --gIndenter; // incremented in visitStart (S_msrDoubleTremolo& elt)
 
   fLilypondCodeStream <<
     "}" <<
@@ -12062,7 +12062,7 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
     for (
       list<S_msrBeam>::const_iterator i = noteBeams.begin ();
       i != noteBeams.end ();
-      i++
+      ++i
     ) {
       S_msrBeam beam = (*i);
 
@@ -12148,7 +12148,7 @@ void lpsr2lilypondTranslator::generateNoteSlurs (S_msrNote note)
     for (
       i=noteSlurs.begin ();
       i!=noteSlurs.end ();
-      i++
+      ++i
     ) {
       S_msrSlur slur = (*i);
 
@@ -12561,7 +12561,7 @@ void lpsr2lilypondTranslator::generateBeforeNoteSpannersIfAny (
     for (
       i=noteSpanners.begin ();
       i!=noteSpanners.end ();
-      i++
+      ++i
     ) {
       S_msrSpanner
         spanner = (*i);
@@ -12605,7 +12605,7 @@ void lpsr2lilypondTranslator::generateAfterNoteSpannersIfAny (
     for (
       i=noteSpanners.begin ();
       i!=noteSpanners.end ();
-      i++
+      ++i
     ) {
       S_msrSpanner
         spanner = (*i);
@@ -12899,7 +12899,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       " <<" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrScordatura>::const_iterator
       iBegin = noteScordaturas.begin (),
@@ -12914,7 +12914,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
           scordatura->
             getScordaturaStringTuningsList ();
 
-      gIndenter++;
+      ++gIndenter;
 
       fLilypondCodeStream <<
         "\\new Staff \\with { alignAboveContext = \"" <<
@@ -12924,7 +12924,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
         "\" } {" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       fLilypondCodeStream <<
         "\\hide Staff.Stem" <<
@@ -12963,19 +12963,19 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
         ">4" <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       fLilypondCodeStream <<
         "}" <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       fLilypondCodeStream <<
         "{" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       if (++i == iEnd) break;
     } // for
@@ -13045,7 +13045,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     for (
       i=noteSlashes.begin ();
       i!=noteSlashes.end ();
-      i++
+      ++i
     ) {
       S_msrSlash slash = (*i);
 
@@ -13118,7 +13118,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     for (
       i=noteWedges.begin ();
       i!=noteWedges.end ();
-      i++
+      ++i
     ) {
       S_msrWedge wedge = (*i);
 
@@ -13174,7 +13174,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
       for (
         i=noteSlurs.begin ();
         i!=noteSlurs.end ();
-        i++
+        ++i
       ) {
         S_msrSlur slur = (*i);
 
@@ -13224,7 +13224,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     for (
       i=noteGlissandos.begin ();
       i!=noteGlissandos.end ();
-      i++
+      ++i
     ) {
       S_msrGlissando glissando = (*i);
 
@@ -13274,7 +13274,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     for (
       i=noteSlides.begin ();
       i!=noteSlides.end ();
-      i++
+      ++i
     ) {
       S_msrSlide slide = (*i);
 
@@ -13320,7 +13320,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     for (
       i=noteGlissandos.begin ();
       i!=noteGlissandos.end ();
-      i++
+      ++i
     ) {
       S_msrGlissando glissando = (*i);
 
@@ -13360,7 +13360,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     for (
       i=noteSlides.begin ();
       i!=noteSlides.end ();
-      i++
+      ++i
     ) {
       S_msrSlide slide = (*i);
 
@@ -13420,7 +13420,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrNote& elt)
     for (
       i=noteTechnicalWithStrings.begin ();
       i!=noteTechnicalWithStrings.end ();
-      i++
+      ++i
     ) {
       S_msrTechnicalWithString technicalWithString = (*i);
 
@@ -13678,7 +13678,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
       for (
         i=noteWords.begin ();
         i!=noteWords.end ();
-        i++
+        ++i
       ) {
         msrPlacementKind
           wordsPlacementKind =
@@ -13825,7 +13825,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
       for (
         i=noteArticulations.begin ();
         i!=noteArticulations.end ();
-        i++
+        ++i
       ) {
         S_msrArticulation articulation = (*i);
         switch (articulation->getArticulationKind ()) {
@@ -13897,7 +13897,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteTechnicals.begin ();
       i!=noteTechnicals.end ();
-      i++
+      ++i
     ) {
 
       fLilypondCodeStream <<
@@ -13936,7 +13936,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
           for (
             i=noteTechnicalWithIntegers.begin ();
             i!=noteTechnicalWithIntegers.end ();
-            i++
+            ++i
           ) {
 
             S_msrTechnicalWithInteger
@@ -13981,7 +13981,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
           for (
             i=noteTechnicalWithFloats.begin ();
             i!=noteTechnicalWithFloats.end ();
-            i++
+            ++i
           ) {
 
             S_msrTechnicalWithFloat
@@ -14018,7 +14018,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteTechnicalWithStrings.begin ();
       i!=noteTechnicalWithStrings.end ();
-      i++
+      ++i
     ) {
 
       fLilypondCodeStream <<
@@ -14049,7 +14049,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteOrnaments.begin ();
       i!=noteOrnaments.end ();
-      i++
+      ++i
     ) {
       S_msrOrnament
         ornament = (*i);
@@ -14069,7 +14069,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
       for (
         i=noteDynamics.begin ();
         i!=noteDynamics.end ();
-        i++
+        ++i
       ) {
         S_msrDynamics
           dynamics = (*i);
@@ -14103,7 +14103,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
       for (
         i=noteOtherDynamics.begin ();
         i!=noteOtherDynamics.end ();
-        i++
+        ++i
       ) {
         S_msrOtherDynamics
           otherDynamics = (*i);
@@ -14158,7 +14158,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteLigatures.begin ();
       i!=noteLigatures.end ();
-      i++
+      ++i
     ) {
       switch ((*i)->getLigatureKind ()) {
         case msrLigature::kLigatureNone:
@@ -14185,7 +14185,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteWedges.begin ();
       i!=noteWedges.end ();
-      i++
+      ++i
     ) {
       S_msrWedge wedge = (*i);
 
@@ -14247,7 +14247,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
       for (
         i=noteArticulations.begin ();
         i!=noteArticulations.end ();
-        i++
+        ++i
       ) {
         S_msrArticulation articulation = (*i);
 
@@ -14328,7 +14328,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteGlissandos.begin ();
       i!=noteGlissandos.end ();
-      i++
+      ++i
     ) {
       S_msrGlissando glissando = (*i);
 
@@ -14359,7 +14359,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteSlides.begin ();
       i!=noteSlides.end ();
-      i++
+      ++i
     ) {
       S_msrSlide slide = (*i);
 
@@ -14390,7 +14390,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteSpanners.begin ();
       i!=noteSpanners.end ();
-      i++
+      ++i
     ) {
       S_msrSpanner
         spanner = (*i);
@@ -14432,14 +14432,14 @@ void lpsr2lilypondTranslator::visitEnd (S_msrNote& elt)
       elt->getNoteScordaturas ();
 
   if (noteScordaturas.size ()) { // g_Indenter ??? JMI
-    gIndenter--;
+    --gIndenter;
 
     fLilypondCodeStream <<
       endl <<
       "}" <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
 
     fLilypondCodeStream <<
       ">>" <<
@@ -14566,7 +14566,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
       elt->getHarpPedalsAlterationKindsMap ();
 
   if (harpPedalsAlterationKindsMap.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     fLilypondCodeStream <<
       "_\\markup { \\harp-pedal #\"" <<
@@ -14588,7 +14588,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
       "\" } " <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     fLilypondCodeStream <<
@@ -14695,7 +14695,7 @@ void lpsr2lilypondTranslator::generateCodeAHeadOfChordContents (
 
   if (chordCodas.size ()) {
     list<S_msrCoda>::const_iterator i;
-    for (i=chordCodas.begin (); i!=chordCodas.end (); i++) {
+    for (i=chordCodas.begin (); i!=chordCodas.end (); ++i) {
       // generate the coda
       S_msrCoda coda = (*i);
 
@@ -14710,7 +14710,7 @@ void lpsr2lilypondTranslator::generateCodeAHeadOfChordContents (
 
   if (chordSegnos.size ()) {
     list<S_msrSegno>::const_iterator i;
-    for (i=chordSegnos.begin (); i!=chordSegnos.end (); i++) {
+    for (i=chordSegnos.begin (); i!=chordSegnos.end (); ++i) {
       // generate the segno
       generateSegno ((*i));
     } // for
@@ -14766,7 +14766,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeChordContents (
     for (
       i=chordGlissandos.begin ();
       i!=chordGlissandos.end ();
-      i++
+      ++i
     ) {
       S_msrGlissando glissando = (*i);
 
@@ -14811,7 +14811,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeChordContents (
     for (
       i=chordSlides.begin ();
       i!=chordSlides.end ();
-      i++
+      ++i
     ) {
       S_msrSlide slide = (*i);
 
@@ -14856,7 +14856,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeChordContents (
     for (
       i=chordLigatures.begin ();
       i!=chordLigatures.end ();
-      i++
+      ++i
     ) {
 
       switch ((*i)->getLigatureKind ()) {
@@ -14887,7 +14887,7 @@ void lpsr2lilypondTranslator::generateCodeRightBeforeChordContents (
     for (
       i=chordArticulations.begin ();
       i!=chordArticulations.end ();
-      i++
+      ++i
     ) {
       S_msrArticulation articulation = (*i);
 
@@ -15160,7 +15160,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordArticulations.begin ();
       i!=chordArticulations.end ();
-      i++
+      ++i
     ) {
       generateChordArticulation ((*i));
 
@@ -15179,7 +15179,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordTechnicals.begin ();
       i!=chordTechnicals.end ();
-      i++
+      ++i
     ) {
       fLilypondCodeStream <<
         technicalAsLilypondString ((*i)) <<
@@ -15197,7 +15197,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordTechnicalWithIntegers.begin ();
       i!=chordTechnicalWithIntegers.end ();
-      i++
+      ++i
     ) {
       fLilypondCodeStream <<
         technicalWithIntegerAsLilypondString ((*i)) <<
@@ -15215,7 +15215,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordTechnicalWithFloats.begin ();
       i!=chordTechnicalWithFloats.end ();
-      i++
+      ++i
     ) {
       fLilypondCodeStream <<
         technicalWithFloatAsLilypondString ((*i)) <<
@@ -15233,7 +15233,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordTechnicalWithStrings.begin ();
       i!=chordTechnicalWithStrings.end ();
-      i++
+      ++i
     ) {
       fLilypondCodeStream <<
         technicalWithStringAsLilypondString ((*i)) <<
@@ -15251,7 +15251,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordOrnaments.begin ();
       i!=chordOrnaments.end ();
-      i++
+      ++i
     ) {
       S_msrOrnament
         ornament = (*i);
@@ -15282,7 +15282,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordDynamics.begin ();
       i!=chordDynamics.end ();
-      i++
+      ++i
     ) {
       S_msrDynamics
         dynamics = (*i);
@@ -15314,7 +15314,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordOtherDynamics.begin ();
       i!=chordOtherDynamics.end ();
-      i++
+      ++i
     ) {
       S_msrOtherDynamics
         otherDynamics = (*i);
@@ -15348,7 +15348,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordWords.begin ();
       i!=chordWords.end ();
-      i++
+      ++i
     ) {
 
       msrPlacementKind
@@ -15387,7 +15387,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordBeamLinks.begin ();
       i!=chordBeamLinks.end ();
-      i++
+      ++i
     ) {
       S_msrChordBeamLink chordBeamLink = (*i);
 
@@ -15432,7 +15432,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordSlurLinks.begin ();
       i!=chordSlurLinks.end ();
-      i++
+      ++i
     ) {
       S_msrChordSlurLink chordSlurLink = (*i);
 
@@ -15471,7 +15471,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordTies.begin ();
       i!=chordTies.end ();
-      i++
+      ++i
     ) {
       fLilypondCodeStream <<
         "%{line " << inputLineNumber << "%}" <<
@@ -15506,7 +15506,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordLigatures.begin ();
       i!=chordLigatures.end ();
-      i++
+      ++i
     ) {
       switch ((*i)->getLigatureKind ()) {
         case msrLigature::kLigatureNone:
@@ -15533,7 +15533,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordWedges.begin ();
       i!=chordWedges.end ();
-      i++
+      ++i
       ) {
       switch ((*i)->getWedgeKind ()) {
         case msrWedge::kWedgeKindNone:
@@ -15562,7 +15562,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordGlissandos.begin ();
       i!=chordGlissandos.end ();
-      i++
+      ++i
     ) {
       S_msrGlissando glissando = (*i);
 
@@ -15593,7 +15593,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
     for (
       i=chordSlides.begin ();
       i!=chordSlides.end ();
-      i++
+      ++i
     ) {
       S_msrSlide slide = (*i);
 
@@ -15620,7 +15620,7 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
 
   if (chordDalSegnos.size ()) {
     list<S_msrDalSegno>::const_iterator i;
-    for (i=chordDalSegnos.begin (); i!=chordDalSegnos.end (); i++) {
+    for (i=chordDalSegnos.begin (); i!=chordDalSegnos.end (); ++i) {
       // generate the dal segno
       fLilypondCodeStream <<
         endl <<
@@ -15891,7 +15891,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrTuplet& elt)
 
   fTupletsStack.push (elt);
 
-  gIndenter++; // decremented in visitEnd (S_msrTuplet& elt)
+  ++gIndenter; // decremented in visitEnd (S_msrTuplet& elt)
 
   // force durations to be displayed explicitly
   // at the beginning of the tuplet
@@ -15909,7 +15909,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrTuplet& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_msrTuplet& elt)
+  --gIndenter; // incremented in visitStart (S_msrTuplet& elt)
 
   if (gGlobalLpsr2lilypondOahGroup->getIndentTuplets ()) {
     fLilypondCodeStream << endl;
@@ -16063,13 +16063,13 @@ void lpsr2lilypondTranslator::visitStart (S_msrScordatura& elt)
     scordaturaStringTuningsList =
       elt->getScordaturaStringTuningsList ();
 
-  gIndenter++;
+  ++gIndenter;
 
   fLilypondCodeStream <<
     "\\new Staff {" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   fLilypondCodeStream <<
     "\\hide Staff.Stem" <<
@@ -16106,13 +16106,13 @@ void lpsr2lilypondTranslator::visitStart (S_msrScordatura& elt)
     "}" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   fLilypondCodeStream <<
     "{ c'4 }" <<
     endl <<
 
-  gIndenter--;
+  --gIndenter;
   */
 }
 
@@ -16652,7 +16652,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrRepeat& elt)
 
   fLilypondCodeStream << endl;
 
-  gIndenter++; // decremented in visitEnd (S_msrRepeat& elt)
+  ++gIndenter; // decremented in visitEnd (S_msrRepeat& elt)
 
   if (repeatTimes > 2) {
     fLilypondCodeStream <<
@@ -16681,7 +16681,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeat& elt)
   if (! fRepeatDescrsStack.back ()->getEndOfRepeatHasBeenGenerated ()) {
     // the end of the repeat has not been generated yet JMI
 
-    gIndenter--;
+    --gIndenter;
 
     if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
       fLilypondCodeStream << left <<
@@ -16697,7 +16697,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeat& elt)
     }
   }
 
-  //   gIndenter--; // incremented in visitStart (S_msrRepeat& elt) JMI ???
+  //   --gIndenter; // incremented in visitStart (S_msrRepeat& elt) JMI ???
 
   fRepeatDescrsStack.pop_back ();
 }
@@ -16747,7 +16747,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       elt->getRepeatEndingInternalNumber ();
 
   if (repeatEndingInternalNumber == 1) {
-    gIndenter--;
+    --gIndenter;
 
     // first repeat ending is in charge of
     // outputting the end of the repeat
@@ -16783,7 +16783,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         endl;
     }
 
-    gIndenter++;
+    ++gIndenter;
   }
 
   // output the start of the ending
@@ -16817,7 +16817,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       break;
   } // switch
 
-  gIndenter++;
+  ++gIndenter;
 
   // generate the repeat ending number if any
   string
@@ -16855,7 +16855,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // output the end of the ending
   fLilypondCodeStream << endl;
@@ -16907,7 +16907,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       ==
     fRepeatDescrsStack.back ()->getRepeatEndingsNumber ()) {
 
-    gIndenter--; // JMI ???
+    --gIndenter; // JMI ???
 
     // last repeat ending is in charge of
     // outputting the end of the alternative
@@ -17133,7 +17133,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
      " { " <<
     endl;
 
-  gIndenter++; // decremented in visitEnd (S_msrMeasuresRepeat&)
+  ++gIndenter; // decremented in visitEnd (S_msrMeasuresRepeat&)
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
@@ -17147,7 +17147,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_msrMeasuresRepeat&)
+  --gIndenter; // incremented in visitStart (S_msrMeasuresRepeat&)
 
   fLilypondCodeStream <<
     endl << endl <<
@@ -17213,7 +17213,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
       endl;
   }
 
-  gIndenter++; // decremented in visitEnd (S_msrMeasuresRepeat&)
+  ++gIndenter; // decremented in visitEnd (S_msrMeasuresRepeat&)
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
@@ -17226,7 +17226,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   }
 #endif
 
-  gIndenter--; // incremented in visitStart (S_msrMeasuresRepeatReplicas&)
+  --gIndenter; // incremented in visitStart (S_msrMeasuresRepeatReplicas&)
 }
 
 //________________________________________________________________________
@@ -17258,7 +17258,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrRestMeasures& elt)
       ", line " << inputLineNumber <<
       endl << endl;
 
-    gIndenter++; // decremented in visitEnd (S_msrRestMeasures&)
+    ++gIndenter; // decremented in visitEnd (S_msrRestMeasures&)
   }
 
   fOnGoingRestMeasures = true;
@@ -17342,7 +17342,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRestMeasures& elt)
     endl;
 
   if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
-    gIndenter--; // incremented in visitStart (S_msrRestMeasures&)
+    --gIndenter; // incremented in visitStart (S_msrRestMeasures&)
 
     fLilypondCodeStream << left <<
       setw (commentFieldWidth) <<
@@ -17384,7 +17384,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrRestMeasuresContents& elt)
       ", line " << inputLineNumber <<
       endl << endl;
 
-    gIndenter++; // decremented in visitEnd (S_msrRestMeasures&)
+    ++gIndenter; // decremented in visitEnd (S_msrRestMeasures&)
   }
 }
 
@@ -17414,7 +17414,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRestMeasuresContents& elt)
       ", line " << inputLineNumber <<
       endl << endl;
 
-    gIndenter--; // incremented in visitStart (S_msrRestMeasures&)
+    --gIndenter; // incremented in visitStart (S_msrRestMeasures&)
   }
 }
 
@@ -17435,14 +17435,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrMidiTempo& elt)
       "%{" <<
       endl;
 
-     gIndenter++;
+     ++gIndenter;
   }
 
   fLilypondCodeStream <<
     "\\midi {" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (gGlobalLpsr2lilypondOahGroup->getNoMidi ()) {
     fLilypondCodeStream <<
@@ -17456,14 +17456,14 @@ void lpsr2lilypondTranslator::visitStart (S_msrMidiTempo& elt)
     elt->getMidiTempoPerSecond () <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   fLilypondCodeStream <<
     "}" <<
     endl;
 
   if (gGlobalLpsr2lilypondOahGroup->getNoMidi ()) {
-    gIndenter--;
+    --gIndenter;
 
     fLilypondCodeStream <<
       "%}" <<

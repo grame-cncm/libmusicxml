@@ -98,7 +98,7 @@ int bsrPage::fetchLineContentsNumber () const
   for (
     list<S_bsrPageElement>::const_iterator i = fPageElementsList.begin ();
     i != fPageElementsList.end ();
-    i++
+    ++i
   ) {
     result += (*i)->fetchLineContentsNumber ();
   } // for
@@ -163,7 +163,7 @@ void bsrPage::browseData (basevisitor* v)
   for (
     list<S_bsrPageElement>::const_iterator i = fPageElementsList.begin ();
     i != fPageElementsList.end ();
-    i++ ) {
+    ++i ) {
     // browse the element
     bsrBrowser<bsrElement> browser (v);
     browser.browse (*(*i));
@@ -194,7 +194,7 @@ void bsrPage::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the page numbers
   const unsigned int fieldWidth = 18;
@@ -225,7 +225,7 @@ void bsrPage::print (ostream& os) const
       pageElementsListSize, "pageElement", "pageElements");
     if (pageElementsListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrPageElement>::const_iterator
         iBegin = fPageElementsList.begin (),
@@ -237,7 +237,7 @@ void bsrPage::print (ostream& os) const
         os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -246,7 +246,7 @@ void bsrPage::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrPage& elt)

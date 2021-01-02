@@ -386,7 +386,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     for (
       list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
       i != fMeasureElementsList.end ();
-      i++ ) {
+      ++i ) {
       S_msrMeasureElement element = (*i);
 
       // handlle deep copying
@@ -558,7 +558,7 @@ S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
     for (
       list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
       i != fMeasureElementsList.end ();
-      i++ ) {
+      ++i ) {
       S_msrMeasureElement element = (*i);
       S_msrMeasureElement elementToBeCopied;
 
@@ -854,10 +854,10 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
         gLogStream <<
           "Reverse iteration on measure element:" <<
           endl;
-        gIndenter++;
+        ++gIndenter;
         gLogStream <<
           measureElement;
-        gIndenter--;
+        --gIndenter;
       }
 #endif
 
@@ -1338,12 +1338,12 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
       "Appending time '" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       time;
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "' to measure " <<
@@ -1357,7 +1357,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // append time to the measure elements list
   appendElementToMeasure (time);
@@ -1366,7 +1366,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   setFullMeasureWholeNotesDurationFromTime (
     time);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
@@ -1382,12 +1382,12 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
       "Appending time:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       time;
 
-    gIndenter--;
+    --gIndenter;
 
     S_msrVoice
       voiceUpLink =
@@ -1466,12 +1466,12 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
       "Setting measure full measure whole notes from time:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       time;
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "for measure " <<
@@ -1486,7 +1486,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   switch (time->getTimeSymbolKind ()) {
     case kTimeSymbolCommon:
@@ -1514,12 +1514,12 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
             " whole note(s) per measure in time:" <<
             endl;
 
-          gIndenter++;
+          ++gIndenter;
 
           gLogStream <<
             time;
 
-          gIndenter--;
+          --gIndenter;
 
           gLogStream <<
             "in measure " <<
@@ -1591,7 +1591,7 @@ void msrMeasure::setFullMeasureWholeNotesDurationFromTime (
       break;
   } // switch
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::appendTransposeToMeasure (
@@ -1622,7 +1622,7 @@ void msrMeasure::printMeasurePendingMeasureElementsList ()
     "===> printMeasurePendingMeasureElementsList ()" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fMeasurePendingMeasureElementsList.size ()) {
     list<S_msrMeasureElement>::const_iterator
@@ -1641,7 +1641,7 @@ void msrMeasure::printMeasurePendingMeasureElementsList ()
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     "<===" <<
@@ -1927,7 +1927,7 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // populate measure upLink
   note->
@@ -1988,7 +1988,7 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
   // this measure contains music
   fMeasureContainsMusic = true;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::accountForTupletMemberNoteDurationInMeasure (
@@ -2056,7 +2056,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // populate measure upLink
   note->
@@ -2103,7 +2103,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
   // this measure contains music
   fMeasureContainsMusic = true;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
@@ -2128,7 +2128,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
     /* JMI
   if (appendMeasureIfOverflow (inputLineNumber)) {
@@ -2176,7 +2176,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   fMeasureContainsMusic = true;
  // JMI }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::appendDoubleTremoloToMeasure (
@@ -2201,7 +2201,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // register doubleTremolo measure number
   doubleTremolo->
@@ -2244,7 +2244,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // this measure contains music
   fMeasureContainsMusic = true;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
@@ -2313,7 +2313,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // populate measure upLink
   tuplet->setTupletMeasureUpLink (this);
@@ -2327,7 +2327,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // this measure contains music
   fMeasureContainsMusic = true;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
@@ -2593,7 +2593,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
     "wholeNotes.getNumerator () is negative in padUpToPositionInMeasureInMeasure()");
 
   if (fCurrentMeasureWholeNotesDuration < wholeNotes) {
-    gIndenter++;
+    ++gIndenter;
 
     // appending a padding rest or skip to this measure to reach wholeNotes
     rational
@@ -2638,7 +2638,7 @@ void msrMeasure::padUpToPositionInMeasureInMeasure (
     // this measure contains music
     fMeasureContainsMusic = true;
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else if (fCurrentMeasureWholeNotesDuration == wholeNotes) {
@@ -2763,7 +2763,7 @@ void msrMeasure::appendPaddingSkipNoteToMeasure (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // fetch the measure voice
   S_msrVoice
@@ -2782,7 +2782,7 @@ void msrMeasure::appendPaddingSkipNoteToMeasure (
   // append the paddingNote to the measure
   appendNoteOrPaddingToMeasure (paddingNote);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 
@@ -2977,10 +2977,10 @@ void msrMeasure::removeElementFromMeasure (
       "Removing element:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       " JMI ??? element->elementAsString ()" << endl;
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       endl <<
@@ -2993,13 +2993,13 @@ void msrMeasure::removeElementFromMeasure (
       "\"," <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       "fMeasureLastHandledNote:" <<
       endl <<
       fMeasureLastHandledNote <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -3133,7 +3133,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // set measure purist number
   setMeasurePuristNumber (
@@ -3401,7 +3401,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::padUpToPositionInMeasure (
@@ -3438,7 +3438,7 @@ void msrMeasure::padUpToPositionInMeasure (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fCurrentMeasureWholeNotesDuration < positionInMeasureToPadUpTo) {
     // appending a rest to this measure to reach positionInMeasureToPadUpTo
@@ -3498,7 +3498,7 @@ void msrMeasure::padUpToPositionInMeasure (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
@@ -3535,7 +3535,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fCurrentMeasureWholeNotesDuration < positionInMeasureToPadUpTo) {
     // appending a rest to this measure to reach positionInMeasureToPadUpTo
@@ -3598,7 +3598,7 @@ void msrMeasure::padUpToPositionAtTheEndOfTheMeasure (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::finalizeRegularMeasure (
@@ -3639,7 +3639,7 @@ void msrMeasure::finalizeRegularMeasure (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresDetails ()) {
@@ -3734,7 +3734,7 @@ void msrMeasure::finalizeRegularMeasure (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::handleFirstHarmonyInHarmonyMeasure (
@@ -4022,11 +4022,11 @@ void msrMeasure::postHandleCurrentHarmonyInHarmonyMeasure (
       "postHandleCurrentHarmonyInHarmonyMeasure() 8888 " <<
       "currentHarmonyNoteUpLink:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       currentHarmonyNoteUpLink <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -4240,11 +4240,11 @@ void msrMeasure::handleHarmoniesInHarmonyMeasureFinalization (
           gLogStream <<
             "handleHarmoniesInHarmonyMeasureFinalization() 3" <<
             ", currentHarmony: ";
-            gIndenter++;
+            ++gIndenter;
             gLogStream <<
               currentHarmony->asString () <<
               endl;
-            gIndenter--;
+            --gIndenter;
         }
 #endif
 
@@ -4625,11 +4625,11 @@ void msrMeasure::postHandleCurrentFiguredBassInFiguredBassMeasure (
       "postHandleCurrentFiguredBassInFiguredBassMeasure() 8888 " <<
       "currentFiguredBassNoteUpLink:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       currentFiguredBassNoteUpLink <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -4844,11 +4844,11 @@ void msrMeasure::handleFiguredBassesInFiguredBassMeasureFinalization (
           gLogStream <<
             "handleHarmoniesInFiguredBassMeasureFinalization() 3" <<
             ", currentFiguredBass: ";
-            gIndenter++;
+            ++gIndenter;
             gLogStream <<
               currentFiguredBass->asString () <<
               endl;
-            gIndenter--;
+            --gIndenter;
         }
 #endif
 
@@ -4975,7 +4975,7 @@ void msrMeasure::finalizeHarmonyMeasure (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -5032,7 +5032,7 @@ void msrMeasure::finalizeHarmonyMeasure (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::finalizeFiguredBassMeasure (
@@ -5067,7 +5067,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceFiguredBasses ()) {
@@ -5124,7 +5124,7 @@ void msrMeasure::finalizeFiguredBassMeasure (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::finalizeMeasure (
@@ -5233,7 +5233,7 @@ void msrMeasure::finalizeMeasure (
     for (
       list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
       i != fMeasureElementsList.end ();
-      i++
+      ++i
     ) {
       S_msrMeasureElement measureElement = (*i);
 
@@ -5293,7 +5293,7 @@ void msrMeasure::finalizeMeasureClone (
       s.str ());
   }
 
-  gIndenter++;
+  ++gIndenter;
 
   // fetch the voiceClone's time
   S_msrTime
@@ -5401,7 +5401,7 @@ void msrMeasure::finalizeMeasureClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::acceptIn (basevisitor* v)
@@ -5459,7 +5459,7 @@ void msrMeasure::browseData (basevisitor* v)
   for (
     list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
     i != fMeasureElementsList.end ();
-    i++
+    ++i
   ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -5637,9 +5637,9 @@ void msrMeasure::displayMeasure (
     " contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   print (gLogStream);
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<*********" <<
@@ -5658,7 +5658,7 @@ void msrMeasure::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 45;
 
@@ -5847,7 +5847,7 @@ void msrMeasure::print (ostream& os) const
   if (measureElementsListSize) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrMeasureElement>::const_iterator
       iBegin = fMeasureElementsList.begin (),
@@ -5859,10 +5859,10 @@ void msrMeasure::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasure::printShort (ostream& os) const
@@ -5877,7 +5877,7 @@ void msrMeasure::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 29;
 
@@ -6053,7 +6053,7 @@ void msrMeasure::printShort (ostream& os) const
 
   if (measureElementsListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrMeasureElement>::const_iterator
       iBegin = fMeasureElementsList.begin (),
@@ -6066,10 +6066,10 @@ void msrMeasure::printShort (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrMeasure& elt)

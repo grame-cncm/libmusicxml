@@ -103,15 +103,15 @@ void lpsrNewStaffgroupBlock::print (ostream& os) const
 {
   os << "NewStaffgroupBlock" << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   int size = fNewStaffgroupElements.size ();
 
-  for (int i = 0; i < size; i++ ) {
+  for (int i = 0; i < size; ++i ) {
     os << fNewStaffgroupElements[i];
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupBlock& nstf)
@@ -202,12 +202,12 @@ void lpsrNewStaffTuningBlock::print (ostream& os) const
 {
   os << "NewStaffTuningBlock" << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     fStaffTuning;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrNewStaffTuningBlock& nstf)
@@ -294,15 +294,15 @@ void lpsrNewStaffBlock::print (ostream& os) const
 {
   os << "NewStaffBlock" << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   int size = fNewStaffElements.size ();
 
-  for (int i = 0; i < size; i++ ) {
+  for (int i = 0; i < size; ++i ) {
     os << fNewStaffElements[i];
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrNewStaffBlock& nstf)
@@ -432,7 +432,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
   for (
     list<S_msrElement>::const_iterator i = fStaffBlockElements.begin ();
     i != fStaffBlockElements.end ();
-    i++
+    ++i
   ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -459,7 +459,7 @@ void lpsrStaffBlock::print (ostream& os) const
       fStaffBlockElements.size (), "element", "elements") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 31;
 
@@ -485,7 +485,7 @@ void lpsrStaffBlock::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrStaffBlock& scr)

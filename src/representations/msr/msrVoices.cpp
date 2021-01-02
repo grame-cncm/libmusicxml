@@ -386,7 +386,7 @@ void msrVoice::initializeVoice (
   // in setRegularVoiceStaffSequentialNumber ()
   fRegularVoiceStaffSequentialNumber = -1;
 
-  gIndenter++;
+  ++gIndenter;
 
   // compute voice number
   int voiceNumber =
@@ -550,15 +550,15 @@ void msrVoice::initializeVoice (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     this->print (gLogStream);
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::changeVoiceIdentity ( // after a deep copy
@@ -852,7 +852,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   for (
     map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
     i != fVoiceStanzasMap.end ();
-    i++
+    ++i
   ) {
     S_msrStanza stanza = (*i).second;
 
@@ -898,7 +898,7 @@ void msrVoice::setNextMeasureNumberInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   fVoiceLastSegment->
     setNextMeasureNumberInSegment (
@@ -920,7 +920,7 @@ void msrVoice::setNextMeasureNumberInVoice (
     }
 #endif
 
-    fVoiceRemainingRestMeasures--;
+    --fVoiceRemainingRestMeasures;
 
     // is this the last measure in the row?
     if (fVoiceRemainingRestMeasures == 0) {
@@ -945,7 +945,7 @@ void msrVoice::setNextMeasureNumberInVoice (
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::incrementVoiceCurrentMeasurePuristNumber (
@@ -957,7 +957,7 @@ void msrVoice::incrementVoiceCurrentMeasurePuristNumber (
     fVoiceFirstMeasurePuristNumber = fVoiceCurrentMeasurePuristNumber;
   }
   else {
-    fVoiceCurrentMeasurePuristNumber++;
+    ++fVoiceCurrentMeasurePuristNumber;
   }
 
 #ifdef TRACING_IS_ENABLED
@@ -988,7 +988,7 @@ void msrVoice::appendMeasureCloneToVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // append measureClone to the voice last segment
   fVoiceLastSegment->
@@ -998,7 +998,7 @@ void msrVoice::appendMeasureCloneToVoiceClone (
   // measureClone is the new voice last appended measure
   fVoiceLastAppendedMeasure = measureClone;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::setWholeNotesSinceLastRegularMeasureEnd (
@@ -1173,7 +1173,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create the voice last segment if needed
   if (! fVoiceLastSegment) {
@@ -1267,7 +1267,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   return result;
 }
@@ -1580,12 +1580,12 @@ void msrVoice::appendPrintLayoutToVoice (S_msrPrintLayout printLayout)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   fVoiceLastSegment->
     appendPrintLayoutToSegment (printLayout);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
@@ -1599,7 +1599,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // set voice current clef
   this->setVoiceCurrentClef (clef);
@@ -1616,7 +1616,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
       prependClefToSegment (clef);
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
@@ -1630,7 +1630,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // set voice current clef
   this->setVoiceCurrentKey (key);
@@ -1647,7 +1647,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
@@ -1661,7 +1661,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // set voice current time
   this->setVoiceCurrentTime (time);
@@ -1670,7 +1670,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   fVoiceLastSegment->
     appendTimeToSegment (time);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendTimeToVoiceClone (S_msrTime time) // superflous ??? JMI
@@ -1684,7 +1684,7 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time) // superflous ??? JMI
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // set voice current time
   this->setVoiceCurrentTime (time);
@@ -1693,7 +1693,7 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time) // superflous ??? JMI
   fVoiceLastSegment->
     appendTimeToSegmentClone (time);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::insertHiddenMeasureAndBarlineInVoiceClone (
@@ -1711,7 +1711,7 @@ void msrVoice::insertHiddenMeasureAndBarlineInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // append time to the last segment
   fVoiceLastSegment->
@@ -1719,7 +1719,7 @@ void msrVoice::insertHiddenMeasureAndBarlineInVoiceClone (
       inputLineNumber,
       positionInMeasure);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
@@ -1959,7 +1959,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     appendHarmonyToSegment (harmony);
 
   // register harmony
-  fVoiceActualHarmoniesCounter++;
+  ++fVoiceActualHarmoniesCounter;
   fMusicHasBeenInsertedInVoice = true;
 }
 
@@ -1980,7 +1980,7 @@ void msrVoice::appendFiguredBassToFiguredBassVoice (
     appendFiguredBassToSegment (figuredBass);
 
   // register harmony
-  fVoiceActualFiguredBassesCounter++;
+  ++fVoiceActualFiguredBassesCounter;
   fMusicHasBeenInsertedInVoice = true;
 }
 
@@ -2004,7 +2004,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
         appendHarmonyToSegmentClone (harmony);
 
       // register harmony
-      fVoiceActualHarmoniesCounter++;
+      ++fVoiceActualHarmoniesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
@@ -2092,7 +2092,7 @@ void msrVoice::appendFiguredBassToVoiceClone (
         appendFiguredBassToSegmentClone (figuredBass);
 
       // register figured bass
-      fVoiceActualFiguredBassesCounter++;
+      ++fVoiceActualFiguredBassesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
@@ -2134,7 +2134,7 @@ void msrVoice::padUpToPositionInMeasureInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   msgAssert (
@@ -2152,7 +2152,7 @@ void msrVoice::padUpToPositionInMeasureInVoice (
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
-      i++
+      ++i
     ) {
       S_msrStanza stanza = (*i).second;
 
@@ -2163,7 +2163,7 @@ void msrVoice::padUpToPositionInMeasureInVoice (
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::backupByWholeNotesStepLengthInVoice (
@@ -2182,7 +2182,7 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   msgAssert (
@@ -2195,7 +2195,7 @@ void msrVoice::backupByWholeNotesStepLengthInVoice (
       inputLineNumber,
       backupTargetMeasureElementPositionInMeasure);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendPaddingNoteToVoice (
@@ -2215,7 +2215,7 @@ void msrVoice::appendPaddingNoteToVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // pad up the voice's last segment
   fVoiceLastSegment->
@@ -2235,7 +2235,7 @@ void msrVoice::appendPaddingNoteToVoice (
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
-      i++
+      ++i
   ) {
       S_msrStanza stanza = (*i).second;
 
@@ -2245,7 +2245,7 @@ void msrVoice::appendPaddingNoteToVoice (
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendTransposeToVoice (
@@ -2448,14 +2448,14 @@ void msrVoice::appendVoiceStaffChangeToVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // append voice staff change to voice's last segment
   fVoiceLastSegment->
     appendVoiceStaffChangeToSegment (
       voiceStaffChange);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
@@ -2468,7 +2468,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "Appending note '" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       note <<
@@ -2476,7 +2476,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
         ", line " << inputLineNumber <<
         endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -2525,30 +2525,30 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
     case msrNote::kRestNote:
       // register rest
-      fVoiceRestsCounter++;
+      ++fVoiceRestsCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
     case msrNote::kSkipNote:
       // don't account skips as music
-      fVoiceSkipsCounter++;
+      ++fVoiceSkipsCounter;
       break;
 
     case msrNote::kUnpitchedNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
     case msrNote::kRegularNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
@@ -2556,13 +2556,13 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
     case msrNote::kChordMemberNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
@@ -2571,7 +2571,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletUnpitchedMemberNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
   } // switch
@@ -2613,30 +2613,30 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
 
     case msrNote::kRestNote:
       // register rest
-      fVoiceRestsCounter++;
+      ++fVoiceRestsCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
     case msrNote::kSkipNote:
       // don't account skips as music
-      fVoiceSkipsCounter++;
+      ++fVoiceSkipsCounter;
       break;
 
     case msrNote::kUnpitchedNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
     case msrNote::kRegularNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
@@ -2644,13 +2644,13 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
     case msrNote::kGraceSkipNote:
     case msrNote::kGraceChordMemberNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
     case msrNote::kChordMemberNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
 
@@ -2659,7 +2659,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletUnpitchedMemberNote:
       // register actual note
-      fVoiceActualNotesCounter++;
+      ++fVoiceActualNotesCounter;
       fMusicHasBeenInsertedInVoice = true;
       break;
   } // switch
@@ -2758,7 +2758,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // append tuplet to voice last segment
   fVoiceLastSegment->
@@ -2771,7 +2771,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
         tuplet->getInputLineNumber (),
         tuplet->getTupletSoundingWholeNotes ());
 
-  gIndenter--;
+  --gIndenter;
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -3011,7 +3011,7 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
-      i++
+      ++i
   ) {
       S_msrStanza stanza = (*i).second;
 
@@ -3256,7 +3256,7 @@ void msrVoice::displayVoiceRepeatsStack (
       iEnd   = fVoicePendingRepeatDescrsStack.end (),
       i      = iBegin;
 
-    gIndenter++;
+    ++gIndenter;
 
     int n = repeatDescrsStackSize;
     for ( ; ; ) {
@@ -3266,20 +3266,20 @@ void msrVoice::displayVoiceRepeatsStack (
         (*i)->getRepeatDescrStartInputLineNumber () <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
       (*i)->
         getRepeatDescrRepeat ()->
           printShort (gLogStream);
-      gIndenter--;
+      --gIndenter;
 
-      n--;
+      --n;
 
       if (++i == iEnd) break;
 
       gLogStream << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   gLogStream <<
@@ -3309,7 +3309,7 @@ void msrVoice::displayVoiceRepeatsStackSummary (
       iEnd   = fVoicePendingRepeatDescrsStack.end (),
       i      = iBegin;
 
-    gIndenter++;
+    ++gIndenter;
 
     int n = repeatDescrsStackSize;
     for ( ; ; ) {
@@ -3319,13 +3319,13 @@ void msrVoice::displayVoiceRepeatsStackSummary (
         (*i)->getRepeatDescrStartInputLineNumber () <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
       (*i)->
         getRepeatDescrRepeat ()->
           printShort (gLogStream);
-      gIndenter--;
+      --gIndenter;
 
-      n--;
+      --n;
 
       if (++i == iEnd) break;
 
@@ -3336,7 +3336,7 @@ void msrVoice::displayVoiceRepeatsStackSummary (
       "===============" <<
       endl << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -3366,7 +3366,7 @@ void msrVoice::displayVoiceMeasuresRepeat (
     ":" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fVoicePendingMeasuresRepeat) {
     fVoicePendingMeasuresRepeat->
@@ -3380,7 +3380,7 @@ void msrVoice::displayVoiceMeasuresRepeat (
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<++++++++++++++++ " <<
@@ -3413,7 +3413,7 @@ void msrVoice::displayVoiceRestMeasures (
     ":" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fVoicePendingRestMeasures) {
     fVoicePendingRestMeasures->
@@ -3427,7 +3427,7 @@ void msrVoice::displayVoiceRestMeasures (
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<++++++++++++++++ " <<
@@ -3546,7 +3546,7 @@ void msrVoice::moveVoiceInitialElementsToRepeatCommonPart (
   for (
     list<S_msrVoiceElement>::iterator i = fInitialVoiceElementsList.begin ();
     i != fInitialVoiceElementsList.end ();
-    i++
+    ++i
   ) {
     S_msrVoiceElement element = (*i);
 
@@ -3933,7 +3933,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // is there a voice last segment?
   if (fVoiceLastSegment) {
@@ -4148,7 +4148,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleNestedRepeatStartInVoice (
@@ -4251,7 +4251,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
@@ -4370,7 +4370,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
@@ -4397,7 +4397,7 @@ void msrVoice::handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRepeats ()) {
@@ -4529,7 +4529,7 @@ void msrVoice::handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
@@ -4565,7 +4565,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // fetch the voice's last measure
   S_msrMeasure
@@ -4663,7 +4663,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleNestedRepeatEndInVoice (
@@ -4875,7 +4875,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   S_msrRepeat           repeat;
   S_msrRepeatCommonPart repeatCommonPart;
@@ -5044,7 +5044,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
@@ -5069,7 +5069,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // fetch currentRepeat
   S_msrRepeat
@@ -5204,7 +5204,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::nestContentsIntoNewRepeatInVoice (
@@ -5299,7 +5299,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
     case kVoiceHarmony:
     case kVoiceFiguredBass:
       {
-        gIndenter++;
+        ++gIndenter;
 
         // analyze this repeat end's context
         switch (fVoicePendingRepeatDescrsStack.size ()) {
@@ -5344,7 +5344,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
               inputLineNumber);
         } // switch
 
-        gIndenter--;
+        --gIndenter;
       }
       break;
   } // switch
@@ -5378,7 +5378,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
     case kVoiceFiguredBass:
       {
         // handle the repeat ending start
-        gIndenter++;
+        ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceRepeats ()) {
@@ -5496,7 +5496,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
             }
         } // switch
 
-        gIndenter--;
+        --gIndenter;
       }
       break;
   } // switch
@@ -5526,7 +5526,7 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceSegmentsDetails ()) {
@@ -5662,7 +5662,7 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 /* JMI
@@ -5837,7 +5837,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
   }
 #endif
 
-  for (int i = 0; i < measuresRepeatMeasuresNumber; i++) {
+  for (int i = 0; i < measuresRepeatMeasuresNumber; ++i) {
     S_msrMeasure
       lastMeasure =
         removeLastMeasureFromVoice (
@@ -6111,11 +6111,11 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
       fVoiceName <<
       "\":" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       nextMeasureAfterMeasuresRepeat;
     gLogStream << endl;
-    gIndenter--;
+    --gIndenter;
 }
 #endif
 
@@ -6425,7 +6425,7 @@ void msrVoice::createRestMeasuresInVoice (
     case kVoiceHarmony:
     case kVoiceFiguredBass:
       {
-        gIndenter++;
+        ++gIndenter;
 
         // grab the just created last measure from the voice,
         // (i.e. the one containing:
@@ -6515,7 +6515,7 @@ void msrVoice::createRestMeasuresInVoice (
 
         // keep the rest measures pending
 
-        gIndenter--;
+        --gIndenter;
       }
       break;
   } // switch
@@ -6563,7 +6563,7 @@ void msrVoice::addRestMeasuresToVoice (
     case kVoiceHarmony:
     case kVoiceFiguredBass:
       {
-        gIndenter++;
+        ++gIndenter;
 
         // move the current voice last segment to the initial elements list
         moveVoiceLastSegmentToInitialVoiceElementsIfRelevant ( //JMI
@@ -6648,7 +6648,7 @@ void msrVoice::addRestMeasuresToVoice (
 
         // keep the rest measures pending
 
-        gIndenter--;
+        --gIndenter;
       }
       break;
   } // switch
@@ -6798,7 +6798,7 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -6884,7 +6884,7 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleRestMeasuresEndInVoiceClone (
@@ -6900,7 +6900,7 @@ void msrVoice::handleRestMeasuresEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -6956,7 +6956,7 @@ void msrVoice::handleRestMeasuresEndInVoiceClone (
     break;
   } // switch
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleRestMeasuresContentsStartInVoiceClone (
@@ -6980,7 +6980,7 @@ void msrVoice::handleRestMeasuresContentsStartInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (! fVoicePendingRestMeasures) {
     stringstream s;
@@ -7029,7 +7029,7 @@ void msrVoice::handleRestMeasuresContentsStartInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleRestMeasuresContentsEndInVoiceClone (
@@ -7045,7 +7045,7 @@ void msrVoice::handleRestMeasuresContentsEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -7094,14 +7094,14 @@ void msrVoice::handleRestMeasuresContentsEndInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendRestMeasuresCloneToVoiceClone (
   int               inputLineNumber,
   S_msrRestMeasures restMeasuresClone)
 {
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   msgAssert(
@@ -7177,7 +7177,7 @@ void msrVoice::appendRestMeasuresCloneToVoiceClone (
       break;
   } // switch
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendRepeatCloneToVoiceClone (
@@ -7203,7 +7203,7 @@ void msrVoice::appendRepeatCloneToVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   msgAssert(
@@ -7249,7 +7249,7 @@ void msrVoice::appendRepeatCloneToVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleMeasuresRepeatStartInVoiceClone (
@@ -7267,7 +7267,7 @@ void msrVoice::handleMeasuresRepeatStartInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -7331,7 +7331,7 @@ void msrVoice::handleMeasuresRepeatStartInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleMeasuresRepeatEndInVoiceClone (
@@ -7347,7 +7347,7 @@ void msrVoice::handleMeasuresRepeatEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -7398,7 +7398,7 @@ void msrVoice::handleMeasuresRepeatEndInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleMeasuresRepeatPatternStartInVoiceClone (
@@ -7414,7 +7414,7 @@ void msrVoice::handleMeasuresRepeatPatternStartInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -7471,7 +7471,7 @@ void msrVoice::handleMeasuresRepeatPatternStartInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleMeasuresRepeatPatternEndInVoiceClone (
@@ -7487,7 +7487,7 @@ void msrVoice::handleMeasuresRepeatPatternEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -7535,7 +7535,7 @@ void msrVoice::handleMeasuresRepeatPatternEndInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleMeasuresRepeatReplicasStartInVoiceClone (
@@ -7551,7 +7551,7 @@ void msrVoice::handleMeasuresRepeatReplicasStartInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -7608,7 +7608,7 @@ void msrVoice::handleMeasuresRepeatReplicasStartInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleMeasuresRepeatReplicasEndInVoiceClone (
@@ -7624,7 +7624,7 @@ void msrVoice::handleMeasuresRepeatReplicasEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -7672,14 +7672,14 @@ void msrVoice::handleMeasuresRepeatReplicasEndInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendMeasuresRepeatCloneToVoiceClone (
   int                 inputLineNumber,
   S_msrMeasuresRepeat measuresRepeatClone)
 {
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   msgAssert(
@@ -7755,7 +7755,7 @@ void msrVoice::appendMeasuresRepeatCloneToVoiceClone (
       break;
   } // switch
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleHookedRepeatEndingEndInVoice (
@@ -7780,7 +7780,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 /* JMI
         unsigned int voicerepeatDescrsStackSize =
@@ -7866,7 +7866,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleHooklessRepeatEndingEndInVoice (
@@ -7890,7 +7890,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (! fVoicePendingRepeatDescrsStack.size ()) {
     stringstream s;
@@ -7996,7 +7996,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleRepeatEndingEndInVoice (
@@ -8057,7 +8057,7 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (! fVoicePendingRepeatDescrsStack.size ()) {
     stringstream s;
@@ -8112,7 +8112,7 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleRepeatCommonPartEndInVoiceClone (
@@ -8136,7 +8136,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (! fVoicePendingRepeatDescrsStack.size ()) {
     stringstream s;
@@ -8190,7 +8190,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
@@ -8215,7 +8215,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (! fVoicePendingRepeatDescrsStack.size ()) {
     stringstream s;
@@ -8280,7 +8280,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
@@ -8305,7 +8305,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (! fVoicePendingRepeatDescrsStack.size ()) {
     stringstream s;
@@ -8364,7 +8364,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleRepeatEndingEndInVoiceClone (
@@ -8435,7 +8435,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   switch (fVoiceKind) {
     case kVoiceRegular:
@@ -8500,7 +8500,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
       break;
   } // switch
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::handleRepeatEndInVoiceClone (
@@ -8517,7 +8517,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   switch (fVoiceKind) {
     case kVoiceRegular:
@@ -8632,7 +8632,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
       break;
   } // switch
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendMeasuresRepeatReplicaToVoice (
@@ -8767,7 +8767,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
     repeatEndingClone->getInputLineNumber (); // JMI
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   switch (fVoiceKind) {
     case kVoiceRegular:
@@ -8832,7 +8832,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
       break;
   } // switch
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
@@ -8848,12 +8848,12 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   fVoiceLastSegment->
     prependBarlineToSegment (barline);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
@@ -8869,7 +8869,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create the voice last segment if needed
   if (! fVoiceLastSegment) {
@@ -8881,7 +8881,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
   fVoiceLastSegment->
     appendBarlineToSegment (barline);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno)
@@ -9044,7 +9044,7 @@ void msrVoice::removeNoteFromVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // remove note from voice last segment
   fVoiceLastSegment->
@@ -9060,7 +9060,7 @@ void msrVoice::removeNoteFromVoice (
         note->
           getNoteSoundingWholeNotes ());
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::removeElementFromVoice (
@@ -9077,14 +9077,14 @@ void msrVoice::removeElementFromVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   fVoiceLastSegment->
     removeElementFromSegment (
       inputLineNumber,
       element);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 S_msrMeasure msrVoice::removeLastMeasureFromVoice (
@@ -9100,7 +9100,7 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // remove (new) last measure
   S_msrMeasure result =
@@ -9109,7 +9109,7 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
         inputLineNumber,
         "removeLastMeasureFromVoice()");
 
-  gIndenter--;
+  --gIndenter;
 
   // return it
   return result;
@@ -9135,7 +9135,7 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   msgAssert (
@@ -9209,7 +9209,7 @@ void msrVoice::finalizeLastAppendedMeasureInVoice (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice:: collectVoiceMeasuresIntoFlatList (
@@ -9475,7 +9475,7 @@ void msrVoice::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fInitialVoiceElementsList.begin ();
       i != fInitialVoiceElementsList.end ();
-      i++
+      ++i
     ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
@@ -9494,7 +9494,7 @@ void msrVoice::browseData (basevisitor* v)
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
-      i++
+      ++i
     ) {
       S_msrStanza stanza = (*i).second;
 
@@ -9630,9 +9630,9 @@ void msrVoice::displayVoice (
     " contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   print (gLogStream);
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<*********" <<
@@ -9670,7 +9670,7 @@ void msrVoice::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     "(" <<
@@ -9816,10 +9816,10 @@ void msrVoice::print (ostream& os) const
     setw (fieldWidth) << "voiceShortestNoteTupletFactor" << " : " <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   os <<
     fVoiceShortestNoteTupletFactor;
-  gIndenter--;
+  --gIndenter;
 
   os << left <<
     setw (fieldWidth) << "voiceHasBeenFinalized" << " : " <<
@@ -9944,7 +9944,7 @@ void msrVoice::print (ostream& os) const
   os << endl;
 
   if (voiceMeasuresFlatListSize) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrMeasure>::const_iterator
       iBegin = fVoiceMeasuresFlatList.begin (),
@@ -9964,7 +9964,7 @@ void msrVoice::print (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -9986,7 +9986,7 @@ void msrVoice::print (ostream& os) const
   if (voiceInitialElementsListSize) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fInitialVoiceElementsList.begin (),
@@ -10000,7 +10000,7 @@ void msrVoice::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   os << endl;
 
@@ -10019,11 +10019,11 @@ void msrVoice::print (ostream& os) const
       "voiceLastSegment" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     os <<
       fVoiceLastSegment <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -10038,7 +10038,7 @@ void msrVoice::print (ostream& os) const
       "Stanzas:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     map<string, S_msrStanza>::const_iterator
       iBegin = fVoiceStanzasMap.begin (),
@@ -10051,10 +10051,10 @@ void msrVoice::print (ostream& os) const
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrVoice::printShort (ostream& os) const
@@ -10067,7 +10067,7 @@ void msrVoice::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     "(" <<
@@ -10219,10 +10219,10 @@ void msrVoice::printShort (ostream& os) const
     setw (fieldWidth) << "voiceShortestNoteTupletFactor" << " : " <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   os <<
     fVoiceShortestNoteTupletFactor;
-  gIndenter--;
+  --gIndenter;
 
   os << left <<
     setw (fieldWidth) << "voiceHasBeenFinalized" << " : " <<
@@ -10348,7 +10348,7 @@ void msrVoice::printShort (ostream& os) const
   os << endl;
 
   if (voiceMeasuresFlatListSize) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrMeasure>::const_iterator
       iBegin = fVoiceMeasuresFlatList.begin (),
@@ -10368,7 +10368,7 @@ void msrVoice::printShort (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -10390,7 +10390,7 @@ void msrVoice::printShort (ostream& os) const
   if (voiceInitialElementsListSize) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fInitialVoiceElementsList.begin (),
@@ -10404,7 +10404,7 @@ void msrVoice::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   os << endl;
 
@@ -10423,11 +10423,11 @@ void msrVoice::printShort (ostream& os) const
       "voiceLastSegment" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     fVoiceLastSegment->printShort (os);
     os <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -10442,7 +10442,7 @@ void msrVoice::printShort (ostream& os) const
       "Stanzas:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     map<string, S_msrStanza>::const_iterator
       iBegin = fVoiceStanzasMap.begin (),
@@ -10455,10 +10455,10 @@ void msrVoice::printShort (ostream& os) const
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrVoice& elt)

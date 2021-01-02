@@ -165,7 +165,7 @@ void msr2lpsrTranslator::displayCurrentOnGoingValues ()
     "Current ongoing values:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 25;
 
@@ -207,7 +207,7 @@ void msr2lpsrTranslator::displayCurrentOnGoingValues ()
     "fOnGoingSyllableExtend" << ": " << booleanAsString (fOnGoingSyllableExtend) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //________________________________________________________________________
@@ -218,7 +218,7 @@ void msr2lpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
     endl;
 
   if (fPartHiddenMeasureAndBarlineDescrList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 19;
 
@@ -253,7 +253,7 @@ void msr2lpsrTranslator::displayPartHiddenMeasureAndBarlineDescrList ()
       if (++i == iEnd) break;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     gLogStream << "empty" << endl;
@@ -280,7 +280,7 @@ void msr2lpsrTranslator::displayOnGoingNotesStack (
 
     S_msrNote note = (*i);
 
-    gIndenter++;
+    ++gIndenter;
 
     int n = onGoingNotesStackSize;
     for ( ; ; ) {
@@ -288,18 +288,18 @@ void msr2lpsrTranslator::displayOnGoingNotesStack (
         "v (" << n << ")" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
       note->printShort (gLogStream);
-      gIndenter--;
+      --gIndenter;
 
-      n--;
+      --n;
 
       if (++i == iEnd) break;
 
       gLogStream << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   gLogStream <<
@@ -391,10 +391,10 @@ void msr2lpsrTranslator::populateHeaderFromIdentification (
     gLogStream <<
       "Resulting LPSR header:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       header;
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -468,7 +468,7 @@ void msr2lpsrTranslator::setPaperIndentsIfNeeded (
         endl;
     }
 */
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 40;
 
@@ -518,7 +518,7 @@ void msr2lpsrTranslator::setPaperIndentsIfNeeded (
     }
     gLogStream << endl;
 */
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -662,7 +662,7 @@ void msr2lpsrTranslator::visitStart (S_msrIdentification& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // set the identification
   fCurrentIdentification = elt;
@@ -684,7 +684,7 @@ void msr2lpsrTranslator::visitEnd (S_msrIdentification& elt)
 {
   fOnGoingIdentification = false;
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -708,7 +708,7 @@ void msr2lpsrTranslator::visitStart (S_msrScaling& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create a scaling clone
   S_msrScaling
@@ -744,7 +744,7 @@ void msr2lpsrTranslator::visitStart (S_msrScaling& elt)
 
 void msr2lpsrTranslator::visitEnd (S_msrScaling& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1221,7 +1221,7 @@ void msr2lpsrTranslator::visitStart (S_msrPart& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create a part clone
   fCurrentPartClone =
@@ -1294,7 +1294,7 @@ void msr2lpsrTranslator::visitEnd (S_msrPart& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1438,7 +1438,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   switch (elt->getStaffKind ()) {
     case kStaffRegular:
@@ -1565,7 +1565,7 @@ void msr2lpsrTranslator::visitStart (S_msrStaff& elt)
 
 void msr2lpsrTranslator::visitEnd (S_msrStaff& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1618,7 +1618,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
   fCurrentVoiceOriginal = elt;
 
-  gIndenter++;
+  ++gIndenter;
 
   switch (elt->getVoiceKind ()) {
 
@@ -1801,7 +1801,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
 void msr2lpsrTranslator::visitEnd (S_msrVoice& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2489,7 +2489,7 @@ void msr2lpsrTranslator::visitStart (S_msrStanza& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 //  if (elt->getStanzaTextPresent ()) { // JMI
     fCurrentStanzaClone =
@@ -2514,7 +2514,7 @@ void msr2lpsrTranslator::visitStart (S_msrStanza& elt)
 
 void msr2lpsrTranslator::visitEnd (S_msrStanza& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -6196,7 +6196,7 @@ void msr2lpsrTranslator::visitStart (S_msrRestMeasures& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -6228,7 +6228,7 @@ void msr2lpsrTranslator::visitEnd (S_msrRestMeasures& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -6260,7 +6260,7 @@ void msr2lpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -6290,7 +6290,7 @@ void msr2lpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -6321,7 +6321,7 @@ void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -6353,7 +6353,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 /* JMI
   // set last segment as the measures repeat pattern segment
@@ -6398,7 +6398,7 @@ void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -6428,7 +6428,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -6459,7 +6459,7 @@ void msr2lpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -6489,7 +6489,7 @@ void msr2lpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 
 #ifdef TRACING_IS_ENABLED
@@ -6641,7 +6641,7 @@ void msr2lpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
   for (
     map<int, S_msrStaff>::const_iterator i=partStavesMap.begin ();
     i!=partStavesMap.end ();
-    i++
+    ++i
   ) {
     list<S_msrVoice>
       staffAllVoicesVector =
@@ -6651,7 +6651,7 @@ void msr2lpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
     for (
       list<S_msrVoice>::const_iterator j=staffAllVoicesVector.begin ();
       j!=staffAllVoicesVector.end ();
-      j++
+      ++j
     ) {
       S_msrVoice voice = (*j);
 

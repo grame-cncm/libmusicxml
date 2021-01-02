@@ -159,7 +159,7 @@ void lpsrContext::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "ContextElements";
@@ -167,7 +167,7 @@ void lpsrContext::print (ostream& os) const
   if (fContextElementsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrElement>::const_iterator
       iBegin = fContextElementsList.begin (),
@@ -179,14 +179,14 @@ void lpsrContext::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << "none" <<
     endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //______________________________________________________________________________
@@ -294,7 +294,7 @@ void lpsrChordNamesContext::print (ostream& os) const
     "ChordNamesContext" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 20;
 
@@ -318,7 +318,7 @@ void lpsrChordNamesContext::print (ostream& os) const
   if (fContextElementsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrElement>::const_iterator
       iBegin = fContextElementsList.begin (),
@@ -330,7 +330,7 @@ void lpsrChordNamesContext::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -338,7 +338,7 @@ void lpsrChordNamesContext::print (ostream& os) const
     endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrChordNamesContext& elt)
@@ -452,7 +452,7 @@ void lpsrFiguredBassContext::print (ostream& os) const
     "FiguredBassContext" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 20;
 
@@ -476,7 +476,7 @@ void lpsrFiguredBassContext::print (ostream& os) const
   if (fContextElementsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrElement>::const_iterator
       iBegin = fContextElementsList.begin (),
@@ -488,7 +488,7 @@ void lpsrFiguredBassContext::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -496,7 +496,7 @@ void lpsrFiguredBassContext::print (ostream& os) const
     endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrFiguredBassContext& elt)

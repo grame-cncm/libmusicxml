@@ -208,7 +208,7 @@ void msrNote::initializeNote ()
       ", line " << fInputLineNumber << ":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     const unsigned int fieldWidth = 30;
 
@@ -342,7 +342,7 @@ void msrNote::initializeNote ()
          booleanAsString (fNoteOccupiesAFullMeasure) <<
         endl << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -817,7 +817,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 /* JMI
   {
     list<S_msrSyllable>::const_iterator i;
-    for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); i++) {
+    for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteSyllables.push_back ((*i));
@@ -837,7 +837,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrBeam>::const_iterator i;
-    for (i=fNoteBeams.begin (); i!=fNoteBeams.end (); i++) {
+    for (i=fNoteBeams.begin (); i!=fNoteBeams.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteBeams.push_back ((*i));
@@ -851,7 +851,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     list<S_msrArticulation>::const_iterator i=
       fNoteArticulations.begin ();
       i!=fNoteArticulations.end ();
-      i++
+      ++i
   ) {
     // share this data
     noteDeepCopy->
@@ -865,7 +865,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     list<S_msrSpanner>::const_iterator i=
       fNoteSpanners.begin ();
       i!=fNoteSpanners.end ();
-      i++
+      ++i
   ) {
     // share this data
     noteDeepCopy->
@@ -880,7 +880,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     for (
       i=fNoteTechnicals.begin ();
       i!=fNoteTechnicals.end ();
-      i++
+      ++i
   ) {
       // share this data
       noteDeepCopy->
@@ -893,7 +893,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     for (
       i=fNoteTechnicalWithIntegers.begin ();
       i!=fNoteTechnicalWithIntegers.end ();
-      i++
+      ++i
   ) {
       // share this data
       noteDeepCopy->
@@ -906,7 +906,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     for (
       i=fNoteTechnicalWithStrings.begin ();
       i!=fNoteTechnicalWithStrings.end ();
-      i++
+      ++i
   ) {
       // share this data
       noteDeepCopy->
@@ -919,7 +919,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrOrnament>::const_iterator i;
-    for (i=fNoteOrnaments.begin (); i!=fNoteOrnaments.end (); i++) {
+    for (i=fNoteOrnaments.begin (); i!=fNoteOrnaments.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteOrnaments.push_back ((*i));
@@ -931,7 +931,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrGlissando>::const_iterator i;
-    for (i=fNoteGlissandos.begin (); i!=fNoteGlissandos.end (); i++) {
+    for (i=fNoteGlissandos.begin (); i!=fNoteGlissandos.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteGlissandos.push_back ((*i));
@@ -943,7 +943,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrSlide>::const_iterator i;
-    for (i=fNoteSlides.begin (); i!=fNoteSlides.end (); i++) {
+    for (i=fNoteSlides.begin (); i!=fNoteSlides.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteSlides.push_back ((*i));
@@ -984,7 +984,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrDynamics>::const_iterator i;
-    for (i=fNoteDynamics.begin (); i!=fNoteDynamics.end (); i++) {
+    for (i=fNoteDynamics.begin (); i!=fNoteDynamics.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteDynamics.push_back ((*i));
@@ -993,7 +993,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrOtherDynamics>::const_iterator i;
-    for (i=fNoteOtherDynamics.begin (); i!=fNoteOtherDynamics.end (); i++) {
+    for (i=fNoteOtherDynamics.begin (); i!=fNoteOtherDynamics.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteOtherDynamics.push_back ((*i));
@@ -1005,7 +1005,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrSlash>::const_iterator i;
-    for (i=fNoteSlashes.begin (); i!=fNoteSlashes.end (); i++) {
+    for (i=fNoteSlashes.begin (); i!=fNoteSlashes.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteSlashes.push_back ((*i));
@@ -1017,7 +1017,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrWedge>::const_iterator i;
-    for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); i++) {
+    for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteWedges.push_back ((*i));
@@ -1029,7 +1029,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrEyeGlasses>::const_iterator i;
-    for (i=fNoteEyeGlasses.begin (); i!=fNoteEyeGlasses.end (); i++) {
+    for (i=fNoteEyeGlasses.begin (); i!=fNoteEyeGlasses.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteEyeGlasses.push_back ((*i));
@@ -1041,7 +1041,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrDamp>::const_iterator i;
-    for (i=fNoteDamps.begin (); i!=fNoteDamps.end (); i++) {
+    for (i=fNoteDamps.begin (); i!=fNoteDamps.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteDamps.push_back ((*i));
@@ -1053,7 +1053,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrDampAll>::const_iterator i;
-    for (i=fNoteDampAlls.begin (); i!=fNoteDampAlls.end (); i++) {
+    for (i=fNoteDampAlls.begin (); i!=fNoteDampAlls.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteDampAlls.push_back ((*i));
@@ -1065,7 +1065,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrScordatura>::const_iterator i;
-    for (i=fNoteScordaturas.begin (); i!=fNoteScordaturas.end (); i++) {
+    for (i=fNoteScordaturas.begin (); i!=fNoteScordaturas.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteScordaturas.push_back ((*i));
@@ -1077,7 +1077,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrWords>::const_iterator i;
-    for (i=fNoteWords.begin (); i!=fNoteWords.end (); i++) {
+    for (i=fNoteWords.begin (); i!=fNoteWords.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteWords.push_back ((*i));
@@ -1089,7 +1089,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrSlur>::const_iterator i;
-    for (i=fNoteSlurs.begin (); i!=fNoteSlurs.end (); i++) {
+    for (i=fNoteSlurs.begin (); i!=fNoteSlurs.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteSlurs.push_back ((*i));
@@ -1101,7 +1101,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrLigature>::const_iterator i;
-    for (i=fNoteLigatures.begin (); i!=fNoteLigatures.end (); i++) {
+    for (i=fNoteLigatures.begin (); i!=fNoteLigatures.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNoteLigatures.push_back ((*i));
@@ -1113,7 +1113,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrPedal>::const_iterator i;
-    for (i=fNotePedals.begin (); i!=fNotePedals.end (); i++) {
+    for (i=fNotePedals.begin (); i!=fNotePedals.end (); ++i) {
       // share this data
       noteDeepCopy->
         fNotePedals.push_back ((*i));
@@ -1563,7 +1563,7 @@ S_msrNote msrNote::createRestFromString (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -1572,7 +1572,7 @@ S_msrNote msrNote::createRestFromString (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -1701,7 +1701,7 @@ S_msrNote msrNote::createSkipFromString (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -1710,7 +1710,7 @@ S_msrNote msrNote::createSkipFromString (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -1845,7 +1845,7 @@ S_msrNote msrNote::createNoteFromString (
       "\":" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     for (unsigned i = 0; i < smSize; ++i) {
       gLogStream <<
@@ -1854,7 +1854,7 @@ S_msrNote msrNote::createNoteFromString (
     } // for
     gLogStream << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -2072,7 +2072,7 @@ void msrNote::setNotePositionInMeasure (
   if (fNoteHarmoniesList.size ()) {
     list<S_msrHarmony>::const_iterator i;
     for (
-      i=fNoteHarmoniesList.begin (); i!=fNoteHarmoniesList.end (); i++
+      i=fNoteHarmoniesList.begin (); i!=fNoteHarmoniesList.end (); ++i
     ) {
       // set the harmony position in measure, taking it's offset into account
       (*i)->
@@ -2085,7 +2085,7 @@ void msrNote::setNotePositionInMeasure (
   if (fNoteFiguredBassesList.size ()) {
     list<S_msrFiguredBass>::const_iterator i;
     for (
-      i=fNoteFiguredBassesList.begin (); i!=fNoteFiguredBassesList.end (); i++
+      i=fNoteFiguredBassesList.begin (); i!=fNoteFiguredBassesList.end (); ++i
     ) {
       // set the figured bass position in measure
       (*i)->
@@ -2098,7 +2098,7 @@ void msrNote::setNotePositionInMeasure (
   if (fNoteDalSegnos.size ()) {
     list<S_msrDalSegno>::const_iterator i;
     for (
-      i=fNoteDalSegnos.begin (); i!=fNoteDalSegnos.end (); i++
+      i=fNoteDalSegnos.begin (); i!=fNoteDalSegnos.end (); ++i
     ) {
       // set the dal segno position in measure
       (*i)->
@@ -3275,138 +3275,138 @@ void msrNote::browseData (basevisitor* v)
 
   // browse the beams if any
   if (fNoteBeams.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrBeam>::const_iterator i;
-    for (i=fNoteBeams.begin (); i!=fNoteBeams.end (); i++) {
+    for (i=fNoteBeams.begin (); i!=fNoteBeams.end (); ++i) {
       // browse the beam
       msrBrowser<msrBeam> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the articulations if any
   if (fNoteArticulations.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrArticulation>::const_iterator i;
-    for (i=fNoteArticulations.begin (); i!=fNoteArticulations.end (); i++) {
+    for (i=fNoteArticulations.begin (); i!=fNoteArticulations.end (); ++i) {
       // browse the articulation
       msrBrowser<msrArticulation> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the spanners if any
   if (fNoteSpanners.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrSpanner>::const_iterator i;
-    for (i=fNoteSpanners.begin (); i!=fNoteSpanners.end (); i++) {
+    for (i=fNoteSpanners.begin (); i!=fNoteSpanners.end (); ++i) {
       // browse the spanner
       msrBrowser<msrSpanner> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the technicals if any
   if (fNoteTechnicals.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrTechnical>::const_iterator i;
     for (
       i=fNoteTechnicals.begin ();
       i!=fNoteTechnicals.end ();
-      i++
+      ++i
   ) {
       // browse the technical
       msrBrowser<msrTechnical> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the technicals with integer if any
   if (fNoteTechnicalWithIntegers.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
       i=fNoteTechnicalWithIntegers.begin ();
       i!=fNoteTechnicalWithIntegers.end ();
-      i++
+      ++i
   ) {
       // browse the technical
       msrBrowser<msrTechnicalWithInteger> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the technicals with float if any
   if (fNoteTechnicalWithFloats.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrTechnicalWithFloat>::const_iterator i;
     for (
       i=fNoteTechnicalWithFloats.begin ();
       i!=fNoteTechnicalWithFloats.end ();
-      i++
+      ++i
   ) {
       // browse the technical
       msrBrowser<msrTechnicalWithFloat> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the technicals with string if any
   if (fNoteTechnicalWithStrings.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
       i=fNoteTechnicalWithStrings.begin ();
       i!=fNoteTechnicalWithStrings.end ();
-      i++
+      ++i
   ) {
       // browse the technical
       msrBrowser<msrTechnicalWithString> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the ornaments if any
   if (fNoteOrnaments.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrOrnament>::const_iterator i;
-    for (i=fNoteOrnaments.begin (); i!=fNoteOrnaments.end (); i++) {
+    for (i=fNoteOrnaments.begin (); i!=fNoteOrnaments.end (); ++i) {
       // browse the ornament
       msrBrowser<msrOrnament> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the glissandos if any
   if (fNoteGlissandos.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrGlissando>::const_iterator i;
-    for (i=fNoteGlissandos.begin (); i!=fNoteGlissandos.end (); i++) {
+    for (i=fNoteGlissandos.begin (); i!=fNoteGlissandos.end (); ++i) {
       // browse the glissando
       msrBrowser<msrGlissando> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the slides if any
   if (fNoteSlides.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrSlide>::const_iterator i;
-    for (i=fNoteSlides.begin (); i!=fNoteSlides.end (); i++) {
+    for (i=fNoteSlides.begin (); i!=fNoteSlides.end (); ++i) {
       // browse the glissando
       msrBrowser<msrSlide> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the single tremolo if any
@@ -3424,189 +3424,189 @@ void msrNote::browseData (basevisitor* v)
 
   // browse the dynamics if any
   if (fNoteDynamics.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrDynamics>::const_iterator i;
-    for (i=fNoteDynamics.begin (); i!=fNoteDynamics.end (); i++) {
+    for (i=fNoteDynamics.begin (); i!=fNoteDynamics.end (); ++i) {
       // browse the dynamics
       msrBrowser<msrDynamics> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the other dynamics if any
   if (fNoteOtherDynamics.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrOtherDynamics>::const_iterator i;
-    for (i=fNoteOtherDynamics.begin (); i!=fNoteOtherDynamics.end (); i++) {
+    for (i=fNoteOtherDynamics.begin (); i!=fNoteOtherDynamics.end (); ++i) {
       // browse the other dynamics
       msrBrowser<msrOtherDynamics> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the words if any
   if (fNoteWords.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrWords>::const_iterator i;
-    for (i=fNoteWords.begin (); i!=fNoteWords.end (); i++) {
+    for (i=fNoteWords.begin (); i!=fNoteWords.end (); ++i) {
       // browse the words
       msrBrowser<msrWords> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the slurs if any
   if (fNoteSlurs.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrSlur>::const_iterator i;
-    for (i=fNoteSlurs.begin (); i!=fNoteSlurs.end (); i++) {
+    for (i=fNoteSlurs.begin (); i!=fNoteSlurs.end (); ++i) {
       // browse the slur
       msrBrowser<msrSlur> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the ligatures if any
   if (fNoteLigatures.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrLigature>::const_iterator i;
-    for (i=fNoteLigatures.begin (); i!=fNoteLigatures.end (); i++) {
+    for (i=fNoteLigatures.begin (); i!=fNoteLigatures.end (); ++i) {
       // browse the ligature
       msrBrowser<msrLigature> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the pedals if any
   if (fNotePedals.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrPedal>::const_iterator i;
-    for (i=fNotePedals.begin (); i!=fNotePedals.end (); i++) {
+    for (i=fNotePedals.begin (); i!=fNotePedals.end (); ++i) {
       // browse the pedal
       msrBrowser<msrPedal> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the wedges if any
   if (fNoteSlashes.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrSlash>::const_iterator i;
-    for (i=fNoteSlashes.begin (); i!=fNoteSlashes.end (); i++) {
+    for (i=fNoteSlashes.begin (); i!=fNoteSlashes.end (); ++i) {
       // browse the wedge
       msrBrowser<msrSlash> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the wedges if any
   if (fNoteWedges.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrWedge>::const_iterator i;
-    for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); i++) {
+    for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); ++i) {
       // browse the wedge
       msrBrowser<msrWedge> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the segnos if any
   if (fNoteSegnos.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrSegno>::const_iterator i;
-    for (i=fNoteSegnos.begin (); i!=fNoteSegnos.end (); i++) {
+    for (i=fNoteSegnos.begin (); i!=fNoteSegnos.end (); ++i) {
       // browse the segno
       msrBrowser<msrSegno> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the dal segnos if any
   if (fNoteDalSegnos.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrDalSegno>::const_iterator i;
-    for (i=fNoteDalSegnos.begin (); i!=fNoteDalSegnos.end (); i++) {
+    for (i=fNoteDalSegnos.begin (); i!=fNoteDalSegnos.end (); ++i) {
       // browse the dal segno
       msrBrowser<msrDalSegno> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the codas if any
   if (fNoteCodas.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrCoda>::const_iterator i;
-    for (i=fNoteCodas.begin (); i!=fNoteCodas.end (); i++) {
+    for (i=fNoteCodas.begin (); i!=fNoteCodas.end (); ++i) {
       // browse the coda
       msrBrowser<msrCoda> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the eyeglasses if any
   if (fNoteEyeGlasses.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrEyeGlasses>::const_iterator i;
-    for (i=fNoteEyeGlasses.begin (); i!=fNoteEyeGlasses.end (); i++) {
+    for (i=fNoteEyeGlasses.begin (); i!=fNoteEyeGlasses.end (); ++i) {
       // browse the eyeglasses
       msrBrowser<msrEyeGlasses> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the damps if any
   if (fNoteDamps.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrDamp>::const_iterator i;
-    for (i=fNoteDamps.begin (); i!=fNoteDamps.end (); i++) {
+    for (i=fNoteDamps.begin (); i!=fNoteDamps.end (); ++i) {
       // browse the damp
       msrBrowser<msrDamp> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the damp alls if any
   if (fNoteDampAlls.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrDampAll>::const_iterator i;
-    for (i=fNoteDampAlls.begin (); i!=fNoteDampAlls.end (); i++) {
+    for (i=fNoteDampAlls.begin (); i!=fNoteDampAlls.end (); ++i) {
       // browse the damp all
       msrBrowser<msrDampAll> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the scordaturas if any
   if (fNoteScordaturas.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrScordatura>::const_iterator i;
-    for (i=fNoteScordaturas.begin (); i!=fNoteScordaturas.end (); i++) {
+    for (i=fNoteScordaturas.begin (); i!=fNoteScordaturas.end (); ++i) {
       // browse the scordatura
       msrBrowser<msrScordatura> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the harmonies if any
   if (fNoteHarmoniesList.size ()) {
     list<S_msrHarmony>::const_iterator i;
     for (
-      i=fNoteHarmoniesList.begin (); i!=fNoteHarmoniesList.end (); i++
+      i=fNoteHarmoniesList.begin (); i!=fNoteHarmoniesList.end (); ++i
     ) {
       // browse the harmony
       msrBrowser<msrHarmony> browser (v);
@@ -3618,7 +3618,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteFiguredBassesList.size ()) {
     list<S_msrFiguredBass>::const_iterator i;
     for (
-      i=fNoteFiguredBassesList.begin (); i!=fNoteFiguredBassesList.end (); i++
+      i=fNoteFiguredBassesList.begin (); i!=fNoteFiguredBassesList.end (); ++i
     ) {
       // browse the figured bass
       msrBrowser<msrFiguredBass> browser (v);
@@ -3628,14 +3628,14 @@ void msrNote::browseData (basevisitor* v)
 
   // browse the syllables if any
   if (fNoteSyllables.size ()) {
-    gIndenter++;
+    ++gIndenter;
     list<S_msrSyllable>::const_iterator i;
-    for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); i++) {
+    for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); ++i) {
       // browse the syllable
       msrBrowser<msrSyllable> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+    --gIndenter;
   }
 
   // browse the grace notes group after if any
@@ -3767,7 +3767,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -3782,7 +3782,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -3798,7 +3798,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -3816,7 +3816,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -3843,7 +3843,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         noteGraphicDurationAsMsrString () <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -3858,7 +3858,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -3871,7 +3871,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         noteGraphicDurationAsMsrString () <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << "."; // JMI
       } // for
       break;
@@ -3888,7 +3888,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -3906,7 +3906,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -3926,7 +3926,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -3953,7 +3953,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -3996,7 +3996,7 @@ string msrNote::asShortString () const
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4007,7 +4007,7 @@ string msrNote::asShortString () const
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4018,7 +4018,7 @@ string msrNote::asShortString () const
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4029,7 +4029,7 @@ string msrNote::asShortString () const
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4042,7 +4042,7 @@ string msrNote::asShortString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4055,7 +4055,7 @@ string msrNote::asShortString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4068,7 +4068,7 @@ string msrNote::asShortString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4079,7 +4079,7 @@ string msrNote::asShortString () const
         " " <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4092,7 +4092,7 @@ string msrNote::asShortString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << "."; // JMI
       } // for
       break;
@@ -4105,7 +4105,7 @@ string msrNote::asShortString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4132,7 +4132,7 @@ string msrNote::asShortString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -4159,7 +4159,7 @@ string msrNote::asShortString () const
             fNoteTupletUpLink->getTupletNormalNotes ());
             */
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -4193,7 +4193,7 @@ string msrNote::asShortString () const
         msrOctaveKindAsString (fNoteOctaveKind);
       }
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -4218,7 +4218,7 @@ string msrNote::asShortString () const
             fNoteTupletUpLink->getTupletNormalNotes ());
             */
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -4241,7 +4241,7 @@ string msrNote::noteEssentialsAsString () const
   s <<
     noteSoundingWholeNotesAsMsrString ();
 
-  for (int i = 0; i < fNoteDotsNumber; i++) {
+  for (int i = 0; i < fNoteDotsNumber; ++i) {
     s << ".";
   } // for
 
@@ -4298,7 +4298,7 @@ string msrNote::asString () const
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4308,7 +4308,7 @@ string msrNote::asString () const
         "skipNote:" <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4319,7 +4319,7 @@ string msrNote::asString () const
         " " <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4338,7 +4338,7 @@ string msrNote::asString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4362,7 +4362,7 @@ string msrNote::asString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << "."; // JMI
       } // for
       break;
@@ -4372,7 +4372,7 @@ string msrNote::asString () const
         "graceSkipNote " <<
         noteSoundingWholeNotesAsMsrString ();
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4387,7 +4387,7 @@ string msrNote::asString () const
         ", " <<
         msrOctaveKindAsString (fNoteOctaveKind);
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << "."; // JMI
       } // for
 
@@ -4423,7 +4423,7 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -4450,7 +4450,7 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
       break;
@@ -4472,7 +4472,7 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -4503,7 +4503,7 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
 
-      for (int i = 0; i < fNoteDotsNumber; i++) {
+      for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
 
@@ -4595,7 +4595,7 @@ void msrNote::print (ostream& os) const
     asString () <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 34;
 
@@ -4660,13 +4660,13 @@ void msrNote::print (ostream& os) const
   if (fNoteMeasureUpLink) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fNoteMeasureUpLink->asShortString () <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -4783,10 +4783,10 @@ void msrNote::print (ostream& os) const
         "noteTupletFactor" << " : " <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
         os <<
           fNoteTupletFactor;
-      gIndenter--;
+      --gIndenter;
       break;
     } // switch
 
@@ -4860,11 +4860,11 @@ void msrNote::print (ostream& os) const
     if (fNoteGraceNotesGroupBefore) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os << fNoteGraceNotesGroupBefore;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5176,12 +5176,12 @@ void msrNote::print (ostream& os) const
     if (fNoteOctaveShift) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os <<
         fNoteOctaveShift;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5198,12 +5198,12 @@ void msrNote::print (ostream& os) const
     if (fNoteStem) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os <<
         fNoteStem;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5231,12 +5231,12 @@ void msrNote::print (ostream& os) const
     if (fNoteTie) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os <<
         fNoteTie;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5255,7 +5255,7 @@ void msrNote::print (ostream& os) const
     if (fNoteBeams.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrBeam>::const_iterator
         iBegin = fNoteBeams.begin (),
@@ -5267,7 +5267,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5286,7 +5286,7 @@ void msrNote::print (ostream& os) const
     if (fNoteArticulations.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrArticulation>::const_iterator
         iBegin = fNoteArticulations.begin (),
@@ -5298,7 +5298,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5317,7 +5317,7 @@ void msrNote::print (ostream& os) const
     if (fNoteSpanners.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSpanner>::const_iterator
         iBegin = fNoteSpanners.begin (),
@@ -5329,7 +5329,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5348,7 +5348,7 @@ void msrNote::print (ostream& os) const
     if (fNoteTechnicals.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnical>::const_iterator
         iBegin = fNoteTechnicals.begin (),
@@ -5360,7 +5360,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5380,7 +5380,7 @@ void msrNote::print (ostream& os) const
     if (fNoteTechnicalWithIntegers.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnicalWithInteger>::const_iterator
         iBegin = fNoteTechnicalWithIntegers.begin (),
@@ -5392,7 +5392,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5411,7 +5411,7 @@ void msrNote::print (ostream& os) const
     if (fNoteTechnicalWithFloats.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnicalWithFloat>::const_iterator
         iBegin = fNoteTechnicalWithFloats.begin (),
@@ -5423,7 +5423,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5442,7 +5442,7 @@ void msrNote::print (ostream& os) const
     if (fNoteTechnicalWithStrings.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnicalWithString>::const_iterator
         iBegin = fNoteTechnicalWithStrings.begin (),
@@ -5454,7 +5454,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5473,7 +5473,7 @@ void msrNote::print (ostream& os) const
     if (fNoteOrnaments.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrOrnament>::const_iterator
         iBegin = fNoteOrnaments.begin (),
@@ -5485,7 +5485,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5504,7 +5504,7 @@ void msrNote::print (ostream& os) const
     if (fNoteGlissandos.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrGlissando>::const_iterator
         iBegin = fNoteGlissandos.begin (),
@@ -5516,7 +5516,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5535,7 +5535,7 @@ void msrNote::print (ostream& os) const
     if (fNoteSlides.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlide>::const_iterator
         iBegin = fNoteSlides.begin (),
@@ -5547,7 +5547,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5564,11 +5564,11 @@ void msrNote::print (ostream& os) const
     if (fNoteSingleTremolo) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os << fNoteSingleTremolo;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5587,7 +5587,7 @@ void msrNote::print (ostream& os) const
     if (fNoteDynamics.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDynamics>::const_iterator
         iBegin = fNoteDynamics.begin (),
@@ -5599,7 +5599,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5618,7 +5618,7 @@ void msrNote::print (ostream& os) const
     if (fNoteOtherDynamics.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrOtherDynamics>::const_iterator
         iBegin = fNoteOtherDynamics.begin (),
@@ -5630,7 +5630,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5648,7 +5648,7 @@ void msrNote::print (ostream& os) const
       "noteWords";
     if (fNoteWords.size ()) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrWords>::const_iterator
         iBegin = fNoteWords.begin (),
@@ -5660,7 +5660,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5679,7 +5679,7 @@ void msrNote::print (ostream& os) const
     if (fNoteSlurs.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlur>::const_iterator
         iBegin = fNoteSlurs.begin (),
@@ -5691,7 +5691,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5710,7 +5710,7 @@ void msrNote::print (ostream& os) const
     if (fNoteLigatures.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrLigature>::const_iterator
         iBegin = fNoteLigatures.begin (),
@@ -5722,7 +5722,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5741,7 +5741,7 @@ void msrNote::print (ostream& os) const
     if (fNotePedals.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrPedal>::const_iterator
         iBegin = fNotePedals.begin (),
@@ -5753,7 +5753,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5772,7 +5772,7 @@ void msrNote::print (ostream& os) const
     if (fNoteSlashes.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlash>::const_iterator
         iBegin = fNoteSlashes.begin (),
@@ -5784,7 +5784,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5803,7 +5803,7 @@ void msrNote::print (ostream& os) const
     if (fNoteWedges.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrWedge>::const_iterator
         iBegin = fNoteWedges.begin (),
@@ -5815,7 +5815,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5834,7 +5834,7 @@ void msrNote::print (ostream& os) const
     if (fNoteSegnos.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSegno>::const_iterator
         iBegin = fNoteSegnos.begin (),
@@ -5846,7 +5846,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5865,7 +5865,7 @@ void msrNote::print (ostream& os) const
     if (fNoteDalSegnos.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDalSegno>::const_iterator
         iBegin = fNoteDalSegnos.begin (),
@@ -5877,7 +5877,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5896,7 +5896,7 @@ void msrNote::print (ostream& os) const
     if (fNoteCodas.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrCoda>::const_iterator
         iBegin = fNoteCodas.begin (),
@@ -5908,7 +5908,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5927,7 +5927,7 @@ void msrNote::print (ostream& os) const
     if (fNoteEyeGlasses.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrEyeGlasses>::const_iterator
         iBegin = fNoteEyeGlasses.begin (),
@@ -5939,7 +5939,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5958,7 +5958,7 @@ void msrNote::print (ostream& os) const
     if (fNoteDamps.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDamp>::const_iterator
         iBegin = fNoteDamps.begin (),
@@ -5970,7 +5970,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -5989,7 +5989,7 @@ void msrNote::print (ostream& os) const
     if (fNoteDampAlls.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDampAll>::const_iterator
         iBegin = fNoteDampAlls.begin (),
@@ -6001,7 +6001,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6020,7 +6020,7 @@ void msrNote::print (ostream& os) const
     if (fNoteScordaturas.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrScordatura>::const_iterator
         iBegin = fNoteScordaturas.begin (),
@@ -6032,7 +6032,7 @@ void msrNote::print (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6051,7 +6051,7 @@ void msrNote::print (ostream& os) const
     if (noteHarmoniesListSize) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrHarmony>::const_iterator
         iBegin = fNoteHarmoniesList.begin (),
@@ -6067,7 +6067,7 @@ void msrNote::print (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6086,7 +6086,7 @@ void msrNote::print (ostream& os) const
     if (noteFiguredBassesListSize) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrFiguredBass>::const_iterator
         iBegin = fNoteFiguredBassesList.begin (),
@@ -6102,7 +6102,7 @@ void msrNote::print (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6121,7 +6121,7 @@ void msrNote::print (ostream& os) const
     if (noteSyllablesSize) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSyllable>::const_iterator
         iBegin = fNoteSyllables.begin (),
@@ -6160,7 +6160,7 @@ void msrNote::print (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6177,11 +6177,11 @@ void msrNote::print (ostream& os) const
     if (fNoteGraceNotesGroupAfter) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os << fNoteGraceNotesGroupAfter;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6190,7 +6190,7 @@ void msrNote::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrNote::printShort (ostream& os) const
@@ -6200,7 +6200,7 @@ void msrNote::printShort (ostream& os) const
     asString () <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 34;
 
@@ -6265,13 +6265,13 @@ void msrNote::printShort (ostream& os) const
   if (fNoteMeasureUpLink) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fNoteMeasureUpLink->asShortString () <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -6405,10 +6405,10 @@ void msrNote::printShort (ostream& os) const
         "noteTupletFactor" << " : " <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
         os <<
           fNoteTupletFactor;
-      gIndenter--;
+      --gIndenter;
       break;
     } // switch
 
@@ -6484,11 +6484,11 @@ void msrNote::printShort (ostream& os) const
     if (fNoteGraceNotesGroupBefore) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       fNoteGraceNotesGroupBefore->printShort (os);
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6799,12 +6799,12 @@ void msrNote::printShort (ostream& os) const
     if (fNoteOctaveShift) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os <<
         fNoteOctaveShift;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6821,12 +6821,12 @@ void msrNote::printShort (ostream& os) const
     if (fNoteStem) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os <<
         fNoteStem;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6854,12 +6854,12 @@ void msrNote::printShort (ostream& os) const
     if (fNoteTie) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os <<
         fNoteTie;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6879,7 +6879,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteBeams.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrBeam>::const_iterator
         iBegin = fNoteBeams.begin (),
@@ -6891,7 +6891,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6911,7 +6911,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteArticulations.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrArticulation>::const_iterator
         iBegin = fNoteArticulations.begin (),
@@ -6923,7 +6923,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6942,7 +6942,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteSpanners.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSpanner>::const_iterator
         iBegin = fNoteSpanners.begin (),
@@ -6954,7 +6954,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -6973,7 +6973,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteTechnicals.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnical>::const_iterator
         iBegin = fNoteTechnicals.begin (),
@@ -6985,7 +6985,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7004,7 +7004,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteTechnicalWithIntegers.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnicalWithInteger>::const_iterator
         iBegin = fNoteTechnicalWithIntegers.begin (),
@@ -7016,7 +7016,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7035,7 +7035,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteTechnicalWithFloats.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnicalWithFloat>::const_iterator
         iBegin = fNoteTechnicalWithFloats.begin (),
@@ -7047,7 +7047,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7066,7 +7066,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteTechnicalWithStrings.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrTechnicalWithString>::const_iterator
         iBegin = fNoteTechnicalWithStrings.begin (),
@@ -7078,7 +7078,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7098,7 +7098,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteOrnaments.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrOrnament>::const_iterator
         iBegin = fNoteOrnaments.begin (),
@@ -7110,7 +7110,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7130,7 +7130,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteGlissandos.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrGlissando>::const_iterator
         iBegin = fNoteGlissandos.begin (),
@@ -7142,7 +7142,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7161,7 +7161,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteSlides.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlide>::const_iterator
         iBegin = fNoteSlides.begin (),
@@ -7173,7 +7173,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7192,11 +7192,11 @@ void msrNote::printShort (ostream& os) const
     if (fNoteSingleTremolo) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       os << fNoteSingleTremolo;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7215,7 +7215,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteDynamics.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDynamics>::const_iterator
         iBegin = fNoteDynamics.begin (),
@@ -7227,7 +7227,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7246,7 +7246,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteOtherDynamics.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrOtherDynamics>::const_iterator
         iBegin = fNoteOtherDynamics.begin (),
@@ -7258,7 +7258,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7277,7 +7277,7 @@ void msrNote::printShort (ostream& os) const
       "noteWords";
     if (fNoteWords.size ()) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrWords>::const_iterator
         iBegin = fNoteWords.begin (),
@@ -7289,7 +7289,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7308,7 +7308,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteSlurs.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlur>::const_iterator
         iBegin = fNoteSlurs.begin (),
@@ -7320,7 +7320,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7339,7 +7339,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteLigatures.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrLigature>::const_iterator
         iBegin = fNoteLigatures.begin (),
@@ -7351,7 +7351,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7370,7 +7370,7 @@ void msrNote::printShort (ostream& os) const
     if (fNotePedals.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrPedal>::const_iterator
         iBegin = fNotePedals.begin (),
@@ -7382,7 +7382,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7401,7 +7401,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteSlashes.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSlash>::const_iterator
         iBegin = fNoteSlashes.begin (),
@@ -7413,7 +7413,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7433,7 +7433,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteWedges.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrWedge>::const_iterator
         iBegin = fNoteWedges.begin (),
@@ -7445,7 +7445,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7464,7 +7464,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteSegnos.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSegno>::const_iterator
         iBegin = fNoteSegnos.begin (),
@@ -7476,7 +7476,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7495,7 +7495,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteDalSegnos.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDalSegno>::const_iterator
         iBegin = fNoteDalSegnos.begin (),
@@ -7507,7 +7507,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7526,7 +7526,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteCodas.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrCoda>::const_iterator
         iBegin = fNoteCodas.begin (),
@@ -7538,7 +7538,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7557,7 +7557,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteEyeGlasses.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrEyeGlasses>::const_iterator
         iBegin = fNoteEyeGlasses.begin (),
@@ -7569,7 +7569,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7588,7 +7588,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteDamps.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDamp>::const_iterator
         iBegin = fNoteDamps.begin (),
@@ -7600,7 +7600,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7619,7 +7619,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteDampAlls.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrDampAll>::const_iterator
         iBegin = fNoteDampAlls.begin (),
@@ -7631,7 +7631,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7650,7 +7650,7 @@ void msrNote::printShort (ostream& os) const
     if (fNoteScordaturas.size ()) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrScordatura>::const_iterator
         iBegin = fNoteScordaturas.begin (),
@@ -7662,7 +7662,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7682,7 +7682,7 @@ void msrNote::printShort (ostream& os) const
     if (noteHarmoniesListSize) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrHarmony>::const_iterator
         iBegin = fNoteHarmoniesList.begin (),
@@ -7698,7 +7698,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7717,7 +7717,7 @@ void msrNote::printShort (ostream& os) const
     if (noteFiguredBassesListSize) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrFiguredBass>::const_iterator
         iBegin = fNoteFiguredBassesList.begin (),
@@ -7733,7 +7733,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7752,7 +7752,7 @@ void msrNote::printShort (ostream& os) const
     if (noteSyllablesSize) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       list<S_msrSyllable>::const_iterator
         iBegin = fNoteSyllables.begin (),
@@ -7791,7 +7791,7 @@ void msrNote::printShort (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7808,11 +7808,11 @@ void msrNote::printShort (ostream& os) const
     if (fNoteGraceNotesGroupAfter) {
       os << endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       fNoteGraceNotesGroupAfter->printShort (os);
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os << " : " <<
@@ -7821,7 +7821,7 @@ void msrNote::printShort (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrNote& elt)

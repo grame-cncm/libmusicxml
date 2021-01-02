@@ -143,9 +143,9 @@ void lilypondOahGroup::printLilypondOahValues (unsigned int fieldWidth)
     "The lilypondOahGroup options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lilypondOahGroup& elt)

@@ -175,7 +175,7 @@ void msrFrameNote::print (ostream& os) const
     ", line: " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 23;
 
@@ -195,7 +195,7 @@ void msrFrameNote::print (ostream& os) const
       fFrameNoteBarreTypeKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrFrameNote& elt)
@@ -404,7 +404,7 @@ void msrFrame::browseData (basevisitor* v)
     for (
       list<S_msrFrameNote>::const_iterator i = fFrameFrameNotesList.begin ();
       i != fFrameFrameNotesList.end ();
-      i++
+      ++i
   ) {
       // browse the harmony degree
       msrBrowser<msrFrameNote> browser (v);
@@ -420,7 +420,7 @@ void msrFrame::print (ostream& os) const
      ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 15;
 
@@ -444,7 +444,7 @@ void msrFrame::print (ostream& os) const
   if (fFrameFrameNotesList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrFrameNote>::const_iterator
       iBegin = fFrameFrameNotesList.begin (),
@@ -457,7 +457,7 @@ void msrFrame::print (ostream& os) const
       // no endl here;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -471,7 +471,7 @@ void msrFrame::print (ostream& os) const
   if (fFrameBarresList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<msrBarre>::const_iterator
       iBegin = fFrameBarresList.begin (),
@@ -485,7 +485,7 @@ void msrFrame::print (ostream& os) const
         "Barre" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       const unsigned int fieldWidth = 21;
 
@@ -500,13 +500,13 @@ void msrFrame::print (ostream& os) const
         "barreFretNumber" << " : " << barre.getBarreFretNumber () <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       if (++i == iEnd) break;
       // no endl here;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -514,7 +514,7 @@ void msrFrame::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrFrame& elt)

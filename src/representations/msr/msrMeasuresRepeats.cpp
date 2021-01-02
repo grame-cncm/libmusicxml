@@ -265,7 +265,7 @@ void msrMeasuresRepeatElement::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fMeasuresRepeatElementElementsList.begin ();
       i != fMeasuresRepeatElementElementsList.end ();
-      i++
+      ++i
   ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
@@ -296,7 +296,7 @@ void msrMeasuresRepeatElement::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "measuresRepeat upLink: '" <<
@@ -326,7 +326,7 @@ void msrMeasuresRepeatElement::print (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fMeasuresRepeatElementElementsList.begin (),
@@ -340,10 +340,10 @@ void msrMeasuresRepeatElement::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrMeasuresRepeatElement::printShort (ostream& os) const
@@ -353,7 +353,7 @@ void msrMeasuresRepeatElement::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 / / * JMI
   os <<
@@ -385,7 +385,7 @@ void msrMeasuresRepeatElement::printShort (ostream& os) const
   if (elementsNumber) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fMeasuresRepeatElementElementsList.begin (),
@@ -399,10 +399,10 @@ void msrMeasuresRepeatElement::printShort (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrMeasuresRepeatElement& elt)
@@ -565,7 +565,7 @@ void msrMeasuresRepeatPattern::print (ostream& os) const
     asString () <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the pattern segment
   os <<
@@ -579,15 +579,15 @@ void msrMeasuresRepeatPattern::print (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fMeasuresRepeatPatternSegment;
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt)
@@ -749,7 +749,7 @@ void msrMeasuresRepeatReplicas::print (ostream& os) const
     asString () <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the replicas segment
   os <<
@@ -763,15 +763,15 @@ void msrMeasuresRepeatReplicas::print (ostream& os) const
   else {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fMeasuresRepeatReplicasSegment;
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt)
@@ -1106,9 +1106,9 @@ void msrMeasuresRepeat::displayMeasuresRepeat (
     " contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   print (gLogStream);
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<*********" <<
@@ -1136,7 +1136,7 @@ void msrMeasuresRepeat::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -1176,7 +1176,7 @@ void msrMeasuresRepeat::print (ostream& os) const
       fMeasuresRepeatReplicas;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt)

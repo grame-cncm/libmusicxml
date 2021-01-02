@@ -139,9 +139,9 @@ void brailleOahGroup::printBrailleOahValues (unsigned int fieldWidth)
     "The Braille options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_brailleOahGroup& elt)

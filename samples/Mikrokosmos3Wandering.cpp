@@ -103,7 +103,7 @@ static void argvElements2stringsVector (
   int argc, char *argv[],
   vector<string>& stringsVector)
 {
-	for (int i=1; i<argc; i++) {
+	for (int i=1; i<argc; ++i) {
 		stringsVector.push_back (argv [i]);
 	} // for
 }
@@ -132,7 +132,7 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 
 	string curOption;
 
-	for (unsigned int i = 0; i < stringsVector.size (); i++) {
+	for (unsigned int i = 0; i < stringsVector.size (); ++i) {
 	  string str = stringsVector [i];
 
 #ifdef TRACING_IS_ENABLED
@@ -1884,11 +1884,11 @@ static S_msrScore createAndPopulateTheScore (
       "----------------------" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     gOutputStream <<
       score <<
       endl;
-    gIndenter--;
+    --gIndenter;
   }
 
   return score;
@@ -1919,11 +1919,11 @@ static xmlErr generateGuidoCodeFromScore (S_msrScore score)
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -1953,11 +1953,11 @@ static xmlErr generateGuidoCodeFromScore (S_msrScore score)
 		cout << gmn << endl;
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -1993,11 +1993,11 @@ static xmlErr generateLilypondCodeFromScore (S_msrScore score)
           passNumber);
     }
     catch (msrScoreToLpsrScoreException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -2075,11 +2075,11 @@ static xmlErr generateLilypondCodeFromScore (S_msrScore score)
         lilypondStandardOutputStream);
     }
     catch (lpsrScoreToLilypondException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -2141,11 +2141,11 @@ static xmlErr generateLilypondCodeFromScore (S_msrScore score)
         lilypondFileOutputStream);
     }
     catch (lpsrScoreToLilypondException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -2196,11 +2196,11 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
           passNumber);
     }
     catch (msrScoreToBsrScoreException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -2263,11 +2263,11 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
           passNumber);
     }
     catch (bsrScoreToFinalizedBsrScoreException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -2349,11 +2349,11 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
         cout);
     }
     catch (lpsrScoreToLilypondException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -2407,11 +2407,11 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
         brailleCodeFileOutputStream);
     }
     catch (lpsrScoreToLilypondException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -2466,11 +2466,11 @@ static xmlErr generateMusicXMLFromScore (S_msrScore score)
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -2488,11 +2488,11 @@ static xmlErr generateMusicXMLFromScore (S_msrScore score)
       "Pass 3");
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -2698,7 +2698,7 @@ int main (int argc, char * argv[])
   bool insiderOptions = false;
   bool regularOptions = false;
 
-	for (int i = 1; i < argc; i++) {
+	for (int i = 1; i < argc; ++i) {
 	  string argumentAsString = string (argv [i]);
 
 		if (argumentAsString == "-insider") {
@@ -2796,11 +2796,11 @@ int main (int argc, char * argv[])
     } // switch
   }
   catch (msrOahException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidOption;
   }
   catch (exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 

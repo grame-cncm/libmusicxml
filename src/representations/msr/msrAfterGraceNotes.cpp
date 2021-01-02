@@ -156,7 +156,7 @@ void msrAfterGraceNotesGroupContents::browseData (basevisitor* v)
   for (
     i=fAfterGraceNotesGroupContentsNotesList.begin ();
     i!=fAfterGraceNotesGroupContentsNotesList.end ();
-    i++
+    ++i
   ) {
     // browse the note
     msrBrowser<msrMeasureElement> browser (v);
@@ -201,7 +201,7 @@ void msrAfterGraceNotesGroupContents::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fAfterGraceNotesGroupContentsNotesList.size ()) {
     list<S_msrMeasureElement>::const_iterator
@@ -216,7 +216,7 @@ void msrAfterGraceNotesGroupContents::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroupContents& elt)
@@ -406,16 +406,16 @@ void msrAfterGraceNotesGroup::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the afterGraceNotesGroup element
   os <<
     "Element:" <<
     endl;
-  gIndenter++;
+  ++gIndenter;
   os <<
     fAfterGraceNotesGroupElement;
-  gIndenter--;
+  --gIndenter;
 
   os <<
     "afterGraceNotesGroupIsSlashed: " <<
@@ -426,7 +426,7 @@ void msrAfterGraceNotesGroup::print (ostream& os) const
   os <<
     fAfterGraceNotesGroupContents;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroup& elt)

@@ -131,7 +131,7 @@ void bsrScore::browseData (basevisitor* v)
     list<S_bsrPage>::const_iterator i =
       fScorePagesList.begin ();
     i != fScorePagesList.end ();
-    i++
+    ++i
   ) {
     // browse the page
     msrBrowser<bsrPage> browser (v);
@@ -153,7 +153,7 @@ void bsrScore::print (ostream& os) const
     "BSR Score" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the MSR structure (without the voices)
   fMsrScore->
@@ -197,7 +197,7 @@ void bsrScore::print (ostream& os) const
 
     if (scorePagesListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrPage>::const_iterator
         iBegin = fScorePagesList.begin (),
@@ -209,7 +209,7 @@ void bsrScore::print (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -219,7 +219,7 @@ void bsrScore::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void bsrScore::printShort (ostream& os) const
@@ -228,7 +228,7 @@ void bsrScore::printShort (ostream& os) const
     "BSR Score" <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the MSR structure (without the voices)
   fMsrScore->
@@ -272,7 +272,7 @@ void bsrScore::printShort (ostream& os) const
 
     if (scorePagesListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrPage>::const_iterator
         iBegin = fScorePagesList.begin (),
@@ -284,7 +284,7 @@ void bsrScore::printShort (ostream& os) const
         // no endl here
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -294,7 +294,7 @@ void bsrScore::printShort (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrScore& score)

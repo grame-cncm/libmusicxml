@@ -339,7 +339,7 @@ void msrTechnicalWithInteger::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 14;
 
@@ -357,7 +357,7 @@ void msrTechnicalWithInteger::print (ostream& os) const
     setw (fieldWidth) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt)
@@ -489,7 +489,7 @@ void msrTechnicalWithFloat::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 14;
 
@@ -507,7 +507,7 @@ void msrTechnicalWithFloat::print (ostream& os) const
     setw (fieldWidth) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrTechnicalWithFloat& elt)
@@ -668,7 +668,7 @@ void msrTechnicalWithString::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 14;
 
@@ -687,7 +687,7 @@ void msrTechnicalWithString::print (ostream& os) const
     setw (fieldWidth) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt)

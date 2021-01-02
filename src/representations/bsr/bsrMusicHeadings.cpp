@@ -249,7 +249,7 @@ void bsrMusicHeading::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 // JMI  const unsigned int fieldWidth = 22;
 
@@ -258,12 +258,12 @@ void bsrMusicHeading::print (ostream& os) const
   if (fMusicHeadingTempo) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fMusicHeadingTempo;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -276,12 +276,12 @@ void bsrMusicHeading::print (ostream& os) const
   if (fMusicHeadingKey) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fMusicHeadingKey;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -294,12 +294,12 @@ void bsrMusicHeading::print (ostream& os) const
   if (fMusicHeadingTime) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os <<
       fMusicHeadingTime;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -310,13 +310,13 @@ void bsrMusicHeading::print (ostream& os) const
   os <<
     "musicHeadingCellsList: " <<
     endl;
-  gIndenter++;
+  ++gIndenter;
   os <<
     buildCellsList () <<
     endl;
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrMusicHeading& elt)

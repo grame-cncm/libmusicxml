@@ -55,24 +55,24 @@ class EXP timingItem : public smartable
     };
 
     static SMARTP<timingItem> createTimingItem (
-      string    activity,
-      string    description,
+      string         activity,
+      string         description,
       timingItemKind kind,
-      clock_t   startClock,
-      clock_t   endClock);
+      clock_t        startClock,
+      clock_t        endClock);
 
     timingItem (
-      string    activity,
-      string    description,
+      string         activity,
+      string         description,
       timingItemKind kind,
-      clock_t   startClock,
-      clock_t   endClock);
+      clock_t        startClock,
+      clock_t        endClock);
 
-    string           fActivity;
-    string           fDescription;
-    timingItemKind        fKind;
-    clock_t               fStartClock;
-    clock_t               fEndClock;
+    string         fActivity;
+    string         fDescription;
+    timingItemKind fKind;
+    clock_t        fStartClock;
+    clock_t        fEndClock;
 };
 
 typedef SMARTP<timingItem> S_timingItem;
@@ -129,11 +129,22 @@ class EXP outputIndenter
     int                   getIndent () const
                               { return fIndent; }
 
-    // increase the indentation by 1
-    outputIndenter&        operator++ (const int value);
+/*
+    // Declare prefix and postfix decrement operators.
+    Point& operator--();       // Prefix decrement operator.
+    Point operator--(int);     // Postfix decrement operator.
+*/
 
-    // decrease the indentation by 1
-    outputIndenter&       operator-- (const int value);
+    // increase the indentation by 1, prefix operator
+    outputIndenter&       operator++ ();
+
+    // decrease the indentation by 1, prefix operator
+    outputIndenter&       operator-- ();
+
+    // increase the indentation by 1, postfix operator
+    outputIndenter        operator++ (int);
+    // decrease the indentation by 1, postfix operator
+    outputIndenter        operator-- (int);
 
     outputIndenter&       increment (int value);
     outputIndenter&       decrement (int value);
@@ -201,7 +212,7 @@ class EXP indentedStreamBuf: public stringbuf
 {
   private:
 
-    ostream&         fOutputSteam;
+    ostream&              fOutputSteam;
     outputIndenter&       fOutputIndenter;
 
   public:
@@ -284,10 +295,10 @@ Usage:
                               { return fIndentedStreamBuf.getOutputIndenter (); }
 
     void                  incrIdentation ()
-                              { fIndentedStreamBuf.getOutputIndenter ()++; }
+                              { ++ (fIndentedStreamBuf.getOutputIndenter ()); }
 
     void                  decrIdentation ()
-                              { fIndentedStreamBuf.getOutputIndenter ()--; }
+                              { -- (fIndentedStreamBuf.getOutputIndenter ()); }
 };
 typedef SMARTP<indentedOstream> S_indentedOstream;
 
@@ -311,7 +322,7 @@ struct stringQuoteEscaper
       for_each( source.begin (), source.end (), stringQuoteEscaper (dest));
   */
 
-  string&            target;
+  string&                 target;
 
   explicit                stringQuoteEscaper (string& t)
                             : target (t)
@@ -339,7 +350,7 @@ struct stringSpaceRemover
         stringSpaceRemover (dest));
   */
 
-  string&            target;
+  string&                 target;
 
   explicit                stringSpaceRemover (string& t)
                             : target (t)
@@ -364,7 +375,7 @@ struct stringSpaceReplacer
         stringSpaceReplacer (dest, ersatz));
   */
 
-  string&            target;
+  string&                 target;
   char                    ersatz;
 
   explicit                stringSpaceReplacer (string& t, char ch)
@@ -394,17 +405,17 @@ string stringNumbersToEnglishWords (string str);
 //______________________________________________________________________________
 set<int> decipherNaturalNumbersSetSpecification (
   string theSpecification,
-  bool        debugMode = false);
+  bool   debugMode = false);
 
 //______________________________________________________________________________
 set<string> decipherStringsSetSpecification (
   string theSpecification,
-  bool        debugMode = false);
+  bool   debugMode = false);
 
 //______________________________________________________________________________
 list<int> extractNumbersFromString (
   string theString, // can contain "1, 2, 17"
-  bool        debugMode = false);
+  bool   debugMode = false);
 
 //______________________________________________________________________________
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
@@ -452,8 +463,8 @@ EXP inline string& trim (string& s) {
 //______________________________________________________________________________
 pair<string, string> extractNamesPairFromString (
   string theString, // may contain "P1 = Bassoon"
-  char        separator,
-  bool        debugMode = false);
+  char   separator,
+  bool   debugMode = false);
 
 //______________________________________________________________________________
 string doubleQuoteStringIfNonAlpha (
@@ -492,16 +503,16 @@ void convertHTMLEntitiesToPlainCharacters (string& s);
 
 //______________________________________________________________________________
 void splitStringIntoChunks (
-  string             theString,
-  string             theSeparator,
+  string        theString,
+  string        theSeparator,
   list<string>& chunksList);
 
 void splitRegularStringAtEndOfLines (
-  string             theString,
+  string        theString,
   list<string>& chunksList);
 
 void splitHTMLStringContainingEndOfLines ( // JMI
-  string             theString,
+  string        theString,
   list<string>& chunksList);
 
 //______________________________________________________________________________
@@ -570,10 +581,10 @@ class EXP indentedSstream: public stringstream, public smartable
                               { return fIndentedStreamBuf.getOutputIndenter (); }
 
     void                  incrIdentation ()
-                              { fIndentedStreamBuf.getOutputIndenter ()++; }
+                              { ++fIndentedStreamBuf.getOutputIndenter (); }
 
     void                  decrIdentation ()
-                              { fIndentedStreamBuf.getOutputIndenter ()--; }
+                              { --fIndentedStreamBuf.getOutputIndenter (); }
 };
 typedef SMARTP<indentedSstream> S_indentedSstream;
 */

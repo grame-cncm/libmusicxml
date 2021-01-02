@@ -107,7 +107,7 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
   for (
     list<S_msrElement>::const_iterator i = fPartGroupBlockElements.begin ();
     i != fPartGroupBlockElements.end ();
-    i++
+    ++i
   ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -135,7 +135,7 @@ void lpsrPartGroupBlock::print (ostream& os) const
       fPartGroupBlockElements.size (), "element", "elements") <<
     endl << endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fPartGroupBlockElements.size ()) {
     list<S_msrElement>::const_iterator
@@ -149,7 +149,7 @@ void lpsrPartGroupBlock::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& scr)

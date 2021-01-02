@@ -125,7 +125,7 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
     list<S_lpsrPartGroupBlock>::const_iterator i =
       fParallelMusicBLockPartGroupBlocks.begin ();
     i != fParallelMusicBLockPartGroupBlocks.end ();
-    i++
+    ++i
   ) {
     // browse the element browser
     msrBrowser<msrElement> browser (v);
@@ -150,18 +150,18 @@ void lpsrParallelMusicBLock::print (ostream& os) const
       fParallelMusicBLockPartGroupBlocks.size (), "part group", "part groups") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   for (
     list<S_lpsrPartGroupBlock>::const_iterator i =
       fParallelMusicBLockPartGroupBlocks.begin ();
     i != fParallelMusicBLockPartGroupBlocks.end ();
-    i++
+    ++i
   ) {
     os << (*i);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrParallelMusicBLock& elt)

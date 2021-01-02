@@ -182,7 +182,7 @@ void xml2lyInsiderOahHandler::createTheXml2lyPrefixes ()
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // the 'trace' prefixes
@@ -276,7 +276,7 @@ void xml2lyInsiderOahHandler::createTheXml2lyPrefixes ()
   registerPrefixInHandler (
     fLongDelayRestsPrefix);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //______________________________________________________________________________
@@ -375,14 +375,14 @@ void xml2lyInsiderOahHandler::createTheXml2lyOptionGroups (
       "xml2lyInsiderOahHandler has been initialized as:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     print (gLogStream);
 
     gLogStream <<
       endl << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -666,7 +666,7 @@ void xml2lyInsiderOahHandler::print (ostream& os) const
     "xml2lyInsiderOahHandler '" << fHandlerHeader << "':" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -682,7 +682,7 @@ void xml2lyInsiderOahHandler::print (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -695,10 +695,10 @@ void xml2lyInsiderOahHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -881,7 +881,7 @@ void xml2lyInsiderOahGroup::printXml2lyInsiderOahGroupValues (unsigned int field
     "The xml2ly options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // output file
   // --------------------------------------
@@ -890,7 +890,7 @@ void xml2lyInsiderOahGroup::printXml2lyInsiderOahGroupValues (unsigned int field
     setw (fieldWidth) << "Output file:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
@@ -902,7 +902,7 @@ void xml2lyInsiderOahGroup::printXml2lyInsiderOahGroupValues (unsigned int field
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // quit after some passes
   // --------------------------------------
@@ -911,7 +911,7 @@ void xml2lyInsiderOahGroup::printXml2lyInsiderOahGroupValues (unsigned int field
     "Quit after some passes:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "quitAfterPass2a" << " : " <<
@@ -921,9 +921,9 @@ void xml2lyInsiderOahGroup::printXml2lyInsiderOahGroupValues (unsigned int field
     booleanAsString (fQuitAfterPass2b) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //______________________________________________________________________________

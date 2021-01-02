@@ -152,7 +152,7 @@ class EXP msrScore : public msrElement
                                   scoreNumberOfMeasures;
                               }
 
-    int                   getScoreNumberOfMeasures () const
+    unsigned int          getScoreNumberOfMeasures () const
                               { return fScoreNumberOfMeasures; }
 
     void                  setStaffContainsRestMeasures (
@@ -169,27 +169,27 @@ class EXP msrScore : public msrElement
     void                  setScorePartGroupNamesMaxLength (int value)
                               { fScorePartGroupNamesMaxLength = value; }
 
-    int                   getScorePartGroupNamesMaxLength () const
+    unsigned int          getScorePartGroupNamesMaxLength () const
                               { return fScorePartGroupNamesMaxLength; }
 
     // part names max length
     void                  setScorePartNamesMaxLength (int value)
                               { fScorePartNamesMaxLength = value; }
 
-    int                   getScorePartNamesMaxLength () const
+    unsigned int          getScorePartNamesMaxLength () const
                               { return fScorePartNamesMaxLength; }
 
     // instrument names max lengthes
     void                  setScoreInstrumentNamesMaxLength (int value)
                               { fScoreInstrumentNamesMaxLength = value; }
 
-    int                   getScoreInstrumentNamesMaxLength () const
+    unsigned int          getScoreInstrumentNamesMaxLength () const
                               { return fScoreInstrumentNamesMaxLength; }
 
     void                  setScoreInstrumentAbbreviationsMaxLength (int value)
                               { fScoreInstrumentAbbreviationsMaxLength = value; }
 
-    int                   getScoreInstrumentAbbreviationsMaxLength () const
+    unsigned int          getScoreInstrumentAbbreviationsMaxLength () const
                               { return fScoreInstrumentAbbreviationsMaxLength; }
 
     // inhibiting browsing
@@ -318,7 +318,7 @@ class EXP msrScore : public msrElement
 
     // number of measures
 
-    int                   fScoreNumberOfMeasures;
+    unsigned int          fScoreNumberOfMeasures;
 
     // rest measures
 
@@ -326,16 +326,16 @@ class EXP msrScore : public msrElement
 
     // part group names max length
 
-    int                   fScorePartGroupNamesMaxLength;
+    unsigned int          fScorePartGroupNamesMaxLength;
 
     // part names max length
 
-    int                   fScorePartNamesMaxLength;
+    unsigned int          fScorePartNamesMaxLength;
 
     // instrument names max lengthes
 
-    int                   fScoreInstrumentNamesMaxLength;
-    int                   fScoreInstrumentAbbreviationsMaxLength;
+    unsigned int          fScoreInstrumentNamesMaxLength;
+    unsigned int          fScoreInstrumentAbbreviationsMaxLength;
 
     // inhibiting browsing
 

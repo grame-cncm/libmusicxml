@@ -197,7 +197,7 @@ void msrSpanner::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 24;
 
@@ -214,11 +214,11 @@ void msrSpanner::print (ostream& os) const
     "spannerNoteUpLink" << " : " <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
     os <<
       fSpannerNoteUpLink->asString () <<
       endl;
-  gIndenter--;
+  --gIndenter;
 
   os << left <<
     setw (fieldWidth) <<
@@ -234,7 +234,7 @@ void msrSpanner::print (ostream& os) const
     endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSpanner& elt)

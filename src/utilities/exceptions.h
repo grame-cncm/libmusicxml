@@ -20,11 +20,16 @@
 #include <cassert>
 #include <cstring>
 
+#include "exports.h"
+
 
 using namespace std;
 
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+EXP void displayException (exception& e, ostream& os);
 
 //______________________________________________________________________________
 class EXP msrException: public exception

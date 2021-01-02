@@ -154,8 +154,7 @@ class EXP oahElement : public smartable
                                     : fShortName;
                               }
 
-    bool                  nameIsANameForElement (
-                            string name)
+    bool                  nameIsANameForElement (const string& name)
                               {
                                 return
                                   name == fShortName
@@ -163,7 +162,7 @@ class EXP oahElement : public smartable
                                   name == fLongName;
                               }
 
-    virtual int           fetchVariableNameLength () const
+    virtual unsigned int  fetchVariableNameLength () const
                               { return 0; }
 
     S_oahElement          thisElementIfItHasName (
@@ -282,7 +281,7 @@ class EXP oahElementUse : public smartable
     string                getNameUsed () const
                               { return fNameUsed; }
 
-    void                  setValueUsed (string value)
+    void                  setValueUsed (const string& value)
                               { fValueUsed = value; }
 
     string                getValueUsed () const

@@ -115,7 +115,7 @@ void bsrParallel::browseData (basevisitor* v)
   for (
     list<S_bsrElement>::const_iterator i = fParallelElementsList.begin ();
     i != fParallelElementsList.end ();
-    i++ ) {
+    ++i ) {
     // browse the element
     bsrBrowser<bsrElement> browser (v);
     browser.browse (*(*i));
@@ -146,7 +146,7 @@ void bsrParallel::print (ostream& os) const
     "Parallel" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the parallel numbers
   const unsigned int fieldWidth = 18;
@@ -168,7 +168,7 @@ void bsrParallel::print (ostream& os) const
       "fParallelElementsList";
     if (parallelElementsListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrElement>::const_iterator
         iBegin = fParallelElementsList.begin (),
@@ -182,7 +182,7 @@ void bsrParallel::print (ostream& os) const
 
       os << endl;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -191,7 +191,7 @@ void bsrParallel::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrParallel& elt)

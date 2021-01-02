@@ -361,7 +361,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fComposersList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fComposersList.begin (); i!=fComposersList.end (); i++) {
+    for (i=fComposersList.begin (); i!=fComposersList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result){
         result = length;
@@ -372,7 +372,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fLyricistsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fLyricistsList.begin (); i!=fLyricistsList.end (); i++) {
+    for (i=fLyricistsList.begin (); i!=fLyricistsList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -383,7 +383,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fArrangersList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fArrangersList.begin (); i!=fArrangersList.end (); i++) {
+    for (i=fArrangersList.begin (); i!=fArrangersList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -394,7 +394,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fPoetsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fPoetsList.begin (); i!=fPoetsList.end (); i++) {
+    for (i=fPoetsList.begin (); i!=fPoetsList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -405,7 +405,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fTranslatorsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fTranslatorsList.begin (); i!=fTranslatorsList.end (); i++) {
+    for (i=fTranslatorsList.begin (); i!=fTranslatorsList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -416,7 +416,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fArtistsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fArtistsList.begin (); i!=fArtistsList.end (); i++) {
+    for (i=fArtistsList.begin (); i!=fArtistsList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -427,7 +427,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fSoftwaresList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fSoftwaresList.begin (); i!=fSoftwaresList.end (); i++) {
+    for (i=fSoftwaresList.begin (); i!=fSoftwaresList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -438,7 +438,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fRightsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fRightsList.begin (); i!=fRightsList.end (); i++) {
+    for (i=fRightsList.begin (); i!=fRightsList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -449,7 +449,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fSourcesList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fSourcesList.begin (); i!=fSourcesList.end (); i++) {
+    for (i=fSourcesList.begin (); i!=fSourcesList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -460,7 +460,7 @@ unsigned int msrIdentification::maxIdentificationNamesLength ()
   if (fRelationsList.size ()) {
     list<string>::const_iterator i;
 
-    for (i=fRelationsList.begin (); i!=fRelationsList.end (); i++) {
+    for (i=fRelationsList.begin (); i!=fRelationsList.end (); ++i) {
       unsigned int length = (*i).size ();
       if (length > result) {
         result = length;
@@ -545,7 +545,7 @@ void msrIdentification::print (ostream& os) const
 
   bool emptyIdentification = true;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fWorkNumber.size ()) {
     os << left <<
@@ -633,7 +633,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fComposersList.begin ();
       i != fComposersList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -652,7 +652,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fLyricistsList.begin ();
       i != fLyricistsList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -671,7 +671,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fArrangersList.begin ();
       i != fArrangersList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -690,7 +690,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fPoetsList.begin ();
       i != fPoetsList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -709,7 +709,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fTranslatorsList.begin ();
       i != fTranslatorsList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -728,7 +728,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fSoftwaresList.begin ();
       i != fSoftwaresList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -747,7 +747,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fRightsList.begin ();
       i != fRightsList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -766,7 +766,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fSourcesList.begin ();
       i != fSourcesList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -785,7 +785,7 @@ void msrIdentification::print (ostream& os) const
     for (
       list<string>::const_iterator i = fRelationsList.begin ();
       i != fRelationsList.end ();
-      i++
+      ++i
     ) {
       os <<
         gTab << "\"" << (*i) << "\"" <<
@@ -801,7 +801,7 @@ void msrIdentification::print (ostream& os) const
       endl;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrIdentification& elt)

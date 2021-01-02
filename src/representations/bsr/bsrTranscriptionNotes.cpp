@@ -136,13 +136,13 @@ void bsrTranscriptionNotesElement::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "transcriptionNoteText " << " : \"" << fTranscriptionNoteText << "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrTranscriptionNotesElement& elt)
@@ -231,7 +231,7 @@ void bsrTranscriptionNotes::browseData (basevisitor* v)
     list<S_bsrTranscriptionNotesElement>::const_iterator i =
       fTranscriptionNotesElementsList.begin ();
     i != fTranscriptionNotesElementsList.end ();
-    i++ ) {
+    ++i ) {
     // browse the element
     bsrBrowser<bsrTranscriptionNotesElement> browser (v);
     browser.browse (*(*i));
@@ -244,7 +244,7 @@ void bsrTranscriptionNotes::print (ostream& os) const
     "TranscriptionNotes" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the notes if any
   const unsigned int fieldWidth = 19;
@@ -259,7 +259,7 @@ void bsrTranscriptionNotes::print (ostream& os) const
       endl;
 
     if (transcriptionNotesElementsListSize) {
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrTranscriptionNotesElement>::const_iterator
         iBegin = fTranscriptionNotesElementsList.begin (),
@@ -273,7 +273,7 @@ void bsrTranscriptionNotes::print (ostream& os) const
 
       os << endl;
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -282,7 +282,7 @@ void bsrTranscriptionNotes::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrTranscriptionNotes& elt)

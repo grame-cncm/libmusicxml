@@ -141,7 +141,7 @@ void xml2gmnInsiderOahHandler::createTheXml2gmnPrefixes ()
 #endif
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // the 'trace' prefixes
@@ -235,7 +235,7 @@ void xml2gmnInsiderOahHandler::createTheXml2gmnPrefixes ()
   registerPrefixInHandler (
     fLongDelayRestsPrefix);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //______________________________________________________________________________
@@ -615,7 +615,7 @@ void xml2gmnInsiderOahHandler::print (ostream& os) const
     "xml2gmnInsiderOahHandler:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -631,7 +631,7 @@ void xml2gmnInsiderOahHandler::print (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -644,10 +644,10 @@ void xml2gmnInsiderOahHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }
@@ -890,7 +890,7 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
     "The xml2gmn options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // Guido
   // --------------------------------------
@@ -899,7 +899,7 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
     setw (fieldWidth) << "Guido:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) <<
@@ -912,7 +912,7 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
     "generateBars" << " : " << booleanAsString (fGenerateBars) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // output file
   // --------------------------------------
@@ -921,7 +921,7 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
     setw (fieldWidth) << "Output file:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
@@ -933,7 +933,7 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
     "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // quit after some passes
   // --------------------------------------
@@ -942,7 +942,7 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
     "Quit after some passes:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "quitAfterPass2a" << " : " <<
@@ -952,9 +952,9 @@ void xml2gmnInsiderOahGroup::printXml2gmnInsiderOahGroupValues (unsigned int fie
     booleanAsString (fQuitAfterPass2b) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //______________________________________________________________________________

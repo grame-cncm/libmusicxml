@@ -150,12 +150,12 @@ void xml2gmnManPageGenerateAtom::print (ostream& os) const
     "xml2gmnManPageGenerateAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void xml2gmnManPageGenerateAtom::generateManPageData (ostream& os) const
@@ -370,11 +370,11 @@ void xml2gmnManPageOahGroup::printManPageOahValues (unsigned int fieldWidth)
     "The OAH options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // JMI ???
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_xml2gmnManPageOahGroup& elt)

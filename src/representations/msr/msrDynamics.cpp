@@ -462,7 +462,7 @@ void msrWedge::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 19;
 
@@ -483,7 +483,7 @@ void msrWedge::print (ostream& os) const
       fWedgePlacementKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrWedge& elt)

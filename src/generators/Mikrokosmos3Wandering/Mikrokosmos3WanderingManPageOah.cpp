@@ -150,12 +150,12 @@ void Mikrokosmos3WanderingManPageGenerateAtom::print (ostream& os) const
     "Mikrokosmos3WanderingManPageGenerateAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void Mikrokosmos3WanderingManPageGenerateAtom::generateManPageData (ostream& os) const
@@ -370,11 +370,11 @@ void Mikrokosmos3WanderingManPageOahGroup::printManPageOahValues (unsigned int f
     "The OAH options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // JMI ???
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingManPageOahGroup& elt)

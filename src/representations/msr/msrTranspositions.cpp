@@ -149,7 +149,7 @@ string msrOctaveShift::asString () const
 
 void msrOctaveShift::print (ostream& os) const
 {
-  gIndenter++;
+  ++gIndenter;
 
   os <<
     "OctaveShift" <<
@@ -157,7 +157,7 @@ void msrOctaveShift::print (ostream& os) const
     ", size: " << fOctaveShiftSize <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrOctaveShift& elt)
@@ -303,7 +303,7 @@ void msrTranspose::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (fieldWidth) <<
@@ -319,7 +319,7 @@ void msrTranspose::print (ostream& os) const
     "TransposeDouble" << " = " << fTransposeDouble <<
     endl << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrTranspose& elt)

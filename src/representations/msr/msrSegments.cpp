@@ -194,7 +194,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
     for (
       list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin ();
       i != fSegmentMeasuresList.end ();
-      i++
+      ++i
   ) {
       // append a deep copy of the measure to the deep copy
       segmentDeepCopy->
@@ -276,7 +276,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // determine new measure 'first in segment' kind
   msrMeasure::msrMeasureFirstInSegmentKind
@@ -326,7 +326,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   // append result to the segment
   appendMeasureToSegment (result);
 
-  gIndenter--;
+  --gIndenter;
 
   return result;
 }
@@ -348,7 +348,7 @@ void msrSegment::setNextMeasureNumberInSegment (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fSegmentMeasuresList.size ()) { // JMI ???
 #ifdef TRACING_IS_ENABLED
@@ -370,7 +370,7 @@ void msrSegment::setNextMeasureNumberInSegment (
         nextMeasureNumber);
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendPrintLayoutToSegment (
@@ -388,7 +388,7 @@ void msrSegment::appendPrintLayoutToSegment (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   if (fSegmentMeasuresList.size () == 0) {
@@ -407,11 +407,11 @@ void msrSegment::appendPrintLayoutToSegment (
     gLogStream <<
       "SegmentVoiceUpLink:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       fSegmentVoiceUpLink <<
       endl;
-    gIndenter--;
+    --gIndenter;
 
     msrInternalError (
       gGlobalOahOahGroup->getInputSourceName (),
@@ -424,7 +424,7 @@ void msrSegment::appendPrintLayoutToSegment (
   fSegmentMeasuresList.back ()->
     appendPrintLayoutToMeasure (printLayout);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
@@ -441,7 +441,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   if (fSegmentMeasuresList.size () == 0) {
@@ -460,11 +460,11 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     gLogStream <<
       "SegmentVoiceUpLink:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       fSegmentVoiceUpLink <<
       endl;
-    gIndenter--;
+    --gIndenter;
 
     msrInternalError (
       gGlobalOahOahGroup->getInputSourceName (),
@@ -477,7 +477,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
   fSegmentMeasuresList.back ()->
     appendClefToMeasure (clef);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
@@ -494,7 +494,7 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   if (fSegmentMeasuresList.size () == 0) {
@@ -513,11 +513,11 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
     gLogStream <<
       "SegmentVoiceUpLink:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       fSegmentVoiceUpLink <<
       endl;
-    gIndenter--;
+    --gIndenter;
 
     msrInternalError (
       gGlobalOahOahGroup->getInputSourceName (),
@@ -530,7 +530,7 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
   fSegmentMeasuresList.front ()->
     appendClefToMeasure (clef);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
@@ -551,13 +551,13 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
   assertSegmentMeasuresListIsNotEmpty (
     key->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // register key in segments's current measure
   fSegmentMeasuresList.back ()->
     appendKeyToMeasure (key);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendTimeToSegment (S_msrTime time)
@@ -568,12 +568,12 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
       "Appending time:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       time;
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "to segment " << asString () <<
@@ -588,13 +588,13 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
   assertSegmentMeasuresListIsNotEmpty (
     time->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append time to segments's current measure
   fSegmentMeasuresList.back ()->
     appendTimeToMeasure (time);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendTimeToSegmentClone (S_msrTime time)
@@ -605,12 +605,12 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
       "Appending time:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       time;
 
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "to segment clone " << asString () <<
@@ -621,7 +621,7 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   assertSegmentMeasuresListIsNotEmpty (
@@ -631,7 +631,7 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
   fSegmentMeasuresList.back ()->
     appendTimeToMeasureClone (time);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::insertHiddenMeasureAndBarlineInSegmentClone (
@@ -652,7 +652,7 @@ void msrSegment::insertHiddenMeasureAndBarlineInSegmentClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   assertSegmentMeasuresListIsNotEmpty (
@@ -664,7 +664,7 @@ void msrSegment::insertHiddenMeasureAndBarlineInSegmentClone (
       inputLineNumber,
       positionInMeasure);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
@@ -685,7 +685,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   assertSegmentMeasuresListIsNotEmpty (
@@ -695,7 +695,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasure (harmony);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
@@ -716,13 +716,13 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
   assertSegmentMeasuresListIsNotEmpty (
     harmony->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasureClone (harmony);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendFiguredBassToSegment (
@@ -744,7 +744,7 @@ void msrSegment::appendFiguredBassToSegment (
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   assertSegmentMeasuresListIsNotEmpty (
@@ -754,7 +754,7 @@ void msrSegment::appendFiguredBassToSegment (
   fSegmentMeasuresList.back ()->
     appendFiguredBassToMeasure (figuredBass);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendFiguredBassToSegmentClone (
@@ -777,13 +777,13 @@ void msrSegment::appendFiguredBassToSegmentClone (
   assertSegmentMeasuresListIsNotEmpty (
     figuredBass->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendFiguredBassToMeasure (figuredBass);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
@@ -804,13 +804,13 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
   assertSegmentMeasuresListIsNotEmpty (
     segno->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendSegnoToMeasure (segno);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
@@ -831,13 +831,13 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
   assertSegmentMeasuresListIsNotEmpty (
     coda->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendCodaToMeasure (coda);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendEyeGlassesToSegment (
@@ -859,13 +859,13 @@ void msrSegment::appendEyeGlassesToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     eyeGlasses->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendEyeGlassesToMeasure (eyeGlasses);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
@@ -886,13 +886,13 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
   assertSegmentMeasuresListIsNotEmpty (
     pedal->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPedalToMeasure (pedal);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendDampToSegment (S_msrDamp damp)
@@ -913,13 +913,13 @@ void msrSegment::appendDampToSegment (S_msrDamp damp)
   assertSegmentMeasuresListIsNotEmpty (
     damp->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendDampToMeasure (damp);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
@@ -940,13 +940,13 @@ void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
   assertSegmentMeasuresListIsNotEmpty (
     dampAll->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendDampAllToMeasure (dampAll);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendTransposeToSegment (
@@ -968,13 +968,13 @@ void msrSegment::appendTransposeToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     transpose->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTransposeToMeasure (transpose);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendPartNameDisplayToSegment (
@@ -996,13 +996,13 @@ void msrSegment::appendPartNameDisplayToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     partNameDisplay->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPartNameDisplayToMeasure (partNameDisplay);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendPartAbbreviationDisplayToSegment (
@@ -1025,14 +1025,14 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     partAbbreviationDisplay->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPartAbbreviationDisplayToMeasure (
       partAbbreviationDisplay);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendStaffDetailsToSegment (
@@ -1071,7 +1071,7 @@ void msrSegment::appendStaffDetailsToSegment (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // sanity check
   assertSegmentMeasuresListIsNotEmpty (
@@ -1094,7 +1094,7 @@ void msrSegment::appendStaffDetailsToSegment (
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
@@ -1116,13 +1116,13 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
   assertSegmentMeasuresListIsNotEmpty (
     lineBreak->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendLineBreakToMeasure (lineBreak);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
@@ -1143,13 +1143,13 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
   assertSegmentMeasuresListIsNotEmpty (
     pageBreak->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPageBreakToMeasure (pageBreak);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendBarNumberCheckToSegment (
@@ -1171,13 +1171,13 @@ void msrSegment::appendBarNumberCheckToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     barNumberCheck->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendBarNumberCheckToMeasure (barNumberCheck);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendTempoToSegment (
@@ -1199,13 +1199,13 @@ void msrSegment::appendTempoToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     tempo->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTempoToMeasure (tempo);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendRehearsalToSegment (
@@ -1227,13 +1227,13 @@ void msrSegment::appendRehearsalToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     rehearsal->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendRehearsalToMeasure (rehearsal);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendOctaveShiftToSegment (
@@ -1256,13 +1256,13 @@ void msrSegment::appendOctaveShiftToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     octaveShift->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendOctaveShiftToMeasure (octaveShift);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendScordaturaToSegment (
@@ -1285,13 +1285,13 @@ void msrSegment::appendScordaturaToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     scordatura->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendScordaturaToMeasure (scordatura);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendAccordionRegistrationToSegment (
@@ -1315,14 +1315,14 @@ void msrSegment::appendAccordionRegistrationToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     accordionRegistration->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendAccordionRegistrationToMeasure (
       accordionRegistration);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendHarpPedalsTuningToSegment (
@@ -1346,14 +1346,14 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     harpPedalsTuning->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarpPedalsTuningToMeasure (
       harpPedalsTuning);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::padUpToPositionInMeasureInSegment (
@@ -1391,20 +1391,20 @@ void msrSegment::padUpToPositionInMeasureInSegment (
     gLogStream <<
       "SegmentVoiceUpLink:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       fSegmentVoiceUpLink <<
       endl;
-    gIndenter--;
+    --gIndenter;
 
     gLogStream <<
       "Part:" <<
       endl;
-    gIndenter++;
+    ++gIndenter;
     gLogStream <<
       fSegmentVoiceUpLink->fetchVoicePartUpLink () <<
       endl;
-    gIndenter--;
+    --gIndenter;
 
     msrInternalError (
       gGlobalOahOahGroup->getInputSourceName (),
@@ -1476,7 +1476,7 @@ void msrSegment::appendPaddingNoteToSegment (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
     // append a padding note to the segment's last measure
@@ -1486,7 +1486,7 @@ void msrSegment::appendPaddingNoteToSegment (
         forwardStepLength);
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -1656,12 +1656,12 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
     barline->getInputLineNumber ());
 
   // prepend barline to this segment
-  gIndenter++;
+  ++gIndenter;
 
   fSegmentMeasuresList.front ()->
     prependBarlineToMeasure (barline);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
@@ -1682,13 +1682,13 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   assertSegmentMeasuresListIsNotEmpty (
     barline->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   // append barline to this segment
   fSegmentMeasuresList.back ()->
     appendBarlineToMeasure (barline);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
@@ -1731,13 +1731,13 @@ void msrSegment::appendVoiceStaffChangeToSegment (
   assertSegmentMeasuresListIsNotEmpty (
     voiceStaffChange->getInputLineNumber ());
 
-  gIndenter++;
+  ++gIndenter;
 
   fSegmentMeasuresList.back ()->
     appendVoiceStaffChangeToMeasure (
       voiceStaffChange);
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::appendNoteToSegment (
@@ -1924,7 +1924,7 @@ void msrSegment::removeNoteFromSegment (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fSegmentMeasuresList.size ()) {
     fSegmentMeasuresList.back ()->
@@ -1951,7 +1951,7 @@ void msrSegment::removeNoteFromSegment (
       s.str ());
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::removeElementFromSegment (
@@ -2044,13 +2044,13 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
       "The fetched measure contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       result <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -2114,13 +2114,13 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       "The removed measure contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       result <<
       endl;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -2200,7 +2200,7 @@ void msrSegment::browseData (basevisitor* v)
   for (
     list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin ();
     i != fSegmentMeasuresList.end ();
-    i++
+    ++i
   ) {
     // browse the element
     msrBrowser<msrMeasure> browser (v);
@@ -2300,9 +2300,9 @@ void msrSegment::displaySegment (
     " contains:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   print (gLogStream);
-  gIndenter--;
+  --gIndenter;
 
   gLogStream <<
     " <<*********" <<
@@ -2322,7 +2322,7 @@ void msrSegment::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 20;
 
@@ -2356,7 +2356,7 @@ void msrSegment::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrSegment::printShort (ostream& os) const
@@ -2372,7 +2372,7 @@ void msrSegment::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 20;
 
@@ -2408,7 +2408,7 @@ void msrSegment::printShort (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSegment& elt)

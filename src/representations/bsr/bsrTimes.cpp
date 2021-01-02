@@ -86,7 +86,7 @@ bool bsrTimeItem::isEqualTo (S_bsrTimeItem otherTimeItem) const
     return false;
   }
 
-  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
+  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); ++i) {
     if (
       ! (
         fTimeBeatsNumbersVector [i]
@@ -141,7 +141,7 @@ int bsrTimeItem::getTimeBeatsNumber () const
 {
   int result = 0;
 
-  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
+  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); ++i) {
     result +=
       fTimeBeatsNumbersVector [i];
   } // for
@@ -238,7 +238,7 @@ string bsrTimeItem::asString () const
       s <<
         ", beats numbers: ";
 
-      for (unsigned int i = 0; i < timeBeatsNumbersVectorSize; i++) {
+      for (unsigned int i = 0; i < timeBeatsNumbersVectorSize; ++i) {
         s <<
           fTimeBeatsNumbersVector [i];
 
@@ -522,7 +522,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
               s <<
                 "beats numbers: ";
 
-              for (int i = 0; i < vectorSize; i++) {
+              for (int i = 0; i < vectorSize; ++i) {
                 s <<
                   timeBeatsNumbersVector [i];
 
@@ -639,7 +639,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
               s <<
                 "beats numbers: ";
 
-              for (int i = 0; i < vectorSize; i++) {
+              for (int i = 0; i < vectorSize; ++i) {
                 s <<
                   timeBeatsNumbersVector [i];
 
@@ -837,7 +837,7 @@ void bsrTime::print (ostream& os) const
     ":" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 16;
 
@@ -852,7 +852,7 @@ void bsrTime::print (ostream& os) const
   if (timeItemsVectorSize) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     vector<S_bsrTimeItem>::const_iterator
       iBegin = fTimeItemsVector.begin (),
@@ -865,7 +865,7 @@ void bsrTime::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   else {
@@ -882,7 +882,7 @@ void bsrTime::print (ostream& os) const
     "spacesBefore" << " : " << fSpacesBefore <<
    endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrTime& elt)

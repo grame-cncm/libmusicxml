@@ -261,11 +261,11 @@ string existingBsrBrailleOutputKinds (unsigned int namesListMaxLength)
       map<string, bsrBrailleOutputKind>::const_iterator i =
         gGlobalBsrBrailleOutputKindsMap.begin ();
       i != gGlobalBsrBrailleOutputKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -344,11 +344,11 @@ string existingBsrTextsLanguageKinds (unsigned int namesListMaxLength)
       map<string, bsrTextsLanguageKind>::const_iterator i =
         gGlobalBsrTextsLanguageKindsMap.begin ();
       i != gGlobalBsrTextsLanguageKindsMap.end ();
-      i++
+      ++i
     ) {
       string theString = (*i).first;
 
-      count++;
+      ++count;
 
       cumulatedLength += theString.size ();
       if (cumulatedLength >= namesListMaxLength) {
@@ -387,7 +387,7 @@ void write_wchar_t ( wchar_t cell )
 
 void write_wstring (ostream& os, wstring wstr )
 {
-  for (unsigned int i = 0; i < wstr.size (); i++) {
+  for (unsigned int i = 0; i < wstr.size (); ++i) {
     wchar_t cell = wstr [i];
     write_wchar_t (os, cell);
   } // for
@@ -395,7 +395,7 @@ void write_wstring (ostream& os, wstring wstr )
 
 ostream& operator<< (ostream& os, const wstring& wstr)
 {
-  for (unsigned int i = 0; i < wstr.size (); i++) {
+  for (unsigned int i = 0; i < wstr.size (); ++i) {
     wchar_t cell = wstr [i];
 
     union Conversion {

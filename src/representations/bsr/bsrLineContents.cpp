@@ -159,7 +159,7 @@ S_bsrCellsList bsrLineContents::buildLineContentsElementsList () const
     list<S_bsrLineContentsElement>::const_iterator i =
       fLineContentsLineElementsList.begin ();
     i != fLineContentsLineElementsList.end ();
-    i++
+    ++i
   ) {
     S_bsrLineContentsElement lineElement = (*i);
 
@@ -180,7 +180,7 @@ int bsrLineContents::fetchCellsNumber () const
     list<S_bsrLineContentsElement>::const_iterator i =
       fLineContentsLineElementsList.begin ();
     i != fLineContentsLineElementsList.end ();
-    i++
+    ++i
   ) {
     S_bsrLineContentsElement lineElement = (*i);
 
@@ -248,7 +248,7 @@ void bsrLineContents::browseData (basevisitor* v)
     list<S_bsrLineContentsElement>::const_iterator i =
       fLineContentsLineElementsList.begin ();
     i != fLineContentsLineElementsList.end ();
-    i++ ) {
+    ++i ) {
     // browse the element
     bsrBrowser<bsrLineContentsElement> browser (v);
     browser.browse (*(*i));
@@ -312,7 +312,7 @@ void bsrLineContents::print (ostream& os) const
       lineElementsListSize, "lineElement", "lineElements") <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print the line numbers
   const unsigned int fieldWidth = 17;
@@ -333,7 +333,7 @@ void bsrLineContents::print (ostream& os) const
         lineElementsListSize, "lineElement", "lineElements");
     if (lineElementsListSize) {
       os << endl;
-      gIndenter++;
+      ++gIndenter;
 
       list<S_bsrLineContentsElement>::const_iterator
         iBegin = fLineContentsLineElementsList.begin (),
@@ -345,7 +345,7 @@ void bsrLineContents::print (ostream& os) const
         os << endl;
       } // for
 
-      gIndenter--;
+      --gIndenter;
     }
     else {
       os <<
@@ -354,7 +354,7 @@ void bsrLineContents::print (ostream& os) const
     }
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 string bsrLineContents::asDebugString () const

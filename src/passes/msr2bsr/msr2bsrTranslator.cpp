@@ -475,7 +475,7 @@ void msr2bsrTranslator::visitStart (S_msrPart& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   fCurrentPart = elt;
 }
@@ -495,7 +495,7 @@ void msr2bsrTranslator::visitEnd (S_msrPart& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 //________________________________________________________________________
@@ -554,14 +554,14 @@ void msr2bsrTranslator::visitStart (S_msrStaff& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   fCurrentStaff = elt;
 }
 
 void msr2bsrTranslator::visitEnd (S_msrStaff& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -594,12 +594,12 @@ void msr2bsrTranslator::visitStart (S_msrVoice& elt)
 
   fRelativeOctaveReference = nullptr;
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void msr2bsrTranslator::visitEnd (S_msrVoice& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1516,7 +1516,7 @@ void msr2bsrTranslator::visitStart (S_msrTime& elt)
       vector<S_msrTimeItem>::const_iterator i =
         mTimeItemsVector.begin ();
       i != mTimeItemsVector.end ();
-      i++
+      ++i
     ) {
       S_msrTimeItem mTimeItem = (*i);
 
@@ -1532,7 +1532,7 @@ void msr2bsrTranslator::visitStart (S_msrTime& elt)
 
       unsigned int vectorSize = mTimeBeatsNumbersVector.size ();
 
-      for (unsigned int i = 0; i < vectorSize; i++) {
+      for (unsigned int i = 0; i < vectorSize; ++i) {
         int
           mTimeItemBeatsNumber =
             mTimeBeatsNumbersVector [i];
@@ -1832,7 +1832,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
       for (
         i=noteWords.begin ();
         i!=noteWords.end ();
-        i++
+        ++i
       ) {
         msrPlacementKind
           wordsPlacementKind =
@@ -2574,7 +2574,7 @@ void msr2bsrTranslator::visitStart (S_msrIdentification& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   fCurrentIdentification =
     fResultingBsrScore->
@@ -2588,7 +2588,7 @@ void msr2bsrTranslator::visitEnd (S_msrIdentification& elt)
 {
   fOnGoingIdentification = false;
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -2976,7 +2976,7 @@ void msr2bsrTranslator::finalizeCurrentMeasureClone (
   S_msrMeasure originalMeasure)
 {
   // take this measure into account
-  fMeasuresCounter++;
+  ++fMeasuresCounter;
 
   // fetch the voice
   S_msrVoice
@@ -3192,7 +3192,7 @@ void msr2bsrTranslator::visitStart (S_msrStanza& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 //  if (elt->getStanzaTextPresent ()) { // JMI
     fCurrentStanzaClone =
@@ -3217,7 +3217,7 @@ void msr2bsrTranslator::visitStart (S_msrStanza& elt)
 
 void msr2bsrTranslator::visitEnd (S_msrStanza& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -4485,12 +4485,12 @@ void msr2bsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
           "' into after grace notes attached to:" <<
           endl;
 
-        gIndenter++;
+        ++gIndenter;
 
         fCurrentAfterGraceNotesGroupElement->
           print (gLogStream);
 
-        gIndenter--;
+        --gIndenter;
       }
 #endif
 
@@ -5771,12 +5771,12 @@ void msr2bsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
       ", contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentVoiceClone;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -5810,12 +5810,12 @@ void msr2bsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       ", contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentVoiceClone;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -5908,7 +5908,7 @@ void msr2bsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void msr2bsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
@@ -5922,7 +5922,7 @@ void msr2bsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // set last segment as the measures repeat pattern segment
 #ifdef TRACING_IS_ENABLED
@@ -5948,7 +5948,7 @@ void msr2bsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void msr2bsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
@@ -5965,7 +5965,7 @@ void msr2bsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // get the measures repeat upLink
   S_msrMeasuresRepeat
@@ -6007,7 +6007,7 @@ void msr2bsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void msr2bsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
@@ -6024,7 +6024,7 @@ void msr2bsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // create a measures repeat replica clone and append it to voice clone
 #ifdef TRACING_IS_ENABLED
@@ -6085,12 +6085,12 @@ void msr2bsrTranslator::visitStart (S_msrMultipleRest& elt)
       ", contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentVoiceClone;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -6113,12 +6113,12 @@ void msr2bsrTranslator::visitStart (S_msrMultipleRest& elt)
       ", contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentVoiceClone;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -6155,12 +6155,12 @@ void msr2bsrTranslator::visitEnd (S_msrMultipleRest& elt)
       ", fCurrentMultipleRestContentsClone =" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentMultipleRestContentsClone;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 
@@ -6219,12 +6219,12 @@ void msr2bsrTranslator::visitEnd (S_msrMultipleRest& elt)
       ", contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentVoiceClone;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -6244,7 +6244,7 @@ void msr2bsrTranslator::visitStart (S_msrMultipleRestContents& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (
@@ -6261,12 +6261,12 @@ void msr2bsrTranslator::visitStart (S_msrMultipleRestContents& elt)
       ", contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentVoiceClone;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -6285,7 +6285,7 @@ void msr2bsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // create a multiple rest contents clone
   fCurrentMultipleRestContentsClone =
@@ -6323,12 +6323,12 @@ void msr2bsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
       ", contains:" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     gLogStream <<
       fCurrentVoiceClone;
 
-    gIndenter--;
+    --gIndenter;
   }
 #endif
 }
@@ -6345,12 +6345,12 @@ void msr2bsrTranslator::visitStart (S_msrLayout& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void msr2bsrTranslator::visitEnd (S_msrLayout& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {

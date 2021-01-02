@@ -182,7 +182,7 @@ void msrGlissando::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 22;
 
@@ -207,7 +207,7 @@ void msrGlissando::print (ostream& os) const
      "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrGlissando& elt)

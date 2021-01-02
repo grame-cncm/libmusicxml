@@ -165,7 +165,7 @@ void lpsrSchemeVariable::print (ostream& os) const
     "SchemeVariable" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // escape quotes if any
   string variableName;
@@ -207,7 +207,7 @@ void lpsrSchemeVariable::print (ostream& os) const
     endlKindAsString (fEndlKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& schemeVariable)
@@ -307,7 +307,7 @@ void lpsrSchemeFunction::print (ostream& os) const
     "SchemeFunction" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // print resulting strings
   os <<
@@ -318,7 +318,7 @@ void lpsrSchemeFunction::print (ostream& os) const
     "function code: \"" << fFunctionCode << "\"" <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& schemeFunction)

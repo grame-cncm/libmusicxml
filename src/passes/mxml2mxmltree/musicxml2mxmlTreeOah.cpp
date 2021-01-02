@@ -185,7 +185,7 @@ void musicxml2mxmlTreeOahGroup::printMusicxml2mxmlTreeValues (unsigned int field
     "The MusicXML options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // trace
@@ -195,12 +195,12 @@ void musicxml2mxmlTreeOahGroup::printMusicxml2mxmlTreeValues (unsigned int field
     "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_musicxml2mxmlTreeOahGroup& elt)

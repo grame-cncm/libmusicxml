@@ -134,7 +134,7 @@ void msrSlash::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 18;
 
@@ -156,7 +156,7 @@ void msrSlash::print (ostream& os) const
       fSlashUseStemsKind) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrSlash& elt)

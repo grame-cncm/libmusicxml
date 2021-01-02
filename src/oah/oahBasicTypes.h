@@ -312,7 +312,7 @@ class EXP oahAtomWithVariableName : public oahAtom
     // public services
     // ------------------------------------------------------
 
-    int                   fetchVariableNameLength () const override // JMI ???
+    unsigned int          fetchVariableNameLength () const override // JMI ???
                               { return fVariableName.size (); }
 
   public:

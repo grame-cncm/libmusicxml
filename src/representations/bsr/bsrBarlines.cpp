@@ -254,7 +254,7 @@ void bsrBarline::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 17;
 
@@ -266,7 +266,7 @@ void bsrBarline::print (ostream& os) const
     "barlineCellsList" << " : " << fBarlineCellsList->asShortString () <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_bsrBarline& elt)

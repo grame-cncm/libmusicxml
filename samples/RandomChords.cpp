@@ -113,8 +113,8 @@ static Sxmlelement makemeasure(unsigned long num)
     measure->push(makeAttributes());        // division, time, clef...
   }
 
-  for (int i = 0; i < 4; i++) {           // next adds 4 quarter notes chords
-    for (int j = 0; j < 3; j++) {           // next adds 3 quarter notes chords
+  for (int i = 0; i < 4; ++i) {           // next adds 4 quarter notes chords
+    for (int j = 0; j < 3; ++j) {           // next adds 3 quarter notes chords
       Sxmlelement note = factory::instance().create(k_note);		// creates the note
 
       if (j > 0) {
@@ -145,7 +145,7 @@ static Sxmlelement makemeasure(unsigned long num)
 static Sxmlelement makePart (int count) {
 	Sxmlelement part = factory::instance().create(k_part);
 	part->add (newAttribute("id", kPartID));
-	for (int i=1; i<=count; i++)			// and 'count' times
+	for (int i=1; i<=count; ++i)			// and 'count' times
 		part->push (makemeasure(i));			// adds a new measure to the part
 	return part;
 }

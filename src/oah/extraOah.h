@@ -36,9 +36,9 @@ class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<extraShowAllHarmoniesStructuresAtom> create (
-      string shortName,
-      string longName,
-      string description);
+      const string& shortName,
+      const string& longName,
+      const string& description);
 
   protected:
 
@@ -46,9 +46,9 @@ class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     extraShowAllHarmoniesStructuresAtom (
-      string shortName,
-      string longName,
-      string description);
+      const string& shortName,
+      const string& longName,
+      const string& description);
 
     virtual ~extraShowAllHarmoniesStructuresAtom ();
 
@@ -135,8 +135,7 @@ class EXP extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
     // set and get
     // ------------------------------------------------------
 
-    void                  setStringVariable (
-                            string value)
+    void                  setStringVariable (const string& value)
                               { fStringVariable = value; }
 
   public:
@@ -220,7 +219,7 @@ class EXP extraShowHarmonyDetailsAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  setShowHarmonyDetailsVariableValue (
-                            string value)
+                            const string& value)
                               {  fStringVariable = value; }
 
   public:
@@ -300,7 +299,7 @@ class EXP extraShowHarmonyAnalysisAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  setShowHarmonyAnalysisVariableValue (
-                            string value)
+                            const string& value)
                               { fStringVariable = value; }
 
   public:

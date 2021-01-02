@@ -47,13 +47,13 @@ void versionInfo::print (ostream& os) const
       " (" << fVersionDate << "):" <<
       endl <<
 
-  outputIndenter::gGlobalOStreamIndenter++;
+  ++outputIndenter::gGlobalOStreamIndenter;
 
   os <<
     outputIndenter::gGlobalOStreamIndenter <<
       fVersionDescription;
 
-  outputIndenter::gGlobalOStreamIndenter--;
+  --outputIndenter::gGlobalOStreamIndenter;
 
   os << endl;
 }
@@ -78,7 +78,7 @@ void printVersionsHistory (
     executable + " versions history:" <<
     endl;
 
-  outputIndenter::gGlobalOStreamIndenter++;
+  ++outputIndenter::gGlobalOStreamIndenter;
 
   list<versionInfo>::const_iterator
     iBegin = gVersionInfoList.begin (),
@@ -90,7 +90,7 @@ void printVersionsHistory (
   // JMI  os << endl;
   } // for
 
-  outputIndenter::gGlobalOStreamIndenter--;
+  --outputIndenter::gGlobalOStreamIndenter;
 }
 
 string currentVersionNumber ()

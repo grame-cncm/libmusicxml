@@ -433,7 +433,7 @@ void msr2mxmlTreeTranslator::createMxmlAttributesElementAndAppendItToMeasure ()
       list<Sxmlelement>::const_iterator i =
         fClefElementsList.begin ();
       i!=fClefElementsList.end ();
-      i++
+      ++i
     ) {
       Sxmlelement clefElement = (*i);
 
@@ -778,7 +778,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
     list<Sxmlelement>::const_iterator i =
       fScoreDefaultsStaffLayoutElementsList.begin ();
     i!=fScoreDefaultsStaffLayoutElementsList.end ();
-    i++
+    ++i
   ) {
     Sxmlelement staffLayoutElement = (*i);
 
@@ -830,7 +830,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
       list<Sxmlelement>::const_iterator i =
         fPendingScoreCreditElementsList.begin ();
       i!=fPendingScoreCreditElementsList.end ();
-      i++
+      ++i
     ) {
       Sxmlelement creditElement = (*i);
 
@@ -859,7 +859,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
     list<Sxmlelement>::const_iterator i =
       fPendingPartElementsList.begin ();
     i!=fPendingPartElementsList.end ();
-    i++
+    ++i
   ) {
     Sxmlelement partElement = (*i);
 
@@ -1013,7 +1013,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   for (
     list<string>::const_iterator i=composersList.begin ();
     i!=composersList.end ();
-    i++
+    ++i
   ) {
     string variableValue = (*i);
 
@@ -1035,7 +1035,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   for (
     list<string>::const_iterator i=arrangersList.begin ();
     i!=arrangersList.end ();
-    i++
+    ++i
   ) {
     string variableValue = (*i);
 
@@ -1057,7 +1057,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   for (
     list<string>::const_iterator i=lyricistsList.begin ();
     i!=lyricistsList.end ();
-    i++
+    ++i
   ) {
     string variableValue = (*i);
 
@@ -1079,7 +1079,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   for (
     list<string>::const_iterator i=poetsList.begin ();
     i!=poetsList.end ();
-    i++
+    ++i
   ) {
     string variableValue = (*i);
 
@@ -1101,7 +1101,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   for (
     list<string>::const_iterator i=translatorsList.begin ();
     i!=translatorsList.end ();
-    i++
+    ++i
   ) {
     string variableValue = (*i);
 
@@ -1123,7 +1123,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   for (
     list<string>::const_iterator i=artistsList.begin ();
     i!=artistsList.end ();
-    i++
+    ++i
   ) {
     string variableValue = (*i);
 
@@ -1145,7 +1145,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   for (
     list<string>::const_iterator i=softwaresList.begin ();
     i!=softwaresList.end ();
-    i++
+    ++i
   ) {
     string variableValue = (*i);
 
@@ -1164,7 +1164,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   for (
     list<string>::const_iterator i=rightsList.begin ();
     i!=rightsList.end ();
-    i++
+    ++i
   ) {
     string variableValue = (*i);
 
@@ -1194,7 +1194,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrIdentification& elt)
     for (
       i=fRightsElementsList.begin ();
       i!=fRightsElementsList.end ();
-      i++) {
+      ++i) {
       Sxmlelement rightsElement = (*i);
 
       appendToScoreIdentification (rightsElement);
@@ -1207,7 +1207,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrIdentification& elt)
       for (
         list<Sxmlelement>::const_iterator i = fSoftwaresElementsList.begin ();
         i!=fSoftwaresElementsList.end ();
-        i++
+        ++i
       ) {
         Sxmlelement softwareElement = (*i);
 
@@ -1237,7 +1237,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrScaling& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // get the values
   fMillimeters = elt->getMillimeters ();
@@ -1275,7 +1275,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrScaling& elt)
 
 void msr2mxmlTreeTranslator::visitEnd (S_msrScaling& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -1573,7 +1573,7 @@ void msr2mxmlTreeTranslator::populateAppearanceLineWidths (
     list<S_msrLineWidth>::const_iterator i =
       lineWidthsList.begin ();
     i!=lineWidthsList.end ();
-    i++
+    ++i
   ) {
     S_msrLineWidth lineWidth = (*i);
 
@@ -1676,7 +1676,7 @@ void msr2mxmlTreeTranslator::populateAppearanceNoteSizes (
     list<S_msrNoteSize>::const_iterator i =
       noteSizesList.begin ();
     i!=noteSizesList.end ();
-    i++
+    ++i
   ) {
     S_msrNoteSize noteSize = (*i);
 
@@ -1731,7 +1731,7 @@ void msr2mxmlTreeTranslator::populateAppearanceDistances (
     list<S_msrDistance>::const_iterator i =
       distancesList.begin ();
     i!=distancesList.end ();
-    i++
+    ++i
   ) {
     S_msrDistance distance = (*i);
 
@@ -1783,7 +1783,7 @@ void msr2mxmlTreeTranslator::populateAppearanceGlyphs (
     list<S_msrGlyph>::const_iterator i =
       glyphsList.begin ();
     i!=glyphsList.end ();
-    i++
+    ++i
   ) {
     S_msrGlyph glyph = (*i);
 
@@ -1872,7 +1872,7 @@ void msr2mxmlTreeTranslator::populateAppearanceOtherAppearances (
     list<S_msrOtherAppearance>::const_iterator i =
       otherAppearancesList.begin ();
     i!=otherAppearancesList.end ();
-    i++
+    ++i
   ) {
     S_msrOtherAppearance otherAppearance = (*i);
 
@@ -2497,7 +2497,7 @@ if (false)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // createMxml a score part element
   Sxmlelement scorePartElement = createMxmlElement (k_score_part, "");
@@ -2649,7 +2649,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPart& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
   // forget about measure elements in the map
   fPartMeasuresMap.clear ();
@@ -3885,13 +3885,13 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTempo& elt)
         "\\markup {" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       fOutputStream <<
         "\\concat {" <<
         endl;
 
-      gIndenter++;
+      ++gIndenter;
 
       switch (tempoParenthesizedKind) {
         case msrTempo::kTempoParenthesizedYes:
@@ -3903,7 +3903,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTempo& elt)
           break;
       } // switch
 
-      gIndenter++;
+      ++gIndenter;
 
       if (gGlobalLpsrOahGroup->versionNumberGreaterThanOrEqualTo ("2.20")) {
         fOutputStream <<
@@ -3960,7 +3960,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTempo& elt)
 
       fOutputStream << endl;
 
-      gIndenter--;
+      --gIndenter;
 
       switch (tempoParenthesizedKind) {
         case msrTempo::kTempoParenthesizedYes:
@@ -3972,13 +3972,13 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTempo& elt)
           break;
       } // switch
 
-      gIndenter--;
+      --gIndenter;
 
       fOutputStream <<
         "}" <<
         endl;
 
-      gIndenter--;
+      --gIndenter;
 
       fOutputStream <<
         "}" <<
@@ -4209,7 +4209,7 @@ void msr2mxmlTreeTranslator:: appendNoteWedges (S_msrNote note)
   if (noteWedges.size ()) {
     list<S_msrWedge>::const_iterator i;
 
-    for (i=noteWedges.begin (); i!=noteWedges.end (); i++) {
+    for (i=noteWedges.begin (); i!=noteWedges.end (); ++i) {
       S_msrWedge wedge = (*i);
 
       msrWedge::msrWedgeKind wedgeKind = wedge->getWedgeKind ();
@@ -4264,7 +4264,7 @@ void msr2mxmlTreeTranslator:: appendNoteDynamics (S_msrNote note)
   if (noteDynamics.size ()) {
     list<S_msrDynamics>::const_iterator i;
 
-    for (i=noteDynamics.begin (); i!=noteDynamics.end (); i++) {
+    for (i=noteDynamics.begin (); i!=noteDynamics.end (); ++i) {
       S_msrDynamics dynamics = (*i);
 
       // createMxml the dynamics element
@@ -4748,7 +4748,7 @@ void msr2mxmlTreeTranslator:: appendNoteOrnaments (S_msrNote note)
   if (noteOrnaments.size ()) {
     list<S_msrOrnament>::const_iterator i;
 
-    for (i=noteOrnaments.begin (); i!=noteOrnaments.end (); i++) {
+    for (i=noteOrnaments.begin (); i!=noteOrnaments.end (); ++i) {
       S_msrOrnament ornament = (*i);
 
       msrOrnament::msrOrnamentKind
@@ -4859,7 +4859,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicals (S_msrNote note)
   if (noteTechnicals.size ()) {
     list<S_msrTechnical>::const_iterator i;
 
-    for (i=noteTechnicals.begin (); i!=noteTechnicals.end (); i++) {
+    for (i=noteTechnicals.begin (); i!=noteTechnicals.end (); ++i) {
       S_msrTechnical
         technical = (*i);
 
@@ -4963,7 +4963,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithIntegers (
   if (noteTechnicalWithIntegers.size ()) {
     list<S_msrTechnicalWithInteger>::const_iterator i;
 
-    for (i=noteTechnicalWithIntegers.begin (); i!=noteTechnicalWithIntegers.end (); i++) {
+    for (i=noteTechnicalWithIntegers.begin (); i!=noteTechnicalWithIntegers.end (); ++i) {
       S_msrTechnicalWithInteger
         technicalWithInteger = (*i);
 
@@ -5041,7 +5041,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithFloats (
   if (noteTechnicalWithFloats.size ()) {
     list<S_msrTechnicalWithFloat>::const_iterator i;
 
-    for (i=noteTechnicalWithFloats.begin (); i!=noteTechnicalWithFloats.end (); i++) {
+    for (i=noteTechnicalWithFloats.begin (); i!=noteTechnicalWithFloats.end (); ++i) {
       S_msrTechnicalWithFloat
         technicalWithFloat = (*i);
 
@@ -5110,7 +5110,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithStrings (
   if (noteTechnicalWithStrings.size ()) {
     list<S_msrTechnicalWithString>::const_iterator i;
 
-    for (i=noteTechnicalWithStrings.begin (); i!=noteTechnicalWithStrings.end (); i++) {
+    for (i=noteTechnicalWithStrings.begin (); i!=noteTechnicalWithStrings.end (); ++i) {
       S_msrTechnicalWithString
         technicalWithString = (*i);
 
@@ -5172,7 +5172,7 @@ void msr2mxmlTreeTranslator:: appendNoteArticulations (S_msrNote note)
   if (noteArticulations.size ()) {
     list<S_msrArticulation>::const_iterator i;
 
-    for (i=noteArticulations.begin (); i!=noteArticulations.end (); i++) {
+    for (i=noteArticulations.begin (); i!=noteArticulations.end (); ++i) {
       S_msrArticulation articulation = (*i);
 
       msrArticulation::msrArticulationKind
@@ -5365,7 +5365,7 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
   if (noteSlurs.size ()) {
     list<S_msrSlur>::const_iterator i;
 
-    for (i=noteSlurs.begin (); i!=noteSlurs.end (); i++) {
+    for (i=noteSlurs.begin (); i!=noteSlurs.end (); ++i) {
       S_msrSlur
         slur = (*i);
 
@@ -5530,7 +5530,7 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
   if (noteSpanners.size ()) {
     list<S_msrSpanner>::const_iterator i;
 
-    for (i=noteSpanners.begin (); i!=noteSpanners.end (); i++) {
+    for (i=noteSpanners.begin (); i!=noteSpanners.end (); ++i) {
       S_msrSpanner spanner = (*i);
 
       msrSpannerTypeKind
@@ -5634,7 +5634,7 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersAfterNote (
   if (noteSpanners.size ()) {
     list<S_msrSpanner>::const_iterator i;
 
-    for (i=noteSpanners.begin (); i!=noteSpanners.end (); i++) {
+    for (i=noteSpanners.begin (); i!=noteSpanners.end (); ++i) {
       S_msrSpanner spanner = (*i);
 
       msrSpannerTypeKind
@@ -5780,7 +5780,7 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (S_msrNote note)
   if (noteBeams.size ()) {
     list<S_msrBeam>::const_iterator i;
 
-    for (i=noteBeams.begin (); i!=noteBeams.end (); i++) {
+    for (i=noteBeams.begin (); i!=noteBeams.end (); ++i) {
       S_msrBeam beam = (*i);
 
       msrBeam::msrBeamKind
@@ -6014,7 +6014,7 @@ void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
   if (noteSyllables.size ()) {
     list<S_msrSyllable>::const_iterator i;
 
-    for (i=noteSyllables.begin (); i!=noteSyllables.end (); i++) {
+    for (i=noteSyllables.begin (); i!=noteSyllables.end (); ++i) {
       S_msrSyllable syllable = (*i);
 
       // createMxml and append a lyric element if relevant
@@ -6085,7 +6085,7 @@ void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
         for (
           list<string>::const_iterator i = syllableTextsList.begin ();
           i!=syllableTextsList.end ();
-          i++
+          ++i
         ) {
           string text = (*i);
 
@@ -6678,7 +6678,7 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
     }
   #endif
 
-    for (int i = 0; i < noteDotsNumber; i++) {
+    for (int i = 0; i < noteDotsNumber; ++i) {
       fCurrentNote->push (
         createMxmlElement (
           k_dot, ""));
@@ -7174,7 +7174,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   switch (elt->getStaffKind ()) {
     case kStaffRegular:
@@ -7274,7 +7274,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
 
 void msr2mxmlTreeTranslator::visitEnd (S_msrStaff& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -7325,12 +7325,12 @@ void msr2mxmlTreeTranslator::visitStart (S_msrVoice& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 }
 
 void msr2mxmlTreeTranslator::visitEnd (S_msrVoice& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -7648,7 +7648,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStanza& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 //  if (elt->getStanzaTextPresent ()) { // JMI
     fCurrentStanzaClone =
@@ -7673,7 +7673,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStanza& elt)
 
 void msr2mxmlTreeTranslator::visitEnd (S_msrStanza& elt)
 {
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
@@ -9707,7 +9707,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrRestMeasures& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -9739,7 +9739,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrRestMeasures& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -9771,7 +9771,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrRestMeasuresContents& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -9801,7 +9801,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrRestMeasuresContents& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestMeasures ()) {
@@ -9832,7 +9832,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasuresRepeat& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -9864,7 +9864,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrMeasuresRepeat& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 / * JMI
   // set last segment as the measures repeat pattern segment
@@ -9909,7 +9909,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -9939,7 +9939,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -9970,7 +9970,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasuresRepeats ()) {
@@ -10000,7 +10000,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   }
 #endif
 
-  gIndenter--;
+  --gIndenter;
 
 
 #ifdef TRACING_IS_ENABLED
@@ -10054,7 +10054,7 @@ void msr2mxmlTreeTranslator::displayCurrentOnGoingValues ()
     "Ongoing value:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 25;
 
@@ -10090,7 +10090,7 @@ void msr2mxmlTreeTranslator::displayCurrentOnGoingValues ()
     "fOnGoingSyllableExtend" << ": " << booleanAsString (fOnGoingSyllableExtend) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 */
 
@@ -10244,7 +10244,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
           "\\compoundMeter #`(";
 
         // handle all the time items in the vector
-        for (int i = 0; i < timesItemsNumber; i++) {
+        for (int i = 0; i < timesItemsNumber; ++i) {
           S_msrTimeItem
             timeItem =
               timeItemsVector [i];
@@ -10263,7 +10263,7 @@ bool musicXMLOrder::operator() (Sxmlelement a, Sxmlelement b)
             "(";
 
           // then generate all beats numbers in the vector
-          for (int j = 0; j < beatsNumbersNumber; j++) {
+          for (int j = 0; j < beatsNumbersNumber; ++j) {
             fOutputStream <<
               beatsNumbersVector [j] <<
               ' ';

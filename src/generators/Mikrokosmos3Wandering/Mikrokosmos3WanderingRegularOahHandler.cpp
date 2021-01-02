@@ -94,14 +94,14 @@ Mikrokosmos3WanderingRegularOahHandler::Mikrokosmos3WanderingRegularOahHandler (
     "\" has been initialized as:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream <<
     "===> printHelp():" <<
     endl;
   this->printHelp (gOutputStream); // JMI
 
-  gIndenter--;
+  --gIndenter;
 #endif
 #endif
 }
@@ -1208,7 +1208,7 @@ void Mikrokosmos3WanderingRegularOahHandler::print (ostream& os) const
     "Mikrokosmos3WanderingRegularOahHandler '" << fHandlerHeader << "':" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printHandlerEssentials (
     os, fieldWidth);
@@ -1224,7 +1224,7 @@ void Mikrokosmos3WanderingRegularOahHandler::print (ostream& os) const
   if (fHandlerGroupsList.size ()) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     list<S_oahGroup>::const_iterator
       iBegin = fHandlerGroupsList.begin (),
@@ -1237,10 +1237,10 @@ void Mikrokosmos3WanderingRegularOahHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 
   os << endl;
 }

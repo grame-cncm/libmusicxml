@@ -2433,13 +2433,13 @@ void traceOahGroup::printAtomWithValueOptionsValues (
     "The trace options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     setw (valueFieldWidth) << "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   os << left <<
     // options and help display
@@ -2530,7 +2530,7 @@ void traceOahGroup::printAtomWithValueOptionsValues (
       iEnd   = fTraceDetailedMeasureNumbersSet.end (),
       i      = iBegin;
 
-    gIndenter++;
+    ++gIndenter;
 
     for ( ; ; ) {
       os << "v " << (*i);
@@ -2538,7 +2538,7 @@ void traceOahGroup::printAtomWithValueOptionsValues (
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -2868,9 +2868,9 @@ void traceOahGroup::printAtomWithValueOptionsValues (
     booleanAsString (fTraceMidi) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void traceOahGroup::printTraceOahValues (unsigned int fieldWidth)
@@ -2879,13 +2879,13 @@ void traceOahGroup::printTraceOahValues (unsigned int fieldWidth)
     "The trace options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     // options and help display
@@ -2976,7 +2976,7 @@ void traceOahGroup::printTraceOahValues (unsigned int fieldWidth)
       iEnd   = fTraceDetailedMeasureNumbersSet.end (),
       i      = iBegin;
 
-    gIndenter++;
+    ++gIndenter;
 
     for ( ; ; ) {
       gLogStream << "v " << (*i);
@@ -2984,7 +2984,7 @@ void traceOahGroup::printTraceOahValues (unsigned int fieldWidth)
       // no endl here
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     gLogStream <<
@@ -3314,9 +3314,9 @@ void traceOahGroup::printTraceOahValues (unsigned int fieldWidth)
     booleanAsString (fTraceMidi) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_traceOahGroup& elt)

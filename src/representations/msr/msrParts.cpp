@@ -356,7 +356,7 @@ void msrPart::assignSequentialNumbersToRegularVoicesInPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       assignSequentialNumbersToRegularVoicesInStaff (
@@ -371,7 +371,7 @@ void msrPart::addAVoiceToStavesThatHaveNone (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       addAVoiceToStaffIfItHasNone (
@@ -463,7 +463,7 @@ void msrPart::createMeasureAndAppendItToPart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // set part current measure number
   fPartCurrentMeasureNumber = measureNumber;
@@ -488,7 +488,7 @@ void msrPart::createMeasureAndAppendItToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -500,7 +500,7 @@ void msrPart::createMeasureAndAppendItToPart (
         measureImplicitKind);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::setNextMeasureNumberInPart (
@@ -519,13 +519,13 @@ void msrPart::setNextMeasureNumberInPart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // set next measure number in registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -536,7 +536,7 @@ void msrPart::setNextMeasureNumberInPart (
         nextMeasureNumber);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::setPartNumberOfMeasures (unsigned int partNumberOfMeasures)
@@ -612,13 +612,13 @@ void msrPart::registerOrdinalMeasureNumberWholeNotesDuration (
       vector<rational>::const_iterator i =
         fPartMeasuresWholeNotesDurationsVector.begin ();
       i != fPartMeasuresWholeNotesDurationsVector.end ();
-      i++
+      ++i
     ) {
-      gIndenter++;
+      ++gIndenter;
       gLogStream <<
         (*i) <<
         endl;
-      gIndenter--;
+      --gIndenter;
     } // for
     gLogStream <<
       "<==== end of fPartMeasuresWholeNotesDurationsVector contents " <<
@@ -692,7 +692,7 @@ void msrPart::appendStaffDetailsToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -715,7 +715,7 @@ void msrPart::appendClefToPart (S_msrClef clef)
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // append clef to part-level staves if any
   if (fPartHarmoniesStaff) {
@@ -731,13 +731,13 @@ void msrPart::appendClefToPart (S_msrClef clef)
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendClefToStaff (clef);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::appendKeyToPart  (S_msrKey  key)
@@ -755,7 +755,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
   // set part key
   fPartCurrentKey = key;
 
-  gIndenter++;
+  ++gIndenter;
 
   // append key to part-level staves if any
   if (fPartHarmoniesStaff) {
@@ -771,7 +771,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -780,7 +780,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
       appendKeyToStaff (key);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::appendTimeToPart (S_msrTime time)
@@ -798,7 +798,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
   // set part time
   fPartCurrentTime = time;
 
-  gIndenter++;
+  ++gIndenter;
 
   // append time to part-level staves if any
   if (fPartHarmoniesStaff) {
@@ -814,7 +814,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -823,7 +823,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
       appendTimeToStaff (time);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::appendTimeToPartClone (S_msrTime time)
@@ -841,13 +841,13 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
   // set part time
   fPartCurrentTime = time;
 
-  gIndenter++;
+  ++gIndenter;
 
   // propagate it to all staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -856,7 +856,7 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
       appendTimeToStaffClone (time);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::insertHiddenMeasureAndBarlineInPartClone (
@@ -874,13 +874,13 @@ void msrPart::insertHiddenMeasureAndBarlineInPartClone (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // propagate it to all staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -891,7 +891,7 @@ void msrPart::insertHiddenMeasureAndBarlineInPartClone (
         positionInMeasure);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::appendTransposeToPart (
@@ -914,7 +914,7 @@ void msrPart::appendTransposeToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -944,7 +944,7 @@ void msrPart::appendPartNameDisplayToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -974,7 +974,7 @@ void msrPart::appendPartAbbreviationDisplayToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff = (*i).second;
@@ -991,7 +991,7 @@ void msrPart::nestContentsIntoNewRepeatInPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       nestContentsIntoNewRepeatInStaff (
@@ -1013,19 +1013,19 @@ void msrPart::handleRepeatStartInPart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       handleRepeatStartInStaff (
         inputLineNumber);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::handleRepeatEndInPart (
@@ -1044,12 +1044,12 @@ void msrPart::handleRepeatEndInPart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       handleRepeatEndInStaff (
@@ -1058,7 +1058,7 @@ void msrPart::handleRepeatEndInPart (
         repeatTimes);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::handleRepeatEndingStartInPart (
@@ -1075,19 +1075,19 @@ void msrPart::handleRepeatEndingStartInPart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       handleRepeatEndingStartInStaff (
         inputLineNumber);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::handleRepeatEndingEndInPart (
@@ -1110,12 +1110,12 @@ void msrPart::handleRepeatEndingEndInPart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       handleRepeatEndingEndInStaff (
@@ -1124,7 +1124,7 @@ void msrPart::handleRepeatEndingEndInPart (
         repeatEndingKind);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 
 /* JMI
@@ -1144,13 +1144,13 @@ void msrPart::finalizeRepeatEndInPart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // create repeat and append it to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       finalizeRepeatEndInStaff (
@@ -1159,7 +1159,7 @@ void msrPart::finalizeRepeatEndInPart (
         repeatTimes);
   } // for
 
-  gIndenter--;
+  --gIndenter;
 }
 */
 
@@ -1170,7 +1170,7 @@ void msrPart::appendRepeatCloneToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff =
@@ -1210,7 +1210,7 @@ void msrPart::appendRepeatEndingCloneToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendRepeatEndingCloneToStaff (repeatEndingCLone);
@@ -1226,7 +1226,7 @@ void msrPart::createMeasuresRepeatFromItsFirstMeasuresInPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       createMeasuresRepeatFromItsFirstMeasuresInStaff (
@@ -1243,7 +1243,7 @@ void msrPart::appendPendingMeasuresRepeatToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendPendingMeasuresRepeatToStaff (
@@ -1273,7 +1273,7 @@ void msrPart::createRestMeasuresInPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       createRestMeasuresInStaff (
@@ -1305,7 +1305,7 @@ void msrPart::addRestMeasuresToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       addRestMeasuresToStaff (
@@ -1331,7 +1331,7 @@ void msrPart::appendPendingRestMeasuresToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendPendingRestMeasuresToStaff (
@@ -1357,7 +1357,7 @@ void msrPart::appendRestMeasuresCloneToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendRestMeasuresCloneToStaff (
@@ -1372,7 +1372,7 @@ void msrPart::appendBarlineToPart (S_msrBarline barline)
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendBarlineToStaff (barline);
@@ -1936,7 +1936,7 @@ void msrPart::appendScordaturaToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendScordaturaToStaff (
@@ -1962,7 +1962,7 @@ void msrPart::appendAccordionRegistrationToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendAccordionRegistrationToStaff (
@@ -1988,7 +1988,7 @@ void msrPart::appendHarpPedalsTuningToPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       appendHarpPedalsTuningToStaff (
@@ -2024,7 +2024,7 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   for (
     map<int, S_msrStaff>::const_iterator i=fPartStavesMap.begin ();
     i!=fPartStavesMap.end ();
-    i++
+    ++i
   ) {
 
     map<int, S_msrVoice>
@@ -2035,7 +2035,7 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
     for (
       map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();
       j!=staffAllVoicesMap.end ();
-      j++
+      ++j
     ) {
       S_msrVoice voice = (*j).second;
 
@@ -2072,7 +2072,7 @@ void msrPart::finalizeLastAppendedMeasureInPart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   // reset current position in measure
   fPartCurrentPositionInMeasure = rational (0,0);
@@ -2081,7 +2081,7 @@ void msrPart::finalizeLastAppendedMeasureInPart (
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     (*i).second->
       finalizeLastAppendedMeasureInStaff (
@@ -2100,7 +2100,7 @@ void msrPart::finalizeLastAppendedMeasureInPart (
         inputLineNumber);
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::setPartInstrumentNamesMaxLengthes ()
@@ -2148,7 +2148,7 @@ void msrPart::finalizePart (
   }
 #endif
 
-  gIndenter++;
+  ++gIndenter;
 
   if (! fPartStavesMap.size ()) {
     stringstream s;
@@ -2169,7 +2169,7 @@ void msrPart::finalizePart (
     for (
       map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
       i != fPartStavesMap.end ();
-      i++
+      ++i
   ) {
       (*i).second->
         finalizeStaff (
@@ -2180,7 +2180,7 @@ void msrPart::finalizePart (
   // set score instrument names max lengthes if relevant
   setPartInstrumentNamesMaxLengthes ();
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::finalizePartClone (
@@ -2263,7 +2263,7 @@ void msrPart::browseData (basevisitor* v)
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
-    i++
+    ++i
   ) {
     S_msrStaff
       staff =
@@ -2311,7 +2311,7 @@ void msrPart::printPartMeasuresWholeNotesDurationsVector (
     "partMeasuresWholeNotesDurationsVector (ordinal number wise)" << " : " <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   if (fPartNumberOfMeasures == 0) {
     os << "empty" << endl;
@@ -2334,7 +2334,7 @@ void msrPart::printPartMeasuresWholeNotesDurationsVector (
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::print (ostream& os) const
@@ -2348,7 +2348,7 @@ void msrPart::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 29;
 
@@ -2495,11 +2495,11 @@ void msrPart::print (ostream& os) const
     setw (fieldWidth) << "partShortestNoteTupletFactor" << " : " <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   os <<
     fPartShortestNoteTupletFactor <<
     endl;
-  gIndenter--;
+  --gIndenter;
 
   // print the part harmonies staff if any
   os << left <<
@@ -2508,11 +2508,11 @@ void msrPart::print (ostream& os) const
   if (fPartHarmoniesStaff) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os << fPartHarmoniesStaff;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << "none";
@@ -2526,11 +2526,11 @@ void msrPart::print (ostream& os) const
   if (fPartFiguredBassStaff) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     os << fPartFiguredBassStaff;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << "none";
@@ -2550,7 +2550,7 @@ void msrPart::print (ostream& os) const
     "PartAllVoicesList";
   if (partAllVoicesListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoice>::const_iterator
       iBegin = fPartAllVoicesList.begin (),
@@ -2565,7 +2565,7 @@ void msrPart::print (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -2630,7 +2630,7 @@ void msrPart::print (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::printShort (ostream& os) const
@@ -2644,7 +2644,7 @@ void msrPart::printShort (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 29;
 
@@ -2796,11 +2796,11 @@ void msrPart::printShort (ostream& os) const
     setw (fieldWidth) << "partShortestNoteTupletFactor" << " : " <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
   os <<
     fPartShortestNoteTupletFactor <<
     endl;
-  gIndenter--;
+  --gIndenter;
 
   // print the part harmonies staff if any
   os << left <<
@@ -2809,9 +2809,9 @@ void msrPart::printShort (ostream& os) const
   if (fPartHarmoniesStaff) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
     fPartHarmoniesStaff->printShort (os);
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << "none";
@@ -2825,9 +2825,9 @@ void msrPart::printShort (ostream& os) const
   if (fPartFiguredBassStaff) {
     os << endl;
 
-    gIndenter++;
+    ++gIndenter;
     fPartFiguredBassStaff->printShort (os);
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os << "none";
@@ -2847,7 +2847,7 @@ void msrPart::printShort (ostream& os) const
     "PartAllVoicesList";
   if (partAllVoicesListSize) {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrVoice>::const_iterator
       iBegin = fPartAllVoicesList.begin (),
@@ -2862,7 +2862,7 @@ void msrPart::printShort (ostream& os) const
     } // for
     os << endl;
 
-    gIndenter--;
+    --gIndenter;
   }
   else {
     os <<
@@ -2926,7 +2926,7 @@ void msrPart::printShort (ostream& os) const
     } // for
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrPart::printSummary (ostream& os) const
@@ -2942,7 +2942,7 @@ void msrPart::printSummary (ostream& os) const
     ")" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 27;
 
@@ -3011,7 +3011,7 @@ void msrPart::printSummary (ostream& os) const
       "partStavesMap" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
 
     map<int, S_msrStaff>::const_iterator
       iBegin = fPartStavesMap.begin (),
@@ -3024,7 +3024,7 @@ void msrPart::printSummary (ostream& os) const
       os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // print the harmonies staff if any
@@ -3033,10 +3033,10 @@ void msrPart::printSummary (ostream& os) const
       "partHarmoniesStaff" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     os <<
       fPartHarmoniesStaff;
-    gIndenter--;
+    --gIndenter;
   }
 
   // print the figured bass staff if any
@@ -3045,13 +3045,13 @@ void msrPart::printSummary (ostream& os) const
       "partFiguredBassStaff" <<
       endl;
 
-    gIndenter++;
+    ++gIndenter;
     os <<
       fPartFiguredBassStaff;
-    gIndenter--;
+    --gIndenter;
   }
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrPart& elt)

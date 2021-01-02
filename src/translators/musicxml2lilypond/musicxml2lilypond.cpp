@@ -91,11 +91,11 @@ static xmlErr xmlFile2lilypondWithHandler (
         "Pass 2a");
   }
   catch (mxmlTreeToMsrException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -124,7 +124,7 @@ static xmlErr xmlFile2lilypondWithHandler (
     return kInvalidFile;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 
@@ -158,11 +158,11 @@ static xmlErr xmlFile2lilypondWithHandler (
           passNumber);
     }
     catch (msrScoreToLpsrScoreException& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
     catch (std::exception& e) {
-      gOutputStream << e.what () << endl;
+      displayException (e, gOutputStream);
       return kInvalidFile;
     }
 
@@ -243,11 +243,11 @@ static xmlErr xmlFile2lilypondWithHandler (
           lilypondStandardOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
-        gOutputStream << e.what () << endl;
+        displayException (e, gOutputStream);
         return kInvalidFile;
       }
       catch (std::exception& e) {
-        gOutputStream << e.what () << endl;
+        displayException (e, gOutputStream);
         return kInvalidFile;
       }
     }
@@ -311,11 +311,11 @@ static xmlErr xmlFile2lilypondWithHandler (
           lilypondFileOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
-        gOutputStream << e.what () << endl;
+        displayException (e, gOutputStream);
         return kInvalidFile;
       }
       catch (std::exception& e) {
-        gOutputStream << e.what () << endl;
+        displayException (e, gOutputStream);
         return kInvalidFile;
       }
 
@@ -394,7 +394,7 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
   bool insiderOptions = false;
   bool regularOptions = false;
 
-	for (unsigned int i = 1; i < options.size (); i++) {
+	for (unsigned int i = 1; i < options.size (); ++i) {
 	  string optionName = options [i].first;
 
 		if (optionName == "-insider") {
@@ -487,11 +487,11 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
     } // switch
   }
   catch (msrOahException& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidOption;
   }
   catch (std::exception& e) {
-    gOutputStream << e.what () << endl;
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
 

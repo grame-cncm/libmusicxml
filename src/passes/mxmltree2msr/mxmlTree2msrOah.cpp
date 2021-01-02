@@ -252,7 +252,7 @@ void msrDalSegnoAtom::print (ostream& os) const
     "msrDalSegnoAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -284,7 +284,7 @@ void msrDalSegnoAtom::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrDalSegnoAtom::printAtomWithValueOptionsValues (
@@ -303,7 +303,7 @@ void msrDalSegnoAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     map<string, msrDalSegno::msrDalSegnoKind>::const_iterator
       iBegin = fStringToDalSegnoKindMapVariable.begin (),
@@ -318,7 +318,7 @@ void msrDalSegnoAtom::printAtomWithValueOptionsValues (
       if (++i == iEnd) break;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -610,7 +610,7 @@ void msrReplaceClefAtom::print (ostream& os) const
     "msrReplaceClefAtom:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   printAtomWithValueEssentials (
     os, fieldWidth);
@@ -642,7 +642,7 @@ void msrReplaceClefAtom::print (ostream& os) const
   }
   os << endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 void msrReplaceClefAtom::printAtomWithValueOptionsValues (
@@ -661,7 +661,7 @@ void msrReplaceClefAtom::printAtomWithValueOptionsValues (
   }
   else {
     os << endl;
-    gIndenter++;
+    ++gIndenter;
 
     map<msrClefKind, msrClefKind>::const_iterator
       iBegin = fClefKindToClefKindMapVariable.begin (),
@@ -676,7 +676,7 @@ void msrReplaceClefAtom::printAtomWithValueOptionsValues (
       if (++i == iEnd) break;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 }
 
@@ -1678,7 +1678,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "The MusicXML options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // header
   // --------------------------------------
@@ -1687,7 +1687,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Header:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "useFilenameAsWorkTitle" << " : " <<
@@ -1697,7 +1697,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
       booleanAsString (fUseLyricistsAsPoets) <<
       endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // parts
   // --------------------------------------
@@ -1706,7 +1706,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Parts:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // parts omitted IDs
 
@@ -1722,7 +1722,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
       set<string> ::const_iterator i =
         fPartsOmitIDSet.begin ();
       i != fPartsOmitIDSet.end ();
-      i++
+      ++i
   ) {
         gLogStream <<
           "\"" << (*i) << "\" ";
@@ -1743,7 +1743,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
       set<string> ::const_iterator i =
         fPartsKeepIDSet.begin ();
       i != fPartsKeepIDSet.end ();
-      i++
+      ++i
   ) {
         gLogStream <<
           "\"" << (*i) << "\" ";
@@ -1764,7 +1764,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
       set<string> ::const_iterator i =
         fPartsOmitNameSet.begin ();
       i != fPartsOmitNameSet.end ();
-      i++
+      ++i
   ) {
         gLogStream <<
           "\"" << (*i) << "\" ";
@@ -1785,7 +1785,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
       set<string> ::const_iterator i =
         fPartsKeepNameSet.begin ();
       i != fPartsKeepNameSet.end ();
-      i++
+      ++i
   ) {
         gLogStream <<
           "\"" << (*i) << "\" ";
@@ -1794,7 +1794,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
 
   gLogStream << endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // clefs, keys, times
   // --------------------------------------
@@ -1803,7 +1803,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Clefs, keys, times:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "ignoreRedundantClefs" << " : " <<
@@ -1818,7 +1818,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     booleanAsString (fIgnoreRedundantTimes) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // measures
   // --------------------------------------
@@ -1827,7 +1827,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Measures:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
 //     map<string,int>       fAddEmptyMeasuresStringToIntMap;
 
@@ -1845,7 +1845,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     booleanAsString (fIgnoreRedundantTimes) <<
     endl;
 */
-  gIndenter--;
+  --gIndenter;
 
   // notes
   // --------------------------------------
@@ -1854,7 +1854,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
      "Notes:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "delayRestsDynamics" << " : " <<
@@ -1895,7 +1895,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     booleanAsString (fBeamAllGraceNotes) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // articulations
   // --------------------------------------
@@ -1904,14 +1904,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
      "Articulations:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "omitArticulations" << " : " <<
     booleanAsString (fOmitArticulations) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // ornaments
   // --------------------------------------
@@ -1920,14 +1920,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
      "Ornaments:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "omitOrnaments" << " : " <<
     booleanAsString (fOmitOrnaments) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // words
   // --------------------------------------
@@ -1936,14 +1936,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
      "Words:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "omitWords" << " : " <<
     booleanAsString (fOmitWords) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // ties
   // --------------------------------------
@@ -1952,14 +1952,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
      "Ties:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "omitTies" << " : " <<
     booleanAsString (fOmitTies) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // dynamics
   // --------------------------------------
@@ -1968,14 +1968,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
      "Dynamics:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "omitDynamics" << " : " <<
     booleanAsString (fOmitDynamics) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // slurs
   // --------------------------------------
@@ -1984,14 +1984,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
      "Slurs:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "mitSlurs" << " : " <<
     booleanAsString (fOmitSlurs) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // wedges
   // --------------------------------------
@@ -2000,14 +2000,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
      "Wedges:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "omitWedges" << " : " <<
     booleanAsString (fOmitWedges) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // lyrics
   // --------------------------------------
@@ -2016,14 +2016,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Lyrics:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream <<
     setw (valueFieldWidth) << "omitLyrics" << " : " <<
     booleanAsString (fOmitLyrics) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // harmonies
   // --------------------------------------
@@ -2032,14 +2032,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Harmonies:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "omitHarmonies" << " : " <<
     booleanAsString (fOmitHarmonies) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // figured bass
   // --------------------------------------
@@ -2048,14 +2048,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Figured bass:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "omitFiguredBasses" << " : " <<
     booleanAsString (fOmitFiguredBasses) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // dynamics and wedges
   // --------------------------------------
@@ -2064,7 +2064,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Dynamics and wedges:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "allDynamicsBelow" << " : " <<
@@ -2074,7 +2074,7 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     booleanAsString (fAllWedgesBelow) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // combined options, cubase
   // --------------------------------------
@@ -2083,14 +2083,14 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Cubase:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (valueFieldWidth) << "cubase" << " : " <<
     booleanAsString (fCubase) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 #ifdef TRACING_IS_ENABLED
   // trace
@@ -2100,15 +2100,15 @@ void mxmlTree2msrOahGroup::printMxmlTree2msrValues (int valueFieldWidth)
     "Trace:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // specific trace
   // --------------------------------------
 
-  gIndenter--;
+  --gIndenter;
 #endif
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_mxmlTree2msrOahGroup& elt)

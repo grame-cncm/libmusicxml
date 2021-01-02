@@ -582,7 +582,7 @@ void msrFiguredBass::browseData (basevisitor* v)
   for (
     list<S_msrFigure>::const_iterator i = fFiguredBassFiguresList.begin ();
     i != fFiguredBassFiguresList.end ();
-    i++
+    ++i
   ) {
     // browse the figure
     msrBrowser<msrFigure> browser (v);
@@ -677,7 +677,7 @@ void msrFiguredBass::print (ostream& os) const
     ", line " << fInputLineNumber <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   const unsigned int fieldWidth = 32;
 
@@ -726,7 +726,7 @@ void msrFiguredBass::print (ostream& os) const
     endl;
 
   if (fFiguredBassFiguresList.size ()) {
-    gIndenter++;
+    ++gIndenter;
 
     list<S_msrFigure>::const_iterator
       iBegin = fFiguredBassFiguresList.begin (),
@@ -739,7 +739,7 @@ void msrFiguredBass::print (ostream& os) const
  // JMI     os << endl;
     } // for
 
-    gIndenter--;
+    --gIndenter;
   }
 
   // print the figured bass position in measure
@@ -754,7 +754,7 @@ void msrFiguredBass::print (ostream& os) const
     "positionInVoice" << " : " << fMeasureElementPositionInVoice <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_msrFiguredBass& elt)

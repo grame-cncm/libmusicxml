@@ -265,21 +265,21 @@ void generalOahGroup::printGeneralOahValues (unsigned int fieldWidth)
     "The general options are:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   // translation date
   // --------------------------------------
 
   gLogStream << left <<
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) << "translationDate" << " : " <<
     fTranslationDateFull <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
   // warning and error handling
   // --------------------------------------
@@ -288,7 +288,7 @@ void generalOahGroup::printGeneralOahValues (unsigned int fieldWidth)
     setw (fieldWidth) << "Warning and error handling:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream <<
     setw (fieldWidth) << "quiet" << " : " <<
@@ -304,7 +304,7 @@ void generalOahGroup::printGeneralOahValues (unsigned int fieldWidth)
     booleanAsString (fDisplaySourceCodePosition) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
 
   // CPU usage
@@ -314,16 +314,16 @@ void generalOahGroup::printGeneralOahValues (unsigned int fieldWidth)
     setw (fieldWidth) << "CPU usage:" <<
     endl;
 
-  gIndenter++;
+  ++gIndenter;
 
   gLogStream <<
     setw (fieldWidth) << "displayCPUusage" << " : " <<
     booleanAsString (fDisplayCPUusage) <<
     endl;
 
-  gIndenter--;
+  --gIndenter;
 
-  gIndenter--;
+  --gIndenter;
 }
 
 ostream& operator<< (ostream& os, const S_generalOahGroup& elt)
