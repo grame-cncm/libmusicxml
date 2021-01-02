@@ -2110,7 +2110,7 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
       fPartPartGroupUpLink->
         getPartGroupScoreUpLink ();
 
-  int partInstrumentNameLength =
+  unsigned int partInstrumentNameLength =
     fPartInstrumentName.size ();
 
   if (
@@ -2122,7 +2122,7 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
         partInstrumentNameLength);
   }
 
-  int partInstrumentAbbreviationLength =
+  unsigned int partInstrumentAbbreviationLength =
     fPartInstrumentAbbreviation.size ();
 
   if (
@@ -2543,7 +2543,8 @@ void msrPart::print (ostream& os) const
     fieldWidth);
 
   // print all the voices if any
-  unsigned int partAllVoicesListSize = fPartAllVoicesList.size ();
+  unsigned int partAllVoicesListSize =
+    fPartAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -2840,7 +2841,8 @@ void msrPart::printShort (ostream& os) const
     fieldWidth);
 
   // print all the voices if any
-  unsigned int partAllVoicesListSize = fPartAllVoicesList.size ();
+  unsigned int partAllVoicesListSize =
+    fPartAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<

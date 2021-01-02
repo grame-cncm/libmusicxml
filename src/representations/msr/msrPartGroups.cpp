@@ -159,7 +159,7 @@ msrPartGroup::msrPartGroup (
 
   fPartGroupName            = partGroupName;
 
-  int partGroupNameLength =
+  unsigned int partGroupNameLength =
     fPartGroupName.size ();
 
   if (
@@ -1082,7 +1082,8 @@ void msrPartGroup::print (ostream& os) const
     endl;
 
   // print all the voices if any
-  unsigned int partGroupAllVoicesListSize = fPartGroupAllVoicesList.size ();
+  unsigned int partGroupAllVoicesListSize =
+    fPartGroupAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<
@@ -1211,7 +1212,8 @@ void msrPartGroup::printShort (ostream& os) const
     endl;
 
   // print all the voices if any
-  unsigned int partGroupAllVoicesListSize = fPartGroupAllVoicesList.size ();
+  unsigned int partGroupAllVoicesListSize =
+    fPartGroupAllVoicesList.size ();
 
   os <<
     setw (fieldWidth) <<

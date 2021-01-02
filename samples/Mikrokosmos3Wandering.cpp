@@ -1895,12 +1895,12 @@ static S_msrScore createAndPopulateTheScore (
 }
 
 //------------------------------------------------------------------------
-static xmlErr generateGuidoCodeFromScore (S_msrScore score)
+static xmlErr generateGuidoCodeFromMsrScore (S_msrScore score)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   cerr <<
-    "==> generateGuidoCodeFromScore" <<
+    "==> generateGuidoCodeFromMsrScore" <<
     endl;
 #endif
 #endif
@@ -1965,12 +1965,12 @@ static xmlErr generateGuidoCodeFromScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-static xmlErr generateLilypondCodeFromScore (S_msrScore score)
+static xmlErr generateLilypondCodeFromMsrScore (S_msrScore score)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   cerr <<
-    "==> generateLilypondCodeFromScore" <<
+    "==> generateLilypondCodeFromMsrScore" <<
     endl;
 #endif
 #endif
@@ -2166,12 +2166,12 @@ static xmlErr generateLilypondCodeFromScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-static xmlErr generateBrailleMusicFromScore (S_msrScore score)
+static xmlErr generateBrailleMusicFromMsrScore (S_msrScore score)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   cerr <<
-    "==> generateBrailleMusicFromScore" <<
+    "==> generateBrailleMusicFromMsrScore" <<
     endl;
 #endif
 #endif
@@ -2442,12 +2442,12 @@ static xmlErr generateBrailleMusicFromScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-static xmlErr generateMusicXMLFromScore (S_msrScore score)
+static xmlErr generateMusicXMLFromMsrScore (S_msrScore score)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   cerr <<
-    "==> generateMusicXMLFromScore" <<
+    "==> generateMusicXMLFromMsrScore" <<
     endl;
 #endif
 #endif
@@ -2840,68 +2840,6 @@ int main (int argc, char * argv[])
 #endif
 #endif
 
-/* JMI
-  // take generatedCodeKind options into account if any
-  // ------------------------------------------------------
-
-	optionsVector keptOptions;
-
-	for (auto option: theOptionsVector) {
-	  if (option.first      == "-guido") {
-	    registerGeneratedCodeKind (kGuido);
-      keptOptions.push_back (option);
-    }
-	  else if (option.first == "-lilypond") {
-	    registerGeneratedCodeKind (kLilyPond);
-      keptOptions.push_back (option);
-	  }
-	  else if (option.first == "-braille") {
-	    registerGeneratedCodeKind (kBrailleMusic);
-      keptOptions.push_back (option);
-	  }
-	  else if (option.first == "-musicxml") {
-	    registerGeneratedCodeKind (kMusicXML);
-      keptOptions.push_back (option);
-	  }
-	  else if (option.first == "-all") { // JMI ???
-	    registerGeneratedCodeKind (kMusicXML);
-      keptOptions.push_back (option);
-	  }
-	  else {
-	    // FUTRURE JMI keptOptions.push_back (option);
-	    cerr <<
-	      executableName <<
-	      ": option '" <<
-	      option.first <<
-	      "' is unknown" <<
-	      endl;
-
-	    return 1;
-	  }
-	} // for
-
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayOptionsVector (theOptionsVector, cerr);
-#endif
-#endif
-
-  // the default is '-lilypond'
-  if (gGeneratedCodeKind == k_NoGeneratedCode) {
-    gGeneratedCodeKind = kLilyPond;
-  }
-
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    "==> generatedCodeKind: " <<
-    generatedCodeKindAsString (gGeneratedCodeKind) <<
-    endl;
-#endif
-#endif
-
-*/
-
   // initialize the library and OAH
   // ------------------------------------------------------
 
@@ -2946,22 +2884,22 @@ int main (int argc, char * argv[])
       break;
     case kGuido:
       err =
-        generateGuidoCodeFromScore (
+        generateGuidoCodeFromMsrScore (
           score);
       break;
     case kLilyPond:
       err =
-        generateLilypondCodeFromScore (
+        generateLilypondCodeFromMsrScore (
           score);
       break;
     case kBrailleMusic:
       err =
-        generateBrailleMusicFromScore (
+        generateBrailleMusicFromMsrScore (
           score);
       break;
     case kMusicXML:
       err =
-        generateMusicXMLFromScore (
+        generateMusicXMLFromMsrScore (
           score);
       break;
   } // switch

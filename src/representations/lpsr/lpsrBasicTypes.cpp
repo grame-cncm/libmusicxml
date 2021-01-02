@@ -1108,9 +1108,8 @@ string existingLpsrChordsLanguageKinds (unsigned int namesListMaxLength)
       gGlobalLpsrChordsLanguageKindsMap.size ();
 
   if (lpsrChordsLanguageKindsMapSize) {
-    int
-      nextToLast =
-        lpsrChordsLanguageKindsMapSize - 1;
+    unsigned int nextToLast =
+      lpsrChordsLanguageKindsMapSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;

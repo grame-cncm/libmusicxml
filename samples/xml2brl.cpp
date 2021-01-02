@@ -184,6 +184,7 @@ int main (int argc, char *argv[])
     } // switch
   }
   catch (msrOahException& e) {
+    displayException (e, gOutputStream);
     return kInvalidOption;
   }
   catch (std::exception& e) {

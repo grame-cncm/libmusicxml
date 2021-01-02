@@ -121,6 +121,7 @@ static xmlErr xmlFile2lilypondWithHandler (
       "Pass 2b");
   }
   catch (mxmlTreeToMsrException& e) {
+    displayException (e, gOutputStream);
     return kInvalidFile;
   }
   catch (std::exception& e) {

@@ -23,7 +23,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-EXP void generateMusicXMLFromMxmlTree (
+EXP extern void generateMusicXMLFromMxmlTree (
   Sxmlelement mxmlTree,
   string      outputFileName,
   ostream&    cerr,

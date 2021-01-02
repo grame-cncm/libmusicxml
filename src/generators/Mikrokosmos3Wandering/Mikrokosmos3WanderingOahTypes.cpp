@@ -75,9 +75,8 @@ string existingGeneratedCodeKinds (unsigned int namesListMaxLength)
       gGlobalGeneratedCodeKindsMap.size ();
 
   if (brailleOutputKindsMapSize) {
-    int
-      nextToLast =
-        brailleOutputKindsMapSize - 1;
+    unsigned int nextToLast =
+      brailleOutputKindsMapSize - 1;
 
     int count = 0;
     int cumulatedLength = 0;

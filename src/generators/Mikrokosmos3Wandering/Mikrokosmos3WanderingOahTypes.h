@@ -25,7 +25,7 @@ enum generatedCodeKind {
   kGuido, kLilyPond, kBrailleMusic, kMusicXML
 };
 
-string generatedCodeKindAsString (generatedCodeKind kind);
+EXP extern string generatedCodeKindAsString (generatedCodeKind kind);
 
 extern map<string, generatedCodeKind>
   gGlobalGeneratedCodeKindsMap;

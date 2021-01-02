@@ -10432,14 +10432,12 @@ string existingClefKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    clefKindsMapSize =
-      gGlobalClefKindsMap.size ();
+  unsigned int clefKindsMapSize =
+    gGlobalClefKindsMap.size ();
 
   if (clefKindsMapSize) {
-    int
-      nextToLast =
-        clefKindsMapSize - 1;
+    unsigned int nextToLast =
+      clefKindsMapSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;
@@ -10478,14 +10476,12 @@ string existingClefKindsNames (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    clefKindsNamesMapSize =
-      gClefKindsNamesList.size ();
+  unsigned int clefKindsNamesMapSize =
+    gClefKindsNamesList.size ();
 
   if (clefKindsNamesMapSize) {
-    int
-      nextToLast =
-        clefKindsNamesMapSize - 1;
+    unsigned int nextToLast =
+      clefKindsNamesMapSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;
@@ -11403,14 +11399,12 @@ string existingHarmonyKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    harmonyKindsMapSize =
-      gGlobalHarmonyKindsMap.size ();
+  unsigned int harmonyKindsMapSize =
+    gGlobalHarmonyKindsMap.size ();
 
   if (harmonyKindsMapSize) {
-    int
-      nextToLast =
-        harmonyKindsMapSize - 1;
+    unsigned int nextToLast =
+      harmonyKindsMapSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;
@@ -11449,14 +11443,12 @@ string existingHarmonyKindsNames (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    harmonyKindsNamesListSize =
-      gHarmonyKindsNamesList.size ();
+  unsigned int harmonyKindsNamesListSize =
+    gHarmonyKindsNamesList.size ();
 
   if (harmonyKindsNamesListSize) {
-    int
-      nextToLast =
-        harmonyKindsNamesListSize - 1;
+    unsigned int nextToLast =
+      harmonyKindsNamesListSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;
@@ -14898,14 +14890,12 @@ string existingQuarterTonesPitchesLanguageKinds (unsigned int namesListMaxLength
 {
   stringstream s;
 
-  int
-    quarterTonesPitchesLanguageKindsMapSize =
-      gGlobalQuarterTonesPitchesLanguageKindsMap.size ();
+  unsigned int quarterTonesPitchesLanguageKindsMapSize =
+    gGlobalQuarterTonesPitchesLanguageKindsMap.size ();
 
   if (quarterTonesPitchesLanguageKindsMapSize) {
-    int
-      nextToLast =
-        quarterTonesPitchesLanguageKindsMapSize - 1;
+    unsigned int nextToLast =
+      quarterTonesPitchesLanguageKindsMapSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;
@@ -15606,14 +15596,12 @@ string existingMsrLengthUnitKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    msrLengthUnitKindsMapSize =
-      gGlobalMsrLengthUnitKindsMap.size ();
+  unsigned int msrLengthUnitKindsMapSize =
+    gGlobalMsrLengthUnitKindsMap.size ();
 
   if (msrLengthUnitKindsMapSize) {
-    int
-      nextToLast =
-        msrLengthUnitKindsMapSize - 1;
+    unsigned int nextToLast =
+      msrLengthUnitKindsMapSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;
@@ -15806,14 +15794,12 @@ string existingMsrMarginTypeKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    msrMarginTypeKindsMapSize =
-      gGlobalMsrMarginTypeKindsMap.size ();
+  unsigned int msrMarginTypeKindsMapSize =
+    gGlobalMsrMarginTypeKindsMap.size ();
 
   if (msrMarginTypeKindsMapSize) {
-    int
-      nextToLast =
-        msrMarginTypeKindsMapSize - 1;
+    unsigned int nextToLast =
+      msrMarginTypeKindsMapSize - 1;
 
     unsigned int count = 0;
     unsigned int cumulatedLength = 0;
@@ -20596,8 +20582,10 @@ S_msrHarmonyStructure msrHarmonyStructure::invertHarmonyStructure (int inversion
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceHarmoniesDetails ()) {
     gLogStream <<
-      "==> invertHarmonyStructure (), inversion = " << inversion <<
-      ", original harmonyStructureIntervalsSize = " << harmonyStructureIntervalsSize <<
+      "==> invertHarmonyStructure (), inversion = " <<
+      inversion <<
+      ", original harmonyStructureIntervalsSize = " <<
+      harmonyStructureIntervalsSize <<
       endl;
   }
 #endif

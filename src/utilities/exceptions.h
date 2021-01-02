@@ -29,7 +29,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-EXP void displayException (exception& e, ostream& os);
+EXP extern void displayException (exception& e, ostream& os);
 
 //______________________________________________________________________________
 class EXP msrException: public exception

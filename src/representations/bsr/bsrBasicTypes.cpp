@@ -250,12 +250,11 @@ string existingBsrBrailleOutputKinds (unsigned int namesListMaxLength)
       gGlobalBsrBrailleOutputKindsMap.size ();
 
   if (brailleOutputKindsMapSize) {
-    int
-      nextToLast =
-        brailleOutputKindsMapSize - 1;
+    unsigned int nextToLast =
+      brailleOutputKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, bsrBrailleOutputKind>::const_iterator i =
@@ -328,17 +327,15 @@ string existingBsrTextsLanguageKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    textsLanguageKindsMapSize =
-      gGlobalBsrTextsLanguageKindsMap.size ();
+  unsigned int textsLanguageKindsMapSize =
+    gGlobalBsrTextsLanguageKindsMap.size ();
 
   if (textsLanguageKindsMapSize) {
-    int
-      nextToLast =
-        textsLanguageKindsMapSize - 1;
+    unsigned int nextToLast =
+      textsLanguageKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, bsrTextsLanguageKind>::const_iterator i =

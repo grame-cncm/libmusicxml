@@ -25,7 +25,7 @@
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-S_lpsrScore convertMsrScoreToLpsrScore (
+EXP extern S_lpsrScore convertMsrScoreToLpsrScore (
   S_msrScore     originalMsrScore,
   S_msrOahGroup  msrOpts,
   S_lpsrOahGroup lpsrOpts,
