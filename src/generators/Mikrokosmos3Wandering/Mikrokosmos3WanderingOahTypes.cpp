@@ -78,8 +78,8 @@ string existingGeneratedCodeKinds (unsigned int namesListMaxLength)
     unsigned int nextToLast =
       brailleOutputKindsMapSize - 1;
 
-    int count = 0;
-    int cumulatedLength = 0;
+    unsigned int count = 0;
+    unsigned int cumulatedLength = 0;
 
     for (
       map<string, generatedCodeKind>::const_iterator i =

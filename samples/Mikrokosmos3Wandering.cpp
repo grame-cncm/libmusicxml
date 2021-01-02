@@ -2917,5 +2917,18 @@ int main (int argc, char * argv[])
 #endif
 #endif
 
-  return 0;
+  switch (err) {
+    case kNoErr:
+      return 0;
+      break;
+    case kInvalidFile:
+      return 1;
+      break;
+    case kInvalidOption:
+      return 2;
+      break;
+    case kUnsupported:
+      return 3;
+      break;
+  } // switch
 }

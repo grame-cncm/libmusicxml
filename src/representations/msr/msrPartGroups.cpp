@@ -227,7 +227,7 @@ msrPartGroup::msrPartGroup (
 
   fPartGroupName            = partGroupName;
 
-  int partGroupNameLength =
+  unsigned int partGroupNameLength =
     fPartGroupName.size ();
 
   if (
@@ -381,7 +381,8 @@ void msrPartGroup::setPartGroupInstrumentName (
     score =
       fPartGroupScoreUpLink;
 
-  int partGroupInstrumentNameLength = fPartGroupInstrumentName.size ();
+  unsigned int partGroupInstrumentNameLength =
+    fPartGroupInstrumentName.size ();
 
   if (
     partGroupInstrumentNameLength

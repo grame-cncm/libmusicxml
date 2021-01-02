@@ -245,9 +245,8 @@ string existingBsrBrailleOutputKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    brailleOutputKindsMapSize =
-      gGlobalBsrBrailleOutputKindsMap.size ();
+  unsigned int brailleOutputKindsMapSize =
+    gGlobalBsrBrailleOutputKindsMap.size ();
 
   if (brailleOutputKindsMapSize) {
     unsigned int nextToLast =

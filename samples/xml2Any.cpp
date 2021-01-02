@@ -282,8 +282,9 @@ int main (int argc, char *argv[])
   // should we generate LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
 
+  xmlErr err = kNoErr;
+
   if (string (fileName) == "-") {
-    xmlErr err = kNoErr;
 
     // MusicXML data comes from standard input
 #ifdef TRACING_IS_ENABLED
@@ -340,8 +341,6 @@ int main (int argc, char *argv[])
     cerr << "Reading file '" << fileName << "'" << endl;
 #endif
 #endif
-
-    xmlErr err = kNoErr;
 
     switch (gGeneratedCodeKind) {
       case k_NoGeneratedCode:
@@ -415,5 +414,18 @@ int main (int argc, char *argv[])
     gIndenter.resetToZero ();
   }
 
-	return 0;
+  switch (err) {
+    case kNoErr:
+      return 0;
+      break;
+    case kInvalidFile:
+      return 1;
+      break;
+    case kInvalidOption:
+      return 2;
+      break;
+    case kUnsupported:
+      return 3;
+      break;
+  } // switch
 }
