@@ -27,7 +27,7 @@ using namespace MusicXML2;
 #define debug	0
 
 //_______________________________________________________________________________
-class EXP predicate {
+class predicate {
 	public:
 		int fType;
 			 predicate(int type) : fType(type) {}

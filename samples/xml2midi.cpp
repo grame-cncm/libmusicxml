@@ -24,7 +24,7 @@ using namespace std;
 using namespace MusicXML2;
 
 //_______________________________________________________________________________
-class EXP mymidiwriter : public midiwriter {
+class mymidiwriter : public midiwriter {
 	public:
 				 mymidiwriter() {}
 		virtual ~mymidiwriter() {}
