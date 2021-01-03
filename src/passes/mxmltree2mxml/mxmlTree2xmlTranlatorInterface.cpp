@@ -26,14 +26,14 @@
 #include "mxmlTree.h"
 
 #include "msr.h"
-
+#include "mxmlTree2xmlTranlatorInterface.h"
 
 using namespace std;
 
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-void generateMusicXMLFromMxmlTree (
+EXP void generateMusicXMLFromMxmlTree (
   Sxmlelement mxmlTree,
   string      outputFileName,
   ostream&    cerr,

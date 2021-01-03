@@ -14,6 +14,7 @@
 #define ___oahElements___
 
 #include "browser.h"
+#include "exceptions.h"
 
 
 using namespace std;
@@ -21,7 +22,7 @@ using namespace std;
 namespace MusicXML2
 {
 
-void displayException (exception& e, ostream& os) {
+EXP void displayException (exception& e, ostream& os) {
   os <<
     "Exception caught: " <<
     e.what () <<
