@@ -760,7 +760,7 @@ R"()",
         regex_replace (
           regex_replace (
 R"(Generate GENERATED_CODE code to the output.
-The NUMBER output kinds available are:
+The NUMBER generated code kinds available are:
 GENERATED_CODE_KINDS.
 The default is 'DEFAULT_VALUE'.)",
             regex ("NUMBER"),

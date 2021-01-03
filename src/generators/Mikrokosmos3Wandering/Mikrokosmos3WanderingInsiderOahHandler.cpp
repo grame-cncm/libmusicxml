@@ -29,10 +29,22 @@
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "msr2mxmlTreeOah.h"
+
 #include "msrOah.h"
 #include "msr2msrOah.h"
+
 #include "msr2mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
+
+#include "msr2lpsrOah.h"
+#include "lpsrOah.h"
+#include "lpsr2lilypondOah.h"
+#include "lilypondOah.h"
+
+#include "msr2bsrOah.h"
+#include "bsrOah.h"
+#include "bsr2brailleOah.h"
+#include "brailleOah.h"
 
 #include "version.h"
 
@@ -49,7 +61,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
-#define ENFORCE_TRACE_OAH
+//#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 string Mikrokosmos3WanderingAboutInformation ()
@@ -77,31 +89,34 @@ R"(What Mikrokosmos3Wandering does:
 
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingInsiderOahHandler Mikrokosmos3WanderingInsiderOahHandler::create (
-  string executableName,
-  string executableAboutInformation,
-  string handlerHeader)
+  string            executableName,
+  string            executableAboutInformation,
+  string            handlerHeader,
+  generatedCodeKind theGeneratedCodeKind)
 {
   // create the insider handler
   Mikrokosmos3WanderingInsiderOahHandler* o = new
     Mikrokosmos3WanderingInsiderOahHandler (
       executableName,
       executableAboutInformation,
-      handlerHeader);
+      handlerHeader,
+      theGeneratedCodeKind);
   assert (o!=0);
 
   return o;
 }
 
 Mikrokosmos3WanderingInsiderOahHandler::Mikrokosmos3WanderingInsiderOahHandler (
-  string executableName,
-  string executableAboutInformation,
-  string handlerHeader)
+  string            executableName,
+  string            executableAboutInformation,
+  string            handlerHeader,
+  generatedCodeKind theGeneratedCodeKind)
   : oahHandler (
       executableName,
       executableAboutInformation,
       handlerHeader,
 R"(                Welcome to Mikrokosmos3Wandering,
-              another MusicXML to Guido translator
+     a generator of Guido, MusicXML, LilyPond or braille music
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
@@ -118,6 +133,8 @@ Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
     endl;
 #endif
 #endif
+
+  fGeneratedCodeKind = theGeneratedCodeKind;
 
   // create the Mikrokosmos3Wandering prefixes
   createTheMikrokosmos3WanderingPrefixes ();
@@ -142,101 +159,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingPrefi
 #endif
 #endif
 
-  ++gIndenter;
-
-#ifdef TRACING_IS_ENABLED
-  // the 'trace' prefixes
-  // --------------------------------------
-
- fShortTracePrefix =
-    oahPrefix::create (
-      "t", "t",
-      "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
-  registerPrefixInHandler (
-    fShortTracePrefix);
-
-  fLongTracePrefix =
-    oahPrefix::create (
-      "trace", "trace-",
-      "'-trace=abc,yz' is equivalent to '-trace-abc, -trace-yz'");
-  registerPrefixInHandler (
-    fLongTracePrefix);
-#endif
-
-  // the 'help' prefixes
-  // --------------------------------------
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "help", "help-",
-      "'-help=abc,yz' is equivalent to '-help-abc, -help-yz'"));
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "h", "h",
-      "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'"));
-
-  // the 'display' prefixes
-  // --------------------------------------
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "display", "display-",
-      "'-display=abc,yz' is equivalent to '-display-abc, -display-yz'"));
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "d", "d",
-      "'-d=abc,wxyz' is equivalent to '-dabc, -dwxyz'"));
-
-  // the 'omit' prefixes
-  // --------------------------------------
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "omit", "omit-",
-      "'-omit=abc,yz' is equivalent to '-omit-abc, -omit-yz'"));
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "o", "o",
-      "'-o=abc,wxyz' is equivalent to '-oabc, -owxyz'"));
-
-  // the 'ignore-redundant' prefixes
-  // --------------------------------------
-
-  fShortIgnoreRedundantPrefix =
-    oahPrefix::create (
-      "ir", "ir",
-      "'-ir=abc,yz' is equivalent to '-irabc, -iryz'");
-  registerPrefixInHandler (
-    fShortIgnoreRedundantPrefix);
-
-  fLongIgnoreRedundantPrefix =
-    oahPrefix::create (
-      "ignore-redundant", "ignore-redundant-",
-      "'-ignore-redundant=abc,yz' is equivalent to '-ignore-redundant-abc, -ignore-redundant-yz'");
-  registerPrefixInHandler (
-    fLongIgnoreRedundantPrefix);
-
-  // the 'delay-rests' prefixes
-  // --------------------------------------
-
-  fShortDelayRestsPrefix =
-    oahPrefix::create (
-      "dr", "dr",
-      "'-dr=abc,yz' is equivalent to '-drabc, -dryz'");
-  registerPrefixInHandler (
-    fShortDelayRestsPrefix);
-
-  fLongDelayRestsPrefix =
-    oahPrefix::create (
-      "delay-rests", "delay-rests-",
-      "'-delay-rests=abc,yz' is equivalent to '-delay-rests-abc, -delay-rests-yz'");
-  registerPrefixInHandler (
-    fLongDelayRestsPrefix);
-
-  --gIndenter;
+  createTheCommonPrefixes ();
 }
 
 //______________________________________________________________________________
@@ -259,9 +182,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
 #ifdef TRACING_IS_ENABLED
   // create the trace OAH group
   appendGroupToHandler (
-    createGlobalTraceOahGroup (
-      fShortTracePrefix,
-      fLongTracePrefix));
+    createGlobalTraceOahGroup ());
 #endif
 
   // create the OAH OAH group
@@ -285,22 +206,6 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
   appendGroupToHandler (
     createGlobalMikrokosmos3WanderingOahGroup ());
 
-  // create the MusicXML OAH group
-  appendGroupToHandler (
-    createGlobalMusicxmlOahGroup ());
-
-  // create the mxmlTree OAH group
-  appendGroupToHandler (
-    createGlobalMxmlTreeOahGroup ());
-
-  // create the mxmlTree2msr OAH group
-  appendGroupToHandler (
-    createGlobalMxmlTree2msrOahGroup (
-      fShortIgnoreRedundantPrefix,
-      fLongIgnoreRedundantPrefix,
-      fShortDelayRestsPrefix,
-      fLongDelayRestsPrefix));
-
   // create the MSR OAH group
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
@@ -309,9 +214,72 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
   appendGroupToHandler (
     createGlobalMsr2msrOahGroup ());
 
-  // create the msr2mxmlTree OAH group
-  appendGroupToHandler (
-    createGlobalMsr2mxmlTreeOahGroup ());
+  // create the groups needed according to the generated code kind
+  switch (fGeneratedCodeKind) {
+    case k_NoGeneratedCode:
+      // should not occur
+      break;
+
+    case kGuido:
+      // create the msr2mxmlTree OAH group
+      appendGroupToHandler (
+        createGlobalMsr2mxmlTreeOahGroup ());
+
+      // create the mxmlTree OAH group
+      appendGroupToHandler (
+        createGlobalMxmlTreeOahGroup ());
+      break;
+
+    case kLilyPond:
+      // create the msr2lpsr OAH group
+      appendGroupToHandler (
+        createGlobalMsr2lpsrOahGroup ());
+
+      // create the LPSR OAH group
+      appendGroupToHandler (
+        createGlobalLpsrOahGroup ());
+
+      // create the lpsr2lilypond OAH group
+      appendGroupToHandler (
+        createGlobalLpsr2lilypondOahGroup ());
+
+      // create the LilyPond OAH group
+      appendGroupToHandler (
+        createGlobalLilypondOahGroup ());
+      break;
+
+    case kBrailleMusic:
+      // create the msr2bsr OAH group
+      appendGroupToHandler (
+        createGlobalMsr2bsrOahGroup ());
+
+      // create the BSR OAH group
+      appendGroupToHandler (
+        createGlobalBsrOahGroup ());
+
+      // create the bsr2braille OAH group
+      appendGroupToHandler (
+        createGlobalBsr2brailleOahGroup ());
+
+      // create the braille OAH group
+      appendGroupToHandler (
+        createGlobalBrailleOahGroup ());
+      break;
+
+    case kMusicXML:
+      // create the msr2mxmlTree OAH group
+      appendGroupToHandler (
+        createGlobalMsr2mxmlTreeOahGroup ());
+
+      // create the mxmlTree OAH group
+      appendGroupToHandler (
+        createGlobalMxmlTreeOahGroup ());
+
+      // create the MusicXML OAH group
+      appendGroupToHandler (
+        createGlobalMusicxmlOahGroup ());
+      break;
+  } // switch
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group
@@ -905,7 +873,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
   gLogStream << left <<
     setw (fieldWidth) <<
     "generatedCodeKind" << " : " <<
-    generatedCodeKindAsString (fGgeneratedCodeKind) <<
+    generatedCodeKindAsString (fGeneratedCodeKind) <<
     endl;
 
   --gIndenter;

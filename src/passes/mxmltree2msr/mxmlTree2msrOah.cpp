@@ -690,43 +690,109 @@ ostream& operator<< (ostream& os, const S_msrReplaceClefAtom& elt)
 
 S_mxmlTree2msrOahGroup gGlobalMxmlTree2msrOahGroup;
 
-S_mxmlTree2msrOahGroup mxmlTree2msrOahGroup::create (
-  S_oahPrefix shortIgnoreRedundantPrefix,
-  S_oahPrefix longIgnoreRedundantPrefix,
-  S_oahPrefix shortDelayRestsPrefix,
-  S_oahPrefix longDelayRestsPrefix)
+S_mxmlTree2msrOahGroup mxmlTree2msrOahGroup::create ()
 {
-  mxmlTree2msrOahGroup* o = new mxmlTree2msrOahGroup (
-    shortIgnoreRedundantPrefix,
-    longIgnoreRedundantPrefix,
-    shortDelayRestsPrefix,
-    longDelayRestsPrefix);
+  mxmlTree2msrOahGroup* o = new mxmlTree2msrOahGroup ();
   assert (o!=0);
   return o;
 }
 
-mxmlTree2msrOahGroup::mxmlTree2msrOahGroup (
-  S_oahPrefix shortIgnoreRedundantPrefix,
-  S_oahPrefix longIgnoreRedundantPrefix,
-  S_oahPrefix shortDelayRestsPrefix,
-  S_oahPrefix longDelayRestsPrefix)
+mxmlTree2msrOahGroup::mxmlTree2msrOahGroup ()
   : oahGroup (
     "Mxmltree2msr",
     "hmxmlt2msr", "help-mxmlTree-to-msr",
 R"(These options control the way xmlelement trees are translated to MSR.)",
     kElementVisibilityWhole)
 {
-  fShortIgnoreRedundantPrefix = shortIgnoreRedundantPrefix;
-  fLongIgnoreRedundantPrefix  = longIgnoreRedundantPrefix;
+  createTheMxmlTree2msrPrefixes ();
 
-  fShortDelayRestsPrefix = shortDelayRestsPrefix;
-  fLongDelayRestsPrefix  = longDelayRestsPrefix;
-
-  initializeMxmlTree2msr ();
+  initializeMxmlTree2msrOahGroup ();
 }
 
 mxmlTree2msrOahGroup::~mxmlTree2msrOahGroup ()
 {}
+
+void mxmlTree2msrOahGroup::createTheMxmlTree2msrPrefixes ()
+{
+  // the 'ignore-redundant' prefixes
+  // --------------------------------------
+
+  fShortIgnoreRedundantPrefix =
+    oahPrefix::create (
+      "ir", "ir",
+      "'-ir=abc,yz' is equivalent to '-irabc, -iryz'");
+  fHandlerUpLink->
+    registerPrefixInHandler (
+      fShortIgnoreRedundantPrefix);
+
+  fLongIgnoreRedundantPrefix =
+    oahPrefix::create (
+      "ignore-redundant", "ignore-redundant-",
+      "'-ignore-redundant=abc,yz' is equivalent to '-ignore-redundant-abc, -ignore-redundant-yz'");
+  fHandlerUpLink->
+    registerPrefixInHandler (
+      fLongIgnoreRedundantPrefix);
+
+  // the 'delay-rests' prefixes
+  // --------------------------------------
+
+  fShortDelayRestsPrefix =
+    oahPrefix::create (
+      "dr", "dr",
+      "'-dr=abc,yz' is equivalent to '-drabc, -dryz'");
+  fHandlerUpLink->
+    registerPrefixInHandler (
+      fShortDelayRestsPrefix);
+
+  fLongDelayRestsPrefix =
+    oahPrefix::create (
+      "delay-rests", "delay-rests-",
+      "'-delay-rests=abc,yz' is equivalent to '-delay-rests-abc, -delay-rests-yz'");
+  fHandlerUpLink->
+    registerPrefixInHandler (
+      fLongDelayRestsPrefix);
+}
+
+void mxmlTree2msrOahGroup::initializeMxmlTree2msrOahGroup ()
+{
+#ifdef TRACING_IS_ENABLED
+  // trace
+  // --------------------------------------
+  initializeMxmlTree2msrTraceOptions ();
+#endif
+
+  // header
+  // --------------------------------------
+  initializeHeaderOptions ();
+
+  // parts
+  // --------------------------------------
+  initializePartsOptions ();
+
+  // clefs, keys, times
+  // --------------------------------------
+  initializeClefsKeysTimesOptions ();
+
+  // measures
+  // --------------------------------------
+  initializeMeasuresOptions ();
+
+  // notes
+  // --------------------------------------
+  initializeNotesOptions ();
+
+  // dynamics and wedges
+  // --------------------------------------
+  initializeDynamicsAndWedgesOptions ();
+
+  // words
+  // --------------------------------------
+  initializeWordsOptions ();
+
+  // combined options
+  // --------------------------------------
+  initializeCombinedOptionsOptions ();
+}
 
 #ifdef TRACING_IS_ENABLED
 void mxmlTree2msrOahGroup::initializeMxmlTree2msrTraceOptions ()
@@ -1517,47 +1583,6 @@ R"(Useful settings for MusicXML data exported from Cubase.)",
       fIgnoreRedundantTimesAtom);
 }
 
-void mxmlTree2msrOahGroup::initializeMxmlTree2msr ()
-{
-#ifdef TRACING_IS_ENABLED
-  // trace
-  // --------------------------------------
-  initializeMxmlTree2msrTraceOptions ();
-#endif
-
-  // header
-  // --------------------------------------
-  initializeHeaderOptions ();
-
-  // parts
-  // --------------------------------------
-  initializePartsOptions ();
-
-  // clefs, keys, times
-  // --------------------------------------
-  initializeClefsKeysTimesOptions ();
-
-  // measures
-  // --------------------------------------
-  initializeMeasuresOptions ();
-
-  // notes
-  // --------------------------------------
-  initializeNotesOptions ();
-
-  // dynamics and wedges
-  // --------------------------------------
-  initializeDynamicsAndWedgesOptions ();
-
-  // words
-  // --------------------------------------
-  initializeWordsOptions ();
-
-  // combined options
-  // --------------------------------------
-  initializeCombinedOptionsOptions ();
-}
-
 //______________________________________________________________________________
 void mxmlTree2msrOahGroup::enforceGroupQuietness ()
 {
@@ -2118,11 +2143,7 @@ ostream& operator<< (ostream& os, const S_mxmlTree2msrOahGroup& elt)
 }
 
 //______________________________________________________________________________
-S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup (
-  S_oahPrefix shortIgnoreRedundantPrefix,
-  S_oahPrefix longIgnoreRedundantPrefix,
-  S_oahPrefix shortDelayRestsPrefix,
-  S_oahPrefix longDelayRestsPrefix)
+S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -2136,11 +2157,7 @@ S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup (
   if (! gGlobalMxmlTree2msrOahGroup) {
     // create the global options group
     gGlobalMxmlTree2msrOahGroup =
-      mxmlTree2msrOahGroup::create (
-        shortIgnoreRedundantPrefix,
-        longIgnoreRedundantPrefix,
-        shortDelayRestsPrefix,
-        longDelayRestsPrefix);
+      mxmlTree2msrOahGroup::create ();
     assert (gGlobalMxmlTree2msrOahGroup != 0);
   }
 

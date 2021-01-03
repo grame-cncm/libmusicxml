@@ -36,21 +36,15 @@ namespace MusicXML2
 //_______________________________________________________________________________
 S_traceOahGroup gGlobalTraceOahGroup;
 
-S_traceOahGroup traceOahGroup::create (
-  S_oahPrefix shortTracePrefix,
-  S_oahPrefix longTracePrefix)
+S_traceOahGroup traceOahGroup::create ()
 {
-  traceOahGroup* o = new traceOahGroup (
-    shortTracePrefix,
-    longTracePrefix);
+  traceOahGroup* o = new traceOahGroup ();
   assert (o!=0);
 
   return o;
 }
 
-traceOahGroup::traceOahGroup (
-  S_oahPrefix shortTracePrefix,
-  S_oahPrefix longTracePrefix)
+traceOahGroup::traceOahGroup ()
   : oahGroup (
       "OAH Trace",
       "ht", "help-trace",
@@ -61,14 +55,52 @@ traceOahGroup::traceOahGroup (
   All of them imply '-tpasses, -trace-passes'.)",
       kElementVisibilityHeaderOnly)
 {
-  fShortTracePrefix = shortTracePrefix;
-  fLongTracePrefix  = longTracePrefix;
+  createTheTracePrefixes ();
 
   initializeTraceOahGroup ();
 }
 
 traceOahGroup::~traceOahGroup ()
 {}
+
+void traceOahGroup::createTheTracePrefixes ()
+{
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating the trace prefixes in \"" <<
+    fHandlerHeader <<
+    "\"" <<
+    endl;
+#endif
+#endif
+
+#ifdef TRACING_IS_ENABLED
+  ++gIndenter;
+
+  // the 'trace' prefixes
+  // --------------------------------------
+
+ fShortTracePrefix =
+    oahPrefix::create (
+      "t", "t",
+      "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
+  fHandlerUpLink->
+    registerPrefixInHandler (
+      fShortTracePrefix);
+
+  fLongTracePrefix =
+    oahPrefix::create (
+      "trace", "trace-",
+      "'-trace=abc,yz' is equivalent to '-trace-abc, -trace-yz'");
+  fHandlerUpLink->
+    registerPrefixInHandler (
+      fLongTracePrefix);
+
+  --gIndenter;
+#endif
+}
+
 
 void traceOahGroup::initializePrintLayoutsTraceOah ()
 {
@@ -3326,9 +3358,7 @@ ostream& operator<< (ostream& os, const S_traceOahGroup& elt)
 }
 
 //______________________________________________________________________________
-S_traceOahGroup createGlobalTraceOahGroup (
-  S_oahPrefix shortTracePrefix,
-  S_oahPrefix longTracePrefix)
+S_traceOahGroup createGlobalTraceOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -3342,9 +3372,7 @@ S_traceOahGroup createGlobalTraceOahGroup (
   if (! gGlobalTraceOahGroup) {
     // create the global OAH group
     gGlobalTraceOahGroup =
-      traceOahGroup::create (
-        shortTracePrefix,
-        longTracePrefix);
+      traceOahGroup::create ();
     assert (gGlobalTraceOahGroup != 0);
   }
 

@@ -44,15 +44,16 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
-#define ENFORCE_TRACE_OAH
+//#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingRegularOahHandler Mikrokosmos3WanderingRegularOahHandler::create (
-  string      executableName,
-  string      executableAboutInformation,
-  string      handlerHeader,
+  string            executableName,
+  string            executableAboutInformation,
+  string            handlerHeader,
   S_Mikrokosmos3WanderingInsiderOahHandler
-              insiderOahHandler)
+                    insiderOahHandler,
+  generatedCodeKind theGeneratedCodeKind)
 {
   // create the regular handler
   Mikrokosmos3WanderingRegularOahHandler* o = new
@@ -60,24 +61,28 @@ S_Mikrokosmos3WanderingRegularOahHandler Mikrokosmos3WanderingRegularOahHandler:
       executableName,
       executableAboutInformation,
       handlerHeader,
-      insiderOahHandler);
+      insiderOahHandler,
+      theGeneratedCodeKind);
   assert (o!=0);
 
   return o;
 }
 
 Mikrokosmos3WanderingRegularOahHandler::Mikrokosmos3WanderingRegularOahHandler (
-  string      executableName,
-  string      executableAboutInformation,
-  string      handlerHeader,
+  string            executableName,
+  string            executableAboutInformation,
+  string            handlerHeader,
   S_Mikrokosmos3WanderingInsiderOahHandler
-              insiderOahHandler)
+                    insiderOahHandler,
+  generatedCodeKind theGeneratedCodeKind)
   : oahRegularOahHandler (
       executableName,
       executableAboutInformation,
       handlerHeader,
       insiderOahHandler)
 {
+  fGeneratedCodeKind = theGeneratedCodeKind;
+
   // this is done only only after the constructor has been executed,
   // because it uses pure virtual methods
   initializeOahRegularOahHandler ();

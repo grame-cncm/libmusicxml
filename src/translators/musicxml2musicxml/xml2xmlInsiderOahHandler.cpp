@@ -141,101 +141,7 @@ void xml2xmlInsiderOahHandler::createTheXml2xmlPrefixes ()
 #endif
 #endif
 
-  ++gIndenter;
-
-#ifdef TRACING_IS_ENABLED
-  // the 'trace' prefixes
-  // --------------------------------------
-
- fShortTracePrefix =
-    oahPrefix::create (
-      "t", "t",
-      "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
-  registerPrefixInHandler (
-    fShortTracePrefix);
-
-  fLongTracePrefix =
-    oahPrefix::create (
-      "trace", "trace-",
-      "'-trace=abc,yz' is equivalent to '-trace-abc, -trace-yz'");
-  registerPrefixInHandler (
-    fLongTracePrefix);
-#endif
-
-  // the 'help' prefixes
-  // --------------------------------------
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "help", "help-",
-      "'-help=abc,yz' is equivalent to '-help-abc, -help-yz'"));
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "h", "h",
-      "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'"));
-
-  // the 'display' prefixes
-  // --------------------------------------
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "display", "display-",
-      "'-display=abc,yz' is equivalent to '-display-abc, -display-yz'"));
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "d", "d",
-      "'-d=abc,wxyz' is equivalent to '-dabc, -dwxyz'"));
-
-  // the 'omit' prefixes
-  // --------------------------------------
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "omit", "omit-",
-      "'-omit=abc,yz' is equivalent to '-omit-abc, -omit-yz'"));
-
-  registerPrefixInHandler (
-    oahPrefix::create (
-      "o", "o",
-      "'-o=abc,wxyz' is equivalent to '-oabc, -owxyz'"));
-
-  // the 'ignore-redundant' prefixes
-  // --------------------------------------
-
-  fShortIgnoreRedundantPrefix =
-    oahPrefix::create (
-      "ir", "ir",
-      "'-ir=abc,yz' is equivalent to '-irabc, -iryz'");
-  registerPrefixInHandler (
-    fShortIgnoreRedundantPrefix);
-
-  fLongIgnoreRedundantPrefix =
-    oahPrefix::create (
-      "ignore-redundant", "ignore-redundant-",
-      "'-ignore-redundant=abc,yz' is equivalent to '-ignore-redundant-abc, -ignore-redundant-yz'");
-  registerPrefixInHandler (
-    fLongIgnoreRedundantPrefix);
-
-  // the 'delay-rests' prefixes
-  // --------------------------------------
-
-  fShortDelayRestsPrefix =
-    oahPrefix::create (
-      "dr", "dr",
-      "'-dr=abc,yz' is equivalent to '-drabc, -dryz'");
-  registerPrefixInHandler (
-    fShortDelayRestsPrefix);
-
-  fLongDelayRestsPrefix =
-    oahPrefix::create (
-      "delay-rests", "delay-rests-",
-      "'-delay-rests=abc,yz' is equivalent to '-delay-rests-abc, -delay-rests-yz'");
-  registerPrefixInHandler (
-    fLongDelayRestsPrefix);
-
-  --gIndenter;
+  createTheCommonPrefixes ();
 }
 
 //______________________________________________________________________________
@@ -258,9 +164,7 @@ void xml2xmlInsiderOahHandler::createTheXml2xmlOptionGroups (
 #ifdef TRACING_IS_ENABLED
   // create the trace OAH group
   appendGroupToHandler (
-    createGlobalTraceOahGroup (
-      fShortTracePrefix,
-      fLongTracePrefix));
+    createGlobalTraceOahGroup ());
 #endif
 
   // create the OAH OAH group
@@ -294,11 +198,7 @@ void xml2xmlInsiderOahHandler::createTheXml2xmlOptionGroups (
 
   // create the mxmlTree2msr OAH group
   appendGroupToHandler (
-    createGlobalMxmlTree2msrOahGroup (
-      fShortIgnoreRedundantPrefix,
-      fLongIgnoreRedundantPrefix,
-      fShortDelayRestsPrefix,
-      fLongDelayRestsPrefix));
+    createGlobalMxmlTree2msrOahGroup ());
 
   // create the MSR OAH group
   appendGroupToHandler (

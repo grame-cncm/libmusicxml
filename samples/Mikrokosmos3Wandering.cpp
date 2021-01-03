@@ -172,22 +172,22 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 }
 
 //------------------------------------------------------------------------
-enum msplGenerationKind {
-  kRegularAPIKind,
-  kStringsAPIKind
+enum msrGenerationAPIKind {
+  kMsrRegularAPIKind,
+  kMsrStringsAPIKind
 };
 
-static string msplGenerationKindAsString (
-  msplGenerationKind generationKind)
+static string msrGenerationAPIKindAsString (
+  msrGenerationAPIKind generationKind)
 {
   string result;
 
   switch (generationKind) {
-    case kRegularAPIKind:
-      result = "regular API";
+    case kMsrRegularAPIKind:
+      result = "MSR regular API";
       break;
-    case kStringsAPIKind:
-      result = "strings API";
+    case kMsrStringsAPIKind:
+      result = "MSR strings API";
       break;
   } // switch
 
@@ -196,7 +196,7 @@ static string msplGenerationKindAsString (
 
 //------------------------------------------------------------------------
 static S_msrScore createTheScore (
-  msplGenerationKind generationKind)
+  msrGenerationAPIKind generationKind)
 {
   // create the score
   S_msrScore
@@ -218,7 +218,7 @@ static S_msrScore createTheScore (
     setWorkTitle (
       __LINE__,
       "Mikrokosmos III Wandering - MSPL, " +
-        msplGenerationKindAsString (generationKind));
+        msrGenerationAPIKindAsString (generationKind));
 
   return score;
 }
@@ -1766,7 +1766,7 @@ static void populateLowerVoice2WithTheStringsAPI (
 //------------------------------------------------------------------------
 static S_msrStaff createAndPopulateUpperStaffInPart (
   S_msrPart          part,
-  msplGenerationKind generationKind)
+  msrGenerationAPIKind generationKind)
 {
   // create the upper staff
   S_msrStaff
@@ -1784,12 +1784,12 @@ static S_msrStaff createAndPopulateUpperStaffInPart (
 
   // populate its voice(s)
   switch (generationKind) {
-    case kRegularAPIKind:
+    case kMsrRegularAPIKind:
       populateUpperVoice1WithTheRegularAPI (
         upperVoice1);
       break;
 
-    case kStringsAPIKind:
+    case kMsrStringsAPIKind:
       populateUpperVoice1WithTheStringsAPI (
         upperVoice1);
       break;
@@ -1801,7 +1801,7 @@ static S_msrStaff createAndPopulateUpperStaffInPart (
 //------------------------------------------------------------------------
 static S_msrStaff createAndPopulateLowerStaffInPart (
   S_msrPart          part,
-  msplGenerationKind generationKind)
+  msrGenerationAPIKind generationKind)
 {
   // create the lower staff
   S_msrStaff
@@ -1829,14 +1829,14 @@ static S_msrStaff createAndPopulateLowerStaffInPart (
   // populate its voice(s)
   // populate its voice(s)
   switch (generationKind) {
-    case kRegularAPIKind:
+    case kMsrRegularAPIKind:
       populateLowerVoice1WithTheRegularAPI (
         lowerVoice1);
       populateLowerVoice2WithTheRegularAPI (
         lowerVoice2);
       break;
 
-    case kStringsAPIKind:
+    case kMsrStringsAPIKind:
       populateLowerVoice1WithTheStringsAPI (
         lowerVoice1);
       populateLowerVoice2WithTheStringsAPI (
@@ -1849,7 +1849,7 @@ static S_msrStaff createAndPopulateLowerStaffInPart (
 
 //------------------------------------------------------------------------
 static S_msrScore createAndPopulateTheScore (
-  msplGenerationKind generationKind)
+  msrGenerationAPIKind generationKind)
 {
   S_msrScore
     score =
@@ -2506,34 +2506,12 @@ static void initializeTheLibraryAndOAH (string executableName)
   // ------------------------------------------------------
 
 #ifdef TRACING_IS_ENABLED
-  // the 'trace' prefixes
-  // --------------------------------------
-
-
-  S_oahPrefix
-    shortTracePrefix =
-      oahPrefix::create (
-        "t", "t",
-        "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
-//  registerPrefixInHandler (
-//    fShortTracePrefix);
-
-  S_oahPrefix
-    longTracePrefix =
-      oahPrefix::create (
-        "trace", "trace-",
-        "'-trace=abc,yz' is equivalent to '-trace-abc, -trace-yz'");
-//  registerPrefixInHandler (
-//    fLongTracePrefix);
-
   // create the trace OAH group
   // --------------------------------------
 
   S_traceOahGroup
     traceOahGroup =
-      createGlobalTraceOahGroup (
-        shortTracePrefix,
-        longTracePrefix);
+      createGlobalTraceOahGroup ();
 #endif
 
   // initialize the library
@@ -2735,6 +2713,75 @@ int main (int argc, char * argv[])
 
   createTheGlobalIndentedOstreams (cout, cerr);
 
+  // fetch the theOptionsVector from argc/argv
+  // ------------------------------------------------------
+
+	optionsVector theOptionsVector;
+
+	if (! args2Options (argc, argv, theOptionsVector)) {
+    cerr <<
+      executableName <<
+      ": args2Options() returned false" <<
+      endl;
+
+    return 1;
+	}
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  displayOptionsVector (theOptionsVector, cerr);
+#endif
+#endif
+
+  // take generatedCodeKind options into account if any
+  // ------------------------------------------------------
+
+  generatedCodeKind theGeneratedCodeKind;
+
+	optionsVector keptOptions;
+
+	for (auto option: theOptionsVector) {
+	  if (option.first      == "-guido") {
+	    theGeneratedCodeKind = kGuido;
+      keptOptions.push_back (option);
+    }
+	  else if (option.first == "-lilypond") {
+	    theGeneratedCodeKind = kLilyPond;
+      keptOptions.push_back (option);
+	  }
+	  else if (option.first == "-braille") {
+	    theGeneratedCodeKind = kBrailleMusic;
+      keptOptions.push_back (option);
+	  }
+	  else if (option.first == "-musicxml") {
+	    theGeneratedCodeKind = kMusicXML;
+      keptOptions.push_back (option);
+	  }
+	  else {
+	    keptOptions.push_back (option);
+	  }
+	} // for
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  displayOptionsVector (theOptionsVector, cerr);
+#endif
+#endif
+
+  // the default is '-lilypond'
+  if (theGeneratedCodeKind == k_NoGeneratedCode) {
+    theGeneratedCodeKind = kLilyPond;
+  }
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  cerr <<
+    "==> generatedCodeKind: " <<
+    generatedCodeKindAsString (theGeneratedCodeKind) <<
+    endl;
+#endif
+#endif
+
   // the about information
   // ------------------------------------------------------
 
@@ -2756,7 +2803,8 @@ int main (int argc, char * argv[])
         Mikrokosmos3WanderingInsiderOahHandler::create (
           executableName,
           aboutInformation,
-          executableName + " insider OAH handler with argc/argv");
+          executableName + " insider OAH handler with argc/argv",
+          theGeneratedCodeKind);
 
     // the OAH handler to be used, a regular handler is the default
     // ------------------------------------------------------
@@ -2772,7 +2820,8 @@ int main (int argc, char * argv[])
           executableName,
           aboutInformation,
           executableName + " regular OAH handler with argc/argv",
-          insiderOahHandler);
+          insiderOahHandler,
+          theGeneratedCodeKind);
     }
 
     // handle the command line options and arguments
@@ -2820,26 +2869,6 @@ int main (int argc, char * argv[])
   // let's go ahead
   // ------------------------------------------------------
 
-  // fetch the theOptionsVector from argc/argv
-  // ------------------------------------------------------
-
-	optionsVector theOptionsVector;
-
-	if (! args2Options (argc, argv, theOptionsVector)) {
-    cerr <<
-      executableName <<
-      ": args2Options() returned false" <<
-      endl;
-
-    return 1;
-	}
-
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayOptionsVector (theOptionsVector, cerr);
-#endif
-#endif
-
   // initialize the library and OAH
   // ------------------------------------------------------
 
@@ -2848,10 +2877,10 @@ int main (int argc, char * argv[])
   // create and populate the score
   // ------------------------------------------------------
 
-  msplGenerationKind
+  msrGenerationAPIKind
     generationKind = // JMI option???
-     kRegularAPIKind;
-   // kStringsAPIKind;
+     kMsrRegularAPIKind;
+   // kMsrStringsAPIKind;
 
   S_msrScore
     score =
@@ -2866,10 +2895,12 @@ int main (int argc, char * argv[])
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
 
+/* already handled JMI
   generatedCodeKind
     theGeneratedCodeKind =
       gGlobalMikrokosmos3WanderingOahGroup->
         getGeneratedCodeKind ();
+*/
 
   cerr <<
     "Converting the MSR score to " <<

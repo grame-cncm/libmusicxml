@@ -38,9 +38,10 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     static SMARTP<Mikrokosmos3WanderingInsiderOahHandler> create (
-      string executableName,
-      string executableAboutInformation,
-      string handlerHeader);
+      string            executableName,
+      string            executableAboutInformation,
+      string            handlerHeader,
+      generatedCodeKind theGeneratedCodeKind);
 
   protected:
 
@@ -48,11 +49,23 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     Mikrokosmos3WanderingInsiderOahHandler (
-      string executableName,
-      string executableAboutInformation,
-      string handlerHeader);
+      string            executableName,
+      string            executableAboutInformation,
+      string            handlerHeader,
+      generatedCodeKind theGeneratedCodeKind);
 
     virtual ~Mikrokosmos3WanderingInsiderOahHandler ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // generated code kind
+    void                  setGeneratedCodeKind (generatedCodeKind value)
+                              { fGeneratedCodeKind = value; }
+    generatedCodeKind     getGeneratedCodeKind () const
+                              { return fGeneratedCodeKind; }
 
   private:
 
@@ -96,14 +109,8 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // private fields
     // ------------------------------------------------------
 
-    S_oahPrefix           fShortTracePrefix;
-    S_oahPrefix           fLongTracePrefix;
-
-    S_oahPrefix           fShortIgnoreRedundantPrefix;
-    S_oahPrefix           fLongIgnoreRedundantPrefix;
-
-    S_oahPrefix           fShortDelayRestsPrefix;
-    S_oahPrefix           fLongDelayRestsPrefix;
+    // generated code kind
+    generatedCodeKind     fGeneratedCodeKind;
 };
 typedef SMARTP<Mikrokosmos3WanderingInsiderOahHandler> S_Mikrokosmos3WanderingInsiderOahHandler;
 EXP ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingInsiderOahHandler& elt);
@@ -137,10 +144,10 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     // ------------------------------------------------------
 
     // generated code kind
-    void                  setGgeneratedCodeKind (generatedCodeKind value)
-                              { fGgeneratedCodeKind = value; }
-    generatedCodeKind     getGgeneratedCodeKind () const
-                              { return fGgeneratedCodeKind; }
+    void                  setGeneratedCodeKind (generatedCodeKind value)
+                              { fGeneratedCodeKind = value; }
+    generatedCodeKind     getGeneratedCodeKind () const
+                              { return fGeneratedCodeKind; }
 
     // Guido
     void                  setGenerateComments ()
@@ -233,7 +240,7 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     // ------------------------------------------------------
 
     // generated code kind
-    generatedCodeKind     fGgeneratedCodeKind;
+    generatedCodeKind     fGeneratedCodeKind;
 
     // Guido
     bool                  fGenerateComments;

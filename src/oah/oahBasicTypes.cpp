@@ -3073,6 +3073,63 @@ void oahHandler::checkOptionsAndArgumentsFromOptionsVector ()
 }
 
 //______________________________________________________________________________
+void oahHandler::createTheCommonPrefixes ()
+{
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  gLogStream <<
+    "Creating the common prefixes in \"" <<
+    fHandlerHeader <<
+    "\"" <<
+    endl;
+#endif
+#endif
+
+  ++gIndenter;
+
+  // the 'help' prefixes
+  // --------------------------------------
+
+  registerPrefixInHandler (
+    oahPrefix::create (
+      "help", "help-",
+      "'-help=abc,yz' is equivalent to '-help-abc, -help-yz'"));
+
+  registerPrefixInHandler (
+    oahPrefix::create (
+      "h", "h",
+      "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'"));
+
+  // the 'display' prefixes
+  // --------------------------------------
+
+  registerPrefixInHandler (
+    oahPrefix::create (
+      "display", "display-",
+      "'-display=abc,yz' is equivalent to '-display-abc, -display-yz'"));
+
+  registerPrefixInHandler (
+    oahPrefix::create (
+      "d", "d",
+      "'-d=abc,wxyz' is equivalent to '-dabc, -dwxyz'"));
+
+  // the 'omit' prefixes
+  // --------------------------------------
+
+  registerPrefixInHandler (
+    oahPrefix::create (
+      "omit", "omit-",
+      "'-omit=abc,yz' is equivalent to '-omit-abc, -omit-yz'"));
+
+  registerPrefixInHandler (
+    oahPrefix::create (
+      "o", "o",
+      "'-o=abc,wxyz' is equivalent to '-oabc, -owxyz'"));
+
+  --gIndenter;
+}
+
+//______________________________________________________________________________
 void oahHandler::checkNoInputSourceInArgumentsVector () const
 {
 #ifdef TRACING_IS_ENABLED

@@ -2341,8 +2341,6 @@ ostream& operator<< (ostream& os, const S_oahCombinedBooleansAtom& elt)
 }
 
 //______________________________________________________________________________
-int sMultiplexAtomsCounter = 0;
-
 S_oahMultiplexBooleansAtom oahMultiplexBooleansAtom::create (
   string      shortName,
   string      longName,
@@ -2433,6 +2431,7 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
 
       oahError (s.str ());
     }
+
     else if (found != 0) {
       stringstream s;
 
@@ -2447,6 +2446,7 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
 
       oahError (s.str ());
     }
+
     else {
       string booleanAtomShortNameSuffix =
         booleanAtomShortName.substr (
@@ -2496,6 +2496,7 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
 
         oahError (s.str ());
       }
+
       else if (found != 0) {
         stringstream s;
 
@@ -2510,6 +2511,7 @@ void oahMultiplexBooleansAtom::addBooleanAtom (
 
         oahError (s.str ());
       }
+
       else {
         string booleanAtomLongNameSuffix =
           booleanAtomLongName.substr (

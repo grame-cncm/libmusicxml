@@ -94,14 +94,8 @@ class EXP xml2gmnInsiderOahHandler : public oahHandler
     // private fields
     // ------------------------------------------------------
 
-    S_oahPrefix           fShortTracePrefix;
-    S_oahPrefix           fLongTracePrefix;
-
     S_oahPrefix           fShortIgnoreRedundantPrefix;
     S_oahPrefix           fLongIgnoreRedundantPrefix;
-
-    S_oahPrefix           fShortDelayRestsPrefix;
-    S_oahPrefix           fLongDelayRestsPrefix;
 };
 typedef SMARTP<xml2gmnInsiderOahHandler> S_xml2gmnInsiderOahHandler;
 EXP ostream& operator<< (ostream& os, const S_xml2gmnInsiderOahHandler& elt);

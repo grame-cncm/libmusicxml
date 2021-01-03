@@ -1050,6 +1050,8 @@ class EXP oahHandler : public smartable
     // protected services
     // ------------------------------------------------------
 
+    void                  createTheCommonPrefixes ();
+
     void                  checkNoInputSourceInArgumentsVector () const;
 
     void                  checkSingleInputSourceInArgumentsVector () const;

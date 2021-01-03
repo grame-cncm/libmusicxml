@@ -33,18 +33,14 @@ class EXP traceOahGroup : public oahGroup
 {
   public:
 
-    static SMARTP<traceOahGroup> create (
-      S_oahPrefix shortTracePrefix,
-      S_oahPrefix longTracePrefix);
+    static SMARTP<traceOahGroup> create ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    traceOahGroup (
-      S_oahPrefix shortTracePrefix,
-      S_oahPrefix longTracePrefix);
+    traceOahGroup ();
 
     virtual ~traceOahGroup ();
 
@@ -52,6 +48,8 @@ class EXP traceOahGroup : public oahGroup
 
     // initialisation
     // ------------------------------------------------------
+
+    void                  createTheTracePrefixes ();
 
     void                  initializeTraceOahGroup ();
 
@@ -937,9 +935,7 @@ EXP ostream& operator<< (ostream& os, const S_traceOahGroup& elt);
 EXP extern S_traceOahGroup gGlobalTraceOahGroup;
 
 //______________________________________________________________________________
-EXP S_traceOahGroup createGlobalTraceOahGroup (
-  S_oahPrefix shortTracePrefix,
-  S_oahPrefix longTracePrefix);
+EXP S_traceOahGroup createGlobalTraceOahGroup ();
 
 
 }

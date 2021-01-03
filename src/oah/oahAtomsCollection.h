@@ -1020,9 +1020,6 @@ class EXP oahMultiplexBooleansAtom : public oahAtom
 
     list<string>          fShortNamesSuffixes;
     list<string>          fLongNamesSuffixes;
-
-    // we need unique short and long names
-    static int            sMultiplexAtomsCounter;
 };
 typedef SMARTP<oahMultiplexBooleansAtom> S_oahMultiplexBooleansAtom;
 EXP ostream& operator<< (ostream& os, const S_oahMultiplexBooleansAtom& elt);

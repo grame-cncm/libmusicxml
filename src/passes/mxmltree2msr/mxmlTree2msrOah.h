@@ -203,29 +203,23 @@ class EXP mxmlTree2msrOahGroup : public oahGroup
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<mxmlTree2msrOahGroup> create (
-      S_oahPrefix shortIgnoreRedundantPrefix,
-      S_oahPrefix longIgnoreRedundantPrefix,
-      S_oahPrefix shortDelayRestsPrefix,
-      S_oahPrefix longDelayRestsPrefix);
+    static SMARTP<mxmlTree2msrOahGroup> create ();
 
   private:
 
     // initialisation
     // ------------------------------------------------------
 
-    void                  initializeMxmlTree2msr ();
+    void                  createTheMxmlTree2msrPrefixes ();
+
+    void                  initializeMxmlTree2msrOahGroup ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    mxmlTree2msrOahGroup (
-      S_oahPrefix shortIgnoreRedundantPrefix,
-      S_oahPrefix longIgnoreRedundantPrefix,
-      S_oahPrefix shortDelayRestsPrefix,
-      S_oahPrefix longDelayRestsPrefix);
+    mxmlTree2msrOahGroup ();
 
     virtual ~mxmlTree2msrOahGroup ();
 
@@ -638,11 +632,7 @@ EXP ostream& operator<< (ostream& os, const S_mxmlTree2msrOahGroup& elt);
 EXP extern S_mxmlTree2msrOahGroup gGlobalMxmlTree2msrOahGroup;
 
 //______________________________________________________________________________
-EXP S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup (
-  S_oahPrefix shortIgnoreRedundantPrefix,
-  S_oahPrefix longIgnoreRedundantPrefix,
-  S_oahPrefix shortDelayRestsPrefix,
-  S_oahPrefix longDelayRestsPrefix);
+EXP S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup ();
 
 
 }
