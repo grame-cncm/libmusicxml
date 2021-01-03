@@ -690,21 +690,24 @@ ostream& operator<< (ostream& os, const S_msrReplaceClefAtom& elt)
 
 S_mxmlTree2msrOahGroup gGlobalMxmlTree2msrOahGroup;
 
-S_mxmlTree2msrOahGroup mxmlTree2msrOahGroup::create ()
+S_mxmlTree2msrOahGroup mxmlTree2msrOahGroup::create (
+  S_oahHandler handler)
 {
-  mxmlTree2msrOahGroup* o = new mxmlTree2msrOahGroup ();
+  mxmlTree2msrOahGroup* o = new mxmlTree2msrOahGroup (
+    handler);
   assert (o!=0);
   return o;
 }
 
-mxmlTree2msrOahGroup::mxmlTree2msrOahGroup ()
+mxmlTree2msrOahGroup::mxmlTree2msrOahGroup (
+  S_oahHandler handler)
   : oahGroup (
     "Mxmltree2msr",
     "hmxmlt2msr", "help-mxmlTree-to-msr",
 R"(These options control the way xmlelement trees are translated to MSR.)",
     kElementVisibilityWhole)
 {
-  createTheMxmlTree2msrPrefixes ();
+  createTheMxmlTree2msrPrefixes (handler);
 
   initializeMxmlTree2msrOahGroup ();
 }
@@ -712,7 +715,8 @@ R"(These options control the way xmlelement trees are translated to MSR.)",
 mxmlTree2msrOahGroup::~mxmlTree2msrOahGroup ()
 {}
 
-void mxmlTree2msrOahGroup::createTheMxmlTree2msrPrefixes ()
+void mxmlTree2msrOahGroup::createTheMxmlTree2msrPrefixes (
+                            S_oahHandler handler)
 {
   // the 'ignore-redundant' prefixes
   // --------------------------------------
@@ -721,7 +725,7 @@ void mxmlTree2msrOahGroup::createTheMxmlTree2msrPrefixes ()
     oahPrefix::create (
       "ir", "ir",
       "'-ir=abc,yz' is equivalent to '-irabc, -iryz'");
-  fHandlerUpLink->
+  handler->
     registerPrefixInHandler (
       fShortIgnoreRedundantPrefix);
 
@@ -729,7 +733,7 @@ void mxmlTree2msrOahGroup::createTheMxmlTree2msrPrefixes ()
     oahPrefix::create (
       "ignore-redundant", "ignore-redundant-",
       "'-ignore-redundant=abc,yz' is equivalent to '-ignore-redundant-abc, -ignore-redundant-yz'");
-  fHandlerUpLink->
+  handler->
     registerPrefixInHandler (
       fLongIgnoreRedundantPrefix);
 
@@ -740,7 +744,7 @@ void mxmlTree2msrOahGroup::createTheMxmlTree2msrPrefixes ()
     oahPrefix::create (
       "dr", "dr",
       "'-dr=abc,yz' is equivalent to '-drabc, -dryz'");
-  fHandlerUpLink->
+  handler->
     registerPrefixInHandler (
       fShortDelayRestsPrefix);
 
@@ -748,7 +752,7 @@ void mxmlTree2msrOahGroup::createTheMxmlTree2msrPrefixes ()
     oahPrefix::create (
       "delay-rests", "delay-rests-",
       "'-delay-rests=abc,yz' is equivalent to '-delay-rests-abc, -delay-rests-yz'");
-  fHandlerUpLink->
+  handler->
     registerPrefixInHandler (
       fLongDelayRestsPrefix);
 }
@@ -2143,7 +2147,8 @@ ostream& operator<< (ostream& os, const S_mxmlTree2msrOahGroup& elt)
 }
 
 //______________________________________________________________________________
-S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup ()
+S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup (
+  S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -2157,7 +2162,8 @@ S_mxmlTree2msrOahGroup createGlobalMxmlTree2msrOahGroup ()
   if (! gGlobalMxmlTree2msrOahGroup) {
     // create the global options group
     gGlobalMxmlTree2msrOahGroup =
-      mxmlTree2msrOahGroup::create ();
+      mxmlTree2msrOahGroup::create (
+        handler);
     assert (gGlobalMxmlTree2msrOahGroup != 0);
   }
 

@@ -202,16 +202,17 @@ int main (int argc, char *argv[])
   // fetch the input filename
   // ------------------------------------------------------
 
-	const char* fileName = 0;
+	const char* inputFileName = 0;
 
 	if (argc > 1) {
-		fileName = argv [argc - 1];
+	  // the file name is the last argument
+		inputFileName = argv [argc - 1];
   }
 	else {
 		cerr <<
 		  "usage: " <<
 		  argv [0] <<
-		  "[-lilypond | -braille | -musicxml] [options] -|fileName " <<
+		  "[-lilypond | -braille | -musicxml] [options] -|inputFileName " <<
 		  endl;
 		return -1;
 	}
@@ -284,7 +285,7 @@ int main (int argc, char *argv[])
 
   xmlErr err = kNoErr;
 
-  if (string (fileName) == "-") {
+  if (string (inputFileName) == "-") {
 
     // MusicXML data comes from standard input
 #ifdef TRACING_IS_ENABLED
@@ -338,7 +339,7 @@ int main (int argc, char *argv[])
     // MusicXML data comes from a file
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
-    cerr << "Reading file '" << fileName << "'" << endl;
+    cerr << "Reading file '" << inputFileName << "'" << endl;
 #endif
 #endif
 
@@ -349,22 +350,22 @@ int main (int argc, char *argv[])
       case kGuido:
         err =
           musicxmlfile2guido (
-            fileName, keptOptions, cout, cerr);
+            inputFileName, keptOptions, cout, cerr);
         break;
       case kLilyPond:
         err =
           musicxmlfile2lilypond (
-            fileName, keptOptions, cout, cerr);
+            inputFileName, keptOptions, cout, cerr);
         break;
       case kBrailleMusic:
         err =
           musicxmlfile2braille (
-            fileName, keptOptions, cout, cerr);
+            inputFileName, keptOptions, cout, cerr);
         break;
       case kMusicXML:
         err =
           musicxmlfile2musicxml (
-            fileName, keptOptions, cout, cerr);
+            inputFileName, keptOptions, cout, cerr);
         break;
     } // switch
 
@@ -375,7 +376,7 @@ int main (int argc, char *argv[])
         executableName <<
         ", " <<
         generatedCodeKindAsString (gGeneratedCodeKind) <<
-        ", from a file \"" << fileName << "\", err = " <<
+        ", from a file \"" << inputFileName << "\", err = " <<
         err <<
         endl;
     }

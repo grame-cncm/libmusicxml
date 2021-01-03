@@ -36,10 +36,14 @@
 #include "msr2mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"
 
+#include "lpsr.h"
+
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"
 #include "lpsr2lilypondOah.h"
 #include "lilypondOah.h"
+
+#include "bsr.h"
 
 #include "msr2bsrOah.h"
 #include "bsrOah.h"
@@ -182,7 +186,8 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
 #ifdef TRACING_IS_ENABLED
   // create the trace OAH group
   appendGroupToHandler (
-    createGlobalTraceOahGroup ());
+    createGlobalTraceOahGroup (
+      this));
 #endif
 
   // create the OAH OAH group
@@ -198,13 +203,11 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
   // ------------------------------------------------------
 
   initializeMSR ();
+  initializeLPSR ();
+  initializeBSR ();
 
   // initialize options handling, phase 2
   // ------------------------------------------------------
-
-  // create the Mikrokosmos3Wandering OAH group
-  appendGroupToHandler (
-    createGlobalMikrokosmos3WanderingOahGroup ());
 
   // create the MSR OAH group
   appendGroupToHandler (
@@ -280,6 +283,10 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
         createGlobalMusicxmlOahGroup ());
       break;
   } // switch
+
+  // create the Mikrokosmos3Wandering OAH group
+  appendGroupToHandler (
+    createGlobalMikrokosmos3WanderingOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group

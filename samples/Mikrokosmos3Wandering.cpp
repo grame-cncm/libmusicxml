@@ -2500,108 +2500,6 @@ static xmlErr generateMusicXMLFromMsrScore (S_msrScore score)
 }
 
 //------------------------------------------------------------------------
-static void initializeTheLibraryAndOAH (string executableName)
-{
-  // initialize options handling, phase 1
-  // ------------------------------------------------------
-
-#ifdef TRACING_IS_ENABLED
-  // create the trace OAH group
-  // --------------------------------------
-
-  S_traceOahGroup
-    traceOahGroup =
-      createGlobalTraceOahGroup ();
-#endif
-
-  // initialize the library
-  // ------------------------------------------------------
-
-  initializeMSR ();
-  initializeLPSR ();
-  initializeBSR ();
-
-  // create the OAH OAH group
-  S_oahOahGroup
-    oahOahGroup =
-      createGlobalOahOahGroup (
-        executableName);
-
-  // create the general OAH group
-  S_generalOahGroup
-    generalOahGroup =
-      createGlobalGeneralOahGroup ();
-
-  // create the MSR OAH group
-  S_msrOahGroup
-    msrOahGroup =
-      createGlobalMsrOahGroup ();
-
-  // create the msr2lpsr OAH group
-  S_msr2lpsrOahGroup
-    msr2lpsrOahGroup =
-      createGlobalMsr2lpsrOahGroup ();
-
-  // create the LPSR OAH group
-  S_lpsrOahGroup
-    lpsrOahGroup =
-      createGlobalLpsrOahGroup ();
-
-  // create the lpsr2lilypond OAH group
-  S_lpsr2lilypondOahGroup
-    lpsr2lilypondOahGroup =
-      createGlobalLpsr2lilypondOahGroup ();
-
-  // create the LilyPond OAH group
-  S_lilypondOahGroup
-    lilypondOahGroup =
-      createGlobalLilypondOahGroup ();
-
-  // create the msr2bsr OAH group
-  S_msr2bsrOahGroup
-    msr2bsrOahGroup =
-      createGlobalMsr2bsrOahGroup ();
-
-  // create the BSR OAH group
-  S_bsrOahGroup
-    bsrOahGroup =
-      createGlobalBsrOahGroup ();
-
-  // create the bsr2braille OAH group
-  S_bsr2brailleOahGroup
-    bsr2brailleOahGroup =
-      createGlobalBsr2brailleOahGroup ();
-
-  // create the msr2mxmlTree OAH group
-  S_msr2mxmlTreeOahGroup
-    msr2mxmlTreeOahGroup =
-      createGlobalMsr2mxmlTreeOahGroup ();
-
-  // create the mxmlTree OAH group
-  S_mxmlTreeOahGroup
-    mxmlTreeOahGroup =
-      createGlobalMxmlTreeOahGroup ();
-
-  // create the MusicXML OAH group
-  S_musicxmlOahGroup
-    musicxmlOahGroup =
-      createGlobalMusicxmlOahGroup ();
-
-/* JMI ???
-  // create the xml2brl OAH group
-  S_xml2brlInsiderOahGroup
-    xml2brlInsiderOahGroup =
-      createGlobalXml2brlOahGroup ();
-      */
-
-  // create the Mikrokosmos3Wandering OAH group
-  S_Mikrokosmos3WanderingOahGroup
-    mikrokosmos3WanderingOahGroup =
-      createGlobalMikrokosmos3WanderingOahGroup ();
-
-}
-
-//------------------------------------------------------------------------
 static void setTheDesiredOptions ()
 {
   /*
@@ -2868,11 +2766,6 @@ int main (int argc, char * argv[])
 
   // let's go ahead
   // ------------------------------------------------------
-
-  // initialize the library and OAH
-  // ------------------------------------------------------
-
-  initializeTheLibraryAndOAH (executableName);
 
   // create and populate the score
   // ------------------------------------------------------

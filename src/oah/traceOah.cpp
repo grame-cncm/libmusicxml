@@ -36,15 +36,18 @@ namespace MusicXML2
 //_______________________________________________________________________________
 S_traceOahGroup gGlobalTraceOahGroup;
 
-S_traceOahGroup traceOahGroup::create ()
+S_traceOahGroup traceOahGroup::create (
+  S_oahHandler handler)
 {
-  traceOahGroup* o = new traceOahGroup ();
+  traceOahGroup* o = new traceOahGroup (
+    handler);
   assert (o!=0);
 
   return o;
 }
 
-traceOahGroup::traceOahGroup ()
+traceOahGroup::traceOahGroup (
+  S_oahHandler handler)
   : oahGroup (
       "OAH Trace",
       "ht", "help-trace",
@@ -55,7 +58,7 @@ traceOahGroup::traceOahGroup ()
   All of them imply '-tpasses, -trace-passes'.)",
       kElementVisibilityHeaderOnly)
 {
-  createTheTracePrefixes ();
+  createTheTracePrefixes (handler);
 
   initializeTraceOahGroup ();
 }
@@ -63,7 +66,7 @@ traceOahGroup::traceOahGroup ()
 traceOahGroup::~traceOahGroup ()
 {}
 
-void traceOahGroup::createTheTracePrefixes ()
+void traceOahGroup::createTheTracePrefixes (S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -85,7 +88,7 @@ void traceOahGroup::createTheTracePrefixes ()
     oahPrefix::create (
       "t", "t",
       "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
-  fHandlerUpLink->
+  handler->
     registerPrefixInHandler (
       fShortTracePrefix);
 
@@ -93,7 +96,7 @@ void traceOahGroup::createTheTracePrefixes ()
     oahPrefix::create (
       "trace", "trace-",
       "'-trace=abc,yz' is equivalent to '-trace-abc, -trace-yz'");
-  fHandlerUpLink->
+  handler->
     registerPrefixInHandler (
       fLongTracePrefix);
 
@@ -3358,7 +3361,8 @@ ostream& operator<< (ostream& os, const S_traceOahGroup& elt)
 }
 
 //______________________________________________________________________________
-S_traceOahGroup createGlobalTraceOahGroup ()
+S_traceOahGroup createGlobalTraceOahGroup (
+  S_oahHandler handler)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -3372,7 +3376,8 @@ S_traceOahGroup createGlobalTraceOahGroup ()
   if (! gGlobalTraceOahGroup) {
     // create the global OAH group
     gGlobalTraceOahGroup =
-      traceOahGroup::create ();
+      traceOahGroup::create (
+        handler);
     assert (gGlobalTraceOahGroup != 0);
   }
 

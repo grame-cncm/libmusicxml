@@ -164,7 +164,8 @@ void xml2gmnInsiderOahHandler::createTheXml2gmnOptionGroups (
 #ifdef TRACING_IS_ENABLED
   // create the trace OAH group
   appendGroupToHandler (
-    createGlobalTraceOahGroup ());
+    createGlobalTraceOahGroup (
+      this));
 #endif
 
   // create the OAH OAH group
@@ -198,7 +199,8 @@ void xml2gmnInsiderOahHandler::createTheXml2gmnOptionGroups (
 
   // create the mxmlTree2msr OAH group
   appendGroupToHandler (
-    createGlobalMxmlTree2msrOahGroup ());
+    createGlobalMxmlTree2msrOahGroup (
+      this));
 
   // create the MSR OAH group
   appendGroupToHandler (
