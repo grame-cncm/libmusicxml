@@ -27,6 +27,8 @@ enum generatedCodeKind {
 
 EXP extern string generatedCodeKindAsString (generatedCodeKind kind);
 
+EXP extern generatedCodeKind generatedCodeKindFromString (string theString);
+
 extern map<string, generatedCodeKind>
   gGlobalGeneratedCodeKindsMap;
 

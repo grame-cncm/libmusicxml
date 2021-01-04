@@ -922,10 +922,10 @@ EXP S_msrScore mxmlTreeToMsrScoreSkeleton (
   // start the clock
   clock_t startClock = clock ();
 
-  S_msrScore mScore;
+  S_msrScore theMsrScore;
 
   try {
-    mScore =
+    theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (
         mxmlTree,
         gGlobalMsrOahGroup,
@@ -950,7 +950,7 @@ EXP S_msrScore mxmlTreeToMsrScoreSkeleton (
     startClock,
     endClock);
 
-  return mScore;
+  return theMsrScore;
 }
 */
 

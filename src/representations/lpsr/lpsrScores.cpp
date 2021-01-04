@@ -79,20 +79,20 @@ customBreathe = {
 //______________________________________________________________________________
 S_lpsrScore lpsrScore::create (
   int        inputLineNumber,
-  S_msrScore mScore)
+  S_msrScore theMsrScore)
 {
   lpsrScore* o = new lpsrScore (
-    inputLineNumber, mScore);
+    inputLineNumber, theMsrScore);
   assert (o!=0);
   return o;
 }
 
 lpsrScore::lpsrScore (
   int        inputLineNumber,
-  S_msrScore mScore)
+  S_msrScore theMsrScore)
     : lpsrElement (inputLineNumber)
 {
-  fMsrScore = mScore;
+  fMsrScore = theMsrScore;
 
   // should the initial comments about the executable and the options used
   // be generated?

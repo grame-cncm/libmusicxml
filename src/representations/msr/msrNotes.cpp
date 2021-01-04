@@ -1518,7 +1518,7 @@ S_msrNote msrNote::createRestFromString (
   S_msrNote result;
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
       "Creating rest from string \"" <<
       restString <<
@@ -1539,7 +1539,7 @@ S_msrNote msrNote::createRestFromString (
     );
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "regularExpression = " <<
       regularExpression <<
@@ -1555,7 +1555,7 @@ S_msrNote msrNote::createRestFromString (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for rest string \"" << restString <<
@@ -1595,7 +1595,7 @@ S_msrNote msrNote::createRestFromString (
   unsigned int dotsNumber = restDots.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "restDuration = \"" <<
       restDuration <<
@@ -1626,7 +1626,7 @@ S_msrNote msrNote::createRestFromString (
          restDurationKind);
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "durationKindFromMslpString = " <<
       durationKindFromMslpString <<
@@ -1656,7 +1656,7 @@ S_msrNote msrNote::createSkipFromString (
   S_msrNote result;
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
       "Creating skip from string \"" <<
       skipString <<
@@ -1677,7 +1677,7 @@ S_msrNote msrNote::createSkipFromString (
     );
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "regularExpression = " <<
       regularExpression <<
@@ -1693,7 +1693,7 @@ S_msrNote msrNote::createSkipFromString (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for skip string \"" << skipString <<
@@ -1733,7 +1733,7 @@ S_msrNote msrNote::createSkipFromString (
   unsigned int dotsNumber = skipDots.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "skipDuration = \"" <<
       skipDuration <<
@@ -1764,7 +1764,7 @@ S_msrNote msrNote::createSkipFromString (
          skipDurationKind);
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "durationKindFromMslpString = " <<
       durationKindFromMslpString <<
@@ -1795,7 +1795,7 @@ S_msrNote msrNote::createNoteFromString (
   S_msrNote result;
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
       "Creating note from string \"" <<
       noteString <<
@@ -1821,7 +1821,7 @@ S_msrNote msrNote::createNoteFromString (
     );
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "regularExpression = " <<
       regularExpression <<
@@ -1837,7 +1837,7 @@ S_msrNote msrNote::createNoteFromString (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for note string \"" << noteString <<
@@ -1879,7 +1879,7 @@ S_msrNote msrNote::createNoteFromString (
   unsigned int dotsNumber = noteDots.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "notePitch = \"" <<
       notePitch <<
@@ -1935,7 +1935,7 @@ S_msrNote msrNote::createNoteFromString (
          noteDurationKind);
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "quarterTonesPitchKind = " <<
       quarterTonesPitchKindAsString (quarterTonesPitchKind) <<

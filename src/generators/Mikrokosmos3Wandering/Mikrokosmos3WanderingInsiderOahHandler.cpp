@@ -52,8 +52,6 @@
 
 #include "version.h"
 
-// JMI #include "Mikrokosmos3WanderingManPageOah.h"
-
 #include "Mikrokosmos3WanderingInsiderOahHandler.h"
 
 
@@ -213,17 +211,34 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
 
-  // create the msr2msr OAH group
-  appendGroupToHandler (
-    createGlobalMsr2msrOahGroup ());
-
   // create the groups needed according to the generated code kind
+  /*
+    CAUTION:
+      some option names are identical in OAH groups
+      that are not meant to be used at the same time,
+      such as gGlobalMsr2msrOahGroup and gGlobalMsr2lpsrOahGroup
+  */
+
   switch (fGeneratedCodeKind) {
     case k_NoGeneratedCode:
       // should not occur
+      {
+        stringstream s;
+
+        s <<
+          "generated code kind not known yet in \"" <<
+          fHandlerHeader <<
+          "\"";
+
+        oahInternalError (s.str ());
+      }
       break;
 
     case kGuido:
+      // create the msr2msr OAH group
+      appendGroupToHandler (
+        createGlobalMsr2msrOahGroup ());
+
       // create the msr2mxmlTree OAH group
       appendGroupToHandler (
         createGlobalMsr2mxmlTreeOahGroup ());
@@ -231,6 +246,10 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       // create the mxmlTree OAH group
       appendGroupToHandler (
         createGlobalMxmlTreeOahGroup ());
+
+      // create the MusicXML OAH group
+      appendGroupToHandler (
+        createGlobalMusicxmlOahGroup ());
       break;
 
     case kLilyPond:
@@ -270,6 +289,10 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       break;
 
     case kMusicXML:
+      // create the msr2msr OAH group
+      appendGroupToHandler (
+        createGlobalMsr2msrOahGroup ());
+
       // create the msr2mxmlTree OAH group
       appendGroupToHandler (
         createGlobalMsr2mxmlTreeOahGroup ());
@@ -284,9 +307,12 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       break;
   } // switch
 
-  // create the Mikrokosmos3Wandering OAH group
+  // create the Mikrokosmos3Wandering OAH group // JMI ???
   appendGroupToHandler (
     createGlobalMikrokosmos3WanderingOahGroup ());
+
+  appendGroupToHandler (
+    createGlobalMikrokosmos3WanderingInsiderOahGroup ());
 
 #ifdef EXTRA_OAH_IS_ENABLED
   // create the extra OAH group

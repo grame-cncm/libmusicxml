@@ -564,7 +564,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for semitones pitch and octave string '" << theString <<
@@ -590,7 +590,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
       octaveIndication = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-    if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
       gLogStream <<
         "--> pitch = \"" << pitch << "\", " <<
         "--> octaveIndication = \"" << octaveIndication << "\"" <<
@@ -612,7 +612,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
           octaveIndication);
 
 #ifdef TRACING_IS_ENABLED
-    if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
       gLogStream <<
         "--> semiTonesPitchKind = \"" <<
         msrSemiTonesPitchKindAsString (

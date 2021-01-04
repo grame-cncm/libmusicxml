@@ -24,11 +24,20 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 EXP void convertLpsrScoreToLilypondCode (
-  const S_lpsrScore originalLpsrScore,
+  const S_lpsrScore theLpsrScore,
   S_msrOahGroup     msrOpts,
   S_lpsrOahGroup    lpsrOpts,
   string            passNumber,
   ostream&          lilypondCodeStream);
+
+EXP void convertLpsrScoreToLilypondCodeWithHandler (
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts,
+  string            passNumber,
+  S_oahHandler      handler,
+  ostream&          out,
+  ostream&          err);
 
 
 } // namespace MusicXML2

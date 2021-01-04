@@ -616,7 +616,7 @@ S_msrTime msrTime::createTimeFromString (
   S_msrTime result;
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
       "Creating time from string \"" <<
       timeString <<
@@ -636,7 +636,7 @@ S_msrTime msrTime::createTimeFromString (
     );
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "regularExpression = " <<
       regularExpression <<
@@ -652,7 +652,7 @@ S_msrTime msrTime::createTimeFromString (
   unsigned int smSize = sm.size ();
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "There are " << smSize << " matches" <<
       " for time string \"" << timeString <<
@@ -690,7 +690,7 @@ S_msrTime msrTime::createTimeFromString (
     beatsDuration = sm [2];
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "beatsNumber = \"" <<
       beatsNumber <<
@@ -719,7 +719,7 @@ S_msrTime msrTime::createTimeFromString (
     }
 
 #ifdef TRACING_IS_ENABLED
-  if (true || gGlobalTraceOahGroup->getTraceOah ()) {
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "integerBeatsNumber = " <<
       integerBeatsNumber <<

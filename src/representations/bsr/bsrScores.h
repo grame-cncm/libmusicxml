@@ -39,7 +39,7 @@ class EXP bsrScore : public bsrElement
 
     static SMARTP<bsrScore> create (
       int            inputLineNumber,
-      S_msrScore     mScore);
+      S_msrScore     theMsrScore);
 
   protected:
 
@@ -48,7 +48,7 @@ class EXP bsrScore : public bsrElement
 
     bsrScore (
       int            inputLineNumber,
-      S_msrScore     mScore);
+      S_msrScore     theMsrScore);
 
     virtual ~bsrScore ();
 

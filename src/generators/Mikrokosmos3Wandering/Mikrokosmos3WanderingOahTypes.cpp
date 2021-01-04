@@ -13,6 +13,8 @@
 #include "version.h"
 #include "utilities.h"
 
+#include "messagesHandling.h"
+
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
@@ -55,6 +57,36 @@ string generatedCodeKindAsString (generatedCodeKind kind)
   return result;
 }
 
+EXP generatedCodeKind generatedCodeKindFromString (string theString)
+{
+  generatedCodeKind result = k_NoGeneratedCode;
+
+  if      (theString == "guido") {
+    result = kGuido;
+  }
+  else if (theString == "lilypond") {
+    result = kLilyPond;
+  }
+  else if (theString == "braille") {
+    result = kBrailleMusic;
+  }
+  else if (theString == "musicxml") {
+    result = kMusicXML;
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "the string \"" <<
+      theString <<
+      "\" is no valid generated code kind";
+
+    msgAssert (false, s.str ());
+  }
+
+  return result;
+}
+
 map<string, generatedCodeKind>
   gGlobalGeneratedCodeKindsMap;
 
@@ -70,9 +102,8 @@ string existingGeneratedCodeKinds (unsigned int namesListMaxLength)
 {
   stringstream s;
 
-  int
-    brailleOutputKindsMapSize =
-      gGlobalGeneratedCodeKindsMap.size ();
+  unsigned int brailleOutputKindsMapSize =
+    gGlobalGeneratedCodeKindsMap.size ();
 
   if (brailleOutputKindsMapSize) {
     unsigned int nextToLast =

@@ -354,7 +354,7 @@ void msr2lpsrOahGroup::initializeRepeatsOptions ()
   S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Repeats",
-      "hmsrr", "help-msr-repeats",
+      "hlpsrr", "help-lpsr-repeats",
 R"()",
     kElementVisibilityWhole,
     this);
@@ -395,7 +395,7 @@ void msr2lpsrOahGroup::initializeLyricsOptions ()
   S_oahSubGroup subGroup =
     oahSubGroup::create (
       "Lyrics",
-      "hmsrlyrd", "help-msr-lyrics",
+      "hlpsrlyrd", "help-lpsr-lyrics",
 R"()",
     kElementVisibilityWhole,
     this);

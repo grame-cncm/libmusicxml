@@ -35,7 +35,7 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 void convertLpsrScoreToLilypondCode (
-  const S_lpsrScore originalLpsrScore,
+  const S_lpsrScore theLpsrScore,
   S_msrOahGroup     msrOpts,
   S_lpsrOahGroup    lpsrOpts,
   string            passNumber,
@@ -43,8 +43,8 @@ void convertLpsrScoreToLilypondCode (
 {
   // sanity check
   msgAssert (
-    originalLpsrScore != nullptr,
-    "originalLpsrScore is null");
+    theLpsrScore != nullptr,
+    "theLpsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -69,7 +69,7 @@ void convertLpsrScoreToLilypondCode (
   // create an lpsr2lilypondTranslator
   lpsr2lilypondTranslator
     translator (
-      originalLpsrScore,
+      theLpsrScore,
       msrOpts,
       lpsrOpts,
       lilypondCodeStream);
@@ -96,6 +96,146 @@ void convertLpsrScoreToLilypondCode (
       endl;
 
     gIndenter.resetToZero ();
+  }
+}
+
+EXP void convertLpsrScoreToLilypondCodeWithHandler (
+  const S_lpsrScore theLpsrScore,
+  S_msrOahGroup     msrOpts,
+  S_lpsrOahGroup    lpsrOpts,
+  string            passNumber,
+  S_oahHandler      handler,
+  ostream&          out,
+  ostream&          err)
+{
+  string
+    outputFileName =
+      handler->
+        fetchOutputFileNameFromTheOptions ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    err <<
+      "xmlFile2lilypond() outputFileName = \"" <<
+      outputFileName <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  if (! outputFileName.size ()) {
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
+      err <<
+        "xmlFile2lilypond() output goes to standard output" <<
+        endl;
+    }
+#endif
+
+    // create an indented output stream for the LilyPond code
+    // to be written to outputFileStream
+    indentedOstream
+      lilypondStandardOutputStream (
+        out,
+        gIndenter);
+
+    // convert the LPSR score to LilyPond code
+    try {
+      convertLpsrScoreToLilypondCode (
+        theLpsrScore,
+        gGlobalMsrOahGroup,
+        gGlobalLpsrOahGroup,
+        passNumber,
+        lilypondStandardOutputStream);
+    }
+    catch (lpsrScoreToLilypondException& e) {
+      displayException (e, gOutputStream);
+      return;
+    }
+    catch (std::exception& e) {
+      displayException (e, gOutputStream);
+      return;
+    }
+  }
+
+  else {
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
+      err <<
+        "xmlFile2lilypond() output goes to file \"" <<
+        outputFileName <<
+        "\"" <<
+        endl;
+    }
+#endif
+
+    // open output file
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTracePasses ()) {
+      err <<
+        "Opening file '" << outputFileName << "' for writing" <<
+        endl;
+    }
+#endif
+
+    ofstream
+      outputFileStream (
+        outputFileName.c_str (),
+        ofstream::out);
+
+    if (! outputFileStream.is_open ()) {
+      stringstream s;
+
+      s <<
+        "Could not open LilyPond output file \"" <<
+        outputFileName <<
+        "\" for writing, quitting";
+
+      string message = s.str ();
+
+      err <<
+        message <<
+        endl;
+
+      throw lpsrScoreToLilypondException (message);
+    }
+
+    // create an indented output stream for the LilyPond code
+    // to be written to outputFileStream
+    indentedOstream
+      lilypondFileOutputStream (
+        outputFileStream,
+        gIndenter);
+
+    // convert the LPSR score to LilyPond code
+    try {
+      convertLpsrScoreToLilypondCode (
+        theLpsrScore,
+        gGlobalMsrOahGroup,
+        gGlobalLpsrOahGroup,
+        passNumber,
+        lilypondFileOutputStream);
+    }
+    catch (lpsrScoreToLilypondException& e) {
+      displayException (e, gOutputStream);
+      return;
+    }
+    catch (std::exception& e) {
+      displayException (e, gOutputStream);
+      return;
+    }
+
+    // close output file
+#ifdef TRACE_OAH
+    if (gTraceOah->fTracePasses) {
+      gLogOstream <<
+        endl <<
+        "Closing file \"" << outputFileName << "\"" <<
+        endl;
+    }
+#endif
+
+    outputFileStream.close ();
   }
 }
 

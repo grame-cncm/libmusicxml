@@ -28,7 +28,7 @@ EXP S_msrScore convertMxmlTreeToMsrScoreSkeleton (
 //_______________________________________________________________________________
 EXP void displayMsrSkeleton (
   S_msrOahGroup&  msrOpts,
-  S_msrScore mScore,
+  S_msrScore theMsrScore,
   string     passNumber);
 
 

@@ -29,6 +29,9 @@
 
 #include "messagesHandling.h"
 
+#include "Mikrokosmos3WanderingOahTypes.h"
+
+
 using namespace std;
 using namespace MusicXML2;
 
@@ -78,7 +81,7 @@ static void argvElements2stringsVector (
 }
 
 //_______________________________________________________________________________
-static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVector)
+static bool arguments2optionsVector (int argc, char *argv[], optionsVector& theOptionsVector)
 {
   // create a strings vector from the elements in argv
 	vector<string> stringsVector;
@@ -87,7 +90,7 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
-  cerr << "args2Options: stringsVector size: " << stringsVector.size() << endl;
+  cerr << "arguments2optionsVector: stringsVector size: " << stringsVector.size() << endl;
 	cerr << "==> stringsVector:" << endl;
 	for (auto str: stringsVector) {
 	  cerr << "   " << str << endl;
@@ -139,35 +142,6 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 		theOptionsVector.push_back (make_pair (curOption, ""));
 
 	return true;
-}
-
-enum generatedCodeKind {
-  k_NoGeneratedCode,
-  kGuido, kLilyPond, kBrailleMusic, kMusicXML };
-
-static string generatedCodeKindAsString (generatedCodeKind kind)
-{
-  string result;
-
-  switch (kind) {
-    case k_NoGeneratedCode:
-      result = "*NoGeneratedCode*";
-      break;
-    case kGuido:
-      result = "Guido";
-      break;
-    case kLilyPond:
-      result = "LilyPond";
-      break;
-    case kBrailleMusic:
-      result = "BrailleMusic";
-      break;
-    case kMusicXML:
-      result = "MusicXML";
-      break;
-  } // switch
-
-  return result;
 }
 
 //_______________________________________________________________________________
@@ -222,10 +196,10 @@ int main (int argc, char *argv[])
 
 	optionsVector theOptionsVector;
 
-	if (! args2Options (argc, argv, theOptionsVector)) {
+	if (! arguments2optionsVector (argc, argv, theOptionsVector)) {
     cerr <<
       executableName <<
-      ": args2Options() returned false" <<
+      ": arguments2optionsVector() returned false" <<
       endl;
 
     return 1;

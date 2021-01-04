@@ -78,13 +78,13 @@ static xmlErr xmlFile2lilypondWithHandler (
   // the MSR score
   // ------------------------------------------------------
 
-  S_msrScore mScore;
+  S_msrScore theMsrScore;
 
   // create the MSR skeleton from the mxmlTree (pass 2a)
   // ------------------------------------------------------
 
   try {
-    mScore =
+    theMsrScore =
       convertMxmlTreeToMsrScoreSkeleton (
         mxmlTree,
         gGlobalMsrOahGroup,
@@ -117,7 +117,7 @@ static xmlErr xmlFile2lilypondWithHandler (
   try {
     populateMsrSkeletonFromMxmlTree (
       mxmlTree,
-      mScore,
+      theMsrScore,
       "Pass 2b");
   }
   catch (mxmlTreeToMsrException& e) {
@@ -153,7 +153,7 @@ static xmlErr xmlFile2lilypondWithHandler (
     try {
       theLpsrScore =
         convertMsrScoreToLpsrScore (
-          mScore,
+          theMsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
           passNumber);
@@ -398,10 +398,12 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
 	for (unsigned int i = 1; i < options.size (); ++i) {
 	  string optionName = options [i].first;
 
-		if (optionName == "-insider") {
+    string optionNameWithoutDash = optionName.substr (1);
+
+		if (optionNameWithoutDash == K_INSIDER_OPTION_NAME) {
 		  insiderOptions = true;
 		}
-		if (optionName == "-regular") {
+		if (optionNameWithoutDash == K_REGULAR_OPTION_NAME) {
 		  regularOptions = true;
 		}
 	} // for

@@ -23,8 +23,8 @@
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-#define K_REGULAR_OPTION_NAME "regular"
-#define K_INSIDER_OPTION_NAME "insider"
+#define K_GENERATED_CODE_KIND_SHORT_NAME "gen"
+#define K_GENERATED_CODE_KIND_LONG_NAME  "generated-code-kind"
 
 //_______________________________________________________________________________
 EXP string Mikrokosmos3WanderingAboutInformation ();

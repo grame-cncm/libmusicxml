@@ -312,8 +312,8 @@ void Mikrokosmos3WanderingRegularOahHandler::createOahRegularGroup ()
   registerAtomInRegularSubgroup ("trace-oah-details", subGroup);
   registerAtomInRegularSubgroup ("trace-passes", subGroup);
 
-  registerAtomInRegularSubgroup ("trace-encoding", subGroup); // JMI
-  registerAtomInRegularSubgroup ("trace-divisions", subGroup); // JMI
+  registerAtomInRegularSubgroup ("trace-encoding", subGroup);
+  registerAtomInRegularSubgroup ("trace-divisions", subGroup);
 }
 
 void Mikrokosmos3WanderingRegularOahHandler::createWarningAndErrorsRegularGroup ()

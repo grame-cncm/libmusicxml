@@ -32,6 +32,8 @@
 
 #include "msr2msrTranslator.h"
 
+#include "mxmlTree2msrTranslatorInterface.h"
+
 #include "messagesHandling.h"
 
 
@@ -117,6 +119,20 @@ clock_t startClock = clock ();
       endl;
 
     gIndenter.resetToZero ();
+  }
+
+  // display the resulting MSR score if requested
+  // ------------------------------------------------------
+
+  if (gGlobalMsrOahGroup->getDisplayMsr ()) {
+    displayMsrScore_OptionalPass (
+      resultingMsrScore);
+  }
+
+  else if (gGlobalMsrOahGroup->getDisplayMsrShort ()) {
+    displayMsrScoreShort_OptionalPass (
+      resultingMsrScore,
+      gGlobalMsrOahGroup);
   }
 
   return resultingMsrScore;

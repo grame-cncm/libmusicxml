@@ -139,13 +139,13 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
 //_______________________________________________________________________________
 void displayMsrSkeleton (
   S_msrOahGroup&  msrOpts,
-  S_msrScore mScore,
+  S_msrScore theMsrScore,
   string     passNumber)
 {
   // sanity check
   msgAssert (
-    mScore != nullptr,
-    "mScore is null");
+    theMsrScore != nullptr,
+    "theMsrScore is null");
 
   // start the clock
   clock_t startClock = clock ();
@@ -162,7 +162,7 @@ void displayMsrSkeleton (
     endl <<
     separator <<
     endl << endl <<
-    mScore;
+    theMsrScore;
 
   // register time spent
   clock_t endClock = clock ();

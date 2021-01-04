@@ -92,10 +92,12 @@ int main (int argc, char *argv[])
 	for (int i = 1; i < argc; ++i) {
 	  string argumentAsString = string (argv [i]);
 
-		if (argumentAsString == "-insider") {
+    string argumentWithoutDash = argumentAsString.substr (1);
+
+		if (argumentWithoutDash == K_INSIDER_OPTION_NAME) {
 		  insiderOptions = true;
 		}
-		if (argumentAsString == "-regular") {
+		if (argumentWithoutDash == K_REGULAR_OPTION_NAME) {
 		  regularOptions = true;
 		}
 	} // for

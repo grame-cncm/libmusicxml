@@ -32,20 +32,20 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_bsrScore bsrScore::create (
   int            inputLineNumber,
-  S_msrScore     mScore)
+  S_msrScore     theMsrScore)
 {
   bsrScore* o = new bsrScore (
-    inputLineNumber, mScore);
+    inputLineNumber, theMsrScore);
   assert (o!=0);
   return o;
 }
 
 bsrScore::bsrScore (
   int            inputLineNumber,
-  S_msrScore     mScore)
+  S_msrScore     theMsrScore)
     : bsrElement (inputLineNumber)
 {
-  fMsrScore = mScore;
+  fMsrScore = theMsrScore;
 
   // create a transcription note
   fTranscriptionNotes =

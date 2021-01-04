@@ -741,7 +741,7 @@ void msr2msrOahGroup::initializeTemposOptions ()
     subGroup =
       oahSubGroup::create (
         "Tempos",
-        "hlpsrtempos", "help-lpsr-tempos",
+        "hmsrtempos", "help-msr-tempos",
 R"()",
       kElementVisibilityWhole,
       this);
@@ -769,7 +769,7 @@ void msr2msrOahGroup::initializeWordsOptions ()
     subGroup =
       oahSubGroup::create (
         "Words",
-        "hlpsrwords", "help-lpsr-words",
+        "hmsrwords", "help-msr-words",
 R"()",
       kElementVisibilityWhole,
       this);
@@ -854,7 +854,7 @@ R"(Convert words elements STRING to an MSR 'dal segno al coda' element.)",
         regex_replace (
           regex_replace (
             regex_replace (
-R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
+R"(Use LANGUAGE to display note pitches in the MSR logs and views,
 as well as in the generated LilyPond code.
 The NUMBER LilyPond pitches languages available are:
 PITCHES_LANGUAGES.

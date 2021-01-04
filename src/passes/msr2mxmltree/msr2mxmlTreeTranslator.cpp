@@ -2531,7 +2531,7 @@ if (false)
   // get the part shortest note's duration
   fPartShortestNoteDuration =
     elt->getPartShortestNoteDuration ();
-    /*
+    /* JMI ???
   fPartShortestNoteTupletFactor =
     elt->getPartShortestNoteTupletFactor ();
 
@@ -2576,24 +2576,24 @@ if (false)
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
     gLogStream <<
-      "-->  partShortestNoteDuration: " <<
+      "--> partShortestNoteDuration: " <<
       fPartShortestNoteDuration <<
       endl <<
-      "-->  divisionsPerQuarterNoteAsRational: " <<
+      "--> divisionsPerQuarterNoteAsRational: " <<
       divisionsPerQuarterNoteAsRational <<
       endl <<
       /* JMI
-      "-->  partShortestNoteTupletFactor: " <<
+      "--> partShortestNoteTupletFactor: " <<
       fPartShortestNoteTupletFactor.asString () <<
       endl <<
-      "-->  partShortestNoteTupletFactorAsRational: " <<
+      "--> partShortestNoteTupletFactorAsRational: " <<
       partShortestNoteTupletFactorAsRational <<
       endl <<
       */
-      "-->  fDivisionsPerQuarterNote: " <<
+      "--> divisionsPerQuarterNote: " <<
       fDivisionsPerQuarterNote <<
       endl <<
-      "-->  fDivisionsMultiplyingFactor: " <<
+      "--> divisionsMultiplyingFactor: " <<
       fDivisionsMultiplyingFactor <<
       endl;
   }
@@ -4194,7 +4194,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrTuplet& elt)
 void msr2mxmlTreeTranslator:: appendNoteWedges (S_msrNote note)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceWedges ()) {
     gLogStream <<
       "--> appendNoteWedges, note = " <<
       note->asShortString () <<
@@ -4249,7 +4249,7 @@ void msr2mxmlTreeTranslator:: appendNoteWedges (S_msrNote note)
 void msr2mxmlTreeTranslator:: appendNoteDynamics (S_msrNote note)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceDynamics ()) {
     gLogStream <<
       "--> appendNoteDynamics, note = " <<
       note->asShortString () <<
@@ -6352,7 +6352,7 @@ void msr2mxmlTreeTranslator::appendDurationToNoteIfRelevant (
       ", noteDisplayWholeNotes: " << noteDisplayWholeNotes <<
       ", noteTupletFactor: " << note->getNoteTupletFactor ().asRational () <<
       ", divisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
-      ", fPartShortestNoteDuration: " << fPartShortestNoteDuration <<
+      ", partShortestNoteDuration: " << fPartShortestNoteDuration <<
       ", fDivisionsMultiplyingFactor: " << fDivisionsMultiplyingFactor <<
       ", line " << inputLineNumber <<
       endl;

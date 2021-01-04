@@ -52,6 +52,11 @@
 #include "msr2lpsrInterface.h"
 #include "lpsr2lilypondInterface.h"
 
+#include "msr2lilypond.h"
+#include "msr2musicxml.h"
+#include "msr2braille.h"
+#include "msr2guido.h"
+
 #include "bsr.h"
 
 #include "msr2bsrInterface.h"
@@ -69,7 +74,7 @@ using namespace MusicXML2;
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
-//#define ENFORCE_TRACE_OAH
+#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 #ifndef WIN32
@@ -109,7 +114,7 @@ static void argvElements2stringsVector (
 }
 
 //_______________________________________________________________________________
-static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVector)
+static bool arguments2optionsVector (int argc, char *argv[], optionsVector& theOptionsVector)
 {
   // create a strings vector from the elements in argv
 	vector<string> stringsVector;
@@ -118,7 +123,7 @@ static bool args2Options (int argc, char *argv[], optionsVector& theOptionsVecto
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
-  cerr << "args2Options: stringsVector size: " << stringsVector.size() << endl;
+  cerr << "arguments2optionsVector: stringsVector size: " << stringsVector.size() << endl;
 	cerr << "==> stringsVector:" << endl;
 	for (auto str: stringsVector) {
 	  cerr << "   " << str << endl;
@@ -200,7 +205,7 @@ static S_msrScore createTheScore (
 {
   // create the score
   S_msrScore
-    score =
+    theMsrScore =
       msrScore::create (__LINE__);
 
   // create its identification
@@ -209,7 +214,7 @@ static S_msrScore createTheScore (
       msrIdentification::create (
         __LINE__);
 
-  score->
+  theMsrScore->
     setIdentification (
       identification);
 
@@ -220,20 +225,20 @@ static S_msrScore createTheScore (
       "Mikrokosmos III Wandering - MSPL, " +
         msrGenerationAPIKindAsString (generationKind));
 
-  return score;
+  return theMsrScore;
 }
 
 //------------------------------------------------------------------------
-static S_msrPart createPartInScore (S_msrScore score)
+static S_msrPart createPartInScore (S_msrScore theMsrScore)
 {
   // create the part group
   S_msrPartGroup
     partGroup =
       msrPartGroup::create (
-        __LINE__, 1, 1, "OnlyPartGroup", nullptr, score);
+        __LINE__, 1, 1, "OnlyPartGroup", nullptr, theMsrScore);
 
   // add it to the score
-  score->
+  theMsrScore->
     addPartGroupToScore (
       partGroup);
 
@@ -1852,13 +1857,13 @@ static S_msrScore createAndPopulateTheScore (
   msrGenerationAPIKind generationKind)
 {
   S_msrScore
-    score =
+    theMsrScore =
       createTheScore (
         generationKind);
 
   S_msrPart
     part =
-      createPartInScore (score);
+      createPartInScore (theMsrScore);
 
   // create and populate the two staves in part
   S_msrStaff
@@ -1872,6 +1877,7 @@ static S_msrScore createAndPopulateTheScore (
       createAndPopulateLowerStaffInPart (
         part,
         generationKind);
+
   // finalize the part
   part->
     finalizePart (__LINE__); // JMI
@@ -1886,621 +1892,16 @@ static S_msrScore createAndPopulateTheScore (
 
     ++gIndenter;
     gOutputStream <<
-      score <<
+      theMsrScore <<
       endl;
     --gIndenter;
   }
 
-  return score;
+  return theMsrScore;
 }
 
 //------------------------------------------------------------------------
-static xmlErr generateGuidoCodeFromMsrScore (S_msrScore score)
-{
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    "==> generateGuidoCodeFromMsrScore" <<
-    endl;
-#endif
-#endif
-
-  // convert the score into an mxmlTree (pass 2)
-  // ------------------------------------------------------
-
-  Sxmlelement mxmlTree;
-
-  try {
-    mxmlTree =
-      convertMsrScoreToMxmltree (
-        score,
-        gGlobalMsrOahGroup,
-        "Pass 2",
-        timingItem::kMandatory);
-  }
-  catch (mxmlTreeToMsrException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-
-  // generate MusicXML from the mxmlTree (pass 3)
-  // ------------------------------------------------------
-
-  string
-    outputFileName = "Mikrokosmos3Wandering.gmn";
-
-  bool
-    generateComments = true,
-    generateStem     = true,
-    generateBars     = true;
-
-  int
-    partNum = 0;
-
-  try {
-    // create the xml2guidovisitor
-		xml2guidovisitor v (
-		  generateComments, generateStem, generateBars, partNum);
-
-		// do the conversion to Guido
-		Sguidoelement gmn = v.convert (mxmlTree);
-
-    // write the result to the output
-		cout << gmn << endl;
-  }
-  catch (mxmlTreeToMsrException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-
-  return kNoErr;
-}
-
-//------------------------------------------------------------------------
-static xmlErr generateLilypondCodeFromMsrScore (S_msrScore score)
-{
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    "==> generateLilypondCodeFromMsrScore" <<
-    endl;
-#endif
-#endif
-
-  // the LPSR score
-  S_lpsrScore theLpsrScore;
-
-  {
-    // create the LPSR from the MSR (pass 2)
-    // ------------------------------------------------------
-
-    const string passNumber = "Pass 2";
-
-    try {
-      theLpsrScore =
-        convertMsrScoreToLpsrScore (
-          score,
-          gGlobalMsrOahGroup,
-          gGlobalLpsrOahGroup,
-          passNumber);
-    }
-    catch (msrScoreToLpsrScoreException& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-    catch (exception& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-
-    // display the LPSR score if requested
-    // ------------------------------------------------------
-
-    if (gGlobalLpsrOahGroup->getDisplayLpsr ()) {
-      displayLpsrScore_OptionalPass (
-        theLpsrScore,
-        gGlobalMsrOahGroup,
-        gGlobalLpsrOahGroup);
-    }
-
-    if (gGlobalLpsrOahGroup->getDisplayLpsrShort ()) {
-      displayLpsrScoreShort_OptionalPass (
-        theLpsrScore,
-        gGlobalMsrOahGroup,
-        gGlobalLpsrOahGroup);
-    }
-
-    // should we return now?
-    // ------------------------------------------------------
-
-    if (gGlobalLpsrOahGroup->getQuitAfterPass3 ()) {
-      cerr <<
-        endl <<
-        "Quitting after pass 3 as requested" <<
-        endl;
-
-      return kNoErr;
-    }
-  }
-
-  {
-    // generate LilyPond code from the LPSR (pass 3)
-    // ------------------------------------------------------
-
-    const string passNumber = "Pass 3";
-
-    string
-      outputFileName = "Mikrokosmos3Wandering.ly";
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
-      cerr <<
-        "xmlFile2lilypond() outputFileName = \"" <<
-        outputFileName <<
-        "\"" <<
-        endl;
-    }
-#endif
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
-      cerr <<
-        "xmlFile2lilypond() output goes to standard output" <<
-        endl;
-    }
-#endif
-
-    // create an indented output stream for the LilyPond code
-    // to be written to outputFileStream
-    indentedOstream
-      lilypondStandardOutputStream (
-        cout,
-        gIndenter);
-
-    // convert the LPSR score to LilyPond code
-    try {
-      convertLpsrScoreToLilypondCode (
-        theLpsrScore,
-        gGlobalMsrOahGroup,
-        gGlobalLpsrOahGroup,
-        passNumber,
-        lilypondStandardOutputStream);
-    }
-    catch (lpsrScoreToLilypondException& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-    catch (exception& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
-      cerr <<
-        "xmlFile2lilypond() output goes to file \"" <<
-        outputFileName <<
-        "\"" <<
-        endl;
-    }
-#endif
-
-    // open output file
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTracePasses ()) {
-      cerr <<
-        "Opening file '" << outputFileName << "' for writing" <<
-        endl;
-    }
-#endif
-
-    ofstream
-      outputFileStream (
-        outputFileName.c_str (),
-        ofstream::out);
-
-    if (! outputFileStream.is_open ()) {
-      stringstream s;
-
-      s <<
-        "Could not open LilyPond output file \"" <<
-        outputFileName <<
-        "\" for writing, quitting";
-
-      string message = s.str ();
-
-      cerr <<
-        message <<
-        endl;
-
-      throw lpsrScoreToLilypondException (message);
-    }
-
-    // create an indented output stream for the LilyPond code
-    // to be written to outputFileStream
-    indentedOstream
-      lilypondFileOutputStream (
-        outputFileStream,
-        gIndenter);
-
-    // convert the LPSR score to LilyPond code
-    try {
-      convertLpsrScoreToLilypondCode (
-        theLpsrScore,
-        gGlobalMsrOahGroup,
-        gGlobalLpsrOahGroup,
-        passNumber,
-        lilypondFileOutputStream);
-    }
-    catch (lpsrScoreToLilypondException& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-    catch (exception& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-
-    // close output file
-#ifdef TRACE_OAH
-    if (gTraceOah->fTracePasses) {
-      gLogOstream <<
-        endl <<
-        "Closing file \"" << outputFileName << "\"" <<
-        endl;
-    }
-#endif
-
-    outputFileStream.close ();
-  }
-
-  return kNoErr;
-}
-
-//------------------------------------------------------------------------
-static xmlErr generateBrailleMusicFromMsrScore (S_msrScore score)
-{
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    "==> generateBrailleMusicFromMsrScore" <<
-    endl;
-#endif
-#endif
-
-  // the first BSR score
-  S_bsrScore firstBsrScore;
-
-  {
-    // create the first BSR from the MSR (pass 2a)
-    // ------------------------------------------------------
-
-    // start the clock
-    clock_t startClock = clock ();
-    const string passNumber = "Pass 2a";
-
-    try {
-      firstBsrScore =
-        convertMsrScoreToBsrScore (
-          score,
-          gGlobalMsrOahGroup,
-          gGlobalBsrOahGroup,
-          passNumber);
-    }
-    catch (msrScoreToBsrScoreException& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-    catch (exception& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-
-    clock_t endClock = clock ();
-
-    // register time spent
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "Build the first BSR",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
-
-    // display the first BSR score if requested
-    // ------------------------------------------------------
-
-    if (gGlobalBsrOahGroup->getDisplayBsr ()) {
-      displayBsrFirstScore_OptionalPass (
-        firstBsrScore,
-        gGlobalMsrOahGroup,
-        gGlobalBsrOahGroup);
-    }
-
-    if (gGlobalBsrOahGroup->getDisplayBsrShort ()) {
-      displayBsrFirstScoreShort_OptionalPass (
-        firstBsrScore,
-        gGlobalMsrOahGroup,
-        gGlobalBsrOahGroup);
-    }
-
-    // should we return now?
-    // ------------------------------------------------------
-
-    if (gGlobalMsr2bsrOahGroup->getQuitAfterPass3a ()) {
-      cerr <<
-        endl <<
-        "Quitting after pass 3a as requested" <<
-        endl;
-
-      return kNoErr;
-    }
-  }
-
-  // the finalized BSR score
-  S_bsrScore finalizedBsrScore;
-
-  {
-    // create the finalized BSR from the first BSR (pass 2b)
-    // ------------------------------------------------------
-
-    // start the clock
-    clock_t startClock = clock ();
-    const string passNumber = "Pass 2b";
-
-    try {
-      finalizedBsrScore =
-        convertBsrFirstScoreToFinalizedBsrScore (
-          firstBsrScore,
-          gGlobalBsrOahGroup,
-          passNumber);
-    }
-    catch (bsrScoreToFinalizedBsrScoreException& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-    catch (exception& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-
-    clock_t endClock = clock ();
-
-    // register time spent
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "Build the finalized BSR",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
-
-    // display the finalized BSR score if requested
-    // ------------------------------------------------------
-
-    if (gGlobalBsrOahGroup->getDisplayBsr ()) {
-      displayFinalizedBsrScore_OptionalPass (
-        finalizedBsrScore,
-        gGlobalMsrOahGroup,
-        gGlobalBsrOahGroup);
-    }
-
-    if (gGlobalBsrOahGroup->getDisplayBsrShort ()) {
-      displayFinalizedBsrScoreShort_OptionalPass (
-        finalizedBsrScore,
-        gGlobalMsrOahGroup,
-        gGlobalBsrOahGroup);
-    }
-
-    // should we return now?
-    // ------------------------------------------------------
-
-    if (gGlobalMsr2bsrOahGroup->getQuitAfterPass3b ()) {
-      cerr <<
-        endl <<
-        "Quitting after pass 3b as requested" <<
-        endl;
-
-      return kNoErr;
-    }
-  }
-
-  {
-    // generate Braille music text from the BSR (pass 3)
-    // ------------------------------------------------------
-
-    // start the clock
-    clock_t startClock = clock ();
-    const string passNumber = "Pass 3";
-
-    string
-      outputFileName = "Mikrokosmos3Wandering.brf";
-
-#ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
-        cerr <<
-          "xmlFile2braille() outputFileName = \"" <<
-          outputFileName <<
-          "\"" <<
-          endl;
-      }
-#endif
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
-      cerr <<
-        "xmlFile2braille() output goes to standard output" <<
-        endl;
-    }
-#endif
-
-    // convert the BSR score to braille text
-    try {
-      convertBsrScoreToBrailleText (
-        finalizedBsrScore,
-        gGlobalBsrOahGroup,
-        passNumber,
-        cout);
-    }
-    catch (lpsrScoreToLilypondException& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-    catch (exception& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
-      cerr <<
-        "xmlFile2braille() output goes to file \"" <<
-        outputFileName <<
-        "\"" <<
-        endl;
-    }
-#endif
-
-    // open output file
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTracePasses ()) {
-      cerr <<
-        "Opening file \"" << outputFileName << "\" for writing" <<
-        endl;
-    }
-#endif
-
-    ofstream
-      brailleCodeFileOutputStream (
-        outputFileName.c_str (),
-        ofstream::out);
-
-    if (! brailleCodeFileOutputStream.is_open ()) {
-      stringstream s;
-
-      s <<
-        "Could not open Braille music output file \"" <<
-        outputFileName <<
-        "\" for writing, quitting";
-
-      string message = s.str ();
-
-      cerr <<
-        message <<
-        endl;
-
-      throw bsrScoreToBrailleTextException (message);
-    }
-
-    // convert the finalized BSR score to braille text
-    try {
-      convertBsrScoreToBrailleText (
-        finalizedBsrScore,
-        gGlobalBsrOahGroup,
-        passNumber,
-        brailleCodeFileOutputStream);
-    }
-    catch (lpsrScoreToLilypondException& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-    catch (exception& e) {
-      displayException (e, gOutputStream);
-      return kInvalidFile;
-    }
-
-    // close output file
-#ifdef TRACE_OAH
-    if (gTraceOah->fTracePasses) {
-      gLogOstream <<
-        endl <<
-        "Closing file \"" << outputFileName << "\"" <<
-        endl;
-    }
-#endif
-
-    brailleCodeFileOutputStream.close ();
-
-    // register time spent
-    clock_t endClock = clock ();
-
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "Generate braille music",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
-  }
-
-  return kNoErr;
-}
-
-//------------------------------------------------------------------------
-static xmlErr generateMusicXMLFromMsrScore (S_msrScore score)
-{
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  cerr <<
-    "==> generateMusicXMLFromMsrScore" <<
-    endl;
-#endif
-#endif
-
-  // convert the score into an mxmlTree (pass 2)
-  // ------------------------------------------------------
-
-  Sxmlelement mxmlTree;
-
-  try {
-    mxmlTree =
-      convertMsrScoreToMxmltree (
-        score,
-        gGlobalMsrOahGroup,
-        "Pass 2",
-        timingItem::kMandatory);
-  }
-  catch (mxmlTreeToMsrException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-
-  // generate MusicXML from the mxmlTree (pass 3)
-  // ------------------------------------------------------
-
-  string
-    outputFileName = "Mikrokosmos3Wandering.xml";
-
-  try {
-    generateMusicXMLFromMxmlTree (
-      mxmlTree,
-      outputFileName,
-      cerr,
-      "Pass 3");
-  }
-  catch (mxmlTreeToMsrException& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-  catch (exception& e) {
-    displayException (e, gOutputStream);
-    return kInvalidFile;
-  }
-
-  return kNoErr;
-}
-
-//------------------------------------------------------------------------
-static void setTheDesiredOptions ()
+static void setTheDesiredOptions (generatedCodeKind theGeneratedCodeKind)
 {
   /*
     This is a way to enforce options 'permanently'
@@ -2508,49 +1909,71 @@ static void setTheDesiredOptions ()
   */
 
   // trace
-//  gGlobalTraceOahGroup->setTraceScore ();
-//  gGlobalTraceOahGroup->setTracePartGroups ();
-//  gGlobalTraceOahGroup->setTraceParts ();
+  // ------------------------------------------------------
+
+  //  gGlobalTraceOahGroup->setTraceScore ();
+  //  gGlobalTraceOahGroup->setTracePartGroups ();
+  //  gGlobalTraceOahGroup->setTraceParts ();
   gGlobalTraceOahGroup->setTraceStaves ();
   gGlobalTraceOahGroup->setTraceVoices ();
-//  gGlobalTraceOahGroup->setTraceSegments ();
-//  gGlobalTraceOahGroup->setTraceMeasures ();
-//  gGlobalTraceOahGroup->setTraceNotes ();
+  //  gGlobalTraceOahGroup->setTraceSegments ();
+  //  gGlobalTraceOahGroup->setTraceMeasures ();
+  //  gGlobalTraceOahGroup->setTraceNotes ();
 
   // MSR
-//  gGlobalMsrOahGroup->setTraceMsr ();
-//  gGlobalMsrOahGroup->setTraceMsrVisitors ();
+  // ------------------------------------------------------
+
+  //  gGlobalMsrOahGroup->setTraceMsr ();
+  //  gGlobalMsrOahGroup->setTraceMsrVisitors ();
 
   gGlobalMsrOahGroup->setDisplayMsr ();
 
   gGlobalMsrOahGroup->setTraceMsrDurations ();
 
-  // LPSR
-//  gGlobalLpsrOahGroup->setTraceLpsr ();
-//  gGlobalLpsrOahGroup->setTraceLpsrVisitors ();
+  switch (theGeneratedCodeKind) {
+    case k_NoGeneratedCode:
+      // should not occur
+      break;
 
-  gGlobalLpsrOahGroup->setDisplayLpsr ();
+    case kGuido:
+      break;
 
-  // lpsr2lilypond
-  gGlobalLpsr2lilypondOahGroup->setLilypondCompileDate (); // JMI NOT OK
-  gGlobalLpsr2lilypondOahGroup->setInputLineNumbers ();
+    case kLilyPond:
+      // LPSR
+      // ------------------------------------------------------
 
-  // BSR
-  gGlobalBsrOahGroup->setTraceBsr ();
-//  gGlobalBsrOahGroup->setTraceBsrVisitors ();
+      //  gGlobalLpsrOahGroup->setTraceLpsr ();
+      //  gGlobalLpsrOahGroup->setTraceLpsrVisitors ();
+      gGlobalLpsrOahGroup->setDisplayLpsr ();
 
-  // bsr2braille
+      // lpsr2lilypond
+      // ------------------------------------------------------
 
-  gGlobalBsr2brailleOahGroup->
-    setBrailleOutputKind (kBrailleOutputUTF8Debug);
+      gGlobalLpsr2lilypondOahGroup->setLilypondCompileDate (); // JMI NOT OK
+      gGlobalLpsr2lilypondOahGroup->setInputLineNumbers ();
+      break;
 
-    /* JMI
-  gGlobalXml2brlInsiderOahGroup->
-    setAutoOutputFileName ();
-*/
+    case kBrailleMusic:
+      // BSR
+      // ------------------------------------------------------
 
-  // MusicXML
-  gGlobalMxmlTreeOahGroup->setTraceMusicXMLTreeVisitors ();
+      gGlobalBsrOahGroup->setTraceBsr ();
+      //  gGlobalBsrOahGroup->setTraceBsrVisitors ();
+
+      // bsr2braille
+      // ------------------------------------------------------
+
+      gGlobalBsr2brailleOahGroup->
+        setBrailleOutputKind (kBrailleOutputUTF8Debug);
+      break;
+
+    case kMusicXML:
+      // MusicXML
+      // ------------------------------------------------------
+
+      gGlobalMxmlTreeOahGroup->setTraceMusicXMLTreeVisitors ();
+      break;
+  } // switch
 }
 
 //------------------------------------------------------------------------
@@ -2577,10 +2000,12 @@ int main (int argc, char * argv[])
 	for (int i = 1; i < argc; ++i) {
 	  string argumentAsString = string (argv [i]);
 
-		if (argumentAsString == "-insider") {
+    string argumentWithoutDash = argumentAsString.substr (1);
+
+		if (argumentWithoutDash == K_INSIDER_OPTION_NAME) {
 		  insiderOptions = true;
 		}
-		if (argumentAsString == "-regular") {
+		if (argumentWithoutDash == K_REGULAR_OPTION_NAME) {
 		  regularOptions = true;
 		}
 	} // for
@@ -2616,10 +2041,10 @@ int main (int argc, char * argv[])
 
 	optionsVector theOptionsVector;
 
-	if (! args2Options (argc, argv, theOptionsVector)) {
+	if (! arguments2optionsVector (argc, argv, theOptionsVector)) {
     cerr <<
       executableName <<
-      ": args2Options() returned false" <<
+      ": arguments2optionsVector() returned false" <<
       endl;
 
     return 1;
@@ -2631,45 +2056,29 @@ int main (int argc, char * argv[])
 #endif
 #endif
 
-  // take generatedCodeKind options into account if any
+  // fetch the generated code kind from theOptionsVector,
+  // because the OAH handler should only use
+  // the OAH groups needed for it
   // ------------------------------------------------------
 
-  generatedCodeKind theGeneratedCodeKind;
+  generatedCodeKind
+    theGeneratedCodeKind = k_NoGeneratedCode;
 
-	optionsVector keptOptions;
+  for (unsigned int i = 0; i < theOptionsVector.size (); ++i) {
+    string optionName  = theOptionsVector [i].first;
+    string optionValue = theOptionsVector [i].second;
 
-	for (auto option: theOptionsVector) {
-	  if (option.first      == "-guido") {
-	    theGeneratedCodeKind = kGuido;
-      keptOptions.push_back (option);
+    string optionNameWithoutDash = optionName.substr (1);
+
+    if (
+      optionNameWithoutDash == K_GENERATED_CODE_KIND_SHORT_NAME
+        ||
+      optionNameWithoutDash == K_GENERATED_CODE_KIND_LONG_NAME
+    ) {
+      theGeneratedCodeKind =
+        generatedCodeKindFromString (optionValue);
     }
-	  else if (option.first == "-lilypond") {
-	    theGeneratedCodeKind = kLilyPond;
-      keptOptions.push_back (option);
-	  }
-	  else if (option.first == "-braille") {
-	    theGeneratedCodeKind = kBrailleMusic;
-      keptOptions.push_back (option);
-	  }
-	  else if (option.first == "-musicxml") {
-	    theGeneratedCodeKind = kMusicXML;
-      keptOptions.push_back (option);
-	  }
-	  else {
-	    keptOptions.push_back (option);
-	  }
-	} // for
-
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  displayOptionsVector (theOptionsVector, cerr);
-#endif
-#endif
-
-  // the default is '-lilypond'
-  if (theGeneratedCodeKind == k_NoGeneratedCode) {
-    theGeneratedCodeKind = kLilyPond;
-  }
+  } //for
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -2767,7 +2176,7 @@ int main (int argc, char * argv[])
   // let's go ahead
   // ------------------------------------------------------
 
-  // create and populate the score
+  // create and populate the theMsrScore
   // ------------------------------------------------------
 
   msrGenerationAPIKind
@@ -2776,27 +2185,21 @@ int main (int argc, char * argv[])
    // kMsrStringsAPIKind;
 
   S_msrScore
-    score =
+    theMsrScore =
       createAndPopulateTheScore (
         generationKind);
 
   // set the desired options
   // ------------------------------------------------------
 
-  setTheDesiredOptions ();
+  if (false) // JMI
+    setTheDesiredOptions (theGeneratedCodeKind);
 
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
 
-/* already handled JMI
-  generatedCodeKind
-    theGeneratedCodeKind =
-      gGlobalMikrokosmos3WanderingOahGroup->
-        getGeneratedCodeKind ();
-*/
-
   cerr <<
-    "Converting the MSR score to " <<
+    "Converting the MSR theMsrScore to " <<
     generatedCodeKindAsString (theGeneratedCodeKind) <<
     endl;
 
@@ -2806,25 +2209,52 @@ int main (int argc, char * argv[])
     case k_NoGeneratedCode:
       // should not occur
       break;
+
     case kGuido:
       err =
-        generateGuidoCodeFromMsrScore (
-          score);
+        msrScore2guidoWithHandler (
+          theMsrScore,
+          "Pass 2a",
+          "Pass 2b",
+          "Pass 3",
+          cout,
+          cerr,
+          handler);
       break;
+
     case kLilyPond:
       err =
-        generateLilypondCodeFromMsrScore (
-          score);
+        msrScore2lilypondWithHandler (
+          theMsrScore,
+          "Pass 2",
+          "Pass 3",
+          cout,
+          cerr,
+          handler);
       break;
+
     case kBrailleMusic:
       err =
-        generateBrailleMusicFromMsrScore (
-          score);
+        msrScore2brailleWithHandler (
+          theMsrScore,
+          "Pass 2a",
+          "Pass 2b",
+          "Pass 3",
+          cout,
+          cerr,
+          handler);
       break;
+
     case kMusicXML:
       err =
-        generateMusicXMLFromMsrScore (
-          score);
+        msrScore2musicxmlWithHandler (
+          theMsrScore,
+          "Pass 2",
+          "Pass 3",
+          "Pass 4",
+          cout,
+          cerr,
+          handler);
       break;
   } // switch
 

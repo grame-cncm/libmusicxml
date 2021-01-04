@@ -136,26 +136,26 @@ if (XML)
     add_definitions(-DXML)
 endif()
 
-set (SRCFOLDERS ${SRCFOLDERS} utilities oah oah2manpage)
+set (SRCFOLDERS ${SRCFOLDERS} utilities oah)
 
 if (MSR)
 	set (SRCFOLDERS ${SRCFOLDERS} representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr generators/Mikrokosmos3Wandering)
 endif()
 
 if (LILY)
-	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2lpsr representations/lpsr passes/lpsr2lilypond representations/lilypond translators/musicxml2lilypond)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2lpsr representations/lpsr passes/lpsr2lilypond representations/lilypond translators/musicxml2lilypond translators/msr2lilypond)
 endif()
 
 if (BRAILLE)
-	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2bsr representations/bsr passes/bsr2bsr passes/bsr2braille representations/braille translators/musicxml2braille)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2bsr representations/bsr passes/bsr2bsr passes/bsr2braille representations/braille translators/musicxml2braille translators/msr2braille)
 endif()
 
 if (MXML)
-	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2mxmltree passes/mxmltree2mxml translators/musicxml2musicxml)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2mxmltree passes/mxmltree2mxml translators/musicxml2musicxml translators/msr2musicxml)
 endif()
 
 if (GUIDO)
-	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2mxmltree passes/mxmltree2guido translators/musicxml2guido)
+	set (SRCFOLDERS ${SRCFOLDERS} passes/msr2mxmltree passes/mxmltree2guido translators/musicxml2guido translators/msr2guido)
 endif()
 
 foreach(folder ${SRCFOLDERS})

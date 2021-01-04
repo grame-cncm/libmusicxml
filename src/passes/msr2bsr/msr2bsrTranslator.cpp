@@ -41,10 +41,10 @@ namespace MusicXML2
 //________________________________________________________________________
 msr2bsrTranslator::msr2bsrTranslator (
   ostream&   os,
-  S_msrScore mScore)
+  S_msrScore theMsrScore)
 {
   // the MSR score we're visiting
-  fVisitedMsrScore = mScore;
+  fVisitedMsrScore = theMsrScore;
 
   // pages & lines
   fCurrentPrintPageNumber = 1;
