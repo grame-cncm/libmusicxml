@@ -23,6 +23,8 @@
 
 #include "generalOah.h"
 
+#include "oahOah.h"
+
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
 #include "mxmlTree2msrOah.h"

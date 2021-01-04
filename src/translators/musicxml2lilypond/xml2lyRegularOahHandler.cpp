@@ -21,6 +21,8 @@
 
 #include "lpsr.h"
 
+#include "oahOah.h"
+
 #include "generalOah.h"
 
 #include "musicxmlOah.h"

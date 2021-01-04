@@ -26,6 +26,8 @@
   #include "traceOah.h"
 #endif
 
+#include "oahOah.h"
+
 #include "msrOah.h"
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"

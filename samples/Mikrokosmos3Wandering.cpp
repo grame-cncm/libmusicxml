@@ -17,30 +17,33 @@
 
 #include <fstream>
 
+#include "libmusicxml.h" // for xmlErr
+
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
   #include "traceOah.h"
 #endif
 
-#include "msr.h"
-
 #include "oahOah.h"
 
 #include "msrOah.h"
 
-#include "musicxmlOah.h"
-#include "msr2mxmlTreeOah.h"
 #include "mxmlTreeOah.h"
 
-#include "msr2lpsrOah.h"
 #include "lpsrOah.h"
 #include "lpsr2lilypondOah.h"
 
-#include "msr2bsrOah.h"
 #include "bsrOah.h"
 #include "bsr2brailleOah.h"
 
-#include "libmusicxml.h" // for xmlErr
+/*
+#include "musicxmlOah.h"
+#include "msr2mxmlTreeOah.h"
+
+#include "msr2lpsrOah.h"
+
+#include "msr2bsrOah.h"
+
 
 #include "xml2guidovisitor.h"
 
@@ -51,18 +54,21 @@
 
 #include "msr2lpsrInterface.h"
 #include "lpsr2lilypondInterface.h"
+*/
 
 #include "msr2lilypond.h"
 #include "msr2musicxml.h"
 #include "msr2braille.h"
 #include "msr2guido.h"
 
+/*
 #include "bsr.h"
 
 #include "msr2bsrInterface.h"
 #include "bsr2bsrFinalizer.h"
 #include "bsr2bsrFinalizerInterface.h"
 #include "bsr2brailleTranslatorInterface.h"
+*/
 
 #include "Mikrokosmos3WanderingInsiderOahHandler.h"
 #include "Mikrokosmos3WanderingRegularOahHandler.h"

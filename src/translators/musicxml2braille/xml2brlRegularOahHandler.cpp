@@ -20,6 +20,8 @@
 #include "msr.h"
 #include "bsr.h"
 
+#include "oahOah.h"
+
 #include "generalOah.h"
 
 #include "musicxmlOah.h"

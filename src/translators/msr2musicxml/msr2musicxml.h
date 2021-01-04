@@ -15,6 +15,10 @@
 
 #include "libmusicxml.h" // for xmlErr
 
+#include "msr.h"
+
+#include "oahBasicTypes.h"
+
 
 using namespace std;
 
