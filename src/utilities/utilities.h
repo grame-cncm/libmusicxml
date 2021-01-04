@@ -486,7 +486,7 @@ string stringToUpperCase (
   string theString);
 
 //______________________________________________________________________________
-string booleanAsString (bool value);
+EXP extern string booleanAsString (bool value);
 
 //______________________________________________________________________________
 string singularOrPlural (

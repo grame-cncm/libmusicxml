@@ -1341,7 +1341,7 @@ string stringToUpperCase (
 }
 
 //______________________________________________________________________________
-EXP string booleanAsString (bool value)
+string booleanAsString (bool value)
 {
   return
     string (
