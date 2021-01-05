@@ -22,7 +22,7 @@
 #include "msr.h"
 
 #include "oahOah.h"
-
+#include "outputFileOah.h"
 #include "generalOah.h"
 
 #include "musicxmlOah.h"
@@ -177,6 +177,10 @@ void msr2guidoInsiderOahHandler::createTheMsr2guidoOptionGroups (
   appendGroupToHandler (
     createGlobalGeneralOahGroup ());
 
+  // create the output file OAH group
+  appendGroupToHandler (
+    createGlobalOutputFileOahGroup ());
+
   // initialize the library
   // ------------------------------------------------------
 
@@ -254,12 +258,12 @@ string msr2guidoInsiderOahHandler::fetchOutputFileNameFromTheOptions () const
 
   S_oahStringAtom
     outputFileNameStringAtom =
-      gGlobalMsr2guidoInsiderOahGroup->
+      gGlobalOutputFileOahGroup->
         getOutputFileNameStringAtom ();
 
   S_oahBooleanAtom
     autoOutputFileNameAtom =
-      gGlobalMsr2guidoInsiderOahGroup->
+      gGlobalOutputFileOahGroup->
         getAutoOutputFileNameAtom ();
 
   bool
@@ -574,7 +578,7 @@ S_msr2guidoInsiderOahGroup msr2guidoInsiderOahGroup::create ()
 msr2guidoInsiderOahGroup::msr2guidoInsiderOahGroup ()
   : oahGroup (
     "msr2guido",
-    "hx2x", "help-msr2guido",
+    "hm2g", "help-msr2guido",
 R"(Options that are used by msr2guido are grouped here.)",
     kElementVisibilityWhole)
 {
@@ -601,11 +605,6 @@ void msr2guidoInsiderOahGroup::initializeMsr2guidoInsiderOahGroup ()
   // --------------------------------------
 
   createInsiderGuidoSubGroup ();
-
-  // output
-  // --------------------------------------
-
-  createInsiderOutputSubGroup ();
 
   // quit after some passes
   // --------------------------------------
@@ -666,64 +665,6 @@ R"()",
   R"(Generate barlines in the Guido output.)",
         "generateBars",
         fGenerateBars));
-}
-
-//_______________________________________________________________________________
-void msr2guidoInsiderOahGroup::createInsiderOutputSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Creating insider output subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-#endif
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Output file",
-        "hx2xof", "help-msr2guido-output-file",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // output filename
-
-  fOutputFileNameStringAtom =
-    oahStringAtom::create (
-      "o", "output-file-name",
-R"(Write Guido code to file FILENAME instead of standard output.)",
-      "FILENAME",
-      "outputFileName",
-      fOutputFileName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fOutputFileNameStringAtom);
-
-  // auto output filename
-
-  fAutoOutputFileName = false;
-
-  fAutoOutputFileNameAtom =
-    oahBooleanAtom::create (
-      "aofn", "auto-output-file-name",
-R"(This option can only be used when reading from a file.
-Write Guido code to a file in the current working directory.
-The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'gmn'
-or adding '.gmn' if none is present.)",
-      "autoOutputFileName",
-      fAutoOutputFileName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fAutoOutputFileNameAtom);
 }
 
 //_______________________________________________________________________________
@@ -812,27 +753,6 @@ void msr2guidoInsiderOahGroup::printMsr2guidoInsiderOahGroupValues (unsigned int
     endl <<
     setw (fieldWidth) <<
     "generateBars" << " : " << booleanAsString (fGenerateBars) <<
-    endl;
-
-  --gIndenter;
-
-  // output file
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Output file:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
-    "\"" <<
-    endl <<
-    setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
-    booleanAsString (fAutoOutputFileName) <<
-    "\"" <<
     endl;
 
   --gIndenter;

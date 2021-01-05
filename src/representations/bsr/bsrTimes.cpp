@@ -356,14 +356,14 @@ S_bsrCellsList bsrTime::buildCellsList () const
         // JMI    iEnd   = fTimeItemsVector.end (),
             i      = iBegin;
 
-          S_bsrTimeItem bTimeItem = (*i);
+          S_bsrTimeItem theBsrTimeItem = (*i);
 
           const vector<int>&
             timeBeatsNumbersVector =
-              bTimeItem->getTimeBeatsNumbersVector ();
+              theBsrTimeItem->getTimeBeatsNumbersVector ();
 
-          int bTimeBeatValue =
-              bTimeItem->getTimeBeatValue ();
+          int theBsrTimeBeatValue =
+              theBsrTimeItem->getTimeBeatValue ();
 
           unsigned int vectorSize =
             timeBeatsNumbersVector.size ();
@@ -418,7 +418,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                   musicCodeIndicator);
 
                 // determine the beat value to be used
-                int beatValueToBeUsed = bTimeBeatValue;
+                int beatValueToBeUsed = theBsrTimeBeatValue;
 
                 switch (fTimeKind) {
                   case bsrTime::kTimeNote:
@@ -492,7 +492,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
 
                       s <<
                         "MSR time beat value '" <<
-                        bTimeBeatValue <<
+                        theBsrTimeBeatValue <<
                         "' is not supported in Braille music";
 
                       bsrWarning (
@@ -548,14 +548,14 @@ S_bsrCellsList bsrTime::buildCellsList () const
    // JMI         iEnd   = fTimeItemsVector.end (),
             i      = iBegin;
 
-          S_bsrTimeItem bTimeItem = (*i);
+          S_bsrTimeItem theBsrTimeItem = (*i);
 
           const vector<int>&
             timeBeatsNumbersVector =
-              bTimeItem->getTimeBeatsNumbersVector ();
+              theBsrTimeItem->getTimeBeatsNumbersVector ();
 
-          int bTimeBeatValue =
-              bTimeItem->getTimeBeatValue ();
+          int theBsrTimeBeatValue =
+            theBsrTimeItem->getTimeBeatValue ();
 
           unsigned int vectorSize =
             timeBeatsNumbersVector.size ();
@@ -586,7 +586,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                   beatsNumber->fetchCellsList ());
 
                 // append the beat value sign to result
-                switch (bTimeBeatValue) {
+                switch (theBsrTimeBeatValue) {
                   case 1:
                     result->appendCellKindToCellsList (
                       kCellLower1);
@@ -621,7 +621,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
 
                       s <<
                         "MSR time beat value '" <<
-                        bTimeBeatValue <<
+                        theBsrTimeBeatValue <<
                         "' is not supported in Braille music";
 
                       bsrWarning (

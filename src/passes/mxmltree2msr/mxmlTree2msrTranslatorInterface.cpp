@@ -161,7 +161,7 @@ void displayMsrScore_OptionalPass (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR as text 1" <<
+    "Optional pass: displaying the MSR as text in mxmlTree2msr" <<
     endl <<
     separator <<
     endl << endl <<

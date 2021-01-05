@@ -256,7 +256,7 @@ class EXP msrPart : public msrPartGroupElement
     rational              getPartCurrentPositionInMeasure () const
                               { return fPartCurrentPositionInMeasure; }
 
-    // voice shortest note
+    // part shortest note
 
     void                  setPartShortestNoteDuration (
                             rational duration);
@@ -286,6 +286,10 @@ class EXP msrPart : public msrPartGroupElement
     void                  addAVoiceToStavesThatHaveNone (
                             int inputLineNumber);
 */
+
+    // path shortest note
+
+    void                  registerShortestNoteInPartIfRelevant (S_msrNote note);
 
     // part name display
 

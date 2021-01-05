@@ -908,7 +908,7 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
   // get MSR key attributes
 
   msrKeyKind
-    mKeyKind = elt->getKeyKind ();
+    theMsrKeyKind = elt->getKeyKind ();
 
   msrQuarterTonesPitchKind
     mTonicQuarterTonesPitchKind =
@@ -925,10 +925,10 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
 
   // let's go
 
-  bsrKey::bsrKeyKind bKeyKind = bsrKey::kKeyKindNone;
+  bsrKey::bsrKeyKind theBsrKeyKind = bsrKey::kKeyKindNone;
   int                numberOfAlterations = 0;
 
-  switch (mKeyKind) {
+  switch (theMsrKeyKind) {
     case kTraditionalKind:
 
       // traditional keys
@@ -947,11 +947,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindNaturals;
+              theBsrKeyKind = bsrKey::kKeyKindNaturals;
               numberOfAlterations = 0;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 3;
               break;
             case kIonianMode:
@@ -975,11 +975,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 7;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 4;
               break;
             case kIonianMode:
@@ -1012,11 +1012,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 5;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 8;
               break;
             case kIonianMode:
@@ -1040,11 +1040,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 2;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 1;
               break;
             case kIonianMode:
@@ -1079,11 +1079,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 3;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 6;
               break;
             case kIonianMode:
@@ -1107,11 +1107,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 4;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 1;
               break;
             case kIonianMode:
@@ -1147,11 +1147,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 1;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 4;
               break;
             case kIonianMode:
@@ -1175,11 +1175,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 6;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 3;
               break;
             case kIonianMode:
@@ -1214,11 +1214,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 1;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 2;
               break;
             case kIonianMode:
@@ -1253,11 +1253,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 4;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 7;
               break;
             case kIonianMode:
@@ -1281,11 +1281,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 3;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindNaturals;
+              theBsrKeyKind = bsrKey::kKeyKindNaturals;
               numberOfAlterations = 0;
               break;
             case kIonianMode:
@@ -1320,11 +1320,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 2;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindFlats;
+              theBsrKeyKind = bsrKey::kKeyKindFlats;
               numberOfAlterations = 5;
               break;
             case kIonianMode:
@@ -1348,11 +1348,11 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
             case k_NoMode:
               break;
             case kMajorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 5;
               break;
             case kMinorMode:
-              bKeyKind = bsrKey::kKeyKindSharps;
+              theBsrKeyKind = bsrKey::kKeyKindSharps;
               numberOfAlterations = 2;
               break;
             case kIonianMode:
@@ -1386,26 +1386,24 @@ void msr2bsrTranslator::visitStart (S_msrKey& elt)
   } // switch
 
   // create the BSR key
-  if (bKeyKind == bsrKey::kKeyKindNone) {
-    stringstream s;
-
-    s <<
-      "MSR key kind '" <<
-      keyKindAsString (mKeyKind) <<
-      ", " <<
-     msrSemiTonesPitchKindAsString (mSemiTonesPitchKind) <<
-      "' is not supported in Braille music";
-
-    notSupportedMessage (
-      inputLineNumber,
-      s.str ());
+  if (theBsrKeyKind == bsrKey::kKeyKindNone) {
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceKeys ()) {
+      gLogStream <<
+        "MSR key kind is absent, ignoring '" <<
+        keyKindAsString (theMsrKeyKind) <<
+        ", " <<
+       msrSemiTonesPitchKindAsString (mSemiTonesPitchKind) <<
+       endl;
+    }
+#endif
   }
   else {
     S_bsrKey
       key =
         bsrKey::create (
           inputLineNumber,
-          bKeyKind,
+          theBsrKeyKind,
           numberOfAlterations);
 
     if (! fFirstKey) {

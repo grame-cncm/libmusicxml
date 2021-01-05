@@ -140,23 +140,6 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     bool                  getGenerateBars () const
                               { return fGenerateBars; }
 
-    // output file
-    S_oahBooleanAtom      getAutoOutputFileNameAtom () const
-                              { return fAutoOutputFileNameAtom; }
-
-    S_oahStringAtom       getOutputFileNameStringAtom () const
-                              { return fOutputFileNameStringAtom; }
-
-    void                  setAutoOutputFileName ()
-                              { fAutoOutputFileName = true; }
-    bool                  getAutoOutputFileName () const
-                              { return fAutoOutputFileName; }
-
-    void                  setOutputFileName (string value)
-                              { fOutputFileName = value; }
-    string                getOutputFileName () const
-                              { return fOutputFileName; }
-
     // quit after some passes
     void                  setQuitAfterPass2a ()
                               { fQuitAfterPass2a = true; }
@@ -205,8 +188,6 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
 
     void                  createInsiderGuidoSubGroup ();
 
-    void                  createInsiderOutputSubGroup ();
-
     void                  createInsiderQuitSubGroup ();
 
   private:
@@ -219,21 +200,9 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
     bool                  fGenerateStem;
     bool                  fGenerateBars;
 
-    // output file
-    // we store the atoms for the needs of fetchOutputFileNameFromTheOptions()
-    S_oahBooleanAtom      fAutoOutputFileNameAtom;
-
-    S_oahStringAtom       fOutputFileNameStringAtom;
-
     // quit after some passes
     bool                  fQuitAfterPass2a;
     bool                  fQuitAfterPass2b;
-
-    // MusicXML output file name
-    // these private variables are the ones accessible through the atoms
-    bool                  fAutoOutputFileName;
-
-    string                fOutputFileName;
 };
 typedef SMARTP<xml2gmnInsiderOahGroup> S_xml2gmnInsiderOahGroup;
 EXP ostream& operator<< (ostream& os, const S_xml2gmnInsiderOahGroup& elt);

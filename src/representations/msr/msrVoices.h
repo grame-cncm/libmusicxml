@@ -264,20 +264,14 @@ class EXP msrVoice : public msrElement
 
     // voice shortest note
 
-/* JMI
     void                  setVoiceShortestNoteDuration (
-                            rational duration)
-                              { fVoiceShortestNoteDuration = duration; }
-*/
+                            rational duration);
 
     rational              getVoiceShortestNoteDuration () const
                               { return fVoiceShortestNoteDuration; }
 
-/* JMI
     void                  setVoiceShortestNoteTupletFactor (
-                            msrTupletFactor noteTupletFactor)
-                              { fVoiceShortestNoteTupletFactor = noteTupletFactor; }
-*/
+                            const msrTupletFactor& noteTupletFactor);
 
     const msrTupletFactor&
                           getVoiceShortestNoteTupletFactor () const

@@ -22,7 +22,7 @@
 #include "msr.h"
 
 #include "oahOah.h"
-
+#include "outputFileOah.h"
 #include "generalOah.h"
 
 #include "musicxmlOah.h"
@@ -177,6 +177,10 @@ void msr2musicxmlInsiderOahHandler::createTheMsr2musicxmlOptionGroups (
   appendGroupToHandler (
     createGlobalGeneralOahGroup ());
 
+  // create the output file OAH group
+  appendGroupToHandler (
+    createGlobalOutputFileOahGroup ());
+
   // initialize the library
   // ------------------------------------------------------
 
@@ -254,12 +258,12 @@ string msr2musicxmlInsiderOahHandler::fetchOutputFileNameFromTheOptions () const
 
   S_oahStringAtom
     outputFileNameStringAtom =
-      gGlobalMsr2musicxmlInsiderOahGroup->
+      gGlobalOutputFileOahGroup->
         getOutputFileNameStringAtom ();
 
   S_oahBooleanAtom
     autoOutputFileNameAtom =
-      gGlobalMsr2musicxmlInsiderOahGroup->
+      gGlobalOutputFileOahGroup->
         getAutoOutputFileNameAtom ();
 
   bool
@@ -574,7 +578,7 @@ S_msr2musicxmlInsiderOahGroup msr2musicxmlInsiderOahGroup::create ()
 msr2musicxmlInsiderOahGroup::msr2musicxmlInsiderOahGroup ()
   : oahGroup (
     "msr2musicxml",
-    "hx2x", "help-msr2musicxml",
+    "hm2m", "help-msr2musicxml",
 R"(Options that are used by msr2musicxml are grouped here.)",
     kElementVisibilityWhole)
 {
@@ -597,73 +601,10 @@ void msr2musicxmlInsiderOahGroup::initializeMsr2musicxmlInsiderOahGroup ()
 #endif
 #endif
 
-  // output
-  // --------------------------------------
-
-  createInsiderOutputSubGroup ();
-
   // quit after some passes
   // --------------------------------------
 
   createInsiderQuitSubGroup ();
-}
-
-//_______________________________________________________________________________
-void msr2musicxmlInsiderOahGroup::createInsiderOutputSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Creating insider output subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-#endif
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Output file",
-        "hx2xof", "help-msr2musicxml-output-file",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // output filename
-
-  fOutputFileNameStringAtom =
-    oahStringAtom::create (
-      "o", "output-file-name",
-R"(Write MusicXML code to file FILENAME instead of standard output.)",
-      "FILENAME",
-      "outputFileName",
-      fOutputFileName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fOutputFileNameStringAtom);
-
-  // auto output filename
-
-  fAutoOutputFileName = false;
-
-  fAutoOutputFileNameAtom =
-    oahBooleanAtom::create (
-      "aofn", "auto-output-file-name",
-R"(This option can only be used when reading from a file.
-Write MusicXML code to a file in the current working directory.
-The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'xml'
-or adding '.xml' if none is present.)",
-      "autoOutputFileName",
-      fAutoOutputFileName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fAutoOutputFileNameAtom);
 }
 
 //_______________________________________________________________________________
@@ -733,27 +674,6 @@ void msr2musicxmlInsiderOahGroup::printMsr2musicxmlInsiderOahGroupValues (unsign
     endl;
 
   ++gIndenter;
-
-  // output file
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Output file:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
-    "\"" <<
-    endl <<
-    setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
-    booleanAsString (fAutoOutputFileName) <<
-    "\"" <<
-    endl;
-
-  --gIndenter;
 
   // quit after some passes
   // --------------------------------------

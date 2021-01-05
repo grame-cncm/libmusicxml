@@ -713,7 +713,7 @@ S_bsr2brailleOahGroup bsr2brailleOahGroup::create ()
 bsr2brailleOahGroup::bsr2brailleOahGroup ()
   : oahGroup (
     "Bsr2braille",
-    "hbsr2brl", "help-bsr-to-braille",
+    "h-mkk-bsr2brl", "help-mkk-bsr-to-braille",
 R"(These options control the way BSR data is translated to braille music.)",
     kElementVisibilityWhole)
 {

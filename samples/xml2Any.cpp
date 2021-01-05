@@ -50,7 +50,7 @@ static void _sigaction (int signal, siginfo_t *si, void *arg)
   exit (-2);
 }
 
-static void catchsigs ()
+static void catchSignals ()
 {
 	struct sigaction sa;
 
@@ -67,7 +67,7 @@ static void catchsigs ()
 }
 
 #else
-static void catchsigs () {}
+static void catchSignals () {}
 #endif
 
 //_______________________________________________________________________________
@@ -166,7 +166,7 @@ int main (int argc, char *argv[])
   // setup signals catching
   // ------------------------------------------------------
 
-	catchsigs ();
+	catchSignals ();
 
   // the executable name
   // ------------------------------------------------------

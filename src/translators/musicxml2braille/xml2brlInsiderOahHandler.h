@@ -130,13 +130,6 @@ class EXP xml2brlInsiderOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    // output file
-    S_oahBooleanAtom      getAutoOutputFileNameAtom () const
-                              { return fAutoOutputFileNameAtom; }
-
-    S_oahStringAtom       getOutputFileNameStringAtom () const
-                              { return fOutputFileNameStringAtom; }
-
     // quit after some passes
     void                  setQuit2a ()
                               { fQuitAfterPass2a = true; }
@@ -147,17 +140,6 @@ class EXP xml2brlInsiderOahGroup : public oahGroup
                               { fQuitAfterPass2b = true; }
     bool                  getQuitAfterPass2b () const
                               { return fQuitAfterPass2a; }
-
-    // Braille music output file name
-    void                  setAutoOutputFileName ()
-                              { fQuitAfterPass2b = true; }
-    bool                  getAutoOutputFileName () const
-                              { return fQuitAfterPass2a; }
-
-    void                  setOutputFileName (string value)
-                              { fOutputFileName = value; }
-    string                getOutputFileName () const
-                              { return fOutputFileName; }
 
   public:
 
@@ -194,8 +176,6 @@ class EXP xml2brlInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderOutputSubGroup ();
-
     void                  createInsiderQuitSubGroup ();
 
   private:
@@ -203,22 +183,9 @@ class EXP xml2brlInsiderOahGroup : public oahGroup
     // private fields
     // --------------------------------------
 
-    // output file
-    // we store the atoms for the needs of fetchOutputFileNameFromTheOptions()
-    S_oahBooleanAtom      fAutoOutputFileNameAtom;
-
-    S_oahStringAtom       fOutputFileNameStringAtom;
-
     // quit after some passes
     bool                  fQuitAfterPass2a;
     bool                  fQuitAfterPass2b;
-
-    // Braille music output file name
-    // these private variables are the ones accessible through the atoms
-
-    bool                  fAutoOutputFileName;
-
-    string                fOutputFileName;
 };
 typedef SMARTP<xml2brlInsiderOahGroup> S_xml2brlInsiderOahGroup;
 EXP ostream& operator<< (ostream& os, const S_xml2brlInsiderOahGroup& elt);

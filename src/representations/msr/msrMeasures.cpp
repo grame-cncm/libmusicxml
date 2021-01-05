@@ -125,17 +125,22 @@ void msrMeasure::initializeMeasure ()
       voiceUpLink->
         getVoiceStaffUpLink ();
 
-  // get the staff time
+  // set the full measure whole notes duration from time if relevant
   S_msrTime
     staffCurrentTime =
       staffUpLink->
         getStaffCurrentTime ();
 
-  // set the measure full length if relevant
   if (staffCurrentTime) {
     setFullMeasureWholeNotesDurationFromTime (
       staffCurrentTime);
   }
+
+  // measure shortest note duration
+//  fMeasureShortestNoteDuration = rational (INT_MAX, 1);
+
+  // measure shortest note tuplet factor
+//  fMeasureShortestNoteTupletFactor = rational (1, 1);
 
   // measure doesn't contain music yet
   fMeasureContainsMusic = false;
@@ -637,6 +642,50 @@ S_msrMeasure msrMeasure::createMeasureCopyWithNotesOnly (
 
   return measureCopy;
 }
+
+/* JMI
+void msrMeasure::setMeasureShortestNoteDuration (
+  rational duration)
+{
+#ifdef TRACING_IS_ENABLED
+  if (
+    gGlobalTraceOahGroup->getTraceNotes ()
+      ||
+    gGlobalMsrOahGroup->getTraceMsrDurations ()
+  ) {
+    gLogStream <<
+      "Setting the shortest note duration of measure " <<
+      fMeasureElementMeasureNumber <<
+      " to " <<
+      duration <<
+      endl;
+  }
+#endif
+
+  fMeasureShortestNoteDuration = duration;
+}
+
+void msrMeasure::setMeasureShortestNoteTupletFactor (
+  const msrTupletFactor& noteTupletFactor)
+{
+#ifdef TRACING_IS_ENABLED
+  if (
+    gGlobalTraceOahGroup->getTraceNotes ()
+      ||
+    gGlobalMsrOahGroup->getTraceMsrDurations ()
+  ) {
+    gLogStream <<
+      "Setting the shortest note tuplet factor of measure " <<
+      fMeasureElementMeasureNumber <<
+      " to " <<
+      noteTupletFactor <<
+      endl;
+  }
+#endif
+
+  fMeasureShortestNoteTupletFactor = noteTupletFactor;
+}
+*/
 
 void msrMeasure::setMeasureEndRegularKind (
   msrMeasureEndRegularKind measureEndRegularKind)
@@ -1905,9 +1954,14 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
         getNoteSoundingWholeNotes ();
 
   string
-    noteSoundingWholeNotesAsMsrString =
+    soundingWholeNotesAsMsrString =
       note->
         noteSoundingWholeNotesAsMsrString ();
+
+  S_msrVoice
+    voice =
+      fMeasureSegmentUpLink->
+        getSegmentVoiceUpLink ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceMeasures () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
@@ -1916,11 +1970,9 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
       "' to measure " <<
       this->asShortString () <<
       " in voice \"" <<
-      fMeasureSegmentUpLink->
-        getSegmentVoiceUpLink ()->
-          getVoiceName () <<
+       voice->getVoiceName () <<
       "\"" <<
-      ", fCurrentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
+      ", currentMeasureWholeNotesDuration: " << fCurrentMeasureWholeNotesDuration <<
       ", noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
       ", line " << inputLineNumber <<
       endl;
@@ -1957,6 +2009,13 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
 
+/* JMI
+  // is this note the shortest one in this voice?
+  voice->
+    registerShortestNoteInVoiceIfRelevant (
+      note);
+*/
+
   // is this note the longest one in this measure?
   if (! fMeasureLongestNote) {
     fMeasureLongestNote = note;
@@ -1980,10 +2039,6 @@ void msrMeasure::appendNoteOrPaddingToMeasure (
       fMeasureLongestNote = note;
     }
   }
-
-  // is this note the shortest one in its voice?
-  fetchMeasureVoiceUpLink ()->
-    registerShortestNoteInVoiceIfRelevant (note);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2069,7 +2124,7 @@ void msrMeasure::appendPaddingNoteAtTheEndOfMeasure (S_msrNote note)
 
   // fetch note sounding whole notes as string
   string
-    noteSoundingWholeNotesAsMsrString =
+    soundingWholeNotesAsMsrString =
       note->
         noteSoundingWholeNotesAsMsrString ();
 
@@ -5298,7 +5353,8 @@ void msrMeasure::finalizeMeasureClone (
   // fetch the voiceClone's time
   S_msrTime
     voiceCurrentTime =
-      voiceClone->getVoiceCurrentTime ();
+      voiceClone->
+        getVoiceCurrentTime ();
 
   if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
@@ -5310,6 +5366,23 @@ void msrMeasure::finalizeMeasureClone (
     setFullMeasureWholeNotesDurationFromTime (
       voiceCurrentTime);
   }
+
+/* JMI
+  // is this note the shortest one in this measure?
+  rational
+    voiceShortestNoteDuration =
+      voiceClone->
+        getVoiceShortestNoteDuration ();
+
+  if (fMeasureShortestNoteDuration < voiceShortestNoteDuration) {
+    voiceClone->
+      registerShortestNoteInVoiceIfRelevant (
+        note);
+
+    // measure shortest note tuplet factor // JMI
+    fMeasureShortestNoteTupletFactor = rational (1, 1);
+  }
+*/
 
   // register this measures's length in the part clone
   S_msrPart
@@ -5775,6 +5848,18 @@ void msrMeasure::print (ostream& os) const
     fullMeasureWholeNotesDurationAsMSRString () <<
     endl <<
       */
+
+/* JMI
+  os << left <<
+    setw (fieldWidth) <<
+    "measureShortestNoteDuration" << " : " <<
+    fMeasureShortestNoteDuration <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureShortestNoteTupletFactor" << " : " <<
+    fMeasureShortestNoteTupletFactor <<
+    endl;
+*/
 
   os << left <<
     setw (fieldWidth) <<

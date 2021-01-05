@@ -24,6 +24,7 @@
 #include "oahOah.h"
 
 #include "generalOah.h"
+#include "outputFileOah.h"
 #include "extraOah.h"
 
 #include "musicxmlOah.h"
@@ -49,6 +50,8 @@
 #include "bsrOah.h"
 #include "bsr2brailleOah.h"
 #include "brailleOah.h"
+
+#include "xml2gmnInsiderOahHandler.h"
 
 #include "version.h"
 
@@ -197,6 +200,10 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
   appendGroupToHandler (
     createGlobalGeneralOahGroup ());
 
+  // create the output file OAH group
+  appendGroupToHandler (
+    createGlobalOutputFileOahGroup ());
+
   // initialize the library
   // ------------------------------------------------------
 
@@ -221,17 +228,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
 
   switch (fGeneratedCodeKind) {
     case k_NoGeneratedCode:
-      // should not occur
-      {
-        stringstream s;
-
-        s <<
-          "generated code kind not known yet in \"" <<
-          fHandlerHeader <<
-          "\"";
-
-        oahInternalError (s.str ());
-      }
+      // should not occur, unless the run is a pure help one
       break;
 
     case kGuido:
@@ -250,6 +247,10 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       // create the MusicXML OAH group
       appendGroupToHandler (
         createGlobalMusicxmlOahGroup ());
+
+      // create the xml2gmn OAH group
+      appendGroupToHandler (
+        createGlobalXml2gmnOahGroup ());
       break;
 
     case kLilyPond:
@@ -354,12 +355,12 @@ string Mikrokosmos3WanderingInsiderOahHandler::fetchOutputFileNameFromTheOptions
 
   S_oahStringAtom
     outputFileNameStringAtom =
-      gGlobalMikrokosmos3WanderingInsiderOahGroup->
+      gGlobalOutputFileOahGroup->
         getOutputFileNameStringAtom ();
 
   S_oahBooleanAtom
     autoOutputFileNameAtom =
-      gGlobalMikrokosmos3WanderingInsiderOahGroup->
+      gGlobalOutputFileOahGroup->
         getAutoOutputFileNameAtom ();
 
   bool
@@ -674,7 +675,7 @@ S_Mikrokosmos3WanderingInsiderOahGroup Mikrokosmos3WanderingInsiderOahGroup::cre
 Mikrokosmos3WanderingInsiderOahGroup::Mikrokosmos3WanderingInsiderOahGroup ()
   : oahGroup (
     "Mikrokosmos3Wandering",
-    "hx2x", "help-Mikrokosmos3Wandering",
+    "hmkk", "help-Mikrokosmos3Wandering",
 R"(Options that are used by Mikrokosmos3Wandering are grouped here.)",
     kElementVisibilityWhole)
 {
@@ -685,7 +686,7 @@ Mikrokosmos3WanderingInsiderOahGroup::~Mikrokosmos3WanderingInsiderOahGroup ()
 {}
 
 //_______________________________________________________________________________
-void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInsiderOahGroup ()
+void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInsiderOahGroup () // JMI REMOVE ???
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -700,17 +701,12 @@ void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInside
   // Guido
   // --------------------------------------
 
-  createInsiderGuidoSubGroup ();
-
-  // output
-  // --------------------------------------
-
-  createInsiderOutputSubGroup ();
+//  createInsiderGuidoSubGroup ();
 
   // quit after some passes
   // --------------------------------------
 
-  createInsiderQuitSubGroup ();
+//  createInsiderQuitSubGroup ();
 }
 
 //_______________________________________________________________________________
@@ -730,7 +726,7 @@ void Mikrokosmos3WanderingInsiderOahGroup::createInsiderGuidoSubGroup ()
     subGroup =
       oahSubGroup::create (
         "Guido",
-        "xguido", "help-guido",
+        "mkk-guido", "help-mkk-guido",
 R"()",
       kElementVisibilityWhole,
       this);
@@ -766,64 +762,6 @@ R"()",
   R"(Generate barlines in the Guido output.)",
         "generateBars",
         fGenerateBars));
-}
-
-//_______________________________________________________________________________
-void Mikrokosmos3WanderingInsiderOahGroup::createInsiderOutputSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Creating insider output subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-#endif
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Output file",
-        "hx2xof", "help-Mikrokosmos3Wandering-output-file",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // output filename
-
-  fOutputFileNameStringAtom =
-    oahStringAtom::create (
-      "o", "output-file-name",
-R"(Write Guido code to file FILENAME instead of standard output.)",
-      "FILENAME",
-      "outputFileName",
-      fOutputFileName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fOutputFileNameStringAtom);
-
-  // auto output filename
-
-  fAutoOutputFileName = false;
-
-  fAutoOutputFileNameAtom =
-    oahBooleanAtom::create (
-      "aofn", "auto-output-file-name",
-R"(This option can only be used when reading from a file.
-Write Guido code to a file in the current working directory.
-The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'gmn'
-or adding '.gmn' if none is present.)",
-      "autoOutputFileName",
-      fAutoOutputFileName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fAutoOutputFileNameAtom);
 }
 
 //_______________________________________________________________________________
@@ -929,27 +867,6 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
     endl <<
     setw (fieldWidth) <<
     "generateBars" << " : " << booleanAsString (fGenerateBars) <<
-    endl;
-
-  --gIndenter;
-
-  // output file
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Output file:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
-    "\"" <<
-    endl <<
-    setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
-    booleanAsString (fAutoOutputFileName) <<
-    "\"" <<
     endl;
 
   --gIndenter;

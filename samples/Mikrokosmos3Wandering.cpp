@@ -26,9 +26,9 @@
 
 #include "oahOah.h"
 
-#include "msrOah.h"
-
+#include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
+#include "msrOah.h"
 
 #include "lpsrOah.h"
 #include "lpsr2lilypondOah.h"
@@ -36,39 +36,10 @@
 #include "bsrOah.h"
 #include "bsr2brailleOah.h"
 
-/*
-#include "musicxmlOah.h"
-#include "msr2mxmlTreeOah.h"
-
-#include "msr2lpsrOah.h"
-
-#include "msr2bsrOah.h"
-
-
-#include "xml2guidovisitor.h"
-
-#include "msr2mxmlTreeInterface.h"
-#include "mxmlTree2xmlTranlatorInterface.h"
-
-#include "lpsr.h"
-
-#include "msr2lpsrInterface.h"
-#include "lpsr2lilypondInterface.h"
-*/
-
 #include "msr2lilypond.h"
 #include "msr2musicxml.h"
 #include "msr2braille.h"
 #include "msr2guido.h"
-
-/*
-#include "bsr.h"
-
-#include "msr2bsrInterface.h"
-#include "bsr2bsrFinalizer.h"
-#include "bsr2bsrFinalizerInterface.h"
-#include "bsr2brailleTranslatorInterface.h"
-*/
 
 #include "Mikrokosmos3WanderingInsiderOahHandler.h"
 #include "Mikrokosmos3WanderingRegularOahHandler.h"
@@ -90,7 +61,7 @@ static void _sigaction (int signal, siginfo_t *si, void *arg)
   exit (-2);
 }
 
-static void catchsigs ()
+static void catchSignals ()
 {
 	struct sigaction sa;
 
@@ -106,7 +77,7 @@ static void catchsigs ()
   sigaction (SIGFPE,  &sa, NULL);
 }
 #else
-static void catchsigs () {}
+static void catchSignals () {}
 #endif
 
 //_______________________________________________________________________________
@@ -1907,7 +1878,7 @@ static S_msrScore createAndPopulateTheScore (
 }
 
 //------------------------------------------------------------------------
-static void setTheDesiredOptions (generatedCodeKind theGeneratedCodeKind)
+static void enforceSomeOptions (generatedCodeKind theGeneratedCodeKind)
 {
   /*
     This is a way to enforce options 'permanently'
@@ -1917,54 +1888,76 @@ static void setTheDesiredOptions (generatedCodeKind theGeneratedCodeKind)
   // trace
   // ------------------------------------------------------
 
-  //  gGlobalTraceOahGroup->setTraceScore ();
-  //  gGlobalTraceOahGroup->setTracePartGroups ();
-  //  gGlobalTraceOahGroup->setTraceParts ();
+/*
+  gGlobalTraceOahGroup->setTraceScore ();
+  gGlobalTraceOahGroup->setTracePartGroups ();
+  gGlobalTraceOahGroup->setTraceParts ();
   gGlobalTraceOahGroup->setTraceStaves ();
   gGlobalTraceOahGroup->setTraceVoices ();
-  //  gGlobalTraceOahGroup->setTraceSegments ();
-  //  gGlobalTraceOahGroup->setTraceMeasures ();
-  //  gGlobalTraceOahGroup->setTraceNotes ();
+  gGlobalTraceOahGroup->setTraceSegments ();
+  gGlobalTraceOahGroup->setTraceMeasures ();
+  gGlobalTraceOahGroup->setTraceNotes ();
+*/
 
   // MSR
   // ------------------------------------------------------
 
-  //  gGlobalMsrOahGroup->setTraceMsr ();
-  //  gGlobalMsrOahGroup->setTraceMsrVisitors ();
-
+/*
+  gGlobalMsrOahGroup->setTraceMsr ();
+  gGlobalMsrOahGroup->setTraceMsrVisitors ();
   gGlobalMsrOahGroup->setDisplayMsr ();
 
   gGlobalMsrOahGroup->setTraceMsrDurations ();
+*/
+
+  // generated code dependant specific options
+  // ------------------------------------------------------
 
   switch (theGeneratedCodeKind) {
     case k_NoGeneratedCode:
-      // should not occur
+      {
+        stringstream s;
+
+        s <<
+          "internal error, a generated code kind is needed";
+
+        msgAssert (false, s.str ());
+      }
       break;
 
     case kGuido:
-      break;
+/*
+     gGlobalMusicxmlOahGroup->setTraceDivisions ();
+*/
+     break;
 
     case kLilyPond:
       // LPSR
       // ------------------------------------------------------
 
-      //  gGlobalLpsrOahGroup->setTraceLpsr ();
-      //  gGlobalLpsrOahGroup->setTraceLpsrVisitors ();
+/*
+      gGlobalLpsrOahGroup->setTraceLpsr ();
+      gGlobalLpsrOahGroup->setTraceLpsrVisitors ();
       gGlobalLpsrOahGroup->setDisplayLpsr ();
+*/
 
       // lpsr2lilypond
       // ------------------------------------------------------
 
       gGlobalLpsr2lilypondOahGroup->setLilypondCompileDate (); // JMI NOT OK
+/*
       gGlobalLpsr2lilypondOahGroup->setInputLineNumbers ();
+*/
       break;
 
     case kBrailleMusic:
       // BSR
       // ------------------------------------------------------
 
+/*
       gGlobalBsrOahGroup->setTraceBsr ();
       //  gGlobalBsrOahGroup->setTraceBsrVisitors ();
+*/
 
       // bsr2braille
       // ------------------------------------------------------
@@ -1977,7 +1970,11 @@ static void setTheDesiredOptions (generatedCodeKind theGeneratedCodeKind)
       // MusicXML
       // ------------------------------------------------------
 
+/*
+      gGlobalMusicxmlOahGroup->setTraceDivisions ();
+
       gGlobalMxmlTreeOahGroup->setTraceMusicXMLTreeVisitors ();
+*/
       break;
   } // switch
 }
@@ -1990,7 +1987,7 @@ int main (int argc, char * argv[])
   // setup signals catching
   // ------------------------------------------------------
 
-//	catchsigs ();
+//	catchSignals ();
 
   // the executable name
   // ------------------------------------------------------
@@ -2198,8 +2195,7 @@ int main (int argc, char * argv[])
   // set the desired options
   // ------------------------------------------------------
 
-  if (false) // JMI
-    setTheDesiredOptions (theGeneratedCodeKind);
+  enforceSomeOptions (theGeneratedCodeKind);
 
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------

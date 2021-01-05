@@ -85,6 +85,12 @@ void msrSegment::initializeSegment ()
       endl;
   }
 #endif
+
+//  // segment shortest note duration
+//  fSegmentShortestNoteDuration = rational (INT_MAX, 1);
+
+// segment shortest note tuplet factor
+//  fSegmentShortestNoteTupletFactor = rational (1, 1);
 }
 
 S_msrStaff msrSegment::fetchSegmentStaffUpLink () const
@@ -220,6 +226,50 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 
   return segmentDeepCopy;
 }
+
+/* JMI
+void msrSegment::setSegmentShortestNoteDuration (
+  rational duration)
+{
+#ifdef TRACING_IS_ENABLED
+  if (
+    gGlobalTraceOahGroup->getTraceNotes ()
+      ||
+    gGlobalMsrOahGroup->getTraceMsrDurations ()
+  ) {
+    gLogStream <<
+      "Setting the shortest note duration of segment " <<
+      fSegmentAbsoluteNumber <<
+      " to " <<
+      duration <<
+      endl;
+  }
+#endif
+
+  fSegmentShortestNoteDuration = duration;
+}
+
+void msrSegment::setSegmentShortestNoteTupletFactor (
+  const msrTupletFactor& noteTupletFactor)
+{
+#ifdef TRACING_IS_ENABLED
+  if (
+    gGlobalTraceOahGroup->getTraceNotes ()
+      ||
+    gGlobalMsrOahGroup->getTraceMsrDurations ()
+  ) {
+    gLogStream <<
+      "Setting the shortest note tuplet factor of segment " <<
+      fSegmentAbsoluteNumber <<
+      " to " <<
+      noteTupletFactor <<
+      endl;
+  }
+#endif
+
+  fSegmentShortestNoteTupletFactor = noteTupletFactor;
+}
+*/
 
 void msrSegment::assertSegmentMeasuresListIsNotEmpty (
   int inputLineNumber) const
@@ -2333,6 +2383,18 @@ void msrSegment::print (ostream& os) const
     fSegmentVoiceUpLink->getVoiceName () <<
     "\"" <<
     endl;
+
+/* JMI
+  os << left <<
+    setw (fieldWidth) <<
+    "segmentShortestNoteDuration" << " : " <<
+    fSegmentShortestNoteDuration <<
+    endl <<
+    setw (fieldWidth) <<
+    "segmentShortestNoteTupletFactor" << " : " <<
+    fSegmentShortestNoteTupletFactor <<
+    endl;
+*/
 
   if (! fSegmentMeasuresList.size ()) {
     os <<

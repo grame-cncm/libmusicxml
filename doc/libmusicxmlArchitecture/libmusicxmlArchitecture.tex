@@ -45,8 +45,10 @@ Jacques Menu
 \maketitle
 \thispagestyle{fancy} % right after \maketitle to apply it to the first page too
 
-
-%\tableofcontents
+{
+	\small
+	\tableofcontents
+}
 
 This document shows the architecture of the \lib\ library, to be found at 
 \url {https://github.com/grame-cncm/libmusicxml/tree/lilypond}.
@@ -775,6 +777,9 @@ edge node {\rotatebox{-30}{}}
 \end{adjustwidth}
 
 
+\newpage
+
+
 % -------------------------------------------------------------------------
 \section{Formats and representations}
 % -------------------------------------------------------------------------
@@ -867,10 +872,30 @@ MDSR & MIDI Score Representation, to be designed.
 
 
 % -------------------------------------------------------------------------
+\section{Basic tools}
+% -------------------------------------------------------------------------
+
+\lib\ supplies a number of basic tools using its features:
+
+\begin{itemize}
+\item {\tt xmlread} converts MusicXML data and displays the corresponding xmlElement tree;
+\item {\tt countnotes} reads MusicXML data and displays the number of notes it contains;
+\item other programs such as {\tt xmltranspose} and {\tt partsummary} demonstrate the possibilities of the library, in particular those of the two-phase visitors pattern it uses;
+\item {\tt xml2midi} reads MusicXML data and outputs a midi version of it.
+\end{itemize}
+
+It is to be noted that:
+\begin{itemize}
+\item \lily\ provides \midiToLy\ to translate MIDI files to \lily\ code;
+\item \lily\ can generate MIDI files from its input.
+\end{itemize} 
+
+
+% -------------------------------------------------------------------------
 \section{Conversion passes}
 % -------------------------------------------------------------------------
 
-The numbers in the picture refer to so-called passes (compiler writing terminology), i.e. components of the library that convert a representation into another. The passes are numbered in the order they were added to the library:
+The numbers in the picture refer to so-called passes (compiler writing terminology), i.e. atomic components of the library that convert a representation into another. The passes are numbered in the order they were added to the library:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
@@ -954,12 +979,14 @@ The numbers in the picture refer to so-called passes (compiler writing terminolo
 
 
 % -------------------------------------------------------------------------
-\section{Executable translators}
+\section{Translators}
 % -------------------------------------------------------------------------
 
 \def \tab {~~~}
 
-The translators provided by \lib\ are in the form of functions. Executable command-line applications are also supplied. They are shown in the table below, in which the ones not yet planned or under development are dimmed:
+A translator is a sequence of two or more passes, each converting one representation into another, in a pipeline way. The first one provided by the library was {\tt xml2guido}.
+
+The other translators provided by \lib\ were added later and are in the form of functions. Executable command-line applications using them are also supplied. They are shown in the table below, in which the ones not yet planned or under development are dimmed:
 %\begin{adjustwidth}{-0.5cm}{-0.5cm}
 \begin{center}
 \footnotesize
@@ -1119,10 +1146,11 @@ The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data
 
 
 % -------------------------------------------------------------------------
-\section{Basic tools}
+\section{Generators}
 % -------------------------------------------------------------------------
 
-\lib\ supplies a number of basic tools using its features:
+A generator is an executable that creates data representing a score without reading any input file.
+For example, {\tt Mikrokosmos3Wandering} creates an MSR graph representing Bartok's Mikrokosmos III Wandering score, and then produces Guido, LilyPond, braille or MusicXML to standard output, depending on the '{\tt -generated-code-kind}' option.
 
 \begin{itemize}
 \item \texttt{RandomMusic} generates an mxmlelement tree containing random music, and writes it as \mxml\ to standard output;
@@ -1134,12 +1162,6 @@ The {\tt -loop} option is supplied to create \mei\ data back from the \mei\ data
 \item other programs such as {\tt countnotes}, {\tt xmltranspose} and {\tt partsummary} demonstrate the possibilities of the library, in particular those of the two-phase visitors pattern it uses.
 \end{itemize}
 
-It is to be noted that:
-\begin{itemize}
-\item \lily\ provides \midiToLy\ to translate MIDI files to \lily\ code;
-\item \lily\ can generate MIDI files from its input.
-\end{itemize} 
-
 
 % -------------------------------------------------------------------------
 \section{Options and help}
@@ -1147,6 +1169,8 @@ It is to be noted that:
 
 Having many executables with many options makes options and help handling a challenge.\\
 This is why \lib\ uses it own OAH (Options And Help) object oriented infrastructure.
+
+This library provides OAH (Options And Help), a full-fledged object-oriented options and help management infrastructure.
 
 OAH organizes the options and the corresponding help in a hierarchy of groups, sub-groups and so-called atoms. OAH is introspective, thus help can be obtained for every group, sub-group or atom at will.
 

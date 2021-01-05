@@ -159,7 +159,7 @@ void displayMsrScore (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR as text 2" <<
+    "Optional pass: displaying the MSR as text in msr2msr" <<
     endl <<
     separator <<
     endl << endl <<

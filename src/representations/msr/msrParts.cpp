@@ -186,10 +186,12 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
     setPartNumberOfMeasures (
       fPartNumberOfMeasures);
 
+/* JMI
   // set the newbornClone's shortest note duration // TEMP JMI NOT NECESSARY???
   newbornClone->
     setPartShortestNoteDuration (
       fPartShortestNoteDuration);
+*/
 
   return newbornClone;
 }
@@ -310,9 +312,9 @@ void msrPart::setPartShortestNoteDuration (
     gGlobalMsrOahGroup->getTraceMsrDurations ()
   ) {
     gLogStream <<
-      "Setting the shortest note duration of part " <<
+      "Setting the shortest note duration of part \"" <<
       fPartName <<
-      " to " <<
+      "\" to " <<
       duration <<
       endl;
   }
@@ -542,6 +544,55 @@ void msrPart::setNextMeasureNumberInPart (
   } // for
 
   --gIndenter;
+}
+
+void msrPart::registerShortestNoteInPartIfRelevant (S_msrNote note)
+{
+  // is note the shortest one in this part?
+  rational
+    noteSoundingWholeNotes =
+      note->
+        getNoteSoundingWholeNotes ();
+
+/* JMI
+  rational
+    noteDisplayWholeNotes =
+      note->
+        getNoteDisplayWholeNotes ();
+      */
+
+  if (noteSoundingWholeNotes < fPartShortestNoteDuration) {
+    // set the part shortest note duration
+    this ->
+      setPartShortestNoteDuration (
+        noteSoundingWholeNotes);
+
+/* JMI
+    // set the part shortest note tuplet factor // JMI ???
+    fPartShortestNoteTupletFactor =
+      note->
+        getNoteTupletFactor ();
+
+    this ->
+      setPartShortestNoteTupletFactor (
+        fVoiceShortestNoteTupletFactor);
+*/
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceNotes ()) {
+      gLogStream <<
+        "The new shortest note in part \"" << getPartCombinedName () << "\"" <<
+        " becomes " << note->asString () <<
+        endl;
+    }
+#endif
+  }
+
+/* JMI
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+  }
+  */
 }
 
 void msrPart::setPartNumberOfMeasures (unsigned int partNumberOfMeasures)

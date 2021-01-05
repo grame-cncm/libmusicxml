@@ -6162,7 +6162,8 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
       note->getNoteKind ();
 
   msrQuarterTonesPitchKind
-    noteQuarterTonesPitchKind = note->getNoteQuarterTonesPitchKind ();
+    noteQuarterTonesPitchKind =
+      note->getNoteQuarterTonesPitchKind ();
 
   msrDiatonicPitchKind noteDiatonicPitchKind;
   msrAlterationKind    noteAlterationKind;

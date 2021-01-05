@@ -210,6 +210,23 @@ class EXP msrMeasure : public msrElement
     bool                  getMeasureIsAFullMeasureRest () const
                              { return fMeasureIsAFullMeasureRest; }
 
+/* JMI
+    // measure shortest note
+
+    void                  setMeasureShortestNoteDuration (
+                            rational duration);
+
+    rational              getMeasureShortestNoteDuration () const
+                              { return fMeasureShortestNoteDuration; }
+
+    void                  setMeasureShortestNoteTupletFactor (
+                            const msrTupletFactor& noteTupletFactor);
+
+    const msrTupletFactor&
+                          getMeasureShortestNoteTupletFactor () const
+                              { return fMeasureShortestNoteTupletFactor; }
+*/
+
     // measure longest note
 
     S_msrNote             getMeasureLongestNote () const
@@ -657,6 +674,16 @@ class EXP msrMeasure : public msrElement
     // measure print layout, MusicXML specific
 
     S_msrPrintLayout      fMeasurePrintLayout;
+
+/* JMI
+    // measure shortest note
+
+    // fPartShortestNoteDuration and fPartShortestNoteTupletFactor
+    // are used to compute a number of divisions per quarter note
+    // if needed, such as when generating MusicXML from MSR
+    rational              fMeasureShortestNoteDuration;
+    msrTupletFactor       fMeasureShortestNoteTupletFactor;
+*/
 
     // measure longest note
 

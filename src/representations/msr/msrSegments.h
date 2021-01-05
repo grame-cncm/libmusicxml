@@ -135,6 +135,23 @@ class EXP msrSegment : public msrVoiceElement
     list<S_msrMeasure>&   getSegmentMeasuresListToModify () // JMI
                               { return fSegmentMeasuresList; }
 
+/* JMI
+    // segment shortest note
+
+    void                  setSegmentShortestNoteDuration (
+                            rational duration);
+
+    rational              getSegmentShortestNoteDuration () const
+                              { return fSegmentShortestNoteDuration; }
+
+    void                  setSegmentShortestNoteTupletFactor (
+                            const msrTupletFactor& noteTupletFactor);
+
+    const msrTupletFactor&
+                          getSegmentShortestNoteTupletFactor () const
+                              { return fSegmentShortestNoteTupletFactor; }
+*/
+
   public:
 
     // public services
@@ -448,6 +465,16 @@ class EXP msrSegment : public msrVoiceElement
     // debug number, unique for every msrSegment instance
     static int            gSegmentDebugNumber;
     int                   fSegmentDebugNumber;
+
+/* JMI
+    // segment shortest note
+
+    // fPartShortestNoteDuration and fPartShortestNoteTupletFactor
+    // are used to compute a number of divisions per quarter note
+    // if needed, such as when generating MusicXML from MSR
+    rational              fSegmentShortestNoteDuration;
+    msrTupletFactor       fSegmentShortestNoteTupletFactor;
+    */
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);

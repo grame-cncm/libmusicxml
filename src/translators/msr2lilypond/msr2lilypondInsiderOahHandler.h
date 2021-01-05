@@ -138,13 +138,6 @@ class EXP msr2lilypondInsiderOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    // output file
-    S_oahBooleanAtom      getAutoOutputFileNameAtom () const
-                              { return fAutoOutputFileNameAtom; }
-
-    S_oahStringAtom       getOutputFileNameStringAtom () const
-                              { return fOutputFileNameStringAtom; }
-
     // quit after some passes
     bool                  getQuitAfterPass2a () const
                               { return fQuitAfterPass2a; }
@@ -186,8 +179,6 @@ class EXP msr2lilypondInsiderOahGroup : public oahGroup
     // private services
     // ------------------------------------------------------
 
-    void                  createInsiderOutputSubGroup ();
-
     void                  createInsiderQuitSubGroup ();
 
   private:
@@ -195,21 +186,9 @@ class EXP msr2lilypondInsiderOahGroup : public oahGroup
     // private fields
     // ------------------------------------------------------
 
-    // output file
-    // we store the atoms for the needs of fetchOutputFileNameFromTheOptions()
-    S_oahBooleanAtom      fAutoOutputFileNameAtom;
-
-    S_oahStringAtom       fOutputFileNameStringAtom;
-
     // quit after some passes
     bool                  fQuitAfterPass2a;
     bool                  fQuitAfterPass2b;
-
-    // LilyPond output file name
-    // these private variables are the ones accessible through the atoms
-    bool                  fAutoOutputFileName;
-
-    string                fOutputFileName;
 };
 typedef SMARTP<msr2lilypondInsiderOahGroup> S_msr2lilypondInsiderOahGroup;
 EXP ostream& operator<< (ostream& os, const S_msr2lilypondInsiderOahGroup& elt);

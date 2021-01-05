@@ -294,7 +294,8 @@ void msrChord::addFirstNoteToChord (
 
   // is this note the shortest one in this voice?
   voice->
-    registerShortestNoteInVoiceIfRelevant (note);
+    registerShortestNoteInVoiceIfRelevant (
+      note);
 
   // register note as the last appended one into this voice
   /* JMI

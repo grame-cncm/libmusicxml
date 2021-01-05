@@ -27,7 +27,7 @@
 #include "bsr.h"
 
 #include "oahOah.h"
-
+#include "outputFileOah.h"
 #include "generalOah.h"
 
 #include "musicxmlOah.h"
@@ -187,6 +187,10 @@ void xml2brlInsiderOahHandler::createTheXml2brlOptionGroups (
   appendGroupToHandler (
     createGlobalGeneralOahGroup ());
 
+  // create the output file OAH group
+  appendGroupToHandler (
+    createGlobalOutputFileOahGroup ());
+
   // initialize the library
   // ------------------------------------------------------
 
@@ -293,12 +297,12 @@ string xml2brlInsiderOahHandler::fetchOutputFileNameFromTheOptions () const
 
   S_oahStringAtom
     outputFileNameStringAtom =
-      gGlobalXml2brlInsiderOahGroup->
+      gGlobalOutputFileOahGroup->
         getOutputFileNameStringAtom ();
 
   S_oahBooleanAtom
     autoOutputFileNameAtom =
-      gGlobalXml2brlInsiderOahGroup->
+      gGlobalOutputFileOahGroup->
         getAutoOutputFileNameAtom ();
 
   bool
@@ -691,73 +695,10 @@ void xml2brlInsiderOahGroup::initializeXml2brlInsiderOahGroup ()
 #endif
 #endif
 
-  // output
-  // --------------------------------------
-
-  createInsiderOutputSubGroup ();
-
   // quit after some passes
   // --------------------------------------
 
   createInsiderQuitSubGroup ();
-}
-
-//_______________________________________________________________________________
-void xml2brlInsiderOahGroup::createInsiderOutputSubGroup ()
-{
-#ifdef TRACING_IS_ENABLED
-#ifdef ENFORCE_TRACE_OAH
-  gLogStream << left <<
-    "Creating insider output subgroup in \"" <<
-    fGroupHeader <<
-    "\"" <<
-    endl;
-#endif
-#endif
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "Output file",
-        "hx2bof", "help-xml2brl-output-file",
-R"()",
-      kElementVisibilityWhole,
-      this);
-
-  appendSubGroupToGroup (subGroup);
-
-  // output filename
-
-  fOutputFileNameStringAtom =
-    oahStringAtom::create (
-      "o", "output-file-name",
-R"(Write braille music to file FILENAME instead of standard output.)",
-      "FILENAME",
-      "outputFileName",
-      fOutputFileName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fOutputFileNameStringAtom);
-
-  // auto output filename
-
-  fAutoOutputFileName = false;
-
-  fAutoOutputFileNameAtom =
-    oahBooleanAtom::create (
-      "aofn", "auto-output-file-name",
-R"(This option can only be used when reading from a file.
-Write MusicXML code to a file in the current working directory.
-The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'xml'
-or adding '.xml' if none is present.)",
-      "autoOutputFileName",
-      fAutoOutputFileName);
-
-  subGroup->
-    appendAtomToSubGroup (
-      fAutoOutputFileNameAtom);
 }
 
 //_______________________________________________________________________________
@@ -827,27 +768,6 @@ void xml2brlInsiderOahGroup::printXml2brlInsiderOahGroupValues (unsigned int fie
     endl;
 
   ++gIndenter;
-
-  // output file
-  // --------------------------------------
-
-  gLogStream << left <<
-    setw (fieldWidth) << "Output file:" <<
-    endl;
-
-  ++gIndenter;
-
-  gLogStream << left <<
-    setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
-    "\"" <<
-    endl <<
-    setw (fieldWidth) << "autoOutputFileName" << " : \"" <<
-    booleanAsString (fAutoOutputFileName) <<
-    "\"" <<
-    endl;
-
-  --gIndenter;
 
   // quit after some passes
   // --------------------------------------

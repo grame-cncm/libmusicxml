@@ -1834,35 +1834,81 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
   return result;
 }
 
+void msrVoice::setVoiceShortestNoteDuration (
+  rational duration)
+{
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceNotes ()) {
+      gLogStream <<
+        "The new shortest note duration in voice \"" <<
+        getVoiceName () <<
+        "\" becomes " <<
+        duration <<
+        endl;
+    }
+#endif
+
+  fVoiceShortestNoteDuration = duration;
+}
+
+void msrVoice::setVoiceShortestNoteTupletFactor (
+  const msrTupletFactor& noteTupletFactor)
+{
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceNotes ()) {
+      gLogStream <<
+        "The new shortest note tuplet factor in part \"" <<
+        getVoiceName () <<
+        "\" becomes " <<
+        noteTupletFactor <<
+        endl;
+    }
+#endif
+
+  fVoiceShortestNoteTupletFactor = noteTupletFactor;
+}
+
 void msrVoice::registerShortestNoteInVoiceIfRelevant (S_msrNote note)
 {
   // is note the shortest one in this voice?
   rational
     noteSoundingWholeNotes =
-      note->getNoteSoundingWholeNotes (),
+      note->
+        getNoteSoundingWholeNotes ();
+
+      /* JMI
+  rational
     noteDisplayWholeNotes =
-      note->getNoteDisplayWholeNotes (); // JMI
+      note->
+        getNoteDisplayWholeNotes ();
+        */
 
   if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
     // set the voice shortest note duration
-    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+    this->
+      setVoiceShortestNoteDuration (
+        noteSoundingWholeNotes);
 
-    // set the voice shortest note tuplet factor;
-    fVoiceShortestNoteTupletFactor =
-      note->getNoteTupletFactor ();
-
-    // propagate those two new values to the voice part
+    // propagate this new value to the voice's part
     S_msrPart
       voicePartUplink =
         fetchVoicePartUpLink ();
 
     voicePartUplink ->
-      setPartShortestNoteDuration (
-        fVoiceShortestNoteDuration);
+      registerShortestNoteInPartIfRelevant (
+        note);
 
+/* JMI
+    // set the voice shortest note tuplet factor
+    fVoiceShortestNoteTupletFactor =
+      note->
+        getNoteTupletFactor ();
+
+    // propagate this new value to the voice's part
     voicePartUplink ->
       setPartShortestNoteTupletFactor (
         fVoiceShortestNoteTupletFactor);
+*/
 
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceNotes ()) {
@@ -1874,9 +1920,11 @@ void msrVoice::registerShortestNoteInVoiceIfRelevant (S_msrNote note)
 #endif
   }
 
-  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) { // JMI
-//    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+/* JMI
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
   }
+    */
 }
 
 void msrVoice::registerNoteAsVoiceLastAppendedNote (S_msrNote note)
@@ -1886,9 +1934,11 @@ void msrVoice::registerNoteAsVoiceLastAppendedNote (S_msrNote note)
   // is note the shortest one in this voice?
   rational
     noteSoundingWholeNotes =
-      note->getNoteSoundingWholeNotes (),
+      note->
+        getNoteSoundingWholeNotes (),
     noteDisplayWholeNotes =
-      note->getNoteDisplayWholeNotes (); // JMI
+      note->
+        getNoteDisplayWholeNotes (); // JMI
 
   if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
     fVoiceShortestNoteDuration = noteSoundingWholeNotes;
@@ -2505,7 +2555,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // is this note the shortest one in this voice?
   this->
-    registerShortestNoteInVoiceIfRelevant (note);
+    registerShortestNoteInVoiceIfRelevant (
+      note);
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
@@ -2600,7 +2651,8 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
 
   // is this note the shortest one in this voice?
   this->
-    registerShortestNoteInVoiceIfRelevant (note);
+    registerShortestNoteInVoiceIfRelevant (
+      note);
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
@@ -2724,7 +2776,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 
       // is chordFirstNote the shortest one in this voice?
       this->
-        registerShortestNoteInVoiceIfRelevant (chordFirstNote);
+        registerShortestNoteInVoiceIfRelevant (
+          chordFirstNote);
     }
 
     {
@@ -2736,7 +2789,8 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 /* JMI
       // is chordLastNote the shortest one in this voice?
       this->
-        registerShortestNoteInVoiceIfRelevant (chordLastNote);
+        registerShortestNoteInVoiceIfRelevant (
+          chordLastNote);
 */
 
       // register chordLastNote as the last appended one into this voice
@@ -9323,11 +9377,13 @@ void msrVoice::finalizeVoice (
   if (fVoiceShortestNoteDuration < partShortestNoteDuration) {
     // set the voice part shortest note duration
     voicePart->
-      setPartShortestNoteDuration (fVoiceShortestNoteDuration);
+      setPartShortestNoteDuration (
+        fVoiceShortestNoteDuration);
 
-    // set the voice part shortest note tuplet factor
+    // set the voice part shortest note tuplet factor // JMI
     voicePart->
-      setPartShortestNoteTupletFactor (fVoiceShortestNoteTupletFactor);
+      setPartShortestNoteTupletFactor (
+        fVoiceShortestNoteTupletFactor);
   }
 
   // is this voice totally empty? this should be rare...
