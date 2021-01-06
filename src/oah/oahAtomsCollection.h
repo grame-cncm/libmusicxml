@@ -1074,8 +1074,8 @@ class EXP oahIntegerAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1159,8 +1159,8 @@ class EXP oahTwoIntegersAtom : public oahIntegerAtom
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1242,8 +1242,8 @@ class EXP oahFloatAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1326,8 +1326,8 @@ class EXP oahStringAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1502,8 +1502,8 @@ class EXP oahStringWithDefaultValueAtom : public oahStringAtom
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1591,8 +1591,8 @@ class EXP oahRationalAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1680,8 +1680,8 @@ class EXP oahNaturalNumbersSetAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1769,8 +1769,8 @@ class EXP oahRGBColorAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1852,8 +1852,8 @@ class EXP oahIntSetAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1941,8 +1941,8 @@ class EXP oahStringSetAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -2025,8 +2025,8 @@ class EXP oahStringToIntMapAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -2118,8 +2118,8 @@ class EXP oahStringAndIntegerAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -2220,8 +2220,8 @@ class EXP oahStringAndTwoIntegersAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -2312,8 +2312,8 @@ class EXP oahLengthUnitKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -2401,8 +2401,8 @@ class EXP oahLengthAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -2475,7 +2475,7 @@ class EXP oahMidiTempoAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  setMidiTempoVariable (
-                            msrMidiTempo& value)
+                            const msrMidiTempo& value)
                               {
                                 fMidiTempoVariable = value;
                                 fVariableHasBeenSet = true;
@@ -2490,8 +2490,8 @@ class EXP oahMidiTempoAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -2580,8 +2580,8 @@ class EXP oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
     void                  applyAtomWithValueDefaultValue (ostream& os) override;
 
@@ -2662,8 +2662,8 @@ class EXP oahAProposOptionNameAtom : public oahStringAtom
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -2742,8 +2742,8 @@ class EXP oahFindStringAtom : public oahStringAtom
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 

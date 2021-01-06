@@ -9057,7 +9057,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrAccordionRegistration& elt)
   fCurrentVoiceClone->
     appendAccordionRegistrationToVoice (elt);
 
-  // the generated code needs modules scm and accreg
+  // the generate code needs modules scm and accreg
   fResultingMusicxmlElement->
     setScmAndAccregSchemeModulesAreNeeded ();
 }

@@ -787,8 +787,8 @@ oahOptionalValuesStyleKindAtom::~oahOptionalValuesStyleKindAtom ()
 {}
 
 void oahOptionalValuesStyleKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -931,7 +931,7 @@ void oahOptionalValuesStyleKindAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsOptionalValuesStyleKindAtom:" <<
+    "OptionalValuesStyleKindAtom:" <<
     endl;
 
   ++gIndenter;

@@ -101,7 +101,7 @@ class EXP msrDalSegno : public msrMeasureElement
       msrDalSegnoKind dalSegnoKind);
 
     static msrDalSegnoKind msrDalSegnoKindFromString (
-      string theString);
+      const string& theString);
 
   public:
 

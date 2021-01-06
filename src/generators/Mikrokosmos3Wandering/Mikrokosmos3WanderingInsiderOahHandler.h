@@ -13,6 +13,8 @@
 #ifndef ___Mikrokosmos3WanderingInsiderOahGroup___
 #define ___Mikrokosmos3WanderingInsiderOahGroup___
 
+#include "msrBasicTypes.h"
+
 #include "oahBasicTypes.h"
 
 #include "oahAtomsCollection.h"
@@ -22,9 +24,6 @@
 
 namespace MusicXML2
 {
-//_______________________________________________________________________________
-#define K_GENERATED_CODE_KIND_SHORT_NAME "gen"
-#define K_GENERATED_CODE_KIND_LONG_NAME  "generated-code-kind"
 
 //_______________________________________________________________________________
 EXP string Mikrokosmos3WanderingAboutInformation ();
@@ -38,10 +37,10 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     static SMARTP<Mikrokosmos3WanderingInsiderOahHandler> create (
-      string            executableName,
-      string            executableAboutInformation,
-      string            handlerHeader,
-      generatedCodeKind theGeneratedCodeKind);
+      const string&        executableName,
+      const string&        executableAboutInformation,
+      const string&        handlerHeader,
+      mkkGenerateCodeKind generateCodeKind);
 
   protected:
 
@@ -49,10 +48,10 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     Mikrokosmos3WanderingInsiderOahHandler (
-      string            executableName,
-      string            executableAboutInformation,
-      string            handlerHeader,
-      generatedCodeKind theGeneratedCodeKind);
+      const string&        executableName,
+      const string&        executableAboutInformation,
+      const string&        handlerHeader,
+      mkkGenerateCodeKind generateCodeKind);
 
     virtual ~Mikrokosmos3WanderingInsiderOahHandler ();
 
@@ -60,12 +59,6 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
 
     // set and get
     // ------------------------------------------------------
-
-    // generated code kind
-    void                  setGeneratedCodeKind (generatedCodeKind value)
-                              { fGeneratedCodeKind = value; }
-    generatedCodeKind     getGeneratedCodeKind () const
-                              { return fGeneratedCodeKind; }
 
   private:
 
@@ -75,7 +68,8 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     void                  createTheMikrokosmos3WanderingPrefixes ();
 
     void                  createTheMikrokosmos3WanderingOptionGroups (
-                            string executableName);
+                            const string&        executableName,
+                            mkkGenerateCodeKind generateCodeKind);
 
   public:
 
@@ -108,9 +102,6 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
 
     // private fields
     // ------------------------------------------------------
-
-    // generated code kind
-    generatedCodeKind     fGeneratedCodeKind;
 };
 typedef SMARTP<Mikrokosmos3WanderingInsiderOahHandler> S_Mikrokosmos3WanderingInsiderOahHandler;
 EXP ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingInsiderOahHandler& elt);
@@ -143,11 +134,17 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     // set and get
     // ------------------------------------------------------
 
-    // generated code kind
-    void                  setGeneratedCodeKind (generatedCodeKind value)
-                              { fGeneratedCodeKind = value; }
-    generatedCodeKind     getGeneratedCodeKind () const
-                              { return fGeneratedCodeKind; }
+    // generation API kind
+    void                  setGenerationAPIKind (msrGenerationAPIKind value)
+                              { fGenerationAPIKind = value; }
+    msrGenerationAPIKind  getGenerationAPIKind () const
+                              { return fGenerationAPIKind; }
+
+    // generate code kind
+    void                  setGenerateCodeKind (mkkGenerateCodeKind value)
+                              { fGenerateCodeKind = value; }
+    mkkGenerateCodeKind  getGenerateCodeKind () const
+                              { return fGenerateCodeKind; }
 
     // Guido
     void                  setGenerateComments ()
@@ -220,8 +217,11 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     // private fields
     // ------------------------------------------------------
 
-    // generated code kind
-    generatedCodeKind     fGeneratedCodeKind;
+    // generation API kind
+    msrGenerationAPIKind  fGenerationAPIKind;
+
+    // generate code kind
+    mkkGenerateCodeKind  fGenerateCodeKind;
 
     // Guido
     bool                  fGenerateComments;

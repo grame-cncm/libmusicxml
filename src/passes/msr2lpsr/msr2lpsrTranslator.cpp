@@ -5232,7 +5232,7 @@ void msr2lpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
   fCurrentVoiceClone->
     appendAccordionRegistrationToVoice (elt);
 
-  // the generated code needs modules scm and accreg
+  // the generate code needs modules scm and accreg
   fResultingLpsrScore->
     setScmAndAccregSchemeModulesAreNeeded ();
 }

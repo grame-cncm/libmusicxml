@@ -69,8 +69,8 @@ class EXP msr2lpsrScoreOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 

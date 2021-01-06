@@ -70,7 +70,7 @@ class EXP bsr2brailleTranslator :
 
     bsr2brailleTranslator (
       S_bsrScore     bsrScore,
-      S_bsrOahGroup& bsrOpts,
+      const S_bsrOahGroup& bsrOpts,
       ostream&       brailleOutputStream);
 
     virtual ~bsr2brailleTranslator ();

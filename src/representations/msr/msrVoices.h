@@ -838,6 +838,9 @@ class EXP msrVoice : public msrElement
     void                  finalizeVoice (
                             int inputLineNumber);
 
+    void                  finalizeVoiceAndAllItsMeasures (
+                            int inputLineNumber);
+
     void                  collectVoiceMeasuresIntoFlatList (
                             int inputLineNumber);
 

@@ -95,8 +95,8 @@ bsrFacSimileKindAtom::~bsrFacSimileKindAtom ()
 {}
 
 void bsrFacSimileKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // JMI ???
 
@@ -199,7 +199,7 @@ void bsrFacSimileKindAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsFacSimileKindAtom:" <<
+    "bsrFacSimileKindAtom:" <<
     endl;
 
   ++gIndenter;
@@ -291,8 +291,8 @@ bsrTextsLanguageAtom::~bsrTextsLanguageAtom ()
 {}
 
 void bsrTextsLanguageAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // JMI ???
 
@@ -395,7 +395,7 @@ void bsrTextsLanguageAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsBsrTextsLanguageAtom:" <<
+    "bsrTextsLanguageAtom:" <<
     endl;
 
   ++gIndenter;

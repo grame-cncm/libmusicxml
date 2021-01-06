@@ -34,11 +34,11 @@ class EXP brailleOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<brailleOutputKindAtom> create (
-      string                shortName,
-      string                longName,
-      string                description,
-      string                valueSpecification,
-      string                variableName,
+      const string&         shortName,
+      const string&         longName,
+      const string&         description,
+      const string&         valueSpecification,
+      const string&         variableName,
       bsrBrailleOutputKind& brailleOutputKindVariable);
 
   protected:
@@ -47,11 +47,11 @@ class EXP brailleOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     brailleOutputKindAtom (
-      string                shortName,
-      string                longName,
-      string                description,
-      string                valueSpecification,
-      string                variableName,
+      const string&         shortName,
+      const string&         longName,
+      const string&         description,
+      const string&         valueSpecification,
+      const string&         variableName,
       bsrBrailleOutputKind& brailleOutputKindVariable);
 
     virtual ~brailleOutputKindAtom ();
@@ -67,8 +67,8 @@ class EXP brailleOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -146,8 +146,8 @@ class EXP brailleUTFKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -225,8 +225,8 @@ class EXP brailleByteOrderingKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 

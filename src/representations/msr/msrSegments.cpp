@@ -2188,6 +2188,34 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   return result;
 }
 
+void msrSegment::finalizeAllTheMeasuresOfSegment ( // superflous JMI ???
+  int inputLineNumber)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Finalizing all the measures of segment '" <<
+      fSegmentAbsoluteNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  for (
+    list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin ();
+    i != fSegmentMeasuresList.end ();
+    ++i
+  ) {
+    S_msrMeasure measure = (*i);
+
+    measure->
+      finalizeMeasure (
+        inputLineNumber,
+        msrMeasure::kMeasuresRepeatContextKindNone,
+        "finalizeAllTheMeasuresOfSegment()");
+  } // for
+}
+
 void msrSegment::acceptIn (basevisitor* v)
 {
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {

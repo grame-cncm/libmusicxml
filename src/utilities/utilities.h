@@ -167,7 +167,7 @@ class EXP outputIndenter
                               { return fSpacer; }
 
     // indent a multiline 'R"(...)"' string
-    string                indentMultiLineString (string theString);
+    string                indentMultiLineString (const string& theString);
 
     // global variables for general use
     static outputIndenter gGlobalOStreamIndenter;
@@ -468,22 +468,22 @@ pair<string, string> extractNamesPairFromString (
 
 //______________________________________________________________________________
 string doubleQuoteStringIfNonAlpha (
-  string theString);
+  const string& theString);
 
 string quoteStringIfNonAlpha (
-  string theString);
+  const string& theString);
 
 string doubleQuoteString (
-  string theString);
+  const string& theString);
 
 string quoteString (
-  string theString);
+  const string& theString);
 
 string stringToLowerCase (
-  string theString);
+  const string& theString);
 
 string stringToUpperCase (
-  string theString);
+  const string& theString);
 
 //______________________________________________________________________________
 EXP extern string booleanAsString (bool value);

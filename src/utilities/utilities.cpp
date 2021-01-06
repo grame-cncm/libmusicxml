@@ -372,7 +372,7 @@ outputIndenter& outputIndenter::decrement (int value)
   return *this;
 }
 
-string outputIndenter::indentMultiLineString (string theString)
+string outputIndenter::indentMultiLineString (const string& theString)
 {
   // add indentation ahead of all lines inside 'theString'
   istringstream inputStream (theString);
@@ -1145,7 +1145,7 @@ pair<string, string> extractNamesPairFromString (
 
 //______________________________________________________________________________
 string doubleQuoteStringIfNonAlpha (
-  string theString)
+  const string& theString)
 {
   string result;
 
@@ -1188,7 +1188,7 @@ string doubleQuoteStringIfNonAlpha (
 
 //______________________________________________________________________________
 string quoteStringIfNonAlpha (
-  string theString)
+  const string& theString)
 {
   string result;
 
@@ -1231,7 +1231,7 @@ string quoteStringIfNonAlpha (
 
 //______________________________________________________________________________
 string doubleQuoteString (
-  string theString)
+  const string& theString)
 {
   string result;
 
@@ -1270,7 +1270,7 @@ string doubleQuoteString (
 
 //______________________________________________________________________________
 string quoteString (
-  string theString)
+  const string& theString)
 {
   string result;
 
@@ -1309,7 +1309,7 @@ string quoteString (
 
 //______________________________________________________________________________
 string stringToLowerCase (
-  string theString)
+  const string& theString)
 {
   string result = theString;
 
@@ -1325,7 +1325,7 @@ string stringToLowerCase (
 }
 
 string stringToUpperCase (
-  string theString)
+  const string& theString)
 {
   string result = theString;
 

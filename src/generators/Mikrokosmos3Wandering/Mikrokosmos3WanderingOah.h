@@ -13,44 +13,49 @@
 #ifndef ___Mikrokosmos3WanderingOah___
 #define ___Mikrokosmos3WanderingOah___
 
-#include "msrSegnosAndCodas.h"
+#include "msr.h"
 
 #include "Mikrokosmos3WanderingOahTypes.h"
+#include "msrGenerationAPIs.h"
 
 
 namespace MusicXML2
 {
 
+//_______________________________________________________________________________
+#define K_GENERATED_CODE_KIND_SHORT_NAME "gen"
+#define K_GENERATED_CODE_KIND_LONG_NAME  "generate-code"
+
 //______________________________________________________________________________
-class EXP generatedCodeKindAtom : public oahAtomWithValue
+class EXP mkkGenerateCodeKindAtom : public oahAtomWithValue
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<generatedCodeKindAtom> create (
-      string                shortName,
-      string                longName,
-      string                description,
-      string                valueSpecification,
-      string                variableName,
-      generatedCodeKind& generatedCodeKindVariable);
+    static SMARTP<mkkGenerateCodeKindAtom> create (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      mkkGenerateCodeKind& mkkGenerateCodeKindVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    generatedCodeKindAtom (
-      string                shortName,
-      string                longName,
-      string                description,
-      string                valueSpecification,
-      string                variableName,
-      generatedCodeKind& generatedCodeKindVariable);
+    mkkGenerateCodeKindAtom (
+      string             shortName,
+      string             longName,
+      string             description,
+      string             valueSpecification,
+      string             variableName,
+      mkkGenerateCodeKind& mkkGenerateCodeKindVariable);
 
-    virtual ~generatedCodeKindAtom ();
+    virtual ~mkkGenerateCodeKindAtom ();
 
   public:
 
@@ -63,8 +68,8 @@ class EXP generatedCodeKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -95,10 +100,10 @@ class EXP generatedCodeKindAtom : public oahAtomWithValue
     // private fields
     // ------------------------------------------------------
 
-    generatedCodeKind&    fGeneratedCodeKindVariable;
+    mkkGenerateCodeKind&    fGenerateCodeKindVariable;
 };
-typedef SMARTP<generatedCodeKindAtom> S_generatedCodeKindAtom;
-EXP ostream& operator<< (ostream& os, const S_generatedCodeKindAtom& elt);
+typedef SMARTP<mkkGenerateCodeKindAtom> S_mkkGenerateCodeKindAtom;
+EXP ostream& operator<< (ostream& os, const S_mkkGenerateCodeKindAtom& elt);
 
 //______________________________________________________________________________
 class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
@@ -148,12 +153,21 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
     // fields
     // ------------------------------------------------------
 
-    // braille output kind
+    // generaton API kind
 
-    void                  setGeneratedCodeKind (generatedCodeKind value)
-                              { fGeneratedCodeKind = value; }
-    generatedCodeKind     getGeneratedCodeKind () const
-                              { return fGeneratedCodeKind;  }
+    void                  setGenerationAPIKind (msrGenerationAPIKind value)
+                              { fGenerationAPIKind = value; }
+
+    msrGenerationAPIKind  getGenerationAPIKind () const
+                              { return fGenerationAPIKind;  }
+
+    // generate code kind
+
+    void                  setGenerateCodeKind (mkkGenerateCodeKind value)
+                              { fGenerateCodeKind = value; }
+
+    mkkGenerateCodeKind  getGenerateCodeKind () const
+                              { return fGenerateCodeKind;  }
 
 /* JMI
     // UTF encoding
@@ -221,7 +235,9 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
 // JMI    void                  initializeMikrokosmos3WanderingTraceOah ();
 #endif
 
-    void                  initializeGeneratedCodeOptions ();
+    void                  initializeGenerationAPIOptions ();
+
+    void                  initializeGenerateCodeOptions ();
 
     /* JMI
     void                  initializeBrailleEncodingOptions ();
@@ -252,24 +268,31 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
 
     void                  printMikrokosmos3WanderingOahHelp ();
 
-    void                  printMikrokosmos3WanderingOahValues (unsigned int fieldWidth);
+    void                  printMikrokosmos3WanderingOahValues (
+                            unsigned int fieldWidth);
 
   private:
 
     // private fields
     // ------------------------------------------------------
 
+    // generation API kind
+
+    msrGenerationAPIKind  fGenerationAPIKind;
+    S_msrGenerationAPIKindAtom
+                          fGenerationAPIKindAtom;
+
     // generate code kind
 
-    generatedCodeKind     fGeneratedCodeKind;
-    S_generatedCodeKindAtom
-                          fGeneratedCodeKindAtom;
+    mkkGenerateCodeKind  fGenerateCodeKind;
+    S_mkkGenerateCodeKindAtom
+                          fGenerateCodeKindAtom;
 
 /* JMI
     // braille output kind
 
-    generatedCodeKind     fBrailleOutputKind;
-    S_generatedCodeKindAtom
+    mkkGenerateCodeKind     fBrailleOutputKind;
+    S_mkkGenerateCodeKindAtom
                           fBrailleOutputKindAtom;
 
     // UTF encoding

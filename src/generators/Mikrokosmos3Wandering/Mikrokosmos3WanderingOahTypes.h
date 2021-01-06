@@ -20,21 +20,23 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-enum generatedCodeKind {
-  k_NoGeneratedCode,
+enum mkkGenerateCodeKind {
+  k_NoGenerateCode,
   kGuido, kLilyPond, kBrailleMusic, kMusicXML
 };
 
-EXP extern string generatedCodeKindAsString (generatedCodeKind kind);
+EXP extern string mkkGenerateCodeKindAsString (
+  mkkGenerateCodeKind generateCodeKind);
 
-EXP extern generatedCodeKind generatedCodeKindFromString (string theString);
+EXP extern mkkGenerateCodeKind mkkGenerateCodeKindFromString (
+  const string& theString);
 
-extern map<string, generatedCodeKind>
-  gGlobalGeneratedCodeKindsMap;
+extern map<string, mkkGenerateCodeKind>
+  gGlobalGenerateCodeKindsMap;
 
-string existingGeneratedCodeKinds (unsigned int namesListMaxLength);
+string existingGenerateCodeKinds (unsigned int namesListMaxLength);
 
-void initializeGeneratedCodeKindsMap ();
+void initializeGenerateCodeKindsMap ();
 
 
 }

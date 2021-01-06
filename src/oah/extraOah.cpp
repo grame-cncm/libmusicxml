@@ -84,8 +84,8 @@ void extraShowAllHarmoniesStructuresAtom::applyElement (ostream& os)
 */
 
 void extraShowAllHarmoniesStructuresAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -166,7 +166,7 @@ void extraShowAllHarmoniesStructuresAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsShowAllHarmoniesStructuresAtom:" <<
+    "extraShowAllHarmoniesStructuresAtom:" <<
     endl;
 
   ++gIndenter;
@@ -239,8 +239,8 @@ extraShowAllHarmoniesContentsAtom::~extraShowAllHarmoniesContentsAtom ()
 {}
 
 void extraShowAllHarmoniesContentsAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -480,8 +480,8 @@ extraShowHarmonyDetailsAtom::~extraShowHarmonyDetailsAtom ()
 {}
 
 void extraShowHarmonyDetailsAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -776,8 +776,8 @@ extraShowHarmonyAnalysisAtom::~extraShowHarmonyAnalysisAtom ()
 {}
 
 void extraShowHarmonyAnalysisAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

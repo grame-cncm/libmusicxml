@@ -596,6 +596,26 @@ class EXP msrMeasure : public msrElement
                             S_msrMeasure originalMeasure,
                             S_msrVoice   voiceClone);
 
+    void                  finalizeMeasure_BIS (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
+    void                  finalizeRegularMeasure_BIS (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
+    void                  finalizeHarmonyMeasure_BIS (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
+    void                  finalizeFiguredBassMeasure_BIS (
+                            int                          inputLineNumber,
+                            msrMeasuresRepeatContextKind measuresRepeatContextKind,
+                            string                       context);
+
   private:
 
     // private services

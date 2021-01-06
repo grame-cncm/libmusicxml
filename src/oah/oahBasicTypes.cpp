@@ -5450,7 +5450,7 @@ if (gGlobalTraceOahGroup->getTraceOah ()) {
 }
 
 string oahHandler::handleArgvOptionName (
-  string optionName)
+  const string& optionName)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -5596,7 +5596,7 @@ void oahHandler::handleOptionsVectorElement (
 }
 
 void oahHandler::handleArgvOptionValueOrArgument (
-  string theString)
+  const string& theString)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -6379,9 +6379,9 @@ void oahHandler::handleKnownOptionsVectorElementUnderName (
       stringstream s;
 
       s <<
-        "element '" <<
+        "element " <<
         element->fetchNamesBetweenQuotes () <<
-        "' is already present in the command line";
+        " is already present in the command line";
 
       oahWarning (s.str ());
     }
@@ -6529,9 +6529,9 @@ void oahHandler::handleKnownArgvElementUnderName (
       stringstream s;
 
       s <<
-        "element '" <<
+        "element " <<
         element->fetchNamesBetweenQuotes () <<
-        "' is already present in the command line";
+        " is already present in the command line";
 
       oahWarning (s.str ());
     }
@@ -6802,7 +6802,7 @@ void oahHandler::handleUnknownOptionName (
 }
 
 void oahHandler::handleOptionNameCommon (
-  string optionName)
+  const string& optionName)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

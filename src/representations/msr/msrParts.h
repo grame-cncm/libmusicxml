@@ -670,6 +670,9 @@ class EXP msrPart : public msrPartGroupElement
     void                  finalizePartClone (
                             int inputLineNumber);
 
+    void                  finalizePartAndAllItsMeasures (
+                            int inputLineNumber);
+
   private:
 
     // private work services

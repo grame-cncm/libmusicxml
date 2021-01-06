@@ -7199,169 +7199,169 @@ void lpsr2lilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
       break;
   } // switch
 
- // if (voice->getStaffRelativeVoiceNumber () > 0) { JMI
+// if (voice->getStaffRelativeVoiceNumber () > 0) { JMI
+  fLilypondCodeStream <<
+    "\\context " << voiceContextName << " = " "\"" <<
+    voice->getVoiceName () << "\"" << " <<" <<
+     endl;
+
+  ++gIndenter;
+
+  if (gGlobalLpsr2lilypondOahGroup->getNoAutoBeaming ()) {
     fLilypondCodeStream <<
-      "\\context " << voiceContextName << " = " "\"" <<
-      voice->getVoiceName () << "\"" << " <<" <<
-       endl;
+      "\\set " << staffContextName << ".autoBeaming = ##f" <<
+      endl;
+  }
 
-    ++gIndenter;
+  // should a voice indication be generated?
+  switch (staffKind) {
+    case kStaffRegular:
+      {
+        int staffRegularVoicesCounter =
+          staff->getStaffRegularVoicesCounter ();
 
-    if (gGlobalLpsr2lilypondOahGroup->getNoAutoBeaming ()) {
-      fLilypondCodeStream <<
-        "\\set " << staffContextName << ".autoBeaming = ##f" <<
-        endl;
-    }
+        int
+          regularVoiceStaffSequentialNumber =
+            voice->
+              getRegularVoiceStaffSequentialNumber ();
 
-    // should a voice indication be generated?
-    switch (staffKind) {
-      case kStaffRegular:
-        {
-          int staffRegularVoicesCounter =
-            staff->getStaffRegularVoicesCounter ();
+        if (staffRegularVoicesCounter > 1) {
+          switch (regularVoiceStaffSequentialNumber) {
+            case 1:
+              fLilypondCodeStream << "\\voiceOne ";
+              break;
+            case 2:
+              fLilypondCodeStream << "\\voiceTwo ";
+              break;
+            case 3:
+              fLilypondCodeStream << "\\voiceThree ";
+              break;
+            case 4:
+              fLilypondCodeStream << "\\voiceFour ";
+              break;
+            default: // should not occur
+              fLilypondCodeStream <<
+                "\\voice_" <<
+                regularVoiceStaffSequentialNumber << " ";
+          } // switch
 
-          int
-            regularVoiceStaffSequentialNumber =
-              voice->
-                getRegularVoiceStaffSequentialNumber ();
-
-          if (staffRegularVoicesCounter > 1) {
-            switch (regularVoiceStaffSequentialNumber) {
-              case 1:
-                fLilypondCodeStream << "\\voiceOne ";
-                break;
-              case 2:
-                fLilypondCodeStream << "\\voiceTwo ";
-                break;
-              case 3:
-                fLilypondCodeStream << "\\voiceThree ";
-                break;
-              case 4:
-                fLilypondCodeStream << "\\voiceFour ";
-                break;
-              default: // should not occur
-                fLilypondCodeStream <<
-                  "\\voice_" <<
-                  regularVoiceStaffSequentialNumber << " ";
-            } // switch
-
-            fLilypondCodeStream <<
-              "% out of " <<
-              staffRegularVoicesCounter <<
-              " regular voices" <<
-              endl;
-          }
-        }
-      break;
-
-      default:
-        ;
-    } // switch
-
-    // fetch the part and part name
-    S_msrPart
-      part = staff-> getStaffPartUpLink ();
-    string partName =
-      part->getPartName ();
-
-    // should a transposition be generated?
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceTranspositions ()) {
-      gLogStream <<
-        endl <<
-        "Considering the generation a a voice transposition for part \"" <<
-        partName <<
-        "\"" <<
-        endl;
-    }
-#endif
-
-    // should we transpose fCurrentPart?
-    bool doTransposeCurrentPart = false;
-    S_msrSemiTonesPitchAndOctave
-      semiTonesPitchAndOctave;
-
-    if (partName.size ()) { // a part name is not mandatory in MusicXML
-      // check by name
-      if (gGlobalLpsr2lilypondOahGroup->getPartNamesTranspositionMap ().size ()) {
-        map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
-          it =
-            gGlobalLpsr2lilypondOahGroup->getPartNamesTranspositionMap ().find (
-              partName);
-
-        if (it != gGlobalLpsr2lilypondOahGroup->getPartNamesTranspositionMap ().end ()) {
-          // partName is present in the map,
-          // fetch the semitones pitch and octave
-          semiTonesPitchAndOctave =
-            (*it).second;
-          doTransposeCurrentPart = true;
+          fLilypondCodeStream <<
+            "% out of " <<
+            staffRegularVoicesCounter <<
+            " regular voices" <<
+            endl;
         }
       }
-    }
+    break;
 
-    // check by ID JMI
-    string partID =
-      part->getPartID ();
+    default:
+      ;
+  } // switch
 
-    if (gGlobalLpsr2lilypondOahGroup->getPartIDsTranspositionMap ().size ()) {
+  // fetch the part and part name
+  S_msrPart
+    part = staff-> getStaffPartUpLink ();
+  string partName =
+    part->getPartName ();
+
+  // should a transposition be generated?
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceTranspositions ()) {
+    gLogStream <<
+      endl <<
+      "Considering the generation a a voice transposition for part \"" <<
+      partName <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  // should we transpose fCurrentPart?
+  bool doTransposeCurrentPart = false;
+  S_msrSemiTonesPitchAndOctave
+    semiTonesPitchAndOctave;
+
+  if (partName.size ()) { // a part name is not mandatory in MusicXML
+    // check by name
+    if (gGlobalLpsr2lilypondOahGroup->getPartNamesTranspositionMap ().size ()) {
       map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
         it =
-          gGlobalLpsr2lilypondOahGroup->getPartIDsTranspositionMap ().find (
-            partID);
+          gGlobalLpsr2lilypondOahGroup->getPartNamesTranspositionMap ().find (
+            partName);
 
-      if (it != gGlobalLpsr2lilypondOahGroup->getPartIDsTranspositionMap ().end ()) {
-        // partID is present in the map,
+      if (it != gGlobalLpsr2lilypondOahGroup->getPartNamesTranspositionMap ().end ()) {
+        // partName is present in the map,
         // fetch the semitones pitch and octave
         semiTonesPitchAndOctave =
           (*it).second;
         doTransposeCurrentPart = true;
       }
     }
+  }
 
-    if (doTransposeCurrentPart) {
-      // generate the transposition
+  // check by ID JMI
+  string partID =
+    part->getPartID ();
+
+  if (gGlobalLpsr2lilypondOahGroup->getPartIDsTranspositionMap ().size ()) {
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
+      it =
+        gGlobalLpsr2lilypondOahGroup->getPartIDsTranspositionMap ().find (
+          partID);
+
+    if (it != gGlobalLpsr2lilypondOahGroup->getPartIDsTranspositionMap ().end ()) {
+      // partID is present in the map,
+      // fetch the semitones pitch and octave
+      semiTonesPitchAndOctave =
+        (*it).second;
+      doTransposeCurrentPart = true;
+    }
+  }
+
+  if (doTransposeCurrentPart) {
+    // generate the transposition
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceTranspositions ()) {
-        gLogStream <<
-          endl <<
-          "Generating a voice transposition for " <<
-          semiTonesPitchAndOctave->asString () <<
-          " in part \"" <<
-          partName <<
-          "\"" <<
-          ", part ID \"" <<
-          partID <<
-          "\"" <<
-          endl;
-      }
-#endif
-
-      // fetch the LilyPond pitch and octave
-      string
-        semiTonesPitchAndOctaveAsLilypondString =
-          msrSemiTonesPitchAndOctaveAsLilypondString (
-            gGlobalLpsrOahGroup->getLpsrQuarterTonesPitchesLanguageKind (),
-            semiTonesPitchAndOctave);
-
-      fLilypondCodeStream <<
-         "\\transposition " <<
-         semiTonesPitchAndOctaveAsLilypondString <<
-         endl <<
-         "\\transpose " <<
-         semiTonesPitchAndOctaveAsLilypondString << " " << "c'" <<
+    if (gGlobalTraceOahGroup->getTraceTranspositions ()) {
+      gLogStream <<
+        endl <<
+        "Generating a voice transposition for " <<
+        semiTonesPitchAndOctave->asString () <<
+        " in part \"" <<
+        partName <<
+        "\"" <<
+        ", part ID \"" <<
+        partID <<
+        "\"" <<
         endl;
     }
+#endif
 
-    // generate voice name
+    // fetch the LilyPond pitch and octave
+    string
+      semiTonesPitchAndOctaveAsLilypondString =
+        msrSemiTonesPitchAndOctaveAsLilypondString (
+          gGlobalLpsrOahGroup->getLpsrQuarterTonesPitchesLanguageKind (),
+          semiTonesPitchAndOctave);
+
     fLilypondCodeStream <<
-      "\\" << voice->getVoiceName () << endl;
-
-    --gIndenter;
-
-    fLilypondCodeStream <<
-      ">>" <<
+       "\\transposition " <<
+       semiTonesPitchAndOctaveAsLilypondString <<
+       endl <<
+       "\\transpose " <<
+       semiTonesPitchAndOctaveAsLilypondString << " " << "c'" <<
       endl;
- // } JMI
+  }
+
+  // generate voice name
+  fLilypondCodeStream <<
+    "\\" << voice->getVoiceName () << endl;
+
+  --gIndenter;
+
+  fLilypondCodeStream <<
+    ">>" <<
+    endl;
+// } JMI
 }
 
 void lpsr2lilypondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
@@ -9292,7 +9292,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasure& elt)
     } // switch
 
     if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
-      --gIndenter; // incremented in visitStart (S_msrMeasure& elt)
+ // JMI     --gIn denter; // incremented in visitStart (S_msrMeasure& elt)
 
       fLilypondCodeStream << left <<
         setw (commentFieldWidth) <<
@@ -9401,6 +9401,10 @@ void lpsr2lilypondTranslator::visitEnd (S_msrMeasure& elt)
   #endif
     }
  */
+  }
+
+  if (gGlobalLpsr2lilypondOahGroup->getLilypondComments ()) {
+    ++gIndenter; // incremented in visitStart (S_msrMeasure& elt)
   }
 }
 
@@ -16817,7 +16821,7 @@ void lpsr2lilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       break;
   } // switch
 
-  ++gIndenter;
+  ++gIndenter; // incremented in visitEnd (S_msrRepeatEnding&)
 
   // generate the repeat ending number if any
   string
@@ -16855,7 +16859,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
   }
 #endif
 
-  --gIndenter;
+  --gIndenter;  // incremented in visitStart (S_msrRepeatEnding&)
 
   // output the end of the ending
   fLilypondCodeStream << endl;
@@ -16907,7 +16911,7 @@ void lpsr2lilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       ==
     fRepeatDescrsStack.back ()->getRepeatEndingsNumber ()) {
 
-    --gIndenter; // JMI ???
+//    --gIn denter; // JMI ???
 
     // last repeat ending is in charge of
     // outputting the end of the alternative

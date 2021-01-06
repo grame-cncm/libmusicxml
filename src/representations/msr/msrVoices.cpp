@@ -174,9 +174,9 @@ string msrVoice::voiceFinalizationStatusKindAsString (
 
 S_msrPart msrVoice::fetchVoicePartUpLink () const
 {
- return
-  fVoiceStaffUpLink->
-    getStaffPartUpLink ();
+  return
+    fVoiceStaffUpLink->
+      getStaffPartUpLink ();
 }
 
 S_msrPartGroup msrVoice::fetchVoicePartGroupUpLink () const
@@ -9365,7 +9365,7 @@ void msrVoice::finalizeVoice (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceVoices ()) {
     gLogStream <<
-      "Finalizing voice \"" <<
+      "--> in voice \"" <<
       getVoiceName () <<
       "\"" <<
       ", fVoiceShortestNoteDuration: " << fVoiceShortestNoteDuration <<
@@ -9446,13 +9446,7 @@ void msrVoice::finalizeVoice (
   fVoiceHasBeenFinalized = true;
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVoices ()) {
-    gLogStream <<
-      "Finalizing voice \"" <<
-      getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-
+  if (gGlobalTraceOahGroup->getTraceVoicesDetails ()) {
     displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
       inputLineNumber,
       "finalizeVoice() 3");
@@ -9472,6 +9466,180 @@ void msrVoice::finalizeVoice (
       inputLineNumber);
   }
   */
+}
+
+void msrVoice::finalizeVoiceAndAllItsMeasures (
+  int inputLineNumber)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Finalizing voice \"" <<
+      getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+
+  if (gGlobalTraceOahGroup->getTraceVoicesDetails ()) {
+    displayVoice (
+      inputLineNumber,
+      "finalizeVoice() 1");
+  }
+#endif
+
+  if (fVoiceHasBeenFinalized) {
+    stringstream s;
+
+    s <<
+      "Attempting to finalize  voice \"" <<
+      asShortString () <<
+      "\" more than once";
+
+    msrInternalError (
+      gGlobalOahOahGroup->getInputSourceName (),
+      fInputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // set part shortest note duration if relevant
+  S_msrPart
+    voicePart =
+      fetchVoicePartUpLink ();
+
+  rational
+    partShortestNoteDuration =
+      voicePart->
+        getPartShortestNoteDuration ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "--> in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", fVoiceShortestNoteDuration: " << fVoiceShortestNoteDuration <<
+      ", partShortestNoteDuration: " << partShortestNoteDuration <<
+      endl;
+  }
+#endif
+
+  if (fVoiceShortestNoteDuration < partShortestNoteDuration) {
+    // set the voice part shortest note duration
+    voicePart->
+      setPartShortestNoteDuration (
+        fVoiceShortestNoteDuration);
+
+    // set the voice part shortest note tuplet factor // JMI
+    voicePart->
+      setPartShortestNoteTupletFactor (
+        fVoiceShortestNoteTupletFactor);
+  }
+
+  // is this voice totally empty? this should be rare...
+  if (
+    fInitialVoiceElementsList.size () == 0
+      &&
+    fVoiceLastSegment->getSegmentMeasuresList ().size () == 0
+  ) {
+    stringstream s;
+
+    s <<
+      "Voice \"" <<
+      getVoiceName () <<
+      "\" is totally empty, no contents ever specified for it" <<
+      endl;
+
+    msrMusicXMLWarning (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      s.str ());
+  }
+
+  // are there pending repeats in the voice repeats stack???
+  unsigned int voicePendingRepeatDescrsStackSize =
+    fVoicePendingRepeatDescrsStack.size ();
+
+  if (voicePendingRepeatDescrsStackSize) {
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceMeasures ()) {
+        displayVoiceRepeatsStackSummary (
+          inputLineNumber,
+          "finalizeVoice() 2");
+      }
+#endif
+
+    stringstream s;
+
+    s <<
+      singularOrPluralWithoutNumber (
+        voicePendingRepeatDescrsStackSize, "There is", "There are") <<
+      " " <<
+      voicePendingRepeatDescrsStackSize <<
+      " " <<
+      singularOrPluralWithoutNumber (
+        voicePendingRepeatDescrsStackSize, "repeat", "repeats") <<
+      " pending in the voice repeats stack in voice \"" <<
+      asShortString () <<
+      "\" ";
+
+    msrMusicXMLWarning (
+      gGlobalOahOahGroup->getInputSourceName (),
+      fInputLineNumber,
+      s.str ());
+  }
+
+  // collect the voice measures into the flat list
+  collectVoiceMeasuresIntoFlatList (
+    inputLineNumber);
+
+  fVoiceHasBeenFinalized = true;
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoicesDetails ()) {
+    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+      inputLineNumber,
+      "finalizeVoice() 3");
+  }
+#endif
+
+/* JMI
+  // finalize the harmony voice if any
+  if (fRegularVoiceHarmonyVoiceForwardLink) {
+    fRegularVoiceHarmonyVoiceForwardLink->finalizeVoice (
+      inputLineNumber);
+  }
+
+  // finalize the figured bass voice if any
+  if (fRegularVoiceFiguredBassVoiceForwardLink) {
+    fRegularVoiceFiguredBassVoiceForwardLink->finalizeVoice (
+      inputLineNumber);
+  }
+  */
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Finalizing all the measures of voice \"" <<
+      getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  for (
+    list<S_msrMeasure>::const_iterator i = fVoiceMeasuresFlatList.begin ();
+    i != fVoiceMeasuresFlatList.end ();
+    ++i
+  ) {
+    S_msrMeasure measure = (*i);
+
+    measure->
+      finalizeMeasure_BIS (
+        inputLineNumber,
+        msrMeasure::kMeasuresRepeatContextKindNone,
+        "finalizeVoiceAndAllItsMeasures()");
+  } // for
 }
 
 void msrVoice::acceptIn (basevisitor* v)
@@ -9957,7 +10125,7 @@ void msrVoice::print (ostream& os) const
       setw (fieldWidth) <<
       "voiceFirstNonGraceNote" << " : ";
     if (voiceFirstNonGraceNote) {
-      os << gTab <<
+      os <<
         voiceFirstNonGraceNote->asShortString ();
     }
     else {

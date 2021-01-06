@@ -21,6 +21,10 @@
 namespace MusicXML2
 {
 
+//_______________________________________________________________________________
+#define K_GENERATION_API_KIND_SHORT_NAME "api"
+#define K_GENERATION_API_KIND_LONG_NAME  "generation-api-kind"
+
 //______________________________________________________________________________
 class EXP msrPitchesLanguageAtom : public oahAtomWithValue
 {
@@ -71,8 +75,8 @@ class EXP msrPitchesLanguageAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -155,8 +159,8 @@ class EXP msrRenamePartAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 

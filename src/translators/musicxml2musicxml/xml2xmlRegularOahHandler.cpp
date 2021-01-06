@@ -128,6 +128,8 @@ void xml2xmlRegularOahHandler::createRegularHandlerGroups ()
 
   createWarningAndErrorsRegularGroup ();
 
+  createMsrGenerationAPIRegularGroup ();
+
   createInputRegularGroup ();
 
   createPresentationRegularGroup ();
@@ -341,6 +343,38 @@ void xml2xmlRegularOahHandler::createWarningAndErrorsRegularGroup ()
   registerAtomInRegularSubgroup ("quiet", subGroup);
   registerAtomInRegularSubgroup ("dont-show-errors", subGroup);
   registerAtomInRegularSubgroup ("dont-quit-on-errors", subGroup);
+}
+
+void xml2xmlRegularOahHandler::createMsrGenerationAPIRegularGroup ()
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "MSR generation API group",
+        "hmsrgen-group", "help-msr-generation-group",
+        "",
+        kElementVisibilityWhole);
+  appendGroupToRegulalHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "MSR generation",
+        "hmgapi", "help-msr-generation-api",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  registerAtomInRegularSubgroup ("regular", subGroup);
+  registerAtomInRegularSubgroup ("strings", subGroup);
 }
 
 void xml2xmlRegularOahHandler::createInputRegularGroup ()

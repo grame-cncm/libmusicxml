@@ -81,8 +81,8 @@ lilypondScoreOutputKindAtom::~lilypondScoreOutputKindAtom ()
 {}
 
 void lilypondScoreOutputKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // JMI ???
 
@@ -185,7 +185,7 @@ void lilypondScoreOutputKindAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsScoreOutputKindAtom:" <<
+    "lilypondScoreOutputKindAtom:" <<
     endl;
 
   ++gIndenter;
@@ -278,8 +278,8 @@ lilypondTransposePartNameAtom::~lilypondTransposePartNameAtom ()
 {}
 
 void lilypondTransposePartNameAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -630,8 +630,8 @@ lilypondTransposePartIDAtom::~lilypondTransposePartIDAtom ()
 {}
 
 void lilypondTransposePartIDAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1133,8 +1133,8 @@ lilypondRelativeOctaveEntryAtom::~lilypondRelativeOctaveEntryAtom ()
 {}
 
 void lilypondRelativeOctaveEntryAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1391,8 +1391,8 @@ lilypondFixedOctaveEntryAtom::~lilypondFixedOctaveEntryAtom ()
 {}
 
 void lilypondFixedOctaveEntryAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1601,8 +1601,8 @@ lilypondAccidentalStyleKindAtom::~lilypondAccidentalStyleKindAtom ()
 {}
 
 void lilypondAccidentalStyleKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1745,7 +1745,7 @@ void lilypondAccidentalStyleKindAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsAccidentalStyleKindAtom:" <<
+    "lilypondAccidentalStyleKindAtom:" <<
     endl;
 
   ++gIndenter;
@@ -1796,11 +1796,11 @@ ostream& operator<< (ostream& os, const S_lilypondAccidentalStyleKindAtom& elt)
 
 //______________________________________________________________________________
 S_lilypondChordsDisplayAtom lilypondChordsDisplayAtom::create (
-  string                shortName,
-  string                longName,
-  string                description,
-  string                valueSpecification,
-  string                variableName,
+  const string&         shortName,
+  const string&         longName,
+  const string&         description,
+  const string&         valueSpecification,
+  const string&         variableName,
   list<pair<string, string> >&
                         lilypondChordsDisplayVariable)
 {
@@ -1817,11 +1817,11 @@ S_lilypondChordsDisplayAtom lilypondChordsDisplayAtom::create (
 }
 
 lilypondChordsDisplayAtom::lilypondChordsDisplayAtom (
-  string                shortName,
-  string                longName,
-  string                description,
-  string                valueSpecification,
-  string                variableName,
+  const string&         shortName,
+  const string&         longName,
+  const string&         description,
+  const string&         valueSpecification,
+  const string&         variableName,
   list<pair<string, string> >&
                         lilypondChordsDisplayVariable)
   : oahAtomWithValue (
@@ -1838,8 +1838,8 @@ lilypondChordsDisplayAtom::~lilypondChordsDisplayAtom ()
 {}
 
 void lilypondChordsDisplayAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -2198,8 +2198,8 @@ lilypondLyricsDurationsKindAtom::~lilypondLyricsDurationsKindAtom ()
 {}
 
 void lilypondLyricsDurationsKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -2342,7 +2342,7 @@ void lilypondLyricsDurationsKindAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsLyricsDurationsKindAtom:" <<
+    "lilypondLyricsDurationsKindAtom:" <<
     endl;
 
   ++gIndenter;
@@ -6070,8 +6070,8 @@ lilypondBreakPageAfterMeasureNumberAtom::~lilypondBreakPageAfterMeasureNumberAto
 {}
 
 void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -6170,7 +6170,7 @@ void lilypondBreakPageAfterMeasureNumberAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsBreakPageAfterMeasureNumberAtom:" <<
+    "lilypondBreakPageAfterMeasureNumberAtom:" <<
     endl;
 
   ++gIndenter;

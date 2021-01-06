@@ -404,7 +404,7 @@ class EXP oahAtomWithValue : public oahAtomWithVariableName
                             // repors an error
 
     virtual void          applyAtomWithValue (
-                            string   theString,
+                            const string& theString,
                             ostream& os) = 0;
 
     virtual void          applyAtomWithValueDefaultValue (ostream& os);
@@ -1120,10 +1120,10 @@ class EXP oahHandler : public smartable
 
     // argc/argv handling
     void                  handleArgvOptionValueOrArgument (
-                            string theString);
+                            const string& theString);
 
     string                handleArgvOptionName (
-                            string theString);
+                            const string& optionName);
 
     void                  handleKnownArgvAtomUnderName (
                             S_oahAtom atom,
@@ -1143,7 +1143,7 @@ class EXP oahHandler : public smartable
                             size_t equalsSignPosition);
 
     void                  handleOptionNameCommon (
-                            string theString);
+                            const string& optionName);
 
     // options concistency
     void                  checkHandlerOwnOptionsConsistency ();

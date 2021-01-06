@@ -33,7 +33,7 @@ namespace MusicXML2
 
 //________________________________________________________________________
 bsr2bsrFinalizer::bsr2bsrFinalizer (
-  S_bsrOahGroup& bsrOpts,
+  const S_bsrOahGroup& bsrOpts,
   S_bsrScore     originalBsrScore)
 {
   fBsrOahGroup = bsrOpts;

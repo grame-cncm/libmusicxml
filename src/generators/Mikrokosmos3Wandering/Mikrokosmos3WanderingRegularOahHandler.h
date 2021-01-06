@@ -33,12 +33,12 @@ class EXP Mikrokosmos3WanderingRegularOahHandler : public oahRegularOahHandler
     // ------------------------------------------------------
 
     static SMARTP<Mikrokosmos3WanderingRegularOahHandler> create (
-      string            executableName,
-      string            executableAboutInformation,
-      string            handlerHeader,
+      string               executableName,
+      string               executableAboutInformation,
+      string               handlerHeader,
       S_Mikrokosmos3WanderingInsiderOahHandler
-                        insiderOahHandler,
-      generatedCodeKind theGeneratedCodeKind);
+                           insiderOahHandler,
+      mkkGenerateCodeKind theGenerateCodeKind);
 
   protected:
 
@@ -46,12 +46,12 @@ class EXP Mikrokosmos3WanderingRegularOahHandler : public oahRegularOahHandler
     // ------------------------------------------------------
 
     Mikrokosmos3WanderingRegularOahHandler (
-      string            executableName,
-      string            executableAboutInformation,
-      string            handlerHeader,
+      string               executableName,
+      string               executableAboutInformation,
+      string               handlerHeader,
       S_Mikrokosmos3WanderingInsiderOahHandler
-                        insiderOahHandler,
-      generatedCodeKind theGeneratedCodeKind);
+                           insiderOahHandler,
+      mkkGenerateCodeKind theGenerateCodeKind);
 
     virtual ~Mikrokosmos3WanderingRegularOahHandler ();
 
@@ -60,11 +60,11 @@ class EXP Mikrokosmos3WanderingRegularOahHandler : public oahRegularOahHandler
     // set and get
     // ------------------------------------------------------
 
-    // generated code kind
-    void                  setGeneratedCodeKind (generatedCodeKind value)
-                              { fGeneratedCodeKind = value; }
-    generatedCodeKind     getGeneratedCodeKind () const
-                              { return fGeneratedCodeKind; }
+    // generate code kind
+    void                  setGenerateCodeKind (mkkGenerateCodeKind value)
+                              { fGenerateCodeKind = value; }
+    mkkGenerateCodeKind  getGenerateCodeKind () const
+                              { return fGenerateCodeKind; }
 
   public:
 
@@ -119,13 +119,19 @@ class EXP Mikrokosmos3WanderingRegularOahHandler : public oahRegularOahHandler
 
     void                  createInformationsRegularGroup ();
 
+    void                  createAPIRegularGroup ();
+
+    void                  createGenerateCodeRegularGroup ();
+
+    void                  createOutputRegularGroup ();
+
+    void                  createGuidoRegularGroup ();
+
     void                  createFilesRegularGroup ();
 
     void                  createOahRegularGroup ();
 
     void                  createWarningAndErrorsRegularGroup ();
-
-    void                  createGeneratedCodeRegularGroup ();
 
     void                  createPresentationRegularGroup ();
 
@@ -166,15 +172,13 @@ class EXP Mikrokosmos3WanderingRegularOahHandler : public oahRegularOahHandler
     void                  createHarmoniesRegularGroup ();
     void                  createFiguredBassesRegularGroup ();
 
-    void                  createOutputRegularGroup ();
-
   private:
 
     // private fields
     // ------------------------------------------------------
 
-    // generated code kind
-    generatedCodeKind     fGeneratedCodeKind;
+    // generate code kind
+    mkkGenerateCodeKind     fGenerateCodeKind;
 };
 typedef SMARTP<Mikrokosmos3WanderingRegularOahHandler> S_Mikrokosmos3WanderingRegularOahHandler;
 EXP ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingRegularOahHandler& elt);

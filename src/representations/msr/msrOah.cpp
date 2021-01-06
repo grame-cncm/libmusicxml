@@ -79,8 +79,8 @@ msrPitchesLanguageAtom::~msrPitchesLanguageAtom ()
 {}
 
 void msrPitchesLanguageAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -318,8 +318,8 @@ msrRenamePartAtom::~msrRenamePartAtom ()
 {}
 
 void msrRenamePartAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

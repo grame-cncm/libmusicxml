@@ -81,8 +81,8 @@ msrDalSegnoAtom::~msrDalSegnoAtom ()
 {}
 
 void msrDalSegnoAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -374,8 +374,8 @@ msrReplaceClefAtom::~msrReplaceClefAtom ()
 {}
 
 void msrReplaceClefAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

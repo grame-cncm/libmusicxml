@@ -78,8 +78,8 @@ msr2lpsrScoreOutputKindAtom::~msr2lpsrScoreOutputKindAtom ()
 {}
 
 void msr2lpsrScoreOutputKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

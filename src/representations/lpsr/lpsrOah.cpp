@@ -80,8 +80,8 @@ lpsrPitchesLanguageAtom::~lpsrPitchesLanguageAtom ()
 {}
 
 void lpsrPitchesLanguageAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 
 #ifdef TRACING_IS_ENABLED
@@ -320,8 +320,8 @@ lpsrChordsLanguageAtom::~lpsrChordsLanguageAtom ()
 {}
 
 void lpsrChordsLanguageAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -554,8 +554,8 @@ lpsrTransposeAtom::~lpsrTransposeAtom ()
 {}
 
 void lpsrTransposeAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 
 #ifdef TRACING_IS_ENABLED
@@ -881,7 +881,7 @@ R"()",
 R"(Generate LilyPond comments containing paper variables
 that are not present in the MusicXML data nor specified in options.
 Default values are supplied.
-This helps the user adapting the generated code for their needs.)",
+This helps the user adapting the generate code for their needs.)",
         "allPaperVariables",
         fAllPaperVariables));
 
@@ -2047,8 +2047,8 @@ lpsrDalSegnoAtom::~lpsrDalSegnoAtom ()
 {}
 
 void lpsrDalSegnoAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -2344,8 +2344,8 @@ lpsrDalSegnoAlFineAtom::~lpsrDalSegnoAlFineAtom ()
 {}
 
 void lpsrDalSegnoAlFineAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -2641,8 +2641,8 @@ lpsrDalSegnoAlCodaAtom::~lpsrDalSegnoAlCodaAtom ()
 {}
 
 void lpsrDalSegnoAlCodaAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

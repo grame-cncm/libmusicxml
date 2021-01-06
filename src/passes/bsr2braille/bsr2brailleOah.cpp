@@ -37,11 +37,11 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_brailleOutputKindAtom brailleOutputKindAtom::create (
-  string                shortName,
-  string                longName,
-  string                description,
-  string                valueSpecification,
-  string                variableName,
+  const string&         shortName,
+  const string&         longName,
+  const string&         description,
+  const string&         valueSpecification,
+  const string&         variableName,
   bsrBrailleOutputKind& brailleOutputKindVariable)
 {
   brailleOutputKindAtom* o = new
@@ -57,11 +57,11 @@ S_brailleOutputKindAtom brailleOutputKindAtom::create (
 }
 
 brailleOutputKindAtom::brailleOutputKindAtom (
-  string                shortName,
-  string                longName,
-  string                description,
-  string                valueSpecification,
-  string                variableName,
+  const string&         shortName,
+  const string&         longName,
+  const string&         description,
+  const string&         valueSpecification,
+  const string&         variableName,
   bsrBrailleOutputKind& brailleOutputKindVariable)
   : oahAtomWithValue (
       shortName,
@@ -77,8 +77,8 @@ brailleOutputKindAtom::~brailleOutputKindAtom ()
 {}
 
 void brailleOutputKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // theString contains the output kind name:
   // is it in the  output kinds map?
@@ -215,7 +215,7 @@ void brailleOutputKindAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsUTFKindAtom:" <<
+    "brailleOutputKindAtom:" <<
     endl;
 
   ++gIndenter;
@@ -305,8 +305,8 @@ brailleUTFKindAtom::~brailleUTFKindAtom ()
 {}
 
 void brailleUTFKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -433,7 +433,7 @@ void brailleUTFKindAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsUTFKindAtom:" <<
+    "brailleUTFKindAtom:" <<
     endl;
 
   ++gIndenter;
@@ -523,8 +523,8 @@ brailleByteOrderingKindAtom::~brailleByteOrderingKindAtom ()
 {}
 
 void brailleByteOrderingKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -651,7 +651,7 @@ void brailleByteOrderingKindAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsByteOrderingKindAtom:" <<
+    "brailleByteOrderingKindAtom:" <<
     endl;
 
   ++gIndenter;

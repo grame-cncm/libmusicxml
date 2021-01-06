@@ -25,6 +25,7 @@
 #endif
 
 #include "oahOah.h"
+#include "generalOah.h"
 
 #include "musicxmlOah.h"
 #include "mxmlTreeOah.h"
@@ -154,31 +155,8 @@ static bool arguments2optionsVector (int argc, char *argv[], optionsVector& theO
 }
 
 //------------------------------------------------------------------------
-enum msrGenerationAPIKind {
-  kMsrRegularAPIKind,
-  kMsrStringsAPIKind
-};
-
-static string msrGenerationAPIKindAsString (
-  msrGenerationAPIKind generationKind)
-{
-  string result;
-
-  switch (generationKind) {
-    case kMsrRegularAPIKind:
-      result = "MSR regular API";
-      break;
-    case kMsrStringsAPIKind:
-      result = "MSR strings API";
-      break;
-  } // switch
-
-  return result;
-}
-
-//------------------------------------------------------------------------
 static S_msrScore createTheScore (
-  msrGenerationAPIKind generationKind)
+  msrGenerationAPIKind generationAPIKind)
 {
   // create the score
   S_msrScore
@@ -199,8 +177,9 @@ static S_msrScore createTheScore (
   identification->
     setWorkTitle (
       __LINE__,
-      "Mikrokosmos III Wandering - MSPL, " +
-        msrGenerationAPIKindAsString (generationKind));
+      "Mikrokosmos III Wandering - " +
+        msrGenerationAPIKindAsString (
+          generationAPIKind));
 
   return theMsrScore;
 }
@@ -369,6 +348,7 @@ static void populateUpperVoice1WithTheRegularAPI (
           0));             // dotsNumber
   }
 
+// return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -1747,8 +1727,8 @@ static void populateLowerVoice2WithTheStringsAPI (
 
 //------------------------------------------------------------------------
 static S_msrStaff createAndPopulateUpperStaffInPart (
-  S_msrPart          part,
-  msrGenerationAPIKind generationKind)
+  S_msrPart            part,
+  msrGenerationAPIKind generationAPIKind)
 {
   // create the upper staff
   S_msrStaff
@@ -1765,7 +1745,7 @@ static S_msrStaff createAndPopulateUpperStaffInPart (
        upperStaff);
 
   // populate its voice(s)
-  switch (generationKind) {
+  switch (generationAPIKind) {
     case kMsrRegularAPIKind:
       populateUpperVoice1WithTheRegularAPI (
         upperVoice1);
@@ -1782,8 +1762,8 @@ static S_msrStaff createAndPopulateUpperStaffInPart (
 
 //------------------------------------------------------------------------
 static S_msrStaff createAndPopulateLowerStaffInPart (
-  S_msrPart          part,
-  msrGenerationAPIKind generationKind)
+  S_msrPart            part,
+  msrGenerationAPIKind generationAPIKind)
 {
   // create the lower staff
   S_msrStaff
@@ -1810,7 +1790,7 @@ static S_msrStaff createAndPopulateLowerStaffInPart (
 
   // populate its voice(s)
   // populate its voice(s)
-  switch (generationKind) {
+  switch (generationAPIKind) {
     case kMsrRegularAPIKind:
       populateLowerVoice1WithTheRegularAPI (
         lowerVoice1);
@@ -1831,12 +1811,12 @@ static S_msrStaff createAndPopulateLowerStaffInPart (
 
 //------------------------------------------------------------------------
 static S_msrScore createAndPopulateTheScore (
-  msrGenerationAPIKind generationKind)
+  msrGenerationAPIKind generationAPIKind)
 {
   S_msrScore
     theMsrScore =
       createTheScore (
-        generationKind);
+        generationAPIKind);
 
   S_msrPart
     part =
@@ -1847,17 +1827,26 @@ static S_msrScore createAndPopulateTheScore (
     upperStaff =
       createAndPopulateUpperStaffInPart (
         part,
-        generationKind);
+        generationAPIKind);
 
+if (true) // QUIT
   S_msrStaff
     lowerStaff =
       createAndPopulateLowerStaffInPart (
         part,
-        generationKind);
+        generationAPIKind);
 
   // finalize the part
+
   part->
-    finalizePart (__LINE__); // JMI
+    finalizePartAndAllItsMeasures (
+      __LINE__);
+
+if (false) // QUIT
+  gLogStream <<
+    "___PART___" <<
+    part <<
+    endl;
 
   if (gGlobalMsrOahGroup->getDisplayMsr ()) {
     // print the score
@@ -1878,7 +1867,7 @@ static S_msrScore createAndPopulateTheScore (
 }
 
 //------------------------------------------------------------------------
-static void enforceSomeOptions (generatedCodeKind theGeneratedCodeKind)
+static void enforceSomeOptions (mkkGenerateCodeKind theGenerateCodeKind)
 {
   /*
     This is a way to enforce options 'permanently'
@@ -1910,16 +1899,16 @@ static void enforceSomeOptions (generatedCodeKind theGeneratedCodeKind)
   gGlobalMsrOahGroup->setTraceMsrDurations ();
 */
 
-  // generated code dependant specific options
+  // generate code dependant specific options
   // ------------------------------------------------------
 
-  switch (theGeneratedCodeKind) {
-    case k_NoGeneratedCode:
+  switch (theGenerateCodeKind) {
+    case k_NoGenerateCode:
       {
         stringstream s;
 
         s <<
-          "internal error, a generated code kind is needed";
+          "internal error, a generate code kind is needed";
 
         msgAssert (false, s.str ());
       }
@@ -1944,8 +1933,8 @@ static void enforceSomeOptions (generatedCodeKind theGeneratedCodeKind)
       // lpsr2lilypond
       // ------------------------------------------------------
 
-      gGlobalLpsr2lilypondOahGroup->setLilypondCompileDate (); // JMI NOT OK
 /*
+      gGlobalLpsr2lilypondOahGroup->setLilypondCompileDate (); // JMI NOT OK
       gGlobalLpsr2lilypondOahGroup->setInputLineNumbers ();
 */
       break;
@@ -1962,8 +1951,10 @@ static void enforceSomeOptions (generatedCodeKind theGeneratedCodeKind)
       // bsr2braille
       // ------------------------------------------------------
 
+/*
       gGlobalBsr2brailleOahGroup->
         setBrailleOutputKind (kBrailleOutputUTF8Debug);
+*/
       break;
 
     case kMusicXML:
@@ -1987,7 +1978,7 @@ int main (int argc, char * argv[])
   // setup signals catching
   // ------------------------------------------------------
 
-//	catchSignals ();
+	catchSignals ();
 
   // the executable name
   // ------------------------------------------------------
@@ -2059,13 +2050,19 @@ int main (int argc, char * argv[])
 #endif
 #endif
 
-  // fetch the generated code kind from theOptionsVector,
-  // because the OAH handler should only use
-  // the OAH groups needed for it
+  // the about information
   // ------------------------------------------------------
 
-  generatedCodeKind
-    theGeneratedCodeKind = k_NoGeneratedCode;
+  string
+    aboutInformation =
+      Mikrokosmos3WanderingAboutInformation ();
+
+  // fetch the generate code kind from theOptionsVector,
+  // since the OAH handler should only use the OAH groups needed for it
+  // ------------------------------------------------------
+
+  mkkGenerateCodeKind
+    theGenerateCodeKind = k_NoGenerateCode;
 
   for (unsigned int i = 0; i < theOptionsVector.size (); ++i) {
     string optionName  = theOptionsVector [i].first;
@@ -2078,26 +2075,19 @@ int main (int argc, char * argv[])
         ||
       optionNameWithoutDash == K_GENERATED_CODE_KIND_LONG_NAME
     ) {
-      theGeneratedCodeKind =
-        generatedCodeKindFromString (optionValue);
+      theGenerateCodeKind =
+        mkkGenerateCodeKindFromString (optionValue);
     }
   } //for
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   cerr <<
-    "==> generatedCodeKind: " <<
-    generatedCodeKindAsString (theGeneratedCodeKind) <<
+    "==> generateCodeKind: " <<
+    mkkGenerateCodeKindAsString (theGenerateCodeKind) <<
     endl;
 #endif
 #endif
-
-  // the about information
-  // ------------------------------------------------------
-
-  string
-    aboutInformation =
-      Mikrokosmos3WanderingAboutInformation ();
 
   // the oahHandler, set below
   // ------------------------------------------------------
@@ -2114,7 +2104,7 @@ int main (int argc, char * argv[])
           executableName,
           aboutInformation,
           executableName + " insider OAH handler with argc/argv",
-          theGeneratedCodeKind);
+          theGenerateCodeKind);
 
     // the OAH handler to be used, a regular handler is the default
     // ------------------------------------------------------
@@ -2131,7 +2121,7 @@ int main (int argc, char * argv[])
           aboutInformation,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler,
-          theGeneratedCodeKind);
+          theGenerateCodeKind);
     }
 
     // handle the command line options and arguments
@@ -2179,36 +2169,85 @@ int main (int argc, char * argv[])
   // let's go ahead
   // ------------------------------------------------------
 
-  // create and populate the theMsrScore
+/* JMI
+  // fetch the generation API kind from theOptionsVector,
   // ------------------------------------------------------
 
   msrGenerationAPIKind
-    generationKind = // JMI option???
-     kMsrRegularAPIKind;
-   // kMsrStringsAPIKind;
+    theGenerationAPIKind = kMsrRegularAPIKind; // default value
+
+  for (unsigned int i = 0; i < theOptionsVector.size (); ++i) {
+    string optionName  = theOptionsVector [i].first;
+    string optionValue = theOptionsVector [i].second;
+
+    string optionNameWithoutDash = optionName.substr (1);
+
+    if (
+      optionNameWithoutDash == K_GENERATED_CODE_KIND_SHORT_NAME
+        ||
+      optionNameWithoutDash == K_GENERATED_CODE_KIND_LONG_NAME
+    ) {
+      theGenerationAPIKind =
+        mkkGenerateCodeKindFromString (optionValue);
+    }
+  } //for
+*/
+
+  // get the generation API kind from the options
+  // ------------------------------------------------------
+
+  msrGenerationAPIKind
+    theGenerationAPIKind =
+      gGlobalMikrokosmos3WanderingOahGroup->
+        getGenerationAPIKind ();
+
+#ifdef TRACING_IS_ENABLED
+#ifdef ENFORCE_TRACE_OAH
+  cerr <<
+    "==> generationAPIKind: " <<
+    msrGenerationAPIKindAsString (theGenerationAPIKind) <<
+    endl;
+#endif
+#endif
+
+  // create and populate the theMsrScore
+  // ------------------------------------------------------
+
+  // start the clock
+  clock_t startClock = clock ();
 
   S_msrScore
     theMsrScore =
       createAndPopulateTheScore (
-        generationKind);
+        theGenerationAPIKind);
+
+  // register time spent
+  clock_t endClock = clock ();
+
+  timing::gGlobalTiming.appendTimingItem (
+    "Pass 1",
+    "Create the MSR score",
+    timingItem::kMandatory,
+    startClock,
+    endClock);
 
   // set the desired options
   // ------------------------------------------------------
 
-  enforceSomeOptions (theGeneratedCodeKind);
+  enforceSomeOptions (theGenerateCodeKind);
 
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
 
   cerr <<
     "Converting the MSR theMsrScore to " <<
-    generatedCodeKindAsString (theGeneratedCodeKind) <<
+    mkkGenerateCodeKindAsString (theGenerateCodeKind) <<
     endl;
 
   xmlErr err = kNoErr;
 
-  switch (theGeneratedCodeKind) {
-    case k_NoGeneratedCode:
+  switch (theGenerateCodeKind) {
+    case k_NoGenerateCode:
       // should not occur
       break;
 
@@ -2265,13 +2304,51 @@ int main (int argc, char * argv[])
   if (err != 0) {
     cerr <<
       executableName << ", " <<
-      generatedCodeKindAsString (theGeneratedCodeKind) <<
+      mkkGenerateCodeKindAsString (theGenerateCodeKind) <<
       ", err = " <<
       err <<
       endl;
   }
 #endif
 #endif
+
+  // display the input line numbers for which messages have been issued
+  // ------------------------------------------------------
+
+  displayWarningsAndErrorsInputLineNumbers ();
+
+  // print timing information
+  // ------------------------------------------------------
+
+  if (gGlobalGeneralOahGroup->getDisplayCPUusage ())
+    timing::gGlobalTiming.print (gLogStream);
+
+  // check indentation
+  // ------------------------------------------------------
+
+  if (gIndenter != 0) {
+    gLogStream <<
+      "### " << executableName << " gIndenter final value: " <<
+      gIndenter.getIndent () <<
+      " ###" <<
+      endl;
+
+    gIndenter.resetToZero ();
+  }
+
+  // over!
+  // ------------------------------------------------------
+
+  if (err != kNoErr) {
+    gLogStream <<
+      "### The generation of " <<
+      mkkGenerateCodeKindAsString (theGenerateCodeKind) <<
+      " thru the " <<
+      msrGenerationAPIKindAsString (
+        theGenerationAPIKind) <<
+      " output failed ###" <<
+      endl;
+  }
 
   switch (err) {
     case kNoErr:

@@ -67,8 +67,8 @@ class EXP lilypondScoreOutputKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -164,8 +164,8 @@ class EXP lilypondTransposePartNameAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -264,8 +264,8 @@ class EXP lilypondTransposePartIDAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -424,8 +424,8 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -515,8 +515,8 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -605,8 +605,8 @@ class EXP lilypondAccidentalStyleKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -652,11 +652,11 @@ class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     static SMARTP<lilypondChordsDisplayAtom> create (
-      string                shortName,
-      string                longName,
-      string                description,
-      string                valueSpecification,
-      string                variableName,
+      const string&         shortName,
+      const string&         longName,
+      const string&         description,
+      const string&         valueSpecification,
+      const string&         variableName,
       list<pair<string, string> >&
                             lilypondChordsDisplayVariable);
 
@@ -666,11 +666,11 @@ class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     lilypondChordsDisplayAtom (
-      string                shortName,
-      string                longName,
-      string                description,
-      string                valueSpecification,
-      string                variableName,
+      const string&         shortName,
+      const string&         longName,
+      const string&         description,
+      const string&         valueSpecification,
+      const string&         variableName,
       list<pair<string, string> >&
                             lilypondChordsDisplayVariable);
 
@@ -697,8 +697,8 @@ class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string  theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -785,8 +785,8 @@ class EXP lilypondLyricsDurationsKindAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
   public:
 
@@ -1914,8 +1914,8 @@ class EXP lilypondBreakPageAfterMeasureNumberAtom : public oahAtomWithValue
     // ------------------------------------------------------
 
     void                  applyAtomWithValue (
-                            string   theString,
-                            ostream& os) override;
+                            const string& theString,
+                            ostream&      os) override;
 
     // print
     // ------------------------------------------------------

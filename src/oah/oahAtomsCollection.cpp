@@ -2992,8 +2992,8 @@ oahIntegerAtom::~oahIntegerAtom ()
 {}
 
 void oahIntegerAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // theString contains the integer value
 
@@ -3242,8 +3242,8 @@ oahTwoIntegersAtom::~oahTwoIntegersAtom ()
 {}
 
 void oahTwoIntegersAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // theString contains the two integer values
 
@@ -3515,8 +3515,8 @@ oahFloatAtom::~oahFloatAtom ()
 {}
 
 void oahFloatAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // theString contains the float value
 
@@ -3764,8 +3764,8 @@ oahStringAtom::~oahStringAtom ()
 {}
 
 void oahStringAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   setStringVariable (theString);
 }
@@ -4358,8 +4358,8 @@ oahStringWithDefaultValueAtom::~oahStringWithDefaultValueAtom ()
 {}
 
 void oahStringWithDefaultValueAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -4572,8 +4572,8 @@ oahRationalAtom::~oahRationalAtom ()
 {}
 
 void oahRationalAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // theString contains the fraction:
   // decipher it to extract numerator and denominator values
@@ -4822,8 +4822,8 @@ oahNaturalNumbersSetAtom::~oahNaturalNumbersSetAtom ()
 {}
 
 void oahNaturalNumbersSetAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   fNaturalNumbersSetVariable =
     decipherNaturalNumbersSetSpecification (
@@ -5081,8 +5081,8 @@ oahRGBColorAtom::~oahRGBColorAtom ()
 {}
 
 void oahRGBColorAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   msrRGBColor theRGBColor (theString);
 
@@ -5267,8 +5267,8 @@ oahIntSetAtom::~oahIntSetAtom ()
 {}
 
 void oahIntSetAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // theString contains the bar number specification
   // decipher it to extract duration and perSecond values
@@ -5583,8 +5583,8 @@ oahStringSetAtom::~oahStringSetAtom ()
 {}
 
 void oahStringSetAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -5866,8 +5866,8 @@ oahStringToIntMapAtom::~oahStringToIntMapAtom ()
 {}
 
 void oahStringToIntMapAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -6080,7 +6080,7 @@ void oahStringToIntMapAtom::print (ostream& os) const
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "OptionsResetMeasureElementMeasureNumberAtom:" <<
+    "StringToIntMapAtom:" <<
     endl;
 
   ++gIndenter;
@@ -6217,8 +6217,8 @@ oahStringAndIntegerAtom::~oahStringAndIntegerAtom ()
 {}
 
 void oahStringAndIntegerAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // theString contains the string and integer values
 
@@ -6524,8 +6524,8 @@ oahStringAndTwoIntegersAtom::~oahStringAndTwoIntegersAtom ()
 {}
 
 void oahStringAndTwoIntegersAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
   // theString contains the string and integer values
 
@@ -6850,8 +6850,8 @@ oahLengthUnitKindAtom::~oahLengthUnitKindAtom ()
 {}
 
 void oahLengthUnitKindAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -7081,8 +7081,8 @@ oahLengthAtom::~oahLengthAtom ()
 {}
 
 void oahLengthAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -7367,8 +7367,8 @@ oahMidiTempoAtom::~oahMidiTempoAtom ()
 {}
 
 void oahMidiTempoAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -7661,8 +7661,8 @@ void oahOptionNameHelpAtom::applyAtomWithValueDefaultValue (ostream& os)
 }
 
 void oahOptionNameHelpAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -7840,8 +7840,8 @@ oahAProposOptionNameAtom::~oahAProposOptionNameAtom ()
 {}
 
 void oahAProposOptionNameAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -8019,8 +8019,8 @@ oahFindStringAtom::~oahFindStringAtom ()
 {}
 
 void oahFindStringAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

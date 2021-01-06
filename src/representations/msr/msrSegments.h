@@ -410,6 +410,9 @@ class EXP msrSegment : public msrVoiceElement
                             int    inputLineNumber,
                             string context);
 
+    void                  finalizeAllTheMeasuresOfSegment (
+                            int inputLineNumber);
+
   public:
 
     // visitors

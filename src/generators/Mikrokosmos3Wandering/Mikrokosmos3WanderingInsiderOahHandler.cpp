@@ -19,8 +19,6 @@
   #include "traceOah.h"
 #endif
 
-#include "msr.h"
-
 #include "oahOah.h"
 
 #include "generalOah.h"
@@ -94,10 +92,10 @@ R"(What Mikrokosmos3Wandering does:
 
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingInsiderOahHandler Mikrokosmos3WanderingInsiderOahHandler::create (
-  string            executableName,
-  string            executableAboutInformation,
-  string            handlerHeader,
-  generatedCodeKind theGeneratedCodeKind)
+  const string&        executableName,
+  const string&        executableAboutInformation,
+  const string&        handlerHeader,
+  mkkGenerateCodeKind generateCodeKind)
 {
   // create the insider handler
   Mikrokosmos3WanderingInsiderOahHandler* o = new
@@ -105,17 +103,17 @@ S_Mikrokosmos3WanderingInsiderOahHandler Mikrokosmos3WanderingInsiderOahHandler:
       executableName,
       executableAboutInformation,
       handlerHeader,
-      theGeneratedCodeKind);
+      generateCodeKind);
   assert (o!=0);
 
   return o;
 }
 
 Mikrokosmos3WanderingInsiderOahHandler::Mikrokosmos3WanderingInsiderOahHandler (
-  string            executableName,
-  string            executableAboutInformation,
-  string            handlerHeader,
-  generatedCodeKind theGeneratedCodeKind)
+  const string&        executableName,
+  const string&        executableAboutInformation,
+  const string&        handlerHeader,
+  mkkGenerateCodeKind generateCodeKind)
   : oahHandler (
       executableName,
       executableAboutInformation,
@@ -139,13 +137,13 @@ Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
 #endif
 #endif
 
-  fGeneratedCodeKind = theGeneratedCodeKind;
-
   // create the Mikrokosmos3Wandering prefixes
   createTheMikrokosmos3WanderingPrefixes ();
 
   // create the Mikrokosmos3Wandering option groups
-  createTheMikrokosmos3WanderingOptionGroups (executableName);
+  createTheMikrokosmos3WanderingOptionGroups (
+    executableName,
+    generateCodeKind);
 }
 
 Mikrokosmos3WanderingInsiderOahHandler::~Mikrokosmos3WanderingInsiderOahHandler ()
@@ -169,7 +167,8 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingPrefi
 
 //______________________________________________________________________________
 void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptionGroups (
-  string executableName)
+  const string&        executableName,
+  mkkGenerateCodeKind generateCodeKind)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -218,7 +217,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
   appendGroupToHandler (
     createGlobalMsrOahGroup ());
 
-  // create the groups needed according to the generated code kind
+  // create the groups needed according to the generate code kind
   /*
     CAUTION:
       some option names are identical in OAH groups
@@ -226,8 +225,8 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       such as gGlobalMsr2msrOahGroup and gGlobalMsr2lpsrOahGroup
   */
 
-  switch (fGeneratedCodeKind) {
-    case k_NoGeneratedCode:
+  switch (generateCodeKind) {
+    case k_NoGenerateCode:
       // should not occur, unless the run is a pure help one
       break;
 
@@ -679,6 +678,10 @@ Mikrokosmos3WanderingInsiderOahGroup::Mikrokosmos3WanderingInsiderOahGroup ()
 R"(Options that are used by Mikrokosmos3Wandering are grouped here.)",
     kElementVisibilityWhole)
 {
+  fGenerationAPIKind = kMsrRegularAPIKind; // default value
+
+  fGenerateCodeKind = k_NoGenerateCode;
+
   initializeMikrokosmos3WanderingInsiderOahGroup ();
 }
 
@@ -686,7 +689,7 @@ Mikrokosmos3WanderingInsiderOahGroup::~Mikrokosmos3WanderingInsiderOahGroup ()
 {}
 
 //_______________________________________________________________________________
-void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInsiderOahGroup () // JMI REMOVE ???
+void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInsiderOahGroup ()
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -709,13 +712,12 @@ void Mikrokosmos3WanderingInsiderOahGroup::initializeMikrokosmos3WanderingInside
 //  createInsiderQuitSubGroup ();
 }
 
-//_______________________________________________________________________________
 void Mikrokosmos3WanderingInsiderOahGroup::createInsiderGuidoSubGroup ()
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   gLogStream << left <<
-    "Creating insider output subgroup in \"" <<
+    "Creating insider Guido subgroup in \"" <<
     fGroupHeader <<
     "\"" <<
     endl;
@@ -739,7 +741,7 @@ R"()",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "generate-comments", "",
-  R"(Generate comments in the Guido output.)",
+R"(Generate comments in the Guido output.)",
         "generateComments",
         fGenerateComments));
 
@@ -749,7 +751,7 @@ R"()",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "generate-stem", "",
-  R"(Generate stem in the Guido output.)",
+R"(Generate stem in the Guido output.)",
         "generateStem",
         fGenerateStem));
 
@@ -759,7 +761,7 @@ R"()",
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "generate-bars", "",
-  R"(Generate barlines in the Guido output.)",
+R"(Generate barlines in the Guido output.)",
         "generateBars",
         fGenerateBars));
 }
@@ -832,19 +834,36 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
 
   ++gIndenter;
 
-  // generated code kind
+  // generation API kind
   // --------------------------------------
 
   gLogStream << left <<
-    setw (fieldWidth) << "Code kind:" <<
+    setw (fieldWidth) << "Generation API kind:" <<
     endl;
 
   ++gIndenter;
 
   gLogStream << left <<
     setw (fieldWidth) <<
-    "generatedCodeKind" << " : " <<
-    generatedCodeKindAsString (fGeneratedCodeKind) <<
+    "msrGenerationAPIKind" << " : " <<
+    msrGenerationAPIKindAsString (fGenerationAPIKind) <<
+    endl;
+
+  --gIndenter;
+
+  // generate code kind
+  // --------------------------------------
+
+  gLogStream << left <<
+    setw (fieldWidth) << "Generated code kind:" <<
+    endl;
+
+  ++gIndenter;
+
+  gLogStream << left <<
+    setw (fieldWidth) <<
+    "mkkGenerateCodeKind" << " : " <<
+    mkkGenerateCodeKindAsString (fGenerateCodeKind) <<
     endl;
 
   --gIndenter;

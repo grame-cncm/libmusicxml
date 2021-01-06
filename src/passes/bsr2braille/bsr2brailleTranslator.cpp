@@ -33,7 +33,7 @@ namespace MusicXML2
 //________________________________________________________________________
 bsr2brailleTranslator::bsr2brailleTranslator (
   S_bsrScore     bsrScore,
-  S_bsrOahGroup& bsrOpts,
+  const S_bsrOahGroup& bsrOpts,
   ostream&       brailleOutputStream)
   : fBrailleOutputStream (
       brailleOutputStream)

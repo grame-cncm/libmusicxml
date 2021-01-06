@@ -546,7 +546,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createSemiTonesPitchAnd
 
 S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
   int    inputLineNumber,
-  string theString)
+  const string& theString)
 {
   S_msrSemiTonesPitchAndOctave result;
 
@@ -818,7 +818,7 @@ S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createQuarterTone
 
 S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::createFromString (
   int    inputLineNumber,
-  string theString)
+  const string& theString)
 {
   S_msrQuarterTonesPitchAndOctave result;
 
@@ -11203,7 +11203,7 @@ string msrHarmonyKindShortName (
 }
 
 msrHarmonyKind msrHarmonyKindFromString (
-  string theString)
+  const string& theString)
 {
   msrHarmonyKind result = k_NoHarmony;
 
@@ -14866,7 +14866,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromString (
 }
 
 msrSemiTonesPitchKind semiTonesPitchKindFromString (
-  string theString)
+  const string& theString)
 {
   msrSemiTonesPitchKind result;
 
@@ -21874,7 +21874,7 @@ msrRGBColor::msrRGBColor (
 }
 
 msrRGBColor::msrRGBColor (
-  std::string theString)
+  const string& theString)
 {
   string regularExpression (
     "([[:digit:]]*.[[:digit:]]*)" // RString

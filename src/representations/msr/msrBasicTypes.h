@@ -265,7 +265,7 @@ EXP msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
 EXP msrSemiTonesPitchKind semiTonesPitchKindFromString (
-  string theString);
+  const string& theString);
 
 // alterations preferences
 //______________________________________________________________________________
@@ -571,7 +571,7 @@ string msrHarmonyKindShortName (
   msrHarmonyKind harmonyKind);
 
 EXP msrHarmonyKind msrHarmonyKindFromString (
-  string theString);
+  const string& theString);
 
 string existingHarmonyKinds (unsigned int namesListMaxLength);
 string existingHarmonyKindsNames (unsigned int namesListMaxLength);
@@ -801,7 +801,7 @@ class EXP msrSemiTonesPitchAndOctave : public smartable
 
     static SMARTP<msrSemiTonesPitchAndOctave> createFromString (
       int    inputLineNumber,
-      string theString);
+      const string& theString);
 
   protected:
 
@@ -877,7 +877,7 @@ class EXP msrQuarterTonesPitchAndOctave : public smartable
 
     static SMARTP<msrQuarterTonesPitchAndOctave> createFromString (
       int    inputLineNumber,
-      string theString);
+      const string& theString);
 
   protected:
 
@@ -1997,7 +1997,8 @@ void printHarmonyAnalysis (
 
 // RGB colors
 //______________________________________________________________________________
-class EXP msrRGBColor {
+class EXP msrRGBColor
+{
   public:
 
     // constructors/destructor
@@ -2011,7 +2012,7 @@ class EXP msrRGBColor {
       float theB);
 
     msrRGBColor (
-      string theString);
+      const string& theString);
 
     // set and get
     // ------------------------------------------------------

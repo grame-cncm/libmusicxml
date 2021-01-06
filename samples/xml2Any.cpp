@@ -145,16 +145,16 @@ static bool arguments2optionsVector (int argc, char *argv[], optionsVector& theO
 }
 
 //_______________________________________________________________________________
-static generatedCodeKind gGeneratedCodeKind = k_NoGeneratedCode;
+static mkkGenerateCodeKind gGenerateCodeKind = k_NoGenerateCode;
 
-void registerGeneratedCodeKind (generatedCodeKind kind)
+void registerGenerateCodeKind (mkkGenerateCodeKind kind)
 {
-  if (gGeneratedCodeKind != k_NoGeneratedCode) {
+  if (gGenerateCodeKind != k_NoGenerateCode) {
     cerr << "only one of '-lilypond', '-braille' and '-musicxml' can be used" << endl;
     exit (2);
   }
   else {
-    gGeneratedCodeKind = kind;
+    gGenerateCodeKind = kind;
   }
 }
 
@@ -211,23 +211,23 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-  // take generatedCodeKind options into account if any
+  // take mkkGenerateCodeKind options into account if any
   // ------------------------------------------------------
 
 	optionsVector keptOptions;
 
 	for (auto option: theOptionsVector) {
 	  if (option.first      == "-guido") {
-	    registerGeneratedCodeKind (kGuido);
+	    registerGenerateCodeKind (kGuido);
 	  }
 	  else if (option.first == "-lilypond") {
-	    registerGeneratedCodeKind (kLilyPond);
+	    registerGenerateCodeKind (kLilyPond);
 	  }
 	  else if (option.first == "-braille") {
-	    registerGeneratedCodeKind (kBrailleMusic);
+	    registerGenerateCodeKind (kBrailleMusic);
 	  }
 	  else if (option.first == "-musicxml") {
-	    registerGeneratedCodeKind (kMusicXML);
+	    registerGenerateCodeKind (kMusicXML);
 	  }
 	  else {
 	    keptOptions.push_back (option);
@@ -241,15 +241,15 @@ int main (int argc, char *argv[])
 #endif
 
   // the default is '-lilypond'
-  if (gGeneratedCodeKind == k_NoGeneratedCode) {
-    gGeneratedCodeKind = kLilyPond;
+  if (gGenerateCodeKind == k_NoGenerateCode) {
+    gGenerateCodeKind = kLilyPond;
   }
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   cerr <<
-    "==> generatedCodeKind: " <<
-    generatedCodeKindAsString (gGeneratedCodeKind) <<
+    "==> mkkGenerateCodeKind: " <<
+    mkkGenerateCodeKindAsString (gGenerateCodeKind) <<
     endl;
 #endif
 #endif
@@ -268,8 +268,8 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-    switch (gGeneratedCodeKind) {
-      case k_NoGeneratedCode:
+    switch (gGenerateCodeKind) {
+      case k_NoGenerateCode:
         // should not occur
         break;
       case kGuido:
@@ -300,7 +300,7 @@ int main (int argc, char *argv[])
       cerr <<
         executableName <<
         ", " <<
-        generatedCodeKindAsString (gGeneratedCodeKind) <<
+        mkkGenerateCodeKindAsString (gGenerateCodeKind) <<
         ", from stdin, err = " <<
         err <<
         endl;
@@ -317,8 +317,8 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-    switch (gGeneratedCodeKind) {
-      case k_NoGeneratedCode:
+    switch (gGenerateCodeKind) {
+      case k_NoGenerateCode:
         // should not occur
         break;
       case kGuido:
@@ -349,7 +349,7 @@ int main (int argc, char *argv[])
       cerr <<
         executableName <<
         ", " <<
-        generatedCodeKindAsString (gGeneratedCodeKind) <<
+        mkkGenerateCodeKindAsString (gGenerateCodeKind) <<
         ", from a file \"" << inputFileName << "\", err = " <<
         err <<
         endl;

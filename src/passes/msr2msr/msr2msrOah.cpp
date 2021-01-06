@@ -80,8 +80,8 @@ msrOmitPartAtom::~msrOmitPartAtom ()
 {}
 
 void msrOmitPartAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -366,8 +366,8 @@ msrKeepPartAtom::~msrKeepPartAtom ()
 {}
 
 void msrKeepPartAtom::applyAtomWithValue (
-  string   theString,
-  ostream& os)
+  const string& theString,
+  ostream&      os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

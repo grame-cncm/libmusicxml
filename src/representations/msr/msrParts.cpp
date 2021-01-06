@@ -2256,6 +2256,42 @@ void msrPart::finalizePartClone (
   setPartInstrumentNamesMaxLengthes ();
 }
 
+void msrPart::finalizePartAndAllItsMeasures (
+  int inputLineNumber)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceParts ()) {
+    gLogStream <<
+      "Finalizing part clone " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Finalizing all the measures of part \"" <<
+      getPartCombinedName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  for (
+    list<S_msrVoice>::const_iterator i = fPartAllVoicesList.begin ();
+    i != fPartAllVoicesList.end ();
+    ++i
+  ) {
+    S_msrVoice voice = (*i);
+
+    voice->
+      finalizeVoiceAndAllItsMeasures (
+        inputLineNumber);
+  } // for
+}
+
 void msrPart::acceptIn (basevisitor* v)
 {
   if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {

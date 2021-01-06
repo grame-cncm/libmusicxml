@@ -31,14 +31,15 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-string generatedCodeKindAsString (generatedCodeKind kind)
+string mkkGenerateCodeKindAsString (
+  mkkGenerateCodeKind generateCodeKind)
 {
   // no CamelCase here, these strings are used in the command line options
   string result;
 
-  switch (kind) {
-    case k_NoGeneratedCode:
-      result = "*noGeneratedCode*";
+  switch (generateCodeKind) {
+    case k_NoGenerateCode:
+      result = "*noGenerateCode*";
       break;
     case kGuido:
       result = "guido";
@@ -57,9 +58,10 @@ string generatedCodeKindAsString (generatedCodeKind kind)
   return result;
 }
 
-EXP generatedCodeKind generatedCodeKindFromString (string theString)
+EXP mkkGenerateCodeKind mkkGenerateCodeKindFromString (
+  const string& theString)
 {
-  generatedCodeKind result = k_NoGeneratedCode;
+  mkkGenerateCodeKind result = k_NoGenerateCode;
 
   if      (theString == "guido") {
     result = kGuido;
@@ -79,7 +81,7 @@ EXP generatedCodeKind generatedCodeKindFromString (string theString)
     s <<
       "the string \"" <<
       theString <<
-      "\" is no valid generated code kind";
+      "\" is no valid generate code kind";
 
     msgAssert (false, s.str ());
   }
@@ -87,23 +89,24 @@ EXP generatedCodeKind generatedCodeKindFromString (string theString)
   return result;
 }
 
-map<string, generatedCodeKind>
-  gGlobalGeneratedCodeKindsMap;
+map<string, mkkGenerateCodeKind>
+  gGlobalGenerateCodeKindsMap;
 
-void initializeGeneratedCodeKindsMap ()
+void initializeGenerateCodeKindsMap ()
 {
-  gGlobalGeneratedCodeKindsMap ["guido"]    = kGuido;
-  gGlobalGeneratedCodeKindsMap ["lilypond"] = kLilyPond;     // default
-  gGlobalGeneratedCodeKindsMap ["braille"]  = kBrailleMusic;
-  gGlobalGeneratedCodeKindsMap ["musicxml"] = kMusicXML;
+  gGlobalGenerateCodeKindsMap ["guido"]    = kGuido;
+  gGlobalGenerateCodeKindsMap ["lilypond"] = kLilyPond;
+  gGlobalGenerateCodeKindsMap ["braille"]  = kBrailleMusic;
+  gGlobalGenerateCodeKindsMap ["musicxml"] = kMusicXML;
 }
 
-string existingGeneratedCodeKinds (unsigned int namesListMaxLength)
+string existingGenerateCodeKinds (
+  unsigned int namesListMaxLength)
 {
   stringstream s;
 
   unsigned int brailleOutputKindsMapSize =
-    gGlobalGeneratedCodeKindsMap.size ();
+    gGlobalGenerateCodeKindsMap.size ();
 
   if (brailleOutputKindsMapSize) {
     unsigned int nextToLast =
@@ -113,9 +116,9 @@ string existingGeneratedCodeKinds (unsigned int namesListMaxLength)
     unsigned int cumulatedLength = 0;
 
     for (
-      map<string, generatedCodeKind>::const_iterator i =
-        gGlobalGeneratedCodeKindsMap.begin ();
-      i != gGlobalGeneratedCodeKindsMap.end ();
+      map<string, mkkGenerateCodeKind>::const_iterator i =
+        gGlobalGenerateCodeKindsMap.begin ();
+      i != gGlobalGenerateCodeKindsMap.end ();
       ++i
     ) {
       string theString = (*i).first;
