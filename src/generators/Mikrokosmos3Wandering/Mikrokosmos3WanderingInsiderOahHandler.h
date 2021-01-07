@@ -40,7 +40,7 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
       const string&        executableName,
       const string&        executableAboutInformation,
       const string&        handlerHeader,
-      mkkGenerateCodeKind generateCodeKind);
+      generatorOutputKind generatorOutputKind);
 
   protected:
 
@@ -51,7 +51,7 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
       const string&        executableName,
       const string&        executableAboutInformation,
       const string&        handlerHeader,
-      mkkGenerateCodeKind generateCodeKind);
+      generatorOutputKind generatorOutputKind);
 
     virtual ~Mikrokosmos3WanderingInsiderOahHandler ();
 
@@ -69,7 +69,7 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
 
     void                  createTheMikrokosmos3WanderingOptionGroups (
                             const string&        executableName,
-                            mkkGenerateCodeKind generateCodeKind);
+                            generatorOutputKind generatorOutputKind);
 
   public:
 
@@ -141,10 +141,10 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
                               { return fGenerationAPIKind; }
 
     // generate code kind
-    void                  setGenerateCodeKind (mkkGenerateCodeKind value)
-                              { fGenerateCodeKind = value; }
-    mkkGenerateCodeKind  getGenerateCodeKind () const
-                              { return fGenerateCodeKind; }
+    void                  setGeneratorOutputKind (generatorOutputKind value)
+                              { fGeneratorOutputKind = value; }
+    generatorOutputKind  getGeneratorOutputKind () const
+                              { return fGeneratorOutputKind; }
 
     // Guido
     void                  setGenerateComments ()
@@ -221,7 +221,7 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     msrGenerationAPIKind  fGenerationAPIKind;
 
     // generate code kind
-    mkkGenerateCodeKind  fGenerateCodeKind;
+    generatorOutputKind  fGeneratorOutputKind;
 
     // Guido
     bool                  fGenerateComments;

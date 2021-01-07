@@ -4637,7 +4637,11 @@ fCurrentCumulatedSkipsVoiceNumber
           positionAfterNoteInMeasure.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
-          if (gGlobalMusicxmlOahGroup->getTraceBackup () || gGlobalMusicxmlOahGroup->getTraceForward ()) {
+          if (
+            gGlobalMusicxmlOahGroup->getTraceBackup ()
+              ||
+            gGlobalMusicxmlOahGroup->getTraceForward ()
+          ) {
             gLogStream <<
               "--> appendABackupOrForwardToMeasureIfNeeded(2), note = " <<
               note->asShortString () <<
@@ -6962,7 +6966,11 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrNote& elt)
 
   if (doRememberThisNote) {
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalMusicxmlOahGroup->getTraceBackup () || gGlobalMusicxmlOahGroup->getTraceForward ()) {
+    if (
+      gGlobalMusicxmlOahGroup->getTraceBackup ()
+        ||
+      gGlobalMusicxmlOahGroup->getTraceForward ()
+    ) {
       gLogStream <<
         "--> remembering previous note " <<
         elt->asString () <<

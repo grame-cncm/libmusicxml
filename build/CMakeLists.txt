@@ -139,7 +139,7 @@ endif()
 set (SRCFOLDERS ${SRCFOLDERS} utilities oah)
 
 if (MSR)
-	set (SRCFOLDERS ${SRCFOLDERS} representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr generators/msrgeneration generators/Mikrokosmos3Wandering)
+	set (SRCFOLDERS ${SRCFOLDERS} representations/musicxml passes/mxml2mxmltree representations/mxmltree passes/mxmltree2msr representations/msr passes/msr2msr generators generators/msrgeneration generators/Mikrokosmos3Wandering)
 endif()
 
 if (LILY)

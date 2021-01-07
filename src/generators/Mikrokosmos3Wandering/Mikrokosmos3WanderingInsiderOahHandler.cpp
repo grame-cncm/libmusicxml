@@ -95,7 +95,7 @@ S_Mikrokosmos3WanderingInsiderOahHandler Mikrokosmos3WanderingInsiderOahHandler:
   const string&        executableName,
   const string&        executableAboutInformation,
   const string&        handlerHeader,
-  mkkGenerateCodeKind generateCodeKind)
+  generatorOutputKind generatorOutputKind)
 {
   // create the insider handler
   Mikrokosmos3WanderingInsiderOahHandler* o = new
@@ -103,7 +103,7 @@ S_Mikrokosmos3WanderingInsiderOahHandler Mikrokosmos3WanderingInsiderOahHandler:
       executableName,
       executableAboutInformation,
       handlerHeader,
-      generateCodeKind);
+      generatorOutputKind);
   assert (o!=0);
 
   return o;
@@ -113,7 +113,7 @@ Mikrokosmos3WanderingInsiderOahHandler::Mikrokosmos3WanderingInsiderOahHandler (
   const string&        executableName,
   const string&        executableAboutInformation,
   const string&        handlerHeader,
-  mkkGenerateCodeKind generateCodeKind)
+  generatorOutputKind generatorOutputKind)
   : oahHandler (
       executableName,
       executableAboutInformation,
@@ -143,7 +143,7 @@ Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
   // create the Mikrokosmos3Wandering option groups
   createTheMikrokosmos3WanderingOptionGroups (
     executableName,
-    generateCodeKind);
+    generatorOutputKind);
 }
 
 Mikrokosmos3WanderingInsiderOahHandler::~Mikrokosmos3WanderingInsiderOahHandler ()
@@ -168,7 +168,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingPrefi
 //______________________________________________________________________________
 void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptionGroups (
   const string&        executableName,
-  mkkGenerateCodeKind generateCodeKind)
+  generatorOutputKind generatorOutputKind)
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -225,12 +225,12 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       such as gGlobalMsr2msrOahGroup and gGlobalMsr2lpsrOahGroup
   */
 
-  switch (generateCodeKind) {
-    case k_NoGenerateCode:
+  switch (generatorOutputKind) {
+    case k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuido:
+    case kGuidoOutput:
       // create the msr2msr OAH group
       appendGroupToHandler (
         createGlobalMsr2msrOahGroup ());
@@ -252,7 +252,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
         createGlobalXml2gmnOahGroup ());
       break;
 
-    case kLilyPond:
+    case kLilyPondOutput:
       // create the msr2lpsr OAH group
       appendGroupToHandler (
         createGlobalMsr2lpsrOahGroup ());
@@ -270,7 +270,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
         createGlobalLilypondOahGroup ());
       break;
 
-    case kBrailleMusic:
+    case kBrailleOutput:
       // create the msr2bsr OAH group
       appendGroupToHandler (
         createGlobalMsr2bsrOahGroup ());
@@ -288,7 +288,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
         createGlobalBrailleOahGroup ());
       break;
 
-    case kMusicXML:
+    case kMusicXMLOutput:
       // create the msr2msr OAH group
       appendGroupToHandler (
         createGlobalMsr2msrOahGroup ());
@@ -304,6 +304,9 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       // create the MusicXML OAH group
       appendGroupToHandler (
         createGlobalMusicxmlOahGroup ());
+      break;
+
+    case kMidiOutput:
       break;
   } // switch
 
@@ -680,7 +683,7 @@ R"(Options that are used by Mikrokosmos3Wandering are grouped here.)",
 {
   fGenerationAPIKind = kMsrRegularAPIKind; // default value
 
-  fGenerateCodeKind = k_NoGenerateCode;
+  fGeneratorOutputKind = k_NoOutput;
 
   initializeMikrokosmos3WanderingInsiderOahGroup ();
 }
@@ -862,8 +865,8 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
 
   gLogStream << left <<
     setw (fieldWidth) <<
-    "mkkGenerateCodeKind" << " : " <<
-    mkkGenerateCodeKindAsString (fGenerateCodeKind) <<
+    "generatorOutputKind" << " : " <<
+    generatorOutputKindAsString (fGeneratorOutputKind) <<
     endl;
 
   --gIndenter;

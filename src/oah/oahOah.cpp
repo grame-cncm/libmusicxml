@@ -480,6 +480,30 @@ This option is best placed early in the command line)",
 R"(Write the contents of the options handler to standard error.)",
         "displayOahHandler",
         fDisplayOahHandler));
+
+  // display options handler short
+
+  fDisplayOahHandlerShort = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "dohs", "display-options-handler-short",
+R"(Write the short version of the contents of the options handler to standard error.)",
+        "displayOahHandler",
+        fDisplayOahHandlerShort));
+
+  // display options handler essentials
+
+  fDisplayOahHandlerEssentials = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "dohe", "display-options-handler-essentials",
+R"(Write the essentials version of the contents of the options handler to standard error.)",
+        "displayOahHandler",
+        fDisplayOahHandlerEssentials));
 }
 
 void oahOahGroup::initializeOahOahAndArgumentsOptions ()
@@ -695,8 +719,15 @@ void oahOahGroup::printOahOahValues (int valueFieldWidth)
     setw (valueFieldWidth) << "displayOptionsValues" << " : " <<
     booleanAsString (fDisplayOahValues) <<
     endl <<
+
     setw (valueFieldWidth) << "displayOahHandler" << " : " <<
     booleanAsString (fDisplayOahHandler) <<
+    endl <<
+    setw (valueFieldWidth) << "displayOahHandlerShort" << " : " <<
+    booleanAsString (fDisplayOahHandlerShort) <<
+    endl <<
+    setw (valueFieldWidth) << "displayOahHandlerEssentials" << " : " <<
+    booleanAsString (fDisplayOahHandlerEssentials) <<
     endl <<
 
     setw (valueFieldWidth) << "traceOahVisitors" << " : " <<

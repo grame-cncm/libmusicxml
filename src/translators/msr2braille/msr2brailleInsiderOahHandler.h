@@ -23,9 +23,6 @@
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-EXP string msr2brailleAboutInformation ();
-
-//_______________________________________________________________________________
 class EXP msr2brailleInsiderOahHandler : public oahHandler
 {
   public:

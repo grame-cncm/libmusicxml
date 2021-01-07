@@ -26,6 +26,8 @@
 #include "rational.h"
 #include "utilities.h"
 
+#include "messagesHandling.h"
+
 #include "oahOah.h"
 
 
@@ -33,6 +35,9 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+//______________________________________________________________________________
+//#define DEBUG_INDENTER
 
 //______________________________________________________________________________
 S_timingItem timingItem::createTimingItem (
@@ -219,8 +224,6 @@ ostream& operator<< (ostream& os, const timing& tim) {
 timing timing::gGlobalTiming;
 
 //______________________________________________________________________________
-//#define DEBUG_INDENTER
-
 outputIndenter outputIndenter::gGlobalOStreamIndenter;
 
 outputIndenter::outputIndenter (string spacer)
@@ -264,7 +267,9 @@ outputIndenter& outputIndenter::operator-- ()
       endl << endl;
 
 #ifdef DEBUG_INDENTER
-    assert (false);
+    msgAssert (
+      false,
+      "indentation has become negative");
 #endif
   }
 
@@ -305,7 +310,9 @@ outputIndenter outputIndenter::outputIndenter::operator-- (int)
       endl << endl;
 
 #ifdef DEBUG_INDENTER
-    assert (false);
+    msgAssert (
+      false,
+      "indentation has become negative");
 #endif
   }
 
@@ -331,7 +338,9 @@ outputIndenter& outputIndenter::increment (int value)
       endl << endl;
 
 #ifdef DEBUG_INDENTER
-    assert (false);
+    msgAssert (
+      false,
+      "indentation has become negative");
 #endif
   }
 
@@ -357,7 +366,9 @@ outputIndenter& outputIndenter::decrement (int value)
       endl << endl;
 
 #ifdef DEBUG_INDENTER
-    assert (false);
+    msgAssert (
+      false,
+      "indentation has become negative");
 #endif
   }
 

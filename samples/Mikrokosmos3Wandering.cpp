@@ -348,7 +348,7 @@ static void populateUpperVoice1WithTheRegularAPI (
           0));             // dotsNumber
   }
 
-// return; // QUIT
+ return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -652,6 +652,8 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
   }
 
 
+ return; // QUIT
+
   // measure 2
   // ----------------------------------
 
@@ -905,6 +907,8 @@ static void populateLowerVoice1WithTheRegularAPI (
           rational (1, 8), // displayWholeNotes
           0));             // dotsNumber
   }
+
+ return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -1193,6 +1197,8 @@ static void populateLowerVoice1WithTheStringsAPI (
           measure1number));
   }
 
+ return; // QUIT
+
   // measure 2
   // ----------------------------------
 
@@ -1421,6 +1427,8 @@ static void populateLowerVoice2WithTheRegularAPI (
           0));             // dotsNumber
   }
 
+ return; // QUIT
+
   // measure 2
   // ----------------------------------
 
@@ -1600,6 +1608,8 @@ static void populateLowerVoice2WithTheStringsAPI (
           "s2",
           measure1number));
   }
+
+ return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -1867,7 +1877,7 @@ if (false) // QUIT
 }
 
 //------------------------------------------------------------------------
-static void enforceSomeOptions (mkkGenerateCodeKind theGenerateCodeKind)
+static void enforceSomeOptions (generatorOutputKind theGeneratorOutputKind)
 {
   /*
     This is a way to enforce options 'permanently'
@@ -1902,8 +1912,8 @@ static void enforceSomeOptions (mkkGenerateCodeKind theGenerateCodeKind)
   // generate code dependant specific options
   // ------------------------------------------------------
 
-  switch (theGenerateCodeKind) {
-    case k_NoGenerateCode:
+  switch (theGeneratorOutputKind) {
+    case k_NoOutput:
       {
         stringstream s;
 
@@ -1914,13 +1924,13 @@ static void enforceSomeOptions (mkkGenerateCodeKind theGenerateCodeKind)
       }
       break;
 
-    case kGuido:
+    case kGuidoOutput:
 /*
      gGlobalMusicxmlOahGroup->setTraceDivisions ();
 */
      break;
 
-    case kLilyPond:
+    case kLilyPondOutput:
       // LPSR
       // ------------------------------------------------------
 
@@ -1939,7 +1949,7 @@ static void enforceSomeOptions (mkkGenerateCodeKind theGenerateCodeKind)
 */
       break;
 
-    case kBrailleMusic:
+    case kBrailleOutput:
       // BSR
       // ------------------------------------------------------
 
@@ -1957,7 +1967,7 @@ static void enforceSomeOptions (mkkGenerateCodeKind theGenerateCodeKind)
 */
       break;
 
-    case kMusicXML:
+    case kMusicXMLOutput:
       // MusicXML
       // ------------------------------------------------------
 
@@ -1966,6 +1976,9 @@ static void enforceSomeOptions (mkkGenerateCodeKind theGenerateCodeKind)
 
       gGlobalMxmlTreeOahGroup->setTraceMusicXMLTreeVisitors ();
 */
+      break;
+
+    case kMidiOutput:
       break;
   } // switch
 }
@@ -2061,8 +2074,8 @@ int main (int argc, char * argv[])
   // since the OAH handler should only use the OAH groups needed for it
   // ------------------------------------------------------
 
-  mkkGenerateCodeKind
-    theGenerateCodeKind = k_NoGenerateCode;
+  generatorOutputKind
+    theGeneratorOutputKind = k_NoOutput;
 
   for (unsigned int i = 0; i < theOptionsVector.size (); ++i) {
     string optionName  = theOptionsVector [i].first;
@@ -2071,20 +2084,20 @@ int main (int argc, char * argv[])
     string optionNameWithoutDash = optionName.substr (1);
 
     if (
-      optionNameWithoutDash == K_GENERATED_CODE_KIND_SHORT_NAME
+      optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_SHORT_NAME
         ||
-      optionNameWithoutDash == K_GENERATED_CODE_KIND_LONG_NAME
+      optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_LONG_NAME
     ) {
-      theGenerateCodeKind =
-        mkkGenerateCodeKindFromString (optionValue);
+      theGeneratorOutputKind =
+        generatorOutputKindFromString (optionValue);
     }
   } //for
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   cerr <<
-    "==> generateCodeKind: " <<
-    mkkGenerateCodeKindAsString (theGenerateCodeKind) <<
+    "==> generatorOutputKind: " <<
+    generatorOutputKindAsString (theGeneratorOutputKind) <<
     endl;
 #endif
 #endif
@@ -2104,7 +2117,7 @@ int main (int argc, char * argv[])
           executableName,
           aboutInformation,
           executableName + " insider OAH handler with argc/argv",
-          theGenerateCodeKind);
+          theGeneratorOutputKind);
 
     // the OAH handler to be used, a regular handler is the default
     // ------------------------------------------------------
@@ -2121,7 +2134,7 @@ int main (int argc, char * argv[])
           aboutInformation,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler,
-          theGenerateCodeKind);
+          theGeneratorOutputKind);
     }
 
     // handle the command line options and arguments
@@ -2166,32 +2179,36 @@ int main (int argc, char * argv[])
     gIndenter.resetToZero ();
   }
 
+  if (gGlobalOahOahGroup->getDisplayOahHandler ()) {
+    gLogStream <<
+      "The OAH handler contains:" <<
+      endl;
+
+    ++gIndenter;
+    handler->print (gLogStream);
+    --gIndenter;
+  }
+  if (gGlobalOahOahGroup->getDisplayOahHandlerShort ()) {
+    gLogStream <<
+      "The short version of the OAH handler contains:" <<
+      endl;
+
+    ++gIndenter;
+    handler->printShort (gLogStream);
+    --gIndenter;
+  }
+  if (gGlobalOahOahGroup->getDisplayOahHandlerEssentials ()) {
+    gLogStream <<
+      "The essentials version of the OAH handler contains:" <<
+      endl;
+
+    ++gIndenter;
+    handler->printOptionsSummary (gLogStream);
+    --gIndenter;
+  }
+
   // let's go ahead
   // ------------------------------------------------------
-
-/* JMI
-  // fetch the generation API kind from theOptionsVector,
-  // ------------------------------------------------------
-
-  msrGenerationAPIKind
-    theGenerationAPIKind = kMsrRegularAPIKind; // default value
-
-  for (unsigned int i = 0; i < theOptionsVector.size (); ++i) {
-    string optionName  = theOptionsVector [i].first;
-    string optionValue = theOptionsVector [i].second;
-
-    string optionNameWithoutDash = optionName.substr (1);
-
-    if (
-      optionNameWithoutDash == K_GENERATED_CODE_KIND_SHORT_NAME
-        ||
-      optionNameWithoutDash == K_GENERATED_CODE_KIND_LONG_NAME
-    ) {
-      theGenerationAPIKind =
-        mkkGenerateCodeKindFromString (optionValue);
-    }
-  } //for
-*/
 
   // get the generation API kind from the options
   // ------------------------------------------------------
@@ -2234,24 +2251,24 @@ int main (int argc, char * argv[])
   // set the desired options
   // ------------------------------------------------------
 
-  enforceSomeOptions (theGenerateCodeKind);
+  enforceSomeOptions (theGeneratorOutputKind);
 
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
 
   cerr <<
     "Converting the MSR theMsrScore to " <<
-    mkkGenerateCodeKindAsString (theGenerateCodeKind) <<
+    generatorOutputKindAsString (theGeneratorOutputKind) <<
     endl;
 
   xmlErr err = kNoErr;
 
-  switch (theGenerateCodeKind) {
-    case k_NoGenerateCode:
+  switch (theGeneratorOutputKind) {
+    case k_NoOutput:
       // should not occur
       break;
 
-    case kGuido:
+    case kGuidoOutput:
       err =
         msrScore2guidoWithHandler (
           theMsrScore,
@@ -2263,7 +2280,7 @@ int main (int argc, char * argv[])
           handler);
       break;
 
-    case kLilyPond:
+    case kLilyPondOutput:
       err =
         msrScore2lilypondWithHandler (
           theMsrScore,
@@ -2274,7 +2291,7 @@ int main (int argc, char * argv[])
           handler);
       break;
 
-    case kBrailleMusic:
+    case kBrailleOutput:
       err =
         msrScore2brailleWithHandler (
           theMsrScore,
@@ -2286,7 +2303,7 @@ int main (int argc, char * argv[])
           handler);
       break;
 
-    case kMusicXML:
+    case kMusicXMLOutput:
       err =
         msrScore2musicxmlWithHandler (
           theMsrScore,
@@ -2297,6 +2314,9 @@ int main (int argc, char * argv[])
           cerr,
           handler);
       break;
+
+    case kMidiOutput:
+      break;
   } // switch
 
 #ifdef TRACING_IS_ENABLED
@@ -2304,7 +2324,7 @@ int main (int argc, char * argv[])
   if (err != 0) {
     cerr <<
       executableName << ", " <<
-      mkkGenerateCodeKindAsString (theGenerateCodeKind) <<
+      generatorOutputKindAsString (theGeneratorOutputKind) <<
       ", err = " <<
       err <<
       endl;
@@ -2342,7 +2362,7 @@ int main (int argc, char * argv[])
   if (err != kNoErr) {
     gLogStream <<
       "### The generation of " <<
-      mkkGenerateCodeKindAsString (theGenerateCodeKind) <<
+      generatorOutputKindAsString (theGeneratorOutputKind) <<
       " thru the " <<
       msrGenerationAPIKindAsString (
         theGenerationAPIKind) <<

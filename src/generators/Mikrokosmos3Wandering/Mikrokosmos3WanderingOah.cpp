@@ -38,47 +38,47 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_mkkGenerateCodeKindAtom mkkGenerateCodeKindAtom::create (
+S_generatorOutputKindAtom generatorOutputKindAtom::create (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  mkkGenerateCodeKind& mkkGenerateCodeKindVariable)
+  generatorOutputKind& generatorOutputKindVariable)
 {
-  mkkGenerateCodeKindAtom* o = new
-    mkkGenerateCodeKindAtom (
+  generatorOutputKindAtom* o = new
+    generatorOutputKindAtom (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName,
-      mkkGenerateCodeKindVariable);
+      generatorOutputKindVariable);
   assert (o!=0);
   return o;
 }
 
-mkkGenerateCodeKindAtom::mkkGenerateCodeKindAtom (
+generatorOutputKindAtom::generatorOutputKindAtom (
   string             shortName,
   string             longName,
   string             description,
   string             valueSpecification,
   string             variableName,
-  mkkGenerateCodeKind& mkkGenerateCodeKindVariable)
+  generatorOutputKind& generatorOutputKindVariable)
   : oahAtomWithValue (
       shortName,
       longName,
       description,
       valueSpecification,
       variableName),
-    fGenerateCodeKindVariable (
-      mkkGenerateCodeKindVariable)
+    fGeneratorOutputKindVariable (
+      generatorOutputKindVariable)
 {}
 
-mkkGenerateCodeKindAtom::~mkkGenerateCodeKindAtom ()
+generatorOutputKindAtom::~generatorOutputKindAtom ()
 {}
 
-void mkkGenerateCodeKindAtom::applyAtomWithValue (
+void generatorOutputKindAtom::applyAtomWithValue (
   const string& theString,
   ostream&      os)
 {
@@ -88,18 +88,18 @@ void mkkGenerateCodeKindAtom::applyAtomWithValue (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
-      "==> handling atom '" << fetchNames () << "; which is of type 'mkkGenerateCodeKindAtom'" <<
+      "==> handling atom '" << fetchNames () << "; which is of type 'generatorOutputKindAtom'" <<
       " with value \"" << theString << "\"" <<
       endl;
   }
 #endif
 
-  map<string, mkkGenerateCodeKind>::const_iterator
+  map<string, generatorOutputKind>::const_iterator
     it =
-      gGlobalGenerateCodeKindsMap.find (
+      gGlobalGeneratorOutputKindsMap.find (
         theString);
 
-  if (it == gGlobalGenerateCodeKindsMap.end ()) {
+  if (it == gGlobalGeneratorOutputKindsMap.end ()) {
     // no, optional values style kind is unknown in the map
     stringstream s;
 
@@ -108,44 +108,44 @@ void mkkGenerateCodeKindAtom::applyAtomWithValue (
       "' is unknown" <<
       endl <<
       "The " <<
-      gGlobalGenerateCodeKindsMap.size () - 1 <<
+      gGlobalGeneratorOutputKindsMap.size () - 1 <<
       " known generate code kinds are:" <<
       endl;
 
     ++gIndenter;
 
     s <<
-      existingGenerateCodeKinds (K_NAMES_LIST_MAX_LENGTH);
+      existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH);
 
     --gIndenter;
 
     oahError (s.str ());
   }
 
-  fGenerateCodeKindVariable =
+  fGeneratorOutputKindVariable =
     (*it).second;
   fVariableHasBeenSet = true;
 }
 
-void mkkGenerateCodeKindAtom::acceptIn (basevisitor* v)
+void generatorOutputKindAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> mkkGenerateCodeKindAtom::acceptIn ()" <<
+      ".\\\" ==> generatorOutputKindAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_mkkGenerateCodeKindAtom>*
+  if (visitor<S_generatorOutputKindAtom>*
     p =
-      dynamic_cast<visitor<S_mkkGenerateCodeKindAtom>*> (v)) {
-        S_mkkGenerateCodeKindAtom elem = this;
+      dynamic_cast<visitor<S_generatorOutputKindAtom>*> (v)) {
+        S_generatorOutputKindAtom elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching mkkGenerateCodeKindAtom::visitStart ()" <<
+            ".\\\" ==> Launching generatorOutputKindAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -153,25 +153,25 @@ void mkkGenerateCodeKindAtom::acceptIn (basevisitor* v)
   }
 }
 
-void mkkGenerateCodeKindAtom::acceptOut (basevisitor* v)
+void generatorOutputKindAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> mkkGenerateCodeKindAtom::acceptOut ()" <<
+      ".\\\" ==> generatorOutputKindAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_mkkGenerateCodeKindAtom>*
+  if (visitor<S_generatorOutputKindAtom>*
     p =
-      dynamic_cast<visitor<S_mkkGenerateCodeKindAtom>*> (v)) {
-        S_mkkGenerateCodeKindAtom elem = this;
+      dynamic_cast<visitor<S_generatorOutputKindAtom>*> (v)) {
+        S_generatorOutputKindAtom elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching mkkGenerateCodeKindAtom::visitEnd ()" <<
+            ".\\\" ==> Launching generatorOutputKindAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -179,45 +179,45 @@ void mkkGenerateCodeKindAtom::acceptOut (basevisitor* v)
   }
 }
 
-void mkkGenerateCodeKindAtom::browseData (basevisitor* v)
+void generatorOutputKindAtom::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> mkkGenerateCodeKindAtom::browseData ()" <<
+      ".\\\" ==> generatorOutputKindAtom::browseData ()" <<
       endl;
   }
 #endif
 }
 
-string mkkGenerateCodeKindAtom::asShortNamedOptionString () const
+string generatorOutputKindAtom::asShortNamedOptionString () const
 {
   stringstream s;
 
   s <<
     "-" << fShortName << " " <<
-    mkkGenerateCodeKindAsString (fGenerateCodeKindVariable);
+    generatorOutputKindAsString (fGeneratorOutputKindVariable);
 
   return s.str ();
 }
 
-string mkkGenerateCodeKindAtom::asActualLongNamedOptionString () const
+string generatorOutputKindAtom::asActualLongNamedOptionString () const
 {
   stringstream s;
 
   s <<
     "-" << fLongName << " " <<
-    mkkGenerateCodeKindAsString (fGenerateCodeKindVariable);
+    generatorOutputKindAsString (fGeneratorOutputKindVariable);
 
   return s.str ();
 }
 
-void mkkGenerateCodeKindAtom::print (ostream& os) const
+void generatorOutputKindAtom::print (ostream& os) const
 {
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "GenerateCodeKindAtom:" <<
+    "GeneratorOutputKindAtom:" <<
     endl;
 
   ++gIndenter;
@@ -232,15 +232,15 @@ void mkkGenerateCodeKindAtom::print (ostream& os) const
     endl <<
     setw (fieldWidth) <<
     "brailleUTFKindVariable" << " : \"" <<
-    mkkGenerateCodeKindAsString (
-      fGenerateCodeKindVariable) <<
+    generatorOutputKindAsString (
+      fGeneratorOutputKindVariable) <<
       "\"" <<
     endl;
 
   --gIndenter;
 }
 
-void mkkGenerateCodeKindAtom::printAtomWithValueOptionsValues (
+void generatorOutputKindAtom::printAtomWithValueOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
@@ -248,8 +248,8 @@ void mkkGenerateCodeKindAtom::printAtomWithValueOptionsValues (
     setw (valueFieldWidth) <<
     fVariableName <<
     " : \"" <<
-    mkkGenerateCodeKindAsString (
-      fGenerateCodeKindVariable) <<
+    generatorOutputKindAsString (
+      fGeneratorOutputKindVariable) <<
     "\"";
   if (fVariableHasBeenSet) {
     os <<
@@ -259,7 +259,7 @@ void mkkGenerateCodeKindAtom::printAtomWithValueOptionsValues (
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_mkkGenerateCodeKindAtom& elt)
+ostream& operator<< (ostream& os, const S_generatorOutputKindAtom& elt)
 {
   elt->print (os);
   return os;
@@ -283,7 +283,7 @@ Mikrokosmos3WanderingOahGroup::Mikrokosmos3WanderingOahGroup ()
 R"(These options control the way BSR data is translated to braille music.)",
     kElementVisibilityWhole)
 {
-  fGenerateCodeKind = k_NoGenerateCode;
+  fGeneratorOutputKind = k_NoOutput;
 
   /* jMI
   fBrailleMusicCodeKind = kGenerateCodeAscii; // default value
@@ -356,34 +356,34 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  const mkkGenerateCodeKind
-    mkkGenerateCodeKindDefaultValue =
-      kLilyPond; // default value
+  const generatorOutputKind
+    generatorOutputKindDefaultValue =
+      kLilyPondOutput; // default value
 
-  fGenerateCodeKindAtom =
-    mkkGenerateCodeKindAtom::create (
-      K_GENERATED_CODE_KIND_SHORT_NAME, K_GENERATED_CODE_KIND_LONG_NAME,
+  fGeneratorOutputKindAtom =
+    generatorOutputKindAtom::create (
+      K_GENERATED_OUTPUT_KIND_SHORT_NAME, K_GENERATED_OUTPUT_KIND_LONG_NAME,
       regex_replace (
         regex_replace (
           regex_replace (
-  R"(Generate GENERATED_CODE code to the output.
+  R"(Generate GENERATED_OUTPUT_KIND code to the output.
   The NUMBER generate code kinds available are:
-  GENERATED_CODE_KINDS.
+  GENERATED_OUTPUT_KINDS.
   The default is 'DEFAULT_VALUE'.)",
             regex ("NUMBER"),
-            to_string (gGlobalGenerateCodeKindsMap.size ())),
-          regex ("GENERATED_CODE_KINDS"),
-          existingGenerateCodeKinds (K_NAMES_LIST_MAX_LENGTH)),
+            to_string (gGlobalGeneratorOutputKindsMap.size ())),
+          regex ("GENERATED_OUTPUT_KINDS"),
+          existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
         regex ("DEFAULT_VALUE"),
-        mkkGenerateCodeKindAsString (
-          mkkGenerateCodeKindDefaultValue)),
-      "GENERATED_CODE",
-      "mkkGenerateCodeKind",
-      fGenerateCodeKind);
+        generatorOutputKindAsString (
+          generatorOutputKindDefaultValue)),
+      "GENERATED_OUTPUT_KIND",
+      "generatorOutputKind",
+      fGeneratorOutputKind);
 
   subGroup->
     appendAtomToSubGroup (
-      fGenerateCodeKindAtom);
+      fGeneratorOutputKindAtom);
 }
 
 /* JMI
@@ -400,8 +400,8 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
-  const mkkGenerateCodeKind
-    mkkGenerateCodeKindDefaultValue =
+  const generatorOutputKind
+    generatorOutputKindDefaultValue =
       kBrailleOutputAscii; // default value
 
   fBrailleOutputKindAtom =
@@ -418,12 +418,12 @@ as a line of cells followed by a line of text showing the contents
 for debug purposes.
 The default is 'DEFAULT_VALUE'.)",
             regex ("NUMBER"),
-            to_string (gGlobalGenerateCodeKindsMap.size ())),
+            to_string (gGlobalGeneratorOutputKindsMap.size ())),
           regex ("BRAILLE_OUTPUT_KINDS"),
-          existingGenerateCodeKinds (K_NAMES_LIST_MAX_LENGTH)),
+          existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
         regex ("DEFAULT_VALUE"),
-        mkkGenerateCodeKindAsString (
-          mkkGenerateCodeKindDefaultValue)),
+        generatorOutputKindAsString (
+          generatorOutputKindDefaultValue)),
       "OUTPUT_KIND",
       "brailleOutputKind",
       fBrailleOutputKind);
@@ -480,8 +480,8 @@ void Mikrokosmos3WanderingOahGroup::enforceGroupQuietness ()
 //______________________________________________________________________________
 void Mikrokosmos3WanderingOahGroup::checkGroupOptionsConsistency ()
 {
-  switch (fGenerateCodeKind) {
-    case k_NoGenerateCode:
+  switch (fGeneratorOutputKind) {
+    case k_NoOutput:
       {
         stringstream s;
 
@@ -493,7 +493,7 @@ void Mikrokosmos3WanderingOahGroup::checkGroupOptionsConsistency ()
         ++gIndenter;
 
         s <<
-          existingGenerateCodeKinds (K_NAMES_LIST_MAX_LENGTH);
+          existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH);
 
         --gIndenter;
 
@@ -606,7 +606,7 @@ void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (
 
   gLogStream << left <<
     setw (fieldWidth) << "gneratedCodeKind" << " : " <<
-      mkkGenerateCodeKindAsString (fGenerateCodeKind) <<
+      generatorOutputKindAsString (fGeneratorOutputKind) <<
       endl;
 
   --gIndenter;
@@ -688,7 +688,7 @@ S_Mikrokosmos3WanderingOahGroup createGlobalMikrokosmos3WanderingOahGroup ()
     // initialize the generate code kinds map
     // ------------------------------------------------------
 
-    initializeGenerateCodeKindsMap ();
+    initializeGeneratorOutputKindsMap ();
 
     // create the Mikrokosmos3Wandering options
     // ------------------------------------------------------

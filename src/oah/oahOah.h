@@ -238,6 +238,16 @@ class EXP oahOahGroup : public oahGroup
     bool                  getDisplayOahHandler () const
                               { return fDisplayOahHandler; }
 
+    void                  setDisplayOahHandlerShort ()
+                              { fDisplayOahHandlerShort = true; }
+    bool                  getDisplayOahHandlerShort () const
+                              { return fDisplayOahHandlerShort; }
+
+    void                  setDisplayOahHandlerEssentials ()
+                              { fDisplayOahHandlerEssentials = true; }
+    bool                  getDisplayOahHandlerEssentials () const
+                              { return fDisplayOahHandlerEssentials; }
+
   public:
 
     // public services
@@ -328,6 +338,8 @@ class EXP oahOahGroup : public oahGroup
     // display
     bool                  fDisplayOahValues;
     bool                  fDisplayOahHandler;
+    bool                  fDisplayOahHandlerShort;
+    bool                  fDisplayOahHandlerEssentials;
 
 };
 typedef SMARTP<oahOahGroup> S_oahOahGroup;

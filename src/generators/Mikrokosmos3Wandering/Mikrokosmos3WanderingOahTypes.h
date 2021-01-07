@@ -19,25 +19,6 @@
 namespace MusicXML2
 {
 
-//______________________________________________________________________________
-enum mkkGenerateCodeKind {
-  k_NoGenerateCode,
-  kGuido, kLilyPond, kBrailleMusic, kMusicXML
-};
-
-EXP extern string mkkGenerateCodeKindAsString (
-  mkkGenerateCodeKind generateCodeKind);
-
-EXP extern mkkGenerateCodeKind mkkGenerateCodeKindFromString (
-  const string& theString);
-
-extern map<string, mkkGenerateCodeKind>
-  gGlobalGenerateCodeKindsMap;
-
-string existingGenerateCodeKinds (unsigned int namesListMaxLength);
-
-void initializeGenerateCodeKindsMap ();
-
 
 }
 

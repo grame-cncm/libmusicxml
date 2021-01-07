@@ -53,7 +53,7 @@ S_Mikrokosmos3WanderingRegularOahHandler Mikrokosmos3WanderingRegularOahHandler:
   string               handlerHeader,
   S_Mikrokosmos3WanderingInsiderOahHandler
                        insiderOahHandler,
-  mkkGenerateCodeKind theGenerateCodeKind)
+  generatorOutputKind theGeneratorOutputKind)
 {
   // create the regular handler
   Mikrokosmos3WanderingRegularOahHandler* o = new
@@ -62,7 +62,7 @@ S_Mikrokosmos3WanderingRegularOahHandler Mikrokosmos3WanderingRegularOahHandler:
       executableAboutInformation,
       handlerHeader,
       insiderOahHandler,
-      theGenerateCodeKind);
+      theGeneratorOutputKind);
   assert (o!=0);
 
   return o;
@@ -74,14 +74,14 @@ Mikrokosmos3WanderingRegularOahHandler::Mikrokosmos3WanderingRegularOahHandler (
   string               handlerHeader,
   S_Mikrokosmos3WanderingInsiderOahHandler
                        insiderOahHandler,
-  mkkGenerateCodeKind theGenerateCodeKind)
+  generatorOutputKind theGeneratorOutputKind)
   : oahRegularOahHandler (
       executableName,
       executableAboutInformation,
       handlerHeader,
       insiderOahHandler)
 {
-  fGenerateCodeKind = theGenerateCodeKind;
+  fGeneratorOutputKind = theGeneratorOutputKind;
 
   // this is done only only after the constructor has been executed,
   // because it uses pure virtual methods
@@ -142,23 +142,26 @@ void Mikrokosmos3WanderingRegularOahHandler::createRegularHandlerGroups ()
       such as gGlobalMsr2msrOahGroup and gGlobalMsr2lpsrOahGroup
   */
 
-  switch (fGenerateCodeKind) {
-    case k_NoGenerateCode:
+  switch (fGeneratorOutputKind) {
+    case k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuido:
+    case kGuidoOutput:
       // create the Guido OAH group
       createGuidoRegularGroup ();
       break;
 
-    case kLilyPond:
+    case kLilyPondOutput:
       break;
 
-    case kBrailleMusic:
+    case kBrailleOutput:
       break;
 
-    case kMusicXML:
+    case kMusicXMLOutput:
+      break;
+
+    case kMidiOutput:
       break;
   } // switch
 
@@ -441,27 +444,30 @@ void Mikrokosmos3WanderingRegularOahHandler::createOahRegularGroup ()
 
 
   // atoms from the insider handler depending on the generate code kind
-  switch (fGenerateCodeKind) {
-    case k_NoGenerateCode:
+  switch (fGeneratorOutputKind) {
+    case k_NoOutput:
       // should not occur, unless the run is a pure help one
       break;
 
-    case kGuido:
+    case kGuidoOutput:
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
       break;
 
-    case kLilyPond:
+    case kLilyPondOutput:
       registerAtomInRegularSubgroup ("input-line-numbers", subGroup);
       registerAtomInRegularSubgroup ("global-staff-size", subGroup);
       break;
 
-    case kBrailleMusic:
+    case kBrailleOutput:
       break;
 
-    case kMusicXML:
+    case kMusicXMLOutput:
       registerAtomInRegularSubgroup ("trace-encoding", subGroup);
       registerAtomInRegularSubgroup ("trace-divisions", subGroup);
+      break;
+
+    case kMidiOutput:
       break;
   } // switch
 }
@@ -529,7 +535,7 @@ void Mikrokosmos3WanderingRegularOahHandler::createGenerateCodeRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup (K_GENERATED_CODE_KIND_LONG_NAME, subGroup);
+  registerAtomInRegularSubgroup (K_GENERATED_OUTPUT_KIND_LONG_NAME, subGroup);
 }
 
 void Mikrokosmos3WanderingRegularOahHandler::createPresentationRegularGroup ()

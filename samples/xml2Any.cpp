@@ -29,6 +29,8 @@
 
 #include "messagesHandling.h"
 
+#include "generatorsBasicTypes.h"
+
 #include "Mikrokosmos3WanderingOahTypes.h"
 
 
@@ -145,16 +147,16 @@ static bool arguments2optionsVector (int argc, char *argv[], optionsVector& theO
 }
 
 //_______________________________________________________________________________
-static mkkGenerateCodeKind gGenerateCodeKind = k_NoGenerateCode;
+static generatorOutputKind gGeneratorOutputKind = k_NoOutput;
 
-void registerGenerateCodeKind (mkkGenerateCodeKind kind)
+void registerGeneratorOutputKind (generatorOutputKind kind)
 {
-  if (gGenerateCodeKind != k_NoGenerateCode) {
+  if (gGeneratorOutputKind != k_NoOutput) {
     cerr << "only one of '-lilypond', '-braille' and '-musicxml' can be used" << endl;
     exit (2);
   }
   else {
-    gGenerateCodeKind = kind;
+    gGeneratorOutputKind = kind;
   }
 }
 
@@ -211,23 +213,26 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-  // take mkkGenerateCodeKind options into account if any
+  // take generatorOutputKind options into account if any
   // ------------------------------------------------------
 
 	optionsVector keptOptions;
 
 	for (auto option: theOptionsVector) {
 	  if (option.first      == "-guido") {
-	    registerGenerateCodeKind (kGuido);
+	    registerGeneratorOutputKind (kGuidoOutput);
 	  }
 	  else if (option.first == "-lilypond") {
-	    registerGenerateCodeKind (kLilyPond);
+	    registerGeneratorOutputKind (kLilyPondOutput);
 	  }
 	  else if (option.first == "-braille") {
-	    registerGenerateCodeKind (kBrailleMusic);
+	    registerGeneratorOutputKind (kBrailleOutput);
 	  }
 	  else if (option.first == "-musicxml") {
-	    registerGenerateCodeKind (kMusicXML);
+	    registerGeneratorOutputKind (kMusicXMLOutput);
+	  }
+	  else if (option.first == "-midi") {
+	    registerGeneratorOutputKind (kMidiOutput);
 	  }
 	  else {
 	    keptOptions.push_back (option);
@@ -241,15 +246,15 @@ int main (int argc, char *argv[])
 #endif
 
   // the default is '-lilypond'
-  if (gGenerateCodeKind == k_NoGenerateCode) {
-    gGenerateCodeKind = kLilyPond;
+  if (gGeneratorOutputKind == k_NoOutput) {
+    gGeneratorOutputKind = kLilyPondOutput;
   }
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
   cerr <<
-    "==> mkkGenerateCodeKind: " <<
-    mkkGenerateCodeKindAsString (gGenerateCodeKind) <<
+    "==> generatorOutputKind: " <<
+    generatorOutputKindAsString (gGeneratorOutputKind) <<
     endl;
 #endif
 #endif
@@ -268,29 +273,36 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-    switch (gGenerateCodeKind) {
-      case k_NoGenerateCode:
+    switch (gGeneratorOutputKind) {
+      case k_NoOutput:
         // should not occur
         break;
-      case kGuido:
+
+      case kGuidoOutput:
         err =
           musicxmlfd2guido (
             stdin, keptOptions, cout, cerr);
         break;
-      case kLilyPond:
+
+      case kLilyPondOutput:
         err =
           musicxmlfd2lilypond (
             stdin, keptOptions, cout, cerr);
         break;
-      case kBrailleMusic:
+
+      case kBrailleOutput:
         err =
           musicxmlfd2braille (
             stdin, keptOptions, cout, cerr);
         break;
-      case kMusicXML:
+
+      case kMusicXMLOutput:
         err =
           musicxmlfd2musicxml (
             stdin, keptOptions, cout, cerr);
+        break;
+
+      case kMidiOutput:
         break;
     } // switch
 
@@ -300,7 +312,7 @@ int main (int argc, char *argv[])
       cerr <<
         executableName <<
         ", " <<
-        mkkGenerateCodeKindAsString (gGenerateCodeKind) <<
+        generatorOutputKindAsString (gGeneratorOutputKind) <<
         ", from stdin, err = " <<
         err <<
         endl;
@@ -317,29 +329,36 @@ int main (int argc, char *argv[])
 #endif
 #endif
 
-    switch (gGenerateCodeKind) {
-      case k_NoGenerateCode:
+    switch (gGeneratorOutputKind) {
+      case k_NoOutput:
         // should not occur
         break;
-      case kGuido:
+
+      case kGuidoOutput:
         err =
           musicxmlfile2guido (
             inputFileName, keptOptions, cout, cerr);
         break;
-      case kLilyPond:
+
+      case kLilyPondOutput:
         err =
           musicxmlfile2lilypond (
             inputFileName, keptOptions, cout, cerr);
         break;
-      case kBrailleMusic:
+
+      case kBrailleOutput:
         err =
           musicxmlfile2braille (
             inputFileName, keptOptions, cout, cerr);
         break;
-      case kMusicXML:
+
+      case kMusicXMLOutput:
         err =
           musicxmlfile2musicxml (
             inputFileName, keptOptions, cout, cerr);
+        break;
+
+      case kMidiOutput:
         break;
     } // switch
 
@@ -349,7 +368,7 @@ int main (int argc, char *argv[])
       cerr <<
         executableName <<
         ", " <<
-        mkkGenerateCodeKindAsString (gGenerateCodeKind) <<
+        generatorOutputKindAsString (gGeneratorOutputKind) <<
         ", from a file \"" << inputFileName << "\", err = " <<
         err <<
         endl;

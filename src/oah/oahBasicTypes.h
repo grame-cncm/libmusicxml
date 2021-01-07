@@ -1022,6 +1022,7 @@ class EXP oahHandler : public smartable
 
     void                  print (ostream& os) const;
     void                  printShort (ostream& os) const;
+    void                  printSummary (ostream& os) const;
 
     void                  printHelp (ostream& os) const;
 
@@ -1194,8 +1195,8 @@ class EXP oahHandler : public smartable
                           fHandlerUsedThruKind;
 
     // has help been requested?
-    // this is needed to quit if the API function is launched
-    // with one or more help options,
+    // this is needed to quit if the API function or executable
+    // is launched with one or more help options,
     // i.e. options that are only used to display help to the user
     bool                  fOahHandlerFoundAHelpOption;
 

@@ -3882,6 +3882,8 @@ void msrMeasure::finalizeRegularMeasure_BIS (
   }
 #endif
 
+  ++gIndenter;
+
 /* JMI
   padUpToPositionAtTheEndOfTheMeasure (
     inputLineNumber,
