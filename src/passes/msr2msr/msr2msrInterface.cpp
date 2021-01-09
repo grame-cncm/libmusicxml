@@ -46,7 +46,8 @@ S_msrScore convertMsrScoreToMsrScore (
   S_msrScore        originalMsrScore,
   S_msrOahGroup     msrOpts,
   S_msr2msrOahGroup msr2msrOpts,
-  string            passNumber)
+  string            passNumber,
+  string            passDescription)
 {
   // sanity check
   msgAssert (
@@ -88,7 +89,7 @@ clock_t startClock = clock ();
   // register time spent
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Translate the MSR to another MSR",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);

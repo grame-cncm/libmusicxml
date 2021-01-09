@@ -39,6 +39,7 @@ void convertBsrScoreToBrailleText (
   const S_bsrScore originalBsrScore,
   S_bsrOahGroup    bsrOpts,
   string           passNumber,
+  string           passDescription,
   ostream&         brailleOutputStream)
 {
   // sanity check
@@ -81,7 +82,7 @@ void convertBsrScoreToBrailleText (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Translate BSR to Braille music",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);

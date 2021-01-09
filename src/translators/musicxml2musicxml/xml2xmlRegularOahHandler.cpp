@@ -124,7 +124,7 @@ void xml2xmlRegularOahHandler::createRegularHandlerGroups ()
 
   createWarningAndErrorsRegularGroup ();
 
-  createMsrGenerationAPIRegularGroup ();
+// JMI  createMsrGenerationAPIRegularGroup ();
 
   createInputRegularGroup ();
 
@@ -343,6 +343,7 @@ void xml2xmlRegularOahHandler::createWarningAndErrorsRegularGroup ()
 
 void xml2xmlRegularOahHandler::createMsrGenerationAPIRegularGroup ()
 {
+/* JMI
   // group
 
   S_oahGroup
@@ -369,8 +370,8 @@ void xml2xmlRegularOahHandler::createMsrGenerationAPIRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("functions", subGroup);
-  registerAtomInRegularSubgroup ("strings", subGroup);
+  registerAtomInRegularSubgroup (K_GENERATION_API_KIND_LONG_NAME, subGroup);
+  */
 }
 
 void xml2xmlRegularOahHandler::createInputRegularGroup ()

@@ -37,7 +37,8 @@ EXP void generateMusicXMLFromMxmlTree (
   Sxmlelement mxmlTree,
   string      outputFileName,
   ostream&    cerr,
-  string      passNumber)
+  string      passNumber,
+  string      passDescription)
 {
   // sanity check
   msgAssert (
@@ -137,17 +138,17 @@ EXP void generateMusicXMLFromMxmlTree (
 #endif
 
     musicxmlFileOutputStream.close ();
-
-    // register time spent
-    clock_t endClock = clock ();
-
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "Write the new mxmlTree as MusicXML data",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
   }
+
+  // register time spent
+  clock_t endClock = clock ();
+
+  timing::gGlobalTiming.appendTimingItem (
+    passNumber,
+    passDescription,
+    timingItem::kMandatory,
+    startClock,
+    endClock);
 }
 
 

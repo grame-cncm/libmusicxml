@@ -29,6 +29,7 @@ EXP void convertBsrScoreToBrailleText (
   const S_bsrScore originalBsrScore,
   S_bsrOahGroup    bsrOpts,
   string           passNumber,
+  string           passDescription,
   ostream&         brailleOutputStream);
 
 

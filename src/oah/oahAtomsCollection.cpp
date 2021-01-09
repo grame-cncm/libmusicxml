@@ -202,6 +202,171 @@ ostream& operator<< (ostream& os, const S_oahAtomSynonym& elt)
 }
 
 //______________________________________________________________________________
+S_oahAtomsMacro oahAtomsMacro::create (
+  string    shortName,
+  string    longName,
+  string    description,
+  S_oahAtom originalOahAtom)
+{
+  oahAtomsMacro* o = new
+    oahAtomsMacro (
+      shortName,
+      longName,
+      description,
+      originalOahAtom);
+  assert (o!=0);
+  return o;
+}
+
+oahAtomsMacro::oahAtomsMacro (
+  string    shortName,
+  string    longName,
+  string    description,
+  S_oahAtom originalOahAtom)
+  : oahAtom (
+      shortName,
+      longName,
+      description,
+      originalOahAtom->getElementKind ())
+{
+  // sanity check
+  msgAssert (
+    originalOahAtom != nullptr,
+    "originalOahAtom is null");
+
+  fOriginalOahAtom = originalOahAtom;
+}
+
+oahAtomsMacro::~oahAtomsMacro ()
+{}
+
+void oahAtomsMacro::applyElement (ostream& os)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "==> option '" << fetchNames () << "' is a oahAtomsMacro" <<
+      endl;
+  }
+#endif
+
+  // JMI ???
+}
+
+void oahAtomsMacro::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAtomsMacro::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAtomsMacro>*
+    p =
+      dynamic_cast<visitor<S_oahAtomsMacro>*> (v)) {
+        S_oahAtomsMacro elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahAtomsMacro::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void oahAtomsMacro::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAtomsMacro::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_oahAtomsMacro>*
+    p =
+      dynamic_cast<visitor<S_oahAtomsMacro>*> (v)) {
+        S_oahAtomsMacro elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching oahAtomsMacro::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void oahAtomsMacro::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> oahAtomsMacro::browseData ()" <<
+      endl;
+  }
+#endif
+
+  if (fOriginalOahAtom) {
+    // browse the original atom
+    oahBrowser<oahAtom> browser (v);
+    browser.browse (*fOriginalOahAtom);
+  }
+}
+
+void oahAtomsMacro::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "AtomsMacro:" <<
+    endl;
+
+  ++gIndenter;
+
+  oahElement::printOahElementEssentials (
+    os, fieldWidth);
+
+  --gIndenter;
+}
+
+void oahAtomsMacro::printShort (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "AtomsMacro: ";
+
+  oahElement::printOahElementEssentialsShort (
+    os, fieldWidth);
+
+  os <<
+    fOriginalOahAtom->fetchNames () <<
+    endl;
+}
+
+void oahAtomsMacro::printAtomWithValueOptionsValues (
+  ostream&     os,
+  unsigned int valueFieldWidth) const
+{
+  // nothing to print here
+}
+
+ostream& operator<< (ostream& os, const S_oahAtomsMacro& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 /* this class is purely virtual
 S_oahHelpOnlyAtom oahHelpOnlyAtom::create (
   string shortName,

@@ -110,7 +110,8 @@ static xmlErr xmlFile2lilypondWithHandler (
       convertMxmlTreeToMsrScoreSkeleton (
         mxmlTree,
         gGlobalMsrOahGroup,
-        "Pass 2a");
+        "Pass 2a",
+        "Create an MSR skeleton from the mxmlTree");
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -133,14 +134,15 @@ static xmlErr xmlFile2lilypondWithHandler (
     return kNoErr;
   }
 
-  // populate the MSR from MusicXML contents (pass 2b)
+  // populate the MSR skeleton from MusicXML data (pass 2b)
   // ------------------------------------------------------
 
   try {
     populateMsrSkeletonFromMxmlTree (
       mxmlTree,
       theMsrScore,
-      "Pass 2b");
+        "Pass 2b",
+        "Populate the MSR skeleton from MusicXML data");
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -170,15 +172,14 @@ static xmlErr xmlFile2lilypondWithHandler (
     // create the LPSR from the MSR (pass 3)
     // ------------------------------------------------------
 
-    const string passNumber = "Pass 3";
-
     try {
       theLpsrScore =
         convertMsrScoreToLpsrScore (
           theMsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
-          passNumber);
+          "Pass 3",
+          "Convert the MSR into an LPSR");
     }
     catch (msrScoreToLpsrScoreException& e) {
       displayException (e, gOutputStream);
@@ -223,8 +224,6 @@ static xmlErr xmlFile2lilypondWithHandler (
     // generate LilyPond code from the LPSR (pass 4)
     // ------------------------------------------------------
 
-    const string passNumber = "Pass 4";
-
     string
       outputFileName =
         handler->
@@ -262,7 +261,8 @@ static xmlErr xmlFile2lilypondWithHandler (
           theLpsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
-          passNumber,
+          "Pass 4",
+          "Convert the LPSR score to LilyPond code",
           lilypondStandardOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
@@ -330,7 +330,8 @@ static xmlErr xmlFile2lilypondWithHandler (
           theLpsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
-          passNumber,
+          "Pass 4",
+          "Convert the LPSR score to LilyPond code",
           lilypondFileOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
@@ -545,7 +546,10 @@ EXP xmlErr musicxmlfile2lilypond (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFile (fileName, "Pass 1");
+	    createXMLFileFromFile (
+	      fileName,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML file");
 
 	if (xmlfile) {
 		return
@@ -564,7 +568,10 @@ xmlErr musicxmlFile2lilypondWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFile (fileName, "Pass 1");
+	    createXMLFileFromFile (
+	      fileName,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML file");
 
 	if (xmlfile) {
 		return
@@ -584,7 +591,10 @@ EXP xmlErr musicxmlfd2lilypond (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFd (fd, "Pass 1");
+	    createXMLFileFromFd (
+	      fd,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML descriptor");
 
 	if (xmlfile) {
 		return
@@ -603,7 +613,10 @@ xmlErr musicxmlFd2lilypondWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFd (fd, "Pass 1");
+	    createXMLFileFromFd (
+	      fd,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML descriptor");
 
 	if (xmlfile) {
 		return
@@ -623,7 +636,10 @@ EXP xmlErr musicxmlstring2lilypond (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromString (buffer, "Pass 1");
+	    createXMLFileFromString (
+	      buffer,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML buffer");
 
 	// call xmlFile2lilypond() even if xmlfile is null,
 	// to handle the help options if any
@@ -642,7 +658,10 @@ xmlErr musicxmlString2lilypondWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromString (buffer, "Pass 1");
+	    createXMLFileFromString (
+	      buffer,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML buffer");
 
 	// call xmlFile2lilypond() even if xmlfile is null,
 	// to handle the help options if any

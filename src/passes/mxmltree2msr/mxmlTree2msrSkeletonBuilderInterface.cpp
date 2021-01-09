@@ -40,9 +40,10 @@ namespace MusicXML2
 {
 //_______________________________________________________________________________
 S_msrScore convertMxmlTreeToMsrScoreSkeleton (
-  Sxmlelement mxmlTree,
-  S_msrOahGroup&   msrOpts,
-  string      passNumber)
+  Sxmlelement    mxmlTree,
+  S_msrOahGroup& msrOpts,
+  string         passNumber,
+  string         passDescription)
 {
   // sanity check
   msgAssert (
@@ -90,7 +91,7 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Build the MSR skeleton from the MusicMXL elements tree",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -130,7 +131,8 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
     displayMsrSkeleton (
       msrOpts,
       scoreSkeleton,
-      passNumber);
+      passNumber,
+      passDescription);
   }
 
   return scoreSkeleton;
@@ -140,7 +142,8 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
 void displayMsrSkeleton (
   S_msrOahGroup&  msrOpts,
   S_msrScore theMsrScore,
-  string     passNumber)
+  string     passNumber,
+  string     passDescription)
 {
   // sanity check
   msgAssert (

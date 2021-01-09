@@ -36,7 +36,8 @@ namespace MusicXML2
 S_bsrScore convertBsrFirstScoreToFinalizedBsrScore (
   const S_bsrScore originalBsrScore,
   S_bsrOahGroup    bsrOpts,
-  string           passNumber)
+  string           passNumber,
+  string           passDescription)
 {
   S_bsrScore finalizedBsrScore;
 
@@ -85,7 +86,7 @@ S_bsrScore convertBsrFirstScoreToFinalizedBsrScore (
 
     timing::gGlobalTiming.appendTimingItem (
       passNumber,
-      "Finalize BSR as a new BSR",
+      passDescription,
       timingItem::kMandatory,
       startClock,
       endClock);

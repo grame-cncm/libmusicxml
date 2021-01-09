@@ -33,8 +33,11 @@ namespace MusicXML2
 EXP xmlErr msrScore2musicxmlWithHandler (
   S_msrScore   theMsrScore,
   string       passNumber1,
+  string       passDescription1,
   string       passNumber2,
+  string       passDescription2,
   string       passNumber3,
+  string       passDescription3,
   ostream&     out,
   ostream&     err,
   S_oahHandler handler);

@@ -32,19 +32,19 @@ string generatorOutputKindAsString (
       result = "*noGenerateCode*";
       break;
     case kGuidoOutput:
-      result = "guido";
+      result = "Guido";
       break;
     case kLilyPondOutput:
-      result = "lilypond";
+      result = "LilyPond";
       break;
     case kBrailleOutput:
       result = "braille";
       break;
     case kMusicXMLOutput:
-      result = "musicxml";
+      result = "MusicXML";
       break;
     case kMidiOutput:
-      result = "midi";
+      result = "MIDI";
       break;
   } // switch
 

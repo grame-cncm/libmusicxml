@@ -54,29 +54,34 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   \return an error code (\c kNoErr when success)
 */
 EXP Sxmlelement musicXMLString2mxmlTree (
-  const char*   buffer,
+  const char*        buffer,
   S_mxmlTreeOahGroup mxmlOpts,
-  string        passNumber);
+  string             passNumber,
+  string             passDescription);
 
 //_______________________________________________________________________________
 EXP SXMLFile createXMLFileFromFile (
-  const char * file,
-  string       passNumber);
+  const char * fileName,
+  string       passNumber,
+  string       passDescription);
 
 //_______________________________________________________________________________
 EXP SXMLFile createXMLFileFromFd (
   FILE * fd,
-  string passNumber);
+  string passNumber,
+  string passDescription);
 
 //_______________________________________________________________________________
 EXP SXMLFile createXMLFileFromString (
   const char * buffer,
-  string     passNumber);
+  string     passNumber,
+  string     passDescription);
 
 //_______________________________________________________________________________
 EXP Sxmlelement convertMusicXMLToMxmlTree (
   string inputSourceName,
-  string passNumber);
+  string passNumber,
+  string passDescription);
 
 
 }

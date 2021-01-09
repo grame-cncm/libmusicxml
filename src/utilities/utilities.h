@@ -87,12 +87,11 @@ class EXP timing {
 
     // add an item
     void                  appendTimingItem (
-                            string    activity,
-                            string    description,
-                            timingItem::timingItemKind
-                                           kind,
-                            clock_t        startClock,
-                            clock_t        endClock);
+                            string                     activity,
+                            string                     description,
+                            timingItem::timingItemKind kind,
+                            clock_t                    startClock,
+                            clock_t                    endClock);
 
     // print
     void                  print (ostream& os) const;

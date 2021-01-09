@@ -5851,7 +5851,7 @@ oahElementHelpOnlyKind oahHandler::handleOptionsFromOptionsVector (
   clock_t endClock = clock ();
 
   timing::gGlobalTiming.appendTimingItem (
-    "Pass 0",
+    "",
     "Handle the options from the options vector",
     timingItem::kMandatory,
     startClock,
@@ -5943,8 +5943,8 @@ oahElementHelpOnlyKind oahHandler::handleOptionsAndArgumentsFromArgcAndArgv (
   clock_t endClock = clock ();
 
   timing::gGlobalTiming.appendTimingItem (
-    "Pass 0",
-    "Handle the options and arguments from the argc/argv",
+    "",
+    "Handle the options and arguments from argc/argv",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -6575,6 +6575,33 @@ void oahHandler::handleKnownOptionsVectorElementUnderName (
   }
 
   else if (
+    // atoms macro?
+    S_oahAtomsMacro
+      atomsMacro =
+        dynamic_cast<oahAtomsMacro*>(&(*element))
+  ) {
+    // use the original atoms instead
+    S_oahAtom
+      originalOahAtom =
+        atomsMacro->getOriginalOahAtom ();
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
+      gLogStream <<
+        "Atom name \"" << optionNameUsed << "\" is a synonym for \"" <<
+        originalOahAtom->asString () <<
+        "\", handling the latter" <<
+        endl;
+    }
+#endif
+
+    handleKnownOptionsVectorAtomUnderName (
+      originalOahAtom,
+      optionNameUsed,
+      valueUsed);
+  }
+
+  else if (
     // atom?
     S_oahAtom
       atom =
@@ -6707,6 +6734,32 @@ void oahHandler::handleKnownArgvElementUnderName (
     S_oahAtom
       originalOahAtom =
         atomSynonym->getOriginalOahAtom ();
+
+#ifdef TRACING_IS_ENABLED
+    if (gGlobalTraceOahGroup->getTraceOah ()) {
+      gLogStream <<
+        "Atom name \"" << optionNameUsed << "\" is a synonym for \"" <<
+        originalOahAtom->asString () <<
+        "\", handling the latter" <<
+        endl;
+    }
+#endif
+
+    handleKnownArgvAtomUnderName (
+      originalOahAtom,
+      optionNameUsed);
+  }
+
+  else if (
+    // atoms macro?
+    S_oahAtomsMacro
+      atomsMacro =
+        dynamic_cast<oahAtomsMacro*>(&(*element))
+  ) {
+    // use the original atoms instead
+    S_oahAtom
+      originalOahAtom =
+        atomsMacro->getOriginalOahAtom ();
 
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceOah ()) {

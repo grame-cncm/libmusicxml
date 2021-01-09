@@ -42,7 +42,8 @@ namespace MusicXML2
 void populateMsrSkeletonFromMxmlTree (
   Sxmlelement mxmlTree,
   S_msrScore  scoreSkeletonToBePopulated,
-  string      passNumber)
+  string      passNumber,
+  string      passDescription)
 {
   // sanity check
   msgAssert (
@@ -90,7 +91,7 @@ void populateMsrSkeletonFromMxmlTree (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Populate the MSR skeleton",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);

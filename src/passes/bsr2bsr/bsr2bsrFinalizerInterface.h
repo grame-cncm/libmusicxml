@@ -27,7 +27,8 @@ namespace MusicXML2
 EXP S_bsrScore convertBsrFirstScoreToFinalizedBsrScore (
   const S_bsrScore originalBsrScore,
   S_bsrOahGroup    bsrOpts,
-  string           passNumber);
+  string           passNumber,
+  string           passDescription);
 
 //_______________________________________________________________________________
 EXP void displayBsrFirstScore_OptionalPass (

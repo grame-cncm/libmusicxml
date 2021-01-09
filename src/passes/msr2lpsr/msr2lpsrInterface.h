@@ -29,7 +29,8 @@ EXP extern S_lpsrScore convertMsrScoreToLpsrScore (
   S_msrScore     originalMsrScore,
   S_msrOahGroup  msrOpts,
   S_lpsrOahGroup lpsrOpts,
-  string         passNumber);
+  string         passNumber,
+  string         passDescription);
 
 //_______________________________________________________________________________
 EXP void displayLpsrScore (

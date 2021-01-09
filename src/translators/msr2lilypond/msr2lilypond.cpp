@@ -52,7 +52,9 @@ namespace MusicXML2
 EXP xmlErr msrScore2lilypondWithHandler (
   S_msrScore   theMsrScore,
   string       passNumber1,
+  string       passDescription1,
   string       passNumber2,
+  string       passDescription2,
   ostream&     out,
   ostream&     err,
   S_oahHandler handler)
@@ -80,7 +82,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
   S_lpsrScore theLpsrScore;
 
   {
-    // create the LPSR from the MSR
+    // convert the MSR into an LPSR
     // ------------------------------------------------------
 
     try {
@@ -89,7 +91,8 @@ EXP xmlErr msrScore2lilypondWithHandler (
           theMsrScore,
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
-          passNumber1);
+          passNumber1,
+          passDescription1);
     }
     catch (msrScoreToLpsrScoreException& e) {
       displayException (e, gOutputStream);
@@ -131,7 +134,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
   }
 
   {
-    // generate LilyPond code from the LPSR
+    // convert the LPSR into LilyPond code
     // ------------------------------------------------------
 
     string
@@ -172,6 +175,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
           passNumber2,
+          passDescription2,
           lilypondStandardOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
@@ -240,6 +244,7 @@ EXP xmlErr msrScore2lilypondWithHandler (
           gGlobalMsrOahGroup,
           gGlobalLpsrOahGroup,
           passNumber2,
+          passDescription2,
           lilypondFileOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {

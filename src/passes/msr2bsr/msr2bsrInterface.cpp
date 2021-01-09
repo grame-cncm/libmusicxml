@@ -41,7 +41,8 @@ S_bsrScore convertMsrScoreToBsrScore (
   S_msrScore    originalMsrScore,
   S_msrOahGroup msrOpts,
   S_bsrOahGroup bsrOpts,
-  string        passNumber)
+  string        passNumber,
+  string        passDescription)
 {
   // sanity check
   msgAssert (
@@ -84,7 +85,7 @@ S_bsrScore convertMsrScoreToBsrScore (
   // register time spent
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Translate the MSR to a BSR",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);

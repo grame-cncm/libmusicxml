@@ -59,8 +59,11 @@ namespace MusicXML2
 EXP xmlErr msrScore2guidoWithHandler (
   S_msrScore   theMsrScore,
   string       passNumber1,
+  string       passDescription1,
   string       passNumber2,
+  string       passDescription2,
   string       passNumber3,
+  string       passDescription3,
   ostream&     out,
   ostream&     err,
   S_oahHandler handler)
@@ -74,7 +77,7 @@ EXP xmlErr msrScore2guidoWithHandler (
       enforceHandlerQuietness ();
   }
 
-  // convert the first MSR score into a new, second MSR score
+  // convert the first MSR score into a second MSR
   // ------------------------------------------------------
 
   S_msrScore secondMsrScore;
@@ -85,7 +88,8 @@ EXP xmlErr msrScore2guidoWithHandler (
         theMsrScore,
         gGlobalMsrOahGroup,
         gGlobalMsr2msrOahGroup,
-        passNumber1);
+        passNumber1,
+        passDescription1);
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -96,7 +100,7 @@ EXP xmlErr msrScore2guidoWithHandler (
     return kInvalidFile;
   }
 
-  // convert the second MSR score into a new, second mxmlTree
+  // convert the second MSR into a second mxmlTree
   // ------------------------------------------------------
 
   Sxmlelement secondMxmlTree;
@@ -107,6 +111,7 @@ EXP xmlErr msrScore2guidoWithHandler (
         secondMsrScore,
         gGlobalMsrOahGroup,
         passNumber2,
+        passDescription2,
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
@@ -153,7 +158,8 @@ EXP xmlErr msrScore2guidoWithHandler (
       secondMxmlTree,
       outputFileName,
       err,
-      passNumber3);
+      passNumber3,
+      passDescription3);
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);

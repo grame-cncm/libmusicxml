@@ -113,7 +113,8 @@ static xmlErr xmlFile2guidoWithHandler (
       convertMxmlTreeToMsrScoreSkeleton (
         originalMxmlTree,
         gGlobalMsrOahGroup,
-        "Pass 2a");
+        "Pass 2a",
+        "Create the skeleton of the first MSR from the originalMxmlTree");
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -136,14 +137,15 @@ static xmlErr xmlFile2guidoWithHandler (
     return kNoErr;
   }
 
-  // populate the first MSR from MusicXML contents (pass 2b)
+  // populate the MSR skeleton from MusicXML data (pass 2b)
   // ------------------------------------------------------
 
   try {
     populateMsrSkeletonFromMxmlTree (
       originalMxmlTree,
       firstMsrScore,
-      "Pass 2b");
+        "Pass 2b",
+        "Populate the MSR skeleton from MusicXML data");
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -166,7 +168,7 @@ static xmlErr xmlFile2guidoWithHandler (
     return kNoErr;
   }
 
-  // convert the first MSR score into a new, second MSR score (pass 3)
+  // convert the first MSR score into a second MSR (pass 3)
   // ------------------------------------------------------
 
   S_msrScore secondMsrScore;
@@ -177,7 +179,8 @@ static xmlErr xmlFile2guidoWithHandler (
         firstMsrScore,
         gGlobalMsrOahGroup,
         gGlobalMsr2msrOahGroup,
-        "Pass 3");
+        "Pass 3",
+        "Convert the first MSR into a second MSR");
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -188,7 +191,7 @@ static xmlErr xmlFile2guidoWithHandler (
     return kInvalidFile;
   }
 
-  // convert the second MSR score into a new, second mxmlTree (pass 4)
+  // convert the second MSR into a second mxmlTree (pass 4)
   // ------------------------------------------------------
 
   Sxmlelement secondMxmlTree;
@@ -199,6 +202,7 @@ static xmlErr xmlFile2guidoWithHandler (
         secondMsrScore,
         gGlobalMsrOahGroup,
         "Pass 4",
+        "Convert the second MSR into a second mxmlTree",
         timingItem::kMandatory);
   }
   catch (mxmlTreeToMsrException& e) {
@@ -223,7 +227,8 @@ static xmlErr xmlFile2guidoWithHandler (
       secondMxmlTree,
       outputFileName,
       err,
-      "Pass 5");
+      "Pass 5",
+      "Convert  the second mxmlTree into Guido text");
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -420,7 +425,10 @@ EXP xmlErr musicxmlfile2guido (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFile (fileName, "Pass 1");
+	    createXMLFileFromFile (
+	      fileName,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML file");
 
 	if (xmlfile) {
 		return
@@ -439,7 +447,10 @@ xmlErr musicxmlFile2guidoWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFile (fileName, "Pass 1");
+	    createXMLFileFromFile (
+	      fileName,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML file");
 
 	if (xmlfile) {
 		return
@@ -459,7 +470,10 @@ EXP xmlErr musicxmlfd2guido (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFd (fd, "Pass 1");
+	    createXMLFileFromFd (
+	      fd,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML descriptor");
 
 	if (xmlfile) {
 		return
@@ -478,7 +492,10 @@ xmlErr musicxmlFd2guidoWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFd (fd, "Pass 1");
+	    createXMLFileFromFd (
+	      fd,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML descriptor");
 
 	if (xmlfile) {
 		return
@@ -498,7 +515,10 @@ EXP xmlErr musicxmlstring2guido (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromString (buffer, "Pass 1");
+	    createXMLFileFromString (
+	      buffer,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML buffer");
 
 	// call xmlFile2guido() even if xmlfile is null,
 	// to handle the help options if any
@@ -517,7 +537,10 @@ xmlErr musicxmlString2guidoWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromString (buffer, "Pass 1");
+	    createXMLFileFromString (
+	      buffer,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML buffer");
 
 	// call xmlFile2guido() even if xmlfile is null,
 	// to handle the help options if any

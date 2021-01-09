@@ -34,7 +34,8 @@ namespace MusicXML2
 EXP void populateMsrSkeletonFromMxmlTree (
   Sxmlelement mxmlTree,
   S_msrScore  scoreSkeletonToBePopulated,
-  string      passNumber);
+  string      passNumber,
+  string      passDescription);
 
 //_______________________________________________________________________________
 void displayMsrScore_OptionalPass (

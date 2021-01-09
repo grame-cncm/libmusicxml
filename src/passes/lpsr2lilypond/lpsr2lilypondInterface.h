@@ -28,6 +28,7 @@ EXP void convertLpsrScoreToLilypondCode (
   S_msrOahGroup     msrOpts,
   S_lpsrOahGroup    lpsrOpts,
   string            passNumber,
+  string            passDescription,
   ostream&          lilypondCodeStream);
 
 EXP void convertLpsrScoreToLilypondCodeWithHandler (
@@ -35,6 +36,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
   S_msrOahGroup     msrOpts,
   S_lpsrOahGroup    lpsrOpts,
   string            passNumber,
+  string            passDescription,
   S_oahHandler      handler,
   ostream&          out,
   ostream&          err);

@@ -44,7 +44,8 @@ S_lpsrScore convertMsrScoreToLpsrScore (
   S_msrScore     originalMsrScore,
   S_msrOahGroup  msrOpts,
   S_lpsrOahGroup lpsrOpts,
-  string         passNumber)
+  string         passNumber,
+  string         passDescription)
 {
   if (gGlobalLpsr2lilypondOahGroup->getNoLilypondCode ()) {
     gLogStream <<
@@ -94,7 +95,7 @@ clock_t startClock = clock ();
   // register time spent
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Translate the MSR to a LPSR",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);

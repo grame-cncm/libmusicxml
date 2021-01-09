@@ -39,6 +39,7 @@ void convertLpsrScoreToLilypondCode (
   S_msrOahGroup     msrOpts,
   S_lpsrOahGroup    lpsrOpts,
   string            passNumber,
+  string            passDescription,
   ostream&          lilypondCodeStream)
 {
   // sanity check
@@ -82,7 +83,7 @@ void convertLpsrScoreToLilypondCode (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Translate the LPSR into LilyPond code",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -104,6 +105,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
   S_msrOahGroup     msrOpts,
   S_lpsrOahGroup    lpsrOpts,
   string            passNumber,
+  string            passDescription,
   S_oahHandler      handler,
   ostream&          out,
   ostream&          err)
@@ -146,6 +148,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
         gGlobalMsrOahGroup,
         gGlobalLpsrOahGroup,
         passNumber,
+        passDescription,
         lilypondStandardOutputStream);
     }
     catch (lpsrScoreToLilypondException& e) {
@@ -214,6 +217,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
         gGlobalMsrOahGroup,
         gGlobalLpsrOahGroup,
         passNumber,
+        passDescription,
         lilypondFileOutputStream);
     }
     catch (lpsrScoreToLilypondException& e) {

@@ -2271,9 +2271,12 @@ int main (int argc, char * argv[])
       err =
         msrScore2guidoWithHandler (
           theMsrScore,
-          "Pass 2a",
-          "Pass 2b",
+          "Pass 2",
+          "Convert the MSR score into a second MSR",
           "Pass 3",
+          "Convert the second MSR into an mxmlTree",
+          "Pass 4",
+          "Convert the mxmlTree into Guido text",
           cout,
           cerr,
           handler);
@@ -2284,7 +2287,9 @@ int main (int argc, char * argv[])
         msrScore2lilypondWithHandler (
           theMsrScore,
           "Pass 2",
+          "Convert the MSR into an LPSR",
           "Pass 3",
+          "Convert the LPSR into LilyPond code",
           cout,
           cerr,
           handler);
@@ -2295,8 +2300,11 @@ int main (int argc, char * argv[])
         msrScore2brailleWithHandler (
           theMsrScore,
           "Pass 2a",
+          "Create the first BSR from the MSR",
           "Pass 2b",
+          "Create the finalized BSR from the first BSR",
           "Pass 3",
+          "Convert the BSR into Braille music text",
           cout,
           cerr,
           handler);
@@ -2307,8 +2315,11 @@ int main (int argc, char * argv[])
         msrScore2musicxmlWithHandler (
           theMsrScore,
           "Pass 2",
+          "Convert the MSR score into a second MSR",
           "Pass 3",
+          "Convert the second MSR into an mxmlTree",
           "Pass 4",
+          "Convert the mxmlTree into MusicXML text",
           cout,
           cerr,
           handler);
@@ -2316,7 +2327,7 @@ int main (int argc, char * argv[])
 
     case kMidiOutput:
       gLogStream <<
-        "MIDI output is not implemented yet" <<
+        "MIDI output is not implemented yet 1" <<
         endl;
 
       return 0;

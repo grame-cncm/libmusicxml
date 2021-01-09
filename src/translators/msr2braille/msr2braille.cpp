@@ -58,8 +58,11 @@ namespace MusicXML2
 EXP xmlErr msrScore2brailleWithHandler (
   S_msrScore   theMsrScore,
   string       passNumber1a,
+  string       passDescription1a,
   string       passNumber1b,
+  string       passDescription1b,
   string       passNumber2,
+  string       passDescription2,
   ostream&     out,
   ostream&     err,
   S_oahHandler handler)
@@ -80,16 +83,14 @@ EXP xmlErr msrScore2brailleWithHandler (
     // create the first BSR from the MSR
     // ------------------------------------------------------
 
-    // start the clock
-    clock_t startClock = clock ();
-
     try {
       firstBsrScore =
         convertMsrScoreToBsrScore (
           theMsrScore,
           gGlobalMsrOahGroup,
           gGlobalBsrOahGroup,
-          passNumber1a);
+          passNumber1a,
+          passDescription1a);
     }
     catch (msrScoreToBsrScoreException& e) {
       displayException (e, gOutputStream);
@@ -99,16 +100,6 @@ EXP xmlErr msrScore2brailleWithHandler (
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
-
-    clock_t endClock = clock ();
-
-    // register time spent
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber1a,
-      "Build the first BSR",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
 
     // display the first BSR score if requested
     // ------------------------------------------------------
@@ -147,15 +138,13 @@ EXP xmlErr msrScore2brailleWithHandler (
     // create the finalized BSR from the first BSR
     // ------------------------------------------------------
 
-    // start the clock
-    clock_t startClock = clock ();
-
     try {
       finalizedBsrScore =
         convertBsrFirstScoreToFinalizedBsrScore (
           firstBsrScore,
           gGlobalBsrOahGroup,
-          passNumber1b);
+          passNumber1b,
+          passDescription1b);
     }
     catch (bsrScoreToFinalizedBsrScoreException& e) {
       displayException (e, gOutputStream);
@@ -165,16 +154,6 @@ EXP xmlErr msrScore2brailleWithHandler (
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
-
-    clock_t endClock = clock ();
-
-    // register time spent
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber1b,
-      "Build the finalized BSR",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
 
     // display the finalized BSR score if requested
     // ------------------------------------------------------
@@ -207,11 +186,8 @@ EXP xmlErr msrScore2brailleWithHandler (
   }
 
   {
-    // generate Braille music text from the BSR
+    // convert the BSR into Braille music
     // ------------------------------------------------------
-
-    // start the clock
-    clock_t startClock = clock ();
 
     string
       outputFileName =
@@ -243,6 +219,7 @@ EXP xmlErr msrScore2brailleWithHandler (
           finalizedBsrScore,
           gGlobalBsrOahGroup,
           passNumber2,
+          passDescription2,
           out);
       }
       catch (lpsrScoreToLilypondException& e) {
@@ -303,6 +280,7 @@ EXP xmlErr msrScore2brailleWithHandler (
           finalizedBsrScore,
           gGlobalBsrOahGroup,
           passNumber2,
+          passDescription2,
           brailleCodeFileOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
@@ -326,16 +304,6 @@ EXP xmlErr msrScore2brailleWithHandler (
 
       brailleCodeFileOutputStream.close ();
     }
-
-    // register time spent
-    clock_t endClock = clock ();
-
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber2,
-      "Generate braille music",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
   }
 
 	return kNoErr;

@@ -304,7 +304,7 @@ int main (int argc, char *argv[])
 
       case kMidiOutput:
         gLogStream <<
-          "MIDI output is not implemented yet" <<
+          "MIDI output is not implemented yet 2" <<
           endl;
 
         return 0;
@@ -365,7 +365,7 @@ int main (int argc, char *argv[])
 
       case kMidiOutput:
         gLogStream <<
-          "MIDI output is not implemented yet" <<
+          "MIDI output is not implemented yet 3" <<
           endl;
 
         return 0;

@@ -397,8 +397,9 @@ string uncompressMXLFile (
 
 //_______________________________________________________________________________
 SXMLFile createXMLFileFromFile (
-  const char * file,
-  string       passNumber)
+  const char * fileName,
+  string       passNumber,
+  string       passDescription)
 {
   SXMLFile result;
 
@@ -408,14 +409,14 @@ SXMLFile createXMLFileFromFile (
 	xmlreader r;
 	SXMLFile xmlfile;
 
-	result = r.read (file);
+	result = r.read (fileName);
 
   // register time spent
   clock_t endClock = clock ();
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Build the MusicXML elements tree from a file",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -426,7 +427,8 @@ SXMLFile createXMLFileFromFile (
 //_______________________________________________________________________________
 SXMLFile createXMLFileFromFd (
   FILE * fd,
-  string passNumber)
+  string passNumber,
+  string passDescription)
 {
   SXMLFile result;
 
@@ -442,7 +444,7 @@ SXMLFile createXMLFileFromFd (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Build the MusicXML elements tree from a file descriptor",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -453,7 +455,8 @@ SXMLFile createXMLFileFromFd (
 //_______________________________________________________________________________
 SXMLFile createXMLFileFromString (
   const char * buffer,
-  string     passNumber)
+  string     passNumber,
+  string     passDescription)
 {
   SXMLFile result;
 
@@ -473,7 +476,7 @@ SXMLFile createXMLFileFromString (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Build the MusicXML elements tree from a string",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -485,7 +488,8 @@ SXMLFile createXMLFileFromString (
 EXP Sxmlelement musicXMLFile2mxmlTree (
   const char*   fileName,
   S_mxmlTreeOahGroup mxmlOpts,
-  string        passNumber)
+  string        passNumber,
+  string        passDescription)
 {
   // start the clock
   clock_t startClock = clock ();
@@ -665,7 +669,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "build xmlelement tree from file",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -675,9 +679,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFd2mxmlTree (
-  FILE*         fd,
+  FILE*              fd,
   S_mxmlTreeOahGroup mxmlOpts,
-  string        passNumber)
+  string             passNumber,
+  string             passDescription)
 {
   // start the clock
   clock_t startClock = clock ();
@@ -788,7 +793,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    ": build xmlelement tree from standard input",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -801,9 +806,10 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLString2mxmlTree (
-  const char*   buffer,
+  const char*        buffer,
   S_mxmlTreeOahGroup mxmlOpts,
-  string        passNumber)
+  string             passNumber,
+  string             passDescription)
 {
   // start the clock
   clock_t startClock = clock ();
@@ -834,7 +840,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    ": build xmlelement tree from buffer",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -848,7 +854,8 @@ EXP Sxmlelement musicXMLString2mxmlTree (
 //_______________________________________________________________________________
 Sxmlelement convertMusicXMLToMxmlTree (
   string inputSourceName,
-  string passNumber)
+  string passNumber,
+  string passDescription)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTracePasses ()) {
@@ -873,7 +880,8 @@ Sxmlelement convertMusicXMLToMxmlTree (
       musicXMLFd2mxmlTree (
         stdin,
         gGlobalMxmlTreeOahGroup,
-        passNumber);
+        passNumber,
+        passDescription);
   }
 
   else {
@@ -902,7 +910,8 @@ Sxmlelement convertMusicXMLToMxmlTree (
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),
         gGlobalMxmlTreeOahGroup,
-        passNumber);
+        passNumber,
+        passDescription);
   }
 
   return mxmlTree;
@@ -911,9 +920,10 @@ Sxmlelement convertMusicXMLToMxmlTree (
 /* JMI
 //_______________________________________________________________________________
 EXP S_msrScore mxmlTreeToMsrScoreSkeleton (
-  Sxmlelement   mxmlTree,
+  Sxmlelement        mxmlTree,
   S_mxmlTreeOahGroup mxmlOpts,
-  string        passNumber)
+  string             passNumber,
+  string             passDescription)
 {
 
   // create the MSR skeleton from the mxmlTree
@@ -929,7 +939,8 @@ EXP S_msrScore mxmlTreeToMsrScoreSkeleton (
       convertMxmlTreeToMsrScoreSkeleton (
         mxmlTree,
         gGlobalMsrOahGroup,
-        passNumber);
+        passNumber,
+        passDescription);
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -945,7 +956,7 @@ EXP S_msrScore mxmlTreeToMsrScoreSkeleton (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "create the MSR skeleton",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);

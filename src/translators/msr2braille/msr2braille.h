@@ -33,8 +33,11 @@ namespace MusicXML2
 EXP xmlErr msrScore2brailleWithHandler (
   S_msrScore   theMsrScore,
   string       passNumber1a,
+  string       passDescription1a,
   string       passNumber1b,
+  string       passDescription1b,
   string       passNumber2,
+  string       passDescription2,
   ostream&     out,
   ostream&     err,
   S_oahHandler handler);

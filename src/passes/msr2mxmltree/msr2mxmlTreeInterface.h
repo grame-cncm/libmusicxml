@@ -34,6 +34,7 @@ EXP Sxmlelement convertMsrScoreToMxmltree (
   const S_msrScore           theMsrScore,
   S_msrOahGroup              msrOpts,
   string                     passNumber,
+  string                     passDescription,
   timingItem::timingItemKind timingItemKind);
 
 

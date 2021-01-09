@@ -21,15 +21,17 @@ namespace MusicXML2
 {
 //_______________________________________________________________________________
 EXP S_msrScore convertMxmlTreeToMsrScoreSkeleton (
-  Sxmlelement mxmlTree,
-  S_msrOahGroup&   msrOpts,
-  string      passNumber);
+  Sxmlelement    mxmlTree,
+  S_msrOahGroup& msrOpts,
+  string         passNumber,
+  string         passDescription);
 
 //_______________________________________________________________________________
 EXP void displayMsrSkeleton (
-  S_msrOahGroup&  msrOpts,
-  S_msrScore theMsrScore,
-  string     passNumber);
+  S_msrOahGroup& msrOpts,
+  S_msrScore     theMsrScore,
+  string         passNumber,
+  string         passDescription);
 
 
 } // namespace MusicXML2

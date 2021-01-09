@@ -112,7 +112,8 @@ static xmlErr xmlFile2brailleWithHandler (
       convertMxmlTreeToMsrScoreSkeleton (
         mxmlTree,
         gGlobalMsrOahGroup,
-        "Pass 2a");
+        "Pass 2a",
+        "Create an MSR skeleton from the mxmlTree");
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -135,14 +136,15 @@ static xmlErr xmlFile2brailleWithHandler (
     return kNoErr;
   }
 
-  // populate the MSR from MusicXML contents (pass 2b)
+  // populate the MSR skeleton from MusicXML data (pass 2b)
   // ------------------------------------------------------
 
   try {
     populateMsrSkeletonFromMxmlTree (
       mxmlTree,
       theMsrScore,
-      "Pass 2b");
+        "Pass 2b",
+        "Populate the MSR skeleton from MusicXML data");
   }
   catch (mxmlTreeToMsrException& e) {
     displayException (e, gOutputStream);
@@ -172,17 +174,14 @@ static xmlErr xmlFile2brailleWithHandler (
     // create the first BSR from the MSR (pass 3a)
     // ------------------------------------------------------
 
-    // start the clock
-    clock_t startClock = clock ();
-    const string passNumber = "Pass 3a";
-
     try {
       firstBsrScore =
         convertMsrScoreToBsrScore (
           theMsrScore,
           gGlobalMsrOahGroup,
           gGlobalBsrOahGroup,
-          passNumber);
+          "Pass 3a",
+          "Create a first BSR from the MSR");
     }
     catch (msrScoreToBsrScoreException& e) {
       displayException (e, gOutputStream);
@@ -192,16 +191,6 @@ static xmlErr xmlFile2brailleWithHandler (
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
-
-    clock_t endClock = clock ();
-
-    // register time spent
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "Build the first BSR",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
 
     // display the first BSR score if requested
     // ------------------------------------------------------
@@ -240,16 +229,13 @@ static xmlErr xmlFile2brailleWithHandler (
     // create the finalized BSR from the first BSR (pass 3b)
     // ------------------------------------------------------
 
-    // start the clock
-    clock_t startClock = clock ();
-    const string passNumber = "Pass 3b";
-
     try {
       finalizedBsrScore =
         convertBsrFirstScoreToFinalizedBsrScore (
           firstBsrScore,
           gGlobalBsrOahGroup,
-          passNumber);
+          "Pass 3b",
+          "Create the finalized BSR from the first BSR");
     }
     catch (bsrScoreToFinalizedBsrScoreException& e) {
       displayException (e, gOutputStream);
@@ -259,16 +245,6 @@ static xmlErr xmlFile2brailleWithHandler (
       displayException (e, gOutputStream);
       return kInvalidFile;
     }
-
-    clock_t endClock = clock ();
-
-    // register time spent
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "Build the finalized BSR",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
 
     // display the finalized BSR score if requested
     // ------------------------------------------------------
@@ -304,10 +280,6 @@ static xmlErr xmlFile2brailleWithHandler (
     // generate Braille music text from the BSR (pass 4)
     // ------------------------------------------------------
 
-    // start the clock
-    clock_t startClock = clock ();
-    const string passNumber = "Pass 4";
-
     string
       outputFileName =
         handler->
@@ -332,12 +304,13 @@ static xmlErr xmlFile2brailleWithHandler (
       }
 #endif
 
-      // convert the BSR score to braille text
+      // convert the BSR to braille text
       try {
         convertBsrScoreToBrailleText (
           finalizedBsrScore,
           gGlobalBsrOahGroup,
-          passNumber,
+          "Pass 4",
+          "Convert the finalized BSR into braille text",
           out);
       }
       catch (lpsrScoreToLilypondException& e) {
@@ -392,12 +365,13 @@ static xmlErr xmlFile2brailleWithHandler (
         throw bsrScoreToBrailleTextException (message);
       }
 
-      // convert the finalized BSR score to braille text
+      // convert the finalized BSR to braille text
       try {
         convertBsrScoreToBrailleText (
           finalizedBsrScore,
           gGlobalBsrOahGroup,
-          passNumber,
+          "Pass 4",
+          "Convert the finalized BSR into braille text",
           brailleCodeFileOutputStream);
       }
       catch (lpsrScoreToLilypondException& e) {
@@ -421,16 +395,6 @@ static xmlErr xmlFile2brailleWithHandler (
 
       brailleCodeFileOutputStream.close ();
     }
-
-    // register time spent
-    clock_t endClock = clock ();
-
-    timing::gGlobalTiming.appendTimingItem (
-      passNumber,
-      "Generate braille music",
-      timingItem::kMandatory,
-      startClock,
-      endClock);
   }
 
 	return kNoErr;
@@ -619,9 +583,13 @@ EXP xmlErr musicxmlfile2braille (
   std::ostream&        out,
   std::ostream&        err)
 {
+  //
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFile (fileName, "Pass 1");
+	    createXMLFileFromFile (
+	      fileName,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML file");
 
 	if (xmlfile) {
 		return
@@ -640,7 +608,10 @@ xmlErr musicxmlFile2brailleWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFile (fileName, "Pass 1");
+	    createXMLFileFromFile (
+	      fileName,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML file");
 
 	if (xmlfile) {
 		return
@@ -660,7 +631,10 @@ EXP xmlErr musicxmlfd2braille (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFd (fd, "Pass 1");
+	    createXMLFileFromFd (
+	      fd,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML descriptor");
 
 	if (xmlfile) {
 		return
@@ -679,7 +653,10 @@ xmlErr musicxmlFd2brailleWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromFd (fd, "Pass 1");
+	    createXMLFileFromFd (
+	      fd,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML descriptor");
 
 	if (xmlfile) {
 		return
@@ -699,7 +676,10 @@ EXP xmlErr musicxmlstring2braille (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromString (buffer, "Pass 1");
+	    createXMLFileFromString (
+	      buffer,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML buffer");
 
 	// call xmlFile2braille() even if xmlfile is null,
 	// to handle the help options if any
@@ -718,7 +698,10 @@ xmlErr musicxmlString2brailleWithHandler (
 {
 	SXMLFile
 	  xmlfile =
-	    createXMLFileFromString (buffer, "Pass 1");
+	    createXMLFileFromString (
+	      buffer,
+	      "Pass 1",
+	      "Create an mxmlTree reading a MusicXML buffer");
 
 	// call xmlFile2braille() even if xmlfile is null,
 	// to handle the help options if any

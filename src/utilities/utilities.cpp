@@ -79,12 +79,11 @@ timing::~timing ()
 
 
 void timing::appendTimingItem (
-  string         activity,
-  string         description,
-  timingItem::timingItemKind
-                 kind,
-  clock_t        startClock,
-  clock_t        endClock)
+  string                     activity,
+  string                     description,
+  timingItem::timingItemKind kind,
+  clock_t                    startClock,
+  clock_t                    endClock)
 {
   S_timingItem
     timingItem =

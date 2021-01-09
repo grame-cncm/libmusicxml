@@ -162,7 +162,7 @@ string Mikrokosmos3WanderingInsiderOahHandler::Mikrokosmos3WanderingAboutInforma
     case kMidiOutput:
       passesNumber = 0;
       gLogStream <<
-        "MIDI output is not implemented yet" <<
+        "MIDI output is not implemented yet 4" <<
         endl;
 
       return 0;
@@ -171,10 +171,9 @@ string Mikrokosmos3WanderingInsiderOahHandler::Mikrokosmos3WanderingAboutInforma
 
   stringstream commonHeadPartStream;
 
-// JMI       "Pass 0": handle the options from argc and argv"
-
   commonHeadPartStream <<
-R"(
+R"(What Mikrokosmos3Wandering does:
+
     This multi-pass generator basically performs )" <<
     passesNumber <<
     " passes when generating " <<
@@ -188,7 +187,18 @@ R"(
 
   switch (theGeneratorOutputKind) {
     case k_NoOutput:
-      // should not occur
+      {
+        stringstream s;
+
+        s <<
+          fHandlerExecutableName <<
+          " requires the use of option '" <<
+          "-" << K_GENERATED_OUTPUT_KIND_SHORT_NAME <<
+          ", " << K_GENERATED_OUTPUT_KIND_LONG_NAME <<
+          "'";
+
+        oahError (s.str ());
+      }
       break;
 
     case kGuidoOutput:
@@ -235,7 +245,7 @@ R"(
 
     case kMidiOutput:
       specificPart =
-        "MIDI output is not implemented yet";
+        "MIDI output is not implemented yet 5";
       break;
   } // switch
 
@@ -269,7 +279,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingPrefi
 
 //______________________________________________________________________________
 void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptionGroups (
-  const string&        executableName,
+  const string&       executableName,
   generatorOutputKind generatorOutputKind)
 {
 #ifdef TRACING_IS_ENABLED
@@ -410,7 +420,7 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
 
     case kMidiOutput:
       gLogStream <<
-        "MIDI output is not implemented yet" <<
+        "MIDI output is not implemented yet 6" <<
         endl;
       break;
   } // switch

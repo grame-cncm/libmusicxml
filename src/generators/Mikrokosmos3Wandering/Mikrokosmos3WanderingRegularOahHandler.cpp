@@ -159,7 +159,7 @@ void Mikrokosmos3WanderingRegularOahHandler::createRegularHandlerGroups ()
 
     case kMidiOutput:
       gLogStream <<
-        "MIDI output is not implemented yet" <<
+        "MIDI output is not implemented yet 7" <<
         endl;
       break;
   } // switch

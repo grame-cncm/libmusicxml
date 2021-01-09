@@ -27,7 +27,8 @@ EXP void generateMusicXMLFromMxmlTree (
   Sxmlelement mxmlTree,
   string      outputFileName,
   ostream&    cerr,
-  string      passNumber);
+  string      passNumber,
+  string      passDescription);
 
 
 } // namespace MusicXML2

@@ -29,7 +29,8 @@ EXP S_bsrScore convertMsrScoreToBsrScore (
   S_msrScore    originalMsrScore,
   S_msrOahGroup msrOpts,
   S_bsrOahGroup bsrOpts,
-  string        passNumber);
+  string        passNumber,
+  string        passDescription);
 
 
 } // namespace MusicXML2

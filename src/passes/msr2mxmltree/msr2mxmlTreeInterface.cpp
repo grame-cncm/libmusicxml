@@ -44,6 +44,7 @@ Sxmlelement convertMsrScoreToMxmltree (
   const S_msrScore           theMsrScore,
   S_msrOahGroup              msrOpts,
   string                     passNumber,
+  string                     passDescription,
   timingItem::timingItemKind timingItemKind)
 {
   // sanity check
@@ -86,7 +87,7 @@ Sxmlelement convertMsrScoreToMxmltree (
 
   timing::gGlobalTiming.appendTimingItem (
     passNumber,
-    "Translate the MSR to an mxmlTree",
+    passDescription,
     timingItem::kMandatory,
     startClock,
     endClock);
