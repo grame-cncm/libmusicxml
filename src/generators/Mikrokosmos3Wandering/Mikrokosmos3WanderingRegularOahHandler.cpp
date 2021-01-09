@@ -49,7 +49,6 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingRegularOahHandler Mikrokosmos3WanderingRegularOahHandler::create (
   string               executableName,
-  string               executableAboutInformation,
   string               handlerHeader,
   S_Mikrokosmos3WanderingInsiderOahHandler
                        insiderOahHandler,
@@ -59,7 +58,6 @@ S_Mikrokosmos3WanderingRegularOahHandler Mikrokosmos3WanderingRegularOahHandler:
   Mikrokosmos3WanderingRegularOahHandler* o = new
     Mikrokosmos3WanderingRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler,
       theGeneratorOutputKind);
@@ -70,14 +68,12 @@ S_Mikrokosmos3WanderingRegularOahHandler Mikrokosmos3WanderingRegularOahHandler:
 
 Mikrokosmos3WanderingRegularOahHandler::Mikrokosmos3WanderingRegularOahHandler (
   string               executableName,
-  string               executableAboutInformation,
   string               handlerHeader,
   S_Mikrokosmos3WanderingInsiderOahHandler
                        insiderOahHandler,
   generatorOutputKind theGeneratorOutputKind)
   : oahRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler)
 {
@@ -162,6 +158,9 @@ void Mikrokosmos3WanderingRegularOahHandler::createRegularHandlerGroups ()
       break;
 
     case kMidiOutput:
+      gLogStream <<
+        "MIDI output is not implemented yet" <<
+        endl;
       break;
   } // switch
 
@@ -257,6 +256,10 @@ void Mikrokosmos3WanderingRegularOahHandler::createInformationsRegularGroup ()
   registerAtomInRegularSubgroup ("contact", subGroup);
 
   registerAtomInRegularSubgroup ("display-cpu-usage", subGroup);
+
+  registerAtomInRegularSubgroup ("display-options-handler", subGroup);
+  registerAtomInRegularSubgroup ("display-options-handler-summary", subGroup);
+  registerAtomInRegularSubgroup ("display-options-handler-essentials", subGroup);
 }
 
 void Mikrokosmos3WanderingRegularOahHandler::createAPIRegularGroup ()
@@ -514,8 +517,8 @@ void Mikrokosmos3WanderingRegularOahHandler::createGenerateCodeRegularGroup ()
   S_oahGroup
     group =
       oahGroup::create (
-        "Generated code group",
-        "hgc-group", "help-generate-code-group",
+        "Generated output group",
+        "hgc-group", "help-generate-output-group",
         "",
         kElementVisibilityWhole);
   appendGroupToRegulalHandler (group);
@@ -525,8 +528,8 @@ void Mikrokosmos3WanderingRegularOahHandler::createGenerateCodeRegularGroup ()
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Generated code",
-        "hgc", "help-generate-code",
+        "Generated output",
+        "hgo", "help-generate-output",
         "",
         kElementVisibilityWhole,
         group);

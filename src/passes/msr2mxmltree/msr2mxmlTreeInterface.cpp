@@ -26,6 +26,8 @@
   #include "traceOah.h"
 #endif
 
+#include "mxmlTreeOah.h"
+
 #include "mxmlTree.h"
 
 #include "msr2mxmlTreeInterface.h"
@@ -76,7 +78,7 @@ Sxmlelement convertMsrScoreToMxmltree (
 
   // build the mxmlTree
   Sxmlelement
-    resultingMusicXMLElement =
+    resultingMxmlTree =
       translator.buildMxmltreeFromMsrScore ();
 
   // register time spent
@@ -89,8 +91,30 @@ Sxmlelement convertMsrScoreToMxmltree (
     startClock,
     endClock);
 
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
+    gLogStream <<
+      endl <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl <<
+      "convertMsrScoreToMxmltree(), resultingMxmlTree contains:" <<
+      endl << endl;
+
+    ++gIndenter;
+
+    printMxmlxTree (resultingMxmlTree, gLogStream);
+
+    gLogStream <<
+      endl;
+
+    --gIndenter;
+
+    gLogStream <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl << endl;
+  }
+
   // return it
-  return resultingMusicXMLElement;
+  return resultingMxmlTree;
 }
 
 

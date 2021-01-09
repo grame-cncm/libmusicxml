@@ -186,13 +186,6 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
     setPartNumberOfMeasures (
       fPartNumberOfMeasures);
 
-/* JMI
-  // set the newbornClone's shortest note duration // TEMP JMI NOT NECESSARY???
-  newbornClone->
-    setPartShortestNoteDuration (
-      fPartShortestNoteDuration);
-*/
-
   return newbornClone;
 }
 

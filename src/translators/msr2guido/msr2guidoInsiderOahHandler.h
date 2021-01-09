@@ -33,7 +33,6 @@ class EXP msr2guidoInsiderOahHandler : public oahHandler
 
     static SMARTP<msr2guidoInsiderOahHandler> create (
       string executableName,
-      string executableAboutInformation,
       string handlerHeader);
 
   protected:
@@ -43,7 +42,6 @@ class EXP msr2guidoInsiderOahHandler : public oahHandler
 
     msr2guidoInsiderOahHandler (
       string executableName,
-      string executableAboutInformation,
       string handlerHeader);
 
     virtual ~msr2guidoInsiderOahHandler ();
@@ -62,6 +60,8 @@ class EXP msr2guidoInsiderOahHandler : public oahHandler
 
     // public services
     // ------------------------------------------------------
+
+    string                handlerExecutableAboutInformation () const override;
 
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
 

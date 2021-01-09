@@ -54,34 +54,9 @@ namespace MusicXML2
 */
 //#define ENFORCE_TRACE_OAH
 
-//_______________________________________________________________________________
-string xml2lyAboutInformation ()
-{
-  return
-R"(What xml2ly does:
-
-    This multi-pass translator basically performs 5 passes:
-        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
-                 and converts it to a MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
-                 a Music Score Representation (MSR) skeleton;
-        Pass 2b: converts that tree and the skeleton into a
-                 Music Score Representation (MSR);
-        Pass 3:  converts the MSR into a
-                 LilyPond Score Representation (LPSR);
-        Pass 4:  converts the LPSR to LilyPond source code
-                 and writes it to standard output.
-
-    Other passes are performed according to the options, such as
-    printing views of the internal data or printing a summary of the score.
-
-    The activity log and warning/error messages go to standard error.)";
-}
-
 //______________________________________________________________________________
 S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::create (
   string                 executableName,
-  string                 executableAboutInformation,
   string                 handlerHeader,
   oahHandlerUsedThruKind handlerUsedThruKind)
 {
@@ -89,7 +64,6 @@ S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::create (
   xml2lyInsiderOahHandler* o = new
     xml2lyInsiderOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       handlerUsedThruKind);
   assert (o!=0);
@@ -99,12 +73,10 @@ S_xml2lyInsiderOahHandler xml2lyInsiderOahHandler::create (
 
 xml2lyInsiderOahHandler::xml2lyInsiderOahHandler (
   string                 executableName,
-  string                 executableAboutInformation,
   string                 handlerHeader,
   oahHandlerUsedThruKind handlerUsedThruKind)
   : oahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
 R"(                      Welcome to xml2ly,
               the MusicXML to LilyPond translator
@@ -139,6 +111,30 @@ Usage: xml2ly ([options] | [MusicXMLFile|-])+
 
 xml2lyInsiderOahHandler::~xml2lyInsiderOahHandler ()
 {}
+
+//_______________________________________________________________________________
+string xml2lyInsiderOahHandler::handlerExecutableAboutInformation () const
+{
+  return
+R"(What xml2ly does:
+
+    This multi-pass translator basically performs 5 passes:
+        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
+                 and converts it to a MusicXML tree;
+        Pass 2a: converts that MusicXML tree into to
+                 a Music Score Representation (MSR) skeleton;
+        Pass 2b: populates the MSR skeleton from the MusicXML tree
+                 to get a full MSR;
+        Pass 3:  converts the MSR into a
+                 LilyPond Score Representation (LPSR);
+        Pass 4:  converts the LPSR to LilyPond code
+                 and writes it to standard output.
+
+    Other passes are performed according to the options, such as
+    printing views of the internal data or printing a summary of the score.
+
+    The activity log and warning/error messages go to standard error.)";
+}
 
 //______________________________________________________________________________
 string xml2lyInsiderOahHandler::usageFromUsedThruKind (

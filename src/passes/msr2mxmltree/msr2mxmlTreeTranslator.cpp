@@ -61,7 +61,7 @@ msr2mxmlTreeTranslator::msr2mxmlTreeTranslator (
   // notes
   fANoteHasBeenMetInCurrentMeasure = false;
   fCurrentNoteAwaitsGraceNotes = false;
-  fPendingNoteAwaitingGraceNotes = nullptr;
+  fPendingMsrNoteAwaitingGraceNotes = nullptr;
   fPendingNoteElement = nullptr;
 
   // chords
@@ -395,7 +395,7 @@ void msr2mxmlTreeTranslator::createMxmlAttributesElementAndAppendItToMeasure ()
 
     // append it to the current measure element
     // maybe not if it not in the first measure seen with the given number??? JMI
-    fCurrentMeasure->push (comment);
+    fCurrentMeasureElement->push (comment);
   }
 
   // createMxml the attributes element
@@ -445,7 +445,7 @@ void msr2mxmlTreeTranslator::createMxmlAttributesElementAndAppendItToMeasure ()
   }
 
   // append the attributes element to the current measure element
-  fCurrentMeasure->push (attributesElement);
+  fCurrentMeasureElement->push (attributesElement);
 }
 
 //________________________________________________________________________
@@ -463,7 +463,7 @@ void msr2mxmlTreeTranslator::appendToMeasureDirection (
     Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
     // append it to the current measure element
-    fCurrentMeasure->push (comment);
+    fCurrentMeasureElement->push (comment);
   }
 
   // createMxml a direction element
@@ -479,7 +479,7 @@ void msr2mxmlTreeTranslator::appendToMeasureDirection (
   }
 
   // append the direction element to the current measure element
-  fCurrentMeasure->push (directionElement);
+  fCurrentMeasureElement->push (directionElement);
 
   // createMxml a direction type element
   Sxmlelement directionTypeElement = createMxmlElement (k_direction_type, "");
@@ -492,9 +492,9 @@ void msr2mxmlTreeTranslator::appendToMeasureDirection (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator::appendNoteToMeasure (
-  S_msrNote   note,
-  Sxmlelement elem)
+void msr2mxmlTreeTranslator::appendNoteElementToMeasure (
+  Sxmlelement elem,
+  S_msrNote   theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
@@ -502,7 +502,7 @@ void msr2mxmlTreeTranslator::appendNoteToMeasure (
 
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteToMeasure(), elem = " <<
+      "--> appendNoteElementToMeasure(), elem = " <<
       ", elem: " << mxmlElementAsString (elem) <<
       ", line " << inputLineNumber <<
       endl;
@@ -510,17 +510,18 @@ void msr2mxmlTreeTranslator::appendNoteToMeasure (
 #endif
 
   // append the 'before spanner' elements if any
-  appendNoteSpannersBeforeNote (note);
+  appendNoteSpannersBeforeNote (theMsrNote);
 
   // append elem to the current measure element
-  fCurrentMeasure->push (elem);
+  fCurrentMeasureElement->push (elem);
 
-  // account for the note's whole notes duration in the measure
+  // account for theMsrNote's whole notes duration in the measure
   fCurrentPositionInMeasure +=
-    note->getNoteSoundingWholeNotes ();
+    theMsrNote->
+      getNoteSoundingWholeNotes ();
 
   // append the 'after spanner' elements if any
-  appendNoteSpannersAfterNote (note);
+  appendNoteSpannersAfterNote (theMsrNote);
 }
 
 void msr2mxmlTreeTranslator::appendOtherToMeasure (
@@ -540,7 +541,7 @@ void msr2mxmlTreeTranslator::appendOtherToMeasure (
 #endif
 
   // append elem to the current measure element
-  fCurrentMeasure->push (elem);
+  fCurrentMeasureElement->push (elem);
 }
 
 //________________________________________________________________________
@@ -548,12 +549,12 @@ void msr2mxmlTreeTranslator::appendToNoteNotations (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  if (! fCurrentNoteNotations) {
+  if (! fCurrentNoteNotationsElement) {
     // createMxml an notations element
-    fCurrentNoteNotations = createMxmlElement (k_notations, "");
+    fCurrentNoteNotationsElement = createMxmlElement (k_notations, "");
 
-    // append it to fCurrentNote
-    fCurrentNote->push (fCurrentNoteNotations);
+    // append it to fCurrentNoteElement
+    fCurrentNoteElement->push (fCurrentNoteNotationsElement);
   }
 
   // set elem's "placement" attribute if relevant
@@ -566,20 +567,20 @@ void msr2mxmlTreeTranslator::appendToNoteNotations (
   }
 
   // append elem to the note notations element
-  fCurrentNoteNotations->push (elem);
+  fCurrentNoteNotationsElement->push (elem);
 }
 
 void msr2mxmlTreeTranslator::appendToNoteNotationsOrnaments (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  if (! fCurrentNoteNotationsOrnaments) {
+  if (! fCurrentNoteNotationsOrnamentsElement) {
     // createMxml an notations element
-    fCurrentNoteNotationsOrnaments = createMxmlElement (k_ornaments, "");
+    fCurrentNoteNotationsOrnamentsElement = createMxmlElement (k_ornaments, "");
 
-    // append it to fCurrentNoteNotations
+    // append it to fCurrentNoteNotationsElement
     appendToNoteNotations (
-      fCurrentNoteNotationsOrnaments,
+      fCurrentNoteNotationsOrnamentsElement,
       kPlacementNone); // no placement for '<ornaments />'
   }
 
@@ -593,7 +594,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsOrnaments (
   }
 
   // append elem to the note notations ornaments element
-  fCurrentNoteNotationsOrnaments->push (elem);
+  fCurrentNoteNotationsOrnamentsElement->push (elem);
 }
 
 //________________________________________________________________________
@@ -601,13 +602,13 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsArticulations (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  if (! fCurrentNoteNotationsArticulations) {
+  if (! fCurrentNoteNotationsArticulationsElement) {
     // createMxml the note notations articulations element
-    fCurrentNoteNotationsArticulations = createMxmlElement (k_articulations, "");
+    fCurrentNoteNotationsArticulationsElement = createMxmlElement (k_articulations, "");
 
-    // append it to fCurrentNoteNotationsArticulations
+    // append it to fCurrentNoteNotationsArticulationsElement
     appendToNoteNotations (
-      fCurrentNoteNotationsArticulations,
+      fCurrentNoteNotationsArticulationsElement,
       placementKind);
   }
 
@@ -621,7 +622,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsArticulations (
   }
 
   // append elem to the note notations articulations element
-  fCurrentNoteNotationsArticulations->push (elem);
+  fCurrentNoteNotationsArticulationsElement->push (elem);
 }
 
 //________________________________________________________________________
@@ -629,13 +630,13 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsTechnicals (
   Sxmlelement      elem,
   msrPlacementKind placementKind)
 {
-  if (! fCurrentNoteNotationsTechnicals) {
+  if (! fCurrentNoteNotationsTechnicalsElement) {
     // createMxml an notations element
-    fCurrentNoteNotationsTechnicals = createMxmlElement (k_technical, "");
+    fCurrentNoteNotationsTechnicalsElement = createMxmlElement (k_technical, "");
 
-    // append it to fCurrentNoteNotations
+    // append it to fCurrentNoteNotationsElement
     appendToNoteNotations (
-      fCurrentNoteNotationsTechnicals,
+      fCurrentNoteNotationsTechnicalsElement,
       placementKind);
   }
 
@@ -649,7 +650,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsTechnicals (
   }
 
   // append elem to the note notations technicals element
-  fCurrentNoteNotationsTechnicals->push (elem);
+  fCurrentNoteNotationsTechnicalsElement->push (elem);
 }
 
 //________________________________________________________________________
@@ -1377,7 +1378,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSystemLayout& elt)
 
   if (fOnGoingPrintLayout) {
     // append it to the current print element
-    fCurrentPrint->push (
+    fCurrentPrintElement->push (
       systemLayoutElement);
   }
   else {
@@ -1487,7 +1488,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaffLayout& elt)
 
   if (fOnGoingPrintLayout) {
     // append it to the current print element
-    fCurrentPrint->push (
+    fCurrentPrintElement->push (
       staffLayoutElement);
   }
   else {
@@ -1527,7 +1528,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasureLayout& elt)
         createMxmlElement (k_measure_layout, "");
 
     // append it to the current print element
-    fCurrentPrint->push (
+    fCurrentPrintElement->push (
       measureLayoutElement);
 
     // distance
@@ -2001,14 +2002,14 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCredit& elt)
 #endif
 
   // createMxml a credit element
-  fCurrentScoreCredit = createMxmlElement (k_credit, "");
+  fCurrentScoreCreditElement = createMxmlElement (k_credit, "");
 
   // set its "page" attribute
-  fCurrentScoreCredit->add (
+  fCurrentScoreCreditElement->add (
     createMxmlIntegerAttribute ("page", elt->getCreditPageNumber ()));
 
   // append the credit element to the credit elements pending list
-  fPendingScoreCreditElementsList.push_back (fCurrentScoreCredit);
+  fPendingScoreCreditElementsList.push_back (fCurrentScoreCreditElement);
 }
 
 void msr2mxmlTreeTranslator::visitEnd (S_msrCredit& elt)
@@ -2023,7 +2024,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrCredit& elt)
 #endif
 
   // forget about the current credit element
-  fCurrentScoreCredit = nullptr;
+  fCurrentScoreCreditElement = nullptr;
 }
 
 void msr2mxmlTreeTranslator::visitStart (S_msrCreditWords& elt)
@@ -2190,7 +2191,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCreditWords& elt)
       msrXMLLangKindAsString (elt->getCreditWordsXMLLang ())));
 
   // append it to the current credit element
-  fCurrentScoreCredit->push (creditWordsElement);
+  fCurrentScoreCreditElement->push (creditWordsElement);
 }
 
 void msr2mxmlTreeTranslator::visitEnd (S_msrCreditWords& elt)
@@ -2521,12 +2522,12 @@ if (false)
   }
 
   // createMxml a part element
-  fCurrentPart = createMxmlElement (k_part, "");
+  fCurrentPartElement = createMxmlElement (k_part, "");
   // set its "id" attribute
-	fCurrentPart->add (createMxmlAttribute ("id", partID));
+	fCurrentPartElement->add (createMxmlAttribute ("id", partID));
 
   // append it to the pending part elements list
-  fPendingPartElementsList.push_back (fCurrentPart);
+  fPendingPartElementsList.push_back (fCurrentPartElement);
 
   // get the part shortest note's duration
   fPartShortestNoteDuration =
@@ -2652,10 +2653,10 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPart& elt)
   --gIndenter;
 
   // forget about measure elements in the map
-  fPartMeasuresMap.clear ();
+  fPartMeasureNumbersToElementsMap.clear ();
 
   // forget about the current part element
-  fCurrentPart = nullptr;
+  fCurrentPartElement = nullptr;
 
   // forget about the current part clef
   fCurrentPartClef = nullptr;
@@ -2696,7 +2697,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSegment& elt)
     Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
     // append it to the current part element
-    fCurrentPart->push (comment);
+    fCurrentPartElement->push (comment);
   }
 }
 
@@ -2728,7 +2729,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrSegment& elt)
     Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
     // append it to the current part element
-    fCurrentPart->push (comment);
+    fCurrentPartElement->push (comment);
   }
 }
 
@@ -2775,11 +2776,11 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
   // has a measure element for this measure number been createMxmld already?
   map<string, Sxmlelement>::iterator
     it =
-      fPartMeasuresMap.find (measureNumber);
+      fPartMeasureNumbersToElementsMap.find (measureNumber);
 
-  if (it != fPartMeasuresMap.end ()) {
+  if (it != fPartMeasureNumbersToElementsMap.end ()) {
     // yes, use existing measure element
-    fCurrentMeasure = (*it).second;
+    fCurrentMeasureElement = (*it).second;
   }
   else {
     // no
@@ -2796,19 +2797,19 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
       Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
       // append it to the current part element
-      fCurrentPart->push (comment);
+      fCurrentPartElement->push (comment);
     }
 
     // createMxml a measure element
-    fCurrentMeasure = createMxmlElement (k_measure, "");
+    fCurrentMeasureElement = createMxmlElement (k_measure, "");
     // set its "number" attribute
-    fCurrentMeasure->add (createMxmlAttribute ("number", measureNumber));
+    fCurrentMeasureElement->add (createMxmlAttribute ("number", measureNumber));
 
     // append it to the current part element
-    fCurrentPart->push (fCurrentMeasure);
+    fCurrentPartElement->push (fCurrentMeasureElement);
 
     // register it in the part measures map
-    fPartMeasuresMap [measureNumber] = fCurrentMeasure;
+    fPartMeasureNumbersToElementsMap [measureNumber] = fCurrentMeasureElement;
   }
 
   // is there a print element to be appended?
@@ -2828,15 +2829,15 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
       Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
       // append it to the current measure element
-      fCurrentMeasure->push (comment);
+      fCurrentMeasureElement->push (comment);
     }
 
     // createMxml a print element
-    fCurrentPrint = createMxmlElement (k_print, "");
+    fCurrentPrintElement = createMxmlElement (k_print, "");
 
     // append it to the current measure element at once,
     // since is must be the first one in the measure
-    fCurrentMeasure->push (fCurrentPrint);
+    fCurrentMeasureElement->push (fCurrentPrintElement);
   }
 
   // is there a divisions element to be appended?
@@ -2891,7 +2892,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrMeasure& elt)
 #endif
 
   // forget about the current measure element
-  fCurrentMeasure = nullptr;
+  fCurrentMeasureElement = nullptr;
 
   // reset the current position in the measure
   fCurrentPositionInMeasure = rational (0, 1);
@@ -2937,31 +2938,31 @@ void msr2mxmlTreeTranslator::visitStart (S_msrPrintLayout& elt)
   if (staffSpacing > 0) {
     stringstream s;
     s << staffSpacing;
-  	fCurrentPrint->add (createMxmlAttribute ("staff-spacing", s.str ()));
+  	fCurrentPrintElement->add (createMxmlAttribute ("staff-spacing", s.str ()));
   }
 
   bool newSystem = elt->getNewSystem ();
   if (newSystem) {
-  	fCurrentPrint->add (createMxmlAttribute ("new-system", "yes"));
+  	fCurrentPrintElement->add (createMxmlAttribute ("new-system", "yes"));
   }
 
   bool newPage = elt->getNewPage ();
   if (newPage) {
-  	fCurrentPrint->add (createMxmlAttribute ("new-page", "yes"));
+  	fCurrentPrintElement->add (createMxmlAttribute ("new-page", "yes"));
   }
 
   int blankPage = elt->getBlankPage ();
   if (blankPage > 0) {
     stringstream s;
     s << blankPage;
-  	fCurrentPrint->add (createMxmlAttribute ("blank-page", s.str ()));
+  	fCurrentPrintElement->add (createMxmlAttribute ("blank-page", s.str ()));
   }
 
   int pageNumber = elt->getPageNumber ();
   if (pageNumber > 0) {
     stringstream s;
     s << pageNumber;
-  	fCurrentPrint->add (createMxmlAttribute ("page-number", s.str ()));
+  	fCurrentPrintElement->add (createMxmlAttribute ("page-number", s.str ()));
   }
 
   fOnGoingPrintLayout = true;
@@ -2982,7 +2983,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPrintLayout& elt)
 #endif
 
   // forget about the current print layout element
-  fCurrentPrint = nullptr;
+  fCurrentPrintElement = nullptr;
 
   fOnGoingPrintLayout = false;
 }
@@ -4075,11 +4076,11 @@ void msr2mxmlTreeTranslator::visitStart (S_msrChord& elt)
       " elements" <<
       ", line " << inputLineNumber <<
       " ===== ";
-    fPendingChordStartComment = createMxmlElement (kComment, s.str ());
+    fPendingChordStartCommentElement = createMxmlElement (kComment, s.str ());
   }
 
   // append it to the current measure element
-  fCurrentMeasure->push (fPendingChordStartComment);
+  fCurrentMeasureElement->push (fPendingChordStartCommentElement);
 
   fOnGoingChord = true;
 }
@@ -4114,11 +4115,11 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrChord& elt)
     Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
     // append it to the current measure element
-    fCurrentMeasure->push (comment);
+    fCurrentMeasureElement->push (comment);
   }
 
   // forget about the pending chord start comment
-  fPendingChordStartComment = nullptr;
+  fPendingChordStartCommentElement = nullptr;
 
   fOnGoingChord = false;
 }
@@ -4153,7 +4154,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTuplet& elt)
     Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
     // append it to the current measure element
-    fCurrentMeasure->push (comment);
+    fCurrentMeasureElement->push (comment);
   }
 }
 
@@ -4186,25 +4187,25 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrTuplet& elt)
     Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
     // append it to the current measure element
-    fCurrentMeasure->push (comment);
+    fCurrentMeasureElement->push (comment);
   }
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteWedges (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendNoteWedges (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceWedges ()) {
     gLogStream <<
-      "--> appendNoteWedges, note = " <<
-      note->asShortString () <<
+      "--> appendNoteWedges, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
 
   const list<S_msrWedge>&
     noteWedges =
-      note->getNoteWedges () ;
+      theMsrNote->getNoteWedges () ;
 
   if (noteWedges.size ()) {
     list<S_msrWedge>::const_iterator i;
@@ -4246,20 +4247,20 @@ void msr2mxmlTreeTranslator:: appendNoteWedges (S_msrNote note)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteDynamics (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendNoteDynamics (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceDynamics ()) {
     gLogStream <<
-      "--> appendNoteDynamics, note = " <<
-      note->asShortString () <<
+      "--> appendNoteDynamics, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
 
   const list<S_msrDynamics>&
     noteDynamics =
-      note->getNoteDynamics () ;
+      theMsrNote->getNoteDynamics () ;
 
   if (noteDynamics.size ()) {
     list<S_msrDynamics>::const_iterator i;
@@ -4365,10 +4366,10 @@ void msr2mxmlTreeTranslator:: appendNoteDynamics (S_msrNote note)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendABackupToMeasure (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendABackupToMeasure (S_msrNote theMsrNote)
 {
   int inputLineNumber =
-     note->getInputLineNumber ();
+     theMsrNote->getInputLineNumber ();
 
   // fetch the backup duration divisions
   rational
@@ -4388,8 +4389,8 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (S_msrNote note)
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMusicxmlOahGroup->getTraceBackup ()) {
     gLogStream <<
-      "Creating a backup element, note = " <<
-      note->asShortString () <<
+      "Creating a backup element, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       ", backupDurationDivisions: " << backupDurationDivisions <<
       ", line " << inputLineNumber <<
       endl;
@@ -4399,11 +4400,11 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (S_msrNote note)
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
     S_msrVoice
       noteVoice =
-        note->fetchNoteVoiceUpLink ();
+        theMsrNote->fetchNoteVoiceUpLink ();
 
     int
       noteStaffNumber =
-        note->
+        theMsrNote->
           fetchNoteStaffUpLink ()->
             getStaffNumber (),
       previousMSRNoteStaffNumber =
@@ -4442,10 +4443,10 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (S_msrNote note)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendAForwardToMeasure (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendAForwardToMeasure (S_msrNote theMsrNote)
 {
   int inputLineNumber =
-     note->getInputLineNumber ();
+     theMsrNote->getInputLineNumber ();
 
   /*
     <forward>
@@ -4466,7 +4467,7 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (S_msrNote note)
   if (gGlobalMusicxmlOahGroup->getTraceForward ()) {
     gLogStream <<
       "Creating a forward element, note = " <<
-      note->asShortString () <<
+      theMsrNote->asShortString () <<
       ", forwardDurationDivisions: " << forwardDurationDivisions <<
       ", line " << inputLineNumber <<
       endl;
@@ -4475,11 +4476,11 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (S_msrNote note)
 
   int
     noteStaffNumber =
-      note->
+      theMsrNote->
         fetchNoteStaffUpLink ()->
           getStaffNumber (),
     noteVoiceNumber =
-      note->
+      theMsrNote->
         fetchNoteVoiceUpLink ()->
           getVoiceNumber ();
 
@@ -4495,7 +4496,7 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (S_msrNote note)
     // createMxml a forward comment
     S_msrVoice
       noteVoice =
-        note->fetchNoteVoiceUpLink ();
+        theMsrNote->fetchNoteVoiceUpLink ();
 
     stringstream s;
     s <<
@@ -4538,11 +4539,11 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (S_msrNote note)
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendABackupOrForwardToMeasureIfNeeded (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
-     note->getInputLineNumber ();
+     theMsrNote->getInputLineNumber ();
 #endif
 
 /* JMI
@@ -4555,11 +4556,11 @@ fetchNoteStaffUpLink ----> nullptr
 
   int
     noteStaffNumber =
-      note->
+      theMsrNote->
         fetchNoteStaffUpLink ()->
           getStaffNumber (),
     noteVoiceNumber =
-      note->
+      theMsrNote->
         fetchNoteVoiceUpLink ()->
           getVoiceNumber (),
     previousMSRNoteStaffNumber =
@@ -4574,8 +4575,8 @@ fetchNoteStaffUpLink ----> nullptr
 #ifdef TRACING_IS_ENABLED
   if (gGlobalMusicxmlOahGroup->getTraceBackup () || gGlobalMusicxmlOahGroup->getTraceForward ()) {
     gLogStream <<
-      "--> appendABackupOrForwardToMeasureIfNeeded(1), note = " <<
-      note->asShortString () <<
+      "--> appendABackupOrForwardToMeasureIfNeeded(1), theMsrNote = " <<
+      theMsrNote->asShortString () <<
       ", fCurrentCumulatedSkipsDurations: " << fCurrentCumulatedSkipsDurations <<
       ", noteStaffNumber: " << noteStaffNumber <<
       ", noteVoiceNumber: " << noteVoiceNumber <<
@@ -4628,12 +4629,12 @@ fCurrentCumulatedSkipsVoiceNumber
           // that is not at the beginning of the measure
           rational
             notePositionInMeasure =
-              note->getMeasureElementPositionInMeasure ();
+              theMsrNote->getMeasureElementPositionInMeasure ();
 
           rational
             positionAfterNoteInMeasure =
               notePositionInMeasure +
-                note->getNoteSoundingWholeNotes ();
+                theMsrNote->getNoteSoundingWholeNotes ();
           positionAfterNoteInMeasure.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
@@ -4644,7 +4645,7 @@ fCurrentCumulatedSkipsVoiceNumber
           ) {
             gLogStream <<
               "--> appendABackupOrForwardToMeasureIfNeeded(2), note = " <<
-              note->asShortString () <<
+              theMsrNote->asShortString () <<
               ", notePositionInMeasure: " << notePositionInMeasure <<
               ", positionAfterNoteInMeasure: " << positionAfterNoteInMeasure <<
               ", fCurrentPositionInMeasure: " << fCurrentPositionInMeasure <<
@@ -4654,23 +4655,23 @@ fCurrentCumulatedSkipsVoiceNumber
 #endif
 
           if (positionAfterNoteInMeasure < fCurrentPositionInMeasure) { // JMI TEST
-            appendABackupToMeasure (note);
+            appendABackupToMeasure (theMsrNote);
           }
           else if (positionAfterNoteInMeasure > fCurrentPositionInMeasure) {
-            appendAForwardToMeasure (note);
+            appendAForwardToMeasure (theMsrNote);
           }
         }
       }
 
       else {
         // same staff, different voice
-        appendABackupToMeasure (note);
+        appendABackupToMeasure (theMsrNote);
       }
     }
 
     else {
       // there is a staff change
-      appendABackupToMeasure (note);
+      appendABackupToMeasure (theMsrNote);
 
       if (noteVoiceNumber == previousMSRNoteVoiceNumber) {
         // JMI
@@ -4683,13 +4684,13 @@ fCurrentCumulatedSkipsVoiceNumber
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: populateNoteDirections (S_msrNote note)
+void msr2mxmlTreeTranslator:: populateNoteDirections (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> populateNoteDirections, note = " <<
-      note->asShortString () <<
+      "--> populateNoteDirections, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -4707,20 +4708,20 @@ void msr2mxmlTreeTranslator:: populateNoteDirections (S_msrNote note)
 */
 
   // append the wedges elements if any
-  appendNoteWedges (note);
+  appendNoteWedges (theMsrNote);
 
   // append the dynamics elements if any
-  appendNoteDynamics (note);
+  appendNoteDynamics (theMsrNote);
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteOrnaments (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendNoteOrnaments (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteOrnaments, note = " <<
-      note->asShortString () <<
+      "--> appendNoteOrnaments, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -4747,7 +4748,7 @@ void msr2mxmlTreeTranslator:: appendNoteOrnaments (S_msrNote note)
   // append the ornament elements if any
   const list<S_msrOrnament>&
     noteOrnaments =
-      note->getNoteOrnaments () ;
+      theMsrNote->getNoteOrnaments () ;
 
   if (noteOrnaments.size ()) {
     list<S_msrOrnament>::const_iterator i;
@@ -4830,13 +4831,13 @@ void msr2mxmlTreeTranslator:: appendNoteOrnaments (S_msrNote note)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteTechnicals (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendNoteTechnicals (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteTechnicals, note = " <<
-      note->asShortString () <<
+      "--> appendNoteTechnicals, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -4858,7 +4859,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicals (S_msrNote note)
   // append the technical elements if any
   const list<S_msrTechnical>&
     noteTechnicals =
-      note->getNoteTechnicals () ;
+      theMsrNote->getNoteTechnicals () ;
 
   if (noteTechnicals.size ()) {
     list<S_msrTechnical>::const_iterator i;
@@ -4934,13 +4935,13 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicals (S_msrNote note)
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendNoteTechnicalWithIntegers (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteTechnicalWithIntegers, note = " <<
-      note->asShortString () <<
+      "--> appendNoteTechnicalWithIntegers, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -4962,7 +4963,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithIntegers (
   // append the technicalWithInteger elements if any
   const list<S_msrTechnicalWithInteger>&
     noteTechnicalWithIntegers =
-      note->getNoteTechnicalWithIntegers () ;
+      theMsrNote->getNoteTechnicalWithIntegers () ;
 
   if (noteTechnicalWithIntegers.size ()) {
     list<S_msrTechnicalWithInteger>::const_iterator i;
@@ -5012,13 +5013,13 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithIntegers (
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendNoteTechnicalWithFloats (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteTechnicalWithFloats, note = " <<
-      note->asShortString () <<
+      "--> appendNoteTechnicalWithFloats, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -5040,7 +5041,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithFloats (
   // append the technicalWithFloat elements if any
   const list<S_msrTechnicalWithFloat>&
     noteTechnicalWithFloats =
-      note->getNoteTechnicalWithFloats () ;
+      theMsrNote->getNoteTechnicalWithFloats () ;
 
   if (noteTechnicalWithFloats.size ()) {
     list<S_msrTechnicalWithFloat>::const_iterator i;
@@ -5081,13 +5082,13 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithFloats (
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendNoteTechnicalWithStrings (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteTechnicalWithStrings, note = " <<
-      note->asShortString () <<
+      "--> appendNoteTechnicalWithStrings, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -5109,7 +5110,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithStrings (
   // append the technicalWithString elements if any
   const list<S_msrTechnicalWithString>&
     noteTechnicalWithStrings =
-      note->getNoteTechnicalWithStrings () ;
+      theMsrNote->getNoteTechnicalWithStrings () ;
 
   if (noteTechnicalWithStrings.size ()) {
     list<S_msrTechnicalWithString>::const_iterator i;
@@ -5157,13 +5158,13 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithStrings (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteArticulations (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendNoteArticulations (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteArticulations, note = " <<
-      note->asShortString () <<
+      "--> appendNoteArticulations, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -5171,7 +5172,7 @@ void msr2mxmlTreeTranslator:: appendNoteArticulations (S_msrNote note)
   // append the articulation elements if any
   const list<S_msrArticulation>&
     noteArticulations =
-      note->getNoteArticulations () ;
+      theMsrNote->getNoteArticulations () ;
 
   if (noteArticulations.size ()) {
     list<S_msrArticulation>::const_iterator i;
@@ -5301,19 +5302,19 @@ void msr2mxmlTreeTranslator:: appendNoteArticulations (S_msrNote note)
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendNoteTieIfAny (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteTechnicalWithStrings, note = " <<
-      note->asShortString () <<
+      "--> appendNoteTieIfAny, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
 
   // append the tie element if any
-  S_msrTie noteTie = note->getNoteTie ();
+  S_msrTie noteTie = theMsrNote->getNoteTie ();
 
   if (noteTie) {
     // createMxml the tied element
@@ -5350,13 +5351,13 @@ void msr2mxmlTreeTranslator:: appendNoteTieIfAny (
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteSlursIfAny, note = " <<
-      note->asShortString () <<
+      "--> appendNoteSlursIfAny, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -5364,7 +5365,7 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
   // append the slur elements if any
   const list<S_msrSlur>&
     noteSlurs =
-      note->getNoteSlurs () ;
+      theMsrNote->getNoteSlurs () ;
 
   if (noteSlurs.size ()) {
     list<S_msrSlur>::const_iterator i;
@@ -5424,18 +5425,18 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteSlursIfAny, note = " <<
-      note->asShortString () <<
+      "--> appendNoteTupletIfRelevant, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
 
-  switch (note->getNoteKind ()) {
+  switch (theMsrNote->getNoteKind ()) {
     case msrNote::k_NoNoteKind:
     case msrNote::kRestNote:
     case msrNote::kSkipNote:
@@ -5447,16 +5448,16 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
     case msrNote::kTupletMemberNote:
     case msrNote::kTupletRestMemberNote:
       {
-        // get the note's tuplet uplink
+        // get theMsrNote's tuplet uplink
         S_msrTuplet
           noteTupletUpLink =
-            note->
+            theMsrNote->
               getNoteTupletUpLink ();
 
-        // get the note's position in tuplet
+        // get theMsrNote's position in tuplet
         unsigned int
           notePositionInTuplet =
-            note->
+            theMsrNote->
               getPositionInTuplet ();
 
         // compute the type string if relevant
@@ -5515,13 +5516,13 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteSpannersBeforeNoteElement, note = " <<
-      note->asShortString () <<
+      "--> appendNoteSpannersBeforeNote, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -5529,7 +5530,8 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
   // append the spanner elements if any
   const list<S_msrSpanner>&
     noteSpanners =
-      note->getNoteSpanners () ;
+      theMsrNote->
+        getNoteSpanners () ;
 
   if (noteSpanners.size ()) {
     list<S_msrSpanner>::const_iterator i;
@@ -5539,7 +5541,8 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
 
       msrSpannerTypeKind
         spannerTypeKind =
-          spanner->getSpannerTypeKind ();
+          spanner->
+            getSpannerTypeKind ();
 
       // should we handle this spanner at all?
       bool doHandleSpanner = true;
@@ -5558,9 +5561,10 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
       } // switch
 
       if (doHandleSpanner) {
-        msrSpanner::msrSpannerKind
+        msrSpanner::msrSpannerKind // twice ??? JMI
           spannerKind =
-            spanner->getSpannerKind ();
+            spanner->
+              getSpannerKind ();
 
         int spannerType = kComment; // JMI
 
@@ -5619,13 +5623,13 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator:: appendNoteSpannersAfterNote (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteSpannersAfterNoteElement, note = " <<
-      note->asShortString () <<
+      "--> appendNoteSpannersAfterNote, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -5633,7 +5637,7 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersAfterNote (
   // append the spanner elements if any
   const list<S_msrSpanner>&
     noteSpanners =
-      note->getNoteSpanners () ;
+      theMsrNote->getNoteSpanners () ;
 
   if (noteSpanners.size ()) {
     list<S_msrSpanner>::const_iterator i;
@@ -5722,18 +5726,18 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersAfterNote (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendStemToNote (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendStemToNote (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendStemToNote, note = " <<
-      note->asShortString () <<
+      "--> appendStemToNote, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
 
-  S_msrStem stem = note->getNoteStem ();
+  S_msrStem stem = theMsrNote->getNoteStem ();
 
   if (stem) {
     msrStem::msrStemKind
@@ -5757,7 +5761,7 @@ void msr2mxmlTreeTranslator:: appendStemToNote (S_msrNote note)
     } // switch
 
     // append a slur element to the current note element
-    fCurrentNote->push (
+    fCurrentNoteElement->push (
       createMxmlElement (
         k_stem,
         stemString));
@@ -5765,13 +5769,13 @@ void msr2mxmlTreeTranslator:: appendStemToNote (S_msrNote note)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator::appendBeamsToNote (S_msrNote note)
+void msr2mxmlTreeTranslator::appendBeamsToNote (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendBeamsToNote, note = " <<
-      note->asShortString () <<
+      "--> appendBeamsToNote, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -5779,7 +5783,7 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (S_msrNote note)
   // append the beam elements if any
   const list<S_msrBeam>&
     noteBeams =
-      note->getNoteBeams () ;
+      theMsrNote->getNoteBeams () ;
 
   if (noteBeams.size ()) {
     list<S_msrBeam>::const_iterator i;
@@ -5820,31 +5824,31 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (S_msrNote note)
       beamElement->add (createMxmlIntegerAttribute ("number", beam->getBeamNumber ()));
 
       // append the beam element to the current note element
-      fCurrentNote->push (beamElement);
+      fCurrentNoteElement->push (beamElement);
     } // for
   }
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
-    note->getInputLineNumber ();
+    theMsrNote->getInputLineNumber ();
 
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendStaffToNoteIfRelevant(), note = " <<
-      note->asShortString () <<
+      "--> appendStaffToNoteIfRelevant(), theMsrNote = " <<
+      theMsrNote->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // fetch the note staff
+  // fetch theMsrNote staff
   S_msrStaff
     noteStaff =
-      note->
+      theMsrNote->
         fetchNoteVoiceUpLink ()->
           getVoiceStaffUpLink ();
 
@@ -5872,7 +5876,7 @@ void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
           getStaffNumber ();
 
     if (noteStaffNumber != 1) { // options ? JMI
-      fCurrentNote->push (
+      fCurrentNoteElement->push (
         createMxmlIntegerElement (
           k_staff,
           noteStaffNumber));
@@ -5882,25 +5886,25 @@ void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote note)
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator::appendVoiceToNoteIfRelevant (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
-    note->getInputLineNumber ();
+    theMsrNote->getInputLineNumber ();
 
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendVoiceToNoteIfRelevant(), note = " <<
-      note->asShortString () <<
+      "--> appendVoiceToNoteIfRelevant(), theMsrNote = " <<
+      theMsrNote->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // fetch the note voice
+  // fetch theMsrNote voice
   S_msrVoice
     noteVoice =
-      note->fetchNoteVoiceUpLink ();
+      theMsrNote->fetchNoteVoiceUpLink ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
@@ -5926,7 +5930,7 @@ void msr2mxmlTreeTranslator::appendVoiceToNoteIfRelevant (
           getVoiceNumber ();
 
     if (noteVoiceNumber != 1) { // options ? JMI
-      fCurrentNote->push (
+      fCurrentNoteElement->push (
         createMxmlIntegerElement (
           k_voice,
           noteVoiceNumber));
@@ -5935,13 +5939,13 @@ void msr2mxmlTreeTranslator::appendVoiceToNoteIfRelevant (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteNotationsToNote (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendNoteNotationsToNote (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteNotationsToNote, note = " <<
-      note->asShortString () <<
+      "--> appendNoteNotationsToNote, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -5960,35 +5964,35 @@ void msr2mxmlTreeTranslator:: appendNoteNotationsToNote (S_msrNote note)
 */
 
   // append the ornaments elements if any
-  appendNoteOrnaments (note);
+  appendNoteOrnaments (theMsrNote);
 
   // append the articulation elements if any
-  appendNoteArticulations (note);
+  appendNoteArticulations (theMsrNote);
 
   // append the technical elements if any
-  appendNoteTechnicals (note);
-  appendNoteTechnicalWithIntegers (note);
-  appendNoteTechnicalWithFloats (note);
-  appendNoteTechnicalWithStrings (note);
+  appendNoteTechnicals (theMsrNote);
+  appendNoteTechnicalWithIntegers (theMsrNote);
+  appendNoteTechnicalWithFloats (theMsrNote);
+  appendNoteTechnicalWithStrings (theMsrNote);
 
   // append the tie element if any
-  appendNoteTieIfAny (note);
+  appendNoteTieIfAny (theMsrNote);
 
   // append the slur elements if any
-  appendNoteSlursIfAny (note);
+  appendNoteSlursIfAny (theMsrNote);
 
   // append the tuplet elements if relevant
-  appendNoteTupletIfRelevant (note);
+  appendNoteTupletIfRelevant (theMsrNote);
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
+void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteLyricsToNote, note = " <<
-      note->asShortString () <<
+      "--> appendNoteLyricsToNote, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
@@ -6013,7 +6017,7 @@ void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
   // append the lyric elements if any
   const list<S_msrSyllable>&
     noteSyllables =
-      note->getNoteSyllables () ;
+      theMsrNote->getNoteSyllables () ;
 
   if (noteSyllables.size ()) {
     list<S_msrSyllable>::const_iterator i;
@@ -6137,7 +6141,7 @@ void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
         // append a syllabic element to the lyric element if relevant
 
         // append the lyric element to the current note element
-        fCurrentNote->push (lyricElement);
+        fCurrentNoteElement->push (lyricElement);
       }
     } // for
   }
@@ -6145,29 +6149,29 @@ void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (S_msrNote note)
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator::appendBasicsToNote (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
   int inputLineNumber =
-    note->getInputLineNumber ();
+    theMsrNote->getInputLineNumber ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendBasicsToNote(), note = " <<
-      note->asShortString () <<
+      "--> appendBasicsToNote(), theMsrNote = " <<
+      theMsrNote->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // grab the note's informations
+  // grab theMsrNote's informations
   msrNote::msrNoteKind
     noteKind =
-      note->getNoteKind ();
+      theMsrNote->getNoteKind ();
 
   msrQuarterTonesPitchKind
     noteQuarterTonesPitchKind =
-      note->getNoteQuarterTonesPitchKind ();
+      theMsrNote->getNoteQuarterTonesPitchKind ();
 
   msrDiatonicPitchKind noteDiatonicPitchKind;
   msrAlterationKind    noteAlterationKind;
@@ -6180,7 +6184,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
 
   msrOctaveKind
     noteOctaveKind =
-      note->getNoteOctaveKind ();
+      theMsrNote->getNoteOctaveKind ();
 
   float
     noteMusicXMLAlter =
@@ -6202,8 +6206,8 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
   // append the chord sub element if relevant
   switch (noteKind) {
     case msrNote::kChordMemberNote:
-      if (! note->getNoteIsAChordsFirstMemberNote ()) {
-        fCurrentNote->push (createMxmlElement (k_chord, ""));
+      if (! theMsrNote->getNoteIsAChordsFirstMemberNote ()) {
+        fCurrentNoteElement->push (createMxmlElement (k_chord, ""));
       }
       break;
     default:
@@ -6214,7 +6218,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
   switch (noteKind) {
     case msrNote::kGraceNote:
     case msrNote::kGraceSkipNote:
-      fCurrentNote->push (createMxmlElement (k_grace, ""));
+      fCurrentNoteElement->push (createMxmlElement (k_grace, ""));
       break;
     default:
       ;
@@ -6226,7 +6230,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
       break;
 
     case msrNote::kRestNote:
-      fCurrentNote->push (createMxmlElement (k_rest, ""));
+      fCurrentNoteElement->push (createMxmlElement (k_rest, ""));
       break;
 
     case msrNote::kSkipNote:
@@ -6264,12 +6268,12 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
             k_octave,
             noteOctaveKind));
 
-        fCurrentNote->push (pitchElement);
+        fCurrentNoteElement->push (pitchElement);
       }
       break;
 
     case msrNote::kTupletRestMemberNote:
-      fCurrentNote->push (createMxmlElement (k_rest, ""));
+      fCurrentNoteElement->push (createMxmlElement (k_rest, ""));
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -6304,7 +6308,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
             noteOctaveKind));
 
         // append the pitch element to the current note
-        fCurrentNote->push (pitchElement);
+        fCurrentNoteElement->push (pitchElement);
       }
       break;
 
@@ -6321,41 +6325,41 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator::appendDurationToNoteIfRelevant (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
   int inputLineNumber =
-    note->getInputLineNumber ();
+    theMsrNote->getInputLineNumber ();
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendDurationToNoteIfRelevant(1), note = " <<
-      note->asShortString () <<
+      "--> appendDurationToNoteIfRelevant(1), theMsrNote = " <<
+      theMsrNote->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // grab the note's informations
+  // grab theMsrNote's informations
   msrNote::msrNoteKind
     noteKind =
-      note->getNoteKind ();
+      theMsrNote->getNoteKind ();
 
   rational
     noteSoundingWholeNotes =
-      note->getMeasureElementSoundingWholeNotes ();
+      theMsrNote->getMeasureElementSoundingWholeNotes ();
 
 #ifdef TRACING_IS_ENABLED
   rational
     noteDisplayWholeNotes =
-      note->getNoteDisplayWholeNotes ();
+      theMsrNote->getNoteDisplayWholeNotes ();
 
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
       "---> noteKind: " << msrNote::noteKindAsString (noteKind) <<
       ", noteSoundingWholeNotes: " << noteSoundingWholeNotes <<
       ", noteDisplayWholeNotes: " << noteDisplayWholeNotes <<
-      ", noteTupletFactor: " << note->getNoteTupletFactor ().asRational () <<
+      ", noteTupletFactor: " << theMsrNote->getNoteTupletFactor ().asRational () <<
       ", divisionsPerQuarterNote: " << fDivisionsPerQuarterNote <<
       ", partShortestNoteDuration: " << fPartShortestNoteDuration <<
       ", fDivisionsMultiplyingFactor: " << fDivisionsMultiplyingFactor <<
@@ -6441,7 +6445,7 @@ void msr2mxmlTreeTranslator::appendDurationToNoteIfRelevant (
         s.str ());
     }
 
-    fCurrentNote->push (
+    fCurrentNoteElement->push (
       createMxmlIntegerElement (
         k_duration,
         soundingDurationAsRational.getNumerator ()));
@@ -6451,7 +6455,7 @@ void msr2mxmlTreeTranslator::appendDurationToNoteIfRelevant (
       gLogStream <<
         endl <<
         "--> appendDurationToNoteIfRelevant(2): " <<
-        note <<
+        theMsrNote <<
         endl;
     }
 #endif
@@ -6459,16 +6463,16 @@ void msr2mxmlTreeTranslator::appendDurationToNoteIfRelevant (
 }
 
 void msr2mxmlTreeTranslator::appendTimeModificationToNoteIfRelevant (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
-    note->getInputLineNumber ();
+    theMsrNote->getInputLineNumber ();
 
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendTimeModificationToNoteIfRelevant(), note = " <<
-      note->asShortString () <<
+      "--> appendTimeModificationToNoteIfRelevant(), theMsrNote = " <<
+      theMsrNote->asShortString () <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -6476,7 +6480,7 @@ void msr2mxmlTreeTranslator::appendTimeModificationToNoteIfRelevant (
 
   msrNote::msrNoteKind
     noteKind =
-      note->getNoteKind ();
+      theMsrNote->getNoteKind ();
 
   // append the time modification if relevant
   switch (noteKind) {
@@ -6517,13 +6521,13 @@ void msr2mxmlTreeTranslator::appendTimeModificationToNoteIfRelevant (
         timeModificationElement->push (
           createMxmlIntegerElement (
             k_actual_notes,
-            note->getNoteTupletFactor ().getTupletActualNotes ()));
+            theMsrNote->getNoteTupletFactor ().getTupletActualNotes ()));
         timeModificationElement->push (
           createMxmlIntegerElement (
             k_normal_notes,
-            note->getNoteTupletFactor ().getTupletNormalNotes ()));
+            theMsrNote->getNoteTupletFactor ().getTupletNormalNotes ()));
 
-        fCurrentNote->push (timeModificationElement);
+        fCurrentNoteElement->push (timeModificationElement);
       }
       break;
 
@@ -6537,24 +6541,24 @@ void msr2mxmlTreeTranslator::appendTimeModificationToNoteIfRelevant (
 
 //________________________________________________________________________
 void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
-  S_msrNote note)
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteToMesureIfRelevant, note = " <<
-      note->asShortString () <<
+      "--> appendNoteToMesureIfRelevant, theMsrNote = " <<
+      theMsrNote->asShortString () <<
       endl;
   }
 #endif
 
   int inputLineNumber =
-    note->getInputLineNumber ();
+    theMsrNote->getInputLineNumber ();
 
   // should a note sub-element be generated?
   bool doGenerateNote = true;
 
-  switch (note->getNoteKind ()) {
+  switch (theMsrNote->getNoteKind ()) {
     case msrNote::k_NoNoteKind:
       break;
     case msrNote::kRestNote:
@@ -6563,7 +6567,7 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
       doGenerateNote = false;
       // cumulating the skip notes durations for <forward /> elements generation
       fCurrentCumulatedSkipsDurations +=
-        note->getNoteSoundingWholeNotes ();
+        theMsrNote->getNoteSoundingWholeNotes ();
       break;
     case msrNote::kUnpitchedNote:
       break;
@@ -6571,10 +6575,10 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
       break;
 
     case msrNote::kChordMemberNote:
-      if (note->getNoteIsAChordsFirstMemberNote ()) {
-        if (false && fPendingChordStartComment) { // JMI
+      if (theMsrNote->getNoteIsAChordsFirstMemberNote ()) {
+        if (false && fPendingChordStartCommentElement) { // JMI
           // append the pending chord start comment to the current part element
-          fCurrentPart->push (fPendingChordStartComment);
+          fCurrentPartElement->push (fPendingChordStartCommentElement);
         }
       }
       break;
@@ -6600,21 +6604,21 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
 
   if (doGenerateNote) {
     // createMxml a note element
-    fCurrentNote = createMxmlElement (k_note, "");
+    fCurrentNoteElement = createMxmlElement (k_note, "");
 
-    // append the note basic sub-elements
-    appendBasicsToNote (note);
+    // append theMsrNote basic sub-elements
+    appendBasicsToNote (theMsrNote);
 
     // append the duration sub-element if relevant
-    appendDurationToNoteIfRelevant (note);
+    appendDurationToNoteIfRelevant (theMsrNote);
 
     // append the voice sub-element if relevant
-    appendVoiceToNoteIfRelevant (note);
+    appendVoiceToNoteIfRelevant (theMsrNote);
 
     // append the type sub-element if relevant
     bool doGenerateType = true;
 
-    switch (note->getNoteKind ()) {
+    switch (theMsrNote->getNoteKind ()) {
       case msrNote::k_NoNoteKind:
         break;
 
@@ -6658,33 +6662,33 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
     if (doGenerateType) {
       msrDurationKind
         noteGraphicDurationKind =
-          note->getNoteGraphicDurationKind ();
+          theMsrNote->getNoteGraphicDurationKind ();
 
-      fCurrentNote->push (
+      fCurrentNoteElement->push (
         createMxmlElement (
           k_type,
           msrDurationKindAsMusicXMLType (noteGraphicDurationKind)));
     }
 
     // append the time-modification sub-element if relevant
-    appendTimeModificationToNoteIfRelevant (note);
+    appendTimeModificationToNoteIfRelevant (theMsrNote);
 
     // append the dots sub-element if relevant
     int
       noteDotsNumber =
-        note->getNoteDotsNumber ();
+        theMsrNote->getNoteDotsNumber ();
 
-  #ifdef TRACING_IS_ENABLED
+#ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceNotes ()) {
       gLogStream <<
         "-->  noteDotsNumber: " << noteDotsNumber <<
         "--> line " << inputLineNumber <<
         endl;
     }
-  #endif
+#endif
 
     for (int i = 0; i < noteDotsNumber; ++i) {
-      fCurrentNote->push (
+      fCurrentNoteElement->push (
         createMxmlElement (
           k_dot, ""));
     } // for
@@ -6692,7 +6696,7 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
     // append the accidental if any
     msrAccidentalKind
       accidentalKind =
-        note->getNoteAccidentalKind ();
+        theMsrNote->getNoteAccidentalKind ();
 
     string
       accidentalString =
@@ -6700,57 +6704,59 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
           accidentalKind);
 
     if (accidentalString.size ()) {
-      fCurrentNote->push (
+      fCurrentNoteElement->push (
         createMxmlElement (
           k_accidental,
           accidentalString));
     }
 
     // append the stem if any
-    appendStemToNote (note);
+    appendStemToNote (theMsrNote);
 
     // append the staff if any
-    appendStaffToNoteIfRelevant (note);
+    appendStaffToNoteIfRelevant (theMsrNote);
 
     // append the beams if any
-    appendBeamsToNote (note);
+    appendBeamsToNote (theMsrNote);
 
     // append the articulations if any
-    appendNoteNotationsToNote (note);
+    appendNoteNotationsToNote (theMsrNote);
 
     // append the lyrics if any
-    appendNoteLyricsToNote (note);
+    appendNoteLyricsToNote (theMsrNote);
 
-    // append the note element to the current measure element right now,
+    // append theMsrNote element to the current measure element right now,
     // unless it contains a grace notes group
     S_msrGraceNotesGroup
       noteGraceNotesGroupBefore =
-        note->getNoteGraceNotesGroupBefore (),
+        theMsrNote->
+          getNoteGraceNotesGroupBefore (),
       noteGraceNotesGroupAfter =
-        note->getNoteGraceNotesGroupAfter ();
+        theMsrNote->
+          getNoteGraceNotesGroupAfter ();
 
     if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
       if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
         // createMxml a note comment
         S_msrVoice
           noteVoice =
-            note->fetchNoteVoiceUpLink ();
+            theMsrNote->fetchNoteVoiceUpLink ();
 
         stringstream s;
         s <<
           " ===== " <<
           "Note " <<
-          note->notePitchAndSoundingWholeNotesAsString () <<
+          theMsrNote->notePitchAndSoundingWholeNotesAsString () <<
           ", staff: " <<
             noteVoice->getVoiceStaffUpLink ()->getStaffNumber () <<
           ", voice: " <<
             noteVoice->getVoiceNumber () <<
           ", position: " <<
-            note->getMeasureElementPositionInMeasure () <<
+            theMsrNote->getMeasureElementPositionInMeasure () <<
           ", moment: " <<
-            note->getMeasureElementMomentInMeasure () <<
+            theMsrNote->getMeasureElementMomentInMeasure () <<
           ", sounding: " <<
-            note->getNoteSoundingWholeNotes () <<
+            theMsrNote->getNoteSoundingWholeNotes () <<
           ", line " << inputLineNumber <<
           " ===== ";
         Sxmlelement comment = createMxmlElement (kComment, s.str ());
@@ -6759,15 +6765,15 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
         appendOtherToMeasure (comment);
       }
 
-      // append the note to the current measure element
-      appendNoteToMeasure (
-        note,
-        fCurrentNote);
+      // append theMsrNote to the current measure element
+      appendNoteElementToMeasure (
+        fCurrentNoteElement,
+        theMsrNote);
     }
     else {
       fCurrentNoteAwaitsGraceNotes = true;
-      fPendingNoteAwaitingGraceNotes = note;
-      fPendingNoteElement = fCurrentNote;
+      fPendingMsrNoteAwaitingGraceNotes = theMsrNote;
+      fPendingNoteElement = fCurrentNoteElement;
     }
   }
 }
@@ -6800,7 +6806,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
     Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
     // append it to the current measure element
-    fCurrentMeasure->push (comment);
+    fCurrentMeasureElement->push (comment);
   }
 }
 
@@ -6831,26 +6837,26 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
     Sxmlelement comment = createMxmlElement (kComment, s.str ());
 
     // append it to the current measure element
-    fCurrentMeasure->push (comment);
+    fCurrentMeasureElement->push (comment);
   }
 
-  // append the note element to the current measure element only now,
+  // append the note element to the current measure element only now
   // if it contains a grace notes group
   /*
   S_msrGraceNotesGroup
     noteGraceNotesGroupBefore =
-      note->getNoteGraceNotesGroupBefore (),
+      theMsrNote->getNoteGraceNotesGroupBefore (),
     noteGraceNotesGroupAfter =
-      note->getNoteGraceNotesGroupAfter ();
+      theMsrNote->getNoteGraceNotesGroupAfter ();
 */
   if (fCurrentNoteAwaitsGraceNotes) {
-    appendNoteToMeasure (
-      fPendingNoteAwaitingGraceNotes,
-      fPendingNoteElement);
+    appendNoteElementToMeasure (
+      fPendingNoteElement,
+      fPendingMsrNoteAwaitingGraceNotes);
 
     // forget about these after the pending grace notes
     fCurrentNoteAwaitsGraceNotes = false;
-    fPendingNoteAwaitingGraceNotes = nullptr;
+    fPendingMsrNoteAwaitingGraceNotes = nullptr;
     fPendingNoteElement = nullptr;
   }
 }
@@ -6985,13 +6991,13 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrNote& elt)
   }
 
   // forget about the note element
-  fCurrentNote = nullptr;
+  fCurrentNoteElement = nullptr;
 
   // forget about the note notations element
-  fCurrentNoteNotations              = nullptr;
-  fCurrentNoteNotationsOrnaments     = nullptr;
-  fCurrentNoteNotationsArticulations = nullptr;
-  fCurrentNoteNotationsTechnicals    = nullptr;
+  fCurrentNoteNotationsElement              = nullptr;
+  fCurrentNoteNotationsOrnamentsElement     = nullptr;
+  fCurrentNoteNotationsArticulationsElement = nullptr;
+  fCurrentNoteNotationsTechnicalsElement    = nullptr;
 }
 
 //________________________________________________________________________

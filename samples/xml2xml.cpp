@@ -126,13 +126,6 @@ int main (int argc, char *argv[])
 
   createTheGlobalIndentedOstreams (cout, cerr);
 
-  // the about information
-  // ------------------------------------------------------
-
-  string
-    aboutInformation =
-      xml2xmlAboutInformation ();
-
   // the oahHandler, set below
   // ------------------------------------------------------
 
@@ -146,7 +139,6 @@ int main (int argc, char *argv[])
       insiderOahHandler =
         xml2xmlInsiderOahHandler::create (
           executableName,
-          aboutInformation,
           executableName + " insider OAH handler with argc/argv");
 
     // the OAH handler to be used, a regular handler is the default
@@ -161,7 +153,6 @@ int main (int argc, char *argv[])
       handler =
         xml2xmlRegularOahHandler::create (
           executableName,
-          aboutInformation,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler);
     }

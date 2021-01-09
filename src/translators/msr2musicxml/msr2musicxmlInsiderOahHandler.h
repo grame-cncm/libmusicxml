@@ -31,7 +31,6 @@ class EXP msr2musicxmlInsiderOahHandler : public oahHandler
 
     static SMARTP<msr2musicxmlInsiderOahHandler> create (
       string executableName,
-      string executableAboutInformation,
       string handlerHeader);
 
   protected:
@@ -41,7 +40,6 @@ class EXP msr2musicxmlInsiderOahHandler : public oahHandler
 
     msr2musicxmlInsiderOahHandler (
       string executableName,
-      string executableAboutInformation,
       string handlerHeader);
 
     virtual ~msr2musicxmlInsiderOahHandler ();
@@ -60,6 +58,8 @@ class EXP msr2musicxmlInsiderOahHandler : public oahHandler
 
     // public services
     // ------------------------------------------------------
+
+    string                handlerExecutableAboutInformation () const override;
 
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
 

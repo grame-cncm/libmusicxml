@@ -63,6 +63,26 @@ static xmlErr xmlFile2brailleWithHandler (
   std::ostream&        err,
   S_oahHandler         handler)
 {
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
+    gLogStream <<
+      endl <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl <<
+      "xmlFile2brailleWithHandler(), xmlfile contains:" <<
+      endl << endl;
+
+    ++gIndenter;
+
+    xmlfile->print (gLogStream);
+    gLogStream << endl << endl;
+
+    --gIndenter;
+
+    gLogStream <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl << endl;
+  }
+
   // has quiet mode been requested?
   // ------------------------------------------------------
 
@@ -423,13 +443,13 @@ static xmlErr xmlFile2brailleWithOptionsVector (
   std::ostream&        out,
   std::ostream&        err)
 {
-	Sxmlelement st;
+	Sxmlelement mxmlTree;
 
 	if (xmlfile) {
-	  st = xmlfile->elements ();
+	  mxmlTree = xmlfile->elements ();
 
-    if (st) {
-      if (st->getName () == "score-timewise")
+    if (mxmlTree) {
+      if (mxmlTree->getName () == "score-timewise")
         return kUnsupported;
     }
   }
@@ -508,13 +528,6 @@ static xmlErr xmlFile2brailleWithOptionsVector (
 
   // here, at most one of insiderOptions and regularOptions is true
 
-  // the about information
-  // ------------------------------------------------------
-
-  string
-    aboutInformation =
-      xml2brlAboutInformation ();
-
   // create an xml2brl insider OAH handler
   // ------------------------------------------------------
 
@@ -523,7 +536,6 @@ static xmlErr xmlFile2brailleWithOptionsVector (
     insiderOahHandler =
       xml2brlInsiderOahHandler::create (
         fakeExecutableName,
-        aboutInformation,
         fakeExecutableName + " insider OAH handler with options vector");
 
   // the OAH handler to be used, a regular handler is the default
@@ -540,7 +552,6 @@ static xmlErr xmlFile2brailleWithOptionsVector (
     handler =
       xml2brlRegularOahHandler::create (
         fakeExecutableName,
-        aboutInformation,
         fakeExecutableName + " regular OAH handler with options vector",
         insiderOahHandler);
   }

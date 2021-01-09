@@ -42,7 +42,6 @@ namespace MusicXML2
 /* this class is purely virtual
 S_oahRegularOahHandler oahRegularOahHandler::create (
   string       executableName,
-  string       executableAboutInformation,
   string       handlerHeader,
   S_oahHandler insiderOahHandler)
 {
@@ -50,7 +49,6 @@ S_oahRegularOahHandler oahRegularOahHandler::create (
   oahRegularOahHandler* o = new
     oahRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler);
   assert (o!=0);
@@ -61,12 +59,10 @@ S_oahRegularOahHandler oahRegularOahHandler::create (
 
 oahRegularOahHandler::oahRegularOahHandler (
   string       executableName,
-  string       executableAboutInformation,
   string       handlerHeader,
   S_oahHandler insiderOahHandler)
   : oahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler->getHandlerDescription (),
       insiderOahHandler->getHandlerUsage ())

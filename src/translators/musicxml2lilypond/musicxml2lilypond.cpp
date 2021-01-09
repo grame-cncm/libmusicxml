@@ -61,6 +61,26 @@ static xmlErr xmlFile2lilypondWithHandler (
   std::ostream& err,
   S_oahHandler  handler)
 {
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
+    gLogStream <<
+      endl <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl <<
+      "xmlFile2lilypondWithHandler(), xmlfile contains:" <<
+      endl << endl;
+
+    ++gIndenter;
+
+    xmlfile->print (gLogStream);
+    gLogStream << endl << endl;
+
+    --gIndenter;
+
+    gLogStream <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl << endl;
+  }
+
   // has quiet mode been requested?
   // ------------------------------------------------------
 
@@ -431,13 +451,6 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
 
   // here, at most one of insiderOptions and regularOptions is true
 
-  // the about information
-  // ------------------------------------------------------
-
-  string
-    aboutInformation =
-      xml2lyAboutInformation ();
-
   // create an xml2ly insider OAH handler
   // ------------------------------------------------------
 
@@ -446,7 +459,6 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
     insiderOahHandler =
       xml2lyInsiderOahHandler::create (
         fakeExecutableName,
-        aboutInformation,
         fakeExecutableName + " insider OAH handler with options vector",
         kHandlerUsedThruOptionsVector);
 
@@ -464,7 +476,6 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
     handler =
       xml2lyRegularOahHandler::create (
         fakeExecutableName,
-        aboutInformation,
         fakeExecutableName + " regular OAH handler",
         insiderOahHandler);
   }

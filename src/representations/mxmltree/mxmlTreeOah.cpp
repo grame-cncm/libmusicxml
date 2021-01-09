@@ -73,6 +73,18 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
+  // MusicXML tree
+
+  fTraceMusicXMLTree = false;
+
+  subGroup->
+    appendAtomToSubGroup (
+      oahBooleanAtom::create (
+        "tmxmlt", "trace-mxml-tree",
+R"(Write a trace of the MusicXML tree activity to standard error.)",
+        "traceMusicXMLTree",
+        fTraceMusicXMLTree));
+
   // MusicXML tree visiting
 
   fTraceMusicXMLTreeVisitors = false;
@@ -194,6 +206,9 @@ void mxmlTreeOahGroup::printMxmlTreeOahValues (unsigned int fieldWidth)
   ++gIndenter;
 
   gLogStream << left <<
+    setw (fieldWidth) << "traceMusicXMLTree" << " : " <<
+    booleanAsString (fTraceMusicXMLTree) <<
+    endl <<
     setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
     booleanAsString (fTraceMusicXMLTreeVisitors) <<
     endl;

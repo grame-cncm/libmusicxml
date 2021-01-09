@@ -967,7 +967,7 @@ void oahAboutAtom::printAbout (ostream& os) const
 {
   os <<
     fetchAtomHandlerUpLink ()->
-      getHandlerExecutableAboutInformation () <<
+      handlerExecutableAboutInformation () <<
     endl;
 }
 

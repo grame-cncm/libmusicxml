@@ -276,34 +276,6 @@ msrOctaveKind octavePred (msrOctaveKind octaveKind)
   return result;
 }
 
-/* JMI
-  enum Month
-  {
-    January,
-    February,
-    // ... snip ...
-    December
-  };
-
-  // prefix (++my_month)
-  Month& operator++(Month& orig)
-  {
-    orig = static_cast<Month>(orig + 1); // static_cast required because enum + int -> int
-    //!!!!!!!!!!!
-    // TODO : See rest of answer below
-    //!!!!!!!!!!!
-    return orig;
-  }
-
-  // postfix (my_month++)
-  Month operator++(Month& orig, int)
-  {
-    Month rVal = orig;
-    ++orig;
-    return rVal;
-  }
-*/
-
 // prefix operators
 msrOctaveKind& operator++ (msrOctaveKind& octaveKind)
 {
@@ -999,34 +971,6 @@ void msrQuarterTonesPitchAndOctave::decrementOctaveKind ()
       break;
   } // switch
 }
-
-/* JMI
-  enum Month
-  {
-    January,
-    February,
-    // ... snip ...
-    December
-  };
-
-  // prefix (++my_month)
-  Month& operator++(Month& orig)
-  {
-    orig = static_cast<Month>(orig + 1); // static_cast required because enum + int -> int
-    //!!!!!!!!!!!
-    // TODO : See rest of answer below
-    //!!!!!!!!!!!
-    return orig;
-  }
-
-  // postfix (my_month++)
-  Month operator++(Month& orig, int)
-  {
-    Month rVal = orig;
-    ++orig;
-    return rVal;
-  }
-*/
 
 string msrQuarterTonesPitchAndOctave::asString () const
 {

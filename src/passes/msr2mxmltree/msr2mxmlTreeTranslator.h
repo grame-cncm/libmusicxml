@@ -652,7 +652,7 @@ class EXP msr2mxmlTreeTranslator :
     list<Sxmlelement>         fScoreDefaultsStaffLayoutElementsList;
 
     // measure print layout
-    Sxmlelement               fCurrentMeasurePrintLayout;
+    Sxmlelement               fCurrentMeasurePrintLayoutElement; // not used JMI
 
     // appearance
     // ------------------------------------------------------
@@ -683,7 +683,7 @@ class EXP msr2mxmlTreeTranslator :
     // credits
     // ------------------------------------------------------
 
-    Sxmlelement               fCurrentScoreCredit;
+    Sxmlelement               fCurrentScoreCreditElement;
 
     list<Sxmlelement>         fPendingScoreCreditElementsList;
 
@@ -738,7 +738,7 @@ class EXP msr2mxmlTreeTranslator :
 
     S_msrPart                 fCurrentMSRPart;
 
-    Sxmlelement               fCurrentPart;
+    Sxmlelement               fCurrentPartElement;
 
     list<Sxmlelement>         fPendingPartElementsList;
 
@@ -769,16 +769,9 @@ class EXP msr2mxmlTreeTranslator :
 
     // measures
     // ------------------------------------------------------
-    Sxmlelement               fCurrentMeasure;
+    Sxmlelement               fCurrentMeasureElement;
 
-    map<string, Sxmlelement>  fPartMeasuresMap;
-
-    void                      appendNoteToMesureIfRelevant (
-                                S_msrNote note);
-
-    void                      appendNoteToMeasure (
-                                S_msrNote   note,
-                                Sxmlelement elem);
+    map<string, Sxmlelement>  fPartMeasureNumbersToElementsMap;
 
     void                      appendOtherToMeasure (
                                 Sxmlelement elem);
@@ -831,7 +824,7 @@ class EXP msr2mxmlTreeTranslator :
     // print layouts
     // ------------------------------------------------------
 
-    Sxmlelement               fCurrentPrint;
+    Sxmlelement               fCurrentPrintElement;
 
     bool                      fOnGoingPrintLayout;
 
@@ -887,32 +880,39 @@ class EXP msr2mxmlTreeTranslator :
 
     // notes
     // ------------------------------------------------------
-    Sxmlelement               fCurrentNote;
+    Sxmlelement               fCurrentNoteElement;
     bool                      fANoteHasBeenMetInCurrentMeasure;
 
     S_msrNote                 fPreviousMSRNote;
     S_msrVoice                fPreviousMSRNoteVoice;
     S_msrStaff                fPreviousMSRNoteStaff;
 
-    void                      appendNoteToMesure (S_msrNote note);
+    void                      appendNoteToMesureIfRelevant (
+                                S_msrNote theMsrNote);
+
+//    void                      appendNoteToMesure (S_msrNote note);
+
+    void                      appendNoteElementToMeasure (
+                                Sxmlelement elem,
+                                S_msrNote   theMsrNote);
 
     bool                      fCurrentNoteAwaitsGraceNotes;
-    S_msrNote                 fPendingNoteAwaitingGraceNotes;
+    S_msrNote                 fPendingMsrNoteAwaitingGraceNotes;
     Sxmlelement               fPendingNoteElement;
 
     // stems
     // ------------------------------------------------------
-    void                      appendStemToNote (S_msrNote note);
+    void                      appendStemToNote (S_msrNote theMsrNote);
 
     // beams
     // ------------------------------------------------------
-    void                      appendBeamsToNote (S_msrNote note);
+    void                      appendBeamsToNote (S_msrNote theMsrNote);
 
     // note notations
     // ------------------------------------------------------
-    Sxmlelement               fCurrentNoteNotations;
+    Sxmlelement               fCurrentNoteNotationsElement;
 
-    void                      appendNoteNotationsToNote (S_msrNote note);
+    void                      appendNoteNotationsToNote (S_msrNote theMsrNote);
 
     void                      appendToNoteNotations (
                                 Sxmlelement      elem,
@@ -920,13 +920,13 @@ class EXP msr2mxmlTreeTranslator :
 
     // lyrics
     // ------------------------------------------------------
-    void                      appendNoteLyricsToNote (S_msrNote note);
+    void                      appendNoteLyricsToNote (S_msrNote theMsrNote);
 
     // note notations ornaments
     // ------------------------------------------------------
-    Sxmlelement               fCurrentNoteNotationsOrnaments;
+    Sxmlelement               fCurrentNoteNotationsOrnamentsElement;
 
-    void                      appendNoteOrnaments (S_msrNote note);
+    void                      appendNoteOrnaments (S_msrNote theMsrNote);
 
     void                      appendToNoteNotationsOrnaments (
                                 Sxmlelement      elem,
@@ -934,9 +934,9 @@ class EXP msr2mxmlTreeTranslator :
 
     // note notations articulations
     // ------------------------------------------------------
-    Sxmlelement               fCurrentNoteNotationsArticulations;
+    Sxmlelement               fCurrentNoteNotationsArticulationsElement;
 
-    void                      appendNoteArticulations (S_msrNote note);
+    void                      appendNoteArticulations (S_msrNote theMsrNote);
 
     void                      appendToNoteNotationsArticulations (
                                 Sxmlelement      elem,
@@ -945,12 +945,12 @@ class EXP msr2mxmlTreeTranslator :
     // note notations technicals
     // ------------------------------------------------------
 
-    Sxmlelement               fCurrentNoteNotationsTechnicals;
+    Sxmlelement               fCurrentNoteNotationsTechnicalsElement;
 
-    void                      appendNoteTechnicals (S_msrNote note);
-    void                      appendNoteTechnicalWithIntegers (S_msrNote note);
-    void                      appendNoteTechnicalWithFloats (S_msrNote note);
-    void                      appendNoteTechnicalWithStrings (S_msrNote note);
+    void                      appendNoteTechnicals (S_msrNote theMsrNote);
+    void                      appendNoteTechnicalWithIntegers (S_msrNote theMsrNote);
+    void                      appendNoteTechnicalWithFloats (S_msrNote theMsrNote);
+    void                      appendNoteTechnicalWithStrings (S_msrNote theMsrNote);
 
     void                      appendToNoteNotationsTechnicals (
                                 Sxmlelement      elem,
@@ -959,12 +959,12 @@ class EXP msr2mxmlTreeTranslator :
     // note ties
     // ------------------------------------------------------
 
-    void                      appendNoteTieIfAny (S_msrNote note);
+    void                      appendNoteTieIfAny (S_msrNote theMsrNote);
 
     //note slurs
     // ------------------------------------------------------
 
-    void                      appendNoteSlursIfAny (S_msrNote note);
+    void                      appendNoteSlursIfAny (S_msrNote theMsrNote);
 
 /*
     // glissandos
@@ -994,7 +994,7 @@ class EXP msr2mxmlTreeTranslator :
     // chords
     // ------------------------------------------------------
     bool                      fOnGoingChord;
-    Sxmlelement               fPendingChordStartComment;
+    Sxmlelement               fPendingChordStartCommentElement;
 
 /*
     // stanzas

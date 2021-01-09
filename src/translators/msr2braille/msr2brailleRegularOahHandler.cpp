@@ -53,7 +53,6 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_msr2brailleRegularOahHandler msr2brailleRegularOahHandler::create (
   string      executableName,
-  string      executableAboutInformation,
   string      handlerHeader,
   S_msr2brailleInsiderOahHandler
               insiderOahHandler)
@@ -62,7 +61,6 @@ S_msr2brailleRegularOahHandler msr2brailleRegularOahHandler::create (
   msr2brailleRegularOahHandler* o = new
     msr2brailleRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler);
   assert (o!=0);
@@ -72,13 +70,11 @@ S_msr2brailleRegularOahHandler msr2brailleRegularOahHandler::create (
 
 msr2brailleRegularOahHandler::msr2brailleRegularOahHandler (
   string      executableName,
-  string      executableAboutInformation,
   string      handlerHeader,
   S_msr2brailleInsiderOahHandler
               insiderOahHandler)
   : oahRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler)
 {

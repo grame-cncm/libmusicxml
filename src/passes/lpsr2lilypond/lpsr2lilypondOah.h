@@ -975,8 +975,8 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     S_oahBooleanAtom      getNoLayoutVoiceContextAtom () const
                               { return fNoLayoutVoiceContextAtom; }
 
-    bool                  getCreateTopLevelLayoutBlock () const
-                              { return fCreateTopLevelLayoutBlock; }
+    bool                  getNoTopLevelLayoutBlock () const
+                              { return fNoTopLevelLayoutBlock; }
 
     // paper block
     // --------------------------------------
@@ -1569,7 +1569,7 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
     bool                  fNoLayoutVoiceContext;
     S_oahBooleanAtom      fNoLayoutVoiceContextAtom;
 
-    bool                  fCreateTopLevelLayoutBlock;
+    bool                  fNoTopLevelLayoutBlock;
 
     // paper block
     // --------------------------------------

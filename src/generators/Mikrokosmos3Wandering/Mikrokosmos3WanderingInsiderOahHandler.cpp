@@ -66,42 +66,16 @@ namespace MusicXML2
 */
 //#define ENFORCE_TRACE_OAH
 
-//_______________________________________________________________________________
-string Mikrokosmos3WanderingAboutInformation ()
-{
-  return
-R"(What Mikrokosmos3Wandering does:
-
-    This multi-pass translator basically performs 5 passes:
-        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
-                 and converts it to a first MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
-                 a Music Score Representation (MSR) skeleton;
-        Pass 2b: converts that tree and the skeleton into a
-                 Music Score Representation (MSR);
-        Pass 3:  converts the MSR into a second MSR;
-        Pass 4:  converts the second MSR into a second MusicXML tree;
-        Pass 5:  converts the second MusicXML tree to Guido source code
-                 and writes it to standard output.
-
-    Other passes are performed according to the options, such as
-    printing views of the internal data or printing a summary of the score.
-
-    The activity log and warning/error messages go to standard error.)";
-}
-
 //______________________________________________________________________________
 S_Mikrokosmos3WanderingInsiderOahHandler Mikrokosmos3WanderingInsiderOahHandler::create (
-  const string&        executableName,
-  const string&        executableAboutInformation,
-  const string&        handlerHeader,
+  const string&       executableName,
+  const string&       handlerHeader,
   generatorOutputKind generatorOutputKind)
 {
   // create the insider handler
   Mikrokosmos3WanderingInsiderOahHandler* o = new
     Mikrokosmos3WanderingInsiderOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       generatorOutputKind);
   assert (o!=0);
@@ -110,13 +84,11 @@ S_Mikrokosmos3WanderingInsiderOahHandler Mikrokosmos3WanderingInsiderOahHandler:
 }
 
 Mikrokosmos3WanderingInsiderOahHandler::Mikrokosmos3WanderingInsiderOahHandler (
-  const string&        executableName,
-  const string&        executableAboutInformation,
-  const string&        handlerHeader,
+  const string&       executableName,
+  const string&       handlerHeader,
   generatorOutputKind generatorOutputKind)
   : oahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
 R"(                Welcome to Mikrokosmos3Wandering,
      a generator of Guido, MusicXML, LilyPond or braille music
@@ -125,7 +97,10 @@ R"(                Welcome to Mikrokosmos3Wandering,
 )",
 R"(
 Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
-)")
+)"),
+    fGeneratorOutputKind (
+      generatorOutputKind)
+
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -148,6 +123,133 @@ Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
 
 Mikrokosmos3WanderingInsiderOahHandler::~Mikrokosmos3WanderingInsiderOahHandler ()
 {}
+
+string Mikrokosmos3WanderingInsiderOahHandler::handlerExecutableAboutInformation () const
+{
+  return
+    Mikrokosmos3WanderingAboutInformation (
+      fGeneratorOutputKind);
+}
+
+string Mikrokosmos3WanderingInsiderOahHandler::Mikrokosmos3WanderingAboutInformation (
+  generatorOutputKind theGeneratorOutputKind) const
+{
+  string result;
+
+  unsigned int passesNumber = 0;
+
+  switch (theGeneratorOutputKind) {
+    case k_NoOutput:
+      // should not occur
+      break;
+
+    case kGuidoOutput:
+      passesNumber = 4;
+      break;
+
+    case kLilyPondOutput:
+      passesNumber = 3;
+      break;
+
+    case kBrailleOutput:
+      passesNumber = 4;
+      break;
+
+    case kMusicXMLOutput:
+      passesNumber = 4;
+      break;
+
+    case kMidiOutput:
+      passesNumber = 0;
+      gLogStream <<
+        "MIDI output is not implemented yet" <<
+        endl;
+
+      return 0;
+      break;
+  } // switch
+
+  stringstream commonHeadPartStream;
+
+// JMI       "Pass 0": handle the options from argc and argv"
+
+  commonHeadPartStream <<
+R"(
+    This multi-pass generator basically performs )" <<
+    passesNumber <<
+    " passes when generating " <<
+    generatorOutputKindAsString (theGeneratorOutputKind) <<
+    " output:" <<
+    endl <<
+R"(
+        Pass 1:  generate and MSR programmatically)";
+
+  string specificPart;
+
+  switch (theGeneratorOutputKind) {
+    case k_NoOutput:
+      // should not occur
+      break;
+
+    case kGuidoOutput:
+      specificPart =
+R"(
+        Pass 2:  converts the MSR into a second MSR;
+        Pass 3:  converts the second MSR into an MusicXML tree;
+        Pass 4:  converts the MusicXML tree to Guido code
+                 and writes it to standard output.)";
+      break;
+
+    case kLilyPondOutput:
+      specificPart =
+R"(
+        Pass 2:  converts the MSR into a
+                 LilyPond Score Representation (LPSR);
+        Pass 3:  converts the LPSR to LilyPond code
+                 and writes it to standard output.)";
+      break;
+
+    case kBrailleOutput:
+      specificPart =
+R"(
+        Pass 2a: converts the MSR into a
+                 Braille Score Representation (BSR)
+                 containing one Braille page per MusicXML page;
+        Pass 2b: converts the BSR into to another BSR
+                 with as many Braille pages as needed
+                 to fit the line and page lengthes;
+        Pass 3:  converts the BSR to braille music text
+                 and writes it to standard output.)
+
+    In this preliminary version, pass 2b merely clones the BSR it receives.)";
+      break;
+
+    case kMusicXMLOutput:
+      specificPart =
+R"(
+        Pass 2:  converts the MSR into a second MSR;
+        Pass 3:  converts the second MSR into an MusicXML tree;
+        Pass 4:  converts the MusicXML tree to MusicXML code
+                 and writes it to standard output.)";
+      break;
+
+    case kMidiOutput:
+      specificPart =
+        "MIDI output is not implemented yet";
+      break;
+  } // switch
+
+   string commonTailPart =
+R"(
+
+    Other passes are performed according to the options, such as
+    printing views of the internal data or printing a summary of the score.
+
+    The activity log and warning/error messages go to standard error.)";
+
+ return
+   commonHeadPartStream.str () + specificPart + commonTailPart;
+}
 
 //______________________________________________________________________________
 void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingPrefixes ()
@@ -307,6 +409,9 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       break;
 
     case kMidiOutput:
+      gLogStream <<
+        "MIDI output is not implemented yet" <<
+        endl;
       break;
   } // switch
 
@@ -681,7 +786,7 @@ Mikrokosmos3WanderingInsiderOahGroup::Mikrokosmos3WanderingInsiderOahGroup ()
 R"(Options that are used by Mikrokosmos3Wandering are grouped here.)",
     kElementVisibilityWhole)
 {
-  fGenerationAPIKind = kMsrRegularAPIKind; // default value
+  fGenerationAPIKind = kMsrFunctionsAPIKind; // default value
 
   fGeneratorOutputKind = k_NoOutput;
 
@@ -854,11 +959,11 @@ void Mikrokosmos3WanderingInsiderOahGroup::printMikrokosmos3WanderingInsiderOahG
 
   --gIndenter;
 
-  // generate code kind
+  // generate output kind
   // --------------------------------------
 
   gLogStream << left <<
-    setw (fieldWidth) << "Generated code kind:" <<
+    setw (fieldWidth) << "Generated output kind:" <<
     endl;
 
   ++gIndenter;

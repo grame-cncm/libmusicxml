@@ -526,6 +526,14 @@ void oahAtom::printShort (ostream& os) const
     os, fieldWidth);
 }
 
+void oahAtom::printSummary (ostream& os) const
+{
+  os <<
+    "Atom: " <<
+    fetchNames () <<
+    endl;
+}
+
 void oahAtom::findStringInAtom (
   string        lowerCaseString,
   list<string>& foundStringsList,
@@ -1384,6 +1392,33 @@ void oahSubGroup::printShort (ostream& os) const
       (*i)->printShort (os);
       if (++i == iEnd) break;
       os << endl;
+    } // for
+
+    --gIndenter;
+  }
+}
+
+void oahSubGroup::printSummary (ostream& os) const
+{
+  os <<
+    "SubGroup: " <<
+    fetchNames () <<
+    endl;
+
+  if (fSubGroupAtomsList.size ()) {
+    ++gIndenter;
+
+    list<S_oahAtom>::const_iterator
+      iBegin = fSubGroupAtomsList.begin (),
+      iEnd   = fSubGroupAtomsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_oahAtom atom = (*i);
+
+      // print a summary of the atom
+      atom->printSummary (os);
+      if (++i == iEnd) break;
+//      os << endl;
     } // for
 
     --gIndenter;
@@ -2274,6 +2309,35 @@ void oahGroup::printShort (ostream& os) const
   }
 }
 
+void oahGroup::printSummary (ostream& os) const
+{
+  os <<
+    "Group: " <<
+    fetchNames () <<
+    endl;
+
+  if (fGroupSubGroupsList.size ()) {
+    os << endl;
+
+    ++gIndenter;
+
+    list<S_oahSubGroup>::const_iterator
+      iBegin = fGroupSubGroupsList.begin (),
+      iEnd   = fGroupSubGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_oahSubGroup subGroup = (*i);
+
+      // print a summary of the options subgroup
+      subGroup->printSummary (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    --gIndenter;
+  }
+}
+
 void oahGroup::underlineGroupHeader (ostream& os) const
 {
   /* JMI
@@ -2666,7 +2730,6 @@ ostream& operator<< (ostream& os, const S_oahGroup& elt)
 /* this class is purely virtual
 S_oahHandler oahHandler::create (
   string   executableName,
-  string   executableAboutInformation,
   string   handlerHeader,
   string   handlerDescription,
   string   handlerUsage)
@@ -2674,7 +2737,6 @@ S_oahHandler oahHandler::create (
   oahHandler* o = new
     oahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       handlerDescription,
       handlerUsage);
@@ -2685,13 +2747,11 @@ S_oahHandler oahHandler::create (
 
 oahHandler::oahHandler (
   string   executableName,
-  string   executableAboutInformation,
   string   handlerHeader,
   string   handlerDescription,
   string   handlerUsage)
 {
-  fHandlerExecutableName             = executableName;
-  fHandlerExecutableAboutInformation = executableAboutInformation;
+  fHandlerExecutableName = executableName;
 
   fHandlerHeader = handlerHeader;
 
@@ -3636,24 +3696,38 @@ void oahHandler::printHandlerEssentials (
   unsigned int fieldWidth) const
 {
   os << left <<
-    setw (fieldWidth) <<
-    "handlerExecutableName" << " : " <<
-    fHandlerExecutableName <<
-    endl <<
+    "handlerExecutableName:" <<
+    endl;
+  ++gIndenter;
+  os <<
+    gIndenter.indentMultiLineString (fHandlerExecutableName) <<
+    endl;
+  --gIndenter;
 
-    setw (fieldWidth) <<
-    "handlerHeader" << " : " <<
-    fHandlerHeader <<
-    endl <<
+  os << left <<
+    "handlerHeader:" <<
+    endl;
+  ++gIndenter;
+  os <<
+    gIndenter.indentMultiLineString (fHandlerHeader) <<
+    endl;
+  --gIndenter;
 
-    setw (fieldWidth) <<
-    "handlerDescription" << " : " <<
-    fHandlerDescription <<
-    endl <<
+  os << left <<
+    "handlerDescription:" <<
+    endl;
+  ++gIndenter;
+  os <<
+    gIndenter.indentMultiLineString (fHandlerDescription) <<
+    endl;
+  --gIndenter;
 
-    setw (fieldWidth) <<
-    "handlerUsage" << " : " <<
-    fHandlerUsage <<
+  os << left <<
+    "handlerUsage:" <<
+    endl;
+  ++gIndenter;
+  os <<
+    gIndenter.indentMultiLineString (fHandlerUsage) <<
     endl;
 }
 
@@ -3791,6 +3865,44 @@ if (false) { // JMI
     endl;
   displayNamesToElementsMap (os);
 }
+
+  --gIndenter;
+}
+
+void oahHandler::printSummary (ostream& os) const
+{
+  const unsigned int fieldWidth = 27;
+
+  os <<
+    "Handler:" <<
+    endl;
+
+  ++gIndenter;
+
+  printHandlerEssentials (
+    os, fieldWidth);
+
+  // print a summary of the options groups if any
+  if (fHandlerGroupsList.size ()) {
+    os << endl;
+
+    ++gIndenter;
+
+    list<S_oahGroup>::const_iterator
+      iBegin = fHandlerGroupsList.begin (),
+      iEnd   = fHandlerGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_oahGroup group = (*i);
+
+      // print the options group
+      group->printSummary (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    --gIndenter;
+  }
 
   --gIndenter;
 }

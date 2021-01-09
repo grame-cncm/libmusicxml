@@ -32,7 +32,7 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 enum msrGenerationAPIKind {
-  kMsrRegularAPIKind,
+  kMsrFunctionsAPIKind,
   kMsrStringsAPIKind
 };
 

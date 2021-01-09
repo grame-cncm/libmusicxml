@@ -48,7 +48,6 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2xmlRegularOahHandler xml2xmlRegularOahHandler::create (
   string      executableName,
-  string      executableAboutInformation,
   string      handlerHeader,
   S_xml2xmlInsiderOahHandler
               insiderOahHandler)
@@ -57,7 +56,6 @@ S_xml2xmlRegularOahHandler xml2xmlRegularOahHandler::create (
   xml2xmlRegularOahHandler* o = new
     xml2xmlRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler);
   assert (o!=0);
@@ -67,13 +65,11 @@ S_xml2xmlRegularOahHandler xml2xmlRegularOahHandler::create (
 
 xml2xmlRegularOahHandler::xml2xmlRegularOahHandler (
   string      executableName,
-  string      executableAboutInformation,
   string      handlerHeader,
   S_xml2xmlInsiderOahHandler
               insiderOahHandler)
   : oahRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler)
 {
@@ -373,7 +369,7 @@ void xml2xmlRegularOahHandler::createMsrGenerationAPIRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("regular", subGroup);
+  registerAtomInRegularSubgroup ("functions", subGroup);
   registerAtomInRegularSubgroup ("strings", subGroup);
 }
 

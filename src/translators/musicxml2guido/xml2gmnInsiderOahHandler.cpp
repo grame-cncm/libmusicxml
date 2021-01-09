@@ -50,41 +50,15 @@ namespace MusicXML2
 */
 //#define ENFORCE_TRACE_OAH
 
-//_______________________________________________________________________________
-string xml2gmnAboutInformation ()
-{
-  return
-R"(What xml2gmn does:
-
-    This multi-pass translator basically performs 5 passes:
-        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
-                 and converts it to a first MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
-                 a Music Score Representation (MSR) skeleton;
-        Pass 2b: converts that tree and the skeleton into a
-                 Music Score Representation (MSR);
-        Pass 3:  converts the MSR into a second MSR;
-        Pass 4:  converts the second MSR into a second MusicXML tree;
-        Pass 5:  converts the second MusicXML tree to Guido source code
-                 and writes it to standard output.
-
-    Other passes are performed according to the options, such as
-    printing views of the internal data or printing a summary of the score.
-
-    The activity log and warning/error messages go to standard error.)";
-}
-
 //______________________________________________________________________________
 S_xml2gmnInsiderOahHandler xml2gmnInsiderOahHandler::create (
   string executableName,
-  string executableAboutInformation,
   string handlerHeader)
 {
   // create the insider handler
   xml2gmnInsiderOahHandler* o = new
     xml2gmnInsiderOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader);
   assert (o!=0);
 
@@ -93,11 +67,9 @@ S_xml2gmnInsiderOahHandler xml2gmnInsiderOahHandler::create (
 
 xml2gmnInsiderOahHandler::xml2gmnInsiderOahHandler (
   string executableName,
-  string executableAboutInformation,
   string handlerHeader)
   : oahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
 R"(                      Welcome to xml2gmn,
               another MusicXML to Guido translator
@@ -127,6 +99,30 @@ Usage: xml2gmn ([options] | [MusicXMLFile|-])+
 
 xml2gmnInsiderOahHandler::~xml2gmnInsiderOahHandler ()
 {}
+
+//_______________________________________________________________________________
+string xml2gmnInsiderOahHandler::handlerExecutableAboutInformation () const
+{
+  return
+R"(What xml2gmn does:
+
+    This multi-pass translator basically performs 6 passes:
+        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
+                 and converts it to a first MusicXML tree;
+        Pass 2a: converts that MusicXML tree into to
+                 a Music Score Representation (MSR) skeleton;
+        Pass 2b: populates the MSR skeleton from the MusicXML tree
+                 to get a full MSR;
+        Pass 3:  converts the MSR into a second MSR;
+        Pass 4:  converts the second MSR into a second MusicXML tree;
+        Pass 5:  converts the second MusicXML tree to Guido code
+                 and writes it to standard output.
+
+    Other passes are performed according to the options, such as
+    printing views of the internal data or printing a summary of the score.
+
+    The activity log and warning/error messages go to standard error.)";
+}
 
 //______________________________________________________________________________
 void xml2gmnInsiderOahHandler::createTheXml2gmnPrefixes ()

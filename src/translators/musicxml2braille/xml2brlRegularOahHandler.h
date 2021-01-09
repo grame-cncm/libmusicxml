@@ -35,7 +35,6 @@ class EXP xml2brlRegularOahHandler : public oahRegularOahHandler
 
     static SMARTP<xml2brlRegularOahHandler> create (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_xml2brlInsiderOahHandler
                   insiderOahHandler);
@@ -47,7 +46,6 @@ class EXP xml2brlRegularOahHandler : public oahRegularOahHandler
 
     xml2brlRegularOahHandler (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_xml2brlInsiderOahHandler
                   insiderOahHandler);

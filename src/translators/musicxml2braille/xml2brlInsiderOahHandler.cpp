@@ -56,47 +56,15 @@ namespace MusicXML2
 */
 //#define ENFORCE_TRACE_OAH
 
-//_______________________________________________________________________________
-string xml2brlAboutInformation ()
-{
-  return
-R"(What xml2brl does:
-
-    This multi-pass translator basically performs 6 passes:
-        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
-                 and converts it to a MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
-                 a Music Score Representation (MSR) skeleton;
-        Pass 2b: converts that tree and the skeleton into a
-                 Music Score Representation (MSR);
-        Pass 3a: converts the MSR into a
-                 Braille Score Representation (BSR)
-                 containing one Braille page per MusicXML page;
-        Pass 3b: converts the BSR into to another BSR
-                 with as many Braille pages as needed
-                 to fit the line and page lengthes;
-        Pass 4:  converts the BSR to Unicode text
-                 and writes it to standard output.
-
-    In this preliminary version, pass 3b merely clones the BSR it receives.
-
-    Other passes are performed according to the options, such as
-    printing views of the internal data or printing a summary of the score.
-
-    The activity log and warning/error messages go to standard error.)";
-}
-
 //______________________________________________________________________________
 S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::create (
   string executableName,
-  string executableAboutInformation,
   string handlerHeader)
 {
   // create the insider handler
   xml2brlInsiderOahHandler* o = new
     xml2brlInsiderOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader);
   assert (o!=0);
 
@@ -105,11 +73,9 @@ S_xml2brlInsiderOahHandler xml2brlInsiderOahHandler::create (
 
 xml2brlInsiderOahHandler::xml2brlInsiderOahHandler (
   string executableName,
-  string executableAboutInformation,
   string handlerHeader)
   : oahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
 R"(                         Welcome to xml2brl,
              the MusicXML to braille music translator
@@ -139,6 +105,36 @@ Usage: xml2brl ([options] | [MusicXMLFile|-])+
 
 xml2brlInsiderOahHandler::~xml2brlInsiderOahHandler ()
 {}
+
+//_______________________________________________________________________________
+string xml2brlInsiderOahHandler::handlerExecutableAboutInformation () const
+{
+  return
+R"(What xml2brl does:
+
+    This multi-pass translator basically performs 6 passes:
+        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
+                 and converts it to a MusicXML tree;
+        Pass 2a: converts that MusicXML tree into to
+                 a Music Score Representation (MSR) skeleton;
+        Pass 2b: populates the MSR skeleton from the MusicXML tree
+                 to get a full MSR;
+        Pass 3a: converts the MSR into a
+                 Braille Score Representation (BSR)
+                 containing one Braille page per MusicXML page;
+        Pass 3b: converts the BSR into to another BSR
+                 with as many Braille pages as needed
+                 to fit the line and page lengthes;
+        Pass 4:  converts the BSR to braille music text
+                 and writes it to standard output.
+
+    In this preliminary version, pass 3b merely clones the BSR it receives.
+
+    Other passes are performed according to the options, such as
+    printing views of the internal data or printing a summary of the score.
+
+    The activity log and warning/error messages go to standard error.)";
+}
 
 //______________________________________________________________________________
 void xml2brlInsiderOahHandler::createTheXml2brlPrefixes ()

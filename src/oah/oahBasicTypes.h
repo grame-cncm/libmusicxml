@@ -246,6 +246,7 @@ class EXP oahAtom : public oahElement
 
     void                  print (ostream& os) const override;
     void                  printShort (ostream& os) const override;
+    void                  printSummary (ostream& os) const;
 
     void                  findStringInAtom (
                             string        lowerCaseString,
@@ -556,6 +557,7 @@ class EXP oahSubGroup : public oahElement
 
     void                  print (ostream& os) const override;
     void                  printShort (ostream& os) const override;
+    void                  printSummary (ostream& os) const;
 
     void                  printHelp (ostream& os) const override;
 
@@ -749,6 +751,7 @@ class EXP oahGroup : public oahElement
 
     void                  print (ostream& os) const override;
     void                  printShort (ostream& os) const override;
+    void                  printSummary (ostream& os) const;
 
     void                  printGroupHeader (ostream& os) const;
 
@@ -833,7 +836,6 @@ class EXP oahHandler : public smartable
  /* this class is purely virtual
     static SMARTP<oahHandler> create (
       string   executableName,
-      string   executableAboutInformation,
       string   handlerHeader,
       string   handlerDescription,
       string   handlerUsage);
@@ -846,7 +848,6 @@ class EXP oahHandler : public smartable
 
     oahHandler (
       string   executableName,
-      string   executableAboutInformation,
       string   handlerHeader,
       string   handlerDescription,
       string   handlerUsage);
@@ -865,8 +866,6 @@ class EXP oahHandler : public smartable
 
     string                getHandlerExecutableName () const
                               { return fHandlerExecutableName; }
-    string                getHandlerExecutableAboutInformation () const
-                              { return fHandlerExecutableAboutInformation; }
 
     string                getHandlerHeader () const
                               { return fHandlerHeader; }
@@ -936,6 +935,8 @@ class EXP oahHandler : public smartable
 
     // public services
     // ------------------------------------------------------
+
+    virtual string        handlerExecutableAboutInformation () const = 0;
 
     S_oahElement          fetchElementByNameInHandler (
                             string name);
@@ -1156,7 +1157,6 @@ class EXP oahHandler : public smartable
 
     // executable
     string                fHandlerExecutableName;
-    string                fHandlerExecutableAboutInformation;
 
     // header
     string                fHandlerHeader;

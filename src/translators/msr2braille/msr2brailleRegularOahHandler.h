@@ -35,7 +35,6 @@ class EXP msr2brailleRegularOahHandler : public oahRegularOahHandler
 
     static SMARTP<msr2brailleRegularOahHandler> create (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_msr2brailleInsiderOahHandler
                   insiderOahHandler);
@@ -47,7 +46,6 @@ class EXP msr2brailleRegularOahHandler : public oahRegularOahHandler
 
     msr2brailleRegularOahHandler (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_msr2brailleInsiderOahHandler
                   insiderOahHandler);

@@ -26,9 +26,6 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-EXP string Mikrokosmos3WanderingAboutInformation ();
-
-//_______________________________________________________________________________
 class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
 {
   public:
@@ -37,9 +34,8 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     static SMARTP<Mikrokosmos3WanderingInsiderOahHandler> create (
-      const string&        executableName,
-      const string&        executableAboutInformation,
-      const string&        handlerHeader,
+      const string&       executableName,
+      const string&       handlerHeader,
       generatorOutputKind generatorOutputKind);
 
   protected:
@@ -48,9 +44,8 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     Mikrokosmos3WanderingInsiderOahHandler (
-      const string&        executableName,
-      const string&        executableAboutInformation,
-      const string&        handlerHeader,
+      const string&       executableName,
+      const string&       handlerHeader,
       generatorOutputKind generatorOutputKind);
 
     virtual ~Mikrokosmos3WanderingInsiderOahHandler ();
@@ -76,6 +71,8 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // public services
     // ------------------------------------------------------
 
+    string                handlerExecutableAboutInformation () const override;
+
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
 
     string                fetchOutputFileNameFromTheOptions () const override;
@@ -100,8 +97,20 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
 
   private:
 
+    // private services
+    // ------------------------------------------------------
+
+    string                Mikrokosmos3WanderingAboutInformation (
+                            generatorOutputKind theGeneratorOutputKind) const;
+
+  private:
+
     // private fields
     // ------------------------------------------------------
+
+    // generate code kind
+    generatorOutputKind  fGeneratorOutputKind;
+
 };
 typedef SMARTP<Mikrokosmos3WanderingInsiderOahHandler> S_Mikrokosmos3WanderingInsiderOahHandler;
 EXP ostream& operator<< (ostream& os, const S_Mikrokosmos3WanderingInsiderOahHandler& elt);
@@ -143,7 +152,7 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     // generate code kind
     void                  setGeneratorOutputKind (generatorOutputKind value)
                               { fGeneratorOutputKind = value; }
-    generatorOutputKind  getGeneratorOutputKind () const
+    generatorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
 
     // Guido
@@ -201,7 +210,8 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
 
     void                  printMikrokosmos3WanderingInsiderOahGroupHelp ();
 
-    void                  printMikrokosmos3WanderingInsiderOahGroupValues (unsigned int fieldWidth);
+    void                  printMikrokosmos3WanderingInsiderOahGroupValues (
+                            unsigned int fieldWidth);
 
   private:
 

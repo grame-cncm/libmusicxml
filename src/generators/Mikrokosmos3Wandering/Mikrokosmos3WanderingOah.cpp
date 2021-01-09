@@ -315,7 +315,7 @@ R"()",
 
   const msrGenerationAPIKind
     msrGenerationAPIKindDefaultValue =
-      kMsrRegularAPIKind; // default value
+      kMsrFunctionsAPIKind; // default value
 
   fGenerationAPIKindAtom =
     msrGenerationAPIKindAtom::create (
@@ -348,8 +348,8 @@ void Mikrokosmos3WanderingOahGroup::initializeGenerateCodeOptions ()
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Generated code",
-        "hgc", "help-generate-code",
+        "Generated output",
+        "hgc", "help-generate-output",
 R"()",
       kElementVisibilityWhole,
       this);
@@ -599,13 +599,13 @@ void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (
   // --------------------------------------
 
   gLogStream <<
-    "Generated code:" <<
+    "Generated output:" <<
     endl;
 
   ++gIndenter;
 
   gLogStream << left <<
-    setw (fieldWidth) << "gneratedCodeKind" << " : " <<
+    setw (fieldWidth) << "generatorOutputKind" << " : " <<
       generatorOutputKindAsString (fGeneratorOutputKind) <<
       endl;
 

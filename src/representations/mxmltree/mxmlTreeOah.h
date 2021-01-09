@@ -73,6 +73,11 @@ class EXP mxmlTreeOahGroup : public oahGroup
     // specific trace JMI move to traceOah
     // --------------------------------------
 
+    void                  setTraceMusicXMLTree ()
+                              { fTraceMusicXMLTree = true; }
+    bool                  getTraceMusicXMLTree () const
+                              { return fTraceMusicXMLTree; }
+
     // visitors
     void                  setTraceMusicXMLTreeVisitors ()
                               { fTraceMusicXMLTreeVisitors = true; }
@@ -122,6 +127,8 @@ class EXP mxmlTreeOahGroup : public oahGroup
 #ifdef TRACING_IS_ENABLED
     // specific trace JMI move to traceOah
     // --------------------------------------
+
+    bool                  fTraceMusicXMLTree;
 
     // visitors
     bool                  fTraceMusicXMLTreeVisitors;

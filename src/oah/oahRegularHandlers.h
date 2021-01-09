@@ -39,7 +39,6 @@ class EXP oahRegularOahHandler : public oahHandler
 
     static SMARTP<oahRegularOahHandler> create (
       string       executableName,
-      string       executableAboutInformation,
       string       handlerDescription,
       S_oahHandler insiderOahHandler);
 */
@@ -51,7 +50,6 @@ class EXP oahRegularOahHandler : public oahHandler
 
     oahRegularOahHandler (
       string       executableName,
-      string       executableAboutInformation,
       string       handlerHeader,
       S_oahHandler insiderOahHandler);
 
@@ -68,6 +66,13 @@ class EXP oahRegularOahHandler : public oahHandler
 
     // public services
     // ------------------------------------------------------
+
+    string                handlerExecutableAboutInformation () const override
+                              {
+                                return
+                                  fInsiderOahHandler->
+                                    handlerExecutableAboutInformation ();
+                              }
 
     void                  appendGroupToRegulalHandler (
                             S_oahGroup group);

@@ -64,6 +64,26 @@ static xmlErr xmlFile2musicxmlWithHandler (
   std::ostream& err,
   S_oahHandler  handler)
 {
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
+    gLogStream <<
+      endl <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl <<
+      "xmlFile2musicxmlWithHandler(), xmlfile contains:" <<
+      endl << endl;
+
+    ++gIndenter;
+
+    xmlfile->print (gLogStream);
+    gLogStream << endl << endl;
+
+    --gIndenter;
+
+    gLogStream <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl << endl;
+  }
+
   // has quiet mode been requested?
   // ------------------------------------------------------
 
@@ -307,13 +327,6 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
 
   // here, at most one of insiderOptions and regularOptions is true
 
-  // the about information
-  // ------------------------------------------------------
-
-  string
-    aboutInformation =
-      xml2xmlAboutInformation ();
-
   // create an xml2xml insider OAH handler
   // ------------------------------------------------------
 
@@ -322,7 +335,6 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
     insiderOahHandler =
       xml2xmlInsiderOahHandler::create (
         fakeExecutableName,
-        aboutInformation,
         fakeExecutableName + " insider OAH handler with options vector");
 
   // the OAH handler to be used, a regular handler is the default
@@ -339,7 +351,6 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
     handler =
       xml2xmlRegularOahHandler::create (
         fakeExecutableName,
-        aboutInformation,
         fakeExecutableName + " regular OAH handler",
         insiderOahHandler);
   }

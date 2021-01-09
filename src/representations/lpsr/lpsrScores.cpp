@@ -462,7 +462,7 @@ R"(
   }
 
   // create the score layout
-  if (gGlobalLpsr2lilypondOahGroup->getCreateTopLevelLayoutBlock ()) {
+  if (! gGlobalLpsr2lilypondOahGroup->getNoTopLevelLayoutBlock ()) {
     fScoreLayout =
       lpsrLayout::create (
         inputLineNumber);

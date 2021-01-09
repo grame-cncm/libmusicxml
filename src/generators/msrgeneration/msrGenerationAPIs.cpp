@@ -29,8 +29,8 @@ string msrGenerationAPIKindAsString (
   string result;
 
   switch (generationAPIKind) {
-    case kMsrRegularAPIKind:
-      result = "MSR regular API";
+    case kMsrFunctionsAPIKind:
+      result = "MSR functions API";
       break;
     case kMsrStringsAPIKind:
       result = "MSR strings API";
@@ -43,10 +43,10 @@ string msrGenerationAPIKindAsString (
 EXP msrGenerationAPIKind msrGenerationAPIKindFromString (
   const string& theString)
 {
-  msrGenerationAPIKind result = kMsrRegularAPIKind; // default value
+  msrGenerationAPIKind result = kMsrFunctionsAPIKind; // default value
 
-  if      (theString == "regular") {
-    result = kMsrRegularAPIKind;
+  if      (theString == "functions") {
+    result = kMsrFunctionsAPIKind;
   }
   else if (theString == "strings") {
     result = kMsrStringsAPIKind;
@@ -70,8 +70,8 @@ map<string, msrGenerationAPIKind>
 
 void initializeGenerationAPIKindsMap ()
 {
-  gGlobalGenerationAPIKindsMap ["regular"] = kMsrRegularAPIKind;
-  gGlobalGenerationAPIKindsMap ["strings"] = kMsrStringsAPIKind;
+  gGlobalGenerationAPIKindsMap ["functions"] = kMsrFunctionsAPIKind;
+  gGlobalGenerationAPIKindsMap ["strings"]   = kMsrStringsAPIKind;
 }
 
 string existingGenerationAPIKinds (

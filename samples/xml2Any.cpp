@@ -303,6 +303,11 @@ int main (int argc, char *argv[])
         break;
 
       case kMidiOutput:
+        gLogStream <<
+          "MIDI output is not implemented yet" <<
+          endl;
+
+        return 0;
         break;
     } // switch
 
@@ -359,6 +364,11 @@ int main (int argc, char *argv[])
         break;
 
       case kMidiOutput:
+        gLogStream <<
+          "MIDI output is not implemented yet" <<
+          endl;
+
+        return 0;
         break;
     } // switch
 

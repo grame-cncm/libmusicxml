@@ -34,7 +34,6 @@ class EXP Mikrokosmos3WanderingRegularOahHandler : public oahRegularOahHandler
 
     static SMARTP<Mikrokosmos3WanderingRegularOahHandler> create (
       string               executableName,
-      string               executableAboutInformation,
       string               handlerHeader,
       S_Mikrokosmos3WanderingInsiderOahHandler
                            insiderOahHandler,
@@ -47,7 +46,6 @@ class EXP Mikrokosmos3WanderingRegularOahHandler : public oahRegularOahHandler
 
     Mikrokosmos3WanderingRegularOahHandler (
       string               executableName,
-      string               executableAboutInformation,
       string               handlerHeader,
       S_Mikrokosmos3WanderingInsiderOahHandler
                            insiderOahHandler,

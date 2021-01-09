@@ -48,7 +48,6 @@ namespace MusicXML2
 //______________________________________________________________________________
 S_xml2gmnRegularOahHandler xml2gmnRegularOahHandler::create (
   string      executableName,
-  string      executableAboutInformation,
   string      handlerHeader,
   S_xml2gmnInsiderOahHandler
               insiderOahHandler)
@@ -57,7 +56,6 @@ S_xml2gmnRegularOahHandler xml2gmnRegularOahHandler::create (
   xml2gmnRegularOahHandler* o = new
     xml2gmnRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler);
   assert (o!=0);
@@ -67,13 +65,11 @@ S_xml2gmnRegularOahHandler xml2gmnRegularOahHandler::create (
 
 xml2gmnRegularOahHandler::xml2gmnRegularOahHandler (
   string      executableName,
-  string      executableAboutInformation,
   string      handlerHeader,
   S_xml2gmnInsiderOahHandler
               insiderOahHandler)
   : oahRegularOahHandler (
       executableName,
-      executableAboutInformation,
       handlerHeader,
       insiderOahHandler)
 {

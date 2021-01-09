@@ -82,7 +82,7 @@ lilypondScoreOutputKindAtom::~lilypondScoreOutputKindAtom ()
 
 void lilypondScoreOutputKindAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
   // JMI ???
 
@@ -279,7 +279,7 @@ lilypondTransposePartNameAtom::~lilypondTransposePartNameAtom ()
 
 void lilypondTransposePartNameAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -631,7 +631,7 @@ lilypondTransposePartIDAtom::~lilypondTransposePartIDAtom ()
 
 void lilypondTransposePartIDAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1134,7 +1134,7 @@ lilypondRelativeOctaveEntryAtom::~lilypondRelativeOctaveEntryAtom ()
 
 void lilypondRelativeOctaveEntryAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1392,7 +1392,7 @@ lilypondFixedOctaveEntryAtom::~lilypondFixedOctaveEntryAtom ()
 
 void lilypondFixedOctaveEntryAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1602,7 +1602,7 @@ lilypondAccidentalStyleKindAtom::~lilypondAccidentalStyleKindAtom ()
 
 void lilypondAccidentalStyleKindAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -1839,7 +1839,7 @@ lilypondChordsDisplayAtom::~lilypondChordsDisplayAtom ()
 
 void lilypondChordsDisplayAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -2199,7 +2199,7 @@ lilypondLyricsDurationsKindAtom::~lilypondLyricsDurationsKindAtom ()
 
 void lilypondLyricsDurationsKindAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
@@ -4001,15 +4001,15 @@ R"(Don't generate a \score context in the \layout block.)",
       fNoLayoutVoiceContextAtom);
 
   // create block layout block
-  fCreateTopLevelLayoutBlock = false;
+  fNoTopLevelLayoutBlock = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "ctllb", "create-top-level-layout-block",
-  R"(Create a top-level \layout block.)",
-        "createTopLevelLayoutBlock",
-        fCreateTopLevelLayoutBlock));
+  R"(Don't create a top-level \layout block.)",
+        "noTopLevelLayoutBlock",
+        fNoTopLevelLayoutBlock));
 
   // paper block
   // --------------------------------------
@@ -6071,7 +6071,7 @@ lilypondBreakPageAfterMeasureNumberAtom::~lilypondBreakPageAfterMeasureNumberAto
 
 void lilypondBreakPageAfterMeasureNumberAtom::applyAtomWithValue (
   const string& theString,
-  ostream&      os)
+  ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {

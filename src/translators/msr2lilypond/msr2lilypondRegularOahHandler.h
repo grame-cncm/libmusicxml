@@ -35,7 +35,6 @@ class EXP msr2lilypondRegularOahHandler : public oahRegularOahHandler
 
     static SMARTP<msr2lilypondRegularOahHandler> create (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_msr2lilypondInsiderOahHandler
                   insiderOahHandler);
@@ -47,7 +46,6 @@ class EXP msr2lilypondRegularOahHandler : public oahRegularOahHandler
 
     msr2lilypondRegularOahHandler (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_msr2lilypondInsiderOahHandler
                   insiderOahHandler);

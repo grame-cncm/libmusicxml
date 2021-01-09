@@ -34,7 +34,6 @@ class EXP msr2musicxmlRegularOahHandler : public oahRegularOahHandler
 
     static SMARTP<msr2musicxmlRegularOahHandler> create (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_msr2musicxmlInsiderOahHandler
                   insiderOahHandler);
@@ -46,7 +45,6 @@ class EXP msr2musicxmlRegularOahHandler : public oahRegularOahHandler
 
     msr2musicxmlRegularOahHandler (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_msr2musicxmlInsiderOahHandler
                   insiderOahHandler);

@@ -32,7 +32,6 @@ class EXP msr2brailleInsiderOahHandler : public oahHandler
 
     static SMARTP<msr2brailleInsiderOahHandler> create (
       string executableName,
-      string executableAboutInformation,
       string handlerHeader);
 
   protected:
@@ -42,7 +41,6 @@ class EXP msr2brailleInsiderOahHandler : public oahHandler
 
     msr2brailleInsiderOahHandler (
       string executableName,
-      string executableAboutInformation,
       string handlerHeader);
 
     virtual ~msr2brailleInsiderOahHandler ();
@@ -61,6 +59,8 @@ class EXP msr2brailleInsiderOahHandler : public oahHandler
 
     // public services
     // ------------------------------------------------------
+
+    string                handlerExecutableAboutInformation () const override;
 
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
 

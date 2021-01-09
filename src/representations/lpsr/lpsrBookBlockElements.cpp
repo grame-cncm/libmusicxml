@@ -175,7 +175,7 @@ lpsrScoreBlock::lpsrScoreBlock (
       lpsrParallelMusicBLock::kEndOfLine);
 
   // create the score block layout?
-  if (gGlobalLpsr2lilypondOahGroup->getCreateTopLevelLayoutBlock ()) {
+  if (! gGlobalLpsr2lilypondOahGroup->getNoTopLevelLayoutBlock ()) {
     fScoreBlockLayout =
       lpsrLayout::create (
         inputLineNumber);

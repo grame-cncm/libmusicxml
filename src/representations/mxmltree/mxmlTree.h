@@ -30,6 +30,8 @@ namespace MusicXML2
 //------------------------------------------------------------------------
 string mxmlElementAsString (Sxmlelement elem);
 
+void printMxmlxTree (const Sxmlelement mxmlTree, ostream& os);
+
 //------------------------------------------------------------------------
 Sxmlelement createMxmlElement (int type, const string& value);
 

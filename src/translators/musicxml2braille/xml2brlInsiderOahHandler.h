@@ -35,7 +35,6 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
 
     static SMARTP<xml2brlInsiderOahHandler> create (
       string executableName,
-      string executableAboutInformation,
       string handlerHeader);
 
   protected:
@@ -45,7 +44,6 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
 
     xml2brlInsiderOahHandler (
       string executableName,
-      string executableAboutInformation,
       string handlerHeader);
 
     virtual ~xml2brlInsiderOahHandler ();
@@ -64,6 +62,8 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
 
     // public services
     // ------------------------------------------------------
+
+    string                handlerExecutableAboutInformation () const override;
 
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
 

@@ -1756,7 +1756,7 @@ static S_msrStaff createAndPopulateUpperStaffInPart (
 
   // populate its voice(s)
   switch (generationAPIKind) {
-    case kMsrRegularAPIKind:
+    case kMsrFunctionsAPIKind:
       populateUpperVoice1WithTheRegularAPI (
         upperVoice1);
       break;
@@ -1801,7 +1801,7 @@ static S_msrStaff createAndPopulateLowerStaffInPart (
   // populate its voice(s)
   // populate its voice(s)
   switch (generationAPIKind) {
-    case kMsrRegularAPIKind:
+    case kMsrFunctionsAPIKind:
       populateLowerVoice1WithTheRegularAPI (
         lowerVoice1);
       populateLowerVoice2WithTheRegularAPI (
@@ -1979,6 +1979,8 @@ static void enforceSomeOptions (generatorOutputKind theGeneratorOutputKind)
       break;
 
     case kMidiOutput:
+/*
+*/
       break;
   } // switch
 }
@@ -2063,13 +2065,6 @@ int main (int argc, char * argv[])
 #endif
 #endif
 
-  // the about information
-  // ------------------------------------------------------
-
-  string
-    aboutInformation =
-      Mikrokosmos3WanderingAboutInformation ();
-
   // fetch the generate code kind from theOptionsVector,
   // since the OAH handler should only use the OAH groups needed for it
   // ------------------------------------------------------
@@ -2115,7 +2110,6 @@ int main (int argc, char * argv[])
       insiderOahHandler =
         Mikrokosmos3WanderingInsiderOahHandler::create (
           executableName,
-          aboutInformation,
           executableName + " insider OAH handler with argc/argv",
           theGeneratorOutputKind);
 
@@ -2131,7 +2125,6 @@ int main (int argc, char * argv[])
       handler =
         Mikrokosmos3WanderingRegularOahHandler::create (
           executableName,
-          aboutInformation,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler,
           theGeneratorOutputKind);
@@ -2188,22 +2181,24 @@ int main (int argc, char * argv[])
     handler->print (gLogStream);
     --gIndenter;
   }
-  if (gGlobalOahOahGroup->getDisplayOahHandlerShort ()) {
+  if (gGlobalOahOahGroup->getDisplayOahHandlerSummary ()) {
     gLogStream <<
-      "The short version of the OAH handler contains:" <<
+      "The summary of the OAH handler contains:" <<
       endl;
 
     ++gIndenter;
-    handler->printShort (gLogStream);
+    handler->printSummary (gLogStream);
     --gIndenter;
   }
   if (gGlobalOahOahGroup->getDisplayOahHandlerEssentials ()) {
     gLogStream <<
-      "The essentials version of the OAH handler contains:" <<
+      "The essentials of the OAH handler contains:" <<
       endl;
 
     ++gIndenter;
-    handler->printOptionsSummary (gLogStream);
+    handler->printHandlerEssentials (
+      gLogStream,
+      30); // fieldWidth
     --gIndenter;
   }
 
@@ -2256,10 +2251,14 @@ int main (int argc, char * argv[])
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
 
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
   cerr <<
-    "Converting the MSR theMsrScore to " <<
-    generatorOutputKindAsString (theGeneratorOutputKind) <<
-    endl;
+      "Converting the MSR theMsrScore to " <<
+      generatorOutputKindAsString (theGeneratorOutputKind) <<
+      endl;
+  }
+#endif
 
   xmlErr err = kNoErr;
 
@@ -2316,6 +2315,11 @@ int main (int argc, char * argv[])
       break;
 
     case kMidiOutput:
+      gLogStream <<
+        "MIDI output is not implemented yet" <<
+        endl;
+
+      return 0;
       break;
   } // switch
 
@@ -2385,3 +2389,14 @@ int main (int argc, char * argv[])
       break;
   } // switch
 }
+
+/*
+    static unsigned int k_note_counter = 0;
+
+    ++k_note_counter;
+
+    if (k_note_counter > 1) {
+      abort ();
+    }
+
+*/

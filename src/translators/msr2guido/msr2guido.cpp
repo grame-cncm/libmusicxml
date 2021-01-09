@@ -118,6 +118,28 @@ EXP xmlErr msrScore2guidoWithHandler (
     return kInvalidFile;
   }
 
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
+    gLogStream <<
+      endl <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl <<
+      "msrScore2guidoWithHandler(), secondMxmlTree contains:" <<
+      endl << endl;
+
+    ++gIndenter;
+
+    printMxmlxTree (secondMxmlTree, gLogStream);
+
+    gLogStream <<
+      endl;
+
+    --gIndenter;
+
+    gLogStream <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl << endl;
+  }
+
   // generate Guido from the second mxmlTree
   // ------------------------------------------------------
 

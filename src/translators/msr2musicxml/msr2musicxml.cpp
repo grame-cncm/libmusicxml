@@ -128,6 +128,28 @@ EXP xmlErr msrScore2musicxmlWithHandler (
     return kInvalidFile;
   }
 
+  if (gGlobalMxmlTreeOahGroup->getTraceMusicXMLTree ()) {
+    gLogStream <<
+      endl <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl <<
+      "msrScore2musicxmlWithHandler(), mxmlTree contains:" <<
+      endl << endl;
+
+    ++gIndenter;
+
+    printMxmlxTree (mxmlTree, gLogStream);
+
+    gLogStream <<
+      endl;
+
+    --gIndenter;
+
+    gLogStream <<
+      "<!-- ----------------------------------------------------------- -->" <<
+      endl << endl;
+  }
+
   // generate MusicXML from the second mxmlTree
   // ------------------------------------------------------
 

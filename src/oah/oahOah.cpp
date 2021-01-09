@@ -481,17 +481,17 @@ R"(Write the contents of the options handler to standard error.)",
         "displayOahHandler",
         fDisplayOahHandler));
 
-  // display options handler short
+  // display options handler summary
 
-  fDisplayOahHandlerShort = false;
+  fDisplayOahHandlerSummary = false;
 
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "dohs", "display-options-handler-short",
-R"(Write the short version of the contents of the options handler to standard error.)",
+        "dohs", "display-options-handler-summary",
+R"(Write a summary of the contents of the options handler to standard error.)",
         "displayOahHandler",
-        fDisplayOahHandlerShort));
+        fDisplayOahHandlerSummary));
 
   // display options handler essentials
 
@@ -501,7 +501,7 @@ R"(Write the short version of the contents of the options handler to standard er
     appendAtomToSubGroup (
       oahBooleanAtom::create (
         "dohe", "display-options-handler-essentials",
-R"(Write the essentials version of the contents of the options handler to standard error.)",
+R"(Write the essentials of the contents of the options handler to standard error.)",
         "displayOahHandler",
         fDisplayOahHandlerEssentials));
 }
@@ -723,8 +723,8 @@ void oahOahGroup::printOahOahValues (int valueFieldWidth)
     setw (valueFieldWidth) << "displayOahHandler" << " : " <<
     booleanAsString (fDisplayOahHandler) <<
     endl <<
-    setw (valueFieldWidth) << "displayOahHandlerShort" << " : " <<
-    booleanAsString (fDisplayOahHandlerShort) <<
+    setw (valueFieldWidth) << "displayOahHandlerSummary" << " : " <<
+    booleanAsString (fDisplayOahHandlerSummary) <<
     endl <<
     setw (valueFieldWidth) << "displayOahHandlerEssentials" << " : " <<
     booleanAsString (fDisplayOahHandlerEssentials) <<

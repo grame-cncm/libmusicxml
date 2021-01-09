@@ -238,10 +238,10 @@ class EXP oahOahGroup : public oahGroup
     bool                  getDisplayOahHandler () const
                               { return fDisplayOahHandler; }
 
-    void                  setDisplayOahHandlerShort ()
-                              { fDisplayOahHandlerShort = true; }
-    bool                  getDisplayOahHandlerShort () const
-                              { return fDisplayOahHandlerShort; }
+    void                  setDisplayOahHandlerSummary ()
+                              { fDisplayOahHandlerSummary = true; }
+    bool                  getDisplayOahHandlerSummary () const
+                              { return fDisplayOahHandlerSummary; }
 
     void                  setDisplayOahHandlerEssentials ()
                               { fDisplayOahHandlerEssentials = true; }
@@ -338,7 +338,7 @@ class EXP oahOahGroup : public oahGroup
     // display
     bool                  fDisplayOahValues;
     bool                  fDisplayOahHandler;
-    bool                  fDisplayOahHandlerShort;
+    bool                  fDisplayOahHandlerSummary;
     bool                  fDisplayOahHandlerEssentials;
 
 };

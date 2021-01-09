@@ -34,7 +34,6 @@ class EXP msr2guidoRegularOahHandler : public oahRegularOahHandler
 
     static SMARTP<msr2guidoRegularOahHandler> create (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_msr2guidoInsiderOahHandler
                   insiderOahHandler);
@@ -46,7 +45,6 @@ class EXP msr2guidoRegularOahHandler : public oahRegularOahHandler
 
     msr2guidoRegularOahHandler (
       string      executableName,
-      string      executableAboutInformation,
       string      handlerHeader,
       S_msr2guidoInsiderOahHandler
                   insiderOahHandler);

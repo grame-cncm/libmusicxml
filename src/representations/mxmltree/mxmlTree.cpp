@@ -17,6 +17,7 @@
 #include <sstream>
 
 #include "mxmlTree.h"
+#include "xmlvisitor.h"
 
 #include "enableTracingIfDesired.h"
 #ifdef TRACING_IS_ENABLED
@@ -32,20 +33,32 @@ namespace MusicXML2
 //________________________________________________________________________
 string mxmlElementAsString (Sxmlelement elem)
 {
-  int                 elemType = elem->getType ();
-  const std::string&  elemName = elem->getName ();
-  const std::vector<Sxmlattribute>&
-                      elemAttributes = elem->attributes();
+  int
+    elemType = elem->getType ();
+
+  const std::string&  elemName =
+    elem->getName ();
+
+  const std::vector<Sxmlattribute>& elemAttributes =
+    elem->attributes();
 
   stringstream s;
 
   s <<
-    "mxmlElement " <<
+    "[mxmlElement " <<
     ", elemType: " << elemType <<
     ", elemName: " << elemName <<
-    ", elemAttributes.size ():" << elemAttributes.size ();
+    ", elemAttributes.size ():" << elemAttributes.size () <<
+    "]";
 
   return s.str ();
+}
+
+void printMxmlxTree (const Sxmlelement mxmlTree, ostream& os)
+{
+  xmlvisitor v (os);
+  tree_browser<xmlelement> browser (&v);
+  browser.browse (*mxmlTree);
 }
 
 //------------------------------------------------------------------------

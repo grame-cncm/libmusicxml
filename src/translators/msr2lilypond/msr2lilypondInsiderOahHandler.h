@@ -38,7 +38,6 @@ class EXP msr2lilypondInsiderOahHandler : public oahHandler
 
     static SMARTP<msr2lilypondInsiderOahHandler> create (
       string                 executableName,
-      string                 executableAboutInformation,
       string                 handlerHeader,
       oahHandlerUsedThruKind handlerUsedThruKind);
 
@@ -49,7 +48,6 @@ class EXP msr2lilypondInsiderOahHandler : public oahHandler
 
     msr2lilypondInsiderOahHandler (
       string                 executableName,
-      string                 executableAboutInformation,
       string                 handlerHeader,
       oahHandlerUsedThruKind handlerUsedThruKind);
 
@@ -69,6 +67,8 @@ class EXP msr2lilypondInsiderOahHandler : public oahHandler
 
     // public services
     // ------------------------------------------------------
+
+    string                handlerExecutableAboutInformation () const override;
 
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
 
