@@ -2628,6 +2628,30 @@ void msrStaff::browseData (basevisitor* v)
   }
   */
 
+if (true) { // JMI TEMP
+  gLogStream <<
+    "++++++++ fStaffAllVoicesList.size (): " <<
+    fStaffAllVoicesList.size () <<
+    endl << endl;
+
+  if (fStaffAllVoicesList.size ()) {
+    for (
+      list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
+      i != fStaffAllVoicesList.end ();
+      ++i
+    ) {
+      S_msrVoice voice = (*i);
+
+      gLogStream <<
+        endl <<
+        "+++++++++ voice: ++++++++" <<
+        endl <<
+        voice <<
+        endl << endl;
+    } // for
+  }
+}
+
   if (fStaffAllVoicesList.size ()) {
     for (
       list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();

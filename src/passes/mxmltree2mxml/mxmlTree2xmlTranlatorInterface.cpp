@@ -48,6 +48,23 @@ EXP void generateMusicXMLFromMxmlTree (
   // start the clock
   clock_t startClock = clock ();
 
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    gLogStream <<
+      endl <<
+      separator <<
+      endl <<
+      gTab <<
+      passNumber << ": generating MusicXML from the mxmlTree" <<
+      endl <<
+      separator <<
+      endl;
+  }
+#endif
+
   // create the MusicXML data
   SXMLFile xmlFile = createMxmlFile ();
 

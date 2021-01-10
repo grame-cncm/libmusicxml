@@ -52,6 +52,23 @@ void generateGuidoFromMxmlTree (
   // start the clock
   clock_t startClock = clock ();
 
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    gLogStream <<
+      endl <<
+      separator <<
+      endl <<
+      gTab <<
+      passNumber << ": generating Guido from the mxmlTree" <<
+      endl <<
+      separator <<
+      endl;
+  }
+#endif
+
   // convert the mxmlTree intto Guido data
   xml2guidovisitor v (
     gGlobalXml2gmnInsiderOahGroup->

@@ -341,39 +341,6 @@ void xml2xmlRegularOahHandler::createWarningAndErrorsRegularGroup ()
   registerAtomInRegularSubgroup ("dont-quit-on-errors", subGroup);
 }
 
-void xml2xmlRegularOahHandler::createMsrGenerationAPIRegularGroup ()
-{
-/* JMI
-  // group
-
-  S_oahGroup
-    group =
-      oahGroup::create (
-        "MSR generation API group",
-        "hmsrgen-group", "help-msr-generation-group",
-        "",
-        kElementVisibilityWhole);
-  appendGroupToRegulalHandler (group);
-
-  // subgroup
-
-  S_oahSubGroup
-    subGroup =
-      oahSubGroup::create (
-        "MSR generation",
-        "hmgapi", "help-msr-generation-api",
-        "",
-        kElementVisibilityWhole,
-        group);
-  group->
-    appendSubGroupToGroup (subGroup);
-
-  // atoms
-
-  registerAtomInRegularSubgroup (K_GENERATION_API_KIND_LONG_NAME, subGroup);
-  */
-}
-
 void xml2xmlRegularOahHandler::createInputRegularGroup ()
 {
   // group

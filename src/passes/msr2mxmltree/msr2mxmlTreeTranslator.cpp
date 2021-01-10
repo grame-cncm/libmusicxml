@@ -110,6 +110,48 @@ Sxmlelement msr2mxmlTreeTranslator::buildMxmltreeFromMsrScore ()
   return fResultingMusicxmlElement;
 }
 
+//________________________________________________________________________
+int msr2mxmlTreeTranslator::wholeNotesAsDivisions (
+  int      inputLineNumber,
+  rational wholeNotes)
+{
+  rational
+    durationAsRational =
+      wholeNotes
+        /
+      fPartShortestNoteDuration
+        *
+      fDivisionsMultiplyingFactor;
+  durationAsRational.rationalise ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
+    gLogStream <<
+      "--> durationAsRational: " <<
+      durationAsRational <<
+      "--> line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (durationAsRational.getDenominator () != 1) {
+    stringstream s;
+
+    s <<
+      "durationAsRational '" << durationAsRational <<
+      "' is no integer number" <<
+      ", line " << inputLineNumber;
+
+    msrInternalError (
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return durationAsRational.getNumerator ();
+}
+
 //______________________________________________________________________________
 string msr2mxmlTreeTranslator::msrLengthAsTenths (
   msrLength length)
@@ -492,18 +534,18 @@ void msr2mxmlTreeTranslator::appendToMeasureDirection (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator::appendNoteElementToMeasure (
-  Sxmlelement elem,
+void msr2mxmlTreeTranslator::appendNoteToMeasure (
+  Sxmlelement note,
   S_msrNote   theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
-    elem->getInputLineNumber ();
+    note->getInputLineNumber ();
 
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteElementToMeasure(), elem = " <<
-      ", elem: " << mxmlElementAsString (elem) <<
+      "--> appendNoteToMeasure(), note = " <<
+      ", note: " << mxmlElementAsString (note) <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -512,8 +554,8 @@ void msr2mxmlTreeTranslator::appendNoteElementToMeasure (
   // append the 'before spanner' elements if any
   appendNoteSpannersBeforeNote (theMsrNote);
 
-  // append elem to the current measure element
-  fCurrentMeasureElement->push (elem);
+  // append note to the current measure element
+  fCurrentMeasureElement->push (note);
 
   // account for theMsrNote's whole notes duration in the measure
   fCurrentPositionInMeasure +=
@@ -2347,6 +2389,15 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPartGroup& elt)
       elt->getPartGroupCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
+
+    if (false) { // JMI TEMP
+      gLogStream <<
+        endl <<
+        "--> partgroup elt:" <<
+        endl <<
+        elt <<
+        endl << endl;
+    }
   }
 #endif
 
@@ -2416,48 +2467,6 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPartGroup& elt)
   } // switch
 }
 
-//________________________________________________________________________
-int msr2mxmlTreeTranslator::wholeNotesAsDivisions (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-  rational
-    durationAsRational =
-      wholeNotes
-        /
-      fPartShortestNoteDuration
-        *
-      fDivisionsMultiplyingFactor;
-  durationAsRational.rationalise ();
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceDivisions ()) {
-    gLogStream <<
-      "--> durationAsRational: " <<
-      durationAsRational <<
-      "--> line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  if (durationAsRational.getDenominator () != 1) {
-    stringstream s;
-
-    s <<
-      "durationAsRational '" << durationAsRational <<
-      "' is no integer number" <<
-      ", line " << inputLineNumber;
-
-    msrInternalError (
-      gGlobalOahOahGroup->getInputSourceName (),
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-  return durationAsRational.getNumerator ();
-}
-
 void msr2mxmlTreeTranslator::visitStart (S_msrPart& elt)
 {
 #ifdef TRACING_IS_ENABLED
@@ -2485,6 +2494,15 @@ if (false)
       partCombinedName <<
       ", line " << inputLineNumber <<
       endl;
+
+    if (false) { // JMI TEMP
+      gLogStream <<
+        endl <<
+        "--> part elt:" <<
+        endl <<
+        elt <<
+        endl << endl;
+    }
   }
 #endif
 
@@ -2669,6 +2687,228 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPart& elt)
 }
 
 //________________________________________________________________________
+void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
+      "--> Start visiting msrStaff \"" <<
+      elt->getStaffName () << "\"" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+    if (true) { // JMI TEMP
+      gLogStream <<
+        endl <<
+        "--> staff elt:" <<
+        endl <<
+        elt <<
+        endl << endl;
+    }
+#endif
+
+/*
+  ++gIndenter;
+
+  switch (elt->getStaffKind ()) {
+    case kStaffRegular:
+    case kStaffTablature:
+    case kStaffDrum:
+    case kStaffRythmic:
+      {
+        // createMxml a staff clone
+        fCurrentStaffClone =
+          elt->createStaffNewbornClone (
+            fCurrentPartClone);
+
+        // add it to the part clone
+        fCurrentPartClone->
+          addStaffToPartCloneByItsNumber (
+            fCurrentStaffClone);
+
+        // createMxml a staff block
+        fCurrentStaffBlock =
+          lpsrStaffBlock::create (
+            fCurrentStaffClone);
+
+        string
+          partName =
+            fCurrentPartClone->getPartName (),
+          partAbbreviation =
+            fCurrentPartClone->getPartAbbreviation ();
+
+        string staffBlockInstrumentName;
+        string staffBlockShortInstrumentName;
+
+        // don't set instrument name nor short instrument name // JMI
+        // if the staff belongs to a piano part where they're already set
+        if (! partName.size ()) {
+          staffBlockInstrumentName = partName;
+        }
+        if (! partAbbreviation.size ()) {
+          staffBlockShortInstrumentName = partAbbreviation;
+        }
+
+        if (staffBlockInstrumentName.size ()) {
+          fCurrentStaffBlock->
+            setStaffBlockInstrumentName (staffBlockInstrumentName);
+        }
+
+        if (staffBlockShortInstrumentName.size ()) {
+          fCurrentStaffBlock->
+            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
+        }
+
+        // append the staff block to the current part block
+        fCurrentPartBlock->
+          appendStaffBlockToPartBlock (
+            fCurrentStaffBlock);
+
+        fOnGoingStaff = true;
+      }
+      break;
+
+    case kStaffHarmony:
+      {
+        // createMxml a staff clone
+        fCurrentStaffClone =
+          elt->createStaffNewbornClone (
+            fCurrentPartClone);
+
+        // add it to the part clone
+        fCurrentPartClone->
+          addStaffToPartCloneByItsNumber (
+            fCurrentStaffClone);
+
+        fOnGoingStaff = true;
+      }
+      break;
+
+    case kStaffFiguredBass:
+      {
+        // createMxml a staff clone
+        fCurrentStaffClone =
+          elt->createStaffNewbornClone (
+            fCurrentPartClone);
+
+        // add it to the part clone
+        fCurrentPartClone->
+          addStaffToPartCloneByItsNumber (
+            fCurrentStaffClone);
+
+        // register it as the part figured bass staff
+        fCurrentPartClone->
+          setPartFiguredBassStaff (fCurrentStaffClone);
+
+        fOnGoingStaff = true;
+      }
+      break;
+  } // switch
+  */
+}
+
+void msr2mxmlTreeTranslator::visitEnd (S_msrStaff& elt)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
+      "--> End visiting S_msrStaff \"" <<
+      elt->getStaffName () << "\"" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+/*
+  --gIndenter;
+
+  switch (elt->getStaffKind ()) {
+    case kStaffRegular:
+    case kStaffDrum:
+    case kStaffRythmic:
+      {
+        fOnGoingStaff = false;
+      }
+      break;
+
+    case kStaffTablature:
+      // JMI
+      break;
+
+    case kStaffHarmony:
+      // JMI
+      break;
+
+    case kStaffFiguredBass:
+      // JMI
+      break;
+  } // switch
+  */
+}
+
+//________________________________________________________________________
+void msr2mxmlTreeTranslator::visitStart (S_msrVoice& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
+      "--> Start visiting msrVoice \"" <<
+      elt->asString () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+    if (true) { // JMI TEMP
+      gLogStream <<
+        endl <<
+        "--> voice elt:" <<
+        endl <<
+        elt <<
+        endl << endl;
+    }
+#endif
+
+/*
+  ++gIndenter;
+*/
+}
+
+void msr2mxmlTreeTranslator::visitEnd (S_msrVoice& elt)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
+    gLogStream <<
+      "--> End visiting msrVoice \"" <<
+      elt->getVoiceName () << "\"" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+/*
+  --gIndenter;
+
+  switch (elt->getVoiceKind ()) {
+    case kVoiceRegular:
+      // JMI
+      break;
+
+    case kVoiceHarmony:
+      fOnGoingHarmonyVoice = false;
+      break;
+
+    case kVoiceFiguredBass:
+      fOnGoingFiguredBassVoice = false;
+      break;
+  } // switch
+  */
+}
+
+//________________________________________________________________________
 void msr2mxmlTreeTranslator::visitStart (S_msrSegment& elt)
 {
   int inputLineNumber =
@@ -2681,6 +2921,15 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSegment& elt)
       elt->getSegmentAbsoluteNumber () << "'" <<
       ", line " << inputLineNumber <<
       endl;
+
+    if (false) { // JMI TEMP
+      gLogStream <<
+        endl <<
+        "--> segment elt:" <<
+        endl <<
+        elt <<
+        endl << endl;
+    }
   }
 #endif
 
@@ -2713,6 +2962,15 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrSegment& elt)
       elt->getSegmentAbsoluteNumber () << "'" <<
       ", line " << inputLineNumber <<
       endl;
+
+    if (false) { // JMI TEMP
+      gLogStream <<
+        endl <<
+        "--> segment elt:" <<
+        endl <<
+        elt <<
+        endl << endl;
+    }
   }
 #endif
 
@@ -2757,6 +3015,15 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
       measurePuristNumber <<
       "', line " << inputLineNumber <<
       endl;
+
+    if (false) { // JMI TEMP
+      gLogStream <<
+        endl <<
+        "--> measure elt:" <<
+        endl <<
+        elt <<
+        endl << endl;
+    }
   }
 #endif
 
@@ -4192,7 +4459,8 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrTuplet& elt)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteWedges (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendNoteWedges (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceWedges ()) {
@@ -4247,7 +4515,8 @@ void msr2mxmlTreeTranslator:: appendNoteWedges (S_msrNote theMsrNote)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteDynamics (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendNoteDynamics (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceDynamics ()) {
@@ -4366,7 +4635,8 @@ void msr2mxmlTreeTranslator:: appendNoteDynamics (S_msrNote theMsrNote)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendABackupToMeasure (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendABackupToMeasure (
+  S_msrNote theMsrNote)
 {
   int inputLineNumber =
      theMsrNote->getInputLineNumber ();
@@ -4443,7 +4713,8 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (S_msrNote theMsrNote)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendAForwardToMeasure (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendAForwardToMeasure (
+  S_msrNote theMsrNote)
 {
   int inputLineNumber =
      theMsrNote->getInputLineNumber ();
@@ -4684,7 +4955,8 @@ fCurrentCumulatedSkipsVoiceNumber
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: populateNoteDirections (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: populateNoteDirections (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
@@ -4715,10 +4987,11 @@ void msr2mxmlTreeTranslator:: populateNoteDirections (S_msrNote theMsrNote)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteOrnaments (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendNoteOrnaments (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceOrnaments ()) {
     gLogStream <<
       "--> appendNoteOrnaments, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -4831,10 +5104,11 @@ void msr2mxmlTreeTranslator:: appendNoteOrnaments (S_msrNote theMsrNote)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteTechnicals (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendNoteTechnicals (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceTechnicals ()) {
     gLogStream <<
       "--> appendNoteTechnicals, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -4938,7 +5212,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithIntegers (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceTechnicals ()) {
     gLogStream <<
       "--> appendNoteTechnicalWithIntegers, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5016,7 +5290,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithFloats (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceTechnicals ()) {
     gLogStream <<
       "--> appendNoteTechnicalWithFloats, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5085,7 +5359,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithStrings (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceTechnicals ()) {
     gLogStream <<
       "--> appendNoteTechnicalWithStrings, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5158,10 +5432,11 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithStrings (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteArticulations (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendNoteArticulations (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceArticulations ()) {
     gLogStream <<
       "--> appendNoteArticulations, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5305,7 +5580,7 @@ void msr2mxmlTreeTranslator:: appendNoteTieIfAny (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceTies ()) {
     gLogStream <<
       "--> appendNoteTieIfAny, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5354,7 +5629,7 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceSlurs ()) {
     gLogStream <<
       "--> appendNoteSlursIfAny, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5428,7 +5703,7 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceTuplets ()) {
     gLogStream <<
       "--> appendNoteTupletIfRelevant, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5519,7 +5794,7 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceSpanners ()) {
     gLogStream <<
       "--> appendNoteSpannersBeforeNote, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5626,7 +5901,7 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersAfterNote (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceSpanners ()) {
     gLogStream <<
       "--> appendNoteSpannersAfterNote, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5726,10 +6001,11 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersAfterNote (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendStemToNote (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendStemToNote (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceStems ()) {
     gLogStream <<
       "--> appendStemToNote, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5769,10 +6045,11 @@ void msr2mxmlTreeTranslator:: appendStemToNote (S_msrNote theMsrNote)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator::appendBeamsToNote (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator::appendBeamsToNote (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceBeams ()) {
     gLogStream <<
       "--> appendBeamsToNote, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -5830,7 +6107,8 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (S_msrNote theMsrNote)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   int inputLineNumber =
@@ -5853,7 +6131,7 @@ void msr2mxmlTreeTranslator:: appendStaffToNoteIfRelevant (S_msrNote theMsrNote)
           getVoiceStaffUpLink ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceNotesDetails ()) {
     gLogStream <<
       endl <<
       "--> noteStaff: ";
@@ -5907,7 +6185,7 @@ void msr2mxmlTreeTranslator::appendVoiceToNoteIfRelevant (
       theMsrNote->fetchNoteVoiceUpLink ();
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceNotesDetails ()) {
     gLogStream <<
       endl <<
       "--> noteVoice: ";
@@ -5986,10 +6264,11 @@ void msr2mxmlTreeTranslator:: appendNoteNotationsToNote (S_msrNote theMsrNote)
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (S_msrNote theMsrNote)
+void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (
+  S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceNotes ()) {
+  if (gGlobalTraceOahGroup->getTraceLyrics ()) {
     gLogStream <<
       "--> appendNoteLyricsToNote, theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -6451,7 +6730,7 @@ void msr2mxmlTreeTranslator::appendDurationToNoteIfRelevant (
         soundingDurationAsRational.getNumerator ()));
 
 #ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceNotes ()) {
+    if (gGlobalTraceOahGroup->getTraceNotesDetails ()) {
       gLogStream <<
         endl <<
         "--> appendDurationToNoteIfRelevant(2): " <<
@@ -6540,13 +6819,13 @@ void msr2mxmlTreeTranslator::appendTimeModificationToNoteIfRelevant (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
+void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
   S_msrNote theMsrNote)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
     gLogStream <<
-      "--> appendNoteToMesureIfRelevant, theMsrNote = " <<
+      "--> appendMsrNoteToMesureIfRelevant, theMsrNote = " <<
       theMsrNote->asShortString () <<
       endl;
   }
@@ -6766,7 +7045,7 @@ void msr2mxmlTreeTranslator::appendNoteToMesureIfRelevant (
       }
 
       // append theMsrNote to the current measure element
-      appendNoteElementToMeasure (
+      appendNoteToMeasure (
         fCurrentNoteElement,
         theMsrNote);
     }
@@ -6850,7 +7129,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
       theMsrNote->getNoteGraceNotesGroupAfter ();
 */
   if (fCurrentNoteAwaitsGraceNotes) {
-    appendNoteElementToMeasure (
+    appendNoteToMeasure (
       fPendingNoteElement,
       fPendingMsrNoteAwaitingGraceNotes);
 
@@ -6885,6 +7164,15 @@ void msr2mxmlTreeTranslator::visitStart (S_msrNote& elt)
       "'" <<
       ", line " << inputLineNumber <<
       endl;
+
+    if (false) { // JMI TEMP
+      gLogStream <<
+        endl <<
+        "--> note elt:" <<
+        endl <<
+        elt <<
+        endl << endl;
+    }
   }
 #endif
 
@@ -6899,7 +7187,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrNote& elt)
   populateNoteDirections (elt);
 
   // append the note element to the measure element if relevant
-  appendNoteToMesureIfRelevant (elt);
+  appendMsrNoteToMesureIfRelevant (elt);
 
   // append a backup or forward sub-element if needed
   // only now since the note should be inserted into the measure to do so
@@ -7175,203 +7463,9 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrStaffDetails& elt)
     appendStaffDetailsToVoice (
       elt);
 }
+*/
 
-//________________________________________________________________________
-void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
-{
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
-    gLogStream <<
-      "--> Start visiting msrStaff \"" <<
-      elt->getStaffName () << "\"" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  ++gIndenter;
-
-  switch (elt->getStaffKind ()) {
-    case kStaffRegular:
-    case kStaffTablature:
-    case kStaffDrum:
-    case kStaffRythmic:
-      {
-        // createMxml a staff clone
-        fCurrentStaffClone =
-          elt->createStaffNewbornClone (
-            fCurrentPartClone);
-
-        // add it to the part clone
-        fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (
-            fCurrentStaffClone);
-
-        // createMxml a staff block
-        fCurrentStaffBlock =
-          lpsrStaffBlock::create (
-            fCurrentStaffClone);
-
-        string
-          partName =
-            fCurrentPartClone->getPartName (),
-          partAbbreviation =
-            fCurrentPartClone->getPartAbbreviation ();
-
-        string staffBlockInstrumentName;
-        string staffBlockShortInstrumentName;
-
-        // don't set instrument name nor short instrument name // JMI
-        // if the staff belongs to a piano part where they're already set
-        if (! partName.size ()) {
-          staffBlockInstrumentName = partName;
-        }
-        if (! partAbbreviation.size ()) {
-          staffBlockShortInstrumentName = partAbbreviation;
-        }
-
-        if (staffBlockInstrumentName.size ()) {
-          fCurrentStaffBlock->
-            setStaffBlockInstrumentName (staffBlockInstrumentName);
-        }
-
-        if (staffBlockShortInstrumentName.size ()) {
-          fCurrentStaffBlock->
-            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
-        }
-
-        // append the staff block to the current part block
-        fCurrentPartBlock->
-          appendStaffBlockToPartBlock (
-            fCurrentStaffBlock);
-
-        fOnGoingStaff = true;
-      }
-      break;
-
-    case kStaffHarmony:
-      {
-        // createMxml a staff clone
-        fCurrentStaffClone =
-          elt->createStaffNewbornClone (
-            fCurrentPartClone);
-
-        // add it to the part clone
-        fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (
-            fCurrentStaffClone);
-
-        fOnGoingStaff = true;
-      }
-      break;
-
-    case kStaffFiguredBass:
-      {
-        // createMxml a staff clone
-        fCurrentStaffClone =
-          elt->createStaffNewbornClone (
-            fCurrentPartClone);
-
-        // add it to the part clone
-        fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (
-            fCurrentStaffClone);
-
-        // register it as the part figured bass staff
-        fCurrentPartClone->
-          setPartFiguredBassStaff (fCurrentStaffClone);
-
-        fOnGoingStaff = true;
-      }
-      break;
-  } // switch
-}
-
-void msr2mxmlTreeTranslator::visitEnd (S_msrStaff& elt)
-{
-  --gIndenter;
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
-    gLogStream <<
-      "--> End visiting S_msrStaff \"" <<
-      elt->getStaffName () << "\"" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  switch (elt->getStaffKind ()) {
-    case kStaffRegular:
-    case kStaffDrum:
-    case kStaffRythmic:
-      {
-        fOnGoingStaff = false;
-      }
-      break;
-
-    case kStaffTablature:
-      // JMI
-      break;
-
-    case kStaffHarmony:
-      // JMI
-      break;
-
-    case kStaffFiguredBass:
-      // JMI
-      break;
-  } // switch
-}
-
-//________________________________________________________________________
-void msr2mxmlTreeTranslator::visitStart (S_msrVoice& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
-    gLogStream <<
-      "--> Start visiting msrVoice \"" <<
-      elt->asString () << "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  ++gIndenter;
-}
-
-void msr2mxmlTreeTranslator::visitEnd (S_msrVoice& elt)
-{
-  --gIndenter;
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalMsrOahGroup->getTraceMsrVisitors ()) {
-    gLogStream <<
-      "--> End visiting msrVoice \"" <<
-      elt->getVoiceName () << "\"" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-#endif
-
-  switch (elt->getVoiceKind ()) {
-    case kVoiceRegular:
-      // JMI
-      break;
-
-    case kVoiceHarmony:
-      fOnGoingHarmonyVoice = false;
-      break;
-
-    case kVoiceFiguredBass:
-      fOnGoingFiguredBassVoice = false;
-      break;
-  } // switch
-}
-
+/*
 //________________________________________________________________________
 void msr2mxmlTreeTranslator::visitStart (S_msrVoiceStaffChange& elt)
 {

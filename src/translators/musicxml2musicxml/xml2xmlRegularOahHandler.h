@@ -110,8 +110,6 @@ class EXP xml2xmlRegularOahHandler : public oahRegularOahHandler
 
     void                  createWarningAndErrorsRegularGroup ();
 
-    void                  createMsrGenerationAPIRegularGroup ();
-
     void                  createInputRegularGroup ();
 
     void                  createPresentationRegularGroup ();

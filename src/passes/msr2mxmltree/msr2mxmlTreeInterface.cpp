@@ -65,7 +65,7 @@ Sxmlelement convertMsrScoreToMxmltree (
       separator <<
       endl <<
       gTab <<
-      "translating the MSR into an mxmlTree" <<
+      passNumber + ": translating the MSR into an mxmlTree" <<
       endl <<
       separator <<
       endl;

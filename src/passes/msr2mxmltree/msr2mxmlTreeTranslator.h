@@ -49,9 +49,15 @@ class EXP msr2mxmlTreeTranslator :
 
   public visitor<S_msrAppearance>,
 
-  // parts & part groups
+  // print layouts
+
+  public visitor<S_msrPrintLayout>,
+
+  // part groups
 
   public visitor<S_msrPartGroup>,
+
+  // parts
 
   public visitor<S_msrPart>,
 
@@ -62,9 +68,19 @@ class EXP msr2mxmlTreeTranslator :
 
   public visitor<S_msrStaff>,
 
+  // voices
+
   public visitor<S_msrVoice>,
 
   public visitor<S_msrVoiceStaffChange>,
+
+  // segments
+
+  public visitor<S_msrSegment>,
+
+  // measures
+
+  public visitor<S_msrMeasure>,
 
   // lyrics
 
@@ -100,10 +116,6 @@ class EXP msr2mxmlTreeTranslator :
 
   public visitor<S_msrTempo>,
 
-  // segments
-
-  public visitor<S_msrSegment>,
-
   // chords
 
   public visitor<S_msrChord>,
@@ -129,14 +141,6 @@ class EXP msr2mxmlTreeTranslator :
 
   public visitor<S_msrFiguredBass>,
   public visitor<S_msrFigure>,
-
-  // measures
-
-  public visitor<S_msrMeasure>,
-
-  // print layouts
-
-  public visitor<S_msrPrintLayout>,
 
   // articulations
 
@@ -263,25 +267,49 @@ class EXP msr2mxmlTreeTranslator :
 
   protected:
 
+    // scores
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
     // identification
-
     virtual void visitStart (S_msrIdentification& elt);
     virtual void visitEnd   (S_msrIdentification& elt);
 
     // credits
-
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
 
-    // parts & part groups
+    // scaling
 
+    virtual void visitStart (S_msrScaling& elt);
+    virtual void visitEnd   (S_msrScaling& elt);
+
+    // layout
+
+    virtual void visitStart (S_msrPageLayout& elt);
+    virtual void visitEnd   (S_msrPageLayout& elt);
+
+    virtual void visitStart (S_msrSystemLayout& elt);
+    virtual void visitEnd   (S_msrSystemLayout& elt);
+
+    virtual void visitStart (S_msrStaffLayout& elt);
+    virtual void visitEnd   (S_msrStaffLayout& elt);
+
+    virtual void visitStart (S_msrMeasureLayout& elt);
+    virtual void visitEnd   (S_msrMeasureLayout& elt);
+
+    // appearance
+
+    virtual void visitStart (S_msrAppearance& elt);
+    virtual void visitEnd   (S_msrAppearance& elt);
+
+    // part groups
     virtual void visitStart (S_msrPartGroup& elt);
     virtual void visitEnd   (S_msrPartGroup& elt);
+
+    // part
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
 
@@ -289,15 +317,29 @@ class EXP msr2mxmlTreeTranslator :
     virtual void visitStart (S_msrStaffTuning& elt);
     virtual void visitStart (S_msrStaffDetails& elt);
     virtual void visitEnd   (S_msrStaffDetails& elt);
+*/
 
+    // staves
     virtual void visitStart (S_msrStaff& elt);
     virtual void visitEnd   (S_msrStaff& elt);
 
+    // voices
     virtual void visitStart (S_msrVoice& elt);
     virtual void visitEnd   (S_msrVoice& elt);
 
+/*
     virtual void visitStart (S_msrVoiceStaffChange& elt);
+*/
 
+    // segments
+    virtual void visitStart (S_msrSegment& elt);
+    virtual void visitEnd   (S_msrSegment& elt);
+
+    // measures
+    virtual void visitStart (S_msrMeasure& elt);
+    virtual void visitEnd   (S_msrMeasure& elt);
+
+/*
     virtual void visitStart (S_msrStanza& elt);
     virtual void visitEnd   (S_msrStanza& elt);
 
@@ -305,10 +347,15 @@ class EXP msr2mxmlTreeTranslator :
     virtual void visitEnd   (S_msrSyllable& elt);
 */
 
+    // clefs
     virtual void visitStart (S_msrClef& elt);
     virtual void visitEnd   (S_msrClef& elt);
+
+    // keys
     virtual void visitStart (S_msrKey& elt);
     virtual void visitEnd   (S_msrKey& elt);
+
+    // times
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
 /*
@@ -329,14 +376,6 @@ class EXP msr2mxmlTreeTranslator :
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
 */
-    // segments
-    virtual void visitStart (S_msrSegment& elt);
-    virtual void visitEnd   (S_msrSegment& elt);
-
-    // measures
-    virtual void visitStart (S_msrMeasure& elt);
-    virtual void visitEnd   (S_msrMeasure& elt);
-
     // print layouts
     virtual void visitStart (S_msrPrintLayout& elt);
     virtual void visitEnd   (S_msrPrintLayout& elt);
@@ -483,30 +522,6 @@ class EXP msr2mxmlTreeTranslator :
     virtual void visitStart (S_msrRestMeasuresContents& elt);
     virtual void visitEnd   (S_msrRestMeasuresContents& elt);
 */
-
-    // scaling
-
-    virtual void visitStart (S_msrScaling& elt);
-    virtual void visitEnd   (S_msrScaling& elt);
-
-    // layout
-
-    virtual void visitStart (S_msrPageLayout& elt);
-    virtual void visitEnd   (S_msrPageLayout& elt);
-
-    virtual void visitStart (S_msrSystemLayout& elt);
-    virtual void visitEnd   (S_msrSystemLayout& elt);
-
-    virtual void visitStart (S_msrStaffLayout& elt);
-    virtual void visitEnd   (S_msrStaffLayout& elt);
-
-    virtual void visitStart (S_msrMeasureLayout& elt);
-    virtual void visitEnd   (S_msrMeasureLayout& elt);
-
-    // appearance
-
-    virtual void visitStart (S_msrAppearance& elt);
-    virtual void visitEnd   (S_msrAppearance& elt);
 
 /*
     virtual void visitStart (S_msrMidiTempo& elt);
@@ -837,46 +852,54 @@ class EXP msr2mxmlTreeTranslator :
     int                       fCurrentCumulatedSkipsStaffNumber;
     int                       fCurrentCumulatedSkipsVoiceNumber;
 
-    void                      appendABackupOrForwardToMeasureIfNeeded (S_msrNote note);
-    void                      appendABackupToMeasure (S_msrNote note);
-    void                      appendAForwardToMeasure (S_msrNote note);
+    void                      appendABackupOrForwardToMeasureIfNeeded (
+                                S_msrNote theMsrNote);
+    void                      appendABackupToMeasure (
+                                S_msrNote theMsrNote);
+    void                      appendAForwardToMeasure (
+                                S_msrNote theMsrNote);
 
     // directions
     // ------------------------------------------------------
-    void                      populateNoteDirections (S_msrNote note);
-    void                      appendNoteWedges (S_msrNote note);
-    void                      appendNoteDynamics (S_msrNote note);
+    void                      populateNoteDirections (
+                                S_msrNote theMsrNote);
+    void                      appendNoteWedges (
+                                S_msrNote theMsrNote);
+    void                      appendNoteDynamics (
+                                S_msrNote theMsrNote);
 
     // spanners
     // ------------------------------------------------------
     void                      appendNoteSpannersBeforeNote (
-                                S_msrNote note);
+                                S_msrNote theMsrNote);
     void                      appendNoteSpannersAfterNote (
-                                S_msrNote note);
+                                S_msrNote theMsrNote);
 
     void                      appendBasicsToNote (
-                                S_msrNote note);
+                                S_msrNote theMsrNote);
 
     // staves
     // ------------------------------------------------------
-    void                      appendStaffToNoteIfRelevant (S_msrNote note);
+    void                      appendStaffToNoteIfRelevant (
+                                S_msrNote theMsrNote);
 
     // voice
     // ------------------------------------------------------
     void                      appendVoiceToNoteIfRelevant (
-                                S_msrNote note);
+                                S_msrNote theMsrNote);
 
     // duration
     // ------------------------------------------------------
     void                      appendDurationToNoteIfRelevant (
-                                S_msrNote note);
+                                S_msrNote theMsrNote);
 
     // tuplets
     // ------------------------------------------------------
     void                      appendTimeModificationToNoteIfRelevant (
-                                S_msrNote note);
+                                S_msrNote theMsrNote);
 
-    void                      appendNoteTupletIfRelevant (S_msrNote note);
+    void                      appendNoteTupletIfRelevant (
+                                S_msrNote theMsrNote);
 
     // notes
     // ------------------------------------------------------
@@ -887,13 +910,11 @@ class EXP msr2mxmlTreeTranslator :
     S_msrVoice                fPreviousMSRNoteVoice;
     S_msrStaff                fPreviousMSRNoteStaff;
 
-    void                      appendNoteToMesureIfRelevant (
+    void                      appendMsrNoteToMesureIfRelevant (
                                 S_msrNote theMsrNote);
 
-//    void                      appendNoteToMesure (S_msrNote note);
-
-    void                      appendNoteElementToMeasure (
-                                Sxmlelement elem,
+    void                      appendNoteToMeasure (
+                                Sxmlelement note,
                                 S_msrNote   theMsrNote);
 
     bool                      fCurrentNoteAwaitsGraceNotes;
