@@ -571,6 +571,12 @@ void Mikrokosmos3WanderingRegularOahHandler::createGenerateCodeRegularGroup ()
   // atoms
 
   registerAtomInRegularSubgroup (K_GENERATED_OUTPUT_KIND_LONG_NAME, subGroup);
+
+  registerAtomInRegularSubgroup ("guido", subGroup);
+  registerAtomInRegularSubgroup ("lilypond", subGroup);
+  registerAtomInRegularSubgroup ("braille", subGroup);
+  registerAtomInRegularSubgroup ("musicxml", subGroup);
+// JMI  registerAtomInRegularSubgroup ("midi", subGroup);
 }
 
 void Mikrokosmos3WanderingRegularOahHandler::createPresentationRegularGroup ()

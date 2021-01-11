@@ -112,6 +112,12 @@ Usage: msr2lilypond ([options] | [MusicXMLFile|-])+
 msr2lilypondInsiderOahHandler::~msr2lilypondInsiderOahHandler ()
 {}
 
+void msr2lilypondInsiderOahHandler::handlerOahError (
+  const string& errorMessage)
+{
+  oahError (errorMessage);
+}
+
 string msr2lilypondInsiderOahHandler::handlerExecutableAboutInformation () const
 {
   return

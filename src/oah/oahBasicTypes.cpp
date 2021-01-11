@@ -5049,9 +5049,9 @@ void oahHandler::registerElementUse (
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
-      "Registering element use" <<
+      "Registering element use " <<
       elementUsed->fetchNamesBetweenQuotes () <<
-      ", nameUsede \"" << nameUsed << "\"" <<
+      ", nameUsed \"" << nameUsed << "\"" <<
       ", valueUsed \"" << valueUsed << "\"" <<
       endl;
   }
@@ -6909,7 +6909,7 @@ void oahHandler::handleUnknownOptionName (
       fHandlerHeader <<
       "\"";
 
-    oahError (s.str ());
+    handlerOahError (s.str ());
   }
 }
 

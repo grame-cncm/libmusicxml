@@ -106,6 +106,12 @@ Usage: msr2braille ([options] | [MusicXMLFile|-])+
 msr2brailleInsiderOahHandler::~msr2brailleInsiderOahHandler ()
 {}
 
+void msr2brailleInsiderOahHandler::handlerOahError (
+  const string& errorMessage)
+{
+  oahError (errorMessage);
+}
+
 string msr2brailleInsiderOahHandler::handlerExecutableAboutInformation () const
 {
   return

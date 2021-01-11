@@ -61,6 +61,8 @@ class EXP xml2gmnInsiderOahHandler : public oahHandler
     // public services
     // ------------------------------------------------------
 
+    void                  handlerOahError (const string& errorMessage) override;
+
     string                handlerExecutableAboutInformation () const override;
 
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;

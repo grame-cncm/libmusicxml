@@ -106,6 +106,12 @@ Usage: xml2brl ([options] | [MusicXMLFile|-])+
 xml2brlInsiderOahHandler::~xml2brlInsiderOahHandler ()
 {}
 
+void xml2brlInsiderOahHandler::handlerOahError (
+  const string& errorMessage)
+{
+  oahError (errorMessage);
+}
+
 //_______________________________________________________________________________
 string xml2brlInsiderOahHandler::handlerExecutableAboutInformation () const
 {

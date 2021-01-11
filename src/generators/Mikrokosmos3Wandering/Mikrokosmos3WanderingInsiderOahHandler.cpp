@@ -95,8 +95,7 @@ R"(                Welcome to Mikrokosmos3Wandering,
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
-R"(
-Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
+R"(Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
 )"),
     fGeneratorOutputKind (
       generatorOutputKind)
@@ -123,6 +122,20 @@ Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
 
 Mikrokosmos3WanderingInsiderOahHandler::~Mikrokosmos3WanderingInsiderOahHandler ()
 {}
+
+void Mikrokosmos3WanderingInsiderOahHandler::handlerOahError (
+  const string& errorMessage)
+{
+  stringstream s;
+
+  s <<
+    errorMessage  <<
+    " when generating " <<
+    generatorOutputKindAsString (fGeneratorOutputKind) <<
+    " output";
+
+  oahError (s.str ());
+}
 
 string Mikrokosmos3WanderingInsiderOahHandler::handlerExecutableAboutInformation () const
 {

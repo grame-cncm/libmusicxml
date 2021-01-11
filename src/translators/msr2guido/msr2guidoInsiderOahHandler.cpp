@@ -100,6 +100,12 @@ Usage: msr2guido ([options] | [MusicXMLFile|-])+
 msr2guidoInsiderOahHandler::~msr2guidoInsiderOahHandler ()
 {}
 
+void msr2guidoInsiderOahHandler::handlerOahError (
+  const string& errorMessage)
+{
+  oahError (errorMessage);
+}
+
 string msr2guidoInsiderOahHandler::handlerExecutableAboutInformation () const
 {
   return

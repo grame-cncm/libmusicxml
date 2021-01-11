@@ -936,6 +936,9 @@ class EXP oahHandler : public smartable
     // public services
     // ------------------------------------------------------
 
+    // OAH errors
+    virtual void          handlerOahError (const string& errorMessage) = 0;
+
     virtual string        handlerExecutableAboutInformation () const = 0;
 
     S_oahElement          fetchElementByNameInHandler (
@@ -1063,6 +1066,7 @@ class EXP oahHandler : public smartable
     // private services
     // ------------------------------------------------------
 
+    // initialization
     void                  initializeHandler ();
 
     // names handling

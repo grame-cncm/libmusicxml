@@ -67,6 +67,13 @@ class EXP oahRegularOahHandler : public oahHandler
     // public services
     // ------------------------------------------------------
 
+    void                  handlerOahError (const string& errorMessage) override
+                              {
+                                fInsiderOahHandler->
+                                  handlerOahError (
+                                    errorMessage);
+                              }
+
     string                handlerExecutableAboutInformation () const override
                               {
                                 return

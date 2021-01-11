@@ -356,6 +356,8 @@ R"()",
 
   appendSubGroupToGroup (subGroup);
 
+  // generator output kind
+
   const generatorOutputKind
     generatorOutputKindDefaultValue =
       kLilyPondOutput; // default value
@@ -384,6 +386,71 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       fGeneratorOutputKindAtom);
+
+  // generator output macros
+
+  S_oahMacroAtom
+    guidoMacroAtom =
+      oahMacroAtom::create (
+        "guido", "",
+        "Generate Guido output");
+  guidoMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "guido");
+  subGroup->
+    appendAtomToSubGroup (
+      guidoMacroAtom);
+
+
+  S_oahMacroAtom
+    lilypondMacroAtom =
+      oahMacroAtom::create (
+        "lilypond", "",
+        "Generate LilyPond output");
+  lilypondMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "lilypond");
+  subGroup->
+    appendAtomToSubGroup (
+      lilypondMacroAtom);
+
+  S_oahMacroAtom
+    brailleMacroAtom =
+      oahMacroAtom::create (
+        "braille", "",
+        "Generate braille music output");
+  brailleMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "braille");
+  subGroup->
+    appendAtomToSubGroup (
+      brailleMacroAtom);
+
+  S_oahMacroAtom
+    musicxmlMacroAtom =
+      oahMacroAtom::create (
+        "musicxml", "",
+        "Generate MusicXML output");
+  musicxmlMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "musicxml");
+  subGroup->
+    appendAtomToSubGroup (
+      musicxmlMacroAtom);
+
+/* JMI
+  S_oahMacroAtom
+    midiMacroAtom =
+      oahMacroAtom::create (
+        "midi", "",
+        "Generate MIDI output");
+  midiMacroAtom->
+    appendAtomStringPairToMacro (
+      fGeneratorOutputKindAtom, "midi");
+  subGroup->
+    appendAtomToSubGroup (
+      midiMacroAtom);
+      */
 }
 
 void Mikrokosmos3WanderingOahGroup::initializeBrailleEncodingOptions ()
@@ -398,6 +465,8 @@ R"()",
       this);
 
   appendSubGroupToGroup (subGroup);
+
+  // braille output kind
 
   const bsrBrailleOutputKind
     brailleOutputKindDefaultValue =

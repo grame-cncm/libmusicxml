@@ -63,6 +63,8 @@ class EXP xml2brlInsiderOahHandler : public oahHandler
     // public services
     // ------------------------------------------------------
 
+    void                  handlerOahError (const string& errorMessage) override;
+
     string                handlerExecutableAboutInformation () const override;
 
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;

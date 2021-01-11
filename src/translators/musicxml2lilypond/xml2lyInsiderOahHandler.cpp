@@ -112,6 +112,12 @@ Usage: xml2ly ([options] | [MusicXMLFile|-])+
 xml2lyInsiderOahHandler::~xml2lyInsiderOahHandler ()
 {}
 
+void xml2lyInsiderOahHandler::handlerOahError (
+  const string& errorMessage)
+{
+  oahError (errorMessage);
+}
+
 //_______________________________________________________________________________
 string xml2lyInsiderOahHandler::handlerExecutableAboutInformation () const
 {

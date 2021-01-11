@@ -100,6 +100,12 @@ Usage: xml2gmn ([options] | [MusicXMLFile|-])+
 xml2gmnInsiderOahHandler::~xml2gmnInsiderOahHandler ()
 {}
 
+void xml2gmnInsiderOahHandler::handlerOahError (
+  const string& errorMessage)
+{
+  oahError (errorMessage);
+}
+
 //_______________________________________________________________________________
 string xml2gmnInsiderOahHandler::handlerExecutableAboutInformation () const
 {

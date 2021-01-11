@@ -71,6 +71,8 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // public services
     // ------------------------------------------------------
 
+    void                  handlerOahError (const string& errorMessage) override;
+
     string                handlerExecutableAboutInformation () const override;
 
     void                  checkOptionsAndArgumentsFromArgcAndArgv () const override;
@@ -94,6 +96,11 @@ class EXP Mikrokosmos3WanderingInsiderOahHandler : public oahHandler
     // ------------------------------------------------------
 
     void                  print (ostream& os) const;
+
+  protected:
+
+    // protected services
+    // ------------------------------------------------------
 
   private:
 
@@ -231,7 +238,7 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
     msrGenerationAPIKind  fGenerationAPIKind;
 
     // generate code kind
-    generatorOutputKind  fGeneratorOutputKind;
+    generatorOutputKind   fGeneratorOutputKind;
 
     // Guido
     bool                  fGenerateComments;

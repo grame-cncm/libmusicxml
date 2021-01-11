@@ -100,6 +100,12 @@ Usage: msr2musicxml ([options] | [MusicXMLFile|-])+
 msr2musicxmlInsiderOahHandler::~msr2musicxmlInsiderOahHandler ()
 {}
 
+void msr2musicxmlInsiderOahHandler::handlerOahError (
+  const string& errorMessage)
+{
+  oahError (errorMessage);
+}
+
 string msr2musicxmlInsiderOahHandler::handlerExecutableAboutInformation () const
 {
   return
