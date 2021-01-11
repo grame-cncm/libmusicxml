@@ -3341,9 +3341,8 @@ void oahHandler::checkSingleInputSourceInArgumentsVector () const
 
     case 1:
       // register intput file name
-      gGlobalOahOahGroup->
-        setInputSourceName (
-          fHandlerArgumentsVector [0]);
+      gGlobalOahOahGroup->setInputSourceName (
+        fHandlerArgumentsVector [0]);
       break;
 
     default:

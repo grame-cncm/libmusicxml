@@ -468,116 +468,134 @@ string Mikrokosmos3WanderingInsiderOahHandler::fetchOutputFileNameFromTheOptions
   }
 #endif
 
-  string result;
-
   S_oahStringAtom
     outputFileNameStringAtom =
       gGlobalOutputFileOahGroup->
         getOutputFileNameStringAtom ();
-
-  S_oahBooleanAtom
-    autoOutputFileNameAtom =
-      gGlobalOutputFileOahGroup->
-        getAutoOutputFileNameAtom ();
 
   bool
     outputFileNameHasBeenSet =
       outputFileNameStringAtom->
         getVariableHasBeenSet ();
 
-  bool
-    autoOutputFileNameHasBeenSet =
-      autoOutputFileNameAtom->
-        getVariableHasBeenSet ();
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "fetchOutputFileNameFromTheOptions()" <<
+      "outputFileNameHasBeenSet: " <<
+      booleanAsString (outputFileNameHasBeenSet) <<
+      endl;
+  }
+#endif
+
+  string outputFileName;
 
   if (outputFileNameHasBeenSet) {
-    if (autoOutputFileNameHasBeenSet) {
-      // '-o, -output-file-name' has been chosen
-      // '-aofn, -auto-output-file-name' has been chosen
-      stringstream s;
-
-      s <<
-        "options' " <<
-        outputFileNameStringAtom->fetchNames () <<
-        "' and '" <<
-        autoOutputFileNameAtom->fetchNames () <<
-        "' cannot be chosen simultaneously" <<
-        "\")";
-
-      oahError (s.str ());
-    }
-    else {
-      // '-o, -output-file-name' has been chosen
-      // '-aofn, -auto-output-file-name' has NOT been chosen
-      result =
-        outputFileNameStringAtom->
-          getStringVariable ();
-    }
+    // '-o, -output-file-name' has been chosen
+    outputFileName =
+      outputFileNameStringAtom->
+        getStringVariable ();
   }
-
   else {
-    if (autoOutputFileNameHasBeenSet) {
-      // '-o, -output-file-name' has NOT been chosen
-      // '-aofn, -auto-output-file-name' has been chosen
-      string
-        inputSourceName =
-          gGlobalOahOahGroup->getInputSourceName ();
+    // start with the executable name
+    outputFileName = fHandlerExecutableName;
 
-      // determine output file base name
-      if (inputSourceName == "-") {
-        result = "stdin";
-      }
+    // add the output file name suffix
+    switch (fGeneratorOutputKind) {
+      case k_NoOutput:
+        // should not occur
+        outputFileName = "___noGenerateOutputKind___";
+        break;
 
-      else {
-        // determine output file name,
-        result =
-          baseName (inputSourceName);
+      case kGuidoOutput:
+        outputFileName += ".gmn";
+        break;
 
-        size_t
-          posInString =
-            result.rfind ('.');
+      case kLilyPondOutput:
+        outputFileName += ".ly";
+        break;
 
-        // remove file extension
-        if (posInString != string::npos) {
-          result.replace (
-            posInString,
-            result.size () - posInString,
-            "");
+      case kBrailleOutput:
+        {
+          S_oahStringAtom
+            outputFileNameStringAtom =
+              gGlobalOutputFileOahGroup->
+                getOutputFileNameStringAtom ();
+
+          // should encoding be used by the output file name?
+          bsrBrailleOutputKind
+            brailleOutputKind =
+              gGlobalBsr2brailleOahGroup->
+                getBrailleOutputKind ();
+
+          if (gGlobalBsr2brailleOahGroup->getUseEncodingInFileName ()) {
+            switch (brailleOutputKind) {
+              case kBrailleOutputAscii:
+                outputFileName += "_ASCII";
+                break;
+
+              case kBrailleOutputUTF8:
+                outputFileName += "_UTF8";
+                  /* JMI
+                switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
+                  case kByteOrderingNone:
+                    break;
+                  case kByteOrderingBigEndian:
+                    outputFileName += "_BE";
+                    break;
+                  case kByteOrderingSmallEndian:
+                    // should not occur JMI
+                    break;
+                } // switch
+                */
+                break;
+
+              case kBrailleOutputUTF8Debug:
+                outputFileName += "_UTF8Debug";
+                break;
+
+              case kBrailleOutputUTF16:
+                outputFileName += "_UTF16";
+                switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
+                  case kByteOrderingNone:
+                    break;
+
+                  case kByteOrderingBigEndian:
+                    outputFileName += "_BE";
+                    break;
+
+                  case kByteOrderingSmallEndian:
+                    outputFileName += "_SE";
+                    break;
+                } // switch
+                break;
+            } // switch
+          }
+
+          outputFileName += ".brf";
         }
-      }
+        break;
 
-#ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
-        gLogStream <<
-          "Mikrokosmos3WanderingInsiderOahHandler::fetchOutputFileNameFromTheOptions(): result 1 = \"" <<
-          result <<
-          "\"" <<
-          endl;
-      }
-#endif
+      case kMusicXMLOutput:
+        outputFileName += ".xml";
+        break;
 
-      // append the file extension to the output file name
-       result += ".gmn";
-
-#ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceOah ()) {
-        gLogStream <<
-          "Mikrokosmos3WanderingInsiderOahHandler::fetchOutputFileNameFromTheOptions(): result 2 = " <<
-          result <<
-          "\"" <<
-          endl;
-      }
-#endif
-    }
-
-    else {
-      // '-o, -output-file-name' has NOT been chosen
-      // '-aofn, -auto-output-file-name' has NOT been chosen
-      // nothing to do
-    }
+      case kMidiOutput:
+        outputFileName += ".midi";
+        break;
+    } // switch
   }
 
-  return result;
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "outputFileName: " <<
+      outputFileName <<
+      endl;
+  }
+#endif
+
+  return outputFileName;
 }
 
 //______________________________________________________________________________

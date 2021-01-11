@@ -2214,6 +2214,24 @@ int main (int argc, char * argv[])
   // start the clock
   clock_t startClock = clock ();
 
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTracePasses ()) {
+    string separator =
+      "%--------------------------------------------------------------";
+
+    cerr <<
+      endl <<
+      separator <<
+      endl <<
+      gTab <<
+      "Pass 1: Creating the MSR score with the " <<
+      msrGenerationAPIKindAsString (theGenerationAPIKind) <<
+      endl <<
+      separator <<
+      endl;
+  }
+#endif
+
   S_msrScore
     theMsrScore =
       createAndPopulateTheScore (
@@ -2236,15 +2254,6 @@ int main (int argc, char * argv[])
 
   // should we generate Guido, LilyPond, braille music or MusicXML?
   // ------------------------------------------------------
-
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTracePasses ()) {
-  cerr <<
-      "Converting the MSR theMsrScore to " <<
-      generatorOutputKindAsString (theGeneratorOutputKind) <<
-      endl;
-  }
-#endif
 
   xmlErr err = kNoErr;
 

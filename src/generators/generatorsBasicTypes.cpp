@@ -29,7 +29,7 @@ string generatorOutputKindAsString (
 
   switch (generatorOutputKind) {
     case k_NoOutput:
-      result = "*noGenerateCode*";
+      result = "*noGenerateOutputKind*";
       break;
     case kGuidoOutput:
       result = "Guido";
