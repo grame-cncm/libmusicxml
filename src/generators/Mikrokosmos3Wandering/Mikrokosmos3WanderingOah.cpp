@@ -283,15 +283,15 @@ Mikrokosmos3WanderingOahGroup::Mikrokosmos3WanderingOahGroup ()
 R"(These options control the way BSR data is translated to braille music.)",
     kElementVisibilityWhole)
 {
-  fGeneratorOutputKind = k_NoOutput;
+  fGenerationAPIKind = kMsrFunctionsAPIKind;
 
-  /* jMI
-  fBrailleMusicCodeKind = kGenerateCodeAscii; // default value
+  fGeneratorOutputKind = k_NoOutput;
 
   fUTFKind = kUTF8; // default value
 
+  fBrailleOutputKind = kBrailleOutputAscii; // default value
+
   fByteOrderingKind = kByteOrderingNone;
-*/
 
   // initialize it
   initializeMikrokosmos3WanderingOahGroup ();
@@ -386,30 +386,29 @@ R"()",
       fGeneratorOutputKindAtom);
 }
 
-/* JMI
-void bsr2brailleOahGroup::initializeBrailleEncodingOptions ()
+void Mikrokosmos3WanderingOahGroup::initializeBrailleEncodingOptions ()
 {
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
         "Braille encoding",
-        "hbe", "help-braille-encoding",
+        "hbe_mkk", "help-braille-encoding_mkk",
 R"()",
       kElementVisibilityWhole,
       this);
 
   appendSubGroupToGroup (subGroup);
 
-  const generatorOutputKind
-    generatorOutputKindDefaultValue =
+  const bsrBrailleOutputKind
+    brailleOutputKindDefaultValue =
       kBrailleOutputAscii; // default value
 
   fBrailleOutputKindAtom =
-      brailleOutputKindAtom::create (
-      "bok", "braille-output-kind",
+    brailleOutputKindAtom::create (
+    "bok_mkk", "braille-output-kind_mkk",
+    regex_replace (
       regex_replace (
         regex_replace (
-          regex_replace (
 R"(Use OUTPUT_KIND to write the generated braille music to the output.
 The NUMBER output kinds available are:
 BRAILLE_OUTPUT_KINDS.
@@ -417,22 +416,54 @@ BRAILLE_OUTPUT_KINDS.
 as a line of cells followed by a line of text showing the contents
 for debug purposes.
 The default is 'DEFAULT_VALUE'.)",
-            regex ("NUMBER"),
-            to_string (gGlobalGeneratorOutputKindsMap.size ())),
-          regex ("BRAILLE_OUTPUT_KINDS"),
-          existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
-        regex ("DEFAULT_VALUE"),
-        generatorOutputKindAsString (
-          generatorOutputKindDefaultValue)),
-      "OUTPUT_KIND",
-      "brailleOutputKind",
-      fBrailleOutputKind);
+          regex ("NUMBER"),
+          to_string (gGlobalBsrBrailleOutputKindsMap.size ())),
+        regex ("BRAILLE_OUTPUT_KINDS"),
+        existingBsrBrailleOutputKinds (K_NAMES_LIST_MAX_LENGTH)),
+      regex ("DEFAULT_VALUE"),
+      brailleOutputKindAsString (
+        brailleOutputKindDefaultValue)),
+    "OUTPUT_KIND",
+    "brailleOutputKind",
+    fBrailleOutputKind);
 
   subGroup->
     appendAtomToSubGroup (
       fBrailleOutputKindAtom);
 }
-*/
+
+void Mikrokosmos3WanderingOahGroup::initializeBrailleByteOrderingOptions ()
+{
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Byte ordering",
+        "hlpbo", "help-byte-ordering",
+R"()",
+      kElementVisibilityWhole,
+      this);
+
+  appendSubGroupToGroup (subGroup);
+
+  // byte ordering
+
+  fByteOrderingKind = kByteOrderingBigEndian; // default value
+
+  fByteOrderingKindAtom =
+    brailleByteOrderingKindAtom::create (
+    "bom", "byte-ordering-mark",
+R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
+ahead of the Braille nusic code,
+which can be one of 'big' or 'small'.
+By default, a big endian BOM is generated.)",
+    "BOM_ENDIAN",
+    "byteOrderingKind",
+    fByteOrderingKind);
+
+  subGroup->
+    appendAtomToSubGroup (
+      fByteOrderingKindAtom);
+}
 
 void Mikrokosmos3WanderingOahGroup::initializeMikrokosmos3WanderingOahGroup ()
 {
@@ -579,7 +610,7 @@ void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (
 
   ++gIndenter;
 
-  // generation API
+  // generation API kind
   // --------------------------------------
 
   gLogStream <<
@@ -595,11 +626,11 @@ void Mikrokosmos3WanderingOahGroup::printMikrokosmos3WanderingOahValues (
 
   --gIndenter;
 
-  // generate code
+  // generator output kind
   // --------------------------------------
 
   gLogStream <<
-    "Generated output:" <<
+    "Generator output:" <<
     endl;
 
   ++gIndenter;

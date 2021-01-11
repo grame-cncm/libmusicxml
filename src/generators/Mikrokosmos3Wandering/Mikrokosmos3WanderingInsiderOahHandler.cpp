@@ -161,11 +161,6 @@ string Mikrokosmos3WanderingInsiderOahHandler::Mikrokosmos3WanderingAboutInforma
 
     case kMidiOutput:
       passesNumber = 0;
-      gLogStream <<
-        "MIDI output is not implemented yet 4" <<
-        endl;
-
-      return 0;
       break;
   } // switch
 
@@ -187,18 +182,7 @@ R"(
 
   switch (theGeneratorOutputKind) {
     case k_NoOutput:
-      {
-        stringstream s;
-
-        s <<
-          fHandlerExecutableName <<
-          " requires the use of option '" <<
-          "-" << K_GENERATED_OUTPUT_KIND_SHORT_NAME <<
-          ", " << K_GENERATED_OUTPUT_KIND_LONG_NAME <<
-          "'";
-
-        oahError (s.str ());
-      }
+      // should not occur, unless the run is a pure help one
       break;
 
     case kGuidoOutput:
@@ -244,8 +228,6 @@ R"(
       break;
 
     case kMidiOutput:
-      specificPart =
-        "MIDI output is not implemented yet 5";
       break;
   } // switch
 
@@ -419,9 +401,6 @@ void Mikrokosmos3WanderingInsiderOahHandler::createTheMikrokosmos3WanderingOptio
       break;
 
     case kMidiOutput:
-      gLogStream <<
-        "MIDI output is not implemented yet 6" <<
-        endl;
       break;
   } // switch
 
@@ -482,7 +461,7 @@ string Mikrokosmos3WanderingInsiderOahHandler::fetchOutputFileNameFromTheOptions
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
       "fetchOutputFileNameFromTheOptions()" <<
-      "outputFileNameHasBeenSet: " <<
+      " outputFileNameHasBeenSet: " <<
       booleanAsString (outputFileNameHasBeenSet) <<
       endl;
   }
@@ -496,6 +475,7 @@ string Mikrokosmos3WanderingInsiderOahHandler::fetchOutputFileNameFromTheOptions
       outputFileNameStringAtom->
         getStringVariable ();
   }
+
   else {
     // start with the executable name
     outputFileName = fHandlerExecutableName;
@@ -504,7 +484,7 @@ string Mikrokosmos3WanderingInsiderOahHandler::fetchOutputFileNameFromTheOptions
     switch (fGeneratorOutputKind) {
       case k_NoOutput:
         // should not occur
-        outputFileName = "___noGenerateOutputKind___";
+        outputFileName = "___k_NoOutput___";
         break;
 
       case kGuidoOutput:

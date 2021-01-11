@@ -47,7 +47,7 @@ bsr2brailleTranslator::bsr2brailleTranslator (
   if (gGlobalBsrOahGroup->getTraceBsr ()) {
     gLogStream <<
       "gGlobalBsr2brailleOahGroup->getBrailleOutputKind (): " <<
-      bsrBrailleOutputKindAsString (
+      brailleOutputKindAsString (
         gGlobalBsr2brailleOahGroup->getBrailleOutputKind ()) <<
       ", gGlobalBsr2brailleOahGroup->getByteOrderingKind (): " <<
       bsrByteOrderingKindAsString (

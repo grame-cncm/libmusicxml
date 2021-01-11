@@ -152,15 +152,14 @@ void Mikrokosmos3WanderingRegularOahHandler::createRegularHandlerGroups ()
       break;
 
     case kBrailleOutput:
+      // create the braille OAH group
+      createBrailleRegularGroup ();
       break;
 
     case kMusicXMLOutput:
       break;
 
     case kMidiOutput:
-      gLogStream <<
-        "MIDI output is not implemented yet 7" <<
-        endl;
       break;
   } // switch
 
@@ -322,7 +321,6 @@ void Mikrokosmos3WanderingRegularOahHandler::createOutputRegularGroup ()
   // atoms
 
   registerAtomInRegularSubgroup ("output-file-name", subGroup);
-  registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
 }
 
 void Mikrokosmos3WanderingRegularOahHandler::createGuidoRegularGroup ()
@@ -356,6 +354,40 @@ void Mikrokosmos3WanderingRegularOahHandler::createGuidoRegularGroup ()
   registerAtomInRegularSubgroup ("generate-comments", subGroup);
   registerAtomInRegularSubgroup ("generate-stem", subGroup);
   registerAtomInRegularSubgroup ("generate-bars", subGroup);
+}
+
+void Mikrokosmos3WanderingRegularOahHandler::createBrailleRegularGroup ()
+{
+  // group
+
+  S_oahGroup
+    group =
+      oahGroup::create (
+        "Braille group",
+        "braille-group", "",
+        "",
+        kElementVisibilityWhole);
+  appendGroupToRegulalHandler (group);
+
+  // subgroup
+
+  S_oahSubGroup
+    subGroup =
+      oahSubGroup::create (
+        "Braille",
+        "braille", "",
+        "",
+        kElementVisibilityWhole,
+        group);
+  group->
+    appendSubGroupToGroup (subGroup);
+
+  // atoms
+
+  registerAtomInRegularSubgroup ("braille-output-kind", subGroup);
+  registerAtomInRegularSubgroup ("use-encoding-in-file-name", subGroup);
+  registerAtomInRegularSubgroup ("braille-output-kind", subGroup);
+  registerAtomInRegularSubgroup ("byte-ordering-mark", subGroup);
 }
 
 //_______________________________________________________________________________

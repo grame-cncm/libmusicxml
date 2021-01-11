@@ -125,6 +125,8 @@ class EXP Mikrokosmos3WanderingRegularOahHandler : public oahRegularOahHandler
 
     void                  createGuidoRegularGroup ();
 
+    void                  createBrailleRegularGroup ();
+
     void                  createFilesRegularGroup ();
 
     void                  createOahRegularGroup ();

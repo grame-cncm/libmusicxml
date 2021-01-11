@@ -16,7 +16,12 @@
 #include "msr.h"
 
 #include "generatorsBasicTypes.h"
+
 #include "msrGenerationAPIs.h"
+
+#include "bsr2brailleOah.h"
+#include "bsr2brailleCodeGenerators.h"
+
 #include "Mikrokosmos3WanderingOahTypes.h"
 
 
@@ -240,7 +245,6 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
 
     void                  initializeGenerateCodeOptions ();
 
-    /* JMI
     void                  initializeBrailleEncodingOptions ();
 
     void                  initializeBrailleByteOrderingOptions ();
@@ -250,6 +254,7 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
     void                  initializeBraillePageParametersOptions ();
 
     void                  initializeBrailleCodeGenerationOptions ();
+    /* JMI
     */
 
   public:
@@ -283,23 +288,22 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
     S_msrGenerationAPIKindAtom
                           fGenerationAPIKindAtom;
 
-    // generate code kind
+    // generator output kind
 
-    generatorOutputKind  fGeneratorOutputKind;
+    generatorOutputKind   fGeneratorOutputKind;
     S_generatorOutputKindAtom
                           fGeneratorOutputKindAtom;
 
-/* JMI
-    // braille output kind
-
-    generatorOutputKind     fBrailleOutputKind;
-    S_generatorOutputKindAtom
-                          fBrailleOutputKindAtom;
-
-    // UTF encoding
+    // UTF encoding (8 or 16 bits)
 
     bsrUTFKind            fUTFKind;
     S_brailleUTFKindAtom  fUTFKindAtom;
+
+    // braille output kind
+
+    bsrBrailleOutputKind  fBrailleOutputKind;
+    S_brailleOutputKindAtom
+                          fBrailleOutputKindAtom;
 
     // byte ordering
 
@@ -307,6 +311,7 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
     S_brailleByteOrderingKindAtom
                           fByteOrderingKindAtom;
 
+/* JMI
     // braille music file name
 
     bool                  fUseEncodingInFileName;

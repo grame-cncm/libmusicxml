@@ -1900,14 +1900,7 @@ static void enforceSomeOptions (generatorOutputKind theGeneratorOutputKind)
 
   switch (theGeneratorOutputKind) {
     case k_NoOutput:
-      {
-        stringstream s;
-
-        s <<
-          "internal error, a generate code kind is needed";
-
-        msgAssert (false, s.str ());
-      }
+      // should not occur
       break;
 
     case kGuidoOutput:
@@ -2083,6 +2076,27 @@ int main (int argc, char * argv[])
 #endif
 #endif
 
+  switch (theGeneratorOutputKind) {
+    case k_NoOutput:
+      // wait until after help options have been handled
+      // before issuing an error message
+      break;
+
+    case kGuidoOutput:
+    case kLilyPondOutput:
+    case kBrailleOutput:
+    case kMusicXMLOutput:
+      break;
+
+    case kMidiOutput:
+      gLogStream <<
+        "MIDI output is not implemented yet, sorry" <<
+        endl;
+
+      return 0;
+      break;
+  } // switch
+
   // the oahHandler, set below
   // ------------------------------------------------------
 
@@ -2144,6 +2158,26 @@ int main (int argc, char * argv[])
     displayException (e, gOutputStream);
     return kInvalidFile;
   }
+
+  switch (theGeneratorOutputKind) {
+    case k_NoOutput:
+      {
+        stringstream s;
+
+        s <<
+          executableName <<
+          " requires the output kind to be suplied thru option '" <<
+          "-" << K_GENERATED_OUTPUT_KIND_SHORT_NAME <<
+          ", " << K_GENERATED_OUTPUT_KIND_LONG_NAME <<
+          "' unless the run is a pure help one";
+
+        oahError (s.str ());
+      }
+      break;
+
+    default:
+      ;
+  } // switch
 
   // check indentation
   if (gIndenter != 0) {
@@ -2259,7 +2293,7 @@ int main (int argc, char * argv[])
 
   switch (theGeneratorOutputKind) {
     case k_NoOutput:
-      // should not occur
+      // should not occur, unless the run is a pure help one
       break;
 
     case kGuidoOutput:
@@ -2321,11 +2355,6 @@ int main (int argc, char * argv[])
       break;
 
     case kMidiOutput:
-      gLogStream <<
-        "MIDI output is not implemented yet 1" <<
-        endl;
-
-      return 0;
       break;
   } // switch
 

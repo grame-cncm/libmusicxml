@@ -30,10 +30,10 @@ string msrGenerationAPIKindAsString (
 
   switch (generationAPIKind) {
     case kMsrFunctionsAPIKind:
-      result = "MSR functions API";
+      result = "functions";
       break;
     case kMsrStringsAPIKind:
-      result = "MSR strings API";
+      result = "strings";
       break;
   } // switch
 
