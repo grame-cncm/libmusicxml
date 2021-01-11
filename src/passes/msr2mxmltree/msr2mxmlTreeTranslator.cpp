@@ -735,7 +735,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrScore& elt)
         gGlobalOahOahGroup->getHandlerExecutableName ()
           + " "
           + currentVersionNumber () +
-          ", https://github.com/dfober/libmusicxml/tree/lilypond");
+          ", https://github.com/grame-cncm/libmusicxml/tree/lilypond");
 
   // append it to the identification encoding
   appendToScoreIdentificationEncoding (softwareElement);
@@ -2698,7 +2698,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
       endl;
   }
 
-    if (true) { // JMI TEMP
+    if (false) { // JMI TEMP
       gLogStream <<
         endl <<
         "--> staff elt:" <<
@@ -2862,7 +2862,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrVoice& elt)
       endl;
   }
 
-    if (true) { // JMI TEMP
+    if (false) { // JMI TEMP
       gLogStream <<
         endl <<
         "--> voice elt:" <<

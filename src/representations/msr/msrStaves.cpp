@@ -377,8 +377,8 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 
   for (
     map<int, S_msrVoice>::const_iterator i =
-      fStaffVoiceNumberToVoicesMap.begin ();
-    i != fStaffVoiceNumberToVoicesMap.end ();
+      fStaffVoiceNumbersToRegularVoicesMap.begin ();
+    i != fStaffVoiceNumbersToRegularVoicesMap.end ();
     ++i
   ) {
       S_msrVoice
@@ -424,8 +424,9 @@ void msrStaff::createMeasureAndAppendItToStaff (
 
   // propagate it to all voices
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     S_msrVoice
@@ -487,8 +488,9 @@ void msrStaff::setNextMeasureNumberInStaff (
 
   // propagate it to all voices
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     S_msrVoice voice = (*i).second;
@@ -518,36 +520,109 @@ void msrStaff::setNextMeasureNumberInStaff (
   --gIndenter;
 }
 
-S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
-  int                    inputLineNumber,
-  msrVoiceKind voiceKind,
-  int                    voiceNumber,
-  string                 currentMeasureNumber)
+S_msrVoice msrStaff::createRegularVoiceInStaffByItsNumber (
+  int          inputLineNumber,
+  int          voiceNumber,
+  string       currentMeasureNumber)
 {
-  // take this new voice into account if relevant
-  switch (voiceKind) {
-    case kVoiceRegular:
-      ++fStaffRegularVoicesCounter;
+  ++fStaffRegularVoicesCounter;
 
 #ifdef TRACING_IS_ENABLED
-      if (gGlobalTraceOahGroup->getTraceVoices ()) {
-        gLogStream <<
-          "Creating regular voice number '" <<
-          voiceNumber <<
-          "', voiceKind '" <<
-          voiceKindAsString (voiceKind) <<
-          "' as regular voice number '" <<
-          fStaffRegularVoicesCounter <<
-          "' of staff \"" << getStaffName () <<
-          "\", line " << inputLineNumber <<
-          "\", current measure number: " <<
-          currentMeasureNumber <<
-     // JMI     " in part " << fStaffPartUpLink->getPartCombinedName () <<
-          endl;
-      }
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Creating regular voice with number '" <<
+      voiceNumber <<
+      "' as regular voice number '" <<
+      fStaffRegularVoicesCounter <<
+      "' of staff \"" << getStaffName () <<
+      "\", line " << inputLineNumber <<
+      "\", current measure number: " <<
+      currentMeasureNumber <<
+ // JMI     " in part " << fStaffPartUpLink->getPartCombinedName () <<
+      endl;
+  }
 #endif
-      break;
 
+  // are there too many regular voices in this staff?
+  if (fStaffRegularVoicesCounter > msrStaff::gStaffMaxRegularVoices) {
+    stringstream s;
+
+    s <<
+      "staff \"" << getStaffName () <<
+      "\" is already filled up with " <<
+      msrStaff::gStaffMaxRegularVoices << " regular voices" <<
+      endl <<
+      ". voice number " <<
+      voiceNumber <<
+      " overflows it" <<
+      endl <<
+      ", fStaffRegularVoicesCounter = " <<
+      fStaffRegularVoicesCounter <<
+      ", msrStaff::gStaffMaxRegularVoices = " <<
+      msrStaff::gStaffMaxRegularVoices <<
+      endl;
+
+      /* JMI ???
+    msrMusicXMLError (
+// JMI    msrMusicXMLWarning ( JMI
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+      */
+  }
+
+  // is this voice number already in the regular voices map?
+  map<int, S_msrVoice>::const_iterator
+    it =
+      fStaffVoiceNumbersToRegularVoicesMap.find (voiceNumber);
+
+  if (it != fStaffVoiceNumbersToRegularVoicesMap.end ()) {
+    // yes
+    S_msrVoice
+      olderVoice = (*it).second;
+
+// JMI    this->print (gLogStream); // JMI
+
+    stringstream s;
+
+    s <<
+      "attempting to create a voice anew by number" <<
+      ", voiceNumber: " << voiceNumber <<
+      ", currentMeasureNumber: " << currentMeasureNumber <<
+      " ' in staff \"" <<
+      fStaffName <<
+      "\", " <<
+      olderVoice->asShortString () <<
+      " already exists with this same voiceNumber" <<
+      ", line " << inputLineNumber;
+
+    msrInternalError ( // JMI ???
+      gGlobalOahOahGroup->getInputSourceName (),
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // create the voice
+  S_msrVoice
+    voice =
+      msrVoice::create (
+        inputLineNumber,
+        kVoiceRegular,
+        voiceNumber,
+        msrVoice::kCreateInitialLastSegmentYes,
+        this);
+
+  // register the voice in staff by its number
+  registerRegularVoiceByItsNumber (
+    voice,
+    voiceNumber);
+
+  return voice;
+}
+
+/*
     case kVoiceHarmony:
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceVoices ()) {
@@ -585,68 +660,6 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       break;
   } // switch
 
-
-  // are there too many regular voices in this staff?
-  if (fStaffRegularVoicesCounter > msrStaff::gStaffMaxRegularVoices) {
-    stringstream s;
-
-    s <<
-      "staff \"" << getStaffName () <<
-      "\" is already filled up with " <<
-      msrStaff::gStaffMaxRegularVoices << " regular voices" <<
-      endl <<
-      ". voice number " <<
-      voiceNumber <<
-      " overflows it" <<
-      endl <<
-      ", fStaffRegularVoicesCounter = " <<
-      fStaffRegularVoicesCounter <<
-      ", msrStaff::gStaffMaxRegularVoices = " <<
-      msrStaff::gStaffMaxRegularVoices <<
-      endl;
-
-      /* JMI ???
-    msrMusicXMLError (
-// JMI    msrMusicXMLWarning ( JMI
-      gGlobalOahOahGroup->getInputSourceName (),
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-      */
-  }
-
-  // is this voice number in the regular voices map?
-  map<int, S_msrVoice>::const_iterator
-    it =
-      fStaffVoiceNumberToVoicesMap.find (voiceNumber);
-
-  if (it != fStaffVoiceNumberToVoicesMap.end ()) {
-    // yes
-    S_msrVoice
-      olderVoice = (*it).second;
-
-// JMI    this->print (gLogStream); // JMI
-
-    stringstream s;
-
-    s <<
-      "attempting to create a voice anew by number" <<
-      ", voiceNumber: " << voiceNumber <<
-      ", currentMeasureNumber: " << currentMeasureNumber <<
-      " ' in staff \"" <<
-      fStaffName <<
-      "\", " <<
-      olderVoice->asShortString () <<
-      " already exists with this same voiceNumber" <<
-      ", line " << inputLineNumber;
-
-    msrInternalError ( // JMI ???
-      gGlobalOahOahGroup->getInputSourceName (),
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
   // create the voice
   S_msrVoice
     voice =
@@ -660,40 +673,137 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
   // take this new voice into account if relevant
   switch (voiceKind) {
     case kVoiceRegular:
-      // register the voice by its number
+      // register the voice in staff by its number
       registerRegularVoiceByItsNumber (
-        voiceNumber,
-        voice);
+        voice,
+        voiceNumber);
       break;
 
     case kVoiceHarmony:
     case kVoiceFiguredBass:
-      // register it in staff by its number
+      // register the voice in staff by its number
       registerPartLevelVoiceInStaff (
         inputLineNumber,
         voice);
       break;
   } // switch
+*/
 
-  return voice;
+void msrStaff::registerVoiceInMapsAndLists (
+  S_msrVoice voice)
+{
+/*
+    // the mapping of all the voices in the staff,
+    // including harmonies and figured bass voices
+    map<int, S_msrVoice>  fStaffVoiceNumbersToAllVoicesMap;
+
+    // the mapping of voice numbers to voices
+    map<int, S_msrVoice>  fStaffVoiceNumbersToRegularVoicesMap;
+
+    // harmonies and figured basses should be placed
+    // in the first regular voice of the staff, hence:
+    list<S_msrVoice>      fStaffRegularVoicesList;
+
+    // we need to sort the voices by increasing voice numbers,
+    // but with harmony voices right before the corresponding regular voices
+    list<S_msrVoice>      fStaffAllVoicesList;
+*/
+
 }
 
 void msrStaff::registerVoiceInStaffAllVoicesList (
   S_msrVoice voice)
 {
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Registering voice \"" << voice->getVoiceName () <<
+      "\" in staff " << getStaffName () <<
+      endl;
+  }
+#endif
+
+  ++gIndenter;
+
+  // sanity check
+  if (fStaffAllVoicesList.size ()) {
+    for (
+      list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
+      i != fStaffAllVoicesList.end ();
+      ++i
+    ) {
+      S_msrVoice knownVoice = (*i);
+
+      if (voice == knownVoice) {
+        stringstream s;
+
+        s <<
+          "Voice \"" <<
+          knownVoice->getVoiceName () <<
+          "\" is already present in the staff's all voices list";
+
+        gLogStream <<
+          endl <<
+          "---> knownVoice:" <<
+          endl;
+
+        ++gIndenter;
+        gLogStream <<
+          knownVoice <<
+          endl << endl;
+        --gIndenter;
+
+        msrInternalError ( // JMI ???
+          gGlobalOahOahGroup->getInputSourceName (),
+          voice->getInputLineNumber (),
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+      if (voice->getVoiceName () == knownVoice->getVoiceName ()) {
+        stringstream s;
+
+        s <<
+          "A voice with the same name as \"" <<
+          knownVoice->getVoiceName () <<
+          "\" is already present in the staff's all voices list";
+
+        gLogStream <<
+          endl <<
+          "---> knownVoice:" <<
+          endl;
+
+        ++gIndenter;
+        gLogStream <<
+          knownVoice <<
+          endl << endl;
+        --gIndenter;
+
+        msrInternalError ( // JMI ???
+          gGlobalOahOahGroup->getInputSourceName (),
+          voice->getInputLineNumber (),
+          __FILE__, __LINE__,
+          s.str ());
+      }
+    } // for
+  }
+
   // register voice in this staff
   fStaffAllVoicesList.push_back (voice);
 
   // register it in the part uplink
   fStaffPartUpLink->
     registerVoiceInPartAllVoicesList (voice);
+
+  --gIndenter;
 }
 
 void msrStaff::registerVoiceByItsNumber (
   int        inputLineNumber,
-  int        voiceNumber,
   S_msrVoice voice)
 {
+  int voiceNumber = voice->getVoiceNumber ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceVoices ()) {
     gLogStream <<
@@ -704,13 +814,15 @@ void msrStaff::registerVoiceByItsNumber (
   }
 #endif
 
+  ++gIndenter;
+
   // register voice in all voices map
-  fStaffVoiceNumberToAnyVoiceMap [voiceNumber] = voice;
+  fStaffVoiceNumbersToAllVoicesMap [voiceNumber] = voice;
 
   // register it in all voices list
-  registerVoiceInStaffAllVoicesList (voice);
+// JMI  registerVoiceInStaffAllVoicesList (voice);
 
-  // sort the list if necessary
+  // sort the all voices list if necessary
   switch (voice->getVoiceKind ()) {
     case kVoiceRegular:
       break;
@@ -753,11 +865,13 @@ void msrStaff::registerVoiceByItsNumber (
       }
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrStaff::registerRegularVoiceByItsNumber (
-  int        voiceNumber,
-  S_msrVoice regularVoice)
+  S_msrVoice regularVoice,
+  int        voiceNumber)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceVoices ()) {
@@ -773,11 +887,76 @@ void msrStaff::registerRegularVoiceByItsNumber (
   }
 #endif
 
+  // sanity check
+  if (fStaffAllVoicesList.size ()) {
+    for (
+      list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
+      i != fStaffAllVoicesList.end ();
+      ++i
+    ) {
+      S_msrVoice knownVoice = (*i);
+
+      if (regularVoice == knownVoice) {
+        stringstream s;
+
+        s <<
+          "Voice \"" <<
+          knownVoice->getVoiceName () <<
+          "\" is already present in the staff's all voices list";
+
+        gLogStream <<
+          endl <<
+          "---> knownVoice:" <<
+          endl;
+
+        ++gIndenter;
+        gLogStream <<
+          knownVoice <<
+          endl << endl;
+        --gIndenter;
+
+        msrInternalError ( // JMI ???
+          gGlobalOahOahGroup->getInputSourceName (),
+          regularVoice->getInputLineNumber (),
+          __FILE__, __LINE__,
+          s.str ());
+      }
+
+      if (regularVoice->getVoiceName () == knownVoice->getVoiceName ()) {
+        stringstream s;
+
+        s <<
+          "A voice with the same name as \"" <<
+          knownVoice->getVoiceName () <<
+          "\" is already present in the staff's all voices list";
+
+        gLogStream <<
+          endl <<
+          "---> knownVoice:" <<
+          endl;
+
+        ++gIndenter;
+        gLogStream <<
+          knownVoice <<
+          endl << endl;
+        --gIndenter;
+
+        msrInternalError ( // JMI ???
+          gGlobalOahOahGroup->getInputSourceName (),
+          regularVoice->getInputLineNumber (),
+          __FILE__, __LINE__,
+          s.str ());
+      }
+    } // for
+  }
+
+  ++gIndenter;
+
   // register voice in the 'Any' voices map
-  fStaffVoiceNumberToAnyVoiceMap [voiceNumber] = regularVoice;
+  fStaffVoiceNumbersToAllVoicesMap [voiceNumber] = regularVoice;
 
   // register voice in the all voices map
-  fStaffVoiceNumberToVoicesMap [voiceNumber] = regularVoice;
+  fStaffVoiceNumbersToRegularVoicesMap [voiceNumber] = regularVoice;
 
   // register it in all regular voices list
   fStaffRegularVoicesList.push_back (regularVoice);
@@ -789,27 +968,21 @@ void msrStaff::registerRegularVoiceByItsNumber (
   regularVoice->
     setRegularVoiceStaffSequentialNumber (
       fStaffRegularVoicesCounter);
+
+  --gIndenter;
 }
 
-/* JMI
-void msrStaff::registerVoiceInAllVoicesList (
-  int        voiceNumber,
-  S_msrVoice voice)
+void msrStaff::registerHarmonyVoiceByItsNumber (
+  S_msrVoice harmonyVoice,
+  int        voiceNumber)
 {
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVoices ()) {
-    gLogStream <<
-      "Registering voice number '" << voiceNumber <<
-      "', named \"" << voice->getVoiceName () <<
-      "\" in staff " << getStaffName () <<
-      "'s all voices list" <<
-      endl;
-  }
-#endif
-
-  registerVoiceInStaffAllVoicesList (voice);
 }
-*/
+
+void msrStaff::registerFiguredBassVoiceByItsNumber (
+  S_msrVoice figuredBassVoice,
+  int        voiceNumber)
+{
+}
 
 S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
   int inputLineNumber,
@@ -832,8 +1005,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
 
   for (
     map<int, S_msrVoice>::const_iterator i =
-      fStaffVoiceNumberToVoicesMap.begin ();
-    i != fStaffVoiceNumberToVoicesMap.end ();
+      fStaffVoiceNumbersToRegularVoicesMap.begin ();
+    i != fStaffVoiceNumbersToRegularVoicesMap.end ();
     ++i
   ) {
     int        number = (*i).first;
@@ -992,32 +1165,6 @@ S_msrVoice msrStaff::fetchFirstRegularVoiceFromStaff (
   return result;
 }
 
-/* JMI
-void msrStaff::addAVoiceToStaffIfItHasNone (
-  int inputLineNumber)
-{
-  if (fStaffVoiceNumberToAnyVoiceMap.size () == 0) {
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceVoices ()) {
-      gLogStream <<
-        "Staff \"" <<
-        getStaffName () <<
-        "\" doesn't contain any voice, adding one" <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    this->
-      createVoiceInStaffByItsNumber (
-        inputLineNumber,
-        kVoiceRegular,
-        1,    // voiceNumber,
-        "1"); // fCurrentMeasureNumber
-  }
-}
-*/
-
 void msrStaff::registerVoiceInStaff (
   int        inputLineNumber,
   S_msrVoice voice)
@@ -1026,6 +1173,21 @@ void msrStaff::registerVoiceInStaff (
   msgAssert (
     voice != nullptr,
     "voice is null");
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceVoices ()) {
+    gLogStream <<
+      "Registering voice \"" << voice->getVoiceName () <<
+      "\" as relative voice " <<
+      fStaffRegularVoicesCounter <<
+      " of staff \"" << getStaffName () <<
+      "\", line " << inputLineNumber <<
+// JMI       " in part " << fStaffPartUpLink->getPartCombinedName () <<
+      endl;
+  }
+#endif
+
+  ++gIndenter;
 
   // get voice kind
   msrVoiceKind voiceKind =
@@ -1071,43 +1233,33 @@ void msrStaff::registerVoiceInStaff (
       break;
   } // switch
 
-  // register voice in this staff
-#ifdef TRACING_IS_ENABLED
-  if (gGlobalTraceOahGroup->getTraceVoices ()) {
-    gLogStream <<
-      "Registering voice \"" << voice->getVoiceName () <<
-      "\" as relative voice " <<
-      fStaffRegularVoicesCounter <<
-      " of staff \"" << getStaffName () <<
-      "\", line " << inputLineNumber <<
-// JMI       " in part " << fStaffPartUpLink->getPartCombinedName () <<
-      endl;
-  }
-#endif
+  // register the voice by it's number
+  int voiceNumber = voice->getVoiceNumber ();
 
-  // register it in staff by its number
-  registerVoiceByItsNumber (
-    inputLineNumber,
-    voice->getVoiceNumber (),
-    voice);
-
-  // is voice a regular voice???
   switch (voiceKind) {
     case kVoiceRegular:
-      {
-        int voiceNumber = voice->getVoiceNumber ();
-
-        registerRegularVoiceByItsNumber (
-          voiceNumber,
-          voice);
-      }
+      // register regular voice in staff by its number
+      registerRegularVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
+
     case kVoiceHarmony:
+      // register harmony voice in staff by its number
+      registerHarmonyVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
 
     case kVoiceFiguredBass:
+      // register figured bass voice in staff by its number
+      registerFiguredBassVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrStaff::registerPartLevelVoiceInStaff (
@@ -1118,6 +1270,8 @@ void msrStaff::registerPartLevelVoiceInStaff (
   msgAssert (
     voice != nullptr,
     "voice is null");
+
+  ++gIndenter;
 
   // get voice kind
   msrVoiceKind voiceKind =
@@ -1179,28 +1333,35 @@ void msrStaff::registerPartLevelVoiceInStaff (
   // register it in staff by its number
   registerVoiceByItsNumber (
     inputLineNumber,
-    voice->getVoiceNumber (),
     voice);
 
-  // is voice a regular voice???
+  // register the voice in staff by it's number
+  int voiceNumber = voice->getVoiceNumber ();
+
   switch (voiceKind) {
     case kVoiceRegular:
-      {
-        int voiceNumber = voice->getVoiceNumber ();
-
-        // register the voice by its number
-        registerRegularVoiceByItsNumber (
-          voiceNumber,
-          voice);
-      }
+      // register regular voice in staff by its number
+      registerRegularVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
 
     case kVoiceHarmony:
+      // register harmony voice in staff by its number
+      registerHarmonyVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
 
     case kVoiceFiguredBass:
+      // register figured bass voice in staff by its number
+      registerFiguredBassVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrStaff::registerVoiceInStaffClone (
@@ -1211,6 +1372,8 @@ void msrStaff::registerVoiceInStaffClone (
   msgAssert (
     voice != nullptr,
     "voice is null");
+
+  ++gIndenter;
 
   // get voice kind
   msrVoiceKind voiceKind =
@@ -1273,28 +1436,35 @@ void msrStaff::registerVoiceInStaffClone (
   // register it in staff by its number
   registerVoiceByItsNumber (
     inputLineNumber,
-    voice->getVoiceNumber (),
     voice);
 
-  // is voice a regular voice???
+  // register the voice in staff clone by it's number
+  int voiceNumber = voice->getVoiceNumber ();
+
   switch (voiceKind) {
     case kVoiceRegular:
-      {
-        int voiceNumber = voice->getVoiceNumber ();
-
-        // register the voice by its number
-        registerRegularVoiceByItsNumber (
-          voiceNumber,
-          voice);
-      }
+      // register regular voice in staff clone by its number
+      registerRegularVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
 
     case kVoiceHarmony:
+      // register harmony voice in staff clone by its number
+      registerHarmonyVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
 
     case kVoiceFiguredBass:
+      // register figured bass voice in staff clone by its number
+      registerFiguredBassVoiceByItsNumber (
+        voice,
+        voiceNumber);
       break;
   } // switch
+
+  --gIndenter;
 }
 
 void msrStaff::appendClefToStaff (S_msrClef clef)
@@ -1334,8 +1504,9 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
     // propagate clef to all voices
     for (
-      map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-      i != fStaffVoiceNumberToAnyVoiceMap.end ();
+      map<int, S_msrVoice>::const_iterator i =
+        fStaffVoiceNumbersToAllVoicesMap.begin ();
+      i != fStaffVoiceNumbersToAllVoicesMap.end ();
       ++i
     ) {
       (*i).second-> // JMI msgAssert???
@@ -1415,8 +1586,9 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 
     // propagate it to all voices
     for (
-      map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-      i != fStaffVoiceNumberToAnyVoiceMap.end ();
+      map<int, S_msrVoice>::const_iterator i =
+        fStaffVoiceNumbersToAllVoicesMap.begin ();
+      i != fStaffVoiceNumbersToAllVoicesMap.end ();
       ++i
     ) {
       (*i).second-> // JMI msgAssert???
@@ -1480,8 +1652,9 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
     // propagate it to all voices
     for (
-      map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-      i != fStaffVoiceNumberToAnyVoiceMap.end ();
+      map<int, S_msrVoice>::const_iterator i =
+        fStaffVoiceNumbersToAllVoicesMap.begin ();
+      i != fStaffVoiceNumbersToAllVoicesMap.end ();
       ++i
     ) {
       (*i).second-> // JMI msgAssert???
@@ -1513,8 +1686,9 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
 
   // propagate it to all voices
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second-> // JMI msgAssert???
@@ -1546,8 +1720,9 @@ void msrStaff::insertHiddenMeasureAndBarlineInStaffClone (
 
   // propagate it to all voices
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second-> // JMI msgAssert???
@@ -1575,8 +1750,9 @@ void msrStaff::nestContentsIntoNewRepeatInStaff (
 #endif
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1604,8 +1780,9 @@ void msrStaff::handleRepeatStartInStaff (
   ++gIndenter;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1636,8 +1813,9 @@ void msrStaff::handleRepeatEndInStaff (
   ++gIndenter;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1668,8 +1846,9 @@ void msrStaff::handleRepeatEndingStartInStaff (
   ++gIndenter;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1704,8 +1883,9 @@ void msrStaff::handleRepeatEndingEndInStaff (
   ++gIndenter;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1739,8 +1919,9 @@ void msrStaff::finalizeRepeatEndInStaff (
   ++gIndenter;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1771,8 +1952,9 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
 #endif
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1798,8 +1980,9 @@ void msrStaff::appendPendingMeasuresRepeatToStaff (
 #endif
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1829,8 +2012,9 @@ void msrStaff::createRestMeasuresInStaff (
   fStaffContainsRestMeasures = true;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1862,8 +2046,9 @@ void msrStaff::addRestMeasuresToStaff (
   fStaffContainsRestMeasures = true;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1889,8 +2074,9 @@ void msrStaff::appendPendingRestMeasuresToStaff (
 #endif
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -1916,8 +2102,9 @@ void msrStaff::appendRestMeasuresCloneToStaff (
 #endif
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second-> // JMI msgAssert???
@@ -1943,8 +2130,9 @@ void msrStaff::appendRepeatCloneToStaff (
 #endif
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second-> // JMI msgAssert???
@@ -1971,8 +2159,9 @@ void msrStaff::appendRepeatEndingCloneToStaff (
   ++gIndenter;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second-> // JMI msgAssert???
@@ -2000,8 +2189,9 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
   ++gIndenter;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -2220,8 +2410,9 @@ void msrStaff::appendStaffDetailsToStaff (
 #endif
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -2233,8 +2424,9 @@ void msrStaff::appendTransposeToAllStaffVoices (
   S_msrTranspose transpose)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -2246,8 +2438,9 @@ void msrStaff::appendPartNameDisplayToAllStaffVoices (
   S_msrPartNameDisplay partNameDisplay)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -2259,8 +2452,9 @@ void msrStaff::appendPartAbbreviationDisplayToAllStaffVoices (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -2272,8 +2466,9 @@ void msrStaff::appendScordaturaToStaff (
   S_msrScordatura scordatura)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -2287,8 +2482,9 @@ void msrStaff::appendAccordionRegistrationToStaff (
     accordionRegistration)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -2302,8 +2498,9 @@ void msrStaff::appendHarpPedalsTuningToStaff (
     harpPedalsTuning)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     (*i).second->
@@ -2329,8 +2526,9 @@ void msrStaff::finalizeLastAppendedMeasureInStaff (
 
   // finalize all the voices in the staff
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     S_msrVoice
@@ -2521,8 +2719,9 @@ void msrStaff::finalizeStaff (int inputLineNumber)
 #endif
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-    i != fStaffVoiceNumberToAnyVoiceMap.end ();
+    map<int, S_msrVoice>::const_iterator i =
+      fStaffVoiceNumbersToAllVoicesMap.begin ();
+    i != fStaffVoiceNumbersToAllVoicesMap.end ();
     ++i
   ) {
     S_msrVoice
@@ -2616,10 +2815,11 @@ void msrStaff::browseData (basevisitor* v)
 */
 
 /* JMI may be useful???
-  if (fStaffVoiceNumberToAnyVoiceMap.size ()) {
+  if (fStaffVoiceNumbersToAllVoicesMap.size ()) {
     for (
-      map<int, S_msrVoice>::const_iterator i = fStaffVoiceNumberToAnyVoiceMap.begin ();
-      i != fStaffVoiceNumberToAnyVoiceMap.end ();
+      map<int, S_msrVoice>::const_iterator i =
+        fStaffVoiceNumbersToAllVoicesMap.begin ();
+      i != fStaffVoiceNumbersToAllVoicesMap.end ();
       ++i
   ) {
         msrBrowser<msrVoice> browser (v);
@@ -2628,12 +2828,14 @@ void msrStaff::browseData (basevisitor* v)
   }
   */
 
-if (true) { // JMI TEMP
+if (false) { // JMI TEMP
   gLogStream <<
     "++++++++ fStaffAllVoicesList.size (): " <<
     fStaffAllVoicesList.size () <<
     endl << endl;
+}
 
+if (false) { // JMI TEMP
   if (fStaffAllVoicesList.size ()) {
     for (
       list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
@@ -2646,7 +2848,7 @@ if (true) { // JMI TEMP
         endl <<
         "+++++++++ voice: ++++++++" <<
         endl <<
-        voice <<
+        "\"" << voice->getVoiceName () << "\"" <<
         endl << endl;
     } // for
   }
@@ -2679,7 +2881,7 @@ void msrStaff::print (ostream& os) const
     "\", " << staffKindAsString (fStaffKind) <<
     ", " <<
     singularOrPlural (
-      fStaffVoiceNumberToAnyVoiceMap.size (), "voice", "voices") <<
+      fStaffVoiceNumbersToAllVoicesMap.size (), "voice", "voices") <<
     ", " <<
     singularOrPlural (
       fStaffRegularVoicesCounter,
@@ -2796,15 +2998,15 @@ void msrStaff::print (ostream& os) const
   // print the staff all voices map
   os << left <<
     setw (fieldWidth) <<
-    "staffVoiceNumberToAnyVoiceMap" << " : " <<
+    "staffVoiceNumbersToAllVoicesMap" << " : " <<
     endl;
 
-  if (fStaffVoiceNumberToAnyVoiceMap.size ()) {
+  if (fStaffVoiceNumbersToAllVoicesMap.size ()) {
     ++gIndenter;
 
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoiceNumberToAnyVoiceMap.begin (),
-      iEnd   = fStaffVoiceNumberToAnyVoiceMap.end (),
+      iBegin = fStaffVoiceNumbersToAllVoicesMap.begin (),
+      iEnd   = fStaffVoiceNumbersToAllVoicesMap.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -2847,15 +3049,15 @@ void msrStaff::print (ostream& os) const
   // print the staff regular voices map
   os << left <<
     setw (fieldWidth) <<
-    "staffVoiceNumberToVoicesMap" << " : " <<
+    "staffVoiceNumbersToRegularVoicesMap" << " : " <<
     endl;
 
-  if (fStaffVoiceNumberToVoicesMap.size ()) {
+  if (fStaffVoiceNumbersToRegularVoicesMap.size ()) {
     ++gIndenter;
 
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoiceNumberToVoicesMap.begin (),
-      iEnd   = fStaffVoiceNumberToVoicesMap.end (),
+      iBegin = fStaffVoiceNumbersToRegularVoicesMap.begin (),
+      iEnd   = fStaffVoiceNumbersToRegularVoicesMap.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -2955,12 +3157,12 @@ void msrStaff::print (ostream& os) const
   }
 
   // print the  voices
-  if (fStaffVoiceNumberToAnyVoiceMap.size ()) {
+  if (fStaffVoiceNumbersToAllVoicesMap.size ()) {
     os << endl;
 
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoiceNumberToAnyVoiceMap.begin (),
-      iEnd   = fStaffVoiceNumberToAnyVoiceMap.end (),
+      iBegin = fStaffVoiceNumbersToAllVoicesMap.begin (),
+      iEnd   = fStaffVoiceNumbersToAllVoicesMap.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -3023,7 +3225,7 @@ void msrStaff::printShort (ostream& os) const
     "\", " << staffKindAsString (fStaffKind) <<
     ", " <<
     singularOrPlural (
-      fStaffVoiceNumberToAnyVoiceMap.size (), "voice", "voices") <<
+      fStaffVoiceNumbersToAllVoicesMap.size (), "voice", "voices") <<
     ", " <<
     singularOrPlural (
       fStaffRegularVoicesCounter,
@@ -3035,12 +3237,12 @@ void msrStaff::printShort (ostream& os) const
   ++gIndenter;
 
   // print the  voices
-  if (fStaffVoiceNumberToAnyVoiceMap.size ()) {
+  if (fStaffVoiceNumbersToAllVoicesMap.size ()) {
     os << endl;
 
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoiceNumberToAnyVoiceMap.begin (),
-      iEnd   = fStaffVoiceNumberToAnyVoiceMap.end (),
+      iBegin = fStaffVoiceNumbersToAllVoicesMap.begin (),
+      iEnd   = fStaffVoiceNumbersToAllVoicesMap.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -3102,7 +3304,7 @@ void msrStaff::printSummary (ostream& os) const
     "\", " << staffKindAsString (fStaffKind) <<
     " (" <<
     singularOrPlural (
-      fStaffVoiceNumberToAnyVoiceMap.size (), "voice", "voices") <<
+      fStaffVoiceNumbersToAllVoicesMap.size (), "voice", "voices") <<
     ")" <<
     endl;
 
@@ -3135,7 +3337,7 @@ void msrStaff::printSummary (ostream& os) const
   }
 
   // print the voices names
-  if (fStaffVoiceNumberToAnyVoiceMap.size ()) {
+  if (fStaffVoiceNumbersToAllVoicesMap.size ()) {
     os <<
       "Voices:" <<
       endl;
@@ -3143,8 +3345,8 @@ void msrStaff::printSummary (ostream& os) const
     ++gIndenter;
 
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoiceNumberToAnyVoiceMap.begin (),
-      iEnd   = fStaffVoiceNumberToAnyVoiceMap.end (),
+      iBegin = fStaffVoiceNumbersToAllVoicesMap.begin (),
+      iEnd   = fStaffVoiceNumbersToAllVoicesMap.end (),
       i      = iBegin;
 
     for ( ; ; ) {

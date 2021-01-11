@@ -64,11 +64,6 @@ oahAtomSynonym::oahAtomSynonym (
       description,
       originalOahAtom->getElementKind ())
 {
-  // sanity check
-  msgAssert (
-    originalOahAtom != nullptr,
-    "originalOahAtom is null");
-
   fOriginalOahAtom = originalOahAtom;
 }
 
@@ -202,76 +197,105 @@ ostream& operator<< (ostream& os, const S_oahAtomSynonym& elt)
 }
 
 //______________________________________________________________________________
-S_oahAtomsMacro oahAtomsMacro::create (
+S_oahMacroAtom oahMacroAtom::create (
   string    shortName,
   string    longName,
-  string    description,
-  S_oahAtom originalOahAtom)
+  string    description)
 {
-  oahAtomsMacro* o = new
-    oahAtomsMacro (
+  oahMacroAtom* o = new
+    oahMacroAtom (
       shortName,
       longName,
-      description,
-      originalOahAtom);
+      description);
   assert (o!=0);
   return o;
 }
 
-oahAtomsMacro::oahAtomsMacro (
+oahMacroAtom::oahMacroAtom (
   string    shortName,
   string    longName,
-  string    description,
-  S_oahAtom originalOahAtom)
+  string    description)
   : oahAtom (
       shortName,
       longName,
       description,
-      originalOahAtom->getElementKind ())
+      kElementWithoutValue)
+{}
+
+oahMacroAtom::~oahMacroAtom ()
+{}
+
+void oahMacroAtom::appendAtomStringPairToMacro (
+  S_oahAtom atom,
+  string    theString)
 {
   // sanity check
   msgAssert (
-    originalOahAtom != nullptr,
-    "originalOahAtom is null");
+    atom != nullptr,
+    "atom is null");
 
-  fOriginalOahAtom = originalOahAtom;
+  fAtomStringPairsList.push_back (
+    make_pair (
+      atom,
+      theString));
 }
 
-oahAtomsMacro::~oahAtomsMacro ()
-{}
-
-void oahAtomsMacro::applyElement (ostream& os)
+void oahMacroAtom::applyElement (ostream& os)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
-      "==> option '" << fetchNames () << "' is a oahAtomsMacro" <<
+      "==> option '" << fetchNames () << "' is a oahMacroAtom" <<
       endl;
   }
 #endif
 
-  // JMI ???
+  for (
+    list<pair<S_oahAtom, string> >::const_iterator i =
+      fAtomStringPairsList.begin ();
+    i != fAtomStringPairsList.end ();
+    ++i
+  ) {
+    S_oahAtom atom      = (*i).first;
+    string    theString = (*i).second;
+
+
+    if (
+      // oahAtomWithValue?
+      S_oahAtomWithValue
+        atomWithValue =
+          dynamic_cast<oahAtomWithValue*>(&(*atom))
+    ) {
+      atomWithValue->
+        applyAtomWithValue (theString, os);
+    }
+    else {
+      // valueless atom
+      atom->
+        applyElement (os);
+    }
+  } // for
 }
 
-void oahAtomsMacro::acceptIn (basevisitor* v)
+void oahMacroAtom::acceptIn (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomsMacro::acceptIn ()" <<
+      ".\\\" ==> oahMacroAtom::acceptIn ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahAtomsMacro>*
+  if (visitor<S_oahMacroAtom>*
     p =
-      dynamic_cast<visitor<S_oahAtomsMacro>*> (v)) {
-        S_oahAtomsMacro elem = this;
+      dynamic_cast<visitor<S_oahMacroAtom>*> (v)) {
+        S_oahMacroAtom elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching oahAtomsMacro::visitStart ()" <<
+            ".\\\" ==> Launching oahMacroAtom::visitStart ()" <<
             endl;
         }
 #endif
@@ -279,25 +303,25 @@ void oahAtomsMacro::acceptIn (basevisitor* v)
   }
 }
 
-void oahAtomsMacro::acceptOut (basevisitor* v)
+void oahMacroAtom::acceptOut (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomsMacro::acceptOut ()" <<
+      ".\\\" ==> oahMacroAtom::acceptOut ()" <<
       endl;
   }
 #endif
 
-  if (visitor<S_oahAtomsMacro>*
+  if (visitor<S_oahMacroAtom>*
     p =
-      dynamic_cast<visitor<S_oahAtomsMacro>*> (v)) {
-        S_oahAtomsMacro elem = this;
+      dynamic_cast<visitor<S_oahMacroAtom>*> (v)) {
+        S_oahMacroAtom elem = this;
 
 #ifdef TRACING_IS_ENABLED
         if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
           gLogStream <<
-            ".\\\" ==> Launching oahAtomsMacro::visitEnd ()" <<
+            ".\\\" ==> Launching oahMacroAtom::visitEnd ()" <<
             endl;
         }
 #endif
@@ -305,29 +329,36 @@ void oahAtomsMacro::acceptOut (basevisitor* v)
   }
 }
 
-void oahAtomsMacro::browseData (basevisitor* v)
+void oahMacroAtom::browseData (basevisitor* v)
 {
 #ifdef TRACING_IS_ENABLED
   if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
     gLogStream <<
-      ".\\\" ==> oahAtomsMacro::browseData ()" <<
+      ".\\\" ==> oahMacroAtom::browseData ()" <<
       endl;
   }
 #endif
 
-  if (fOriginalOahAtom) {
-    // browse the original atom
+  for (
+    list<pair<S_oahAtom, string> >::const_iterator i =
+      fAtomStringPairsList.begin ();
+    i != fAtomStringPairsList.end ();
+    ++i
+  ) {
+    S_oahAtom atom = (*i).first;
+
+    // browse the atom
     oahBrowser<oahAtom> browser (v);
-    browser.browse (*fOriginalOahAtom);
-  }
+    browser.browse (*atom);
+  } // for
 }
 
-void oahAtomsMacro::print (ostream& os) const
+void oahMacroAtom::print (ostream& os) const
 {
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "AtomsMacro:" <<
+    "MacroAtom:" <<
     endl;
 
   ++gIndenter;
@@ -335,32 +366,43 @@ void oahAtomsMacro::print (ostream& os) const
   oahElement::printOahElementEssentials (
     os, fieldWidth);
 
+  for (
+    list<pair<S_oahAtom, string> >::const_iterator i =
+      fAtomStringPairsList.begin ();
+    i != fAtomStringPairsList.end ();
+    ++i
+  ) {
+    S_oahAtom atom      = (*i).first;
+    string    theString = (*i).second;
+
+    os <<
+      "atom:      " << atom <<
+      "theString: " << theString <<
+      endl;
+  } // for
+
   --gIndenter;
 }
 
-void oahAtomsMacro::printShort (ostream& os) const
+void oahMacroAtom::printShort (ostream& os) const
 {
   const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
 
   os <<
-    "AtomsMacro: ";
+    "MacroAtom: ";
 
   oahElement::printOahElementEssentialsShort (
     os, fieldWidth);
-
-  os <<
-    fOriginalOahAtom->fetchNames () <<
-    endl;
 }
 
-void oahAtomsMacro::printAtomWithValueOptionsValues (
+void oahMacroAtom::printAtomWithValueOptionsValues (
   ostream&     os,
   unsigned int valueFieldWidth) const
 {
   // nothing to print here
 }
 
-ostream& operator<< (ostream& os, const S_oahAtomsMacro& elt)
+ostream& operator<< (ostream& os, const S_oahMacroAtom& elt)
 {
   elt->print (os);
   return os;

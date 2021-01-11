@@ -114,14 +114,14 @@ R"(What msr2braille does:
     This multi-pass translator basically performs 6 passes:
         Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
                  and converts it to a MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
+        Pass 2a: converts that MusicXML treeinto
                  a Music Score Representation (MSR) skeleton;
         Pass 2b: populates the MSR skeleton from the MusicXML tree
                  to get a full MSR;
         Pass 3a: converts the MSR into a
                  Braille Score Representation (BSR)
                  containing one Braille page per MusicXML page;
-        Pass 3b: converts the BSR into to another BSR
+        Pass 3b: converts the BSRinto another BSR
                  with as many Braille pages as needed
                  to fit the line and page lengthes;
         Pass 4:  converts the BSR to Unicode text

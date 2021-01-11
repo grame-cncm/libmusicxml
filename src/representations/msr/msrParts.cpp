@@ -364,22 +364,6 @@ void msrPart::assignSequentialNumbersToRegularVoicesInPart (
   } // for
 }
 
-/* JMI
-void msrPart::addAVoiceToStavesThatHaveNone (
-  int inputLineNumber)
-{
-  for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
-    i != fPartStavesMap.end ();
-    ++i
-  ) {
-    (*i).second->
-      addAVoiceToStaffIfItHasNone (
-        inputLineNumber);
-  } // for
-}
-*/
-
 void msrPart::setPartMsrName (string partMsrName)
 {
   // is this part name in the part renaming map?
@@ -2079,7 +2063,7 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
     map<int, S_msrVoice>
       staffAllVoicesMap =
         (*i).second->
-          getStaffVoiceNumberToAnyVoiceMap ();
+          getStaffVoiceNumbersToAllVoicesMap ();
 
     for (
       map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();

@@ -118,6 +118,51 @@ S_msrVoice msrVoice::create (
   return o;
 }
 
+S_msrVoice msrVoice::createRegularVoice (
+  int        inputLineNumber,
+  int        voiceNumber,
+  S_msrStaff voiceStaffUpLink)
+{
+  return
+    msrVoice::create (
+      inputLineNumber,
+      kVoiceRegular,
+      voiceNumber,
+      msrVoice::kCreateInitialLastSegmentYes,
+        // the initial last segment is ready to receive music
+      voiceStaffUpLink);
+}
+
+S_msrVoice msrVoice::createHarmonyVoice (
+  int        inputLineNumber,
+  int        voiceNumber,
+  S_msrStaff voiceStaffUpLink)
+{
+  return
+    msrVoice::create (
+      inputLineNumber,
+      kVoiceHarmony,
+      voiceNumber,
+      msrVoice::kCreateInitialLastSegmentYes,
+        // the initial last segment is ready to receive music
+      voiceStaffUpLink);
+}
+
+S_msrVoice msrVoice::createFiguredBassVoice (
+  int        inputLineNumber,
+  int        voiceNumber,
+  S_msrStaff voiceStaffUpLink)
+{
+  return
+    msrVoice::create (
+      inputLineNumber,
+      kVoiceFiguredBass,
+      voiceNumber,
+      msrVoice::kCreateInitialLastSegmentYes,
+        // the initial last segment is ready to receive music
+      voiceStaffUpLink);
+}
+
 msrVoice::msrVoice (
   int          inputLineNumber,
   msrVoiceKind voiceKind,
@@ -9996,9 +10041,11 @@ void msrVoice::print (ostream& os) const
   os << left <<
     setw (fieldWidth) << "voiceCurrentTime" << " : ";
   if (fVoiceCurrentTime) {
+    ++gIndenter;
     os <<
       endl <<
       fVoiceCurrentTime;
+    --gIndenter;
   }
   else {
     os << "null" << endl;

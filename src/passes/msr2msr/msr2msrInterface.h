@@ -33,26 +33,11 @@ S_msrScore convertMsrScoreToMsrScore (
   string            passDescription);
 
 //_______________________________________________________________________________
-EXP void displayMsrScore (
-  const S_msrScore originalMsrScore,
-  S_msrOahGroup    msrOpts,
-  S_msr2msrOahGroup   msr2msrOpts);
+EXP void displayResultingMsrScore_OptionalPass (
+  const S_msrScore originalMsrScore);
 
-EXP void displayMsrScoreShort (
-  const S_msrScore  originalMsrScore,
-  S_msrOahGroup     msrOpts,
-  S_msr2msrOahGroup msr2msrOpts);
-
-//_______________________________________________________________________________
-EXP void displayMsrScore_OptionalPass (
-  const S_msrScore  originalMsrScore,
-  S_msrOahGroup     msrOpts,
-  S_msr2msrOahGroup msr2msrOpts);
-
-EXP void displayMsrScoreShort_OptionalPass (
-  const S_msrScore  originalMsrScore,
-  S_msrOahGroup     msrOpts,
-  S_msr2msrOahGroup msr2msrOpts);
+EXP void displayResultingMsrScoreShort_OptionalPass (
+  S_msrScore originalMsrScore);
 
 
 } // namespace MusicXML2

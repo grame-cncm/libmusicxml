@@ -1620,13 +1620,14 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
   ++gIndenter;
 
-  switch (elt->getVoiceKind ()) {
+  switch (fCurrentVoiceOriginal->getVoiceKind ()) {
 
     case kVoiceRegular:
       // create a voice clone
       fCurrentVoiceClone =
-        elt->createVoiceNewbornClone (
-          fCurrentStaffClone);
+        fCurrentVoiceOriginal->
+          createVoiceNewbornClone (
+            fCurrentStaffClone);
 
       // add it to the staff clone
       fCurrentStaffClone->
@@ -1636,7 +1637,8 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
       // append the voice clone to the LPSR score elements list
       fResultingLpsrScore ->
-        appendVoiceToLpsrScoreElementsList (fCurrentVoiceClone);
+        appendVoiceToLpsrScoreElementsList (
+          fCurrentVoiceClone);
 
       // append a use of the voice to the current staff block
       fCurrentStaffBlock->
@@ -1660,8 +1662,9 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
         // create a voice clone
         fCurrentVoiceClone =
-          elt->createVoiceNewbornClone (
-            fCurrentStaffClone);
+          fCurrentVoiceOriginal->
+            createVoiceNewbornClone (
+              fCurrentStaffClone);
 
         // add it to the staff clone
         fCurrentStaffClone->
@@ -1670,7 +1673,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
             fCurrentVoiceClone);
 
         if (
-          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
+          fCurrentVoiceOriginal->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {
           // append the voice clone to the LPSR score elements list
           fResultingLpsrScore ->
@@ -1679,11 +1682,12 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
           // create a ChordNames context
           string voiceName =
-            elt->getVoiceName ();
+            fCurrentVoiceOriginal->getVoiceName ();
 
           string partCombinedName =
-            elt->fetchVoicePartUpLink ()->
-              getPartCombinedName ();
+            fCurrentVoiceOriginal->
+              fetchVoicePartUpLink ()->
+                getPartCombinedName ();
 
 #ifdef TRACING_IS_ENABLED
           if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -1700,8 +1704,8 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
                 voiceName,
-// JMI                elt->getHarmonyVoiceRegularVoiceBackwardLink ());
-                elt);
+// JMI                fCurrentVoiceOriginal->getHarmonyVoiceRegularVoiceBackwardLink ());
+                fCurrentVoiceOriginal);
 
           // append it to the current part block
 #ifdef TRACING_IS_ENABLED
@@ -1727,8 +1731,9 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
       {
         // create a voice clone
         fCurrentVoiceClone =
-          elt->createVoiceNewbornClone (
-            fCurrentStaffClone);
+          fCurrentVoiceOriginal->
+            createVoiceNewbornClone (
+              fCurrentStaffClone);
 
         // add it to the staff clone
         fCurrentStaffClone->
@@ -1738,10 +1743,11 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
         // register it as the part figured bass voice
         fCurrentPartClone->
-          setPartFiguredBassVoice (fCurrentVoiceClone);
+          setPartFiguredBassVoice (
+            fCurrentVoiceClone);
 
         if (
-          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
+          fCurrentVoiceOriginal->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {
           // append the voice clone to the LPSR score elements list
           fResultingLpsrScore ->
@@ -1750,11 +1756,12 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
 
           // create a FiguredBass context
           string voiceName =
-            elt->getVoiceName ();
+            fCurrentVoiceOriginal->getVoiceName ();
 
           string partCombinedName =
-            elt->fetchVoicePartUpLink ()->
-              getPartCombinedName ();
+            fCurrentVoiceOriginal->
+              fetchVoicePartUpLink ()->
+                getPartCombinedName ();
 
 #ifdef TRACING_IS_ENABLED
           if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -1771,7 +1778,7 @@ void msr2lpsrTranslator::visitStart (S_msrVoice& elt)
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
                 voiceName,
-                elt-> getVoiceStaffUpLink ());
+                fCurrentVoiceOriginal-> getVoiceStaffUpLink ());
 
           // append it to the current part block
 #ifdef TRACING_IS_ENABLED

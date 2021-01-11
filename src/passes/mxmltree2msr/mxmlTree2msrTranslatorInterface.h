@@ -38,22 +38,21 @@ EXP void populateMsrSkeletonFromMxmlTree (
   string      passDescription);
 
 //_______________________________________________________________________________
-void displayMsrScore_OptionalPass (
+void displayPopulatedMsrScore_OptionalPass (
   S_msrScore theMsrScore);
 
-void displayMsrScoreShort_OptionalPass (
-  S_msrScore    theMsrScore,
-  S_msrOahGroup msrOpts);
+void displayPopulatedMsrScoreShort_OptionalPass (
+  S_msrScore theMsrScore);
 
 //______________________________________________________________________________
-EXP void displayMsrScoreSummary (
-  S_msrOahGroup& msrOpts,
-  S_msrScore     theMsrScore);
+EXP void displayPopulatedMsrScoreSummary (
+  S_msrScore     theMsrScore,
+  S_msrOahGroup& msrOpts);
 
 //______________________________________________________________________________
-EXP void displayMsrScoreNames (
-  S_msrOahGroup& msrOpts,
-  S_msrScore     theMsrScore);
+EXP void displayPopulatedMsrScoreNames (
+  S_msrScore     theMsrScore,
+  S_msrOahGroup& msrOpts);
 
 
 } // namespace MusicXML2

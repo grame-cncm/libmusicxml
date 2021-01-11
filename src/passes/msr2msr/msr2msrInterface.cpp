@@ -126,25 +126,23 @@ clock_t startClock = clock ();
   // ------------------------------------------------------
 
   if (gGlobalMsrOahGroup->getDisplayMsr ()) {
-    displayMsrScore_OptionalPass (
+    displayResultingMsrScore_OptionalPass (
       resultingMsrScore);
   }
 
   else if (gGlobalMsrOahGroup->getDisplayMsrShort ()) {
-    displayMsrScoreShort_OptionalPass (
-      resultingMsrScore,
-      gGlobalMsrOahGroup);
+    displayResultingMsrScoreShort_OptionalPass (
+      resultingMsrScore);
   }
 
   return resultingMsrScore;
 }
 
 //_______________________________________________________________________________
-void displayMsrScore (
-  const S_msrScore  originalMsrScore,
-  S_msrOahGroup     msrOpts,
-  S_msr2msrOahGroup msr2msrOpts)
+void displayResultingMsrScore_OptionalPass (
+  const S_msrScore originalMsrScore)
 {
+  // display it
   // sanity check
   msgAssert (
     originalMsrScore != nullptr,
@@ -160,7 +158,7 @@ void displayMsrScore (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR as text in msr2msr" <<
+    "Optional pass: displaying the resulting MSR as text" <<
     endl <<
     separator <<
     endl << endl <<
@@ -173,65 +171,10 @@ void displayMsrScore (
 
   timing::gGlobalTiming.appendTimingItem (
     "",
-    "Display the MSR as text",
+    "Display the resulting MSR as text",
     timingItem::kOptional,
     startClock,
     endClock);
-}
-
-void displayMsrScoreShort (
-  const S_msrScore  originalMsrScore,
-  S_msrOahGroup     msrOpts,
-  S_msr2msrOahGroup msr2msrOpts)
-{
-  // sanity check
-  msgAssert (
-    originalMsrScore != nullptr,
-    "originalMsrScore is null");
-
-  // start the clock
-  clock_t startClock = clock ();
-
-  string separator =
-    "%--------------------------------------------------------------";
-
-  gLogStream <<
-    separator <<
-    endl <<
-    gTab <<
-    "Optional pass: displaying the MSR as text, short version" <<
-    endl <<
-    separator <<
-    endl << endl;
-
-  originalMsrScore->printShort (gLogStream);
-
-  gLogStream <<
-    separator <<
-    endl << endl;
-
-  // register time spent
-  clock_t endClock = clock ();
-
-  timing::gGlobalTiming.appendTimingItem (
-    "",
-    "Display the MSR as text, short version",
-    timingItem::kOptional,
-    startClock,
-    endClock);
-}
-
-//_______________________________________________________________________________
-void displayMsrScore_OptionalPass (
-  const S_msrScore  originalMsrScore,
-  S_msrOahGroup     msrOpts,
-  S_msr2msrOahGroup msr2msrOpts)
-{
-  // display it
-  displayMsrScore (
-    originalMsrScore,
-    msrOpts,
-    msr2msrOpts);
 
   if (gIndenter != 0) {
     if (! gGlobalGeneralOahGroup->getQuiet ()) {
@@ -251,16 +194,46 @@ void displayMsrScore_OptionalPass (
   }
 }
 
-void displayMsrScoreShort_OptionalPass (
-  S_msrScore       originalMsrScore,
-  S_msrOahGroup    msrOpts,
-  S_msr2msrOahGroup msr2msrOpts)
+void displayResultingMsrScoreShort_OptionalPass (
+  S_msrScore originalMsrScore)
 {
   // display it
-  displayMsrScoreShort (
-    originalMsrScore,
-    msrOpts,
-    msr2msrOpts);
+
+  // sanity check
+  msgAssert (
+    originalMsrScore != nullptr,
+    "originalMsrScore is null");
+
+  // start the clock
+  clock_t startClock = clock ();
+
+  string separator =
+    "%--------------------------------------------------------------";
+
+  gLogStream <<
+    separator <<
+    endl <<
+    gTab <<
+    "Optional pass: displaying the resulting MSR as text, short version" <<
+    endl <<
+    separator <<
+    endl << endl;
+
+  originalMsrScore->printShort (gLogStream);
+
+  gLogStream <<
+    separator <<
+    endl << endl;
+
+  // register time spent
+  clock_t endClock = clock ();
+
+  timing::gGlobalTiming.appendTimingItem (
+    "",
+    "Display the MSR as text, short version",
+    timingItem::kOptional,
+    startClock,
+    endClock);
 
   if (gIndenter != 0) {
     if (! gGlobalGeneralOahGroup->getQuiet ()) {

@@ -108,7 +108,7 @@ R"(What msr2musicxml does:
     This multi-pass translator basically performs 6 passes:
         Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
                  and converts it to a MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
+        Pass 2a: converts that MusicXML treeinto
                  a Music Score Representation (MSR) skeleton;
         Pass 2b: populates the MSR skeleton from the MusicXML tree
                  to get a full MSR;

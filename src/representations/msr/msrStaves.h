@@ -188,12 +188,12 @@ class EXP msrStaff : public msrElement
     // staff voices
 
     const map<int, S_msrVoice>&
-                          getStaffVoiceNumberToAnyVoiceMap () const
-                              { return fStaffVoiceNumberToAnyVoiceMap; }
+                          getStaffVoiceNumbersToAllVoicesMap () const
+                              { return fStaffVoiceNumbersToAllVoicesMap; }
 
     const map<int, S_msrVoice>&
-                          getStaffVoiceNumberToVoicesMap () const
-                              { return fStaffVoiceNumberToVoicesMap; }
+                          getStaffVoiceNumbersToRegularVoicesMap () const
+                              { return fStaffVoiceNumbersToRegularVoicesMap; }
 
     const list<S_msrVoice>&
                           getStaffAllVoicesVector () const
@@ -247,38 +247,18 @@ class EXP msrStaff : public msrElement
 
     // voices
 
-    S_msrVoice            createVoiceInStaffByItsNumber (
-                            int                    inputLineNumber,
-                            msrVoiceKind voiceKind,
-                            int                    voiceNumber,
-                            string                 currentMeasureNumber);
-
-    void                  registerVoiceByItsNumber (
-                            int        inputLineNumber,
-                            int        voiceNumber,
-                            S_msrVoice voice);
+    S_msrVoice            createRegularVoiceInStaffByItsNumber (
+                            int          inputLineNumber,
+                            int          voiceNumber,
+                            string       currentMeasureNumber);
 
     void                  registerVoiceInStaff (
-                            int        inputLineNumber,
-                            S_msrVoice voice);
-
-    void                  registerRegularVoiceByItsNumber (
-                            int        voiceNumber,
-                            S_msrVoice voice);
-
-    void                  registerPartLevelVoiceInStaff (
                             int        inputLineNumber,
                             S_msrVoice voice);
 
     void                  registerVoiceInStaffClone (
                             int        inputLineNumber,
                             S_msrVoice voice);
-
-/* JMI
-    void                  registerVoiceInAllVoicesList (
-                            int        voiceNumber,
-                            S_msrVoice voice);
-*/
 
     S_msrVoice            fetchVoiceFromStaffByItsNumber (
                             int inputLineNumber,
@@ -289,11 +269,6 @@ class EXP msrStaff : public msrElement
 
     void                  assignSequentialNumbersToRegularVoicesInStaff (
                             int inputLineNumber);
-
-/* JMI
-    void                  addAVoiceToStaffIfItHasNone (
-                            int inputLineNumber);
-*/
 
     // measures
 
@@ -464,10 +439,10 @@ class EXP msrStaff : public msrElement
 
     // the mapping of all the voices in the staff,
     // including harmonies and figured bass voices
-    map<int, S_msrVoice>  fStaffVoiceNumberToAnyVoiceMap;
+    map<int, S_msrVoice>  fStaffVoiceNumbersToAllVoicesMap;
 
-    // the mapping of voice numbers to voices
-    map<int, S_msrVoice>  fStaffVoiceNumberToVoicesMap;
+    // the mapping of voice numbers to regular voices
+    map<int, S_msrVoice>  fStaffVoiceNumbersToRegularVoicesMap;
 
     // we need to handle the regular voice specifically
     // to assign them sequencing numbers from 1 to gMaxStaffVoices,
@@ -525,13 +500,38 @@ class EXP msrStaff : public msrElement
     // private work services
     // ------------------------------------------------------
 
+    // voice registration
+
+    void                  registerVoiceInMapsAndLists (
+                            S_msrVoice voice);
+
+    void                  registerVoiceInStaffAllVoicesList (
+                            S_msrVoice voice);
+
+    void                  registerVoiceByItsNumber (
+                            int        inputLineNumber,
+                            S_msrVoice voice);
+
+    void                  registerRegularVoiceByItsNumber (
+                            S_msrVoice regularVoice,
+                            int        voiceNumber);
+
+    void                  registerHarmonyVoiceByItsNumber (
+                            S_msrVoice harmonyVoice,
+                            int        voiceNumber);
+
+    void                  registerFiguredBassVoiceByItsNumber (
+                            S_msrVoice figuredBassVoice,
+                            int        voiceNumber);
+
+    void                  registerPartLevelVoiceInStaff ( // JMI rename for harmonies and figured bass ???
+                            int        inputLineNumber,
+                            S_msrVoice voice);
+
     // transpose
 
     S_msrTranspose        getStaffCurrentTranspose () const
                               { return fStaffCurrentTranspose; }
-
-    void                  registerVoiceInStaffAllVoicesList (
-                            S_msrVoice voice);
 
     // voices ordering in staves
 

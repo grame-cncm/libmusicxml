@@ -105,44 +105,47 @@ typedef SMARTP<oahAtomSynonym> S_oahAtomSynonym;
 EXP ostream& operator<< (ostream& os, const S_oahAtomSynonym& elt);
 
 //______________________________________________________________________________
-class EXP oahAtomsMacro : public oahAtom
+class EXP oahMacroAtom : public oahAtom
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahAtomsMacro> create (
+    static SMARTP<oahMacroAtom> create (
       string    shortName,
       string    longName,
-      string    description,
-      S_oahAtom originalOahAtom);
+      string    description);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahAtomsMacro (
+    oahMacroAtom (
       string    shortName,
       string    longName,
-      string    description,
-      S_oahAtom originalOahAtom);
+      string    description);
 
-    virtual ~oahAtomsMacro ();
+    virtual ~oahMacroAtom ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-     S_oahAtom            getOriginalOahAtom () const
-                              { return fOriginalOahAtom; }
+     const list<pair<S_oahAtom, string> >&
+                          getAtomStringPairsList () const
+                              { return fAtomStringPairsList; }
 
   public:
 
     // public services
     // ------------------------------------------------------
+
+    void                  appendAtomStringPairToMacro (
+                            S_oahAtom atom,
+                            string    theString);
 
     void                  applyElement (ostream& os) override;
 
@@ -173,10 +176,11 @@ class EXP oahAtomsMacro : public oahAtom
     // private fields
     // ------------------------------------------------------
 
-     S_oahAtom            fOriginalOahAtom;
+     list<pair<S_oahAtom, string> >
+                          fAtomStringPairsList;
 };
-typedef SMARTP<oahAtomsMacro> S_oahAtomsMacro;
-EXP ostream& operator<< (ostream& os, const S_oahAtomsMacro& elt);
+typedef SMARTP<oahMacroAtom> S_oahMacroAtom;
+EXP ostream& operator<< (ostream& os, const S_oahMacroAtom& elt);
 
 //______________________________________________________________________________
 class EXP oahHelpOnlyAtom : public oahAtom

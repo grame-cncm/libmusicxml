@@ -209,6 +209,12 @@ static S_msrPart createPartInScore (S_msrScore theMsrScore)
     appendPartToPartGroup (
       part);
 
+if (false) { // JMI TEMP
+  part->
+    setPartShortestNoteDuration (
+      rational (1, 16));
+}
+
   return part;
 }
 
@@ -230,32 +236,40 @@ static S_msrStaff createStaffInPart (int staffNumber, S_msrPart part)
 }
 
 //------------------------------------------------------------------------
-static S_msrVoice createVoiceInStaff (
+static S_msrVoice createRegularVoiceInStaff (
   int          inputLineNumber,
-  msrVoiceKind voiceKind,
   int          voiceNumber,
   S_msrStaff   staff)
 {
-  // create the voice
+  // create the regular voice
   S_msrVoice
     voice =
-      msrVoice::create (
+      msrVoice::createRegularVoice (
         inputLineNumber,
-        kVoiceRegular,
         voiceNumber,
-        msrVoice::kCreateInitialLastSegmentYes,
-          // the initial last segment is ready to receive music
         staff);
 
   // append it to the staff
   staff->
-//    registerVoiceByItsNumber (
-    registerRegularVoiceByItsNumber (
+    registerVoiceInStaff (
       inputLineNumber,
-//      voiceNumber,
       voice);
 
   return voice;
+}
+
+//------------------------------------------------------------------------
+static S_msrMeasure createMeasureInVoice (
+  int        inputLineNumber,
+  string     measureNumber,
+  S_msrVoice voice)
+{
+  return
+    voice->
+      createMeasureAndAppendItToVoice (
+        inputLineNumber,
+        measureNumber,
+        kMeasureImplicitKindNo);
 }
 
 //------------------------------------------------------------------------
@@ -273,11 +287,10 @@ static void populateUpperVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure1 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure1number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure1number,
+          upperVoice1);
 
     // clef
     measure1->
@@ -359,11 +372,10 @@ static void populateUpperVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure2 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure2number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure2number,
+          upperVoice1);
 
     // time
     measure2->
@@ -438,11 +450,10 @@ static void populateUpperVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure3 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure3number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure3number,
+          upperVoice1);
 
     // time
     measure3->
@@ -517,11 +528,10 @@ static void populateUpperVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure4 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
+          createMeasureInVoice (
             __LINE__,
             measure4number,
-            kMeasureImplicitKindNo);
+            upperVoice1);
 
     // notes
     measure4->
@@ -545,11 +555,10 @@ static void populateUpperVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure5 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure5number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure5number,
+          upperVoice1);
 
     // notes
     measure5->
@@ -591,11 +600,10 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
 
     S_msrMeasure
       measure1 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure1number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure1number,
+          upperVoice1);
 
     // clef
     measure1->
@@ -663,11 +671,10 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
 
     S_msrMeasure
       measure2 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure2number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure2number,
+          upperVoice1);
 
     // time
     measure2->
@@ -723,11 +730,10 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
 
     S_msrMeasure
       measure3 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure3number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure3number,
+          upperVoice1);
 
     // time
     measure3->
@@ -783,11 +789,10 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
 
     S_msrMeasure
       measure4 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure4number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure4number,
+          upperVoice1);
 
     // notes
     measure4->
@@ -808,11 +813,10 @@ void msrVoice::appendSegmentToVoice ( //JMI VIRER???
 
     S_msrMeasure
       measure5 =
-        upperVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure5number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure5number,
+          upperVoice1);
 
     // notes
     measure5->
@@ -845,11 +849,10 @@ static void populateLowerVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure1 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure1number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure1number,
+          lowerVoice1);
 
     // clef
     measure1->
@@ -919,11 +922,10 @@ static void populateLowerVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure2 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure2number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure2number,
+          lowerVoice1);
 
     // time
     measure2->
@@ -997,11 +999,10 @@ static void populateLowerVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure3 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure3number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure3number,
+          lowerVoice1);
 
     // time
     measure3->
@@ -1075,11 +1076,10 @@ static void populateLowerVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure4 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure4number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure4number,
+          lowerVoice1);
 
     // notes
     measure4->
@@ -1103,11 +1103,10 @@ static void populateLowerVoice1WithTheRegularAPI (
 
     S_msrMeasure
       measure5 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure5number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure5number,
+          lowerVoice1);
 
     // notes
     measure5->
@@ -1144,11 +1143,10 @@ static void populateLowerVoice1WithTheStringsAPI (
 
     S_msrMeasure
       measure1 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure1number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure1number,
+          lowerVoice1);
 
     // clef
     measure1->
@@ -1208,11 +1206,10 @@ static void populateLowerVoice1WithTheStringsAPI (
 
     S_msrMeasure
       measure2 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure2number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure2number,
+          lowerVoice1);
 
     // time
     measure2->
@@ -1267,11 +1264,10 @@ static void populateLowerVoice1WithTheStringsAPI (
 
     S_msrMeasure
       measure3 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure3number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure3number,
+          lowerVoice1);
 
     // time
     measure3->
@@ -1326,11 +1322,10 @@ static void populateLowerVoice1WithTheStringsAPI (
 
     S_msrMeasure
       measure4 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure4number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure4number,
+          lowerVoice1);
 
     // notes
     measure4->
@@ -1350,11 +1345,10 @@ static void populateLowerVoice1WithTheStringsAPI (
 
     S_msrMeasure
       measure5 =
-        lowerVoice1->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure5number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure5number,
+          lowerVoice1);
 
     // notes
     measure5->
@@ -1387,11 +1381,10 @@ static void populateLowerVoice2WithTheRegularAPI (
 
     S_msrMeasure
       measure1 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure1number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure1number,
+          lowerVoice2);
 
     // clef
     measure1->
@@ -1438,11 +1431,10 @@ static void populateLowerVoice2WithTheRegularAPI (
 
     S_msrMeasure
       measure2 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure2number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure2number,
+          lowerVoice2);
 
     // time
     measure2->
@@ -1470,11 +1462,10 @@ static void populateLowerVoice2WithTheRegularAPI (
 
     S_msrMeasure
       measure3 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure3number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure3number,
+          lowerVoice2);
 
     // time
     measure3->
@@ -1502,11 +1493,10 @@ static void populateLowerVoice2WithTheRegularAPI (
 
     S_msrMeasure
       measure4 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure4number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure4number,
+          lowerVoice2);
 
     // notes
     measure4->
@@ -1533,11 +1523,10 @@ static void populateLowerVoice2WithTheRegularAPI (
 
     S_msrMeasure
       measure5 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure5number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure5number,
+          lowerVoice2);
 
     // notes
     measure5->
@@ -1570,11 +1559,10 @@ static void populateLowerVoice2WithTheStringsAPI (
 
     S_msrMeasure
       measure1 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure1number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure1number,
+          lowerVoice2);
 
     // clef
     measure1->
@@ -1620,11 +1608,10 @@ static void populateLowerVoice2WithTheStringsAPI (
 
     S_msrMeasure
       measure2 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure2number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure2number,
+          lowerVoice2);
 
     // time
     measure2->
@@ -1651,11 +1638,10 @@ static void populateLowerVoice2WithTheStringsAPI (
 
     S_msrMeasure
       measure3 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure3number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure3number,
+          lowerVoice2);
 
     // time
     measure3->
@@ -1682,11 +1668,10 @@ static void populateLowerVoice2WithTheStringsAPI (
 
     S_msrMeasure
       measure4 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure4number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure4number,
+          lowerVoice2);
 
     // notes
     measure4->
@@ -1713,11 +1698,10 @@ static void populateLowerVoice2WithTheStringsAPI (
 
     S_msrMeasure
       measure5 =
-        lowerVoice2->
-          createMeasureAndAppendItToVoice (
-            __LINE__,
-            measure5number,
-            kMeasureImplicitKindNo);
+        createMeasureInVoice (
+          __LINE__,
+          measure5number,
+          lowerVoice2);
 
     // notes
     measure5->
@@ -1743,14 +1727,14 @@ static S_msrStaff createAndPopulateUpperStaffInPart (
   // create the upper staff
   S_msrStaff
     upperStaff =
-      createStaffInPart (1, part);
+      createStaffInPart (
+        1, part);
 
   // create voice 1 in upperStaff
   S_msrVoice
     upperVoice1 =
-      createVoiceInStaff (
+      createRegularVoiceInStaff (
         __LINE__,
-        kVoiceRegular,
         1,
        upperStaff);
 
@@ -1778,23 +1762,22 @@ static S_msrStaff createAndPopulateLowerStaffInPart (
   // create the lower staff
   S_msrStaff
     lowerStaff =
-      createStaffInPart (2, part);
+      createStaffInPart (
+        2, part);
 
   // create voice 1 in lowerStaff
   S_msrVoice
     lowerVoice1 =
-      createVoiceInStaff (
+      createRegularVoiceInStaff (
         __LINE__,
-        kVoiceRegular,
         1,
        lowerStaff);
 
   // create voice 2 in lowerStaff
   S_msrVoice
     lowerVoice2 =
-      createVoiceInStaff (
+      createRegularVoiceInStaff (
         __LINE__,
-        kVoiceRegular,
         2,
        lowerStaff);
 
@@ -1861,10 +1844,13 @@ if (false) // QUIT
   if (gGlobalMsrOahGroup->getDisplayMsr ()) {
     // print the score
     gOutputStream <<
-      "The MSR score contains:" <<
       endl <<
-      "----------------------" <<
-      endl;
+      "%--------------------------------------------------------------" <<
+      endl <<
+      "The Mikrokosmos III Wandering MSR score contains:" <<
+      endl <<
+      "%--------------------------------------------------------------" <<
+      endl << endl;
 
     ++gIndenter;
     gOutputStream <<

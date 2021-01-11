@@ -3918,6 +3918,7 @@ void oahHandler::printHelp (ostream& os) const
 
   // print the options handler usage
   os <<
+    endl <<
     fHandlerUsage <<
     endl;
 
@@ -6575,33 +6576,6 @@ void oahHandler::handleKnownOptionsVectorElementUnderName (
   }
 
   else if (
-    // atoms macro?
-    S_oahAtomsMacro
-      atomsMacro =
-        dynamic_cast<oahAtomsMacro*>(&(*element))
-  ) {
-    // use the original atoms instead
-    S_oahAtom
-      originalOahAtom =
-        atomsMacro->getOriginalOahAtom ();
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
-      gLogStream <<
-        "Atom name \"" << optionNameUsed << "\" is a synonym for \"" <<
-        originalOahAtom->asString () <<
-        "\", handling the latter" <<
-        endl;
-    }
-#endif
-
-    handleKnownOptionsVectorAtomUnderName (
-      originalOahAtom,
-      optionNameUsed,
-      valueUsed);
-  }
-
-  else if (
     // atom?
     S_oahAtom
       atom =
@@ -6734,32 +6708,6 @@ void oahHandler::handleKnownArgvElementUnderName (
     S_oahAtom
       originalOahAtom =
         atomSynonym->getOriginalOahAtom ();
-
-#ifdef TRACING_IS_ENABLED
-    if (gGlobalTraceOahGroup->getTraceOah ()) {
-      gLogStream <<
-        "Atom name \"" << optionNameUsed << "\" is a synonym for \"" <<
-        originalOahAtom->asString () <<
-        "\", handling the latter" <<
-        endl;
-    }
-#endif
-
-    handleKnownArgvAtomUnderName (
-      originalOahAtom,
-      optionNameUsed);
-  }
-
-  else if (
-    // atoms macro?
-    S_oahAtomsMacro
-      atomsMacro =
-        dynamic_cast<oahAtomsMacro*>(&(*element))
-  ) {
-    // use the original atoms instead
-    S_oahAtom
-      originalOahAtom =
-        atomsMacro->getOriginalOahAtom ();
 
 #ifdef TRACING_IS_ENABLED
     if (gGlobalTraceOahGroup->getTraceOah ()) {

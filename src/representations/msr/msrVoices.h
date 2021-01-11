@@ -155,6 +155,24 @@ class EXP msrVoice : public msrElement
       int          voiceNumber,
       S_msrStaff   containingStaff);
 
+    // creation from the API
+    // ------------------------------------------------------
+
+    static SMARTP<msrVoice> createRegularVoice (
+      int        inputLineNumber,
+      int        voiceNumber,
+      S_msrStaff voiceStaffUpLink);
+
+    static SMARTP<msrVoice> createHarmonyVoice (
+      int        inputLineNumber,
+      int        voiceNumber,
+      S_msrStaff voiceStaffUpLink);
+
+    static SMARTP<msrVoice> createFiguredBassVoice (
+      int        inputLineNumber,
+      int        voiceNumber,
+      S_msrStaff voiceStaffUpLink);
+
   protected:
 
     // constructors/destructor

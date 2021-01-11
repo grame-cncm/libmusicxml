@@ -1066,13 +1066,14 @@ void msr2msrTranslator::visitStart (S_msrVoice& elt)
 
   ++gIndenter;
 
-  switch (elt->getVoiceKind ()) {
+  switch (fCurrentVoiceOriginal->getVoiceKind ()) {
 
     case kVoiceRegular:
       // create a voice clone
       fCurrentVoiceClone =
-        elt->createVoiceNewbornClone (
-          fCurrentStaffClone);
+        fCurrentVoiceOriginal->
+          createVoiceNewbornClone (
+            fCurrentStaffClone);
 
       // add it to the staff clone
       fCurrentStaffClone->
@@ -1097,8 +1098,9 @@ void msr2msrTranslator::visitStart (S_msrVoice& elt)
 
         // create a voice clone
         fCurrentVoiceClone =
-          elt->createVoiceNewbornClone (
-            fCurrentStaffClone);
+          fCurrentVoiceOriginal->
+            createVoiceNewbornClone (
+              fCurrentStaffClone);
 
         // add it to the staff clone
         fCurrentStaffClone->
@@ -1107,15 +1109,16 @@ void msr2msrTranslator::visitStart (S_msrVoice& elt)
             fCurrentVoiceClone);
 
         if (
-          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
+          fCurrentVoiceOriginal->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {
           // create a ChordNames context
           string voiceName =
-            elt->getVoiceName ();
+            fCurrentVoiceOriginal->getVoiceName ();
 
           string partCombinedName =
-            elt->fetchVoicePartUpLink ()->
-              getPartCombinedName ();
+            fCurrentVoiceOriginal->
+              fetchVoicePartUpLink ()->
+                getPartCombinedName ();
 
 #ifdef TRACING_IS_ENABLED
           if (gGlobalTraceOahGroup->getTraceHarmonies ()) {
@@ -1135,8 +1138,9 @@ void msr2msrTranslator::visitStart (S_msrVoice& elt)
       {
         // create a voice clone
         fCurrentVoiceClone =
-          elt->createVoiceNewbornClone (
-            fCurrentStaffClone);
+          fCurrentVoiceOriginal->
+            createVoiceNewbornClone (
+              fCurrentStaffClone);
 
         // add it to the staff clone
         fCurrentStaffClone->
@@ -1146,18 +1150,20 @@ void msr2msrTranslator::visitStart (S_msrVoice& elt)
 
         // register it as the part figured bass voice
         fCurrentPartClone->
-          setPartFiguredBassVoice (fCurrentVoiceClone);
+          setPartFiguredBassVoice (
+            fCurrentVoiceClone);
 
         if (
-          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
+          fCurrentVoiceOriginal->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {
           // create a FiguredBass context
           string voiceName =
-            elt->getVoiceName ();
+            fCurrentVoiceOriginal->getVoiceName ();
 
           string partCombinedName =
-            elt->fetchVoicePartUpLink ()->
-              getPartCombinedName ();
+            fCurrentVoiceOriginal->
+              fetchVoicePartUpLink ()->
+                getPartCombinedName ();
 
 #ifdef TRACING_IS_ENABLED
           if (gGlobalTraceOahGroup->getTraceHarmonies ()) {

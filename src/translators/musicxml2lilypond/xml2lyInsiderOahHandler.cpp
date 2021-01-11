@@ -78,7 +78,7 @@ xml2lyInsiderOahHandler::xml2lyInsiderOahHandler (
   : oahHandler (
       executableName,
       handlerHeader,
-R"(                      Welcome to xml2ly,
+R"(                       Welcome to xml2ly,
               the MusicXML to LilyPond translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
@@ -121,7 +121,7 @@ R"(What xml2ly does:
     This multi-pass translator basically performs 5 passes:
         Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
                  and converts it to a MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
+        Pass 2a: converts that MusicXML treeinto
                  a Music Score Representation (MSR) skeleton;
         Pass 2b: populates the MSR skeleton from the MusicXML tree
                  to get a full MSR;

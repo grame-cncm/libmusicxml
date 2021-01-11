@@ -225,7 +225,7 @@ R"(
         Pass 2a: converts the MSR into a
                  Braille Score Representation (BSR)
                  containing one Braille page per MusicXML page;
-        Pass 2b: converts the BSR into to another BSR
+        Pass 2b: converts the BSRinto another BSR
                  with as many Braille pages as needed
                  to fit the line and page lengthes;
         Pass 3:  converts the BSR to braille music text

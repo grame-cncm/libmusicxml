@@ -1601,9 +1601,8 @@ S_msrVoice mxmlTree2msrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
     // create the voice and append it to the staff
     voice =
       staff->
-        createVoiceInStaffByItsNumber (
+        createRegularVoiceInStaffByItsNumber (
           inputLineNumber,
-          kVoiceRegular,
           voiceNumber,
           fCurrentMeasureNumber);
   }

@@ -111,14 +111,13 @@ void populateMsrSkeletonFromMxmlTree (
   // ------------------------------------------------------
 
   if (gGlobalMsrOahGroup->getDisplayMsr ()) {
-    displayMsrScore_OptionalPass (
+    displayPopulatedMsrScore_OptionalPass (
       scoreSkeletonToBePopulated);
   }
 
   else if (gGlobalMsrOahGroup->getDisplayMsrShort ()) {
-    displayMsrScoreShort_OptionalPass (
-      scoreSkeletonToBePopulated,
-      gGlobalMsrOahGroup);
+    displayPopulatedMsrScoreShort_OptionalPass (
+      scoreSkeletonToBePopulated);
   }
 
   // display the populated MSR score summary if requested
@@ -126,9 +125,9 @@ void populateMsrSkeletonFromMxmlTree (
 
   if (gGlobalMsrOahGroup->getDisplayMsrSummary ()) {
     // display the score summary
-    displayMsrScoreSummary (
-      gGlobalMsrOahGroup,
-      scoreSkeletonToBePopulated);
+    displayPopulatedMsrScoreSummary (
+      scoreSkeletonToBePopulated,
+      gGlobalMsrOahGroup);
   }
 
   // display the populated MSR score names if requested
@@ -136,14 +135,14 @@ void populateMsrSkeletonFromMxmlTree (
 
   if (gGlobalMsrOahGroup->getDisplayMsrNames ()) {
     // display the score name
-    displayMsrScoreNames (
-      gGlobalMsrOahGroup,
-      scoreSkeletonToBePopulated);
+    displayPopulatedMsrScoreNames (
+      scoreSkeletonToBePopulated,
+      gGlobalMsrOahGroup);
   }
 }
 
 //_______________________________________________________________________________
-void displayMsrScore_OptionalPass (
+void displayPopulatedMsrScore_OptionalPass (
   S_msrScore theMsrScore)
 {
   // sanity check
@@ -152,7 +151,7 @@ void displayMsrScore_OptionalPass (
     "theMsrScore is null");
 
   // start the clock
-  clock_t startClock = clock ();
+  clock_t startClock =  clock ();
 
   string separator =
     "%--------------------------------------------------------------";
@@ -162,7 +161,7 @@ void displayMsrScore_OptionalPass (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR as text in mxmlTree2msr" <<
+    "Optional pass: displaying the populated MSR as text" <<
     endl <<
     separator <<
     endl << endl <<
@@ -197,9 +196,8 @@ void displayMsrScore_OptionalPass (
 }
 
 //_______________________________________________________________________________
-void displayMsrScoreShort_OptionalPass (
-  S_msrScore theMsrScore,
-  S_msrOahGroup   msrOpts)
+void displayPopulatedMsrScoreShort_OptionalPass (
+  S_msrScore theMsrScore)
 {
   // sanity check
   msgAssert (
@@ -217,7 +215,7 @@ void displayMsrScoreShort_OptionalPass (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR as text, short version" <<
+    "Optional pass: displaying the populated MSR as text, short version" <<
     endl <<
     separator <<
     endl << endl;
@@ -253,9 +251,9 @@ void displayMsrScoreShort_OptionalPass (
 }
 
 //_______________________________________________________________________________
-void displayMsrScoreSummary (
-  S_msrOahGroup&  msrOpts,
-  S_msrScore theMsrScore)
+void displayPopulatedMsrScoreSummary (
+  S_msrScore     theMsrScore,
+  S_msrOahGroup& msrOpts)
 {
   // sanity check
   msgAssert (
@@ -275,7 +273,7 @@ void displayMsrScoreSummary (
       separator <<
       endl <<
       gTab <<
-      "Optional pass: outputting a summary of the MSR" <<
+      "Optional pass: outputting a summary of the populated MSR" <<
       endl <<
       separator <<
       endl << endl;
@@ -302,9 +300,9 @@ void displayMsrScoreSummary (
 }
 
 //_______________________________________________________________________________
-void displayMsrScoreNames (
-  S_msrOahGroup&  msrOpts,
-  S_msrScore theMsrScore)
+void displayPopulatedMsrScoreNames (
+  S_msrScore     theMsrScore,
+  S_msrOahGroup& msrOpts)
 {
   // sanity check
   msgAssert (
@@ -324,7 +322,7 @@ void displayMsrScoreNames (
       separator <<
       endl <<
       gTab <<
-      "Optional pass: outputting the names in the MSR" <<
+      "Optional pass: outputting the names in the populated MSR" <<
       endl <<
       separator <<
       endl << endl;
