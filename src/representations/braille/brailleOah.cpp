@@ -46,8 +46,8 @@ S_brailleOahGroup brailleOahGroup::create ()
 
 brailleOahGroup::brailleOahGroup ()
   : oahGroup (
-    "Braille",
-    "hbrl", "help-braille",
+    "Braille group",
+    "hbrl-group", "help-braille-group",
 R"(These options control how the Braille music code is generated.)",
     kElementVisibilityWhole)
 {

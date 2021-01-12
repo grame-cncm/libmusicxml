@@ -32,8 +32,8 @@
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"
 
-#include "xml2lyInsiderOahHandler.h"
-#include "xml2lyRegularOahHandler.h"
+#include "xml2lyInsiderHandler.h"
+#include "xml2lyRegularHandler.h"
 
 #include "musicxml2mxmlTreeInterface.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"
@@ -456,9 +456,9 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
   // ------------------------------------------------------
 
   // create an insider xml2ly OAH handler
-  S_xml2lyInsiderOahHandler
+  S_xml2lyInsiderHandler
     insiderOahHandler =
-      xml2lyInsiderOahHandler::create (
+      xml2lyInsiderHandler::create (
         fakeExecutableName,
         fakeExecutableName + " insider OAH handler with options vector",
         kHandlerUsedThruOptionsVector);
@@ -475,7 +475,7 @@ static xmlErr xmlFile2lilypondWithOptionsVector (
   else {
     // create a regular xml2ly OAH handler
     handler =
-      xml2lyRegularOahHandler::create (
+      xml2lyRegularHandler::create (
         fakeExecutableName,
         fakeExecutableName + " regular OAH handler",
         insiderOahHandler);

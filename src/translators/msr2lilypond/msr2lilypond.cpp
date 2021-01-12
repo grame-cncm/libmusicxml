@@ -30,8 +30,8 @@
 #include "msr2lpsrOah.h"
 #include "lpsrOah.h"
 
-#include "msr2lilypondInsiderOahHandler.h"
-#include "msr2lilypondRegularOahHandler.h"
+#include "msr2lilypondInsiderHandler.h"
+#include "msr2lilypondRegularHandler.h"
 
 #include "msr2lpsrInterface.h"
 #include "lpsr2lilypondInterface.h"

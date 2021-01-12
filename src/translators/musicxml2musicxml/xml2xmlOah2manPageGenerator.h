@@ -20,8 +20,6 @@
 #include "extraOah2manPageGenerator.h"
 #include "oahOah2manPageGenerator.h"
 
-#include "xml2xmlOahTypes.h"
-
 
 namespace MusicXML2
 {

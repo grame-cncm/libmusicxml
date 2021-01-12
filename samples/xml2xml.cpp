@@ -29,8 +29,8 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "xml2xmlInsiderOahHandler.h"
-#include "xml2xmlRegularOahHandler.h"
+#include "xml2xmlInsiderHandler.h"
+#include "xml2xmlRegularHandler.h"
 
 #include "musicxml2musicxml.h"
 
@@ -135,9 +135,9 @@ int main (int argc, char *argv[])
     // create an xml2xml insider OAH handler
     // ------------------------------------------------------
 
-    S_xml2xmlInsiderOahHandler
+    S_xml2xmlInsiderHandler
       insiderOahHandler =
-        xml2xmlInsiderOahHandler::create (
+        xml2xmlInsiderHandler::create (
           executableName,
           executableName + " insider OAH handler with argc/argv");
 
@@ -151,7 +151,7 @@ int main (int argc, char *argv[])
     else {
       // create a regular xml2xml OAH handler
       handler =
-        xml2xmlRegularOahHandler::create (
+        xml2xmlRegularHandler::create (
           executableName,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler);

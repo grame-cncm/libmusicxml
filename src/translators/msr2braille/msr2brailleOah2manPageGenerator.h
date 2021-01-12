@@ -20,8 +20,6 @@
 #include "extraOah2manPageGenerator.h"
 #include "oahOah2manPageGenerator.h"
 
-#include "msr2brailleOahTypes.h"
-
 
 namespace MusicXML2
 {

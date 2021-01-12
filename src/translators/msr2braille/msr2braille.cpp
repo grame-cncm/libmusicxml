@@ -30,8 +30,8 @@
 #include "msr2bsrOah.h"
 #include "bsrOah.h"
 
-#include "msr2brailleInsiderOahHandler.h"
-#include "msr2brailleRegularOahHandler.h"
+#include "msr2brailleInsiderHandler.h"
+#include "msr2brailleRegularHandler.h"
 
 #include "msr2mxmlTreeInterface.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"

@@ -12,6 +12,8 @@
 
 #include "visitor.h"
 
+#include "msrBasicTypes.h"  // for " K_NAMES_LIST_MAX_LENGTH
+
 #include "generatorsBasicTypes.h"
 
 
@@ -77,7 +79,7 @@ EXP generatorOutputKind generatorOutputKindFromString (
     s <<
       "the string \"" <<
       theString <<
-      "\" is no valid generate code kind";
+      "\" is no valid generated output kind";
 
     msgAssert (false, s.str ());
   }
@@ -140,6 +142,234 @@ string existingGeneratorOutputKinds (
   }
 
   return s.str ();
+}
+
+//______________________________________________________________________________
+S_generatorOutputKindAtom generatorOutputKindAtom::create (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  generatorOutputKind& generatorOutputKindVariable)
+{
+  generatorOutputKindAtom* o = new
+    generatorOutputKindAtom (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName,
+      generatorOutputKindVariable);
+  assert (o!=0);
+  return o;
+}
+
+generatorOutputKindAtom::generatorOutputKindAtom (
+  string             shortName,
+  string             longName,
+  string             description,
+  string             valueSpecification,
+  string             variableName,
+  generatorOutputKind& generatorOutputKindVariable)
+  : oahAtomWithValue (
+      shortName,
+      longName,
+      description,
+      valueSpecification,
+      variableName),
+    fGeneratorOutputKindVariable (
+      generatorOutputKindVariable)
+{}
+
+generatorOutputKindAtom::~generatorOutputKindAtom ()
+{}
+
+void generatorOutputKindAtom::applyAtomWithValue (
+  const string& theString,
+  ostream&      os)
+{
+  // theString contains the output kind name:
+  // is it in the  output kinds map?
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    gLogStream <<
+      "==> handling atom '" << fetchNames () << "; which is of type 'generatorOutputKindAtom'" <<
+      " with value \"" << theString << "\"" <<
+      endl;
+  }
+#endif
+
+  map<string, generatorOutputKind>::const_iterator
+    it =
+      gGlobalGeneratorOutputKindsMap.find (
+        theString);
+
+  if (it == gGlobalGeneratorOutputKindsMap.end ()) {
+    // no, optional values style kind is unknown in the map
+    stringstream s;
+
+    s <<
+      "generated output kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gGlobalGeneratorOutputKindsMap.size () - 1 <<
+      " known generated output kinds are:" <<
+      endl;
+
+    ++gIndenter;
+
+    s <<
+      existingGeneratorOutputKinds (K_NAMES_LIST_MAX_LENGTH);
+
+    --gIndenter;
+
+    oahError (s.str ());
+  }
+
+  fGeneratorOutputKindVariable =
+    (*it).second;
+  fVariableHasBeenSet = true;
+}
+
+void generatorOutputKindAtom::acceptIn (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> generatorOutputKindAtom::acceptIn ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_generatorOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_generatorOutputKindAtom>*> (v)) {
+        S_generatorOutputKindAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching generatorOutputKindAtom::visitStart ()" <<
+            endl;
+        }
+#endif
+        p->visitStart (elem);
+  }
+}
+
+void generatorOutputKindAtom::acceptOut (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> generatorOutputKindAtom::acceptOut ()" <<
+      endl;
+  }
+#endif
+
+  if (visitor<S_generatorOutputKindAtom>*
+    p =
+      dynamic_cast<visitor<S_generatorOutputKindAtom>*> (v)) {
+        S_generatorOutputKindAtom elem = this;
+
+#ifdef TRACING_IS_ENABLED
+        if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+          gLogStream <<
+            ".\\\" ==> Launching generatorOutputKindAtom::visitEnd ()" <<
+            endl;
+        }
+#endif
+        p->visitEnd (elem);
+  }
+}
+
+void generatorOutputKindAtom::browseData (basevisitor* v)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalOahOahGroup->getTraceOahVisitors ()) {
+    gLogStream <<
+      ".\\\" ==> generatorOutputKindAtom::browseData ()" <<
+      endl;
+  }
+#endif
+}
+
+string generatorOutputKindAtom::asShortNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fShortName << " " <<
+    generatorOutputKindAsString (fGeneratorOutputKindVariable);
+
+  return s.str ();
+}
+
+string generatorOutputKindAtom::asActualLongNamedOptionString () const
+{
+  stringstream s;
+
+  s <<
+    "-" << fLongName << " " <<
+    generatorOutputKindAsString (fGeneratorOutputKindVariable);
+
+  return s.str ();
+}
+
+void generatorOutputKindAtom::print (ostream& os) const
+{
+  const unsigned int fieldWidth = K_OAH_FIELD_WIDTH;
+
+  os <<
+    "GeneratorOutputKindAtom:" <<
+    endl;
+
+  ++gIndenter;
+
+  printAtomWithValueEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fVariableName" << " : " <<
+    fVariableName <<
+    endl <<
+    setw (fieldWidth) <<
+    "brailleUTFKindVariable" << " : \"" <<
+    generatorOutputKindAsString (
+      fGeneratorOutputKindVariable) <<
+      "\"" <<
+    endl;
+
+  --gIndenter;
+}
+
+void generatorOutputKindAtom::printAtomWithValueOptionsValues (
+  ostream&     os,
+  unsigned int valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fVariableName <<
+    " : \"" <<
+    generatorOutputKindAsString (
+      fGeneratorOutputKindVariable) <<
+    "\"";
+  if (fVariableHasBeenSet) {
+    os <<
+      ", variableHasBeenSet: " <<
+      booleanAsString (fVariableHasBeenSet);
+  }
+  os << endl;
+}
+
+ostream& operator<< (ostream& os, const S_generatorOutputKindAtom& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

@@ -42,8 +42,8 @@
 #include "msr2braille.h"
 #include "msr2guido.h"
 
-#include "Mikrokosmos3WanderingInsiderOahHandler.h"
-#include "Mikrokosmos3WanderingRegularOahHandler.h"
+#include "Mikrokosmos3WanderingInsiderHandler.h"
+#include "Mikrokosmos3WanderingRegularHandler.h"
 
 
 using namespace MusicXML2;
@@ -52,7 +52,7 @@ using namespace MusicXML2;
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
-//#define ENFORCE_TRACE_OAH
+#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
 #ifndef WIN32
@@ -2044,7 +2044,7 @@ int main (int argc, char * argv[])
 #endif
 #endif
 
-  // fetch the generate code kind from theOptionsVector,
+  // fetch the generated output kind from theOptionsVector,
   // since the OAH handler should only use the OAH groups needed for it
   // ------------------------------------------------------
 
@@ -2065,7 +2065,23 @@ int main (int argc, char * argv[])
       theGeneratorOutputKind =
         generatorOutputKindFromString (optionValue);
     }
+    else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_GUIDO_NAME) {
+      theGeneratorOutputKind = kGuidoOutput;
+    }
+    else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_LIlYPOND_NAME) {
+      theGeneratorOutputKind = kLilyPondOutput;
+    }
+    else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_BRAILLE_NAME) {
+      theGeneratorOutputKind = kBrailleOutput;
+    }
+    else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_MUSICXML_NAME) {
+      theGeneratorOutputKind = kMusicXMLOutput;
+    }
+    else if (optionNameWithoutDash == K_GENERATED_OUTPUT_KIND_MIDI_NAME) {
+      theGeneratorOutputKind = kMidiOutput;
+    }
   } //for
+
 
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -2106,9 +2122,9 @@ int main (int argc, char * argv[])
     // create an Mikrokosmos3Wandering insider OAH handler
     // ------------------------------------------------------
 
-    S_Mikrokosmos3WanderingInsiderOahHandler
+    S_Mikrokosmos3WanderingInsiderHandler
       insiderOahHandler =
-        Mikrokosmos3WanderingInsiderOahHandler::create (
+        Mikrokosmos3WanderingInsiderHandler::create (
           executableName,
           executableName + " insider OAH handler with argc/argv",
           theGeneratorOutputKind);
@@ -2123,7 +2139,7 @@ int main (int argc, char * argv[])
     else {
       // create a regular Mikrokosmos3Wandering OAH handler
       handler =
-        Mikrokosmos3WanderingRegularOahHandler::create (
+        Mikrokosmos3WanderingRegularHandler::create (
           executableName,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler,
@@ -2166,10 +2182,15 @@ int main (int argc, char * argv[])
 
         s <<
           executableName <<
-          " requires the output kind to be suplied thru option '" <<
-          "-" << K_GENERATED_OUTPUT_KIND_SHORT_NAME <<
-          ", " << K_GENERATED_OUTPUT_KIND_LONG_NAME <<
-          "' unless the run is a pure help one";
+          " requires the output kind to be suplied thru one of the options " <<
+          "'-" << K_GENERATED_OUTPUT_KIND_SHORT_NAME << "'" <<
+          ", -'" << K_GENERATED_OUTPUT_KIND_LONG_NAME << "'" <<
+          ", -'" << K_GENERATED_OUTPUT_KIND_GUIDO_NAME << "'" <<
+          ", -'" << K_GENERATED_OUTPUT_KIND_LIlYPOND_NAME << "'" <<
+          ", -'" << K_GENERATED_OUTPUT_KIND_BRAILLE_NAME << "'" <<
+          ", -'" << K_GENERATED_OUTPUT_KIND_MUSICXML_NAME << "'" <<
+          " or '" << K_GENERATED_OUTPUT_KIND_MIDI_NAME << "'" <<
+          ", unless the run is a pure help one";
 
         oahError (s.str ());
       }

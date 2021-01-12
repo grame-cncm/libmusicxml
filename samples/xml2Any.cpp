@@ -31,8 +31,6 @@
 
 #include "generatorsBasicTypes.h"
 
-#include "Mikrokosmos3WanderingOahTypes.h"
-
 
 using namespace std;
 using namespace MusicXML2;

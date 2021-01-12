@@ -23,7 +23,7 @@
   #include "traceOah.h"
 #endif
 
-#include "xml2gmnInsiderOahHandler.h"
+#include "xml2gmnInsiderHandler.h"
 
 #include "msr.h"
 

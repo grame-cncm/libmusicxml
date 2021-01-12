@@ -32,8 +32,8 @@
 #include "msr2msrOah.h"
 #include "musicxmlOah.h"
 
-#include "xml2xmlInsiderOahHandler.h"
-#include "xml2xmlRegularOahHandler.h"
+#include "xml2xmlInsiderHandler.h"
+#include "xml2xmlRegularHandler.h"
 
 #include "musicxml2mxmlTreeInterface.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"
@@ -336,9 +336,9 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
   // ------------------------------------------------------
 
   // create an insider xml2xml OAH handler
-  S_xml2xmlInsiderOahHandler
+  S_xml2xmlInsiderHandler
     insiderOahHandler =
-      xml2xmlInsiderOahHandler::create (
+      xml2xmlInsiderHandler::create (
         fakeExecutableName,
         fakeExecutableName + " insider OAH handler with options vector");
 
@@ -354,7 +354,7 @@ static xmlErr xmlFile2musicxmlWithOptionsVector (
   else {
     // create a regular xml2xml OAH handler
     handler =
-      xml2xmlRegularOahHandler::create (
+      xml2xmlRegularHandler::create (
         fakeExecutableName,
         fakeExecutableName + " regular OAH handler",
         insiderOahHandler);

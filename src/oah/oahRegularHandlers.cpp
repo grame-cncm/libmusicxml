@@ -40,14 +40,14 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 /* this class is purely virtual
-S_oahRegularOahHandler oahRegularOahHandler::create (
+S_oahRegularHandler oahRegularHandler::create (
   string       executableName,
   string       handlerHeader,
   S_oahHandler insiderOahHandler)
 {
   // create the regular handler
-  oahRegularOahHandler* o = new
-    oahRegularOahHandler (
+  oahRegularHandler* o = new
+    oahRegularHandler (
       executableName,
       handlerHeader,
       insiderOahHandler);
@@ -57,7 +57,7 @@ S_oahRegularOahHandler oahRegularOahHandler::create (
 }
 */
 
-oahRegularOahHandler::oahRegularOahHandler (
+oahRegularHandler::oahRegularHandler (
   string       executableName,
   string       handlerHeader,
   S_oahHandler insiderOahHandler)
@@ -78,17 +78,17 @@ oahRegularOahHandler::oahRegularOahHandler (
   }
 #endif
 
-  fInsiderOahHandler = insiderOahHandler;
+  fInsiderHandler = insiderOahHandler;
 
-  // initializeOahRegularOahHandler() should be called in subclasses
+  // initializeOahRegularHandler() should be called in subclasses
   // after the corresponding constructor has been executed,
-  // because it uses oahRegularOahHandler's pure virtual methods
+  // because it uses oahRegularHandler's pure virtual methods
 }
 
-oahRegularOahHandler::~oahRegularOahHandler ()
+oahRegularHandler::~oahRegularHandler ()
 {}
 
-void oahRegularOahHandler::initializeOahRegularOahHandler ()
+void oahRegularHandler::initializeOahRegularHandler ()
 {
 #ifdef TRACING_IS_ENABLED
 #ifdef ENFORCE_TRACE_OAH
@@ -100,9 +100,9 @@ void oahRegularOahHandler::initializeOahRegularOahHandler ()
 #endif
 #endif
 
-  // get the prefixes from fInsiderOahHandler
+  // get the prefixes from fInsiderHandler
   fHandlerPrefixesMap =
-    fInsiderOahHandler->
+    fInsiderHandler->
       getHandlerPrefixesMap ();
 
   // createRegularHandlerGroups() is executed
@@ -112,7 +112,7 @@ void oahRegularOahHandler::initializeOahRegularOahHandler ()
 #ifdef ENFORCE_TRACE_OAH
   // print the options handler initial state
   gLogStream <<
-    "oahRegularOahHandler \"" <<
+    "oahRegularHandler \"" <<
     fHandlerHeader <<
     "\" has been initialized as:" <<
     endl;
@@ -130,7 +130,7 @@ void oahRegularOahHandler::initializeOahRegularOahHandler ()
 #endif
 }
 
-void oahRegularOahHandler::appendGroupToRegulalHandler (
+void oahRegularHandler::appendGroupToRegulalHandler (
   S_oahGroup group)
 {
   // sanity check
@@ -166,7 +166,7 @@ void oahRegularOahHandler::appendGroupToRegulalHandler (
     setHandlerUpLink (this);
 }
 
-void oahRegularOahHandler::prependGroupToRegularHandler (
+void oahRegularHandler::prependGroupToRegularHandler (
   S_oahGroup group)
 {
   // sanity check
@@ -202,13 +202,13 @@ void oahRegularOahHandler::prependGroupToRegularHandler (
     setHandlerUpLink (this);
 }
 
-void oahRegularOahHandler::registerAtomInRegularSubgroup (
+void oahRegularHandler::registerAtomInRegularSubgroup (
   string        atomName,
   S_oahSubGroup subGroup)
 {
   S_oahElement
     insiderElement =
-      fInsiderOahHandler->
+      fInsiderHandler->
         fetchElementByNameInHandler (
           atomName);
 
@@ -255,7 +255,7 @@ void oahRegularOahHandler::registerAtomInRegularSubgroup (
       "\" cannot be registered in OAH regular handler \"" <<
       fHandlerHeader <<
       "\", it is unknown to insider handler \"" <<
-      fInsiderOahHandler->getHandlerHeader ()<<
+      fInsiderHandler->getHandlerHeader ()<<
       "\"";
 
  // JMI   oahError (s.str ());
@@ -264,12 +264,12 @@ void oahRegularOahHandler::registerAtomInRegularSubgroup (
 }
 
 //______________________________________________________________________________
-void oahRegularOahHandler::print (ostream& os) const
+void oahRegularHandler::print (ostream& os) const
 {
   const unsigned int fieldWidth = 27;
 
   os <<
-    "oahRegularOahHandler \"" << fHandlerHeader << "\":" <<
+    "oahRegularHandler \"" << fHandlerHeader << "\":" <<
     endl;
 
   ++gIndenter;
@@ -307,9 +307,9 @@ void oahRegularOahHandler::print (ostream& os) const
 if (false) { // JMI
   // print the known options
   os <<
-    "oahRegularOahHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
+    "oahRegularHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
     endl <<
-    "oahRegularOahHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
+    "oahRegularHandler known options +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<
     endl;
   displayNamesToElementsMap (os);
 }
@@ -319,7 +319,7 @@ if (false) { // JMI
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_oahRegularOahHandler& elt)
+ostream& operator<< (ostream& os, const S_oahRegularHandler& elt)
 {
   elt->print (os);
   return os;

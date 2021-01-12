@@ -32,8 +32,8 @@
 #include "msr2bsrOah.h"
 #include "bsrOah.h"
 
-#include "xml2brlInsiderOahHandler.h"
-#include "xml2brlRegularOahHandler.h"
+#include "xml2brlInsiderHandler.h"
+#include "xml2brlRegularHandler.h"
 
 #include "musicxml2mxmlTreeInterface.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"
@@ -496,9 +496,9 @@ static xmlErr xmlFile2brailleWithOptionsVector (
   // ------------------------------------------------------
 
   // create an insider xml2brl OAH handler
-  S_xml2brlInsiderOahHandler
+  S_xml2brlInsiderHandler
     insiderOahHandler =
-      xml2brlInsiderOahHandler::create (
+      xml2brlInsiderHandler::create (
         fakeExecutableName,
         fakeExecutableName + " insider OAH handler with options vector");
 
@@ -514,7 +514,7 @@ static xmlErr xmlFile2brailleWithOptionsVector (
   else {
     // create a regular xml2brl OAH handler
     handler =
-      xml2brlRegularOahHandler::create (
+      xml2brlRegularHandler::create (
         fakeExecutableName,
         fakeExecutableName + " regular OAH handler with options vector",
         insiderOahHandler);

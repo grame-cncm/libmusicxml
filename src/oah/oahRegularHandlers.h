@@ -21,14 +21,14 @@ using namespace std;
 namespace MusicXML2
 {
 //_______________________________________________________________________________
-class EXP oahRegularOahHandler : public oahHandler
+class EXP oahRegularHandler : public oahHandler
 /*
   A regular OAH handler relies on the existence of so-called 'insider' handler,
   that contains all the options values gathered from the user,
   grouped according to the internal representations and passes used.
 
-  The variables containing the options chosen by the user
-  are actually those of the insider OAH handler.
+  The variables containing the values of the options chosen by the user
+  are actually held by the insider handler.
 */
 {
 /* this class is purely virtual
@@ -37,7 +37,7 @@ class EXP oahRegularOahHandler : public oahHandler
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<oahRegularOahHandler> create (
+    static SMARTP<oahRegularHandler> create (
       string       executableName,
       string       handlerDescription,
       S_oahHandler insiderOahHandler);
@@ -48,19 +48,19 @@ class EXP oahRegularOahHandler : public oahHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahRegularOahHandler (
+    oahRegularHandler (
       string       executableName,
       string       handlerHeader,
       S_oahHandler insiderOahHandler);
 
-    virtual ~oahRegularOahHandler ();
+    virtual ~oahRegularHandler ();
 
   protected:
 
     // protected initialization
     // ------------------------------------------------------
 
-    void                  initializeOahRegularOahHandler ();
+    void                  initializeOahRegularHandler ();
 
   public:
 
@@ -69,7 +69,7 @@ class EXP oahRegularOahHandler : public oahHandler
 
     void                  handlerOahError (const string& errorMessage) override
                               {
-                                fInsiderOahHandler->
+                                fInsiderHandler->
                                   handlerOahError (
                                     errorMessage);
                               }
@@ -77,7 +77,7 @@ class EXP oahRegularOahHandler : public oahHandler
     string                handlerExecutableAboutInformation () const override
                               {
                                 return
-                                  fInsiderOahHandler->
+                                  fInsiderHandler->
                                     handlerExecutableAboutInformation ();
                               }
 
@@ -116,10 +116,10 @@ class EXP oahRegularOahHandler : public oahHandler
     // protected fields
     // ------------------------------------------------------
 
-    S_oahHandler          fInsiderOahHandler;
+    S_oahHandler          fInsiderHandler;
 };
-typedef SMARTP<oahRegularOahHandler> S_oahRegularOahHandler;
-EXP ostream& operator<< (ostream& os, const S_oahRegularOahHandler& elt);
+typedef SMARTP<oahRegularHandler> S_oahRegularHandler;
+EXP ostream& operator<< (ostream& os, const S_oahRegularHandler& elt);
 
 
 }

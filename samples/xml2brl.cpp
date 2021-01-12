@@ -29,8 +29,8 @@
 #include "oahOah.h"
 #include "generalOah.h"
 
-#include "xml2brlInsiderOahHandler.h"
-#include "xml2brlRegularOahHandler.h"
+#include "xml2brlInsiderHandler.h"
+#include "xml2brlRegularHandler.h"
 
 #include "musicxml2braille.h"
 
@@ -135,9 +135,9 @@ int main (int argc, char *argv[])
     // create an xml2brl insider OAH handler
     // ------------------------------------------------------
 
-    S_xml2brlInsiderOahHandler
+    S_xml2brlInsiderHandler
       insiderOahHandler =
-        xml2brlInsiderOahHandler::create (
+        xml2brlInsiderHandler::create (
           executableName,
           executableName + " insider OAH handler with argc/argv");
 
@@ -151,7 +151,7 @@ int main (int argc, char *argv[])
     else {
       // create a regular xml2brl OAH handler
       handler =
-        xml2brlRegularOahHandler::create (
+        xml2brlRegularHandler::create (
           executableName,
           executableName + " regular OAH handler with argc/argv",
           insiderOahHandler);

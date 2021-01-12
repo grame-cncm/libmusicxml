@@ -30,8 +30,8 @@
 #include "msr2msrOah.h"
 #include "musicxmlOah.h"
 
-#include "msr2guidoInsiderOahHandler.h"
-#include "msr2guidoRegularOahHandler.h"
+#include "msr2guidoInsiderHandler.h"
+#include "msr2guidoRegularHandler.h"
 
 #include "musicxml2mxmlTreeInterface.h"
 #include "mxmlTree2msrSkeletonBuilderInterface.h"
