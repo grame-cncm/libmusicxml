@@ -1,0 +1,66 @@
+%{
+  A short SATB score
+%}
+
+
+% the language for pitches
+% -----------------------------------------------
+
+pitches english           % default is english
+
+
+% the measures numbering
+% -----------------------------------------------
+
+anacrusis                 % measure numbers start at 0
+
+
+% the score
+% -----------------------------------------------
+
+score SATB = "SATB in MSPL" {
+
+  staff sopranoAndAltoStaff = "Soprano & Alto" {
+
+    voice soprano = "Soprano" "S." {
+      clef treble
+
+      c''1 |2             % '|' is the end of the measure
+                          % and 2 is the number of the next measure
+      finalBar
+
+    } % soprano
+
+    voice alto = "Alto" "A." {
+      clef treble
+
+      c'1 |2
+
+      finalBar
+    } % alto
+
+  } % sopranoAndAltoStaff
+
+  staff tenorAndBassStaff = "Tenor & Bass" {
+
+    voice tenor = "Tenor" "T." {
+      clef bass
+
+      c1 |2
+
+      finalBar
+    } % tenor
+
+    voice bass = "Bass" "B." {
+      clef bass
+
+      c,1 |2
+
+      finalBar
+    } % tenor
+
+  } % tenorAndBassStaff
+
+} % SATB
+
+

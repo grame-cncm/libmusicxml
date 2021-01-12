@@ -1,0 +1,97 @@
+# -------------------------------------------------------------------------
+#	Compilation des grammaires par Flex
+# -------------------------------------------------------------------------
+
+%.yy.cc : \
+		%.Flex \
+		$(MAKEFILE)
+	@echo ""
+	flex \
+		-o$@ \
+		$(OPTIONS_FLEX) $<
+	@echo ""
+
+      -+,  --c++
+              generate C++ scanner class
+
+      --yyclass=NAME
+              name of C++ class
+
+flex -c++ mspl.l
+
+
+# -------------------------------------------------------------------------
+#	Options pour Flex
+# -------------------------------------------------------------------------
+
+OPTIONS_FLEX = \
+	-v -s
+
+	#	Options utiles pour Flex :
+	#
+	#		-v : pour avoir des statistiques sur l'analyseur synthetisé
+	#
+	#		-s : supprime la règle d'ECHO par défaut, utile pour repérer les
+	#			  spécifications incomplètes
+	#
+	#		-l : pour un comportement voisin de celui du Lex original
+	#
+	#		-L : pour que les "#line" se réfèrent au fichier produit, et non au fichier source
+	#			  (equivalent à '%option yylineno' dans le fichier source)
+	#
+	#		-f : pour avoir un analyseur plus rapide, mais avec des tables plus grosses
+	#			  (incompatible avec '-L')
+	#
+	#		NOTE : Flex 2.5.x veut que "yywrap" soit 'extern "C"', c'est ainsi!
+
+
+# -------------------------------------------------------------------------
+#	Compilation de la grammaire par Bison
+# -------------------------------------------------------------------------
+
+$(SEMANTIQUE)/Semantique.tab.cc \
+$(SEMANTIQUE)/Semantique.tab.hh : \
+		Semantique.Bison \
+		$(MAKEFILE)
+	@echo ""
+	bison \
+		-o $(SEMANTIQUE)/Semantique.tab.cc \
+		--defines --verbose --token-table --debug --yacc \
+		$<
+	@echo ""
+
+
+bison --language=c++ --verbose mspl.ypp
+--> mspl.tab.cpp
+
+
+Input files should follow the yacc convention of ending in .y.  Unlike yacc, the generated  files
+       do  not have fixed names, but instead use the prefix of the input file.  Moreover, if you need to
+       put C++ code in the input file, you can end his name by a C++-like extension (.ypp or .y++), then
+       bison will follow your extension to name the output file (.cpp or .c++).  For instance, a grammar
+       description  file  named  parse.yxx  would  produce  the  generated  parser  in  a   file   named
+       parse.tab.cxx, instead of yacc's y.tab.c or old Bison version's parse.tab.c.
+
+/
+# -------------------------------------------------------------------------
+#	Options pour Bison
+# -------------------------------------------------------------------------
+
+OPTIONS_BISON = \
+	--defines --verbose --token-table --debug --yacc
+
+	#	Options utiles pour Bison :
+	#
+	#		-v, --verbose : cree le fichier ".output" necessaire pour mettre la grammaire au point
+	#
+	#		--yacc : pour un comportement voisin du Yacc original
+	#
+	#		-l, -no-lines : equivalent au '-L' de Flex, voir ci-dessus
+	#
+	#		-k, --token-tables : le fichier produit contient la table "yytname" des noms des terminaux
+	#
+	#		-d, --defines : cree le fichier ".h" pour inclusion dans lex.yy.cc
+	#
+	#		-o, --output-file : specifie le nom du fichier produit
+
+

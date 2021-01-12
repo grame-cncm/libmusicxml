@@ -1,0 +1,24 @@
+%{
+  The unavoidable HelloWorld score
+%}
+
+
+% the language for pitches
+% -----------------------------------------------
+
+pitches english            % default is english
+
+
+% the score
+% -----------------------------------------------
+
+score helloWorld = "Hello World in MSPL" {
+
+  voice {
+    c1 |2
+    finalbar
+  }
+
+} % helloWorld
+
+
