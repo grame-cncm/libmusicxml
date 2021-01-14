@@ -319,8 +319,29 @@ void Mikrokosmos3WanderingRegularHandler::createOutputRegularGroup ()
   group->
     appendSubGroupToGroup (subGroup);
 
-  // atoms
+  // atoms from the insider handler depending on the generated output kind
 
+  switch (fGeneratorOutputKind) {
+    case k_NoOutput:
+      // should not occur, unless the run is a pure help one
+      break;
+
+    case kGuidoOutput:
+      break;
+
+    case kLilyPondOutput:
+      break;
+
+    case kBrailleOutput:
+      break;
+
+    case kMusicXMLOutput:
+      registerAtomInRegularSubgroup ("musicxml-comments", subGroup);
+      break;
+
+    case kMidiOutput:
+      break;
+  } // switch
 }
 
 void Mikrokosmos3WanderingRegularHandler::createGuidoRegularGroup ()

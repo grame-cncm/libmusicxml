@@ -4674,16 +4674,27 @@ void msr2mxmlTreeTranslator::appendABackupToMeasure (
   S_msrNote theMsrNote)
 {
   int inputLineNumber =
-     theMsrNote->getInputLineNumber ();
+    theMsrNote->getInputLineNumber ();
 
   // fetch the backup duration divisions
   rational
+    previousNoteMeasureElementPositionInMeasure =
+      fPreviousMSRNote->getMeasureElementPositionInMeasure (),
+    previousNoteSoundingWholeNotes =
+      fPreviousMSRNote->getNoteSoundingWholeNotes (),
+
+    theMsrNoteMeasureElementPositionInMeasure =
+      fPreviousMSRNote->getMeasureElementPositionInMeasure (),
+    theMsrNoteSoundingWholeNotes =
+      theMsrNote->getNoteSoundingWholeNotes ();
+
+  rational
     backupDuration =
-      fPreviousMSRNote->getMeasureElementPositionInMeasure ()
+      previousNoteMeasureElementPositionInMeasure
         +
-      fPreviousMSRNote->getNoteSoundingWholeNotes ()
+      previousNoteSoundingWholeNotes
         -
-      fPreviousMSRNote->getMeasureElementPositionInMeasure ();
+      theMsrNoteMeasureElementPositionInMeasure;
   backupDuration.rationalise ();
 
   int
@@ -4697,8 +4708,20 @@ void msr2mxmlTreeTranslator::appendABackupToMeasure (
     gLogStream <<
       "Creating a backup element, theMsrNote = " <<
       theMsrNote->asShortString () <<
+
+      ", previousNoteMeasureElementPositionInMeasure: " <<
+      previousNoteMeasureElementPositionInMeasure <<
+      ", previousNoteSoundingWholeNotes: " <<
+      previousNoteSoundingWholeNotes <<
+
+      ", theMsrNoteMeasureElementPositionInMeasure: " <<
+      theMsrNoteMeasureElementPositionInMeasure <<
+      ", theMsrNoteSoundingWholeNotes: " <<
+      theMsrNoteSoundingWholeNotes <<
+
       ", backupDuration: " << backupDuration <<
       ", backupDurationDivisions: " << backupDurationDivisions <<
+
       ", line " << inputLineNumber <<
       endl;
   }
@@ -4723,7 +4746,20 @@ void msr2mxmlTreeTranslator::appendABackupToMeasure (
     s <<
       " ===== " <<
       "Backup" <<
+
+      ", previousNoteMeasureElementPositionInMeasure: " <<
+      previousNoteMeasureElementPositionInMeasure <<
+      ", previousNoteSoundingWholeNotes: " <<
+      previousNoteSoundingWholeNotes <<
+
+      ", theMsrNoteMeasureElementPositionInMeasure: " <<
+      theMsrNoteMeasureElementPositionInMeasure <<
+      ", theMsrNoteSoundingWholeNotes: " <<
+      theMsrNoteSoundingWholeNotes <<
+
+      ", backupDuration: " << backupDuration <<
       ", backupDurationDivisions: " << backupDurationDivisions <<
+
       ", from staff: " << previousMSRNoteStaffNumber <<
       ", to staff: " << noteStaffNumber <<
       ", line " << inputLineNumber <<
