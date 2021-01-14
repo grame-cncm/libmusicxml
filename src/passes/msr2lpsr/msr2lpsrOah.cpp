@@ -53,7 +53,7 @@ S_msr2lpsrScoreOutputKindAtom msr2lpsrScoreOutputKindAtom::create (
       valueSpecification,
       variableName,
       lpsrScoreOutputKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -278,7 +278,7 @@ S_msr2lpsrOahGroup gGlobalMsr2lpsrOahGroup;
 S_msr2lpsrOahGroup msr2lpsrOahGroup::create ()
 {
   msr2lpsrOahGroup* o = new msr2lpsrOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

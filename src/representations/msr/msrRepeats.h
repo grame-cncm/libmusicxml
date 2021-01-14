@@ -46,7 +46,7 @@ class EXP msrRepeatCommonPart : public msrElement
       int         inputLineNumber,
       S_msrRepeat repeatUpLink);
 
-    virtual ~msrRepeatCommonPart ();
+    virtual               ~msrRepeatCommonPart ();
 
   public:
 
@@ -163,7 +163,7 @@ class EXP msrRepeatEnding : public msrElement
       msrRepeatEndingKind repeatEndingKind,
       S_msrRepeat         repeatUpLink);
 
-    virtual ~msrRepeatEnding ();
+    virtual               ~msrRepeatEnding ();
 
   public:
 
@@ -323,7 +323,7 @@ class EXP msrRepeat : public msrVoiceElement
       int        repeatTimes,
       S_msrVoice voiceUpLink);
 
-    virtual ~msrRepeat ();
+    virtual               ~msrRepeat ();
 
   public:
 
@@ -523,7 +523,7 @@ class EXP msrRepeatDescr : public smartable
       int         repeatDescrStartInputLineNumber,
       S_msrRepeat fRepeatDescrRepeat);
 
-    virtual ~msrRepeatDescr ();
+    virtual               ~msrRepeatDescr ();
 
   public:
 
@@ -600,7 +600,7 @@ class EXP msrRepeatElement : public msrElement
       int          inputLineNumber,
       S_msrRepeat  repeatUpLink);
 
-    virtual ~msrRepeatElement ();
+    virtual               ~msrRepeatElement ();
 
   public:
 

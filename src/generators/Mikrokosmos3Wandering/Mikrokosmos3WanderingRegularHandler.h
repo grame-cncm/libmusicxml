@@ -44,14 +44,14 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    Mikrokosmos3WanderingRegularHandler (
-      string               executableName,
-      string               handlerHeader,
-      S_Mikrokosmos3WanderingInsiderHandler
-                           insiderOahHandler,
-      generatorOutputKind theGeneratorOutputKind);
+                          Mikrokosmos3WanderingRegularHandler (
+                            string               executableName,
+                            string               handlerHeader,
+                            S_Mikrokosmos3WanderingInsiderHandler
+                                                 insiderOahHandler,
+                            generatorOutputKind theGeneratorOutputKind);
 
-    virtual ~Mikrokosmos3WanderingRegularHandler ();
+    virtual               ~Mikrokosmos3WanderingRegularHandler ();
 
   public:
 
@@ -61,7 +61,7 @@ class EXP Mikrokosmos3WanderingRegularHandler : public oahRegularHandler
     // generated output kind
     void                  setGeneratorOutputKind (generatorOutputKind value)
                               { fGeneratorOutputKind = value; }
-    generatorOutputKind  getGeneratorOutputKind () const
+    generatorOutputKind   getGeneratorOutputKind () const
                               { return fGeneratorOutputKind; }
 
   public:

@@ -35,7 +35,7 @@ S_bsrPageElement bsrPageElement::create (
   bsrPageElement* o =
     new bsrPageElement (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */

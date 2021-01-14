@@ -40,7 +40,7 @@ class EXP msrIdentification : public msrElement
     msrIdentification (
       int inputLineNumber);
 
-    virtual ~msrIdentification ();
+    virtual               ~msrIdentification ();
 
   public:
 

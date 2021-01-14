@@ -43,7 +43,7 @@ class EXP xml2brlInsiderHandler : public oahInsiderHandler
       string executableName,
       string handlerHeader);
 
-    virtual ~xml2brlInsiderHandler ();
+    virtual               ~xml2brlInsiderHandler ();
 
   private:
 
@@ -120,7 +120,7 @@ class EXP xml2brlInsiderOahGroup : public oahGroup
       string executableName,
       string handlerHeader);
 
-    virtual ~xml2brlInsiderOahGroup ();
+    virtual               ~xml2brlInsiderOahGroup ();
 
   public:
 

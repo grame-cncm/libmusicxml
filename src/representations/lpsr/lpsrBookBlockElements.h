@@ -50,7 +50,7 @@ class EXP lpsrBookBlockElement : public lpsrElement
     lpsrBookBlockElement (
       int inputLineNumber);
 
-    virtual ~lpsrBookBlockElement ();
+    virtual               ~lpsrBookBlockElement ();
 
   public:
 
@@ -124,7 +124,7 @@ class EXP lpsrScoreBlock : public lpsrBookBlockElement
     lpsrScoreBlock (
       int inputLineNumber);
 
-    virtual ~lpsrScoreBlock ();
+    virtual               ~lpsrScoreBlock ();
 
   public:
 
@@ -193,7 +193,7 @@ class EXP lpsrBookPartBlock : public lpsrBookBlockElement
     lpsrBookPartBlock (
       int inputLineNumber);
 
-    virtual ~lpsrBookPartBlock ();
+    virtual               ~lpsrBookPartBlock ();
 
   public:
 
@@ -252,7 +252,7 @@ class EXP lpsrBookBlock : public lpsrElement
     lpsrBookBlock (
       int inputLineNumber);
 
-    virtual ~lpsrBookBlock ();
+    virtual               ~lpsrBookBlock ();
 
   public:
 

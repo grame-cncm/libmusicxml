@@ -40,7 +40,7 @@ class EXP msrVoiceElement : public msrElement
     msrVoiceElement (
       int inputLineNumber);
 
-    virtual ~msrVoiceElement ();
+    virtual               ~msrVoiceElement ();
 
   /*
     The voice uplink is declared in the sub-classes,

@@ -40,7 +40,7 @@ S_msrRehearsal msrRehearsal::create (
       rehearsalKind,
       rehearsalText,
       rehearsalPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

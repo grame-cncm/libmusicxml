@@ -32,7 +32,7 @@ S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
     new lpsrNewLyricsBlock (
       inputLineNumber,
       stanza, voice);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

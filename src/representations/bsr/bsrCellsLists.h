@@ -126,7 +126,7 @@ class EXP bsrCellsList : public smartable
       bsrCellKind cellKind5,
       bsrCellKind cellKind6);
 
-    virtual ~bsrCellsList ();
+    virtual               ~bsrCellsList ();
 
   public:
 

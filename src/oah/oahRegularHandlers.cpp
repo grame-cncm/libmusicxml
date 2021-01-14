@@ -36,6 +36,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before "trace-oah", if present, has been applied
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
@@ -51,7 +52,7 @@ S_oahRegularHandler oahRegularHandler::create (
       executableName,
       handlerHeader,
       insiderOahHandler);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

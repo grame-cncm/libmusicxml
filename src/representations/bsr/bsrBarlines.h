@@ -44,7 +44,7 @@ class EXP bsrBarline : public bsrLineContentsElement
       int            inputLineNumber,
       bsrBarlineKind barlineKin);
 
-    virtual ~bsrBarline ();
+    virtual               ~bsrBarline ();
 
   public:
 

@@ -17,7 +17,7 @@ class msplReader
 {
 	public:
 				 msplReader() {}
-		virtual ~msplReader() {};
+		virtual               ~msplReader() {};
 
 		virtual bool	xmlDecl (const char* version, const char *encoding, int standalone) = 0;
 		virtual bool	docType (const char* start, bool status, const char *pub, const char *sys) = 0;

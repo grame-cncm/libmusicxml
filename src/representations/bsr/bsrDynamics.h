@@ -18,27 +18,26 @@ class EXP bsrDynamics : public bsrLineContentsElement
     // ------------------------------------------------------
 
     static SMARTP<bsrDynamics> create (
-      int                          inputLineNumber,
-      msrDynamics::msrDynamicsKind dynamicsKind);
+      int             inputLineNumber,
+      msrDynamicsKind dynamicsKind);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrDynamics (
-      int                          inputLineNumber,
-      msrDynamics::msrDynamicsKind dynamicsKind);
+                          bsrDynamics (
+                            int             inputLineNumber,
+                            msrDynamicsKind dynamicsKind);
 
-    virtual ~bsrDynamics ();
+    virtual               ~bsrDynamics ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrDynamics::msrDynamicsKind
-                          getDynamicsKind () const
+    msrDynamicsKind       getDynamicsKind () const
                               { return fDynamicsKind; }
 
   public:
@@ -89,8 +88,7 @@ class EXP bsrDynamics : public bsrLineContentsElement
     // private fields
     // ------------------------------------------------------
 
-    msrDynamics::msrDynamicsKind
-                          fDynamicsKind;
+    msrDynamicsKind       fDynamicsKind;
 
     S_bsrCellsList        fDynamicsCellsList;
 };

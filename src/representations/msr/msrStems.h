@@ -53,7 +53,7 @@ class EXP msrStem : public msrElement
       int         inputLineNumber,
       msrStemKind stemKind);
 
-    virtual ~msrStem ();
+    virtual               ~msrStem ();
 
   public:
 

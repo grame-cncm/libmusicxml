@@ -38,7 +38,7 @@ S_msrArticulation msrArticulation::create (
       inputLineNumber,
       articulationKind,
       articulationPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -214,7 +214,7 @@ S_msrFermata msrFermata::create (
       inputLineNumber,
       fermataKind,
       fermataTypeKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -362,7 +362,7 @@ S_msrArpeggiato msrArpeggiato::create (
       arpeggiatoPlacementKind,
       arpeggiatoDirectionKind,
       arpeggiatoNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -471,7 +471,7 @@ S_msrNonArpeggiato msrNonArpeggiato::create (
       nonArpeggiatoPlacementKind,
       nonArpeggiatoTypeKind,
       nonArpeggiatoNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

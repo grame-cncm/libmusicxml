@@ -107,7 +107,7 @@ S_oahElement oahElement::create (
       description,
       elementKind,
       elementVisibilityKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */
@@ -551,7 +551,7 @@ S_oahElementUse oahElementUse::create (
       elementUsed,
       nameUsed,
       valueUsed);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

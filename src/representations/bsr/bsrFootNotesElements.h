@@ -29,7 +29,7 @@ class EXP bsrFootNotesElement : public bsrElement
       int    inputLineNumber,
       string footNoteText);
 
-    virtual ~bsrFootNotesElement ();
+    virtual               ~bsrFootNotesElement ();
 
   public:
 

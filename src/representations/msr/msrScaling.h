@@ -48,7 +48,7 @@ class EXP msrScaling : public msrElement
       float millimeters,
       float tenths);
 
-    virtual ~msrScaling ();
+    virtual               ~msrScaling ();
 
   public:
 

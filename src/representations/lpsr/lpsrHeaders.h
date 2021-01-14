@@ -43,7 +43,7 @@ class EXP lpsrHeader : public lpsrElement
     lpsrHeader (
       int inputLineNumber);
 
-    virtual ~lpsrHeader ();
+    virtual               ~lpsrHeader ();
 
   public:
 

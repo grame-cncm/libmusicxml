@@ -56,7 +56,7 @@ class EXP msrOctaveShift : public msrMeasureElement
       msrOctaveShiftKind octaveShiftKind,
       int                octaveShiftSize);
 
-    virtual ~msrOctaveShift ();
+    virtual               ~msrOctaveShift ();
 
   public:
 
@@ -137,7 +137,7 @@ class EXP msrTranspose : public msrMeasureElement
       int  transposeOctaveChange,
       bool transposeDouble);
 
-    virtual ~msrTranspose ();
+    virtual               ~msrTranspose ();
 
   public:
 

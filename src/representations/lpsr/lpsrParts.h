@@ -42,7 +42,7 @@ class EXP lpsrPartBlock : public lpsrElement
     lpsrPartBlock (
       S_msrPart part);
 
-    virtual ~lpsrPartBlock ();
+    virtual               ~lpsrPartBlock ();
 
   public:
 

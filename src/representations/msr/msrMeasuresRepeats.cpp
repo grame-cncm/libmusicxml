@@ -41,7 +41,7 @@ S_msrMeasuresRepeatElement msrMeasuresRepeatElement::create (
     new msrMeasuresRepeatElement (
       inputLineNumber,
       measuresRepeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -421,7 +421,7 @@ S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::create (
     new msrMeasuresRepeatPattern (
       inputLineNumber,
       measuresRepeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -605,7 +605,7 @@ S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::create (
     new msrMeasuresRepeatReplicas (
       inputLineNumber,
       measuresRepeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -793,7 +793,7 @@ S_msrMeasuresRepeat msrMeasuresRepeat::create (
       measuresRepeatMeasuresNumber,
       measuresRepeatSlashesNumber,
       voiceUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

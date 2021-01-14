@@ -45,7 +45,7 @@ class EXP mspl2msprOahGroup : public oahGroup
 
     mspl2msprOahGroup ();
 
-    virtual ~mspl2msprOahGroup ();
+    virtual               ~mspl2msprOahGroup ();
 
   public:
 

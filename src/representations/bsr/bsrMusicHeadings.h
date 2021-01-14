@@ -44,7 +44,7 @@ class EXP bsrMusicHeading : public bsrLine
     bsrMusicHeading (
       int inputLineNumber);
 
-    virtual ~bsrMusicHeading ();
+    virtual               ~bsrMusicHeading ();
 
   public:
 

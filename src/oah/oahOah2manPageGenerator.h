@@ -33,7 +33,7 @@ class EXP oahOah2manPageGenerator : virtual public oah2manPageGenerator,
       const S_oahHandler handler,
       ostream&           manPageOutputStream);
 
-    virtual ~oahOah2manPageGenerator ();
+    virtual               ~oahOah2manPageGenerator ();
 
   protected:
 

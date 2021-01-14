@@ -43,7 +43,7 @@ S_msrTimeItem msrTimeItem::create (
   msrTimeItem* o =
     new msrTimeItem (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -268,7 +268,7 @@ S_msrTime msrTime::create (
   msrTime* o =
     new msrTime (
       inputLineNumber, timeSymbolKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

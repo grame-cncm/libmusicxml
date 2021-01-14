@@ -34,21 +34,21 @@ class EXP msr2mxmlTreeOahGroup : public oahGroup
 
     static SMARTP<msr2mxmlTreeOahGroup> create ();
 
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          msr2mxmlTreeOahGroup ();
+
+    virtual               ~msr2mxmlTreeOahGroup ();
+
   private:
 
     // initialisation
     // ------------------------------------------------------
 
     void                  initializeMsr2mxmlTreeOahGroup ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msr2mxmlTreeOahGroup ();
-
-    virtual ~msr2mxmlTreeOahGroup ();
 
   public:
 

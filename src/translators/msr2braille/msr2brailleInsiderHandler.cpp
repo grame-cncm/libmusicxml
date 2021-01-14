@@ -52,6 +52,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
@@ -286,8 +287,6 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
   }
 #endif
 
-  string result;
-
   S_oahStringAtom
     outputFileNameStringAtom =
       gGlobalOutputFileOahGroup->
@@ -308,6 +307,8 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
       autoOutputFileNameAtom->
         getVariableHasBeenSet ();
 
+  string outputFileName;
+
   if (outputFileNameHasBeenSet) {
     if (autoOutputFileNameHasBeenSet) {
       // '-o, -output-file-name' has been chosen
@@ -327,7 +328,7 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
     else {
       // '-o, -output-file-name' has been chosen
       // '-aofn, -auto-output-file-name' has NOT been chosen
-      result =
+      outputFileName =
         outputFileNameStringAtom->
           getStringVariable ();
     }
@@ -343,23 +344,23 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
 
       // determine output file base name
       if (inputSourceName == "-") {
-        result = "stdin";
+        outputFileName = "stdin";
       }
 
       else {
         // determine output file name,
-        result =
+        outputFileName =
           baseName (inputSourceName);
 
         size_t
           posInString =
-            result.rfind ('.');
+            outputFileName.rfind ('.');
 
         // remove file extension
         if (posInString != string::npos) {
-          result.replace (
+          outputFileName.replace (
             posInString,
-            result.size () - posInString,
+            outputFileName.size () - posInString,
             "");
         }
       }
@@ -367,8 +368,8 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceOah ()) {
         gLogStream <<
-          "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): result 1 = \"" <<
-          result <<
+          "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
+          outputFileName <<
           "\"" <<
           endl;
       }
@@ -383,17 +384,17 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
       if (gGlobalBsr2brailleOahGroup->getUseEncodingInFileName ()) {
         switch (brailleOutputKind) {
           case kBrailleOutputAscii:
-            result += "_ASCII";
+            outputFileName += "_ASCII";
             break;
 
           case kBrailleOutputUTF8:
-            result += "_UTF8";
+            outputFileName += "_UTF8";
               /* JMI
             switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
               case kByteOrderingNone:
                 break;
               case kByteOrderingBigEndian:
-                result += "_BE";
+                outputFileName += "_BE";
                 break;
               case kByteOrderingSmallEndian:
                 // should not occur JMI
@@ -403,21 +404,21 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
             break;
 
           case kBrailleOutputUTF8Debug:
-            result += "_UTF8Debug";
+            outputFileName += "_UTF8Debug";
             break;
 
           case kBrailleOutputUTF16:
-            result += "_UTF16";
+            outputFileName += "_UTF16";
             switch (gGlobalBsr2brailleOahGroup->getByteOrderingKind ()) {
               case kByteOrderingNone:
                 break;
 
               case kByteOrderingBigEndian:
-                result += "_BE";
+                outputFileName += "_BE";
                 break;
 
               case kByteOrderingSmallEndian:
-                result += "_SE";
+                outputFileName += "_SE";
                 break;
             } // switch
             break;
@@ -427,8 +428,8 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceOah ()) {
         gLogStream <<
-          "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): result 2 = " <<
-          result <<
+          "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
+          outputFileName <<
           "\"" <<
           endl;
       }
@@ -437,24 +438,24 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
       // append the file extension to the output file name
       switch (brailleOutputKind) {
         case kBrailleOutputAscii:
-         result += ".brf";
+         outputFileName += ".brf";
           break;
 
         case kBrailleOutputUTF8:
         case kBrailleOutputUTF16:
-          result += ".brf";
+          outputFileName += ".brf";
           break;
 
         case kBrailleOutputUTF8Debug:
-          result += ".brf"; // since braille cells and regular text are present
+          outputFileName += ".brf"; // since braille cells and regular text are present
           break;
       } // switch
 
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceOah ()) {
         gLogStream <<
-          "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): result 3 = " <<
-          result <<
+          "msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 3 = " <<
+          outputFileName <<
           "\"" <<
           endl;
       }
@@ -468,7 +469,7 @@ string msr2brailleInsiderHandler::fetchOutputFileNameFromTheOptions () const
     }
   }
 
-  return result;
+  return outputFileName;
 }
 
 //______________________________________________________________________________

@@ -42,7 +42,7 @@ S_musicxmlOahGroup gGlobalMusicxmlOahGroup;
 S_musicxmlOahGroup musicxmlOahGroup::create ()
 {
   musicxmlOahGroup* o = new musicxmlOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

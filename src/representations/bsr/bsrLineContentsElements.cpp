@@ -35,7 +35,7 @@ S_bsrLineContentsElement bsrLineContentsElement::create (
   bsrLineContentsElement* o =
     new bsrLineContentsElement (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */

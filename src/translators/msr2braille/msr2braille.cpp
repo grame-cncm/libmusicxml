@@ -52,6 +52,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________
@@ -295,7 +296,7 @@ EXP xmlErr msrScore2brailleWithHandler (
       // close output file
 #ifdef TRACE_OAH
       if (gTraceOah->fTracePasses) {
-        gLogOstream <<
+        gLogStream <<
           endl <<
           "Closing file \"" << outputFileName << "\"" <<
           endl;

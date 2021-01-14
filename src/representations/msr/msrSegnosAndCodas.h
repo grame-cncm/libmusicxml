@@ -40,7 +40,7 @@ class EXP msrSegno : public msrMeasureElement
       int inputLineNumber,
       int staffNumber);
 
-    virtual ~msrSegno ();
+    virtual               ~msrSegno ();
 
   public:
 
@@ -125,7 +125,7 @@ class EXP msrDalSegno : public msrMeasureElement
       string          dalSegnoString,
       int             staffNumber);
 
-    virtual ~msrDalSegno ();
+    virtual               ~msrDalSegno ();
 
   public:
 
@@ -202,7 +202,7 @@ class EXP msrHiddenMeasureAndBarline : public msrMeasureElement
     msrHiddenMeasureAndBarline (
       int inputLineNumber);
 
-    virtual ~msrHiddenMeasureAndBarline ();
+    virtual               ~msrHiddenMeasureAndBarline ();
 
   public:
 
@@ -272,7 +272,7 @@ class EXP msrCoda : public msrMeasureElement
       int         staffNumber,
       msrCodaKind codaKind);
 
-    virtual ~msrCoda ();
+    virtual               ~msrCoda ();
 
   public:
 
@@ -340,7 +340,7 @@ class EXP msrEyeGlasses : public msrMeasureElement
     msrEyeGlasses (
       int inputLineNumber);
 
-    virtual ~msrEyeGlasses ();
+    virtual               ~msrEyeGlasses ();
 
   public:
 
@@ -429,7 +429,7 @@ class EXP msrStaffLevelElement : public msrMeasureElement // superflous ??? JMI
     msrStaffLevelElement (
       int inputLineNumber);
 
-    virtual ~msrStaffLevelElement () {};
+    virtual               ~msrStaffLevelElement () {};
 
   public:
 

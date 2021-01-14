@@ -42,7 +42,7 @@ class EXP msrLineBreak : public msrMeasureElement
       int    inputLineNumber,
       string nextBarNumber);
 
-    virtual ~msrLineBreak ();
+    virtual               ~msrLineBreak ();
 
   public:
 
@@ -105,7 +105,7 @@ class EXP msrPageBreak : public msrMeasureElement
     msrPageBreak (
       int inputLineNumber);
 
-    virtual ~msrPageBreak ();
+    virtual               ~msrPageBreak ();
 
   public:
 

@@ -136,7 +136,7 @@ S_msrGenerationAPIKindAtom msrGenerationAPIKindAtom::create (
       valueSpecification,
       variableName,
       generationAPIKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

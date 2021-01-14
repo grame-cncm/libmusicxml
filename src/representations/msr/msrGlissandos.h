@@ -47,14 +47,14 @@ class EXP msrGlissando : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrGlissando (
-      int                  inputLineNumber,
-      int                  glissandoNumber,
-      msrGlissandoTypeKind glissandoTypeKind,
-      msrLineTypeKind      glissandoLineTypeKind,
-      string               glissandoTextValue);
+                          msrGlissando (
+                            int                  inputLineNumber,
+                            int                  glissandoNumber,
+                            msrGlissandoTypeKind glissandoTypeKind,
+                            msrLineTypeKind      glissandoLineTypeKind,
+                            string               glissandoTextValue);
 
-    virtual ~msrGlissando ();
+    virtual               ~msrGlissando ();
 
   public:
 

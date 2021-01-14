@@ -44,6 +44,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
@@ -61,7 +62,7 @@ S_Mikrokosmos3WanderingRegularHandler Mikrokosmos3WanderingRegularHandler::creat
       handlerHeader,
       insiderOahHandler,
       theGeneratorOutputKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -320,7 +321,6 @@ void Mikrokosmos3WanderingRegularHandler::createOutputRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("output-file-name", subGroup);
 }
 
 void Mikrokosmos3WanderingRegularHandler::createGuidoRegularGroup ()
@@ -374,8 +374,8 @@ void Mikrokosmos3WanderingRegularHandler::createBrailleRegularGroup ()
   S_oahSubGroup
     subGroup =
       oahSubGroup::create (
-        "Braille subgroup",
-        "braille-subgroup", "",
+        "Braille",
+        "braille", "",
         "",
         kElementVisibilityWhole,
         group);
@@ -384,9 +384,9 @@ void Mikrokosmos3WanderingRegularHandler::createBrailleRegularGroup ()
 
   // atoms
 
-  registerAtomInRegularSubgroup ("braille-output-kind", subGroup);
-  registerAtomInRegularSubgroup ("use-encoding-in-file-name", subGroup);
-  registerAtomInRegularSubgroup ("byte-ordering-mark", subGroup);
+  registerAtomInRegularSubgroup (K_BRAILLE_OUTPUT_KIND_LONG_NAME, subGroup);
+  registerAtomInRegularSubgroup (K_BRAILLE_USE_ENCODING_IN_FILE_NAME_LONG_NAME, subGroup);
+  registerAtomInRegularSubgroup (K_BRAILLE_BYTE_ORDERING_MARK_LONG_NAME, subGroup);
 }
 
 //_______________________________________________________________________________
@@ -418,9 +418,8 @@ void Mikrokosmos3WanderingRegularHandler::createFilesRegularGroup ()
 
   // atoms
 
-// JMI BLARK
-//  registerAtomInRegularSubgroup ("output-file-name", subGroup);
-//  registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
+  registerAtomInRegularSubgroup ("output-file-name", subGroup);
+  registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
 }
 
 void Mikrokosmos3WanderingRegularHandler::createOahRegularGroup ()

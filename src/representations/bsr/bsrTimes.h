@@ -37,7 +37,7 @@ class EXP bsrTimeItem : public bsrElement
     bsrTimeItem (
       int inputLineNumber);
 
-    virtual ~bsrTimeItem ();
+    virtual               ~bsrTimeItem ();
 
   public:
 
@@ -136,7 +136,7 @@ class EXP bsrTime : public bsrLineContentsElement
       int         inputLineNumber,
       bsrTimeKind timeKind);
 
-    virtual ~bsrTime ();
+    virtual               ~bsrTime ();
 
   public:
 

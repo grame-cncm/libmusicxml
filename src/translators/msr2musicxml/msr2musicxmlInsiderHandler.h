@@ -41,7 +41,7 @@ class EXP msr2musicxmlInsiderHandler : public oahInsiderHandler
       string executableName,
       string handlerHeader);
 
-    virtual ~msr2musicxmlInsiderHandler ();
+    virtual               ~msr2musicxmlInsiderHandler ();
 
   private:
 
@@ -114,7 +114,7 @@ class EXP msr2musicxmlInsiderOahGroup : public oahGroup
 
     msr2musicxmlInsiderOahGroup ();
 
-    virtual ~msr2musicxmlInsiderOahGroup ();
+    virtual               ~msr2musicxmlInsiderOahGroup ();
 
   public:
 

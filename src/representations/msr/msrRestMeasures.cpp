@@ -39,7 +39,7 @@ S_msrRestMeasuresContents msrRestMeasuresContents::create (
     new msrRestMeasuresContents (
       inputLineNumber,
       restMeasures);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -250,7 +250,7 @@ S_msrRestMeasures msrRestMeasures::create (
       restMeasuresMeasureSoundingNotes,
       restMeasuresNumber,
       voiceUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -264,7 +264,7 @@ S_msrRestMeasures msrRestMeasures::create (
       inputLineNumber,
       restMeasureClone,
       voiceUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

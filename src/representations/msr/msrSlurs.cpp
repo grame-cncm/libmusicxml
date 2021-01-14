@@ -39,7 +39,7 @@ S_msrSlur msrSlur::create (
   msrSlur* o =
     new msrSlur (
       inputLineNumber, slurNumber, slurTypeKind, slurLineTypeKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

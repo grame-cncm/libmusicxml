@@ -55,7 +55,7 @@ class EXP lpsrParallelMusicBLock : public lpsrElement
       int                       inputLineNumber,
       lpsrElementsSeparatorKind elementsSeparatorKind);
 
-    virtual ~lpsrParallelMusicBLock ();
+    virtual               ~lpsrParallelMusicBLock ();
 
   public:
 

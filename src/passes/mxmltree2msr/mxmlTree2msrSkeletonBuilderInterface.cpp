@@ -47,7 +47,7 @@ S_msrScore convertMxmlTreeToMsrScoreSkeleton (
 {
   // sanity check
   msgAssert (
-    mxmlTree != 0,
+    mxmlTree != nullptr,
     "convertMxmlTreeToMsrScoreSkeleton(): mxmlTree is null");
 
   // start the clock

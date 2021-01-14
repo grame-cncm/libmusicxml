@@ -42,7 +42,7 @@ EXP void generateMusicXMLFromMxmlTree (
 {
   // sanity check
   msgAssert (
-    mxmlTree != 0,
+    mxmlTree != nullptr,
     "generateMusicXMLFromMxmlTree(): mxmlTree is null");
 
   // start the clock
@@ -53,7 +53,7 @@ EXP void generateMusicXMLFromMxmlTree (
     string separator =
       "%--------------------------------------------------------------";
 
-    gLogStream <<
+    cerr <<
       endl <<
       separator <<
       endl <<
@@ -61,6 +61,16 @@ EXP void generateMusicXMLFromMxmlTree (
       passNumber << ": generating MusicXML from the mxmlTree" <<
       endl <<
       separator <<
+      endl;
+  }
+#endif
+
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceOah ()) {
+    cerr <<
+      "generateMusicXMLFromMxmlTree() outputFileName = \"" <<
+      outputFileName <<
+      "\"" <<
       endl;
   }
 #endif
@@ -140,14 +150,18 @@ EXP void generateMusicXMLFromMxmlTree (
     }
 
     // write the MusicXML data to the output file stream
+	if (xmlFile->elements ()) {
     xmlFile->print (musicxmlFileOutputStream);
     musicxmlFileOutputStream << endl;
-
+  }
+  else {
+  	cerr << "TXMLFile::elements() is null" << endl;
+  }
 
     // close output file
 #ifdef TRACE_OAH
     if (gTraceOah->fTracePasses) {
-      gLogOstream <<
+      cerr <<
         endl <<
         "Closing file \"" << outputFileName << "\"" <<
         endl;

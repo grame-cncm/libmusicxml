@@ -51,7 +51,7 @@ S_msrSyllable msrSyllable::create (
       syllableWholeNotes,
       syllableTupletFactor,
       syllableStanzaUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -76,7 +76,7 @@ S_msrSyllable msrSyllable::createWithNextMeasurePuristNumber (
       syllableTupletFactor,
       syllableStanzaUpLink,
       syllableNextMeasurePuristNumber);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -747,7 +747,7 @@ S_msrStanza msrStanza::create (
       inputLineNumber,
       stanzaNumber,
       stanzaVoiceUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

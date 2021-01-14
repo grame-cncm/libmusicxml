@@ -112,7 +112,7 @@ class EXP msrSyllable : public msrMeasureElement
       S_msrStanza           syllableStanzaUpLink,
       int                   syllableNextMeasurePuristNumber);
 
-    virtual ~msrSyllable ();
+    virtual               ~msrSyllable ();
 
   public:
 
@@ -275,7 +275,7 @@ class EXP msrStanza : public msrElement
 
   public:
 
-    virtual ~msrStanza ();
+    virtual               ~msrStanza ();
 
   private:
 

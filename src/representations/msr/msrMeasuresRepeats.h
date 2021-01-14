@@ -50,7 +50,7 @@ class EXP msrMeasuresRepeatPattern : public msrElement
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUpLink);
 
-    virtual ~msrMeasuresRepeatPattern ();
+    virtual               ~msrMeasuresRepeatPattern ();
 
   public:
 
@@ -140,7 +140,7 @@ class EXP msrMeasuresRepeatReplicas : public msrElement
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUpLink);
 
-    virtual ~msrMeasuresRepeatReplicas ();
+    virtual               ~msrMeasuresRepeatReplicas ();
 
   public:
 
@@ -254,7 +254,7 @@ class EXP msrMeasuresRepeat : public msrVoiceElement
       int        measuresRepeatSlashesNumber,
       S_msrVoice voiceUpLink);
 
-    virtual ~msrMeasuresRepeat ();
+    virtual               ~msrMeasuresRepeat ();
 
   public:
 
@@ -395,7 +395,7 @@ class EXP msrMeasuresRepeatElement : public msrElement
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUpLink);
 
-    virtual ~msrMeasuresRepeatElement ();
+    virtual               ~msrMeasuresRepeatElement ();
 
   public:
 

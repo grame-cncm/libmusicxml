@@ -21,12 +21,13 @@
 
 
 using namespace std;
+
 namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-#define K_GENERATED_OUTPUT_KIND_SHORT_NAME "gen"
-#define K_GENERATED_OUTPUT_KIND_LONG_NAME  "generate"
+#define K_GENERATED_OUTPUT_KIND_SHORT_NAME    "gen"
+#define K_GENERATED_OUTPUT_KIND_LONG_NAME     "generate"
 
 #define K_GENERATED_OUTPUT_KIND_GUIDO_NAME    "guido"
 #define K_GENERATED_OUTPUT_KIND_LIlYPOND_NAME "lilypond"
@@ -74,15 +75,15 @@ class EXP generatorOutputKindAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    generatorOutputKindAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      generatorOutputKind& generatorOutputKindVariable);
+                          generatorOutputKindAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            generatorOutputKind& generatorOutputKindVariable);
 
-    virtual ~generatorOutputKindAtom ();
+    virtual               ~generatorOutputKindAtom ();
 
   public:
 

@@ -57,7 +57,7 @@ S_msrCreditWords msrCreditWords::create (
       creditWordsHorizontalAlignmentKind,
       creditWordsVerticalAlignmentKind,
       creditWordsXMLLang);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -228,7 +228,7 @@ S_msrCredit msrCredit::create (
   msrCredit* o =
     new msrCredit (
       inputLineNumber, creditPageNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

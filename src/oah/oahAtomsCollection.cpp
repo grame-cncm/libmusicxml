@@ -34,6 +34,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before "trace-oah", if present, has been applied
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
@@ -49,7 +50,7 @@ S_oahAtomSynonym oahAtomSynonym::create (
       longName,
       description,
       originalOahAtom);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -207,7 +208,7 @@ S_oahMacroAtom oahMacroAtom::create (
       shortName,
       longName,
       description);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -422,7 +423,7 @@ S_oahHelpOnlyAtom oahHelpOnlyAtom::create (
       longName,
       description,
       executableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */
@@ -551,7 +552,7 @@ S_oahOptionsUsageAtom oahOptionsUsageAtom::create (
       longName,
       description,
       executableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -747,7 +748,7 @@ S_oahHelpAtom oahHelpAtom::create (
       longName,
       description,
       executableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -900,7 +901,7 @@ S_oahHelpSummaryAtom oahHelpSummaryAtom::create (
       longName,
       description,
       executableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1053,7 +1054,7 @@ S_oahAboutAtom oahAboutAtom::create (
       longName,
       description,
       executableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1204,7 +1205,7 @@ S_oahVersionAtom oahVersionAtom::create (
       longName,
       description,
       executableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1362,7 +1363,7 @@ S_oahContactAtom oahContactAtom::create (
       longName,
       description,
       executableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1521,7 +1522,7 @@ S_oahBooleanAtom oahBooleanAtom::create (
       description,
       variableName,
       booleanVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1711,7 +1712,7 @@ S_oahTwoBooleansAtom oahTwoBooleansAtom::create (
       variableName,
       booleanVariable,
       booleanSecondaryVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1909,7 +1910,7 @@ S_oahThreeBooleansAtom oahThreeBooleansAtom::create (
       booleanVariable,
       booleanSecondaryVariable,
       booleanTertiaryVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2113,7 +2114,7 @@ S_oahCombinedBooleansAtom oahCombinedBooleansAtom::create (
       description,
       variableName,
       booleanVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2566,7 +2567,7 @@ S_oahMultiplexBooleansAtom oahMultiplexBooleansAtom::create (
       longSuffixDescriptor,
       shortNamesPrefix,
       longNamesPrefix);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -3174,7 +3175,7 @@ S_oahIntegerAtom oahIntegerAtom::create (
       valueSpecification,
       variableName,
       integerVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -3422,7 +3423,7 @@ S_oahTwoIntegersAtom oahTwoIntegersAtom::create (
       variableName,
       integerVariable,
       integerSecondaryVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -3697,7 +3698,7 @@ S_oahFloatAtom oahFloatAtom::create (
       valueSpecification,
       variableName,
       floatVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -3946,7 +3947,7 @@ S_oahStringAtom oahStringAtom::create (
       valueSpecification,
       variableName,
       stringVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -4139,7 +4140,7 @@ S_oahMonoplexStringAtom oahMonoplexStringAtom::create (
       description,
       atomNameDescriptor,
       stringValueDescriptor);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -4536,7 +4537,7 @@ S_oahStringWithDefaultValueAtom oahStringWithDefaultValueAtom::create (
       variableName,
       stringVariable,
       defaultStringValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -4754,7 +4755,7 @@ S_oahRationalAtom oahRationalAtom::create (
       valueSpecification,
       variableName,
       rationalVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -5004,7 +5005,7 @@ S_oahNaturalNumbersSetAtom oahNaturalNumbersSetAtom::create (
       valueSpecification,
       variableName,
       naturalNumbersSetVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -5261,7 +5262,7 @@ S_oahRGBColorAtom oahRGBColorAtom::create (
       valueSpecification,
       variableName,
       RGBColorVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -5447,7 +5448,7 @@ S_oahIntSetAtom oahIntSetAtom::create (
       valueSpecification,
       variableName,
       intSetVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -5763,7 +5764,7 @@ S_oahStringSetAtom oahStringSetAtom::create (
       valueSpecification,
       variableName,
       stringSetVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -6046,7 +6047,7 @@ S_oahStringToIntMapAtom oahStringToIntMapAtom::create (
       valueSpecification,
       variableName,
       stringToIntMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -6389,7 +6390,7 @@ S_oahStringAndIntegerAtom oahStringAndIntegerAtom::create (
       stringVariable,
       integerVariableName,
       integerVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -6698,7 +6699,7 @@ S_oahStringAndTwoIntegersAtom oahStringAndTwoIntegersAtom::create (
       stringVariable,
       primaryIntegerVariable,
       secondaryIntegerVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -7032,7 +7033,7 @@ S_oahLengthUnitKindAtom oahLengthUnitKindAtom::create (
       valueSpecification,
       variableName,
       lengthUnitKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -7263,7 +7264,7 @@ S_oahLengthAtom oahLengthAtom::create (
       valueSpecification,
       variableName,
       lengthVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -7549,7 +7550,7 @@ S_oahMidiTempoAtom oahMidiTempoAtom::create (
       valueSpecification,
       variableName,
       midiTempoVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -7827,7 +7828,7 @@ S_oahOptionNameHelpAtom oahOptionNameHelpAtom::create (
       variableName,
       stringVariable,
       defaultOptionName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -8017,7 +8018,7 @@ S_oahAProposOptionNameAtom oahAProposOptionNameAtom::create (
       valueSpecification,
       variableName,
       stringVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -8196,7 +8197,7 @@ S_oahFindStringAtom oahFindStringAtom::create (
       valueSpecification,
       variableName,
       stringVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -39,7 +39,7 @@ class EXP bsrWords : public bsrLineContentsElement
       int    inputLineNumber,
       string wordContents);
 
-    virtual ~bsrWords ();
+    virtual               ~bsrWords ();
 
   public:
 

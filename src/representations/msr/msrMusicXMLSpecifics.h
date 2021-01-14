@@ -61,7 +61,7 @@ class EXP msrPageLayout : public msrElement
     msrPageLayout (
       int inputLineNumber);
 
-    virtual ~msrPageLayout ();
+    virtual               ~msrPageLayout ();
 
   public:
 
@@ -167,7 +167,7 @@ class EXP msrSystemLayout : public msrElement
     msrSystemLayout (
       int inputLineNumber);
 
-    virtual ~msrSystemLayout ();
+    virtual               ~msrSystemLayout ();
 
   public:
 
@@ -297,7 +297,7 @@ class EXP msrSystemDividers : public msrElement
     msrSystemDividers (
       int inputLineNumber);
 
-    virtual ~msrSystemDividers ();
+    virtual               ~msrSystemDividers ();
 
   public:
 
@@ -388,7 +388,7 @@ class EXP msrStaffLayout : public msrElement
       int inputLineNumber,
       int staffNumber);
 
-    virtual ~msrStaffLayout ();
+    virtual               ~msrStaffLayout ();
 
   public:
 
@@ -476,7 +476,7 @@ class EXP msrMeasureLayout : public msrElement
     msrMeasureLayout (
       int inputLineNumber);
 
-    virtual ~msrMeasureLayout ();
+    virtual               ~msrMeasureLayout ();
 
   public:
 
@@ -593,7 +593,7 @@ class EXP msrPrintLayout : public msrMeasureElement
     msrPrintLayout (
       int inputLineNumber);
 
-    virtual ~msrPrintLayout ();
+    virtual               ~msrPrintLayout ();
 
   public:
 
@@ -754,7 +754,7 @@ class EXP msrLineWidth : public msrElement
       msrLineWidthTypeKind lineWidthTypeKind,
       S_msrLength          lineWidthValue);
 
-    virtual ~msrLineWidth ();
+    virtual               ~msrLineWidth ();
 
   public:
 
@@ -831,7 +831,7 @@ class EXP msrNoteSize : public msrElement
       msrNoteSizeTypeKind noteSizeTypeKind,
       float               noteSizeValue);
 
-    virtual ~msrNoteSize ();
+    virtual               ~msrNoteSize ();
 
   public:
 
@@ -907,7 +907,7 @@ class EXP msrDistance : public msrElement
       msrDistanceTypeKind  distanceTypeKind,
       S_msrLength          distanceValue);
 
-    virtual ~msrDistance ();
+    virtual               ~msrDistance ();
 
   public:
 
@@ -991,7 +991,7 @@ class EXP msrGlyph : public msrElement
       msrGlyphTypeKind glyphTypeKind,
       string           glyphValue);
 
-    virtual ~msrGlyph ();
+    virtual               ~msrGlyph ();
 
   public:
 
@@ -1066,7 +1066,7 @@ class EXP msrOtherAppearance : public msrElement
       msrOtherAppearanceTypeKind otherAppearanceTypeKind,
       string                     otherAppearanceValue);
 
-    virtual ~msrOtherAppearance ();
+    virtual               ~msrOtherAppearance ();
 
   public:
 
@@ -1225,7 +1225,7 @@ class EXP msrAppearance : public msrElement
     msrAppearance (
       int inputLineNumber);
 
-    virtual ~msrAppearance ();
+    virtual               ~msrAppearance ();
 
   public:
 

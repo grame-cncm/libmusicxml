@@ -50,7 +50,7 @@ class EXP lilypondScoreOutputKindAtom : public oahAtomWithValue
       string               variableName,
       lpsrScoreOutputKind& lilypondScoreOutputKindVariable);
 
-    virtual ~lilypondScoreOutputKindAtom ();
+    virtual               ~lilypondScoreOutputKindAtom ();
 
   public:
 
@@ -133,7 +133,7 @@ class EXP lilypondTransposePartNameAtom : public oahAtomWithValue
       map<string, S_msrSemiTonesPitchAndOctave>&
                          stringToMsrSemiTonesPitchAndOctaveMapVariable);
 
-    virtual ~lilypondTransposePartNameAtom ();
+    virtual               ~lilypondTransposePartNameAtom ();
 
   public:
 
@@ -233,7 +233,7 @@ class EXP lilypondTransposePartIDAtom : public oahAtomWithValue
       map<string, S_msrSemiTonesPitchAndOctave>&
                          stringToMsrSemiTonesPitchAndOctaveMapVariable);
 
-    virtual ~lilypondTransposePartIDAtom ();
+    virtual               ~lilypondTransposePartIDAtom ();
 
   public:
 
@@ -329,7 +329,7 @@ class EXP lilypondAbsoluteOctaveEntryAtom : public oahAtomWithVariableName
       string               variableName,
       lpsrOctaveEntryKind& lpsrOctaveEntryKindVariable);
 
-    virtual ~lilypondAbsoluteOctaveEntryAtom ();
+    virtual               ~lilypondAbsoluteOctaveEntryAtom ();
 
   public:
 
@@ -405,7 +405,7 @@ class EXP lilypondRelativeOctaveEntryAtom : public oahAtomWithValue
       lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
       S_msrSemiTonesPitchAndOctave& lilypondRelativeOctaveEntryVariable);
 
-    virtual ~lilypondRelativeOctaveEntryAtom ();
+    virtual               ~lilypondRelativeOctaveEntryAtom ();
 
   public:
 
@@ -495,7 +495,7 @@ class EXP lilypondFixedOctaveEntryAtom : public oahAtomWithValue
       lpsrOctaveEntryKind&          lpsrOctaveEntryKindVariable,
       S_msrSemiTonesPitchAndOctave& lilypondFixedOctaveEntryVariable);
 
-    virtual ~lilypondFixedOctaveEntryAtom ();
+    virtual               ~lilypondFixedOctaveEntryAtom ();
 
   public:
 
@@ -586,7 +586,7 @@ class EXP lilypondAccidentalStyleKindAtom : public oahAtomWithValue
       lpsrAccidentalStyleKind&
                          lilypondAccidentalStyleKindVariable);
 
-    virtual ~lilypondAccidentalStyleKindAtom ();
+    virtual               ~lilypondAccidentalStyleKindAtom ();
 
   public:
 
@@ -674,7 +674,7 @@ class EXP lilypondChordsDisplayAtom : public oahAtomWithValue
       list<pair<string, string> >&
                             lilypondChordsDisplayVariable);
 
-    virtual ~lilypondChordsDisplayAtom ();
+    virtual               ~lilypondChordsDisplayAtom ();
 
   public:
 
@@ -766,7 +766,7 @@ class EXP lilypondLyricsDurationsKindAtom : public oahAtomWithValue
       lpsrLyricsDurationsKind&
                          lilypondLyricsDurationsKindVariable);
 
-    virtual ~lilypondLyricsDurationsKindAtom ();
+    virtual               ~lilypondLyricsDurationsKindAtom ();
 
   public:
 
@@ -859,7 +859,7 @@ class EXP lpsr2lilypondOahGroup : public oahGroup
 
     lpsr2lilypondOahGroup ();
 
-    virtual ~lpsr2lilypondOahGroup ();
+    virtual               ~lpsr2lilypondOahGroup ();
 
     // set and get
     // ------------------------------------------------------
@@ -1898,7 +1898,7 @@ class EXP lilypondBreakPageAfterMeasureNumberAtom : public oahAtomWithValue
       string       variableName,
       set<string>& fStringSetVariable);
 
-    virtual ~lilypondBreakPageAfterMeasureNumberAtom ();
+    virtual               ~lilypondBreakPageAfterMeasureNumberAtom ();
 
   public:
 

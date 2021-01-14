@@ -44,7 +44,7 @@ S_msrGlissando msrGlissando::create (
       glissandoTypeKind,
       glissandoLineTypeKind,
       glissandoTextValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

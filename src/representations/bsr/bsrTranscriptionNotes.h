@@ -42,7 +42,7 @@ class EXP bsrTranscriptionNotesElement : public bsrElement
       int    inputLineNumber,
       string transcriptionNoteText);
 
-    virtual ~bsrTranscriptionNotesElement ();
+    virtual               ~bsrTranscriptionNotesElement ();
 
   public:
 
@@ -115,7 +115,7 @@ class EXP bsrTranscriptionNotes : public bsrLine
     bsrTranscriptionNotes (
       int inputLineNumber);
 
-    virtual ~bsrTranscriptionNotes ();
+    virtual               ~bsrTranscriptionNotes ();
 
   public:
 

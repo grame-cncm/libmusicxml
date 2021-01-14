@@ -48,7 +48,7 @@ class EXP mxmlTreeOahGroup : public oahGroup
 
     mxmlTreeOahGroup ();
 
-    virtual ~mxmlTreeOahGroup ();
+    virtual               ~mxmlTreeOahGroup ();
 
   public:
 

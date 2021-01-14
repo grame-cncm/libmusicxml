@@ -38,7 +38,7 @@ class EXP bsrPage : public bsrElement
       int printPageNumber,
       int linesPerPage);
 
-    virtual ~bsrPage ();
+    virtual               ~bsrPage ();
 
   public:
 

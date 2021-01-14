@@ -47,7 +47,7 @@ class EXP msr2bsrOahGroup : public oahGroup
 
     msr2bsrOahGroup ();
 
-    virtual ~msr2bsrOahGroup ();
+    virtual               ~msr2bsrOahGroup ();
 
   public:
 

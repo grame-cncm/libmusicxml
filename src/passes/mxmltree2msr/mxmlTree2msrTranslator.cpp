@@ -13756,7 +13756,7 @@ void mxmlTree2msrTranslator::visitStart( S_f& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kF,
+          kDynamicsF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13797,7 +13797,7 @@ void mxmlTree2msrTranslator::visitStart( S_ff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kFF,
+          kDynamicsFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13838,7 +13838,7 @@ void mxmlTree2msrTranslator::visitStart( S_fff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kFFF,
+          kDynamicsFFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13879,7 +13879,7 @@ void mxmlTree2msrTranslator::visitStart( S_ffff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kFFFF,
+          kDynamicsFFFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13920,7 +13920,7 @@ void mxmlTree2msrTranslator::visitStart( S_fffff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kFFFFF,
+          kDynamicsFFFFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -13961,7 +13961,7 @@ void mxmlTree2msrTranslator::visitStart( S_ffffff& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kFFFFFF,
+          kDynamicsFFFFFF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14003,7 +14003,7 @@ void mxmlTree2msrTranslator::visitStart( S_p& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kP,
+          kDynamicsP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14044,7 +14044,7 @@ void mxmlTree2msrTranslator::visitStart( S_pp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kPP,
+          kDynamicsPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14085,7 +14085,7 @@ void mxmlTree2msrTranslator::visitStart( S_ppp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kPPP,
+          kDynamicsPPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14126,7 +14126,7 @@ void mxmlTree2msrTranslator::visitStart( S_pppp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kPPPP,
+          kDynamicsPPPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14167,7 +14167,7 @@ void mxmlTree2msrTranslator::visitStart( S_ppppp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kPPPPP,
+          kDynamicsPPPPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14208,7 +14208,7 @@ void mxmlTree2msrTranslator::visitStart( S_pppppp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kPPPPPP,
+          kDynamicsPPPPPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14251,7 +14251,7 @@ void mxmlTree2msrTranslator::visitStart( S_mf& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kMF,
+          kDynamicsMF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14292,7 +14292,7 @@ void mxmlTree2msrTranslator::visitStart( S_mp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kMP,
+          kDynamicsMP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14334,7 +14334,7 @@ void mxmlTree2msrTranslator::visitStart( S_fp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kFP,
+          kDynamicsFP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14375,7 +14375,7 @@ void mxmlTree2msrTranslator::visitStart( S_fz& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kFZ,
+          kDynamicsFZ,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14417,7 +14417,7 @@ void mxmlTree2msrTranslator::visitStart( S_rf& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kRF,
+          kDynamicsRF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14459,7 +14459,7 @@ void mxmlTree2msrTranslator::visitStart( S_sf& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kSF,
+          kDynamicsSF,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14501,7 +14501,7 @@ void mxmlTree2msrTranslator::visitStart( S_rfz& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kRFZ,
+          kDynamicsRFZ,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14543,7 +14543,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfz& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kSFZ,
+          kDynamicsSFZ,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14585,7 +14585,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kSFP,
+          kDynamicsSFP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14627,7 +14627,7 @@ void mxmlTree2msrTranslator::visitStart( S_sfpp& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kSFPP,
+          kDynamicsSFPP,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -14669,7 +14669,7 @@ void mxmlTree2msrTranslator::visitStart( S_sffz& elt)
       dynamics =
         msrDynamics::create (
           inputLineNumber,
-          msrDynamics::kSFFZ,
+          kDynamicsSFFZ,
           placementKind);
 
     fPendingDynamicsList.push_back(dynamics);
@@ -16573,7 +16573,7 @@ void mxmlTree2msrTranslator::copyNoteDynamicsToChord (
     if (gGlobalTraceOahGroup->getTraceDynamics ()) {
       gLogStream <<
         "Copying dynamics '" <<
-        (*i)->dynamicsKindAsString () <<
+        dynamicsKindAsString ((*i)->getDynamicsKind ()) <<
         "' from note " << note->asString () <<
         " to chord" <<
         endl;

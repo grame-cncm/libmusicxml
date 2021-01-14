@@ -38,7 +38,7 @@ S_bsrNumber bsrNumber::create (
   bsrNumber* o =
     new bsrNumber (
       inputLineNumber, numberValue, numberSignIsNeededKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

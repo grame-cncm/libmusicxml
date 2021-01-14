@@ -62,7 +62,7 @@ class EXP msrCreditWords : public msrElement
       msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
       msrXMLLangKind             creditWordsXMLLang);
 
-    virtual ~msrCreditWords ();
+    virtual               ~msrCreditWords ();
 
   public:
 
@@ -174,7 +174,7 @@ class EXP msrCredit : public msrElement
       int inputLineNumber,
       int creditPageNumber);
 
-    virtual ~msrCredit ();
+    virtual               ~msrCredit ();
 
   public:
 

@@ -39,17 +39,17 @@ class EXP msrException: public exception
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrException (
-      string const& exceptionDescription = "",
-      int           exceptionNumber = 0,
-      int           exceptionLevel = 0
-    ) throw ()
-      : fExceptionDescription ("msrException: " + exceptionDescription),
-        fExceptionNumber (exceptionNumber),
-        fExceptionLevel (exceptionLevel)
-    {}
+                          msrException (
+                            string const& exceptionDescription = "",
+                            int           exceptionNumber = 0,
+                            int           exceptionLevel = 0
+                          ) throw ()
+                            : fExceptionDescription ("msrException: " + exceptionDescription),
+                              fExceptionNumber (exceptionNumber),
+                              fExceptionLevel (exceptionLevel)
+                          {}
 
-    virtual ~msrException () throw ()
+    virtual               ~msrException () throw ()
       {}
 
   public:

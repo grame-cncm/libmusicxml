@@ -26,16 +26,27 @@ class versionInfo
 {
   public:
 
-    versionInfo (
-      std::string versionNumber,
-      std::string versionDate,
-      std::string versionDescription);
+    // constructors/destructor
+    // ------------------------------------------------------
 
-    virtual ~versionInfo ();
+                          versionInfo (
+                            std::string versionNumber,
+                            std::string versionDate,
+                            std::string versionDescription);
 
-    void print (std::ostream& os) const;
+    virtual               ~versionInfo ();
 
   public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (std::ostream& os) const;
+
+  public:
+
+    // fields
+    // ------------------------------------------------------
 
     std::string           fVersionNumber;
     std::string           fVersionDate;

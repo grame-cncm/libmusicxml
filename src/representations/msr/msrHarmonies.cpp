@@ -45,7 +45,7 @@ S_msrHarmonyDegree msrHarmonyDegree::create (
       harmonyDegreeValue,
       harmonyDegreeAlterationKind,
       harmonyDegreeTypeKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -292,7 +292,7 @@ S_msrHarmony msrHarmony::createWithoutVoiceUplink (
       harmonyStaffNumber,
       harmonyTupletFactor,
       harmonyWholeNotesOffset);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -325,7 +325,7 @@ S_msrHarmony msrHarmony::createWithVoiceUplink (
       harmonyStaffNumber,
       harmonyTupletFactor,
       harmonyWholeNotesOffset);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

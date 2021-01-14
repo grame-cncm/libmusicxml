@@ -35,7 +35,7 @@ S_lpsrLayout lpsrLayout::create (
   lpsrLayout* o =
     new lpsrLayout (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -42,7 +42,7 @@ S_msrHumdrumScotKeyItem msrHumdrumScotKeyItem::create (
   msrHumdrumScotKeyItem* o =
     new msrHumdrumScotKeyItem (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -219,7 +219,7 @@ S_msrKey msrKey::createTraditional (
       inputLineNumber,
       keyTonicQuarterTonesPitchKind, modeKind,
       keyCancel);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -230,7 +230,7 @@ S_msrKey msrKey::createHumdrumScot (
   msrKey* o =
     new msrKey (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

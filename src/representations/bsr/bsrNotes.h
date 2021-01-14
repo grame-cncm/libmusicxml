@@ -207,7 +207,7 @@ class EXP bsrNote : public bsrLineContentsElement
       bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
       bsrAccidentalKind accidentalKind);
 
-    virtual ~bsrNote ();
+    virtual               ~bsrNote ();
 
   public:
 

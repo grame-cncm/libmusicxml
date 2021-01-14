@@ -56,7 +56,7 @@ class EXP msrSpanner : public msrElement
       msrPlacementKind   spannerPlacementKind,
       S_msrNote          spannerNoteUpLink);
 
-    virtual ~msrSpanner ();
+    virtual               ~msrSpanner ();
 
   public:
 

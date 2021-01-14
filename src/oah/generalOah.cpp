@@ -38,7 +38,7 @@ S_generalOahGroup gGlobalGeneralOahGroup;
 S_generalOahGroup generalOahGroup::create ()
 {
   generalOahGroup* o = new generalOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

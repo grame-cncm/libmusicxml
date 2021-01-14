@@ -31,7 +31,7 @@ S_lpsrUseVoiceCommand lpsrUseVoiceCommand::create (
     new lpsrUseVoiceCommand (
       inputLineNumber,
       voice);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

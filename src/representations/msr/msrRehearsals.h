@@ -57,7 +57,7 @@ class EXP msrRehearsal : public msrMeasureElement
       string           rehearsalText,
       msrPlacementKind rehearsalPlacementKind);
 
-    virtual ~msrRehearsal ();
+    virtual               ~msrRehearsal ();
 
   public:
 

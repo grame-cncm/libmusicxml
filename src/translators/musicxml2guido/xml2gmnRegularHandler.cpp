@@ -42,6 +42,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
@@ -241,9 +242,8 @@ void xml2gmnRegularHandler::createFilesRegularGroup ()
 
   // atoms
 
-// JMI BLARK
-//  registerAtomInRegularSubgroup ("output-file-name", subGroup);
-//  registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
+  registerAtomInRegularSubgroup ("output-file-name", subGroup);
+  registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
 }
 
 void xml2gmnRegularHandler::createOahRegularGroup ()
@@ -1170,9 +1170,6 @@ void xml2gmnRegularHandler::createOutputRegularGroup ()
     appendSubGroupToGroup (subGroup);
 
   // atoms
-
-  registerAtomInRegularSubgroup ("output-file-name", subGroup);
-  registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
 
   registerAtomInRegularSubgroup ("generate-comments", subGroup);
   registerAtomInRegularSubgroup ("generate-stem", subGroup);

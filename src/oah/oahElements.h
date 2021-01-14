@@ -90,7 +90,7 @@ class EXP oahElement : public smartable
       oahElementKind           elementKind,
       oahElementVisibilityKind elementVisibilityKind);
 
-    virtual ~oahElement ();
+    virtual               ~oahElement ();
 
   public:
 
@@ -268,7 +268,7 @@ class EXP oahElementUse : public smartable
       string       nameUsed,
       string       valueUsed);
 
-    virtual ~oahElementUse ();
+    virtual               ~oahElementUse ();
 
   public:
 
@@ -325,7 +325,7 @@ template <typename T> class oahBrowser : public browser<T>
     oahBrowser (basevisitor* v) : fVisitor (v)
     {}
 
-    virtual ~oahBrowser ()
+    virtual               ~oahBrowser ()
     {}
 
     virtual void          set (basevisitor* v)
@@ -348,7 +348,7 @@ template <typename T> class oahBrowser : public browser <T>
 
     oahBrowser (basevisitor* v) : fVisitor (v) {}
 
-    virtual ~oahBrowser () {}
+    virtual               ~oahBrowser () {}
 
   public:
 

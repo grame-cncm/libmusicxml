@@ -48,7 +48,7 @@ class EXP xml2lyInsiderHandler : public oahInsiderHandler
       string                 handlerHeader,
       oahHandlerUsedThruKind handlerUsedThruKind);
 
-    virtual ~xml2lyInsiderHandler ();
+    virtual               ~xml2lyInsiderHandler ();
 
   private:
 
@@ -128,7 +128,7 @@ class EXP xml2lyInsiderOahGroup : public oahGroup
 
     xml2lyInsiderOahGroup ();
 
-    virtual ~xml2lyInsiderOahGroup ();
+    virtual               ~xml2lyInsiderOahGroup ();
 
   public:
 

@@ -49,11 +49,11 @@ class EXP msrTie : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTie (
-      int        inputLineNumber,
-      msrTieKind tieKind);
+                          msrTie (
+                            int        inputLineNumber,
+                            msrTieKind tieKind);
 
-    virtual ~msrTie ();
+    virtual               ~msrTie ();
 
   public:
 

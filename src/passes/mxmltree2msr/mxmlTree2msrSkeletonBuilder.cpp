@@ -51,7 +51,7 @@ S_mxmlPartGroupDescr mxmlPartGroupDescr::create (
       partGroupNumber,
       partGroup,
       startPosition);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -43,7 +43,7 @@ S_msrSpanner msrSpanner::create (
       spannerTypeKind,
       spannerPlacementKind,
       spannerNoteUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

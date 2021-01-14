@@ -40,7 +40,7 @@ S_msrLineBreak msrLineBreak::create (
   msrLineBreak* o =
     new msrLineBreak (
       inputLineNumber, nextBarNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -141,7 +141,7 @@ S_msrPageBreak msrPageBreak::create (
   msrPageBreak* o =
     new msrPageBreak (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

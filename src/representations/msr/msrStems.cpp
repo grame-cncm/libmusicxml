@@ -35,7 +35,7 @@ S_msrStem msrStem::create (
   msrStem* o =
     new msrStem (
       inputLineNumber, stemKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

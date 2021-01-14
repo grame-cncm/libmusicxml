@@ -53,7 +53,7 @@ S_msrOmitPartAtom msrOmitPartAtom::create (
       valueSpecification,
       variableName,
       stringSetVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -339,7 +339,7 @@ S_msrKeepPartAtom msrKeepPartAtom::create (
       valueSpecification,
       variableName,
       stringSetVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -615,7 +615,7 @@ S_msr2msrOahGroup gGlobalMsr2msrOahGroup;
 S_msr2msrOahGroup msr2msrOahGroup::create ()
 {
   msr2msrOahGroup* o = new msr2msrOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

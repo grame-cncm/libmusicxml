@@ -50,7 +50,7 @@ class EXP msrOrnament : public msrElement
       msrOrnamentKind  ornamentKind,
       msrPlacementKind ornamentPlacementKind);
 
-    virtual ~msrOrnament ();
+    virtual               ~msrOrnament ();
 
   public:
 

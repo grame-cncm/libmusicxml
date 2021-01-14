@@ -41,7 +41,7 @@ class EXP msrElement : public smartable
     msrElement (
       int inputLineNumber);
 
-    virtual ~msrElement ();
+    virtual               ~msrElement ();
 
   public:
 
@@ -97,7 +97,7 @@ template <typename T> class msrBrowser : public browser <T>
 
     msrBrowser (basevisitor* v) : fVisitor (v) {}
 
-    virtual ~msrBrowser () {}
+    virtual               ~msrBrowser () {}
 
   public:
 

@@ -48,9 +48,9 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    Mikrokosmos3WanderingOahGroup ();
+                          Mikrokosmos3WanderingOahGroup ();
 
-    virtual ~Mikrokosmos3WanderingOahGroup ();
+    virtual               ~Mikrokosmos3WanderingOahGroup ();
 
   public:
 
@@ -159,18 +159,6 @@ class EXP Mikrokosmos3WanderingOahGroup : public oahGroup
     void                  initializeGenerationAPIOptions ();
 
     void                  initializeGenerateCodeOptions ();
-
-    void                  initializeBrailleEncodingOptions ();
-
-    void                  initializeBrailleByteOrderingOptions ();
-
-    void                  initializeBrailleMusicFileNameOptions ();
-
-    void                  initializeBraillePageParametersOptions ();
-
-    void                  initializeBrailleCodeGenerationOptions ();
-    /* JMI
-    */
 
   public:
 

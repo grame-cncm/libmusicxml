@@ -37,7 +37,7 @@ class EXP msrRepeatCoda : public msrElement
       S_msrSegment segment,
       S_msrRepeat  repeatUpLink);
 
-    virtual ~msrRepeatCoda ();
+    virtual               ~msrRepeatCoda ();
 
   public:
 

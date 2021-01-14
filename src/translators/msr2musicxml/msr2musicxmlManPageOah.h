@@ -46,7 +46,7 @@ class EXP msr2musicxmlManPageGenerateAtom : public oahAtom
       string                 description,
       S_oahVisitor           theOahVisitor);
 
-    virtual ~msr2musicxmlManPageGenerateAtom ();
+    virtual               ~msr2musicxmlManPageGenerateAtom ();
 
   public:
 
@@ -124,7 +124,7 @@ class EXP msr2musicxmlManPageOahGroup : public oahGroup
     msr2musicxmlManPageOahGroup (
       S_oahVisitor theOah2manPageGenerator);
 
-    virtual ~msr2musicxmlManPageOahGroup ();
+    virtual               ~msr2musicxmlManPageOahGroup ();
 
   public:
 

@@ -41,6 +41,7 @@ using namespace MusicXML2;
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gLogStream has been initialized
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //_______________________________________________________________________________

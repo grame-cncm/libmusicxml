@@ -199,7 +199,7 @@ S_bsrWords bsrWords::create (
   bsrWords* o =
     new bsrWords (
       inputLineNumber, wordContents);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

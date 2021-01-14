@@ -54,7 +54,7 @@ S_msrTuplet msrTuplet::create (
       tupletFactor,
       memberNotesSoundingWholeNotes,
       memberNotesDisplayWholeNotes);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

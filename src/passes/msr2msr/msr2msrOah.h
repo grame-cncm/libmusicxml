@@ -52,7 +52,7 @@ class EXP msrOmitPartAtom : public oahAtomWithValue
       string       variableName,
       set<string>& stringSetVariable);
 
-    virtual ~msrOmitPartAtom ();
+    virtual               ~msrOmitPartAtom ();
 
   public:
 
@@ -138,7 +138,7 @@ class EXP msrKeepPartAtom : public oahAtomWithValue
       string       variableName,
       set<string>& stringSetVariable);
 
-    virtual ~msrKeepPartAtom ();
+    virtual               ~msrKeepPartAtom ();
 
   public:
 
@@ -219,7 +219,7 @@ class EXP msr2msrOahGroup : public oahGroup
 
     msr2msrOahGroup ();
 
-    virtual ~msr2msrOahGroup ();
+    virtual               ~msr2msrOahGroup ();
 
   public:
 

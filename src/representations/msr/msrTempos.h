@@ -49,7 +49,7 @@ class EXP msrTempoNote : public msrElement
       rational tempoNoteWholeNotes,
       bool     tempoNoteBelongsToATuplet);
 
-    virtual ~msrTempoNote ();
+    virtual               ~msrTempoNote ();
 
   public:
 
@@ -159,7 +159,7 @@ class EXP msrTempoTuplet : public msrElement
       msrTupletFactor              tempoTupletFactor,
       rational                     memberNotesDisplayWholeNotes);
 
-    virtual ~msrTempoTuplet ();
+    virtual               ~msrTempoTuplet ();
 
   public:
 
@@ -293,7 +293,7 @@ class EXP msrTempoRelationshipElements : public msrElement
       msrTempoRelationshipElementsKind
                tempoRelationshipElementsKind);
 
-    virtual ~msrTempoRelationshipElements ();
+    virtual               ~msrTempoRelationshipElements ();
 
   public:
 
@@ -445,7 +445,7 @@ class EXP msrTempo : public msrMeasureElement
                         tempoParenthesizedKind,
       msrPlacementKind  tempoPlacementKind);
 
-    virtual ~msrTempo ();
+    virtual               ~msrTempo ();
 
   public:
 

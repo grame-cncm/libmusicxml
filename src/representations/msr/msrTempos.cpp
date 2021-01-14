@@ -46,7 +46,7 @@ S_msrTempoNote msrTempoNote::create (
       inputLineNumber,
       tempoNoteWholeNotes,
       tempoNoteBelongsToATuplet);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -211,7 +211,7 @@ S_msrTempoTuplet msrTempoTuplet::create (
       tempoTupletShowNumberKind,
       tempoTupletFactor,
       memberNotesDisplayWholeNotes);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -768,7 +768,7 @@ S_msrTempoRelationshipElements msrTempoRelationshipElements::create (
     new msrTempoRelationshipElements (
       inputLineNumber,
       tempoRelationshipElementsKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -953,7 +953,7 @@ S_msrTempo msrTempo::create (
     new msrTempo (
       inputLineNumber,
       tempoWords);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -973,7 +973,7 @@ S_msrTempo msrTempo::create (
       tempoPerMinute,
       tempoParenthesizedKind,
       tempoPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -992,7 +992,7 @@ S_msrTempo msrTempo::create (
       tempoEquivalentBeatUnit,
       tempoParenthesizedKind,
       tempoPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1013,7 +1013,7 @@ S_msrTempo msrTempo::create (
       tempoRelationRightElements,
       tempoParenthesizedKind,
       tempoPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -38,7 +38,7 @@ S_bsrPageHeading bsrPageHeading::create (
     new bsrPageHeading (
       inputLineNumber,
       pageHeadingTitle, pageHeadingPagination, pageHeadingNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -53,7 +53,7 @@ S_msrPitchesLanguageAtom msrPitchesLanguageAtom::create (
       valueSpecification,
       variableName,
       optionsMsrPitchesLanguageKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -291,7 +291,7 @@ S_msrRenamePartAtom msrRenamePartAtom::create (
       valueSpecification,
       variableName,
       stringToStringMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -625,7 +625,7 @@ S_msrOahGroup gGlobalMsrOahGroup;
 S_msrOahGroup msrOahGroup::create ()
 {
   msrOahGroup* o = new msrOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

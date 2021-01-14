@@ -62,7 +62,7 @@ class EXP msrScore : public msrElement
     msrScore (
       int inputLineNumber);
 
-    virtual ~msrScore ();
+    virtual               ~msrScore ();
 
   public:
 

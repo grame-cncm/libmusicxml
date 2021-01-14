@@ -41,7 +41,7 @@ S_msrPageLayout msrPageLayout::create (
   msrPageLayout* o =
     new msrPageLayout (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -346,7 +346,7 @@ S_msrSystemLayout msrSystemLayout::create (
   msrSystemLayout* o =
     new msrSystemLayout (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -497,7 +497,7 @@ S_msrSystemDividers msrSystemDividers::create (
   msrSystemDividers* o =
     new msrSystemDividers (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -605,7 +605,7 @@ S_msrStaffLayout msrStaffLayout::create (
     new msrStaffLayout (
       inputLineNumber,
       staffNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -719,7 +719,7 @@ S_msrMeasureLayout msrMeasureLayout::create (
   msrMeasureLayout* o =
     new msrMeasureLayout (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -821,7 +821,7 @@ S_msrPrintLayout msrPrintLayout::create (
   msrPrintLayout* o =
     new msrPrintLayout (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1057,7 +1057,7 @@ S_msrLineWidth msrLineWidth::create (
       inputLineNumber,
       lineWidthTypeKind,
       lineWidthValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1269,7 +1269,7 @@ S_msrNoteSize msrNoteSize::create (
       inputLineNumber,
       noteSizeTypeKind,
       noteSizeValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1420,7 +1420,7 @@ S_msrDistance msrDistance::create (
       inputLineNumber,
       distanceTypeKind,
       distanceValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1568,7 +1568,7 @@ S_msrGlyph msrGlyph::create (
       inputLineNumber,
       glyphTypeKind,
       glyphValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1755,7 +1755,7 @@ S_msrOtherAppearance msrOtherAppearance::create (
       inputLineNumber,
       otherAppearanceTypeKind,
       otherAppearanceValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1893,7 +1893,7 @@ S_msrAppearance msrAppearance::create (
   msrAppearance* o =
     new msrAppearance (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

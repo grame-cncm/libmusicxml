@@ -46,7 +46,7 @@ S_msrPart msrPart::create (
       inputLineNumber,
       partID,
       partPartGroupUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

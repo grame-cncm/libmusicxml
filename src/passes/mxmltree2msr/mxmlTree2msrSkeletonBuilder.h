@@ -48,7 +48,7 @@ struct mxmlPartGroupDescr : public smartable
       S_msrPartGroup partGroup,
       int            startPosition);
 
-    virtual ~mxmlPartGroupDescr ();
+    virtual               ~mxmlPartGroupDescr ();
 
   public:
 
@@ -249,7 +249,7 @@ class EXP mxmlTree2msrSkeletonBuilder :
 
     mxmlTree2msrSkeletonBuilder ();
 
-    virtual ~mxmlTree2msrSkeletonBuilder ();
+    virtual               ~mxmlTree2msrSkeletonBuilder ();
 
     // set and get
     // ------------------------------------------------------

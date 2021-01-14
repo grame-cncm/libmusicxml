@@ -1680,12 +1680,12 @@ bsrNote::bsrNoteOctaveIsNeeded msr2bsrTranslator::brailleOctaveMarkInNeeded (
     noteAboluteDiatonicOrdinal =
       noteAbsoluteOctaveKind * 7
         +
-      noteDiatonicPitchKind - kC,
+      noteDiatonicPitchKind - kDiatonicPitchC,
 
     referenceAboluteDiatonicOrdinal =
       referenceAbsoluteOctaveKind * 7
         +
-      referenceDiatonicPitchKind - kC;
+      referenceDiatonicPitchKind - kDiatonicPitchC;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotesDetails ()) {
@@ -1990,7 +1990,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
       case k_NoDiatonicPitch:
         break;
 
-      case kA:
+      case kDiatonicPitchA:
         switch (noteGraphicDurationKind) {
           case k_NoDuration:
             break;
@@ -2036,7 +2036,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kB:
+      case kDiatonicPitchB:
         switch (noteGraphicDurationKind) {
           case k_NoDuration:
             break;
@@ -2082,7 +2082,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kC:
+      case kDiatonicPitchC:
         switch (noteGraphicDurationKind) {
           case k_NoDuration:
             break;
@@ -2128,7 +2128,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kD:
+      case kDiatonicPitchD:
         switch (noteGraphicDurationKind) {
           case k_NoDuration:
             break;
@@ -2174,7 +2174,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kE:
+      case kDiatonicPitchE:
         switch (noteGraphicDurationKind) {
           case k_NoDuration:
             break;
@@ -2220,7 +2220,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kF:
+      case kDiatonicPitchF:
         switch (noteGraphicDurationKind) {
           case k_NoDuration:
             break;
@@ -2266,7 +2266,7 @@ void msr2bsrTranslator::createBsrForNote (S_msrNote note)
         } // switch
         break;
 
-      case kG:
+      case kDiatonicPitchG:
         switch (noteGraphicDurationKind) {
           case k_NoDuration:
             break;

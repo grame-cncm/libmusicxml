@@ -43,7 +43,7 @@ class EXP lilypondOahGroup : public oahGroup
 
     lilypondOahGroup ();
 
-    virtual ~lilypondOahGroup ();
+    virtual               ~lilypondOahGroup ();
 
   public:
 

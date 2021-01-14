@@ -46,7 +46,7 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
       int        inputLineNumber,
       S_msrVoice voice);
 
-    virtual ~lpsrUseVoiceCommand ();
+    virtual               ~lpsrUseVoiceCommand ();
 
   public:
 

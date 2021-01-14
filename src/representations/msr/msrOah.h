@@ -56,7 +56,7 @@ class EXP msrPitchesLanguageAtom : public oahAtomWithValue
       msrQuarterTonesPitchesLanguageKind&
                          msrMsrPitchesLanguageKindVariable);
 
-    virtual ~msrPitchesLanguageAtom ();
+    virtual               ~msrPitchesLanguageAtom ();
 
   public:
 
@@ -142,7 +142,7 @@ class EXP msrRenamePartAtom : public oahAtomWithValue
       string               variableName,
       map<string, string>& stringToStringMapVariable);
 
-    virtual ~msrRenamePartAtom ();
+    virtual               ~msrRenamePartAtom ();
 
   public:
 
@@ -217,7 +217,7 @@ class EXP msrOahGroup : public oahGroup
 
     msrOahGroup ();
 
-    virtual ~msrOahGroup ();
+    virtual               ~msrOahGroup ();
 
     // set and get
     // ------------------------------------------------------

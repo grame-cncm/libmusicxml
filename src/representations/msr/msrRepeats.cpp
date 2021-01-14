@@ -57,7 +57,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::create (
     new msrRepeatCommonPart (
       inputLineNumber,
       repeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -494,7 +494,7 @@ S_msrRepeatEnding msrRepeatEnding::create (
       repeatEndingNumber,
       repeatEndingKind,
       repeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -904,7 +904,7 @@ S_msrRepeat msrRepeat::create (
       inputLineNumber,
       repeatTimes,
       voiceUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1924,7 +1924,7 @@ S_msrRepeatElement msrRepeatElement::create (
     new msrRepeatElement (
       inputLineNumber,
       repeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

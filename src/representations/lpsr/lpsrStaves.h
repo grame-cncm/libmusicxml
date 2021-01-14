@@ -44,7 +44,7 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
     lpsrNewStaffgroupBlock (
       int inputLineNumber);
 
-    virtual ~lpsrNewStaffgroupBlock ();
+    virtual               ~lpsrNewStaffgroupBlock ();
 
   public:
 
@@ -104,7 +104,7 @@ class EXP lpsrNewStaffTuningBlock : public lpsrElement
       int              inputLineNumber,
       S_msrStaffTuning staffTuning);
 
-    virtual ~lpsrNewStaffTuningBlock ();
+    virtual               ~lpsrNewStaffTuningBlock ();
 
   public:
 
@@ -165,7 +165,7 @@ class EXP lpsrNewStaffBlock : public lpsrElement
     lpsrNewStaffBlock (
       int inputLineNumber);
 
-    virtual ~lpsrNewStaffBlock ();
+    virtual               ~lpsrNewStaffBlock ();
 
   public:
 
@@ -223,7 +223,7 @@ class EXP lpsrStaffBlock : public lpsrElement
     lpsrStaffBlock (
       S_msrStaff staff);
 
-    virtual ~lpsrStaffBlock ();
+    virtual               ~lpsrStaffBlock ();
 
   public:
 

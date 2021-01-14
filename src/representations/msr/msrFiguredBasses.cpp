@@ -46,7 +46,7 @@ S_msrFigure msrFigure::create (
       figurePrefixKind,
       figureNumber,
       figureSuffixKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -328,7 +328,7 @@ S_msrFiguredBass msrFiguredBass::create (
       rational (0, 1),           // figuredBassDisplayWholeNotes
       kFiguredBassParenthesesNo,
       msrTupletFactor (1, 1));
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -349,7 +349,7 @@ S_msrFiguredBass msrFiguredBass::create (
       figuredBassDisplayWholeNotes,
       figuredBassParenthesesKind,
       figuredBassTupletFactor);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

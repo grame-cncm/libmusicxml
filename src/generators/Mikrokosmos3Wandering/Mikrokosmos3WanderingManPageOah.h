@@ -40,13 +40,13 @@ class EXP Mikrokosmos3WanderingManPageGenerateAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    Mikrokosmos3WanderingManPageGenerateAtom (
-      string                 shortName,
-      string                 longName,
-      string                 description,
-      S_oahVisitor           theOahVisitor);
+                          Mikrokosmos3WanderingManPageGenerateAtom (
+                            string                 shortName,
+                            string                 longName,
+                            string                 description,
+                            S_oahVisitor           theOahVisitor);
 
-    virtual ~Mikrokosmos3WanderingManPageGenerateAtom ();
+    virtual               ~Mikrokosmos3WanderingManPageGenerateAtom ();
 
   public:
 
@@ -125,7 +125,7 @@ class EXP Mikrokosmos3WanderingManPageOahGroup : public oahGroup
     Mikrokosmos3WanderingManPageOahGroup (
       S_oahVisitor theOah2manPageGenerator);
 
-    virtual ~Mikrokosmos3WanderingManPageOahGroup ();
+    virtual               ~Mikrokosmos3WanderingManPageOahGroup ();
 
   public:
 

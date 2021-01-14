@@ -47,7 +47,7 @@ class EXP brailleOahGroup : public oahGroup
 
     brailleOahGroup ();
 
-    virtual ~brailleOahGroup ();
+    virtual               ~brailleOahGroup ();
 
     // set and get
     // ------------------------------------------------------

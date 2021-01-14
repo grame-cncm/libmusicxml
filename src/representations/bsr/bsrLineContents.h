@@ -51,7 +51,7 @@ class EXP bsrLineContents : public bsrElement
       int                 inputLineNumber,
       bsrLineContentsKind lineContentsKind);
 
-    virtual ~bsrLineContents ();
+    virtual               ~bsrLineContents ();
 
   public:
 

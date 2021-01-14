@@ -48,7 +48,7 @@ class EXP msrMidiTempo : public msrElement
 
     msrMidiTempo ();
 
-    virtual ~msrMidiTempo ();
+    virtual               ~msrMidiTempo ();
 
   public:
 

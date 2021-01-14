@@ -87,7 +87,7 @@ class EXP msrChord : public msrTupletElement
       rational        chordDisplayWholeNotes,
       msrDurationKind chordGraphicDurationKind);
 
-    virtual ~msrChord ();
+    virtual               ~msrChord ();
 
   public:
 
@@ -616,7 +616,7 @@ class EXP msrChordBeamLink : public msrElement
       S_msrBeam  originalBeam,
       S_msrChord chordUpLink);
 
-    virtual ~msrChordBeamLink ();
+    virtual               ~msrChordBeamLink ();
 
   public:
 
@@ -688,7 +688,7 @@ class EXP msrChordSlurLink : public msrElement
       S_msrSlur  originalSlur,
       S_msrChord chordUpLink);
 
-    virtual ~msrChordSlurLink ();
+    virtual               ~msrChordSlurLink ();
 
   public:
 
@@ -760,7 +760,7 @@ class EXP msrChordGraceNotesGroupLink : public msrElement
       S_msrGraceNotesGroup originalGraceNotesGroup,
       S_msrChord            chordUpLink);
 
-    virtual ~msrChordGraceNotesGroupLink ();
+    virtual               ~msrChordGraceNotesGroupLink ();
 
   public:
 

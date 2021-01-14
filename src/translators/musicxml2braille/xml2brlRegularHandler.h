@@ -46,13 +46,13 @@ class EXP xml2brlRegularHandler : public oahRegularHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2brlRegularHandler (
-      string      executableName,
-      string      handlerHeader,
-      S_xml2brlInsiderHandler
-                  insiderOahHandler);
+                          xml2brlRegularHandler (
+                            string      executableName,
+                            string      handlerHeader,
+                            S_xml2brlInsiderHandler
+                                        insiderOahHandler);
 
-    virtual ~xml2brlRegularHandler ();
+    virtual               ~xml2brlRegularHandler ();
 
   public:
 

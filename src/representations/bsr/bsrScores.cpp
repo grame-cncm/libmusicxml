@@ -36,7 +36,7 @@ S_bsrScore bsrScore::create (
 {
   bsrScore* o = new bsrScore (
     inputLineNumber, theMsrScore);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

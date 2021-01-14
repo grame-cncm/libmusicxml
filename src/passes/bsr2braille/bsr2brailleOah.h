@@ -25,6 +25,19 @@
 namespace MusicXML2
 {
 
+#define K_BRAILLE_OUTPUT_KIND_SHORT_NAME  "bok"
+#define K_BRAILLE_OUTPUT_KIND_LONG_NAME   "braille-output-kind"
+
+#define K_BRAILLE_USE_ENCODING_IN_FILE_NAME_SHORT_NAME \
+                                          "ueifn"
+#define K_BRAILLE_USE_ENCODING_IN_FILE_NAME_LONG_NAME \
+                                          "use-encoding-in-file-name"
+
+#define K_BRAILLE_BYTE_ORDERING_MARK_SHORT_NAME \
+                                          "bom"
+#define K_BRAILLE_BYTE_ORDERING_MARK_LONG_NAME \
+                                          "byte-ordering-mark"
+
 //______________________________________________________________________________
 class EXP brailleOutputKindAtom : public oahAtomWithValue
 {
@@ -46,15 +59,15 @@ class EXP brailleOutputKindAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    brailleOutputKindAtom (
-      const string&         shortName,
-      const string&         longName,
-      const string&         description,
-      const string&         valueSpecification,
-      const string&         variableName,
-      bsrBrailleOutputKind& brailleOutputKindVariable);
+                          brailleOutputKindAtom (
+                            const string&         shortName,
+                            const string&         longName,
+                            const string&         description,
+                            const string&         valueSpecification,
+                            const string&         variableName,
+                            bsrBrailleOutputKind& brailleOutputKindVariable);
 
-    virtual ~brailleOutputKindAtom ();
+    virtual               ~brailleOutputKindAtom ();
 
   public:
 
@@ -125,15 +138,15 @@ class EXP brailleUTFKindAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    brailleUTFKindAtom (
-      string      shortName,
-      string      longName,
-      string      description,
-      string      valueSpecification,
-      string      variableName,
-      bsrUTFKind& brailleUTFKindVariable);
+                          brailleUTFKindAtom (
+                            string      shortName,
+                            string      longName,
+                            string      description,
+                            string      valueSpecification,
+                            string      variableName,
+                            bsrUTFKind& brailleUTFKindVariable);
 
-    virtual ~brailleUTFKindAtom ();
+    virtual               ~brailleUTFKindAtom ();
 
   public:
 
@@ -204,15 +217,15 @@ class EXP brailleByteOrderingKindAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    brailleByteOrderingKindAtom (
-      string               shortName,
-      string               longName,
-      string               description,
-      string               valueSpecification,
-      string               variableName,
-      bsrByteOrderingKind& brailleByteOrderingKindVariable);
+                          brailleByteOrderingKindAtom (
+                            string               shortName,
+                            string               longName,
+                            string               description,
+                            string               valueSpecification,
+                            string               variableName,
+                            bsrByteOrderingKind& brailleByteOrderingKindVariable);
 
-    virtual ~brailleByteOrderingKindAtom ();
+    virtual               ~brailleByteOrderingKindAtom ();
 
   public:
 
@@ -282,9 +295,9 @@ class EXP bsr2brailleOahGroup : public oahGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsr2brailleOahGroup ();
+                          bsr2brailleOahGroup ();
 
-    virtual ~bsr2brailleOahGroup ();
+    virtual               ~bsr2brailleOahGroup ();
 
   public:
 

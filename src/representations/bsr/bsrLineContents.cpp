@@ -51,7 +51,7 @@ S_bsrLineContents bsrLineContents::create (
     new bsrLineContents (
       inputLineNumber,
       lineContentsKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

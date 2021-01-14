@@ -46,7 +46,7 @@ S_msrDoubleTremolo msrDoubleTremolo::create (
       doubleTremoloTypeKind,
       doubleTremoloMarksNumber,
       doubleTremoloPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

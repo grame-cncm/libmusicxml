@@ -72,7 +72,7 @@ class EXP bsrBrailleGenerator : public smartable
     bsrBrailleGenerator (
       ostream& brailleOutputStream);
 
-    virtual ~bsrBrailleGenerator ();
+    virtual               ~bsrBrailleGenerator ();
 
   public:
 
@@ -134,7 +134,7 @@ class EXP bsrAsciiBrailleGenerator : public bsrBrailleGenerator
     bsrAsciiBrailleGenerator (
       ostream& brailleOutputStream);
 
-    virtual ~bsrAsciiBrailleGenerator ();
+    virtual               ~bsrAsciiBrailleGenerator ();
 
   public:
 
@@ -189,7 +189,7 @@ class EXP bsrUTF8BrailleGenerator : public bsrBrailleGenerator
       bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
 
-    virtual ~bsrUTF8BrailleGenerator ();
+    virtual               ~bsrUTF8BrailleGenerator ();
 
   public:
 
@@ -249,7 +249,7 @@ class EXP bsrUTF8DebugBrailleGenerator : public bsrUTF8BrailleGenerator
       bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
 
-    virtual ~bsrUTF8DebugBrailleGenerator ();
+    virtual               ~bsrUTF8DebugBrailleGenerator ();
 
   public:
 
@@ -305,7 +305,7 @@ class EXP bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
       bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
 
-    virtual ~bsrUTF16BigEndianBrailleGenerator ();
+    virtual               ~bsrUTF16BigEndianBrailleGenerator ();
 
   public:
 
@@ -365,7 +365,7 @@ class EXP bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
       bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
 
-    virtual ~bsrUTF16SmallEndianBrailleGenerator ();
+    virtual               ~bsrUTF16SmallEndianBrailleGenerator ();
 
   public:
 

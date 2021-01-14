@@ -47,7 +47,7 @@ class EXP bsrLine : public bsrPageElement
       int printLineNumber,
       int cellsPerLine);
 
-    virtual ~bsrLine ();
+    virtual               ~bsrLine ();
 
   public:
 

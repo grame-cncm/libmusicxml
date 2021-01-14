@@ -36,7 +36,7 @@ S_bsrPage bsrPage::create (
   bsrPage* o =
     new bsrPage (
       inputLineNumber, printPageNumber, linesPerPage);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

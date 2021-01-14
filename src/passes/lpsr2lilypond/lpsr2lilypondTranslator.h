@@ -47,7 +47,7 @@ struct lpsrRepeatDescr : public smartable
       S_msrRepeat repeat,
       int         repeatEndingsNumber);
 
-    virtual ~lpsrRepeatDescr ();
+    virtual               ~lpsrRepeatDescr ();
 
   public:
 
@@ -383,7 +383,7 @@ class EXP lpsr2lilypondTranslator :
       S_lpsrOahGroup& lpsrOpts,
       ostream&        lilypondCodeStream);
 
-    virtual ~lpsr2lilypondTranslator ();
+    virtual               ~lpsr2lilypondTranslator ();
 
     void generateLilypondCodeFromLpsrScore ();
 

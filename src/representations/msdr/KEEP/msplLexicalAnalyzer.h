@@ -64,7 +64,7 @@ class msplTokenDescription
 
     msplLexicalAnalyzer ();
 
-    virtual ~msplLexicalAnalyzer ();
+    virtual               ~msplLexicalAnalyzer ();
 
   public:
 
@@ -103,7 +103,7 @@ class msplLexicalAnalyzer : smartable
 
     msplLexicalAnalyzer ();
 
-    virtual ~msplLexicalAnalyzer ();
+    virtual               ~msplLexicalAnalyzer ();
 
   public:
 

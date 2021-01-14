@@ -12,7 +12,7 @@
 
 #include "visitor.h"
 
-#include "msrBasicTypes.h"  // for " K_NAMES_LIST_MAX_LENGTH
+#include "msrBasicTypes.h"        // for " K_NAMES_LIST_MAX_LENGTH
 
 #include "generatorsBasicTypes.h"
 
@@ -161,7 +161,7 @@ S_generatorOutputKindAtom generatorOutputKindAtom::create (
       valueSpecification,
       variableName,
       generatorOutputKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

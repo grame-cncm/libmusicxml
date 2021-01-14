@@ -39,8 +39,31 @@ S_msrDynamics msrDynamics::create (
       inputLineNumber,
       dynamicsKind,
       dynamicsPlacementKind);
-    assert (o!=0);
+    assert (o != nullptr);
   return o;
+}
+
+S_msrDynamics msrDynamics::createDynamicsFromString (
+  int              inputLineNumber,
+  string           dynamicsString,
+  msrPlacementKind dynamicsPlacementKind)
+{
+#ifdef TRACING_IS_ENABLED
+  if (gGlobalTraceOahGroup->getTraceDynamicss ()) {
+    gLogStream <<
+      "Creating dynamics from string \"" <<
+      dynamicsString <<
+      "\", dynamicsMeasureNumber: '" << dynamicsMeasureNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  return
+    msrDynamics::create (
+      inputLineNumber,
+      dynamicsFromString (dynamicsString),
+      dynamicsPlacementKind);
 }
 
 msrDynamics::msrDynamics (
@@ -56,105 +79,6 @@ msrDynamics::msrDynamics (
 
 msrDynamics::~msrDynamics ()
 {}
-
-string msrDynamics::dynamicsKindAsString (
-  msrDynamicsKind dynamicsKind)
-{
-  string result;
-
-  switch (dynamicsKind) {
-    case msrDynamics::kF:
-      result = "f";
-      break;
-    case msrDynamics::kFF:
-      result = "ff";
-      break;
-    case msrDynamics::kFFF:
-      result = "fff";
-      break;
-    case msrDynamics::kFFFF:
-      result = "ffff";
-      break;
-    case msrDynamics::kFFFFF:
-      result = "fffff";
-      break;
-    case msrDynamics::kFFFFFF:
-      result = "ffffff";
-      break;
-
-    case msrDynamics::kP:
-      result = "p";
-      break;
-    case msrDynamics::kPP:
-      result = "pp";
-      break;
-    case msrDynamics::kPPP:
-      result = "ppp";
-      break;
-    case msrDynamics::kPPPP:
-      result = "pppp";
-      break;
-    case msrDynamics::kPPPPP:
-      result = "ppppp";
-      break;
-    case msrDynamics::kPPPPPP:
-      result = "pppppp";
-      break;
-
-    case msrDynamics::kMF:
-      result = "mf";
-      break;
-    case msrDynamics::kMP:
-      result = "mp";
-      break;
-    case msrDynamics::kFP:
-      result = "fp";
-      break;
-    case msrDynamics::kFZ:
-      result = "fz";
-      break;
-    case msrDynamics::kRF:
-      result = "rf";
-      break;
-    case msrDynamics::kSF:
-      result = "sf";
-      break;
-
-    case msrDynamics::kRFZ:
-      result = "rfz";
-      break;
-    case msrDynamics::kSFZ:
-      result = "sfz";
-      break;
-    case msrDynamics::kSFP:
-      result = "sfp";
-      break;
-    case msrDynamics::kSFPP:
-      result = "sfpp";
-      break;
-    case msrDynamics::kSFFZ:
-      result = "sffz";
-      break;
-    case msrDynamics::k_NoDynamics:
-      result = "k_NoDynamics???";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrDynamics::dynamicsKindAsString () const
-{
-  return
-    dynamicsKindAsString (fDynamicsKind);
-}
-
-string msrDynamics::dynamicsPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fDynamicsPlacementKind);
-}
 
 void msrDynamics::acceptIn (basevisitor* v)
 {
@@ -208,9 +132,9 @@ void msrDynamics::print (ostream& os) const
 {
   os <<
     "Dynamics" " " <<
-    dynamicsKindAsString () <<
+    dynamicsKindAsString (fDynamicsKind) <<
     ", dynamicsPlacementKind: " <<
-    dynamicsPlacementKindAsString () <<
+    msrPlacementKindAsString (fDynamicsPlacementKind) <<
     ", line " << fInputLineNumber <<
     endl;
 }
@@ -232,7 +156,7 @@ S_msrOtherDynamics msrOtherDynamics::create (
       inputLineNumber,
       otherDynamicsString,
       otherDynamicsPlacementKind);
-    assert (o!=0);
+    assert (o != nullptr);
   return o;
 }
 
@@ -249,13 +173,6 @@ msrOtherDynamics::msrOtherDynamics (
 
 msrOtherDynamics::~msrOtherDynamics ()
 {}
-
-string msrOtherDynamics::otherDynamicsPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fOtherDynamicsPlacementKind);
-}
 
 void msrOtherDynamics::acceptIn (basevisitor* v)
 {
@@ -314,7 +231,7 @@ string msrOtherDynamics::asString () const
     ", otherDynamicsString: " <<
     fOtherDynamicsString <<
     ", otherDynamicsPlacementKind: " <<
-    otherDynamicsPlacementKindAsString () <<
+    msrPlacementKindAsString (fOtherDynamicsPlacementKind) <<
     "', line " << fInputLineNumber;
 
   return s.str ();
@@ -348,7 +265,7 @@ S_msrWedge msrWedge::create (
       wedgeNienteKind,
       wedgeLineTypeKind,
       wedgePlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

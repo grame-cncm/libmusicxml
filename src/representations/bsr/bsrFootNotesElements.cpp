@@ -35,7 +35,7 @@ S_bsrFootNotesElement bsrFootNotesElement::create (
   bsrFootNotesElement* o =
     new bsrFootNotesElement (
       inputLineNumber, footNoteText);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -35,7 +35,7 @@ S_msrTie msrTie::create (
   msrTie* o =
     new msrTie (
       inputLineNumber, tieKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

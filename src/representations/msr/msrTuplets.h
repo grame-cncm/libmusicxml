@@ -105,7 +105,7 @@ class EXP msrTuplet : public msrTupletElement
       rational                memberNotesSoundingWholeNotes,
       rational                memberNotesDisplayWholeNotes);
 
-    virtual ~msrTuplet ();
+    virtual               ~msrTuplet ();
 
   public:
 

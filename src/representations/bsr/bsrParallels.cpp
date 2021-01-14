@@ -34,7 +34,7 @@ S_bsrParallel bsrParallel::create (
   bsrParallel* o =
     new bsrParallel (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

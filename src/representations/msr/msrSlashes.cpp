@@ -41,7 +41,7 @@ S_msrSlash msrSlash::create (
       slashTypeKind,
       useDotsKind,
       slashUseStemsKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

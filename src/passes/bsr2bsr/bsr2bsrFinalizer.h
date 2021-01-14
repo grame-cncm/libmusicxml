@@ -63,7 +63,7 @@ class EXP bsr2bsrFinalizer :
       const S_bsrOahGroup& bsrOpts,
       S_bsrScore     originalBsrScore);
 
-    virtual ~bsr2bsrFinalizer ();
+    virtual               ~bsr2bsrFinalizer ();
 
     void generateFinalizedBsrScoreFromBsrScore ();
 

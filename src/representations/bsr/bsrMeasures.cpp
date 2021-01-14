@@ -40,7 +40,7 @@ S_bsrMeasure bsrMeasure::create (
   bsrMeasure* o =
     new bsrMeasure (
       inputLineNumber, printMeasureNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

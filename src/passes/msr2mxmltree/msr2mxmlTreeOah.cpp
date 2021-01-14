@@ -40,7 +40,7 @@ S_msr2mxmlTreeOahGroup gGlobalMsr2mxmlTreeOahGroup;
 S_msr2mxmlTreeOahGroup msr2mxmlTreeOahGroup::create ()
 {
   msr2mxmlTreeOahGroup* o = new msr2mxmlTreeOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -28,7 +28,7 @@ class EXP bsrPageElement : public bsrElement
     bsrPageElement (
       int inputLineNumber);
 
-    virtual ~bsrPageElement ();
+    virtual               ~bsrPageElement ();
 
   public:
 

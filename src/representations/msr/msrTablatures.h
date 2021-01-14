@@ -68,7 +68,7 @@ class EXP msrFrameNote : public msrElement
       int              frameNoteFingering,
       msrBarreTypeKind frameNoteBarreTypeKind);
 
-    virtual ~msrFrameNote ();
+    virtual               ~msrFrameNote ();
 
   public:
 
@@ -193,7 +193,7 @@ class EXP msrFrame : public msrElement
       int frameFretsNumber,
       int frameFirstFretNumber);
 
-    virtual ~msrFrame ();
+    virtual               ~msrFrame ();
 
   public:
 

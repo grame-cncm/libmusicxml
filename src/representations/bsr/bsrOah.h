@@ -65,7 +65,7 @@ class EXP bsrFacSimileKindAtom : public oahAtomWithValue
       string           variableName,
       bsrFacSimileKind bsrFacSimileKindVariable);
 
-    virtual ~bsrFacSimileKindAtom ();
+    virtual               ~bsrFacSimileKindAtom ();
 
   public:
 
@@ -141,16 +141,16 @@ class EXP bsrTextsLanguageAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrTextsLanguageAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      bsrTextsLanguageKind&
-                         bsrTextsLanguageKindVariable);
+                          bsrTextsLanguageAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            bsrTextsLanguageKind&
+                                               bsrTextsLanguageKindVariable);
 
-    virtual ~bsrTextsLanguageAtom ();
+    virtual               ~bsrTextsLanguageAtom ();
 
   public:
 
@@ -230,7 +230,7 @@ class EXP bsrOahGroup : public oahGroup
 
     bsrOahGroup ();
 
-    virtual ~bsrOahGroup ();
+    virtual               ~bsrOahGroup ();
 
   public:
 

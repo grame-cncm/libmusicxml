@@ -74,7 +74,7 @@ class EXP lpsrSchemeVariable : public lpsrElement
       string            comment,
       lpsrEndlKind      endlKind);
 
-    virtual ~lpsrSchemeVariable ();
+    virtual               ~lpsrSchemeVariable ();
 
   public:
 
@@ -161,7 +161,7 @@ class EXP lpsrSchemeFunction : public lpsrElement
       string functionDescription,
       string functionCode);
 
-    virtual ~lpsrSchemeFunction ();
+    virtual               ~lpsrSchemeFunction ();
 
   public:
 

@@ -39,7 +39,7 @@ S_msrTechnical msrTechnical::create (
       inputLineNumber,
       technicalKind,
       technicalPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -223,7 +223,7 @@ S_msrTechnicalWithInteger msrTechnicalWithInteger::create (
       technicalWithIntegerKind,
       technicalWithIntegerValue,
       technicalWithIntegerPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -379,7 +379,7 @@ S_msrTechnicalWithFloat msrTechnicalWithFloat::create (
       technicalWithFloatKind,
       technicalWithFloatValue,
       technicalWithFloatPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -531,7 +531,7 @@ S_msrTechnicalWithString msrTechnicalWithString::create (
       technicalWithStringTypeKind,
       technicalWithStringValue,
       technicalWithStringPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

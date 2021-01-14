@@ -37,6 +37,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before "trace-oah", if present, has been applied
 */
+
 //#define ENFORCE_TRACE_OAH
 
 // handler used thru...?
@@ -110,7 +111,7 @@ S_oahPrefix oahPrefix::create (
       prefixName,
       prefixErsatz,
       prefixDescription);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -316,7 +317,7 @@ S_oahAtom oahAtom::create (
       longName,
       description,
       atomValueExpectedKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */
@@ -574,7 +575,7 @@ S_oahAtomWithVariableName oahAtomWithVariableName::create (
       longName,
       description,
       variableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */
@@ -764,7 +765,7 @@ S_oahAtomWithValue oahAtomWithValue::create (
       description,
       valueSpecification,
       variableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */
@@ -1035,7 +1036,7 @@ S_oahSubGroup oahSubGroup::create (
       description,
       optionVisibilityKind,
       groupUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1861,7 +1862,7 @@ S_oahGroup oahGroup::create (
       longName,
       description,
       optionVisibilityKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1881,7 +1882,7 @@ S_oahGroup oahGroup::create (
       description,
       optionVisibilityKind,
       groupHandlerUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2740,7 +2741,7 @@ S_oahHandler oahHandler::create (
       handlerHeader,
       handlerDescription,
       handlerUsage);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */
@@ -3375,15 +3376,6 @@ void oahHandler::setOahHandlerFoundAHelpOption (
 #endif
 
   fOahHandlerFoundAHelpOption = true;
-}
-
-string oahHandler::fetchOutputFileNameFromTheOptions () const
-{
-  string result;
-
-  // JMI
-
-  return result;
 }
 
 void oahHandler::checkHandlerOwnOptionsConsistency ()

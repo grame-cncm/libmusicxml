@@ -44,7 +44,7 @@ class EXP generalOahGroup : public oahGroup
 
     generalOahGroup ();
 
-    virtual ~generalOahGroup ();
+    virtual               ~generalOahGroup ();
 
   public:
 

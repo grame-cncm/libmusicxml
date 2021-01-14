@@ -32,7 +32,7 @@ S_lpsrNewStaffgroupBlock lpsrNewStaffgroupBlock::create (
   lpsrNewStaffgroupBlock* o =
     new lpsrNewStaffgroupBlock (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -128,7 +128,7 @@ S_lpsrNewStaffTuningBlock lpsrNewStaffTuningBlock::create (
   lpsrNewStaffTuningBlock* o =
     new lpsrNewStaffTuningBlock (
       inputLineNumber, staffTuning);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -223,7 +223,7 @@ S_lpsrNewStaffBlock lpsrNewStaffBlock::create (
   lpsrNewStaffBlock* o =
     new lpsrNewStaffBlock (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -317,7 +317,7 @@ S_lpsrStaffBlock lpsrStaffBlock::create (
 {
   lpsrStaffBlock* o = new lpsrStaffBlock (
     staff);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

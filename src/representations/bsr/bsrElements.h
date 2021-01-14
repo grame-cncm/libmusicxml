@@ -38,7 +38,7 @@ class EXP bsrElement : public msrElement
     bsrElement (
       int inputLineNumber);
 
-    virtual ~bsrElement ();
+    virtual               ~bsrElement ();
 
   public:
 
@@ -89,7 +89,7 @@ template <typename T> class bsrBrowser : public browser<T>
     bsrBrowser (basevisitor* v) : fVisitor (v)
     {}
 
-    virtual ~bsrBrowser ()
+    virtual               ~bsrBrowser ()
     {}
 
     virtual void          set (basevisitor* v)

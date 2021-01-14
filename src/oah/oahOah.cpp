@@ -40,7 +40,7 @@ S_insiderOahAtom insiderOahAtom::create (
       shortName,
       longName,
       description);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -168,7 +168,7 @@ S_regularOahAtom regularOahAtom::create (
       shortName,
       longName,
       description);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -293,7 +293,7 @@ S_oahOahGroup oahOahGroup::create (
 {
   oahOahGroup* o = new oahOahGroup (
     executableName);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -792,7 +792,7 @@ S_oahOptionalValuesStyleKindAtom oahOptionalValuesStyleKindAtom::create (
       valueSpecification,
       variableName,
       oahOptionalValuesStyleKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

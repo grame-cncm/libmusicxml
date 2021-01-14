@@ -31,7 +31,7 @@ class EXP bsrPagination : public bsrLineContentsElement
       int printPageNumber,
       int braillePageNumber);
 
-    virtual ~bsrPagination ();
+    virtual               ~bsrPagination ();
 
   public:
 

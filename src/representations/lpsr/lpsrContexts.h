@@ -68,7 +68,7 @@ class EXP lpsrContext : public lpsrElement
       lpsrContextTypeKind     contextTypeKind,
       string                  contextName);
 
-    virtual ~lpsrContext ();
+    virtual               ~lpsrContext ();
 
   public:
 
@@ -161,7 +161,7 @@ class EXP lpsrChordNamesContext : public lpsrContext
       string                  contextName,
       S_msrVoice              contextVoice);
 
-    virtual ~lpsrChordNamesContext ();
+    virtual               ~lpsrChordNamesContext ();
 
   public:
 
@@ -228,7 +228,7 @@ class EXP lpsrFiguredBassContext : public lpsrContext
       string                  contextName,
       S_msrStaff              contextStaff);
 
-    virtual ~lpsrFiguredBassContext ();
+    virtual               ~lpsrFiguredBassContext ();
 
   public:
 

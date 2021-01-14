@@ -45,7 +45,7 @@ S_Mikrokosmos3WanderingManPageGenerateAtom Mikrokosmos3WanderingManPageGenerateA
       longName,
       description,
       theOahVisitor);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -190,7 +190,7 @@ S_Mikrokosmos3WanderingManPageOahGroup Mikrokosmos3WanderingManPageOahGroup::cre
 {
   Mikrokosmos3WanderingManPageOahGroup* o = new Mikrokosmos3WanderingManPageOahGroup (
     theOah2manPageGenerator);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

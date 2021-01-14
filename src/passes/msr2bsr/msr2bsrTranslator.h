@@ -79,7 +79,7 @@ class EXP msr2bsrTranslator :
       ostream&   os,
       S_msrScore theMsrScore);
 
-    virtual ~msr2bsrTranslator ();
+    virtual               ~msr2bsrTranslator ();
 
     S_bsrScore buildBsrScoreFromMsrScore ();
 

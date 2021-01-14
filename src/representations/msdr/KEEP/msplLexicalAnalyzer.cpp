@@ -58,7 +58,7 @@ S_msprPitchesLanguageAtom msprPitchesLanguageAtom::create (
       valueSpecification,
       variableName,
       msprPitchesLanguageKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -298,7 +298,7 @@ S_msprChordsLanguageAtom msprChordsLanguageAtom::create (
       valueSpecification,
       variableName,
       msprChordsLanguageKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -525,7 +525,7 @@ S_msplLexicalAnalyzer msplLexicalAnalyzer::create ()
       valueSpecification,
       variableName,
       semiTonesPitchAndOctaveVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -46,7 +46,7 @@ void generateGuidoFromMxmlTree (
 {
   // sanity check
   msgAssert (
-    mxmlTree != 0,
+    mxmlTree != nullptr,
     "generateGuidoFromMxmlTree(): mxmlTree is null");
 
   // start the clock
@@ -159,7 +159,7 @@ void generateGuidoFromMxmlTree (
     // close output file
 #ifdef TRACE_OAH
     if (gTraceOah->fTracePasses) {
-      gLogOstream <<
+      gLogStream <<
         endl <<
         "Closing file \"" << outputFileName << "\"" <<
         endl;

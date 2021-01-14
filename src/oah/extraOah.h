@@ -50,7 +50,7 @@ class EXP extraShowAllHarmoniesStructuresAtom : public oahAtomWithValue
       const string& longName,
       const string& description);
 
-    virtual ~extraShowAllHarmoniesStructuresAtom ();
+    virtual               ~extraShowAllHarmoniesStructuresAtom ();
 
   public:
 
@@ -128,7 +128,7 @@ class EXP extraShowAllHarmoniesContentsAtom : public oahAtomWithValue
       string  variableName,
       string& stringVariable);
 
-    virtual ~extraShowAllHarmoniesContentsAtom ();
+    virtual               ~extraShowAllHarmoniesContentsAtom ();
 
   public:
 
@@ -211,7 +211,7 @@ class EXP extraShowHarmonyDetailsAtom : public oahAtomWithValue
       string  variableName,
       string& stringVariable);
 
-    virtual ~extraShowHarmonyDetailsAtom ();
+    virtual               ~extraShowHarmonyDetailsAtom ();
 
   public:
 
@@ -291,7 +291,7 @@ class EXP extraShowHarmonyAnalysisAtom : public oahAtomWithValue
       string  variableName,
       string& stringVariable);
 
-    virtual ~extraShowHarmonyAnalysisAtom ();
+    virtual               ~extraShowHarmonyAnalysisAtom ();
 
   public:
 
@@ -366,7 +366,7 @@ class EXP extraOahGroup : public oahGroup
 
     extraOahGroup ();
 
-    virtual ~extraOahGroup ();
+    virtual               ~extraOahGroup ();
 
   public:
 

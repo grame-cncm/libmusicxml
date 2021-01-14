@@ -44,7 +44,7 @@ S_bsrLine bsrLine::create (
   bsrLine* o =
     new bsrLine (
       inputLineNumber, printLineNumber, cellsPerLine);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -40,7 +40,7 @@ class EXP msrOah2manPageGenerator : virtual public oah2manPageGenerator,
       const S_oahHandler handler,
       ostream&           manPageOutputStream);
 
-    virtual ~msrOah2manPageGenerator ();
+    virtual               ~msrOah2manPageGenerator ();
 
   protected:
 

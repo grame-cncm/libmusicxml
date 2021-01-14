@@ -43,7 +43,7 @@ S_msrOctaveShift msrOctaveShift::create (
   msrOctaveShift* o =
     new msrOctaveShift (
       inputLineNumber, octaveShiftKind, octaveShiftSize);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -181,7 +181,7 @@ S_msrTranspose msrTranspose::create (
       transposeChromatic,
       transposeOctaveChange,
       transposeDouble);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

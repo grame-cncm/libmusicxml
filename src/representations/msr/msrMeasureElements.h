@@ -46,7 +46,7 @@ class EXP msrMeasureElement : public msrElement
     msrMeasureElement (
       int inputLineNumber);
 
-    virtual ~msrMeasureElement ();
+    virtual               ~msrMeasureElement ();
 
   public:
 

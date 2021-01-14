@@ -44,7 +44,7 @@ class EXP traceOahGroup : public oahGroup
     traceOahGroup (
       S_oahHandler handler);
 
-    virtual ~traceOahGroup ();
+    virtual               ~traceOahGroup ();
 
   public:
 

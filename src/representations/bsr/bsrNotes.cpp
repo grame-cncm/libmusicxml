@@ -45,7 +45,7 @@ S_bsrNote bsrNote::create (
       noteOctaveKind,
       noteOctaveIsNeeded,
       accidentalKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

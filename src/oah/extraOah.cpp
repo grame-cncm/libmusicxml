@@ -49,7 +49,7 @@ S_extraShowAllHarmoniesStructuresAtom extraShowAllHarmoniesStructuresAtom::creat
       shortName,
       longName,
       description);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -212,7 +212,7 @@ S_extraShowAllHarmoniesContentsAtom extraShowAllHarmoniesContentsAtom::create (
       valueSpecification,
       variableName,
       extraShowAllHarmoniesContentsVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -453,7 +453,7 @@ S_extraShowHarmonyDetailsAtom extraShowHarmonyDetailsAtom::create (
       valueSpecification,
       variableName,
       extraShowHarmonyDetailsVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -749,7 +749,7 @@ S_extraShowHarmonyAnalysisAtom extraShowHarmonyAnalysisAtom::create (
       valueSpecification,
       variableName,
       extraShowHarmonyAnalysisVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1070,7 +1070,7 @@ S_extraOahGroup gGlobalExtraOahGroup;
 S_extraOahGroup extraOahGroup::create ()
 {
   extraOahGroup* o = new extraOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

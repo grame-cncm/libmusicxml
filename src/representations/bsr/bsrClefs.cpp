@@ -41,7 +41,7 @@ S_bsrClef bsrClef::create (
   bsrClef* o =
     new bsrClef (
       inputLineNumber, clefKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

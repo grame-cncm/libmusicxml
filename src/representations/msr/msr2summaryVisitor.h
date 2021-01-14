@@ -87,7 +87,7 @@ class EXP msr2summaryVisitor :
     msr2summaryVisitor (
       S_msrOahGroup& msrOpts);
 
-    virtual ~msr2summaryVisitor ();
+    virtual               ~msr2summaryVisitor ();
 
     void printSummaryFromMsrScore (
       const S_msrScore& score);

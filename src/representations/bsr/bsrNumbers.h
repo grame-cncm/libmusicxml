@@ -43,7 +43,7 @@ class EXP bsrNumber : public bsrLineContentsElement
       bsrNumberSignIsNeededKind
                 numberSignIsNeededKind);
 
-    virtual ~bsrNumber ();
+    virtual               ~bsrNumber ();
 
   public:
 

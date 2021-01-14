@@ -31,7 +31,7 @@ S_msrOrnament msrOrnament::create (
   msrOrnament* o =
     new msrOrnament (
       inputLineNumber, ornamentKind, ornamentPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

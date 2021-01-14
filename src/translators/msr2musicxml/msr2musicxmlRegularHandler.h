@@ -50,7 +50,7 @@ class EXP msr2musicxmlRegularHandler : public oahRegularHandler
       S_msr2musicxmlInsiderHandler
                   insiderOahHandler);
 
-    virtual ~msr2musicxmlRegularHandler ();
+    virtual               ~msr2musicxmlRegularHandler ();
 
   public:
 

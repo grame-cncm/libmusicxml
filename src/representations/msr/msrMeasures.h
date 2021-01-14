@@ -96,7 +96,7 @@ class EXP msrMeasure : public msrElement
       string       measureNumber,
       S_msrSegment measureSegmentUpLink);
 
-    virtual ~msrMeasure ();
+    virtual               ~msrMeasure ();
 
   private:
 

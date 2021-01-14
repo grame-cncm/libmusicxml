@@ -39,7 +39,7 @@ S_lpsrHeader lpsrHeader::create (
   lpsrHeader* o =
     new lpsrHeader (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

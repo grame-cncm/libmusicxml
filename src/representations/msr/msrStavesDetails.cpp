@@ -46,7 +46,7 @@ S_msrStaffTuning msrStaffTuning::create (
       staffTuningLineNumber,
       staffTuningQuarterTonesPitchKind,
       staffTuningOctaveKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -205,7 +205,7 @@ S_msrStaffDetails msrStaffDetails::create (
       showFretsKind,
       printObjectKind,
       printSpacingKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

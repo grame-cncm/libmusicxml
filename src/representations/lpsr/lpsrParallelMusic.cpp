@@ -44,7 +44,7 @@ S_lpsrParallelMusicBLock lpsrParallelMusicBLock::create (
     new lpsrParallelMusicBLock (
       inputLineNumber,
       elementsSeparatorKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

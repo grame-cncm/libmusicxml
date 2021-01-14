@@ -74,7 +74,7 @@ class EXP msrFigure : public msrElement
       int                 figureNumber,
       msrFigureSuffixKind figureSuffixKind);
 
-    virtual ~msrFigure ();
+    virtual               ~msrFigure ();
 
   public:
 
@@ -186,7 +186,7 @@ class EXP msrFiguredBass : public msrMeasureElement
       msrFiguredBassParenthesesKind figuredBassParenthesesKind,
       msrTupletFactor               figuredBassTupletFactor);
 
-    virtual ~msrFiguredBass ();
+    virtual               ~msrFiguredBass ();
 
   public:
 

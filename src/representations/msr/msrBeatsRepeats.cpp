@@ -41,7 +41,7 @@ S_msrBeatsRepeatElement msrBeatsRepeatElement::create (
     new msrBeatsRepeatElement (
       inputLineNumber,
       beatsRepeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -421,7 +421,7 @@ S_msrBeatsRepeatPattern msrBeatsRepeatPattern::create (
     new msrBeatsRepeatPattern (
       inputLineNumber,
       beatsRepeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -605,7 +605,7 @@ S_msrBeatsRepeatReplicas msrBeatsRepeatReplicas::create (
     new msrBeatsRepeatReplicas (
       inputLineNumber,
       beatsRepeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -793,7 +793,7 @@ S_msrBeatsRepeat msrBeatsRepeat::create (
       beatsRepeatMeasuresNumber,
       beatsRepeatSlashesNumber,
       voiceUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

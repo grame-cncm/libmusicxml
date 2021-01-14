@@ -48,6 +48,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
@@ -250,8 +251,6 @@ string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
   }
 #endif
 
-  string result;
-
   S_oahStringAtom
     outputFileNameStringAtom =
       gGlobalOutputFileOahGroup->
@@ -272,6 +271,8 @@ string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
       autoOutputFileNameAtom->
         getVariableHasBeenSet ();
 
+  string outputFileName;
+
   if (outputFileNameHasBeenSet) {
     if (autoOutputFileNameHasBeenSet) {
       // '-o, -output-file-name' has been chosen
@@ -291,7 +292,7 @@ string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
     else {
       // '-o, -output-file-name' has been chosen
       // '-aofn, -auto-output-file-name' has NOT been chosen
-      result =
+      outputFileName =
         outputFileNameStringAtom->
           getStringVariable ();
     }
@@ -307,23 +308,23 @@ string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
 
       // determine output file base name
       if (inputSourceName == "-") {
-        result = "stdin";
+        outputFileName = "stdin";
       }
 
       else {
         // determine output file name,
-        result =
+        outputFileName =
           baseName (inputSourceName);
 
         size_t
           posInString =
-            result.rfind ('.');
+            outputFileName.rfind ('.');
 
         // remove file extension
         if (posInString != string::npos) {
-          result.replace (
+          outputFileName.replace (
             posInString,
-            result.size () - posInString,
+            outputFileName.size () - posInString,
             "");
         }
       }
@@ -331,21 +332,21 @@ string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceOah ()) {
         gLogStream <<
-          "xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions(): result 1 = \"" <<
-          result <<
+          "xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 1 = \"" <<
+          outputFileName <<
           "\"" <<
           endl;
       }
 #endif
 
       // append the file extension to the output file name
-       result += ".gmn";
+       outputFileName += ".gmn";
 
 #ifdef TRACING_IS_ENABLED
       if (gGlobalTraceOahGroup->getTraceOah ()) {
         gLogStream <<
-          "xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions(): result 2 = " <<
-          result <<
+          "xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions(): outputFileName 2 = " <<
+          outputFileName <<
           "\"" <<
           endl;
       }
@@ -359,7 +360,7 @@ string xml2gmnInsiderHandler::fetchOutputFileNameFromTheOptions () const
     }
   }
 
-  return result;
+  return outputFileName;
 }
 
 //______________________________________________________________________________

@@ -60,7 +60,7 @@ class EXP msrVoiceStaffChange : public msrMeasureElement
       int        inputLineNumber,
       S_msrStaff staffToChangeTo);
 
-    virtual ~msrVoiceStaffChange ();
+    virtual               ~msrVoiceStaffChange ();
 
   public:
 
@@ -137,7 +137,7 @@ class EXP msrStaff : public msrElement
       int          staffNumber,
       S_msrPart    staffPartUpLink);
 
-    virtual ~msrStaff ();
+    virtual               ~msrStaff ();
 
   private:
 

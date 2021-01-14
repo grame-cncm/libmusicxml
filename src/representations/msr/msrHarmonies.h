@@ -58,7 +58,7 @@ class EXP msrHarmonyDegree : public msrElement
       msrAlterationKind        harmonyDegreeAlterationKind,
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
 
-    virtual ~msrHarmonyDegree ();
+    virtual               ~msrHarmonyDegree ();
 
   public:
 
@@ -190,7 +190,7 @@ class EXP msrHarmony : public msrMeasureElement
       msrTupletFactor          harmonyTupletFactor,
       rational                 harmonyWholeNotesOffset);
 
-    virtual ~msrHarmony ();
+    virtual               ~msrHarmony ();
 
   public:
 

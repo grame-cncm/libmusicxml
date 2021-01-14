@@ -44,7 +44,7 @@ class EXP lpsrVariableUseCommand : public lpsrElement
       int    inputLineNumber,
       string variableName);
 
-    virtual ~lpsrVariableUseCommand ();
+    virtual               ~lpsrVariableUseCommand ();
 
   public:
 

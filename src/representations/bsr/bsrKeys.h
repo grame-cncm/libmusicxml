@@ -42,7 +42,7 @@ class EXP bsrKey : public bsrLineContentsElement
       bsrKeyKind keyKind,
       int        numberOfAlterations);
 
-    virtual ~bsrKey ();
+    virtual               ~bsrKey ();
 
   public:
 

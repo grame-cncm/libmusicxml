@@ -37,7 +37,7 @@ S_msrSingleTremolo msrSingleTremolo::create (
     new msrSingleTremolo (
       inputLineNumber,
       singleTremoloMarksNumber, singleTremoloPlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

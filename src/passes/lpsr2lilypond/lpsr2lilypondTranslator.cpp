@@ -45,7 +45,7 @@ S_lpsrRepeatDescr lpsrRepeatDescr::create (
     lpsrRepeatDescr (
       repeat,
       repeatEndingsNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -489,12 +489,12 @@ string lpsr2lilypondTranslator::lilypondOctaveInRelativeEntryMode (
     noteAboluteDiatonicOrdinal =
       noteAbsoluteOctave * 7
         +
-      noteDiatonicPitchKind - kC,
+      noteDiatonicPitchKind - kDiatonicPitchC,
 
     referenceAboluteDiatonicOrdinal =
       referenceAbsoluteOctave * 7
         +
-      referenceDiatonicPitchKind - kC;
+      referenceDiatonicPitchKind - kDiatonicPitchC;
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
@@ -3211,7 +3211,7 @@ string lpsr2lilypondTranslator::dynamicsAsLilypondString (
   S_msrDynamics dynamics)
 {
   string result =
-    "\\" + dynamics->dynamicsKindAsString ();
+    "\\" + dynamicsKindAsString (dynamics->getDynamicsKind ());
 
   return result;
 }
@@ -14575,20 +14575,20 @@ void lpsr2lilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
     fLilypondCodeStream <<
       "_\\markup { \\harp-pedal #\"" <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationKindsMap [kD]) <<
+        harpPedalsAlterationKindsMap [kDiatonicPitchD]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationKindsMap [kC]) <<
+        harpPedalsAlterationKindsMap [kDiatonicPitchC]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationKindsMap [kB]) <<
+        harpPedalsAlterationKindsMap [kDiatonicPitchB]) <<
       "|" <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationKindsMap [kE]) <<
+        harpPedalsAlterationKindsMap [kDiatonicPitchE]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationKindsMap [kF]) <<
+        harpPedalsAlterationKindsMap [kDiatonicPitchF]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationKindsMap [kG]) <<
+        harpPedalsAlterationKindsMap [kDiatonicPitchG]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationKindsMap [kA]) <<
+        harpPedalsAlterationKindsMap [kDiatonicPitchA]) <<
       "\" } " <<
       endl;
 

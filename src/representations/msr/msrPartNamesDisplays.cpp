@@ -35,7 +35,7 @@ S_msrPartNameDisplay msrPartNameDisplay::create (
   msrPartNameDisplay* o =
     new msrPartNameDisplay (
       inputLineNumber, partNameDisplayValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -130,7 +130,7 @@ S_msrPartAbbreviationDisplay msrPartAbbreviationDisplay::create (
   msrPartAbbreviationDisplay* o =
     new msrPartAbbreviationDisplay (
       inputLineNumber, partAbbreviationDisplayValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

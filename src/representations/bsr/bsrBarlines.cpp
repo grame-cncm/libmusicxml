@@ -41,7 +41,7 @@ S_bsrBarline bsrBarline::create (
   bsrBarline* o =
     new bsrBarline (
       inputLineNumber, barlineKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

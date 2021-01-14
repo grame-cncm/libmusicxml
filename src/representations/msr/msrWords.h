@@ -77,7 +77,7 @@ class EXP msrWords : public msrElement
       msrXMLLangKind             wordsXMLLangKind,
       int                        wordsStaffNumber);
 
-    virtual ~msrWords ();
+    virtual               ~msrWords ();
 
   public:
 

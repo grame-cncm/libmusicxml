@@ -53,7 +53,7 @@ class EXP lpsrPaper : public lpsrElement
       S_msrScaling    scaling,
       S_msrPageLayout pageLayout);
 
-    virtual ~lpsrPaper ();
+    virtual               ~lpsrPaper ();
 
   public:
 

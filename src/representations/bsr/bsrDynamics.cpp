@@ -30,19 +30,19 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_bsrDynamics bsrDynamics::create (
-  int                          inputLineNumber,
-  msrDynamics::msrDynamicsKind dynamicsKind)
+  int             inputLineNumber,
+  msrDynamicsKind dynamicsKind)
 {
   bsrDynamics* o =
     new bsrDynamics (
       inputLineNumber, dynamicsKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
 bsrDynamics::bsrDynamics (
-  int                          inputLineNumber,
-  msrDynamics::msrDynamicsKind dynamicsKind)
+  int             inputLineNumber,
+  msrDynamicsKind dynamicsKind)
     : bsrLineContentsElement (inputLineNumber)
 {
   fDynamicsKind  = dynamicsKind;
@@ -61,148 +61,148 @@ S_bsrCellsList bsrDynamics::buildCellsList () const
         fInputLineNumber, kCellWordSign);
 
   switch (fDynamicsKind) {
-    case msrDynamics::kF:
+    case kDynamicsF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF));
       break;
-    case msrDynamics::kFF:
+    case kDynamicsFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF));
       break;
-    case msrDynamics::kFFF:
+    case kDynamicsFFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF, kCellF));
       break;
-    case msrDynamics::kFFFF:
+    case kDynamicsFFFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF, kCellF, kCellF));
       break;
-    case msrDynamics::kFFFFF:
+    case kDynamicsFFFFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF, kCellF, kCellF, kCellF));
       break;
-    case msrDynamics::kFFFFFF:
+    case kDynamicsFFFFFF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellF, kCellF, kCellF, kCellF, kCellF));
       break;
 
-    case msrDynamics::kP:
+    case kDynamicsP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP));
       break;
-    case msrDynamics::kPP:
+    case kDynamicsPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP));
       break;
-    case msrDynamics::kPPP:
+    case kDynamicsPPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP, kCellP));
       break;
-    case msrDynamics::kPPPP:
+    case kDynamicsPPPP:
       result->
         appendCellsListToCellsList (
          bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP, kCellP, kCellP));
       break;
-    case msrDynamics::kPPPPP:
+    case kDynamicsPPPPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP, kCellP, kCellP, kCellP));
       break;
-    case msrDynamics::kPPPPPP:
+    case kDynamicsPPPPPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellP, kCellP, kCellP, kCellP, kCellP, kCellP));
       break;
 
-    case msrDynamics::kMF:
+    case kDynamicsMF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellM, kCellF));
       break;
-    case msrDynamics::kMP:
+    case kDynamicsMP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellM, kCellP));
       break;
-    case msrDynamics::kFP:
+    case kDynamicsFP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellM, kCellF));
       break;
-    case msrDynamics::kFZ:
+    case kDynamicsFZ:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellF, kCellZ));
       break;
-    case msrDynamics::kRF:
+    case kDynamicsRF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellR, kCellF));
       break;
-    case msrDynamics::kSF:
+    case kDynamicsSF:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF));
       break;
 
-    case msrDynamics::kRFZ:
+    case kDynamicsRFZ:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellR, kCellF, kCellZ));
       break;
-    case msrDynamics::kSFZ:
+    case kDynamicsSFZ:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF, kCellZ));
       break;
-    case msrDynamics::kSFP:
+    case kDynamicsSFP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF, kCellP));
       break;
-    case msrDynamics::kSFPP:
+    case kDynamicsSFPP:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF, kCellP, kCellP));
       break;
-    case msrDynamics::kSFFZ:
+    case kDynamicsSFFZ:
       result->
         appendCellsListToCellsList (
           bsrCellsList::create (
             fInputLineNumber, kCellS, kCellF, kCellF, kCellZ));
       break;
-    case msrDynamics::k_NoDynamics:
+    case k_NoDynamics:
       result =
         bsrCellsList::create (fInputLineNumber);
   } // switch
@@ -277,7 +277,7 @@ string bsrDynamics::asString () const
   s <<
     "Dynamics" <<
     ", dynamicsKind: " <<
-    msrDynamics::dynamicsKindAsString (fDynamicsKind) <<
+    dynamicsKindAsString (fDynamicsKind) <<
     ", dynamicsCellsList: " <<
     fDynamicsCellsList->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -293,7 +293,7 @@ string bsrDynamics::asDebugString () const
   s <<
     "Dyn" <<
     ", dynamicsKind: " <<
-    msrDynamics::dynamicsKindAsString (fDynamicsKind) <<
+    dynamicsKindAsString (fDynamicsKind) <<
     ", dynamicsCellsList: " <<
     fDynamicsCellsList->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
@@ -316,7 +316,7 @@ void bsrDynamics::print (ostream& os) const
   os <<
     setw (fieldWidth) <<
     "dynamicsKind" << " : " <<
-    msrDynamics::dynamicsKindAsString (fDynamicsKind) <<
+    dynamicsKindAsString (fDynamicsKind) <<
     endl <<
     setw (fieldWidth) <<
     "noteCellsList" << " : " <<

@@ -34,7 +34,7 @@ S_lpsrPartBlock lpsrPartBlock::create (
 {
   lpsrPartBlock* o = new lpsrPartBlock (
     part);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

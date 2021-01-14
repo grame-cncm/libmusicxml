@@ -40,7 +40,7 @@ S_msrBarCheck msrBarCheck::create (
   msrBarCheck* o =
     new msrBarCheck (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -54,7 +54,7 @@ S_msrBarCheck msrBarCheck::createWithNextBarPuristNumber (
       inputLineNumber,
       nextBarOriginalNumber,
       nextBarPuristNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -196,7 +196,7 @@ S_msrBarNumberCheck msrBarNumberCheck::create (
       inputLineNumber,
       nextBarOriginalNumber,
       nextBarPuristNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -325,7 +325,7 @@ S_msrBarline msrBarline::create (
       barlineHasSegnoKind,
       barlineHasCodaKind,
       barlineRepeatWingedKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

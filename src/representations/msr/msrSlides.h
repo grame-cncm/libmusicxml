@@ -47,14 +47,14 @@ class EXP msrSlide : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSlide (
-      int              inputLineNumber,
-      int              slideNumber,
-      msrSlideTypeKind slideTypeKind,
-      msrLineTypeKind  slideLineTypeKind,
-      string           slideTextValue);
+                          msrSlide (
+                            int              inputLineNumber,
+                            int              slideNumber,
+                            msrSlideTypeKind slideTypeKind,
+                            msrLineTypeKind  slideLineTypeKind,
+                            string           slideTextValue);
 
-    virtual ~msrSlide ();
+    virtual               ~msrSlide ();
 
   public:
 

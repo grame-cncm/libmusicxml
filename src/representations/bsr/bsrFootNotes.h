@@ -27,7 +27,7 @@ class EXP bsrFootNotes : public bsrLine
     bsrFootNotes (
       int inputLineNumber);
 
-    virtual ~bsrFootNotes ();
+    virtual               ~bsrFootNotes ();
 
   public:
 

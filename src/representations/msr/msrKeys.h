@@ -46,7 +46,7 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     msrHumdrumScotKeyItem (
       int inputLineNumber);
 
-    virtual ~msrHumdrumScotKeyItem ();
+    virtual               ~msrHumdrumScotKeyItem ();
 
   public:
 
@@ -151,7 +151,7 @@ class EXP msrKey : public msrMeasureElement
     msrKey ( // for Humdrum/Scot keys
       int                  inputLineNumber);
 
-    virtual ~msrKey ();
+    virtual               ~msrKey ();
 
   public:
 

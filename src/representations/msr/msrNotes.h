@@ -37,20 +37,6 @@ namespace MusicXML2
 class msrGlissando;
 typedef SMARTP<msrGlissando> S_msrGlissando;
 
-/* JMI
-class msrHarmony;
-typedef SMARTP<msrHarmony> S_msrHarmony;
-
-class msrFiguredBass;
-typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
-
-class msrSlide;
-typedef SMARTP<msrSlide> S_msrSlide;
-
-class msrSyllable;
-typedef SMARTP<msrSyllable> S_msrSyllable;
-*/
-
 //______________________________________________________________________________
 class EXP msrNote : public msrTupletElement
 {
@@ -256,7 +242,7 @@ class EXP msrNote : public msrTupletElement
       msrNoteHeadFilledKind      noteHeadFilledKind,
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
 
-    virtual ~msrNote ();
+    virtual               ~msrNote ();
 
   private:
 
@@ -931,6 +917,8 @@ class EXP msrNote : public msrTupletElement
 
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
+    string                noteGraphicDurationAsMusicXMLString () const;
+
     string                tupletNoteGraphicDurationAsMsrString ( // JMI
                             int actualNotes, int normalNotes) const;
 
@@ -943,7 +931,8 @@ class EXP msrNote : public msrTupletElement
                                 noteSoundingWholeNotesAsMsrString ();
                               }
 
-    string                noteEssentialsAsString () const;
+    string                soundingNoteEssentialsAsString () const;
+    string                nonSoundingNoteEssentialsAsString () const;
 
     string                asString () const override;
 

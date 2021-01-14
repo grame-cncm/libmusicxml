@@ -31,7 +31,7 @@ S_bsrElement bsrElement::create (
   bsrElement* o =
     new bsrElement (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -52,7 +52,7 @@ class EXP msrStringTuning : public msrElement
       msrAlterationKind    stringTuningAlterationKind,
       msrOctaveKind        stringTuningOctaveKind);
 
-    virtual ~msrStringTuning ();
+    virtual               ~msrStringTuning ();
 
   public:
 
@@ -140,7 +140,7 @@ class EXP msrScordatura : public msrMeasureElement
     msrScordatura (
       int inputLineNumber);
 
-    virtual ~msrScordatura ();
+    virtual               ~msrScordatura ();
 
   public:
 
@@ -212,7 +212,7 @@ class EXP msrAccordionRegistration : public msrMeasureElement
       int middleDotsNumber,
       int lowDotsNumber);
 
-    virtual ~msrAccordionRegistration ();
+    virtual               ~msrAccordionRegistration ();
 
   public:
 
@@ -391,7 +391,7 @@ class EXP msrPedal : public msrMeasureElement
       msrPedalLineKind pedalLineKind,
       msrPedalSignKind pedalSignKind);
 
-    virtual ~msrPedal ();
+    virtual               ~msrPedal ();
 
   public:
 
@@ -466,7 +466,7 @@ class EXP msrDamp : public msrMeasureElement
     msrDamp (
       int inputLineNumber);
 
-    virtual ~msrDamp ();
+    virtual               ~msrDamp ();
 
   public:
 
@@ -522,7 +522,7 @@ class EXP msrDampAll : public msrMeasureElement
     msrDampAll (
       int inputLineNumber);
 
-    virtual ~msrDampAll ();
+    virtual               ~msrDampAll ();
 
   public:
 

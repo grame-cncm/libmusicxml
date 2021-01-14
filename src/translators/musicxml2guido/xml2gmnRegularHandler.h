@@ -49,7 +49,7 @@ class EXP xml2gmnRegularHandler : public oahRegularHandler
       S_xml2gmnInsiderHandler
                   insiderOahHandler);
 
-    virtual ~xml2gmnRegularHandler ();
+    virtual               ~xml2gmnRegularHandler ();
 
   public:
 

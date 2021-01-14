@@ -86,7 +86,7 @@ S_msrNote msrNote::create (
       noteHeadKind,
       noteHeadFilledKind,
       noteHeadParenthesesKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -1240,7 +1240,7 @@ S_msrNote msrNote::createRestNote (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert (o!=0);
+  assert (o != nullptr);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestNotes ()) {
@@ -1289,7 +1289,7 @@ S_msrNote msrNote::createSkipNote (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert (o!=0);
+  assert (o != nullptr);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceSkipNotes () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
@@ -1338,7 +1338,7 @@ S_msrNote msrNote::createGraceSkipNote (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert (o!=0);
+  assert (o != nullptr);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceSkipNotes () || gGlobalTraceOahGroup->getTracePositionsInMeasures ()) {
@@ -1389,7 +1389,7 @@ S_msrNote msrNote::createRestNoteWithOctave (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert (o!=0);
+  assert (o != nullptr);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceRestNotes ()) {
@@ -1440,7 +1440,7 @@ S_msrNote msrNote::createSkipNoteWithOctave (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert (o!=0);
+  assert (o != nullptr);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceSkipNotes ()) {
@@ -1480,7 +1480,7 @@ S_msrNote msrNote::createRegularNote (
 
       dotsNumber,
 
-      k_NoDuration, // noteGraphicDuration JMI ???
+      wholeNotesAsDurationKind (displayWholeNotes), // JMI caution for tuplet members...
 
       quarterTonesPitchKind,
       noteOctaveKind, // JMI ???
@@ -1492,7 +1492,7 @@ S_msrNote msrNote::createRegularNote (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert (o!=0);
+  assert (o != nullptr);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotes ()) {
@@ -2002,7 +2002,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
-  assert (o!=0);
+  assert (o != nullptr);
 
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceNotesOctaveEntry ()) {
@@ -3722,6 +3722,16 @@ string msrNote::noteGraphicDurationAsMsrString () const
   return result;
 }
 
+string msrNote::noteGraphicDurationAsMusicXMLString () const
+{
+  string
+    result =
+      msrDurationKindAsMusicXMLType (
+        fNoteGraphicDurationKind);
+
+  return result;
+}
+
 string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
   int actualNotes, int normalNotes) const
 {
@@ -4038,13 +4048,20 @@ string msrNote::asShortString () const
       s <<
         "RegularNote '" <<
         notePitchAsString () <<
-        noteSoundingWholeNotesAsMsrString () <<
         ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
+        noteSoundingWholeNotesAsMsrString ();
 
       for (int i = 0; i < fNoteDotsNumber; ++i) {
         s << ".";
       } // for
+
+      s <<
+        ", " <<
+        msrOctaveKindAsString (fNoteOctaveKind) <<
+        ", staff " <<
+        fetchNoteVoiceUpLink ()->getVoiceNumber () <<
+        ", voice " <<
+        fetchNoteVoiceUpLink ()->getVoiceNumber ();
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -4234,7 +4251,66 @@ string msrNote::asShortString () const
   return s.str ();
 }
 
-string msrNote::noteEssentialsAsString () const
+string msrNote::soundingNoteEssentialsAsString () const
+{
+  stringstream s;
+
+  s <<
+    notePitchAsString () <<
+    noteSoundingWholeNotesAsMsrString ();
+
+  for (int i = 0; i < fNoteDotsNumber; ++i) {
+    s << ".";
+  } // for
+
+    /* JMI
+    "', " <<
+    noteDiatonicPitchKindAsString (
+      noteDiatonicPitchKind (fInputLineNumber)) <<
+    "', " <<
+    */
+
+  S_msrVoice
+    voice =
+      fetchNoteVoiceUpLink ();
+
+  S_msrStaff
+    staff =
+      voice->getVoiceStaffUpLink ();
+
+  s <<
+    ", " <<
+    msrOctaveKindAsString (fNoteOctaveKind) <<
+    ", staff " <<
+    staff->getStaffNumber () <<
+    ", voice " <<
+    voice->getVoiceNumber ();
+
+  s <<
+    ", measureNumber: ";
+  if (fMeasureElementMeasureNumber == K_NO_MEASURE_NUMBER) {
+    s << "unknown";
+  }
+  else {
+    s << fMeasureElementMeasureNumber;
+  }
+
+  s <<
+    ", measureElementPositionInMeasure " <<
+    fMeasureElementPositionInMeasure;
+    /* JMI
+  if (fMeasureElementPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
+    s << "unknown (" << fMeasureElementPositionInMeasure << ")";
+  }
+  else {
+    s << fMeasureElementPositionInMeasure;
+  }
+*/
+
+  return s.str ();
+}
+
+string msrNote::nonSoundingNoteEssentialsAsString () const
 {
   stringstream s;
 
@@ -4244,6 +4320,15 @@ string msrNote::noteEssentialsAsString () const
   for (int i = 0; i < fNoteDotsNumber; ++i) {
     s << ".";
   } // for
+
+  s << left <<
+    ", measureNumber: ";
+  if (fMeasureElementMeasureNumber == K_NO_MEASURE_NUMBER) {
+    s << "unknown";
+  }
+  else {
+    s << fMeasureElementMeasureNumber;
+  }
 
   return s.str ();
 }
@@ -4264,6 +4349,7 @@ string msrNote::asString () const
     case msrNote::kRestNote:
       s <<
         "restNote, ";
+
       if (fNoteOccupiesAFullMeasure) {
         s <<
           "R" <<
@@ -4272,148 +4358,71 @@ string msrNote::asString () const
             fInputLineNumber,
             fMeasureElementSoundingWholeNotes);
             */
-          noteSoundingWholeNotesAsMsrString ();
+        nonSoundingNoteEssentialsAsString ();
       }
       else {
         s <<
           "r" <<
-          noteSoundingWholeNotesAsMsrString ();
+          nonSoundingNoteEssentialsAsString ();
       }
 
       s <<
-        /* JMI
-        " (" <<
-        noteDisplayPitchKindAsString () <<
-        ", " <<
-        noteSoundingWholeNotesAsMsrString () <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
-        ")" <<
-        */
-        ", whole notes: " <<
-        fMeasureElementSoundingWholeNotes <<
-        " sounding, " <<
-        fNoteDisplayWholeNotes <<
-        " displayed" <<
-        ":" <<
-        noteSoundingWholeNotesAsMsrString ();
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
+        nonSoundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kSkipNote:
       s <<
         "skipNote:" <<
-        noteSoundingWholeNotesAsMsrString ();
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
+        nonSoundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kUnpitchedNote:
       s <<
-        "unpitchedNote" <<
-        " " <<
-        noteSoundingWholeNotesAsMsrString ();
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
+        "unpitchedNote " <<
+        nonSoundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kRegularNote:
       s <<
-        "regularNote '" <<
-        notePitchAsString () <<
-        /* JMI
-        "', " <<
-        noteDiatonicPitchKindAsString (
-          noteDiatonicPitchKind (fInputLineNumber)) <<
-        "', " <<
-        */
-        noteSoundingWholeNotesAsMsrString () <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
+        "regularNote " <<
+        soundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        "doubleTremoloMemberNote '" <<
-        notePitchAsString () <<
-        ", " <<
-        noteSoundingWholeNotesAsMsrString () <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
+        "doubleTremoloMemberNote " <<
+        soundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kGraceNote:
       s <<
         "graceNote '" <<
-        notePitchAsString () <<
- // JMI       noteGraphicDurationAsMsrString () <<
-        noteDisplayWholeNotesAsMsrString () <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << "."; // JMI
-      } // for
+        soundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kGraceSkipNote:
       s <<
         "graceSkipNote " <<
-        noteSoundingWholeNotesAsMsrString ();
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
+        soundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kGraceChordMemberNote:
       s <<
         "graceChordMemberNote '" <<
-        notePitchAsString () <<
-//        " " <<
- // JMI       noteGraphicDurationAsMsrString () <<
-        noteDisplayWholeNotesAsMsrString () <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << "."; // JMI
-      } // for
-
-      s <<
+        soundingNoteEssentialsAsString () <<
         ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
 
     case msrNote::kChordMemberNote:
       s <<
         "chordMemberNote '" <<
-        notePitchAsString () <<
-        noteSoundingWholeNotesAsMsrString () <<
- // JMI       ", " << fMeasureElementSoundingWholeNotes << " sounding whole notes, " <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
+        soundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kTupletMemberNote:
       s <<
         "tupletMemberNote '" <<
-        notePitchAsString () <<
-        "' " <<
-        fMeasureElementSoundingWholeNotes <<
-        " sounding, " <<
-        fNoteDisplayWholeNotes <<
-        " displayed";
+        soundingNoteEssentialsAsString ();
 /* JMI
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -4422,47 +4431,18 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
-
-      s <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
       break;
 
     case msrNote::kTupletRestMemberNote:
       s <<
         "tupletRestMemberNote '" <<
-        notePitchAsString () <<
-        "' " <<
-        fMeasureElementSoundingWholeNotes <<
-        " sounding, " <<
-        fNoteDisplayWholeNotes <<
-        " displayed";
-/* JMI
-        notePartUpLink ()->
-          tupletSoundingWholeNotesAsMsrString (
-            fInputLineNumber,
-            fMeasureElementSoundingWholeNotes,
-            fNoteTupletUpLink->getTupletActualNotes (),
-            fNoteTupletUpLink->getTupletNormalNotes ())
-            */
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
+        nonSoundingNoteEssentialsAsString ();
       break;
 
     case msrNote::kGraceTupletMemberNote:
       s <<
         "graceTupletMemberNote '" <<
-        notePitchAsString () <<
-        fMeasureElementSoundingWholeNotes <<
-        " sounding, " <<
-        fNoteDisplayWholeNotes <<
-        " displayed";
+        soundingNoteEssentialsAsString ();
 /* JMI
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -4471,16 +4451,6 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
-
-      if (! getNoteIsARest ()) {
-        s <<
-        ", " <<
-        msrOctaveKindAsString (fNoteOctaveKind);
-      }
 
       s <<
         ", noteTupletFactor " << fNoteTupletFactor.asString ();
@@ -4489,11 +4459,7 @@ string msrNote::asString () const
     case msrNote::kTupletUnpitchedMemberNote:
       s <<
         "tupletUnpitchedMemberNote " <<
-        ", whole notes: " <<
-        fMeasureElementSoundingWholeNotes <<
-        " sounding, " <<
-        fNoteDisplayWholeNotes <<
-        " displayed";
+        noteSoundingWholeNotesAsMsrString ();
 /* JMI
         notePartUpLink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -4502,24 +4468,11 @@ string msrNote::asString () const
             fNoteTupletUpLink->getTupletActualNotes (),
             fNoteTupletUpLink->getTupletNormalNotes ())
             */
-
-      for (int i = 0; i < fNoteDotsNumber; ++i) {
-        s << ".";
-      } // for
-
       s <<
         ", noteTupletFactor " << fNoteTupletFactor.asString ();
       break;
   } // switch
 
-  s << left <<
-    ", measureNumber: ";
-  if (fMeasureElementMeasureNumber == K_NO_MEASURE_NUMBER) {
-    s << "unknown";
-  }
-  else {
-    s << fMeasureElementMeasureNumber;
-  }
 
 /* JMI
   s << left <<
@@ -4584,9 +4537,8 @@ string msrNote::asString () const
   return s.str ();
 }
 
-void msrNote::printNoteEssentials (ostream& os) const
-{
-}
+void msrNote::printNoteEssentials (ostream& os) const //JMI superflous
+{}
 
 void msrNote::print (ostream& os) const
 {
@@ -5064,6 +5016,10 @@ void msrNote::print (ostream& os) const
         endl <<
         setw (fieldWidth) <<
         "noteGraphicDurationAsMsrString" << " : \"" <<
+        noteGraphicDurationAsMsrString () <<
+        "\"" <<
+        setw (fieldWidth) <<
+        "noteGraphicDurationAsMusicXMLString" << " : \"" <<
         noteGraphicDurationAsMsrString () <<
         "\"" <<
         endl;

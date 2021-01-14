@@ -48,12 +48,12 @@ class EXP oahRegularHandler : public oahHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahRegularHandler (
-      string       executableName,
-      string       handlerHeader,
-      S_oahHandler insiderOahHandler);
+                          oahRegularHandler (
+                            string       executableName,
+                            string       handlerHeader,
+                            S_oahHandler insiderOahHandler);
 
-    virtual ~oahRegularHandler ();
+    virtual               ~oahRegularHandler ();
 
   protected:
 

@@ -61,7 +61,7 @@ class EXP msrDoubleTremolo : public msrMeasureElement
       int                  doubleTremoloMarksNumber,
       msrPlacementKind     doubleTremoloPlacementKind);
 
-    virtual ~msrDoubleTremolo ();
+    virtual               ~msrDoubleTremolo ();
 
   public:
 

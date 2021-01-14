@@ -70,7 +70,7 @@ S_bsrFacSimileKindAtom bsrFacSimileKindAtom::create (
       valueSpecification,
       variableName,
       bsrFacSimileKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -265,7 +265,7 @@ S_bsrTextsLanguageAtom bsrTextsLanguageAtom::create (
       valueSpecification,
       variableName,
       bsrTextsLanguageKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -448,7 +448,7 @@ S_bsrOahGroup gGlobalBsrOahGroup;
 S_bsrOahGroup bsrOahGroup::create ()
 {
   bsrOahGroup* o = new bsrOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

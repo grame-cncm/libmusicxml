@@ -75,7 +75,7 @@ class EXP msrPart : public msrPartGroupElement
       string         partID,
       S_msrPartGroup partPartGroupUpLink);
 
-    virtual ~msrPart ();
+    virtual               ~msrPart ();
 
   private:
 

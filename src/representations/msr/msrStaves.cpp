@@ -46,7 +46,7 @@ S_msrStaff msrStaff::create (
       staffKind,
       staffNumber,
       staffPartUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -3395,7 +3395,7 @@ S_msrVoiceStaffChange msrVoiceStaffChange::create (
   msrVoiceStaffChange* o =
     new msrVoiceStaffChange (
       inputLineNumber, staffToChangeTo);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

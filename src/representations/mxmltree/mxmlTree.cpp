@@ -124,11 +124,16 @@ Sxmlattribute createMxmlFloatAttribute (const string& name, float value)
 SXMLFile createMxmlFile ()
 {
 	SXMLFile result = TXMLFile::create ();
+  assert (result != nullptr);
 
   TXMLDecl * xmlDecl = new TXMLDecl ("1.0", "UTF-8", TXMLDecl::kNo);
+  assert (xmlDecl != nullptr);
+
 	result->set (xmlDecl);
 
 	TDocType * docType = new TDocType ("score-partwise");
+  assert (docType != nullptr);
+
 	result->set (docType);
 
 	return result;

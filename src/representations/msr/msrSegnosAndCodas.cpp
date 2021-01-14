@@ -42,7 +42,7 @@ S_msrSegno msrSegno::create (
     new msrSegno (
       inputLineNumber,
       staffNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -142,7 +142,7 @@ S_msrDalSegno msrDalSegno::create (
       dalSegnoKind,
       dalSegnoString,
       staffNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -352,7 +352,7 @@ S_msrHiddenMeasureAndBarline msrHiddenMeasureAndBarline::create (
   msrHiddenMeasureAndBarline* o =
     new msrHiddenMeasureAndBarline (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -447,7 +447,7 @@ S_msrCoda msrCoda::create (
       inputLineNumber,
       staffNumber,
       codaKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -562,7 +562,7 @@ S_msrEyeGlasses msrEyeGlasses::create (
   msrEyeGlasses* o =
     new msrEyeGlasses (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

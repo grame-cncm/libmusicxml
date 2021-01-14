@@ -51,7 +51,7 @@ class EXP bsrParallel : public bsrElement
     bsrParallel (
       int inputLineNumber);
 
-    virtual ~bsrParallel ();
+    virtual               ~bsrParallel ();
 
   public:
 

@@ -46,7 +46,7 @@ class EXP xml2lyManPageGenerateAtom : public oahAtom
       string                 description,
       S_oahVisitor           theOahVisitor);
 
-    virtual ~xml2lyManPageGenerateAtom ();
+    virtual               ~xml2lyManPageGenerateAtom ();
 
   public:
 
@@ -125,7 +125,7 @@ class EXP xml2lyManPageOahGroup : public oahGroup
     xml2lyManPageOahGroup (
       S_oahVisitor theOah2manPageGenerator);
 
-    virtual ~xml2lyManPageOahGroup ();
+    virtual               ~xml2lyManPageOahGroup ();
 
   public:
 

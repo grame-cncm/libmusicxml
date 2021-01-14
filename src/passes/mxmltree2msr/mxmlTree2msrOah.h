@@ -54,7 +54,7 @@ class EXP msrDalSegnoAtom : public oahAtomWithValue
       map<string, msrDalSegno::msrDalSegnoKind>&
                           stringToDalSegnoKindMapVariable);
 
-    virtual ~msrDalSegnoAtom ();
+    virtual               ~msrDalSegnoAtom ();
 
   public:
 
@@ -140,7 +140,7 @@ class EXP msrReplaceClefAtom : public oahAtomWithValue
       map<msrClefKind, msrClefKind>&
                           clefKindToClefKindMapVariable);
 
-    virtual ~msrReplaceClefAtom ();
+    virtual               ~msrReplaceClefAtom ();
 
   public:
 
@@ -224,7 +224,7 @@ class EXP mxmlTree2msrOahGroup : public oahGroup
     mxmlTree2msrOahGroup (
       S_oahHandler handler);
 
-    virtual ~mxmlTree2msrOahGroup ();
+    virtual               ~mxmlTree2msrOahGroup ();
 
   public:
 

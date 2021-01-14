@@ -44,7 +44,7 @@ S_msrRepeatDescr msrRepeatDescr::create (
     msrRepeatDescr (
       repeatDescrStartInputLineNumber,
       repeatDescrRepeat);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -113,7 +113,7 @@ S_msrVoice msrVoice::create (
       voiceNumber,
       voiceCreateInitialLastSegmentKind,
       voiceStaffUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -3170,7 +3170,7 @@ S_msrMeasure msrVoice::fetchVoiceLastMeasure (
   S_msrMeasure result;
 
   msgAssert (
-    fVoiceLastSegment != 0,
+    fVoiceLastSegment != nullptr,
     "fVoiceLastSegment is null");
 
   const list<S_msrMeasure>&

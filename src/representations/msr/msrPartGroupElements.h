@@ -40,7 +40,7 @@ class EXP msrPartGroupElement : public msrMeasureElement
     msrPartGroupElement (
       int inputLineNumber);
 
-    virtual ~msrPartGroupElement ();
+    virtual               ~msrPartGroupElement ();
 
   /*
     The part group uplink is declared in the sub-classes,

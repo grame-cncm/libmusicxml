@@ -40,7 +40,7 @@ S_msrIdentification msrIdentification::create (
   msrIdentification* o =
     new msrIdentification (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

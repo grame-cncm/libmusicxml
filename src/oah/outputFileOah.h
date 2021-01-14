@@ -44,7 +44,7 @@ class EXP outputFileOahGroup : public oahGroup
 
     outputFileOahGroup ();
 
-    virtual ~outputFileOahGroup ();
+    virtual               ~outputFileOahGroup ();
 
   public:
 

@@ -44,7 +44,7 @@ S_msrMeasure msrMeasure::create (
       inputLineNumber,
       measureNumber,
       measureSegmentUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

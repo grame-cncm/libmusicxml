@@ -28,7 +28,7 @@ S_lpsrPartGroupBlock lpsrPartGroupBlock::create (
 {
   lpsrPartGroupBlock* o = new lpsrPartGroupBlock (
     partGroup);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

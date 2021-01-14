@@ -67,15 +67,15 @@ class EXP msrLigature : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrLigature (
-      int                    inputLineNumber,
-      int                    ligatureNumber,
-      msrLigatureKind        ligatureKind,
-      msrLigatureLineEndKind ligatureLineEndKind,
-      msrLineTypeKind        ligatureLineTypeKind,
-      msrPlacementKind       ligaturePlacementKind);
+                          msrLigature (
+                            int                    inputLineNumber,
+                            int                    ligatureNumber,
+                            msrLigatureKind        ligatureKind,
+                            msrLigatureLineEndKind ligatureLineEndKind,
+                            msrLineTypeKind        ligatureLineTypeKind,
+                            msrPlacementKind       ligaturePlacementKind);
 
-    virtual ~msrLigature ();
+    virtual               ~msrLigature ();
 
   public:
 

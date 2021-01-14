@@ -37,7 +37,7 @@ S_lpsrComment lpsrComment::create (
   lpsrComment* o = new
     lpsrComment (
       inputLineNumber, contents, commentGapKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

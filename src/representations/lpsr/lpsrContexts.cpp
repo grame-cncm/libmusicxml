@@ -35,7 +35,7 @@ S_lpsrContext lpsrContext::create (
       contextExistingKind,
       contextTypeKind,
       contextName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -202,7 +202,7 @@ S_lpsrChordNamesContext lpsrChordNamesContext::create (
       contextExistingKind,
       contextName,
       contextVoice);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -360,7 +360,7 @@ S_lpsrFiguredBassContext lpsrFiguredBassContext::create (
       contextExistingKind,
       contextName,
       contextStaff);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

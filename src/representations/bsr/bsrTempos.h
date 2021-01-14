@@ -39,7 +39,7 @@ class EXP bsrTempo : public bsrLineContentsElement
       int        inputLineNumber,
       S_msrTempo mTempo);
 
-    virtual ~bsrTempo ();
+    virtual               ~bsrTempo ();
 
   public:
 

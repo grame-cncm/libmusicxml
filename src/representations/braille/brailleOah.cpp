@@ -40,7 +40,7 @@ S_brailleOahGroup gGlobalBrailleOahGroup;
 S_brailleOahGroup brailleOahGroup::create ()
 {
   brailleOahGroup* o = new brailleOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

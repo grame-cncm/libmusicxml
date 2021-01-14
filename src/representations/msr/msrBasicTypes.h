@@ -51,9 +51,11 @@ string msrXMLLangKindAsString (
 // diatonic pitches
 //______________________________________________________________________________
 enum msrDiatonicPitchKind {
+  k_NoDiatonicPitch,
   // starting at C for LilyPond relative octave calculations
-  kC, kD, kE, kF, kG, kA, kB,
-  k_NoDiatonicPitch
+  kDiatonicPitchC,
+  kDiatonicPitchD, kDiatonicPitchE, kDiatonicPitchF,
+  kDiatonicPitchG, kDiatonicPitchA, kDiatonicPitchB
 };
 
 EXP msrDiatonicPitchKind msrDiatonicPitchKindFromString (
@@ -720,13 +722,13 @@ class EXP msrDottedDuration
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrDottedDuration ();
+                          msrDottedDuration ();
 
-    msrDottedDuration (
-      msrDurationKind durationKind,
-      int             dotsNumber);
+                          msrDottedDuration (
+                            msrDurationKind durationKind,
+                            int             dotsNumber);
 
-    virtual ~msrDottedDuration ();
+    virtual               ~msrDottedDuration ();
 
   public:
 
@@ -808,11 +810,11 @@ class EXP msrSemiTonesPitchAndOctave : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSemiTonesPitchAndOctave (
-      msrSemiTonesPitchKind semiTonesPitchKind,
-      msrOctaveKind         octaveKind);
+                          msrSemiTonesPitchAndOctave (
+                            msrSemiTonesPitchKind semiTonesPitchKind,
+                            msrOctaveKind         octaveKind);
 
-    virtual ~msrSemiTonesPitchAndOctave ();
+    virtual               ~msrSemiTonesPitchAndOctave ();
 
   public:
 
@@ -884,11 +886,11 @@ class EXP msrQuarterTonesPitchAndOctave : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrQuarterTonesPitchAndOctave (
-      msrQuarterTonesPitchKind quarterTonesPitchKind,
-      msrOctaveKind            octaveKind);
+                          msrQuarterTonesPitchAndOctave (
+                            msrQuarterTonesPitchKind quarterTonesPitchKind,
+                            msrOctaveKind            octaveKind);
 
-    virtual ~msrQuarterTonesPitchAndOctave ();
+    virtual               ~msrQuarterTonesPitchAndOctave ();
 
   public:
 
@@ -967,13 +969,13 @@ class EXP msrLength : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrLength (
-      msrLengthUnitKind lengthUnitKind,
-      float             lengthValue);
+                          msrLength (
+                            msrLengthUnitKind lengthUnitKind,
+                            float             lengthValue);
 
-    msrLength ();
+                          msrLength ();
 
-    virtual ~msrLength ();
+    virtual               ~msrLength ();
 
   public:
 
@@ -1070,13 +1072,13 @@ class EXP msrMargin : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMargin (
-      msrMarginTypeKind marginTypeKind,
-      msrLength         marginLength);
+                          msrMargin (
+                            msrMarginTypeKind marginTypeKind,
+                            msrLength         marginLength);
 
-    msrMargin ();
+                          msrMargin ();
 
-    virtual ~msrMargin ();
+    virtual               ~msrMargin ();
 
   public:
 
@@ -1152,12 +1154,12 @@ class EXP msrMarginsGroup : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMarginsGroup (
-      msrMarginTypeKind marginTypeKind);
+                          msrMarginsGroup (
+                            msrMarginTypeKind marginTypeKind);
 
-    msrMarginsGroup ();
+                          msrMarginsGroup ();
 
-    virtual ~msrMarginsGroup ();
+    virtual               ~msrMarginsGroup ();
 
   public:
 
@@ -1274,13 +1276,13 @@ class EXP msrFontSize : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrFontSize (
-      msrFontSizeKind fontSizeKind);
+                          msrFontSize (
+                            msrFontSizeKind fontSizeKind);
 
-    msrFontSize (
-      float numericFontSize);
+                          msrFontSize (
+                            float numericFontSize);
 
-    virtual ~msrFontSize ();
+    virtual               ~msrFontSize ();
 
   public:
 
@@ -1430,6 +1432,28 @@ msrPlacementKind msrPlacementKindFromString (
 string msrPlacementKindAsString (
   msrPlacementKind placementKind);
 
+// dynamics
+// ------------------------------------------------------
+
+enum msrDynamicsKind {
+  k_NoDynamics,
+
+  kDynamicsF, kDynamicsFF, kDynamicsFFF,
+  kDynamicsFFFF, kDynamicsFFFFF, kDynamicsFFFFFF,
+
+  kDynamicsP, kDynamicsPP, kDynamicsPPP, kDynamicsPPPP,
+  kDynamicsPPPPP, kDynamicsPPPPPP,
+
+  kDynamicsMF, kDynamicsMP, kDynamicsFP, kDynamicsFZ, kDynamicsRF,
+  kDynamicsSF, kDynamicsRFZ, kDynamicsSFZ, kDynamicsSFP,
+  kDynamicsSFPP, kDynamicsSFFZ
+};
+
+msrDynamicsKind dynamicsFromString (string theString);
+
+string dynamicsKindAsString (
+  msrDynamicsKind dynamicsKind);
+
 // measure style
 //______________________________________________________________________________
 enum msrSlashTypeKind {
@@ -1518,16 +1542,16 @@ class EXP msrMoment
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMoment ();
+                          msrMoment ();
 
-    msrMoment (
-      rational writtenPositionInMeseasur,
-      rational soundingRelativeOffset);
+                          msrMoment (
+                            rational writtenPositionInMeseasur,
+                            rational soundingRelativeOffset);
 
-    msrMoment (
-      rational writtenPositionInMeseasur);
+                          msrMoment (
+                            rational writtenPositionInMeseasur);
 
-    virtual ~msrMoment ();
+    virtual               ~msrMoment ();
 
   public:
 
@@ -1607,16 +1631,16 @@ class EXP msrTupletFactor
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrTupletFactor ();
+                          msrTupletFactor ();
 
-    msrTupletFactor (
-      int tupletActualNotes,
-      int tupletNormalNotes);
+                          msrTupletFactor (
+                            int tupletActualNotes,
+                            int tupletNormalNotes);
 
-    msrTupletFactor (
-      rational rationalTupletFactor);
+                          msrTupletFactor (
+                            rational rationalTupletFactor);
 
-    virtual ~msrTupletFactor ();
+    virtual               ~msrTupletFactor ();
 
   public:
 
@@ -1709,11 +1733,11 @@ class EXP msrHarmonyInterval : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrHarmonyInterval (
-      msrIntervalKind harmonyIntervalIntervalKind,
-      int             harmonyIntervalRelativeOctave);
+                          msrHarmonyInterval (
+                            msrIntervalKind harmonyIntervalIntervalKind,
+                            int             harmonyIntervalRelativeOctave);
 
-    virtual ~msrHarmonyInterval ();
+    virtual               ~msrHarmonyInterval ();
 
   public:
 
@@ -1780,6 +1804,7 @@ class EXP msrHarmonyInterval : public smartable
 
   public:
 
+    // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os) const;
@@ -1821,10 +1846,10 @@ class EXP msrHarmonyStructure : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrHarmonyStructure (
-      msrHarmonyKind harmonyStructureHarmonyKind);
+                          msrHarmonyStructure (
+                            msrHarmonyKind harmonyStructureHarmonyKind);
 
-    virtual ~msrHarmonyStructure ();
+    virtual               ~msrHarmonyStructure ();
 
   private:
 
@@ -1912,12 +1937,12 @@ class EXP msrHarmonyContents : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrHarmonyContents (
- // JMI     int                   inputLineNumber,
-      msrSemiTonesPitchKind harmonyContentsRootNote,
-      msrHarmonyKind        harmonyContentsHarmonyKind);
+                          msrHarmonyContents (
+                       // JMI     int                   inputLineNumber,
+                            msrSemiTonesPitchKind harmonyContentsRootNote,
+                            msrHarmonyKind        harmonyContentsHarmonyKind);
 
-    virtual ~msrHarmonyContents ();
+    virtual               ~msrHarmonyContents ();
 
   public:
 
@@ -2062,14 +2087,14 @@ class EXP msrAlphaRGBColor
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrAlphaRGBColor (
-      string colorRGB,
-      string colorAlpha);
+                          msrAlphaRGBColor (
+                            string colorRGB,
+                            string colorAlpha);
 
-    msrAlphaRGBColor (
-      string colorRGB);
+                          msrAlphaRGBColor (
+                            string colorRGB);
 
-    virtual ~msrAlphaRGBColor ();
+    virtual               ~msrAlphaRGBColor ();
 
   public:
 

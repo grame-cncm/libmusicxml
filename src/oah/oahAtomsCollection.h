@@ -49,13 +49,13 @@ class EXP oahAtomSynonym : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahAtomSynonym (
-      string    shortName,
-      string    longName,
-      string    description,
-      S_oahAtom originalOahAtom);
+                          oahAtomSynonym (
+                            string    shortName,
+                            string    longName,
+                            string    description,
+                            S_oahAtom originalOahAtom);
 
-    virtual ~oahAtomSynonym ();
+    virtual               ~oahAtomSynonym ();
 
   public:
 
@@ -122,12 +122,12 @@ class EXP oahMacroAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahMacroAtom (
-      string    shortName,
-      string    longName,
-      string    description);
+                          oahMacroAtom (
+                            string    shortName,
+                            string    longName,
+                            string    description);
 
-    virtual ~oahMacroAtom ();
+    virtual               ~oahMacroAtom ();
 
   public:
 
@@ -203,13 +203,13 @@ class EXP oahHelpOnlyAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahHelpOnlyAtom (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                          oahHelpOnlyAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
-    virtual ~oahHelpOnlyAtom ();
+    virtual               ~oahHelpOnlyAtom ();
 
   public:
 
@@ -271,13 +271,13 @@ class EXP oahOptionsUsageAtom : public oahHelpOnlyAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahOptionsUsageAtom (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                          oahOptionsUsageAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
-    virtual ~oahOptionsUsageAtom ();
+    virtual               ~oahOptionsUsageAtom ();
 
   public:
 
@@ -341,13 +341,13 @@ class EXP oahHelpAtom : public oahHelpOnlyAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahHelpAtom (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                          oahHelpAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
-    virtual ~oahHelpAtom ();
+    virtual               ~oahHelpAtom ();
 
   public:
 
@@ -411,13 +411,13 @@ class EXP oahHelpSummaryAtom : public oahHelpOnlyAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahHelpSummaryAtom (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                          oahHelpSummaryAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
-    virtual ~oahHelpSummaryAtom ();
+    virtual               ~oahHelpSummaryAtom ();
 
   public:
 
@@ -481,13 +481,13 @@ class EXP oahAboutAtom : public oahHelpOnlyAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahAboutAtom (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                          oahAboutAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
-    virtual ~oahAboutAtom ();
+    virtual               ~oahAboutAtom ();
 
   public:
 
@@ -549,13 +549,13 @@ class EXP oahVersionAtom : public oahHelpOnlyAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahVersionAtom (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                          oahVersionAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
-    virtual ~oahVersionAtom ();
+    virtual               ~oahVersionAtom ();
 
   public:
 
@@ -617,14 +617,14 @@ class EXP oahContactAtom : public oahHelpOnlyAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahContactAtom (
-      string shortName,
-      string longName,
-      string description,
-      string executableName);
+                          oahContactAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string executableName);
 
 
-    virtual ~oahContactAtom ();
+    virtual               ~oahContactAtom ();
 
   public:
 
@@ -687,14 +687,14 @@ class EXP oahBooleanAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahBooleanAtom (
-      string shortName,
-      string longName,
-      string description,
-      string variableName,
-      bool&  booleanVariable);
+                          oahBooleanAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string variableName,
+                            bool&  booleanVariable);
 
-    virtual ~oahBooleanAtom ();
+    virtual               ~oahBooleanAtom ();
 
   public:
 
@@ -771,15 +771,15 @@ class EXP oahTwoBooleansAtom : public oahBooleanAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahTwoBooleansAtom (
-      string shortName,
-      string longName,
-      string description,
-      string variableName,
-      bool&  booleanVariable,
-      bool&  booleanSecondaryVariable);
+                          oahTwoBooleansAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string variableName,
+                            bool&  booleanVariable,
+                            bool&  booleanSecondaryVariable);
 
-    virtual ~oahTwoBooleansAtom ();
+    virtual               ~oahTwoBooleansAtom ();
 
   public:
 
@@ -848,16 +848,16 @@ class EXP oahThreeBooleansAtom : public oahBooleanAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahThreeBooleansAtom (
-      string shortName,
-      string longName,
-      string description,
-      string variableName,
-      bool&  booleanVariable,
-      bool&  booleanSecondaryVariable,
-      bool&  booleanTertiaryVariable);
+                          oahThreeBooleansAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string variableName,
+                            bool&  booleanVariable,
+                            bool&  booleanSecondaryVariable,
+                            bool&  booleanTertiaryVariable);
 
-    virtual ~oahThreeBooleansAtom ();
+    virtual               ~oahThreeBooleansAtom ();
 
   public:
 
@@ -925,14 +925,14 @@ class EXP oahCombinedBooleansAtom : public oahAtomWithVariableName
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahCombinedBooleansAtom (
-      string shortName,
-      string longName,
-      string description,
-      string variableName,
-      bool&  booleanVariable);
+                          oahCombinedBooleansAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string variableName,
+                            bool&  booleanVariable);
 
-    virtual ~oahCombinedBooleansAtom ();
+    virtual               ~oahCombinedBooleansAtom ();
 
   public:
 
@@ -1023,16 +1023,16 @@ class EXP oahMultiplexBooleansAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahMultiplexBooleansAtom (
-      string      shortName,
-      string      longName,
-      string      description,
-      string      shortSuffixDescriptor,
-      string      longSuffixDescriptor,
-      S_oahPrefix shortNamesPrefix,
-      S_oahPrefix longNamesPrefix);
+                          oahMultiplexBooleansAtom (
+                            string      shortName,
+                            string      longName,
+                            string      description,
+                            string      shortSuffixDescriptor,
+                            string      longSuffixDescriptor,
+                            S_oahPrefix shortNamesPrefix,
+                            S_oahPrefix longNamesPrefix);
 
-    virtual ~oahMultiplexBooleansAtom ();
+    virtual               ~oahMultiplexBooleansAtom ();
 
   public:
 
@@ -1123,18 +1123,18 @@ class EXP oahIntegerAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahIntegerAtom (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      int&   integerVariable);
+                          oahIntegerAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            int&   integerVariable);
 
   protected:
 
 
-    virtual ~oahIntegerAtom ();
+    virtual               ~oahIntegerAtom ();
 
   public:
 
@@ -1210,19 +1210,19 @@ class EXP oahTwoIntegersAtom : public oahIntegerAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahTwoIntegersAtom (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      int&   integerVariable,
-      int&   integerSecondaryVariable);
+                          oahTwoIntegersAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            int&   integerVariable,
+                            int&   integerSecondaryVariable);
 
   protected:
 
 
-    virtual ~oahTwoIntegersAtom ();
+    virtual               ~oahTwoIntegersAtom ();
 
   public:
 
@@ -1294,15 +1294,15 @@ class EXP oahFloatAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahFloatAtom (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      float& floatVariable);
+                          oahFloatAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            float& floatVariable);
 
-    virtual ~oahFloatAtom ();
+    virtual               ~oahFloatAtom ();
 
   public:
 
@@ -1378,15 +1378,15 @@ class EXP oahStringAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahStringAtom (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      string& stringVariable);
+                          oahStringAtom (
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  variableName,
+                            string& stringVariable);
 
-    virtual ~oahStringAtom ();
+    virtual               ~oahStringAtom ();
 
   public:
 
@@ -1461,14 +1461,14 @@ class EXP oahMonoplexStringAtom : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahMonoplexStringAtom (
-      string shortName,
-      string longName,
-      string description,
-      string atomNameDescriptor,
-      string stringValueDescriptor);
+                          oahMonoplexStringAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string atomNameDescriptor,
+                            string stringValueDescriptor);
 
-    virtual ~oahMonoplexStringAtom ();
+    virtual               ~oahMonoplexStringAtom ();
 
   public:
 
@@ -1553,16 +1553,16 @@ class EXP oahStringWithDefaultValueAtom : public oahStringAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahStringWithDefaultValueAtom (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      string& stringVariable,
-      string  defaultStringValue);
+                          oahStringWithDefaultValueAtom (
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  variableName,
+                            string& stringVariable,
+                            string  defaultStringValue);
 
-    virtual ~oahStringWithDefaultValueAtom ();
+    virtual               ~oahStringWithDefaultValueAtom ();
 
   public:
 
@@ -1638,15 +1638,15 @@ class EXP oahRationalAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahRationalAtom (
-      string    shortName,
-      string    longName,
-      string    description,
-      string    valueSpecification,
-      string    variableName,
-      rational& rationalVariable);
+                          oahRationalAtom (
+                            string    shortName,
+                            string    longName,
+                            string    description,
+                            string    valueSpecification,
+                            string    variableName,
+                            rational& rationalVariable);
 
-    virtual ~oahRationalAtom ();
+    virtual               ~oahRationalAtom ();
 
   public:
 
@@ -1727,15 +1727,15 @@ class EXP oahNaturalNumbersSetAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahNaturalNumbersSetAtom (
-      string    shortName,
-      string    longName,
-      string    description,
-      string    valueSpecification,
-      string    variableName,
-      set<int>& naturalNumbersSetVariable);
+                          oahNaturalNumbersSetAtom (
+                            string    shortName,
+                            string    longName,
+                            string    description,
+                            string    valueSpecification,
+                            string    variableName,
+                            set<int>& naturalNumbersSetVariable);
 
-    virtual ~oahNaturalNumbersSetAtom ();
+    virtual               ~oahNaturalNumbersSetAtom ();
 
   public:
 
@@ -1816,15 +1816,15 @@ class EXP oahRGBColorAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahRGBColorAtom (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      msrRGBColor& RGBColorVariable);
+                          oahRGBColorAtom (
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            msrRGBColor& RGBColorVariable);
 
-    virtual ~oahRGBColorAtom ();
+    virtual               ~oahRGBColorAtom ();
 
   public:
 
@@ -1905,15 +1905,15 @@ class EXP oahIntSetAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahIntSetAtom (
-      string    shortName,
-      string    longName,
-      string    description,
-      string    valueSpecification,
-      string    variableName,
-      set<int>& intSetVariable);
+                          oahIntSetAtom (
+                            string    shortName,
+                            string    longName,
+                            string    description,
+                            string    valueSpecification,
+                            string    variableName,
+                            set<int>& intSetVariable);
 
-    virtual ~oahIntSetAtom ();
+    virtual               ~oahIntSetAtom ();
 
   public:
 
@@ -1988,15 +1988,15 @@ class EXP oahStringSetAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahStringSetAtom (
-      string       shortName,
-      string       longName,
-      string       description,
-      string       valueSpecification,
-      string       variableName,
-      set<string>& stringSetVariable);
+                          oahStringSetAtom (
+                            string       shortName,
+                            string       longName,
+                            string       description,
+                            string       valueSpecification,
+                            string       variableName,
+                            set<string>& stringSetVariable);
 
-    virtual ~oahStringSetAtom ();
+    virtual               ~oahStringSetAtom ();
 
   public:
 
@@ -2077,15 +2077,15 @@ class EXP oahStringToIntMapAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahStringToIntMapAtom (
-      string            shortName,
-      string            longName,
-      string            description,
-      string            valueSpecification,
-      string            variableName,
-      map<string, int>& stringToIntMapVariable);
+                          oahStringToIntMapAtom (
+                            string            shortName,
+                            string            longName,
+                            string            description,
+                            string            valueSpecification,
+                            string            variableName,
+                            map<string, int>& stringToIntMapVariable);
 
-    virtual ~oahStringToIntMapAtom ();
+    virtual               ~oahStringToIntMapAtom ();
 
   public:
 
@@ -2163,17 +2163,17 @@ class EXP oahStringAndIntegerAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahStringAndIntegerAtom (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  stringVariableName,
-      string& stringVariable,
-      string  integerVariableName,
-      int&    integerVariable);
+                          oahStringAndIntegerAtom (
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  stringVariableName,
+                            string& stringVariable,
+                            string  integerVariableName,
+                            int&    integerVariable);
 
-    virtual ~oahStringAndIntegerAtom ();
+    virtual               ~oahStringAndIntegerAtom ();
 
   public:
 
@@ -2260,17 +2260,17 @@ class EXP oahStringAndTwoIntegersAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahStringAndTwoIntegersAtom (
-      string  shortName,
-      string  longName,
-      string  description,
-      string  valueSpecification,
-      string  variableName,
-      string& stringVariable,
-      int&    primaryIntegerVariable,
-      int&    secondaryIntegerVariable);
+                          oahStringAndTwoIntegersAtom (
+                            string  shortName,
+                            string  longName,
+                            string  description,
+                            string  valueSpecification,
+                            string  variableName,
+                            string& stringVariable,
+                            int&    primaryIntegerVariable,
+                            int&    secondaryIntegerVariable);
 
-    virtual ~oahStringAndTwoIntegersAtom ();
+    virtual               ~oahStringAndTwoIntegersAtom ();
 
   public:
 
@@ -2359,15 +2359,15 @@ class EXP oahLengthUnitKindAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahLengthUnitKindAtom (
-      string             shortName,
-      string             longName,
-      string             description,
-      string             valueSpecification,
-      string             variableName,
-      msrLengthUnitKind& lengthUnitKindVariable);
+                          oahLengthUnitKindAtom (
+                            string             shortName,
+                            string             longName,
+                            string             description,
+                            string             valueSpecification,
+                            string             variableName,
+                            msrLengthUnitKind& lengthUnitKindVariable);
 
-    virtual ~oahLengthUnitKindAtom ();
+    virtual               ~oahLengthUnitKindAtom ();
 
   public:
 
@@ -2448,15 +2448,15 @@ class EXP oahLengthAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahLengthAtom (
-      string     shortName,
-      string     longName,
-      string     description,
-      string     valueSpecification,
-      string     variableName,
-      msrLength& lengthVariable);
+                          oahLengthAtom (
+                            string     shortName,
+                            string     longName,
+                            string     description,
+                            string     valueSpecification,
+                            string     variableName,
+                            msrLength& lengthVariable);
 
-    virtual ~oahLengthAtom ();
+    virtual               ~oahLengthAtom ();
 
   public:
 
@@ -2537,15 +2537,15 @@ class EXP oahMidiTempoAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahMidiTempoAtom (
-      string        shortName,
-      string        longName,
-      string        description,
-      string        valueSpecification,
-      string        variableName,
-      msrMidiTempo& midiTempoVariable);
+                          oahMidiTempoAtom (
+                            string        shortName,
+                            string        longName,
+                            string        description,
+                            string        valueSpecification,
+                            string        variableName,
+                            msrMidiTempo& midiTempoVariable);
 
-    virtual ~oahMidiTempoAtom ();
+    virtual               ~oahMidiTempoAtom ();
 
   public:
 
@@ -2634,18 +2634,18 @@ class EXP oahOptionNameHelpAtom : public oahStringWithDefaultValueAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahOptionNameHelpAtom (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      string& stringVariable,
-      string defaultOptionName);
+                          oahOptionNameHelpAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            string& stringVariable,
+                            string defaultOptionName);
 
   protected:
 
-    virtual ~oahOptionNameHelpAtom ();
+    virtual               ~oahOptionNameHelpAtom ();
 
   public:
 
@@ -2717,17 +2717,15 @@ class EXP oahAProposOptionNameAtom : public oahStringAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahAProposOptionNameAtom (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      string& stringVariable);
+                          oahAProposOptionNameAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            string& stringVariable);
 
-  protected:
-
-    virtual ~oahAProposOptionNameAtom ();
+    virtual               ~oahAProposOptionNameAtom ();
 
   public:
 
@@ -2797,17 +2795,15 @@ class EXP oahFindStringAtom : public oahStringAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahFindStringAtom (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName,
-      string& stringVariable);
+                          oahFindStringAtom (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName,
+                            string& stringVariable);
 
-  protected:
-
-    virtual ~oahFindStringAtom ();
+    virtual               ~oahFindStringAtom ();
 
   public:
 

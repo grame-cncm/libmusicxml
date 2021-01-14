@@ -81,7 +81,7 @@ class EXP basicOah2manPageGenerator : virtual public oah2manPageGenerator,
       const S_oahHandler handler,
       ostream&           manPageOutputStream);
 
-    virtual ~basicOah2manPageGenerator ();
+    virtual               ~basicOah2manPageGenerator ();
 
   protected:
 

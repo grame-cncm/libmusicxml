@@ -53,7 +53,7 @@ S_timingItem timingItem::createTimingItem (
     kind,
     startClock,
     endClock);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1898,13 +1898,13 @@ Usage:
   public:
 
     // constructor
-    segmentedLinesOstream (
-      indentedOstream& indentedOstream)
-      : fIndentedOstream (indentedOstream)
-        { fAtEndOfSegment = false; }
+                          segmentedLinesOstream (
+                            indentedOstream& indentedOstream)
+                            : fIndentedOstream (indentedOstream)
+                              { fAtEndOfSegment = false; }
 
     // destructor
-    virtual ~segmentedLinesOstream ()
+    virtual               ~segmentedLinesOstream ()
         {};
 
     // flush

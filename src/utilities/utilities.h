@@ -80,10 +80,10 @@ typedef SMARTP<timingItem> S_timingItem;
 class EXP timing {
   public:
        timing ();
-    virtual ~timing ();
+    virtual               ~timing ();
 
     // global variable for general use
-    static timing gGlobalTiming;
+    static timing         gGlobalTiming;
 
     // add an item
     void                  appendTimingItem (
@@ -115,10 +115,19 @@ EXP ostream& operator<< (ostream& os, const timing& tim);
 //______________________________________________________________________________
 class EXP outputIndenter
 {
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+                          outputIndenter (string spacer = "  ");
+
+    virtual               ~outputIndenter ();
+
   public:
 
-    outputIndenter (string spacer = "  ");
-    virtual ~outputIndenter ();
+    // set and get
+    // ------------------------------------------------------
 
     // set the indent
     void                  setIndent (int indent)
@@ -127,6 +136,11 @@ class EXP outputIndenter
     // get the indent
     int                   getIndent () const
                               { return fIndent; }
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
 
 /*
     // Declare prefix and postfix decrement operators.
@@ -253,11 +267,10 @@ Usage:
     7 << 8 << endl;
 */
 
-  private:
-    // indentedOstream just uses an indentedStreamBuf
-    indentedStreamBuf     fIndentedStreamBuf;
-
   public:
+
+    // creation
+    // ------------------------------------------------------
 
     static SMARTP<indentedOstream> create (
       ostream&        theOStream,
@@ -266,24 +279,30 @@ Usage:
       indentedOstream* o = new indentedOstream (
         theOStream,
         theIndenter);
-      assert (o!=0);
+      assert (o != nullptr);
 
       return o;
     }
 
-    // constructor
-    indentedOstream (
-      ostream&        theOStream,
-      outputIndenter& theIndenter)
-      : ostream (
-          & fIndentedStreamBuf),
-        fIndentedStreamBuf (
-          theOStream,
-          theIndenter)
-        {}
+    // constructors/destructor
+    // ------------------------------------------------------
 
-    // destructor
-    virtual ~indentedOstream () {};
+                          indentedOstream (
+                            ostream&        theOStream,
+                            outputIndenter& theIndenter)
+                            : ostream (
+                                & fIndentedStreamBuf),
+                              fIndentedStreamBuf (
+                                theOStream,
+                                theIndenter)
+                              {}
+
+    virtual               ~indentedOstream () {};
+
+  public:
+
+    // public services
+    // ------------------------------------------------------
 
     // flush
     void                  flush ()
@@ -298,6 +317,15 @@ Usage:
 
     void                  decrIdentation ()
                               { -- (fIndentedStreamBuf.getOutputIndenter ()); }
+
+  private:
+
+    // private fields
+    // ------------------------------------------------------
+
+    // indentedOstream just uses an indentedStreamBuf
+    indentedStreamBuf     fIndentedStreamBuf;
+
 };
 typedef SMARTP<indentedOstream> S_indentedOstream;
 
@@ -552,7 +580,7 @@ class EXP indentedSstream: public stringstream, public smartable
       indentedSstream* o = new indentedSstream (
         theStringStream,
         theIndenter);
-      assert (o!=0);
+      assert (o != nullptr);
 
       return o;
     }
@@ -569,7 +597,7 @@ class EXP indentedSstream: public stringstream, public smartable
         {}
 
     // destructor
-    virtual ~indentedSstream () {};
+    virtual               ~indentedSstream () {};
 
     // flush
     void                  flush ()

@@ -42,7 +42,7 @@ S_musicxml2mxmlTreeOahGroup gGlobalMusicxml2mxmlTreeOahGroup;
 S_musicxml2mxmlTreeOahGroup musicxml2mxmlTreeOahGroup::create ()
 {
   musicxml2mxmlTreeOahGroup* o = new musicxml2mxmlTreeOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -45,7 +45,7 @@ class EXP musicxml2mxmlTreeOahGroup : public oahGroup
 
     musicxml2mxmlTreeOahGroup ();
 
-    virtual ~musicxml2mxmlTreeOahGroup ();
+    virtual               ~musicxml2mxmlTreeOahGroup ();
 
   public:
 

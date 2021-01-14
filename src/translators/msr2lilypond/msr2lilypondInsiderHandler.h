@@ -50,7 +50,7 @@ class EXP msr2lilypondInsiderHandler : public oahInsiderHandler
       string                 handlerHeader,
       oahHandlerUsedThruKind handlerUsedThruKind);
 
-    virtual ~msr2lilypondInsiderHandler ();
+    virtual               ~msr2lilypondInsiderHandler ();
 
   private:
 
@@ -130,7 +130,7 @@ class EXP msr2lilypondInsiderOahGroup : public oahGroup
 
     msr2lilypondInsiderOahGroup ();
 
-    virtual ~msr2lilypondInsiderOahGroup ();
+    virtual               ~msr2lilypondInsiderOahGroup ();
 
   public:
 

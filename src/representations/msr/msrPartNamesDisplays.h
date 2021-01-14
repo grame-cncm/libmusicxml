@@ -42,7 +42,7 @@ class EXP msrPartNameDisplay : public msrMeasureElement
       int    inputLineNumber,
       string partNameDisplayValue);
 
-    virtual ~msrPartNameDisplay ();
+    virtual               ~msrPartNameDisplay ();
 
   public:
 
@@ -107,7 +107,7 @@ class EXP msrPartAbbreviationDisplay : public msrMeasureElement
       int    inputLineNumber,
       string partAbbreviationDisplayValue);
 
-    virtual ~msrPartAbbreviationDisplay ();
+    virtual               ~msrPartAbbreviationDisplay ();
 
   public:
 

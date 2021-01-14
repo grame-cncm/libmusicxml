@@ -41,7 +41,7 @@ class EXP xml2xmlInsiderHandler : public oahInsiderHandler
       string executableName,
       string handlerHeader);
 
-    virtual ~xml2xmlInsiderHandler ();
+    virtual               ~xml2xmlInsiderHandler ();
 
   private:
 
@@ -114,7 +114,7 @@ class EXP xml2xmlInsiderOahGroup : public oahGroup
 
     xml2xmlInsiderOahGroup ();
 
-    virtual ~xml2xmlInsiderOahGroup ();
+    virtual               ~xml2xmlInsiderOahGroup ();
 
   public:
 

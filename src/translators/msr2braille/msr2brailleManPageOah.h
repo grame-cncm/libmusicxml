@@ -44,7 +44,7 @@ class EXP msr2brailleManPageGenerateAtom : public oahAtom
       string                 description,
       S_oahVisitor           theOahVisitor);
 
-    virtual ~msr2brailleManPageGenerateAtom ();
+    virtual               ~msr2brailleManPageGenerateAtom ();
 
   public:
 
@@ -123,7 +123,7 @@ class EXP msr2brailleManPageOahGroup : public oahGroup
     msr2brailleManPageOahGroup (
       S_oahVisitor theOah2manPageGenerator);
 
-    virtual ~msr2brailleManPageOahGroup ();
+    virtual               ~msr2brailleManPageOahGroup ();
 
   public:
 

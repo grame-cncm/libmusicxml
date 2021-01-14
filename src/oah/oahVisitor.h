@@ -32,7 +32,7 @@ class EXP oahVisitor : public smartable,
     oahVisitor (
       const S_oahHandler handler);
 
-    virtual ~oahVisitor ();
+    virtual               ~oahVisitor ();
 
     virtual void          visitTheHandler () = 0;
 

@@ -34,7 +34,7 @@ class EXP bsrPageHeading : public bsrLine
       S_bsrPagination pageHeadingPagination,
       int             pageHeadingNumber);
 
-    virtual ~bsrPageHeading ();
+    virtual               ~bsrPageHeading ();
 
   public:
 

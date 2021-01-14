@@ -43,7 +43,7 @@ class EXP lpsrBarNumberCheck : public lpsrElement
       int inputLineNumber,
       int nextBarNumber);
 
-    virtual ~lpsrBarNumberCheck ();
+    virtual               ~lpsrBarNumberCheck ();
 
   public:
 
@@ -100,7 +100,7 @@ class EXP lpsrBarCommand : public lpsrElement
     lpsrBarCommand (
       int inputLineNumber);
 
-    virtual ~lpsrBarCommand ();
+    virtual               ~lpsrBarCommand ();
 
   public:
 

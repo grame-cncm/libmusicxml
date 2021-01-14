@@ -97,11 +97,11 @@ Sxmlelement msr2mxmlTreeTranslator::buildMxmltreeFromMsrScore ()
     fVisitedMsrScore != nullptr,
     "fVisitedMsrScore is null");
 
-  // createMxml the current score part-wise element
+  // create the current score part-wise element
   fResultingMusicxmlElement =
     createMxmlScorePartWiseElement ();
 
-  // createMxml a msrScore browser
+  // create a msrScore browser
   msrBrowser<msrScore> browser (this);
 
   // browse the visited score with the browser
@@ -256,7 +256,7 @@ void msr2mxmlTreeTranslator::populatePageMargins (
 void msr2mxmlTreeTranslator::appendPageMarginsToScoreDefaultsPageLayout (
   S_msrMarginsGroup marginsGroup)
 {
-  // createMxml a page margins element
+  // create a page margins element
   Sxmlelement
     pageMargins =
       createMxmlElement (k_page_margins, "");
@@ -370,7 +370,7 @@ void msr2mxmlTreeTranslator::appendToScoreWork (
   Sxmlelement elem)
 {
   if (! fScoreWorkElement) {
-    // createMxml a work element
+    // create a work element
     fScoreWorkElement = createMxmlElement (k_work, "");
   }
 
@@ -382,7 +382,7 @@ void msr2mxmlTreeTranslator::appendToScoreIdentification (
   Sxmlelement elem)
 {
   if (! fScoreIdentificationElement) {
-    // createMxml an identification element
+    // create an identification element
     fScoreIdentificationElement = createMxmlElement (k_identification, "");
   }
 
@@ -393,7 +393,7 @@ void msr2mxmlTreeTranslator::appendToScoreIdentificationEncoding (
   Sxmlelement elem)
 {
   if (! fScoreIdentificationEncodingElement) {
-    // createMxml an encoding element
+    // create an encoding element
     fScoreIdentificationEncodingElement = createMxmlElement (k_encoding, "");
   }
 
@@ -405,7 +405,7 @@ void msr2mxmlTreeTranslator::appendToScoreDefaults (
   Sxmlelement elem)
 {
   if (! fScoreDefaultsElement) {
-    // createMxml a defaults element
+    // create a defaults element
     fScoreDefaultsElement = createMxmlElement (k_defaults, "");
   }
 
@@ -416,7 +416,7 @@ void msr2mxmlTreeTranslator::appendToScoreDefaultsPageLayout (
   Sxmlelement elem)
 {
   if (! fScoreDefaultsPageLayoutElement) {
-    // createMxml a page layout element
+    // create a page layout element
     fScoreDefaultsPageLayoutElement = createMxmlElement (k_page_layout, "");
   }
 
@@ -427,7 +427,7 @@ void msr2mxmlTreeTranslator::appendToScoreDefaultsPageLayout (
 void msr2mxmlTreeTranslator::createMxmlAttributesElementAndAppendItToMeasure ()
 {
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml an attributes comment
+    // create an attributes comment
     stringstream s;
     s <<
       " ===== " <<
@@ -440,7 +440,7 @@ void msr2mxmlTreeTranslator::createMxmlAttributesElementAndAppendItToMeasure ()
     fCurrentMeasureElement->push (comment);
   }
 
-  // createMxml the attributes element
+  // create the attributes element
   Sxmlelement
     attributesElement =
       createMxmlElement (k_attributes, "");
@@ -496,7 +496,7 @@ void msr2mxmlTreeTranslator::appendToMeasureDirection (
   msrPlacementKind placementKind)
 {
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml a direction comment
+    // create a direction comment
     stringstream s;
     s <<
       " ===== " <<
@@ -508,7 +508,7 @@ void msr2mxmlTreeTranslator::appendToMeasureDirection (
     fCurrentMeasureElement->push (comment);
   }
 
-  // createMxml a direction element
+  // create a direction element
   Sxmlelement directionElement = createMxmlElement (k_direction, "");
 
   // set it's "placement" attribute if relevant
@@ -523,7 +523,7 @@ void msr2mxmlTreeTranslator::appendToMeasureDirection (
   // append the direction element to the current measure element
   fCurrentMeasureElement->push (directionElement);
 
-  // createMxml a direction type element
+  // create a direction type element
   Sxmlelement directionTypeElement = createMxmlElement (k_direction_type, "");
 
   // append it to the current direction element
@@ -592,7 +592,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotations (
   msrPlacementKind placementKind)
 {
   if (! fCurrentNoteNotationsElement) {
-    // createMxml an notations element
+    // create an notations element
     fCurrentNoteNotationsElement = createMxmlElement (k_notations, "");
 
     // append it to fCurrentNoteElement
@@ -617,7 +617,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsOrnaments (
   msrPlacementKind placementKind)
 {
   if (! fCurrentNoteNotationsOrnamentsElement) {
-    // createMxml an notations element
+    // create an notations element
     fCurrentNoteNotationsOrnamentsElement = createMxmlElement (k_ornaments, "");
 
     // append it to fCurrentNoteNotationsElement
@@ -645,7 +645,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsArticulations (
   msrPlacementKind placementKind)
 {
   if (! fCurrentNoteNotationsArticulationsElement) {
-    // createMxml the note notations articulations element
+    // create the note notations articulations element
     fCurrentNoteNotationsArticulationsElement = createMxmlElement (k_articulations, "");
 
     // append it to fCurrentNoteNotationsArticulationsElement
@@ -673,7 +673,7 @@ void msr2mxmlTreeTranslator::appendToNoteNotationsTechnicals (
   msrPlacementKind placementKind)
 {
   if (! fCurrentNoteNotationsTechnicalsElement) {
-    // createMxml an notations element
+    // create an notations element
     fCurrentNoteNotationsTechnicalsElement = createMxmlElement (k_technical, "");
 
     // append it to fCurrentNoteNotationsElement
@@ -710,7 +710,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrScore& elt)
   }
 #endif
 
-  // createMxml the initial creation comment
+  // create the initial creation comment
   stringstream s;
   s <<
     " ===== " <<
@@ -727,7 +727,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrScore& elt)
   // append the initial creation comment to the score part wise element
   fResultingMusicxmlElement->push (createMxmlElement (kComment, s.str ()));
 
-  // createMxml a software element
+  // create a software element
   Sxmlelement
     softwareElement =
       createMxmlElement (
@@ -740,7 +740,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrScore& elt)
   // append it to the identification encoding
   appendToScoreIdentificationEncoding (softwareElement);
 
-  // createMxml an encoding date element
+  // create an encoding date element
   Sxmlelement
     encodingDateElement =
       createMxmlElement (
@@ -750,7 +750,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrScore& elt)
   // append it to the identification encoding
   appendToScoreIdentificationEncoding (encodingDateElement);
 
-  // createMxml the part list element
+  // create the part list element
   fScorePartListElement = createMxmlElement (k_part_list, "");
 }
 
@@ -786,7 +786,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
   // append the score identification element if any to the score part wise element
   if (fScoreIdentificationElement) {
     if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-      // createMxml an identification comment
+      // create an identification comment
       stringstream s;
       s <<
         " ===== " <<
@@ -836,7 +836,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
   // append the score defaults element if any to the score part wise element
   if (fScoreDefaultsElement) {
     if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-      // createMxml an defaults comment
+      // create an defaults comment
       stringstream s;
       s <<
         " ===== " <<
@@ -882,7 +882,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
   }
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml an part-list comment
+    // create an part-list comment
     stringstream s;
     s <<
       " ===== " <<
@@ -907,7 +907,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrScore& elt)
     Sxmlelement partElement = (*i);
 
     if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-      // createMxml a part comment
+      // create a part comment
       stringstream s;
       s <<
         " ============================ " <<
@@ -943,7 +943,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
     workNumber =
       elt->getWorkNumber ();
 
-  // createMxml the work number element
+  // create the work number element
   Sxmlelement
     workNumberElement =
       createMxmlElement (
@@ -958,7 +958,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
     workTitle =
       elt->getWorkTitle ();
 
-  // createMxml the work title element
+  // create the work title element
   Sxmlelement
     workTitleElement =
       createMxmlElement (
@@ -973,7 +973,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
     opus =
       elt->getOpus ();
 
-  // createMxml the opus element
+  // create the opus element
   Sxmlelement
     opusElement =
       createMxmlElement (
@@ -981,42 +981,39 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
         opus);
 
     // append it to the score part wise element
+if (false) // QUIT
     appendToScoreWork (opusElement);
 
   // movement number
   string
     movementNumber = elt->getMovementNumber ();
 
-  // createMxml the movement number element
-  Sxmlelement
-    movementNumberElement =
-      createMxmlElement (
-        k_movement_number,
-        movementNumber);
+  // create the movement number element
+  fScoreMovementNumberElement =
+    createMxmlElement (
+      k_movement_number,
+      movementNumber);
 
-  // append it to the score part wise element
-  fResultingMusicxmlElement->push (movementNumberElement);
+  // don't append it at once to the score defaults element
 
   // movement title
   string
     movementTitle = elt->getMovementTitle ();
 
-  // createMxml the movement title element
-  Sxmlelement
-    movementTitleElement =
-      createMxmlElement (
-        k_movement_title,
-        movementTitle);
+  // create the movement title element
+  fScoreMovementTitleElement =
+    createMxmlElement (
+      k_movement_title,
+      movementTitle);
 
-  // append it to the score part wise element
-  fResultingMusicxmlElement->push (movementTitleElement);
+  // don't append it at once to the score defaults element
 
   // miscellaneous field
   string
     miscellaneousField =
       elt->getMiscellaneousField ();
 
-  // createMxml the miscellaneous field element
+  // create the miscellaneous field element
   Sxmlelement
     miscellaneousFieldElement =
       createMxmlElement (
@@ -1027,7 +1024,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   miscellaneousFieldElement->add (
     createMxmlAttribute ("name", "description")); // ??? JMI sometines "comment"
 
-  // createMxml a miscellaneous element
+  // create a miscellaneous element
   fIdentificationMiscellaneousElement = createMxmlElement (k_miscellaneous, "");
 
   // append the miscellaneous field element to it
@@ -1038,15 +1035,22 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
     scoreInstrument =
       elt->getScoreInstrument ();
 
-  // createMxml the score instrument element
+  // create the score instrument element,
+  // it will be appended to the score part element
+  // when the latter is created
+  fScoreInstrumentElement =
+    createMxmlElement (
+      k_score_instrument,
+      "");
+  // set it's "id" attribute later, when the partID is known!
+  // create an instrument name element
   Sxmlelement
-    scoreInstrumentElement =
+    scoreInstrumentNameElement =
       createMxmlElement (
-        k_score_instrument,
+        k_instrument_name,
         scoreInstrument);
-
-  // append it to the score part wise element
-  fResultingMusicxmlElement->push (scoreInstrumentElement);
+  // append it to the score instrument element
+  fScoreInstrumentElement->push (scoreInstrumentNameElement);
 
   // composers
   const list<string>&
@@ -1060,7 +1064,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   ) {
     string variableValue = (*i);
 
-    // append a creator element
+    // create a creator element
     Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
 
     // set its "type" attribute
@@ -1082,7 +1086,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
   ) {
     string variableValue = (*i);
 
-    // append a creator element
+    // create a creator element
     Sxmlelement creatorElement = createMxmlElement (k_creator, variableValue);
 
     // set its "type" attribute
@@ -1287,7 +1291,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrScaling& elt)
   fTenths      = elt->getTenths ();
 
   if (fMillimeters > 0) {
-    // createMxml a scaling element
+    // create a scaling element
     fScoreDefaultsScalingElement = createMxmlElement (k_scaling, "");
 
     // append a millimeters sub-element to it
@@ -1413,7 +1417,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSystemLayout& elt)
   }
 #endif
 
-  // createMxml a system layout element
+  // create a system layout element
   Sxmlelement
     systemLayoutElement =
       createMxmlElement (k_system_layout, "");
@@ -1428,7 +1432,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSystemLayout& elt)
     fScoreDefaultsSystemLayoutElement = systemLayoutElement;
   }
 
-  // createMxml a system margins element
+  // create a system margins element
   Sxmlelement
     systemMargins =
       createMxmlElement (k_system_margins, "");
@@ -1446,7 +1450,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSystemLayout& elt)
   S_msrLength systemDistance = elt->getSystemDistance ();
 
   if (systemDistance) {
-    // createMxml a system distance element
+    // create a system distance element
     Sxmlelement
       systemDistanceElement =
         createMxmlElement (
@@ -1461,7 +1465,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSystemLayout& elt)
   S_msrLength topSystemDistance = elt->getTopSystemDistance ();
 
   if (topSystemDistance) {
-    // createMxml a top system distance element
+    // create a top system distance element
     Sxmlelement
       topSystemDistanceElement =
         createMxmlElement (
@@ -1501,7 +1505,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaffLayout& elt)
   // number
   int staffNumber = elt->getStaffNumber ();
 
-  // createMxml a staff layout element
+  // create a staff layout element
   Sxmlelement
     staffLayoutElement =
       createMxmlElement (k_staff_layout, "");
@@ -1516,7 +1520,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaffLayout& elt)
   S_msrLength staffDistance = elt->getStaffDistance ();
 
   if (staffDistance) {
-    // createMxml a staff distance element
+    // create a staff distance element
     Sxmlelement
       staffDistanceElement =
         createMxmlElement (
@@ -1564,7 +1568,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasureLayout& elt)
 #endif
 
   if (fOnGoingPrintLayout) {
-    // createMxml a measure layout element
+    // create a measure layout element
     Sxmlelement
       measureLayoutElement =
         createMxmlElement (k_measure_layout, "");
@@ -1577,7 +1581,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasureLayout& elt)
     S_msrLength measureDistance = elt->getMeasureDistance ();
 
     if (measureDistance) {
-      // createMxml a measure distance element
+      // create a measure distance element
       Sxmlelement
         measureDistanceElement =
           createMxmlElement (
@@ -1630,7 +1634,7 @@ void msr2mxmlTreeTranslator::populateAppearanceLineWidths (
       lineWidthValue =
         lineWidth->getLineWidthValue ();
 
-    // createMxml a line width element
+    // create a line width element
     Sxmlelement
       lineWidthElement =
         createMxmlElement (
@@ -1733,7 +1737,7 @@ void msr2mxmlTreeTranslator::populateAppearanceNoteSizes (
       noteSizeValue =
         noteSize->getNoteSizeValue ();
 
-    // createMxml a note size element
+    // create a note size element
     Sxmlelement
       noteSizeElement =
         createMxmlFloatElement (
@@ -1788,7 +1792,7 @@ void msr2mxmlTreeTranslator::populateAppearanceDistances (
       distanceValue =
         distance->getDistanceValue ();
 
-    // createMxml a line width element
+    // create a line width element
     Sxmlelement
       distanceElement =
         createMxmlElement (
@@ -1840,7 +1844,7 @@ void msr2mxmlTreeTranslator::populateAppearanceGlyphs (
       glyphValue =
         glyph->getGlyphValue ();
 
-    // createMxml a line width element
+    // create a line width element
     Sxmlelement
       glyphElement =
         createMxmlElement (
@@ -1929,7 +1933,7 @@ void msr2mxmlTreeTranslator::populateAppearanceOtherAppearances (
       otherAppearanceValue =
         otherAppearance->getOtherAppearanceValue ();
 
-    // createMxml a line width element
+    // create a line width element
     Sxmlelement
       otherAppearanceElement =
         createMxmlElement (
@@ -1966,7 +1970,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrAppearance& elt)
   }
 #endif
 
-  // createMxml an appearance element
+  // create an appearance element
   fScoreDefaultsAppearanceElement =
     createMxmlElement (k_appearance, "");
 
@@ -2043,7 +2047,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCredit& elt)
   }
 #endif
 
-  // createMxml a credit element
+  // create a credit element
   fCurrentScoreCreditElement = createMxmlElement (k_credit, "");
 
   // set its "page" attribute
@@ -2080,7 +2084,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrCreditWords& elt)
   }
 #endif
 
-  // createMxml a credit words element
+  // create a credit words element
   Sxmlelement
     creditWordsElement =
       createMxmlElement (
@@ -2272,7 +2276,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrPartGroup& elt)
     case msrPartGroup::kPartGroupImplicitNo:
       {
         if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-          // createMxml a start comment
+          // create a start comment
           stringstream s;
           s <<
             " ========== " <<
@@ -2286,7 +2290,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrPartGroup& elt)
           fScorePartListElement->push (comment);
         }
 
-        // createMxml a part group element
+        // create a part group element
         Sxmlelement scorePartGroupElement = createMxmlElement (k_part_group, "");
 
         // set it's "number" attribute
@@ -2297,7 +2301,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrPartGroup& elt)
         // set it's "type" attribute
         scorePartGroupElement->add (createMxmlAttribute ("type", "start"));
 
-        // createMxml a group symbol element to the part group element if relevant
+        // create a group symbol element to the part group element if relevant
         string groupSymbolString;
 
         switch (elt->getPartGroupSymbolKind ()) {
@@ -2409,7 +2413,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPartGroup& elt)
     case msrPartGroup::kPartGroupImplicitNo:
       {
         if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-          // createMxml an end comment
+          // create an end comment
           stringstream s;
           s <<
             " ========== " <<
@@ -2446,7 +2450,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrPartGroup& elt)
             s.str ());
         }
 */
-        // createMxml a part group element
+        // create a part group element
         Sxmlelement scorePartGroupElement = createMxmlElement (k_part_group, "");
 
         // set it's "number" attribute
@@ -2474,7 +2478,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrPart& elt)
     elt->getInputLineNumber ();
 #endif
 
-if (false)
+if (false) // JMI
   gLogStream << elt << endl;
 
   string
@@ -2516,30 +2520,45 @@ if (false)
   }
 #endif
 
+  fCurrentMSRPart = elt;
+
   ++gIndenter;
 
-  // createMxml a score part element
-  Sxmlelement scorePartElement = createMxmlElement (k_score_part, "");
+  // create a score part element
+  fScorePartElement = createMxmlElement (k_score_part, "");
   // set it's "id" attribute
-  scorePartElement->add (createMxmlAttribute ("id", partID));
+  fScorePartElement->add (createMxmlAttribute ("id", partID));
 
   // append it to the part list element
-  fScorePartListElement->push (scorePartElement);
+  fScorePartListElement->push (fScorePartElement);
 
   // append a part name element to the score part element
-  scorePartElement->push (
+  fScorePartElement->push (
     createMxmlElement (
       k_part_name,
       partName));
 
+  // append a part abbreviation element to the score part element
   if (partAbbreviation.size ()) {
-    scorePartElement->push (
+    fScorePartElement->push (
       createMxmlElement (
         k_part_abbreviation,
         partAbbreviation));
   }
 
-  // createMxml a part element
+  // append the score instrument element if any to the score part element
+  if (fScoreInstrumentElement) {
+    // set its id
+    string
+      partID = fCurrentMSRPart->getPartID ();
+    fScoreInstrumentElement->add (createMxmlAttribute ("id", partID + "I1"));
+
+    // append it to the score instrument element
+    fScorePartElement->push (
+      fScoreInstrumentElement);
+  }
+
+  // create a part element
   fCurrentPartElement = createMxmlElement (k_part, "");
   // set its "id" attribute
 	fCurrentPartElement->add (createMxmlAttribute ("id", partID));
@@ -2636,8 +2655,6 @@ if (false)
   }
 */
 
-  fCurrentMSRPart = elt;
-
   // a divisions element has to be appended for this part
   fPartDivisionsElementHasToBeAppended = true;
 
@@ -2645,7 +2662,7 @@ if (false)
   int partStavesNumber =
     fCurrentMSRPart->getPartStavesMap ().size ();
   if (partStavesNumber > 1) {
-    // createMxml a staves element
+    // create a staves element
     fStavesElement =
       createMxmlIntegerElement (
         k_staves,
@@ -2717,7 +2734,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
     case kStaffDrum:
     case kStaffRythmic:
       {
-        // createMxml a staff clone
+        // create a staff clone
         fCurrentStaffClone =
           elt->createStaffNewbornClone (
             fCurrentPartClone);
@@ -2727,7 +2744,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
           addStaffToPartCloneByItsNumber (
             fCurrentStaffClone);
 
-        // createMxml a staff block
+        // create a staff block
         fCurrentStaffBlock =
           lpsrStaffBlock::create (
             fCurrentStaffClone);
@@ -2771,7 +2788,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
 
     case kStaffHarmony:
       {
-        // createMxml a staff clone
+        // create a staff clone
         fCurrentStaffClone =
           elt->createStaffNewbornClone (
             fCurrentPartClone);
@@ -2787,7 +2804,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaff& elt)
 
     case kStaffFiguredBass:
       {
-        // createMxml a staff clone
+        // create a staff clone
         fCurrentStaffClone =
           elt->createStaffNewbornClone (
             fCurrentPartClone);
@@ -2934,7 +2951,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSegment& elt)
 #endif
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml a start comment
+    // create a start comment
     stringstream s;
     s <<
       " ==================== " <<
@@ -2975,7 +2992,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrSegment& elt)
 #endif
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml an end comment
+    // create an end comment
     stringstream s;
     s <<
       " ==================== " <<
@@ -3053,7 +3070,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
     // no
 
     if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-      // createMxml a comment
+      // create a comment
       stringstream s;
       s <<
         " ===== " <<
@@ -3067,7 +3084,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
       fCurrentPartElement->push (comment);
     }
 
-    // createMxml a measure element
+    // create a measure element
     fCurrentMeasureElement = createMxmlElement (k_measure, "");
     // set its "number" attribute
     fCurrentMeasureElement->add (createMxmlAttribute ("number", measureNumber));
@@ -3086,7 +3103,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
 
   if (measurePrintLayout) {
     if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-      // createMxml a print comment
+      // create a print comment
       stringstream s;
       s <<
         " ===== " <<
@@ -3099,7 +3116,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
       fCurrentMeasureElement->push (comment);
     }
 
-    // createMxml a print element
+    // create a print element
     fCurrentPrintElement = createMxmlElement (k_print, "");
 
     // append it to the current measure element at once,
@@ -3119,8 +3136,26 @@ void msr2mxmlTreeTranslator::visitStart (S_msrMeasure& elt)
     fPartDivisionsElementHasToBeAppended = false;
   }
 
+if (false) { // JMI
   // there's no previous MSR note yet in this measure
+#ifdef TRACING_IS_ENABLED
+    if (
+      gGlobalMusicxmlOahGroup->getTraceBackup ()
+        ||
+      gGlobalMusicxmlOahGroup->getTraceForward ()
+    ) {
+      gLogStream <<
+        "--> setting previous note  to nullptr at " <<
+        elt->asString () <<
+        " at beginning of measure '" <<
+        elt->getMeasurePuristNumber () <<
+        "', line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
   fPreviousMSRNote = nullptr;
+}
 
   fANoteHasBeenMetInCurrentMeasure = false;
 }
@@ -3197,7 +3232,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrPrintLayout& elt)
   }
 #endif
 
-  // don't createMxml a print element,
+  // don't create a print element,
   // this has already been done in visitStart (S_msrMeasure&)
 
   // populate the current print element
@@ -3282,7 +3317,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrClef& elt)
   }
 
   if (doAppendAClefElementToTheMeasure) {
-    // createMxml the clef element
+    // create the clef element
     Sxmlelement clefElement = createMxmlElement (k_clef, "");
 
     // set its "number" attribute
@@ -3653,7 +3688,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrKey& elt)
   }
 
   if (doAppendAKeyElementToTheMeasure) {
-    // createMxml the key element
+    // create the key element
     fKeyElement = createMxmlElement (k_key, "");
 
     // populate it
@@ -3836,7 +3871,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTime& elt)
   }
 
   if (doAppendATimeElementToTheMeasure) {
-    // createMxml the time element
+    // create the time element
     fTimeElement = createMxmlElement (k_time, "");
 
     // populate it
@@ -4018,7 +4053,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTempo& elt)
       switch (tempoParenthesizedKind) {
         case msrTempo::kTempoParenthesizedYes:
           {
-          // createMxml the metronome element
+          // create the metronome element
           Sxmlelement metronomeElement = createMxmlElement (k_metronome, "");
 
           // set its "parentheses" attribute
@@ -4072,7 +4107,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTempo& elt)
 
       case msrTempo::kTempoParenthesizedNo:
         {
-          // createMxml the metronome element
+          // create the metronome element
           Sxmlelement metronomeElement = createMxmlElement (k_metronome, "");
 
           // append the beat unit element to the metronome elements
@@ -4331,7 +4366,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrChord& elt)
 #endif
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml a chord start comment
+    // create a chord start comment
     stringstream s;
     s <<
       " ===== " <<
@@ -4367,7 +4402,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrChord& elt)
 #endif
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml a chord end comment
+    // create a chord end comment
     stringstream s;
     s <<
       " ===== " <<
@@ -4407,7 +4442,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrTuplet& elt)
 #endif
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml a tuplet start comment
+    // create a tuplet start comment
     stringstream s;
     s <<
       " ===== " <<
@@ -4440,7 +4475,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrTuplet& elt)
 #endif
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml a tuplet end comment
+    // create a tuplet end comment
     stringstream s;
     s <<
       " ===== " <<
@@ -4500,7 +4535,7 @@ void msr2mxmlTreeTranslator:: appendNoteWedges (
           break;
       } // switch
 
-      // createMxml the wedge element
+      // create the wedge element
       Sxmlelement wedgeElement = createMxmlElement (k_wedge, "");
 
       // set its "type" attribute
@@ -4537,86 +4572,86 @@ void msr2mxmlTreeTranslator:: appendNoteDynamics (
     for (i=noteDynamics.begin (); i!=noteDynamics.end (); ++i) {
       S_msrDynamics dynamics = (*i);
 
-      // createMxml the dynamics element
+      // create the dynamics element
       Sxmlelement dynamicsElement = createMxmlElement (k_dynamics, "");
 
-      // createMxml the dynamics specific sub-element
+      // create the dynamics specific sub-element
       int subElementID = -1;
 
       switch (dynamics->getDynamicsKind ()) {
-        case msrDynamics::kF:
+        case kDynamicsF:
           subElementID = k_f;
           break;
-        case msrDynamics::kFF:
+        case kDynamicsFF:
           subElementID = k_ff;
           break;
-        case msrDynamics::kFFF:
+        case kDynamicsFFF:
           subElementID = k_fff;
           break;
-        case msrDynamics::kFFFF:
+        case kDynamicsFFFF:
           subElementID = k_ffff;
           break;
-        case msrDynamics::kFFFFF:
+        case kDynamicsFFFFF:
           subElementID = k_fffff;
           break;
-        case msrDynamics::kFFFFFF:
+        case kDynamicsFFFFFF:
           subElementID = k_ffffff;
           break;
 
-        case msrDynamics::kP:
+        case kDynamicsP:
           subElementID = k_p;
           break;
-        case msrDynamics::kPP:
+        case kDynamicsPP:
           subElementID = k_pp;
           break;
-        case msrDynamics::kPPP:
+        case kDynamicsPPP:
           subElementID = k_ppp;
           break;
-        case msrDynamics::kPPPP:
+        case kDynamicsPPPP:
           subElementID = k_pppp;
           break;
-        case msrDynamics::kPPPPP:
+        case kDynamicsPPPPP:
           subElementID = k_ppppp;
           break;
-        case msrDynamics::kPPPPPP:
+        case kDynamicsPPPPPP:
           subElementID = k_pppppp;
           break;
 
-        case msrDynamics::kMF:
+        case kDynamicsMF:
           subElementID = k_mf;
           break;
-        case msrDynamics::kMP:
+        case kDynamicsMP:
           subElementID = k_mp;
           break;
-        case msrDynamics::kFP:
+        case kDynamicsFP:
           subElementID = k_fp;
           break;
-        case msrDynamics::kFZ:
+        case kDynamicsFZ:
           subElementID = k_fz;
           break;
-        case msrDynamics::kRF:
+        case kDynamicsRF:
           subElementID = k_rf;
           break;
-        case msrDynamics::kSF:
+        case kDynamicsSF:
           subElementID = k_sf;
           break;
 
-        case msrDynamics::kRFZ:
+        case kDynamicsRFZ:
           subElementID = k_rfz;
           break;
-        case msrDynamics::kSFZ:
+        case kDynamicsSFZ:
           subElementID = k_sfz;
           break;
-        case msrDynamics::kSFP:
+        case kDynamicsSFP:
           subElementID = k_sfp;
           break;
-        case msrDynamics::kSFPP:
+        case kDynamicsSFPP:
           subElementID = k_sfpp;
           break;
-        case msrDynamics::kSFFZ:
+        case kDynamicsSFFZ:
           subElementID = k_sffz;
           break;
-        case msrDynamics::k_NoDynamics:
+        case k_NoDynamics:
           ; // should not occur
           break;
       } // switch
@@ -4635,7 +4670,7 @@ void msr2mxmlTreeTranslator:: appendNoteDynamics (
 }
 
 //________________________________________________________________________
-void msr2mxmlTreeTranslator:: appendABackupToMeasure (
+void msr2mxmlTreeTranslator::appendABackupToMeasure (
   S_msrNote theMsrNote)
 {
   int inputLineNumber =
@@ -4649,6 +4684,7 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (
       fPreviousMSRNote->getNoteSoundingWholeNotes ()
         -
       fPreviousMSRNote->getMeasureElementPositionInMeasure ();
+  backupDuration.rationalise ();
 
   int
     backupDurationDivisions =
@@ -4661,6 +4697,7 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (
     gLogStream <<
       "Creating a backup element, theMsrNote = " <<
       theMsrNote->asShortString () <<
+      ", backupDuration: " << backupDuration <<
       ", backupDurationDivisions: " << backupDurationDivisions <<
       ", line " << inputLineNumber <<
       endl;
@@ -4681,6 +4718,7 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (
         fPreviousMSRNoteStaff->
           getStaffNumber ();
 
+    // create a backup comment
     stringstream s;
     s <<
       " ===== " <<
@@ -4696,7 +4734,7 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (
     appendOtherToMeasure (comment);
   }
 
-  // createMxml a backup element
+  // create a backup element
   Sxmlelement backupElement = createMxmlElement (k_backup, "");
 
   // append a duration sub-element to it
@@ -4704,6 +4742,7 @@ void msr2mxmlTreeTranslator:: appendABackupToMeasure (
     createMxmlIntegerElement (k_duration, backupDurationDivisions));
 
   // append it to the current measure element
+if (true) // QUIT
   appendOtherToMeasure (backupElement);
 
   // reset the cumulated skip durations informations
@@ -4764,7 +4803,7 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (
         fPreviousMSRNoteVoice->
           getVoiceNumber ();
 
-    // createMxml a forward comment
+    // create a forward comment
     S_msrVoice
       noteVoice =
         theMsrNote->fetchNoteVoiceUpLink ();
@@ -4784,7 +4823,7 @@ void msr2mxmlTreeTranslator:: appendAForwardToMeasure (
     appendOtherToMeasure (comment);
   }
 
-  // createMxml a forward element
+  // create a forward element
   Sxmlelement forwardElement = createMxmlElement (k_forward, "");
 
   // append a duration sub-element to it
@@ -4817,14 +4856,6 @@ void msr2mxmlTreeTranslator:: appendABackupOrForwardToMeasureIfNeeded (
      theMsrNote->getInputLineNumber ();
 #endif
 
-/* JMI
-
-    frame #3: 0x0000000100427376 xml2xml`MusicXML2::msr2mxmlTreeTranslator::appendABackupOrForwardToMeasureIfNeeded(this=0x00007ffeefbfce10, note=MusicXML2::S_msrNote @ 0x00007ffeefbfc348) at msr2mxmlTreeTranslator.cpp:4714:9
-
-fetchNoteStaffUpLink ----> nullptr
-
-*/
-
   int
     noteStaffNumber =
       theMsrNote->
@@ -4844,7 +4875,11 @@ fetchNoteStaffUpLink ----> nullptr
         : 0;
 
 #ifdef TRACING_IS_ENABLED
-  if (gGlobalMusicxmlOahGroup->getTraceBackup () || gGlobalMusicxmlOahGroup->getTraceForward ()) {
+  if (
+    gGlobalMusicxmlOahGroup->getTraceBackup ()
+      ||
+    gGlobalMusicxmlOahGroup->getTraceForward ()
+  ) {
     gLogStream <<
       "--> appendABackupOrForwardToMeasureIfNeeded(1), theMsrNote = " <<
       theMsrNote->asShortString () <<
@@ -4859,6 +4894,7 @@ fetchNoteStaffUpLink ----> nullptr
     else {
       gLogStream << "none";
     }
+
     gLogStream <<
       ", previousMSRNoteStaffNumber: " << previousMSRNoteStaffNumber <<
       ", previousMSRNoteVoiceNumber: " << previousMSRNoteVoiceNumber <<
@@ -5196,7 +5232,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicals (
           break;
       } // switch
 
-      // createMxml the technical element
+      // create the technical element
       Sxmlelement technicalElement = createMxmlElement (technicalType, "");
 
       // append the note technicals element to the current note element
@@ -5264,7 +5300,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithIntegers (
           break;
       } // switch
 
-      // createMxml the technicalWithInteger element
+      // create the technicalWithInteger element
       int technicalWithIntegerValue =
         technicalWithInteger->getTechnicalWithIntegerValue ();
 
@@ -5336,7 +5372,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithFloats (
           break;
       } // switch
 
-      // createMxml the technicalWithFloat element
+      // create the technicalWithFloat element
       stringstream s;
 
       s << technicalWithFloat->getTechnicalWithFloatValue ();
@@ -5417,7 +5453,7 @@ void msr2mxmlTreeTranslator:: appendNoteTechnicalWithStrings (
           break;
       } // switch
 
-      // createMxml the technicalWithString element
+      // create the technicalWithString element
       Sxmlelement technicalWithStringElement =
         createMxmlElement (
           technicalWithStringType,
@@ -5530,7 +5566,7 @@ void msr2mxmlTreeTranslator:: appendNoteArticulations (
           break;
       } // switch
 
-      // createMxml the articulation element
+      // create the articulation element
       Sxmlelement articulationElement = createMxmlElement (articulationType, "");
 
       // append it to the current note notations articulations element
@@ -5592,7 +5628,7 @@ void msr2mxmlTreeTranslator:: appendNoteTieIfAny (
   S_msrTie noteTie = theMsrNote->getNoteTie ();
 
   if (noteTie) {
-    // createMxml the tied element
+    // create the tied element
     Sxmlelement tiedElement = createMxmlElement (k_tied, "");
 
     // set its "type" attribute if any
@@ -5653,17 +5689,17 @@ void msr2mxmlTreeTranslator:: appendNoteSlursIfAny (
         slurTypeKind =
           slur->getSlurTypeKind ();
 
-      // createMxml the slur element
+      // create the slur element
       Sxmlelement slurElement = createMxmlElement (k_slur, "");
 
-      // createMxml the slur number attribute
+      // create the slur number attribute
       int slurNumber = slur->getSlurNumber ();
 
       if (slurNumber > 0) {
         slurElement->add (createMxmlIntegerAttribute ("number", slurNumber));
       }
 
-      // createMxml the slur type attribute
+      // create the slur type attribute
       string slurTypeString;
 
       switch (slurTypeKind) {
@@ -5750,7 +5786,7 @@ void msr2mxmlTreeTranslator:: appendNoteTupletIfRelevant (
         }
 
         if (typeString.size ()) {
-          // createMxml a tuplet element
+          // create a tuplet element
           Sxmlelement tupletElement = createMxmlElement (k_tuplet, "");
 
           // set its "number" attribute
@@ -5856,7 +5892,7 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersBeforeNote (
             break;
         } // switch
 
-        // createMxml the spanner element
+        // create the spanner element
         Sxmlelement spannerElement = createMxmlElement (spannerType, "");
 
         // set spannerElement's "number" attribute if relevant
@@ -5960,7 +5996,7 @@ void msr2mxmlTreeTranslator:: appendNoteSpannersAfterNote (
             break;
         } // switch
 
-        // createMxml the spanner element
+        // create the spanner element
         Sxmlelement spannerElement = createMxmlElement (spannerType, "");
 
         // set spannerElement's "number" attribute if relevant
@@ -6072,7 +6108,7 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (
         beamKind =
           beam->getBeamKind ();
 
-      // createMxml a beam element
+      // create a beam element
       string beamString;
 
       switch (beamKind) {
@@ -6304,7 +6340,7 @@ void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (
     for (i=noteSyllables.begin (); i!=noteSyllables.end (); ++i) {
       S_msrSyllable syllable = (*i);
 
-      // createMxml and append a lyric element if relevant
+      // create and append a lyric element if relevant
       bool   doCreateALyricElement = false;
       string syllabicString;
 
@@ -6349,7 +6385,7 @@ void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (
       } // switch
 
       if (doCreateALyricElement) {
-        // createMxml the lyric element
+        // create the lyric element
         Sxmlelement lyricElement = createMxmlElement (k_lyric, "");
 
         // set its "number" attribute
@@ -6405,7 +6441,7 @@ void msr2mxmlTreeTranslator:: appendNoteLyricsToNote (
         } // switch
 
         if (doCreateAnExtendElement) {
-          // createMxml an extend element
+          // create an extend element
           Sxmlelement extendElement = createMxmlElement (k_extend, "");
 
           if (extendTypeString.size ()) {
@@ -6522,7 +6558,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
     case msrNote::kChordMemberNote:
     case msrNote::kTupletMemberNote:
       {
-        // createMxml the pitch element
+        // create the pitch element
         Sxmlelement pitchElement = createMxmlElement (k_pitch, "");
 
         // append the step element
@@ -6561,7 +6597,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
     case msrNote::kGraceNote:
     case msrNote::kGraceSkipNote:
       {
-        // createMxml the pitch element
+        // create the pitch element
         Sxmlelement pitchElement = createMxmlElement (k_pitch, "");
 
         // append the step element
@@ -6882,7 +6918,7 @@ void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
   } // switch
 
   if (doGenerateNote) {
-    // createMxml a note element
+    // create a note element
     fCurrentNoteElement = createMxmlElement (k_note, "");
 
     // append theMsrNote basic sub-elements
@@ -6939,14 +6975,12 @@ void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
     } // switch
 
     if (doGenerateType) {
-      msrDurationKind
-        noteGraphicDurationKind =
-          theMsrNote->getNoteGraphicDurationKind ();
-
+      // append a type element containing the graphic duration
+      // as a MusicXML string
       fCurrentNoteElement->push (
         createMxmlElement (
           k_type,
-          msrDurationKindAsMusicXMLType (noteGraphicDurationKind)));
+          theMsrNote->noteGraphicDurationAsMusicXMLString ()));
     }
 
     // append the time-modification sub-element if relevant
@@ -7016,7 +7050,7 @@ void msr2mxmlTreeTranslator::appendMsrNoteToMesureIfRelevant (
 
     if (! (noteGraceNotesGroupBefore || noteGraceNotesGroupAfter)) {
       if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-        // createMxml a note comment
+        // create a note comment
         S_msrVoice
           noteVoice =
             theMsrNote->fetchNoteVoiceUpLink ();
@@ -7073,7 +7107,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrGraceNotesGroup& elt)
 #endif
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml a start comment
+    // create a start comment
     stringstream s;
     s <<
       " ==================== " <<
@@ -7104,7 +7138,7 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 #endif
 
   if (gGlobalMsr2mxmlTreeOahGroup->getMusicXMLComments ()) {
-    // createMxml an end comment
+    // create an end comment
     stringstream s;
     s <<
       " ==================== " <<
@@ -7176,6 +7210,9 @@ void msr2mxmlTreeTranslator::visitStart (S_msrNote& elt)
   }
 #endif
 
+  // append a backup or forward sub-element if needed
+  appendABackupOrForwardToMeasureIfNeeded (elt);
+
   // populate the measure attributes if needed
   if (fAnAttributeElementIsNeeded) {
     createMxmlAttributesElementAndAppendItToMeasure ();
@@ -7188,10 +7225,6 @@ void msr2mxmlTreeTranslator::visitStart (S_msrNote& elt)
 
   // append the note element to the measure element if relevant
   appendMsrNoteToMesureIfRelevant (elt);
-
-  // append a backup or forward sub-element if needed
-  // only now since the note should be inserted into the measure to do so
-// JMI BLARK  appendABackupOrForwardToMeasureIfNeeded (elt);
 
   fANoteHasBeenMetInCurrentMeasure = true;
 }
@@ -7266,8 +7299,9 @@ void msr2mxmlTreeTranslator::visitEnd (S_msrNote& elt)
       gGlobalMusicxmlOahGroup->getTraceForward ()
     ) {
       gLogStream <<
-        "--> remembering previous note " <<
+        "--> remembering note " <<
         elt->asString () <<
+        " as previous note" <<
         ", line " << inputLineNumber <<
         endl;
     }
@@ -7343,10 +7377,10 @@ void msr2mxmlTreeTranslator::visitStart (S_msrBarline& elt)
   } // switch
 
   if (barLStyleString.size ()) {
-    // createMxml the bar style element
+    // create the bar style element
     Sxmlelement barStyleElement = createMxmlElement (k_bar_style, barLStyleString);
 
-    // createMxml the barline element
+    // create the barline element
     Sxmlelement barlineElement = createMxmlElement (k_barline, "");
 
     // set its "location" attribute if any
@@ -7408,7 +7442,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaffLinesNumber& elt)
   }
 #endif
 
-  // createMxml a staff lines number clone
+  // create a staff lines number clone
   fCurrentStaffLinesNumberClone =
     elt->
       createMxmlStaffLinesNumberNewbornClone ();
@@ -7426,7 +7460,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrStaffTuning& elt)
   }
 #endif
 
-  // createMxml a staff tuning clone
+  // create a staff tuning clone
   fCurrentStaffTuningClone =
     elt->
       createMxmlStaffTuningNewbornClone ();
@@ -7479,7 +7513,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrVoiceStaffChange& elt)
   }
 #endif
 
-  // createMxml a voice staff change clone
+  // create a voice staff change clone
   S_msrVoiceStaffChange
     voiceStaffChangeClone =
       elt->
@@ -7507,7 +7541,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrHarmony& elt)
   }
 #endif
 
-  // createMxml a harmony new born clone
+  // create a harmony new born clone
   fCurrentHarmonyClone =
     elt->
       createMxmlHarmonyNewbornClone (
@@ -7532,7 +7566,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrHarmony& elt)
 
     // is harmonyWholeNotesOffset not equal to 0?
     if (harmonyWholeNotesOffset.getNumerator () != 0) {
-      // createMxml skip with duration harmonyWholeNotesOffset
+      // create skip with duration harmonyWholeNotesOffset
       S_msrNote
         skip =
           msrNote::createSkipNote (
@@ -7662,7 +7696,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrFiguredBass& elt)
   }
 #endif
 
-  // createMxml a figured bass new born clone
+  // create a figured bass new born clone
   fCurrentFiguredBassClone =
     elt->
       createMxmlFiguredBassNewbornClone (
@@ -7816,7 +7850,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSyllable& elt)
   }
 #endif
 
-  // createMxml the syllable clone
+  // create the syllable clone
   fCurrentSyllableClone =
     elt->createSyllableNewbornClone (
       fCurrentPartClone);
@@ -7843,11 +7877,11 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSyllable& elt)
 
       if (syllableTextsList.size ()) {
         // build a single words value from the texts list
-        // JMI createMxml an msrWords instance for each???
+        // JMI create an msrWords instance for each???
         string wordsValue =
           elt->syllableTextsListAsString();
 
-        // createMxml the words
+        // create the words
 #ifdef TRACING_IS_ENABLED
         if (gGlobalTraceOahGroup->getTraceLyrics ()) {
           gLogStream <<
@@ -7912,7 +7946,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrSyllable& elt)
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {
     / * JMI ???
-    // createMxml melisma end command
+    // create melisma end command
     S_lpsrMelismaCommand
       melismaCommand =
         lpsrMelismaCommand::create (
@@ -8579,7 +8613,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrDoubleTremolo& elt)
   }
 #endif
 
-  // createMxml a double tremolo clone from the two elements
+  // create a double tremolo clone from the two elements
   fCurrentDoubleTremoloClone = elt; // JMI FIX THAT
 / * JMI
     elt->createDoubleTremoloNewbornClone (
@@ -8634,14 +8668,14 @@ void msr2mxmlTreeTranslator::visitStart (S_msrDynamics& elt)
     bool knownToLilyPondNatively = true;
 
     switch (elt->getDynamicsKind ()) {
-      case msrDynamics::kFFFFF:
-      case msrDynamics::kFFFFFF:
-      case msrDynamics::kPPPPP:
-      case msrDynamics::kPPPPPP:
-      case msrDynamics::kRF:
-      case msrDynamics::kSFPP:
-      case msrDynamics::kSFFZ:
-      case msrDynamics::k_NoDynamics:
+      case kDynamicsFFFFF:
+      case kDynamicsFFFFFF:
+      case kDynamicsPPPPP:
+      case kDynamicsPPPPPP:
+      case kDynamicsRF:
+      case kDynamicsSFPP:
+      case kDynamicsSFFZ:
+      case k_NoDynamics:
         knownToLilyPondNatively = false;
 
       default:
@@ -8757,7 +8791,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrWords& elt)
     bool wordsHasBeenappendd = false;
 
     if (gGlobalLpsrOahGroup->getConvertWordsToTempo ()) {
-      // createMxml a tempo containing elt
+      // create a tempo containing elt
       S_msrTempo
         tempo =
           msrTempo::create (
@@ -8784,7 +8818,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrWords& elt)
     }
 
     else if (gGlobalLpsrOahGroup->getConvertWordsToRehearsalMarks ()) {
-      // createMxml a rehearsal mark containing elt's words contents
+      // create a rehearsal mark containing elt's words contents
       S_msrRehearsal
         rehearsal =
           msrRehearsal::create (
@@ -8827,7 +8861,7 @@ void msr2mxmlTreeTranslator::visitStart (S_msrWords& elt)
           dalSegnoKind =
             (*it).second;
 
-        // createMxml a dal segno element containing elt's words contents
+        // create a dal segno element containing elt's words contents
         S_msrDalSegno
           dalSegno =
             msrDalSegno::create (

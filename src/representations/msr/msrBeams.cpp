@@ -41,7 +41,7 @@ S_msrBeam msrBeam::create (
   msrBeam* o =
     new msrBeam (
       inputLineNumber, number, beamKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

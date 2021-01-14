@@ -26,19 +26,6 @@ class EXP msrDynamics : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrDynamicsKind {
-      kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
-      kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
-      kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
-      k_NoDynamics
-    };
-
-    static string dynamicsKindAsString (
-      msrDynamicsKind dynamicsKind);
-
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -47,17 +34,25 @@ class EXP msrDynamics : public msrElement
       msrDynamicsKind  dynamicsKind,
       msrPlacementKind dynamicsPlacementKind);
 
+    // creation from the applications
+    // ------------------------------------------------------
+
+    static SMARTP<msrDynamics> createDynamicsFromString (
+      int              inputLineNumber,
+      string           dynamicsString,
+      msrPlacementKind dynamicsPlacementKind);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrDynamics (
-      int              inputLineNumber,
-      msrDynamicsKind  dynamicsKind,
-      msrPlacementKind dynamicsPlacementKind);
+                          msrDynamics (
+                            int              inputLineNumber,
+                            msrDynamicsKind  dynamicsKind,
+                            msrPlacementKind dynamicsPlacementKind);
 
-    virtual ~msrDynamics ();
+    virtual               ~msrDynamics ();
 
   public:
 
@@ -89,10 +84,6 @@ class EXP msrDynamics : public msrElement
 
     // print
     // ------------------------------------------------------
-
-    string                dynamicsKindAsString () const;
-
-    string                dynamicsPlacementKindAsString () const;
 
     void                  print (ostream& os) const override;
 
@@ -126,12 +117,12 @@ class EXP msrOtherDynamics : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOtherDynamics (
-      int              inputLineNumber,
-      string           otherDynamicsString,
-      msrPlacementKind otherDynamicsPlacementKind);
+                          msrOtherDynamics (
+                            int              inputLineNumber,
+                            string           otherDynamicsString,
+                            msrPlacementKind otherDynamicsPlacementKind);
 
-    virtual ~msrOtherDynamics ();
+    virtual               ~msrOtherDynamics ();
 
   public:
 
@@ -163,8 +154,6 @@ class EXP msrOtherDynamics : public msrElement
 
     // print
     // ------------------------------------------------------
-
-    string                otherDynamicsPlacementKindAsString () const;
 
     string                asString () const override;
 
@@ -222,14 +211,14 @@ class EXP msrWedge : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrWedge (
-      int                inputLineNumber,
-      msrWedgeKind       wedgeKind,
-      msrWedgeNienteKind wedgeNienteKind,
-      msrLineTypeKind    wedgeLineTypeKind,
-      msrPlacementKind   wedgePlacementKind);
+                          msrWedge (
+                            int                inputLineNumber,
+                            msrWedgeKind       wedgeKind,
+                            msrWedgeNienteKind wedgeNienteKind,
+                            msrLineTypeKind    wedgeLineTypeKind,
+                            msrPlacementKind   wedgePlacementKind);
 
-    virtual ~msrWedge ();
+    virtual               ~msrWedge ();
 
   public:
 

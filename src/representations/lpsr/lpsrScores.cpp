@@ -83,7 +83,7 @@ S_lpsrScore lpsrScore::create (
 {
   lpsrScore* o = new lpsrScore (
     inputLineNumber, theMsrScore);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

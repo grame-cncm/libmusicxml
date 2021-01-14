@@ -64,6 +64,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
@@ -78,7 +79,7 @@ S_Mikrokosmos3WanderingInsiderHandler Mikrokosmos3WanderingInsiderHandler::creat
       executableName,
       handlerHeader,
       generatorOutputKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -95,8 +96,8 @@ R"(                Welcome to Mikrokosmos3Wandering,
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 )",
-R"(Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
-)"),
+    usageInformation (
+      generatorOutputKind)),
     fGeneratorOutputKind (
       generatorOutputKind)
 
@@ -122,6 +123,22 @@ R"(Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
 
 Mikrokosmos3WanderingInsiderHandler::~Mikrokosmos3WanderingInsiderHandler ()
 {}
+
+string Mikrokosmos3WanderingInsiderHandler::usageInformation (
+  generatorOutputKind generatorOutputKind)
+{
+  stringstream s;
+
+  s <<
+R"(Usage: Mikrokosmos3Wandering ([options] | [MusicXMLFile|-])+
+)" <<
+    endl <<
+    "The help below is available when generating " <<
+    generatorOutputKindAsString (generatorOutputKind) <<
+    " output";
+
+  return s.str ();
+}
 
 void Mikrokosmos3WanderingInsiderHandler::handlerOahError (
   const string& errorMessage)
@@ -469,17 +486,29 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
       gGlobalOutputFileOahGroup->
         getOutputFileNameStringAtom ();
 
+  S_oahBooleanAtom
+    autoOutputFileNameAtom =
+      gGlobalOutputFileOahGroup->
+        getAutoOutputFileNameAtom ();
+
   bool
     outputFileNameHasBeenSet =
       outputFileNameStringAtom->
         getVariableHasBeenSet ();
 
+  bool
+    autoOutputFileNameHasBeenSet =
+      autoOutputFileNameAtom->
+        getVariableHasBeenSet ();
+
 #ifdef TRACING_IS_ENABLED
   if (gGlobalTraceOahGroup->getTraceOah ()) {
     gLogStream <<
-      "fetchOutputFileNameFromTheOptions()" <<
+      "Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions()" <<
       " outputFileNameHasBeenSet: " <<
       booleanAsString (outputFileNameHasBeenSet) <<
+      " autoOutputFileNameHasBeenSet: " <<
+      booleanAsString (autoOutputFileNameHasBeenSet) <<
       endl;
   }
 #endif
@@ -493,7 +522,9 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
         getStringVariable ();
   }
 
-  else {
+  else if (autoOutputFileNameHasBeenSet) {
+     // '-aofn, -auto-output-file-name' has been chosen
+
     // start with the executable name
     outputFileName = fHandlerExecutableName;
 
@@ -581,6 +612,12 @@ string Mikrokosmos3WanderingInsiderHandler::fetchOutputFileNameFromTheOptions ()
         outputFileName += ".midi";
         break;
     } // switch
+  }
+
+  else {
+    // neither outputFileNameHasBeenSet nor autoOutputFileNameHasBeenSet
+    // has been set:
+    // return empty outputFileName to indicate that output goes to stdout
   }
 
 #ifdef TRACING_IS_ENABLED
@@ -799,7 +836,7 @@ S_Mikrokosmos3WanderingInsiderOahGroup gGlobalMikrokosmos3WanderingInsiderOahGro
 S_Mikrokosmos3WanderingInsiderOahGroup Mikrokosmos3WanderingInsiderOahGroup::create ()
 {
   Mikrokosmos3WanderingInsiderOahGroup* o = new Mikrokosmos3WanderingInsiderOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

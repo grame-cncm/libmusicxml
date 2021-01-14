@@ -50,7 +50,7 @@ class EXP msr2lilypondRegularHandler : public oahRegularHandler
       S_msr2lilypondInsiderHandler
                   insiderOahHandler);
 
-    virtual ~msr2lilypondRegularHandler ();
+    virtual               ~msr2lilypondRegularHandler ();
 
   public:
 

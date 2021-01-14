@@ -50,7 +50,7 @@ S_msrFrameNote msrFrameNote::create (
       frameNoteFretNumber,
       frameNoteFingering,
       frameNoteBarreTypeKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -217,7 +217,7 @@ S_msrFrame msrFrame::create (
       frameStringsNumber,
       frameFretsNumber,
       frameFirstFretNumber);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

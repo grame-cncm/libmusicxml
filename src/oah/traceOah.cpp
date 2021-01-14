@@ -41,7 +41,7 @@ S_traceOahGroup traceOahGroup::create (
 {
   traceOahGroup* o = new traceOahGroup (
     handler);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

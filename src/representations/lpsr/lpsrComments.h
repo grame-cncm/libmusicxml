@@ -54,7 +54,7 @@ class EXP lpsrComment : public lpsrElement
       string             contents,
       lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
 
-    virtual ~lpsrComment ();
+    virtual               ~lpsrComment ();
 
   public:
 

@@ -188,7 +188,7 @@ class EXP msrVoice : public msrElement
       S_msrStaff   voiceStaffUpLink);
 
     // destructor
-    virtual ~msrVoice ();
+    virtual               ~msrVoice ();
 
   private:
 

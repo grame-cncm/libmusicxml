@@ -47,6 +47,7 @@ namespace MusicXML2
   ENFORCE_TRACE_OAH can be used to issue trace messages
   before gGlobalOahOahGroup->fTrace has been initialized
 */
+
 //#define ENFORCE_TRACE_OAH
 
 //______________________________________________________________________________
@@ -399,10 +400,11 @@ void xml2brlRegularHandler::createFilesRegularGroup ()
   // atoms
 
   registerAtomInRegularSubgroup ("output-file-name", subGroup);
-  registerAtomInRegularSubgroup ("use-encoding-in-file-name", subGroup);
   registerAtomInRegularSubgroup ("auto-output-file-name", subGroup);
-  registerAtomInRegularSubgroup ("braille-output-kind", subGroup);
-  registerAtomInRegularSubgroup ("byte-ordering-mark", subGroup);
+
+  registerAtomInRegularSubgroup (K_BRAILLE_OUTPUT_KIND_LONG_NAME, subGroup);
+  registerAtomInRegularSubgroup (K_BRAILLE_USE_ENCODING_IN_FILE_NAME_LONG_NAME, subGroup);
+  registerAtomInRegularSubgroup (K_BRAILLE_BYTE_ORDERING_MARK_LONG_NAME, subGroup);
 
 }
 

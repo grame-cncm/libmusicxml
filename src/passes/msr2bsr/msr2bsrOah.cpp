@@ -40,7 +40,7 @@ S_msr2bsrOahGroup gGlobalMsr2bsrOahGroup;
 S_msr2bsrOahGroup msr2bsrOahGroup::create ()
 {
   msr2bsrOahGroup* o = new msr2bsrOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

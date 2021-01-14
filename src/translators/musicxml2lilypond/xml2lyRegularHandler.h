@@ -50,7 +50,7 @@ class EXP xml2lyRegularHandler : public oahRegularHandler
       S_xml2lyInsiderHandler
                   insiderOahHandler);
 
-    virtual ~xml2lyRegularHandler ();
+    virtual               ~xml2lyRegularHandler ();
 
   public:
 

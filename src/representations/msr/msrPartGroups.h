@@ -159,7 +159,7 @@ class EXP msrPartGroup : public msrPartGroupElement
       S_msrPartGroup           partGroupPartGroupUpLink,
       S_msrScore               partGroupScoreUpLink);
 
-    virtual ~msrPartGroup ();
+    virtual               ~msrPartGroup ();
 
   public:
 

@@ -39,11 +39,11 @@ class EXP xml2gmnInsiderHandler : public oahInsiderHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2gmnInsiderHandler (
-      string executableName,
-      string handlerHeader);
+                          xml2gmnInsiderHandler (
+                            string executableName,
+                            string handlerHeader);
 
-    virtual ~xml2gmnInsiderHandler ();
+    virtual               ~xml2gmnInsiderHandler ();
 
   private:
 
@@ -116,7 +116,7 @@ class EXP xml2gmnInsiderOahGroup : public oahGroup
 
     xml2gmnInsiderOahGroup ();
 
-    virtual ~xml2gmnInsiderOahGroup ();
+    virtual               ~xml2gmnInsiderOahGroup ();
 
   public:
 

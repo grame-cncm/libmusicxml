@@ -39,7 +39,7 @@ S_bsrPagination bsrPagination::create (
   bsrPagination* o =
     new bsrPagination (
       inputLineNumber, printPageNumber, braillePageNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -39,7 +39,7 @@ S_msrMidiTempo msrMidiTempo::create (
       inputLineNumber,
       midiTempoDuration,
       midiTempoPerSecond);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

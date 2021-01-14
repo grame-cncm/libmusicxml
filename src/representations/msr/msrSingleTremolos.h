@@ -44,7 +44,7 @@ class EXP msrSingleTremolo : public msrElement
       int              singleTremoloMarksNumber,
       msrPlacementKind singleTremoloPlacementKind);
 
-    virtual ~msrSingleTremolo ();
+    virtual               ~msrSingleTremolo ();
 
   public:
 

@@ -42,7 +42,7 @@ S_lpsrPaper lpsrPaper::create (
       inputLineNumber,
       scaling,
       pageLayout);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

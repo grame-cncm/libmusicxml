@@ -44,7 +44,7 @@ class EXP lpsrPartGroupBlock : public lpsrElement
     lpsrPartGroupBlock (
       S_msrPartGroup partGroup);
 
-    virtual ~lpsrPartGroupBlock ();
+    virtual               ~lpsrPartGroupBlock ();
 
   public:
 

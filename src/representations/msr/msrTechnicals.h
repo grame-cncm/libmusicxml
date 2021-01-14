@@ -77,7 +77,7 @@ class EXP msrTechnical : public msrElement
       msrTechnicalKind technicalKind,
       msrPlacementKind technicalPlacementKind);
 
-    virtual ~msrTechnical ();
+    virtual               ~msrTechnical ();
 
   public:
 
@@ -192,7 +192,7 @@ class EXP msrTechnicalWithInteger : public msrElement
       int                         technicalWithIntegerValue,
       msrPlacementKind            technicalWithIntegerPlacementKind);
 
-    virtual ~msrTechnicalWithInteger ();
+    virtual               ~msrTechnicalWithInteger ();
 
   public:
 
@@ -296,7 +296,7 @@ class EXP msrTechnicalWithFloat : public msrElement
       float                     technicalWithFloatValue,
       msrPlacementKind          technicalWithFloatPlacementKind);
 
-    virtual ~msrTechnicalWithFloat ();
+    virtual               ~msrTechnicalWithFloat ();
 
   public:
 
@@ -406,7 +406,7 @@ class EXP msrTechnicalWithString : public msrElement
       string                     technicalWithStringValue,
       msrPlacementKind           technicalWithStringPlacementKind);
 
-    virtual ~msrTechnicalWithString ();
+    virtual               ~msrTechnicalWithString ();
 
   public:
 

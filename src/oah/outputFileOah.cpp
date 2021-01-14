@@ -38,7 +38,7 @@ S_outputFileOahGroup gGlobalOutputFileOahGroup;
 S_outputFileOahGroup outputFileOahGroup::create ()
 {
   outputFileOahGroup* o = new outputFileOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

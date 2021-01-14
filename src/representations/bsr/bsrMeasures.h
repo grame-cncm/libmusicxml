@@ -37,7 +37,7 @@ class EXP bsrMeasure : public bsrLineContentsElement
       int    inputLineNumber,
       string printMeasureNumber);
 
-    virtual ~bsrMeasure ();
+    virtual               ~bsrMeasure ();
 
   public:
 

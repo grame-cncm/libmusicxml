@@ -105,7 +105,7 @@ S_bsrBrailleGenerator bsrBrailleGenerator::create (
     new bsrBrailleGenerator (
       byteOrderingKind,
       brailleOutputStream);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 */
@@ -187,7 +187,7 @@ S_bsrAsciiBrailleGenerator bsrAsciiBrailleGenerator::create (
   bsrAsciiBrailleGenerator* o =
     new bsrAsciiBrailleGenerator (
       brailleOutputStream);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -353,7 +353,7 @@ S_bsrUTF8BrailleGenerator bsrUTF8BrailleGenerator::create (
     new bsrUTF8BrailleGenerator (
       byteOrderingKind,
       brailleOutputStream);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -547,7 +547,7 @@ S_bsrUTF8DebugBrailleGenerator bsrUTF8DebugBrailleGenerator::create (
     new bsrUTF8DebugBrailleGenerator (
       byteOrderingKind,
       brailleOutputStream);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -656,7 +656,7 @@ S_bsrUTF16BigEndianBrailleGenerator bsrUTF16BigEndianBrailleGenerator::create (
     new bsrUTF16BigEndianBrailleGenerator (
       byteOrderingKind,
       brailleOutputStream);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -873,7 +873,7 @@ S_bsrUTF16SmallEndianBrailleGenerator bsrUTF16SmallEndianBrailleGenerator::creat
     new bsrUTF16SmallEndianBrailleGenerator (
       byteOrderingKind,
       brailleOutputStream);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -258,10 +258,10 @@ class EXP msr2mxmlTreeTranslator :
 {
   public:
 
-    msr2mxmlTreeTranslator (
-      S_msrScore visitedMsrScore);
+                          msr2mxmlTreeTranslator (
+                            S_msrScore visitedMsrScore);
 
-    virtual ~msr2mxmlTreeTranslator ();
+    virtual               ~msr2mxmlTreeTranslator ();
 
     Sxmlelement buildMxmltreeFromMsrScore ();
 
@@ -706,6 +706,8 @@ class EXP msr2mxmlTreeTranslator :
     // ------------------------------------------------------
 
     Sxmlelement               fScorePartListElement;
+    Sxmlelement               fScorePartElement;
+    Sxmlelement               fScoreInstrumentElement;
 
 
     // the part direction element

@@ -53,7 +53,7 @@ S_msrDalSegnoAtom msrDalSegnoAtom::create (
       valueSpecification,
       variableName,
       stringToDalSegnoKindMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -346,7 +346,7 @@ S_msrReplaceClefAtom msrReplaceClefAtom::create (
       valueSpecification,
       variableName,
       clefKindToClefKindMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -695,7 +695,7 @@ S_mxmlTree2msrOahGroup mxmlTree2msrOahGroup::create (
 {
   mxmlTree2msrOahGroup* o = new mxmlTree2msrOahGroup (
     handler);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

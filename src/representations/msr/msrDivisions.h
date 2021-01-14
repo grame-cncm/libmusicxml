@@ -53,7 +53,7 @@ class EXP msrDivisions : public msrElement
       int inputLineNumber,
       int divisionsPerQuarterNote);
 
-    virtual ~msrDivisions ();
+    virtual               ~msrDivisions ();
 
   public:
 

@@ -42,7 +42,7 @@ S_msrSlide msrSlide::create (
       slideTypeKind,
       slideLineTypeKind,
       slideTextValue);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

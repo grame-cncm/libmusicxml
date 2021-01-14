@@ -57,7 +57,7 @@ class EXP msprPitchesLanguageAtom : public oahAtomWithValue
       msrQuarterTonesPitchesLanguageKind&
                          msprPitchesLanguageKindVariable);
 
-    virtual ~msprPitchesLanguageAtom ();
+    virtual               ~msprPitchesLanguageAtom ();
 
   public:
 
@@ -145,7 +145,7 @@ class EXP msprChordsLanguageAtom : public oahAtomWithValue
       msprChordsLanguageKind&
                          msprChordsLanguageKindVariable);
 
-    virtual ~msprChordsLanguageAtom ();
+    virtual               ~msprChordsLanguageAtom ();
 
   public:
 
@@ -233,7 +233,7 @@ class EXP msprTransposeAtom : public oahAtomWithValue
       S_msrSemiTonesPitchAndOctave&
               semiTonesPitchAndOctaveVariable);
 
-    virtual ~msprTransposeAtom ();
+    virtual               ~msprTransposeAtom ();
 
   public:
 
@@ -311,7 +311,7 @@ class EXP msprOahGroup : public oahGroup
 
     msprOahGroup ();
 
-    virtual ~msprOahGroup ();
+    virtual               ~msprOahGroup ();
 
     // set and get
     // ------------------------------------------------------
@@ -765,7 +765,7 @@ class EXP msprDalSegnoAtom : public oahAtomWithValue
       map<string, msrDalSegno::msrDalSegnoKind>&
                           stringToDalSegnoKindMapVariable);
 
-    virtual ~msprDalSegnoAtom ();
+    virtual               ~msprDalSegnoAtom ();
 
   public:
 
@@ -851,7 +851,7 @@ class EXP msprDalSegnoAlFineAtom : public oahAtomWithValue
       map<string, msrDalSegno::msrDalSegnoKind>&
                           stringToDalSegnoKindMapVariable);
 
-    virtual ~msprDalSegnoAlFineAtom ();
+    virtual               ~msprDalSegnoAlFineAtom ();
 
   public:
 
@@ -937,7 +937,7 @@ class EXP msprDalSegnoAlCodaAtom : public oahAtomWithValue
       map<string, msrDalSegno::msrDalSegnoKind>&
                           stringToDalSegnoKindMapVariable);
 
-    virtual ~msprDalSegnoAlCodaAtom ();
+    virtual               ~msprDalSegnoAlCodaAtom ();
 
   public:
 

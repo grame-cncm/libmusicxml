@@ -47,12 +47,12 @@ void populateMsrSkeletonFromMxmlTree (
 {
   // sanity check
   msgAssert (
-    mxmlTree != 0,
+    mxmlTree != nullptr,
     "populateMsrSkeletonFromMxmlTree(): mxmlTree is null");
 
   // sanity check
   msgAssert (
-    scoreSkeletonToBePopulated != 0,
+    scoreSkeletonToBePopulated != nullptr,
     "scoreSkeletonToBePopulated is null");
 
   // start the clock

@@ -33,7 +33,7 @@ class EXP bsrSpaces : public bsrLineContentsElement
       int inputLineNumber,
       int numberOfSpaces);
 
-    virtual ~bsrSpaces ();
+    virtual               ~bsrSpaces ();
 
   public:
 

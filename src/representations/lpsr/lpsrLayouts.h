@@ -38,7 +38,7 @@ class EXP lpsrLayout : public lpsrElement
     lpsrLayout (
       int inputLineNumber);
 
-    virtual ~lpsrLayout ();
+    virtual               ~lpsrLayout ();
 
   public:
 

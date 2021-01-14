@@ -33,7 +33,7 @@ class EXP lilypondOah2manPageGenerator : virtual public oah2manPageGenerator
       const S_oahHandler handler,
       ostream&           manPageOutputStream);
 
-    virtual ~lilypondOah2manPageGenerator ();
+    virtual               ~lilypondOah2manPageGenerator ();
 
   protected:
 

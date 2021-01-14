@@ -40,7 +40,7 @@ S_msrClef msrClef::create (
   msrClef* o =
     new msrClef (
       inputLineNumber, clefKind, clefStaffNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -38,7 +38,7 @@ S_lilypondOahGroup gGlobalLilypondOahGroup;
 S_lilypondOahGroup lilypondOahGroup::create ()
 {
   lilypondOahGroup* o = new lilypondOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

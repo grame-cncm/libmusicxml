@@ -52,7 +52,7 @@ class EXP msr2lpsrScoreOutputKindAtom : public oahAtomWithValue
       string               variableName,
       lpsrScoreOutputKind& lpsrScoreOutputKindVariable);
 
-    virtual ~msr2lpsrScoreOutputKindAtom ();
+    virtual               ~msr2lpsrScoreOutputKindAtom ();
 
   public:
 
@@ -130,7 +130,7 @@ class EXP msr2lpsrOahGroup : public oahGroup
 
     msr2lpsrOahGroup ();
 
-    virtual ~msr2lpsrOahGroup ();
+    virtual               ~msr2lpsrOahGroup ();
 
   public:
 

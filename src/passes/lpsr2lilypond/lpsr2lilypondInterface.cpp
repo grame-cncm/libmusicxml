@@ -232,7 +232,7 @@ EXP void convertLpsrScoreToLilypondCodeWithHandler (
     // close output file
 #ifdef TRACE_OAH
     if (gTraceOah->fTracePasses) {
-      gLogOstream <<
+      gLogStream <<
         endl <<
         "Closing file \"" << outputFileName << "\"" <<
         endl;

@@ -52,7 +52,7 @@ S_brailleOutputKindAtom brailleOutputKindAtom::create (
       valueSpecification,
       variableName,
       brailleOutputKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -280,7 +280,7 @@ S_brailleUTFKindAtom brailleUTFKindAtom::create (
       valueSpecification,
       variableName,
       brailleUTFKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -498,7 +498,7 @@ S_brailleByteOrderingKindAtom brailleByteOrderingKindAtom::create (
       valueSpecification,
       variableName,
       brailleByteOrderingKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -706,7 +706,7 @@ S_bsr2brailleOahGroup gGlobalBsr2brailleOahGroup;
 S_bsr2brailleOahGroup bsr2brailleOahGroup::create ()
 {
   bsr2brailleOahGroup* o = new bsr2brailleOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -749,7 +749,7 @@ R"()",
 
   fBrailleOutputKindAtom =
       brailleOutputKindAtom::create (
-      "bok", "braille-output-kind",
+      K_BRAILLE_OUTPUT_KIND_SHORT_NAME, K_BRAILLE_OUTPUT_KIND_LONG_NAME,
       regex_replace (
         regex_replace (
           regex_replace (
@@ -795,7 +795,7 @@ R"()",
 
   fByteOrderingKindAtom =
     brailleByteOrderingKindAtom::create (
-    "bom", "byte-ordering-mark",
+    K_BRAILLE_BYTE_ORDERING_MARK_SHORT_NAME, K_BRAILLE_BYTE_ORDERING_MARK_LONG_NAME,
 R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
 ahead of the Braille nusic code,
 which can be one of 'big' or 'small'.
@@ -829,7 +829,8 @@ R"()",
   subGroup->
     appendAtomToSubGroup (
       oahBooleanAtom::create (
-        "ueifn", "use-encoding-in-file-name",
+        K_BRAILLE_USE_ENCODING_IN_FILE_NAME_SHORT_NAME,
+        K_BRAILLE_USE_ENCODING_IN_FILE_NAME_LONG_NAME,
 R"(Append a description of the encoding used
 and the presence of a BOM if any to the file name before the '.'.)",
         "useEncodingInFileName",

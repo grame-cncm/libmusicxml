@@ -64,7 +64,7 @@ S_msrPartGroup msrPartGroup::create (
       partGroupBarlineKind,
       partGroupPartGroupUpLink,
       partGroupScoreUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -94,7 +94,7 @@ S_msrPartGroup msrPartGroup::createImplicitPartGroup (
       0,                                  // partGroupPartGroupUpLink,
                                           // will be set below
       partGroupScoreUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   // the implicit part group it the top-most one:
   // set its group upLink to point to itself
@@ -119,7 +119,7 @@ S_msrPartGroup msrPartGroup::create (
       partGroupName,
       partGroupPartGroupUpLink,
       partGroupScoreUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

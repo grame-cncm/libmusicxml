@@ -46,7 +46,7 @@ class EXP msr2lilypondManPageGenerateAtom : public oahAtom
       string                 description,
       S_oahVisitor           theOahVisitor);
 
-    virtual ~msr2lilypondManPageGenerateAtom ();
+    virtual               ~msr2lilypondManPageGenerateAtom ();
 
   public:
 
@@ -125,7 +125,7 @@ class EXP msr2lilypondManPageOahGroup : public oahGroup
     msr2lilypondManPageOahGroup (
       S_oahVisitor theOah2manPageGenerator);
 
-    virtual ~msr2lilypondManPageOahGroup ();
+    virtual               ~msr2lilypondManPageOahGroup ();
 
   public:
 

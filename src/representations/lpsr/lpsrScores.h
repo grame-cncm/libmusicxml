@@ -52,7 +52,7 @@ class EXP lpsrScore : public lpsrElement
       int        inputLineNumber,
       S_msrScore theMsrScore);
 
-    virtual ~lpsrScore ();
+    virtual               ~lpsrScore ();
 
   public:
 

@@ -54,7 +54,7 @@ S_msprPitchesLanguageAtom msprPitchesLanguageAtom::create (
       valueSpecification,
       variableName,
       msprPitchesLanguageKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -294,7 +294,7 @@ S_msprChordsLanguageAtom msprChordsLanguageAtom::create (
       valueSpecification,
       variableName,
       msprChordsLanguageKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -528,7 +528,7 @@ S_msprTransposeAtom msprTransposeAtom::create (
       valueSpecification,
       variableName,
       semiTonesPitchAndOctaveVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -726,7 +726,7 @@ S_msprOahGroup gGlobalLpsrOahGroup;
 S_msprOahGroup msprOahGroup::create ()
 {
   msprOahGroup* o = new msprOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2019,7 +2019,7 @@ S_msprDalSegnoAtom msprDalSegnoAtom::create (
       valueSpecification,
       variableName,
       stringToDalSegnoKindMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2316,7 +2316,7 @@ S_msprDalSegnoAlFineAtom msprDalSegnoAlFineAtom::create (
       valueSpecification,
       variableName,
       stringToDalSegnoKindMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2613,7 +2613,7 @@ S_msprDalSegnoAlCodaAtom msprDalSegnoAlCodaAtom::create (
       valueSpecification,
       variableName,
       stringToDalSegnoKindMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

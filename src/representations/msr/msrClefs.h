@@ -55,7 +55,7 @@ class EXP msrClef : public msrMeasureElement
       msrClefKind clefKind,
       int         clefStaffNumber);
 
-    virtual ~msrClef ();
+    virtual               ~msrClef ();
 
   public:
 

@@ -46,7 +46,7 @@ class EXP msr2guidoManPageGenerateAtom : public oahAtom
       string                 description,
       S_oahVisitor           theOahVisitor);
 
-    virtual ~msr2guidoManPageGenerateAtom ();
+    virtual               ~msr2guidoManPageGenerateAtom ();
 
   public:
 
@@ -124,7 +124,7 @@ class EXP msr2guidoManPageOahGroup : public oahGroup
     msr2guidoManPageOahGroup (
       S_oahVisitor theOah2manPageGenerator);
 
-    virtual ~msr2guidoManPageOahGroup ();
+    virtual               ~msr2guidoManPageOahGroup ();
 
   public:
 

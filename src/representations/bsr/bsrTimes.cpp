@@ -44,7 +44,7 @@ S_bsrTimeItem bsrTimeItem::create (
   bsrTimeItem* o =
     new bsrTimeItem (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -280,7 +280,7 @@ S_bsrTime bsrTime::create (
     new bsrTime (
       inputLineNumber,
       timeKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

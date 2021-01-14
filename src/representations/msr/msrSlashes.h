@@ -46,7 +46,7 @@ class EXP msrSlash : public msrElement
       msrUseDotsKind  useDotsKind,
       msrSlashUseStemsKind slashUseStemsKind);
 
-    virtual ~msrSlash ();
+    virtual               ~msrSlash ();
 
   public:
 

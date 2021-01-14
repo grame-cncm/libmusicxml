@@ -50,7 +50,7 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
       S_msrStanza stanza,
       S_msrVoice  voice);
 
-    virtual ~lpsrNewLyricsBlock ();
+    virtual               ~lpsrNewLyricsBlock ();
 
   public:
 

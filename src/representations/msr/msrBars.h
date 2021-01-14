@@ -52,7 +52,7 @@ class EXP msrBarCheck : public msrMeasureElement
       string nextBarOriginalNumber,
       int    nextBarPuristNumber);
 
-    virtual ~msrBarCheck ();
+    virtual               ~msrBarCheck ();
 
   public:
 
@@ -125,7 +125,7 @@ class EXP msrBarNumberCheck : public msrMeasureElement
       string nextBarOriginalNumber,
       int    nextBarPuristNumber);
 
-    virtual ~msrBarNumberCheck ();
+    virtual               ~msrBarNumberCheck ();
 
   public:
 
@@ -314,7 +314,7 @@ class EXP msrBarline : public msrMeasureElement
       msrBarlineHasCodaKind         barlineHasCodaKind,
       msrBarlineRepeatWingedKind    barlineRepeatWingedKind);
 
-    virtual ~msrBarline ();
+    virtual               ~msrBarline ();
 
   public:
 

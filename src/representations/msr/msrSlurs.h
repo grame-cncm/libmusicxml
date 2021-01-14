@@ -53,13 +53,13 @@ class EXP msrSlur : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrSlur (
-      int             inputLineNumber,
-      int             slurNumber,
-      msrSlurTypeKind slurKind,
-      msrLineTypeKind slurLineTypeKind);
+                          msrSlur (
+                            int             inputLineNumber,
+                            int             slurNumber,
+                            msrSlurTypeKind slurKind,
+                            msrLineTypeKind slurLineTypeKind);
 
-    virtual ~msrSlur ();
+    virtual               ~msrSlur ();
 
   public:
 

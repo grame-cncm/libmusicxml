@@ -479,7 +479,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::create (
     new msrSemiTonesPitchAndOctave (
       semiTonesPitchKind,
       octaveKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -751,7 +751,7 @@ S_msrQuarterTonesPitchAndOctave msrQuarterTonesPitchAndOctave::create (
     new msrQuarterTonesPitchAndOctave (
       quarterTonesPitchKind,
       octaveKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -12500,25 +12500,25 @@ string diatonicPitchKindAsString (
       result = "k_NoDiatonicPitch";
       break;
 
-    case kA:
+    case kDiatonicPitchA:
       result = "A";
       break;
-    case kB:
+    case kDiatonicPitchB:
       result = "B";
       break;
-    case kC:
+    case kDiatonicPitchC:
       result = "C";
       break;
-    case kD:
+    case kDiatonicPitchD:
       result = "D";
       break;
-    case kE:
+    case kDiatonicPitchE:
       result = "E";
       break;
-    case kF:
+    case kDiatonicPitchF:
       result = "F";
       break;
-    case kG:
+    case kDiatonicPitchG:
       result = "G";
       break;
   } // switch
@@ -12534,31 +12534,31 @@ msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   switch (diatonicNoteName) {
     case 'a':
     case 'A':
-      result = kA;
+      result = kDiatonicPitchA;
        break;
     case 'b':
     case 'B':
-      result = kB;
+      result = kDiatonicPitchB;
       break;
     case 'c':
     case 'C':
-      result = kC;
+      result = kDiatonicPitchC;
       break;
     case 'd':
     case 'D':
-      result = kD;
+      result = kDiatonicPitchD;
       break;
     case 'e':
     case 'E':
-      result = kE;
+      result = kDiatonicPitchE;
       break;
     case 'f':
     case 'F':
-      result = kF;
+      result = kDiatonicPitchF;
       break;
     case 'g':
     case 'G':
-      result = kG;
+      result = kDiatonicPitchG;
       break;
     default: {}
   } // switch
@@ -12577,25 +12577,25 @@ string diatonicPitchKindAsString (
       result = "k_NoDiatonicPitch";
       break;
 
-    case kA:
+    case kDiatonicPitchA:
       result = "a";
       break;
-    case kB:
+    case kDiatonicPitchB:
       result = "b";
       break;
-    case kC:
+    case kDiatonicPitchC:
       result = "c";
       break;
-    case kD:
+    case kDiatonicPitchD:
       result = "d";
       break;
-    case kE:
+    case kDiatonicPitchE:
       result = "e";
       break;
-    case kF:
+    case kDiatonicPitchF:
       result = "f";
       break;
-    case kG:
+    case kDiatonicPitchG:
       result = "g";
       break;
   } // switch
@@ -13102,327 +13102,327 @@ void setDiatonicPitchAndAlterationKind (
 {
   switch (quarterTonesPitchKind) {
     case k_NoQuarterTonesPitch_QTP:
-      diatonicPitchKind = kA; // any value would fit
+      diatonicPitchKind = kDiatonicPitchA; // any value would fit
       alterationKind    = k_NoAlteration;
       break;
 
     case kA_TripleFlat_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kTripleFlat;
       break;
     case kA_DoubleFlat_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kDoubleFlat;
       break;
     case kA_SesquiFlat_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kSesquiFlat;
       break;
     case kA_Flat_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kFlat;
       break;
     case kA_SemiFlat_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kSemiFlat;
       break;
     case kA_Natural_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kNatural;
       break;
     case kA_SemiSharp_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kSemiSharp;
       break;
     case kA_Sharp_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kSharp;
       break;
     case kA_SesquiSharp_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kSesquiSharp;
       break;
     case kA_DoubleSharp_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kDoubleSharp;
       break;
     case kA_TripleSharp_QTP:
-      diatonicPitchKind = kA;
+      diatonicPitchKind = kDiatonicPitchA;
       alterationKind    = kTripleSharp;
       break;
 
     case kB_TripleFlat_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kTripleFlat;
       break;
     case kB_DoubleFlat_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kDoubleFlat;
       break;
     case kB_SesquiFlat_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kSesquiFlat;
       break;
     case kB_Flat_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kFlat;
       break;
     case kB_SemiFlat_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kSemiFlat;
       break;
     case kB_Natural_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kNatural;
       break;
     case kB_SemiSharp_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kSemiSharp;
       break;
     case kB_Sharp_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kSharp;
       break;
     case kB_SesquiSharp_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kSesquiSharp;
       break;
     case kB_DoubleSharp_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kDoubleSharp;
       break;
     case kB_TripleSharp_QTP:
-      diatonicPitchKind = kB;
+      diatonicPitchKind = kDiatonicPitchB;
       alterationKind    = kTripleSharp;
       break;
 
     case kC_TripleFlat_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kTripleFlat;
       break;
     case kC_DoubleFlat_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kDoubleFlat;
       break;
     case kC_SesquiFlat_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kSesquiFlat;
       break;
     case kC_Flat_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kFlat;
       break;
     case kC_SemiFlat_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kSemiFlat;
       break;
     case kC_Natural_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kNatural;
       break;
     case kC_SemiSharp_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kSemiSharp;
       break;
     case kC_Sharp_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kSharp;
       break;
     case kC_SesquiSharp_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kSesquiSharp;
       break;
     case kC_DoubleSharp_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kDoubleSharp;
       break;
     case kC_TripleSharp_QTP:
-      diatonicPitchKind = kC;
+      diatonicPitchKind = kDiatonicPitchC;
       alterationKind    = kTripleSharp;
       break;
 
     case kD_TripleFlat_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kTripleFlat;
       break;
     case kD_DoubleFlat_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kDoubleFlat;
       break;
     case kD_SesquiFlat_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kSesquiFlat;
       break;
     case kD_Flat_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kFlat;
       break;
     case kD_SemiFlat_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kSemiFlat;
       break;
     case kD_Natural_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kNatural;
       break;
     case kD_SemiSharp_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kSemiSharp;
       break;
     case kD_Sharp_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kSharp;
       break;
     case kD_SesquiSharp_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kSesquiSharp;
       break;
     case kD_DoubleSharp_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kDoubleSharp;
       break;
     case kD_TripleSharp_QTP:
-      diatonicPitchKind = kD;
+      diatonicPitchKind = kDiatonicPitchD;
       alterationKind    = kTripleSharp;
       break;
 
     case kE_TripleFlat_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kTripleFlat;
       break;
     case kE_DoubleFlat_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kDoubleFlat;
       break;
     case kE_SesquiFlat_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kSesquiFlat;
       break;
     case kE_Flat_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kFlat;
       break;
     case kE_SemiFlat_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kSemiFlat;
       break;
     case kE_Natural_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kNatural;
       break;
     case kE_SemiSharp_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kSemiSharp;
       break;
     case kE_Sharp_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kSharp;
       break;
     case kE_SesquiSharp_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kSesquiSharp;
       break;
     case kE_DoubleSharp_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kDoubleSharp;
       break;
     case kE_TripleSharp_QTP:
-      diatonicPitchKind = kE;
+      diatonicPitchKind = kDiatonicPitchE;
       alterationKind    = kTripleSharp;
       break;
 
     case kF_TripleFlat_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kTripleFlat;
       break;
     case kF_DoubleFlat_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kDoubleFlat;
       break;
     case kF_SesquiFlat_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kSesquiFlat;
       break;
     case kF_Flat_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kFlat;
       break;
     case kF_SemiFlat_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kSemiFlat;
       break;
     case kF_Natural_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kNatural;
       break;
     case kF_SemiSharp_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kSemiSharp;
       break;
     case kF_Sharp_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kSharp;
       break;
     case kF_SesquiSharp_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kSesquiSharp;
       break;
     case kF_DoubleSharp_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kDoubleSharp;
       break;
     case kF_TripleSharp_QTP:
-      diatonicPitchKind = kF;
+      diatonicPitchKind = kDiatonicPitchF;
       alterationKind    = kTripleSharp;
       break;
 
     case kG_TripleFlat_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kTripleFlat;
       break;
     case kG_DoubleFlat_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kDoubleFlat;
       break;
     case kG_SesquiFlat_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kSesquiFlat;
       break;
     case kG_Flat_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       break;
     case kG_SemiFlat_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kSemiFlat;
       break;
     case kG_Natural_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kNatural;
       break;
     case kG_SemiSharp_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kSemiSharp;
       break;
     case kG_Sharp_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kSharp;
       break;
     case kG_SesquiSharp_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kSesquiSharp;
       break;
     case kG_DoubleSharp_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kDoubleSharp;
       break;
     case kG_TripleSharp_QTP:
-      diatonicPitchKind = kG;
+      diatonicPitchKind = kDiatonicPitchG;
       alterationKind    = kTripleSharp;
       break;
 
     case k_Rest_QTP:
     case k_Skip_QTP:
-      diatonicPitchKind = kA; // any value would fit JMI
+      diatonicPitchKind = kDiatonicPitchA; // any value would fit JMI
       alterationKind    = k_NoAlteration;
 
       break;
@@ -13714,7 +13714,26 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       k_NoQuarterTonesPitch_QTP;
 
   switch (diatonicPitchKind) {
-    case kA:
+    case k_NoDiatonicPitch:
+      {
+        result = k_NoQuarterTonesPitch_QTP;
+        /* JMI
+        stringstream s;
+
+        s <<
+          "cannot convert k_NoDiatonicPitch to a quarter tones pitch"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          gGlobalOahOahGroup->getInputSourceName (),
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+          */
+      }
+      break;
+
+    case kDiatonicPitchA:
       switch (alterationKind) {
         case kTripleFlat:
           result = kA_TripleFlat_QTP;
@@ -13767,7 +13786,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kB:
+    case kDiatonicPitchB:
       switch (alterationKind) {
         case kTripleFlat:
           result = kB_TripleFlat_QTP;
@@ -13822,7 +13841,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
 
       break;
 
-    case kC:
+    case kDiatonicPitchC:
       switch (alterationKind) {
         case kTripleFlat:
           result = kC_TripleFlat_QTP;
@@ -13875,7 +13894,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kD:
+    case kDiatonicPitchD:
       switch (alterationKind) {
         case kTripleFlat:
           result = kD_TripleFlat_QTP;
@@ -13928,7 +13947,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kE:
+    case kDiatonicPitchE:
       switch (alterationKind) {
         case kTripleFlat:
           result = kE_TripleFlat_QTP;
@@ -13981,7 +14000,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kF:
+    case kDiatonicPitchF:
       switch (alterationKind) {
         case kTripleFlat:
           result = kF_TripleFlat_QTP;
@@ -14034,7 +14053,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       } // switch
       break;
 
-    case kG:
+    case kDiatonicPitchG:
       switch (alterationKind) {
         case kTripleFlat:
           result = kG_TripleFlat_QTP;
@@ -14086,25 +14105,6 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           break;
       } // switch
       break;
-
-    case k_NoDiatonicPitch:
-      {
-        result = k_NoQuarterTonesPitch_QTP;
-        /* JMI
-        stringstream s;
-
-        s <<
-          "cannot convert k_NoDiatonicPitch to a quarter tones pitch"
-          ", line = " << inputLineNumber;
-
-        msrInternalError (
-          gGlobalOahOahGroup->getInputSourceName (),
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-          */
-      }
-      break;
   } // switch
 
   return result;
@@ -14128,7 +14128,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kA_SesquiSharp_QTP:
     case kA_DoubleSharp_QTP:
     case kA_TripleSharp_QTP:
-      result = kA;
+      result = kDiatonicPitchA;
       break;
 
     case kB_TripleFlat_QTP:
@@ -14142,7 +14142,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kB_SesquiSharp_QTP:
     case kB_DoubleSharp_QTP:
     case kB_TripleSharp_QTP:
-      result = kB;
+      result = kDiatonicPitchB;
       break;
 
     case kC_TripleFlat_QTP:
@@ -14156,7 +14156,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kC_SesquiSharp_QTP:
     case kC_DoubleSharp_QTP:
     case kC_TripleSharp_QTP:
-      result = kC;
+      result = kDiatonicPitchC;
       break;
 
     case kD_TripleFlat_QTP:
@@ -14170,7 +14170,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kD_SesquiSharp_QTP:
     case kD_DoubleSharp_QTP:
     case kD_TripleSharp_QTP:
-      result = kD;
+      result = kDiatonicPitchD;
       break;
 
     case kE_TripleFlat_QTP:
@@ -14184,7 +14184,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kE_SesquiSharp_QTP:
     case kE_DoubleSharp_QTP:
     case kE_TripleSharp_QTP:
-      result = kE;
+      result = kDiatonicPitchE;
       break;
 
     case kF_TripleFlat_QTP:
@@ -14198,7 +14198,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kF_SesquiSharp_QTP:
     case kF_DoubleSharp_QTP:
     case kF_TripleSharp_QTP:
-      result = kF;
+      result = kDiatonicPitchF;
       break;
 
     case kG_TripleFlat_QTP:
@@ -14212,7 +14212,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kG_SesquiSharp_QTP:
     case kG_DoubleSharp_QTP:
     case kG_TripleSharp_QTP:
-      result = kG;
+      result = kDiatonicPitchG;
       break;
 
     case k_Rest_QTP:
@@ -15590,7 +15590,7 @@ S_msrLength msrLength::create (
     new msrLength (
       lengthUnitKind,
       lengthValue);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -15788,7 +15788,7 @@ S_msrMargin msrMargin::create (
     new msrMargin (
       marginTypeKind,
       marginLength);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -15839,7 +15839,7 @@ S_msrMarginsGroup msrMarginsGroup::create (
   msrMarginsGroup * o =
     new msrMarginsGroup (
       marginTypeKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -16101,7 +16101,7 @@ S_msrFontSize msrFontSize::create (
   msrFontSize * o =
     new msrFontSize (
       fontSizeKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -16112,7 +16112,7 @@ S_msrFontSize msrFontSize::create (
   msrFontSize * o =
     new msrFontSize (
       numericFontSize);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -16654,6 +16654,175 @@ string msrPlacementKindAsString (
   return result;
 }
 
+// dynamics
+//______________________________________________________________________________
+msrDynamicsKind dynamicsFromString (string theString)
+{
+  msrDynamicsKind result = k_NoDynamics;
+
+  if (theString == "f") {
+    result = kDynamicsF;
+  }
+  else if (theString == "f") {
+    result = kDynamicsF;
+  }
+  else if (theString == "fff") {
+    result = kDynamicsFFF;
+  }
+  else if (theString == "ffff") {
+    result = kDynamicsFFFF;
+  }
+  else if (theString == "fffff") {
+    result = kDynamicsFFFFF;
+  }
+  else if (theString == "ffffff") {
+    result = kDynamicsFFFFFF;
+  }
+
+  else if (theString == "p") {
+    result = kDynamicsP;
+  }
+  else if (theString == "pp") {
+    result = kDynamicsPP;
+  }
+  else if (theString == "ppp") {
+    result = kDynamicsPPP;
+  }
+  else if (theString == "pppp") {
+    result = kDynamicsPPPP;
+  }
+  else if (theString == "ppppp") {
+    result = kDynamicsPPPPP;
+  }
+  else if (theString == "pppppp") {
+    result = kDynamicsPPPPPP;
+  }
+
+  else if (theString == "mf") {
+    result = kDynamicsMF;
+  }
+  else if (theString == "mp") {
+    result = kDynamicsMP;
+  }
+  else if (theString == "fp") {
+    result = kDynamicsFP;
+  }
+  else if (theString == "fz") {
+    result = kDynamicsFZ;
+  }
+  else if (theString == "rf") {
+    result = kDynamicsRF;
+  }
+  else if (theString == "sf") {
+    result = kDynamicsSF;
+  }
+
+  else if (theString == "rfz") {
+    result = kDynamicsRFZ;
+  }
+  else if (theString == "sfz") {
+    result = kDynamicsSFZ;
+  }
+  else if (theString == "sfp") {
+    result = kDynamicsSFP;
+  }
+  else if (theString == "sfpp") {
+    result = kDynamicsSFPP;
+  }
+  else if (theString == "sffz") {
+    result = kDynamicsSFFZ;
+  }
+
+  return result;
+}
+
+string dynamicsKindAsString (
+  msrDynamicsKind dynamicsKind)
+{
+  string result;
+
+  switch (dynamicsKind) {
+    case k_NoDynamics:
+      result = "*k_NoDynamics*";
+      break;
+
+    case kDynamicsF:
+      result = "f";
+      break;
+    case kDynamicsFF:
+      result = "ff";
+      break;
+    case kDynamicsFFF:
+      result = "fff";
+      break;
+    case kDynamicsFFFF:
+      result = "ffff";
+      break;
+    case kDynamicsFFFFF:
+      result = "fffff";
+      break;
+    case kDynamicsFFFFFF:
+      result = "ffffff";
+      break;
+
+    case kDynamicsP:
+      result = "p";
+      break;
+    case kDynamicsPP:
+      result = "pp";
+      break;
+    case kDynamicsPPP:
+      result = "ppp";
+      break;
+    case kDynamicsPPPP:
+      result = "pppp";
+      break;
+    case kDynamicsPPPPP:
+      result = "ppppp";
+      break;
+    case kDynamicsPPPPPP:
+      result = "pppppp";
+      break;
+
+    case kDynamicsMF:
+      result = "mf";
+      break;
+    case kDynamicsMP:
+      result = "mp";
+      break;
+    case kDynamicsFP:
+      result = "fp";
+      break;
+    case kDynamicsFZ:
+      result = "fz";
+      break;
+    case kDynamicsRF:
+      result = "rf";
+      break;
+    case kDynamicsSF:
+      result = "sf";
+      break;
+
+    case kDynamicsRFZ:
+      result = "rfz";
+      break;
+    case kDynamicsSFZ:
+      result = "sfz";
+      break;
+    case kDynamicsSFP:
+      result = "sfp";
+      break;
+    case kDynamicsSFPP:
+      result = "sfpp";
+      break;
+    case kDynamicsSFFZ:
+      result = "sffz";
+      break;
+  } // switch
+
+  return result;
+}
+
 // measure style
 //______________________________________________________________________________
 msrUseDotsKind msrUseDotsFromString (
@@ -16850,7 +17019,7 @@ S_msrHarmonyInterval msrHarmonyInterval::create (
  //     harmonyIntervalNumber,
       harmonyIntervalIntervalKind,
       harmonyIntervalRelativeOctave);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -19508,7 +19677,7 @@ S_msrHarmonyStructure msrHarmonyStructure::createBare (
   msrHarmonyStructure* o =
     new msrHarmonyStructure (
       harmonyStructureHarmonyKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -20748,7 +20917,7 @@ S_msrSemiTonesPitchAndAbsoluteOctave msrSemiTonesPitchAndAbsoluteOctave::create 
     new msrSemiTonesPitchAndAbsoluteOctave (
       semiTonesPitchKind,
       absoluteOctave);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -20839,7 +21008,7 @@ S_msrSemiTonesPitchAndRelativeOctave msrSemiTonesPitchAndRelativeOctave::create 
     new msrSemiTonesPitchAndRelativeOctave (
       semiTonesPitchKind,
       relativeOctave);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -20933,7 +21102,7 @@ S_msrHarmonyContents msrHarmonyContents::create (
  //     inputLineNumber,
       harmonyContentsRootNote,
       harmonyContentsHarmonyKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

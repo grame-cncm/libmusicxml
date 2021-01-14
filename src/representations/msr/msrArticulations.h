@@ -64,7 +64,7 @@ class EXP msrArticulation : public msrElement
       msrArticulationKind articulationKind,
       msrPlacementKind    articulationPlacementKind);
 
-    virtual ~msrArticulation ();
+    virtual               ~msrArticulation ();
 
   public:
 
@@ -156,7 +156,7 @@ class EXP msrFermata : public msrArticulation
       msrFermataKind     fermataKind,
       msrFermataTypeKind fermataTypeKind);
 
-    virtual ~msrFermata ();
+    virtual               ~msrFermata ();
 
   public:
 
@@ -230,7 +230,7 @@ class EXP msrArpeggiato : public msrArticulation
       msrDirectionKind arpeggiatoDirectionKind,
       int              arpeggiatoNumber);
 
-    virtual ~msrArpeggiato ();
+    virtual               ~msrArpeggiato ();
 
   public:
 
@@ -315,7 +315,7 @@ class EXP msrNonArpeggiato : public msrArticulation
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
       int                      nonArpeggiatoNumber);
 
-    virtual ~msrNonArpeggiato ();
+    virtual               ~msrNonArpeggiato ();
 
   public:
 

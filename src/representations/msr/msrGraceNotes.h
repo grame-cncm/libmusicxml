@@ -76,7 +76,7 @@ class EXP msrGraceNotesGroup : public msrElement
       string                 graceNotesGroupMeasureNumber,
       S_msrVoice             graceNotesGroupVoiceUpLink);
 
-    virtual ~msrGraceNotesGroup ();
+    virtual               ~msrGraceNotesGroup ();
 
   public:
 

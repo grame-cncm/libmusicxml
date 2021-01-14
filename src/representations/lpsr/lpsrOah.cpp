@@ -54,7 +54,7 @@ S_lpsrPitchesLanguageAtom lpsrPitchesLanguageAtom::create (
       valueSpecification,
       variableName,
       lpsrPitchesLanguageKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -294,7 +294,7 @@ S_lpsrChordsLanguageAtom lpsrChordsLanguageAtom::create (
       valueSpecification,
       variableName,
       lpsrChordsLanguageKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -528,7 +528,7 @@ S_lpsrTransposeAtom lpsrTransposeAtom::create (
       valueSpecification,
       variableName,
       semiTonesPitchAndOctaveVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -726,7 +726,7 @@ S_lpsrOahGroup gGlobalLpsrOahGroup;
 S_lpsrOahGroup lpsrOahGroup::create ()
 {
   lpsrOahGroup* o = new lpsrOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2019,7 +2019,7 @@ S_lpsrDalSegnoAtom lpsrDalSegnoAtom::create (
       valueSpecification,
       variableName,
       stringToDalSegnoKindMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2316,7 +2316,7 @@ S_lpsrDalSegnoAlFineAtom lpsrDalSegnoAlFineAtom::create (
       valueSpecification,
       variableName,
       stringToDalSegnoKindMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2613,7 +2613,7 @@ S_lpsrDalSegnoAlCodaAtom lpsrDalSegnoAlCodaAtom::create (
       valueSpecification,
       variableName,
       stringToDalSegnoKindMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

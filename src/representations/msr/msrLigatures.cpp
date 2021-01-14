@@ -46,7 +46,7 @@ S_msrLigature msrLigature::create (
       ligatureLineEndKind,
       ligatureLineTypeKind,
       ligaturePlacementKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

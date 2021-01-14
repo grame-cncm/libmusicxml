@@ -27,6 +27,7 @@
 
 
 using namespace std;
+
 namespace MusicXML2
 {
 
@@ -70,15 +71,15 @@ class EXP msrGenerationAPIKindAtom : public oahAtomWithValue
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrGenerationAPIKindAtom (
-      const string&         shortName,
-      const string&         longName,
-      const string&         description,
-      const string&         valueSpecification,
-      const string&         variableName,
-      msrGenerationAPIKind& generationAPIKindVariable);
+                          msrGenerationAPIKindAtom (
+                            const string&         shortName,
+                            const string&         longName,
+                            const string&         description,
+                            const string&         valueSpecification,
+                            const string&         variableName,
+                            msrGenerationAPIKind& generationAPIKindVariable);
 
-    virtual ~msrGenerationAPIKindAtom ();
+    virtual               ~msrGenerationAPIKindAtom ();
 
   public:
 

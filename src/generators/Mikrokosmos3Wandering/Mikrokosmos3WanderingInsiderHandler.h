@@ -45,12 +45,12 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    Mikrokosmos3WanderingInsiderHandler (
-      const string&       executableName,
-      const string&       handlerHeader,
-      generatorOutputKind generatorOutputKind);
+                          Mikrokosmos3WanderingInsiderHandler (
+                            const string&       executableName,
+                            const string&       handlerHeader,
+                            generatorOutputKind generatorOutputKind);
 
-    virtual ~Mikrokosmos3WanderingInsiderHandler ();
+    virtual               ~Mikrokosmos3WanderingInsiderHandler ();
 
   public:
 
@@ -109,6 +109,9 @@ class EXP Mikrokosmos3WanderingInsiderHandler : public oahInsiderHandler
     // private services
     // ------------------------------------------------------
 
+    string                usageInformation (
+                            generatorOutputKind generatorOutputKind);
+
     string                Mikrokosmos3WanderingAboutInformation (
                             generatorOutputKind theGeneratorOutputKind) const;
 
@@ -145,7 +148,7 @@ class EXP Mikrokosmos3WanderingInsiderOahGroup : public oahGroup
 
     Mikrokosmos3WanderingInsiderOahGroup ();
 
-    virtual ~Mikrokosmos3WanderingInsiderOahGroup ();
+    virtual               ~Mikrokosmos3WanderingInsiderOahGroup ();
 
   public:
 

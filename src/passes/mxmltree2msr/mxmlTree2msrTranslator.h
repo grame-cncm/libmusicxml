@@ -492,10 +492,10 @@ class EXP mxmlTree2msrTranslator :
     // constructors/destructor
     // ------------------------------------------------------
 
-    mxmlTree2msrTranslator (
-      S_msrScore scoreSkeleton);
+                          mxmlTree2msrTranslator (
+                            S_msrScore scoreSkeleton);
 
-    virtual ~mxmlTree2msrTranslator ();
+    virtual               ~mxmlTree2msrTranslator ();
 
     // set and get
     // ------------------------------------------------------

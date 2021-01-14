@@ -41,7 +41,7 @@ S_lpsrSchemeVariable lpsrSchemeVariable::create (
     new lpsrSchemeVariable (
       inputLineNumber,
       commentedKind, variableName, value, comment, endlKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -227,7 +227,7 @@ S_lpsrSchemeFunction lpsrSchemeFunction::create (
     new lpsrSchemeFunction (
       inputLineNumber,
       functionName, functionDescription, functionCode);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

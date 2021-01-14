@@ -42,7 +42,7 @@ class EXP msrBeam : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrBeam> create (
-      int        inputLineNumber,
+      int         inputLineNumber,
       int         number,
       msrBeamKind beamKind);
 
@@ -51,12 +51,12 @@ class EXP msrBeam : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrBeam (
-      int         inputLineNumber,
-      int         number,
-      msrBeamKind beamKind);
+                          msrBeam (
+                            int         inputLineNumber,
+                            int         number,
+                            msrBeamKind beamKind);
 
-    virtual ~msrBeam ();
+    virtual               ~msrBeam ();
 
   public:
 

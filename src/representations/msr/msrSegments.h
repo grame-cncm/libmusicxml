@@ -102,7 +102,7 @@ class EXP msrSegment : public msrVoiceElement
       int        inputLineNumber,
       S_msrVoice segmentVoicekUpLink);
 
-    virtual ~msrSegment ();
+    virtual               ~msrSegment ();
 
   private:
 

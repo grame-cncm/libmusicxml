@@ -43,7 +43,7 @@ class EXP msr2guidoInsiderHandler : public oahInsiderHandler
       string executableName,
       string handlerHeader);
 
-    virtual ~msr2guidoInsiderHandler ();
+    virtual               ~msr2guidoInsiderHandler ();
 
   private:
 
@@ -116,7 +116,7 @@ class EXP msr2guidoInsiderOahGroup : public oahGroup
 
     msr2guidoInsiderOahGroup ();
 
-    virtual ~msr2guidoInsiderOahGroup ();
+    virtual               ~msr2guidoInsiderOahGroup ();
 
   public:
 

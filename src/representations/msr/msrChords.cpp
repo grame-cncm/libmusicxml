@@ -56,7 +56,7 @@ S_msrChord msrChord::create (
       inputLineNumber,
       chordSoundingWholeNotes, chordDisplayWholeNotes,
       chordGraphicDurationKind);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -2774,7 +2774,7 @@ S_msrChordBeamLink msrChordBeamLink::create (
       inputLineNumber,
       originalBeam,
       chordUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -2983,7 +2983,7 @@ S_msrChordSlurLink msrChordSlurLink::create (
       inputLineNumber,
       originalSlur,
       chordUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }
@@ -3192,7 +3192,7 @@ S_msrChordGraceNotesGroupLink msrChordGraceNotesGroupLink::create (
       inputLineNumber,
       originalGraceNotesGroup,
       chordUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
 
   return o;
 }

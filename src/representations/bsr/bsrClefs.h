@@ -53,7 +53,7 @@ class EXP bsrClef : public bsrLineContentsElement
       int         inputLineNumber,
       bsrClefKind clefKind);
 
-    virtual ~bsrClef ();
+    virtual               ~bsrClef ();
 
   public:
 

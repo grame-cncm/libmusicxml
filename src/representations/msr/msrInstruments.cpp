@@ -50,7 +50,7 @@ S_msrStringTuning msrStringTuning::create (
       stringTuningDiatonicPitchKind,
       stringTuningAlterationKind,
       stringTuningOctaveKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -160,7 +160,7 @@ S_msrScordatura msrScordatura::create (
   msrScordatura* o =
     new msrScordatura (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -276,7 +276,7 @@ S_msrAccordionRegistration msrAccordionRegistration::create (
     new msrAccordionRegistration (
       inputLineNumber,
       highDotsNumber, middleDotsNumber, lowDotsNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -380,7 +380,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::create (
   msrHarpPedalsTuning* o =
     new msrHarpPedalsTuning (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -602,7 +602,7 @@ S_msrPedal msrPedal::create (
     new msrPedal (
       inputLineNumber,
       pedalTypeKind, pedalLineKind, pedalSignKind);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -752,7 +752,7 @@ S_msrDamp msrDamp::create (
   msrDamp* o =
     new msrDamp (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -832,7 +832,7 @@ S_msrDampAll msrDampAll::create (
   msrDampAll* o =
     new msrDampAll (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

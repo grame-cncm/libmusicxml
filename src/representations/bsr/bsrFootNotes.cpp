@@ -34,7 +34,7 @@ S_bsrFootNotes bsrFootNotes::create (
   bsrFootNotes* o =
     new bsrFootNotes (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

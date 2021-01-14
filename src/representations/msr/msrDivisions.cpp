@@ -40,7 +40,7 @@ S_msrDivisions msrDivisions::create (
   msrDivisions* o =
     new msrDivisions (
       inputLineNumber, divisionsPerQuarterNote);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

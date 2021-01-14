@@ -36,7 +36,7 @@ S_bsrTranscriptionNotesElement bsrTranscriptionNotesElement::create (
   bsrTranscriptionNotesElement* o =
     new bsrTranscriptionNotesElement (
       inputLineNumber, transcriptionNoteText);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -158,7 +158,7 @@ S_bsrTranscriptionNotes bsrTranscriptionNotes::create (
   bsrTranscriptionNotes* o =
     new bsrTranscriptionNotes (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

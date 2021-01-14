@@ -161,7 +161,7 @@ class EXP msrStaffDetails : public msrMeasureElement
       msrPrintObjectKind  printObjectKind,
       msrPrintSpacingKind printSpacingKin);
 
-    virtual ~msrStaffDetails ();
+    virtual               ~msrStaffDetails ();
 
   public:
 

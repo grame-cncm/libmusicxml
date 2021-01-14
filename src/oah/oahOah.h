@@ -50,7 +50,7 @@ class EXP insiderOahAtom : public oahAtom
       string longName,
       string description);
 
-    virtual ~insiderOahAtom ();
+    virtual               ~insiderOahAtom ();
 
   public:
 
@@ -110,7 +110,7 @@ class EXP regularOahAtom : public oahAtom
       string longName,
       string description);
 
-    virtual ~regularOahAtom ();
+    virtual               ~regularOahAtom ();
 
   public:
 
@@ -171,7 +171,7 @@ class EXP oahOahGroup : public oahGroup
     oahOahGroup (
       string executableName);
 
-    virtual ~oahOahGroup ();
+    virtual               ~oahOahGroup ();
 
   public:
 
@@ -389,7 +389,7 @@ class EXP oahOptionalValuesStyleKindAtom : public oahAtomWithValue
       oahOptionalValuesStyleKind&
                          oahOptionalValuesStyleKindVariable);
 
-    virtual ~oahOptionalValuesStyleKindAtom ();
+    virtual               ~oahOptionalValuesStyleKindAtom ();
 
   public:
 

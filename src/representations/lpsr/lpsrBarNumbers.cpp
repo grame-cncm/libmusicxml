@@ -32,7 +32,7 @@ S_lpsrBarNumberCheck lpsrBarNumberCheck::create (
   lpsrBarNumberCheck* o =
     new lpsrBarNumberCheck (
       inputLineNumber, nextBarNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -122,7 +122,7 @@ S_lpsrBarCommand lpsrBarCommand::create (
   lpsrBarCommand* o =
     new lpsrBarCommand (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

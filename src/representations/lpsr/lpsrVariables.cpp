@@ -32,7 +32,7 @@ S_lpsrVariableUseCommand lpsrVariableUseCommand::create (
   lpsrVariableUseCommand* o =
     new lpsrVariableUseCommand (
       inputLineNumber, variableName);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

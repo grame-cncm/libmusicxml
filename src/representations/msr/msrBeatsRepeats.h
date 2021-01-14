@@ -50,7 +50,7 @@ class EXP msrBeatsRepeatPattern : public msrElement
       int              inputLineNumber,
       S_msrBeatsRepeat beatsRepeatUpLink);
 
-    virtual ~msrBeatsRepeatPattern ();
+    virtual               ~msrBeatsRepeatPattern ();
 
   public:
 
@@ -140,7 +140,7 @@ class EXP msrBeatsRepeatReplicas : public msrElement
       int              inputLineNumber,
       S_msrBeatsRepeat beatsRepeatUpLink);
 
-    virtual ~msrBeatsRepeatReplicas ();
+    virtual               ~msrBeatsRepeatReplicas ();
 
   public:
 
@@ -254,7 +254,7 @@ class EXP msrBeatsRepeat : public msrVoiceElement
       int        beatsRepeatSlashesNumber,
       S_msrVoice voiceUpLink);
 
-    virtual ~msrBeatsRepeat ();
+    virtual               ~msrBeatsRepeat ();
 
   public:
 

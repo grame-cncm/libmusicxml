@@ -45,7 +45,7 @@ S_msrHiddenMeasureAndBarlineDescr msrHiddenMeasureAndBarlineDescr::create (
     msrHiddenMeasureAndBarlineDescr (
       inputLineNumber,
       dalSegno);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

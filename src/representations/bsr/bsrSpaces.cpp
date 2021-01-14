@@ -36,7 +36,7 @@ S_bsrSpaces bsrSpaces::create (
   bsrSpaces* o =
     new bsrSpaces (
       inputLineNumber, numberOfSpaces);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

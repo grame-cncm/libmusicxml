@@ -43,7 +43,7 @@ class EXP msr2brailleInsiderHandler : public oahInsiderHandler
       string executableName,
       string handlerHeader);
 
-    virtual ~msr2brailleInsiderHandler ();
+    virtual               ~msr2brailleInsiderHandler ();
 
   private:
 
@@ -120,7 +120,7 @@ class EXP msr2brailleInsiderOahGroup : public oahGroup
       string executableName,
       string handlerHeader);
 
-    virtual ~msr2brailleInsiderOahGroup ();
+    virtual               ~msr2brailleInsiderOahGroup ();
 
   public:
 

@@ -40,7 +40,7 @@ S_msrRepeatCoda msrRepeatCoda::create (
       inputLineNumber,
       repeatCodaSegment,
       repeatUpLink);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -271,7 +271,7 @@ class EXP msr2lpsrTranslator :
     msr2lpsrTranslator (
       S_msrScore originalMsrScore);
 
-    virtual ~msr2lpsrTranslator ();
+    virtual               ~msr2lpsrTranslator ();
 
     S_lpsrScore buildLpsrScoreFromMsrScore ();
 

@@ -50,7 +50,7 @@ class EXP bsrScore : public bsrElement
       int            inputLineNumber,
       S_msrScore     theMsrScore);
 
-    virtual ~bsrScore ();
+    virtual               ~bsrScore ();
 
   public:
 

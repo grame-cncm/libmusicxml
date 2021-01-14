@@ -58,13 +58,13 @@ class EXP oahInsiderHandler : public oahHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahInsiderHandler (
-      const string& executableName,
-      const string& handlerHeader,
-      const string& handlerDescription,
-      const string& handlerUsage);
+                          oahInsiderHandler (
+                            const string& executableName,
+                            const string& handlerHeader,
+                            const string& handlerDescription,
+                            const string& handlerUsage);
 
-    virtual ~oahInsiderHandler ();
+    virtual               ~oahInsiderHandler ();
 
   public:
 

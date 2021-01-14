@@ -47,7 +47,7 @@ class EXP msrTimeItem : public msrElement
     msrTimeItem (
       int inputLineNumber);
 
-    virtual ~msrTimeItem ();
+    virtual               ~msrTimeItem ();
 
   public:
 
@@ -164,7 +164,7 @@ class EXP msrTime : public msrMeasureElement
       int               inputLineNumber,
       msrTimeSymbolKind timeSymbolKind);
 
-    virtual ~msrTime ();
+    virtual               ~msrTime ();
 
   public:
 

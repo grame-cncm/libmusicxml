@@ -52,7 +52,7 @@ class EXP msrRestMeasuresContents : public msrElement
       int               inputLineNumber,
       S_msrRestMeasures restMeasures);
 
-    virtual ~msrRestMeasuresContents ();
+    virtual               ~msrRestMeasuresContents ();
 
   public:
 
@@ -167,7 +167,7 @@ class EXP msrRestMeasures : public msrVoiceElement
       S_msrMeasure restMeasureClone,
       S_msrVoice   voiceUpLink);
 
-    virtual ~msrRestMeasures ();
+    virtual               ~msrRestMeasures ();
 
   public:
 

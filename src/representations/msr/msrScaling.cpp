@@ -47,7 +47,7 @@ S_msrScaling msrScaling::create (
       inputLineNumber,
       millimeters,
       tenths);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -100,12 +100,12 @@ to be developped into :
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahPrefix (
-      string prefixName,
-      string prefixErsatz,
-      string prefixDescription);
+                          oahPrefix (
+                            string prefixName,
+                            string prefixErsatz,
+                            string prefixDescription);
 
-    virtual ~oahPrefix ();
+    virtual               ~oahPrefix ();
 
   public:
 
@@ -193,13 +193,13 @@ class EXP oahAtom : public oahElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahAtom (
-      string         shortName,
-      string         longName,
-      string         description,
-      oahElementKind atomValueExpectedKind);
+                          oahAtom (
+                            string         shortName,
+                            string         longName,
+                            string         description,
+                            oahElementKind atomValueExpectedKind);
 
-    virtual ~oahAtom ();
+    virtual               ~oahAtom ();
 
   public:
 
@@ -292,13 +292,13 @@ class EXP oahAtomWithVariableName : public oahAtom
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahAtomWithVariableName (
-      string shortName,
-      string longName,
-      string description,
-      string variableName);
+                          oahAtomWithVariableName (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string variableName);
 
-    virtual ~oahAtomWithVariableName ();
+    virtual               ~oahAtomWithVariableName ();
 
   public:
 
@@ -376,14 +376,14 @@ class EXP oahAtomWithValue : public oahAtomWithVariableName
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahAtomWithValue (
-      string shortName,
-      string longName,
-      string description,
-      string valueSpecification,
-      string variableName);
+                          oahAtomWithValue (
+                            string shortName,
+                            string longName,
+                            string description,
+                            string valueSpecification,
+                            string variableName);
 
-    virtual ~oahAtomWithValue ();
+    virtual               ~oahAtomWithValue ();
 
   public:
 
@@ -476,15 +476,15 @@ class EXP oahSubGroup : public oahElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahSubGroup (
-      string                   subGroupHeader,
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementVisibilityKind optionVisibilityKind,
-      S_oahGroup               groupUpLink);
+                          oahSubGroup (
+                            string                   subGroupHeader,
+                            string                   shortName,
+                            string                   longName,
+                            string                   description,
+                            oahElementVisibilityKind optionVisibilityKind,
+                            S_oahGroup               groupUpLink);
 
-    virtual ~oahSubGroup ();
+    virtual               ~oahSubGroup ();
 
   public:
 
@@ -641,22 +641,22 @@ class EXP oahGroup : public oahElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahGroup (
-      string                   header,
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementVisibilityKind optionVisibilityKind);
+                          oahGroup (
+                            string                   header,
+                            string                   shortName,
+                            string                   longName,
+                            string                   description,
+                            oahElementVisibilityKind optionVisibilityKind);
 
-    oahGroup (
-      string                   header,
-      string                   shortName,
-      string                   longName,
-      string                   description,
-      oahElementVisibilityKind optionVisibilityKind,
-      S_oahHandler             groupHandlerUpLink);
+                          oahGroup (
+                            string                   header,
+                            string                   shortName,
+                            string                   longName,
+                            string                   description,
+                            oahElementVisibilityKind optionVisibilityKind,
+                            S_oahHandler             groupHandlerUpLink);
 
-    virtual ~oahGroup ();
+    virtual               ~oahGroup ();
 
   public:
 
@@ -846,13 +846,13 @@ class EXP oahHandler : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    oahHandler (
-      string   executableName,
-      string   handlerHeader,
-      string   handlerDescription,
-      string   handlerUsage);
+                          oahHandler (
+                            string   executableName,
+                            string   handlerHeader,
+                            string   handlerDescription,
+                            string   handlerUsage);
 
-    virtual ~oahHandler ();
+    virtual               ~oahHandler ();
 
   protected:
 
@@ -982,7 +982,7 @@ class EXP oahHandler : public smartable
     void                  setOahHandlerFoundAHelpOption (
                             string context);
 
-    virtual string        fetchOutputFileNameFromTheOptions () const;
+    virtual string        fetchOutputFileNameFromTheOptions () const = 0;
 
     // quiet mode
     virtual void          enforceHandlerQuietness ();

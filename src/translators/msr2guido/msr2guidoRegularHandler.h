@@ -50,7 +50,7 @@ class EXP msr2guidoRegularHandler : public oahRegularHandler
       S_msr2guidoInsiderHandler
                   insiderOahHandler);
 
-    virtual ~msr2guidoRegularHandler ();
+    virtual               ~msr2guidoRegularHandler ();
 
   public:
 

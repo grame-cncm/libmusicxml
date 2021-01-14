@@ -56,7 +56,7 @@ S_lilypondScoreOutputKindAtom lilypondScoreOutputKindAtom::create (
       valueSpecification,
       variableName,
       lilypondScoreOutputKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -252,7 +252,7 @@ S_lilypondTransposePartNameAtom lilypondTransposePartNameAtom::create (
       valueSpecification,
       variableName,
       stringToMsrSemiTonesPitchAndOctaveMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -604,7 +604,7 @@ S_lilypondTransposePartIDAtom lilypondTransposePartIDAtom::create (
       valueSpecification,
       variableName,
       stringToMsrSemiTonesPitchAndOctaveMapVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -950,7 +950,7 @@ S_lilypondAbsoluteOctaveEntryAtom lilypondAbsoluteOctaveEntryAtom::create (
       description,
       variableName,
       lpsrOctaveEntryKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1105,7 +1105,7 @@ S_lilypondRelativeOctaveEntryAtom lilypondRelativeOctaveEntryAtom::create (
       variableName,
       lpsrOctaveEntryKindVariable,
       lilypondRelativeOctaveEntryVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1363,7 +1363,7 @@ S_lilypondFixedOctaveEntryAtom lilypondFixedOctaveEntryAtom::create (
       variableName,
       lpsrOctaveEntryKindVariable,
       lilypondFixedOctaveEntryVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1575,7 +1575,7 @@ S_lilypondAccidentalStyleKindAtom lilypondAccidentalStyleKindAtom::create (
       valueSpecification,
       variableName,
       lilypondAccidentalStyleKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -1812,7 +1812,7 @@ S_lilypondChordsDisplayAtom lilypondChordsDisplayAtom::create (
       valueSpecification,
       variableName,
       lilypondChordsDisplayVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2172,7 +2172,7 @@ S_lilypondLyricsDurationsKindAtom lilypondLyricsDurationsKindAtom::create (
       valueSpecification,
       variableName,
       lilypondLyricsDurationsKindVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -2398,7 +2398,7 @@ S_lpsr2lilypondOahGroup gGlobalLpsr2lilypondOahGroup;
 S_lpsr2lilypondOahGroup lpsr2lilypondOahGroup::create ()
 {
   lpsr2lilypondOahGroup* o = new lpsr2lilypondOahGroup ();
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -6045,7 +6045,7 @@ S_lilypondBreakPageAfterMeasureNumberAtom lilypondBreakPageAfterMeasureNumberAto
       valueSpecification,
       variableName,
       fStringSetVariable);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

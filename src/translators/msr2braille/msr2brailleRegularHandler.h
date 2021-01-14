@@ -50,7 +50,7 @@ class EXP msr2brailleRegularHandler : public oahRegularHandler
       S_msr2brailleInsiderHandler
                   insiderOahHandler);
 
-    virtual ~msr2brailleRegularHandler ();
+    virtual               ~msr2brailleRegularHandler ();
 
   public:
 

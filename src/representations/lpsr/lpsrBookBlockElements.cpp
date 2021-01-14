@@ -36,7 +36,7 @@ S_lpsrBookBlockElement lpsrBookBlockElement::create (
 {
   lpsrBookBlockElement* o = new lpsrBookBlockElement (
     inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -160,7 +160,7 @@ S_lpsrScoreBlock lpsrScoreBlock::create (
 {
   lpsrScoreBlock* o = new lpsrScoreBlock (
     inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -395,7 +395,7 @@ S_lpsrBookPartBlock lpsrBookPartBlock::create (
 {
   lpsrBookPartBlock* o = new lpsrBookPartBlock (
     inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -573,7 +573,7 @@ S_lpsrBookBlock lpsrBookBlock::create (
 {
   lpsrBookBlock* o = new lpsrBookBlock (
     inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

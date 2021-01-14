@@ -33,7 +33,7 @@ S_bsrCellsList bsrCellsList::create (
   bsrCellsList* o =
     new bsrCellsList (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -45,7 +45,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -58,7 +58,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -72,7 +72,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -87,7 +87,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -103,7 +103,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4, cellKind5);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 
@@ -120,7 +120,7 @@ S_bsrCellsList bsrCellsList::create (
     new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4, cellKind5, cellKind6);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

@@ -31,7 +31,7 @@ S_lpsrElement lpsrElement::create (
   lpsrElement* o =
     new lpsrElement (
       inputLineNumber);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

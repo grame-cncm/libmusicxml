@@ -77,7 +77,7 @@ S_bsrTempo bsrTempo::create (
   bsrTempo* o =
     new bsrTempo (
       inputLineNumber, mTempo);
-  assert (o!=0);
+  assert (o != nullptr);
   return o;
 }
 

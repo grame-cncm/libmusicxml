@@ -47,7 +47,7 @@ struct msrHiddenMeasureAndBarlineDescr : public smartable
       int           inputLineNumber,
       S_msrDalSegno dalSegno);
 
-    virtual ~msrHiddenMeasureAndBarlineDescr ();
+    virtual               ~msrHiddenMeasureAndBarlineDescr ();
 
   public:
 
@@ -332,7 +332,7 @@ class EXP msr2msrTranslator :
     msr2msrTranslator (
       S_msrScore originalMsrScore);
 
-    virtual ~msr2msrTranslator ();
+    virtual               ~msr2msrTranslator ();
 
     S_msrScore buildMsrScoreFromMsrScore ();
 

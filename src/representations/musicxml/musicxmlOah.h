@@ -43,7 +43,7 @@ class EXP musicxmlOahGroup : public oahGroup
 
     musicxmlOahGroup ();
 
-    virtual ~musicxmlOahGroup ();
+    virtual               ~musicxmlOahGroup ();
 
   public:
 

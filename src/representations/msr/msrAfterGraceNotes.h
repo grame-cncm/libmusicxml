@@ -35,7 +35,7 @@ class EXP msrAfterGraceNotesGroupContents : public msrElement
       int        inputLineNumber,
       S_msrVoice afterGraceNotesGroupContentsVoiceUpLink);
 
-    virtual ~msrAfterGraceNotesGroupContents ();
+    virtual               ~msrAfterGraceNotesGroupContents ();
 
   public:
 
@@ -130,7 +130,7 @@ class EXP msrAfterGraceNotesGroup : public msrElement
       bool         afterGraceNotesGroupIsSlashed,
       S_msrVoice   afterGraceNotesGroupVoiceUpLink);
 
-    virtual ~msrAfterGraceNotesGroup ();
+    virtual               ~msrAfterGraceNotesGroup ();
 
   public:
 
