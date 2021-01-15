@@ -173,6 +173,42 @@ S_msrStaff Mikrokosmos3WanderingGenerator::createStaffInPart (
 }
 
 //------------------------------------------------------------------------
+S_msrStaff Mikrokosmos3WanderingGenerator::createAndPopulateUpperStaffInPart (
+  S_msrPart            part,
+  msrGenerationAPIKind generationAPIKind)
+//------------------------------------------------------------------------
+{
+  // create the upper staff
+  S_msrStaff
+    upperStaff =
+      createStaffInPart (
+        1, part);
+
+  // create voice 1 in upperStaff
+  S_msrVoice
+    upperVoice1 =
+      createRegularVoiceInStaff (
+        __LINE__,
+        1,
+       upperStaff);
+
+  // populate its voice(s)
+  switch (generationAPIKind) {
+    case kMsrFunctionsAPIKind:
+      populateUpperVoice1WithTheFunctionsAPI (
+        upperVoice1);
+      break;
+
+    case kMsrStringsAPIKind:
+      populateUpperVoice1WithTheStringsAPI (
+        upperVoice1);
+      break;
+  } // switch
+
+  return upperStaff;
+}
+
+//------------------------------------------------------------------------
 S_msrStaff Mikrokosmos3WanderingGenerator::createAndPopulateLowerStaffInPart (
   S_msrPart            part,
   msrGenerationAPIKind generationAPIKind)
@@ -219,42 +255,6 @@ S_msrStaff Mikrokosmos3WanderingGenerator::createAndPopulateLowerStaffInPart (
   } // switch
 
   return lowerStaff;
-}
-
-//------------------------------------------------------------------------
-S_msrStaff Mikrokosmos3WanderingGenerator::createAndPopulateUpperStaffInPart (
-  S_msrPart            part,
-  msrGenerationAPIKind generationAPIKind)
-//------------------------------------------------------------------------
-{
-  // create the upper staff
-  S_msrStaff
-    upperStaff =
-      createStaffInPart (
-        1, part);
-
-  // create voice 1 in upperStaff
-  S_msrVoice
-    upperVoice1 =
-      createRegularVoiceInStaff (
-        __LINE__,
-        1,
-       upperStaff);
-
-  // populate its voice(s)
-  switch (generationAPIKind) {
-    case kMsrFunctionsAPIKind:
-      populateUpperVoice1WithTheFunctionsAPI (
-        upperVoice1);
-      break;
-
-    case kMsrStringsAPIKind:
-      populateUpperVoice1WithTheStringsAPI (
-        upperVoice1);
-      break;
-  } // switch
-
-  return upperStaff;
 }
 
 //------------------------------------------------------------------------
@@ -434,7 +434,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           0));             // dotsNumber
   }
 
- return; // QUIT
+if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -468,8 +468,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           rational (1, 4), // displayWholeNotes
           0));             // dotsNumber
 
-    measure2->
-      appendNoteOrPaddingToMeasure (
+    S_msrNote
+      note2 =
         msrNote::createRegularNote (
           __LINE__,
           measure2number,
@@ -477,7 +477,15 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           kOctave4,
           rational (1, 8), // soundingWholeNotes
           rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+          0);              // dotsNumber
+    note2->
+      appendDynamicsToNote (
+        msrDynamics::create (
+          __LINE__,
+          kDynamicsPP,
+          kPlacementBelow));
+    measure2->
+      appendNoteOrPaddingToMeasure (note2);
 
     measure2->
       appendNoteOrPaddingToMeasure (
@@ -601,14 +609,14 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
 
     S_msrMeasure
       measure4 =
-          createMeasureInVoice (
-            __LINE__,
-            measure4number,
-            upperVoice1);
+        createMeasureInVoice (
+          __LINE__,
+          measure4number,
+          upperVoice1);
 
     // notes
-    measure4->
-      appendNoteOrPaddingToMeasure (
+    S_msrNote
+      note1 =
         msrNote::createRegularNote (
           __LINE__,
           measure4number,
@@ -616,7 +624,14 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           kOctave4,
           rational (1, 2), // soundingWholeNotes
           rational (1, 2), // displayWholeNotes
-          0));             // dotsNumber
+          0);              // dotsNumber
+    note1->
+      setNoteTie (
+        msrTie::create (
+          __LINE__,
+          msrTie::kTieStart));
+    measure4->
+      appendNoteOrPaddingToMeasure (note1);
   }
 
   // measure 5
@@ -634,8 +649,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           upperVoice1);
 
     // notes
-    measure5->
-      appendNoteOrPaddingToMeasure (
+    S_msrNote
+      note1 =
         msrNote::createRegularNote (
           __LINE__,
           measure5number,
@@ -643,7 +658,14 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           kOctave4,
           rational (1, 2), // soundingWholeNotes
           rational (1, 2), // displayWholeNotes
-          0));             // dotsNumber
+          0);              // dotsNumber
+    note1->
+      setNoteTie (
+        msrTie::create (
+          __LINE__,
+          msrTie::kTieStop));
+    measure5->
+      appendNoteOrPaddingToMeasure (note1);
 
     // final barline
     measure5->
@@ -741,7 +763,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
   }
 
 
- return; // QUIT
+if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -917,7 +939,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
 
 //------------------------------------------------------------------------
 // lowerVoice1 - Functions API
-void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
+void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
   S_msrVoice lowerVoice1)
 //------------------------------------------------------------------------
 {
@@ -1006,7 +1028,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           0));             // dotsNumber
   }
 
- return; // QUIT
+if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -1062,8 +1084,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           rational (1, 4), // displayWholeNotes
           0));             // dotsNumber
 
-    measure2->
-      appendNoteOrPaddingToMeasure (
+    S_msrNote
+      note4 =
         msrNote::createRegularNote (
           __LINE__,
           measure2number,
@@ -1071,7 +1093,15 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           kOctave4,
           rational (1, 8), // soundingWholeNotes
           rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+          0);              // dotsNumber
+    note4->
+      appendDynamicsToNote (
+        msrDynamics::create (
+          __LINE__,
+          kDynamicsPP,
+          kPlacementBelow));
+    measure2->
+      appendNoteOrPaddingToMeasure (note4);
 
     measure2->
       appendNoteOrPaddingToMeasure (
@@ -1179,14 +1209,17 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
     // notes
     measure4->
       appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
+        msrNote::createNoteFromString (
           __LINE__,
-          measure4number,
-          kB_Natural_QTP,
-          kOctave3,
-          rational (1, 2), // soundingWholeNotes
-          rational (1, 2), // displayWholeNotes
-          0));             // dotsNumber
+          "b4",
+          measure4number));
+
+    measure4->
+      appendNoteOrPaddingToMeasure (
+        msrNote::createNoteFromString (
+          __LINE__,
+          "a4",
+          measure4number));
   }
 
   // measure 5
@@ -1206,14 +1239,10 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
     // notes
     measure5->
       appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
+        msrNote::createNoteFromString (
           __LINE__,
-          measure5number,
-          kB_Natural_QTP,
-          kOctave3,
-          rational (1, 2), // soundingWholeNotes
-          rational (1, 2), // displayWholeNotes
-          0));             // dotsNumber
+          "g2",
+          measure5number));
 
     // final barline
     measure5->
@@ -1225,7 +1254,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
 
 //------------------------------------------------------------------------
 // lowerVoice1 - Strings API
-void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
+void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
   S_msrVoice lowerVoice1)
 //------------------------------------------------------------------------
 {
@@ -1290,7 +1319,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
           measure1number));
   }
 
- return; // QUIT
+if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -1463,7 +1492,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
 
 //------------------------------------------------------------------------
 // lowerVoice2 - Functions API
-void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
+void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
   S_msrVoice lowerVoice2)
 //------------------------------------------------------------------------
 {
@@ -1515,7 +1544,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           0));             // dotsNumber
   }
 
- return; // QUIT
+if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
@@ -1596,17 +1625,14 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
     // notes
     measure4->
       appendNoteOrPaddingToMeasure (
-        msrNote::createNoteFromString (
+        msrNote::createRegularNote (
           __LINE__,
-          "b4",
-          measure4number));
-
-    measure4->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createNoteFromString (
-          __LINE__,
-          "a4",
-          measure4number));
+          measure4number,
+          kB_Natural_QTP,
+          kOctave3,
+          rational (1, 2), // soundingWholeNotes
+          rational (1, 2), // displayWholeNotes
+          0));             // dotsNumber
   }
 
   // measure 5
@@ -1626,10 +1652,14 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
     // notes
     measure5->
       appendNoteOrPaddingToMeasure (
-        msrNote::createNoteFromString (
+        msrNote::createRegularNote (
           __LINE__,
-          "g2",
-          measure5number));
+          measure5number,
+          kB_Natural_QTP,
+          kOctave3,
+          rational (1, 2), // soundingWholeNotes
+          rational (1, 2), // displayWholeNotes
+          0));             // dotsNumber
 
     // final barline
     measure5->
@@ -1641,7 +1671,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
 
 //------------------------------------------------------------------------
 // lowerVoice2 - Strings API
-void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
+void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
   S_msrVoice lowerVoice2)
 //------------------------------------------------------------------------
 {
@@ -1692,7 +1722,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
           measure1number));
   }
 
- return; // QUIT
+if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
