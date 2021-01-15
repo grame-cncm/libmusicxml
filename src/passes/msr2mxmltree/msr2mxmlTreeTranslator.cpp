@@ -121,7 +121,8 @@ int msr2mxmlTreeTranslator::wholeNotesAsDivisions (
         /
       fPartShortestNoteDuration
         *
-      fDivisionsMultiplyingFactor;
+      fDivisionsMultiplyingFactor
+        * 4; // divisions are per quarter note
   durationAsRational.rationalise ();
 
 #ifdef TRACING_IS_ENABLED
@@ -973,6 +974,31 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
     opus =
       elt->getOpus ();
 
+/* JMI <opus/> NOT YET USED ANYWAY?
+
+https://forums.makemusic.com/viewtopic.php?f=12&t=2017&p=9869&hilit=opus&sid=fd2554e5ca94ddd842f10d40ae429772#p9869
+
+Michael Good wrote:
+Hi Mario,
+
+I don't know if any distributed software is currently supporting the opus. However, we have used it for some internal programs here. Here is a short example from Schumann's Frauenliebe und Leben cycle. The opus file collects the 8 MusicXML score-partwise files for each individual song into a single opus:
+
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE opus PUBLIC "-//Recordare//DTD MusicXML 2.0 Opus//EN"
+"http://www.musicxml.org/dtds/opus.dtd">
+<opus version="2.0">
+<title>Frauenliebe und Leben, Op. 42</title>
+<score xlink:href="Frauenliebe1.xml"/>
+<score xlink:href="Frauenliebe2.xml"/>
+<score xlink:href="Frauenliebe3.xml"/>
+<score xlink:href="Frauenliebe4.xml"/>
+<score xlink:href="Frauenliebe5.xml"/>
+<score xlink:href="Frauenliebe6.xml"/>
+<score xlink:href="Frauenliebe7.xml"/>
+<score xlink:href="Frauenliebe8.xml"/>
+</opus>
+...
+
   // create the opus element
   Sxmlelement
     opusElement =
@@ -981,8 +1007,8 @@ void msr2mxmlTreeTranslator::visitStart (S_msrIdentification& elt)
         opus);
 
     // append it to the score part wise element
-if (false) // QUIT
     appendToScoreWork (opusElement);
+*/
 
   // movement number
   string
@@ -6279,7 +6305,7 @@ void msr2mxmlTreeTranslator::appendVoiceToNoteIfRelevant (
         noteVoice->
           getVoiceNumber ();
 
-    if (noteVoiceNumber != 1) { // options ? JMI
+    if (true || noteVoiceNumber != 1) { // options ? JMI
       fCurrentNoteElement->push (
         createMxmlIntegerElement (
           k_voice,
@@ -6617,7 +6643,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
         pitchElement->push (
           createMxmlIntegerElement (
             k_octave,
-            noteOctaveKind));
+            octaveNumberFromOctaveKind (noteOctaveKind)));
 
         fCurrentNoteElement->push (pitchElement);
       }
@@ -6656,7 +6682,7 @@ void msr2mxmlTreeTranslator::appendBasicsToNote (
         pitchElement->push (
           createMxmlIntegerElement (
             k_octave,
-            noteOctaveKind));
+            octaveNumberFromOctaveKind (noteOctaveKind)));
 
         // append the pitch element to the current note
         fCurrentNoteElement->push (pitchElement);

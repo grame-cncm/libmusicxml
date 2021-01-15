@@ -190,6 +190,49 @@ ostream& operator<< (ostream& os, const msrDottedDuration& elt)
 
 // octaves
 //______________________________________________________________________________
+EXP int octaveNumberFromOctaveKind (msrOctaveKind octaveKind)
+{
+  int result;
+
+  switch (octaveKind) {
+    case k_NoOctave:
+      result = -1;
+      break;
+    case kOctave0:
+      result = 0;
+      break;
+    case kOctave1:
+      result = 1;
+      break;
+    case kOctave2:
+      result = 2;
+      break;
+    case kOctave3:
+      result = 3;
+      break;
+    case kOctave4:
+      result = 4;
+      break;
+    case kOctave5:
+      result = 5;
+      break;
+    case kOctave6:
+      result = 6;
+      break;
+    case kOctave7:
+      result = 7;
+      break;
+    case kOctave8:
+      result = 8;
+      break;
+    case kOctave9:
+      result = 9;
+      break;
+  } // switch
+
+  return result;
+}
+
 msrOctaveKind octaveSucc (msrOctaveKind octaveKind)
 {
   msrOctaveKind result = k_NoOctave;

@@ -642,6 +642,8 @@ enum msrOctaveKind {
   kOctave5, kOctave6, kOctave7, kOctave8, kOctave9
 };
 
+EXP int octaveNumberFromOctaveKind (msrOctaveKind octaveKind);
+
 // successor and predecessor
 msrOctaveKind octaveSucc (msrOctaveKind octaveKind);
 msrOctaveKind octavePred (msrOctaveKind octaveKind);
