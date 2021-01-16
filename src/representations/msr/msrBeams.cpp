@@ -122,22 +122,22 @@ string msrBeam::beamKindAsString (
 
   switch (beamKind) {
     case msrBeam::k_NoBeam:
-      result = "### none ###";
+      result = "*NoBeam";
       break;
-    case msrBeam::kBeginBeam:
-      result = "begin";
+    case msrBeam::kBeamBegin:
+      result = "beamBegin";
       break;
-    case msrBeam::kContinueBeam:
-      result = "continue";
+    case msrBeam::kBeamContinue:
+      result = "beamContinue";
       break;
-    case msrBeam::kEndBeam:
-      result = "end";
+    case msrBeam::kBeamEnd:
+      result = "beamEnd";
       break;
-    case msrBeam::kForwardHookBeam:
-      result = "forwardHook";
+    case msrBeam::kBeamForwardHook:
+      result = "beamForwardHook";
       break;
-    case msrBeam::kBackwardHookBeam:
-      result = "backwardHook";
+    case msrBeam::kBeamBackwardHook:
+      result = "beamBackwardHook";
       break;
   } // switch
 

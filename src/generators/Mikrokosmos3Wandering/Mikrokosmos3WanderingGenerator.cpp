@@ -81,7 +81,6 @@ S_msrScore Mikrokosmos3WanderingGenerator::createAndPopulateTheScore (
         part,
         generationAPIKind);
 
-if (true) // QUIT
   S_msrStaff
     lowerStaff =
       createAndPopulateLowerStaffInPart (
@@ -94,13 +93,14 @@ if (true) // QUIT
     finalizePartAndAllItsMeasures (
       __LINE__);
 
-if (false) // QUIT
-  gLogStream <<
-    "___PART___" <<
-    part <<
-    endl;
-
   if (gGlobalMsrOahGroup->getDisplayMsr ()) {
+/* JMI
+    gLogStream <<
+      "___PART___" <<
+      part <<
+      endl;
+*/
+
     // print the score
     gOutputStream <<
       endl <<
@@ -145,10 +145,23 @@ S_msrScore Mikrokosmos3WanderingGenerator::createTheScore (
   identification->
     setWorkTitle (
       __LINE__,
-      "Mikrokosmos III Wandering - " +
-        msrGenerationAPIKindAsString (
-          generationAPIKind) +
-        " API");
+      "Mikrokosmos III Wandering");
+
+  // append the identification's composer
+  identification->
+    appendComposer (
+      __LINE__,
+      "Zoltán Kodály");
+
+  // set the identification's software
+  identification->
+    appendSoftware (
+      __LINE__,
+      "MSR "
+        +
+      msrGenerationAPIKindAsString (generationAPIKind)
+        +
+      " API");
 
   return theMsrScore;
 }
@@ -342,7 +355,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
 
     string measure1number = "1"; // the measure number is a string;
 
@@ -353,7 +366,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           measure1number,
           upperVoice1);
 
-    // clef
+    // append the clef
 
     measure1->
       appendClefToMeasure (
@@ -362,7 +375,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           kTrebleClef,
           1));
 
-    // key
+    // append the key
 
     measure1->
       appendKeyToMeasure (
@@ -372,75 +385,115 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheFunctionsAPI (
           kMajorMode,
           0)); // keyCancel JMI
 
-    // time
+    // append the time
 
     measure1->
       appendTimeToMeasure (
         msrTime::createTwoQuartersTime (
           __LINE__));
 
-    // notes
+    // append the notes
 
-    S_msrNote
-      note1 =
-        msrNote::createRegularNote (
-          __LINE__,
-          measure1number,
-          kA_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0);              // dotsNumber
-    note1->
-      appendDynamicsToNote (
-        msrDynamics::create (
-          __LINE__,
-          kDynamicsPP,
-          kPlacementBelow));
-    measure1->
-      appendNoteOrPaddingToMeasure (note1);
+    {
+      S_msrNote
+        note1 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure1number,
+            kA_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);              // dotsNumber
 
-    measure1->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure1number,
-          kG_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+      // append the dynamics to the note
+      note1->
+        appendDynamicsToNote (
+          msrDynamics::create (
+            __LINE__,
+            kDynamicsPP,
+            kPlacementBelow));
 
-    measure1->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure1number,
-          kF_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+      // append the slur start to the note
+      note1->
+        appendSlurToNote (
+          msrSlur::create (
+            __LINE__,
+            1, // slurNumber
+            msrSlur::kRegularSlurStart,
+            kLineTypeSolid));
 
-    measure1->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure1number,
-          kE_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+      // append the beam begin to the note
+      note1->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            msrBeam::kBeamBegin));
+
+      // append the note to the measure
+      measure1->
+        appendNoteOrPaddingToMeasure (note1);
+    }
+
+    {
+      measure1->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure1number,
+            kG_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
+
+    {
+      measure1->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure1number,
+            kF_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
+
+    {
+      S_msrNote
+        note1 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure1number,
+            kE_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);             // dotsNumber
+
+      // append the beam end to the note
+      note1->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            msrBeam::kBeamEnd));
+
+      // append the note to the measure
+      measure1->
+        appendNoteOrPaddingToMeasure (note1);
+    }
   }
 
-if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
     string measure2number = "2"; // the measure number is a string;
 
     S_msrMeasure
@@ -450,75 +503,132 @@ if (false) return; // QUIT
           measure2number,
           upperVoice1);
 
-    // time
+    // append the time
+
     measure2->
       appendTimeToMeasure (
         msrTime::createThreeQuartersTime (
           __LINE__));
 
-    // notes
-    measure2->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kD_Natural_QTP,
-          kOctave4,
-          rational (1, 4), // soundingWholeNotes
-          rational (1, 4), // displayWholeNotes
-          0));             // dotsNumber
+    // append the notes
 
-    S_msrNote
-      note2 =
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kG_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0);              // dotsNumber
-    note2->
-      appendDynamicsToNote (
-        msrDynamics::create (
-          __LINE__,
-          kDynamicsPP,
-          kPlacementBelow));
-    measure2->
-      appendNoteOrPaddingToMeasure (note2);
+    {
+      S_msrNote
+        note1 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kD_Natural_QTP,
+            kOctave4,
+            rational (1, 4), // soundingWholeNotes
+            rational (1, 4), // displayWholeNotes
+            0);             // dotsNumber
 
-    measure2->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kF_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+      // append the slur stop to the note
+      note1->
+        appendSlurToNote (
+          msrSlur::create (
+            __LINE__,
+            1, // slurNumber
+            msrSlur::kRegularSlurStop,
+            kLineTypeSolid));
 
-    measure2->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kE_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note1);
+    }
 
-    measure2->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kD_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+    {
+      S_msrNote
+        note2 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kG_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);              // dotsNumber
+
+      // append the dynamics to the note
+      note2->
+        appendDynamicsToNote (
+          msrDynamics::create (
+            __LINE__,
+            kDynamicsMP,
+            kPlacementBelow));
+
+      // append the slur start to the note
+      note2->
+        appendSlurToNote (
+          msrSlur::create (
+            __LINE__,
+            1, // slurNumber
+            msrSlur::kRegularSlurStart,
+            kLineTypeSolid));
+
+      // append the beam begin to the note
+      note2->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            msrBeam::kBeamBegin));
+
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note2);
+    }
+
+    {
+      measure2->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kF_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
+
+    {
+      measure2->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kE_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
+
+    {
+      S_msrNote
+        note4 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kD_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);             // dotsNumber
+
+      // append the beam end to the note
+      note4->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            msrBeam::kBeamEnd));
+
+      measure2->
+        appendNoteOrPaddingToMeasure (note4);
+    }
   }
 
 
@@ -526,7 +636,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure3number = "3"; // the measure number is a string;
 
     S_msrMeasure
@@ -536,67 +647,106 @@ if (false) return; // QUIT
           measure3number,
           upperVoice1);
 
-    // time
+    // append the time
+
     measure3->
       appendTimeToMeasure (
         msrTime::createTwoQuartersTime (
           __LINE__));
 
-    // notes
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kC_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+    // append the notes
 
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kD_Natural_QTP,
-          kOctave4,
-          rational (1, 16), // soundingWholeNotes
-          rational (1, 16), // displayWholeNotes
-          0));              // dotsNumber
+    {
+      S_msrNote
+        note1 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kC_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);             // dotsNumber
 
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kE_Natural_QTP,
-          kOctave4,
-          rational (1, 16), // soundingWholeNotes
-          rational (1, 16), // displayWholeNotes
-          0));              // dotsNumber
+      // append the crescendo wedge to it
+      note1->
+        appendWedgeToNote (
+          msrWedge::create (
+            __LINE__,
+            msrWedge::kWedgeCrescendo,
+            msrWedge::kWedgeNienteNo,
+            kLineTypeSolid,
+            kPlacementBelow));
 
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kF_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+      measure3->
+        appendNoteOrPaddingToMeasure (note1);
+    }
 
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kE_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+    {
+      measure3->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kD_Natural_QTP,
+            kOctave4,
+            rational (1, 16), // soundingWholeNotes
+            rational (1, 16), // displayWholeNotes
+            0));              // dotsNumber
+    }
+
+    {
+      measure3->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kE_Natural_QTP,
+            kOctave4,
+            rational (1, 16), // soundingWholeNotes
+            rational (1, 16), // displayWholeNotes
+            0));              // dotsNumber
+    }
+
+    {
+      measure3->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kF_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
+
+    {
+      S_msrNote
+        note4 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kE_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);             // dotsNumber
+
+      // append the wedge stop to the note
+      note4->
+        appendWedgeToNote (
+          msrWedge::create (
+            __LINE__,
+            msrWedge::kWedgeStop,
+            msrWedge::kWedgeNienteNo,
+            kLineTypeSolid,
+            kPlacementBelow));
+
+      // append the note to the measure
+      measure3->
+        appendNoteOrPaddingToMeasure (note4);
+    }
   }
 
 
@@ -604,7 +754,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure4number = "4"; // the measure number is a string;
 
     S_msrMeasure
@@ -614,31 +765,50 @@ if (false) return; // QUIT
           measure4number,
           upperVoice1);
 
-    // notes
-    S_msrNote
-      note1 =
-        msrNote::createRegularNote (
-          __LINE__,
-          measure4number,
-          kD_Natural_QTP,
-          kOctave4,
-          rational (1, 2), // soundingWholeNotes
-          rational (1, 2), // displayWholeNotes
-          0);              // dotsNumber
-    note1->
-      setNoteTie (
-        msrTie::create (
-          __LINE__,
-          msrTie::kTieStart));
-    measure4->
-      appendNoteOrPaddingToMeasure (note1);
+    // append the notes
+
+    {
+      S_msrNote
+        note1 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure4number,
+            kD_Natural_QTP,
+            kOctave4,
+            rational (1, 2), // soundingWholeNotes
+            rational (1, 2), // displayWholeNotes
+            0);              // dotsNumber
+
+      // set the note tie start
+      note1->
+        setNoteTie (
+          msrTie::create (
+            __LINE__,
+            msrTie::kTieStart));
+
+      // append the decrescendo wedge to the note
+      note1->
+        appendWedgeToNote (
+          msrWedge::create (
+            __LINE__,
+            msrWedge::kWedgeDecrescendo,
+            msrWedge::kWedgeNienteNo,
+            kLineTypeSolid,
+            kPlacementBelow));
+
+      // append the note to the measure
+      measure4->
+        appendNoteOrPaddingToMeasure (note1);
+    }
   }
+
 
   // measure 5
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure5number = "5"; // the measure number is a string;
 
     S_msrMeasure
@@ -648,26 +818,54 @@ if (false) return; // QUIT
           measure5number,
           upperVoice1);
 
-    // notes
-    S_msrNote
-      note1 =
-        msrNote::createRegularNote (
-          __LINE__,
-          measure5number,
-          kD_Natural_QTP,
-          kOctave4,
-          rational (1, 2), // soundingWholeNotes
-          rational (1, 2), // displayWholeNotes
-          0);              // dotsNumber
-    note1->
-      setNoteTie (
-        msrTie::create (
-          __LINE__,
-          msrTie::kTieStop));
-    measure5->
-      appendNoteOrPaddingToMeasure (note1);
+    // append the notes
 
-    // final barline
+    {
+      S_msrNote
+        note1 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure5number,
+            kD_Natural_QTP,
+            kOctave4,
+            rational (1, 2), // soundingWholeNotes
+            rational (1, 2), // displayWholeNotes
+            0);              // dotsNumber
+
+
+      // set the note tie stop
+      note1->
+        setNoteTie (
+          msrTie::create (
+            __LINE__,
+            msrTie::kTieStop));
+
+      // append the slur stop to the note
+      note1->
+        appendSlurToNote (
+          msrSlur::create (
+            __LINE__,
+            1, // slurNumber
+            msrSlur::kRegularSlurStop,
+            kLineTypeSolid));
+
+      // append the wedge stop to the note
+      note1->
+        appendWedgeToNote (
+          msrWedge::create (
+            __LINE__,
+            msrWedge::kWedgeStop,
+            msrWedge::kWedgeNienteNo,
+            kLineTypeSolid,
+            kPlacementBelow));
+
+      // append the note to the measure
+      measure5->
+        appendNoteOrPaddingToMeasure (note1);
+    }
+
+    // append the final barline
+
     measure5->
       appendBarlineToMeasure (
         msrBarline::createFinalBarline (
@@ -685,7 +883,8 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
 
     string measure1number = "1"; // the measure number is a string;
 
@@ -696,7 +895,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
           measure1number,
           upperVoice1);
 
-    // clef
+    // append the clef
 
     measure1->
       appendClefToMeasure (
@@ -705,7 +904,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
           "treble",
           1));
 
-    // key
+    // append the key
 
     measure1->
       appendKeyToMeasure (
@@ -715,7 +914,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
           kMajorMode,
           0)); // keyCancel JMI
 
-    // time
+    // append the time
 
     measure1->
       appendTimeToMeasure (
@@ -723,7 +922,7 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
           __LINE__,
           "2/4"));
 
-    // notes
+    // append the notes
 
     S_msrNote
       note1 =
@@ -731,12 +930,16 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
           __LINE__,
           "a'8",
           measure1number);
+
+    // dynamics
     note1->
       appendDynamicsToNote (
        msrDynamics::createDynamicsFromString (
           __LINE__,
           "pp",
           kPlacementBelow));
+
+    // append the note to the measure
     measure1->
       appendNoteOrPaddingToMeasure (note1);
 
@@ -763,13 +966,12 @@ void Mikrokosmos3WanderingGenerator::populateUpperVoice1WithTheStringsAPI (
   }
 
 
-if (false) return; // QUIT
-
   // measure 2
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure2number = "2"; // the measure number is a string;
 
     S_msrMeasure
@@ -779,14 +981,16 @@ if (false) return; // QUIT
           measure2number,
           upperVoice1);
 
-    // time
+    // append the time
+
     measure2->
       appendTimeToMeasure (
         msrTime::createTimeFromString (
           __LINE__,
           "3/4"));
 
-    // notes
+    // append the notes
+
     measure2->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -828,7 +1032,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure3number = "3"; // the measure number is a string;
 
     S_msrMeasure
@@ -838,14 +1043,16 @@ if (false) return; // QUIT
           measure3number,
           upperVoice1);
 
-    // time
+    // append the time
+
     measure3->
       appendTimeToMeasure (
         msrTime::createTimeFromString (
           __LINE__,
           "2/4"));
 
-    // notes
+    // append the notes
+
     measure3->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -887,7 +1094,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure4number = "4"; // the measure number is a string;
 
     S_msrMeasure
@@ -897,13 +1105,16 @@ if (false) return; // QUIT
           measure4number,
           upperVoice1);
 
-    // notes
-    measure4->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createNoteFromString (
-          __LINE__,
-          "d'2",
-          measure4number));
+    // append the notes
+
+    {
+      measure4->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createNoteFromString (
+            __LINE__,
+            "d'2",
+            measure4number));
+    }
   }
 
 
@@ -911,7 +1122,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure5number = "5"; // the measure number is a string;
 
     S_msrMeasure
@@ -921,15 +1133,19 @@ if (false) return; // QUIT
           measure5number,
           upperVoice1);
 
-    // notes
-    measure5->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createNoteFromString (
-          __LINE__,
-          "d'2",
-          measure5number));
+    // append the notes
 
-    // final barline
+    {
+      measure5->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createNoteFromString (
+            __LINE__,
+            "d'2",
+            measure5number));
+    }
+
+    // append the final barline
+
     measure5->
       appendBarlineToMeasure (
         msrBarline::createFinalBarline (
@@ -947,7 +1163,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
 
     string measure1number = "1"; // the measure number is a string;
 
@@ -958,7 +1174,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           measure1number,
           lowerVoice1);
 
-    // clef
+    // append the clef
 
     measure1->
       appendClefToMeasure (
@@ -967,7 +1183,7 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           kBassClef,
           2));
 
-    // key
+    // append the key
 
     measure1->
       appendKeyToMeasure (
@@ -977,64 +1193,91 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheFunctionsAPI (
           kMajorMode,
           0)); // keyCancel JMI
 
-    // time
+    // append the time
 
     measure1->
       appendTimeToMeasure (
         msrTime::createTwoQuartersTime (
           __LINE__));
 
-    // notes
+    // append the notes
 
-    measure1->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure1number,
-          kB_Natural_QTP,
-          kOctave3,
-          rational (1, 4), // soundingWholeNotes
-          rational (1, 4), // displayWholeNotes
-          0));             // dotsNumber
+    {
+      measure1->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure1number,
+            kB_Natural_QTP,
+            kOctave3,
+            rational (1, 4), // soundingWholeNotes
+            rational (1, 4), // displayWholeNotes
+            0));             // dotsNumber
+    }
 
-    S_msrNote
-      note2 =
-        msrNote::createRegularNote (
-          __LINE__,
-          measure1number,
-          kD_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0);             // dotsNumber
-    note2->
-      appendDynamicsToNote (
-        msrDynamics::create (
-          __LINE__,
-          kDynamicsPP,
-          kPlacementBelow));
-    measure1->
-      appendNoteOrPaddingToMeasure (note2);
+    {
+      S_msrNote
+        note2 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure1number,
+            kD_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);             // dotsNumber
 
-    measure1->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure1number,
-          kC_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+      // append the dynamics to the note
+      note2->
+        appendDynamicsToNote (
+          msrDynamics::create (
+            __LINE__,
+            kDynamicsPP,
+            kPlacementBelow));
+
+      // append the beam begin to the note
+      note2->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            msrBeam::kBeamBegin));
+
+      // append the slur start to the note
+      note2->
+        appendSlurToNote (
+          msrSlur::create (
+            __LINE__,
+            1, // slurNumber
+            msrSlur::kRegularSlurStart,
+            kLineTypeSolid));
+
+      // append the note to the measure
+      measure1->
+        appendNoteOrPaddingToMeasure (note2);
+    }
+
+    {
+      measure1->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure1number,
+            kC_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
   }
 
-if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure2number = "2"; // the measure number is a string;
 
     S_msrMeasure
@@ -1044,82 +1287,125 @@ if (false) return; // QUIT
           measure2number,
           lowerVoice1);
 
-    // time
+    // append the time
+
     measure2->
       appendTimeToMeasure (
         msrTime::createThreeQuartersTime (
           __LINE__));
 
-    // notes
-    measure2->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kB_Natural_QTP,
-          kOctave3,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+    // append the notes
 
-    measure2->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kA_Natural_QTP,
-          kOctave3,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+    {
+      measure2->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kB_Natural_QTP,
+            kOctave3,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
 
-    measure2->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kA_Flat_QTP,
-          kOctave3,
-          rational (1, 4), // soundingWholeNotes
-          rational (1, 4), // displayWholeNotes
-          0));             // dotsNumber
+    {
+      S_msrNote
+        note2 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kA_Natural_QTP,
+            kOctave3,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);             // dotsNumber
 
-    S_msrNote
-      note4 =
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kC_Natural_QTP,
-          kOctave4,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0);              // dotsNumber
-    note4->
-      appendDynamicsToNote (
-        msrDynamics::create (
-          __LINE__,
-          kDynamicsPP,
-          kPlacementBelow));
-    measure2->
-      appendNoteOrPaddingToMeasure (note4);
+      // append the beam end to the note
+      note2->
+        appendBeamToNote (
+          msrBeam::create (
+            __LINE__,
+            1, // beamNumber
+            msrBeam::kBeamEnd));
 
-    measure2->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure2number,
-          kB_Flat_QTP,
-          kOctave3,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note2);
+    }
+
+    {
+      S_msrNote
+        note3 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kA_Flat_QTP,
+            kOctave3,
+            rational (1, 4), // soundingWholeNotes
+            rational (1, 4), // displayWholeNotes
+            0);             // dotsNumber
+
+      // append the slur stop to the note
+      note3->
+        appendSlurToNote (
+          msrSlur::create (
+            __LINE__,
+            1, // slurNumber
+            msrSlur::kRegularSlurStop,
+            kLineTypeSolid));
+
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note3);
+    }
+
+    {
+      S_msrNote
+        note4 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kC_Natural_QTP,
+            kOctave4,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0);              // dotsNumber
+
+      // append the dynamics to the note
+      note4->
+        appendDynamicsToNote (
+          msrDynamics::create (
+            __LINE__,
+            kDynamicsMP,
+            kPlacementBelow));
+
+      // append the note to the measure
+      measure2->
+        appendNoteOrPaddingToMeasure (note4);
+    }
+
+    {
+      measure2->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure2number,
+            kB_Flat_QTP,
+            kOctave3,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
   }
+
 
   // measure 3
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure3number = "3"; // the measure number is a string;
 
     S_msrMeasure
@@ -1129,74 +1415,87 @@ if (false) return; // QUIT
           measure3number,
           lowerVoice1);
 
-    // time
+    // append the time
+
     measure3->
       appendTimeToMeasure (
         msrTime::createTwoQuartersTime (
           __LINE__));
 
-    // notes
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kA_Natural_QTP,
-          kOctave3,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+    // append the notes
 
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kG_Natural_QTP,
-          kOctave3,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+    {
+      measure3->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kA_Natural_QTP,
+            kOctave3,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
 
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kF_Sharp_QTP,
-          kOctave3,
-          rational (1, 8), // soundingWholeNotes
-          rational (1, 8), // displayWholeNotes
-          0));             // dotsNumber
+    {
+      measure3->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kG_Natural_QTP,
+            kOctave3,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
 
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kG_Natural_QTP,
-          kOctave3,
-          rational (1, 16), // soundingWholeNotes
-          rational (1, 16), // displayWholeNotes
-          0));              // dotsNumber
+    {
+      measure3->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kF_Sharp_QTP,
+            kOctave3,
+            rational (1, 8), // soundingWholeNotes
+            rational (1, 8), // displayWholeNotes
+            0));             // dotsNumber
+    }
 
-    measure3->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure3number,
-          kA_Natural_QTP,
-          kOctave3,
-          rational (1, 16), // soundingWholeNotes
-          rational (1, 16), // displayWholeNotes
-          0));              // dotsNumber
+    {
+      measure3->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kG_Natural_QTP,
+            kOctave3,
+            rational (1, 16), // soundingWholeNotes
+            rational (1, 16), // displayWholeNotes
+            0));              // dotsNumber
+    }
+
+    {
+      measure3->
+        appendNoteOrPaddingToMeasure (
+          msrNote::createRegularNote (
+            __LINE__,
+            measure3number,
+            kA_Natural_QTP,
+            kOctave3,
+            rational (1, 16), // soundingWholeNotes
+            rational (1, 16), // displayWholeNotes
+            0));              // dotsNumber
+    }
   }
 
   // measure 4
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure4number = "4"; // the measure number is a string;
 
     S_msrMeasure
@@ -1206,7 +1505,8 @@ if (false) return; // QUIT
           measure4number,
           lowerVoice1);
 
-    // notes
+    // append the notes
+
     measure4->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1226,7 +1526,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure5number = "5"; // the measure number is a string;
 
     S_msrMeasure
@@ -1236,7 +1537,8 @@ if (false) return; // QUIT
           measure5number,
           lowerVoice1);
 
-    // notes
+    // append the notes
+
     measure5->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1244,7 +1546,8 @@ if (false) return; // QUIT
           "g2",
           measure5number));
 
-    // final barline
+    // append the final barline
+
     measure5->
       appendBarlineToMeasure (
         msrBarline::createFinalBarline (
@@ -1262,7 +1565,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure1number = "1"; // the measure number is a string;
 
     S_msrMeasure
@@ -1272,7 +1576,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
           measure1number,
           lowerVoice1);
 
-    // clef
+    // append the clef
+
     measure1->
       appendClefToMeasure (
         msrClef::createClefFromString (
@@ -1280,7 +1585,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
           "bass",
           2));
 
-    // key
+    // append the key
+
     measure1->
       appendKeyToMeasure (
         msrKey::createTraditional (
@@ -1289,14 +1595,16 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
           kMajorMode,
           0)); // keyCancel JMI
 
-    // time
+    // append the time
+
     measure1->
       appendTimeToMeasure (
         msrTime::createTimeFromString (
           __LINE__,
           "2/4"));
 
-    // notes
+    // append the notes
+
     measure1->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1319,13 +1627,13 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice2WithTheStringsAPI (
           measure1number));
   }
 
-if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure2number = "2"; // the measure number is a string;
 
     S_msrMeasure
@@ -1335,14 +1643,16 @@ if (false) return; // QUIT
           measure2number,
           lowerVoice1);
 
-    // time
+    // append the time
+
     measure2->
       appendTimeToMeasure (
         msrTime::createTimeFromString (
           __LINE__,
           "3/4"));
 
-    // notes
+    // append the notes
+
     measure2->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1383,7 +1693,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure3number = "3"; // the measure number is a string;
 
     S_msrMeasure
@@ -1393,14 +1704,16 @@ if (false) return; // QUIT
           measure3number,
           lowerVoice1);
 
-    // time
+    // append the time
+
     measure3->
       appendTimeToMeasure (
         msrTime::createTimeFromString (
           __LINE__,
           "2/4"));
 
-    // notes
+    // append the notes
+
     measure3->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1441,7 +1754,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure4number = "4"; // the measure number is a string;
 
     S_msrMeasure
@@ -1451,7 +1765,8 @@ if (false) return; // QUIT
           measure4number,
           lowerVoice1);
 
-    // notes
+    // append the notes
+
     measure4->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1464,7 +1779,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure5number = "5"; // the measure number is a string;
 
     S_msrMeasure
@@ -1474,7 +1790,8 @@ if (false) return; // QUIT
           measure5number,
           lowerVoice1);
 
-    // notes
+    // append the notes
+
     measure5->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1482,7 +1799,8 @@ if (false) return; // QUIT
           "b2",
           measure5number));
 
-    // final barline
+    // append the final barline
+
     measure5->
       appendBarlineToMeasure (
         msrBarline::createFinalBarline (
@@ -1500,7 +1818,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure1number = "1"; // the measure number is a string;
 
     S_msrMeasure
@@ -1510,7 +1829,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           measure1number,
           lowerVoice2);
 
-    // clef
+    // append the clef
+
     measure1->
       appendClefToMeasure (
         msrClef::create (
@@ -1518,7 +1838,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           kBassClef,
           2));
 
-    // key
+    // append the key
+
     measure1->
       appendKeyToMeasure (
         msrKey::createTraditional (
@@ -1527,13 +1848,15 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           kMajorMode,
           0)); // keyCancel JMI
 
-    // time
+    // append the time
+
     measure1->
       appendTimeToMeasure (
         msrTime::createTwoQuartersTime (
           __LINE__));
 
-    // notes
+    // append the notes
+
     measure1->
       appendNoteOrPaddingToMeasure (
         msrNote::createSkipNote (
@@ -1544,13 +1867,13 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheFunctionsAPI (
           0));             // dotsNumber
   }
 
-if (false) return; // QUIT
 
   // measure 2
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure2number = "2"; // the measure number is a string;
 
     S_msrMeasure
@@ -1560,13 +1883,15 @@ if (false) return; // QUIT
           measure2number,
           lowerVoice2);
 
-    // time
+    // append the time
+
     measure2->
       appendTimeToMeasure (
         msrTime::createThreeQuartersTime (
           __LINE__));
 
-    // notes
+    // append the notes
+
     measure2->
       appendNoteOrPaddingToMeasure (
         msrNote::createSkipNote (
@@ -1581,7 +1906,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure3number = "3"; // the measure number is a string;
 
     S_msrMeasure
@@ -1591,13 +1917,15 @@ if (false) return; // QUIT
           measure3number,
           lowerVoice2);
 
-    // time
+    // append the time
+
     measure3->
       appendTimeToMeasure (
         msrTime::createTwoQuartersTime (
           __LINE__));
 
-    // notes
+    // append the notes
+
     measure3->
       appendNoteOrPaddingToMeasure (
         msrNote::createSkipNote (
@@ -1612,7 +1940,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure4number = "4"; // the measure number is a string;
 
     S_msrMeasure
@@ -1622,24 +1951,39 @@ if (false) return; // QUIT
           measure4number,
           lowerVoice2);
 
-    // notes
-    measure4->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure4number,
-          kB_Natural_QTP,
-          kOctave3,
-          rational (1, 2), // soundingWholeNotes
-          rational (1, 2), // displayWholeNotes
-          0));             // dotsNumber
+    // append the notes
+
+    {
+      S_msrNote
+        note1 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure4number,
+            kB_Natural_QTP,
+            kOctave3,
+            rational (1, 2), // soundingWholeNotes
+            rational (1, 2), // displayWholeNotes
+            0);             // dotsNumber
+
+      // set the note tie start
+      note1->
+        setNoteTie (
+          msrTie::create (
+            __LINE__,
+            msrTie::kTieStart));
+
+      measure4->
+        appendNoteOrPaddingToMeasure (note1);
+    }
   }
+
 
   // measure 5
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure5number = "5"; // the measure number is a string;
 
     S_msrMeasure
@@ -1649,19 +1993,34 @@ if (false) return; // QUIT
           measure5number,
           lowerVoice2);
 
-    // notes
-    measure5->
-      appendNoteOrPaddingToMeasure (
-        msrNote::createRegularNote (
-          __LINE__,
-          measure5number,
-          kB_Natural_QTP,
-          kOctave3,
-          rational (1, 2), // soundingWholeNotes
-          rational (1, 2), // displayWholeNotes
-          0));             // dotsNumber
+    // append the notes
 
-    // final barline
+    {
+      S_msrNote
+        note1 =
+          msrNote::createRegularNote (
+            __LINE__,
+            measure5number,
+            kB_Natural_QTP,
+            kOctave3,
+            rational (1, 2), // soundingWholeNotes
+            rational (1, 2), // displayWholeNotes
+            0);             // dotsNumber
+
+      // set the note tie stop
+      note1->
+        setNoteTie (
+          msrTie::create (
+            __LINE__,
+            msrTie::kTieStop));
+
+      // append the note to the measure
+      measure5->
+        appendNoteOrPaddingToMeasure (note1);
+    }
+
+    // append the final barline
+
     measure5->
       appendBarlineToMeasure (
         msrBarline::createFinalBarline (
@@ -1679,7 +2038,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure1number = "1"; // the measure number is a string;
 
     S_msrMeasure
@@ -1689,7 +2049,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
           measure1number,
           lowerVoice2);
 
-    // clef
+    // append the clef
+
     measure1->
       appendClefToMeasure (
         msrClef::createClefFromString (
@@ -1697,7 +2058,8 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
           "bass",
           2));
 
-    // key
+    // append the key
+
     measure1->
       appendKeyToMeasure (
         msrKey::createTraditional (
@@ -1706,14 +2068,16 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
           kMajorMode,
           0)); // keyCancel JMI
 
-    // time
+    // append the time
+
     measure1->
       appendTimeToMeasure (
         msrTime::createTimeFromString (
           __LINE__,
           "2/4"));
 
-    // notes
+    // append the notes
+
     measure1->
       appendNoteOrPaddingToMeasure (
         msrNote::createSkipFromString (
@@ -1722,13 +2086,12 @@ void Mikrokosmos3WanderingGenerator::populateLowerVoice1WithTheStringsAPI (
           measure1number));
   }
 
-if (false) return; // QUIT
-
   // measure 2
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure2number = "2"; // the measure number is a string;
 
     S_msrMeasure
@@ -1738,14 +2101,16 @@ if (false) return; // QUIT
           measure2number,
           lowerVoice2);
 
-    // time
+    // append the time
+
     measure2->
       appendTimeToMeasure (
         msrTime::createTimeFromString (
           __LINE__,
           "3/4"));
 
-    // notes
+    // append the notes
+
     measure2->
       appendNoteOrPaddingToMeasure (
         msrNote::createSkipFromString (
@@ -1758,7 +2123,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure3number = "3"; // the measure number is a string;
 
     S_msrMeasure
@@ -1768,14 +2134,16 @@ if (false) return; // QUIT
           measure3number,
           lowerVoice2);
 
-    // time
+    // append the time
+
     measure3->
       appendTimeToMeasure (
         msrTime::createTimeFromString (
           __LINE__,
           "2/4"));
 
-    // notes
+    // append the notes
+
     measure3->
       appendNoteOrPaddingToMeasure (
         msrNote::createSkipFromString (
@@ -1788,7 +2156,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure4number = "4"; // the measure number is a string;
 
     S_msrMeasure
@@ -1798,7 +2167,8 @@ if (false) return; // QUIT
           measure4number,
           lowerVoice2);
 
-    // notes
+    // append the notes
+
     measure4->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1818,7 +2188,8 @@ if (false) return; // QUIT
   // ----------------------------------
 
   {
-    // create it
+    // create the measure
+
     string measure5number = "5"; // the measure number is a string;
 
     S_msrMeasure
@@ -1828,7 +2199,8 @@ if (false) return; // QUIT
           measure5number,
           lowerVoice2);
 
-    // notes
+    // append the notes
+
     measure5->
       appendNoteOrPaddingToMeasure (
         msrNote::createNoteFromString (
@@ -1836,7 +2208,8 @@ if (false) return; // QUIT
           "g2",
           measure5number));
 
-    // final barline
+    // append the final barline
+
     measure5->
       appendBarlineToMeasure (
         msrBarline::createFinalBarline (

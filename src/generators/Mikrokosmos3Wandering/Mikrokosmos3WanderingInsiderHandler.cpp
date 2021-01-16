@@ -848,7 +848,8 @@ Mikrokosmos3WanderingInsiderOahGroup::Mikrokosmos3WanderingInsiderOahGroup ()
 R"(Options that are used by Mikrokosmos3Wandering are grouped here.)",
     kElementVisibilityWhole)
 {
-  fGenerationAPIKind = kMsrFunctionsAPIKind; // default value
+// JMI  fGenerationAPIKind = kMsrFunctionsAPIKind; // default value
+  fGenerationAPIKind = kMsrStringsAPIKind; // default value
 
   fGeneratorOutputKind = k_NoOutput;
 

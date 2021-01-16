@@ -12085,7 +12085,7 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
       // so we need only generate code for the first number (level)
       switch (beam->getBeamKind ()) {
 
-        case msrBeam::kBeginBeam:
+        case msrBeam::kBeamBegin:
           if (beam->getBeamNumber () == 1) {
             if (! gGlobalLpsr2lilypondOahGroup->getNoBeams ()) {
  #ifdef TRACING_IS_ENABLED
@@ -12110,10 +12110,10 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
           }
           break;
 
-        case msrBeam::kContinueBeam:
+        case msrBeam::kBeamContinue:
           break;
 
-        case msrBeam::kEndBeam:
+        case msrBeam::kBeamEnd:
           if (beam->getBeamNumber () == 1) {
             if (! gGlobalLpsr2lilypondOahGroup->getNoBeams ()) {
               fLilypondCodeStream << "] ";
@@ -12127,10 +12127,10 @@ void lpsr2lilypondTranslator::generateNoteBeams (S_msrNote note)
           }
           break;
 
-        case msrBeam::kForwardHookBeam:
+        case msrBeam::kBeamForwardHook:
           break;
 
-        case msrBeam::kBackwardHookBeam:
+        case msrBeam::kBeamBackwardHook:
           break;
 
         case msrBeam::k_NoBeam:
@@ -15401,23 +15401,23 @@ void lpsr2lilypondTranslator::generateCodeRightAfterChordContents (
       // so we need only generate code for the first number (level)
       switch (originalBeam->getBeamKind ()) {
 
-        case msrBeam::kBeginBeam:
+        case msrBeam::kBeamBegin:
           if (originalBeam->getBeamNumber () == 1)
             fLilypondCodeStream << "[ ";
           break;
 
-        case msrBeam::kContinueBeam:
+        case msrBeam::kBeamContinue:
           break;
 
-        case msrBeam::kEndBeam:
+        case msrBeam::kBeamEnd:
           if (originalBeam->getBeamNumber () == 1)
             fLilypondCodeStream << "] ";
           break;
 
-        case msrBeam::kForwardHookBeam:
+        case msrBeam::kBeamForwardHook:
           break;
 
-        case msrBeam::kBackwardHookBeam:
+        case msrBeam::kBeamBackwardHook:
           break;
 
         case msrBeam::k_NoBeam:

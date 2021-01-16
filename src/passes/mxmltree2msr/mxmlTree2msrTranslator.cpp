@@ -5014,19 +5014,19 @@ void mxmlTree2msrTranslator::visitStart ( S_metronome_beam& elt )
   msrBeam::msrBeamKind beamKind = msrBeam::k_NoBeam;
 
   if      (fCurrentMetronomeBeamValue == "begin") {
-    beamKind = msrBeam::kBeginBeam;
+    beamKind = msrBeam::kBeamBegin;
   }
   else if (fCurrentMetronomeBeamValue == "continue") {
-    beamKind = msrBeam::kContinueBeam;
+    beamKind = msrBeam::kBeamContinue;
   }
   else if (fCurrentMetronomeBeamValue == "end") {
-    beamKind = msrBeam::kEndBeam;
+    beamKind = msrBeam::kBeamEnd;
   }
   else if (fCurrentMetronomeBeamValue == "forward hook") {
-    beamKind = msrBeam::kForwardHookBeam;
+    beamKind = msrBeam::kBeamForwardHook;
   }
   else if (fCurrentMetronomeBeamValue == "backward hook") {
-    beamKind = msrBeam::kBackwardHookBeam;
+    beamKind = msrBeam::kBeamBackwardHook;
   }
   else {
     stringstream s;
@@ -10356,19 +10356,19 @@ void mxmlTree2msrTranslator::visitStart ( S_beam& elt )
   msrBeam::msrBeamKind beamKind = msrBeam::k_NoBeam;
 
   if      (fCurrentBeamValue == "begin") {
-    beamKind = msrBeam::kBeginBeam;
+    beamKind = msrBeam::kBeamBegin;
   }
   else if (fCurrentBeamValue == "continue") {
-    beamKind = msrBeam::kContinueBeam;
+    beamKind = msrBeam::kBeamContinue;
   }
   else if (fCurrentBeamValue == "end") {
-    beamKind = msrBeam::kEndBeam;
+    beamKind = msrBeam::kBeamEnd;
   }
   else if (fCurrentBeamValue == "forward hook") {
-    beamKind = msrBeam::kForwardHookBeam;
+    beamKind = msrBeam::kBeamForwardHook;
   }
   else if (fCurrentBeamValue == "backward hook") {
-    beamKind = msrBeam::kBackwardHookBeam;
+    beamKind = msrBeam::kBeamBackwardHook;
   }
   else {
     stringstream s;

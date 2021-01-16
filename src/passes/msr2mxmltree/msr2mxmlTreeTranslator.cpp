@@ -6176,19 +6176,19 @@ void msr2mxmlTreeTranslator::appendBeamsToNote (
       switch (beamKind) {
         case msrBeam::k_NoBeam:
           break;
-        case msrBeam::kBeginBeam:
+        case msrBeam::kBeamBegin:
           beamString = "begin";
           break;
-        case msrBeam::kContinueBeam:
+        case msrBeam::kBeamContinue:
           beamString = "continue";
           break;
-        case msrBeam::kEndBeam:
+        case msrBeam::kBeamEnd:
           beamString = "end";
           break;
-        case msrBeam::kForwardHookBeam:
+        case msrBeam::kBeamForwardHook:
           beamString = "forward hook";
           break;
-        case msrBeam::kBackwardHookBeam:
+        case msrBeam::kBeamBackwardHook:
           beamString = "backward hook";
           break;
       } // switch

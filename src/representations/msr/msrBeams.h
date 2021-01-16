@@ -31,8 +31,8 @@ class EXP msrBeam : public msrElement
 
     enum msrBeamKind {
       k_NoBeam,
-      kBeginBeam, kContinueBeam, kEndBeam,
-      kForwardHookBeam, kBackwardHookBeam
+      kBeamBegin, kBeamContinue, kBeamEnd,
+      kBeamForwardHook, kBeamBackwardHook
     };
 
     static string beamKindAsString (
